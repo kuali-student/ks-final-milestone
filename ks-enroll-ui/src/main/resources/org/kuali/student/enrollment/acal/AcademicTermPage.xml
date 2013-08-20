@@ -497,7 +497,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean  id="exam_period_delete_link" parent="Uif-ActionLink"  p:methodToCall="deleteLine" p:actionLabel="delete" />
+                <bean  id="exam_period_delete_link" parent="Uif-ActionLink"  p:methodToCall="markExamPeriodtoDelete" p:actionLabel="delete" />
             </list>
         </property>
     </bean>

@@ -675,6 +675,39 @@ public class AcademicCalendarController extends UifControllerBase {
 
     }
 
+    /**
+     * Like term, this would mark an exam period for deletion.
+     *
+     * @param academicCalendarForm
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=markExamPeriodtoDelete")
+    public ModelAndView markExamPeriodtoDelete(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response) {
+        academicCalendarForm.setFieldsToSave(processDirtyFields(academicCalendarForm));
+        String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        if (StringUtils.isBlank(selectedCollectionPath)) {
+            throw new RuntimeException("unable to determine the selected collection path");
+        }
+
+        int selectedLineIndex = KSControllerHelper.getSelectedCollectionLineIndex(academicCalendarForm);
+
+        String selectedTermIndex = StringUtils.substringBetween(selectedCollectionPath,"termWrapperList[","]");
+        AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(Integer.parseInt(selectedTermIndex));
+        ExamPeriodWrapper examPeriodWrapper = termWrapper.getExamdates().get(selectedLineIndex);
+
+        if (StringUtils.isNotBlank(examPeriodWrapper.getExamPeriodInfo().getId())){
+            termWrapper.getExamPeriodsToDeleteOnSave().add(examPeriodWrapper);
+        }
+        termWrapper.getExamdates().remove(selectedLineIndex);
+
+        return getUIFModelAndView(academicCalendarForm);
+
+    }
+
     @RequestMapping(params = "methodToCall=deleteKeyDateGroup")
     public ModelAndView deleteKeyDateGroup(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) {
@@ -1316,15 +1349,27 @@ public class AcademicCalendarController extends UifControllerBase {
      * @return The updated form.
      */
     private AcademicCalendarForm processExamPeriods(AcademicCalendarForm form, int termIndex, AcademicCalendarViewHelperService helperService){
+        //process add/update of exam period
         AcademicTermWrapper term = form.getTermWrapperList().get(termIndex);
         for(int i=0; i<term.getExamdates().size(); i++ ) {
             ExamPeriodWrapper examPeriodWrapper = term.getExamdates().get(i);
 
-            if (examPeriodWrapper.getStartDate()!=null && examPeriodWrapper.getEndDate()!=null && examPeriodWrapper.isNew()) {
+            if (examPeriodWrapper.isNew()) {
                 ExamPeriodWrapper newExamPeriodWrapper = saveExamPeriod(examPeriodWrapper, term, helperService);
                 form.getTermWrapperList().get(termIndex).getExamdates().set(i,newExamPeriodWrapper);
             }
         }
+
+        //process the deletion of exam period
+        for (ExamPeriodWrapper examPeriodToDelete : term.getExamPeriodsToDeleteOnSave()) {
+            try {
+                getAcalService().deleteExamPeriod(examPeriodToDelete.getExamPeriodInfo().getId(), helperService.createContextInfo());
+            } catch (Exception e) {
+                LOG.error("Delete exam period has failed",e);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_DELETING,term.getName(),examPeriodToDelete.getExamPeriodNameUI());
+            }
+        }
+        term.getExamPeriodsToDeleteOnSave().clear();
 
         return form;
     }
