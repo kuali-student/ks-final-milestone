@@ -7,6 +7,7 @@ import javax.jws.WebParam;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayInfo;
@@ -225,6 +226,34 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
             }
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("Error validating key date", ex);
+        }
+        return errors;
+    }
+
+    private void _examDateFullValidation(ExamPeriodInfo examPeriodInfoInfo, ContextInfo context) throws DataValidationErrorException, OperationFailedException, InvalidParameterException,
+            MissingParameterException, PermissionDeniedException {
+        try {
+            List<ValidationResultInfo> errors = this.validateExamPeriod(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), examPeriodInfoInfo.getTypeKey(), examPeriodInfoInfo, context);
+            if (!errors.isEmpty()) {
+                throw new DataValidationErrorException("Error(s) occurred validating key date", errors);
+            }
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException("Error validating exam date", ex);
+        }
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateExamPeriod(String validationTypeKey, String examDateTypeKey, ExamPeriodInfo examPeriodInfo, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ValidationResultInfo> errors;
+        try {
+            errors = ValidationUtils.validateInfo(validator, validationTypeKey, examPeriodInfo, contextInfo);
+            List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateExamPeriod(validationTypeKey, examDateTypeKey, examPeriodInfo, contextInfo);
+            if (null != nextDecoratorErrors) {
+                errors.addAll(nextDecoratorErrors);
+            }
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException("Error validating exam date", ex);
         }
         return errors;
     }

@@ -2650,7 +2650,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public List<ValidationResultInfo> validateExamPeriod(String validationTypeKey, String examPeriodTypeKey, ExamPeriodInfo examPeriodInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException ("has not been implemented yet!");
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
