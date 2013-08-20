@@ -702,7 +702,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         // will be pointint at the wrong term.
         sortTermWrappers(acalForm.getTermWrapperList());
 
-        //Validate Terms and keydates
+        //Validate Terms keydates and exam period
         for (int index=0; index < acalForm.getTermWrapperList().size(); index++) {
             validateTerm(acalForm.getTermWrapperList(),index,acal);
         }
@@ -866,6 +866,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         String termSectionName="term_section_line"+termToValidateIndex;
         String keyDateGroupSectionName="acal-term-keydatesgroup_line"+termToValidateIndex;
 
+
         int index2 = 0;
         //Validate duplicate term name
         for (AcademicTermWrapper wrapper : termWrapper) {
@@ -922,6 +923,8 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             }
         }
 
+        //Validate exam dates
+        validateExamPeriod(termWrapperToValidate, termToValidateIndex);
     }
 
     /**
@@ -1325,6 +1328,40 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                     return ret;
                 }
             });
+        }
+    }
+
+    /**
+     * Validates the term at the given index
+     *
+     * @param termWrapperToValidate a term in an academic calendar
+     * @param termToValidateIndex index of the term to be validated
+     */
+    public void validateExamPeriod (AcademicTermWrapper termWrapperToValidate, int termToValidateIndex) {
+        String finalExamSectionName="acal-term-examdates_line"+termToValidateIndex;
+        if (termWrapperToValidate.getExamdates() != null && termWrapperToValidate.getExamdates().size() > 0) {
+            for (ExamPeriodWrapper examWrapper : termWrapperToValidate.getExamdates()){
+                // startDate must be before endDate
+                if (!CommonUtils.isValidDateRange(examWrapper.getStartDate(),examWrapper.getEndDate())){
+                    GlobalVariables.getMessageMap().putErrorForSectionId(finalExamSectionName, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE, examWrapper.getExamPeriodNameUI(),CommonUtils.formatDate(examWrapper.getStartDate()),CommonUtils.formatDate(examWrapper.getEndDate()));
+                }
+                // Start and End Dates of the exam period should be within the the term period.
+                if (!CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),examWrapper.getStartDate()) ||
+                        !CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),examWrapper.getEndDate())){
+                    GlobalVariables.getMessageMap().putErrorForSectionId(finalExamSectionName, CalendarConstants.MessageKeys.ERROR_TERM_NOT_IN_TERM_RANGE,examWrapper.getExamPeriodNameUI(),termWrapperToValidate.getName());
+                }
+                // Both or neither dates should be filled
+                if ( examWrapper.getStartDate()!= null && !examWrapper.getStartDate().equals("") && (examWrapper.getEndDate() == null || examWrapper.getEndDate().equals(""))) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId(finalExamSectionName, CalendarConstants.MessageKeys.ERROR_KEY_DATE_END_DATE_REQUIRED, examWrapper.getExamPeriodNameUI());
+                }
+                if ( examWrapper.getEndDate()!= null && !examWrapper.getEndDate().equals("") && (examWrapper.getStartDate() == null || examWrapper.getStartDate().equals(""))) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId(finalExamSectionName, CalendarConstants.MessageKeys.ERROR_KEY_DATE_START_DATE_REQUIRED, examWrapper.getExamPeriodNameUI());
+                }
+                // Warn if both dates are empty
+                if( (examWrapper.getStartDate()== null || examWrapper.getStartDate().equals("")) && (examWrapper.getEndDate()== null || examWrapper.getEndDate().equals(""))) {
+                    GlobalVariables.getMessageMap().putWarningForSectionId(finalExamSectionName, CalendarConstants.MessageKeys.ERROR_EMPTY_DATES, examWrapper.getExamPeriodNameUI());
+                }
+            }
         }
     }
 }
