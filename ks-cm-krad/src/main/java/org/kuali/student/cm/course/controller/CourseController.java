@@ -187,6 +187,7 @@ public class CourseController extends UifControllerBase {
             }
             
         }
+        savedCourseInfo.setUnitsContentOwner(form.getCourseInfo().getUnitsContentOwner());
         form.setCourseInfo(savedCourseInfo);
         return getUIFModelAndView(form, getNextPageId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
     }
