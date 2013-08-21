@@ -28,8 +28,6 @@
     <bean id="agendaTypeService" class="org.kuali.rice.krms.impl.type.AgendaTypeServiceImpl">
     </bean>
 
-    <bean id="translationContextRegistry" class="org.kuali.rice.krms.impl.repository.language.TranslationContextRegistry"/>
-
     <bean id="propositionTemplater"
           class="org.kuali.rice.krms.impl.repository.language.PropositionNaturalLanguageTemplater">
         <property name="krmsTypeRepositoryService" ref="krmsTypeRepositoryService"/>
@@ -91,8 +89,8 @@
         <property name="populationService" ref="PopulationServiceClient"/>
     </bean>
     <!-- TODO this contextRegistry should be part of KS -->
-    <bean id="contextRegistry"
-          class="org.kuali.rice.krms.impl.repository.language.ContextRegistry">
+    <bean id="translationContextRegistry"
+          class="org.kuali.rice.krms.impl.repository.language.TranslationContextRegistry">
         <constructor-arg>
             <map>
                 <entry key="kuali.krms.proposition.type.course.courseset.completed.none">
@@ -369,6 +367,12 @@
                 </entry>
             </map>
         </constructor-arg>
+    </bean>
+
+    <bean id="ruleManagementService" class="org.kuali.rice.krms.impl.repository.KSRuleManagementServiceImpl">
+        <property name="templater" ref="propositionTemplater"/>
+        <property name="businessObjectService" ref="businessObjectService"/>
+        <property name="criteriaLookupService" ref="criteriaLookupService" />
     </bean>
 
 </beans>
