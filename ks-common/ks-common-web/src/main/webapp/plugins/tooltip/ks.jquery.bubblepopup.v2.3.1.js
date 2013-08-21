@@ -601,9 +601,6 @@
             var u = N.offset();
             var t = parseInt(u.top);
             var tmpStr = N.text().trim();
-            if(tmpStr.match(/Add/)) {
-                t = parseInt(u.top) - 183;
-            }
             var y = parseInt(u.left);
             var P = parseInt(N.outerWidth(false));
             var L = parseInt(N.outerHeight(false));
@@ -617,7 +614,7 @@
             var H = m(x);
             switch (K) {
                 case "left":
-                    I.top = O == "top" ? t - M - z + l(w) : t + L + z + w;
+                    I.top = t - M - z + l(w);
                     I.left = y + A;
                     break;
                 case "center":
@@ -627,7 +624,7 @@
                     break;
                 case "right":
                     var D = Math.abs(v - P);
-                    I.top = O == "top" ? t - M - z + l(w) : t + L + z + w;
+                    I.top = t - M + z + P;
                     I.left = v >= P ? y - D + l(A) : y + D + l(A);
                     break;
                 case "top":
