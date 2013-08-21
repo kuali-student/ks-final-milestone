@@ -1050,14 +1050,46 @@ function resetDirtyFields(returnFieldId){
     }
 }
 
-function hideAddExamPeriodButton(collectionGroupId, lineIdPrefix) {
-    var termLineIndex = collectionGroupId.substring(collectionGroupId.lastIndexOf("line"));
-    var lineId = lineIdPrefix + "_" + termLineIndex + "_line0";
-    var addExamPeriodButtonId = collectionGroupId + "_add";
+/**
+ * hide the add exam period button based on if there is already an existing exam
+ * period attached to the given term after the add exam period button is clicked
+ * and then the exam period component is reloaded
+ *
+ * @param collectionGroupId: id of each collection group item
+ * @param lineIdPrefix: id prefix of exam period line
+ * @param addExamPeriodButtonIdPrefix: id prefix of add exam period button
+ */
+function hideAddExamPeriodButton(collectionGroupId, lineIdPrefix, addExamPeriodButtonIdPrefix) {
+    var termLineIndex = collectionGroupId.substring(collectionGroupId.lastIndexOf('line'));
+    var lineId = lineIdPrefix + '_' + termLineIndex + '_line0';
+    var addExamPeriodButtonId = addExamPeriodButtonIdPrefix + '_' + termLineIndex;
 
     if (jQuery("#"+lineId).length > 0) {
         jQuery("#"+addExamPeriodButtonId).hide();
     }
+
+}
+
+/**
+ * display or hide the add exam period button based on if there is already an existing exam
+ * period attached to the given term when the term section is loaded
+ *
+ * @param examPeriodSectionId: id of exam period component
+ * @param lineIdPrefix: id prefix of exam period line
+ * @param addExamPeriodButtonIdPrefix: id prefix of add exam period button
+ */
+function initAddExamPeriodButtons(examPeriodSectionId, lineIdPrefix, addExamPeriodButtonIdPrefix) {
+    var examPeriodIdPrefix = examPeriodSectionId + '_line';
+    var examPeriodComponents = jQuery('div[id^="' + examPeriodIdPrefix + '"]');
+
+    jQuery.each(examPeriodComponents, function (index) {
+        var lineId = lineIdPrefix + '_line' + index + '_line0';
+        var addExamPeriodButtonId = addExamPeriodButtonIdPrefix + '_line' + index;
+
+        if (jQuery("#"+lineId).length > 0) {
+            jQuery("#"+addExamPeriodButtonId).hide();
+        }
+    });
 
 }
 

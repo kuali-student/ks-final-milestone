@@ -45,7 +45,7 @@
         <property name="propertyName" value="termWrapperList" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
         <property name="style" value="min-width:70em;"/>
-        <property name="onDocumentReadyScript" value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields'); " />
+        <property name="onDocumentReadyScript" value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields'); initAddExamPeriodButtons('acal-term-examdates', 'exam_date_type', 'acal-term-examdates-add');" />
         <!--<property name="header.render" value="false" />-->
         <property name="headerText" value="Terms"/>
         <property name="validationMessages.displayMessages" value="false"/>
@@ -455,7 +455,7 @@
 
     <!--Final Exam Period section-->
     <bean id="KS-ExamDates-EditSubSection" parent="KS-Uif-Disclosure-TableSubCollection-WithinSubSection-BottomAddLine-ExamPeriod"
-          p:id="acal-term-examdates" p:readOnly="@{#view.readOnly}">
+          p:id="acal-term-examdates" p:readOnly="@{#view.readOnly}" >
         <property name="propertyName" value="examdates" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper" />
         <property name="headerText" value="Final Exam Period" />
@@ -464,7 +464,8 @@
         <property name="layoutManager.addLineGroup.layoutManager.applyDefaultCellWidths" value="false"/>
 
         <property name="addBlankLineAction.actionLabel" value="Add Final Exam Period"/>
-        <property name="addBlankLineAction.onDocumentReadyScript" value="hideAddExamPeriodButton('@{#collectionGroup.id}', 'exam_date_type');"/>
+        <property name="addBlankLineAction.onDocumentReadyScript" value="hideAddExamPeriodButton('@{#collectionGroup.id}', 'exam_date_type', 'acal-term-examdates-add');"/>
+        <property name="addBlankLineAction.id" value="acal-term-examdates-add"/>
 
         <property name="layoutManager.cssClasses">
             <list merge="true">
@@ -497,7 +498,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean  id="exam_period_delete_link" parent="Uif-ActionLink"  p:methodToCall="markExamPeriodtoDelete" p:actionLabel="delete" />
+                <bean id="exam_period_delete_link" parent="Uif-ActionLink"  p:methodToCall="markExamPeriodtoDelete" p:actionLabel="delete" />
             </list>
         </property>
     </bean>
