@@ -944,17 +944,17 @@ function createDisclosure(groupId, headerId, widgetId, defaultOpen, collapseImgS
         var disclosureContent = jQuery("#" + groupAccordionSpanId);
         // perform slide and switch image
         if (defaultOpen) {
-            disclosureContent.data("open", true);
+            disclosureContent.attr(kradVariables.ATTRIBUTES.DATA_OPEN, true);
             jQuery("#" + groupToggleLinkId).toggle(
                 function () {
                     jQuery("#" + kradVariables.APP_ID).attr("data-skipResize", true);
-                    disclosureContent.data("open", false);
+                    disclosureContent.attr(kradVariables.ATTRIBUTES.DATA_OPEN, false);
                     disclosureContent.slideUp(animationSpeed, animationFinishedCallback);
                     jQuery("#" + groupId + "_exp").replaceWith(collapseImage);
                     setComponentState(widgetId, 'open', false);
                 }, function () {
                     jQuery("#" + kradVariables.APP_ID).attr("data-skipResize", true);
-                    disclosureContent.data("open", true);
+                    disclosureContent.attr(kradVariables.ATTRIBUTES.DATA_OPEN, true);
                     disclosureContent.slideDown(animationSpeed, animationFinishedCallback);
                     jQuery("#" + groupId + "_col").replaceWith(expandImage);
                     setComponentState(widgetId, 'open', true);
@@ -962,18 +962,18 @@ function createDisclosure(groupId, headerId, widgetId, defaultOpen, collapseImgS
             );
         }
         else {
-            disclosureContent.data("open", false);
+            disclosureContent.attr(kradVariables.ATTRIBUTES.DATA_OPEN, false);
             jQuery("#" + groupToggleLinkId).toggle(
                 function () {
                     jQuery("#" + kradVariables.APP_ID).attr("data-skipResize", true);
-                    disclosureContent.data("open", true);
+                    disclosureContent.attr(kradVariables.ATTRIBUTES.DATA_OPEN, true);
                     disclosureContent.slideDown(animationSpeed, animationFinishedCallback);
                     jQuery("#" + groupId + "_col").replaceWith(expandImage);
                     setComponentState(widgetId, 'open', true);
 
                 }, function () {
                     jQuery("#" + kradVariables.APP_ID).attr("data-skipResize", true);
-                    disclosureContent.data("open", false);
+                    disclosureContent.attr(kradVariables.ATTRIBUTES.DATA_OPEN, false);
                     disclosureContent.slideUp(animationSpeed, animationFinishedCallback);
                     jQuery("#" + groupId + "_exp").replaceWith(collapseImage);
                     setComponentState(widgetId, 'open', false);
