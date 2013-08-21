@@ -234,7 +234,7 @@
                                                     p:methodToCall="showComment" />
                                                 <!-- p:actionScript="showLightboxComponent('commentsLightBox');"/> -->
                                                 <bean parent="Uif-ActionLink" p:actionLabel="Decisions"
-                                                    p:actionScript="showLightboxComponent('decisionsDialog');" />
+                                                    p:methodToCall="showComment" />
                                                 <bean parent="Uif-Space" />
                                                 <bean parent="Uif-DataField" p:label="Last Updated"
                                                     p:shortLabel="Updated" p:labelPlacement="LEFT" p:propertyName="lastUpdated" />

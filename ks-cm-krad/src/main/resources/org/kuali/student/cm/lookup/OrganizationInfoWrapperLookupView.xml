@@ -71,10 +71,9 @@
 			value="org.kuali.student.cm.course.service.impl.OrganizationInfoLookupableImpl" />
 		<property name="criteriaFields">
 			<list>
-				<bean parent="Uif-DataField" p:propertyName="id" p:label="Internal ID" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="organizationName" />
-				<bean parent="Uif-DataField" p:propertyName="abbreviation"
-					p:label="Abbreviation" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="abbreviation" />
 			</list>
 		</property>
 		<property name="resultFields">
