@@ -681,7 +681,13 @@
 
 
     <bean id="KS-Uif-RichTable" parent="KS-Uif-RichTable-parent"/>
-
-    <bean id="KS-Uif-RichTable-parent" parent="Uif-RichTable-parentBean" abstract="true" class="org.kuali.student.common.uif.widget.KSRichTable" scope="prototype"/>
-
+    <bean id="KS-Uif-RichTable-parent" parent="Uif-RichTable-parentBean" abstract="true"
+            class="org.kuali.student.common.uif.widget.KSRichTable" scope="prototype">
+        <property name="templateOptions">
+            <map merge="true">
+                <entry key="bPaginate" value="false"/>
+            </map>
+        </property>
+         <property name="showExportOption" value="false"/>
+    </bean>
 </beans>
