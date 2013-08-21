@@ -170,7 +170,7 @@
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.applyDefaultCellWidths" value="false"/>
         <property name="layoutManager.richTable">
-            <bean parent="Uif-RichTable">
+            <bean parent="KS-Uif-RichTable">
                 <property name="templateOptions">
                     <map merge="true">
                         <entry key="bPaginate" value="false"/>
@@ -248,6 +248,9 @@
                   value="org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper"/>
         <property name="readOnly" value="true"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable">
+            <bean parent="KS-Uif-RichTable"/>
+        </property>
         <property name="items">
             <list>
                 <bean parent="KS-Uif-DataField-Simple" p:label="STATUS" p:propertyName="aoDisplayInfo.stateName"/>
