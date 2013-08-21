@@ -60,40 +60,60 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
             List<AtpInfo> searchResult = this.getAtpService().searchForAtps(qbc,
                     ContextUtils.createDefaultContextInfo());
 
-            Collections.sort(searchResult, new Comparator<AtpInfo>() {
-                public int compare(AtpInfo m1, AtpInfo m2) {
-                    return m1.getCode().compareTo(m2.getCode());
-                }
-            });
+            sortResultList(searchResult);
 
-            /*
-             * This method is used to ensures that EndDate is always greater than startDate.
-             */
-            if (model instanceof CourseForm) {
-                CourseForm courseForm = (CourseForm) model;
-                if (courseForm.getCourseInfo().isPilotCourse()) {
-                    
-                    for (int i = 0; i < searchResult.size(); i++) {
-                        if (courseForm.getCourseInfo().getStartTerm().equals(searchResult.get(i).getId().toString())) {
-                            searchResult.remove(searchResult.get(i));
-                            i--;
-                            break;
-                        }
-                        else {
-                            searchResult.remove(searchResult.get(i));
-                            i--;
-                        }
-                    }
-                }
-                for (AtpInfo result : searchResult) {
-                    keyValues.add(new ConcreteKeyValue(result.getId(), result.getName()));
-                }
-            }
+            populateAtpInfoWithStartEndDateCheck(model, keyValues, searchResult);
 
         } catch (Exception ex) {
             throw new RuntimeException("Could not retrieve the ATP duration Dates: " + ex);
         }
         return keyValues;
+    }
+
+    /**
+     * populates the AtpInfo for the list This method is used to ensures that EndDate is
+     * always greater than startDate.
+     * 
+     * @param model
+     * @param keyValues
+     * @param searchResult
+     */
+    private void populateAtpInfoWithStartEndDateCheck(ViewModel model, List<KeyValue> keyValues,
+            List<AtpInfo> searchResult) {
+        if (model instanceof CourseForm) {
+            CourseForm courseForm = (CourseForm) model;
+            if (courseForm.getCourseInfo().isPilotCourse()) {
+
+                for (int i = 0; i < searchResult.size(); i++) {
+                    if (courseForm.getCourseInfo().getStartTerm().equals(searchResult.get(i).getId().toString())) {
+                        searchResult.remove(searchResult.get(i));
+                        i--;
+                        break;
+                    }
+                    else {
+                        searchResult.remove(searchResult.get(i));
+                        i--;
+                    }
+                }
+            }
+            for (AtpInfo result : searchResult) {
+                keyValues.add(new ConcreteKeyValue(result.getId(), result.getName()));
+            }
+        }
+    }
+
+    /**
+     * 
+     * Sorts the resultList in Asc order
+     * 
+     * @param searchResult
+     */
+    private void sortResultList(List<AtpInfo> searchResult) {
+        Collections.sort(searchResult, new Comparator<AtpInfo>() {
+            public int compare(AtpInfo m1, AtpInfo m2) {
+                return m1.getCode().compareTo(m2.getCode());
+            }
+        });
     }
 
     private AtpService getAtpService() {
