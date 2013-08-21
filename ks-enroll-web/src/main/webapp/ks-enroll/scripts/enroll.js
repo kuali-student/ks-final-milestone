@@ -906,7 +906,7 @@ function findDirtyFields(returnFieldId){
  if you conduct a subject-search (say, WMST) they want the view-title to be "WMST: Women's Studies".
  */
 function updateViewHeaderText( value ) {
-    jQuery( 'div.uif-view h1.uif-headerText span.uif-headerText-span' ).html( value );
+    jQuery( 'div.uif-formView h1.uif-headerText span.uif-headerText-span' ).html( value );
 }
 
 function createDisclosure(groupId, headerId, widgetId, defaultOpen, collapseImgSrc, expandImgSrc, animationSpeed, renderImage) {
