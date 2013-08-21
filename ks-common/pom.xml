@@ -42,6 +42,8 @@
                 <module>ks-common-util</module>
                 <module>ks-common-test</module>
                 <module>ks-common-impl</module>
+                <module>ks-common-ui</module>
+                <module>ks-common-ksink</module>
             </modules>
         </profile>
         <profile>
