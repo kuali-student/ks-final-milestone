@@ -136,10 +136,10 @@
                                   p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip == '' and !currentCourseOfferingWrapper.colocatedAoToCSR }" />
 
                             <bean parent="Uif-Message"
-                                  p:messageText="@{selectedToCSRList.size()} activity offering(s) will be cancelled"
+                                  p:messageText="@{selectedToCSRList.size()} activity offering(s) will be canceled"
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
                             <bean parent="Uif-Message"
-                                  p:messageText="@{numIneligibleAOsForCSR} activity offering(s) cannot be cancelled (ineligible status)"
+                                  p:messageText="@{numIneligibleAOsForCSR} activity offering(s) cannot be canceled (ineligible status)"
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
                         </list>
                     </property>
