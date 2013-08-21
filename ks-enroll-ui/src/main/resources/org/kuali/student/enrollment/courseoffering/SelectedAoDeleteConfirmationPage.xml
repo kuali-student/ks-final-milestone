@@ -77,7 +77,7 @@
           p:id="confirmationResultSection"
           p:colSpan="3"
           p:style="underline">
-       <property name="items">
+        <property name="items">
             <list>
                 <bean id="KS-SelectedAoDeleteConfirmation-Message" parent="Uif-VerticalBoxSection">
                     <property name="disclosure.render" value="false"/>
@@ -152,11 +152,12 @@
                     <property name="layoutManager.applyDefaultCellWidths" value="false"/>
                     <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
                     <property name="layoutManager.actionFieldPrototype.render" value="false"/>
+                    <property name="layoutManager.richTable">
+                        <bean parent="KS-Uif-RichTable"/>
+                    </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField"
-                                  p:label="STATUS"
-                                  p:propertyName="stateName"/>
+                            <bean parent="Uif-DataField" p:label="STATUS" p:propertyName="stateName"/>
                              <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
                                  <property name="items">
                                     <list>
@@ -171,18 +172,12 @@
                                     </list>
                                 </property>
                             </bean>
-
-                            <bean parent="Uif-DataField"
-                                  p:label="TYPE"
-                                  p:propertyName="typeName"/>
-                            <bean parent="Uif-DataField"
-                                  p:label="FORMAT"
-                                  p:propertyName="aoInfo.formatOfferingName"/>
+                            <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="typeName"/>
+                            <bean parent="Uif-DataField" p:label="FORMAT" p:propertyName="aoInfo.formatOfferingName"/>
                         </list>
                     </property>
                 </bean>
             </list>
         </property>
     </bean>
-
 </beans>
