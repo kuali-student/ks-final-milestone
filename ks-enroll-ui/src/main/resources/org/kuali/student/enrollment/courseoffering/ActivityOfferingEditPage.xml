@@ -375,6 +375,7 @@
                     <property name="propertyName" value="seatpools" />
                     <property name="addBlankLineAction.actionLabel" value="Add Seat Pool"/>
                     <property name="addBlankLineAction.onDocumentReadyScript" value="showSPAddlinePriority();"/>
+                    <property name="addBlankLineAction.id" value="ao-seatpoolgroupZ_add"/>
 
                     <property name="items">
                         <list>
