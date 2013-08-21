@@ -1089,3 +1089,16 @@ function toggleTextBoxes(textBox){
         console.log(event);
     });
 }
+
+function displayCalendarInformation(jqObject, fieldId){
+    var currentId = jqObject.attr('id');
+    if (currentId.indexOf("_control") == -1) {
+        currentId = currentId + "_control";
+    }
+    var element = jQuery('#' + currentId);
+    var value = element.val();
+
+    var field = jQuery('#' + fieldId + ' span[class=uif-readOnlyContent]');
+    field.text(value);
+}
+
