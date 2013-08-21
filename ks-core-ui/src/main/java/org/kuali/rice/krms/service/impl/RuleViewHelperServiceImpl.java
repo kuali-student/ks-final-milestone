@@ -390,7 +390,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         } else if (originalSize > 0) {
 
             //Compare the compound propositions.
-            BeanPropertyComparator termComparator = new BeanPropertyComparator(Arrays.asList("name"));
+            BeanPropertyComparator termComparator = new BeanPropertyComparator(Arrays.asList("name","value"));
             for (int index = 0; index < originalSize; index++) {
                 if (termComparator.compare(original.get(index), compare.get(index)) != 0) {
                     return false;
