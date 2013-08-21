@@ -41,7 +41,7 @@ plus any of its dependencies -->
 	<!-- TagInfo-->
 	<bean id="TagInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="tagInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.comment.dto.TagInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.tag.dto.TagInfo"/>
 		<property name="objectLabel" value="Tag"/>
 		<property name="objectDescription">
 			<value>

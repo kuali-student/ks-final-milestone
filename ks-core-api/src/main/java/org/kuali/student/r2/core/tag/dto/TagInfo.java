@@ -13,10 +13,10 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.comment.dto;
+package org.kuali.student.r2.core.tag.dto;
 
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
-import org.kuali.student.r2.core.comment.infc.Tag;
+import org.kuali.student.r2.core.tag.infc.Tag;
 //import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.*;
