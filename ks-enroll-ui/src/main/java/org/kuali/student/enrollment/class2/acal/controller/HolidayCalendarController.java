@@ -173,6 +173,9 @@ public class HolidayCalendarController extends UifControllerBase {
 
         String hcId = request.getParameter(CalendarConstants.CALENDAR_ID);
 
+        String readOnlyView = request.getParameter(CalendarConstants.READ_ONLY_VIEW);
+        hcForm.getView().setReadOnly(BooleanUtils.toBoolean(readOnlyView));
+
         if ((hcId != null) && !hcId.trim().isEmpty()) {
             String pageId = request.getParameter("pageId");
             if (CalendarConstants.HOLIDAYCALENDAR_VIEWPAGE.equals(pageId)) {
