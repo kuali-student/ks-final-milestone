@@ -398,6 +398,15 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     }
 
     /*
+     * Method used to cancel a list of selected Activity Offerings for Cancel/Suspend/Reinstate
+     */
+    @RequestMapping(params = "methodToCall=cancelCSRAOs")
+    public ModelAndView cancelCSRAOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
+        ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
+        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
+    }
+
+    /*
      * Method used to confirm delete AOs
      */
     @RequestMapping(params = "methodToCall=deleteCoConfirmation")
