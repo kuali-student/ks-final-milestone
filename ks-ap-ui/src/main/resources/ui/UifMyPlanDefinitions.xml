@@ -21,7 +21,9 @@
     <!-- VIEWS ######################################################################################## -->
 
     <bean id="MyPlanView" abstract="true" parent="Uif-View">
+    	<!-- 
         <property name="preloadPoolSize" value="5"/>
+    	 -->
         <property name="theme">
             <bean parent="MyPlanBaseTheme"/>
         </property>
@@ -33,7 +35,9 @@
 
     <!-- View without the header and footer and just the theme -->
     <bean id="MyPlanBaseFormView" abstract="true" parent="Uif-FormView">
+    	<!--
         <property name="preloadPoolSize" value="5"/>
+    	 -->
         <property name="theme">
             <bean parent="MyPlanBaseTheme"/>
         </property>
@@ -60,7 +64,9 @@
     </bean>
 
     <bean id="MyPlanBaseLookupView" abstract="true" parent="Uif-LookupView">
+    	<!-- 
         <property name="preloadPoolSize" value="5"/>
+    	 -->
         <property name="theme">
             <bean parent="MyPlanBaseTheme"/>
         </property>
@@ -87,7 +93,9 @@
     </bean>
 
     <bean id="MyPlanBaseInquiryView" abstract="true" parent="Uif-InquiryView">
+    	<!-- 
         <property name="preloadPoolSize" value="5"/>
+    	 -->
         <property name="theme">
             <bean parent="MyPlanBaseTheme"/>
         </property>
@@ -114,7 +122,9 @@
     </bean>
 
     <bean id="MyPlanBaseMaintenanceView" abstract="true" parent="Uif-MaintenanceView">
+    	<!-- 
         <property name="preloadPoolSize" value="5"/>
+    	 -->
         <property name="theme">
             <bean parent="MyPlanBaseTheme"/>
         </property>
