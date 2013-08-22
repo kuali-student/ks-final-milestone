@@ -527,6 +527,7 @@
     <bean id="KS-CourseOffering-FormatOfferingSubSection-parent" parent="KS-TableCollectionSubSection-BottomAddLine" abstract="true">
         <property name="addBlankLineAction.actionLabel" value="Add Format"/>
         <property name="addBlankLineAction.render" value="@{#dp.renderHelper.showFormatAddButton}"/>
+        <property name="addBlankLineAction.id" value="KS-CourseOffering-FormatOfferingSubSection_add"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper" />
         <property name="propertyName" value="formatOfferingList" />
         <property name="lineActions">
