@@ -1011,11 +1011,9 @@ public class TestAcademicCalendarServiceImpl {
             assertEquals("testCreate_updated", retrievedUpdated.getName());
 
             //Delete
-/*            StatusInfo ret = acalService.deleteExamPeriod(retrievedUpdated.getId(), callContext);
+            StatusInfo ret = acalService.deleteExamPeriod(examPeriodId, callContext);
             assertTrue(ret.getIsSuccess());
-            ExamPeriodInfo existed = acalService.getExamPeriod(examPeriodId, callContext);
-            assertNull(existed);
-*/      } catch (Exception ex) {
+      } catch (Exception ex) {
             fail("exception from service call :" + ex.getMessage());
         }
     }
