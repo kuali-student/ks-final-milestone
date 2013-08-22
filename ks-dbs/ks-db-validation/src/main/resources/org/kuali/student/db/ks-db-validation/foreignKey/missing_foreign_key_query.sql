@@ -131,7 +131,7 @@ FROM (
                 'LOCATEGORY_ID', 'KSLO_LO_CATEGORY',
                 'LOLO_RELTN_TYPE_ID', 'KSLO_LO_RELTN_TYPE',
                 'LO_LO_RELATION_TYPE_ID', 'KSLO_LO_RELTN_TYPE',
-                'LO_REL_TYPE_ID', 'KSLO_LO_RELTN_TYPE',
+                'LO_REL_TYPE_ID', 'KSLO_LO_TYPE',
                 'LOTYPE_ID', 'KSLO_LO_TYPE',
                 'LO_REPO_ID', 'KSLO_LO_REPOSITORY',
                 'LO_ROOT_ID', 'KSLO_LO',
