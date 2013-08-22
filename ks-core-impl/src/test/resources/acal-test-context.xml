@@ -31,7 +31,7 @@
     destroy-method="close" depends-on="systemPropertyConfigurer" autowire-candidate="false" autowire="no">
         <property name="forceShutdown" value="true" />
         <property name="startupTransactionService" value="true" />
-        <property name="transactionTimeout" value="60" />
+        <property name="transactionTimeout" value="300" />
     </bean>
 
     <bean id="AtomikosUsrTx" class="com.atomikos.icatch.jta.UserTransactionImp" depends-on="systemPropertyConfigurer"></bean>
