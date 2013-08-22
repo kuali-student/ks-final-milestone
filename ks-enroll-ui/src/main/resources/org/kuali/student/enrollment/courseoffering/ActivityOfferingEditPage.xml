@@ -138,7 +138,7 @@
     </bean>
 
     <bean id="ActivityOfferingEdit-CoLocation" parent="Uif-VerticalBoxSection"  p:componentSecurity.viewAuthz="true"
-          p:style="width:600px;border: 1px solid black;" p:layoutManager.style="margin-left:10px;margin-right:10px;">
+          p:style="width:600px;border: 1px solid black; margin-bottom: 20px; padding-bottom: 5px;" p:layoutManager.style="margin-left:10px;margin-right:10px;">
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="Select Activities for Colocation" p:style="font-size:15px;"/>
