@@ -293,10 +293,11 @@ a {
 
 /* The background area which extends the full width of the table where the toolbar buttons sit on top of */
 .ks-toolbar {
-    padding-left: 6px;
-    padding-top: 6px;
+    padding: 6px 0 1px 6px;
     background-color: #f1f1f1;
-    height: 54px;
+}
+.ks-toolbar .uif-sectionHeader {
+  margin: 0;
 }
 
 /* Individual Buttons */
@@ -382,11 +383,13 @@ a {
 }
 
 .ks-toolbar-group-padded {
-    padding-right: 20px;
+    margin-right: 20px;
+    margin-bottom: 0;
+
 }
 
 .ks-toolbar-group-padded button{
-    margin-right: 0px;
+    margin-right: 0;
 }
 
 .ks-horizontal-box-group-with-right-padding{
@@ -394,7 +397,7 @@ a {
 }
 
 .ks-horizontal-box-group-with-right-padding button{
-    margin-right: 0px;
+    margin-right: 0;
 }
 /************************************** END TOOLBAR **************************************/
 
