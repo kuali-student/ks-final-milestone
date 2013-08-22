@@ -137,7 +137,7 @@ FROM (
                 'LO_ROOT_ID', 'KSLO_LO',
                 'ACCT_ID', 'KSLU_CLU_ACCT',
                 'AFFIL_ORG_ID', 'KSOR_ORG',
-                'ALT_CLU_ID', 'KSLU_CLU',
+                'ALT_CLU_ID', 'KSLU_CLU_IDENT',
                 'CLUE_FEE_REC_ID', 'KSLU_CLU_FEE_REC',
                 'CLULO_RELTN_TYPE_ID', 'KSLU_CLU_LO_RELTN_TYPE',
                 'CLU_RES_ID', 'KSLU_CLU_RSLT',
