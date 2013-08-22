@@ -66,6 +66,7 @@
         <property name="layoutManager.richTable.render" value="false" />
         <property name="disclosure.render" value="@{#dp.schedulingCompleted and !#dp.requestedScheduleComponents.isEmpty()}"/>
         <property name="disclosure.defaultOpen" value="false"/>
+        <property name="onDocumentReadyScript" value="reDisplayRDLSection();"/>
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:label="TBA" p:propertyName="tbaUI"/>
@@ -86,7 +87,7 @@
               <list>
                   <!--<bean parent="Uif-ActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:successCallback="retrieveComponent('ActivityOffering-DeliveryLogistic-New');" p:render="@{#dp.schedulingCompleted}"/>-->
                   <bean parent="Uif-NavigationActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:preSubmitCall="return checkAOEditWIP();"/>
-                  <bean parent="Uif-DeleteLineAction" />
+                  <bean parent="Uif-DeleteLineAction" p:successCallback="reDisplayRDLSection();"/>
               </list>
         </property>
     </bean>
@@ -123,7 +124,11 @@
 
 
                 <!--<ref bean="ActivityOffering-DeliveryLogistic-New-Features-Section"/>-->
-                <bean id="add_rdl_button" parent="Uif-SecondaryActionButton-Small" p:disabled="@{#parent.readOnly}" p:actionLabel="@{!#dp.editRenderHelper.scheduleEditInProgress ? 'Add' : 'Update'}" p:preSubmitCall="return preSubmitNewRDL();" p:methodToCall="addScheduleComponent" p:ajaxReturnType="update-component" p:ajaxSubmit="true" p:refreshId="ActivityOffering-DeliveryLogistic-New" p:successCallback="retrieveComponent('ActivityOffering-DeliveryLogistic-Requested');"/>
+                <bean id="add_rdl_button" parent="Uif-SecondaryActionButton-Small" p:disabled="@{#parent.readOnly}"
+                      p:actionLabel="@{!#dp.editRenderHelper.scheduleEditInProgress ? 'Add' : 'Update'}"
+                      p:preSubmitCall="return preSubmitNewRDL();" p:methodToCall="addScheduleComponent"
+                      p:ajaxReturnType="update-component" p:ajaxSubmit="true" p:refreshId="ActivityOffering-DeliveryLogistic-New"
+                      p:successCallback="retrieveComponent('ActivityOffering-DeliveryLogistic-Requested'); reDisplayNewRDSection(); reDisplayRDLSection();"/>
             </list>
         </property>
     </bean>

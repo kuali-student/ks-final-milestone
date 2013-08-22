@@ -124,6 +124,32 @@ function addColocatedAOSuccessCallBack(){
     });
 }
 
+function reDisplayPersonnelSection() {
+    var personnelComponent = jQuery("#ao-personnelgroup");
+    if (personnelComponent.css('display') == "none") {
+        personnelComponent.show();
+    }
+}
+
+function reDisplaySeatPoolSection() {
+    var spComponent = jQuery("#ao-seatpoolgroupZ");
+    if (spComponent.css('display') == "none") {
+        spComponent.show();
+    }
+}
+
+function reDisplayRDLSection() {
+    var rdlComponent = jQuery("#ActivityOffering-DeliveryLogistic-Requested");
+        rdlComponent.show();
+}
+
+function reDisplayNewRDSection() {
+    var newRDLComponent = jQuery("#ActivityOffering-DeliveryLogistic-New");
+    if (newRDLComponent.css('display') == "none") {
+        newRDLComponent.show();
+    }
+}
+
 /**
  * This method shows a dialog box to user before adding activity to the Colo set.
  * @param component
