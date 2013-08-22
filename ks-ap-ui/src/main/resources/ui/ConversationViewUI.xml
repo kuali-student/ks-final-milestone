@@ -66,6 +66,7 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-LinkField" p:linkText="Back to conversations" p:href="../review" />
+				<bean parent="Uif-MessageField" p:messageText="[hr]"/>
 				<bean parent="Uif-HorizontalFieldGroup">
                     <property name="fieldLabel.render" value="false"/>
                     <property name="group.validationMessages.render" value="false"/>
@@ -73,14 +74,15 @@
                         <list>
                         	 
                         	<bean parent="Uif-MessageField" p:messageText="Topic"/>
-                        	<bean parent="Uif-LinkField" p:linkText="Show details" p:href=""/>
+                        	<bean parent="Uif-LinkField" p:linkText="Show details" p:href="" p:additionalCssClasses="floatedRight"/>
                         	 
 		                </list>
 	                </property>
                 </bean>
                 <bean parent="Uif-MessageField" p:messageText="@{conversation.topic}"/>
-				<bean parent="Uif-MessageField" p:messageText="@{conversation.advisorId}"/>
-				
+                <bean parent="Uif-MessageField" p:messageText="[hr]"/>
+				<bean parent="Uif-MessageField" p:messageText="@{getAdvisorInfo(conversation.advisorId, conversation.advisingRole).advisorName}"/>
+				<bean parent="Uif-MessageField" p:messageText="[hr]"/>
 				<bean parent="Uif-InputField" p:propertyName="newComment" p:required="true" p:render="@{not conversation.closed}">
 				    <property name="control">
 				 		<bean parent="Uif-TextAreaControl"/>
@@ -89,7 +91,7 @@
 				<bean parent="Uif-PrimaryActionButton" p:actionLabel="Send" p:render="@{not conversation.closed}"
 						p:methodToCall="send" p:disabled="@{commentTextEmpty}" p:enabledWhenChangedPropertyNames="newComment" 
 						p:evaluateDisabledOnKeyUp="true"/>
-				<bean parent="Uif-MessageField" p:messageText="Conversation closed" p:render="@{conversation.closed}"/>
+				<bean parent="Uif-MessageField" p:messageText="Conversation closed" p:render="@{conversation.closed}" p:align="center"/>
 				<ref bean="conversation_comments"/>
 			</list>
 		</property>
@@ -107,7 +109,7 @@
         
         <property name="items">
             <list>
-            	<bean parent="Uif-MessageField" p:messageText="@{#line.getDateDisplay()}"/>
+            	<bean parent="Uif-MessageField" p:messageText="@{#line.getDateDisplay()}" p:align="center"/>
             </list>
         </property>
         <property name="subCollections">
@@ -142,7 +144,7 @@
                         	<bean parent="Uif-HorizontalFieldGroup">
                         		<property name="items">
                         			<list>
-                        				<bean parent="Uif-MessageField" p:messageText="@{#line.meta.createId}"/>
+                        				<bean parent="Uif-MessageField" p:messageText="@{getAdvisorInfo(#line.meta.createId, #line.byAdvisor ? conversation.advisingRole : 'STUDENT').advisorName}"/>
                         				<bean parent="Uif-MessageField" p:messageText="@{#line.getCommentCreateTime()}"/>
                         			</list>	
                         		</property>

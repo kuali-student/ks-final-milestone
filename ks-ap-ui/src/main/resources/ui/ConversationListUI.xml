@@ -53,6 +53,11 @@
 		<property name="layoutManager">
 			<bean parent="Uif-HorizontalBoxLayout" />
 		</property>
+		<property name="cssClasses">
+      		<list merge="true">
+          		<value>conversation-section</value>
+      		</list>
+  		</property>
 		<property name="items">
 			<list>
 				<ref bean="conversation_controls" />
@@ -67,15 +72,16 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-HeaderOne" p:headerText="[strong]Conversations[/strong]" />
-				<bean parent="Uif-HorizontalFieldGroup">
+				<bean parent="Uif-HorizontalFieldGroup" p:width="100%">
 					<property name="items">
             			<list>
             				<bean parent="Uif-MessageField" p:messageText="@{messageSummaryText}"/>
-							<bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="New"
-								p:actionScript="showLightboxUrl('review/conversation?methodToCall=create'+ksapAddGetParameters())" />
+							<bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="New" p:additionalCssClasses="floatRight"
+								p:actionScript="showLightboxUrl('review/conversation?methodToCall=create@{mockData ? '&amp;mockData=true' : ''}'+ksapAddGetParameters())" />
 						</list>
 					</property>
 				</bean>
+				<bean parent="Uif-MessageField" p:messageText="[hr]"/>
 				<ref bean="conversation_year_list" />
 			</list>
 		</property>
@@ -160,8 +166,8 @@
 						                    <property name="group.validationMessages.render" value="false"/>
 						                    <property name="items">
 						                        <list>
-						                            <bean id="conversation_advisor_id" parent="Uif-MessageField" p:messageText="@{#line.advisorId}"/>
-						                            <bean id="conversation_comment_date" parent="Uif-MessageField" p:messageText="@{#line.getLatestComment().getHumanReadableDate()}"/>
+						                            <bean id="conversation_advisor_id" parent="Uif-MessageField" p:messageText="@{getAdvisorInfo(#line.advisorId, #line.advisingRole).advisorName}"/>
+						                            <bean id="conversation_comment_date" parent="Uif-MessageField" p:messageText="@{#line.getLatestComment().getHumanReadableDate()}" p:additionalCssClasses="floatedRight"/>
 						                        </list>
 						                    </property>
 						                </bean>
