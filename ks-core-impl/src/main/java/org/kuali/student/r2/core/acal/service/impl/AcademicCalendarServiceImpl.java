@@ -89,7 +89,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     private AcalEventAssembler acalEventAssembler;
     private StateTransitionsHelper stateTransitionsHelper;
 
-    private ExamPeriodTransformer examPeriodTransformer;
+    private ExamPeriodTransformer examPeriodTransformer = new ExamPeriodTransformer();
 
     private SearchService searchService = null;
 
