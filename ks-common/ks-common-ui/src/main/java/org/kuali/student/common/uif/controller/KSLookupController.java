@@ -15,7 +15,6 @@
  */
 package org.kuali.student.common.uif.controller;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
@@ -29,12 +28,11 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.web.controller.LookupController;
-import org.kuali.rice.krad.web.controller.UifControllerHelper;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.view.KSLookupView;
-import org.springframework.validation.BindingResult;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -80,7 +78,6 @@ public class KSLookupController extends LookupController {
 
                 Properties redirectUrlProps = new Properties();
                 redirectUrlProps.put(UifParameters.REDIRECTED_LOOKUP, "true");
-                //UifControllerHelper.prepareHistory(request, form);
                 // clear current form from session
                 GlobalVariables.getUifFormManager().removeSessionForm(form);
 
@@ -120,11 +117,6 @@ public class KSLookupController extends LookupController {
                 }  else{
                     props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, UifConstants.MethodToCallNames.START);
                 }
-                // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
-                // https://fisheye.kuali.org/changelog/rice?cs=39034
-                // TODO KSENROLL-8469
-                //props.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
-                //props.put(UifConstants.UrlParams.SHOW_HOME,BooleanUtils.toStringTrueFalse(false));
                 props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE,lookupForm.getDataObjectClassName());
 
                 return performRedirect(lookupForm,defaultAction,props );
