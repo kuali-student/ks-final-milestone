@@ -91,21 +91,18 @@
         </property>
     </bean>
 
-    <bean id="KS-HolidayCalendar-View-Meta" parent="Uif-Disclosure-VerticalBoxSection"
-          p:headerText="Holiday Calendar Information">
-        <property name="header">
-            <bean parent="Uif-HeaderThree"/>
-        </property>
+    <bean id="KS-HolidayCalendar-View-Meta" parent="Uif-VerticalBoxSection"
+          p:headerText="Calendar Information">
+
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="@{updateTimeString}" p:cssClasses="font-light12"/>
                 <bean parent="Uif-GridGroup"
                       p:layoutManager.numberOfColumns="2"
                       p:layoutManager.applyDefaultCellWidths="false">
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField"
-                                  p:propertyName="holidayCalendarInfo.name"
+                                  p:propertyName="holidayCalendarInfo.name" p:readOnlyDisplayReplacementPropertyName="holidayCalendarInfo.name"
                                   p:label="Holiday Calendar Name"
                                   p:fieldLabel.width="40%"
                                   p:width="60%"
@@ -124,12 +121,7 @@
                                   p:readOnly="true"
                                   p:required="false"
                                   p:fieldLabel.renderColon="false"/>
-                            <bean parent="Uif-InputField"
-                                  p:propertyName="stateName"
-                                  p:label="State"
-                                  p:readOnly="true"
-                                  p:required="false"
-                                  p:fieldLabel.renderColon="false"/>
+
                         </list>
                     </property>
                     <property name="layoutManager.cssClasses">
