@@ -415,8 +415,11 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
         ScheduleRequestComponentInfo componentInfo = new ScheduleRequestComponentInfo();
         componentInfo.setIsTBA(scheduleWrapper.isTba());
+
         componentInfo.getBuildingIds().clear();
-        componentInfo.getBuildingIds().add(scheduleWrapper.getBuilding().getId());
+        if( scheduleWrapper.getBuilding() != null && scheduleWrapper.getBuilding().getId() != null ) {
+            componentInfo.getBuildingIds().add( scheduleWrapper.getBuilding().getId() );
+        }
 
         if(scheduleWrapper.getRoom() != null) {
             List<String> room = new ArrayList<String>();
