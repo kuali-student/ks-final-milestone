@@ -204,14 +204,16 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
      */
     @Override
     public Boolean compareProposition(PropositionEditor original, PropositionEditor compare) {
-
-        if(((LUPropositionEditor) original).getCluSet() == null) {
+        //If proposition contains cluset or programCluset, skip super compare method else use super compare method for all simple propositions
+        if(((LUPropositionEditor) original).getCluSet() == null && ((LUPropositionEditor) original).getProgCluSet() == null) {
             if(!super.compareProposition(original, compare)) {
                 return false;
             }
-        } else if(!original.getTypeId().equals(compare.getTypeId())) {
+        } //If proposition contains cluset or programCluset, compare typeId's
+        else if(!original.getTypeId().equals(compare.getTypeId())) {
             return false;
-        } else if(!original.getPropositionTypeCode().equals("C")) {
+        } //If proposition contains cluset or programCluset and is not a compound proposition, compare multicourse proposition properties
+        else if(!original.getPropositionTypeCode().equals("C")) {
             LUPropositionEditor enrolOriginal = (LUPropositionEditor) original;
 
             //Populate compare proposition cluSetInformation for comparison
