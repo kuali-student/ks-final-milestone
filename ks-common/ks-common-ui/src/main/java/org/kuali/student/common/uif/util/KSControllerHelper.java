@@ -58,6 +58,11 @@ public class KSControllerHelper {
         String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         if (StringUtils.isNotBlank(selectedLine)) {
             selectedLineIndex = Integer.parseInt(selectedLine);
+        } else {
+            selectedLine = form.getActionParamaterValue("lineIndex");
+            if (StringUtils.isNotBlank(selectedLine)) {
+                selectedLineIndex = Integer.parseInt(selectedLine);
+            }
         }
 
         if (selectedLineIndex == -1) {
