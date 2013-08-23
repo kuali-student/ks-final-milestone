@@ -18,8 +18,7 @@
         <property name="header.render" value="false" />
 
         <!--
-        <property name="entryPageId"
-        value="KS-CourseView-CourseInfoPage" />
+        <property name="entryPageId" value="KS-CourseView-CourseInfoPage" />
         -->
         <property name="navigation">
             <ref bean="KS-CourseNavigation-Menu" />
@@ -47,6 +46,7 @@
                 <ref bean="loCategoryDialog" />
             </list>
         </property>
+
         <!-- CSS Styling -->
         <property name="additionalCssFiles">
             <list merge="true">
@@ -73,7 +73,7 @@
                 <bean parent="Uif-Message"
                     p:messageText="All comments posted here will be visible to authors, and to reviewers after you submit the proposal" />
                 <!--"commentTableSection" -->
-                <bean parent="Uif-MessageField" p:messageText="Logged in as: @{userId} " />
+                <bean parent="Uif-MessageField" p:messageText="Logged in as: " />
                 <bean parent="Uif-TableCollectionSection" lazy-init="false">
                     <property name="headerText" value="Leave a Comment" />
                     <property name="collectionObjectClass" value="org.kuali.student.r2.core.comment.dto.CommentInfo" />
@@ -100,7 +100,7 @@
     </bean>
 
 
-    <bean id="loCategoryDialog" parent="Uif-DialogGroup" p:headerText="Select Categories" p:fieldBindingObjectPath="loDialogWrapper">
+    <bean id="loCategoryDialog" parent="Uif-DialogGroup" p:headerText="Select Categories" p:fieldBindingObjectPath="document.newMaintainableObject.dataObject.loDialogWrapper">
         <property name="availableResponses">
             <list>
                 <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Add" />
@@ -171,7 +171,7 @@
                                 </property>
                                 <property name="filters">
                                     <list>
-                                        <bean parent="Uif-ConditionalCollectionFilter" p:expression="@{loDialogWrapper.typeKeyFilters != null ? #listContains(loDialogWrapper.typeKeyFilters, #line.typeKey) : true}" />
+                                        <bean parent="Uif-ConditionalCollectionFilter" p:expression="@{document.newMaintainableObject.dataObject.loDialogWrapper.typeKeyFilters != null ? #listContains(document.newMaintainableObject.dataObject.loDialogWrapper.typeKeyFilters, #line.typeKey) : true}" />
                                     </list>
                                 </property>
                                 <property name="refreshWhenChangedPropertyNames" value="loDialogWrapper.typeKeyFilters" />

@@ -236,9 +236,9 @@ public class CourseController extends MaintenanceDocumentController {
         return searchString;
     }
     
-    private String getNextPageId(String currentPageId) {
+    protected String getNextPageId(final String currentPageId) {
         String nextPageId = null;
-        CourseViewPages[] pages = CourseViewPages.values();
+        final CourseViewPages[] pages = CourseViewPages.values();
         for (int i = 0; i < pages.length; i++) {
             if (pages[i].getPageId().equals(currentPageId)) {
                 //Get the next page in the enum, except when it's the last page in the enum
@@ -275,6 +275,7 @@ public class CourseController extends MaintenanceDocumentController {
         // ((CourseProposalInfo) courseForm.getDocument().getNewMaintainableObject().getDataObject()).getCourse().setStateKey(DtoConstants.STATE_DRAFT);
 
         return retval;
+        // return getUIFModelAndView(form, CourseViewPages.COURSE_INFO.toString());
     }
 
     /**
