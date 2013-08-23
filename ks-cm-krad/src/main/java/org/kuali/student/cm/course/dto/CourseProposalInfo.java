@@ -54,8 +54,6 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
     @XmlElement        
     private List<CourseJointInfoWrapper> courseJointWrappers;
     @XmlElement
-    private List<ResultValuesGroupInfoWrapper> creditOptionsDisplay;
-    @XmlElement
     private List<ResultValuesGroupInfoWrapper> creditOptionWrappers;
     @XmlElement
     private String finalExamStatus;

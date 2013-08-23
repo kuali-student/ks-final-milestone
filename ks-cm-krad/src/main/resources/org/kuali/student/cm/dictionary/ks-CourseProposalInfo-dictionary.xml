@@ -182,23 +182,6 @@
         <property name="required" value="false" />
     </bean>
 
-    <bean id="CourseProposalInfo.loDialogWrapper.typeKeyFilters" parent="BaseKuali.string">
-        <property name="name" value="typeKeyFilters" />
-        <property name="shortLabel" value="TypeKey Filters" />
-        <property name="summary">
-            <value>
-                TypeKey Filters
-            </value>
-        </property>
-        <property name="label" value="TypeKey Filters" />
-        <property name="description">
-            <value>
-                TypeKey Filters
-            </value>
-        </property>
-        <property name="required" value="false" />
-    </bean>
-
     <bean id="CourseProposalInfo.loDialogWrapper.categoryName" parent="BaseKuali.string">
         <property name="name" value="categoryName" />
         <property name="shortLabel" value="CategoryName" />
@@ -285,7 +268,6 @@
                 </property>
                 <property name="attributes">
                     <list>
-                        <ref bean="CourseProposalInfo.loDialogWrapper.typeKeyFilters" />
                         <ref bean="CourseProposalInfo.loDialogWrapper.categoryName" />
                     </list>
                 </property>
@@ -297,6 +279,7 @@
 
                 <property name="collections">
                     <list>
+                        <ref bean="CourseProposalInfo.loDialogWrapper.typeKeyFilters" />
                         <ref bean="CourseProposalInfo.loDialogWrapper.learningObjectiveOptions" />
                     </list>
                 </property>
@@ -420,7 +403,7 @@
         <property name="dataObjectClass" value="org.kuali.student.cm.course.form.OrganizationInfoWrapper" />
     </bean>
 
-    <bean id="CoursePropsalInfo.loDialogWrapper.learningObjectiveOptions" parent="CollectionDefinition">
+    <bean id="CourseProposalInfo.loDialogWrapper.learningObjectiveOptions" parent="CollectionDefinition">
         <property name="name" value="learningObjectiveOptions" />
         <property name="shortLabel" value="Learning Objective Options" />
         <property name="summary">
@@ -438,5 +421,24 @@
         <property name="minOccurs" value="0" />
         <property name="dataObjectClass" value="org.kuali.student.cm.course.form.LoCategoryInfoWrapper" />
     </bean>
-
+    
+    
+    <bean id="CourseProposalInfo.loDialogWrapper.typeKeyFilters" parent="CollectionDefinition">
+        <property name="name" value="typeKeyFilters" />
+        <property name="shortLabel" value="TypeKey Filters" />
+        <property name="summary">
+            <value>
+                TypeKey Filters
+            </value>
+        </property>
+        <property name="label" value="TypeKey Filters" />
+        <property name="elementLabel" value="TypeKey Filters" />
+        <property name="description">
+            <value>
+                TypeKey Filters
+            </value>
+        </property>
+        <property name="minOccurs" value="0"/>
+        <property name="dataObjectClass" value="java.lang.String"/>
+    </bean>
 </beans>
