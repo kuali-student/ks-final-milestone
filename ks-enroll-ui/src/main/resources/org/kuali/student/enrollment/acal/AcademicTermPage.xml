@@ -476,8 +476,7 @@
         <property name="items">
             <list>
                 <bean id="exam_date_type" parent="Uif-InputField" p:propertyName="examPeriodType" p:readOnly="true" p:readOnlyDisplayReplacementPropertyName="examPeriodNameUI" p:style="font-weight:bold;"/>
-                <bean id="exam_date_start_date" parent="Uif-InputField" p:propertyName="startDate" p:readOnlyDisplayReplacementPropertyName="startDate"
-                      p:label="Start Date" >
+                <bean id="exam_date_start_date" parent="Uif-InputField" p:propertyName="startDate" p:render="@{!#view.readOnly}" p:label="Start Date" >
                     <property name="control">
                         <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
                     </property>
@@ -485,6 +484,8 @@
                         <bean parent="BasicDatePatternConstraint" />
                     </property>
                 </bean>
+                <bean parent="Uif-DataField" p:propertyName="startDateUI" p:render="@{#view.readOnly}" p:label="Start Date"/>
+
                 <bean id="exam_date_end_date" parent="Uif-InputField" p:propertyName="endDate" p:render="@{!#view.readOnly}" p:label="End Date">
                     <property name="control">
                         <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
@@ -498,7 +499,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean id="exam_period_delete_link" parent="Uif-ActionLink"  p:methodToCall="markExamPeriodtoDelete" p:actionLabel="delete" />
+                <bean id="exam_period_delete_link" parent="Uif-ActionLink"  p:methodToCall="markExamPeriodtoDelete" p:actionLabel="delete" p:render="@{!#view.readOnly}"/>
             </list>
         </property>
     </bean>

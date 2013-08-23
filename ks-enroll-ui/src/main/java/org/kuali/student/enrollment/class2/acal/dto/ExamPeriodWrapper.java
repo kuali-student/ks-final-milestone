@@ -19,6 +19,7 @@ package org.kuali.student.enrollment.class2.acal.dto;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
@@ -73,11 +74,11 @@ public class ExamPeriodWrapper {
         return examPeriodType;
     }
 
-    public void setExamPeriodType(String keyDateType) {
-        if (keyDateType == null || keyDateType.equals("")) {
+    public void setExamPeriodType(String examPeriodType) {
+        if (examPeriodType == null || examPeriodType.equals("")) {
             this.examPeriodType = AtpServiceConstants.ATP_EXAM_PERIOD_TYPE_KEY;
         } else {
-            this.examPeriodType = keyDateType;
+            this.examPeriodType = examPeriodType;
         }
     }
 
@@ -127,6 +128,26 @@ public class ExamPeriodWrapper {
 
     public boolean isNew() {
         return StringUtils.isBlank(examPeriodInfo.getId());
+    }
+
+    //This is for UI display purpose
+    public String getStartDateUI(){
+        return formatStartEndDateUI(examPeriodInfo.getStartDate());
+    }
+
+    //This is for UI display purpose
+    public String getEndDateUI(){
+        return formatStartEndDateUI(examPeriodInfo.getEndDate());
+    }
+
+    //This is for UI display purpose
+    protected String formatStartEndDateUI(Date date){
+        if (date != null) {
+            return DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(date);
+        }else{
+            return StringUtils.EMPTY;
+        }
+
     }
 
 }
