@@ -416,16 +416,16 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
     }
 
-    public void copyToCreateAcademicCalendar(AcademicCalendarForm form){
+    public void copyToCreateAcademicCalendar(AcademicCalendarForm form) {
 
-           AcademicCalendarInfo orgAcalInfo = form.getCopyFromAcal();
+        AcademicCalendarInfo orgAcalInfo = form.getCopyFromAcal();
 
-           if (orgAcalInfo == null || StringUtils.isBlank(orgAcalInfo.getId())){
-               throw new RuntimeException("ACal Info doesn't exists to copy.");
-           }
+        if (orgAcalInfo == null || StringUtils.isBlank(orgAcalInfo.getId())) {
+            throw new RuntimeException("ACal Info doesn't exists to copy.");
+        }
 
-           // 1. copy over events
-        List<AcalEventInfo> orgEventInfoList= null;
+        // 1. copy over events
+        List<AcalEventInfo> orgEventInfoList = null;
         try {
             orgEventInfoList = getAcalService().getAcalEventsForAcademicCalendar(orgAcalInfo.getId(), createContextInfo());
         } catch (Exception e) {
@@ -433,22 +433,28 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
 
         List<AcalEventWrapper> newEventList = new ArrayList<AcalEventWrapper>();
-           for (AcalEventInfo orgEventInfo : orgEventInfoList){
-               AcalEventWrapper newEvent= new AcalEventWrapper(orgEventInfo,true);
-               try {
-                   TypeInfo type = getTypeInfo(orgEventInfo.getTypeKey());
-                   newEvent.setEventTypeName(type.getName());
-               }catch (Exception e){
-                   throw convertServiceExceptionsToUI(e);
-               }
-               newEventList.add(newEvent);
-           }
-           form.setEvents(newEventList);
+        for (AcalEventInfo orgEventInfo : orgEventInfoList) {
+            AcalEventWrapper newEvent = new AcalEventWrapper(orgEventInfo, true);
+            try {
+                TypeInfo type = getTypeInfo(orgEventInfo.getTypeKey());
+                newEvent.setEventTypeName(type.getName());
+            } catch (Exception e) {
+                throw convertServiceExceptionsToUI(e);
+            }
+            newEventList.add(newEvent);
+        }
+        form.setEvents(newEventList);
 
-          // 2. copy over terms
-          List<AcademicTermWrapper> newTermList = populateTermWrappers(orgAcalInfo.getId(), true,false);
-          form.setTermWrapperList(newTermList);
-          form.setMeta(orgAcalInfo.getMeta());
+        // 2. copy over terms
+        List<AcademicTermWrapper> newTermList = populateTermWrappers(orgAcalInfo.getId(), true, false);
+        form.setTermWrapperList(newTermList);
+        form.setMeta(orgAcalInfo.getMeta());
+
+        //clear exam period list for each term since they are not supposed to be copied
+        for (AcademicTermWrapper newTerm : newTermList) {
+            newTerm.getExamdates().clear();
+        }
+
 
     }
 
