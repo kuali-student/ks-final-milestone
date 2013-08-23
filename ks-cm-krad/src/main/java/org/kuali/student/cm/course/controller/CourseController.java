@@ -463,7 +463,10 @@ public class CourseController extends MaintenanceDocumentController {
         if (choice) {
             for (LoCategoryInfoWrapper loCategoryInfoWrapper : form.getLoDialogWrapper().getLearningObjectiveOptions()) {
                 if (loCategoryInfoWrapper.isSelected()) {
-                    getSelectedLo(form).getLoCategoryInfoList().add(loCategoryInfoWrapper);
+                    LoDisplayInfo selectedLo = getSelectedLo(form);
+                    if (selectedLo != null) {
+                        selectedLo.getLoCategoryInfoList().add(loCategoryInfoWrapper);
+                    }
                 }
             }
             
@@ -476,20 +479,16 @@ public class CourseController extends MaintenanceDocumentController {
     
     private LoDisplayInfo getSelectedLo(CourseForm form){
         String selectedIndex = form.getActionParamaterValue("selectedIndex");
-        int selectedLineIndex = -1;
-        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        if (StringUtils.isNotBlank(selectedLine)) {
-            selectedLineIndex = Integer.parseInt(selectedLine);
+        int index = -1;
+        if (StringUtils.isNumeric(selectedIndex)) {
+            index = Integer.parseInt(selectedIndex);
         }
-
-        if (selectedLineIndex == -1) {
-            throw new RuntimeException("Selected line index was not set for this path: " + selectedCollectionPath);
+        LoDisplayInfo selectedLo = null;
+        if (index != -1) {
+            selectedLo = form.getCourseInfo().getCourseSpecificLOs().get(index);
         }
-
-        Collection<LoDisplayInfo> collection = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
-        LoDisplayInfo loDisplayInfo = ((List<LoDisplayInfo>) collection).get(selectedLineIndex);
-
-        return loDisplayInfo;
+        
+        return selectedLo;
     }
     
     private List<LoCategoryInfoWrapper> getLoCategories() {
