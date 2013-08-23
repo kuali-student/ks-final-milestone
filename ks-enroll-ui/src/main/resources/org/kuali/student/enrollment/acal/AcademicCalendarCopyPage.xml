@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2007-2009 The Kuali Foundation
+
+Licensed under the Educational Community License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.opensource.org/licenses/ecl2.php
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--
+       This page allows user to copy previous acals.
+    -->
+    <bean id="KS-AcademicCalendar-CopyPage" parent="KS-Uif-Page"
+          p:id="academicCalendarCopyPage"
+          p:headerText=""
+          p:disclosure.render="false">
+
+        <property name="pageSourceFile" value="AcademicCalendarCopyPage.xml" />
+
+        <property name="header">
+            <bean parent="Uif-HeaderTwo">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-header</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="header.lowerGroup">
+                <bean parent="Uif-VerticalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message"
+                                  p:messageText="All term and milestone types will be copied to the new Academic Calendar without dates and times."
+                                  p:style="margin-bottom:0;"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="createBlankCalendar" p:actionLabel="Create Blank Academic Calendar"/>
+                        </list>
+                    </property>
+                </bean>
+        </property>
+
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Calendars"/>
+                    <property name="url.viewId" value="calendarSearchView"/>
+                    <property name="url.controllerMapping" value="/calendarSearch"/>
+                    <property name="url.methodToCall" value="start"/>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Create Academic Calendar"/>
+                </bean>
+            </list>
+        </property>
+
+        <property name="items">
+            <list>
+                <!-- This adds the file names to the page HTML -->
+                <ref bean="KS-SourceFile-Comment-Group"/>
+
+                <bean parent="Uif-VerticalBoxSection"
+                      p:style="margin-bottom:0; padding-bottom:0;">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-AcademicCalendar-CopyPage-From"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="KS-Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="KS-Uif-PrimaryActionButton"
+                              p:methodToCall="copy"
+                              p:actionLabel="Copy Academic Calendar"
+                              p:render="@{academicCalendarInfo != null}"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KS-AcademicCalendar-CopyPage-From" parent="Uif-VerticalBoxSubSection"
+          p:headerText="Copy from most recent calendar">
+        <property name="header">
+            <bean parent="Uif-HeaderThree"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxGroup"
+                      p:render="@{copyFromAcal != null}">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField"
+                                  p:propertyName="copyFromAcal.name"
+                                  p:id="copyFromAcalName"
+                                  p:style="font-size:125%;"
+                                  p:showLabel="false">
+                                <property name="align" value="center;"/>
+                                  </bean>
+                            <bean parent="Uif-HorizontalFieldGroup">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ks-calendar-copy-content</value>
+                                    </list>
+                                </property>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-VerticalBoxGroup">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-Message">
+                                                        <property name="style" value="font-weight: bold;"/>
+                                                        <property name="messageText" value='Start Date'/>
+                                                        <property name="align" value="right"/>
+                                                        <property name="valign" value="bottom"/>
+                                                    </bean>
+                                                    <bean parent="Uif-Message">
+                                                        <property name="style" value="font-weight: bold;"/>
+                                                        <property name="messageText" value='End Date'/>
+                                                        <property name="align" value="right"/>
+                                                        <property name="valign" value="bottom"/>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-VerticalBoxGroup">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-DataField"
+                                                          p:propertyName="copyFromAcal.startDate">
+                                                        <property name="labelRendered" value="true"/>
+                                                        <property name="align" value="right"/>
+                                                        <property name="valign" value="bottom"/>
+                                                    </bean>
+                                                    <bean parent="Uif-DataField"
+                                                          p:propertyName="copyFromAcal.endDate">
+                                                        <property name="labelRendered" value="true"/>
+                                                        <property name="align" value="right"/>
+                                                        <property name="valign" value="bottom"/>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-Message" p:align="center"
+                                  p:messageText="A recent academic calendar could not be found."
+                                  p:render="@{copyFromAcal == null}"
+                                  p:style="font-size:125%;"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="search" p:align="center"
+                                  p:actionLabel="@{copyFromAcal != null ? 'Find a different calendar to copy' : 'Choose a Calendar'}"/>
+                        </list>
+                    </property>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-calendar-copy-from</value>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+</beans>
