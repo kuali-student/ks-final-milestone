@@ -16,7 +16,7 @@
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="KS-CourseView-SupportingDocumentsPage" parent="Uif-Page"
@@ -35,9 +35,12 @@
     <bean id="KS-CourseView-SupportingDocumentsPage-Widgets" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
+                <ref bean="KS-SupportingDocuments-Section" />
             </list>
         </property>
     </bean>
+
+
 
 	<bean id="KS-SupportingDocuments-Section" parent="Uif-StackedCollectionSection"
 		  p:headerText="Supporting Document(s)" p:propertyName="supportingDocuments"
@@ -63,7 +66,7 @@
 		</property>
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="file">
+				<bean parent="Uif-InputField" p:propertyName="documentUpload">
                     <property name="control">
                         <bean parent="Uif-FileControl" p:size="30"/>
                     </property>

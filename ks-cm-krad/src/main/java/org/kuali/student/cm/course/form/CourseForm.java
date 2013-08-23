@@ -24,6 +24,8 @@ import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
@@ -69,6 +71,8 @@ public class CourseForm extends UifFormBase {
     private List<OrganizationInfoWrapper> administeringOrganizations;
 
     private String lastUpdated;
+
+    private MultipartFile documentUpload; 
     
     public CourseForm() {
         this.courseInfo = new CourseInfo();
@@ -211,5 +215,13 @@ public class CourseForm extends UifFormBase {
 
     public String getLastUpdated() {
         return this.lastUpdated;
+    }
+
+    public MultipartFile getDocumentUpload() {
+        return documentUpload;
+    }
+
+    public void setDocumentUpload(final MultipartFile documentUpload) {
+        this.documentUpload = documentUpload;
     }
 }
