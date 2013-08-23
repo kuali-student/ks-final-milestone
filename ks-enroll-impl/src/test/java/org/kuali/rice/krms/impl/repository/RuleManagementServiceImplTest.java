@@ -119,12 +119,8 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
     @Test
     public void testCopyingSimpleProposition() {
         String namespace = KSKRMSServiceConstants.NAMESPACE_CODE;
-        // TODO: KSENROLL-7291 convert the discriminator type to use the ref object uri instead of the lu type type
-//        String fromReferenceDiscriminatorType = CourseServiceConstants.COURSE_NAMESPACE_URI;
         String fromReferenceDiscriminatorType = "kuali.lu.type.CreditCourse";
         String fromReferenceObjectId = "COURSE1";
-        // TODO: KSENROLL-7291 convert the discriminator type to use the ref object uri instead of the lu type type
-//        String toReferenceDiscriminatorType = CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
         String toReferenceDiscriminatorType = "kuali.lui.type.course.offering";
         String toReferenceObjectId = "COURSEOFFERING1";
 
