@@ -39,4 +39,16 @@ public class KSUifPage extends PageGroup {
     public void setPageSourceFile(String pageSourceFile) {
         this.pageSourceFile = pageSourceFile;
     }
+
+    /**
+     * @see org.kuali.rice.krad.uif.component.ComponentBase#copy()
+     */
+    @Override
+    protected <T> void copyProperties(T component) {
+        super.copyProperties(component);
+
+        KSUifPage ksUifPageCopy = (KSUifPage) component;
+
+        ksUifPageCopy.setPageSourceFile(this.pageSourceFile);
+    }
 }

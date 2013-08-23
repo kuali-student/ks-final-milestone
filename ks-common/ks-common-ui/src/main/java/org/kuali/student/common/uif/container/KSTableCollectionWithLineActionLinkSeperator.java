@@ -58,4 +58,16 @@ public class KSTableCollectionWithLineActionLinkSeperator extends CollectionGrou
         }
         return returnedActions;
     }
+
+    /**
+     * @see org.kuali.rice.krad.uif.component.ComponentBase#copy()
+     */
+    @Override
+    protected <T> void copyProperties(T component) {
+        super.copyProperties(component);
+
+        KSTableCollectionWithLineActionLinkSeperator ksTableCollectionWithLineActionLinkSeperatorCopy = (KSTableCollectionWithLineActionLinkSeperator) component;
+
+        ksTableCollectionWithLineActionLinkSeperatorCopy.setLineActionSeparator(this.lineActionSeparator);
+    }
 }

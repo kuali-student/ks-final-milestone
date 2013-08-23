@@ -64,4 +64,18 @@ public class Suggest2 extends Suggest {
     public void setLoadingImageEnabled(boolean loadingImageEnabled) {
         this.loadingImageEnabled = loadingImageEnabled;
     }
+
+    /**
+     * @see org.kuali.rice.krad.uif.component.ComponentBase#copy()
+     */
+    @Override
+    protected <T> void copyProperties(T component) {
+        super.copyProperties(component);
+
+        Suggest2 suggest2Copy = (Suggest2) component;
+
+        suggest2Copy.setComboboxButtonEnabled(this.comboboxButtonEnabled);
+        suggest2Copy.setCustomEntryAllowed(this.customEntryAllowed);
+        suggest2Copy.setLoadingImageEnabled(this.loadingImageEnabled);
+    }
 }

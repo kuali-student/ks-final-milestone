@@ -1,8 +1,6 @@
 package org.kuali.student.common.uif.container;
 
-import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Group;
-import org.kuali.rice.krad.uif.view.View;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,5 +21,17 @@ public class KSToolbarGroup extends Group {
 
     public void setNoLeftBorder(boolean noLeftBorder) {
         this.noLeftBorder = noLeftBorder;
+    }
+
+    /**
+     * @see org.kuali.rice.krad.uif.component.ComponentBase#copy()
+     */
+    @Override
+    protected <T> void copyProperties(T component) {
+        super.copyProperties(component);
+
+        KSToolbarGroup ksToolbarGroupCopy = (KSToolbarGroup) component;
+
+        ksToolbarGroupCopy.setNoLeftBorder(this.noLeftBorder);
     }
 }

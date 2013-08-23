@@ -77,4 +77,16 @@ public class ActionImageButton extends Action {
         this.imageSourceOnHover = imageSourceOnHover;
     }
 
+    /**
+     * @see org.kuali.rice.krad.uif.component.ComponentBase#copy()
+     */
+    @Override
+    protected <T> void copyProperties(T component) {
+        super.copyProperties(component);
+
+        ActionImageButton actionImageButtonCopy = (ActionImageButton) component;
+
+        actionImageButtonCopy.setImageSource(this.imageSource);
+        actionImageButtonCopy.setImageSourceOnHover(this.imageSourceOnHover);
+    }
 }
