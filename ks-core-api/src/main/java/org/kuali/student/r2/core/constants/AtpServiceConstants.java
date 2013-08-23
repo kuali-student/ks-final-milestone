@@ -303,6 +303,7 @@ public class AtpServiceConstants {
      */
     public static final String ATP_ATP_RELATION_INCLUDES_TYPE_KEY = "kuali.atp.atp.relation.includes";
     public static final String ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY ="kuali.atp.atp.relation.associated";
+    public static final String ATP_ATP_RELATION_ASSOCIATED_TERM2EXAMPERIOD_TYPE_KEY = "kuali.atp.atp.relation.associated.term2examperiod";
     public static final String ATP_ATP_RELATION_PRECEDES_TYPE_KEY = "kuali.atp.atp.relation.precedes";
 
     /**

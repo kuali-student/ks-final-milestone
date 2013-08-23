@@ -75,6 +75,8 @@ public class AppliedHoldInfo
         if (hold != null) {
             this.personId = hold.getPersonId();
             this.holdIssueId = hold.getHoldIssueId();
+            this.name = hold.getName();
+            this.descr = hold.getDescr();
         }
     }
 
