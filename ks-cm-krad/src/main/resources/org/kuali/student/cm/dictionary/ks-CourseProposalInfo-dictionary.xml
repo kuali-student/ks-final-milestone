@@ -203,42 +203,12 @@
 
     <bean id="CourseProposalInfo.course" parent="ComplexAttributeDefinition">
         <property name="name" value="course" />
-        <property name="shortLabel" value="Course" />
-        <property name="summary">
-            <value>
-                Course reference object on CourseProposalInfo.
-            </value>
-        </property>
-        <property name="label" value="Course" />
-        <property name="description">
-            <value>
-                Course reference object on CourseProposalInfo.
-            </value>
-        </property>
-        <property name="required" value="true" />
-        <property name="dataObjectEntry">
-            <ref bean="CourseInfo" />
-        </property>
+        <property name="dataObjectEntry" ref="CourseInfo"/>
     </bean>
 
     <bean id="CourseProposalInfo.proposal" parent="ComplexAttributeDefinition">
         <property name="name" value="proposal" />
-        <property name="shortLabel" value="Proposal" />
-        <property name="summary">
-            <value>
-                Proposal reference object on CourseProposalInfo.
-            </value>
-        </property>
-        <property name="label" value="Proposal" />
-        <property name="description">
-            <value>
-                Proposal reference object on CourseProposalInfo.
-            </value>
-        </property>
-        <property name="required" value="true" />
-        <property name="dataObjectEntry">
-            <ref bean="ProposalInfo" />
-        </property>
+        <property name="dataObjectEntry" ref="ProposalInfo" />
     </bean>
 
     <bean id="CourseProposalInfo.loDialogWrapper" parent="ComplexAttributeDefinition">
