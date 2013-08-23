@@ -205,7 +205,11 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
     @Override
     public Boolean compareProposition(PropositionEditor original, PropositionEditor compare) {
 
-        if(!super.compareProposition(original, compare)) {
+        if(((LUPropositionEditor) original).getCluSet() == null) {
+            if(!super.compareProposition(original, compare)) {
+                return false;
+            }
+        } else if(!original.getTypeId().equals(compare.getTypeId())) {
             return false;
         } else if(!original.getPropositionTypeCode().equals("C")) {
             LUPropositionEditor enrolOriginal = (LUPropositionEditor) original;
