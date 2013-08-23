@@ -17,6 +17,8 @@
 package org.kuali.student.enrollment.class2.scheduleofclasses.dto;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 
 import java.util.ArrayList;
@@ -35,9 +37,13 @@ public class CourseOfferingDisplayWrapper {
     private CourseOfferingDisplayInfo coDisplayInfo;
     private String information;
     private String requisites;
+    private List<ActivityOfferingClusterWrapper> aoClusterWrapperList;
+    private List<ActivityOfferingWrapper> activityWrapperList;
 
     public CourseOfferingDisplayWrapper(){
         coDisplayInfo = new CourseOfferingDisplayInfo();
+        aoClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
+        activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
     }
 
     public CourseOfferingDisplayInfo getCoDisplayInfo() {
@@ -64,6 +70,14 @@ public class CourseOfferingDisplayWrapper {
         this.requisites = requisites;
     }
 
+    public List<ActivityOfferingWrapper> getActivityWrapperList() {
+        return activityWrapperList;
+    }
+
+    public void setActivityWrapperList(List<ActivityOfferingWrapper> activityWrapperList) {
+        this.activityWrapperList = activityWrapperList;
+    }
+
     public String getXmlEscapedFormatted() {
         String formatted = null;
         if(coDisplayInfo != null && coDisplayInfo.getDescr() != null){
@@ -73,6 +87,14 @@ public class CourseOfferingDisplayWrapper {
             return StringEscapeUtils.escapeXml(formatted);
         }
         return formatted;
+    }
+
+    public List<ActivityOfferingClusterWrapper> getClusterResultList() {
+        return aoClusterWrapperList;
+    }
+
+    public void setClusterResultList(List<ActivityOfferingClusterWrapper> clusterResultList) {
+        this.aoClusterWrapperList = clusterResultList;
     }
 
 }

@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.scheduleofclasses.service;
 
 
+import org.kuali.student.enrollment.class2.autogen.service.ARGCourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
 
 
@@ -12,13 +13,11 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClas
  * Time: 2:24 PM
  * To change this template use File | Settings | File Templates.
  */
-public interface ScheduleOfClassesViewHelperService {
+public interface ScheduleOfClassesViewHelperService extends ARGCourseOfferingManagementViewHelperService {
 
     public void loadCourseOfferingsByTermAndCourseCode (String termId, String courseCode, ScheduleOfClassesSearchForm form) throws Exception;
 
     public void loadCourseOfferingsByTermAndInstructor(String termId, String instructorId, String instructorName, ScheduleOfClassesSearchForm form) throws Exception;
-
-    public void loadActivityOfferingsByCourseOfferingId(String courseOfferingId, ScheduleOfClassesSearchForm form) throws Exception;
 
     public void loadCourseOfferingsByTermAndDepartment(String termId, String organizationId, String organizationName, ScheduleOfClassesSearchForm form) throws Exception;
 

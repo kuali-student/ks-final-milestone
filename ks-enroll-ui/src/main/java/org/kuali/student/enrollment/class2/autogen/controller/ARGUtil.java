@@ -186,7 +186,7 @@ public class ARGUtil {
 
         getViewHelperService(form).loadPreviousAndNextCourseOffering(form);
 
-        getViewHelperService(form).build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(form, currentCOWrapper);
+        getViewHelperService(form).build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(form);
 
         ARGToolbarUtil.processAoToolbarForUser(form.getActivityWrapperList(), form);
     }
@@ -228,7 +228,7 @@ public class ARGUtil {
         CourseOfferingInfo theCourseOffering = theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
 
         CourseOfferingWrapper coWrapper = new CourseOfferingWrapper(theCourseOffering);
-        getViewHelperService(theForm).build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(theForm, coWrapper);
+        getViewHelperService(theForm).build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(theForm);
 
         getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm);
 

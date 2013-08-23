@@ -53,6 +53,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingVie
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
+import org.kuali.student.enrollment.class2.scheduleofclasses.form.ActivityOfferingDisplayUI;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
@@ -294,19 +295,18 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
      * rgResultList for View Registration Groupsall the course offerings for a term and course/subject code.
      *
      * @param form input form
-     * @param theCourseOffering course offering
      * @throws Exception
      */
-    public void build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(ARGCourseOfferingManagementForm form, CourseOfferingWrapper theCourseOffering) throws Exception {
+    public void build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(ActivityOfferingDisplayUI form) throws Exception {
         //KSENROLL-6102 performance improvements, delete this code when performance work is complete
 
         //New Search Stuff!
-        String coId = form.getCurrentCourseOfferingWrapper().getCourseOfferingId();
+        String coId = form.getCourseOfferingId();
 
         //First search for AOs and Cluster information
         SearchRequestInfo sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY);
         sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, coId);
-        SearchResultInfo results = searchService.search(sr, null);
+        SearchResultInfo results = getSearchService().search(sr, null);
 
         Map<String, List<ActivityOfferingWrapper>> sch2aoMap = new HashMap<String, List<ActivityOfferingWrapper>>();
         List<String> aoIdsWithoutSch = new ArrayList<String>();
@@ -399,7 +399,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
             //Search for registration group information
             sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.REG_GROUPS_BY_CO_ID_SEARCH_KEY);
-            sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, form.getCurrentCourseOfferingWrapper().getCourseOfferingId());
+            sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, form.getCourseOfferingId());
             results = searchService.search(sr, null);
 
             List<RegistrationGroupWrapper> rgWrappers = processRgData(results, clusterMap, aoMap);
@@ -1222,7 +1222,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
     */
     private void _validateRegistrationGroupsPerCluster(List<RegistrationGroupInfo> rgInfos, List<ActivityOfferingInfo> aoList,
                                                        ActivityOfferingClusterWrapper aoClusterWrapper,
-                                                       ARGCourseOfferingManagementForm theForm, int clusterIndex, Map<String, List<ScheduleCalcContainer>> ao2sch, Map<String, List<ScheduleRequestCalcContainer>> ao2schReq, Map<String, ActivityOfferingWrapper> aoMap) throws Exception {
+                                                       ActivityOfferingDisplayUI theForm, int clusterIndex, Map<String, List<ScheduleCalcContainer>> ao2sch, Map<String, List<ScheduleRequestCalcContainer>> ao2schReq, Map<String, ActivityOfferingWrapper> aoMap) throws Exception {
 
         Map<String, List<String>> activityOfferingTypeToAvailableActivityOfferingMap =
                 _constructActivityOfferingTypeToAvailableActivityOfferingMap(aoList);

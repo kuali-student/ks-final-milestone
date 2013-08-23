@@ -24,6 +24,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopy
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
+import org.kuali.student.enrollment.class2.scheduleofclasses.form.ActivityOfferingDisplayUI;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.common.uif.form.KSUifForm;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -38,7 +39,7 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class ARGCourseOfferingManagementForm extends KSUifForm {
+public class ARGCourseOfferingManagementForm extends KSUifForm implements ActivityOfferingDisplayUI{
     //TODO: do we still need this for manage theCO page?
     //for authorization purpose
     private String adminOrg;
@@ -277,6 +278,11 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
 
     public void setNoOfActivityOfferings(String noOfActivityOfferings) {
         this.noOfActivityOfferings = noOfActivityOfferings;
+    }
+
+    @Override
+    public String getCourseOfferingId() {
+        return getCurrentCourseOfferingWrapper().getCourseOfferingId();
     }
 
     public List<ActivityOfferingWrapper> getActivityWrapperList() {

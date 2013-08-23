@@ -24,21 +24,17 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
-import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
-import org.kuali.rice.krms.dto.AgendaEditor;
-import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.student.enrollment.class2.autogen.service.impl.ARGCourseOfferingManagementViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
 import org.kuali.student.enrollment.class2.scheduleofclasses.service.ScheduleOfClassesViewHelperService;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lpr.service.LprService;
@@ -47,19 +43,15 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.KeyNameInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -76,12 +68,10 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImpl implements ScheduleOfClassesViewHelperService {
+public class ScheduleOfClassesViewHelperServiceImpl extends ARGCourseOfferingManagementViewHelperServiceImpl implements ScheduleOfClassesViewHelperService {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScheduleOfClassesViewHelperServiceImpl.class);
 
-    private CourseOfferingService coService;
-    private LprService lprService;
     private OrganizationService organizationService;
     private AcademicCalendarService academicCalendarService;
     private TypeService typeService;
@@ -209,84 +199,6 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         }
     }
 
-    public void loadActivityOfferingsByCourseOfferingId(String courseOfferingId, ScheduleOfClassesSearchForm form) throws Exception {
-
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-
-        List<ActivityOfferingDisplayWrapper> aoDisplayWrapperList = new ArrayList<ActivityOfferingDisplayWrapper>();
-        List<ActivityOfferingDisplayInfo> aoDisplayInfoList = getCourseOfferingService().getActivityOfferingDisplaysForCourseOffering(courseOfferingId, contextInfo);
-
-        Map<String, String> subTermInfoMap = new HashMap<String, String>();
-
-        for (ActivityOfferingDisplayInfo aoDisplayInfo : aoDisplayInfoList) {
-            //Only returned offered AOS
-            if (LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY.equals(aoDisplayInfo.getStateKey())) {
-                ActivityOfferingDisplayWrapper aoDisplayWrapper = new ActivityOfferingDisplayWrapper();
-                aoDisplayWrapper.setAoDisplayInfo(aoDisplayInfo);
-
-                // Adding Information (icons)
-                String information = "";
-                if (aoDisplayInfo.getIsHonorsOffering() != null && aoDisplayInfo.getIsHonorsOffering()) {
-                    information = "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HONORS_COURSE_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_HONORS_ACTIVITY + "\"> ";
-                }
-
-                // Adding subterm
-                String termId = aoDisplayInfo.getTermId();
-                String subTermDisplay = "";
-                if (!form.getTermCode().equals(termId)) {
-                    if (subTermInfoMap.isEmpty() || subTermInfoMap.get(termId) == null) {
-                        TermInfo subTerm = getAcademicCalendarService().getTerm(termId, contextInfo);
-                        // check if term or subterm
-                        List<TypeTypeRelationInfo> terms = getTypeService().getTypeTypeRelationsByRelatedTypeAndType(subTerm.getTypeKey(), TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, contextInfo);
-                        // if subterm
-                        if (!terms.isEmpty()) {
-                            TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
-                            subTermDisplay = "This activity is in " + subTermType.getName() + " - " + getTermStartEndDate(subTerm);
-                            subTermInfoMap.put(termId, subTermDisplay);
-                            // displaying information
-                            information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_SUBTERM_IMG + " title=\"" + subTermDisplay + "\"> ";
-                        }
-                    } else {
-                        subTermDisplay = subTermInfoMap.get(termId);
-                        information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_SUBTERM_IMG + " title=\"" + subTermDisplay + "\"> ";
-                    }
-                }
-
-                aoDisplayWrapper.setInformation(information);
-
-                if (aoDisplayInfo.getScheduleDisplay() != null && !aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().isEmpty()) {
-                    //TODO handle TBA state
-                    List<? extends ScheduleComponentDisplay> scheduleComponentDisplays = aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays();
-                    for (ScheduleComponentDisplay scheduleComponentDisplay : scheduleComponentDisplays) {
-                        if (scheduleComponentDisplay.getBuilding() != null) {
-                            aoDisplayWrapper.setBuildingName(scheduleComponentDisplay.getBuilding().getBuildingCode(), true);
-                        }
-                        if (scheduleComponentDisplay.getRoom() != null) {
-                            aoDisplayWrapper.setRoomName(scheduleComponentDisplay.getRoom().getRoomCode(), true);
-                        }
-                        if (!scheduleComponentDisplay.getTimeSlots().isEmpty()) {
-                            if (scheduleComponentDisplay.getTimeSlots().get(0).getStartTime() != null) {
-                                aoDisplayWrapper.setStartTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getStartTime().getMilliSeconds()), true);
-                            }
-                            if (scheduleComponentDisplay.getTimeSlots().get(0).getEndTime() != null) {
-                                aoDisplayWrapper.setEndTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getEndTime().getMilliSeconds()), true);
-                            }
-                            aoDisplayWrapper.setDaysDisplayName(getDays(scheduleComponentDisplay.getTimeSlots().get(0).getWeekdays()), true);
-                        }
-                    }
-
-                }
-
-                //  Set the instructor name
-                aoDisplayWrapper.setInstructorDisplayNames(aoDisplayInfo.getInstructorName(), true);
-
-                aoDisplayWrapperList.add(aoDisplayWrapper);
-            }
-        }
-
-        form.setAoDisplayWrapperList(aoDisplayWrapperList);
-    }
-
     @Override
     public void loadCourseOfferingsByTitleAndDescription(String termId, String titleOrDescription, ScheduleOfClassesSearchForm form) throws Exception {
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
@@ -398,23 +310,6 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(cal.getTime());
 
     }
-
-    private CourseOfferingService getCourseOfferingService() {
-        if (coService == null) {
-            coService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
-                    CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return coService;
-    }
-
-    private LprService getLprService() {
-        if (lprService == null) {
-            lprService = (LprService) GlobalResourceLoader.getService(new QName(LprServiceConstants.NAMESPACE,
-                    LprServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return lprService;
-    }
-
 
     private OrganizationService getOrganizationService() {
         if (organizationService == null) {

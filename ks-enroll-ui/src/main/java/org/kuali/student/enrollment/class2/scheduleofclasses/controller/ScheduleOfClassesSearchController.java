@@ -26,6 +26,8 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
 import org.kuali.student.enrollment.class2.scheduleofclasses.service.ScheduleOfClassesViewHelperService;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
@@ -151,52 +153,17 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         return getUIFModelAndView(theForm, ScheduleOfClassesConstants.SOC_RESULT_PAGE);
     }
 
-    @RequestMapping(value = "/populateAjaxAos", method = RequestMethod.GET)
-    public ModelAndView populateAjaxAOs(@ModelAttribute("KualiForm") ScheduleOfClassesSearchForm theForm) throws Exception {
-
-        String courseOfferingId = theForm.getCourseOfferingId();
-
-        if (courseOfferingId != null && courseOfferingId.length() > 0) {
-            // Temporal solution to display 2 AO lists simultaneously.
-            if (theForm.getDisplayCoId() != null && !theForm.getDisplayCoId().isEmpty()) {
-                theForm.setDisplayCoIdAdd(theForm.getDisplayCoId());
-                theForm.setAoDisplayWrapperAddList(theForm.getAoDisplayWrapperList());
-            } else if ((theForm.getDisplayCoIdAdd() == null || theForm.getDisplayCoIdAdd().isEmpty()) && !theForm.getAoDisplayWrapperAddList().isEmpty()) {
-                theForm.getAoDisplayWrapperAddList().clear();
-            }
-            getViewHelperService(theForm).loadActivityOfferingsByCourseOfferingId(courseOfferingId, theForm);
-            // Temporal solution to display 2 AO lists simultaneously.
-            theForm.setDisplayCoId(courseOfferingId);
-        } else {
-            LOG.error("Error: search field can't be empty");
-            GlobalVariables.getMessageMap().putError("course", ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
-            return getUIFModelAndView(theForm);
-        }
-
-        return getUIFModelAndView(theForm, ScheduleOfClassesConstants.SOC_RESULT_PAGE);
-    }
-
     @RequestMapping(params = "methodToCall=populateAOs")
     public ModelAndView populateAOs(@ModelAttribute("KualiForm") ScheduleOfClassesSearchForm theForm) throws Exception {
 
-        String courseOfferingId = theForm.getCourseOfferingId();
+        CourseOfferingDisplayWrapper coDisplayWrapper = (CourseOfferingDisplayWrapper)KSControllerHelper.getSelectedCollectionItem(theForm);
+        theForm.setCourseOfferingId(coDisplayWrapper.getCoDisplayInfo().getId());
+        getViewHelperService(theForm).build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(theForm);
 
-        if (courseOfferingId != null && courseOfferingId.length() > 0) {
-            // Temporal solution to display 2 AO lists simultaneously.
-            if (theForm.getDisplayCoId() != null && !theForm.getDisplayCoId().isEmpty()) {
-                theForm.setDisplayCoIdAdd(theForm.getDisplayCoId());
-                theForm.setAoDisplayWrapperAddList(theForm.getAoDisplayWrapperList());
-            } else if ((theForm.getDisplayCoIdAdd() == null || theForm.getDisplayCoIdAdd().isEmpty()) && !theForm.getAoDisplayWrapperAddList().isEmpty()) {
-                theForm.getAoDisplayWrapperAddList().clear();
-            }
-            getViewHelperService(theForm).loadActivityOfferingsByCourseOfferingId(courseOfferingId, theForm);
-            // Temporal solution to display 2 AO lists simultaneously.
-            theForm.setDisplayCoId(courseOfferingId);
-        } else {
-            LOG.error("Error: search field can't be empty");
-            GlobalVariables.getMessageMap().putError("course", ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
-            return getUIFModelAndView(theForm);
-        }
+        coDisplayWrapper.getClusterResultList().clear();
+        coDisplayWrapper.getClusterResultList().addAll(theForm.getClusterResultList());
+        coDisplayWrapper.getActivityWrapperList().clear();
+        coDisplayWrapper.getActivityWrapperList().addAll(theForm.getActivityWrapperList());
 
         return getUIFModelAndView(theForm, ScheduleOfClassesConstants.SOC_RESULT_PAGE);
     }
