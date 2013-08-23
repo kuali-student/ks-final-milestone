@@ -1085,12 +1085,8 @@ public class AcademicCalendarController extends UifControllerBase {
                 form.getTermWrapperList().get(termIndex).getKeyDatesGroupWrappers().get(keyDateGroupIndex).getKeydates().set(keyDateIndex,newKeyDateWrapper);
 
             } else if (field.contains("examdates")) {
-                // Save an individual exam period change and refresh it in the form
-                int termIndex = processFieldIndex(field.substring(0, field.indexOf(".")));
-                int examPeriodIndex = processFieldIndex(field.substring(field.indexOf(".")+1));
-                ExamPeriodWrapper examPeriodWrapper = form.getTermWrapperList().get(termIndex).getExamdates().get(examPeriodIndex);
-                ExamPeriodWrapper newExamPeriodWrapper = saveExamPeriod(examPeriodWrapper, form.getTermWrapperList().get(termIndex), helperService);
-                form.getTermWrapperList().get(termIndex).getExamdates().set(examPeriodIndex,newExamPeriodWrapper);
+                //exempt exam period from dirty field update for now
+                continue;
             } else if(field.contains("termWrapperList")){
 
                 // Save and individual even and refresh it in the form
@@ -1354,10 +1350,8 @@ public class AcademicCalendarController extends UifControllerBase {
         for(int i=0; i<term.getExamdates().size(); i++ ) {
             ExamPeriodWrapper examPeriodWrapper = term.getExamdates().get(i);
 
-            if (examPeriodWrapper.isNew()) {
-                ExamPeriodWrapper newExamPeriodWrapper = saveExamPeriod(examPeriodWrapper, term, helperService);
-                form.getTermWrapperList().get(termIndex).getExamdates().set(i,newExamPeriodWrapper);
-            }
+            ExamPeriodWrapper newExamPeriodWrapper = saveExamPeriod(examPeriodWrapper, term, helperService);
+            form.getTermWrapperList().get(termIndex).getExamdates().set(i,newExamPeriodWrapper);
         }
 
         //process the deletion of exam period
@@ -1403,7 +1397,7 @@ public class AcademicCalendarController extends UifControllerBase {
             if (examPeriodWrapper.isNew()){
                 // Save the exam period to the database and update wrapper information.
                 List<String> termTypeKeyList = new ArrayList<String>();
-                termTypeKeyList.add(term.getTermInfo().getTypeKey());
+                termTypeKeyList.add(term.getTermType());
                 ExamPeriodInfo createdExamPeriodInfo = getAcademicCalendarServiceFacade().addExamPeriod(examPeriodInfo.getTypeKey(), termTypeKeyList, examPeriodInfo, helperService.createContextInfo());
                 getAcalService().addExamPeriodToTerm(term.getTermInfo().getId(), createdExamPeriodInfo.getId(), helperService.createContextInfo());
                 examPeriodWrapper.setExamPeriodInfo(createdExamPeriodInfo);
