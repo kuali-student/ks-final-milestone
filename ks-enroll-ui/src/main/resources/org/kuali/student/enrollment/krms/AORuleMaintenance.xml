@@ -221,7 +221,7 @@ limitations under the License.
                       p:render="@{!#line.dummy}" p:componentSecurity.performActionAuthz="true" p:actionEvent="compare">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip"
-                              p:tooltipContent="Compare Course Offering, Catalog and Activity Offering Rules"/>
+                              p:tooltipContent="Compare Course Offering, Catalog and Activity Offering rules"/>
                     </property>
                 </bean>
                 <bean parent="KSAO-RuleView-Link" p:render="@{#line.dummy}"/>
@@ -229,7 +229,7 @@ limitations under the License.
                       p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditRequisite">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip"
-                              p:tooltipContent="Modify Existing Rule to apply to this Activity Offering"/>
+                              p:tooltipContent="Modify existing rule to apply to this Activity Offering"/>
                     </property>
                 </bean>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="Revert to Course Offering" p:methodToCall="deleteRule"
@@ -272,7 +272,7 @@ limitations under the License.
     <bean id="KSAO-RuleCopyEdit-Link" parent="KS-Uif-ActionLink" p:actionLabel="Copy and  Edit Course Offering Rule"
           p:methodToCall="copyEditCoRule" p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditRequisite">
         <property name="toolTip">
-            <bean parent="Uif-Tooltip" p:tooltipContent="Modify Existing rule to apply to this Activity Offering"/>
+            <bean parent="Uif-Tooltip" p:tooltipContent="Modify existing rule to apply to this Activity Offering"/>
         </property>
     </bean>
 
@@ -291,7 +291,7 @@ limitations under the License.
     <bean id="KSAO-SuppressRule-Link" parent="KS-Uif-ActionLink" p:actionLabel="Suppress Rule" p:methodToCall="deleteRuleStatements"
           p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteRequisite">
           <property name="toolTip">
-            <bean parent="Uif-Tooltip" p:tooltipContent="No Rule of this type will be executed. Will appear as a blank rule."/>
+            <bean parent="Uif-Tooltip" p:tooltipContent="No rule of this type will be executed. Will appear as a blank rule."/>
         </property>
     </bean>
 
@@ -475,7 +475,7 @@ limitations under the License.
             <list>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare" p:methodToCall="compareRules" p:componentSecurity.performActionAuthz="true" p:actionEvent="compare">
                     <property name="toolTip">
-                        <bean parent="Uif-Tooltip" p:tooltipContent="Compare  Catalog, Course Offering,and Activity Offering Rules"/>
+                        <bean parent="Uif-Tooltip" p:tooltipContent="Compare  Catalog, Course Offering,and Activity Offering rules"/>
                     </property>
                 </bean>
             </list>
