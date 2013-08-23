@@ -31,12 +31,15 @@ import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 /**
- * Wrapper around {@link CourseInfo} and {@link ProposalInfo} classes for maintenance document
- *
+ * Wrapper around {@link CourseInfo} and {@link ProposalInfo} classes for maintenance
+ * document
+ * 
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-@XmlType(name = "CoursePropsalInfo", propOrder = {"courseInfo",
-        "proposalInfo" }) 
+@XmlType(name = "CoursePropsalInfo", propOrder = {"course",
+        "proposal", "audit", "passFail", "instructorWrappers", "courseJointWrappers", "creditOptionWrappers",
+        "finalExamStatus", "finalExamRationale", "commentInfos", "loDialogWrapper", "showAll", "userId", "decisions",
+        "administeringOrganizations", "lastUpdated"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, Serializable {
 
@@ -51,7 +54,7 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
     private boolean passFail;
     @XmlElement
     private List<CluInstructorInfoWrapper> instructorWrappers;
-    @XmlElement        
+    @XmlElement
     private List<CourseJointInfoWrapper> courseJointWrappers;
     @XmlElement
     private List<ResultValuesGroupInfoWrapper> creditOptionWrappers;
@@ -94,7 +97,7 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
 
     /**
      * Gets the value of audit
-     *
+     * 
      * @return the value of audit
      */
     public boolean isAudit() {
@@ -103,7 +106,7 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
 
     /**
      * Sets the value of audit
-     *
+     * 
      * @param argAudit Value to assign to this.audit
      */
     public void setAudit(final boolean argAudit) {
@@ -112,7 +115,7 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
 
     /**
      * Gets the value of passFail
-     *
+     * 
      * @return the value of passFail
      */
     public boolean isPassFail() {
@@ -121,7 +124,7 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
 
     /**
      * Sets the value of passFail
-     *
+     * 
      * @param argPassFail Value to assign to this.passFail
      */
     public void setPassFail(final boolean argPassFail) {
@@ -130,7 +133,7 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
 
     /**
      * Gets the value of finalExamStatus
-     *
+     * 
      * @return the value of finalExamStatus
      */
     public String getFinalExamStatus() {
@@ -139,7 +142,7 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
 
     /**
      * Sets the value of finalExamStatus
-     *
+     * 
      * @param argFinalExamStatus Value to assign to this.finalExamStatus
      */
     public void setFinalExamStatus(final String argFinalExamStatus) {
@@ -148,7 +151,7 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
 
     /**
      * Gets the value of finalExamRationale
-     *
+     * 
      * @return the value of finalExamRationale
      */
     public String getFinalExamRationale() {
@@ -157,7 +160,7 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
 
     /**
      * Sets the value of finalExamRationale
-     *
+     * 
      * @param argFinalExamRationale Value to assign to this.finalExamRationale
      */
     public void setFinalExamRationale(final String argFinalExamRationale) {
@@ -166,7 +169,7 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
 
     /**
      * Gets the value of loDialogWrapper
-     *
+     * 
      * @return the value of loDialogWrapper
      */
     public LearningObjectiveDialogWrapper getLoDialogWrapper() {
@@ -175,7 +178,7 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
 
     /**
      * Sets the value of loDialogWrapper
-     *
+     * 
      * @param argLoDialogWrapper Value to assign to this.loDialogWrapper
      */
     public void setLoDialogWrapper(final LearningObjectiveDialogWrapper argLoDialogWrapper) {
@@ -184,7 +187,7 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
 
     /**
      * Gets the value of showAll
-     *
+     * 
      * @return the value of showAll
      */
     public Boolean getShowAll() {
@@ -193,7 +196,7 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
 
     /**
      * Sets the value of showAll
-     *
+     * 
      * @param argShowAll Value to assign to this.showAll
      */
     public void setShowAll(final Boolean argShowAll) {
@@ -202,7 +205,7 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
 
     /**
      * Gets the value of userId
-     *
+     * 
      * @return the value of userId
      */
     public String getUserId() {
@@ -211,7 +214,7 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
 
     /**
      * Sets the value of userId
-     *
+     * 
      * @param argUserId Value to assign to this.userId
      */
     public void setUserId(final String argUserId) {
@@ -220,7 +223,7 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
 
     /**
      * Gets the value of lastUpdated
-     *
+     * 
      * @return the value of lastUpdated
      */
     public String getLastUpdated() {
@@ -229,7 +232,7 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
 
     /**
      * Sets the value of lastUpdated
-     *
+     * 
      * @param argLastUpdated Value to assign to this.lastUpdated
      */
     public void setLastUpdated(final String argLastUpdated) {
