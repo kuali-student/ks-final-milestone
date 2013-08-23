@@ -46,7 +46,7 @@
                     <property name="items">
                         <list>
                             <ref bean="KS-CurriculumHome-Create"/>
-                            <ref bean="KS-CurriculumHome-Find"/>
+<!--                             <ref bean="KS-CurriculumHome-Find"/> -->
                         </list>
                     </property>
                 </bean>
