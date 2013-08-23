@@ -13,7 +13,7 @@
         This view has couple of pages (edit and copy) with all the beans defined at 1. CourseViewCourseInfoPage.xml -->
 
     <bean id="KS-CourseView" parent="KSMaintenanceView">     
-        <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+        <property name="dataObjectClassName" value="org.kuali.student.cm.course.dto.CourseProposalInfo"/>
         <property name="headerText" value="Course View" />
         <property name="header.render" value="false" />
 
@@ -75,7 +75,7 @@
         <property name="items">
             <list>
                 <!--"propsalCommentSection" -->
-                <bean parent="Uif-DataField" p:propertyName="proposalInfo.name" />
+                <bean parent="Uif-DataField" p:propertyName="proposal.name" />
                 <bean parent="Uif-Message"
                     p:messageText="All comments posted here will be visible to authors, and to reviewers after you submit the proposal" />
                 <!--"commentTableSection" -->
@@ -342,7 +342,7 @@
     </bean>
 
     <bean id="CourseInfoMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
-        <property name="dataObjectClass" value="org.kuali.student.r2.lum.course.dto.CourseInfo" />
+        <property name="dataObjectClass" value="org.kuali.student.cm.course.dto.CourseProposalInfo" />
         <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl"/>
         <property name="documentTypeName" value="kuali.proposal.type.course.create"/>
         <property name="documentAuthorizerClass" value="org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase"/>

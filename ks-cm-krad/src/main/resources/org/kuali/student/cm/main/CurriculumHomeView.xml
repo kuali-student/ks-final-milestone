@@ -63,23 +63,23 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Link" p:linkText="Create a Course"
-                      p:href="@{#ConfigProperties['application.url']}/kr-krad/courses?methodToCall=start&amp;dataObjectClassName=org.kuali.student.r2.lum.course.dto.CourseInfo&amp;hideReturnLink=true"/>
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/courses?methodToCall=start&amp;dataObjectClassName=org.kuali.student.cm.course.dto.CourseProposalInfo&amp;hideReturnLink=true"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-CurriculumHome-Find" parent="Uif-VerticalBoxSection">
-        <property name="headerText" value="Find"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-curriculum-home-group</value>
-            </list>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-Link" p:linkText="Find a Course"
-                      p:href="@{#ConfigProperties['application.url']}/kr-krad/calendarSearch?viewId=calendarSearchView&amp;methodToCall=start"/>
-            </list>
-        </property>
-    </bean>
+<!--     <bean id="KS-CurriculumHome-Find" parent="Uif-VerticalBoxSection"> -->
+<!--         <property name="headerText" value="Find"/> -->
+<!--         <property name="cssClasses"> -->
+<!--             <list merge="true"> -->
+<!--                 <value>ks-curriculum-home-group</value> -->
+<!--             </list> -->
+<!--         </property> -->
+<!--         <property name="items"> -->
+<!--             <list> -->
+<!--                 <bean parent="Uif-Link" p:linkText="Find a Course" -->
+<!--                       p:href="@{#ConfigProperties['application.url']}/kr-krad/calendarSearch?viewId=calendarSearchView&amp;methodToCall=start"/> -->
+<!--             </list> -->
+<!--         </property> -->
+<!--     </bean> -->
 </beans>

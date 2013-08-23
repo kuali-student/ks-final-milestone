@@ -50,11 +50,11 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
     @XmlElement
     private boolean passFail;
     @XmlElement
-    private List<CluInstructorInfoWrapper> instructorDisplays;
+    private List<CluInstructorInfoWrapper> instructorWrappers;
     @XmlElement        
-    private List<CourseJointInfoWrapper> courseJointDisplays;
-        @XmlElement
-    private List<ResultValuesGroupInfoWrapper> creditOptionsDisplay;
+    private List<CourseJointInfoWrapper> courseJointWrappers;
+    @XmlElement
+    private List<ResultValuesGroupInfoWrapper> creditOptionWrappers;
     @XmlElement
     private String finalExamStatus;
     @XmlElement
@@ -234,5 +234,113 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
      */
     public void setLastUpdated(final String argLastUpdated) {
         this.lastUpdated = argLastUpdated;
+    }
+
+    /**
+     * Gets the list of Instructor wrappers
+     * 
+     * @return the list of {@link CluInstructorInfoWrapper}
+     */
+    public List<CluInstructorInfoWrapper> getInstructorWrappers() {
+        return instructorWrappers;
+    }
+
+    /**
+     * Sets the list of Instructor wrappers
+     * 
+     * @param instructorWrappers List of {@link CluInstructorInfoWrapper}
+     */
+    public void setInstructorWrappers(List<CluInstructorInfoWrapper> instructorWrappers) {
+        this.instructorWrappers = instructorWrappers;
+    }
+
+    /**
+     * Gets the list of Course Joint wrappers
+     * 
+     * @return the list of {@link CourseJointInfoWrapper}
+     */
+    public List<CourseJointInfoWrapper> getCourseJointWrappers() {
+        return courseJointWrappers;
+    }
+
+    /**
+     * Sets the list of Course Joint wrappers
+     * 
+     * @param courseJointWrappers List of {@link CourseJointInfoWrapper}
+     */
+    public void setCourseJointWrappers(List<CourseJointInfoWrapper> courseJointWrappers) {
+        this.courseJointWrappers = courseJointWrappers;
+    }
+
+    /**
+     * Gets the list of Credit Option wrappers
+     * 
+     * @return the list of {@link ResultValuesGroupInfoWrapper}
+     */
+    public List<ResultValuesGroupInfoWrapper> getCreditOptionWrappers() {
+        return creditOptionWrappers;
+    }
+
+    /**
+     * Sets the list of Credit Option wrappers
+     * 
+     * @param creditOptionWrappers List of {@link ResultValuesGroupInfoWrapper}
+     */
+    public void setCreditOptionWrappers(List<ResultValuesGroupInfoWrapper> creditOptionWrappers) {
+        this.creditOptionWrappers = creditOptionWrappers;
+    }
+
+    /**
+     * Gets the list of Comments
+     * 
+     * @return the list of {@link CommentInfo}
+     */
+    public List<CommentInfo> getCommentInfos() {
+        return commentInfos;
+    }
+
+    /**
+     * Sets the list of Comments
+     * 
+     * @param commentInfos List of {@link CommentInfo}
+     */
+    public void setCommentInfos(List<CommentInfo> commentInfos) {
+        this.commentInfos = commentInfos;
+    }
+
+    /**
+     * Gets the list of Decisions
+     * 
+     * @return the list of {@link DecisionInfo}
+     */
+    public List<DecisionInfo> getDecisions() {
+        return decisions;
+    }
+
+    /**
+     * Sets the list of Decisions
+     * 
+     * @param decisions List of {@link DecisionInfo}
+     */
+    public void setDecisions(List<DecisionInfo> decisions) {
+        this.decisions = decisions;
+    }
+
+    /**
+     * Gets the list of Administering Organizations
+     * 
+     * @return the list of {@link OrganizationInfoWrapper}
+     */
+    public List<OrganizationInfoWrapper> getAdministeringOrganizations() {
+        return administeringOrganizations;
+    }
+
+    /**
+     * Sets the list of Administering Organizations
+     * 
+     * @param administeringOrganizations List of {@link OrganizationInfoWrapper}
+     */
+    public void setAdministeringOrganizations(List<OrganizationInfoWrapper> administeringOrganizations) {
+        this.administeringOrganizations = administeringOrganizations;
     }
 }

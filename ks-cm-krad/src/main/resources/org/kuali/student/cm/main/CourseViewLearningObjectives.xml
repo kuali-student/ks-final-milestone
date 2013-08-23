@@ -35,7 +35,7 @@
     </bean>
 
 	<bean id="LearningObjective-CollectionSection" parent="Uif-StackedCollectionSection"
-		p:propertyName="courseInfo.courseSpecificLOs" p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.LoDisplayInfo">
+		p:propertyName="course.courseSpecificLOs" p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.LoDisplayInfo">
         <property name="onDocumentReadyScript" value="setupCharCounters()" />
         <property name="layoutManager">
 			<bean parent="Uif-StackedCollectionLayout-WithBoxItems">

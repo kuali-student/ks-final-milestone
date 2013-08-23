@@ -25,7 +25,7 @@
         <property name="items">
             <list>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.startTerm" p:label="Start Term">
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="course.startTerm" p:label="Start Term">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>
@@ -39,7 +39,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.pilotCourse" p:label="Pilot Course">
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="course.pilotCourse" p:label="Pilot Course">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:checkboxLabel="Yes, this is a one-time/pilot course" />
                     </property>
@@ -48,17 +48,17 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.endTerm" p:label="End Term"
-                    p:required="@{courseInfo.pilotCourse}" >
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="course.endTerm" p:label="End Term"
+                    p:required="@{course.pilotCourse}" >
                     <property name="refreshWhenChangedPropertyNames">
                         <list>
-                            <value>courseInfo.pilotCourse</value>
-                            <value>courseInfo.startTerm</value> 
+                            <value>course.pilotCourse</value>
+                            <value>course.startTerm</value> 
                         </list>
                     </property>
                     <property name="instructionalText" value="Last term in which the course can be offered" />
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:disabled="@{!courseInfo.pilotCourse}" />
+                        <bean parent="Uif-DropdownControl" p:disabled="@{!course.pilotCourse}" />
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"
