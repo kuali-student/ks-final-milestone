@@ -32,11 +32,11 @@
             <list>
                 <ref bean="CourseProposalInfo.audit" />
                 <ref bean="CourseProposalInfo.passFail" />
-                <ref bean="CourseProposal.finalExamStatus" />
-                <ref bean="CourseProposal.finalExamRationale" />
-                <ref bean="CourseProposal.showAll" />
-                <ref bean="CourseProposal.userId" />
-                <ref bean="CourseProposal.lastUpdated" />
+                <ref bean="CourseProposalInfo.finalExamStatus" />
+                <ref bean="CourseProposalInfo.finalExamRationale" />
+                <ref bean="CourseProposalInfo.showAll" />
+                <ref bean="CourseProposalInfo.userId" />
+                <ref bean="CourseProposalInfo.lastUpdated" />
             </list>
         </property>
 
@@ -97,7 +97,7 @@
         <property name="required" value="false" />
     </bean>
 
-    <bean id="CourseProposal.finalExamStatus" parent="BaseKuali.string">
+    <bean id="CourseProposalInfo.finalExamStatus" parent="BaseKuali.string">
         <property name="name" value="finalExamStatus" />
         <property name="shortLabel" value="Final Exam Status" />
         <property name="summary">
@@ -114,7 +114,7 @@
         <property name="required" value="false" />
     </bean>
 
-    <bean id="CourseProposal.finalExamRationale" parent="BaseKuali.string">
+    <bean id="CourseProposalInfo.finalExamRationale" parent="BaseKuali.string">
         <property name="name" value="finalExamRationale" />
         <property name="shortLabel" value="Final Exam Rationale" />
         <property name="summary">
@@ -148,7 +148,7 @@
         <property name="required" value="false" />
     </bean>
 
-    <bean id="CourseProposal.userId" parent="BaseKuali.string">
+    <bean id="CourseProposalInfo.userId" parent="BaseKuali.string">
         <property name="name" value="userId" />
         <property name="shortLabel" value="User Id" />
         <property name="summary">
@@ -165,7 +165,7 @@
         <property name="required" value="false" />
     </bean>
 
-    <bean id="CourseProposal.lastUpdated" parent="BaseKuali.string">
+    <bean id="CourseProposalInfo.lastUpdated" parent="BaseKuali.string">
         <property name="name" value="lastUpdated" />
         <property name="shortLabel" value="Last Updated" />
         <property name="summary">
@@ -182,7 +182,7 @@
         <property name="required" value="false" />
     </bean>
 
-    <bean id="CourseInfo.loDialogWrapper.typeKeyFilters" parent="BaseKuali.string">
+    <bean id="CoursePropsalInfo.loDialogWrapper.typeKeyFilters" parent="BaseKuali.string">
         <property name="name" value="typeKeyFilters" />
         <property name="shortLabel" value="TypeKey Filters" />
         <property name="summary">
@@ -199,7 +199,7 @@
         <property name="required" value="false" />
     </bean>
 
-    <bean id="CourseInfo.loDialogWrapper.categoryName" parent="BaseKuali.string">
+    <bean id="CoursePropsalInfo.loDialogWrapper.categoryName" parent="BaseKuali.string">
         <property name="name" value="categoryName" />
         <property name="shortLabel" value="CategoryName" />
         <property name="summary">
@@ -285,8 +285,8 @@
                 </property>
                 <property name="attributes">
                     <list>
-                        <ref bean="CourseInfo.loDialogWrapper.typeKeyFilters" />
-                        <ref bean="CourseInfo.loDialogWrapper.categoryName" />
+                        <ref bean="CourseProposalInfo.loDialogWrapper.typeKeyFilters" />
+                        <ref bean="CourseProposalInfo.loDialogWrapper.categoryName" />
                     </list>
                 </property>
 
@@ -297,7 +297,7 @@
 
                 <property name="collections">
                     <list>
-                        <ref bean="CourseInfo.loDialogWrapper.learningObjectiveOptions" />
+                        <ref bean="CourseProposalInfo.loDialogWrapper.learningObjectiveOptions" />
                     </list>
                 </property>
             </bean>
@@ -420,7 +420,7 @@
         <property name="dataObjectClass" value="org.kuali.student.cm.course.form.OrganizationInfoWrapper" />
     </bean>
 
-    <bean id="CourseInfo.loDialogWrapper.learningObjectiveOptions" parent="CollectionDefinition">
+    <bean id="CoursePropsalInfo.loDialogWrapper.learningObjectiveOptions" parent="CollectionDefinition">
         <property name="name" value="learningObjectiveOptions" />
         <property name="shortLabel" value="Learning Objective Options" />
         <property name="summary">
