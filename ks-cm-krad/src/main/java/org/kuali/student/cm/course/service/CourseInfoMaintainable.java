@@ -14,9 +14,10 @@
  *
  */
 
-package org.kuali.student.cm.course.service.impl;
+package org.kuali.student.cm.course.service;
 
 import org.kuali.rice.krad.maintenance.Maintainable;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 /**
  * {@link CourseInfo} Maintainable interface

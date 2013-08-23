@@ -16,31 +16,8 @@
 package org.kuali.student.cm.course.service.impl;
 
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
-import org.kuali.rice.krad.uif.UifConstants;
-import org.kuali.rice.krad.uif.control.CheckboxGroupControl;
-import org.kuali.rice.krad.uif.control.SelectControl;
-import org.kuali.rice.krad.uif.field.InputField;
-import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.class1.state.service.StateService;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.lum.course.dto.ActivityInfo;
-import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.dto.FormatInfo;
-import org.kuali.student.r2.lum.course.service.CourseService;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 
 /**
  * Base view helper service for both create and edit course info presentations.
