@@ -83,5 +83,6 @@ public class LookupableConstants {
     public static final String LO_CATEGORY_TYPE_RESULT = "lo.resultColumn.categoryType";
     public static final String LO_CATEGORY_TYPE_NAME_RESULT = "lo.resultColumn.categoryTypeName";
     public static final String LO_CATEGORY_STATE_RESULT = "lo.resultColumn.categoryState";
+    public static final String LO_CATEGORY_NAME_AND_TYPE_RESULT = "lo.resultColumn.categoryNameAndType";
 
 }

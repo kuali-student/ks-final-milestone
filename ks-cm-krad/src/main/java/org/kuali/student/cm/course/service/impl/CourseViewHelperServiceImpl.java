@@ -404,7 +404,7 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
         SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey(LookupableConstants.LOCATEGORY_SEARCH);
         searchRequest.setParams(queryParamValueList);
-        searchRequest.setSortColumn(LookupableConstants.LO_CATEGORY_NAME_RESULT);
+        searchRequest.setSortColumn(LookupableConstants.LO_CATEGORY_NAME_AND_TYPE_RESULT);
 
         try {
             SearchResultInfo searchResult = getLearningObjectiveService().search(searchRequest,
@@ -415,7 +415,7 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
                 for (SearchResultCellInfo cell : cells) {
                     if (LookupableConstants.LO_CATEGORY_ID_RESULT.equals(cell.getKey())) {
                         newCat.setId(cell.getValue());
-                    } else if (LookupableConstants.LO_CATEGORY_NAME_RESULT.equals(cell.getKey())) {
+                    } else if (LookupableConstants.LO_CATEGORY_NAME_AND_TYPE_RESULT.equals(cell.getKey())) {
                         newCat.setName(cell.getValue());
                     }
                 }

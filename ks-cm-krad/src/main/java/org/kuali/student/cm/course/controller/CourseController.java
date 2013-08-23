@@ -15,24 +15,31 @@
  */
 package org.kuali.student.cm.course.controller;
 
+import static org.kuali.student.logging.FormattedLogger.debug;
+import static org.kuali.student.logging.FormattedLogger.error;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.name.EntityNameContract;
+import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
@@ -40,7 +47,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseForm;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
-import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
+import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.service.impl.CourseViewHelperServiceImpl;
 import org.kuali.student.cm.course.service.impl.LookupableConstants;
@@ -69,11 +76,9 @@ import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -81,7 +86,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import static org.kuali.student.logging.FormattedLogger.*;
-
 
 /**
  * This controller handles all the request from Academic calendar UI.
@@ -202,13 +206,13 @@ public class CourseController extends MaintenanceDocumentController {
      */
     private CourseInfo calculateCourseDerivedFields(CourseInfo courseInfo) {
         //Course code is not populated in UI, need to derive them from the subject area and suffix fields
-        if (StringUtils.hasText(courseInfo.getCourseNumberSuffix()) && StringUtils.hasText(courseInfo.getSubjectArea())) {
+        if (StringUtils.isNotBlank(courseInfo.getCourseNumberSuffix()) && StringUtils.isNotBlank(courseInfo.getSubjectArea())) {
             courseInfo.setCode(calculateCourseCode(courseInfo.getSubjectArea(), courseInfo.getCourseNumberSuffix()));
         }
 
         //Derive course code for crosslistings
         for (CourseCrossListingInfo crossListing : courseInfo.getCrossListings()) {
-            if (StringUtils.hasText(crossListing.getCourseNumberSuffix()) && StringUtils.hasText(crossListing.getSubjectArea())) {
+            if (StringUtils.isNotBlank(crossListing.getCourseNumberSuffix()) && StringUtils.isNotBlank(crossListing.getSubjectArea())) {
                 crossListing.setCode(calculateCourseCode(crossListing.getSubjectArea(), crossListing.getCourseNumberSuffix()));
             }
         }
@@ -447,7 +451,7 @@ public class CourseController extends MaintenanceDocumentController {
         String commentDialogKey = "loCategoryDialog";
         if (!hasDialogBeenAnswered(commentDialogKey, form)){
             //Get the available categories
-            // form.getLoDialogWrapper().setLearningObjectiveOptions(getLoCategories());
+            form.getLoDialogWrapper().setLearningObjectiveOptions(getLoCategories());
             
             // redirect back to client to display lightbox
             return showDialog(commentDialogKey, form, request, response);
@@ -456,13 +460,40 @@ public class CourseController extends MaintenanceDocumentController {
         // Get value from chosen radio button
         boolean choice = getBooleanDialogResponse(commentDialogKey, form, request, response);
         
+        if (choice) {
+            for (LoCategoryInfoWrapper loCategoryInfoWrapper : form.getLoDialogWrapper().getLearningObjectiveOptions()) {
+                if (loCategoryInfoWrapper.isSelected()) {
+                    getSelectedLo(form).getLoCategoryInfoList().add(loCategoryInfoWrapper);
+                }
+            }
+            
+        }
+        
         // clear dialog history so they can press the button again
         form.getDialogManager().removeDialog(commentDialogKey);
         return getUIFModelAndView(form);
     }
     
-    private List<LoDisplayInfoWrapper> getLoCategories() {
-        List<LoDisplayInfoWrapper> loCategories = new ArrayList<LoDisplayInfoWrapper>();
+    private LoDisplayInfo getSelectedLo(CourseForm form){
+        String selectedIndex = form.getActionParamaterValue("selectedIndex");
+        int selectedLineIndex = -1;
+        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isNotBlank(selectedLine)) {
+            selectedLineIndex = Integer.parseInt(selectedLine);
+        }
+
+        if (selectedLineIndex == -1) {
+            throw new RuntimeException("Selected line index was not set for this path: " + selectedCollectionPath);
+        }
+
+        Collection<LoDisplayInfo> collection = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
+        LoDisplayInfo loDisplayInfo = ((List<LoDisplayInfo>) collection).get(selectedLineIndex);
+
+        return loDisplayInfo;
+    }
+    
+    private List<LoCategoryInfoWrapper> getLoCategories() {
+        List<LoCategoryInfoWrapper> loCategories = new ArrayList<LoCategoryInfoWrapper>();
         SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey(LookupableConstants.LOCATEGORY_SEARCH);
         searchRequest.setSortColumn(LookupableConstants.LO_CATEGORY_NAME_RESULT);
@@ -470,7 +501,7 @@ public class CourseController extends MaintenanceDocumentController {
             SearchResultInfo searchResult = getLearningObjectiveService().search(searchRequest, ContextUtils.getContextInfo());
             for (SearchResultRowInfo result : searchResult.getRows()) {
                 List<SearchResultCellInfo> cells = result.getCells();
-                LoDisplayInfoWrapper loWrapper = new LoDisplayInfoWrapper();
+                LoCategoryInfoWrapper loWrapper = new LoCategoryInfoWrapper();
                 for (SearchResultCellInfo cell : cells) {
                     if (LookupableConstants.LO_CATEGORY_ID_RESULT.equals(cell.getKey())) {
                         loWrapper.setId(cell.getValue());

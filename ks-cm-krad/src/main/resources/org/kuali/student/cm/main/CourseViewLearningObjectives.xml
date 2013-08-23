@@ -50,11 +50,9 @@
 		</property>
 		<property name="renderAddBlankLineButton" value="true" />
 		<property name="addBlankLineAction.actionLabel" value="Add Learning Objective" />
-		<property name="addLinePlacement" value="BOTTOM" />
-		<!-- <property name="collectionLookup.quickfinderAction.render" value="true" 
-			/> -->
-        
-		<property name="items">
+        <property name="addLinePlacement" value="BOTTOM" />
+		<!--<property name="collectionLookup.quickfinderAction.render" value="true" /> -->
+        <property name="items">
 			<list>
 				<bean id="KS-LoInfo-descr" parent="Uif-InputField"
 					p:propertyName="loInfo.descr.plain" p:showLabel="false">
@@ -84,17 +82,13 @@
 					</property>
 					<property name="layoutManager.lineGroupPrototype.header.headerText"
 						value="Category @{(#index + 1)}" />
-					<property name="addLineLabel.labelText" value="Add A Category" />
+					<property name="addLineLabel.render" value="false" />
 					<property name="addLineActions">
             			<list>
+                            <bean parent="Uif-ActionLink" p:actionLabel="Browse for categories"
+                                        p:methodToCall="browseForCategories" p:actionParameters="selectedIndex:@{#parent.#index}"/>
                 			<bean parent="Uif-AddLineAction" p:actionLabel="Add" />
             			</list>
-        			</property>
-        			<property name="lineActions">
-        				<list>
-        					<bean parent="Uif-ActionLink" p:actionLabel="Browse for categories"
-										p:methodToCall="browseForCategories" />
-        				</list>
         			</property>
 					<property name="items">
 						<list>
