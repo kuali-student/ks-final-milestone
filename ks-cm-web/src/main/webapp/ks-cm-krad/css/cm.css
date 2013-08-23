@@ -1,3 +1,8 @@
+.ks-curriculum-home > .uif-header {
+    border-bottom: solid 2px #000;
+    margin-bottom: 5px; margin-top:15px;
+}
+
 .uif-actionLink-block {
     display:block;
 }
