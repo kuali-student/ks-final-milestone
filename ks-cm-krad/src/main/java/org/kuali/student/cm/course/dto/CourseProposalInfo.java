@@ -11,17 +11,24 @@
 package org.kuali.student.cm.course.dto;
 
 import java.io.Serializable;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
+import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
+import org.kuali.student.cm.course.form.LearningObjectiveDialogWrapper;
+import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
+import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.infc.CourseProposal;
-
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.core.comment.dto.CommentInfo;
+import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.infc.Course;
 
 /**
  * Wrapper around {@link CourseInfo} and {@link ProposalInfo} classes for maintenance document
