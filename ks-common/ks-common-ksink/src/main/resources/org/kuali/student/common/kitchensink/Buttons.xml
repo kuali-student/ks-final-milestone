@@ -107,7 +107,7 @@
     </bean>
 
     <bean id="Uif-KsKrad-Button-ImageOnly-Example" parent="Uif-KsKrad-Button-ImageOnly">
-        <!-- Uif-KsKrad-Button-ImageOnly defined in file ks-enroll-ui/../UifKradExtensionDefinitions.xml -->
+        <!-- Uif-KsKrad-Button-ImageOnly defined in file UifKradExtensionDefinitions.xml -->
         <property name="actionScript" value="alert('click');"/>
         <property name="imageSource" value="../ks-common-ksink/images/delete_16x16.png"/>
         <property name="imageSourceOnHover" value="../ks-common-ksink/images/delete2_16x16.png"/>
@@ -155,8 +155,13 @@
                 <bean parent="KS-KitchenSink-Buttons-Overview-Section">
                     <property name="items">
                         <list merge="true">
+                            <!-- TODO: KSENROLL-8964 restore message text when image only button is fixed -->
+<!--
                             <bean parent="KS-KitchenSink-MessageField"
                                   p:messageText="A gallery of buttons. The final example is a custom class for image-only buttons, an extension of KRAD's secondary small button."/>
+-->
+                            <bean parent="KS-KitchenSink-MessageField"
+                                  p:messageText="A gallery of buttons."/>
                         </list>
                     </property>
                 </bean>
@@ -217,7 +222,8 @@
                             <ref bean="KS-KitchenSink-Buttons-SecondaryMain"/>
                             <ref bean="KS-KitchenSink-Buttons-SecondarySmall"/>
                             <ref bean="KS-KitchenSink-Buttons-SecondarySmallImage"/>
-                            <ref bean="Uif-KsKrad-Button-ImageOnly-Example"/>
+                            <!-- TODO: KSENROLL-8964 restore bean after image only button is fixed -->
+                            <!--<ref bean="Uif-KsKrad-Button-ImageOnly-Example"/>-->
                         </list>
                     </property>
                 </bean>
@@ -229,7 +235,8 @@
                             <bean parent="KS-KitchenSink-Buttons-SecondaryMain" p:disabled="true"/>
                             <bean parent="KS-KitchenSink-Buttons-SecondarySmall" p:disabled="true"/>
                             <bean parent="KS-KitchenSink-Buttons-SecondarySmallImage" p:disabled="true"/>
-                            <bean parent="Uif-KsKrad-Button-ImageOnly-Example" p:disabled="true"/>
+                            <!-- TODO: KSENROLL-8964 restore bean after image only button is fixed -->
+                            <!--<bean parent="Uif-KsKrad-Button-ImageOnly-Example" p:disabled="true"/>-->
                         </list>
                     </property>
                 </bean>
