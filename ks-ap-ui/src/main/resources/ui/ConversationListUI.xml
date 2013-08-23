@@ -30,7 +30,7 @@
 		<property name="additionalScriptFiles">
             <list>
                 <value>arm-ks/scripts/arm-review-ks.js</value>
-                <value>kart/arm/arm.js?srbackdoor=chmaurer</value>
+                <value>arm-ks/scripts/review/dotdotdot/jquery.dotdotdot.min.js</value>
             </list>
         </property>
         <property name="additionalCssFiles">
@@ -77,7 +77,7 @@
             			<list>
             				<bean parent="Uif-MessageField" p:messageText="@{messageSummaryText}"/>
 							<bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="New" p:additionalCssClasses="floatRight"
-								p:actionScript="showLightboxUrl('review/conversation?methodToCall=create@{mockData ? '&amp;mockData=true' : ''}'+ksapAddGetParameters())" />
+								p:actionScript="showLightboxUrl('review/conversation?methodToCall=create@{mockData ? '&amp;mockData=true' : ''}'+ksapAddGetParameters(), {width:'30%'})" />
 						</list>
 					</property>
 				</bean>
@@ -104,10 +104,6 @@
                     <property name="group.validationMessages.render" value="false"/>
                     <property name="items">
                         <list>
-                        	<!-- 
-                        	<bean parent="Uif-MessageField" p:messageText="@{#line.headerOpenText}"/>
-                        	<bean parent="Uif-MessageField" p:messageText="@{#line.headerClosedText}"/>
-                        	 -->
 		                </list>
 	                </property>
                 </bean>
@@ -127,10 +123,12 @@
                   value="org.kuali.student.ap.plan.review.dto.ConversationInfo"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <property name="disclosure.render" value="true"/>
         <property name="propertyName" value="conversations"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
-        <property name="headerText" value="@{#line.headerOpenText}" />
+        <property name="disclosure.render" value="@{#index eq 0 ? false : true}"/>
+        <!-- <property name="disclosure.render" value="true"/>  -->
+        <property name="disclosure.defaultOpen" value="@{#index eq 0 ? true : false}"/>
+        <property name="headerText" value="@{#index eq 0 ? #line.headerOpenText : #line.headerClosedText}" />
         <property name="items">
             <list>
             	<bean parent="Uif-HorizontalFieldGroup">
@@ -160,7 +158,8 @@
 			                    <property name="group.validationMessages.render" value="false"/>
 			                    <property name="items">
 			                        <list>
-			                        	<bean id="conversation_topic" parent="Uif-MessageField" p:messageText="[b]@{#line.topic}[/b]"/>
+			                        	<bean id="conversation_topic" parent="Uif-MessageField" p:messageText="[strong]@{#line.topic}[/strong]"
+			                        			p:additionalCssClasses="ellipsisWrapper,singleLineEllipsis"/>
 			                        	<bean parent="Uif-HorizontalFieldGroup" p:id="@{#line.learningPlanId}">
 						                    <property name="fieldLabel.render" value="false"/>
 						                    <property name="group.validationMessages.render" value="false"/>
@@ -171,7 +170,9 @@
 						                        </list>
 						                    </property>
 						                </bean>
-						                <bean id="conversation_comment" parent="Uif-MessageField" p:messageText="@{#line.getLatestComment().commentText.plain}"/>
+						                <bean id="conversation_comment" parent="Uif-MessageField" p:messageText="@{#line.getLatestComment().commentText.plain}"
+						                	p:additionalCssClasses="ellipsisWrapper,doubleLineEllipsis">
+						                </bean>
 			                        </list>
 			                    </property>
 			                </bean>
@@ -180,6 +181,8 @@
                 </bean>
         	</list>
         </property>
+        <property name="onDocumentReadyScript" value="
+          		jQuery('.ellipsisWrapper').dotdotdot();"/>
     </bean>
  
 </beans>

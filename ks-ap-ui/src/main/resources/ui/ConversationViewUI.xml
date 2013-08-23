@@ -30,6 +30,7 @@
 		<property name="additionalScriptFiles">
             <list>
                 <value>arm-ks/scripts/arm-review-ks.js</value>
+                <value>arm-ks/scripts/review/dotdotdot/jquery.dotdotdot.min.js</value>
             </list>
         </property>
         <property name="additionalCssFiles">
@@ -52,6 +53,11 @@
 		<property name="layoutManager">
 			<bean parent="Uif-HorizontalBoxLayout" />
 		</property>
+		<property name="cssClasses">
+      		<list merge="true">
+          		<value>conversation-section</value>
+      		</list>
+  		</property>
 		<property name="items">
 			<list>
 				<ref bean="conversation_view_controls" />
@@ -79,7 +85,7 @@
 		                </list>
 	                </property>
                 </bean>
-                <bean parent="Uif-MessageField" p:messageText="@{conversation.topic}"/>
+                <bean parent="Uif-MessageField" p:messageText="@{conversation.topic}" p:additionalCssClasses="ellipsisWrapper,doubleLineEllipsis"/>
                 <bean parent="Uif-MessageField" p:messageText="[hr]"/>
 				<bean parent="Uif-MessageField" p:messageText="@{getAdvisorInfo(conversation.advisorId, conversation.advisingRole).advisorName}"/>
 				<bean parent="Uif-MessageField" p:messageText="[hr]"/>
@@ -95,6 +101,8 @@
 				<ref bean="conversation_comments"/>
 			</list>
 		</property>
+		<property name="onDocumentReadyScript" value="
+          		jQuery('.ellipsisWrapper').dotdotdot();"/>
 	</bean>
 	
 	<bean id="conversation_comments" parent="conversation_comments-parent"/>

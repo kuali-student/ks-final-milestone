@@ -47,6 +47,11 @@
 		<property name="layoutManager">
 			<bean parent="Uif-VerticalBoxLayout" />
 		</property>
+		<property name="cssClasses">
+      		<list merge="true">
+          		<value>conversation-create-section</value>
+      		</list>
+  		</property>
 		<property name="items">
 			<list>
 				<ref bean="create_conversation_outer" />
@@ -321,7 +326,8 @@
 						<bean parent="Uif-HorizontalCheckboxesControl"/>
 					</property>
 					<property name="optionsFinder">
-						<bean class="org.kuali.student.ap.plan.review.util.BookmarkedCoursesBuilder" p:addBlankOption="false" />
+						<bean class="org.kuali.student.ap.plan.review.util.BookmarkedCoursesBuilder" p:addBlankOption="false" 
+								p:useSpanInsteadOfTooltip="true"/>
 					</property>
 					<property name="cssClasses">
 	            		<list merge="true">
