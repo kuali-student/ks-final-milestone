@@ -21,7 +21,9 @@
                 services.
             </value>
         </property>
+        <!--
         <property name="titleAttribute" value="course.courseTitle" />
+        -->
         <property name="primaryKeys">
             <list>
                 <value>id</value>
@@ -45,7 +47,6 @@
                 <ref bean="CourseProposalInfo.course" />
                 <ref bean="CourseProposalInfo.proposal" />
                 <ref bean="CourseProposalInfo.loDialogWrapper" />
-
             </list>
         </property>
 

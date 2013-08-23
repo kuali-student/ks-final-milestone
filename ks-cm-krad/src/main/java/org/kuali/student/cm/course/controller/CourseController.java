@@ -272,7 +272,7 @@ public class CourseController extends MaintenanceDocumentController {
 
         // After creating the document, modify the state
         // Should look into replacing this with calls to WorkflowUtilities
-        ((CourseProposalInfo) courseForm.getDocument().getNewMaintainableObject().getDataObject()).getCourse().setStateKey(DtoConstants.STATE_DRAFT);
+        // ((CourseProposalInfo) courseForm.getDocument().getNewMaintainableObject().getDataObject()).getCourse().setStateKey(DtoConstants.STATE_DRAFT);
 
         return retval;
     }

@@ -28,11 +28,8 @@
 
         <property name="items">
             <list>
-                <!--
                 <ref bean="KS-CourseView-CourseInfoPage" />
-                -->
                 <ref bean="KS-CourseView-GovernancePage" />
-                <!--
                 <ref bean="KS-CourseView-CourseLogisticsPage" />
                 <ref bean="KS-CourseView-LearningObjectivesPage" />
                 <ref bean="KS-CourseView-CourseRequisitesPage" />
@@ -41,16 +38,13 @@
                 <ref bean="KS-CourseView-AuthorsAndCollaboratorsPage" />
                 <ref bean="KS-CourseView-SupportingDocumentsPage" />
                 <ref bean="KS-CourseView-ReviewProposalPage" />
-                -->
             </list>
         </property>
         <property name="dialogs">
             <list>
-                <!--
                 <ref bean="commentsLightBox" />
                 <ref bean="decisionsDialog" />
                 <ref bean="loCategoryDialog" />
-                -->
             </list>
         </property>
         <!-- CSS Styling -->
