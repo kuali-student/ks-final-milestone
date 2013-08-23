@@ -1045,6 +1045,10 @@ public class TestAcademicCalendarServiceImpl {
             assertNotNull(examPeriodInfos);
             assertEquals("Number of examPeriodInfos returned not as expected.", 1, examPeriodInfos.size());
 
+            //Get exam types by term type
+            List<TypeInfo> examTypes = acalService.getExamPeriodTypesForTermType(createdTerm.getTypeKey(),callContext);
+            assertNotNull(examTypes);
+
         } catch (Exception ex) {
             fail("exception from service call :" + ex.getMessage());
         }
