@@ -33,7 +33,9 @@ import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.name.EntityNameContract;
+import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
+import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseForm;
@@ -88,7 +90,7 @@ import static org.kuali.student.logging.FormattedLogger.*;
  */
 @Controller
 @RequestMapping(value = "/courses")
-public class CourseController extends UifControllerBase {
+public class CourseController extends MaintenanceDocumentController {
     private static final String DECISIONS_DIALOG_KEY = "decisionsDialog";
 
     private CourseService courseService;
@@ -122,11 +124,13 @@ public class CourseController extends UifControllerBase {
     
     private static final String VIEW_CURRENT_PAGE_ID = "view.currentPageId";
     
+    /* We may not want this
     @Override
-    protected UifFormBase createInitialForm(HttpServletRequest request) {
+    protected DocumentFormBase createInitialForm(final HttpServletRequest request) {
         CourseForm courseForm = new CourseForm();
         return courseForm;
     }
+    */
     
     /**
      * This will save the Course Proposal.
