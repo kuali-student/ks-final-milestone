@@ -155,13 +155,8 @@
                 <bean parent="KS-KitchenSink-Buttons-Overview-Section">
                     <property name="items">
                         <list merge="true">
-                            <!-- TODO: KSENROLL-8964 restore message text when image only button is fixed -->
-<!--
                             <bean parent="KS-KitchenSink-MessageField"
                                   p:messageText="A gallery of buttons. The final example is a custom class for image-only buttons, an extension of KRAD's secondary small button."/>
--->
-                            <bean parent="KS-KitchenSink-MessageField"
-                                  p:messageText="A gallery of buttons."/>
                         </list>
                     </property>
                 </bean>
@@ -222,8 +217,7 @@
                             <ref bean="KS-KitchenSink-Buttons-SecondaryMain"/>
                             <ref bean="KS-KitchenSink-Buttons-SecondarySmall"/>
                             <ref bean="KS-KitchenSink-Buttons-SecondarySmallImage"/>
-                            <!-- TODO: KSENROLL-8964 restore bean after image only button is fixed -->
-                            <!--<ref bean="Uif-KsKrad-Button-ImageOnly-Example"/>-->
+                            <ref bean="Uif-KsKrad-Button-ImageOnly-Example"/>
                         </list>
                     </property>
                 </bean>
@@ -235,8 +229,7 @@
                             <bean parent="KS-KitchenSink-Buttons-SecondaryMain" p:disabled="true"/>
                             <bean parent="KS-KitchenSink-Buttons-SecondarySmall" p:disabled="true"/>
                             <bean parent="KS-KitchenSink-Buttons-SecondarySmallImage" p:disabled="true"/>
-                            <!-- TODO: KSENROLL-8964 restore bean after image only button is fixed -->
-                            <!--<bean parent="Uif-KsKrad-Button-ImageOnly-Example" p:disabled="true"/>-->
+                            <bean parent="Uif-KsKrad-Button-ImageOnly-Example" p:disabled="true"/>
                         </list>
                     </property>
                 </bean>
