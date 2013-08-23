@@ -12,21 +12,30 @@
     <!-- Controller Class: CourseController.java View Helper Class: CourseViewHelperServiceImpl.java UX : http://ux.ks.kuali.org.s3.amazonaws.com/wireframes/ENR/Scheduling_Interface/v3/start.html 
         This view has couple of pages (edit and copy) with all the beans defined at 1. CourseViewCourseInfoPage.xml -->
 
-    <bean id="KS-CourseView" parent="KSFormView">
-        <property name="id" value="courseView" />
-        <property name="viewName" value="courseView" />
+    <bean id="KS-CourseView" parent="KSMaintenanceView">     
+        <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
         <property name="headerText" value="Course View" />
-        <property name="header.render" value="false" />
+
+        <!--
         <property name="header" ref="KS-CourseView-Header" />
-        <property name="entryPageId" value="KS-CourseView-CourseInfoPage" />
+        -->
+
+        <!--
+        <property name="entryPageId"
+        value="KS-CourseView-CourseInfoPage" />
+        -->
         <property name="navigation">
             <ref bean="KS-CourseNavigation-Menu" />
         </property>
-        <property name="formClass" value="org.kuali.student.cm.course.form.CourseForm" />
+        <!--
+        <property name="formClass"
+        value="org.kuali.student.cm.course.form.CourseForm" />
+        -->
         <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseViewHelperServiceImpl" />
 
         <property name="items">
             <list>
+                <!--
                 <ref bean="KS-CourseView-CourseInfoPage" />
                 <ref bean="KS-CourseView-GovernancePage" />
                 <ref bean="KS-CourseView-CourseLogisticsPage" />
@@ -37,13 +46,16 @@
                 <ref bean="KS-CourseView-AuthorsAndCollaboratorsPage" />
                 <ref bean="KS-CourseView-SupportingDocumentsPage" />
                 <ref bean="KS-CourseView-ReviewProposalPage" />
+                -->
             </list>
         </property>
         <property name="dialogs">
             <list>
+                <!--
                 <ref bean="commentsLightBox" />
                 <ref bean="decisionsDialog" />
                 <ref bean="loCategoryDialog" />
+                -->
             </list>
         </property>
         <!-- CSS Styling -->
@@ -232,7 +244,6 @@
                                                     p:shortLabel="Status" p:labelPlacement="LEFT" p:propertyName="courseInfo.stateKey" />
                                                 <bean parent="Uif-ActionLink" p:actionLabel="Comments"
                                                     p:methodToCall="showComment" />
-                                                <!-- p:actionScript="showLightboxComponent('commentsLightBox');"/> -->
                                                 <bean parent="Uif-ActionLink" p:actionLabel="Decisions"
                                                     p:methodToCall="showComment" />
                                                 <bean parent="Uif-Space" />
@@ -310,5 +321,17 @@
             </bean>
         </property>
     </bean>
+
+    <bean id="CourseInfoMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.student.r2.lum.course.dto.CourseInfo" />
+        <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl"/>
+        <property name="documentTypeName" value="kuali.proposal.type.course.create"/>
+        <property name="documentAuthorizerClass" value="org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase"/>
+        <property name="lockingKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+    </bean>  
 
 </beans>
