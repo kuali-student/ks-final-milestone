@@ -17,6 +17,11 @@ package org.kuali.student.cm.course.form;
 
 import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
 
+/**
+ * Wrapper around the {@link CluInstructorInfo} instance for use with KRAD UI components like the StackedCollection
+ *
+ * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
+ */
 public class CluInstructorInfoWrapper extends CluInstructorInfo {
 	
 	private static final long serialVersionUID = 7495209564517379554L;

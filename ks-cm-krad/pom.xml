@@ -34,6 +34,11 @@
         </dependency>
         <dependency>
             <groupId>org.kuali.student.api</groupId>
+            <artifactId>ks-enroll-api</artifactId>
+            <version>${ks.api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.api</groupId>
             <artifactId>ks-lum-api</artifactId>
             <version>${ks.api.version}</version>
         </dependency>
@@ -44,8 +49,18 @@
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-core-ui</artifactId>
+            <version>${ks.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-impl</artifactId>
             <version>${ks.core.version}</version>
         </dependency>
+        <!--         <dependency>
+            <groupId>org.kuali.student.enroll</groupId>
+            <artifactId>ks-enroll-ui</artifactId>
+            <version>${ks.enroll.version}</version>
+        </dependency> -->
     </dependencies>
 </project>

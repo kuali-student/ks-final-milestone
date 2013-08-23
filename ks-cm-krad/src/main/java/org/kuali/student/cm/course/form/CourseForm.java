@@ -19,16 +19,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
+import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+
+import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 
 /**
  * This is the helper class for CourseView
  * 
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
+ * @Deprecated Using the {@link MaintenanceDocumentForm}
  */
-public class CourseForm extends UifFormBase {
+public class CourseForm extends MaintenanceDocumentForm {
 
     private static final long serialVersionUID = -988885314122936950L;
     
@@ -50,16 +60,22 @@ public class CourseForm extends UifFormBase {
     
     private String finalExamRationale;
     
-    private CommentInfo commentInfo;
+    private List<CommentInfo> commentInfos;
     
-    private String dialog1;
-    
-    private String Field1;
-
     private LearningObjectiveDialogWrapper loDialogWrapper;
     
     private Boolean showAll;
+    
+    private String userId;
+    
+    private List<DecisionInfo> decisions;
 
+    private List<OrganizationInfoWrapper> administeringOrganizations;
+
+    private String lastUpdated;
+
+    private MultipartFile documentUpload; 
+    
     public CourseForm() {
         this.courseInfo = new CourseInfo();
         this.proposalInfo = new ProposalInfo();
@@ -67,7 +83,11 @@ public class CourseForm extends UifFormBase {
         
         this.creditOptionsDisplay = new ArrayList<ResultValuesGroupInfoWrapper>();
         this.courseJointDisplays = new ArrayList<CourseJointInfoWrapper>();
-        this.commentInfo = new CommentInfo();
+        this.commentInfos = new ArrayList<CommentInfo>();
+        this.decisions = new ArrayList<DecisionInfo>();
+        this.administeringOrganizations = new ArrayList<OrganizationInfoWrapper>();
+        
+        setLastUpdated(DateTimeFormat.forPattern("MM-dd-yyyy HH:mm:ss").print(new DateTime()));
     }
 
     public CourseInfo getCourseInfo() {
@@ -91,8 +111,16 @@ public class CourseForm extends UifFormBase {
     }
 
     public void setInstructorDisplays(
-            List<CluInstructorInfoWrapper> instructorDisplays) {
+        List<CluInstructorInfoWrapper> instructorDisplays) {
         this.instructorDisplays = instructorDisplays;
+    }
+    
+    public List<OrganizationInfoWrapper> getAdministeringOrganizations() {
+        return administeringOrganizations;
+    }
+
+    public void setAdministeringOrganizations(final List<OrganizationInfoWrapper> administeringOrganizations) {
+        this.administeringOrganizations = administeringOrganizations;
     }
 
     public boolean isAudit() {
@@ -143,30 +171,6 @@ public class CourseForm extends UifFormBase {
         this.finalExamRationale = finalExamRationale;
     }
 
-    public CommentInfo getCommentInfo() {
-        return commentInfo;
-    }
-
-    public void setCommentInfo(CommentInfo commentInfo) {
-        this.commentInfo = commentInfo;
-    }
-
-    public String getDialog1() {
-        return dialog1;
-    }
-
-    public void setDialog1(String dialog1) {
-        this.dialog1 = dialog1;
-    }
-
-    public String getField1() {
-        return Field1;
-    }
-
-    public void setField1(String field1) {
-        Field1 = field1;
-    }
-
     public LearningObjectiveDialogWrapper getLoDialogWrapper() {
         return loDialogWrapper;
     }
@@ -181,5 +185,45 @@ public class CourseForm extends UifFormBase {
 
     public Boolean getShowAll() {
         return this.showAll;
+    }
+
+    public List<CommentInfo> getCommentInfos() {
+        return commentInfos;
+    }
+
+    public void setCommentInfos(List<CommentInfo> commentInfos) {
+        this.commentInfos = commentInfos;
+    }
+
+    public List<DecisionInfo> getDecisions() {
+        return decisions;
+    }
+
+    public void setDecisions(final List<DecisionInfo> decisionInfos) {
+        this.decisions = decisionInfos;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setLastUpdated(final String lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
+    public String getLastUpdated() {
+        return this.lastUpdated;
+    }
+
+    public MultipartFile getDocumentUpload() {
+        return documentUpload;
+    }
+
+    public void setDocumentUpload(final MultipartFile documentUpload) {
+        this.documentUpload = documentUpload;
     }
 }

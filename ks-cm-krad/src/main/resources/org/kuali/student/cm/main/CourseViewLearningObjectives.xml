@@ -32,11 +32,12 @@
 		<property name="footer">
 			<ref bean="KS-CourseView-Footer" />
 		</property>
-	</bean>
+    </bean>
 
 	<bean id="LearningObjective-CollectionSection" parent="Uif-StackedCollectionSection"
 		p:propertyName="courseInfo.courseSpecificLOs" p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.LoDisplayInfo">
-		<property name="layoutManager">
+        <property name="onDocumentReadyScript" value="setupCharCounters()" />
+        <property name="layoutManager">
 			<bean parent="Uif-StackedCollectionLayout-WithBoxItems">
 				<property name="subCollectionFieldGroupPrototype">
 					<bean parent="Uif-HorizontalFieldGroup" />
@@ -48,18 +49,21 @@
 			<ref bean="LearningObjectives-ToolBarSection" />
 		</property>
 		<property name="renderAddBlankLineButton" value="true" />
-		<property name="addBlankLineAction.actionLabel" value="Add Another Cross Listing" />
-		<property name="addLinePlacement" value="BOTTOM" />
-		<!-- <property name="collectionLookup.quickfinderAction.render" value="true" 
-			/> -->
-		<property name="items">
+		<property name="addBlankLineAction.actionLabel" value="Add Learning Objective" />
+        <property name="addLinePlacement" value="BOTTOM" />
+		<!--<property name="collectionLookup.quickfinderAction.render" value="true" /> -->
+        <property name="items">
 			<list>
 				<bean id="KS-LoInfo-descr" parent="Uif-InputField"
 					p:propertyName="loInfo.descr.plain" p:showLabel="false">
 					<property name="control">
-						<bean parent="Uif-TextAreaControl" p:cols="60"
-							p:onDocumentReadyScript="jQuery('#KS-LoInfo-descr_add_control').jqEasyCounter({'maxChars': 
-							500, 'maxCharsWarning': 450, 'msgTextAlign': 'left'});" />
+						<bean parent="Uif-TextAreaControl" p:cols="60">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>cm-charcount-max-500</value>
+                                </list>
+                            </property>
+                        </bean>
 					</property>
 				</bean>
 			</list>
@@ -69,19 +73,22 @@
 				<bean parent="Uif-StackedCollectionSubSection"
 					p:collectionObjectClass="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo"
 					p:propertyName="loCategoryInfoList">
+					<property name="layoutManager">
+						<bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+							<property name="subCollectionFieldGroupPrototype">
+								<bean parent="Uif-HorizontalFieldGroup" />
+							</property>
+						</bean>
+					</property>
 					<property name="layoutManager.lineGroupPrototype.header.headerText"
 						value="Category @{(#index + 1)}" />
-					<property name="addLineLabel.labelText" value="Add A Category" />
+					<property name="addLineLabel.render" value="false" />
 					<property name="addLineActions">
             			<list>
+                            <bean parent="Uif-ActionLink" p:actionLabel="Browse for categories"
+                                        p:methodToCall="browseForCategories" p:actionParameters="selectedIndex:@{#parent.#index}"/>
                 			<bean parent="Uif-AddLineAction" p:actionLabel="Add" />
             			</list>
-        			</property>
-        			<property name="lineActions">
-        				<list>
-        					<bean parent="Uif-ActionLink" p:actionLabel="Browse for categories"
-										p:methodToCall="browseForCategories" />
-        				</list>
         			</property>
 					<property name="items">
 						<list>
@@ -133,40 +140,40 @@
 		</property>
 	</bean>
 	
-	<bean id="LearningObjectives-ToolBar-Button" parent="Uif-ActionImage" abstract="true">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>tree-bar-button</value>
-            </list>
-        </property>
-    </bean>
-    
-    <bean id="LearningObjectives-MoveUp-Button" parent="LearningObjectives-ToolBar-Button">
-<!--     	<property name="methodToCall" value="" /> -->
-        <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['cm.krad.externalizable.images.url']+'/ArrowUp.png'}"/>
+    <bean id="LearningObjectives-MoveUp-Button" parent="Uif-ActionImage">
+		<property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['cm.krad.externalizable.images.url']+'/ArrowUp.png'}" p:altText="Move Up"/>
         	<!-- "@{enableAddButton ? #ConfigProperties['cm.krad.externalizable.images.url']+'/ArrowUp.png' : #ConfigProperties['cm.krad.externalizable.images.url']+'/ArrowUpDisabled.png'}" -->
         </property>
-    </bean>
-    
-    <bean id="LearningObjectives-MoveDown-Button" parent="LearningObjectives-ToolBar-Button">
-<!--     	<property name="methodToCall" value="" /> -->
-        <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['cm.krad.externalizable.images.url']+'/ArrowDown.png'}"/>
+        <property name="toolTip">
+        	<bean parent="Uif-Tooltip" p:tooltipContent="Move learning objective up" />
         </property>
     </bean>
     
-    <bean id="LearningObjectives-IncreaseIndent-Button" parent="LearningObjectives-ToolBar-Button">
-<!--     	<property name="methodToCall" value="" /> -->
-        <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['cm.krad.externalizable.images.url']+'/IncreaseIndent.png'}"/>
+    <bean id="LearningObjectives-MoveDown-Button" parent="Uif-ActionImage" p:ajaxSubmit="true">
+		<property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['cm.krad.externalizable.images.url']+'/ArrowDown.png'}" p:altText="Move Down"/>
+        </property>
+        <property name="toolTip">
+        	<bean parent="Uif-Tooltip" p:tooltipContent="Move learning objective down" />
         </property>
     </bean>
     
-    <bean id="LearningObjectives-DecreaseIndent-Button" parent="LearningObjectives-ToolBar-Button">
-<!--     	<property name="methodToCall" value="" /> -->
+    <bean id="LearningObjectives-IncreaseIndent-Button" parent="Uif-ActionImage">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['cm.krad.externalizable.images.url']+'/DecreaseIndent.png'}"/>
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['cm.krad.externalizable.images.url']+'/IncreaseIndent.png'}" p:altText="Increase Indent"/>
+        </property>
+        <property name="toolTip">
+        	<bean parent="Uif-Tooltip" p:tooltipContent="Indent learning objective" />
+        </property>
+    </bean>
+    
+    <bean id="LearningObjectives-DecreaseIndent-Button" parent="Uif-ActionImage">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['cm.krad.externalizable.images.url']+'/DecreaseIndent.png'}" p:altText="Decrease Indent"/>
+        </property>
+        <property name="toolTip">
+        	<bean parent="Uif-Tooltip" p:tooltipContent="Outdent learning objective" />
         </property>
     </bean>
 

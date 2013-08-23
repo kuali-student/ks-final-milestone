@@ -15,23 +15,26 @@
  */
 package org.kuali.student.cm.course.form;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class LearningObjectiveDialogWrapper {
+public class LearningObjectiveDialogWrapper implements Serializable {
 	
-	private String typeKey;
+	private static final long serialVersionUID = 5469451568404361391L;
+
+    private List<String> typeKeyFilters;
 	
 	private String categoryName;
 	
-	private List<LoDisplayInfoWrapper> learningObjectiveOptions;
+	private List<LoCategoryInfoWrapper> learningObjectiveOptions;
 
-	public String getTypeKey() {
-		return typeKey;
-	}
+    public List<String> getTypeKeyFilters() {
+        return typeKeyFilters;
+    }
 
-	public void setTypeKey(String typeKey) {
-		this.typeKey = typeKey;
-	}
+    public void setTypeKeyFilters(List<String> typeKeyFilters) {
+        this.typeKeyFilters = typeKeyFilters;
+    }
 
 	public String getCategoryName() {
 		return categoryName;
@@ -41,13 +44,13 @@ public class LearningObjectiveDialogWrapper {
 		this.categoryName = categoryName;
 	}
 
-	public List<LoDisplayInfoWrapper> getLearningObjectiveOptions() {
+	public List<LoCategoryInfoWrapper> getLearningObjectiveOptions() {
 		return learningObjectiveOptions;
 	}
 
 	public void setLearningObjectiveOptions(
-			List<LoDisplayInfoWrapper> learningObjectiveOptions) {
+			List<LoCategoryInfoWrapper> learningObjectiveOptions) {
 		this.learningObjectiveOptions = learningObjectiveOptions;
 	}
-
+	
 }

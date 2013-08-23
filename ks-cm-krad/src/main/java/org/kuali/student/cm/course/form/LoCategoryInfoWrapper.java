@@ -15,20 +15,30 @@
  */
 package org.kuali.student.cm.course.form;
 
-import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 
-public class LoDisplayInfoWrapper extends LoDisplayInfo {
+public class LoCategoryInfoWrapper extends LoCategoryInfo {
 
 	private static final long serialVersionUID = -5261772221177797788L;
 	
+	private boolean selected;
+	
 	private String typeName;
 
-	public String getTypeName() {
-		return typeName;
-	}
+	public boolean isSelected() {
+        return selected;
+    }
 
-	public void setTypeName(String typeName) {
-		this.typeName = typeName;
-	}
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+    
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
 
 }

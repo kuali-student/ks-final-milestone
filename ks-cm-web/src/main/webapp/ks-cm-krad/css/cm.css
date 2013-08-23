@@ -1,3 +1,8 @@
+.ks-curriculum-home > .uif-header {
+    border-bottom: solid 2px #000;
+    margin-bottom: 5px; margin-top:15px;
+}
+
 .uif-actionLink-block {
     display:block;
 }
@@ -39,3 +44,13 @@
     padding-right: 0em ;
     padding-left: 0em;
 }
+
+/* Empty marker classes for the character counter */
+.cm-charcount-max-24 {
+}
+
+.cm-charcount-max-255 {
+}
+
+.cm-charcount-max-500 {
+}	

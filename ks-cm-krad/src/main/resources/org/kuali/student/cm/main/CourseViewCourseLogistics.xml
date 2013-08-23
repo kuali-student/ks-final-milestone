@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
-  Copyright 2005-2013 The Kuali Foundation
- 
-  Licensed under the Educational Community License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
- 
-  http://www.opensource.org/licenses/ecl2.php
- 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
--->
+<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -94,6 +87,15 @@
 	</bean>
 	<bean id="KS-CourseView-CourseLogisticsPage-GradesAssessments-Widgets"
 		parent="Uif-VerticalBoxSection" p:headerText="Grades/Assessments">
+		<property name="help">
+			<bean parent="Uif-Help"
+				p:tooltipHelpContent="&lt;b&gt;Letter, Standard Values&lt;b&gt;&lt;br&gt; 
+ 						A,B,C,D,F&lt;br&gt;&lt;br&gt;&lt;b&gt;Satisfactory, unsatisfactory&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital  
+ 						Values&lt;b&gt; >60% pass&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital Review&lt;b&gt;&lt;br&gt;Lorem  
+ 						ipsum description of recital review&lt;br&gt;&lt;br&gt;&lt;b&gt;Design Review&lt;b&gt;&lt;br&gt;Lorem  
+ 						ipsum description of design review&lt;br&gt;&lt;br&gt;&lt;b&gt;Completed  
+ 						Notation&lt;b&gt;&lt;br&gt;complete,incomplete " />
+		</property>
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.gradingOptions"
@@ -104,10 +106,6 @@
 					<property name="optionsFinder">
 						<bean
 							class="org.kuali.student.lum.lu.ui.course.keyvalues.AssesmentKeyValueFinder" />
-					</property>
-					<property name="help">
-						<bean parent="Uif-Help"
-							p:tooltipHelpContent="&lt;b&gt;Letter, Standard Values&lt;b&gt;&lt;br&gt; A,B,C,D,F&lt;br&gt;&lt;br&gt;&lt;b&gt;Satisfactory, unsatisfactory&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital Values&lt;b&gt; >60% pass&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital Review&lt;b&gt;&lt;br&gt;Lorem ipsum description of recital review&lt;br&gt;&lt;br&gt;&lt;b&gt;Design Review&lt;b&gt;&lt;br&gt;Lorem ipsum description of design review&lt;br&gt;&lt;br&gt;&lt;b&gt;Completed Notation&lt;b&gt;&lt;br&gt;complete,incomplete " />
 					</property>
 				</bean>
 			</list>
@@ -167,7 +165,8 @@
 		p:propertyName="creditOptionsDisplay"
 		p:collectionObjectClass="org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper">
 		<property name="addBlankLineAction.actionLabel" value="Add Outcome" />
-		<property name="layoutManager.lineGroupPrototype.header.headerText" value="Outcome @{(#index + 1)}" />
+		<property name="layoutManager.lineGroupPrototype.header.headerText"
+			value="Outcome @{(#index + 1)}" />
 		<property name="renderAddBlankLineButton" value="true" />
 		<property name="addLinePlacement" value="BOTTOM" />
 		<property name="items">
@@ -213,7 +212,7 @@
 				</bean>
 			</list>
 		</property>
-		 <property name="subCollections">
+		<property name="subCollections">
 			<list>
 				<bean parent="Uif-StackedCollectionSubSection"
 					p:collectionObjectClass="org.kuali.student.cm.course.form.ResultValueKeysWrapper"
@@ -252,7 +251,8 @@
 		<property name="renderAddBlankLineButton" value="true" />
 		<property name="addBlankLineAction.actionLabel" value="Add Additional Format" />
 		<property name="addLineLabel.labelText" value=" " />
-		<property name="layoutManager.lineGroupPrototype.header.headerText" value="Format @{(#index + 1)}" />
+		<property name="layoutManager.lineGroupPrototype.header.headerText"
+			value="Format @{(#index + 1)}" />
 		<property name="subCollections">
 			<list>
 				<bean parent="Uif-StackedSubCollection-WithinSection"
@@ -262,7 +262,8 @@
 					<property name="renderAddBlankLineButton" value="true" />
 					<property name="addBlankLineAction.actionLabel" value="Add Activity" />
 					<property name="addLineLabel.labelText" value="Activity " />
-					<property name="layoutManager.lineGroupPrototype.header.headerText" value="Activity @{(#index + 1)}" />
+					<property name="layoutManager.lineGroupPrototype.header.headerText"
+						value="Activity @{(#index + 1)}" />
 					<property name="addLineLabel">
 						<bean parent="Uif-Label">
 							<property name="labelText" value=" " />
