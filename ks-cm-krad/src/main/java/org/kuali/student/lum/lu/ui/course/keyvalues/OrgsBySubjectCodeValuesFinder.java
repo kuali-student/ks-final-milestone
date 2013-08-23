@@ -15,31 +15,27 @@
 
 package org.kuali.student.lum.lu.ui.course.keyvalues;
 
+import static org.kuali.student.logging.FormattedLogger.error;
+import static org.kuali.student.logging.FormattedLogger.info;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.kuali.student.cm.course.service.impl.LookupableConstants;
-
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.student.cm.course.dto.CourseProposalInfo;
+import org.kuali.student.cm.course.service.impl.LookupableConstants;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
-import org.kuali.student.r2.common.util.ContextUtils;
-
-import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
-import org.kuali.rice.krad.uif.view.ViewModel;
-
-import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.util.GlobalVariables;
-
-import org.kuali.student.cm.course.form.CourseForm;
-
-import static org.kuali.student.logging.FormattedLogger.*;
 
 /**
  * Return all organizations by a specific subject code.
@@ -54,11 +50,12 @@ public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
     public List<KeyValue> getKeyValues(ViewModel model) {
         List<KeyValue> departments = new ArrayList<KeyValue>();
         
-        final CourseForm form = (CourseForm) model;
+        final MaintenanceDocumentForm form = (MaintenanceDocumentForm) model;
 
         final SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
-        searchRequest.addParam("subjectCode.queryParam.code", form.getCourseInfo().getSubjectArea());
+        CourseProposalInfo courseProposalInfo = (CourseProposalInfo) form.getDocument().getNewMaintainableObject().getDataObject();
+        searchRequest.addParam("subjectCode.queryParam.code", courseProposalInfo.getCourse().getSubjectArea());
 
         try {
         	for (final SearchResultRowInfo result 

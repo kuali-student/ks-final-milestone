@@ -29,7 +29,8 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.student.cm.course.form.CourseForm;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.student.cm.course.dto.CourseProposalInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
@@ -80,12 +81,13 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
      */
     private void populateAtpInfoWithStartEndDateCheck(ViewModel model, List<KeyValue> keyValues,
             List<AtpInfo> searchResult) {
-        if (model instanceof CourseForm) {
-            CourseForm courseForm = (CourseForm) model;
-            if (courseForm.getCourseInfo().isPilotCourse()) {
+        if (model instanceof MaintenanceDocumentForm) {
+            MaintenanceDocumentForm courseForm = (MaintenanceDocumentForm) model;
+            CourseProposalInfo courseProposalInfo = (CourseProposalInfo) courseForm.getDocument().getNewMaintainableObject().getDataObject();
+            if (courseProposalInfo.getCourse().isPilotCourse()) {
 
                 for (int i = 0; i < searchResult.size(); i++) {
-                    if (courseForm.getCourseInfo().getStartTerm().equals(searchResult.get(i).getId().toString())) {
+                    if (courseProposalInfo.getCourse().getStartTerm().equals(searchResult.get(i).getId().toString())) {
                         searchResult.remove(searchResult.get(i));
                         i--;
                         break;

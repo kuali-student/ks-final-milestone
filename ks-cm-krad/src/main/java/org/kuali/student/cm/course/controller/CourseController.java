@@ -21,7 +21,6 @@ import static org.kuali.student.logging.FormattedLogger.error;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -38,14 +37,11 @@ import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.name.EntityNameContract;
-import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
-import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.cm.course.dto.CourseProposalInfo;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
-import org.kuali.student.cm.course.form.CourseForm;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
@@ -62,12 +58,10 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
-import org.kuali.student.r2.common.util.constants.OrganizationServiceConstants;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.core.constants.CommentServiceConstants;
-import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -84,8 +78,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import static org.kuali.student.logging.FormattedLogger.*;
 
 /**
  * This controller handles all the request from Academic calendar UI.
@@ -145,42 +137,43 @@ public class CourseController extends MaintenanceDocumentController {
      * @return
      */
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=saveAndContinue")
-    public ModelAndView saveAndContinue(@ModelAttribute("KualiForm") CourseForm form, BindingResult result,
+    public ModelAndView saveAndContinue(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) {
+        CourseProposalInfo courseProposalInfo = (CourseProposalInfo) form.getDocument().getNewMaintainableObject().getDataObject();
         
         //Clear collection fields (those with matching 'display' collections)
-        form.getCourseInfo().getJoints().clear();
-        form.getCourseInfo().getInstructors().clear();
+        courseProposalInfo.getCourse().getJoints().clear();
+        courseProposalInfo.getCourse().getInstructors().clear();
         
         //Retrieve the collection display values and get the fully loaded object (containing all the IDs and related IDs)
-        if (form.getCourseJointDisplays() != null) {
-            for (final CourseJointInfoWrapper jointInfoDisplay : form.getCourseJointDisplays()) {
-                form.getCourseInfo().getJoints().add(CourseViewHelperServiceImpl.getInstance().getJointOfferingCourse(jointInfoDisplay.getCourseCode()));
+        if (courseProposalInfo.getCourseJointWrappers() != null) {
+            for (final CourseJointInfoWrapper jointInfoDisplay : courseProposalInfo.getCourseJointWrappers()) {
+                courseProposalInfo.getCourse().getJoints().add(CourseViewHelperServiceImpl.getInstance().getJointOfferingCourse(jointInfoDisplay.getCourseCode()));
             }
         }
         
-        if (form.getInstructorDisplays() != null) {
-            for (final CluInstructorInfoWrapper instructorDisplay : form.getInstructorDisplays()) {
+        if (courseProposalInfo.getInstructorWrappers() != null) {
+            for (final CluInstructorInfoWrapper instructorDisplay : courseProposalInfo.getInstructorWrappers()) {
                 final CluInstructorInfoWrapper retrievedInstructor = CourseViewHelperServiceImpl.getInstance().getInstructor(getInstructorSearchString(instructorDisplay.getDisplayName()));
-                form.getCourseInfo().getInstructors().add(retrievedInstructor);
+                courseProposalInfo.getCourse().getInstructors().add(retrievedInstructor);
             }
         }
 
-        if (form.getAdministeringOrganizations() != null) {
-            for (final OrganizationInfoWrapper org : form.getAdministeringOrganizations()) {
-                form.getCourseInfo().getUnitsDeployment().add(org.getOrganizationName());
+        if (courseProposalInfo.getAdministeringOrganizations() != null) {
+            for (final OrganizationInfoWrapper org : courseProposalInfo.getAdministeringOrganizations()) {
+                courseProposalInfo.getCourse().getUnitsDeployment().add(org.getOrganizationName());
             }
         }
         
         //Set derived course fields before saving/updating
-        form.setCourseInfo(calculateCourseDerivedFields(form.getCourseInfo()));
+        courseProposalInfo.setCourse(calculateCourseDerivedFields(courseProposalInfo.getCourse()));
         
         CourseInfo savedCourseInfo = null;
-        if (form.getCourseInfo().getId() == null) {
+        if (courseProposalInfo.getCourse().getId() == null) {
             debug("Create the course proposal");
             try {
                 savedCourseInfo = getCourseService().createCourse_KRAD(
-                        form.getCourseInfo(), ContextUtils.getContextInfo());
+                        courseProposalInfo.getCourse(), ContextUtils.getContextInfo());
             } catch (Exception e) {
                 throw new RuntimeException(
                         "Error creating a new course.", e);
@@ -189,14 +182,14 @@ public class CourseController extends MaintenanceDocumentController {
         } else {
             debug("Update the course proposal");
             try {
-                savedCourseInfo = courseService.updateCourse_KRAD(form.getCourseInfo().getId(), form.getCourseInfo(), ContextUtils.getContextInfo());
+                savedCourseInfo = courseService.updateCourse_KRAD(courseProposalInfo.getCourse().getId(), courseProposalInfo.getCourse(), ContextUtils.getContextInfo());
             } catch (Exception e) {
-                throw new RuntimeException("Error updating a course with title: " + form.getCourseInfo().getCourseTitle(), e);
+                throw new RuntimeException("Error updating a course with title: " + courseProposalInfo.getCourse().getCourseTitle(), e);
             }
             
         }
-        savedCourseInfo.setUnitsContentOwner(form.getCourseInfo().getUnitsContentOwner());
-        form.setCourseInfo(savedCourseInfo);
+        savedCourseInfo.setUnitsContentOwner(courseProposalInfo.getCourse().getUnitsContentOwner());
+        courseProposalInfo.setCourse(savedCourseInfo);
         return getUIFModelAndView(form, getNextPageId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
     }
     
@@ -279,7 +272,7 @@ public class CourseController extends MaintenanceDocumentController {
 
         // After creating the document, modify the state
         // Should look into replacing this with calls to WorkflowUtilities
-        ((CourseInfo) courseForm.getDocument().getNewMaintainableObject().getDataObject()).setStateKey(DtoConstants.STATE_DRAFT);
+        ((CourseProposalInfo) courseForm.getDocument().getNewMaintainableObject().getDataObject()).getCourse().setStateKey(DtoConstants.STATE_DRAFT);
 
         return retval;
     }
@@ -294,7 +287,7 @@ public class CourseController extends MaintenanceDocumentController {
      * @throws Exception
      */
     @RequestMapping(params = "methodToCall=showDecisions")
-    public ModelAndView showDecisions(@ModelAttribute("KualiForm") CourseForm form, BindingResult result,
+    public ModelAndView showDecisions(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         if (!hasDialogBeenAnswered(DECISIONS_DIALOG_KEY, form)) {
@@ -403,7 +396,7 @@ public class CourseController extends MaintenanceDocumentController {
     }
      
     @RequestMapping(params = "methodToCall=showComment")
-    public ModelAndView showComment(@ModelAttribute("KualiForm") CourseForm form, BindingResult result,
+    public ModelAndView showComment(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
             // redirect back to client to display lightbox
@@ -412,17 +405,18 @@ public class CourseController extends MaintenanceDocumentController {
     
     
     @RequestMapping(params = "methodToCall=saveAndCloseComment")
-    public ModelAndView saveAndCloseComment(@ModelAttribute("KualiForm") CourseForm form, BindingResult result,
+    public ModelAndView saveAndCloseComment(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CourseProposalInfo courseProposalInfo = (CourseProposalInfo) form.getDocument().getNewMaintainableObject().getDataObject();
         
         DateFormat df = new SimpleDateFormat("MMMM dd, yyyy - hh:mmaaa");
         Date date = new Date();
         
-        for (CommentInfo ittCommentInfo : form.getCommentInfos()) {
+        for (CommentInfo ittCommentInfo : courseProposalInfo.getCommentInfos()) {
             CommentInfo commentInfo = ittCommentInfo;
             commentInfo.getCommentText().setFormatted(commentInfo.getCommentText().getPlain());
             //get the userID from the form to save with the comment made.
-            commentInfo.setCommenterId(getUserNameLoggedin(form.getUserId())+" "+df.format(date));
+            commentInfo.setCommenterId(getUserNameLoggedin(courseProposalInfo.getUserId())+" "+df.format(date));
             commentInfo.setEffectiveDate(date);
             commentInfo.setTypeKey("kuali.comment.type.generalRemarks");
             //TODO KSCM-848 : Will need to replace these temp values once we get UMD's reference data
@@ -446,12 +440,13 @@ public class CourseController extends MaintenanceDocumentController {
     }
     
     @RequestMapping(params = "methodToCall=browseForCategories")
-    public ModelAndView browseForCategories(@ModelAttribute("KualiForm") CourseForm form, BindingResult result,
+    public ModelAndView browseForCategories(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CourseProposalInfo courseProposalInfo = (CourseProposalInfo) form.getDocument().getNewMaintainableObject().getDataObject();
         String commentDialogKey = "loCategoryDialog";
         if (!hasDialogBeenAnswered(commentDialogKey, form)){
             //Get the available categories
-            form.getLoDialogWrapper().setLearningObjectiveOptions(getLoCategories());
+            courseProposalInfo.getLoDialogWrapper().setLearningObjectiveOptions(getLoCategories());
             
             // redirect back to client to display lightbox
             return showDialog(commentDialogKey, form, request, response);
@@ -461,7 +456,7 @@ public class CourseController extends MaintenanceDocumentController {
         boolean choice = getBooleanDialogResponse(commentDialogKey, form, request, response);
         
         if (choice) {
-            for (LoCategoryInfoWrapper loCategoryInfoWrapper : form.getLoDialogWrapper().getLearningObjectiveOptions()) {
+            for (LoCategoryInfoWrapper loCategoryInfoWrapper : courseProposalInfo.getLoDialogWrapper().getLearningObjectiveOptions()) {
                 if (loCategoryInfoWrapper.isSelected()) {
                     LoDisplayInfo selectedLo = getSelectedLo(form);
                     if (selectedLo != null) {
@@ -477,7 +472,7 @@ public class CourseController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
     
-    private LoDisplayInfo getSelectedLo(CourseForm form){
+    private LoDisplayInfo getSelectedLo(MaintenanceDocumentForm form){
         String selectedIndex = form.getActionParamaterValue("selectedIndex");
         int index = -1;
         if (StringUtils.isNumeric(selectedIndex)) {
@@ -485,7 +480,8 @@ public class CourseController extends MaintenanceDocumentController {
         }
         LoDisplayInfo selectedLo = null;
         if (index != -1) {
-            selectedLo = form.getCourseInfo().getCourseSpecificLOs().get(index);
+            CourseProposalInfo courseProposalInfo = (CourseProposalInfo) form.getDocument().getNewMaintainableObject().getDataObject();
+            selectedLo = courseProposalInfo.getCourse().getCourseSpecificLOs().get(index);
         }
         
         return selectedLo;
