@@ -182,7 +182,7 @@
         <property name="required" value="false" />
     </bean>
 
-    <bean id="CoursePropsalInfo.loDialogWrapper.typeKeyFilters" parent="BaseKuali.string">
+    <bean id="CourseProposalInfo.loDialogWrapper.typeKeyFilters" parent="BaseKuali.string">
         <property name="name" value="typeKeyFilters" />
         <property name="shortLabel" value="TypeKey Filters" />
         <property name="summary">
@@ -199,7 +199,7 @@
         <property name="required" value="false" />
     </bean>
 
-    <bean id="CoursePropsalInfo.loDialogWrapper.categoryName" parent="BaseKuali.string">
+    <bean id="CourseProposalInfo.loDialogWrapper.categoryName" parent="BaseKuali.string">
         <property name="name" value="categoryName" />
         <property name="shortLabel" value="CategoryName" />
         <property name="summary">
