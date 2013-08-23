@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.rice.krad.web.form.DocumentFormBase;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
@@ -38,7 +38,7 @@ import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  * @Deprecated Using the {@link MaintenanceDocumentForm}
  */
-public class CourseForm extends DocumentFormBase {
+public class CourseForm extends MaintenanceDocumentForm {
 
     private static final long serialVersionUID = -988885314122936950L;
     

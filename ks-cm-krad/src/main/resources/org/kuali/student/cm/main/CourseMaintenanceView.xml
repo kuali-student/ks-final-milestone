@@ -24,7 +24,6 @@
         <property name="navigation">
             <ref bean="KS-CourseNavigation-Menu" />
         </property>
-        <property name="formClass" value="org.kuali.student.cm.course.form.CourseForm" />
         <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseViewHelperServiceImpl" />
 
         <property name="items">

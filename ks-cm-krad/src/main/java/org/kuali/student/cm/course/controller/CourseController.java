@@ -35,7 +35,7 @@ import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.name.EntityNameContract;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
-import org.kuali.rice.krad.web.form.DocumentFormBase;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseForm;
@@ -258,17 +258,26 @@ public class CourseController extends MaintenanceDocumentController {
     @RequestMapping(params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) { 
-        final CourseForm courseForm = (CourseForm) form;
+        final MaintenanceDocumentForm courseForm = (MaintenanceDocumentForm) form;
 
-        courseForm.getCourseInfo().setStateKey(DtoConstants.STATE_DRAFT);
-        courseForm.setUserId(ContextUtils.getContextInfo().getPrincipalId());
+
+        // We can actually get this from the workflow document initiator id. It doesn't need to be stored in the form.
+        // courseForm.setUserId(ContextUtils.getContextInfo().getPrincipalId());
         try {
             redrawDecisionTable(courseForm);
         }
         catch (Exception e) {
             error("Untable to create decision table: %s", e.getMessage());
         }
-        return super.start(courseForm, result, request, response);
+
+        // Create the document in the super method
+        final ModelAndView retval = super.start(courseForm, result, request, response);
+
+        // After creating the document, modify the state
+        // Should look into replacing this with calls to WorkflowUtilities
+        ((CourseInfo) courseForm.getDocument().getNewMaintainableObject().getDataObject()).setStateKey(DtoConstants.STATE_DRAFT);
+
+        return retval;
     }
 
     /**
@@ -302,7 +311,7 @@ public class CourseController extends MaintenanceDocumentController {
      * @throws OperationFailedException when it cannot be determined what comments were made.
      * @throws PermissionDeniedException when the user doesn't have rights to look up comments.
      */
-    protected void redrawDecisionTable(final CourseForm form) 
+    protected void redrawDecisionTable(final MaintenanceDocumentForm form) 
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<CommentInfo> commentInfos = null;
         try {
@@ -313,7 +322,7 @@ public class CourseController extends MaintenanceDocumentController {
         }
         catch (DoesNotExistException e) {
             // Add a dummy row
-            form.getDecisions().add(new DecisionInfo());
+            // form.getDecisions().add(new DecisionInfo());
 
             // If there are no comments, don't go any further
             return;
@@ -341,7 +350,7 @@ public class CourseController extends MaintenanceDocumentController {
      * @param commentInfos
      * @param members
      */
-	protected void redrawDecisionTable(final CourseForm form,
+	protected void redrawDecisionTable(final MaintenanceDocumentForm form,
                                        final List<CommentInfo> commentInfos,
                                        final Map<String, MembershipInfo> members) {
 		if (commentInfos != null) {
@@ -371,7 +380,7 @@ public class CourseController extends MaintenanceDocumentController {
     					decision.setActor(memberName.toString());
     				}
     				decision.setRationale(commentInfo.getCommentText().getPlain());
-                    form.getDecisions().add(decision);
+                    // form.getDecisions().add(decision);
 			    }
 			}
 		}
