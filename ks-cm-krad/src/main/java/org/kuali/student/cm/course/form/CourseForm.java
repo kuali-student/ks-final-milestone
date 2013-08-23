@@ -36,6 +36,7 @@ import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
  * This is the helper class for CourseView
  * 
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
+ * @Deprecated Using the {@link MaintenanceDocumentForm}
  */
 public class CourseForm extends DocumentFormBase {
 

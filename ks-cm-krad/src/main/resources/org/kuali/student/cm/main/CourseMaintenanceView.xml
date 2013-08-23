@@ -15,10 +15,7 @@
     <bean id="KS-CourseView" parent="KSMaintenanceView">     
         <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
         <property name="headerText" value="Course View" />
-
-        <!--
-        <property name="header" ref="KS-CourseView-Header" />
-        -->
+        <property name="header.render" value="false" />
 
         <!--
         <property name="entryPageId"
@@ -27,17 +24,16 @@
         <property name="navigation">
             <ref bean="KS-CourseNavigation-Menu" />
         </property>
-        <!--
-        <property name="formClass"
-        value="org.kuali.student.cm.course.form.CourseForm" />
-        -->
+        <property name="formClass" value="org.kuali.student.cm.course.form.CourseForm" />
         <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseViewHelperServiceImpl" />
 
         <property name="items">
             <list>
                 <!--
                 <ref bean="KS-CourseView-CourseInfoPage" />
+                -->
                 <ref bean="KS-CourseView-GovernancePage" />
+                <!--
                 <ref bean="KS-CourseView-CourseLogisticsPage" />
                 <ref bean="KS-CourseView-LearningObjectivesPage" />
                 <ref bean="KS-CourseView-CourseRequisitesPage" />
@@ -241,14 +237,16 @@
                                         <property name="items">
                                             <list>
                                                 <bean parent="Uif-DataField" p:label="Proposal Status"
-                                                    p:shortLabel="Status" p:labelPlacement="LEFT" p:propertyName="courseInfo.stateKey" />
+                                                    p:shortLabel="Status" p:labelPlacement="LEFT" p:propertyName="stateKey" />
                                                 <bean parent="Uif-ActionLink" p:actionLabel="Comments"
                                                     p:methodToCall="showComment" />
                                                 <bean parent="Uif-ActionLink" p:actionLabel="Decisions"
                                                     p:methodToCall="showComment" />
                                                 <bean parent="Uif-Space" />
+                                                <!--
                                                 <bean parent="Uif-DataField" p:label="Last Updated"
                                                     p:shortLabel="Updated" p:labelPlacement="LEFT" p:propertyName="lastUpdated" />
+                                                -->
                                             </list>
                                         </property>
                                     </bean>
