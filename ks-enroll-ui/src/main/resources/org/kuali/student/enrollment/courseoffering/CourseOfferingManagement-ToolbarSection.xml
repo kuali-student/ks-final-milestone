@@ -192,7 +192,11 @@
                     </property>
                 </bean>
                 <bean parent="Uif-SecondaryActionButton-Small">
-                    <property name="style" value="margin-top:1.5em;"/>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks_toolbar_popup_action_button</value>
+                        </list>
+                    </property>
                     <property name="actionLabel" value="Add"/>
                     <property name="successCallback" value="jQuery('div[id=KS-CourseOfferingManagement-AddActivityOfferingPopupForm]:gt(0)').detach();"/>
                     <property name="errorCallback" value="jQuery('div[id=KS-CourseOfferingManagement-AddActivityOfferingPopupForm]:gt(0)').detach();"/>
@@ -232,7 +236,11 @@
                     </property>
                 </bean>
                 <bean parent="Uif-SecondaryActionButton-Small" p:id="addAOCButton" >
-                    <property name="style" value="margin-top:1.5em;"/>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks_toolbar_popup_action_button</value>
+                        </list>
+                    </property>
                     <property name="actionLabel" value="Add"/>
                     <property name="successCallback" value="jQuery('div[id=KS-CourseOfferingManagement-AddAOCPopupForm]:gt(0)').detach();"/>
                     <property name="errorCallback" value="jQuery('div[id=KS-CourseOfferingManagement-AddAOCPopupForm]:gt(0)').detach();"/>
@@ -288,7 +296,11 @@
                 </bean>
                 <!--these fields above are used for creating a cluster and moving AOs-->
                 <bean parent="Uif-SecondaryActionButton-Small" p:disabled="@{disableMoveButtonForMoveAOCPopOver}"  p:id="moveAOCButton">
-                    <property name="style" value="margin-top:1.5em;"/>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks_toolbar_popup_action_button</value>
+                        </list>
+                    </property>
                     <property name="actionLabel" value="Move"/>
                     <property name="successCallback" value="jQuery('div[id=KS-CourseOfferingManagement-MoveAOCPopupForm]:gt(0)').detach();"/>
                     <property name="errorCallback" value="jQuery('div[id=KS-CourseOfferingManagement-MoveAOCPopupForm]:gt(0)').detach();"/>
