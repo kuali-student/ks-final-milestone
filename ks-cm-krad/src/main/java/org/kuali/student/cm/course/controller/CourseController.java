@@ -119,15 +119,7 @@ public class CourseController extends MaintenanceDocumentController {
     }
     
     private static final String VIEW_CURRENT_PAGE_ID = "view.currentPageId";
-    
-    /* We may not want this
-    @Override
-    protected DocumentFormBase createInitialForm(final HttpServletRequest request) {
-        CourseForm courseForm = new CourseForm();
-        return courseForm;
-    }
-    */
-    
+        
     /**
      * This will save the Course Proposal.
      * @param form The CourseForm that contains all the needed information to save the proposal.

@@ -20,6 +20,7 @@
         <!--
         <property name="entryPageId" value="KS-CourseView-CourseInfoPage" />
         -->
+
         <property name="navigation">
             <ref bean="KS-CourseNavigation-Menu" />
         </property>
@@ -42,8 +43,10 @@
         <property name="dialogs">
             <list>
                 <ref bean="commentsLightBox" />
+                <!-- These two dialogs are misbehaving
                 <ref bean="decisionsDialog" />
                 <ref bean="loCategoryDialog" />
+                -->
             </list>
         </property>
 
