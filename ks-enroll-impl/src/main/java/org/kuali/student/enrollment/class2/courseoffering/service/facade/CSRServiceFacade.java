@@ -16,7 +16,9 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.facade;
 
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 
 /**
  * Used to do CSR
@@ -24,7 +26,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
  * @author Kuali Student Team
  */
 public interface CSRServiceFacade {
-    public void cancelActivityOffering(String aoId, ContextInfo context);
-    public void suspendActivityOffering(String aoId, ContextInfo context);
-    public void reinstateActivityOffering(String aoId, ContextInfo context);
+    public void cancelActivityOffering(String aoId, ContextInfo context) throws Exception;
+    public void suspendActivityOffering(String aoId, ContextInfo context) throws Exception;
+    public void reinstateActivityOffering(ActivityOfferingInfo aoInfo, String socState, ContextInfo context) throws Exception;
 }
