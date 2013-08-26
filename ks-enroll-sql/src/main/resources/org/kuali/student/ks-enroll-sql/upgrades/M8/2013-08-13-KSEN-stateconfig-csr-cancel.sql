@@ -172,8 +172,6 @@ insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kua
 /
 insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.activityoffering.offered.canceled', 'kuali.statepropagation.ao2fo.offered.canceled.2.offered.draft' )
 /
-insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.activityoffering.offered.canceled', 'kuali.statepropagation.ao2fo.offered.canceled.2.offered.pending' )
-/
 insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.activityoffering.offered.canceled', 'kuali.statepropagation.ao2rg.offered.canceled.2.suspended.canceled' )
 /
 insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.activityoffering.offered.canceled', 'kuali.statepropagation.ao2rg.offered.canceled.2.offered.canceled' )

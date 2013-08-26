@@ -3531,10 +3531,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                     }
                 }
                 // Check if colo
-                ScheduleRequestSetInfo scheduleRequestSet = getSchedulingService().getScheduleRequestSet(lui.getId(), contextInfo);
-                if (scheduleRequestSet != null && scheduleRequestSet.getRefObjectIds() != null
-                    && scheduleRequestSet.getRefObjectIds().size() > 1) { // colo
-                    throw new OperationFailedException("At this point, can't remove ADLs for colo");
+                List<ScheduleRequestSetInfo> scheduleRequestSets = getSchedulingService().searchForScheduleRequestSets(this.buildScheduleRequestSetQBC(lui.getId()), contextInfo);
+                for(ScheduleRequestSetInfo scheduleRequestSet : scheduleRequestSets){
+                    if (scheduleRequestSet != null && scheduleRequestSet.getRefObjectIds() != null
+                        && scheduleRequestSet.getRefObjectIds().size() > 1) { // colo
+                        throw new OperationFailedException("At this point, can't remove ADLs for colo");
+                    }
                 }
                 // Delete ADLs, if need be
                 String state = lui.getStateKey();
@@ -3825,6 +3827,21 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         } else{
             return false;
         }
+    }
+
+    /**
+     * Because the ScheduleRequestService does not have an "exists" check
+     * we need to get the schedule request sets via a queryByCriteria search
+     * method. if we don't then the DoesNotExist exception will break
+     * us out of a transaction.
+     * @param luiId
+     * @return
+     */
+    protected QueryByCriteria buildScheduleRequestSetQBC(String luiId){
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("id", luiId));
+
+        return qbcBuilder.build();
     }
 
     private boolean _checkTypeForFormatOfferingType(String typeKey) {
