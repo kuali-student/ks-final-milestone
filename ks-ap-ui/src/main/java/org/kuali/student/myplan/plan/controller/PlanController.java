@@ -1614,52 +1614,43 @@ public class PlanController extends UifControllerBase {
         String note = form.getTermNote();
         note = note.replaceAll("\\xA0"," ");
 
-        AcademicPlanService academicPlanService = getAcademicPlanService();
-        String planTypeKey = PlanConstants.LEARNING_PLAN_TYPE_PLAN;
         try{
-            List<LearningPlanInfo> learningPlanList = academicPlanService
-                    .getLearningPlansForStudentByType(getUserId(), planTypeKey,
-                            KsapFrameworkServiceLocator.getContext()
-                                    .getContextInfo());
-            for (LearningPlanInfo learningPlan : learningPlanList) {
-                String learningPlanID = learningPlan.getId();
-                CommentService commentService = (CommentService) GlobalResourceLoader
-                        .getService(new QName(CommentConstants.NAMESPACE,
-                                CommentConstants.SERVICE_NAME));
-                List<CommentInfo> commentInfos = new ArrayList<CommentInfo>();
-                try{
-                    commentInfos = commentService.getCommentsByReferenceAndType(learningPlanID,PlanConstants.TERM_NOTE_COMMENT_TYPE,KsapFrameworkServiceLocator.getContext().getContextInfo());
-                }catch(Exception e){
-                    LOG.error("Unable to load term notes",e);
+            String learningPlanID = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan().getId();
+            CommentService commentService = (CommentService) GlobalResourceLoader
+                    .getService(new QName(CommentConstants.NAMESPACE,
+                            CommentConstants.SERVICE_NAME));
+            List<CommentInfo> commentInfos = new ArrayList<CommentInfo>();
+            try{
+                commentInfos = commentService.getCommentsByReferenceAndType(learningPlanID,PlanConstants.TERM_NOTE_COMMENT_TYPE,KsapFrameworkServiceLocator.getContext().getContextInfo());
+            }catch(Exception e){
+                LOG.error("Unable to load term notes",e);
+            }
+            boolean found = false;
+            RichTextInfo newNote = new RichTextInfo();
+            newNote.setFormatted(note);
+            newNote.setPlain(note);
+            for(CommentInfo comment :commentInfos){
+                String commentAtpId = comment.getAttributeValue(PlanConstants.TERM_NOTE_COMMENT_ATTRIBUTE_ATPID);
+                if(form.getAtpId().equals(commentAtpId)){
+                    found=true;
+                    comment.setCommentText(newNote);
+                    commentService.updateComment(comment.getId(),comment,KsapFrameworkServiceLocator.getContext().getContextInfo());
+                    break;
                 }
-                boolean found = false;
-                RichTextInfo newNote = new RichTextInfo();
-                newNote.setFormatted(note);
-                newNote.setPlain(note);
-                for(CommentInfo comment :commentInfos){
-                    String commentAtpId = comment.getAttributeValue(PlanConstants.TERM_NOTE_COMMENT_ATTRIBUTE_ATPID);
-                    if(form.getAtpId().equals(commentAtpId)){
-                        found=true;
-                        comment.setCommentText(newNote);
-                        commentService.updateComment(comment.getId(),comment,KsapFrameworkServiceLocator.getContext().getContextInfo());
-                        break;
-                    }
-                }
-                if(!found){
-                    CommentInfo newComment = new CommentInfo();
-                    newComment.setCommentText(newNote);
-                    newComment.setEffectiveDate(new Date());
-                    newComment.setReferenceId(learningPlanID);
-                    newComment.setReferenceTypeKey(PlanConstants.TERM_NOTE_COMMENT_TYPE);
-                    newComment.setTypeKey(PlanConstants.TERM_NOTE_COMMENT_TYPE);
-                    newComment.setStateKey("ACTIVE");
-                    AttributeInfo atpIdAttr = new AttributeInfo();
-                    atpIdAttr.setKey(PlanConstants.TERM_NOTE_COMMENT_ATTRIBUTE_ATPID);
-                    atpIdAttr.setValue(form.getAtpId());
-                    newComment.getAttributes().add(atpIdAttr);
-                    commentService.createComment(newComment.getReferenceId(), newComment.getReferenceTypeKey(), PlanConstants.TERM_NOTE_COMMENT_TYPE, newComment, KsapFrameworkServiceLocator.getContext().getContextInfo());
-                }
-
+            }
+            if(!found){
+                CommentInfo newComment = new CommentInfo();
+                newComment.setCommentText(newNote);
+                newComment.setEffectiveDate(new Date());
+                newComment.setReferenceId(learningPlanID);
+                newComment.setReferenceTypeKey(PlanConstants.TERM_NOTE_COMMENT_TYPE);
+                newComment.setTypeKey(PlanConstants.TERM_NOTE_COMMENT_TYPE);
+                newComment.setStateKey("ACTIVE");
+                AttributeInfo atpIdAttr = new AttributeInfo();
+                atpIdAttr.setKey(PlanConstants.TERM_NOTE_COMMENT_ATTRIBUTE_ATPID);
+                atpIdAttr.setValue(form.getAtpId());
+                newComment.getAttributes().add(atpIdAttr);
+                commentService.createComment(newComment.getReferenceId(), newComment.getReferenceTypeKey(), PlanConstants.TERM_NOTE_COMMENT_TYPE, newComment, KsapFrameworkServiceLocator.getContext().getContextInfo());
             }
         }catch(Exception e){
             return doOperationFailedError(form, "Query for term note failed.",
@@ -2915,38 +2906,30 @@ public class PlanController extends UifControllerBase {
 
         String termNoteStr = "";
 
-        AcademicPlanService academicPlanService = getAcademicPlanService();
-        String planTypeKey = PlanConstants.LEARNING_PLAN_TYPE_PLAN;
+
         try{
-            List<LearningPlanInfo> learningPlanList = academicPlanService
-                    .getLearningPlansForStudentByType(getUserId(), planTypeKey,
-                            KsapFrameworkServiceLocator.getContext()
-                                    .getContextInfo());
-            for (LearningPlanInfo learningPlan : learningPlanList) {
-                String learningPlanID = learningPlan.getId();
-                CommentService commentService = (CommentService) GlobalResourceLoader
-                        .getService(new QName(CommentConstants.NAMESPACE,
-                                CommentConstants.SERVICE_NAME));
-                List<CommentInfo> commentInfos = new ArrayList<CommentInfo>();
-                try{
-                    commentInfos = commentService.getCommentsByReferenceAndType(learningPlanID,PlanConstants.TERM_NOTE_COMMENT_TYPE,KsapFrameworkServiceLocator.getContext().getContextInfo());
-                }catch(Exception e){
-                    LOG.error("Unable to load term notes.",e);
-                    termNoteStr=termNoteStr+"Unable to load note"+"\r";
-                }
+            String learningPlanID = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan().getId();
+            CommentService commentService = (CommentService) GlobalResourceLoader
+                    .getService(new QName(CommentConstants.NAMESPACE,
+                            CommentConstants.SERVICE_NAME));
+            List<CommentInfo> commentInfos = new ArrayList<CommentInfo>();
+            try{
+                commentInfos = commentService.getCommentsByReferenceAndType(learningPlanID,PlanConstants.TERM_NOTE_COMMENT_TYPE,KsapFrameworkServiceLocator.getContext().getContextInfo());
+            }catch(Exception e){
+                LOG.error("Unable to load term notes.",e);
+                termNoteStr=termNoteStr+"Unable to load note"+"\r";
+            }
 
-                for(CommentInfo comment :commentInfos){
-                    String commentAtp = comment.getAttributeValue(PlanConstants.TERM_NOTE_COMMENT_ATTRIBUTE_ATPID);
-                    if(planForm.getAtpId().equals(commentAtp)){
-                        TermNoteDataObject newTermNote = new TermNoteDataObject();
-                        newTermNote.setId(comment.getId());
-                        newTermNote.setAtpId(commentAtp);
-                        newTermNote.setDate(comment.getEffectiveDate());
-                        newTermNote.setTermNote(comment.getCommentText().getFormatted());
-                        termNoteList.add(newTermNote);
-                    }
+            for(CommentInfo comment :commentInfos){
+                String commentAtp = comment.getAttributeValue(PlanConstants.TERM_NOTE_COMMENT_ATTRIBUTE_ATPID);
+                if(planForm.getAtpId().equals(commentAtp)){
+                    TermNoteDataObject newTermNote = new TermNoteDataObject();
+                    newTermNote.setId(comment.getId());
+                    newTermNote.setAtpId(commentAtp);
+                    newTermNote.setDate(comment.getEffectiveDate());
+                    newTermNote.setTermNote(comment.getCommentText().getFormatted());
+                    termNoteList.add(newTermNote);
                 }
-
             }
         }catch (Exception e){
             LOG.error("Unable to load term notes.",e);
