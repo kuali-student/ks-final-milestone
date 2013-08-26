@@ -394,7 +394,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ARGCourseOfferingMan
         return sb.toString();
     }
 
-    private String getTermStartEndDate(TermInfo term) {
+    public String getTermStartEndDate(TermInfo term) {
         // Return Term as String display like 'FALL 2020 (9/26/2020-12/26/2020)'
         StringBuilder stringBuilder = new StringBuilder();
         Formatter formatter = new Formatter(stringBuilder, Locale.US);

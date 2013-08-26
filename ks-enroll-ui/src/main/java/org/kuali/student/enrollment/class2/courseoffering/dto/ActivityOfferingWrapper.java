@@ -146,6 +146,8 @@ public class ActivityOfferingWrapper implements Serializable{
     //use this boolean to check if AO has any rule attached to it
     private boolean hasRule;
 
+    private SchOfClassesRenderHelper schOfClassesRenderHelper;
+
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
         instructors = new ArrayList<OfferingInstructorWrapper>();
@@ -972,6 +974,14 @@ public class ActivityOfferingWrapper implements Serializable{
         return editRenderHelper;
     }
 
+    public SchOfClassesRenderHelper getSchOfClassesRenderHelper() {
+        return schOfClassesRenderHelper;
+    }
+
+    public void setSchOfClassesRenderHelper(SchOfClassesRenderHelper schOfClassesRenderHelper) {
+        this.schOfClassesRenderHelper = schOfClassesRenderHelper;
+    }
+
     /**
      * Helper to render the colocated activites in Edit AO screen.
      */
@@ -1091,6 +1101,26 @@ public class ActivityOfferingWrapper implements Serializable{
             this.nextAOTypeName = nextAOTypeName;
         }
 
+    }
+
+    /**
+     * Model to handle all the ui elements needed at schedule of classes view
+     */
+    public class SchOfClassesRenderHelper implements Serializable {
+
+        private String information;
+
+        public SchOfClassesRenderHelper(){
+
+        }
+
+        public String getInformation() {
+            return information;
+        }
+
+        public void setInformation(String information) {
+            this.information = information;
+        }
     }
 
     // subterms

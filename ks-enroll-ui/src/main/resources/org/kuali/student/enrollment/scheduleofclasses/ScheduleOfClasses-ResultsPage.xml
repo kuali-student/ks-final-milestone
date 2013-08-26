@@ -183,6 +183,7 @@
                       p:label="INSTRUCTOR"
                       p:messageText="@{#line.instructorDisplayNames}" />
                 <bean parent="Uif-DataField" p:label="MAX ENR" p:propertyName="aoInfo.maximumEnrollment" />
+                <bean parent="Uif-MessageField" p:label="" p:messageText="@{#line.schOfClassesRenderHelper.information}"/>
             </list>
         </property>
     </bean>

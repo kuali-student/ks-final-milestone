@@ -27,6 +27,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
 import org.kuali.student.enrollment.class2.scheduleofclasses.service.ScheduleOfClassesViewHelperService;
@@ -36,11 +38,16 @@ import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetS
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -51,7 +58,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/scheduleOfClassesSearch")
@@ -62,6 +71,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
     private AcademicCalendarService acalService;
     private CourseOfferingSetService courseOfferingSetService;
     private AtpService atpService;
+    protected TypeService typeService;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -168,6 +178,44 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         String requisites =  getViewHelperService(theForm).getRequisitiesForCourseOffering(coDisplayWrapper.getCoDisplayInfo().getId());
         coDisplayWrapper.setRequisites(requisites);
 
+        Map<String, String> subTermInfoMap = new HashMap<String, String>();
+
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
+        for (ActivityOfferingWrapper aoWrapper : coDisplayWrapper.getActivityWrapperList()){
+            // Adding Information (icons)
+            StringBuilder information = new StringBuilder();
+            if (aoWrapper.getAoInfo().getIsHonorsOffering() != null && aoWrapper.getAoInfo().getIsHonorsOffering()) {
+                information.append("<img src=").append(ScheduleOfClassesConstants.SOC_RESULT_PAGE_HONORS_COURSE_IMG).append(" title=\"").append(ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_HONORS_ACTIVITY).append("\"> ");
+            }
+
+            // Adding subterm
+            String termId = aoWrapper.getAoInfo().getTermId();
+            String subTermDisplay = "";
+            if (!theForm.getTermCode().equals(termId)) {
+                if (!subTermInfoMap.containsKey(termId)) {
+                    TermInfo subTerm = getAcademicCalendarService().getTerm(termId, contextInfo);
+                    // check if term or subterm
+                    List<TypeTypeRelationInfo> terms = getTypeService().getTypeTypeRelationsByRelatedTypeAndType(subTerm.getTypeKey(), TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, contextInfo);
+                    // if subterm
+                    if (!terms.isEmpty()) {
+                        TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
+                        subTermDisplay = "This activity is in " + subTermType.getName() + " - " + getViewHelperService(theForm).getTermStartEndDate(subTerm);
+                        subTermInfoMap.put(termId, subTermDisplay);
+                        // displaying information
+                        information.append("<img src=").append(ScheduleOfClassesConstants.SOC_RESULT_PAGE_SUBTERM_IMG).append(" title=\"").append(subTermDisplay).append("\"> ");
+                    }
+                } else {
+                    subTermDisplay = subTermInfoMap.get(termId);
+                    information.append("<img src=").append(ScheduleOfClassesConstants.SOC_RESULT_PAGE_SUBTERM_IMG).append(" title=\"").append(subTermDisplay).append("\"> ");
+                }
+            }
+
+            aoWrapper.setSchOfClassesRenderHelper(aoWrapper.new SchOfClassesRenderHelper());
+            aoWrapper.getSchOfClassesRenderHelper().setInformation(information.toString());
+        }
+
+
         return getUIFModelAndView(theForm, ScheduleOfClassesConstants.SOC_RESULT_PAGE);
     }
 
@@ -203,6 +251,13 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
             atpService = (AtpService) GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.atpService;
+    }
+
+    public TypeService getTypeService() {
+        if (typeService == null) {
+            typeService = CourseOfferingResourceLoader.loadTypeService();
+        }
+        return this.typeService;
     }
 
 }

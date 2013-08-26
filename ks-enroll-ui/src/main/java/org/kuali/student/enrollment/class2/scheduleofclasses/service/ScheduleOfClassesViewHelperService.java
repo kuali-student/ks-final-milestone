@@ -3,7 +3,7 @@ package org.kuali.student.enrollment.class2.scheduleofclasses.service;
 
 import org.kuali.student.enrollment.class2.autogen.service.ARGCourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
-
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 
 
 /**
@@ -36,5 +36,7 @@ public interface ScheduleOfClassesViewHelperService extends ARGCourseOfferingMan
     public void loadCourseOfferingsByTitleAndDescription(String termId, String titleOrDescription, ScheduleOfClassesSearchForm form) throws Exception;
 
     public String getRequisitiesForCourseOffering(String coId);
+
+    public String getTermStartEndDate(TermInfo term);
 
 }
