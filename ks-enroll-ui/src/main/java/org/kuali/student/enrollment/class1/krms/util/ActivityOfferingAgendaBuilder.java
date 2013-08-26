@@ -38,28 +38,34 @@ public class ActivityOfferingAgendaBuilder extends AgendaBuilder {
         Component group = super.buildRule(rule, bindingPrefix, agendaSection);
 
         //Add warning messages for empty or deleted rules.
+        boolean hasMessage = false;
         if (rule.isDummy() && rule.getParent() != null)  {
             GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_WARNING_AO_RULE_HASPARENT);
+            hasMessage = true;
         } else if ((rule.getProposition()==null) && (rule.getParent()!=null) && (rule.getParent().getProposition()!=null)) {
             GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_WARNING_AO_RULE_EMPTY);
+            hasMessage = true;
         }
 
         AORuleEditor aoRuleEditor = (AORuleEditor) rule;
         if((aoRuleEditor.getCluEditor()!=null)&&(aoRuleEditor.getParent()==null)){
             GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_WARNING_AO_CO_RULE_REMOVED);
+            hasMessage = true;
         }
 
         //Only do this if the rule does exist.
         if(!rule.isDummy()){
-            //Open disclosure if rule has statements
-            ((Group) group).getDisclosure().setDefaultOpen(true);
-
             //Add Info message if co rule differs from clu rule.
             if (!this.getViewHelperService().compareRules(rule)) {
                 GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_INFO_AO_RULE_CHANGED);
             } else {
                 GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_WARNING_AO_RULE_NOT_CHANGED);
             }
+        }
+
+        //Open disclosure if rule has statements
+        if(hasMessage || !rule.isDummy()){
+            ((Group) group).getDisclosure().setDefaultOpen(true);
         }
 
         return group;
