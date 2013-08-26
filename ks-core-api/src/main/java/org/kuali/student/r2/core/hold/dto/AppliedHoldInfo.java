@@ -26,17 +26,18 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.r2.common.dto.RelationshipInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.hold.infc.AppliedHold;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
 //import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "HoldInfo", propOrder = {"id", "typeKey", "stateKey", "name",
-                "descr", "holdIssueId", "personId",  "effectiveDate", "releasedDate", 
+                "descr", "holdIssueId", "personId",  "effectiveDate", "expirationDate",
                 "meta", "attributes", "_futureElements" }) 
 
 public class AppliedHoldInfo 
-    extends IdEntityInfo 
+    extends RelationshipInfo
     implements AppliedHold, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,10 +49,10 @@ public class AppliedHoldInfo
     private String holdIssueId;
 
     @XmlElement
-    private Date effectiveDate;
+    private String name;
 
     @XmlElement
-    private Date releasedDate;
+    private RichTextInfo descr;
 
     @XmlAnyElement
     private List<Object> _futureElements;  
@@ -74,13 +75,8 @@ public class AppliedHoldInfo
         if (hold != null) {
             this.personId = hold.getPersonId();
             this.holdIssueId = hold.getHoldIssueId();
-
-            if (hold.getEffectiveDate() != null) {
-                this.effectiveDate = new Date(hold.getEffectiveDate().getTime());
-            }
-            if (hold.getReleasedDate() != null) {
-                this.releasedDate = new Date(hold.getReleasedDate().getTime());
-            }
+            this.name = hold.getName();
+            this.descr = hold.getDescr();
         }
     }
 
@@ -103,24 +99,34 @@ public class AppliedHoldInfo
     }
 
     @Override
-    public Date getEffectiveDate() {
-        return effectiveDate != null ? new Date(effectiveDate.getTime()) : null;
+    public Date getReleasedDate() {
+        return getExpirationDate();
     }
 
-    public void setEffectiveDate(Date effectiveDate) {
-        if (effectiveDate != null) {
-            this.effectiveDate = new Date(effectiveDate.getTime());
-        }
+    /**
+     *
+     * @deprecated please use setExpirationDate instead.
+     */
+    @Deprecated
+    public void setReleasedDate(Date releasedDate) {
+        setExpirationDate(releasedDate);
     }
 
     @Override
-    public Date getReleasedDate() {
-        return releasedDate != null ? new Date(releasedDate.getTime()) : null;
+    public String getName() {
+        return name;
     }
 
-    public void setReleasedDate(Date releasedDate) {
-        if (releasedDate != null) {
-            this.releasedDate = new Date(releasedDate.getTime());
-        }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public RichTextInfo getDescr() {
+        return descr;
+    }
+
+    public void setDescr(RichTextInfo descr) {
+        this.descr = descr;
     }
 }

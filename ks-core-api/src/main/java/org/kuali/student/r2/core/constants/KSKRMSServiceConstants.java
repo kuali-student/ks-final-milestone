@@ -158,6 +158,10 @@ public class KSKRMSServiceConstants {
     public static final String TERM_PARAMETER_TYPE_TERMCODE2_KEY = "kuali.term.parameter.type.TermCode2";
     public static final String TERM_PARAMETER_TYPE_POPULATION_KEY = "kuali.term.parameter.type.population";
 
+    public static final String TERM_PARAMETER_TYPE_TIMESLOT_WEEKDAY_STRING = "kuali.term.parameter.type.timeslot.weekday.string";
+    public static final String TERM_PARAMETER_TYPE_TIMESLOT_START = "kuali.term.parameter.type.timeslot.start";
+    public static final String TERM_PARAMETER_TYPE_TIMESLOT_END = "kuali.term.parameter.type.timeslot.end";
+
     // term parameter types for nl
     public static final String TERM_PARAMETER_TYPE_CLULIST_KEY = "kuali.term.parameter.type.course.nl.clu.list";
     public static final String TERM_PARAMETER_TYPE_CLUSETLIST_KEY = "kuali.term.parameter.type.course.nl.cluset.list";
@@ -219,6 +223,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_PREREQUISITE_CONTEXTINFO = "contextInfo";
     public static final String TERM_PREREQUISITE_PERSON_ID = "personId";
     public static final String TERM_PREREQUISITE_CLU_ID = "cluId";
+    public static final String TERM_PREREQUISITE_AO_ID = "aoId";
     public static final String TERM_PREREQUISITE_TERM_ID = "termId";
 
 

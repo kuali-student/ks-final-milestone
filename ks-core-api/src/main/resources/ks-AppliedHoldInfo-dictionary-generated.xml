@@ -64,7 +64,7 @@ Information about a Hold.
 				<ref bean="AppliedHoldInfo.holdIssueId"/>
 				<ref bean="AppliedHoldInfo.personId"/>
 				<ref bean="AppliedHoldInfo.effectiveDate"/>
-				<ref bean="AppliedHoldInfo.releasedDate"/>
+				<ref bean="AppliedHoldInfo.expirationDate"/>
 			</list>
 		</property>
 
@@ -199,18 +199,20 @@ The Id of the Person.
 		<property name="name" value="effectiveDate"/>
 	</bean>
 
-	<bean id="AppliedHoldInfo.releasedDate-generated" abstract="true" parent="BaseKuali.date">
-		<property name="name" value="releasedDate"/>
-		<property name="shortLabel" value="Released Date"/>
+	<bean id="AppliedHoldInfo.expirationDate-generated" abstract="true" parent="BaseKuali.expirationDate">
+		<property name="name" value="expirationDate"/>
+		<property name="shortLabel" value="Expiration Date"/>
 		<property name="summary">
 			<value>
-The date this hold was released, of null if not yet released.
+The date this hold is released.
+
 			</value>
 		</property>
-		<property name="label" value="Released Date"/>
+		<property name="label" value="Expiration Date"/>
 		<property name="description">
 			<value>
-The date this hold was released, of null if not yet released.
+The date this hold is released.
+Must be greater than or equal to the effectiveDate specified.
 			</value>
 		</property>
 		<property name="required" value="false"/>
