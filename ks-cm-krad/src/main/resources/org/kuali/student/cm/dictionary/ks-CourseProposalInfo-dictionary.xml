@@ -42,7 +42,6 @@
             </list>
         </property>
 
-        <!--
         <property name="complexAttributes">
             <list>
                 <ref bean="CourseProposalInfo.course" />
@@ -61,7 +60,6 @@
                 <ref bean="CourseProposalInfo.administeringOrganizations" />
             </list>
         </property>
-        -->
     </bean>
 
     <!-- Attributes -->

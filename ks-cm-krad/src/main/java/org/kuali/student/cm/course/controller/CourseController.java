@@ -267,7 +267,6 @@ public class CourseController extends MaintenanceDocumentController {
         // ((CourseProposalInfo) courseForm.getDocument().getNewMaintainableObject().getDataObject()).getCourse().setStateKey(DtoConstants.STATE_DRAFT);
 
         return retval;
-        // return getUIFModelAndView(form, CourseViewPages.COURSE_INFO.toString());
     }
 
     /**

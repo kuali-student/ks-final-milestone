@@ -42,8 +42,8 @@
         </property>
         <property name="dialogs">
             <list>
+              <!--
                 <ref bean="commentsLightBox" />
-                <!-- These two dialogs are misbehaving
                 <ref bean="decisionsDialog" />
                 <ref bean="loCategoryDialog" />
                 -->
