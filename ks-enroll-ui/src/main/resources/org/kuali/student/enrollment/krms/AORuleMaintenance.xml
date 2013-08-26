@@ -389,7 +389,7 @@ limitations under the License.
         <property name="layoutManager">
             <ref bean="KS-SimpleTableCollectionLayout"/>
         </property>
-
+        <property name="renderLineActions" value="false"/>
         <property name="lineActions">
             <list></list>
         </property>
