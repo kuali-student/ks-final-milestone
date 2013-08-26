@@ -35,8 +35,7 @@
                 <value>plugins/datatables/TableTools.css</value>
                 <value>plugins/fancybox/jquery.fancybox.css</value>
                 <value>plugins/prettify/prettify.css</value>
-                <!--<value>plugins/tooltip/jquery.bubblepopup.v2.3.1.css</value>-->
-                <value>plugins/tooltip/ks.jquery.bubblepopup.css</value>
+                <value>plugins/tooltip/jquery.bubblepopup.v2.3.1.css</value>
             </list>
         </property>
         <property name="scriptFiles">

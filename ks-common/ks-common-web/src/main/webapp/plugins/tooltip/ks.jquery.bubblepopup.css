@@ -1,79 +1,3 @@
-/* the plugin adds this class only if browser is IE; if IE9, it's added to main <DIV> else to <TABLE> */
-.jquerybubblepopup table {
-    width: auto;
-    height: auto;
-    margin: 1px;
-    padding: 1px;
-    display: table;
-    border-collapse: collapse;
-    border-spacing: 0px;
-    border: 1px;
-    empty-cells: show;
-    background-color:  transparent;
-}
-
-.jquerybubblepopup tbody {
-    display: table-row-group;
-    vertical-align: middle;
-    border: 1px;
-    background-color:  transparent;
-}
-
-.jquerybubblepopup td {
-    margin: 0px;
-    padding: 0px;
-    background-color: #FFFFFF;
-}
-
-.jquerybubblepopup-top-left, .jquerybubblepopup-top-right {
-    width: 21px;
-    height: 21px;
-    overflow: hidden;
-    border: 1px;
-}
-
-.jquerybubblepopup-bottom-left, .jquerybubblepopup-bottom-right {
-    width: 21px;
-    height: 16px;
-    overflow: hidden;
-    border: 1px;
-}
-
-.jquerybubblepopup-top-middle {
-    overflow: hidden;
-    background-repeat: repeat-x;
-    border: 1px;
-}
-
-.jquerybubblepopup-bottom-middle {
-    height: 16px;
-    overflow: hidden;
-    background-repeat: repeat-x;
-    border: 1px;
-}
-
-.jquerybubblepopup-middle-left, .jquerybubblepopup-middle-right {
-    overflow: hidden;
-    background-repeat: repeat-y;
-    border: 1px;
-}
-
-.jquerybubblepopup-tail {
-    border: 1px;
-    margin: 0px;
-    padding: 0px;
-    display: inline;
-}
-
-
-.jquerybubblepopup-innerHtml {
-    border: 1px;
-    margin: 0px;
-    padding: 0px;
-    border-color: #000000;
-    background-color:#FFFFFF;
-}
-
 div.jquerybubblepopup-ks-form .jquerybubblepopup-innerHtml { background-color:#F0F0F0; }
 
 div.uif-popup-closebutton {
@@ -87,7 +11,7 @@ div.uif-popup-closebutton {
 }
 
 td.jquerybubblepopup-innerHtml > .uif-bubblepopup-content {
-    margin: 1px;
+    margin: 10px;
 }
 
 /* defeat img.vertical-align:baseline def in enroll.css */
