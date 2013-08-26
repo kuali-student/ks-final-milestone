@@ -3530,6 +3530,32 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                         throw new OperationFailedException(statusInfo.getMessage());
                     }
                 }
+                // Check if colo
+                ScheduleRequestSetInfo scheduleRequestSet = getSchedulingService().getScheduleRequestSet(lui.getId(), contextInfo);
+                if (scheduleRequestSet != null && scheduleRequestSet.getRefObjectIds() != null
+                    && scheduleRequestSet.getRefObjectIds().size() > 1) { // colo
+                    throw new OperationFailedException("At this point, can't remove ADLs for colo");
+                }
+                // Delete ADLs, if need be
+                String state = lui.getStateKey();
+                if (state.equals(LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY) ||
+                state.equals(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY) ) {
+                    ActivityOfferingInfo ao = getActivityOffering(lui.getId(), contextInfo);
+                    if (ao.getScheduleIds() != null &&
+                            !ao.getScheduleIds().isEmpty()) {
+                        for (String schedId: ao.getScheduleIds()) {
+                            // Delete ADLs (what about colo?)
+                            getSchedulingService().deleteSchedule(schedId, contextInfo);
+                        }
+                        // Update so that this ActivityOffering no longer has ADLs
+                        ao.setScheduleIds(new ArrayList<String>());
+                        try {
+                            updateActivityOffering(lui.getId(), ao, contextInfo);
+                        } catch(Exception e) {
+                            throw new OperationFailedException("Failed to update activityOffering", e);
+                        }
+                    }
+                }
             } else{
                 LOGGER.warn("State Constraints failed for AO id " + activityOfferingId + " to state " + nextStateKey);
                 return scStatus;
