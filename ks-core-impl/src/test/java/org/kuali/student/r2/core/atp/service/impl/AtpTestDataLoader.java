@@ -64,7 +64,7 @@ public class AtpTestDataLoader {
         loadAtp("termRelationTestingTerm3", "testingTerm3", "2000-09-01 00:00:00.0", "2000-12-31 00:00:00.0", AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Desc term rich text 7","trtt3");
         loadAtp("termRelationTestingTerm4", "testingTerm4", "2011-01-01 00:00:00.0", "2011-05-31 00:00:00.0", AtpServiceConstants.ATP_HALF_FALL_1_TYPE_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, "Desc term rich text 8", "trtt4");
         loadAtp("termRelationTestingTerm5", "testingTerm3", "2000-09-01 00:00:00.0", "2000-12-31 00:00:00.0", AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Desc term rich text 10", "trtt5");
-//        loadAtp("termRelationTestingTerm6", "testingTerm4", "2011-01-01 00:00:00.0", "2011-05-31 00:00:00.0", AtpServiceConstants.ATP_HALF_FALL_2_TYPE_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, "Desc term rich text 11", "trtt6");
+        loadAtp("termRelationTestingTerm6", "testingTerm4", "2011-01-01 00:00:00.0", "2011-05-31 00:00:00.0", AtpServiceConstants.ATP_HALF_FALL_2_TYPE_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, "Desc term rich text 11", "trtt6");
         loadAtp("termRelationTestingTermDelete", "testingTermDelete", "2031-01-01 00:00:00.0", "2031-05-31 00:00:00.0", AtpServiceConstants.ATP_HALF_FALL_1_TYPE_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, "Desc term rich text 9");
 
         loadAtp("testEdgeAtpId1", "testEdgeAtpId1", "1980-06-01 00:00:00.0", "1980-06-30 00:00:00.0", AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Desc 2001");
@@ -83,7 +83,7 @@ public class AtpTestDataLoader {
         loadMilestone("testId3", "testId3", "2011-11-01 00:00:00.0", "2011-11-01 00:00:00.0", "kuali.atp.milestone.DropDate", AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY, false, true, false, false, null, "Desc 107");
         loadMilestone("testDeleteId", "testDeleteId", "2011-11-01 00:00:00.0", "2011-12-01 00:00:00.0", "kuali.atp.milestone.RegistrationPeriod", AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY, false, false, false, false, null, "Desc 108");
         loadMilestone("FALLTERM1990REGISTRATION", "Fall Term Registration Period", "1990-08-01 00:00:00.0", "1990-09-09 00:00:00.0", "kuali.atp.milestone.RegistrationPeriod", AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY, false, false, true, false, null, "Fall 1990 Registration");
-//        loadMilestone("FALLFIRSTBLOCK1990COURSESELECTIONEND", "Fall First Block Course Selection Period Ends", "1990-09-10 00:00:00.0", "1990-09-10 00:00:00.0", "kuali.atp.milestone.CourseSelectionPeriodEnd", AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY, false, false, false, false, null, "Fall First Block Course Selection");
+        loadMilestone("FALLFIRSTBLOCK1990COURSESELECTIONEND", "Fall First Block Course Selection Period Ends", "1990-09-10 00:00:00.0", "1990-09-10 00:00:00.0", "kuali.atp.milestone.CourseSelectionPeriodEnd", AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY, false, false, false, false, null, "Fall First Block Course Selection");
         loadMilestone("FALLFIRSTBLOCK1990DROPDATE", "Drop Deadlin", "1990-09-10 00:00:00.0", "1990-09-10 00:00:00.0", "kuali.atp.milestone.DropDate", AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY, false, false, false, false, null, "Deadline to Drop Fall First Block Classes");
         loadMilestone("FALLFIRSTBLOCK1990GRADESDUE", "Fall Grades Due", "1990-11-01 00:00:00.0", "1990-11-05 00:00:00.0", "kuali.atp.milestone.GradesDue", AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY, false, false, true, false, null, "First Block Grades Due");
         loadMilestone("FALLFIRSTBLOCK1990INSTRUCTIONPERIOD", "Fall First Block Instructional Period", "1990-09-03 00:00:00.0", "1990-11-01 00:00:00.0", "kuali.atp.milestone.InstructionalPeriod", AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY, false, true, true, false, null, "Instruction Period");
@@ -100,7 +100,7 @@ public class AtpTestDataLoader {
         loadMilestone("THANKSGIVING1990", "Thanksgiving 1990", "1990-11-21 00:00:00.0", "1990-11-26 00:00:00.0", "kuali.atp.milestone.ThanksgivingBreak", AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY, false, true, true, false, null, "Thanksgiving Break");
 
         loadAtpAtpRel("ACADEMICCALENDAR1990CAMPUSCALENDAR19901991RELATION", "1988-01-01 00:00:00.0", null, AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY, "ACADEMICCALENDAR1990", AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY, "CAMPUSCALENDAR19901991");
-//        loadAtpAtpRel("ACADEMICCALENDAR1990FALLTERM1990RELATION", "1988-01-01 00:00:00.0", null, AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY, "ACADEMICCALENDAR1990", AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, "FALLTERM1990");
+        loadAtpAtpRel("ACADEMICCALENDAR1990FALLTERM1990RELATION", "1988-01-01 00:00:00.0", null, AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY, "ACADEMICCALENDAR1990", AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, "FALLTERM1990");
         loadAtpAtpRel("FALLFIRSTBLOCK1990FALLFIRSTBLOCK1990RELATION", "1988-01-01 00:00:00.0", null, AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY, "FALLFIRSTBLOCK1990", AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, "FALLFIRSTBLOCK1990");
         loadAtpAtpRel("termRelationTestingRel-AcalTerm-1", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY, "termRelationTestingAcal1", AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, "termRelationTestingTerm1");
         loadAtpAtpRel("termRelationTestingRel-AcalTerm-2", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY, "termRelationTestingAcal2", AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, "termRelationTestingTerm2");
@@ -118,8 +118,8 @@ public class AtpTestDataLoader {
         addM2A("testAtpId2", "testId2");
         addM2A("testDeleteAtpId1", "testId");
         addM2A("testDeleteAtpId2", "testId2");
-//        addM2A("CAMPUSCALENDAR19901991", "THANKSGIVING1990");
-//        addM2A("FALLFIRSTBLOCK1990", "FALLFIRSTBLOCK1990COURSESELECTIONEND");
+        addM2A("CAMPUSCALENDAR19901991", "THANKSGIVING1990");
+        addM2A("FALLFIRSTBLOCK1990", "FALLFIRSTBLOCK1990COURSESELECTIONEND");
         addM2A("FALLFIRSTBLOCK1990", "FALLFIRSTBLOCK1990DROPDATE");
         addM2A("FALLFIRSTBLOCK1990", "FALLFIRSTBLOCK1990GRADESDUE");
         addM2A("FALLFIRSTBLOCK1990", "FALLFIRSTBLOCK1990INSTRUCTIONPERIOD");
@@ -129,7 +129,7 @@ public class AtpTestDataLoader {
         addM2A("FALLTERM1990", "FALLTERM1990COURSESELECTIONEND");
         addM2A("FALLTERM1990", "FALLTERM1990FINALS");
         addM2A("FALLTERM1990", "FALLTERM1990GRADESDUE");
-//        addM2A("FALLTERM1990", "FALLTERM1990INSTRUCTIONPERIOD");
+        addM2A("FALLTERM1990", "FALLTERM1990INSTRUCTIONPERIOD");
         addM2A("FALLTERM1990", "FALLTERM1990REGISTRATION");
         addM2A("termRelationTestingTerm1", "testKeyDate1");
     }

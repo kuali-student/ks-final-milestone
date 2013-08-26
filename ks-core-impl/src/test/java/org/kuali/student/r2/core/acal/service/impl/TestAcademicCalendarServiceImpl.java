@@ -878,7 +878,6 @@ public class TestAcademicCalendarServiceImpl {
         }
     }
 
-    @Ignore
     @Test
     public void testAddTermToTerm1() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
@@ -908,7 +907,6 @@ public class TestAcademicCalendarServiceImpl {
         }
     }
 
-    @Ignore
     @Test
     public void testAddTermToTerm2() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
@@ -1129,7 +1127,6 @@ public class TestAcademicCalendarServiceImpl {
         }
     }
 
-    @Ignore
     @Test
     public void testCopyAcademicCalendar() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, ParseException {
