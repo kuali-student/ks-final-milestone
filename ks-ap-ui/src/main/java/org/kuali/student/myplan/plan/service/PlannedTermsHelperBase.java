@@ -43,7 +43,23 @@ public class PlannedTermsHelperBase {
 
 		YearTerm focusQuarterYear;
 		if (StringUtils.isEmpty(focusAtpId)) {
-			focusQuarterYear = th.getYearTerm(planningTerms.get(0));
+            try{
+                focusQuarterYear = th.getYearTerm(th.getCurrentTerms().get(0));
+            }catch(Exception e){
+                LOG.warn("Could not find current term, using next term",e);
+                try{
+                    focusQuarterYear = th.getYearTerm(th.getPlanningTerms().get(0));
+                }catch(Exception e2){
+                    try{
+                        LOG.warn("Could not find future planned term, using last term", e2);
+                        focusQuarterYear = th.getYearTerm(studentCourseRecordInfos.get(studentCourseRecordInfos.size()-1).getTermName());
+                    }catch(Exception e3){
+                        LOG.error("Could not find last term, using first term");
+                        focusQuarterYear = th.getYearTerm(planningTerms.get(0));
+                    }
+                }
+            }
+
 		} else {
 			focusQuarterYear = th.getYearTerm(th.getFirstTermOfAcademicYear(th.getYearTerm(focusAtpId)));
 		}
