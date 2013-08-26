@@ -265,6 +265,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
                                     // Allow parent term info to be set to copied term for sorting.
                                     subTermWrapper.setParentTermInfo(termInfo);
+                                    subTermWrapper.setParentTermName(termInfo.getName());
 
                                     termWrappers.add(subTermWrapper);
                                     processedTerms.add(tInfo);  // this term has now been processed
