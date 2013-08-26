@@ -92,8 +92,8 @@
         <property name="populationService" ref="PopulationServiceClient"/>
     </bean>
     <!-- TODO this contextRegistry should be part of KS -->
-    <bean id="contextRegistry"
-          class="org.kuali.rice.krms.impl.repository.language.ContextRegistry">
+    <bean id="translationContextRegistry"
+          class="org.kuali.rice.krms.impl.repository.language.TranslationContextRegistry">
         <constructor-arg>
             <map>
                 <entry key="kuali.krms.proposition.type.course.courseset.completed.none">
