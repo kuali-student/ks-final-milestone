@@ -429,6 +429,8 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
             sRet = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD;
         } else if("ALT".equals(courseFinalExamType)) {
             sRet = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_ALTERNATE;
+        } else {
+            sRet = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_NONE;
         }
         return sRet;
     }
