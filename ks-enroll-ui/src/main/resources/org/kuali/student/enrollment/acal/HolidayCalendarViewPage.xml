@@ -91,51 +91,48 @@
         </property>
     </bean>
 
-    <bean id="KS-HolidayCalendar-View-Meta" parent="Uif-VerticalBoxSection"
-          p:headerText="Calendar Information">
-
+    <bean id="KS-HolidayCalendar-View-Meta" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="HORIZONTAL">
+        <property name="headerText" value="Calendar Information" />
+        <property name="disclosure.render" value="false"/>
         <property name="items">
-            <list>
-                <bean parent="Uif-GridGroup"
-                      p:layoutManager.numberOfColumns="2"
-                      p:layoutManager.applyDefaultCellWidths="false">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-InputField"
-                                  p:propertyName="holidayCalendarInfo.name" p:readOnlyDisplayReplacementPropertyName="holidayCalendarInfo.name"
-                                  p:label="Holiday Calendar Name"
-                                  p:fieldLabel.width="40%"
-                                  p:width="60%"
-                                  p:readOnly="true"
-                                  p:required="false"
-                                  p:fieldLabel.renderColon="false"/>
-                            <bean parent="Uif-InputField"
-                                  p:propertyName="holidayCalendarInfo.startDate"
-                                  p:label="Start Date"
-                                  p:readOnly="true"
-                                  p:required="false"
-                                  p:fieldLabel.renderColon="false"/>
-                            <bean parent="Uif-InputField"
-                                  p:propertyName="holidayCalendarInfo.endDate"
-                                  p:label="End Date"
-                                  p:readOnly="true"
-                                  p:required="false"
-                                  p:fieldLabel.renderColon="false"/>
+        <list>
+            <bean parent="Uif-HorizontalBoxSubSection">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-InputField"
+                              p:propertyName="holidayCalendarInfo.name"
+                              p:label="Holiday Calendar Name"
+                              p:labelPlacement="TOP"
+                              p:width="40%"
+                              p:readOnly="true"
+                              p:required="false"
+                              p:fieldLabel.renderColon="false"/>
+                        <bean parent="Uif-InputField"
+                              p:propertyName="holidayCalendarInfo.startDate"
+                              p:label="Start Date"
+                              p:labelPlacement="TOP"
+                              p:width="15%"
+                              p:readOnly="true"
+                              p:required="false"
+                              p:fieldLabel.renderColon="false"/>
+                        <bean parent="Uif-InputField"
+                              p:propertyName="holidayCalendarInfo.endDate"
+                              p:label="End Date"
+                              p:labelPlacement="TOP"
+                              p:readOnly="true"
+                              p:required="false"
+                              p:fieldLabel.renderColon="false"/>
 
-                        </list>
-                    </property>
-                    <property name="layoutManager.cssClasses">
-                        <list merge="true">
-                            <value>ks-hcal-info-table</value>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-hcal-info</value>
-            </list>
+                    </list>
+                </property>
+                <property name="layoutManager.cssClasses">
+                    <list merge="true">
+                        <value>ks-hcal-info-table</value>
+                    </list>
+                </property>
+            </bean>
+        </list>
+
         </property>
     </bean>
 
