@@ -19,7 +19,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="KS-CourseView-LearningObjectivesPage" parent="Uif-Page"
+	<bean id="KS-CourseView-LearningObjectivesPage" parent="Uif-MaintenancePage"
 		p:headerText="Learning Objectives" p:disclosure.render="false">
 		<property name="instructionalText"
 			value="Use this tool to build a bullet-point style outline with a maximum of 500 characters for each learning objective.&lt;br&gt;Or click the following link to search for existing learning objectives." />

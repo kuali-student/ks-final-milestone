@@ -20,7 +20,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-CourseInfoPage" parent="Uif-Page"
+    <bean id="KS-CourseView-CourseInfoPage" parent="Uif-MaintenancePage"
           p:headerText="Course Information"
           p:disclosure.render="false">
         <property name="header" ref="KS-CourseView-Header" />

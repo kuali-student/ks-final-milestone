@@ -19,7 +19,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="KS-CourseView-FinancialsPage" parent="Uif-Page"
+	<bean id="KS-CourseView-FinancialsPage" parent="Uif-MaintenancePage"
 		p:headerText="Financials" p:disclosure.render="false">
         <property name="header" ref="KS-CourseView-Header" />
 <!-- 		<property name="items"> -->

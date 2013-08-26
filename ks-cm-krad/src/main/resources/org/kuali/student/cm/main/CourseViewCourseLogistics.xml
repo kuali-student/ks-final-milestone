@@ -12,7 +12,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="KS-CourseView-CourseLogisticsPage" parent="Uif-Page"
+	<bean id="KS-CourseView-CourseLogisticsPage" parent="Uif-MaintenancePage"
 		p:headerText="Course Logistics" p:disclosure.render="false"
 		p:instructionalText="Indicate the scheduling, learning results and course format for this course.">
 		<property name="header" ref="KS-CourseView-Header" />
