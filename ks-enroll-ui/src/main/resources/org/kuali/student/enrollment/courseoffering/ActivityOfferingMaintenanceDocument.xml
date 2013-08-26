@@ -62,9 +62,8 @@
              browser's title-bar (or tab) says "Kuali :: Edit Activity Offering"... so here we set the View-title initially to 'Edit Activity Offering' (which as a side-effect
              sets the browser's title-bar) and then dynamically update the View-title to reflect the CO/AO codes.
              This is a work-around, maybe it will be fixed by KRAD 2.3-m3 -->
-        <property name="headerText" value="Edit Activity Offering" />
+        <property name="headerText" value="@{document.newMaintainableObject.dataObject.courseOfferingCode} - @{document.newMaintainableObject.dataObject.typeName} @{document.newMaintainableObject.dataObject.activityCode}" />
         <property name="page.headerText" value="Edit Activity Offering"/>
-        <property name="onDocumentReadyScript" value="updateViewHeaderText( '@{document.newMaintainableObject.dataObject.courseOfferingCode} - @{document.newMaintainableObject.dataObject.typeName} @{document.newMaintainableObject.dataObject.activityCode}' );" />
 
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl" />
