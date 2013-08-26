@@ -35,4 +35,6 @@ public interface ScheduleOfClassesViewHelperService extends ARGCourseOfferingMan
      */
     public void loadCourseOfferingsByTitleAndDescription(String termId, String titleOrDescription, ScheduleOfClassesSearchForm form) throws Exception;
 
+    public String getRequisitiesForCourseOffering(String coId);
+
 }

@@ -280,6 +280,11 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ARGCourseOfferingMan
         return coDisplayWrapperList;
     }
 
+    public String getRequisitiesForCourseOffering(String coId){
+        String catalogUsageId = ruleManagementService.getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_CATALOG, PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
+        return retrieveRequisites(coId, ruleManagementService, catalogUsageId);
+    }
+
     /**
      * Method to build the course offering requisites string for display
      *
