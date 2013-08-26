@@ -171,7 +171,7 @@ public class ARGActivityOfferingClusterHandler {
         try {
             for (ActivityOfferingWrapper ao : selectedAolist) {
                 // The adapter does not technically need an AOC ID, so I'm setting it to null
-                ARGUtil.getCsrServiceFacade().reinstateActivityOffering(ao.getAoInfo().getId(), ContextBuilder.loadContextInfo());
+                ARGUtil.getCsrServiceFacade().reinstateActivityOffering(ao.getAoInfo(), theForm.getSocStateKey(), ContextBuilder.loadContextInfo());
             }
 
             // check for changes to states in CO and related FOs
