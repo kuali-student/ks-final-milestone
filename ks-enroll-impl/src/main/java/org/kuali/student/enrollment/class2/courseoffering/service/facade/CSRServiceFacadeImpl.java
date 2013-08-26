@@ -16,17 +16,14 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.facade;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.enrollment.lui.dto.LuiInfo;
-import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 
@@ -47,9 +44,6 @@ public class CSRServiceFacadeImpl implements CSRServiceFacade {
     @Resource(name="socService")
     private CourseOfferingSetService socService;
 
-    @Resource(name="luiService")
-    private LuiService luiService;
-
     public void setCoService(CourseOfferingService coService) {
         this.coService = coService;
     }
@@ -62,43 +56,44 @@ public class CSRServiceFacadeImpl implements CSRServiceFacade {
         this.socService = socService;
     }
 
-    public void setLuiService(LuiService luiService) {
-        this.luiService = luiService;
-    }
-
     @Override
-    public void cancelActivityOffering(String aoId, ContextInfo context) {
-        LuiInfo aoLui = null;
-        try {
-            aoLui = luiService.getLui(aoId, context);
-            aoLui.setStateKey(LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY);
-            luiService.updateLui(aoLui.getId(), aoLui, context);
-        } catch (Exception e) {
-            new RuntimeException("Could not cancel AO(s) " + e);
+    public void cancelActivityOffering(String aoId, ContextInfo context) throws Exception {
+        StatusInfo statusInfo = coService.changeActivityOfferingState(aoId, LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY, context);
+        if (!statusInfo.getIsSuccess()){
+            throw new OperationFailedException("Error updating Activity offering state to " + LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY + " " + statusInfo);
         }
     }
 
     @Override
-    public void suspendActivityOffering(String aoId, ContextInfo context) {
-        LuiInfo aoLui = null;
-        try {
-            aoLui = luiService.getLui(aoId, context);
-            aoLui.setStateKey(LuiServiceConstants.LUI_AO_STATE_SUSPENDED_KEY);
-            luiService.updateLui(aoLui.getId(), aoLui, context);
-        } catch (Exception e) {
-            new RuntimeException("Could not cancel AO(s) " + e);
+    public void suspendActivityOffering(String aoId, ContextInfo context) throws Exception {
+        StatusInfo statusInfo = coService.changeActivityOfferingState(aoId, LuiServiceConstants.LUI_AO_STATE_SUSPENDED_KEY, context);
+        if (!statusInfo.getIsSuccess()){
+            throw new OperationFailedException("Error updating Activity offering state to " + LuiServiceConstants.LUI_AO_STATE_SUSPENDED_KEY + " " + statusInfo);
         }
     }
 
     @Override
-    public void reinstateActivityOffering(String aoId, ContextInfo context) {
-        LuiInfo aoLui = null;
-        try {
-            aoLui = luiService.getLui(aoId, context);
-            aoLui.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
-            luiService.updateLui(aoLui.getId(), aoLui, context);
-        } catch (Exception e) {
-            new RuntimeException("Could not cancel AO(s) " + e);
+    public void reinstateActivityOffering(ActivityOfferingInfo aoInfo, String socState, ContextInfo context) throws Exception {
+        if (aoInfo.getScheduleIds() != null && !aoInfo.getScheduleIds().isEmpty()) {
+            if (StringUtils.equals(socState, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY)) {
+                StatusInfo statusInfo = coService.changeActivityOfferingState(aoInfo.getId(), LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY, context);
+                if (!statusInfo.getIsSuccess()){
+                    throw new OperationFailedException("Error updating Activity offering state to " + LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY + " " + statusInfo);
+                }
+            } else if (StringUtils.equals(socState, CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY) ||
+                            StringUtils.equals(socState, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY)) {
+                StatusInfo statusInfo = coService.changeActivityOfferingState(aoInfo.getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, context);
+                if (!statusInfo.getIsSuccess()){
+                    throw new OperationFailedException("Error updating Activity offering state to " + LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY + " " + statusInfo);
+                }
+            } else {
+                throw new RuntimeException("Error reinstating Activity offering in SOC " + socState);
+            }
+        } else {
+            StatusInfo statusInfo = coService.changeActivityOfferingState(aoInfo.getId(), LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, context);
+            if (!statusInfo.getIsSuccess()){
+                throw new OperationFailedException("Error updating Activity offering state to " + LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY + " " + statusInfo);
+            }
         }
     }
 }
