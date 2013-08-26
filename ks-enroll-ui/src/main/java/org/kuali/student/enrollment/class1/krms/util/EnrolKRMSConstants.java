@@ -39,6 +39,7 @@ public class EnrolKRMSConstants {
     public static final String KSKRMS_MSG_WARNING_CO_RULE_EMPTY = "warning.krms.agenda.rule.co.empty";
     public static final String KSKRMS_MSG_WARNING_AO_RULE_HASPARENT = "warning.krms.agenda.rule.ao.hasparent";
     public static final String KSKRMS_MSG_WARNING_AO_RULE_EMPTY = "warning.krms.agenda.rule.ao.empty";
+    public static final String KSKRMS_MSG_WARNING_AO_CO_RULE_REMOVED = "warning.krms.agenda.rule.ao.co.rule.removed";
     public static final String KSKRMS_MSG_WARNING_AO_RULE_NOT_CHANGED = "warning.krms.agenda.rule.ao.not.changed";
 
     public static final String KSKRMS_MSG_INFO_CO_RULE_CHANGED = "info.krms.agenda.rule.co.changed";

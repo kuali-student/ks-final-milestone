@@ -21,6 +21,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.util.AgendaBuilder;
 import org.kuali.rice.krms.util.AgendaSection;
+import org.kuali.student.enrollment.class1.krms.dto.AORuleEditor;
 
 /**
  * @author Kuali Student Team
@@ -41,6 +42,11 @@ public class ActivityOfferingAgendaBuilder extends AgendaBuilder {
             GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_WARNING_AO_RULE_HASPARENT);
         } else if ((rule.getProposition()==null) && (rule.getParent()!=null) && (rule.getParent().getProposition()!=null)) {
             GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_WARNING_AO_RULE_EMPTY);
+        }
+
+        AORuleEditor aoRuleEditor = (AORuleEditor) rule;
+        if((aoRuleEditor.getCluEditor()!=null)&&(aoRuleEditor.getParent()==null)){
+            GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_WARNING_AO_CO_RULE_REMOVED);
         }
 
         //Only do this if the rule does exist.
