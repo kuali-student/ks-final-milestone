@@ -39,7 +39,7 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class ARGCourseOfferingManagementForm extends KSUifForm implements ActivityOfferingDisplayUI{
+public class CourseOfferingManagementForm extends KSUifForm implements ActivityOfferingDisplayUI{
     /**
      * This is for authorization purpose of manageTheCO page
      */
@@ -203,7 +203,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm implements Activi
         this.hasAOCluster = hasAOCluster;
     }
 
-    public ARGCourseOfferingManagementForm (){
+    public CourseOfferingManagementForm(){
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
         selectedToCSRList = new ArrayList<ActivityOfferingWrapper>();

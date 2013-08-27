@@ -23,7 +23,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.common.util.ContextBuilder;
-import org.kuali.student.enrollment.class2.courseoffering.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.util.*;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopyWrapper;
@@ -60,7 +60,7 @@ public class ARGCourseOfferingHandler {
         return defaultOptionKeysService;
     }
     
-    public static void copyCourseOfferingCreateCopy(ARGCourseOfferingManagementForm theForm) throws Exception {
+    public static void copyCourseOfferingCreateCopy(CourseOfferingManagementForm theForm) throws Exception {
 
         CourseOfferingCopyWrapper copyWrapper = theForm.getCourseOfferingCopyWrapper();
         CourseOfferingInfo courseOfferingInfo = copyWrapper.getCoInfo();
@@ -92,7 +92,7 @@ public class ARGCourseOfferingHandler {
         ARGUtil.reloadCourseOfferings(theForm);
     }
 
-    public static void copyCourseOffering(ARGCourseOfferingManagementForm theForm) throws Exception {
+    public static void copyCourseOffering(CourseOfferingManagementForm theForm) throws Exception {
         Object selectedObject = ARGUtil.getSelectedObject(theForm, "Copy"); // Receives edit wrapper, "Copy" for error message.
         if (selectedObject instanceof CourseOfferingListSectionWrapper) {
 
@@ -131,7 +131,7 @@ public class ARGCourseOfferingHandler {
         }
     }
 
-    public static void loadCOs(ARGCourseOfferingManagementForm form) throws Exception {
+    public static void loadCOs(CourseOfferingManagementForm form) throws Exception {
         String termId = form.getTermInfo().getId();
         form.setInputCode(form.getSubjectCode());
         ARGUtil.getViewHelperService(form).loadCourseOfferingsByTermAndSubjectCode(termId, form.getSubjectCode(), form);
@@ -144,7 +144,7 @@ public class ARGCourseOfferingHandler {
         ARGToolbarUtil.processCoToolbarForUser(form.getCourseOfferingResultList(), form);
     }
 
-    public static String deleteCoConfirmation(ARGCourseOfferingManagementForm theForm) throws Exception {
+    public static String deleteCoConfirmation(CourseOfferingManagementForm theForm) throws Exception {
 
         CourseOfferingInfo theCourseOffering = null;
 
@@ -193,7 +193,7 @@ public class ARGCourseOfferingHandler {
         return CourseOfferingConstants.CO_DELETE_CONFIRM_PAGE;
     }
 
-    public static void prepareCSRConfirmationView(ARGCourseOfferingManagementForm theForm, String methodToCall, String warningMessage) throws Exception{
+    public static void prepareCSRConfirmationView(CourseOfferingManagementForm theForm, String methodToCall, String warningMessage) throws Exception{
 
         List<ActivityOfferingWrapper> aoList = theForm.getActivityWrapperList();
         List<ActivityOfferingWrapper> selectedIndexList = theForm.getSelectedToCSRList();
@@ -268,7 +268,7 @@ public class ARGCourseOfferingHandler {
         }
     }
 
-    public static void deleteBulkCos(ARGCourseOfferingManagementForm theForm) throws Exception {
+    public static void deleteBulkCos(CourseOfferingManagementForm theForm) throws Exception {
         List<CourseOfferingListSectionWrapper> coList = theForm.getSelectedCoToDeleteList();
         int checked = 0;
 
@@ -286,27 +286,27 @@ public class ARGCourseOfferingHandler {
         }
     }
 
-    public static void cancelDeleteBulkCos(ARGCourseOfferingManagementForm theForm) throws Exception {
+    public static void cancelDeleteBulkCos(CourseOfferingManagementForm theForm) throws Exception {
         ARGUtil.reloadCourseOfferings(theForm);
     }
 
-    public static Properties editTheCO(ARGCourseOfferingManagementForm theForm) throws Exception {
+    public static Properties editTheCO(CourseOfferingManagementForm theForm) throws Exception {
         CourseOfferingInfo theCourseOfferingInfo = theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
         return ARGUtil._buildCOURLParameters(theCourseOfferingInfo, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
     }
 
-    public static Properties edit(@SuppressWarnings("unused") ARGCourseOfferingManagementForm theForm, CourseOfferingListSectionWrapper coWrapper) throws Exception {
+    public static Properties edit(@SuppressWarnings("unused") CourseOfferingManagementForm theForm, CourseOfferingListSectionWrapper coWrapper) throws Exception {
         Properties urlParameters;
         CourseOfferingInfo courseOfferingInfo = ARGUtil.getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
         urlParameters = ARGUtil._buildCOURLParameters(courseOfferingInfo, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
         return urlParameters;
     }
 
-    public static Properties view(@SuppressWarnings("unused") ARGCourseOfferingManagementForm theForm, CourseOfferingInfo coInfo) throws Exception {
+    public static Properties view(@SuppressWarnings("unused") CourseOfferingManagementForm theForm, CourseOfferingInfo coInfo) throws Exception {
         return ARGUtil._buildCOURLParameters(coInfo, KRADConstants.START_METHOD);
     }
 
-    public static Properties createCourseOffering(ARGCourseOfferingManagementForm theForm) throws Exception {
+    public static Properties createCourseOffering(CourseOfferingManagementForm theForm) throws Exception {
         String termCode = theForm.getTermCode();
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
@@ -315,7 +315,7 @@ public class ARGCourseOfferingHandler {
         return props;
     }
 
-    public static void deleteOneCoWithLink(ARGCourseOfferingManagementForm theForm) throws Exception {
+    public static void deleteOneCoWithLink(CourseOfferingManagementForm theForm) throws Exception {
         // get the co and set in the form as selected
         CourseOfferingWrapper currentCourseOfferingWrapper = theForm.getCurrentCourseOfferingWrapper();
 

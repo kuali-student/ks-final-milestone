@@ -10,7 +10,7 @@ import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.uif.form.KSUifForm;
-import org.kuali.student.enrollment.class2.courseoffering.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.ARGCourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.ARGToolbarUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
@@ -66,7 +66,7 @@ public class ARGUtil {
         return CourseOfferingResourceLoader.loadCourseOfferingService();
     }
 
-    public static ARGCourseOfferingManagementViewHelperService getViewHelperService(ARGCourseOfferingManagementForm theForm) {
+    public static ARGCourseOfferingManagementViewHelperService getViewHelperService(CourseOfferingManagementForm theForm) {
 
         if (viewHelperService == null) {
             if (theForm.getView().getViewHelperServiceClass() != null) {
@@ -129,19 +129,19 @@ public class ARGUtil {
         return csrServiceFacade;
     }
 
-    public static boolean checkEditViewAuthz(ARGCourseOfferingManagementForm theForm) {
+    public static boolean checkEditViewAuthz(CourseOfferingManagementForm theForm) {
         Person user = GlobalVariables.getUserSession().getPerson();
         return theForm.getView().getAuthorizer().canEditView(theForm.getView(), theForm, user);
     }
 
-    public static void prepareManageAOsModelAndView(ARGCourseOfferingManagementForm form, CourseOfferingListSectionWrapper selectedCO) throws Exception {
+    public static void prepareManageAOsModelAndView(CourseOfferingManagementForm form, CourseOfferingListSectionWrapper selectedCO) throws Exception {
 
         CourseOfferingWrapper currentCOWrapper = new CourseOfferingWrapper(selectedCO.isCrossListed(),selectedCO.getCourseOfferingCode(),selectedCO.getCourseOfferingDesc(),selectedCO.getAlternateCOCodes(),selectedCO.getCourseOfferingId());
         form.setSubjectCode(selectedCO.getSubjectArea());
         prepare_AOs_RGs_AOCs_Lists(form, currentCOWrapper);
     }
 
-    public static void prepare_AOs_RGs_AOCs_Lists (ARGCourseOfferingManagementForm form, CourseOfferingWrapper currentCOWrapper) throws Exception {
+    public static void prepare_AOs_RGs_AOCs_Lists (CourseOfferingManagementForm form, CourseOfferingWrapper currentCOWrapper) throws Exception {
         currentCOWrapper.setTerm( form.getTermInfo() );
 
         CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(currentCOWrapper.getCourseOfferingId(),ContextUtils.createDefaultContextInfo());
@@ -216,12 +216,12 @@ public class ARGUtil {
         return selectedObject;
     }
 
-    public static void reloadCourseOfferings(ARGCourseOfferingManagementForm theForm) throws Exception {
+    public static void reloadCourseOfferings(CourseOfferingManagementForm theForm) throws Exception {
         getViewHelperService(theForm).loadCourseOfferingsByTermAndCourseCode(theForm.getTermInfo().getId(), theForm.getInputCode(), theForm);
         ARGToolbarUtil.processCoToolbarForUser(theForm.getCourseOfferingResultList(), theForm);
     }
 
-    public static void reloadTheCourseOfferingWithAOs_RGs_Clusters(ARGCourseOfferingManagementForm theForm) throws Exception {
+    public static void reloadTheCourseOfferingWithAOs_RGs_Clusters(CourseOfferingManagementForm theForm) throws Exception {
         // Reload the AOs
         CourseOfferingInfo theCourseOffering = theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
 
@@ -284,7 +284,7 @@ public class ARGUtil {
         return props;
     }
 
-    public static boolean _isClusterUniqueWithinCO(ARGCourseOfferingManagementForm form, String courseOfferingId, String privateName) throws Exception{
+    public static boolean _isClusterUniqueWithinCO(CourseOfferingManagementForm form, String courseOfferingId, String privateName) throws Exception{
         List<String> foIds = new ArrayList<String>();
         //fetch all the formatOfferingIds associated with the given courseOfferingId
         //For performance, if FOIds are already in the form, use it (most likely it is). Otherwise, fetch FOs by COId
@@ -349,7 +349,7 @@ public class ARGUtil {
 
     }
 
-    public static void clearForm (ARGCourseOfferingManagementForm form) throws Exception {
+    public static void clearForm (CourseOfferingManagementForm form) throws Exception {
         form.setAdminOrg(null);
         form.setCourseOfferingResultList(new ArrayList<CourseOfferingListSectionWrapper>());
         form.setActivityWrapperList(new ArrayList<ActivityOfferingWrapper>());

@@ -22,7 +22,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.class2.courseoffering.util.ARGUtil;
-import org.kuali.student.enrollment.class2.courseoffering.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -44,7 +44,7 @@ public class ARGClustersForCreateAOKeyValues extends UifKeyValuesFinderBase impl
     public List<KeyValue> getKeyValues(ViewModel model) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         ARGFormatsForCreateAOKeyValues argFormatsForCreateAOKeyValues = new ARGFormatsForCreateAOKeyValues();
-        ARGCourseOfferingManagementForm coForm = (ARGCourseOfferingManagementForm) model;
+        CourseOfferingManagementForm coForm = (CourseOfferingManagementForm) model;
         String formatOfferingId = coForm.getFormatOfferingIdForNewAO();
         coForm.setHasAOCluster(false);
         //If there is no selected format and the CO has no formats, return an  empty list

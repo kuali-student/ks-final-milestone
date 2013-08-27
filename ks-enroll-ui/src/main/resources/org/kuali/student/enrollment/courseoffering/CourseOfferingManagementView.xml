@@ -22,8 +22,8 @@
     <bean id="KS-CourseOfferingManagement-View" parent="KS-CourseOffering-FormViewWithTermContextBarPlaceholder" p:applyDirtyCheck="true"
           p:id="courseOfferingManagementView"
           p:entryPageId="searchInputPage"
-          p:viewHelperServiceClass="org.kuali.student.enrollment.class2.autogen.service.impl.ARGCourseOfferingManagementViewHelperServiceImpl"
-          p:formClass="org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm" >
+          p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.ARGCourseOfferingManagementViewHelperServiceImpl"
+          p:formClass="org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm" >
 
         <!-- This is a placeholder; it will be dynamically replaced by child-pages using JS-onDocumentReadyScript.
              This is a work-around at least until KRAD 2.3-m3 -->

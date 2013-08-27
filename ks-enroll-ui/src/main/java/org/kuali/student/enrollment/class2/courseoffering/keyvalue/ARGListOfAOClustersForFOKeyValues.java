@@ -20,7 +20,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.student.enrollment.class2.courseoffering.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -63,7 +63,7 @@ public class ARGListOfAOClustersForFOKeyValues extends UifKeyValuesFinderBase im
      */
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
-        ARGCourseOfferingManagementForm theForm = (ARGCourseOfferingManagementForm) model;
+        CourseOfferingManagementForm theForm = (CourseOfferingManagementForm) model;
 
         //reset values:
         theForm.setSelectedFOIDForAOMove("");
@@ -116,7 +116,7 @@ public class ARGListOfAOClustersForFOKeyValues extends UifKeyValuesFinderBase im
         return keyValues;
     }
     
-    private List<KeyValue> populateClusterList(FormatOfferingInfo fo, ARGCourseOfferingManagementForm theForm) {
+    private List<KeyValue> populateClusterList(FormatOfferingInfo fo, CourseOfferingManagementForm theForm) {
         //set values for create New under Move To...
         theForm.setSelectedFOIDForAOMove(fo.getId());
 

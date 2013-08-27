@@ -16,7 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service;
 
-import org.kuali.student.enrollment.class2.courseoffering.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CO_AO_RG_ViewHelperService;
@@ -30,26 +30,26 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public interface ARGCourseOfferingManagementViewHelperService extends CO_AO_RG_ViewHelperService {
-    public void populateTerm(ARGCourseOfferingManagementForm form) throws Exception;
+    public void populateTerm(CourseOfferingManagementForm form) throws Exception;
 
-    public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, ARGCourseOfferingManagementForm form) throws Exception;
+    public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, CourseOfferingManagementForm form) throws Exception;
 
-    public void loadCourseOfferingsByTermAndSubjectCode(String termId, String subjectCode, ARGCourseOfferingManagementForm form) throws Exception;
+    public void loadCourseOfferingsByTermAndSubjectCode(String termId, String subjectCode, CourseOfferingManagementForm form) throws Exception;
 
-    public void loadActivityOfferingsByCourseOffering (CourseOfferingInfo theCourseOfferingInfo, ARGCourseOfferingManagementForm form) throws Exception;
+    public void loadActivityOfferingsByCourseOffering (CourseOfferingInfo theCourseOfferingInfo, CourseOfferingManagementForm form) throws Exception;
 
-    public void createActivityOfferings(String formatOfferingId,String activityId,int noOfActivityOfferings, ARGCourseOfferingManagementForm form);
+    public void createActivityOfferings(String formatOfferingId,String activityId,int noOfActivityOfferings, CourseOfferingManagementForm form);
 
     public void markCourseOfferingsForScheduling(List<CourseOfferingListSectionWrapper> coWrappers, String viewId, String socStateKey, boolean checkedOnly) throws Exception;
 
-    public void loadPreviousAndNextCourseOffering(ARGCourseOfferingManagementForm form);
+    public void loadPreviousAndNextCourseOffering(CourseOfferingManagementForm form);
 
-    public List<ActivityOfferingWrapper> getActivityOfferingsByCourseOfferingId (String courseOfferingId, ARGCourseOfferingManagementForm form) throws Exception;
+    public List<ActivityOfferingWrapper> getActivityOfferingsByCourseOfferingId (String courseOfferingId, CourseOfferingManagementForm form) throws Exception;
 
-    public void approveCourseOfferings(ARGCourseOfferingManagementForm form) throws Exception;
-    public void deleteCourseOfferings(ARGCourseOfferingManagementForm form) throws Exception;
-    public void approveActivityOfferings(ARGCourseOfferingManagementForm form) throws Exception;
-    public void draftActivityOfferings(ARGCourseOfferingManagementForm form) throws Exception;
+    public void approveCourseOfferings(CourseOfferingManagementForm form) throws Exception;
+    public void deleteCourseOfferings(CourseOfferingManagementForm form) throws Exception;
+    public void approveActivityOfferings(CourseOfferingManagementForm form) throws Exception;
+    public void draftActivityOfferings(CourseOfferingManagementForm form) throws Exception;
 
     public void build_AOs_RGs_AOCs_Lists_For_TheCourseOffering (ActivityOfferingDisplayUI form) throws Exception;
 

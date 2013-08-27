@@ -37,7 +37,7 @@ import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.enrollment.class2.courseoffering.util.ARGUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleCalcContainer;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleRequestCalcContainer;
-import org.kuali.student.enrollment.class2.courseoffering.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.ARGCourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.ARGToolbarUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.*;
@@ -153,10 +153,10 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
     /**
      * This method fetches the <code>TermInfo</code> and validate for exact match
      *
-     * @param form input ARGCourseOfferingManagementForm
+     * @param form input CourseOfferingManagementForm
      * @throws Exception
      */
-    public void populateTerm(ARGCourseOfferingManagementForm form) throws Exception {
+    public void populateTerm(CourseOfferingManagementForm form) throws Exception {
 
         String termCode = form.getTermCode();
 
@@ -214,7 +214,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
     }
 
-    private void blockUserIfSocStateIs( ARGCourseOfferingManagementForm form, String socStateKeyToBlockUserOn, String errorMessageKey ) {
+    private void blockUserIfSocStateIs( CourseOfferingManagementForm form, String socStateKeyToBlockUserOn, String errorMessageKey ) {
         errorMessageKey = StringUtils.defaultIfEmpty( errorMessageKey, ManageSocConstants.MessageKeys.ERROR_CANNOT_ACCESS_COURSE_OFFERING_WHILE_SOC_INVALID_STATE_DEFAULT);
 
         if( StringUtils.equalsIgnoreCase( form.getSocStateKey(), socStateKeyToBlockUserOn ) ) {
@@ -230,7 +230,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
      * @param form Input Form
      * @throws Exception
      */
-    public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, ARGCourseOfferingManagementForm form) throws Exception {
+    public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, CourseOfferingManagementForm form) throws Exception {
 
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey());
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.COURSE_CODE, courseCode);
@@ -262,7 +262,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
      * @param form        course offering management form
      * @throws Exception
      */
-    public void loadCourseOfferingsByTermAndSubjectCode(String termId, String subjectCode, ARGCourseOfferingManagementForm form) throws Exception {
+    public void loadCourseOfferingsByTermAndSubjectCode(String termId, String subjectCode, CourseOfferingManagementForm form) throws Exception {
 
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey());
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.SUBJECT_AREA, subjectCode);
@@ -1430,7 +1430,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
      * @throws Exception
      * @see CourseOfferingManagementSearchImpl Actual CO search happens here
      */
-    protected void loadCourseOfferings(SearchRequestInfo searchRequest, ARGCourseOfferingManagementForm form) throws Exception {
+    protected void loadCourseOfferings(SearchRequestInfo searchRequest, CourseOfferingManagementForm form) throws Exception {
 
         ContextInfo contextInfo = createContextInfo();
 
@@ -1489,7 +1489,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
      *
      * @param form input form
      */
-    public void loadPreviousAndNextCourseOffering(ARGCourseOfferingManagementForm form) {
+    public void loadPreviousAndNextCourseOffering(CourseOfferingManagementForm form) {
         try {
             ContextInfo contextInfo = createContextInfo();
 
@@ -1564,7 +1564,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
     }
 
-    public void createActivityOfferings(String formatOfferingId, String activityId, int noOfActivityOfferings, ARGCourseOfferingManagementForm form) {
+    public void createActivityOfferings(String formatOfferingId, String activityId, int noOfActivityOfferings, CourseOfferingManagementForm form) {
         String termcode;
         FormatOfferingInfo formatOfferingInfo;
         TypeInfo activityOfferingType = null;
@@ -1674,7 +1674,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
     }
 
-    public void loadActivityOfferingsByCourseOffering(CourseOfferingInfo theCourseOfferingInfo, ARGCourseOfferingManagementForm form) throws Exception {
+    public void loadActivityOfferingsByCourseOffering(CourseOfferingInfo theCourseOfferingInfo, CourseOfferingManagementForm form) throws Exception {
         String courseOfferingId = theCourseOfferingInfo.getId();
         List<ActivityOfferingInfo> activityOfferingInfoList;
         List<ActivityOfferingWrapper> activityOfferingWrapperList;
@@ -1693,7 +1693,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         form.setActivityWrapperList(activityOfferingWrapperList);
     }
 
-    public List<ActivityOfferingWrapper> getActivityOfferingsByCourseOfferingId(String courseOfferingId, ARGCourseOfferingManagementForm form) throws Exception {
+    public List<ActivityOfferingWrapper> getActivityOfferingsByCourseOfferingId(String courseOfferingId, CourseOfferingManagementForm form) throws Exception {
         List<ActivityOfferingInfo> activityOfferingInfoList;
         List<ActivityOfferingWrapper> activityOfferingWrapperList;
 
@@ -1711,7 +1711,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         return activityOfferingWrapperList;
     }
 
-    public void approveCourseOfferings(ARGCourseOfferingManagementForm form) throws Exception {
+    public void approveCourseOfferings(CourseOfferingManagementForm form) throws Exception {
         List<CourseOfferingListSectionWrapper> coList = form.getCourseOfferingResultList();
         ContextInfo contextInfo = createContextInfo();
         int checked = 0;
@@ -1745,7 +1745,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
     }
 
-    public void deleteCourseOfferings(ARGCourseOfferingManagementForm form) throws Exception {
+    public void deleteCourseOfferings(CourseOfferingManagementForm form) throws Exception {
         List<CourseOfferingListSectionWrapper> coList = form.getCourseOfferingResultList();
         int totalCosToDelete = 0;
         int totalColocatedCos = 0;
@@ -1861,7 +1861,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         form.setTotalAOsToBeDeleted(totalAos);
     }
 
-    public void approveActivityOfferings(ARGCourseOfferingManagementForm form) throws Exception {
+    public void approveActivityOfferings(CourseOfferingManagementForm form) throws Exception {
         List<ActivityOfferingWrapper> aoList = form.getActivityWrapperList();
         ContextInfo contextInfo = createContextInfo();
         int checked = 0;
@@ -1888,7 +1888,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
     }
 
-    public void draftActivityOfferings(ARGCourseOfferingManagementForm form) throws Exception {
+    public void draftActivityOfferings(CourseOfferingManagementForm form) throws Exception {
         List<ActivityOfferingWrapper> aoList = form.getActivityWrapperList();
         ContextInfo contextInfo = createContextInfo();
         int checked = 0;
@@ -2008,7 +2008,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
     }
 
-    private void setSocStateKeys(ARGCourseOfferingManagementForm form, List<String> socIds) throws Exception {
+    private void setSocStateKeys(CourseOfferingManagementForm form, List<String> socIds) throws Exception {
         if (socIds != null && !socIds.isEmpty()) {
             List<SocInfo> targetSocs = this.getSocService().getSocsByIds(socIds, createContextInfo());
             for (SocInfo soc : targetSocs) {

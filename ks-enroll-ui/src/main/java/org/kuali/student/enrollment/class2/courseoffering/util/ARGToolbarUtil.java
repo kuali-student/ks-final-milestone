@@ -23,7 +23,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -51,7 +51,7 @@ public class ARGToolbarUtil {
     private static TypeService typeService;
     private static AcademicCalendarService academicCalendarService;
 
-    public static void processCoToolbarForUser(List<CourseOfferingListSectionWrapper> coListWrapperList, ARGCourseOfferingManagementForm form){
+    public static void processCoToolbarForUser(List<CourseOfferingListSectionWrapper> coListWrapperList, CourseOfferingManagementForm form){
         form.setEnableAddButton(false);
         String socStateKey = form.getSocStateKey();
         String socState = socStateKey==null?null:socStateKey.substring(socStateKey.lastIndexOf('.')+1);
@@ -165,7 +165,7 @@ public class ARGToolbarUtil {
 
     }
 
-    public static void processAoToolbarForUser(List<ActivityOfferingWrapper> activityWrapperList, ARGCourseOfferingManagementForm form){
+    public static void processAoToolbarForUser(List<ActivityOfferingWrapper> activityWrapperList, CourseOfferingManagementForm form){
         form.setEnableAddButton(false);
         form.setEnableMoveAOButton(false);
         form.setEnableAddClusterButton(false);

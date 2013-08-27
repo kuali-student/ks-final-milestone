@@ -5,7 +5,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.student.enrollment.class2.courseoffering.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -22,7 +22,7 @@ public class ARGFormatsForCreateRGKeyValues extends UifKeyValuesFinderBase imple
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
 
-        ARGCourseOfferingManagementForm rgForm = (ARGCourseOfferingManagementForm) model;
+        CourseOfferingManagementForm rgForm = (CourseOfferingManagementForm) model;
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 

@@ -24,7 +24,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
@@ -56,7 +56,7 @@ public class ARGActivityOfferingClusterHandler {
 
     private static boolean createAOCFromMove = false;
 
-    public static boolean loadAOs_RGs_AOCs(ARGCourseOfferingManagementForm form) throws Exception {
+    public static boolean loadAOs_RGs_AOCs(CourseOfferingManagementForm form) throws Exception {
 
         Object selectedObject = ARGUtil.getSelectedObject(form, "Manage");
 
@@ -74,14 +74,14 @@ public class ARGActivityOfferingClusterHandler {
         }
     }
 
-    public static void selectAllActivityOfferings(ARGCourseOfferingManagementForm theForm) throws Exception {
+    public static void selectAllActivityOfferings(CourseOfferingManagementForm theForm) throws Exception {
         List<ActivityOfferingWrapper> list = theForm.getActivityWrapperList();
         for (ActivityOfferingWrapper listElement : list) {
             listElement.setIsChecked(true);
         }
     }
 
-    public static void copyAO(ARGCourseOfferingManagementForm form) {
+    public static void copyAO(CourseOfferingManagementForm form) {
         ActivityOfferingWrapper selectedAO = (ActivityOfferingWrapper) ARGUtil.getSelectedObject(form, "copy");
         try {
             String aoIdToCopy = selectedAO.getAoInfo().getId(); // Create a copy of this AO
@@ -95,7 +95,7 @@ public class ARGActivityOfferingClusterHandler {
         }
     }
 
-    public static void cancelSelectedAoList(ARGCourseOfferingManagementForm theForm) throws Exception {
+    public static void cancelSelectedAoList(CourseOfferingManagementForm theForm) throws Exception {
 
         List<ActivityOfferingWrapper> selectedAolist = theForm.getSelectedToCSRList();
 
@@ -126,7 +126,7 @@ public class ARGActivityOfferingClusterHandler {
         }
     }
 
-    public static void suspendSelectedAoList(ARGCourseOfferingManagementForm theForm) throws Exception {
+    public static void suspendSelectedAoList(CourseOfferingManagementForm theForm) throws Exception {
 
         List<ActivityOfferingWrapper> selectedAolist = theForm.getSelectedToCSRList();
 
@@ -157,7 +157,7 @@ public class ARGActivityOfferingClusterHandler {
         }
     }
 
-    public static void reinstateSelectedAoList(ARGCourseOfferingManagementForm theForm) throws Exception {
+    public static void reinstateSelectedAoList(CourseOfferingManagementForm theForm) throws Exception {
 
         List<ActivityOfferingWrapper> selectedAolist = theForm.getSelectedToCSRList();
 
@@ -188,7 +188,7 @@ public class ARGActivityOfferingClusterHandler {
         }
     }
 
-    public static void deleteSelectedAoList(ARGCourseOfferingManagementForm theForm) throws Exception {
+    public static void deleteSelectedAoList(CourseOfferingManagementForm theForm) throws Exception {
 
         List<ActivityOfferingWrapper> selectedAolist = theForm.getSelectedToDeleteList();
 
@@ -219,7 +219,7 @@ public class ARGActivityOfferingClusterHandler {
         }
     }
 
-    public static Properties editAO(ARGCourseOfferingManagementForm theForm, String aoId) throws Exception {
+    public static Properties editAO(CourseOfferingManagementForm theForm, String aoId) throws Exception {
         Properties urlParameters = new Properties();
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
         urlParameters.put(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID, aoId);
@@ -233,7 +233,7 @@ public class ARGActivityOfferingClusterHandler {
         return urlParameters;
     }
 
-    public static boolean confirmDelete(ARGCourseOfferingManagementForm theForm) throws Exception {
+    public static boolean confirmDelete(CourseOfferingManagementForm theForm) throws Exception {
         Collection<Object> collection;
         Object selectedObject;
         List<ActivityOfferingWrapper> aoList = theForm.getActivityWrapperList();
@@ -296,7 +296,7 @@ public class ARGActivityOfferingClusterHandler {
         return true;
     }
 
-    public static Properties view(@SuppressWarnings("unused") ARGCourseOfferingManagementForm theForm, ActivityOfferingWrapper aoWrapper) throws Exception {
+    public static Properties view(@SuppressWarnings("unused") CourseOfferingManagementForm theForm, ActivityOfferingWrapper aoWrapper) throws Exception {
         Properties urlParameters = new Properties();
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
         urlParameters.put(ActivityOfferingConstants.ACTIVITYOFFERING_ID, aoWrapper.getAoInfo().getId());
@@ -304,7 +304,7 @@ public class ARGActivityOfferingClusterHandler {
         return urlParameters;
     }
 
-    public static void addActivityOfferings(ARGCourseOfferingManagementForm theForm) throws Exception {
+    public static void addActivityOfferings(CourseOfferingManagementForm theForm) throws Exception {
 
         String activityId = theForm.getActivityIdForNewAO();
         String formatOfferingId = theForm.getFormatOfferingIdForNewAO();
@@ -319,7 +319,7 @@ public class ARGActivityOfferingClusterHandler {
         theForm.setNoOfActivityOfferings(null);
     }
 
-    public static ARGCourseOfferingManagementForm createNewCluster(ARGCourseOfferingManagementForm theForm) throws Exception {
+    public static CourseOfferingManagementForm createNewCluster(CourseOfferingManagementForm theForm) throws Exception {
 
         /* Indicate that the search used to redraw the page after this operation completes should use an exact
          * match of the course code rather than the usual "like" criteria. Otherwise, if the course code matches multiple
@@ -420,7 +420,7 @@ public class ARGActivityOfferingClusterHandler {
         return theForm;
     }
 
-    public static ARGCourseOfferingManagementForm moveAOToACluster (ARGCourseOfferingManagementForm theForm) throws Exception {
+    public static CourseOfferingManagementForm moveAOToACluster (CourseOfferingManagementForm theForm) throws Exception {
 
         ContextInfo context = ContextUtils.createDefaultContextInfo();
         boolean aoChecked = false;
@@ -474,7 +474,7 @@ public class ARGActivityOfferingClusterHandler {
         return CourseOfferingResourceLoader.loadCourseOfferingService();
     }
 
-    public static void showDeleteClusterConfirmPage(ARGCourseOfferingManagementForm theForm) throws Exception {
+    public static void showDeleteClusterConfirmPage(CourseOfferingManagementForm theForm) throws Exception {
 
         Object selectedObject = ARGUtil.getSelectedObject(theForm, "Delete");
         if (selectedObject instanceof ActivityOfferingClusterWrapper) {
@@ -485,7 +485,7 @@ public class ARGActivityOfferingClusterHandler {
         }
     }
 
-    public static void renameAClusterThroughDialog(ARGCourseOfferingManagementForm theForm) throws Exception {
+    public static void renameAClusterThroughDialog(CourseOfferingManagementForm theForm) throws Exception {
         Object selectedObject = ARGUtil.getSelectedObject(theForm, "Rename");
         if (selectedObject instanceof ActivityOfferingClusterWrapper) {
             ActivityOfferingClusterWrapper clusterWrapper = (ActivityOfferingClusterWrapper)selectedObject;
@@ -493,14 +493,14 @@ public class ARGActivityOfferingClusterHandler {
         }
     }
 
-    public static void deleteClusterCascaded(ARGCourseOfferingManagementForm theForm) throws Exception {
+    public static void deleteClusterCascaded(CourseOfferingManagementForm theForm) throws Exception {
         ActivityOfferingClusterWrapper aoWrapper = theForm.getSelectedCluster();
         ARGUtil.getArgServiceAdapter().deleteActivityOfferingCluster(aoWrapper.getActivityOfferingClusterId(), ContextBuilder.loadContextInfo());
         CourseOfferingViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo(), ContextBuilder.loadContextInfo());
         ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
     }
 
-    public static Properties manageAO(ARGCourseOfferingManagementForm theForm, String aoId) throws Exception {
+    public static Properties manageAO(CourseOfferingManagementForm theForm, String aoId) throws Exception {
         Properties urlParameters = new Properties();
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
         urlParameters.put(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID, aoId);

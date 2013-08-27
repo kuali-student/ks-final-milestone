@@ -1,7 +1,7 @@
 package org.kuali.student.enrollment.class2.scheduleofclasses.service;
 
 
-import org.kuali.student.enrollment.class2.autogen.service.ARGCourseOfferingManagementViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.service.ARGCourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 

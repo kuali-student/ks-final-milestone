@@ -19,7 +19,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.student.enrollment.class2.courseoffering.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.ARGCourseOfferingManagementViewHelperServiceImpl;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl;
@@ -43,7 +43,7 @@ public class ARGFormatsForCreateAOKeyValues extends UifKeyValuesFinderBase imple
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
-        ARGCourseOfferingManagementForm coForm = (ARGCourseOfferingManagementForm) model;
+        CourseOfferingManagementForm coForm = (CourseOfferingManagementForm) model;
         ARGCourseOfferingManagementViewHelperServiceImpl helperService = ((ARGCourseOfferingManagementViewHelperServiceImpl)coForm.getView().getViewHelperService());
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
@@ -81,7 +81,7 @@ public class ARGFormatsForCreateAOKeyValues extends UifKeyValuesFinderBase imple
     // This will be used as the default value for the Format Offering dropdown in the Add Activity popover,
     // and to determine the default value for the Activity Type and Cluster dropdowns to ensure there are no mismatches.
     public String getFirstKey(ViewModel model){
-        ARGCourseOfferingManagementForm coForm = (ARGCourseOfferingManagementForm) model;
+        CourseOfferingManagementForm coForm = (CourseOfferingManagementForm) model;
         ARGCourseOfferingManagementViewHelperServiceImpl helperService = ((ARGCourseOfferingManagementViewHelperServiceImpl)coForm.getView().getViewHelperService());
         String foId = null;
         CourseOfferingInfo selectedCourseOffering = coForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
