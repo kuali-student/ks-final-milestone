@@ -357,7 +357,8 @@
     <bean id="KS-CourseOfferingEdit-GradingOptions" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.gradingOptionId" p:id="gradingOptionId" p:label="Grading Options" p:fieldLabel.renderColon="false" p:componentSecurity.editAuthz="true">
+                <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.gradingOptionId" p:id="gradingOptionId" p:label="Grading Options" p:fieldLabel.renderColon="false" p:componentSecurity.editAuthz="true"
+                      p:onChangeScript="jQuery('#dirtyForm').val(true);" >
                     <property name="control">
                         <bean parent="Uif-HorizontalRadioControl"/>
                     </property>
@@ -410,7 +411,8 @@
         <property name="items">
             <list>
                 <!-- Credit Option Type Selector -->
-                <bean parent="Uif-InputField" p:propertyName="creditOption.typeKey" p:label="Credit Type">
+                <bean parent="Uif-InputField" p:propertyName="creditOption.typeKey" p:label="Credit Type"
+                      p:onChangeScript="jQuery('#dirtyForm').val(true);" >
                     <property name="id" value="KS-CourseOfferingEdit-CreditType_OptionTypeSelector" />
                     <property name="control" >
                         <bean parent="Uif-HorizontalRadioControl" p:disabled="@{#dp.creditOptionFixed}" />
@@ -485,7 +487,8 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.finalExamType" p:id="finalExamType" p:label="Final Exams"
-                                  p:fieldLabel.renderColon="false" p:labelPlacement="TOP" p:componentSecurity.editAuthz="true">
+                                  p:fieldLabel.renderColon="false" p:labelPlacement="TOP" p:componentSecurity.editAuthz="true"
+                                  p:onChangeScript="jQuery('#dirtyForm').val(true);"  >
                                 <property name="control">
                                     <bean parent="Uif-VerticalRadioControl"/>
                                 </property>
@@ -533,6 +536,7 @@
         <property name="lineActions">
             <list>
                 <bean parent="KS-Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="delete"
+                          p:dirtyOnAction="true"
                           p:onMouseOverScript="deleteLineMouseOver(this, 'uif-collectionDeleteHighlight');"
                           p:onMouseOutScript="deleteLineMouseOut(this, 'uif-collectionDeleteHighlight');"
                           p:onClickScript="writeCurrentPageToSession(this);"
@@ -593,7 +597,8 @@
                             <bean parent="Uif-HorizontalBoxSection" p:refreshWhenChangedPropertyNames="#dp.courseOfferingInfo.hasWaitlist">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.waitlistLevelTypeKey" p:label="Waitlist Level" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.waitlistLevelTypeKey"
+                                              p:onChangeScript="jQuery('#dirtyForm').val(true);" p:label="Waitlist Level" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                                             <property name="control">
                                                 <bean parent="Uif-VerticalRadioControl" p:disabled="@{!#dp.courseOfferingInfo.hasWaitlist}"/>
                                             </property>
@@ -674,7 +679,7 @@
                     <property name="lineActions">
                         <list>
                             <bean parent="KS-Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="delete"
-                                  p:actionEvent="deleteLine" />
+                                  p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
                         </list>
                     </property>
                 </bean>
@@ -709,7 +714,7 @@
           p:layoutManager.applyAlternatingRowStyles="false">
         <property name="addBlankLineAction.actionLabel" value="Add Administrating Organization"/>
         <property name="addBlankLineAction.id" value="KS-CourseOfferingEdit-OrganizationSection_add"/>
-
+        <property name="addBlankLineAction.dirtyOnAction" value="true" />
         <property name="items">
             <list>
                 <bean parent="Uif-InputField"  p:label="Organization ID"  p:propertyName="id" p:style="font-weight:bold;white-space:nowrap;">
@@ -735,7 +740,7 @@
         <property name="lineActions">
             <list>
                 <bean parent="KS-Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="delete"
-                      p:actionEvent="deleteLine" />
+                      p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
             </list>
         </property>
     </bean>

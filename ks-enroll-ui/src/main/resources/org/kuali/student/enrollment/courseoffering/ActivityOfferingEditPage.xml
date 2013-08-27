@@ -170,12 +170,14 @@
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="addLineActions">
             <list>
-                <bean parent="Uif-AddLineAction" p:actionScript="showLightboxComponent('ActivityOfferingEdit-CoLocatedAddLineDialog')"/>
+                <bean parent="Uif-AddLineAction" p:actionScript="showLightboxComponent('ActivityOfferingEdit-CoLocatedAddLineDialog');jQuery('#dirtyForm').val(true);"
+                        p:dirtyOnAction="true"/>
             </list>
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-DeleteLineAction" p:successCallback="addColocatedAOSuccessCallBack();" p:render="@{#dp.requestedScheduleComponents.isEmpty()}"/>
+                <bean parent="Uif-DeleteLineAction" p:successCallback="addColocatedAOSuccessCallBack();"
+                      p:render="@{#dp.requestedScheduleComponents.isEmpty()}" p:dirtyOnAction="true"/>
             </list>
         </property>
         <property name="items">
@@ -220,7 +222,7 @@
                         <bean parent="Uif-TextControl" p:size="4" p:watermarkText="A"/>
                     </property>
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder">
+                        <bean parent="Uif-QuickFinder"  p:lightBoxLookup.lookupReturnByScript="true">
                             <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
                             <property name="quickfinderAction">
                                 <bean parent="Uif-ActionLink" p:actionLabel="Advanced Select" p:style="display:block" p:methodToCall="performLookup"/>
@@ -407,7 +409,7 @@
                                     <bean parent="Uif-TextControl" p:size="40" p:onBlurScript="validatePopulationForSP(this,'@{document.newMaintainableObject.dataObject.populationsJSONString}');"/>
                                 </property>
                                 <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinder">
+                                    <bean parent="Uif-QuickFinder" p:lightBoxLookup.lookupReturnByScript="true">
                                         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
                                         <property name="fieldConversions">
                                             <map>
