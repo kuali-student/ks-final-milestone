@@ -720,22 +720,36 @@ function highlightElements(validationJSONString, isValid, url) {
 
  Note: passing null for the 1st-argument (or if an element for 1st-argument is not found) will result in element targeted
  by 2nd-argument being emptied without getting a replacement.
+
+ Since Upgrade  2.3 the context bar is replaced on page_load, however on get the context bar is remained the same
+ So on page load we are loading the component that krad is replacing the context bar with instead of the place holder.
  */
-function updateContextBar(srcId, contextBarId){
 
-    jQuery( "#" + contextBarId).empty(); // remove any child elements so we can replace them later
+function updateContextBar(srcId, contextBarId) {
 
-    if( contextBarId == null ) return;
+    if (jQuery("#" + srcId).length == 0)return;
+    if (jQuery("#" + contextBarId).length == 0)return;
 
+    var src = jQuery("#" + srcId);
+
+    var topGroupUpdate = jQuery("#" + kradVariables.TOP_GROUP_UPDATE);  //grab the top group
+    if (topGroupUpdate.length > 0) {
+        jQuery(topGroupUpdate ).empty();
+        jQuery(topGroupUpdate).append(src);
+        src.show();
+    }
+
+    // on page load this is replaced. so there is no problem with showing this component.
     var contextBar = jQuery("#" + contextBarId);    // grab the placeholder
-    if( contextBar ) {
-        if (contextBar.css('display') == "none") {
+    if (contextBar.length > 0) {
+        jQuery(contextBar).empty();
+        if (jQuery(contextBar).is(":hidden")) {
             contextBar.show();
         }
-        var src = jQuery("#" + srcId);                  // grab the new context bar
-        jQuery(contextBar).append(jQuery(src));         // add it to the context bar placeholder
-        jQuery(src).show();
+        jQuery(contextBar).append(src);         // add it to the context bar placeholder
+        src.show();
     }
+
 }
 
 /*
