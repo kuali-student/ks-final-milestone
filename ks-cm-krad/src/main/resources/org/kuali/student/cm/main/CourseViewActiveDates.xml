@@ -48,22 +48,17 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="course.endTerm" p:label="End Term">
-                      <!--
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="course.endTerm" p:label="End Term"
                     p:required="@{document.newMaintainableObject.dataObject.course.pilotCourse}" >
-                      -->
                     <property name="refreshWhenChangedPropertyNames">
                         <list>
-                            <value>course.pilotCourse</value>
-                            <value>course.startTerm</value> 
+                            <value>document.newMaintainableObject.dataObject.course.pilotCourse</value>
+                            <value>document.newMaintainableObject.dataObject.course.startTerm</value> 
                         </list>
                     </property>
                     <property name="instructionalText" value="Last term in which the course can be offered" />
                     <property name="control">
-                      <!--
                         <bean parent="Uif-DropdownControl" p:disabled="@{!document.newMaintainableObject.dataObject.course.pilotCourse}" />
-                       -->
-                        <bean parent="Uif-DropdownControl" />
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"
