@@ -61,9 +61,9 @@
                         <bean parent="Uif-HorizontalBoxGroup">
                             <property name="items">
                                 <list>
-                                    <bean parent="KS-Uif-PrimaryActionButton" p:id="AoCancelConfirmationCancelButton" p:actionLabel="Cancel Activity Offering(s)" p:methodToCall="cancelSelectedAoList" p:render="@{actionCSR == 'cancelAO'}"/>
-                                    <bean parent="KS-Uif-PrimaryActionButton" p:id="AoSuspendConfirmationCancelButton" p:actionLabel="Suspend Activity Offering(s)" p:methodToCall="suspendSelectedAoList" p:render="@{actionCSR == 'suspendAO'}"/>
-                                    <bean parent="KS-Uif-PrimaryActionButton" p:id="AoReinstateConfirmationCancelButton" p:actionLabel="Reinstate Activity Offering(s)" p:methodToCall="reinstateSelectedAoList" p:render="@{actionCSR == 'reinstateAO'}"/>
+                                    <bean parent="KS-Uif-PrimaryActionButton" p:id="AoCancelConfirmationCancelButton" p:actionLabel="Cancel Activity Offering(s)" p:methodToCall="cancelSelectedAoList" p:render="@{actionCSR == T(org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants).ACTIVITYOFFERING_ACTION_CANCEL}"/>
+                                    <bean parent="KS-Uif-PrimaryActionButton" p:id="AoSuspendConfirmationCancelButton" p:actionLabel="Suspend Activity Offering(s)" p:methodToCall="suspendSelectedAoList" p:render="@{actionCSR == T(org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants).ACTIVITYOFFERING_ACTION_SUSPEND}"/>
+                                    <bean parent="KS-Uif-PrimaryActionButton" p:id="AoReinstateConfirmationCancelButton" p:actionLabel="Reinstate Activity Offering(s)" p:methodToCall="reinstateSelectedAoList" p:render="@{actionCSR == T(org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants).ACTIVITYOFFERING_ACTION_REINSTATE}"/>
                                     <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancelCSRAOs" />
                                 </list>
                             </property>
@@ -91,7 +91,7 @@
                 </bean>
 
                 <bean id="KS-SelectedAoCancelConfirmation-WarningMessage" parent="Uif-VerticalBoxSection">
-                    <property name="render" value="@{actionCSR=='cancelAO'}"/>
+                    <property name="render" value="@{actionCSR==T(org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants).ACTIVITYOFFERING_ACTION_CANCEL}"/>
                     <property name="headerText"
                               value=""/>
                     <property name="style" value="background-color:#FFEE99"/>
@@ -146,7 +146,7 @@
                 </bean>
 
                 <bean id="KS-SelectedAoReinstateConfirmation-WarningMessage" parent="Uif-VerticalBoxSection">
-                    <property name="render" value="@{actionCSR=='reinstateAO'}"/>
+                    <property name="render" value="@{actionCSR==T(org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants).ACTIVITYOFFERING_ACTION_REINSTATE}"/>
                     <property name="headerText"
                               value=""/>
                     <property name="style" value="background-color:#FFEE99"/>
@@ -201,7 +201,7 @@
                 </bean>
 
                 <bean id="KS-SelectedAoSuspendConfirmation-WarningMessage" parent="Uif-VerticalBoxSection">
-                    <property name="render" value="@{actionCSR=='suspendAO'}"/>
+                    <property name="render" value="@{actionCSR==T(org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants).ACTIVITYOFFERING_ACTION_SUSPEND}"/>
                     <property name="headerText"
                               value=""/>
                     <property name="style" value="background-color:#FFEE99"/>
@@ -258,7 +258,7 @@
                 <bean id="KS-CourseOfferingManagement-SelectedCancelActivityOfferingListSection"
                       parent="Uif-TableCollectionSection"
                       p:layoutManager.numberOfColumns="3" p:renderAddLine="false" p:readOnly="true">
-                    <property name="render" value="@{actionCSR=='cancelAO'}"/>
+                    <property name="render" value="@{actionCSR== T(org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants).ACTIVITYOFFERING_ACTION_CANCEL}"/>
                     <property name="collectionObjectClass"
                               value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
                     <property name="propertyName" value="selectedToCSRList"/>
@@ -304,7 +304,7 @@
                 <bean id="KS-CourseOfferingManagement-SelectedSuspendActivityOfferingListSection"
                       parent="Uif-TableCollectionSection"
                       p:layoutManager.numberOfColumns="3" p:renderAddLine="false" p:readOnly="true">
-                    <property name="render" value="@{actionCSR=='suspendAO'}"/>
+                    <property name="render" value="@{actionCSR==T(org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants).ACTIVITYOFFERING_ACTION_SUSPEND}"/>
                     <property name="collectionObjectClass"
                               value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
                     <property name="propertyName" value="selectedToCSRList"/>
@@ -351,7 +351,7 @@
                 <bean id="KS-CourseOfferingManagement-SelectedReinstateActivityOfferingListSection"
                       parent="Uif-TableCollectionSection"
                       p:layoutManager.numberOfColumns="3" p:renderAddLine="false" p:readOnly="true">
-                    <property name="render" value="@{actionCSR=='reinstateAO'}"/>
+                    <property name="render" value="@{actionCSR==T(org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants).ACTIVITYOFFERING_ACTION_REINSTATE}"/>
                     <property name="collectionObjectClass"
                               value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
                     <property name="propertyName" value="selectedToCSRList"/>
