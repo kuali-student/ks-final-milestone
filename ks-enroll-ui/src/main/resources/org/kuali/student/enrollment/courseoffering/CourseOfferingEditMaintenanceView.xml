@@ -85,7 +85,7 @@
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />
         <property name="page.items">
             <list>
-                <ref bean="KS-CourseOffering-ContextBar" />
+                <!--<ref bean="KS-CourseOffering-ContextBar" />-->
                 <ref bean="KS-CourseOffering-EditCo-Page-Header"/>
                 <ref bean="KS-EditCourseOffering-AliasMessageSection" />
                 <ref bean="KS-CourseOfferingEdit-Term"/>

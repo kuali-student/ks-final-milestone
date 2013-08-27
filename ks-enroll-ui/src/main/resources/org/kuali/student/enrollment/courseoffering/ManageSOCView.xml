@@ -167,7 +167,7 @@
     <bean id="ManageSOCView-DetailsSection" parent="Uif-HorizontalBoxSection" p:render="@{renderDetailsSection}">
         <property name="items">
             <list>
-                <ref bean="KS-CourseOffering-ContextBar" />
+                <!--<ref bean="KS-CourseOffering-ContextBar" />-->
                 <ref bean="ManageSOCView-StatusHistory-Section"/>
                 <ref bean="ManageSOCView-SchedulingDetails-Section"/>
             </list>
