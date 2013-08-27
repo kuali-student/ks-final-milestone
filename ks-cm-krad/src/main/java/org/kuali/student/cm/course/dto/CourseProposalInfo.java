@@ -11,6 +11,7 @@
 package org.kuali.student.cm.course.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -76,7 +77,7 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
     private List<OrganizationInfoWrapper> administeringOrganizations;
     @XmlElement
     private String lastUpdated;
-
+    
     @Override
     public ProposalInfo getProposal() {
         return proposal;
@@ -245,6 +246,9 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
      * @return the list of {@link CluInstructorInfoWrapper}
      */
     public List<CluInstructorInfoWrapper> getInstructorWrappers() {
+        if (instructorWrappers == null) {
+            instructorWrappers = new ArrayList<CluInstructorInfoWrapper>(0);
+        }
         return instructorWrappers;
     }
 
@@ -263,6 +267,9 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
      * @return the list of {@link CourseJointInfoWrapper}
      */
     public List<CourseJointInfoWrapper> getCourseJointWrappers() {
+        if (courseJointWrappers == null) {
+            courseJointWrappers = new ArrayList<CourseJointInfoWrapper>(0);
+        }
         return courseJointWrappers;
     }
 
@@ -281,6 +288,9 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
      * @return the list of {@link ResultValuesGroupInfoWrapper}
      */
     public List<ResultValuesGroupInfoWrapper> getCreditOptionWrappers() {
+        if (creditOptionWrappers == null) {
+            creditOptionWrappers = new ArrayList<ResultValuesGroupInfoWrapper>(0);
+        }
         return creditOptionWrappers;
     }
 
@@ -299,6 +309,9 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
      * @return the list of {@link CommentInfo}
      */
     public List<CommentInfo> getCommentInfos() {
+        if (commentInfos == null) {
+            commentInfos = new ArrayList<CommentInfo>(0);
+        }
         return commentInfos;
     }
 
@@ -317,6 +330,9 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
      * @return the list of {@link DecisionInfo}
      */
     public List<DecisionInfo> getDecisions() {
+        if (decisions == null) {
+            decisions = new ArrayList<DecisionInfo>(0);
+        }
         return decisions;
     }
 
@@ -335,6 +351,9 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
      * @return the list of {@link OrganizationInfoWrapper}
      */
     public List<OrganizationInfoWrapper> getAdministeringOrganizations() {
+        if (administeringOrganizations == null) {
+            administeringOrganizations = new ArrayList<OrganizationInfoWrapper>(0);
+        }
         return administeringOrganizations;
     }
 
