@@ -686,7 +686,7 @@ function highlightElements(validationJSONString, isValid, url) {
             var parentDiv = jQuery(controlDiv).parent().closest('div');
             var id = jQuery(parentDiv).attr("id");
             var errorDiv = createErrorDiv(message, url, id);
-            console.log(jQuery(errorDiv).text());
+//            console.log(jQuery(errorDiv).text());
             //var table = createErrorTable(url);
 
             jQuery(parentDiv).append(errorDiv);
@@ -698,12 +698,12 @@ function highlightElements(validationJSONString, isValid, url) {
                     //var table = createErrorTable(url);
                     var id = jQuery(this).parent().closest('div').attr("id");
                     var thisErrorDiv = jQuery('#' + id + '_messageDiv');
-                    console.log(jQuery(thisErrorDiv).html());
-                    console.log(jQuery(thisErrorDiv).text());
+//                    console.log(jQuery(thisErrorDiv).html());
+//                    console.log(jQuery(thisErrorDiv).text());
                     var div = jQuery(table).find('[id$="_messageDiv"]');
                     jQuery(table).find('[id$="_messageDiv"]').html(jQuery(thisErrorDiv).html());
                     jQuery(table).find('[id$="_messageDiv"]').text(jQuery(thisErrorDiv).text());
-                    console.log(jQuery(jQuery(table).find('[id$="_messageDiv"]')).text());
+//                    console.log(jQuery(jQuery(table).find('[id$="_messageDiv"]')).text());
                     jQuery('table#errorTable').show().css('top', jQuery(this).offset().top + moveDown).css('left', jQuery(this).offset().left + moveLeft);
                 },
                 function (e) {
@@ -1141,7 +1141,7 @@ function openDataTablePage(tableId, pageNumber) {
 function toggleTextBoxes(textBox){
     jQuery(textBox).bind('input', function(event) {
         jQuery(textBox).keyup();
-        console.log(event);
+//        console.log(event);
     });
 }
 
