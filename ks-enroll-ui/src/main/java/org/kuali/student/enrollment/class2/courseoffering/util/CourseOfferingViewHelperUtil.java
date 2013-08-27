@@ -213,6 +213,7 @@ public class CourseOfferingViewHelperUtil {
         boolean plannedState= false;
         boolean offeredState= false;
         boolean cancelledState= false;
+        boolean suspendedState= false;
 
         if(activityOfferings == null || activityOfferings.size() == 0) {
             return LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY;
@@ -228,20 +229,24 @@ public class CourseOfferingViewHelperUtil {
                 cancelledState = true;
             }  else if (StringUtils.equals(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, ao.getStateKey())) {
                 draftState = true;
+            }  else if (StringUtils.equals(LuiServiceConstants.LUI_AO_STATE_SUSPENDED_KEY, ao.getStateKey())) {
+                suspendedState = true;
             }
         }
 
         // if ALL the AOs within this FO are in a draft state (or if there are no AOs), and the current state of the FO is Planned, update the FO state to Draft
         if (offeredState) {
             return LuiServiceConstants.LUI_FO_STATE_OFFERED_KEY;
-        }  else if(plannedState) {
+        }  else if (plannedState) {
             return LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY;
         }  else if (draftState) {
             return LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY;
+        }   else if (suspendedState) {
+            return LuiServiceConstants.LUI_FO_STATE_SUSPENDED_KEY;
         }
 
         // no offered, planned, and draft state
-        if(cancelledState)  {
+        if (cancelledState)  {
             return LuiServiceConstants.LUI_FO_STATE_CANCELED_KEY;
         }
         // If all AOs are suspended
