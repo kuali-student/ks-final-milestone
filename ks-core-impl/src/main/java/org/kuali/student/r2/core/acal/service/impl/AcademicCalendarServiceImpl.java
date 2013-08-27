@@ -2721,8 +2721,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         try {
             createAtpAtpRelation(termId, examPeriodInfo.getId(), AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TERM2EXAMPERIOD_TYPE_KEY, contextInfo);
         } catch (DataValidationErrorException e) {
-            resultStatus.setSuccess(false);
-            resultStatus.setMessage("Creation of AtpAtpRelation failed due to DataValidationErrorExecption: " + e.getMessage());
+            throw new OperationFailedException ("Creation of AtpAtpRelation failed due to DataValidationError Execption: ", e);
         }
 
         return resultStatus;
