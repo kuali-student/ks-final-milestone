@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.class2.autogen.dto;
+package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;

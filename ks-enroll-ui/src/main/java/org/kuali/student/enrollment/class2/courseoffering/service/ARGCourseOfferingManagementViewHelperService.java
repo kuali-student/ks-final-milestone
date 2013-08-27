@@ -14,9 +14,9 @@
  *
  * Created by David Yin on 3/4/13
  */
-package org.kuali.student.enrollment.class2.autogen.service;
+package org.kuali.student.enrollment.class2.courseoffering.service;
 
-import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.form.ARGCourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CO_AO_RG_ViewHelperService;

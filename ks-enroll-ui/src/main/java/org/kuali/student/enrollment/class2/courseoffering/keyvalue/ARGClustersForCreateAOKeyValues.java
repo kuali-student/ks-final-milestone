@@ -14,15 +14,15 @@
  *
  * Created by David Yin on 3/25/13
  */
-package org.kuali.student.enrollment.class2.autogen.keyvalue;
+package org.kuali.student.enrollment.class2.courseoffering.keyvalue;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.student.enrollment.class2.autogen.controller.ARGUtil;
-import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.util.ARGUtil;
+import org.kuali.student.enrollment.class2.courseoffering.form.ARGCourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;

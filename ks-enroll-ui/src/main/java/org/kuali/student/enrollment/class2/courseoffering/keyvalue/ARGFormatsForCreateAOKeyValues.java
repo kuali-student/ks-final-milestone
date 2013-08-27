@@ -13,14 +13,14 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.enrollment.class2.autogen.keyvalue;
+package org.kuali.student.enrollment.class2.courseoffering.keyvalue;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
-import org.kuali.student.enrollment.class2.autogen.service.impl.ARGCourseOfferingManagementViewHelperServiceImpl;
+import org.kuali.student.enrollment.class2.courseoffering.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.ARGCourseOfferingManagementViewHelperServiceImpl;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;

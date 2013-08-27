@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  *
  */
-package org.kuali.student.enrollment.class2.autogen.service.impl;
+package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -34,24 +34,14 @@ import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
-import org.kuali.student.enrollment.class2.autogen.controller.ARGUtil;
-import org.kuali.student.enrollment.class2.autogen.dto.ScheduleCalcContainer;
-import org.kuali.student.enrollment.class2.autogen.dto.ScheduleRequestCalcContainer;
-import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
-import org.kuali.student.enrollment.class2.autogen.service.ARGCourseOfferingManagementViewHelperService;
-import org.kuali.student.enrollment.class2.autogen.util.ARGToolbarUtil;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
-import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.service.impl.CO_AO_RG_ViewHelperServiceImpl;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
-import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.ARGUtil;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleCalcContainer;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleRequestCalcContainer;
+import org.kuali.student.enrollment.class2.courseoffering.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.service.ARGCourseOfferingManagementViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.util.ARGToolbarUtil;
+import org.kuali.student.enrollment.class2.courseoffering.dto.*;
+import org.kuali.student.enrollment.class2.courseoffering.util.*;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ActivityOfferingDisplayUI;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;

@@ -14,7 +14,7 @@
  *
  * Created by David Yin on 3/4/13
  */
-package org.kuali.student.enrollment.class2.autogen.form;
+package org.kuali.student.enrollment.class2.courseoffering.form;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
@@ -40,8 +40,9 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class ARGCourseOfferingManagementForm extends KSUifForm implements ActivityOfferingDisplayUI{
-    //TODO: do we still need this for manage theCO page?
-    //for authorization purpose
+    /**
+     * This is for authorization purpose of manageTheCO page
+     */
     private String adminOrg;
 
     /**

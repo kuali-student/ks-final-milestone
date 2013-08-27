@@ -1,20 +1,18 @@
-package org.kuali.student.enrollment.class2.autogen.controller;
+package org.kuali.student.enrollment.class2.courseoffering.util;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.uif.form.KSUifForm;
-import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
-import org.kuali.student.enrollment.class2.autogen.service.ARGCourseOfferingManagementViewHelperService;
-import org.kuali.student.enrollment.class2.autogen.util.ARGToolbarUtil;
+import org.kuali.student.enrollment.class2.courseoffering.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.service.ARGCourseOfferingManagementViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.util.ARGToolbarUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;

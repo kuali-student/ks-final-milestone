@@ -14,11 +14,9 @@
  *
  * Created by David Yin on 3/4/13
  */
-package org.kuali.student.enrollment.class2.autogen.controller;
+package org.kuali.student.enrollment.class2.courseoffering.controller;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -26,17 +24,12 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper;
-import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.form.ARGCourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
-import org.kuali.student.enrollment.class2.courseoffering.util.FormatOfferingConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.*;
 import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;

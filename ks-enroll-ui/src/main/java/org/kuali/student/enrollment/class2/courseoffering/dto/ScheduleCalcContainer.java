@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.class2.autogen.dto;
+package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 /**
  * Created with IntelliJ IDEA.
