@@ -13,7 +13,6 @@ import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
 import org.kuali.student.r1.common.validator.ServerDateParser;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
-import org.kuali.student.r2.core.comment.dto.TagInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import static org.junit.Assert.*;
@@ -27,7 +26,6 @@ public class TestCommentDictionary
         System.out.println ("testing comment dictionary");
         Set<String> startingClasses = new LinkedHashSet ();
         startingClasses.add (CommentInfo.class.getName ());
-        startingClasses.add (TagInfo.class.getName ());
         String contextFile = "ks-comment-dictionary-context";
         String outFile = "target/" + contextFile + ".txt";
         DictionaryTesterHelper helper = new DictionaryTesterHelper (outFile,

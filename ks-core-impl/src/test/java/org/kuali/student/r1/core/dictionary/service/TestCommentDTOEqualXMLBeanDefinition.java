@@ -9,7 +9,6 @@ import java.util.Set;
 import org.junit.Test;
 import org.kuali.student.r1.common.dictionary.service.impl.DictionaryDiscrepencyTesterHelper;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
-import org.kuali.student.r2.core.comment.dto.TagInfo;
 
 public class TestCommentDTOEqualXMLBeanDefinition {
 
@@ -19,7 +18,6 @@ public class TestCommentDTOEqualXMLBeanDefinition {
 		Set<String> startingClasses = new LinkedHashSet();
 		
 		startingClasses.add(CommentInfo.class.getName ());//NullPointerException
-		startingClasses.add(TagInfo.class.getName ());//NullPointerException
 		String contextFile = "ks-comment-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";
 		DictionaryDiscrepencyTesterHelper helper = new DictionaryDiscrepencyTesterHelper(outFile,

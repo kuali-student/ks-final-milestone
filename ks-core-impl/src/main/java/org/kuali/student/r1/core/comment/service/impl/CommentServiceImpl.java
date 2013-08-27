@@ -23,7 +23,6 @@ import org.kuali.student.r1.core.comment.dao.CommentDao;
 import org.kuali.student.r1.core.comment.entity.Comment;
 import org.kuali.student.r1.core.comment.entity.Reference;
 import org.kuali.student.r1.core.comment.entity.ReferenceType;
-import org.kuali.student.r1.core.comment.entity.Tag;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -31,7 +30,6 @@ import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
-import org.kuali.student.r2.core.comment.dto.TagInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.core.search.service.SearchManager;
 import org.springframework.transaction.annotation.Transactional;
@@ -111,63 +109,6 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-    public TagInfo createTag (String referenceId,
-                              String referenceTypeKey,
-                              TagInfo tagInfo,
-                              ContextInfo contextInfo)
-            throws DataValidationErrorException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException {
-
-        // Validate Tag
-        List<ValidationResultInfo> validationResults = null;
-        try {
-            validationResults = validateTag("OBJECT", tagInfo);
-        } catch (DoesNotExistException e1) {
-            throw new OperationFailedException("Validation call failed." + e1.getMessage());
-        }
-        if (null != validationResults && validationResults.size() > 0) {
-            throw new DataValidationErrorException("Validation error!", validationResults);
-        }
-
-        tagInfo.setReferenceTypeKey(referenceTypeKey);
-        tagInfo.setReferenceId(referenceId);
-        Reference reference=null;
-        reference = commentDao.getReference(referenceId, referenceTypeKey);
-        if(reference==null){
-            reference = new Reference();
-            reference.setReferenceId(referenceId);
-            try {
-                ReferenceType referenceType = commentDao.fetch(ReferenceType.class, referenceTypeKey);
-                reference.setReferenceType(referenceType);
-                commentDao.create(reference);
-            } catch (DoesNotExistException e) {
-                throw new InvalidParameterException(e.getMessage());
-            }
-        }
-
-        Tag tag = null;
-
-        try {
-            tag = CommentServiceAssembler.toTag(false, tagInfo, commentDao);
-        } catch (DoesNotExistException e) {
-            logger.error("Exception occured: ", e);
-        }
-
-        Tag createdTag = commentDao.create(tag);
-
-        TagInfo createdTagInfo = CommentServiceAssembler.toTagInfo(createdTag);
-
-        return createdTagInfo;
-    }
-
-
-    @Override
     @Transactional(readOnly=true)
     public CommentInfo getComment(String commentId,
                                   ContextInfo contextInfo)
@@ -203,35 +144,6 @@ public class CommentServiceImpl implements CommentService {
             OperationFailedException,
             PermissionDeniedException {
         throw new OperationFailedException("Method is not implemented yet");
-    }
-
-    @Override
-    @Transactional(readOnly=true)
-    public TagInfo getTag(String tagId,
-                          ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        checkForMissingParameter(tagId, "tagId");
-        Tag tag = commentDao.fetch(Tag.class, tagId);
-        return CommentServiceAssembler.toTagInfo(tag);
-    }
-
-    @Override
-    @Transactional(readOnly=true)
-    public List<TagInfo> getTagsByReferenceAndType (String referenceId,
-                                                    String referenceTypeKey, ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-
-        List<Tag> tags = commentDao.getTags(referenceId, referenceTypeKey);
-
-        return CommentServiceAssembler.toTagInfos(tags);
     }
 
     @Override
@@ -285,54 +197,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public StatusInfo deleteTag(String tagId, ContextInfo contextInfo)
-            throws  InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            DoesNotExistException {
-        try{
-            checkForMissingParameter(tagId, "tagId");
-            commentDao.delete(Tag.class, tagId);
-            return  new StatusInfo();
-        }
-        catch(MissingParameterException mpe){
-            Tag tag = null;
-            try{
-                tag = commentDao.fetch(Tag.class, tagId);
-                if(tag==null){
-                    throw new DoesNotExistException();
-                }
-            }
-            catch(NoResultException nre){
-                throw new DoesNotExistException();
-            }
-            commentDao.delete(tag);
-            return  new StatusInfo();
-        }
-    }
-
-    @Override
-    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public StatusInfo deleteTagsByReference(String referenceId,
-                                            String referenceTypeKey,
-                                            ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        //tagId sould be referenceId like in removeComments() method
-        List<Tag> tags = commentDao.getTagsByRefId(referenceId);
-        for(Tag tag:tags){
-            commentDao.delete(tag);
-        }
-        return new StatusInfo();
-    }
-
-
-    @Override
-    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public CommentInfo updateComment(String commentId,
                                      CommentInfo commentInfo,
                                      ContextInfo contextInfo)
@@ -377,34 +241,6 @@ public class CommentServiceImpl implements CommentService {
         return validationResults;         
     }
 
-    /**
-     * 
-     * This method ...
-     * 
-     * @param validationType
-     * @param tagInfo
-     * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @
-     */
-    @Deprecated
-    private List<ValidationResultInfo> validateTag(String validationType, TagInfo tagInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException {
-        checkForMissingParameter(validationType, "validationType");
-        checkForMissingParameter(tagInfo, "tagInfo");
-
-        ObjectStructureDefinition objStructure = this.getObjectStructure(TagInfo.class.getName());
-        Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(tagInfo, objStructure, null);
-        return validationResults;         
-    }
-
     @Override
     public List<CommentInfo> getCommentsByIds(List<String> commentIds,
                                               ContextInfo contextInfo)
@@ -429,47 +265,6 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentInfo> searchForComments(QueryByCriteria criteria,
                                                ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        throw new OperationFailedException("Not implemented yet!");
-    }
-
-    @Override
-    public List<TagInfo> getTagsByIds(List<String> tagIds,
-                                      ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        throw new OperationFailedException("Not implemented yet!");
-    }
-
-    @Override
-    public List<String> getTagIdsByType(String tagTypeKey,
-                                        ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        throw new OperationFailedException("Not implemented yet!");
-    }
-
-    @Override
-    public List<String> searchForTagIds(QueryByCriteria criteria,
-                                        ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
-        throw new OperationFailedException("Not implemented yet!");
-    }
-
-    @Override
-    public List<TagInfo> searchForTags(QueryByCriteria criteria,
-                                       ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,

@@ -21,7 +21,7 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
-import org.kuali.student.r2.core.comment.dto.TagInfo;
+import org.kuali.student.r2.core.tag.dto.TagInfo;
 import org.kuali.student.r2.core.service.assembly.BaseAssembler;
 
 import java.util.ArrayList;
