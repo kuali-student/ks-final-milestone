@@ -182,7 +182,8 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
                 if (instructor.getPercentageEffort() != null) {
                     instructorWrapper.setsEffort(Integer.toString(instructor.getPercentageEffort().intValue()));
                 }
-                wrapper.getInstructors().add(instructorWrapper);
+                if(!(wrapper.getInstructors().contains(instructorWrapper)))
+                        wrapper.getInstructors().add(instructorWrapper);
             }
         }
     }
