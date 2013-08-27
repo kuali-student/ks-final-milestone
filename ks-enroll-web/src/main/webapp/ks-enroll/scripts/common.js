@@ -62,9 +62,9 @@ function showLightbox(componentId, url) {
     parent.jQuery('head').append('<link href="' + url + '/krad/css/global/fss-reset.css" rel="stylesheet" type="text/css">');
     parent.jQuery('head').append('<link href="' + url + '/krad/css/global/fss-layout.css" rel="stylesheet" type="text/css">');
     parent.jQuery('head').append('<link href="' + url + '/krad/css/global/fss-text.css" rel="stylesheet" type="text/css">');
-    parent.jQuery('head').append('<link href="' + url + '/krad/plugins/rice/datatables/jquery.dataTables.css" rel="stylesheet" type="text/css">');
-    parent.jQuery('head').append('<link href="' + url + '/krad/plugins/rice/datatables/TableTools.css" rel="stylesheet" type="text/css">');
-    parent.jQuery('head').append('<link href="' + url + '/krad/plugins/fancybox/jquery.fancybox.css" rel="stylesheet" type="text/css">');
+    parent.jQuery('head').append('<link href="' + url + '/plugins/rice/datatables/jquery.dataTables.css" rel="stylesheet" type="text/css">');
+    parent.jQuery('head').append('<link href="' + url + '/plugins/rice/datatables/TableTools.css" rel="stylesheet" type="text/css">');
+    parent.jQuery('head').append('<link href="' + url + '/plugins/fancybox/jquery.fancybox.css" rel="stylesheet" type="text/css">');
     parent.jQuery('head').append('<link href="' + url + '/krad/css/global/base.css" rel="stylesheet" type="text/css">');
     parent.jQuery('head').append('<link href="' + url + '/ks-enroll/css/enroll.css" rel="stylesheet" type="text/css">');
     parent.jQuery('head').append('<link href="' + url + '/ks-enroll/css/acal.css" rel="stylesheet" type="text/css">');
@@ -75,9 +75,9 @@ function showLightbox(componentId, url) {
         parent.jQuery('link[href="' + url + '/krad/css/global/fss-reset.css"]').remove();
         parent.jQuery('link[href="' + url + '/krad/css/global/fss-layout.css"]').remove();
         parent.jQuery('link[href="' + url + '/krad/css/global/fss-text.css"]').remove();
-        parent.jQuery('link[href="' + url + '/krad/plugins/rice/datatables/jquery.dataTables.css"]').remove();
-        parent.jQuery('link[href="' + url + '/krad/plugins/rice/datatables/TableTools.css"]').remove();
-        parent.jQuery('link[href="' + url + '/krad/plugins/fancybox/jquery.fancybox.css"]').remove();
+        parent.jQuery('link[href="' + url + '/plugins/rice/datatables/jquery.dataTables.css"]').remove();
+        parent.jQuery('link[href="' + url + '/plugins/rice/datatables/TableTools.css"]').remove();
+        parent.jQuery('link[href="' + url + '/plugins/fancybox/jquery.fancybox.css"]').remove();
         parent.jQuery('link[href="' + url + '/krad/css/global/base.css"]').remove();
         parent.jQuery('link[href="' + url + '/ks-enroll/css/enroll.css"]').remove();
         parent.jQuery('link[href="' + url + '/ks-enroll/css/acal.css"]').remove();
