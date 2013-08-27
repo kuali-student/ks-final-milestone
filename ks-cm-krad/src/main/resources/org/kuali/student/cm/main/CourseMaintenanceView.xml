@@ -285,13 +285,13 @@
         </property>
     </bean>
 
-    <bean id="decisionsDialog" parent="Uif-DialogGroup" p:forceSessionPersistence="true">
+    <bean id="decisionsDialog" parent="Uif-VerticalBoxSection">
+        <property name="hidden" value="true" />
         <property name="headerText" value="Decisions" />
-        <property name="promptText" value="" />
         <property name="items">
             <list>
                 <bean parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="4">
-                    <property name="headerText" value="Decisions" />
+                    <property name="header.render" value="false" />
                     <property name="collectionObjectClass" value="org.kuali.student.r2.core.comment.dto.DecisionInfo" />
                     <property name="propertyName" value="decisions" />
                     <property name="layoutManager.generateAutoSequence" value="true" />
@@ -308,25 +308,6 @@
                     </property>
                 </bean>
             </list>
-        </property>
-        <property name="responseInputField">
-            <bean parent="Uif-DialogResponse">
-                <property name="control">
-                    <bean parent="Uif-HorizontalCheckboxesControl">
-                        <property name="options">
-                            <list>
-                                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="OK" />
-                            </list>
-                        </property>
-                        <property name="cssClasses">
-                            <list merge="true">
-                                <value>uif-dialogButtons</value>
-                            </list>
-                        </property>
-                    </bean>
-                </property>
-                <property name="onChangeScript" value="lightboxButtonScript();" />
-            </bean>
         </property>
     </bean>
 
