@@ -35,8 +35,7 @@
     <bean id="KS-CourseView-GovernancePage-Widgets" parent="Uif-VerticalBoxSection">
       <property name="items">
         <list>
-          <!--
-          <bean parent="Uif-InputField-LabelTop" p:propertyName="campusLocations" p:label="Campus Locations"
+          <bean parent="Uif-InputField-LabelTop" p:propertyName="course.campusLocations" p:label="Campus Locations"
                 p:instructionalText="" p:width="auto">
             <property name="control">
               <bean parent="Uif-VerticalCheckboxesControl" />
@@ -47,7 +46,7 @@
               
             </property>
           </bean>
-          <bean parent="Uif-InputField-LabelTop" p:propertyName="unitsContentOwner" p:label="Curriculum Oversight"
+          <bean parent="Uif-InputField-LabelTop" p:propertyName="course.unitsContentOwner" p:label="Curriculum Oversight"
                 p:instructionalText="This is the organization(s) responsible for the content of the course. This selection will determine the workflow/approval process for this proposal." >
             <property name="control">
               <bean parent="Uif-DropdownControl" />
@@ -58,7 +57,6 @@
           </bean>
 
           <ref bean="KS-AdministeringOrganization-Section" />
-          -->
         </list>
       </property>
     </bean>

@@ -255,10 +255,8 @@
                                                 <bean parent="Uif-ActionLink" p:actionLabel="Decisions"
                                                     p:methodToCall="showDecisions" />
                                                 <bean parent="Uif-Space" />
-                                                <!--
                                                 <bean parent="Uif-DataField" p:label="Last Updated"
                                                     p:shortLabel="Updated" p:labelPlacement="LEFT" p:propertyName="lastUpdated" />
-                                                -->
                                             </list>
                                         </property>
                                     </bean>
@@ -287,7 +285,7 @@
         </property>
     </bean>
 
-    <bean id="decisionsDialog" parent="Uif-DialogGroup">
+    <bean id="decisionsDialog" parent="Uif-DialogGroup" p:forceSessionPersistence="true">
         <property name="headerText" value="Decisions" />
         <property name="promptText" value="" />
         <property name="items">
