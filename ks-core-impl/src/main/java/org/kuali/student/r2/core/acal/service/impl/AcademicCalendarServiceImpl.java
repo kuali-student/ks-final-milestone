@@ -2615,15 +2615,15 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public ExamPeriodInfo getExamPeriod(String examPeriodId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         AtpInfo atp = atpService.getAtp(examPeriodId, contextInfo);
-        ExamPeriodInfo examPeriodInfo = new ExamPeriodInfo();
 
-        if (atp != null && checkTypeForExamPeriodType(atp.getTypeKey(), contextInfo)) {
-            examPeriodTransformer.atp2ExamPeriod(atp, examPeriodInfo);
-        } else {
-            throw new DoesNotExistException("This is either not valid Atp or not valid ExamPeriod. " + examPeriodId);
+        if (atp == null) {
+            throw new DoesNotExistException("ATP does not exist. Exam Period id: " + examPeriodId);
+        }
+        if (!checkTypeForExamPeriodType(atp.getTypeKey(), contextInfo)) {
+            throw new OperationFailedException("ATP type is not valid. Exam Period id: " + examPeriodId + " Type: " + atp.getTypeKey());
         }
 
-        return examPeriodInfo;
+        return examPeriodTransformer.atp2ExamPeriod(atp);
     }
 
     @Override
