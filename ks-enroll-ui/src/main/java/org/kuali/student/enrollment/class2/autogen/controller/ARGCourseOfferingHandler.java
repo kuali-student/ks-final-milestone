@@ -211,42 +211,41 @@ public class ARGCourseOfferingHandler {
         for(ActivityOfferingWrapper ao : aoList) {
             boolean isEnabled = false;
 
-            if(ActivityOfferingConstants.ACTIVITYOFFERINGS_ACTION_CANCEL.equals(methodToCall)){
-                if(ao.isEnableCancelButton() && ao.getIsCheckedByCluster()) {
+            if (StringUtils.equals(methodToCall, ActivityOfferingConstants.ACTIVITYOFFERINGS_ACTION_CANCEL)) {
+                if (ao.isEnableCancelButton() && ao.getIsCheckedByCluster()) {
                     isEnabled = true;
                 }
                 theForm.setCsrLabel("Cancel");
-            }if(ActivityOfferingConstants.ACTIVITYOFFERINGS_ACTION_SUSPEND.equals(methodToCall)){
-                if(ao.isEnableSuspendButton() && ao.getIsCheckedByCluster()) {
+            } else if (StringUtils.equals(methodToCall, ActivityOfferingConstants.ACTIVITYOFFERINGS_ACTION_SUSPEND)) {
+                if (ao.isEnableSuspendButton() && ao.getIsCheckedByCluster()) {
                     isEnabled = true;
                 }
                 theForm.setCsrLabel("Suspend");
-            }if(ActivityOfferingConstants.ACTIVITYOFFERINGS_ACTION_REINSTATE.equals(methodToCall)){
-                if(ao.isEnableReinstateButton() && ao.getIsCheckedByCluster()) {
+            } else if (StringUtils.equals(methodToCall, ActivityOfferingConstants.ACTIVITYOFFERINGS_ACTION_REINSTATE)) {
+                if (ao.isEnableReinstateButton() && ao.getIsCheckedByCluster()) {
                     isEnabled = true;
-                    if(ao.getStateName().equals("Canceled")){
+                    if (StringUtils.equals(ao.getAoInfo().getStateKey(), LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY)) {
                         ao.setReinstateStateName("Draft");
-                    }
-                    if(ao.getStateName().equals("Suspended")){
-                        if(ao.getActualScheduleComponents().isEmpty()){
-                            ao.setReinstateStateName("Draft");
-                        } else {
-                            if(theForm.getSocState().equals("Published")){
-                               ao.setReinstateStateName("Offered");
-                            } else if(theForm.getSocState().equals("Final Edits") || theForm.getSocState().equals("Locked")){
+                    } else if (StringUtils.equals(ao.getAoInfo().getStateKey(), LuiServiceConstants.LUI_AO_STATE_SUSPENDED_KEY)) {
+                        if (ao.getAoInfo().getScheduleIds() != null && !ao.getAoInfo().getScheduleIds().isEmpty()) {
+                            if (StringUtils.equals(theForm.getSocStateKey(), CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY)){
+                                ao.setReinstateStateName("Offered");
+                            } else if (StringUtils.equals(theForm.getSocStateKey(), CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY) ||
+                                    StringUtils.equals(theForm.getSocStateKey(), CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY)){
                                 ao.setReinstateStateName("Approved");
                             }
+                        } else {
+                            ao.setReinstateStateName("Draft");
                         }
                     }
-
                 }
                 theForm.setCsrLabel("Reinstate");
             }
 
-            if(isEnabled && ao.getIsCheckedByCluster()) {
+            if (isEnabled && ao.getIsCheckedByCluster()) {
                 ao.setActivityCode(ao.getAoInfo().getActivityCode());
                 selectedIndexList.add(ao);
-                if(ao.isColocatedAO())  {
+                if (ao.isColocatedAO()) {
                     currentCoWrapper.setColocatedAoToCSR(true);
                 }
                 enabled++;
@@ -267,7 +266,7 @@ public class ARGCourseOfferingHandler {
 
         theForm.setNumIneligibleAOsForCSR(checked);
 
-        if(checked > enabled){
+        if (checked > enabled){
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, warningMessage);
         }
     }
