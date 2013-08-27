@@ -2669,9 +2669,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ExamPeriodInfo updateExamPeriod(String examPeriodId, ExamPeriodInfo examPeriodInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         AtpInfo existingAtp = atpService.getAtp(examPeriodId, contextInfo);
-        AtpInfo toUpdateAtp = new AtpInfo();
-
-        examPeriodTransformer.ExamPeriod2Atp(examPeriodInfo, toUpdateAtp);
+        AtpInfo toUpdateAtp = examPeriodTransformer.ExamPeriod2Atp(examPeriodInfo);
 
         if (!StringUtils.equals(existingAtp.getStateKey(), examPeriodInfo.getStateKey())) {
             throw new OperationFailedException("State cant be updated with this call. Please use changeExamPeriodState() instead.");
@@ -2679,11 +2677,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
         AtpInfo updatedAtp = atpService.updateAtp(examPeriodId, toUpdateAtp, contextInfo);
 
-        ExamPeriodInfo updatedExamPeriod = new ExamPeriodInfo();
-        examPeriodTransformer.atp2ExamPeriod(updatedAtp, updatedExamPeriod);
-
-
-        return updatedExamPeriod;
+        return examPeriodTransformer.atp2ExamPeriod(updatedAtp);
     }
 
     @Override
