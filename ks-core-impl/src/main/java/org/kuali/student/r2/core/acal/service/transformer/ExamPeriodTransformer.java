@@ -26,7 +26,8 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
  */
 public class ExamPeriodTransformer {
 
-    public void atp2ExamPeriod(AtpInfo atp, ExamPeriodInfo examPeriod) {
+    public ExamPeriodInfo atp2ExamPeriod(AtpInfo atp) {
+        ExamPeriodInfo examPeriod = new ExamPeriodInfo();
         if(atp != null){
             examPeriod.setId(atp.getId());
             examPeriod.setName(atp.getName());
@@ -39,19 +40,27 @@ public class ExamPeriodTransformer {
             examPeriod.setMeta(atp.getMeta());
             examPeriod.setAttributes(atp.getAttributes());
         }
+
+        return examPeriod;
     }
 
-    public void ExamPeriod2Atp(ExamPeriodInfo examPeriod, AtpInfo atp) {
-        atp.setId(examPeriod.getId());
-        atp.setName(examPeriod.getName());
-        atp.setDescr(examPeriod.getDescr());
-        //atp.setCode(termCodeGenerator.generateTermCode(term));
-        atp.setStartDate(examPeriod.getStartDate());
-        atp.setEndDate(examPeriod.getEndDate());
-        atp.setTypeKey(examPeriod.getTypeKey());
-        atp.setStateKey(examPeriod.getStateKey());
-        atp.setMeta(examPeriod.getMeta());
-        atp.setAttributes(examPeriod.getAttributes());
+    public AtpInfo ExamPeriod2Atp(ExamPeriodInfo examPeriod) {
+        AtpInfo atp = new AtpInfo();
+
+        if (examPeriod != null) {
+            atp.setId(examPeriod.getId());
+            atp.setName(examPeriod.getName());
+            atp.setDescr(examPeriod.getDescr());
+            //atp.setCode(termCodeGenerator.generateTermCode(term));
+            atp.setStartDate(examPeriod.getStartDate());
+            atp.setEndDate(examPeriod.getEndDate());
+            atp.setTypeKey(examPeriod.getTypeKey());
+            atp.setStateKey(examPeriod.getStateKey());
+            atp.setMeta(examPeriod.getMeta());
+            atp.setAttributes(examPeriod.getAttributes());
+        }
+
+        return atp;
     }
 
 }
