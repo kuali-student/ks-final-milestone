@@ -1092,17 +1092,26 @@ function hideAddExamPeriodButton(collectionGroupId, lineIdPrefix, addExamPeriodB
  * @param lineIdPrefix: id prefix of exam period line
  * @param addExamPeriodButtonIdPrefix: id prefix of add exam period button
  */
-function initAddExamPeriodButtons(examPeriodSectionId, lineIdPrefix, addExamPeriodButtonIdPrefix) {
+function initAddExamPeriodButtons(examPeriodSectionId, lineIdPrefix, addExamPeriodButtonIdPrefix, baseUrl) {
     var examPeriodIdPrefix = examPeriodSectionId + '_line';
     var examPeriodComponents = jQuery('div[id^="' + examPeriodIdPrefix + '"]');
 
     jQuery.each(examPeriodComponents, function (index) {
         var lineId = lineIdPrefix + '_line' + index + '_line0';
         var addExamPeriodButtonId = addExamPeriodButtonIdPrefix + '_line' + index;
+        var exam_date_start_date = 'exam_date_start_date_line' + index + '_line0_control';
+        var exam_date_end_date = 'exam_date_end_date_line' + index + '_line0_control';
 
         if (jQuery("#"+lineId).length > 0) {
             jQuery("#"+addExamPeriodButtonId).hide();
         }
+
+        //TODO get runHiddenScripts() working - https://jira.kuali.org/browse/KSENROLL-8860
+        //  runHiddenScripts(exam_date_start_date, true, true);
+        createWatermark(exam_date_start_date, 'mm/dd/yyyy ');
+        createDatePicker(exam_date_start_date, {constrainInput:false,buttonImageOnly:true,buttonImage: baseUrl +'/themes/kboot/images/cal.gif',showOn:'button',disabled:false});
+        createWatermark(exam_date_end_date, 'mm/dd/yyyy ');
+        createDatePicker(exam_date_end_date, {constrainInput:false,buttonImageOnly:true,buttonImage: baseUrl +'/themes/kboot/images/cal.gif',showOn:'button',disabled:false});
     });
 
 }

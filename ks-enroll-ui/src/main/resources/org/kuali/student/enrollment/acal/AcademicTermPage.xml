@@ -45,7 +45,7 @@
         <property name="propertyName" value="termWrapperList" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
         <property name="style" value="min-width:70em;"/>
-        <property name="onDocumentReadyScript" value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields'); initAddExamPeriodButtons('acal-term-examdates', 'exam_date_type', 'acal-term-examdates-add');" />
+        <property name="onDocumentReadyScript" value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields'); initAddExamPeriodButtons('acal-term-examdates', 'exam_date_type', 'acal-term-examdates-add', '@{#ConfigProperties['application.url']}');" />
         <!--<property name="header.render" value="false" />-->
         <property name="headerText" value="Terms"/>
         <property name="validationMessages.displayMessages" value="false"/>
@@ -71,7 +71,6 @@
                                             <property name="render" value="@{#line.termInfo != null and #line.termInfo.id != null }"/>
                                             <property name="items">
                                                 <list>
-
                                                     <bean id="term_official" parent="Uif-ActionLink" p:methodToCall="makeTermOfficial" p:actionLabel="Make Official"
                                                           p:render="@{!#line.official and !#view.readOnly}"
                                                           p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);
@@ -111,7 +110,6 @@
             </list>
         </property>
         <property name="addLineLabel.messageText" value="Add Terms"/>
-
         <property name="addLineItems">
             <list>
                 <bean id="term_type_add" parent="Uif-InputField-LabelTop" p:propertyName="termType" p:render="@{#isAddLine}"
@@ -161,6 +159,11 @@
                         <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermParentTypeKeyValues" p:addBlankOption="false"/>
                     </property>
                 </bean -->
+<bean id="anyad1111" parent="Uif-InputField-LabelTop"   p:label="anyad1111">
+    <property name="control">
+        <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
+    </property>
+</bean>
             </list>
         </property>
         <property name="items">
@@ -168,6 +171,11 @@
                 <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.render="false">
                     <property name="items">
                         <list>
+<bean id="anyad3333" parent="Uif-InputField-LabelTop"   p:label="anyad3333" >
+    <property name="control">
+        <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
+    </property>
+</bean>
                             <bean parent="Uif-HorizontalBoxGroup">
                                 <property name="items">
                                     <list>
