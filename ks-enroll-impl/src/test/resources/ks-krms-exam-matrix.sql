@@ -11,7 +11,11 @@ DELETE FROM krms_term_spec_t WHERE term_spec_id IN ('KS-KRMS-TERM-SPEC-10017')
 /
 DELETE FROM krms_prop_parm_t WHERE prop_parm_id IN ('KS-KRMS-PROP-PARM-20258', 'KS-KRMS-PROP-PARM-20259', 'KS-KRMS-PROP-PARM-20260')
 /
+DELETE FROM krms_actn_attr_t WHERE actn_attr_data_id IN ('KS-KRMS-ACTN-ATTR-10000', 'KS-KRMS-ACTN-ATTR-10001', 'KS-KRMS-ACTN-ATTR-10002')
+/
 DELETE FROM krms_actn_t WHERE actn_id IN ('KS-KRMS-ACTN-10000')
+/
+DELETE FROM krms_attr_defn_t WHERE attr_defn_id IN ('KS-KRMS-ATTR-DEFN-10000', 'KS-KRMS-ATTR-DEFN-10001', 'KS-KRMS-ATTR-DEFN-10002')
 /
 DELETE FROM krms_rule_t WHERE rule_id IN ('KS-KRMS-RULE-12037')
 /
@@ -21,7 +25,7 @@ DELETE FROM krms_typ_t WHERE typ_id IN ('KS-KRMS-TYP-10081', 'KS-KRMS-TYP-10082'
 /
 
 INSERT INTO krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr)
-	VALUES ('KS-KRMS-TYP-10081', 'Action Type', 'EXAM-POC', null, 'Y', 0)
+	VALUES ('KS-KRMS-TYP-10081', 'Action Type', 'EXAM-POC', 'actionTypeService', 'Y', 0)
 /
 INSERT INTO krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr)
 	VALUES ('KS-KRMS-TYP-10082', 'Rule Type', 'EXAM-POC', 'ruleTypeService', 'Y', 0)
@@ -58,6 +62,26 @@ INSERT INTO krms_term_t (term_id, term_spec_id, ver_nbr, desc_txt) VALUES ('KS-K
 INSERT INTO krms_term_parm_t (term_parm_id, term_id, nm, val, ver_nbr) VALUES ('KS-KRMS-TERM-PARM-13467', 'KS-KRMS-TERM-13422', 'kuali.term.parameter.type.timeslot.weekday.string', 'MWF', 1)
 /
 
+INSERT INTO krms_attr_defn_t (actv, attr_defn_id, cmpnt_nm, desc_txt, lbl, nm, nmspc_cd, ver_nbr)
+  VALUES ('Y', 'KS-KRMS-ATTR-DEFN-10000', null, 'Weekdays list', 'Weekdays list', 'weekdays', 'EXAM-POC', 1)
+/
+INSERT INTO krms_attr_defn_t (actv, attr_defn_id, cmpnt_nm, desc_txt, lbl, nm, nmspc_cd, ver_nbr)
+  VALUES ('Y', 'KS-KRMS-ATTR-DEFN-10001', null, 'Start Time', 'Start Time', 'startTime', 'EXAM-POC', 1)
+/
+INSERT INTO krms_attr_defn_t (actv, attr_defn_id, cmpnt_nm, desc_txt, lbl, nm, nmspc_cd, ver_nbr)
+  VALUES ('Y', 'KS-KRMS-ATTR-DEFN-10002', null, 'End Time', 'End Time', 'endTime', 'EXAM-POC', 1)
+/
+
 INSERT INTO krms_actn_t (actn_id, desc_txt, nm, nmspc_cd, rule_id, seq_no, typ_id, ver_nbr)
-  VALUES ('KS-KRMS-ACTN-10000', 'Create requested delivery logistic', 'Create RDL', 'EXAM-POC', 'KS-KRMS-RULE-12037', 1, null, 1)
+  VALUES ('KS-KRMS-ACTN-10000', 'Create requested delivery logistic', 'createRDL', 'EXAM-POC', 'KS-KRMS-RULE-12037', 1, 'KS-KRMS-TYP-10081', 1)
+/
+
+INSERT INTO krms_actn_attr_t (actn_attr_data_id, actn_id, attr_defn_id, attr_val, ver_nbr)
+  VALUES ('KS-KRMS-ACTN-ATTR-10000', 'KS-KRMS-ACTN-10000', 'KS-KRMS-ATTR-DEFN-10000', 'M', 1)
+/
+INSERT INTO krms_actn_attr_t (actn_attr_data_id, actn_id, attr_defn_id, attr_val, ver_nbr)
+  VALUES ('KS-KRMS-ACTN-ATTR-10001', 'KS-KRMS-ACTN-10000', 'KS-KRMS-ATTR-DEFN-10001', '45000000', 1)
+/
+INSERT INTO krms_actn_attr_t (actn_attr_data_id, actn_id, attr_defn_id, attr_val, ver_nbr)
+  VALUES ('KS-KRMS-ACTN-ATTR-10002', 'KS-KRMS-ACTN-10000', 'KS-KRMS-ATTR-DEFN-10002', '49500000', 1)
 /

@@ -28,9 +28,6 @@
     <bean id="agendaTypeService" class="org.kuali.rice.krms.impl.type.AgendaTypeServiceImpl">
     </bean>
 
-    <bean id="actionTypeService" class="org.kuali.rice.krms.impl.type.AgendaTypeServiceImpl">
-    </bean>
-
     <bean id="propositionTemplater"
           class="org.kuali.rice.krms.impl.repository.language.PropositionNaturalLanguageTemplater">
         <property name="krmsTypeRepositoryService" ref="krmsTypeRepositoryService"/>
