@@ -17,6 +17,8 @@
         <property name="headerText" value="Course View" />
         <property name="header.render" value="false" />
         <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
+        <property name="entryPageId" value="KS-CourseView-CourseInfoPage" />
+        
         <property name="navigation">
             <ref bean="KS-CourseNavigation-Menu" />
         </property>
@@ -40,7 +42,9 @@
             <list>
                   <ref bean="commentsLightBox" />
                   <ref bean="decisionsDialog" />
+                  <!--
                   <ref bean="loCategoryDialog" />
+                  -->
             </list>
         </property>
 
