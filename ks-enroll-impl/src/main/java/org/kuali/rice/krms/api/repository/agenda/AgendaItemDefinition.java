@@ -36,6 +36,8 @@ import java.util.Collection;
  * immutable. 
  * Instances of AgendaItemDefinition can be (un)marshalled to and from XML.
  *
+ * TODO: KSENROLL-9065 Remove once changes are merged.
+ *
  * @see AgendaItemDefinitionContract
  */
 @XmlRootElement(name = AgendaItemDefinition.Constants.ROOT_ELEMENT_NAME)

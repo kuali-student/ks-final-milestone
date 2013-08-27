@@ -29,6 +29,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ *
+ * TODO: KSENROLL-9065 Remove once changes are merged.
+ *
  * @author nwright
  */
 public class KSTranslationUtility implements TranslateBusinessMethods {

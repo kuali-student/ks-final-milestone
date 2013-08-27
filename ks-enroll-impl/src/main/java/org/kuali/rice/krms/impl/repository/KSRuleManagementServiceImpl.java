@@ -53,6 +53,8 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.in;
 /**
  * Overridden class to handle missing service methods in rice release.
  *
+ * TODO: KSENROLL-9065 Remove once changes are merged.
+ *
  * @author Kuali Student Team
  */
 public class KSRuleManagementServiceImpl extends RuleManagementServiceImpl {
