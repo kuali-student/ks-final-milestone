@@ -21,7 +21,6 @@
     <context:component-scan base-package="org.kuali.student.myplan.plan"/>
     <context:component-scan base-package="org.kuali.student.myplan.comment"/>
     <context:component-scan base-package="org.kuali.student.myplan.quickAdd"/>
-    <context:component-scan base-package="org.kuali.student.ap.sb"/>
     <context:component-scan base-package="org.kuali.student.ap.plan.review"/>
 
     <!-- Global Resource Loader Service Bean for a Student Service-->

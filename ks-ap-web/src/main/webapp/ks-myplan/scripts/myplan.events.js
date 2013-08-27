@@ -66,6 +66,7 @@ function fnUpdateSavedCount (savedItemCount) {
 	    jQuery(this).html(savedItemCount - 1).fadeIn(250);
 	});
 }
+
 /*
 #################################################################
     Function: update the credits total in the quarter plan view
@@ -77,6 +78,17 @@ function fnUpdateCredits (atpId, termCredits, cartCredits) {
     });
     jQuery("." + atpId + ".myplan-term-cart .myplan-carousel-term-total .credits span.uif-message").fadeOut(250, function() {
         jQuery(this).html(cartCredits).fadeIn(250);
+    });
+}
+
+/*
+ #################################################################
+ Function: update the credits total in the quarter plan view
+ #################################################################
+ */
+function fnUpdateTermNote (atpId, newNote) {
+    jQuery("#"+atpId+"termnote_message textarea").fadeOut(250, function() {
+        jQuery(this).html(newNote).fadeIn(250);
     });
 }
 /*

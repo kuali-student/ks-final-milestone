@@ -20,6 +20,7 @@ public class PlannedTerm {
 	private List<PlannedCourseDataObject> backupList = new ArrayList<PlannedCourseDataObject>();
 	private List<AcademicRecordDataObject> academicRecord = new ArrayList<AcademicRecordDataObject>();
 	private List<PlannedCourseDataObject> cartList = new ArrayList<PlannedCourseDataObject>();
+    private List<TermNoteDataObject> termNoteList = new ArrayList<TermNoteDataObject>();
 
 	@SuppressWarnings("unused")
 	private String credits = null;
@@ -313,4 +314,29 @@ public class PlannedTerm {
 		}
 	}
 
+
+    public List<TermNoteDataObject> getTermNoteList() {
+        if(termNoteList==null){
+            termNoteList = new ArrayList<TermNoteDataObject>();
+        }
+        return termNoteList;
+    }
+
+    public void setTermNoteList(List<TermNoteDataObject> termNoteList) {
+        this.termNoteList = termNoteList;
+    }
+
+    private String termNoteUI;
+
+    public String getTermNoteUI(){
+        String termNote ="";
+        for(TermNoteDataObject note : termNoteList){
+            termNote = termNote+note.getTermNoteUI()+"\r";
+        }
+        return termNote;
+    }
+
+    public void setTermNoteUI(String termNoteUI){
+
+    }
 }

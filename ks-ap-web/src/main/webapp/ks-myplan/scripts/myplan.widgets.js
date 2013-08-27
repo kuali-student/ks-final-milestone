@@ -190,7 +190,7 @@ function openPopup(getId, retrieveData, formAction, popupStyle, popupOptions, e)
  */
 function ksapAjaxSubmitForm(data, successCallback, elementToBlock, formId, blockingSettings) {
 	data = ksapAdditionalFormData(data);
-	
+
     var submitOptions = {
         data:data,
         success:function (response) {
@@ -1968,7 +1968,8 @@ function submitPopupForm(additionalFormData, e, bDialog) {
         switch (status) {
             case 'success':
                 data.message = data.message.replace("<span />", jQuery("#plan_item_action_response_page", htmlContent).data(kradVariables.VALIDATION_MESSAGES).serverInfo[0]);
-                var json = jQuery.parseJSON(jQuery.trim(jQuery("#jsonEvents", htmlContent).text()));
+                var jsonText = jQuery.trim(jQuery("#jsonEvents", htmlContent).text()).replace(/\n/g,"\\n");
+                var json = jQuery.parseJSON(jsonText);
                 for (var key in json) {
                     if (json.hasOwnProperty(key)) {
                         eval('jQuery.event.trigger("' + key + '", ' + JSON.stringify(jQuery.extend(json[key], data)) + ');');

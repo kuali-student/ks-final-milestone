@@ -56,11 +56,11 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
     @JoinColumn(name = "PLAN_ID")
     private LearningPlanEntity learningPlan;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
     private PlanItemRichTextEntity descr;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch=FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private Set<PlanItemAttributeEntity> attributes;
 
     @ElementCollection (fetch=FetchType.EAGER)
@@ -70,7 +70,10 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
     @Column(name="ATP_ID")
     private Set<String> planPeriods;
 
-    public PlanItemEntity(){
+    @Column(name = "CREDIT")
+    private Float credit;
+
+    public PlanItemEntity() {
         super();
     }
 
@@ -132,6 +135,14 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
         this.planPeriods = planPeriods;
     }
 
+    public Float getCredit() {
+        return credit;
+    }
+
+    public void setCredit(Float credit) {
+        this.credit = credit;
+    }
+
     /**
      * Add an ATP id to the set. No nulls or empty strings.
      *
@@ -167,6 +178,7 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
         dto.setRefObjectType(this.getRefObjectTypeKey());
         dto.setTypeKey(this.getLearningPlanItemType().getId());
         dto.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
+        dto.setCredit(this.getCredit());
 
         if (this.getDescr() != null) {
             dto.setDescr(this.getDescr().toDto());

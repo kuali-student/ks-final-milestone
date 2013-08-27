@@ -17,6 +17,7 @@ import org.kuali.student.enrollment.acal.infc.Term;
 import org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedTerm;
+import org.kuali.student.myplan.plan.dataobject.TermNoteDataObject;
 
 /**
  * Created by IntelliJ IDEA. User: hemanthg Date: 5/16/12 Time: 3:49 PM To
@@ -28,7 +29,7 @@ public class PlannedTermsHelperBase {
 
 	public static List<PlannedTerm> populatePlannedTerms(List<PlannedCourseDataObject> plannedCoursesList,
 			List<PlannedCourseDataObject> backupCoursesList, List<StudentCourseRecordInfo> studentCourseRecordInfos,
-			List<PlannedCourseDataObject> cartCoursesList, String focusAtpId, boolean fullPlanView) {
+			List<PlannedCourseDataObject> cartCoursesList, List<TermNoteDataObject> termNoteList, String focusAtpId, boolean fullPlanView) {
 
 		TermHelper th = KsapFrameworkServiceLocator.getTermHelper();
 		Map<String, PlannedTerm> termsList = new HashMap<String, PlannedTerm>();
@@ -42,7 +43,23 @@ public class PlannedTermsHelperBase {
 
 		YearTerm focusQuarterYear;
 		if (StringUtils.isEmpty(focusAtpId)) {
-			focusQuarterYear = th.getYearTerm(planningTerms.get(0));
+            try{
+                focusQuarterYear = th.getYearTerm(th.getCurrentTerms().get(0));
+            }catch(Exception e){
+                LOG.warn("Could not find current term, using next term",e);
+                try{
+                    focusQuarterYear = th.getYearTerm(th.getPlanningTerms().get(0));
+                }catch(Exception e2){
+                    try{
+                        LOG.warn("Could not find future planned term, using last term", e2);
+                        focusQuarterYear = th.getYearTerm(studentCourseRecordInfos.get(studentCourseRecordInfos.size()-1).getTermName());
+                    }catch(Exception e3){
+                        LOG.error("Could not find last term, using first term");
+                        focusQuarterYear = th.getYearTerm(planningTerms.get(0));
+                    }
+                }
+            }
+
 		} else {
 			focusQuarterYear = th.getYearTerm(th.getFirstTermOfAcademicYear(th.getYearTerm(focusAtpId)));
 		}
@@ -113,6 +130,35 @@ public class PlannedTermsHelperBase {
 		}
 
 		List<PlannedTerm> perfectPlannedTerms = new ArrayList<PlannedTerm>(termsList.values());
+
+        if (termNoteList != null) {
+            int count = perfectPlannedTerms.size();
+            for (TermNoteDataObject bl : termNoteList) {
+                String atp = bl.getAtpId();
+
+                boolean added = false;
+                for (int i = 0; i < count; i++) {
+                    if (atp.equalsIgnoreCase(perfectPlannedTerms.get(i).getAtpId())) {
+                        perfectPlannedTerms.get(i).getTermNoteList().add(bl);
+                        added = true;
+                    }
+                }
+                if (!added) {
+                    PlannedTerm plannedTerm = new PlannedTerm();
+                    plannedTerm.setAtpId(atp);
+                    StringBuffer str = new StringBuffer();
+                    YearTerm yearTerm = KsapFrameworkServiceLocator
+                            .getTermHelper().getYearTerm(atp);
+                    str = str.append(yearTerm.getTermName());
+                    String QtrYear = str.substring(0, 1).toUpperCase()
+                            .concat(str.substring(1, str.length()));
+                    plannedTerm.setQtrYear(QtrYear);
+                    plannedTerm.getTermNoteList().add(bl);
+                    perfectPlannedTerms.add(plannedTerm);
+                    count++;
+                }
+            }
+        }
 
 		/*
 		 * Sort terms in order

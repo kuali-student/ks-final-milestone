@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
@@ -14,24 +15,31 @@ import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.myplan.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.myplan.academicplan.dto.PlanItemInfo;
 import org.kuali.student.myplan.academicplan.service.AcademicPlanService;
+import org.kuali.student.myplan.comment.CommentConstants;
 import org.kuali.student.myplan.course.service.CourseDetailsInquiryHelperImpl;
 import org.kuali.student.myplan.main.service.MyPlanLookupableImpl;
 import org.kuali.student.myplan.plan.dataobject.PlanItemDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
+import org.kuali.student.myplan.plan.dataobject.TermNoteDataObject;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.core.comment.dto.CommentInfo;
+import org.kuali.student.r2.core.comment.service.CommentService;
 
 /**
  * Base lookup helper for plan items.
  */
 public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
-
+	
 	private static final long serialVersionUID = -6762982255633597470L;
 
+	private final static Logger LOG = Logger
+			.getLogger(PlanItemLookupableHelperBase.class);
+	
 	private transient AcademicPlanService academicPlanService;
-	private transient CourseDetailsInquiryHelperImpl courseDetailsInquiryHelper;
+    private transient CourseDetailsInquiryHelperImpl courseDetailsInquiryHelper;
 
 	protected List<PlannedCourseDataObject> getPlanItems(String planItemType, String studentId)
 			throws InvalidParameterException, MissingParameterException, DoesNotExistException,
@@ -68,9 +76,18 @@ public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
 
 					plannedCourseDO.setPlanItemDataObject(PlanItemDataObject.build(planItem));
 
-					if (getCourseDetailsInquiryService().isCourseIdValid(courseID)) {
-						plannedCourseDO.setCourseDetails(getCourseDetailsInquiryService().retrieveCourseSummaryById(
-								courseID));
+					// If the course info lookup fails just log the error and
+					// omit the item.
+					try {
+                        if (getCourseDetailsInquiryService().isCourseIdValid(courseID)) {
+                            plannedCourseDO.setCourseDetails(getCourseDetailsInquiryService().retrieveCourseSummaryById(courseID));
+						}
+					} catch (Exception e) {
+						LOG.error(
+								String.format(
+										"Unable to retrieve course info for plan item [%s].",
+										planItem.getId()), e);
+						continue;
 					}
 
 					plannedCoursesList.add(plannedCourseDO);
@@ -79,6 +96,43 @@ public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
 
 		return plannedCoursesList;
 	}
+
+    protected List<TermNoteDataObject> getTermNotes(String studentId)
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException {
+
+        List<TermNoteDataObject> termNoteList = new ArrayList<TermNoteDataObject>();
+
+        AcademicPlanService academicPlanService = getAcademicPlanService();
+        String planTypeKey = PlanConstants.LEARNING_PLAN_TYPE_PLAN;
+
+        List<LearningPlanInfo> learningPlanList = academicPlanService
+                .getLearningPlansForStudentByType(studentId, planTypeKey,
+                        KsapFrameworkServiceLocator.getContext()
+                                .getContextInfo());
+        for (LearningPlanInfo learningPlan : learningPlanList) {
+            String learningPlanID = learningPlan.getId();
+            CommentService commentService = (CommentService) GlobalResourceLoader
+                    .getService(new QName(CommentConstants.NAMESPACE,
+                            CommentConstants.SERVICE_NAME));
+            List<CommentInfo> commentInfos = new ArrayList<CommentInfo>();
+            try{
+                commentInfos = commentService.getCommentsByReferenceAndType(learningPlanID,PlanConstants.TERM_NOTE_COMMENT_TYPE,KsapFrameworkServiceLocator.getContext().getContextInfo());
+            }catch(Exception e){
+                LOG.error("Unable to load term notes",e);
+            }
+
+            for(CommentInfo comment :commentInfos){
+                TermNoteDataObject newTermNote = new TermNoteDataObject();
+                newTermNote.setId(comment.getId());
+                newTermNote.setAtpId(comment.getAttributeValue(PlanConstants.TERM_NOTE_COMMENT_ATTRIBUTE_ATPID));
+                newTermNote.setDate(comment.getEffectiveDate());
+                newTermNote.setTermNote(comment.getCommentText().getFormatted());
+                termNoteList.add(newTermNote);
+            }
+
+        }
+        return termNoteList;
+    }
 
 	/**
 	 * Override and ignore criteria validation
@@ -105,10 +159,14 @@ public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
 	}
 
 	public synchronized CourseDetailsInquiryHelperImpl getCourseDetailsInquiryService() {
-		if (this.courseDetailsInquiryHelper == null) {
-			this.courseDetailsInquiryHelper = new CourseDetailsInquiryHelperImpl();
+        if (this.courseDetailsInquiryHelper == null) {
+            this.courseDetailsInquiryHelper = new CourseDetailsInquiryHelperImpl();
 		}
-		return courseDetailsInquiryHelper;
+        return courseDetailsInquiryHelper;
 	}
 
+	public void setCourseDetailsInquiryService(
+			CourseDetailsInquiryHelperImpl courseDetailsInquiryService) {
+        this.courseDetailsInquiryHelper = courseDetailsInquiryHelper;
+	}
 }

@@ -211,10 +211,12 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		courseDetails.setCurriculumTitle(subjectAreaMap.get(course.getSubjectArea().trim()));
 
 		// -- Scheduled Terms
-		courseDetails.setScheduledTerms(KsapFrameworkServiceLocator.getCourseHelper().getScheduledTerms(course));
-
-		if (courseDetails.getScheduledTerms().size() == 0)
-			courseDetails.setLastOffered(KsapFrameworkServiceLocator.getCourseHelper().getLastOfferedTermId(course));
+		/*courseDetails.setScheduledTerms(KsapFrameworkServiceLocator
+				.getCourseHelper().getScheduledTerms(course));*/
+        if(courseDetails.getScheduledTerms()==null) courseDetails.setScheduledTerms(new ArrayList<String>());
+	/*	if (courseDetails.getScheduledTerms().size() == 0)           */
+	/*		courseDetails.setLastOffered(KsapFrameworkServiceLocator */
+	/*\				.getCourseHelper().getLastOfferedTermId(course));*/
 
 		return courseDetails;
 

@@ -82,14 +82,24 @@
                                                 </bean>
                                             </property>
                                         </bean>
-                                        <!-- TODO: Credits
-                                        <bean parent="Uif-InputField" p:propertyName="courseCredit" p:id="creditsCourse"
-                                        		p:label="Units">
+                                        <bean parent="Uif-InputField" p:id="courseCreditsNew_@{atpId.replaceAll('\.','-')}">
+                                            <property name="label" value="Enter Course Credits"/>
+                                            <property name="instructionalText" value="Empty and invalid values will default to the minimum credit value."/>
+                                            <property name="fieldLabel.render" value="true"/>
+                                            <property name="fieldLabel.cssClasses">
+                                                <list merge="true">
+                                                    <value>myplan-text-normal</value>
+                                                </list>
+                                            </property>
+                                            <property name="propertyName" value="fakeCourseCredit"/>
+                                            <property name="defaultValue" value="@{#form.courseCredit NE null ? #form.courseCredit : ''}"/>
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" p:size="3"/>
+                                                <bean parent="Uif-TextControl">
+                                                    <property name="size" value="3"/>
+                                                </bean>
                                             </property>
                                         </bean>
-                                         -->
+                                        <bean parent="planItemNote" p:id="courseNoteNew_@{atpId.replaceAll('\.','-')}"/>
                                     </list>
                                 </property>
                             </bean>
@@ -112,17 +122,19 @@
                                               parent="Uif-PrimaryActionButton-Small"
                                               p:actionLabel="@{#form.planItemId EQ null ? 'Add to Plan':'Save'}">
                                             <property name="actionScript" value="
+                                                var newNote = jQuery('#courseNoteNew_@{atpId.replaceAll('\.','-')}_control').val();
+                                                var newCredit = jQuery('#courseCreditsNew_@{atpId.replaceAll('\.','-')}_control').val();
                                                 var additionalFormData = {
                                                     viewId: 'PlannedCourse-FormView',
                                                     methodToCall: 'addUpdatePlanItem',
                                                     atpId: '@{#form.atpId}',
                                                     backup: @{#form.backup},
-                                                    pageId: 'plan_item_add_page'
+                                                    pageId: 'plan_item_add_page',
+                                                    courseCredit: newCredit,
+                                                    courseNote: newNote
                                                 };
                                                 submitPopupForm(additionalFormData, e, false);
                                             "/>
-                                            <property name="disabled" value="@{#form.courseCd EQ null}"/>
-                                            <property name="evaluateDisabledOnKeyUp" value="true"/>
                                             <property name="onDocumentReadyScript" value="
                                                 jQuery('#actionCoursePlaceholder').on('PLAN_ITEM_ADDED PLAN_ITEM_UPDATED', function(event, data){
                                                     fnCloseAllPopups();
@@ -135,7 +147,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="KSAP-VerticalBoxGroup" p:id="errorPlaceholder" p:hidden="true"/>
+                            <bean parent="errorPlaceholder"/>
                         </list>
                     </property>
                 </bean>
@@ -217,7 +229,33 @@
                     </property>
                 </bean>
 
-                <ref bean="courseTermSelection"/>
+                <bean parent="Uif-HorizontalFieldGroup"
+                      p:label="Quarter &amp; Year" p:labelPlacement="TOP">
+                    <property name="fieldLabel.cssClasses" value="myplan-text-normal"/>
+                    <property name="items">
+                        <list>
+                            <bean p:id="atpIdMove_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}" parent="KSAP-SimpleInputField" p:propertyName="fakeAtpId"
+                                  p:width="120px">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.myplan.plan.util.TermsListBuilder"/>
+                                </property>
+                            </bean>
+                            <bean parent="KSAP-Message" p:width="160px"
+                                  p:messageText="Note: This course MAY NOT be offered in your selected quarter. Check back after the Time Schedule is released.">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>fl-font-size-80</value>
+                                        <value>fl-text-gray</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
                 <bean parent="KSAP-HorizontalBoxGroup"
                       p:render="@{planActivities ne null AND planActivities.size() gt 0}">
                     <property name="cssClasses">
@@ -247,7 +285,8 @@
                                               parent="Uif-PrimaryActionButton-Small"
                                               p:actionLabel="Move">
                                             <property name="actionScript" value="
-                                                            var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'movePlanCourse', planItemId:'@{planItemIdXmlSafe}'};
+                                                            var newAtpId = jQuery('#atpIdMove_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}_control').val();
+                                                            var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'movePlanCourse', planItemId:'@{planItemIdXmlSafe}',atpId:newAtpId};
                                                             submitPopupForm(additionalFormData, e, false);
                                                         "/>
                                             <property name="onDocumentReadyScript" value="
@@ -290,7 +329,33 @@
                     </property>
                 </bean>
 
-                <ref bean="courseTermSelection"/>
+                <bean parent="Uif-HorizontalFieldGroup"
+                      p:label="Quarter &amp; Year" p:labelPlacement="TOP">
+                    <property name="fieldLabel.cssClasses" value="myplan-text-normal"/>
+                    <property name="items">
+                        <list>
+                            <bean p:id="atpIdCopy_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}" parent="KSAP-SimpleInputField" p:propertyName="fakeAtpId"
+                                  p:width="120px">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.myplan.plan.util.TermsListBuilder"/>
+                                </property>
+                            </bean>
+                            <bean parent="KSAP-Message" p:width="160px"
+                                  p:messageText="Note: This course MAY NOT be offered in your selected quarter. Check back after the Time Schedule is released.">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>fl-font-size-80</value>
+                                        <value>fl-text-gray</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
                 <bean parent="KSAP-HorizontalBoxGroup"
                       p:render="@{planActivities ne null AND planActivities.size() gt 0}">
                     <property name="cssClasses">
@@ -321,7 +386,8 @@
                                               p:render="@{setToPlanning}"
                                               p:actionLabel="Copy">
                                             <property name="actionScript" value="
-                                                            var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'copyPlanCourse', planItemId:'@{planItemIdXmlSafe}'};
+                                                            var newAtpId = jQuery('#atpIdCopy_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}_control').val();
+                                                            var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'copyPlanCourse', planItemId:'@{planItemIdXmlSafe}',atpId:newAtpId};
                                                             submitPopupForm(additionalFormData, e, false);
                                                         "/>
                                             <property name="onDocumentReadyScript" value="
@@ -339,7 +405,8 @@
                                               p:render="@{setToPlanning eq false and planItemId ne null}"
                                               p:actionLabel="Copy">
                                             <property name="actionScript" value="
-                                                            var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'copyPlanCourse', planItemId:'@{planItemIdXmlSafe}'};
+                                                            var newAtpId = jQuery('#atpIdCopy_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}_control').val();
+                                                            var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'copyPlanCourse', planItemId:'@{planItemIdXmlSafe}',atpId:newAtpId};
                                                             submitPopupForm(additionalFormData, e, false);
                                                         "/>
                                             <property name="onDocumentReadyScript" value="
@@ -357,7 +424,7 @@
                                               p:render="@{setToPlanning eq false and planItemId eq null}"
                                               p:actionLabel="Copy">
                                             <property name="actionScript" value="
-                                                            var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'addUpdatePlanItem', courseId:'@{courseIdXmlSafe}'};
+                                                            var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'copyPlanCourse', courseId:'@{courseIdXmlSafe}'};
                                                             submitPopupForm(additionalFormData, e, false);
                                                         "/>
                                             <property name="onDocumentReadyScript" value="
@@ -382,6 +449,110 @@
         </property>
     </bean>
 
+    <!--Edit plan item Dialog Box content -->
+    <bean id="plan_item_edit_page" parent="KSAP-PopoverPage" p:id="plan_item_edit_page"
+          p:headerText="Edit @{courseSummaryDetails.code} @{atpId eq null ? 'Bookmark' : 'from the '+shortTerm+' Plan'}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message"
+                      p:messageText="Edit @{courseSummaryDetails.code} @{atpId eq null ? 'Bookmark' : 'from the '+shortTerm+' Plan'}"/>
+                <bean parent="Uif-InputField" p:id="courseCredits_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}">
+                    <property name="label" value="Enter Course Credits"/>
+                    <property name="fieldLabel.render" value="true"/>
+                    <property name="fieldLabel.cssClasses">
+                        <list merge="true">
+                            <value>myplan-text-normal</value>
+                        </list>
+                    </property>
+                    <property name="propertyName" value="fakeCourseCredit"/>
+                    <property name="defaultValue" value="@{#form.courseCredit NE null ? #form.courseCredit : ''}"/>
+                    <property name="instructionalText" value="Empty and invalid values will default to the minimum credit value."/>
+                    <property name="control">
+                        <bean parent="Uif-TextControl">
+                            <property name="size" value="3"/>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="planItemNote" p:id="courseNote_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}"/>
+                <bean parent="KSAP-HorizontalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <bean p:id="editPlannedCourse" parent="Uif-PrimaryActionButton-Small"
+                                  p:actionLabel="Save">
+                                <property name="actionScript" value="
+                                                var newNote = jQuery('#courseNote_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}_control').val();
+                                                var newCredit = jQuery('#courseCredits_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}_control').val();
+                                                var additionalFormData = {
+                                                    viewId: 'PlannedCourse-FormView',
+                                                    methodToCall: 'editPlanCourse',
+                                                    planItemId: '@{planItemIdXmlSafe}',
+                                                    atpId: '@{atpId}',
+                                                    courseNote: newNote,
+                                                    courseCredit: newCredit
+                                                };
+                                                submitPopupForm(additionalFormData, e, false);
+                                            "/>
+                                <property name="onDocumentReadyScript" value="
+                                                jQuery('#editPlannedCourse').on('PLAN_NOTE_UPDATED', function(event, data){
+                                                    fnDisplayMessage(data.message, data.cssClass, 'editPlannedCourse', true, true);
+                                                }).on('ERROR', function(event, data) {
+                                                    fnDisplayMessage(data.message, data.cssClass, 'editPlannedCourse', true, true);
+                                                });
+                                            "/>
+                            </bean>
+                            <bean parent="closePopoverCancel"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--Edit plan item Dialog Box content -->
+    <bean id="term_note_edit_page" parent="KSAP-PopoverPage" p:id="term_note_edit_page"
+          p:headerText="Edit @{shortTerm} Term Note">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message"
+                      p:messageText="Edit @{shortTerm} Term Note"/>
+                <bean parent="planItemNote" p:id="termNote_@{atpId.replaceAll('\.','-')}" p:propertyName="fakeTermNote"
+                      p:defaultValue="@{#form.atpId NE null ? #form.termNote : ''}">
+                    <property name="label" value="Note for the term"/>
+
+                </bean>
+                <bean parent="KSAP-HorizontalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <bean p:id="editTermNote" parent="Uif-PrimaryActionButton-Small"
+                                  p:actionLabel="Save">
+                                <property name="actionScript" value="
+                                                var newNote = jQuery('#termNote_@{atpId.replaceAll('\.','-')}_control').val();
+                                                var additionalFormData = {
+                                                    viewId: 'PlannedCourse-FormView',
+                                                    methodToCall: 'editTermNote',
+                                                    atpId: '@{atpId}',
+                                                    termNote: newNote
+                                                };
+                                                submitPopupForm(additionalFormData, e, false);
+                                            "/>
+                                <property name="onDocumentReadyScript" value="
+                                                jQuery('#editTermNote').on('TERM_NOTE_UPDATED', function(event, data){
+                                                    fnDisplayMessage(data.message, data.cssClass, 'editTermNote', true, true);
+                                                }).on('ERROR', function(event, data) {
+                                                    fnDisplayMessage(data.message, data.cssClass, 'editTermNote', true, true);
+                                                });
+                                            "/>
+                            </bean>
+                            <bean parent="closePopoverCancel"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+
     <bean id="course_title_link" parent="Uif-Link" p:target="" p:style="width:280px; display:block;">
         <property name="cssClasses">
             <list merge="true">
@@ -405,6 +576,30 @@
         <property name="items">
             <list>
                 <ref bean="course_details_summary_data"/>
+                <bean parent="KSAP-SimpleInputField" p:propertyName="courseNote"
+                      p:defaultValue="@{#form.planItemId NE null ? #form.courseNote : ''}">
+                    <property name="label" value="Note for course"/>
+                    <property name="fieldLabel.render" value="true"/>
+                    <property name="fieldLabel.cssClasses">
+                        <list merge="true">
+                            <value>myplan-text-normal</value>
+                        </list>
+                    </property>
+                    <property name="labelPlacement" value="TOP"/>
+
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl"
+                              p:watermarkText="Enter a short note (500 characters max)" p:maxLength="500"
+                              p:style="resize:none; width:97%;">
+                            <property name="disabled" value="true"/>
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>ksap-characterCount</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
                 <ref bean="course_details_summary_messages"/>
             </list>
         </property>
@@ -729,7 +924,7 @@
                     </property>
                 </bean>
 
-                <!--This page is used for the Move to another quarter Dialog box -->
+                <!--This page is used for the quick add Dialog box -->
                 <ref bean="plan_item_add_page"/>
 
                 <!--This page is used for the Move to another quarter Dialog box -->
@@ -740,6 +935,12 @@
 
                 <!--This page is used for the Delete plan Item Dialog box -->
                 <ref bean="plan_item_delete_page"/>
+
+                <!-- This page is used for editing a plan item -->
+                <ref bean="plan_item_edit_page"/>
+
+                <!-- This page is used for editing a term note -->
+                <ref bean="term_note_edit_page"/>
 
             </list>
         </property>
@@ -1081,6 +1282,7 @@
         </property>
     </bean>
 
+
     <bean id="plan_item_course_move_dialog" parent="Uif-VerticalBoxSection" p:headerText="Move to Another Quarter">
         <property name="header">
             <bean parent="Uif-HeaderSix"/>
@@ -1306,7 +1508,7 @@
         <property name="fieldLabel.cssClasses" value="myplan-text-normal"/>
         <property name="items">
             <list>
-                <bean parent="KSAP-SimpleInputField" p:propertyName="atpId"
+                <bean p:id="atpId_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}" parent="KSAP-SimpleInputField" p:propertyName="atpId"
                       p:width="120px">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
@@ -1343,4 +1545,37 @@
                   value="fnClosePopup();"/>
     </bean>
 
+    <!-- Text input for plan item notes field -->
+    <bean id="planItemNote" parent="KSAP-SimpleInputField" p:propertyName="fakeCourseNote"
+          p:defaultValue="@{#form.planItemId NE null ? #form.courseNote : ''}">
+        <property name="label" value="Note for course"/>
+        <property name="fieldLabel.render" value="true"/>
+        <property name="fieldLabel.cssClasses">
+            <list merge="true">
+                <value>myplan-text-normal</value>
+            </list>
+        </property>
+        <property name="labelPlacement" value="TOP"/>
+        <property name="control">
+            <bean parent="Uif-TextAreaControl"
+                  p:watermarkText="Enter a short note (500 characters max)" p:maxLength="500"
+                  p:style="resize:none; width:97%">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ksap-characterCount</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="constraintMessage">
+            <bean parent="KSAP-Message" p:messageText="characters remaining">
+                <property name="onDocumentReadyScript" value="jQuery('.ksap-characterCount').characterCount({maxLength:500});"/>
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>counter</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
 </beans>

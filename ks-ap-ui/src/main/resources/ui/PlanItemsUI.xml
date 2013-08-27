@@ -126,6 +126,8 @@
 
                 <ref bean="menuOptionCourseSummary"/>
 
+                <ref bean="menuOptionEdit"/>
+
                 <bean parent="Uif-Link" p:target="" p:href="#"
                       p:linkText="Validate Cart Items"
                       p:title="Validate Cart Items">
@@ -180,6 +182,8 @@
             <list>
                 <ref bean="menuOptionCourseSummary"/>
 
+                <ref bean="menuOptionEdit"/>
+
                 <bean parent="Uif-Link" p:target="" p:href="#"
                       p:linkText="Place in Cart"
                       p:title="Place in Cart"
@@ -221,6 +225,8 @@
         <property name="items">
             <list>
                 <ref bean="menuOptionCourseSummary"/>
+
+                <ref bean="menuOptionEdit"/>
 
                 <bean parent="Uif-Link" p:target="" p:href="#"
                       p:linkText="Place in Cart"
@@ -277,6 +283,18 @@
             </list>
         </property>
     </bean>
+
+    <!--Completed backup Menu Items-->
+    <bean id="termnote_menu_items" parent="Uif-VerticalBoxSubSection" p:style=""
+          p:cssClasses="fl-container-150">
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <ref bean="menuTermOptionEdit"/>
+            </list>
+        </property>
+    </bean>
+
 
     <!--
       This lookup provides the term by term view of Planned Courses.
@@ -516,6 +534,32 @@
         <property name="layoutManager.lineGroupPrototype.style"
                   value="width:@{588/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px;
                   margin:0 @{20/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px;"/>
+        <property name="layoutManager.lineGroupPrototype.header.upperGroup">
+            <bean parent="Uif-HorizontalBoxGroup">
+
+                <property name="items">
+                    <list>
+                        <bean parent="menuTermOptionEdit">
+                            <property name="dataAttributes">
+                                <map>
+                                    <entry key="atpid" value="@{#line.atpId}"/>
+                                </map>
+                            </property>
+                        </bean>
+
+                        <bean p:id="@{#line.atpId.replaceAll('\.','-')}termnote_message" parent="Uif-InputField">
+                            <property name="propertyName" value="lookupResults[@{#index}].termNoteUI" />
+                            <property name="control">
+                                <bean parent="Uif-TextAreaControl"
+                                      p:watermarkText="No Term Notes">
+                                    <property name="disabled" value="true"/>
+                                </bean>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
         <property name="layoutManager.lineGroupPrototype.header.cssClasses">
             <list merge="true">
                 <value>ks-plan-TermsList-itemHeader</value>
@@ -532,7 +576,7 @@
                 <value>ks-plan-TermsList</value>
             </list>
         </property>
-        <property name="header.render" value="false"/>
+        <property name="header.render" value="true"/>
         <property name="items">
             <list>
                 <!-- This hidden field is only rendered for the ATP that should have focus in the UI. The value of "index" will
@@ -596,6 +640,8 @@
                 fnRemovePlanItem(data.atpId, data.planItemType, data.planItemId);
             }).on('PLAN_ITEM_UPDATED', function(event, data) {
                 fnUpdatePlanItem(data);
+            }).on('TERM_NOTE_UPDATED', function(event, data) {
+                fnUpdateTermNote(data.atpId, data.termNote);
             }).on('UPDATE_NEW_TERM_TOTAL_CREDITS', function(event, data) {
                 fnUpdateCredits(data.atpId, data.totalCredits, data.cartCredits);
             }).on('UPDATE_OLD_TERM_TOTAL_CREDITS', function(event, data) {
@@ -1827,6 +1873,68 @@
         </property>
     </bean>
 
+    <bean id="termNoteCollection" parent="Uif-StackedCollectionGroup">
+        <property name="validationMessages.render" value="false"/>
+        <property name="renderHeader" value="false"/>
+
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="lineGroupPrototype">
+                    <bean parent="Uif-CollectionVerticalBoxItem"/>
+                </property>
+            </bean>
+        </property>
+        <property name="dataAttributes">
+            <map>
+                <entry key="atpid" value="@{#line.atpId}"/>
+                <entry key="size" value="@{#line.termNoteList.size()}"/>
+            </map>
+        </property>
+            <property name="cssClasses">
+                <list merge="false">
+                    <value>myplan-carousel-term</value>
+                    <value>@{#line.atpId.replaceAll("\.","-")}</value>
+                    <value>myplan-term-fixed-height</value>
+                </list>
+            </property>
+        <property name="layoutManager.lineGroupPrototype.footer.render" value="false"/>
+        <property name="layoutManager.lineGroupPrototype.validationMessages.render" value="false"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.myplan.plan.dataobject.TermNoteDataObject"/>
+        <property name="propertyName" value="termNoteList"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean p:id="@{#line.atpId}_termNote" parent="Uif-HorizontalFieldGroup"
+                      p:render="@{#line.atpId ne null}"
+                      p:title="@{#line.atpId}">
+                    <property name="group.validationMessages.render" value="false"/>
+<!--
+                    <property name="onClickScript" value="openMenu('@{#line.planItemDataObject.id}_planned','planned_menu_items','@{#line.planItemDataObject.atp}',e,'.uif-collectionItem','fl-container-150 uif-boxLayoutHorizontalItem',{tail:{align:'top'},align:'top',position:'right'},false);"/>
+-->
+                    <property name="dataAttributes">
+                        <map>
+                            <entry key="noteid" value="@{#line.id}"/>
+                            <entry key="atpid" value="@{#line.atpId}"/>
+                        </map>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{#line.termNoteUI}"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="collectionLookup.render" value="false"/>
+        <property name="collectionLookup.quickfinderAction.render" value="false"/>
+    </bean>
+
     <bean id="menuOptionMove" parent="Uif-ActionLink" p:actionLabel="Move to Another Quarter"
           p:title="Move to Another Quarter">
         <property name="actionScript" value="
@@ -1865,11 +1973,34 @@
     <bean id="menuOptionCourseSummary" parent="Uif-ActionLink" p:actionLabel="View Course Summary"
           p:title="View Course Summary">
         <property name="actionScript" value="
-            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', courseId:jQuery(this).data('courseid'), pageId:'course_summary_dialog_page'};
+            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', planItemId:jQuery(this).data('planitemid'), courseId:jQuery(this).data('courseid'), pageId:'course_summary_dialog_page'};
             var popupStyle = {width:'300px', height:'16px'};
             var popupOptions = {tail:{hidden:true}, align:'top', close:true};
             openPopup('course_summary_dialog_page', retrieveData, 'plan', popupStyle, popupOptions, e);
         "/>
     </bean>
+
+    <bean id="menuOptionEdit" parent="Uif-ActionLink" p:actionLabel="Edit Plan Item"
+          p:title="Edit Plan Item">
+        <property name="actionScript" value="
+            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', planItemId:jQuery(this).data('planitemid'), atpId:jQuery(this).data('atpid'), pageId:'plan_item_edit_page'};
+            var popupStyle = {width:'300px', height:'16px'};
+            var popupOptions = {tail:{hidden:true}, align:'top', close:true};
+            openPopup('plan_item_edit_page', retrieveData, 'plan', popupStyle, popupOptions, e);
+        "/>
+    </bean>
+
+    <bean id="menuTermOptionEdit" parent="Uif-ActionLink" p:actionLabel="Edit Term Note"
+          p:title="Edit Term Note">
+        <property name="actionScript" value="
+            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startTermNoteForm', atpId:jQuery(this).data('atpid'), pageId:'term_note_edit_page'};
+            var popupStyle = {width:'300px', height:'16px'};
+            var popupOptions = {tail:{hidden:true}, align:'top', close:true};
+            openPopup('term_note_edit_page', retrieveData, 'plan', popupStyle, popupOptions, e);
+        "/>
+    </bean>
+
+
+
 
 </beans>

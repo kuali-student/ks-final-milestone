@@ -63,9 +63,9 @@ public class PlanForm extends UifFormBase {
 
     // Quick Add params
     private String courseCd;
-    
-    private BigDecimal courseCredit;
-    
+
+    private String courseCredit;
+
     private String courseNote;
 
     /*properties used for section Planning*/
@@ -81,8 +81,7 @@ public class PlanForm extends UifFormBase {
 
     private List<String> sectionsToDelete;
 
-    //Flag Used for student to hide or un hide
-    // plan view to adviser
+    //Flag Used for student to hide/unhide plan view to adviser
     private String enableAdviserView= PlanConstants.LEARNING_PLAN_ITEM_SHARED_TRUE_KEY;
 
     private CourseSummaryDetails courseSummaryDetails;
@@ -128,7 +127,7 @@ public class PlanForm extends UifFormBase {
 
     private StatusInfo statusInfo = new StatusInfo();
 
-
+    private String termNote;
     public int getBookmarkedCount() {
         return bookmarkedCount;
     }
@@ -195,13 +194,15 @@ public class PlanForm extends UifFormBase {
 		this.courseCd = courseCd;
 	}
 
-	public BigDecimal getCourseCredit() {
+	public String getCourseCredit() {
 		return courseCredit;
 	}
 
-	public void setCourseCredit(BigDecimal courseCredit) {
+	public void setCourseCredit(String courseCredit) {
 		this.courseCredit = courseCredit;
 	}
+
+
 
 	public String getCourseNote() {
 		return courseNote;
@@ -211,7 +212,7 @@ public class PlanForm extends UifFormBase {
 		this.courseNote = courseNote;
 	}
 
-	public String getAtpId() {
+    public String getAtpId() {
         return atpId;
     }
 
@@ -223,6 +224,8 @@ public class PlanForm extends UifFormBase {
         }
         this.atpId = atpId;
     }
+
+
 
     public boolean isOther() {
         return other;
@@ -414,33 +417,6 @@ public class PlanForm extends UifFormBase {
     /**
      * Returns the list of events that should be
      */
-    public String getPlannerJavascriptEventsAsJSON() {
-
-
-
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonOut = null;
-        try {
-            //  Turn the list of javascript events into a string of JSON.
-            jsonOut = mapper.writeValueAsString(javascriptEvents);
-            jsonOut = StringEscapeUtils.unescapeJava(jsonOut);
-            jsonOut = jsonOut.replaceAll("\"\\{", "{");
-            jsonOut = jsonOut.replaceAll("}\"", "}");
-            jsonOut = StringEscapeUtils.escapeHtml(jsonOut);
-        } catch (Exception e) {
-            logger.error("Could not convert javascript events to JSON.", e);
-            jsonOut = "";
-        }
-
-        //  TODO: Determine if there is a config that can be set to avoid having to do this.
-
-
-        return jsonOut;
-    }
-
-    /**
-     * Returns the list of events that should be
-     */
     public String getJavascriptEventsAsJSON() {
         ObjectMapper mapper = new ObjectMapper();
         String jsonOut = null;
@@ -485,4 +461,49 @@ public class PlanForm extends UifFormBase {
     public void setStatusInfo(StatusInfo statusInfo){
         this.statusInfo=statusInfo;
     }
+
+    public String getTermNote() {
+        return termNote;
+    }
+
+    public void setTermNote(String termNote) {
+        this.termNote = termNote;
+    }
+
+
+    /**
+     * Fake Property Wrappers
+     * Used to display form values in Datafield/InputFields but pass them back in javascript
+     */
+
+    public String getFakeTermNote() {
+        return getTermNote();
+    }
+
+    public void setFakeTermNote(String fakeTermNote) {}
+
+    public String getFakeCourseNote() {
+        return getCourseNote();
+    }
+
+    public void setFakeCourseNote(String fakeCourseNote) {}
+
+    public String getFakeCourseCredit() {
+        return getCourseCredit();
+    }
+
+    public void setFakeCourseCredit(BigDecimal fakeCourseCredit) {}
+
+    public String getFakeAtpId() {
+        return getAtpId();
+    }
+
+    public void setFakeAtpId(String fakeAtpId) {}
+
+    public boolean isFakeBackup() {
+        return isBackup();
+    }
+
+    public void setFakeBackup(boolean fakeBackup) {}
+
 }

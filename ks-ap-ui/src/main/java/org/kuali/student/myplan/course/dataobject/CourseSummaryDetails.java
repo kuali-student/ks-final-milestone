@@ -49,6 +49,7 @@ public class CourseSummaryDetails implements Serializable {
 	}
 
 	public String getCourseIdXmlSafe() {
+        if(getCourseId()==null)return "";
 		return getCourseId().replace('.', '_');
 	}
 

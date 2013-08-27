@@ -19,6 +19,8 @@ public class PlanConstants extends AcademicPlanServiceConstants {
 
 	public static final String COURSE_TYPE = CLUConstants.CLU_TYPE_CREDIT_COURSE;
 	public static final String SECTION_TYPE = "kuali.lu.type.CourseSection";
+    public static final String TERM_NOTE_COMMENT_TYPE ="kuali.ap.type.note.term";
+    public static final String TERM_NOTE_COMMENT_ATTRIBUTE_ATPID = "kauli.ap.type.note.term.attr.atpid";
 
 	// CRUD operations positive feedback.
 	public static final String SUCCESS_KEY = "myplan.text.success";
@@ -29,6 +31,7 @@ public class PlanConstants extends AcademicPlanServiceConstants {
 	public static final String SUCCESS_KEY_PLANNED_ITEM_MARKED_PLANNED = "myplan.text.success.plannedCourseList.itemMarkedAsPlanned";
     public static final String SUCCESS_KEY_PLANNED_ITEM_MARKED_CART = "myplan.text.success.plannedCourseList.itemMarkedAsCart";
 	public static final String SUCCESS_KEY_ITEM_DELETED = "myplan.text.success.itemDeleted";
+    public static final String SUCCESS_KEY_ITEM_EDITED = "myplan.text.success.itemEdited";
 
 	public static final String SUCCESS_KEY_SAVED_ITEM_ADDED = "myplan.text.success.savedCourseList.itemAdded";
 
@@ -103,6 +106,10 @@ public class PlanConstants extends AcademicPlanServiceConstants {
 		/* atpId, newTotalCredits */
 		UPDATE_NEW_TERM_TOTAL_CREDITS,
 		/* atpId, oldTotalCredits */
-		UPDATE_OLD_TERM_TOTAL_CREDITS
+		UPDATE_OLD_TERM_TOTAL_CREDITS,
+        /* atpId, planItemId */
+        PLAN_NOTE_UPDATED,
+        /*atpId*/
+        TERM_NOTE_UPDATED
 	}
 }

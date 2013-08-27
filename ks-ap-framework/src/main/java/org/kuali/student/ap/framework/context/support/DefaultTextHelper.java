@@ -12,6 +12,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.messages.dto.MessageInfo;
 import org.kuali.student.r2.common.messages.service.MessageService;
 
 public class DefaultTextHelper implements TextHelper, Serializable {
@@ -33,10 +34,14 @@ public class DefaultTextHelper implements TextHelper, Serializable {
 		MessageService msg = KsapFrameworkServiceLocator.getMessageService();
 		KsapContext ksapCtx = KsapFrameworkServiceLocator.getContext();
 		ContextInfo ctx = ksapCtx.getContextInfo();
+        if(ctx == null){
+            ctx = new ContextInfo();
+        }
 		LocaleInfo locale = ctx.getLocale();
 		try {
-			return msg.getMessage(locale, messageGroup, messageCode, ctx)
-					.getValue();
+            MessageInfo message = msg.getMessage(locale,messageGroup,messageCode, ctx);
+            if(message==null) return "";
+            return message.getValue();
 		} catch (DoesNotExistException e) {
 			throw new IllegalArgumentException("MSG lookup failure", e);
 		} catch (InvalidParameterException e) {

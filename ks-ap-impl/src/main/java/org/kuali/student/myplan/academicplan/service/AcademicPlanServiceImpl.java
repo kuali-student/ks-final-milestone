@@ -286,6 +286,11 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		pie.setUpdateId(context.getPrincipalId());
 		pie.setUpdateTime(new Date());
 
+        // Set credits
+        if ( planItem.getCredit() != null ) {
+            pie.setCredit(planItem.getCredit());
+        }
+
 		//  Set the learning plan.
 		String planId = planItem.getLearningPlanId();
 		if (planId == null) {
@@ -459,6 +464,11 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 			newPlan.setUpdateTime(new Date());
 			learningPlanDao.update(newPlan);
 		}
+
+        // update credits
+         if ( planItem.getCredit() != null ) {
+            planItemEntity.setCredit(planItem.getCredit());
+         }
 
 		return planItemDao.find(updatePlanItemId).toDto();
 	}
