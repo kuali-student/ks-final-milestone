@@ -1122,6 +1122,10 @@ function toggleTextBoxes(textBox){
     });
 }
 
+/* new function to display calendar information (title and dates) on fly (when someone type it in)
+   called from AcademicCalendarEditPage.xml
+   KSENROLL-8189
+ */
 function displayCalendarInformation(jqObject, fieldId){
     var currentId = jqObject.attr('id');
     if (currentId.indexOf("_control") == -1) {
