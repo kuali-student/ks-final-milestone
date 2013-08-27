@@ -2557,16 +2557,19 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
                 AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TERM2EXAMPERIOD_TYPE_KEY,
                 contextInfo);
         List<ExamPeriodInfo> examPeriodInfos = new ArrayList<ExamPeriodInfo>(results.size());
+        List<String> examPeriodIds = new ArrayList<String>(results.size());
+
         for (AtpAtpRelationInfo atpRelation : results) {
-            if (atpRelation.getAtpId().equals(termId)) {
-                AtpInfo possibleExamPeriodAtp = atpService.getAtp(atpRelation.getRelatedAtpId(), contextInfo);
-                if (checkTypeForExamPeriodType(possibleExamPeriodAtp.getTypeKey(), contextInfo)) {
-                    ExamPeriodInfo examPeriodInfo = new ExamPeriodInfo();
-                    examPeriodTransformer.atp2ExamPeriod(possibleExamPeriodAtp, examPeriodInfo);
-                    examPeriodInfos.add(examPeriodInfo);
-                }
+            examPeriodIds.add(atpRelation.getRelatedAtpId());
+        }
+
+        if (examPeriodIds!=null && !examPeriodIds.isEmpty()) {
+            List<AtpInfo> atpInfos = atpService.getAtpsByIds(examPeriodIds, contextInfo);
+            for (AtpInfo atpInfo : atpInfos) {
+                examPeriodInfos.add(examPeriodTransformer.atp2ExamPeriod(atpInfo));
             }
         }
+
         return examPeriodInfos;
     }
 
