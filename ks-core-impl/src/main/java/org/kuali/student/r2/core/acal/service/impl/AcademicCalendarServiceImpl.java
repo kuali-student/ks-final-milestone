@@ -2659,13 +2659,10 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ExamPeriodInfo createExamPeriod(String examPeriodTypeKey, ExamPeriodInfo examPeriodInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        AtpInfo atp = new AtpInfo();
-
-        examPeriodTransformer.ExamPeriod2Atp(examPeriodInfo, atp);
+        AtpInfo atp = examPeriodTransformer.ExamPeriod2Atp(examPeriodInfo);
         AtpInfo newAtp = atpService.createAtp(atp.getTypeKey(), atp, contextInfo);
-        examPeriodTransformer.atp2ExamPeriod(newAtp, examPeriodInfo);
 
-        return examPeriodInfo;
+        return examPeriodTransformer.atp2ExamPeriod(newAtp);
     }
 
     @Override
