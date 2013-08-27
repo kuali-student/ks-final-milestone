@@ -419,7 +419,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="ks.jquery.bubblepopup.css"
-                                               value="https://svn.kuali.org/repos/student/enrollment/ks-core/trunk/ks-common/ks-common-web/src/main/webapp/krad/plugins/tooltip/ks.jquery.bubblepopup.css"/>
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-core/trunk/ks-common/ks-common-web/src/main/webapp/plugins/tooltip/ks.jquery.bubblepopup.css"/>
                                     </map>
                                 </property>
                             </bean>

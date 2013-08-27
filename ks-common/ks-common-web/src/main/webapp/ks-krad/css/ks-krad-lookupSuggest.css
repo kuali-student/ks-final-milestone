@@ -10,7 +10,7 @@
 
 /* combobox css */
 input.ui-autocomplete-loading.ks-loading-image {
-    background: white url('../../krad/plugins/jqueryUI/images/loading.gif') right center no-repeat !important;
+    background: white url('../../plugins/jqueryUI/images/loading.gif') right center no-repeat !important;
 }
 
 span.ks-ui-autocomplete-input {
@@ -42,10 +42,10 @@ span.ks-ui-autocomplete-input > a.ui-state-hover {
     border: solid 1px #aaa;
 }
 span.ks-ui-autocomplete-input > a > span.ui-icon {
-    background-image: url("../../krad/plugins/jqueryUI/images/ui-icons_888888_256x240.png") !important;
+    background-image: url("../../plugins/jqueryUI/images/ui-icons_888888_256x240.png") !important;
 }
 span.ks-ui-autocomplete-input > a.ui-state-hover > span.ui-icon {
-    background-image: url("../../krad/plugins/jqueryUI/images/ui-icons_004b2a_256x240.png") !important;
+    background-image: url("../../plugins/jqueryUI/images/ui-icons_004b2a_256x240.png") !important;
 }
 span.ks-ui-autocomplete-input > input.ks-ui-autocomplete-input-error {
     color: red;

@@ -3,7 +3,7 @@ var BUBBLEPOPUP_DEFAULT_OPTIONS = {
     align: 'left',
     tail: { align:'left', hidden:false },
     manageMouseEvents: false,
-    themePath: '../krad/plugins/tooltip/jquerybubblepopup-theme/',
+    themePath: '../plugins/tooltip/jquerybubblepopup-theme/',
     themeName: 'ks-form',
     closingSpeed: 125
 };
