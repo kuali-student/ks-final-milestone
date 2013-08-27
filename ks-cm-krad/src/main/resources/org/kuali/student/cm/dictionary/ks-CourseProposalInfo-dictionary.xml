@@ -21,9 +21,6 @@
                 services.
             </value>
         </property>
-        <!--
-        <property name="titleAttribute" value="course.courseTitle" />
-        -->
         <property name="primaryKeys">
             <list>
                 <value>id</value>
@@ -53,11 +50,13 @@
         <property name="collections">
             <list>
                 <ref bean="CourseProposalInfo.instructorWrappers" />
+              <!--
                 <ref bean="CourseProposalInfo.courseJointWrappers" />
                 <ref bean="CourseProposalInfo.creditOptionWrappers" />
                 <ref bean="CourseProposalInfo.commentInfos" />
                 <ref bean="CourseProposalInfo.decisions" />
                 <ref bean="CourseProposalInfo.administeringOrganizations" />
+              -->
             </list>
         </property>
     </bean>
@@ -183,6 +182,7 @@
         <property name="required" value="false" />
     </bean>
 
+    <!--
     <bean id="CourseProposalInfo.loDialogWrapper.categoryName" parent="BaseKuali.string">
         <property name="name" value="categoryName" />
         <property name="shortLabel" value="CategoryName" />
@@ -199,9 +199,11 @@
         </property>
         <property name="required" value="false" />
     </bean>
+    -->
 
     <!-- Complex Attributes -->
 
+    <!--
     <bean id="CourseProposalInfo.course" parent="ComplexAttributeDefinition">
         <property name="name" value="course" />
         <property name="dataObjectEntry" ref="CourseInfo"/>
@@ -211,7 +213,8 @@
         <property name="name" value="proposal" />
         <property name="dataObjectEntry" ref="ProposalInfo" />
     </bean>
-
+    -->
+<!--
     <bean id="CourseProposalInfo.loDialogWrapper" parent="ComplexAttributeDefinition">
         <property name="name" value="loDialogWrapper" />
         <property name="shortLabel" value="Learning Objective Dialog Wrapper" />
@@ -257,9 +260,11 @@
             </bean>
         </property>
     </bean>
+    -->
 
     <!-- Collection Attributes -->
 
+    <!--
     <bean id="CourseProposalInfo.instructorWrappers" parent="CollectionDefinition">
         <property name="name" value="instructorWrappers" />
         <property name="shortLabel" value="Instructor Wrappers" />
@@ -412,4 +417,5 @@
         <property name="minOccurs" value="0"/>
         <property name="dataObjectClass" value="java.lang.String"/>
     </bean>
+    -->
 </beans>

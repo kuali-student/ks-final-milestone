@@ -259,7 +259,7 @@
                                                 <bean parent="Uif-ActionLink" p:actionLabel="Comments"
                                                     p:methodToCall="showComment" />
                                                 <bean parent="Uif-ActionLink" p:actionLabel="Decisions"
-                                                    p:methodToCall="showComment" />
+                                                    p:methodToCall="showDecisions" />
                                                 <bean parent="Uif-Space" />
                                                 <!--
                                                 <bean parent="Uif-DataField" p:label="Last Updated"
