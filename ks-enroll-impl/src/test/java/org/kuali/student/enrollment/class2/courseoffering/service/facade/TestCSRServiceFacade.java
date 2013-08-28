@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.facade;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -75,8 +76,13 @@ public class TestCSRServiceFacade {
 
         if (testAwareDataLoader || !dataLoader.isInitialized()) {
             dataLoader.beforeTest();
-
         }
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        if (testAwareDataLoader)
+            dataLoader.afterTest();
     }
 
     private void createActivityOffering() throws Exception {
@@ -124,5 +130,19 @@ public class TestCSRServiceFacade {
 
         // The activity is in canceled state after cancelActivityOffering call
        assertTrue((activityOfferingInfo.getState().contains("canceled")));
+
+    }
+
+
+    @Test
+    public void testSuspendActivityOffering() throws Exception {
+        createActivityOffering();
+        ActivityOfferingInfo activityOfferingInfo = coService.getActivityOffering("CO-2:LEC-ONLY:LEC-A",contextInfo);
+        assertTrue(!(activityOfferingInfo.getState().contains("suspend")));
+
+        csrServiceFacade.suspendActivityOffering("CO-2:LEC-ONLY:LEC-A",contextInfo);
+
+        activityOfferingInfo = coService.getActivityOffering("CO-2:LEC-ONLY:LEC-A",contextInfo);
+        assertTrue((activityOfferingInfo.getState().contains("suspend")));
     }
 }
