@@ -48,13 +48,13 @@ insert into KSEN_STATE_CHG_CNSTRNT (STATE_CHG_ID, STATE_CNSTRNT_ID) values ('kua
 /
 insert into KSEN_STATE_CHG_CNSTRNT (STATE_CHG_ID, STATE_CNSTRNT_ID) values ('kuali.statechange.formatoffering.suspended.planned', 'kuali.stateconstraint.formatoffering.tostate.planned.2' )
 /
-insert into KSEN_STATE_CHG_CNSTRNT (STATE_CHG_ID, STATE_CNSTRNT_ID) values ('kuali.statechange.formatoffering.suspended.offered', 'kuali.stateconstraint.courseoffering.tostate.offered' )
+insert into KSEN_STATE_CHG_CNSTRNT (STATE_CHG_ID, STATE_CNSTRNT_ID) values ('kuali.statechange.formatoffering.suspended.offered', 'kuali.stateconstraint.formatoffering.tostate.offered' )
 /
 insert into KSEN_STATE_CHG_CNSTRNT (STATE_CHG_ID, STATE_CNSTRNT_ID) values ('kuali.statechange.courseoffering.suspended.draft', 'kuali.stateconstraint.courseoffering.tostate.draft.1' )
 /
 insert into KSEN_STATE_CHG_CNSTRNT (STATE_CHG_ID, STATE_CNSTRNT_ID) values ('kuali.statechange.courseoffering.suspended.draft', 'kuali.stateconstraint.courseoffering.tostate.draft.2' )
 /
-insert into KSEN_STATE_CHG_CNSTRNT (STATE_CHG_ID, STATE_CNSTRNT_ID) values ('kuali.statechange.courseoffering.suspended.offered', 'kuali.stateconstraint.formatoffering.tostate.offered' )
+insert into KSEN_STATE_CHG_CNSTRNT (STATE_CHG_ID, STATE_CNSTRNT_ID) values ('kuali.statechange.courseoffering.suspended.offered', 'kuali.stateconstraint.courseoffering.tostate.offered' )
 /
 insert into KSEN_STATE_CHG_CNSTRNT (STATE_CHG_ID, STATE_CNSTRNT_ID) values ('kuali.statechange.courseoffering.suspended.planned', 'kuali.stateconstraint.courseoffering.tostate.planned.1' )
 /
