@@ -298,7 +298,7 @@ limitations under the License.
     </bean>
 
 	<bean id="KS-AcademicCalendar-EventSubSection" parent="Uif-Disclosure-TableCollectionSubSection"
-		  p:layoutManager.numberOfColumns="@{#view.readOnly ? 3 : 7}" p:id="acal-info-event">
+		  p:layoutManager.numberOfColumns="@{#view.readOnly ? 3 : 7}" p:id="acal-info-event" p:style="@{!#view.readOnly ? '' : !#form.events.empty ?  '' : 'display:none'}">
 		<property name="headerText" value="Events" />
         <property name="disclosure.defaultOpen" value="@{!#form.events.empty}"/>
         <property name="instructionalText" value="@{!#view.readOnly ? 'Adding events is optional.' : ''}"/>
@@ -404,7 +404,7 @@ limitations under the License.
 		</property>
 	</bean>
 
-    <bean id="KS-AcademicCalendar-HolidaySubSection" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure">
+    <bean id="KS-AcademicCalendar-HolidaySubSection" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure" p:style="@{!#view.readOnly ? '' : !#form.holidayCalendarList.empty ?  '' : 'display:none'}">
         <property name="id" value="acal-holidays" />
         <property name="headerText" value="Holidays" />
         <property name="propertyName" value="holidayCalendarList" />
