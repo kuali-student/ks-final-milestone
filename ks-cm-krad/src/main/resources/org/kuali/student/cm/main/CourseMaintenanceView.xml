@@ -74,7 +74,7 @@
                 <bean parent="Uif-Message"
                     p:messageText="All comments posted here will be visible to authors, and to reviewers after you submit the proposal" />
                 <!--"commentTableSection" -->
-                <bean parent="Uif-MessageField" p:messageText="Logged in as: " />
+                <bean parent="Uif-MessageField" p:messageText="Logged in as: @{document.newMaintainableObject.dataObject.userId}" />
                 <bean parent="Uif-TableCollectionSection" lazy-init="false">
                     <property name="headerText" value="Leave a Comment" />
                     <property name="collectionObjectClass" value="org.kuali.student.r2.core.comment.dto.CommentInfo" />
