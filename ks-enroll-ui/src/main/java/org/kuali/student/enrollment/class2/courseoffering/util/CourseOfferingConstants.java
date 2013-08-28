@@ -166,7 +166,7 @@ public class CourseOfferingConstants {
     public static final String ACTIVITYOFFERING_TOOLBAR_ADD_INVALID_ERROR="error.enroll.activityoffering.toolbar.add.invalid";
     
     //controller path
-    public static final String CONTROLLER_PATH_COURSEOFFERING_BASE_MAINTENANCE = "courseOffering";
+    public static final String CONTROLLER_PATH_COURSEOFFERING_EDIT_MAINTENANCE = "courseOfferingEdit";
     public static final String CONTROLLER_PATH_COURSEOFFERING_CREATE_MAINTENANCE = "courseOfferingCreate";
 
     // Final Exam Types

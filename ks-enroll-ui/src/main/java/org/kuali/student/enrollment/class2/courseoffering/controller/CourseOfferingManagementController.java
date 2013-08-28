@@ -440,7 +440,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=editTheCO")
     public ModelAndView editTheCO(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
         Properties urlParameters = CourseOfferingHandler.editTheCO(theForm);
-        return super.performRedirect(theForm, CourseOfferingConstants.CONTROLLER_PATH_COURSEOFFERING_BASE_MAINTENANCE, urlParameters);
+        return super.performRedirect(theForm, CourseOfferingConstants.CONTROLLER_PATH_COURSEOFFERING_EDIT_MAINTENANCE, urlParameters);
     }
 
     /*
@@ -458,7 +458,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
              } else {
                 urlParameters.put("editCrossListedCoAlias", BooleanUtils.toStringTrueFalse(false));
              }
-            return super.performRedirect(theForm, CourseOfferingConstants.CONTROLLER_PATH_COURSEOFFERING_BASE_MAINTENANCE, urlParameters);
+            return super.performRedirect(theForm, CourseOfferingConstants.CONTROLLER_PATH_COURSEOFFERING_EDIT_MAINTENANCE, urlParameters);
         } else if (selectedObject instanceof ActivityOfferingWrapper) {
             Properties urlParameters = ActivityOfferingClusterHandler.editAO(theForm, ((ActivityOfferingWrapper) selectedObject).getAoInfo().getId());
             return super.performRedirect(theForm, "activityOffering", urlParameters);
