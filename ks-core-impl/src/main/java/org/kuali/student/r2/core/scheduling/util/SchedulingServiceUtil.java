@@ -34,6 +34,7 @@ import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -43,6 +44,9 @@ import java.util.List;
  * @author Mezba Mahtab
  */
 public class SchedulingServiceUtil {
+
+    //  Since this is a utility class (all static methods) hide the constructor.
+    private SchedulingServiceUtil() {}
 
     /**
      * Converts a list of Calendar constants (i.e. Calendar.MONDAY, Calendar.FRIDAY) into a string of characters representing those days
@@ -129,7 +133,9 @@ public class SchedulingServiceUtil {
                 break;
             }
         }
-        if (!hasCommonWeekday) return false;
+        if (!hasCommonWeekday) {
+            return false;
+        }
 
         if (timeSlotInfo1.getStartTime().getMilliSeconds() == null ||
                 timeSlotInfo1.getEndTime().getMilliSeconds() == null ||
@@ -152,39 +158,67 @@ public class SchedulingServiceUtil {
 
     /**
      * Convenience method for the short-cut process of translating a ScheduleRequest directly into a Schedule
-     * Assumes that the room to be used for the actual schedule is the first room in the list from the request
+     * Assumes that the room to be used for the actual schedule is the first room in the list from the request.
+     * <p/>
+     * If the request isn't TBA then fill in a value for room id as if the scheduler had looked for and found a
+     * room.
      *
-     * @param request
+     * @param request The schedule request and components to process.
+     * @param result The schedule for the newly created schedule components.
+     * @param callContext The context.
+     * @param roomService A RoomService implementation.
      * @return
      */
-    public static ScheduleInfo requestToSchedule(ScheduleRequestInfo request,ScheduleInfo result,RoomService roomService, ContextInfo callContext) {
+    public static ScheduleInfo requestToSchedule(ScheduleRequestInfo request, ScheduleInfo result, RoomService roomService, ContextInfo callContext) {
         result.setStateKey(SchedulingServiceConstants.SCHEDULE_STATE_ACTIVE);
         result.setTypeKey(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE);
         result.setScheduleComponents(new ArrayList<ScheduleComponentInfo>(request.getScheduleRequestComponents().size()));
 
         for (ScheduleRequestComponentInfo reqComp : request.getScheduleRequestComponents()) {
-            ScheduleComponentInfo compInfo = new ScheduleComponentInfo();
-            compInfo.setIsTBA(reqComp.getIsTBA());
+            boolean isTBA =  reqComp.getIsTBA();
+            boolean hasBuildingIds = ! reqComp.getBuildingIds().isEmpty();
+            boolean hasRoomIds =  ! reqComp.getRoomIds().isEmpty();
 
-            // grabbing the first room in the list
-            if(!reqComp.getRoomIds().isEmpty()){
-                compInfo.setRoomId(reqComp.getRoomIds().get(0));
-            } else if (!reqComp.getBuildingIds().isEmpty()){
-                String buildingId = reqComp.getBuildingIds().get(0);
-                try {
-                    List<String> rooms = roomService.getRoomIdsByBuilding(buildingId,callContext);
-                    if (!rooms.isEmpty()){
-                        compInfo.setRoomId(rooms.get(0));
+            ScheduleComponentInfo compInfo = new ScheduleComponentInfo();
+            compInfo.setIsTBA(isTBA);
+
+            if (! isTBA) {
+                String defaultRoomId = "d08416cf-c7e5-48c4-b6f9-8e0c9d3dddd1";
+                //  No building, no room ... Just use the default room id for the schedule component.
+                if ( ! hasBuildingIds && ! hasRoomIds) {
+                     compInfo.setRoomId(defaultRoomId);
+                } else {
+                    //  Has a building but no room, look for a room in the building.
+                    if (hasBuildingIds && ! hasRoomIds) {
+                        String buildingId = reqComp.getBuildingIds().get(0);
+                        List<String> rooms = Collections.emptyList();
+                        try {
+                            rooms = roomService.getRoomIdsByBuilding(buildingId, callContext);
+                        } catch (Exception e) {
+                            throw new RuntimeException("Query to room service failed.", e);
+                        }
+                        //  Grab the first room.
+                        if ( ! rooms.isEmpty()) {
+                            compInfo.setRoomId(rooms.get(0));
+                        } else {
+                            // If no rooms are defined then just use the default.
+                            compInfo.setRoomId(defaultRoomId);
+                        }
+                    } else {
+                        //  Has room Ids but no building Ids, throw because this shouldn't happen.
+                        throw new RuntimeException(String.format("Could not create ADL from RDL %s because room Ids were present, but no building Ids. This is corrupt data.", request.getId()));
                     }
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
+                }
+            } else {
+                //  If this is a TBA request then just copy the RDL params to the ADL.
+                if (hasRoomIds) {
+                    compInfo.setRoomId(reqComp.getRoomIds().get(0));
                 }
             }
+            //  Timeslot is currently required so assume present.
             compInfo.setTimeSlotIds(reqComp.getTimeSlotIds());
-
             result.getScheduleComponents().add(compInfo);
         }
-
         return result;
     }
 
