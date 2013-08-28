@@ -1166,8 +1166,10 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             ContextInfo context = createContextInfo();
             // check if child term is subterm or term and if it is (list is not empty) then add all parent terms to types
             List<TypeTypeRelationInfo> typeTypeRelationInfos = getTypeService().getTypeTypeRelationsByRelatedTypeAndType(childTerm.getTermType(), TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, context);
-            if (!typeTypeRelationInfos.isEmpty()) {
-                TypeInfo parentTerm = getTypeService().getType(typeTypeRelationInfos.get(0).getOwnerTypeKey(), context);
+            //JIRA FIX : KSENROLL-8730 - Added NULL check
+            if (null!=typeTypeRelationInfos && !typeTypeRelationInfos.isEmpty()) {
+                int firstTypeRelationInfo = 0;
+                TypeInfo parentTerm = getTypeService().getType(typeTypeRelationInfos.get(firstTypeRelationInfo).getOwnerTypeKey(), context);
                 childTerm.setParentTerm(parentTerm.getKey());
                 childTerm.setParentTermName(parentTerm.getName());
             }

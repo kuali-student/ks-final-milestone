@@ -201,12 +201,16 @@ public class AcalReferenceDataParser {
             List<Atp> terms = acal.getTerms();
             terms.add(term);
         }
+        int firstValue =0;
         for (Atp acal : allAcals.values()) {
             List<Atp> terms = acal.getTerms();
-            Atp firstTerm = terms.get(0);
-            Atp lastTerm = terms.get(terms.size() - 1);
-            acal.setStartDate(firstTerm.getStartDate());
-            acal.setEndDate(lastTerm.getEndDate());
+            //JIRA FIX : KSENROLL-8730 - Added NULL is EMPTY check before setting Start Date & End Date
+            if(null!=terms && terms.isEmpty())   {
+                Atp firstTerm = terms.get(firstValue);
+                Atp lastTerm = terms.get(terms.size() - 1);
+                acal.setStartDate(firstTerm.getStartDate());
+                acal.setEndDate(lastTerm.getEndDate());
+            }
         }
     }
 

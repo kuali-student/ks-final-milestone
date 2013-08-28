@@ -138,8 +138,10 @@ public class CourseOfferingCopyWrapper implements Serializable{
         String returnString = CourseOfferingConstants.COURSEOFFERING_TEXT_STD_REG_OPTS_EMPTY;
         StringBuffer sb = new StringBuffer();
         List<String> studentGradingOptionsList = getStudentRegistrationGradingOptionsList();
-        if (studentGradingOptionsList.size() > 0) {
-            sb.append(studentGradingOptionsList.get(0));
+        //JIRA FIX : KSENROLL-8730 - Added NULL check
+        int firstStudentGradingOption = 0;
+        if (null!=studentGradingOptionsList && studentGradingOptionsList.size() > 0) {
+            sb.append(studentGradingOptionsList.get(firstStudentGradingOption));
             for (int i = 1; i < studentGradingOptionsList.size(); i++) {
                 sb.append(",");
                 sb.append(studentGradingOptionsList.get(i));

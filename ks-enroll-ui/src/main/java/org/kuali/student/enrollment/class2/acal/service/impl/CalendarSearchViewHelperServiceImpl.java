@@ -147,14 +147,19 @@ public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl
             // check if it's a subterm
             List<TermInfo> parentTerms = getAcademicCalendarService().getContainingTerms(term.getId(), context);
             List<AcademicCalendarInfo> atps;
-            if(parentTerms.isEmpty()) {
+
+            //JIRA FIX : KSENROLL-8730 - Added NULL check
+            int firstValue = 0;
+            if(null!=parentTerms && parentTerms.isEmpty()) {
                 atps = getAcademicCalendarService().getAcademicCalendarsForTerm(term.getId(), context);
             } else {
-                TermInfo parentTerm = parentTerms.get(0);
+                TermInfo parentTerm = parentTerms.get(firstValue);
                 atps = getAcademicCalendarService().getAcademicCalendarsForTerm(parentTerm.getId(), context);
             }
-            if (!atps.isEmpty()){
-                acalId = atps.get(0).getId();
+
+            //JIRA FIX : KSENROLL-8730 - Added NULL check
+            if (null!=atps && !atps.isEmpty()){
+                acalId = atps.get(firstValue).getId();
             }
         } catch (Exception e) {
            if (LOG.isDebugEnabled()){

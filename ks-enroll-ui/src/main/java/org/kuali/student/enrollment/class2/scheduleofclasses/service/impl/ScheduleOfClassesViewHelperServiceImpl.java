@@ -109,7 +109,9 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
             Map<String, String> searchCriteria = new HashMap<String, String>();
             searchCriteria.put(KIMPropertyConstants.Person.PRINCIPAL_NAME, instructorName);
             List<Person> instructors = getPersonService().findPeople(searchCriteria);
-            if (instructors.isEmpty()) {
+            //JIRA FIX : KSENROLL-8730 - Added NULL check
+            int firstInstructor = 0;
+            if (null==instructors || instructors.isEmpty()) {
                 LOG.error("Error: Can't find any instructor for selected instructor in term: " + termId);
                 GlobalVariables.getMessageMap().putError("Term & Instructor", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "instructor", instructorName, termId);
                 form.getCoDisplayWrapperList().clear();
@@ -119,7 +121,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
                 instructorId = null;
                 form.getCoDisplayWrapperList().clear();
             } else {
-                instructorId = instructors.get(0).getPrincipalId();
+                instructorId = instructors.get(firstInstructor).getPrincipalId();
             }
         }
 
