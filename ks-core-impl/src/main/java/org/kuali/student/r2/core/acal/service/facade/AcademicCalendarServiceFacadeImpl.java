@@ -81,7 +81,7 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
     @Override
     public StatusInfo makeTermOfficialCascaded(String termId, ContextInfo contextInfo)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
-                   OperationFailedException, DoesNotExistException {
+            OperationFailedException, DoesNotExistException {
         StatusInfo statusInfo = new StatusInfo();
 
         // KSENROLL-7251 Implement a new servies process ot change the state of the Academic Calendar
@@ -175,7 +175,8 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
             OperationFailedException, PermissionDeniedException {
         StatusInfo statusInfo = new StatusInfo();
 
-        List<String> subTermIds = getIncludedTermidsInTerm(termId, context);
+        //retrieve all the sub term ids of the give term
+        List<String> subTermIds = getRelatedAtpIdsForParentAtpIdAndRelationType(termId, AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
         if (subTermIds!=null && !subTermIds.isEmpty()) {
             for (String subTermId : subTermIds) {
                 deleteTermCascaded(subTermId, context);
@@ -207,7 +208,7 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
     @Override
     public boolean validateTerm(String termId, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
-                   OperationFailedException, DoesNotExistException {
+            OperationFailedException, DoesNotExistException {
         Set<String> processedTermIds = new HashSet<String>();
         processedTermIds.add(termId);
         return _validateTermRecursive(termId, processedTermIds, context);
@@ -262,12 +263,13 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
     }
 
     @Override
-    public List<String> getIncludedTermidsInTerm(String atpId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getRelatedAtpIdsForParentAtpIdAndRelationType(String atpId, String relationTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         //Perform an atp search to get the search results
         List<String> includedTermIds = new ArrayList<String>();
 
         SearchRequestInfo searchRequestInfo = new SearchRequestInfo("atp.search.relatedAtpIdsByAtpId");
         searchRequestInfo.addParam("atp.queryParam.parentAtpId", atpId);
+        searchRequestInfo.addParam("atp.queryParam.relationType", relationTypeKey);
         SearchResultInfo results = atpService.search(searchRequestInfo, context);
 
         for(SearchResultRowInfo row : results.getRows()){

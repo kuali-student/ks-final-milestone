@@ -96,6 +96,7 @@ public interface AcademicCalendarServiceFacade {
     /**
      * Returns related ATP ids for the given parent ATP id
      * @param termId the parent atp Id
+     * @param relationTypeKey the relation type key of the ATP ATP relationship
      * @param context call context
      * @return related ATP ids for the given parent ATP id
      * @throws InvalidParameterException
@@ -103,7 +104,7 @@ public interface AcademicCalendarServiceFacade {
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public List<String> getIncludedTermidsInTerm(String termId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getRelatedAtpIdsForParentAtpIdAndRelationType(String termId, String relationTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
 
 
     /**
