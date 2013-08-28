@@ -37,6 +37,7 @@ public class RoomInfoLookupableImpl extends LookupableImpl implements Lookupable
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         boolean validate = validateSearchParameters(lookupForm,fieldValues);
+        int firstBuilding = 0;
         if (validate){
             try {
 
@@ -48,10 +49,10 @@ public class RoomInfoLookupableImpl extends LookupableImpl implements Lookupable
                 }
 
                 if (StringUtils.isBlank(fieldValues.get("roomCode"))){
-                    List<String> roomIds = getRoomService().getRoomIdsByBuilding(buildings.get(0).getId(), ContextBuilder.loadContextInfo());
+                    List<String> roomIds = getRoomService().getRoomIdsByBuilding(buildings.get(firstBuilding).getId(), ContextBuilder.loadContextInfo());
                     return getRoomService().getRoomsByIds(roomIds,ContextBuilder.loadContextInfo());
                 } else {
-                    return getRoomService().getRoomsByBuildingAndRoomCode(buildings.get(0).getId(),fieldValues.get("roomCode"),ContextBuilder.loadContextInfo());
+                    return getRoomService().getRoomsByBuildingAndRoomCode(buildings.get(firstBuilding).getId(),fieldValues.get("roomCode"),ContextBuilder.loadContextInfo());
                 }
 
             } catch (DoesNotExistException e) {

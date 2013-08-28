@@ -47,8 +47,9 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
                 List<TermInfo> termList = getAcalService().searchForTerms(criteria, new ContextInfo());
 
                 if (termList != null  && termList.size()>0 ){
+                    int firstTerm = 0;
                     // Always get first term
-                    termId = termList.get(0).getId();
+                    termId = termList.get(firstTerm).getId();
                     LOG.info(">>> termId = " + termId);
                     if(termList.size()>1){
                         //logger.warn("AdvanceActivityOfferingLookupableImpl - find more than one term for specified termCode: " + termCode) ;
@@ -74,8 +75,9 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
 
             //get all AOs based on the retrieved courseOfferingId
             if(!courseOfferingList.isEmpty() && courseOfferingList.size()==1){
+                int firstCOInfo = 0;
                 //Get the courseOfferingId from THE CO
-                courseOfferingId = courseOfferingList.get(0).getId();
+                courseOfferingId = courseOfferingList.get(firstCOInfo).getId();
                 activityOfferingInfos =  getCourseOfferingService().getActivityOfferingsByCourseOffering (courseOfferingId, ContextUtils.createDefaultContextInfo());
             } else if (courseOfferingList.size()>1) {
                 throw new RuntimeException("Error: find more than one CO for specified courseOfferingCode: "+courseOfferingCode);

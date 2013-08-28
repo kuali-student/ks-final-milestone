@@ -178,13 +178,13 @@ public class CourseInfoByTermLookupableImpl extends LookupableImpl {
                         if (atps == null || atps.size() != 1) {
                             return courseInfoList;
                         }
-
+                        int firstATPInfo = 0;
                         qpv.setKey(QueryParamEnum.TERM_START.getQueryKey());
-                        qpv.getValues().add(DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(0).getStartDate()));
+                        qpv.getValues().add(DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(firstATPInfo).getStartDate()));
                         searchParams.add(qpv);
                         qpv = new SearchParamInfo();
                         qpv.setKey(QueryParamEnum.TERM_END.getQueryKey());
-                        qpv.getValues().add(DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(0).getEndDate()));
+                        qpv.getValues().add(DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(firstATPInfo).getEndDate()));
                         searchParams.add(qpv);
                         break;
                     default:

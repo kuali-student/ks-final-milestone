@@ -300,6 +300,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             // Now have to deal with subterms: have to check if it's subterm or term
             TermInfo term = null;
             TermInfo subTerm=null;
+            int firstTerm = 0;
             wrapper.setHasSubTerms(false);
             wrapper.setSubTermName("None");
             wrapper.setSubTermId("");
@@ -309,7 +310,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 term = new TermInfo(termTemp);
             } else {
                 subTerm = new TermInfo(termTemp);
-                term = getAcademicCalendarService().getContainingTerms(info.getTermId(), contextInfo).get(0);
+                term = getAcademicCalendarService().getContainingTerms(info.getTermId(), contextInfo).get(firstTerm);
                 wrapper.setSubTermId(subTerm.getId());
                 TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
                 wrapper.setSubTermName(subTermType.getName());
@@ -518,7 +519,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
         ActivityOfferingInfo info = wrapper.getAoInfo();
         wrapper.setColocatedOnLoadAlready(info.getIsColocated());
-
+        int firstRequestSet = 0;
         if (info.getIsColocated()){
 
             wrapper.setColocatedAO(true);
@@ -526,7 +527,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
             List<ScheduleRequestSetInfo> scheduleRequestSets = getSchedulingService().getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, info.getId(), createContextInfo());
             if(scheduleRequestSets != null && !scheduleRequestSets.isEmpty()){
-                ScheduleRequestSetInfo scheduleRequestSetInfo = scheduleRequestSets.get(0);
+                ScheduleRequestSetInfo scheduleRequestSetInfo = scheduleRequestSets.get(firstRequestSet);
 
                 //Each AO has only one ScheduleRequestSet for M7-SP2(support full co-location only)
                 wrapper.setScheduleRequestSetInfo(scheduleRequestSetInfo);
@@ -763,8 +764,9 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;
             if (instructor.getOfferingInstructorInfo().getPersonName() == null && instructor.getOfferingInstructorInfo().getPersonId() != null) {
                 List<Person> personList = CourseOfferingViewHelperUtil.getInstructorByPersonId(instructor.getOfferingInstructorInfo().getPersonId());
+                int firstPerson = 0;
                 if (personList.size() == 1) {
-                    instructor.getOfferingInstructorInfo().setPersonName(personList.get(0).getName());
+                    instructor.getOfferingInstructorInfo().setPersonName(personList.get(firstPerson).getName());
                 }
             }
         } else if (addLine instanceof ColocatedActivity && isValidLine) {
@@ -811,6 +813,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     PredicateFactory.equal("populationState", PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY),
                     PredicateFactory.equalIgnoreCase("name", seatPool.getSeatPoolPopulation().getName())));
             QueryByCriteria criteria = qbcBuilder.build();
+            int firstPopulationInfo = 0;
 
             try {
                 List<PopulationInfo> populationInfoList = getPopulationService().searchForPopulations(criteria, createContextInfo());
@@ -818,8 +821,8 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     GlobalVariables.getMessageMap().putErrorForSectionId("ao-seatpoolgroup", PopulationConstants.POPULATION_MSG_ERROR_POPULATION_NOT_FOUND, seatPool.getSeatPoolPopulation().getName());
                     return false;
                 } else {
-                    seatPool.getSeatPoolPopulation().setName(populationInfoList.get(0).getName());
-                    seatPool.getSeatPoolPopulation().setId(populationInfoList.get(0).getId());
+                    seatPool.getSeatPoolPopulation().setName(populationInfoList.get(firstPopulationInfo).getName());
+                    seatPool.getSeatPoolPopulation().setId(populationInfoList.get(firstPopulationInfo).getId());
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -860,6 +863,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 PredicateFactory.equal("courseOfferingCode", colo.getCourseOfferingCode()),
                 PredicateFactory.equalIgnoreCase("atpId", activityOfferingWrapper.getTermId())));
         QueryByCriteria criteria = qbcBuilder.build();
+        int firstCOInfo = 0;
 
         //Do search. In ideal case, returns one element, which is the desired CO.
         try {
@@ -871,10 +875,10 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 GlobalVariables.getMessageMap().putError(groupId, RiceKeyConstants.ERROR_CUSTOM, "More than one course offering exists for the code " + colo.getCourseOfferingCode());
                 return false;
             } else {
-                colo.setCoId(courseOfferings.get(0).getId());
+                colo.setCoId(courseOfferings.get(firstCOInfo).getId());
             }
 
-            List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferings.get(0).getId(),createContextInfo());
+            List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferings.get(firstCOInfo).getId(),createContextInfo());
 
             if (activityOfferingInfos.isEmpty()){
                 GlobalVariables.getMessageMap().putError(groupId, RiceKeyConstants.ERROR_CUSTOM, "Activity Offerings doesnt exists for " + colo.getCourseOfferingCode());

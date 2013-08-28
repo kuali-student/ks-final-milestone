@@ -334,8 +334,10 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         List<CourseInfo> matchingCourses = retrieveMatchingCourses(courseCode, term);
         coWrapper.clear();
 
+        int firstValue = 0;
+
         if (matchingCourses.size() == 1) {
-            CourseInfo course = matchingCourses.get(0);
+            CourseInfo course = matchingCourses.get(firstValue);
 
             // set organization IDs and check if the user is authorized to create a course
             List<String> orgIds = course.getUnitsContentOwner();
@@ -365,7 +367,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                 List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(term.getId(), contextInfo);
                 if (socIds != null && !socIds.isEmpty()){
                     // check if user authz for the soc
-                    SocInfo soc = getCourseOfferingSetService().getSoc(socIds.get(0), contextInfo);
+                    SocInfo soc = getCourseOfferingSetService().getSoc(socIds.get(firstValue), contextInfo);
                     coWrapper.setSocInfo(soc);
                     boolean canOpenViewSoc = form.getView().getAuthorizer().canOpenView(form.getView(), form, user);
 
@@ -385,7 +387,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                             List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(course.getId(), term.getId(), contextInfo);
 
                             coWrapper.setCourse(course);
-                            coWrapper.setCreditCount(CourseOfferingViewHelperUtil.trimTrailing0(getLrcService().getResultValue(course.getCreditOptions().get(0).getResultValueKeys().get(0), contextInfo).getValue()));
+                            coWrapper.setCreditCount(CourseOfferingViewHelperUtil.trimTrailing0(getLrcService().getResultValue(course.getCreditOptions().get(firstValue).getResultValueKeys().get(firstValue), contextInfo).getValue()));
                             coWrapper.setShowAllSections(true);
                             coWrapper.setShowCopyCourseOffering(false);
                             coWrapper.setShowTermOfferingLink(true);
@@ -417,7 +419,10 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
 
                             List<String> courseOfferingIds = new ArrayList<String>(searchResult.getTotalResults());
                             for (org.kuali.student.r2.core.search.dto.SearchResultRowInfo row : searchResult.getRows()) {
-                                courseOfferingIds.add(row.getCells().get(0).getValue());
+                                // JIRA Fix : KSENROLL-8726. Added isEmpty check
+                                if (!row.getCells().isEmpty()) {
+                                    courseOfferingIds.add(row.getCells().get(firstValue).getValue());
+                                }
                             }
 
                             courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByIds(courseOfferingIds, contextInfo);
@@ -545,6 +550,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
         List<Predicate> pList = new ArrayList<Predicate>();
         Predicate p = null;
+        int firstTerm = 0;
 
         qBuilder.setPredicates();
         if (StringUtils.isNotBlank(termCode)) {
@@ -562,7 +568,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
             } else if (terms.isEmpty()) {
                 return null;
             }
-            return terms.get(0);
+            return terms.get(firstTerm);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

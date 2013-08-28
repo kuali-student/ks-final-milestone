@@ -289,6 +289,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
         List<OfferingInstructorWrapper> instructors = coEditWrapper.getInstructors();
         List<OfferingInstructorInfo> coInstructors = coInfo.getInstructors();
         coInstructors.clear();
+        int firstPerson = 0;
 
         for(OfferingInstructorWrapper instructorWrapper : instructors)  {
            if(instructorWrapper != null) {
@@ -300,7 +301,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                    if(info.getPersonName() == null) {
                        List<Person> personList = CourseOfferingViewHelperUtil.getInstructorByPersonId(info.getPersonId());
                        if(personList.size() == 1) {
-                           info.setPersonName(personList.get(0).getName());
+                           info.setPersonName(personList.get(firstPerson).getName());
                        }
 
                    }
@@ -318,8 +319,14 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 return Float.valueOf(o1).compareTo(Float.valueOf(o2));
             }
         });
+        // JIRA Fix : KSENROLL-8726. - Validate credit list and throw exception.
+        if (credits == null || credits.size() < 2) {
+            throw new RuntimeException("Not enough credits to calculate credit increment");
+        }
+        int firstValue = 0;
+        int secondValue = 1;
         //Find the difference between the first two values to get the increment
-        return String.valueOf(Float.parseFloat(credits.get(1))-Float.parseFloat(credits.get(0)));
+        return String.valueOf(Float.parseFloat(credits.get(secondValue))-Float.parseFloat(credits.get(firstValue)));
     }
 
     private void updateFormatOfferings(CourseOfferingEditWrapper coEditWrapper) {
@@ -469,7 +476,8 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             if(instructorInfo.getPersonName() == null && instructorInfo.getPersonId() != null) {
                 List<Person> personList = CourseOfferingViewHelperUtil.getInstructorByPersonId(instructorInfo.getPersonId());
                 if(personList.size() == 1) {
-                    instructorInfo.setPersonName(personList.get(0).getName());
+                    int firstperson = 0;
+                    instructorInfo.setPersonName(personList.get(firstperson).getName());
                 }
             }
 
@@ -579,14 +587,15 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 //Grab the Course's credit constraints
                 //FindBugs: getCreditOptions() null check is in CourseInfo
                 List<ResultValuesGroupInfo> courseCreditOptions = courseInfo.getCreditOptions();
+                int firstValue = 0;
 
                 //Lookup the related course's credit constraints and set them on the creditOption
                 if (coInfo.getCourseId() != null && !courseCreditOptions.isEmpty()) {
-                    ResultValuesGroupInfo resultValuesGroupInfo = courseCreditOptions.get(0);
+                    ResultValuesGroupInfo resultValuesGroupInfo = courseCreditOptions.get(firstValue);
                     //Check for fixed
                     if (resultValuesGroupInfo.getTypeKey().equalsIgnoreCase(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
                         if (!resultValuesGroupInfo.getResultValueKeys().isEmpty()) {
-                            creditOption.setCourseFixedCredits(getLrcService().getResultValue(resultValuesGroupInfo.getResultValueKeys().get(0), contextInfo).getValue());
+                            creditOption.setCourseFixedCredits(getLrcService().getResultValue(resultValuesGroupInfo.getResultValueKeys().get(firstValue), contextInfo).getValue());
                         }
                         //Set the flag
                         creditOptionFixed = true;
@@ -633,7 +642,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                     if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
                         creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
                         if (!resultValueInfos.isEmpty()) {
-                            creditOption.setFixedCredit(resultValueInfos.get(0).getValue());
+                            creditOption.setFixedCredit(resultValueInfos.get(firstValue).getValue());
                         }
                     } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
                         creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE);

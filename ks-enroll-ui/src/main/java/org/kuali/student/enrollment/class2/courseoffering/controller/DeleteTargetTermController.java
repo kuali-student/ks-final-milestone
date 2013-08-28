@@ -91,8 +91,8 @@ public class DeleteTargetTermController extends UifControllerBase {
             GlobalVariables.getMessageMap().putError("targetTermCode", "error.submit.sourceTerm"); // TODO: Change error
             return getUIFModelAndView(form);
         }
-
-        TermInfo termInfo = termInfos.get(0);
+        int firstTerm = 0;
+        TermInfo termInfo = termInfos.get(firstTerm);
         // Fill in form data for target term
         form.setDisplayedTargetTermId(termInfo.getId());
         String startDateStr = helperService.formatDate(termInfo.getStartDate());

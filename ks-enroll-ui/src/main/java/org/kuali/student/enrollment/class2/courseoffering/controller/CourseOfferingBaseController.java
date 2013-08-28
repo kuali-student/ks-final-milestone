@@ -225,6 +225,7 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
     }
 
     protected void populateCreateCourseOfferingForm(MaintenanceDocumentForm form, HttpServletRequest request) {
+        int firstValue = 0;
 
         try {
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
@@ -244,7 +245,7 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
             formObject.setFormatOfferingList(new ArrayList<FormatOfferingWrapper>());
             FormatOfferingWrapper defaultFO = new FormatOfferingWrapper();
            // defaultFO.setFormatInfo(courseInfo.getFormats().get(0));
-            defaultFO.setFormatId(courseInfo.getFormats().get(0).getId());
+            defaultFO.setFormatId(courseInfo.getFormats().get(firstValue).getId());
             defaultFO.getRenderHelper().setNewRow(true);
             formObject.getFormatOfferingList().add(defaultFO);
 
@@ -281,11 +282,11 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
 
             //Lookup the related course's credit constraints and set them on the creditOption
             if (!courseCreditOptions.isEmpty()) {
-                ResultValuesGroupInfo resultValuesGroupInfo = courseCreditOptions.get(0);
+                ResultValuesGroupInfo resultValuesGroupInfo = courseCreditOptions.get(firstValue);
                 //Check for fixed
                 if (resultValuesGroupInfo.getTypeKey().equalsIgnoreCase(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
                     if (!resultValuesGroupInfo.getResultValueKeys().isEmpty()) {
-                        creditOption.setCourseFixedCredits(getLrcService().getResultValue(resultValuesGroupInfo.getResultValueKeys().get(0), contextInfo).getValue());
+                        creditOption.setCourseFixedCredits(getLrcService().getResultValue(resultValuesGroupInfo.getResultValueKeys().get(firstValue), contextInfo).getValue());
                     }
                     //Set the flag
                     creditOptionFixed = true;
@@ -382,6 +383,7 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
 
     protected CourseOfferingInfo createCourseOfferingInfo(String termId, CourseInfo courseInfo) throws Exception {
 
+        int firstGradingOption = 0;
         CourseOfferingInfo courseOffering = new CourseOfferingInfo();
 
         courseOffering.setTermId(termId);
@@ -395,7 +397,7 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
 
         //Copy grading and credit options
         if(!courseInfo.getCreditOptions().isEmpty()){
-            courseOffering.setCreditOptionId(courseInfo.getCreditOptions().get(0).getKey());
+            courseOffering.setCreditOptionId(courseInfo.getCreditOptions().get(firstGradingOption).getKey());
         }
         //Remove these two special student registration options and set them on the CO
         List<String> courseGradingOptions = new ArrayList<String>(courseInfo.getGradingOptions());
@@ -407,7 +409,7 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
         }
         //set the first remaining grading option on the CO
         if(!courseGradingOptions.isEmpty()){
-            courseOffering.setGradingOptionId(courseGradingOptions.get(0));
+            courseOffering.setGradingOptionId(courseGradingOptions.get(firstGradingOption));
         }
 
         // make sure we set attribute information from the course

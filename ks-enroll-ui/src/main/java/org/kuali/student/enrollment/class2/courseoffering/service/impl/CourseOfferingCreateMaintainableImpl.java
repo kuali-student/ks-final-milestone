@@ -182,7 +182,8 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         }
         //set the first remaining grading option on the CO
         if(!courseGradingOptions.isEmpty()){
-            courseOffering.setGradingOptionId(courseGradingOptions.get(0));
+            int firstGradingOption = 0;
+            courseOffering.setGradingOptionId(courseGradingOptions.get(firstGradingOption));
         }
 
         // make sure we set attribute information from the course

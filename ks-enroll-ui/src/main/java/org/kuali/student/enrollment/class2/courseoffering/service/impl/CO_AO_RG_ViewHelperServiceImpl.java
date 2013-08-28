@@ -49,6 +49,8 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
         ActivityOfferingWrapper aoWrapper = new ActivityOfferingWrapper(aoInfo);
 
+        int firstValue = 0;
+
         ContextInfo contextInfo = createContextInfo();
 
         StateInfo state = getStateInfo(aoInfo.getStateKey());
@@ -118,7 +120,8 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
                         for (ScheduleComponentInfo scheduleComponentInfo : scheduleInfo.getScheduleComponents()) {
 
                             String roomId = scheduleComponentInfo.getRoomId();
-                            TimeSlotInfo timeSlotInfo = getSchedulingService().getTimeSlot(scheduleComponentInfo.getTimeSlotIds().get(0), contextInfo);
+                            // JIRA Fix : KSENROLL-8726. Added isEmpty check
+                            TimeSlotInfo timeSlotInfo = getSchedulingService().getTimeSlot(scheduleComponentInfo.getTimeSlotIds().isEmpty() ? StringUtils.EMPTY : scheduleComponentInfo.getTimeSlotIds().get(firstValue), contextInfo);
 
                             updateScheduleToAOWrapperForDisplay(aoWrapper, scheduleComponentInfo.getIsTBA(), roomId, timeSlotInfo, appendScheduleRowDisplay);
 
@@ -141,9 +144,10 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
                 boolean appendScheduleRowDisplay = false;
 
-                for (ScheduleRequestComponentInfo componentInfo : scheduleRequestInfoList.get(0).getScheduleRequestComponents()) {
-                    String roomId = componentInfo.getRoomIds().isEmpty() ? StringUtils.EMPTY : componentInfo.getRoomIds().get(0);
-                    TimeSlotInfo timeSlotInfo =  getSchedulingService().getTimeSlot(componentInfo.getTimeSlotIds().get(0),contextInfo);
+                for (ScheduleRequestComponentInfo componentInfo : scheduleRequestInfoList.get(firstValue).getScheduleRequestComponents()) {
+                    String roomId = componentInfo.getRoomIds().isEmpty() ? StringUtils.EMPTY : componentInfo.getRoomIds().get(firstValue);
+                    // Changes made as part of KSENROLL-8726. Added isEmpty check
+                    TimeSlotInfo timeSlotInfo =  getSchedulingService().getTimeSlot(componentInfo.getTimeSlotIds().isEmpty() ? StringUtils.EMPTY : componentInfo.getTimeSlotIds().get(firstValue),contextInfo);
 
                     updateScheduleToAOWrapperForDisplay(aoWrapper,componentInfo.getIsTBA(),roomId,timeSlotInfo,appendScheduleRowDisplay);
 
