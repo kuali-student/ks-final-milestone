@@ -185,6 +185,8 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
 
         //delete the associated keydates
         deleteKeyDatesbyTermId(termId, context);
+        //delete the associated exam period
+        deleteExamPeriodByTermId(termId, context);
         //delete term/subterm
         acalService.deleteTerm(termId, context);
         statusInfo.setSuccess(Boolean.TRUE);
@@ -197,6 +199,21 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
             if (keyDateIds!=null && !keyDateIds.isEmpty()) {
                 for (String keyDateId : keyDateIds) {
                     acalService.deleteKeyDate(keyDateId, context);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private void deleteExamPeriodByTermId (String termId, ContextInfo context) {
+        try {
+            //retrieve all the exam period ids of the give term
+            List<String> examPeriodIds = getRelatedAtpIdsForParentAtpIdAndRelationType(termId, AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TERM2EXAMPERIOD_TYPE_KEY, context);
+            if (examPeriodIds!=null && !examPeriodIds.isEmpty()) {
+                for (String examPeriodId : examPeriodIds) {
+                    acalService.deleteExamPeriod(examPeriodId, context);
                 }
             }
         } catch (Exception e) {
