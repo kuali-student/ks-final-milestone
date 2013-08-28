@@ -487,7 +487,7 @@ public class CourseController extends MaintenanceDocumentController {
     					decision.setActor(memberName.toString());
     				}
     				decision.setRationale(commentInfo.getCommentText().getPlain());
-                    // form.getDecisions().add(decision);
+                    form.getDecisions().add(decision);
 			    }
 			}
 		}
