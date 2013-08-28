@@ -15,7 +15,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ARGFormatsForCreateRGKeyValues extends UifKeyValuesFinderBase implements Serializable {
+public class FormatsForCreateRGKeyValues extends UifKeyValuesFinderBase implements Serializable {
     private transient CourseOfferingService courseOfferingService;
     private static final long serialVersionUID = 1L;
 

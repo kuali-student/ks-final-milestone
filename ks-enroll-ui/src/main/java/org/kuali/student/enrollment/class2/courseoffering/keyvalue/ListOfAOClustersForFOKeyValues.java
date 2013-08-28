@@ -40,7 +40,7 @@ import java.util.Set;
  * This can always be revisited in the future if the POs think it should be addressed in another manner.
  *
  */
-public class ARGListOfAOClustersForFOKeyValues extends UifKeyValuesFinderBase implements Serializable {
+public class ListOfAOClustersForFOKeyValues extends UifKeyValuesFinderBase implements Serializable {
     private transient CourseOfferingService courseOfferingService;
     private static final long serialVersionUID = 1L;
 
