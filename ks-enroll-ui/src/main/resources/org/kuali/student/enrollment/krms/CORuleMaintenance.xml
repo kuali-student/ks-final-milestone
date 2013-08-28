@@ -314,15 +314,21 @@ limitations under the License.
         </property>
         <property name="subCollections">
             <list>
-                <ref bean="KSCO-ListItems-SubGroup" />
+                <bean parent="KSCO-ListItems-SubGroup" p:render="@{!#line.showTitle}"/>
+                <bean parent="KSCO-ListItems-SubGroup" p:render="@{#line.showTitle}">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>subGroup</value>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
     <bean id="KSCO-ListItems-DataGroup" parent="KSCO-ListItems-DataGroup-parent">
         <property name="subCollections">
-            <list>
-                <ref bean="KSCO-ListItems-SubGroup" />
-                <bean parent="KSCO-ListItems-DataGroup-parent">
+            <list merge="true">
+                <bean parent="KSAO-ListItems-DataGroup-parent">
                     <property name="propertyName" value="cluGroups"/>
                 </bean>
             </list>

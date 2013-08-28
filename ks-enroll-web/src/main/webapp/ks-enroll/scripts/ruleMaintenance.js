@@ -289,7 +289,7 @@ function ajaxCallOnTabSelect(event, ui, editwithgroup, editwithlogic, controller
 
 function show(e){
     //Show the subcollections
-    jq(e.currentTarget).siblings('div.uif-subCollection').show();
+    jq(e.currentTarget).siblings().find('div.subGroup').show();
 
     //Show the Hide Link
     jq(e.currentTarget).siblings('.hideActionLink').show();
@@ -300,7 +300,7 @@ function show(e){
 
 function hide(e){
     //Hide the subcollections
-    jq(e.currentTarget).siblings('div.uif-subCollection').hide();
+    jq(e.currentTarget).siblings().find('div.subGroup').hide();
 
     //Show the Show Link
     jq(e.currentTarget).siblings('.showActionLink').show();
@@ -655,7 +655,7 @@ function initPreviewTree(componentId) {
 
         //Hide initial sub collections.
         jq(this).find(".hideActionLink").hide();
-        jq(this).find("div.uif-subCollection").hide();
+        jq(this).find("div.subGroup").hide();
 
         // set type to 'logic' on logic nodes -- this prevents them from being selected
         jq('a.compoundOpCodeNode').each(function () {
