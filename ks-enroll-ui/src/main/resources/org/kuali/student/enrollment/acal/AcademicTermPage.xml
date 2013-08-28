@@ -159,11 +159,6 @@
                         <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermParentTypeKeyValues" p:addBlankOption="false"/>
                     </property>
                 </bean -->
-<bean id="anyad1111" parent="Uif-InputField-LabelTop"   p:label="anyad1111">
-    <property name="control">
-        <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
-    </property>
-</bean>
             </list>
         </property>
         <property name="items">
@@ -171,11 +166,6 @@
                 <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.render="false">
                     <property name="items">
                         <list>
-<bean id="anyad3333" parent="Uif-InputField-LabelTop"   p:label="anyad3333" >
-    <property name="control">
-        <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
-    </property>
-</bean>
                             <bean parent="Uif-HorizontalBoxGroup">
                                 <property name="items">
                                     <list>
