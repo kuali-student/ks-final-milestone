@@ -453,14 +453,22 @@ public class CourseController extends MaintenanceDocumentController {
     }
     
     /**
+     * Responsible for rebuilding/reloading content within the decision view's HTML table. 
      *
-     * @param form
-     * @param commentInfos
-     * @param members
+     * @param form is the {@link MaintenanceDocumentForm} for the request
+     * @param commentInfos {@link List} of {@link CommentInfo} instances that currently exist. 
+     * These are comments for decisions that represent our rationale
+     * @param members {@link Map} of {@link MembershipInfo} instances mapped by commenter ids. 
+     * Commenter ids are supplied in the {@link CommentInfo} instances. The {@link MembershipInfo} 
+     * is used to determine who is responsible for the decision.
+     * @see {@link #getNamesForPersonIds(List)} for the method that typically populates the members parameter.
      */
 	protected void redrawDecisionTable(final MaintenanceDocumentForm form,
                                        final List<CommentInfo> commentInfos,
                                        final Map<String, MembershipInfo> members) {
+        final CourseProposalInfo courseProposal = 
+            (CourseProposalInfo) form.getDocument().getNewMaintainableObject().getDataObject();
+
 		if (commentInfos != null) {
 			for (final CommentInfo commentInfo : commentInfos) {
 			    /* we only want decision rationale comments so if no DecisionRationaleDetail is returned for comment
@@ -487,12 +495,19 @@ public class CourseController extends MaintenanceDocumentController {
     					decision.setActor(memberName.toString());
     				}
     				decision.setRationale(commentInfo.getCommentText().getPlain());
-                    form.getDecisions().add(decision);
+                    courseProposal.getDecisions().add(decision);
 			    }
 			}
 		}
 	}
 
+    /**
+     * Retrieve {@link MembershipInfo} instances populated with first and last names using {@link EntityDefault}
+     * instances of the personIds
+     *
+     * @param personIds {@link List} of ids used to get {@link EntityDefault}s with first and last names
+     * @param {@link Map} of {@link MembershipInfo} instances with first and last names mapped to each personId
+     */
     protected Map<String, MembershipInfo> getNamesForPersonIds(final List<String> personIds) {
         final Map<String, MembershipInfo> identities = new HashMap<String, MembershipInfo>();
         for (String pId : personIds ){
