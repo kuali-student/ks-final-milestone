@@ -42,6 +42,16 @@
         <property name="typeService" ref="typeService" />
     </bean>
 
+    <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceMockImpl" />
+
+    <bean id="csrServiceFacade" class="org.kuali.student.enrollment.class2.courseoffering.service.facade.CSRServiceFacadeImpl">
+        <property name="coService" ref="CourseOfferingService" />
+        <property name="typeService" ref="typeService" />
+        <property name="socService"  ref="socService" />
+    </bean>
+
+    <bean id="socService" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceMockImpl" />
+
     <bean id="krmsRuleManagementCopyMethods" class="org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethodsMockImpl">
     </bean>
 
