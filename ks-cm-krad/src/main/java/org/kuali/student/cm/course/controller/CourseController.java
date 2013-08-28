@@ -46,10 +46,11 @@ import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
-import org.kuali.student.cm.course.service.impl.CourseViewHelperServiceImpl;
+import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.impl.LookupableConstants;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities.DecisionRationaleDetail;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -140,7 +141,7 @@ public class CourseController extends MaintenanceDocumentController {
 
         // Create the document in the super method
         final ModelAndView retval = super.start(courseForm, result, request, response);
-        CourseProposalInfo courseProposal = ((CourseProposalInfo) courseForm.getDocument().getNewMaintainableObject().getDataObject());
+        final CourseProposalInfo courseProposal = ((CourseProposalInfo) courseForm.getDocument().getNewMaintainableObject().getDataObject());
         
         // We can actually get this from the workflow document initiator id. It doesn't need to be stored in the form.
         courseProposal.setUserId(ContextUtils.getContextInfo().getPrincipalId());
@@ -175,13 +176,13 @@ public class CourseController extends MaintenanceDocumentController {
         //Retrieve the collection display values and get the fully loaded object (containing all the IDs and related IDs)
         if (courseProposalInfo.getCourseJointWrappers() != null) {
             for (final CourseJointInfoWrapper jointInfoDisplay : courseProposalInfo.getCourseJointWrappers()) {
-                courseProposalInfo.getCourse().getJoints().add(CourseViewHelperServiceImpl.getInstance().getJointOfferingCourse(jointInfoDisplay.getCourseCode()));
+                courseProposalInfo.getCourse().getJoints().add(getCourseMaintainableFrom(form).getJointOfferingCourse(jointInfoDisplay.getCourseCode()));
             }
         }
         
         if (courseProposalInfo.getInstructorWrappers() != null) {
             for (final CluInstructorInfoWrapper instructorDisplay : courseProposalInfo.getInstructorWrappers()) {
-                final CluInstructorInfoWrapper retrievedInstructor = CourseViewHelperServiceImpl.getInstance().getInstructor(getInstructorSearchString(instructorDisplay.getDisplayName()));
+                final CluInstructorInfoWrapper retrievedInstructor = getCourseMaintainableFrom(form).getInstructor(getInstructorSearchString(instructorDisplay.getDisplayName()));
                 courseProposalInfo.getCourse().getInstructors().add(retrievedInstructor);
             }
         }
@@ -618,6 +619,16 @@ public class CourseController extends MaintenanceDocumentController {
         }
         
         return selectedLo;
+    }
+    
+    /**
+     * Retrieves the {@link CourseInfoMaintainable} instance from the {@link MaintenanceDocumentForm} in session
+     * 
+     * @param form {@link MaintenanceDocumentForm}
+     * @param {@link CourseInfoMaintainable}
+     */
+    protected CourseInfoMaintainable getCourseMaintainableFrom(final MaintenanceDocumentForm form) {
+        return (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
     }
     
     protected CourseService getCourseService() {
