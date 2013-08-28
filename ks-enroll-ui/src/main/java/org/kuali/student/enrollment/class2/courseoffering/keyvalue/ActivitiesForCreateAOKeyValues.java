@@ -51,12 +51,12 @@ import java.util.Map;
  * @author andrewlubbers
  *
  */
-public class ARGActivitiesForCreateAOKeyValues extends UifKeyValuesFinderBase implements Serializable {
+public class ActivitiesForCreateAOKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
         CourseOfferingManagementForm coForm = (CourseOfferingManagementForm) model;
-        ARGFormatsForCreateAOKeyValues argFormatsForCreateAOKeyValues = new ARGFormatsForCreateAOKeyValues();
+        FormatsForCreateAOKeyValues formatsForCreateAOKeyValues = new FormatsForCreateAOKeyValues();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         String formatOfferingId = coForm.getFormatOfferingIdForNewAO();
@@ -65,8 +65,8 @@ public class ARGActivitiesForCreateAOKeyValues extends UifKeyValuesFinderBase im
             if (coForm.getFoId2aoTypeMap().isEmpty()) {
                 return keyValues;
             }
-            //formatOfferingId =argFormatsForCreateAOKeyValues.getKeyValues(model).get(0).getKey();
-            formatOfferingId = argFormatsForCreateAOKeyValues.getFirstKey(model);
+            //formatOfferingId =formatsForCreateAOKeyValues.getKeyValues(model).get(0).getKey();
+            formatOfferingId = formatsForCreateAOKeyValues.getFirstKey(model);
         }
 
         String courseId = coForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo().getCourseId();

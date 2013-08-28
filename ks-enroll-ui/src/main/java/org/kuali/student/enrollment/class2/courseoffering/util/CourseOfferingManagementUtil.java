@@ -11,8 +11,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.uif.form.KSUifForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
-import org.kuali.student.enrollment.class2.courseoffering.service.ARGCourseOfferingManagementViewHelperService;
-import org.kuali.student.enrollment.class2.courseoffering.util.ARGToolbarUtil;
+import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
@@ -21,7 +20,6 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrap
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.CSRServiceFacade;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -52,8 +50,8 @@ import java.util.*;
  * Time: 3:27 PM
  * Utility Class for common auto generated reg group functions
  */
-public class ARGUtil {
-    private static ARGCourseOfferingManagementViewHelperService viewHelperService;
+public class CourseOfferingManagementUtil {
+    private static CourseOfferingManagementViewHelperService viewHelperService;
     private static OrganizationService organizationService;
     private static StateService stateService;
     private static LRCService lrcService;
@@ -66,13 +64,13 @@ public class ARGUtil {
         return CourseOfferingResourceLoader.loadCourseOfferingService();
     }
 
-    public static ARGCourseOfferingManagementViewHelperService getViewHelperService(CourseOfferingManagementForm theForm) {
+    public static CourseOfferingManagementViewHelperService getViewHelperService(CourseOfferingManagementForm theForm) {
 
         if (viewHelperService == null) {
             if (theForm.getView().getViewHelperServiceClass() != null) {
-                viewHelperService = (ARGCourseOfferingManagementViewHelperService) theForm.getView().getViewHelperService();
+                viewHelperService = (CourseOfferingManagementViewHelperService) theForm.getView().getViewHelperService();
             } else {
-                viewHelperService = (ARGCourseOfferingManagementViewHelperService) theForm.getPostedView().getViewHelperService();
+                viewHelperService = (CourseOfferingManagementViewHelperService) theForm.getPostedView().getViewHelperService();
             }
         }
 
@@ -186,7 +184,7 @@ public class ARGUtil {
 
         getViewHelperService(form).build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(form);
 
-        ARGToolbarUtil.processAoToolbarForUser(form.getActivityWrapperList(), form);
+        CourseOfferingManagementToolbarUtil.processAoToolbarForUser(form.getActivityWrapperList(), form);
     }
 
     /*
@@ -218,7 +216,7 @@ public class ARGUtil {
 
     public static void reloadCourseOfferings(CourseOfferingManagementForm theForm) throws Exception {
         getViewHelperService(theForm).loadCourseOfferingsByTermAndCourseCode(theForm.getTermInfo().getId(), theForm.getInputCode(), theForm);
-        ARGToolbarUtil.processCoToolbarForUser(theForm.getCourseOfferingResultList(), theForm);
+        CourseOfferingManagementToolbarUtil.processCoToolbarForUser(theForm.getCourseOfferingResultList(), theForm);
     }
 
     public static void reloadTheCourseOfferingWithAOs_RGs_Clusters(CourseOfferingManagementForm theForm) throws Exception {
@@ -230,7 +228,7 @@ public class ARGUtil {
 
         getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm);
 
-        ARGToolbarUtil.processAoToolbarForUser(theForm.getActivityWrapperList(), theForm);
+        CourseOfferingManagementToolbarUtil.processAoToolbarForUser(theForm.getActivityWrapperList(), theForm);
     }
 
     public static String getGradingOption(String gradingOptionId) throws Exception {

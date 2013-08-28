@@ -17,7 +17,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
-import org.kuali.student.enrollment.class2.courseoffering.util.ARGUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
@@ -152,7 +152,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
              * Now that the Ao & the schedule has been updated, we need to update the registration groups
              */
             try {
-                ARGUtil.getArgServiceAdapter().updateRegistrationGroups(activityOfferingInfo, contextInfo);
+                CourseOfferingManagementUtil.getArgServiceAdapter().updateRegistrationGroups(activityOfferingInfo, contextInfo);
             } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);
             }

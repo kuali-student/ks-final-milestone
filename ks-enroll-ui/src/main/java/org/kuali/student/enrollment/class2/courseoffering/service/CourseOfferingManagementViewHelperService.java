@@ -29,7 +29,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public interface ARGCourseOfferingManagementViewHelperService extends CO_AO_RG_ViewHelperService {
+public interface CourseOfferingManagementViewHelperService extends CO_AO_RG_ViewHelperService {
     public void populateTerm(CourseOfferingManagementForm form) throws Exception;
 
     public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, CourseOfferingManagementForm form) throws Exception;

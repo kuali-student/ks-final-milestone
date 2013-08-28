@@ -18,7 +18,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
-import org.kuali.student.enrollment.class2.courseoffering.util.ARGUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -280,13 +280,13 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
             aoWrapper.setSubTermId(subTerm.getId());
             TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
             aoWrapper.setSubTermName(subTermType.getName());
-            aoWrapper.setTermStartEndDate(ARGUtil.getTermStartEndDate(subTerm.getId(), subTerm));
+            aoWrapper.setTermStartEndDate(CourseOfferingManagementUtil.getTermStartEndDate(subTerm.getId(), subTerm));
         }
         aoWrapper.setTerm(term);
         if (term != null) {
             aoWrapper.setTermName(term.getName());
         }
-        aoWrapper.setTermDisplayString(ARGUtil.getTermDisplayString(aoInfo.getTermId(), term));
+        aoWrapper.setTermDisplayString(CourseOfferingManagementUtil.getTermDisplayString(aoInfo.getTermId(), term));
         return aoWrapper;
     }
 

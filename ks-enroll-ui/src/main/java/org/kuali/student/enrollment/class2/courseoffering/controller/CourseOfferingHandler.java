@@ -47,9 +47,9 @@ import java.util.Properties;
  *
  * @author Kuali Student Team
  */
-public class ARGCourseOfferingHandler {
+public class CourseOfferingHandler {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ARGCourseOfferingHandler.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingHandler.class);
 
     private static DefaultOptionKeysService defaultOptionKeysService;
 
@@ -78,30 +78,30 @@ public class ARGCourseOfferingHandler {
         //Generate Ids
         optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_IN_SUFFIX_OPTION_KEY);
 
-        SocRolloverResultItemInfo item = ARGUtil.getCourseOfferingService().rolloverCourseOffering(
+        SocRolloverResultItemInfo item = CourseOfferingManagementUtil.getCourseOfferingService().rolloverCourseOffering(
                 courseOfferingInfo.getId(),
                 copyWrapper.getTermId(),
                 optionKeys,
                 ContextUtils.createDefaultContextInfo());
-        CourseOfferingInfo courseOffering = ARGUtil.getCourseOfferingService().getCourseOffering(item.getTargetCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+        CourseOfferingInfo courseOffering = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(item.getTargetCourseOfferingId(), ContextUtils.createDefaultContextInfo());
         ExistingCourseOffering newWrapper = new ExistingCourseOffering(courseOffering);
         newWrapper.setCredits(courseOffering.getCreditCnt());
-        newWrapper.setGrading(ARGUtil.getGradingOption(courseOffering.getGradingOptionId()));
+        newWrapper.setGrading(CourseOfferingManagementUtil.getGradingOption(courseOffering.getGradingOptionId()));
         copyWrapper.getExistingOfferingsInCurrentTerm().add(newWrapper);
         // reload the COs
-        ARGUtil.reloadCourseOfferings(theForm);
+        CourseOfferingManagementUtil.reloadCourseOfferings(theForm);
     }
 
     public static void copyCourseOffering(CourseOfferingManagementForm theForm) throws Exception {
-        Object selectedObject = ARGUtil.getSelectedObject(theForm, "Copy"); // Receives edit wrapper, "Copy" for error message.
+        Object selectedObject = CourseOfferingManagementUtil.getSelectedObject(theForm, "Copy"); // Receives edit wrapper, "Copy" for error message.
         if (selectedObject instanceof CourseOfferingListSectionWrapper) {
 
             // Get the selected CourseOfferingEditWrapper.
             CourseOfferingListSectionWrapper coWrapper = (CourseOfferingListSectionWrapper) selectedObject;
-            CourseOfferingInfo courseOfferingInfo = ARGUtil.getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+            CourseOfferingInfo courseOfferingInfo = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
 
             // Load activity offerings.
-            ARGUtil.getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(courseOfferingInfo, theForm);
+            CourseOfferingManagementUtil.getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(courseOfferingInfo, theForm);
 
             // Create a new CourseOfferingCopyWrapper from the Course Offering information.
             CourseOfferingCopyWrapper coCopyWrapper = new CourseOfferingCopyWrapper();
@@ -134,14 +134,14 @@ public class ARGCourseOfferingHandler {
     public static void loadCOs(CourseOfferingManagementForm form) throws Exception {
         String termId = form.getTermInfo().getId();
         form.setInputCode(form.getSubjectCode());
-        ARGUtil.getViewHelperService(form).loadCourseOfferingsByTermAndSubjectCode(termId, form.getSubjectCode(), form);
+        CourseOfferingManagementUtil.getViewHelperService(form).loadCourseOfferingsByTermAndSubjectCode(termId, form.getSubjectCode(), form);
 
-        String longNameDescr = ARGUtil.getOrgNameDescription(form.getSubjectCode());
+        String longNameDescr = CourseOfferingManagementUtil.getOrgNameDescription(form.getSubjectCode());
         form.setSubjectCodeDescription(longNameDescr);
         //clean up theCourseOffering value in the form to prevent the
         //side effect of the authorization.
         form.setCurrentCourseOfferingWrapper(null);
-        ARGToolbarUtil.processCoToolbarForUser(form.getCourseOfferingResultList(), form);
+        CourseOfferingManagementToolbarUtil.processCoToolbarForUser(form.getCourseOfferingResultList(), form);
     }
 
     public static String deleteCoConfirmation(CourseOfferingManagementForm theForm) throws Exception {
@@ -150,9 +150,9 @@ public class ARGCourseOfferingHandler {
 
         String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (!StringUtils.isBlank(selectedCollectionPath)) {
-            Object selectedObject = ARGUtil.getSelectedObject(theForm, "deleteCo");
+            Object selectedObject = CourseOfferingManagementUtil.getSelectedObject(theForm, "deleteCo");
             CourseOfferingListSectionWrapper coWrapper = (CourseOfferingListSectionWrapper) selectedObject;
-            theCourseOffering = ARGUtil.getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+            theCourseOffering = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
             theForm.getCurrentCourseOfferingWrapper().setCourseOfferingInfo(theCourseOffering);
         }
 
@@ -174,7 +174,7 @@ public class ARGCourseOfferingHandler {
 
         // Load activity offerings
         try {
-            ARGUtil.getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
+            CourseOfferingManagementUtil.getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(theCourseOffering, theForm);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -287,23 +287,23 @@ public class ARGCourseOfferingHandler {
     }
 
     public static void cancelDeleteBulkCos(CourseOfferingManagementForm theForm) throws Exception {
-        ARGUtil.reloadCourseOfferings(theForm);
+        CourseOfferingManagementUtil.reloadCourseOfferings(theForm);
     }
 
     public static Properties editTheCO(CourseOfferingManagementForm theForm) throws Exception {
         CourseOfferingInfo theCourseOfferingInfo = theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
-        return ARGUtil._buildCOURLParameters(theCourseOfferingInfo, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
+        return CourseOfferingManagementUtil._buildCOURLParameters(theCourseOfferingInfo, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
     }
 
     public static Properties edit(@SuppressWarnings("unused") CourseOfferingManagementForm theForm, CourseOfferingListSectionWrapper coWrapper) throws Exception {
         Properties urlParameters;
-        CourseOfferingInfo courseOfferingInfo = ARGUtil.getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
-        urlParameters = ARGUtil._buildCOURLParameters(courseOfferingInfo, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
+        CourseOfferingInfo courseOfferingInfo = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+        urlParameters = CourseOfferingManagementUtil._buildCOURLParameters(courseOfferingInfo, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
         return urlParameters;
     }
 
     public static Properties view(@SuppressWarnings("unused") CourseOfferingManagementForm theForm, CourseOfferingInfo coInfo) throws Exception {
-        return ARGUtil._buildCOURLParameters(coInfo, KRADConstants.START_METHOD);
+        return CourseOfferingManagementUtil._buildCOURLParameters(coInfo, KRADConstants.START_METHOD);
     }
 
     public static Properties createCourseOffering(CourseOfferingManagementForm theForm) throws Exception {
@@ -327,7 +327,7 @@ public class ARGCourseOfferingHandler {
             }
         }
 
-        ARGUtil.getViewHelperService(theForm).deleteCourseOfferings(theForm);
+        CourseOfferingManagementUtil.getViewHelperService(theForm).deleteCourseOfferings(theForm);
     }
 
 }

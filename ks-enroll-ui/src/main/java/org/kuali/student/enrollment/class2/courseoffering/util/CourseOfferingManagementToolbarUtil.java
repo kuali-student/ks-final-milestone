@@ -46,7 +46,7 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class ARGToolbarUtil {
+public class CourseOfferingManagementToolbarUtil {
     private static PermissionService permissionService = getPermissionService();
     private static TypeService typeService;
     private static AcademicCalendarService academicCalendarService;

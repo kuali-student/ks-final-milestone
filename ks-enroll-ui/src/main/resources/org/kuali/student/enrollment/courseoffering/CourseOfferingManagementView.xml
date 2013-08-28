@@ -22,7 +22,7 @@
     <bean id="KS-CourseOfferingManagement-View" parent="KS-CourseOffering-FormViewWithTermContextBarPlaceholder" p:applyDirtyCheck="true"
           p:id="courseOfferingManagementView"
           p:entryPageId="searchInputPage"
-          p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.ARGCourseOfferingManagementViewHelperServiceImpl"
+          p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl"
           p:formClass="org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm" >
 
         <!-- This is a placeholder; it will be dynamically replaced by child-pages using JS-onDocumentReadyScript.

@@ -52,22 +52,22 @@ import java.util.Properties;
  *
  * @author Kuali Student Team
  */
-public class ARGActivityOfferingClusterHandler {
+public class ActivityOfferingClusterHandler {
 
     private static boolean createAOCFromMove = false;
 
     public static boolean loadAOs_RGs_AOCs(CourseOfferingManagementForm form) throws Exception {
 
-        Object selectedObject = ARGUtil.getSelectedObject(form, "Manage");
+        Object selectedObject = CourseOfferingManagementUtil.getSelectedObject(form, "Manage");
 
         if (selectedObject instanceof CourseOfferingListSectionWrapper) {
             CourseOfferingListSectionWrapper coWrapper = (CourseOfferingListSectionWrapper) selectedObject;
-            CourseOfferingInfo courseOffering = ARGUtil.getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+            CourseOfferingInfo courseOffering = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
             CourseOfferingWrapper currentCOWrapper = new CourseOfferingWrapper(courseOffering);
             form.setInputCode(coWrapper.getCourseOfferingCode());
             form.setCurrentCourseOfferingWrapper(currentCOWrapper);
 
-            ARGUtil.prepareManageAOsModelAndView(form, coWrapper);
+            CourseOfferingManagementUtil.prepareManageAOsModelAndView(form, coWrapper);
             return true;
         } else {
             return false;
@@ -82,14 +82,14 @@ public class ARGActivityOfferingClusterHandler {
     }
 
     public static void copyAO(CourseOfferingManagementForm form) {
-        ActivityOfferingWrapper selectedAO = (ActivityOfferingWrapper) ARGUtil.getSelectedObject(form, "copy");
+        ActivityOfferingWrapper selectedAO = (ActivityOfferingWrapper) CourseOfferingManagementUtil.getSelectedObject(form, "copy");
         try {
             String aoIdToCopy = selectedAO.getAoInfo().getId(); // Create a copy of this AO
             String clusterId = selectedAO.getAoClusterID();
-            ARGUtil.getArgServiceAdapter().copyActivityOfferingToCluster(aoIdToCopy, clusterId, ContextBuilder.loadContextInfo());
+            CourseOfferingManagementUtil.getArgServiceAdapter().copyActivityOfferingToCluster(aoIdToCopy, clusterId, ContextBuilder.loadContextInfo());
 
             // reload AOs including the new one just created
-            ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(form);
+            CourseOfferingManagementUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(form);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -102,7 +102,7 @@ public class ARGActivityOfferingClusterHandler {
         try {
             for (ActivityOfferingWrapper ao : selectedAolist) {
                 // The adapter does not technically need an AOC ID, so I'm setting it to null
-                ARGUtil.getCsrServiceFacade().cancelActivityOffering(ao.getAoInfo().getId(), ContextBuilder.loadContextInfo());
+                CourseOfferingManagementUtil.getCsrServiceFacade().cancelActivityOffering(ao.getAoInfo().getId(), ContextBuilder.loadContextInfo());
             }
 
             // check for changes to states in CO and related FOs
@@ -112,7 +112,7 @@ public class ARGActivityOfferingClusterHandler {
             throw new RuntimeException(e);
         }
 
-        ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
+        CourseOfferingManagementUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
 
         if (selectedAolist.size() > 0 && theForm.isSelectedIllegalAOInDeletion()) {
             GlobalVariables.getMessageMap().putWarningForSectionId("manageActivityOfferingsPage",
@@ -133,7 +133,7 @@ public class ARGActivityOfferingClusterHandler {
         try {
             for (ActivityOfferingWrapper ao : selectedAolist) {
                 // The adapter does not technically need an AOC ID, so I'm setting it to null
-                ARGUtil.getCsrServiceFacade().suspendActivityOffering(ao.getAoInfo().getId(), ContextBuilder.loadContextInfo());
+                CourseOfferingManagementUtil.getCsrServiceFacade().suspendActivityOffering(ao.getAoInfo().getId(), ContextBuilder.loadContextInfo());
             }
 
             // check for changes to states in CO and related FOs
@@ -143,7 +143,7 @@ public class ARGActivityOfferingClusterHandler {
             throw new RuntimeException(e);
         }
 
-        ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
+        CourseOfferingManagementUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
 
         if (selectedAolist.size() > 0 && theForm.isSelectedIllegalAOInDeletion()) {
             GlobalVariables.getMessageMap().putWarningForSectionId("manageActivityOfferingsPage",
@@ -164,7 +164,7 @@ public class ARGActivityOfferingClusterHandler {
         try {
             for (ActivityOfferingWrapper ao : selectedAolist) {
                 // The adapter does not technically need an AOC ID, so I'm setting it to null
-                ARGUtil.getCsrServiceFacade().reinstateActivityOffering(ao.getAoInfo(), theForm.getSocStateKey(), ContextBuilder.loadContextInfo());
+                CourseOfferingManagementUtil.getCsrServiceFacade().reinstateActivityOffering(ao.getAoInfo(), theForm.getSocStateKey(), ContextBuilder.loadContextInfo());
             }
 
             // check for changes to states in CO and related FOs
@@ -174,7 +174,7 @@ public class ARGActivityOfferingClusterHandler {
             throw new RuntimeException(e);
         }
 
-        ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
+        CourseOfferingManagementUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
 
         if (selectedAolist.size() > 0 && theForm.isSelectedIllegalAOInDeletion()) {
             GlobalVariables.getMessageMap().putWarningForSectionId("manageActivityOfferingsPage",
@@ -195,7 +195,7 @@ public class ARGActivityOfferingClusterHandler {
         try {
             for (ActivityOfferingWrapper ao : selectedAolist) {
                 // The adapter does not technically need an AOC ID, so I'm setting it to null
-                ARGUtil.getArgServiceAdapter().deleteActivityOfferingCascaded(ao.getAoInfo().getId(), null, ContextBuilder.loadContextInfo());
+                CourseOfferingManagementUtil.getArgServiceAdapter().deleteActivityOfferingCascaded(ao.getAoInfo().getId(), null, ContextBuilder.loadContextInfo());
             }
 
             // check for changes to states in CO and related FOs
@@ -205,7 +205,7 @@ public class ARGActivityOfferingClusterHandler {
             throw new RuntimeException(e);
         }
 
-        ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
+        CourseOfferingManagementUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
 
         if (selectedAolist.size() > 0 && theForm.isSelectedIllegalAOInDeletion()) {
             GlobalVariables.getMessageMap().putWarningForSectionId("manageActivityOfferingsPage",
@@ -310,8 +310,8 @@ public class ARGActivityOfferingClusterHandler {
         String formatOfferingId = theForm.getFormatOfferingIdForNewAO();
         int aoCount = Integer.parseInt(theForm.getNoOfActivityOfferings());
 
-        ARGUtil.getViewHelperService(theForm).createActivityOfferings(formatOfferingId, activityId, aoCount, theForm);
-        ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
+        CourseOfferingManagementUtil.getViewHelperService(theForm).createActivityOfferings(formatOfferingId, activityId, aoCount, theForm);
+        CourseOfferingManagementUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
 
         theForm.setFormatIdForNewAO(null);
         theForm.setFormatOfferingIdForNewAO(null);
@@ -356,19 +356,19 @@ public class ARGActivityOfferingClusterHandler {
         //validate if the given FO is allowed to create multiple clusters
         //FO has multiple AO types: it can have multiple clusters
         //FO has single AO type: it can only have one cluster
-        if (!ARGUtil._clusterForFormatOfferingValidation(formatOfferingInfo, context)) {
+        if (!CourseOfferingManagementUtil._clusterForFormatOfferingValidation(formatOfferingInfo, context)) {
             GlobalVariables.getMessageMap().putError("privateClusterName", FormatOfferingConstants.MSG_ERROR_FORMAT_OFFERING_CLUSTER_OVERLIMIT, formatOfferingInfo.getName());
             return theForm;
         }
 
-        if (ARGUtil._isClusterUniqueWithinCO(theForm, theForm.getCurrentCourseOfferingWrapper().getCourseOfferingId(), growlPrivateName)){
+        if (CourseOfferingManagementUtil._isClusterUniqueWithinCO(theForm, theForm.getCurrentCourseOfferingWrapper().getCourseOfferingId(), growlPrivateName)){
 
             //build a new empty cluster
-            ActivityOfferingClusterInfo emptyCluster = ARGUtil._buildEmptyAOCluster(formatOfferingId,
+            ActivityOfferingClusterInfo emptyCluster = CourseOfferingManagementUtil._buildEmptyAOCluster(formatOfferingId,
                     growlPrivateName, growlPublicName);
 
             //persist it in DB , comment out for now since it does not work for now
-            emptyCluster = ARGUtil.getCourseOfferingService().createActivityOfferingCluster(formatOfferingId,
+            emptyCluster = CourseOfferingManagementUtil.getCourseOfferingService().createActivityOfferingCluster(formatOfferingId,
                     emptyCluster.getTypeKey(), emptyCluster, context);
 
 
@@ -453,7 +453,7 @@ public class ARGActivityOfferingClusterHandler {
                     aocId = theForm.getClusterResultList().get(theForm.getClusterResultList().size() - 1).getActivityOfferingClusterId();
 
                 }
-                ARGUtil.getArgServiceAdapter().moveActivityOffering(aoWrapper.getAoInfo().getId(), aoWrapper.getAoClusterID(), aocId, context);
+                CourseOfferingManagementUtil.getArgServiceAdapter().moveActivityOffering(aoWrapper.getAoInfo().getId(), aoWrapper.getAoClusterID(), aocId, context);
                 aoChecked = true;
             }
         }
@@ -476,7 +476,7 @@ public class ARGActivityOfferingClusterHandler {
 
     public static void showDeleteClusterConfirmPage(CourseOfferingManagementForm theForm) throws Exception {
 
-        Object selectedObject = ARGUtil.getSelectedObject(theForm, "Delete");
+        Object selectedObject = CourseOfferingManagementUtil.getSelectedObject(theForm, "Delete");
         if (selectedObject instanceof ActivityOfferingClusterWrapper) {
             ActivityOfferingClusterWrapper clusterWrapper = (ActivityOfferingClusterWrapper)selectedObject;
             theForm.setSelectedCluster(clusterWrapper);
@@ -486,7 +486,7 @@ public class ARGActivityOfferingClusterHandler {
     }
 
     public static void renameAClusterThroughDialog(CourseOfferingManagementForm theForm) throws Exception {
-        Object selectedObject = ARGUtil.getSelectedObject(theForm, "Rename");
+        Object selectedObject = CourseOfferingManagementUtil.getSelectedObject(theForm, "Rename");
         if (selectedObject instanceof ActivityOfferingClusterWrapper) {
             ActivityOfferingClusterWrapper clusterWrapper = (ActivityOfferingClusterWrapper)selectedObject;
             theForm.setSelectedCluster(clusterWrapper);
@@ -495,9 +495,9 @@ public class ARGActivityOfferingClusterHandler {
 
     public static void deleteClusterCascaded(CourseOfferingManagementForm theForm) throws Exception {
         ActivityOfferingClusterWrapper aoWrapper = theForm.getSelectedCluster();
-        ARGUtil.getArgServiceAdapter().deleteActivityOfferingCluster(aoWrapper.getActivityOfferingClusterId(), ContextBuilder.loadContextInfo());
+        CourseOfferingManagementUtil.getArgServiceAdapter().deleteActivityOfferingCluster(aoWrapper.getActivityOfferingClusterId(), ContextBuilder.loadContextInfo());
         CourseOfferingViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo(), ContextBuilder.loadContextInfo());
-        ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
+        CourseOfferingManagementUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
     }
 
     public static Properties manageAO(CourseOfferingManagementForm theForm, String aoId) throws Exception {

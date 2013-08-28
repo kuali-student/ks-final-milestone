@@ -21,7 +21,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.student.enrollment.class2.courseoffering.util.ARGUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
@@ -39,11 +39,11 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class ARGClustersForCreateAOKeyValues extends UifKeyValuesFinderBase implements Serializable {
+public class ClustersForCreateAOKeyValues extends UifKeyValuesFinderBase implements Serializable {
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        ARGFormatsForCreateAOKeyValues argFormatsForCreateAOKeyValues = new ARGFormatsForCreateAOKeyValues();
+        FormatsForCreateAOKeyValues formatsForCreateAOKeyValues = new FormatsForCreateAOKeyValues();
         CourseOfferingManagementForm coForm = (CourseOfferingManagementForm) model;
         String formatOfferingId = coForm.getFormatOfferingIdForNewAO();
         coForm.setHasAOCluster(false);
@@ -53,7 +53,7 @@ public class ARGClustersForCreateAOKeyValues extends UifKeyValuesFinderBase impl
             if (coForm.getFoId2aoTypeMap().isEmpty()) {
                 return keyValues;
             }
-            formatOfferingId = argFormatsForCreateAOKeyValues.getFirstKey(model);
+            formatOfferingId = formatsForCreateAOKeyValues.getFirstKey(model);
         }
 
         if (!StringUtils.isEmpty(formatOfferingId)) {
@@ -73,7 +73,7 @@ public class ARGClustersForCreateAOKeyValues extends UifKeyValuesFinderBase impl
                         coForm.setHasAOCluster(true);
                     }
                 } else {
-                    keyValues.add(new ConcreteKeyValue("", ARGUtil.getArgServiceAdapter().getDefaultClusterNamePerCO(coForm.getCurrentCourseOfferingWrapper().getCourseOfferingId(), ContextUtils.getContextInfo())));
+                    keyValues.add(new ConcreteKeyValue("", CourseOfferingManagementUtil.getArgServiceAdapter().getDefaultClusterNamePerCO(coForm.getCurrentCourseOfferingWrapper().getCourseOfferingId(), ContextUtils.getContextInfo())));
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);

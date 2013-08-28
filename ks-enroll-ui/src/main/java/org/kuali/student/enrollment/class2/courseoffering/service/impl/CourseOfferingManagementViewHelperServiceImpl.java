@@ -34,12 +34,12 @@ import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
-import org.kuali.student.enrollment.class2.courseoffering.util.ARGUtil;
+import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleCalcContainer;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleRequestCalcContainer;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
-import org.kuali.student.enrollment.class2.courseoffering.service.ARGCourseOfferingManagementViewHelperService;
-import org.kuali.student.enrollment.class2.courseoffering.util.ARGToolbarUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementToolbarUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.*;
 import org.kuali.student.enrollment.class2.courseoffering.util.*;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
@@ -131,9 +131,9 @@ import static java.util.Arrays.asList;
  *
  * @author Kuali Student Team
  */
-public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_ViewHelperServiceImpl implements ARGCourseOfferingManagementViewHelperService {
+public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_ViewHelperServiceImpl implements CourseOfferingManagementViewHelperService {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ARGCourseOfferingManagementViewHelperServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingManagementViewHelperServiceImpl.class);
 
     private AcademicCalendarService acalService = null;
     private CourseOfferingService coService = null;
@@ -954,7 +954,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
     protected void processAosData(String coId, Map<String, ActivityOfferingClusterWrapper> clusterMap)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
 
-        List<ActivityOfferingClusterInfo> aoClusters = ARGUtil.getArgServiceAdapter().getActivityOfferingClusterByCourseOffering(coId);
+        List<ActivityOfferingClusterInfo> aoClusters = CourseOfferingManagementUtil.getArgServiceAdapter().getActivityOfferingClusterByCourseOffering(coId);
 
         //A fix for KSENROLL-8097: clusterMap was populated in processAoClusterData method.
         //However if one cluster does not have an AO, that cluster sometimes won't be added to clusterMap, which causes NPE error later.
@@ -1114,13 +1114,13 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                             aoWrapper.setSubTermId(subTerm.getId());
                             TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
                             aoWrapper.setSubTermName(subTermType.getName());
-                            aoWrapper.setTermStartEndDate(ARGUtil.getTermStartEndDate(subTerm.getId(), subTerm));
+                            aoWrapper.setTermStartEndDate(CourseOfferingManagementUtil.getTermStartEndDate(subTerm.getId(), subTerm));
                         }
                         aoWrapper.setTerm(term);
                         if (term != null) {
                             aoWrapper.setTermName(term.getName());
                         }
-                        aoWrapper.setTermDisplayString(ARGUtil.getTermDisplayString(aoWrapper.getAoInfo().getTermId(), term));
+                        aoWrapper.setTermDisplayString(CourseOfferingManagementUtil.getTermDisplayString(aoWrapper.getAoInfo().getTermId(), term));
                         aoWrapperStored = aoWrapper; //update for next comparison
                     }
                     // end sub-terms
@@ -1578,7 +1578,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         try {
             clusters = getCourseOfferingService().getActivityOfferingClustersByFormatOffering(formatOfferingId, contextInfo);
             if (clusters == null || clusters.size() <= 0) {
-                defaultCluster = ARGUtil.getArgServiceAdapter().createDefaultCluster(formatOfferingId, contextInfo);
+                defaultCluster = CourseOfferingManagementUtil.getArgServiceAdapter().createDefaultCluster(formatOfferingId, contextInfo);
                 if (defaultCluster != null) {
                     clusterId = defaultCluster.getId();
                 }
@@ -1651,7 +1651,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 //Temp solution here: if there is cluster(s) assocaited with the given FO, call createAO method in adapter
                 //It will associate created AOs with the first cluster of the given FO
                 if (clusterId != null && !clusterId.isEmpty()) {
-                    activityOfferingInfo = ARGUtil.getArgServiceAdapter().createActivityOffering(aoInfo, clusterId, contextInfo).getCreatedActivityOffering();
+                    activityOfferingInfo = CourseOfferingManagementUtil.getArgServiceAdapter().createActivityOffering(aoInfo, clusterId, contextInfo).getCreatedActivityOffering();
                 } else {
                     activityOfferingInfo = _getCourseOfferingService().createActivityOffering(formatOfferingInfo.getId(), activityId, activityOfferingType.getKey(), aoInfo, contextInfo);
                 }
@@ -1666,7 +1666,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             }
         }
 
-        ARGToolbarUtil.processAoToolbarForUser(form.getActivityWrapperList(), form);
+        CourseOfferingManagementToolbarUtil.processAoToolbarForUser(form.getActivityWrapperList(), form);
         if (noOfActivityOfferings == 1) {
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS);
         } else {
@@ -1723,7 +1723,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                     enabled++;
                     List<ActivityOfferingWrapper> aos = getActivityOfferingsByCourseOfferingId(co.getCourseOfferingId(), form);
                     if (aos != null && !aos.isEmpty()) {
-                        ARGToolbarUtil.processAoToolbarForUser(aos, form);
+                        CourseOfferingManagementToolbarUtil.processAoToolbarForUser(aos, form);
                         for (ActivityOfferingWrapper ao : aos) {
                             if (ao.isEnableApproveButton()) {
                                 getCourseOfferingService().changeActivityOfferingState(ao.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);

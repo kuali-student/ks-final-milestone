@@ -20,7 +20,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
-import org.kuali.student.enrollment.class2.courseoffering.service.impl.ARGCourseOfferingManagementViewHelperServiceImpl;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -39,12 +39,12 @@ import java.util.List;
  * @author andrewlubbers
  *
  */
-public class ARGFormatsForCreateAOKeyValues extends UifKeyValuesFinderBase implements Serializable {
+public class FormatsForCreateAOKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
         CourseOfferingManagementForm coForm = (CourseOfferingManagementForm) model;
-        ARGCourseOfferingManagementViewHelperServiceImpl helperService = ((ARGCourseOfferingManagementViewHelperServiceImpl)coForm.getView().getViewHelperService());
+        CourseOfferingManagementViewHelperServiceImpl helperService = ((CourseOfferingManagementViewHelperServiceImpl)coForm.getView().getViewHelperService());
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         CourseOfferingInfo selectedCourseOffering = coForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
@@ -82,7 +82,7 @@ public class ARGFormatsForCreateAOKeyValues extends UifKeyValuesFinderBase imple
     // and to determine the default value for the Activity Type and Cluster dropdowns to ensure there are no mismatches.
     public String getFirstKey(ViewModel model){
         CourseOfferingManagementForm coForm = (CourseOfferingManagementForm) model;
-        ARGCourseOfferingManagementViewHelperServiceImpl helperService = ((ARGCourseOfferingManagementViewHelperServiceImpl)coForm.getView().getViewHelperService());
+        CourseOfferingManagementViewHelperServiceImpl helperService = ((CourseOfferingManagementViewHelperServiceImpl)coForm.getView().getViewHelperService());
         String foId = null;
         CourseOfferingInfo selectedCourseOffering = coForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
         try {
