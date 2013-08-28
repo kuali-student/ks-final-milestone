@@ -49,7 +49,6 @@ import org.kuali.student.cm.course.service.impl.CourseViewHelperServiceImpl;
 import org.kuali.student.cm.course.service.impl.LookupableConstants;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities.DecisionRationaleDetail;
-import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -248,10 +247,9 @@ public class CourseController extends MaintenanceDocumentController {
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) { 
         final MaintenanceDocumentForm courseForm = (MaintenanceDocumentForm) form;
+        
 
-
-        // We can actually get this from the workflow document initiator id. It doesn't need to be stored in the form.
-        // courseForm.setUserId(ContextUtils.getContextInfo().getPrincipalId());
+        
         try {
             redrawDecisionTable(courseForm);
         }
@@ -261,6 +259,10 @@ public class CourseController extends MaintenanceDocumentController {
 
         // Create the document in the super method
         final ModelAndView retval = super.start(courseForm, result, request, response);
+        CourseProposalInfo courseProposal = ((CourseProposalInfo) courseForm.getDocument().getNewMaintainableObject().getDataObject());
+        
+        // We can actually get this from the workflow document initiator id. It doesn't need to be stored in the form.
+        courseProposal.setUserId(ContextUtils.getContextInfo().getPrincipalId());
 
         // After creating the document, modify the state
         // Should look into replacing this with calls to WorkflowUtilities
