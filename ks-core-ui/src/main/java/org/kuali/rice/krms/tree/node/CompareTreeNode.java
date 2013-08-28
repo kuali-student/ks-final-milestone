@@ -37,10 +37,14 @@ public class CompareTreeNode implements Serializable {
     private String fithElement;
     private List<String> fithElementItems;
 
-    public CompareTreeNode(){
+    private int width;
+
+    public CompareTreeNode(int width){
+        this.setWidth(width);
     }
 
-    public CompareTreeNode(String... elements){
+    public CompareTreeNode(int width, String... elements){
+        this(width);
         for (int i = 0; i < elements.length; i++) {
             switch (i) {
                 case 0:
@@ -155,5 +159,13 @@ public class CompareTreeNode implements Serializable {
 
     public void setFithElementItems(List<String> fithElementItems) {
         this.fithElementItems = fithElementItems;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
     }
 }
