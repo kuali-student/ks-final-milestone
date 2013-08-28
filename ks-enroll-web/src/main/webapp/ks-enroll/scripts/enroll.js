@@ -859,12 +859,12 @@ function rgbToHex(r, g, b) {
 }
 
 /*
-    This function changes the UifImage components to bootsrtap links
-     It only converts images that have their styles starting with the word icon
+ This function changes the UifImage components to bootsrtap links
+ It only converts images that have their styles starting with the word icon
 
-     It was originally using the src attribute but according to Cody this might cause a problem
-     with KRAD. I think if using the src attribute is not causing any problem for the KRAD we should
-      go back to using the src attribute.
+ It was originally using the src attribute but according to Cody this might cause a problem
+ with KRAD. I think if using the src attribute is not causing any problem for the KRAD we should
+ go back to using the src attribute.
  */
 function addBootstrapImageToLink(containerId) {
     jQuery("#" + containerId).find('img').each(function () {
@@ -895,7 +895,7 @@ function saveAcalPreProcess(returnFieldId){
     }
 
     //find the dirty fields
-   findDirtyFields(returnFieldId);
+    findDirtyFields(returnFieldId);
 }
 
 /**
@@ -1013,10 +1013,10 @@ function removeNewItemHighlights(){
 
 
 /*
-Replaces the checkbox inputs with radio in a table.
-It does not change the name attribute and therefore each radio button
-has a click event which deselects the previous selected radio button.
-*/
+ Replaces the checkbox inputs with radio in a table.
+ It does not change the name attribute and therefore each radio button
+ has a click event which deselects the previous selected radio button.
+ */
 function replaceCheckBoxWithRadio(containerId) {
     var selectedRadio;
     jQuery("#" + containerId).find("input:checkbox").each(function () {
@@ -1146,8 +1146,8 @@ function toggleTextBoxes(textBox){
 }
 
 /* new function to display calendar information (title and dates) on fly (when someone type it in)
-   called from AcademicCalendarEditPage.xml
-   KSENROLL-8189
+ called from AcademicCalendarEditPage.xml
+ KSENROLL-8189
  */
 function displayCalendarInformation(jqObject, fieldId){
     var currentId = jqObject.attr('id');
