@@ -266,9 +266,7 @@ public class CluSetInformation implements Serializable {
 
         //Course sets.
         for (CluSetInformation cluSet : this.getCluSets()) {
-            CluGroup cluSetCourses = new CluGroup(cluSet.getCluSetInfo().getName());
-            cluSetCourses.setClus(cluSet.getClus());
-            cluGroups.add(cluSetCourses);
+            cluGroups.add(createCluGroupFromCluSet(cluSet));
         }
 
         //CourseRange
@@ -281,6 +279,17 @@ public class CluSetInformation implements Serializable {
         }
 
         return cluGroups;
+    }
+
+    private CluGroup createCluGroupFromCluSet(CluSetInformation cluSet){
+        CluGroup cluGroup = new CluGroup(cluSet.getCluSetInfo().getName());
+        cluGroup.setClus(cluSet.getClus());
+        List<CluGroup> subCluSets = new ArrayList<CluGroup>();
+        for(CluSetInformation subCluSet : cluSet.getCluSets()){
+            subCluSets.add(createCluGroupFromCluSet(subCluSet));
+        }
+        cluGroup.setCluGroups(subCluSets);
+        return cluGroup;
     }
 
 }

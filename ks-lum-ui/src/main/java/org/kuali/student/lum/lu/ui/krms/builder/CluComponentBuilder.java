@@ -115,6 +115,9 @@ public abstract class CluComponentBuilder implements ComponentBuilder<LUProposit
                     //Handle predefined clusets.
                     CluSetInformation cluSetInformation = new CluSetInformation(subCluSet);
                     cluSetInformation.setClus(this.getCluInfoHelper().getCluInfos(subCluSet.getCluIds()));
+                    for(String subCluSetId : subCluSet.getCluSetIds()){
+                        cluSetInformation.getCluSets().add(this.getCluSetInformation(subCluSetId));
+                    }
                     unWrappedCluSets.add(cluSetInformation);
                 } else {
 

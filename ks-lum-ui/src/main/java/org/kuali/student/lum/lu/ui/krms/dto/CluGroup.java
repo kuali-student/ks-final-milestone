@@ -28,6 +28,7 @@ public class CluGroup implements Serializable {
 
     private String title;
     private List<CluInformation> clus;
+    private List<CluGroup> cluGroups;
 
     private boolean showClus = true;
     private boolean showTitle = true;
@@ -54,6 +55,14 @@ public class CluGroup implements Serializable {
 
     public void setClus(List<CluInformation> clus) {
         this.clus = clus;
+    }
+
+    public List<CluGroup> getCluGroups() {
+        return cluGroups;
+    }
+
+    public void setCluGroups(List<CluGroup> cluGroups) {
+        this.cluGroups = cluGroups;
     }
 
     public boolean getShowClus() {
