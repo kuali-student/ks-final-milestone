@@ -129,7 +129,8 @@ public class CourseOfferingEditRule extends KsMaintenanceDocumentRuleBase {
                                     CourseOfferingConstants.COURSEOFFERING_ERROR_INVALID_PERSONNEL_ID, info.getPersonId());
                             noError &= false;
                         } else {
-                            String instructorName = personList.get(0).getName().trim();
+                            int firstPerson = 0;
+                            String instructorName = personList.get(firstPerson).getName().trim();
                             if(instructorName != null && !instructorName.isEmpty()) {
                                 if(!instructorName.equals(info.getPersonName())) {
                                     GlobalVariables.getMessageMap().putErrorForSectionId(

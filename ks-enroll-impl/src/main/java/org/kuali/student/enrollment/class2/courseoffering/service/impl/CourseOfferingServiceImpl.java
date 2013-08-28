@@ -828,6 +828,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private LuiInfo _findCourseOfferingLui(String formatOfferingId, ContextInfo context)
             throws OperationFailedException {
         List<LuiInfo> rels;
+        int firstCOLuiInfo=0;
         try {
             rels = luiService.getLuisByRelatedLuiAndRelationType(formatOfferingId,LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY, context);
         } catch (Exception ex) {
@@ -839,13 +840,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         } else if (rels.size() > 1){
             throw new OperationFailedException("Multiple Format offerings found for an activity offering - " + formatOfferingId);
         } else {
-            return rels.get(0);
+            return rels.get(firstCOLuiInfo);
         }
     }
 
     private LuiInfo _findFormatOfferingLui(String activityOfferingId, ContextInfo context)
             throws OperationFailedException {
         List<LuiInfo> rels;
+        int firstFOLuiInfo=0;
         try {
             rels = luiService.getLuisByRelatedLuiAndRelationType(activityOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY, context);
         } catch (Exception ex) {
@@ -857,7 +859,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         } else if (rels.size() > 1){
             throw new OperationFailedException("Multiple Format offerings found for an activity offering - " + activityOfferingId);
         } else {
-            return rels.get(0);
+            return rels.get(firstFOLuiInfo);
         }
 
     }
@@ -1390,7 +1392,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 if (parentTerms == null || parentTerms.size() != 1) {
                     throw new InvalidParameterException("In createActivityOffering, can only have one parent term for a subterm");
                 }
-                String parentTermId = parentTerms.get(0).getId();
+                int firstTermInfo = 0;
+                String parentTermId = parentTerms.get(firstTermInfo).getId();
                 if (!parentTermId.equals(fo.getTermId())) {
                     // KSENROLL-7795 Throw exception if the parent term ID of the AO term does not match FO's term ID
                     throw new InvalidParameterException(aoInfo.getTermId() + " term in the activity offering is not subterm of format offering term (" + fo.getTermId() + ")");
@@ -1927,8 +1930,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         result.setSuccess(true);
         result.setMessage("New Schedule Successfully created");
 
+        int firstScheduleRequestInfo=0;
+
         if (aoInfo.getIsColocated() && !requests.isEmpty()){
-            ScheduleRequestSetInfo schSet = getSchedulingService().getScheduleRequestSet(requests.get(0).getScheduleRequestSetId(),contextInfo);
+            ScheduleRequestSetInfo schSet = getSchedulingService().getScheduleRequestSet(requests.get(firstScheduleRequestInfo).getScheduleRequestSetId(),contextInfo);
             for (String aoId : schSet.getRefObjectIds()){
                 if (!StringUtils.equals(aoId,aoInfo.getId())) {
                     ActivityOfferingInfo colo = getActivityOffering(aoId,contextInfo);
@@ -1957,7 +1962,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
              */
             boolean deleteSchedule = true;
             if (!schInfos.isEmpty()){
-                ScheduleRequestSetInfo setInfo = getSchedulingService().getScheduleRequestSet(schInfos.get(0).getScheduleRequestSetId(),contextInfo);
+                ScheduleRequestSetInfo setInfo = getSchedulingService().getScheduleRequestSet(schInfos.get(firstScheduleRequestInfo).getScheduleRequestSetId(),contextInfo);
                 if (!setInfo.getRefObjectIds().contains(aoInfo.getId())){
                     deleteSchedule = false;
                 }
@@ -2066,10 +2071,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                                                                                   ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
+
+        int firstActivityOfferingId = 0;
         List<RegistrationGroupInfo> regGroupList = new ArrayList<RegistrationGroupInfo>();
         Set aoIdSet = new HashSet(activityOfferingIds);
         if (activityOfferingIds != null && !activityOfferingIds.isEmpty()) {
-            String firstAoId = activityOfferingIds.get(0);
+            String firstAoId = activityOfferingIds.get(firstActivityOfferingId);
             // Pick an ID to search RGs by
             List<RegistrationGroupInfo> regGroups = getRegistrationGroupsByActivityOffering(firstAoId, context);
             if (regGroups != null) {

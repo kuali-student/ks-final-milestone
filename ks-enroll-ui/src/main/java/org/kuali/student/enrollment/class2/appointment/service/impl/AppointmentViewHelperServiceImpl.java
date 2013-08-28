@@ -111,7 +111,9 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
             LOG.error("Too many terms!");
         }
 
-        TermInfo term = terms.get(0);
+        int firstTermInfo = 0;
+
+        TermInfo term = terms.get(firstTermInfo);
 
         //Populate the result form
         form.setTermInfo(term);
@@ -295,8 +297,9 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
                 GlobalVariables.getMessageMap().putErrorForSectionId("addRegistrationWindowCollection", PopulationConstants.POPULATION_MSG_ERROR_POPULATION_NOT_FOUND, apptWindow.getAssignedPopulationName());
                 isValid = false;
             } else {
-                apptWindow.setAssignedPopulationName(populationInfoList.get(0).getName());
-                apptWindow.getAppointmentWindowInfo().setAssignedPopulationId(populationInfoList.get(0).getId());
+                int firstPopulationInfo = 0;
+                apptWindow.setAssignedPopulationName(populationInfoList.get(firstPopulationInfo).getName());
+                apptWindow.getAppointmentWindowInfo().setAssignedPopulationId(populationInfoList.get(firstPopulationInfo).getId());
             }
 
         } catch (Exception e) {
@@ -403,8 +406,9 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
                 GlobalVariables.getMessageMap().putErrorForSectionId("addRegistrationWindowCollection", PopulationConstants.POPULATION_MSG_ERROR_POPULATION_NOT_FOUND, apptWindow.getAssignedPopulationName());
                 isValid = false;
             } else {
-                apptWindow.setAssignedPopulationName(populationInfoList.get(0).getName());
-                apptWindow.getAppointmentWindowInfo().setAssignedPopulationId(populationInfoList.get(0).getId());
+                int firstPopulationInfo = 0;
+                apptWindow.setAssignedPopulationName(populationInfoList.get(firstPopulationInfo).getName());
+                apptWindow.getAppointmentWindowInfo().setAssignedPopulationId(populationInfoList.get(firstPopulationInfo).getId());
             }
 
         } catch (Exception e) {

@@ -600,7 +600,16 @@ public class CourseOfferingTransformer {
                     } else {
                         resultValueInfos = getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
                     }
-                    creditCount = trimTrailing0(resultValueInfos.get(0).getValue());
+
+                    //Code Modified for JIRA 8727 fixing SONAR issue
+                    int firstResultValueInfo = 0;
+                    if(!resultValueInfos.isEmpty()){
+                        creditCount = trimTrailing0(resultValueInfos.get(firstResultValueInfo).getValue());
+                    } else{
+                        LOG.info("Credit is missing for this course offering");
+                        return creditCount = "N/A";
+                    }
+
                 } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {                          //range
                     //Use the min/max values from the RVG
                     creditCount = trimTrailing0(resultValuesGroupInfo.getResultValueRange().getMinValue()) + " - " +
@@ -878,7 +887,8 @@ public class CourseOfferingTransformer {
                     // Should be only one person found by person id
                     List<Person> personList = OfferingInstructorTransformer.getInstructorByPersonId(instructor.getPersonId());
                     if (personList != null && !personList.isEmpty()) {
-                        instructor.setPersonName(personList.get(0).getName());
+                        int firstPerson = 0;
+                        instructor.setPersonName(personList.get(firstPerson).getName());
                     }
                     co.getInstructors().add(instructor);
                 }

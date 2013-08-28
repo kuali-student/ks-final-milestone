@@ -95,8 +95,9 @@ public class ActivityOfferingDisplayTransformer {
         List<OfferingInstructorInfo> instructorInfos = aoInfo.getInstructors();
         if (instructorInfos != null && !instructorInfos.isEmpty()) {
             // Find instructor with largest percentage effort
-            displayInfo.setInstructorId(instructorInfos.get(0).getPersonId());
-            displayInfo.setInstructorName(instructorInfos.get(0).getPersonName());
+            int firstOfferingInstructorInfo = 0;
+            displayInfo.setInstructorId(instructorInfos.get(firstOfferingInstructorInfo).getPersonId());
+            displayInfo.setInstructorName(instructorInfos.get(firstOfferingInstructorInfo).getPersonName());
         }
         else  {
             displayInfo.setInstructorId(null);
@@ -113,7 +114,8 @@ public class ActivityOfferingDisplayTransformer {
         if (aoInfo.getScheduleIds() != null && !aoInfo.getScheduleIds().isEmpty()) {
             List<ScheduleDisplayInfo> scheduleDisplayInfoList = schedulingService.getScheduleDisplaysByIds(aoInfo.getScheduleIds(), contextInfo);
             if(scheduleDisplayInfoList != null && !scheduleDisplayInfoList.isEmpty())  {
-                ScheduleDisplayInfo sdInfo = scheduleDisplayInfoList.get(0);
+                int firstScheduleDisplayInfo = 0;
+                ScheduleDisplayInfo sdInfo = scheduleDisplayInfoList.get(firstScheduleDisplayInfo);
                 destScheduleDisplayInfo.setAtp(sdInfo.getAtp());
                 destScheduleDisplayInfo.setAttributes(sdInfo.getAttributes());
                 destScheduleDisplayInfo.setDescr(sdInfo.getDescr());

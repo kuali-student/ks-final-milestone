@@ -85,7 +85,8 @@ public class SpreadsheetData implements Iterable<SpreadsheetRowData> {
 
     public int numRows() {
         // All columns should have the same length
-        return headerToValueList.get(fieldNames.get(0)).size();
+        int firstFieldName = 0;
+        return headerToValueList.get(fieldNames.get(firstFieldName)).size();
     }
 
     public SpreadsheetRowData getRowAt(int index) {

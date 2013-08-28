@@ -212,6 +212,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         try {
 
             ContextInfo contextInfo = createContextInfo();
+            int firstInfo = 0;
 
             // if a building code exists, validate the building code and populate the building info
             if (StringUtils.isNotBlank(scheduleWrapper.getBuildingCode())){
@@ -219,7 +220,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                 if (buildings.isEmpty()) {
                     addErrorMessage(ScheduleInput.BUILDING, "Facility code was invalid");
                 } else {
-                    scheduleWrapper.setBuilding(buildings.get(0));
+                    scheduleWrapper.setBuilding(buildings.get(firstInfo));
                 }
 
                 // if a building code exists and a room code exists, validate the room code and populate the room info
@@ -228,7 +229,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                     if (rooms.isEmpty()) {
                         addErrorMessage(ScheduleInput.ROOM, "Room code was invalid");
                     } else {
-                        RoomInfo room = rooms.get(0);
+                        RoomInfo room = rooms.get(firstInfo);
                         if (room.getRoomUsages() != null && !room.getRoomUsages().isEmpty()) {
                             scheduleWrapper.setRoomCapacity(room.getRoomUsages().get(0).getHardCapacity());
                         }
@@ -545,7 +546,8 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
             //For Full colo, there must be only one ScheduleRequestSet.
             if (!scheduleRequestInfos.isEmpty()){
-                ScheduleRequestSetInfo set = getSchedulingService().getScheduleRequestSet(scheduleRequestInfos.get(0).getScheduleRequestSetId(),defaultContextInfo);
+                int firstScheduleRequestInfo = 0;
+                ScheduleRequestSetInfo set = getSchedulingService().getScheduleRequestSet(scheduleRequestInfos.get(firstScheduleRequestInfo).getScheduleRequestSetId(),defaultContextInfo);
                 wrapper.setScheduleRequestSetInfo(set);
             }
 
@@ -576,7 +578,8 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByIds(componentInfo.getTimeSlotIds(), defaultContextInfo);
 
             if (!timeSlotInfos.isEmpty()){
-                scheduleWrapper.setTimeSlot(timeSlotInfos.get(0));
+                int firstTimeSlotInfo = 0;
+                scheduleWrapper.setTimeSlot(timeSlotInfos.get(firstTimeSlotInfo));
 
                 Date timeForDisplay;
                 if(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds() != null) {
@@ -664,7 +667,8 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                         List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByIds(componentInfo.getTimeSlotIds(), defaultContextInfo);
 
                         if (!timeSlotInfos.isEmpty()){
-                            scheduleWrapper.setTimeSlot(timeSlotInfos.get(0));
+                            int firstTimeSlotInfo = 0;
+                            scheduleWrapper.setTimeSlot(timeSlotInfos.get(firstTimeSlotInfo));
 
                             Date timeForDisplay;
                             if (scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds() != null){
@@ -717,12 +721,14 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         // Find the term-level SOC for this activity offering and find out its state
         List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(activityOfferingInfo.getTermId(), context);
 
+        int firstsocId = 0;
+
         // should be only one, if none or more than one is found, throw an exception
         if (socIds == null || socIds.size() != 1) {
             throw new OperationFailedException("Unexpected results from socService.getSocIdsByTerm, expecting exactly one soc id, received: " + socIds);
         }
 
-        SocInfo socInfo = getCourseOfferingSetService().getSoc(socIds.get(0), context);
+        SocInfo socInfo = getCourseOfferingSetService().getSoc(socIds.get(firstsocId), context);
 
         String aoNextState = null;
 

@@ -89,7 +89,8 @@ public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
             LOG.error("Too many terms!");
         }
 
-        TermInfo term = terms.get(0);
+        int firstTermInfo = 0;
+        TermInfo term = terms.get(firstTermInfo);
 
         //Get the milestones and filter out anything that is not registration period
         List<KeyDateInfo> keyDates = academicCalendarService.getKeyDatesForTerm(term.getId(), null);

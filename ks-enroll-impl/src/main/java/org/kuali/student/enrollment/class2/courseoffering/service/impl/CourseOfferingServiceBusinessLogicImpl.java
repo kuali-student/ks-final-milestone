@@ -560,7 +560,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             throw new InvalidParameterException(
                     "Skipped because there are more than one valid versions of the course in the target term");
         }
-        CourseInfo targetCourse = targetCourses.get(0);
+        int firstCourseInfo = 0;
+        CourseInfo targetCourse = targetCourses.get(firstCourseInfo);
         if (optionKeys.contains(CourseOfferingSetServiceConstants.SKIP_IF_ALREADY_EXISTS_OPTION_KEY)) {
             String existingCoId = this._findFirstExistingCourseOfferingIdInTargetTerm(targetCourse.getId(), targetTermId, context);
             if (existingCoId != null) {
@@ -843,6 +844,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     private String _findFirstExistingCourseOfferingIdInTargetTerm(String targetCourseId, String targetTermId, ContextInfo context)
             throws DoesNotExistException, OperationFailedException {
         List<CourseOfferingInfo> list;
+        int firstCourseOfferingInfo = 0;
         try {
             list = coService.getCourseOfferingsByCourseAndTerm(targetCourseId, targetTermId, context);
         } catch (InvalidParameterException ex) {
@@ -855,7 +857,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         if (list.isEmpty()) {
             return null;
         }
-        return list.get(0).getId();
+        return list.get(firstCourseOfferingInfo).getId();
     }
 
     /*
