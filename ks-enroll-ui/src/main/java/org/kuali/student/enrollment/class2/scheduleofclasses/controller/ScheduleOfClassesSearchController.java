@@ -27,6 +27,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
@@ -58,6 +59,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -181,6 +184,23 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         Map<String, String> subTermInfoMap = new HashMap<String, String>();
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
+        for (ActivityOfferingClusterWrapper clusterWrapper : coDisplayWrapper.getClusterResultList()){
+            if(clusterWrapper.getAoWrapperList().size() >1){
+                Collections.sort(clusterWrapper.getAoWrapperList(), new Comparator<ActivityOfferingWrapper>() {
+                    @Override
+                    public int compare(ActivityOfferingWrapper o1, ActivityOfferingWrapper o2) {
+                        int typeComparison = (o1.getTypeName().compareTo(o2.getTypeName())) * -1;
+                        int nameComparison = o1.getActivityCode().compareTo(o2.getActivityCode());
+                        if (typeComparison == 0) {
+                            return nameComparison;
+                        } else {
+                            return typeComparison;
+                        }
+                    }
+                });
+            }
+        }
 
         for (ActivityOfferingWrapper aoWrapper : coDisplayWrapper.getActivityWrapperList()){
             // Adding Information (icons)
