@@ -42,9 +42,7 @@
             <list>
                   <ref bean="commentsLightBox" />
                   <ref bean="decisionsDialog" />
-                  <!--
                   <ref bean="loCategoryDialog" />
-                  -->
             </list>
         </property>
 
@@ -63,165 +61,19 @@
             </list>
         </property>
     </bean>
-
-    <bean id="commentsLightBox" parent="Uif-VerticalBoxSection">
-        <property name="hidden" value="true" />
-        <property name="headerText" value="Proposal Comments" />
-        <property name="items">
+    
+    <bean id="CourseInfoMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.student.cm.course.dto.CourseProposalInfo" />
+        <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl"/>
+        <property name="documentTypeName" value="kuali.proposal.type.course.create"/>
+        <property name="documentAuthorizerClass" value="org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase"/>
+        <property name="lockingKeys">
             <list>
-                <!--"propsalCommentSection" -->
-                <bean parent="Uif-DataField" p:propertyName="proposal.name" />
-                <bean parent="Uif-Message"
-                    p:messageText="All comments posted here will be visible to authors, and to reviewers after you submit the proposal" />
-                <!--"commentTableSection" -->
-                <bean parent="Uif-MessageField" p:messageText="Logged in as: @{document.newMaintainableObject.dataObject.userId}" />
-                <bean parent="Uif-TableCollectionSection" lazy-init="false">
-                    <property name="headerText" value="Leave a Comment" />
-                    <property name="collectionObjectClass" value="org.kuali.student.r2.core.comment.dto.CommentInfo" />
-                    <property name="propertyName" value="commentInfos" />
-                    <property name="layoutManager.separateAddLine" value="true" />
-                    <property name="addLineLabel">
-                        <bean parent="Uif-Label">
-                            <property name="labelText" value=" " />
-                        </bean>
-                    </property>
-                    <property name="layoutManager.renderSequenceField" value="false" />
-                    <property name="layoutManager.richTable.render" value="true" />
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-DataField" p:label=" " p:propertyName="commenterId"/>
-                            <bean parent="Uif-InputField" p:label=" " p:propertyName="commentText.plain" >
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Submit" p:methodToCall="saveAndCloseComment" />
+                <value>id</value>
             </list>
         </property>
-    </bean>
-
-
-    <bean id="loCategoryDialog" parent="Uif-DialogGroup" p:headerText="Select Categories" p:fieldBindingObjectPath="document.newMaintainableObject.dataObject.loDialogWrapper">
-        <property name="availableResponses">
-            <list>
-                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Add" />
-                <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel" />
-            </list>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-VerticalBoxSection" p:headerText="Filter">
-                    <property name="header.lowerGroup">
-                        <bean parent="Uif-LinkGroup" p:linkSeparator="|">
-                            <property name="items">
-                                <list>
-                                    <bean parent="Uif-ActionLink" p:actionLabel="Select All" />
-                                    <bean parent="Uif-ActionLink" p:actionLabel="Clear" />
-                                </list>
-                            </property>
-                        </bean>
-                    </property>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-InputField" p:propertyName="typeKeyFilters"
-                                p:showLabel="false">
-                                <property name="control">
-                                    <bean parent="Uif-VerticalCheckboxesControl" />
-                                </property>
-                                <property name="optionsFinder">
-                                    <bean
-                                        class="org.kuali.student.lum.lu.ui.course.keyvalues.LoCategoryInfoTypeKeyValueFinder"
-                                        p:addBlankOption="false" />
-                                </property>
-                            </bean>
-
-                            <bean parent="Uif-InputField-LabelTop" p:propertyName="categoryName"
-                                p:label="By words in category">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" />
-                                </property>
-                            </bean>
-
-                            <bean parent="Uif-TableCollectionSection"
-                                p:propertyName="learningObjectiveOptions">
-                                <property name="collectionObjectClass"
-                                    value="org.kuali.student.cm.course.form.LoCategoryInfoWrapper" />
-                                <property name="layoutManager.renderSequenceField" value="false" />
-                                <property name="layoutManager.applyDefaultCellWidths" value="false" />
-                                <property name="layoutManager.richTable.render" value="false" />
-                                <property name="layoutManager.suppressLineWrapping" value="true" />
-                                <property name="lineSelectPropertyName" value="selected" />
-                                <property name="renderLineActions" value="false" />
-                                <property name="renderAddLine" value="false" />
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-InputField" p:propertyName="selected" p:required="false">
-                                            <property name="control">
-                                                <bean parent="Uif-CheckboxControl"/>
-                                            </property>
-                                        </bean>
-                                        <bean parent="Uif-DataField" p:propertyName="name" p:label="Category" />
-                                        <bean parent="Uif-DataField" p:propertyName="typeName" p:label="Type" />
-                                        <bean parent="Uif-DataField" p:propertyName="typeKey" p:hidden="true" />
-                                    </list>
-                                </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>cm-collection-width</value>
-                                    </list>
-                                </property>
-                                <property name="filters">
-                                    <list>
-                                        <bean parent="Uif-ConditionalCollectionFilter" p:expression="@{document.newMaintainableObject.dataObject.loDialogWrapper.typeKeyFilters != null ? #listContains(document.newMaintainableObject.dataObject.loDialogWrapper.typeKeyFilters, #line.typeKey) : true}" />
-                                    </list>
-                                </property>
-                                <property name="refreshWhenChangedPropertyNames" value="loDialogWrapper.typeKeyFilters" />
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-CourseView-Footer" parent="Uif-FooterBase">
-        <property name="items">
-            <list>
-                <bean parent="Uif-PrimaryActionButton" p:methodToCall="saveAndContinue" p:actionLabel="Save and Continue"
-                    p:performClientSideValidation="true" p:loadingMessageText="Saving..." />
-                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Cancel" p:methodToCall="cancel" />
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-CourseNavigation-Menu" parent="Uif-MenuNavigationGroup">
-        <property name="items">
-            <list>
-                <bean parent="Uif-HeaderTwo" p:headerText="Course Sections" />
-                <bean id="KS-CourseViewCourseInfo-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-CourseInfoPage"
-                    p:actionLabel="Course Information" />
-                <bean id="KS-CourseViewGovernance-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-GovernancePage"
-                    p:actionLabel="Governance" />
-                <bean id="KS-CourseViewCourseLogistics-ActionLink" parent="Uif-NavigationActionLink"
-                    p:navigateToPageId="KS-CourseView-CourseLogisticsPage" p:actionLabel="Course Logistics" />
-                <bean id="KS-CourseViewLearningObjectives-ActionLink" parent="Uif-NavigationActionLink"
-                    p:navigateToPageId="KS-CourseView-LearningObjectivesPage" p:actionLabel="Learning Objectives" p:disabled="true" />
-                <bean id="KS-CourseViewCourseRequisites-ActionLink" parent="Uif-NavigationActionLink"
-                    p:navigateToPageId="KS-CourseView-CourseRequisitesPage" p:actionLabel="Course Requisites" p:disabled="true" />
-                <bean id="KS-CourseViewActiveDates-ActionLink" parent="Uif-NavigationActionLink"
-                    p:navigateToPageId="KS-CourseView-ActiveDatesPage" p:actionLabel="Active Dates" />
-                <bean id="KS-CourseViewFinancials-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-FinancialsPage"
-                    p:actionLabel="Financials" p:disabled="true"/>
-                <bean id="KS-CourseViewAuthorsAndCollaborators-ActionLink" parent="Uif-NavigationActionLink"
-                    p:navigateToPageId="KS-CourseView-AuthorsAndCollaboratorsPage" p:actionLabel="Authors &amp; Collaborators" p:disabled="true"/>
-                <bean id="KS-CourseViewSupportingDocuments-ActionLink" parent="Uif-NavigationActionLink"
-                    p:navigateToPageId="KS-CourseView-SupportingDocumentsPage" p:actionLabel="Supporting Documents" />
-                <bean id="KS-CourseViewReviewProposal-ActionLink" parent="Uif-NavigationActionLink"
-                    p:navigateToPageId="KS-CourseView-ReviewProposalPage" p:actionLabel="Review Proposal" p:disabled="true"/>
-            </list>
-        </property>
-    </bean>
-
+    </bean>  
+    
     <bean id="KS-CourseView-Header" parent="Uif-HeaderTwo">
         <property name="headerText" value="New Proposal" />
         <property name="cssClasses">
@@ -288,6 +140,82 @@
             </bean>
         </property>
     </bean>
+    
+    <bean id="KS-CourseView-Footer" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="saveAndContinue" p:actionLabel="Save and Continue"
+                    p:performClientSideValidation="true" p:loadingMessageText="Saving..." />
+                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Cancel" p:methodToCall="cancel" />
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="KS-CourseNavigation-Menu" parent="Uif-MenuNavigationGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HeaderTwo" p:headerText="Course Sections" />
+                <bean id="KS-CourseViewCourseInfo-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-CourseInfoPage"
+                    p:actionLabel="Course Information" />
+                <bean id="KS-CourseViewGovernance-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-GovernancePage"
+                    p:actionLabel="Governance" />
+                <bean id="KS-CourseViewCourseLogistics-ActionLink" parent="Uif-NavigationActionLink"
+                    p:navigateToPageId="KS-CourseView-CourseLogisticsPage" p:actionLabel="Course Logistics" />
+                <bean id="KS-CourseViewLearningObjectives-ActionLink" parent="Uif-NavigationActionLink"
+                    p:navigateToPageId="KS-CourseView-LearningObjectivesPage" p:actionLabel="Learning Objectives" p:disabled="true" />
+                <bean id="KS-CourseViewCourseRequisites-ActionLink" parent="Uif-NavigationActionLink"
+                    p:navigateToPageId="KS-CourseView-CourseRequisitesPage" p:actionLabel="Course Requisites" p:disabled="true" />
+                <bean id="KS-CourseViewActiveDates-ActionLink" parent="Uif-NavigationActionLink"
+                    p:navigateToPageId="KS-CourseView-ActiveDatesPage" p:actionLabel="Active Dates" />
+                <bean id="KS-CourseViewFinancials-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-FinancialsPage"
+                    p:actionLabel="Financials" p:disabled="true"/>
+                <bean id="KS-CourseViewAuthorsAndCollaborators-ActionLink" parent="Uif-NavigationActionLink"
+                    p:navigateToPageId="KS-CourseView-AuthorsAndCollaboratorsPage" p:actionLabel="Authors &amp; Collaborators" p:disabled="true"/>
+                <bean id="KS-CourseViewSupportingDocuments-ActionLink" parent="Uif-NavigationActionLink"
+                    p:navigateToPageId="KS-CourseView-SupportingDocumentsPage" p:actionLabel="Supporting Documents" />
+                <bean id="KS-CourseViewReviewProposal-ActionLink" parent="Uif-NavigationActionLink"
+                    p:navigateToPageId="KS-CourseView-ReviewProposalPage" p:actionLabel="Review Proposal" p:disabled="true"/>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- Dialogs -->
+
+    <bean id="commentsLightBox" parent="Uif-VerticalBoxSection">
+        <property name="hidden" value="true" />
+        <property name="headerText" value="Proposal Comments" />
+        <property name="items">
+            <list>
+                <!--"propsalCommentSection" -->
+                <bean parent="Uif-DataField" p:propertyName="proposal.name" />
+                <bean parent="Uif-Message"
+                    p:messageText="All comments posted here will be visible to authors, and to reviewers after you submit the proposal" />
+                <!--"commentTableSection" -->
+                <bean parent="Uif-MessageField" p:messageText="Logged in as: @{document.newMaintainableObject.dataObject.userId}" />
+                <bean parent="Uif-TableCollectionSection" lazy-init="false">
+                    <property name="headerText" value="Leave a Comment" />
+                    <property name="collectionObjectClass" value="org.kuali.student.r2.core.comment.dto.CommentInfo" />
+                    <property name="propertyName" value="commentInfos" />
+                    <property name="layoutManager.separateAddLine" value="true" />
+                    <property name="addLineLabel">
+                        <bean parent="Uif-Label">
+                            <property name="labelText" value=" " />
+                        </bean>
+                    </property>
+                    <property name="layoutManager.renderSequenceField" value="false" />
+                    <property name="layoutManager.richTable.render" value="true" />
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:label=" " p:propertyName="commenterId"/>
+                            <bean parent="Uif-InputField" p:label=" " p:propertyName="commentText.plain" >
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Submit" p:methodToCall="saveAndCloseComment" />
+            </list>
+        </property>
+    </bean>
 
     <bean id="decisionsDialog" parent="Uif-VerticalBoxSection">
         <property name="hidden" value="true" />
@@ -315,16 +243,86 @@
         </property>
     </bean>
 
-    <bean id="CourseInfoMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
-        <property name="dataObjectClass" value="org.kuali.student.cm.course.dto.CourseProposalInfo" />
-        <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl"/>
-        <property name="documentTypeName" value="kuali.proposal.type.course.create"/>
-        <property name="documentAuthorizerClass" value="org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase"/>
-        <property name="lockingKeys">
+    <bean id="loCategoryDialog" parent="Uif-VerticalBoxSection" p:fieldBindingObjectPath="document.newMaintainableObject.dataObject.loDialogWrapper">
+        <property name="hidden" value="true" />
+        <property name="headerText" value="Select Categories" />
+        <property name="items">
             <list>
-                <value>id</value>
-            </list>
-        </property>
-    </bean>  
+                <bean parent="Uif-HeaderThree" p:headerText="Filter">
+                    <property name="lowerGroup">
+                        <bean parent="Uif-LinkGroup" p:linkSeparator="|">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-ActionLink" p:actionLabel="Select All" />
+                                    <bean parent="Uif-ActionLink" p:actionLabel="Clear" />
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                
+                <bean parent="Uif-InputField" p:propertyName="typeKeyFilters" p:showLabel="false">
+                    <property name="control">
+                        <bean parent="Uif-VerticalCheckboxesControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.LoCategoryInfoTypeKeyValueFinder"
+                            p:addBlankOption="false" />
+                    </property>
+                </bean>
 
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="categoryName" p:label="By words in category">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" />
+                    </property>
+                </bean>
+                
+                <bean parent="Uif-TableCollectionSection" p:propertyName="learningObjectiveOptions">
+                    <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.LoCategoryInfoWrapper" />
+                    <property name="layoutManager.renderSequenceField" value="false" />
+                    <property name="layoutManager.applyDefaultCellWidths" value="false" />
+                    <property name="layoutManager.richTable.render" value="false" />
+                    <property name="layoutManager.suppressLineWrapping" value="true" />
+                    <property name="lineSelectPropertyName" value="selected" />
+                    <property name="renderLineActions" value="false" />
+                    <property name="renderAddLine" value="false" />
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="selected" p:required="false">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl" />
+                                </property>
+                            </bean>
+                            <bean parent="Uif-DataField" p:propertyName="name" p:label="Category" />
+                            <bean parent="Uif-DataField" p:propertyName="typeName" p:label="Type" />
+                            <bean parent="Uif-DataField" p:propertyName="typeKey" p:hidden="true" />
+                        </list>
+                    </property>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>cm-collection-width</value>
+                        </list>
+                    </property>
+                    <property name="filters">
+                        <list>
+                            <bean parent="Uif-ConditionalCollectionFilter"
+                                p:expression="@{document.newMaintainableObject.dataObject.loDialogWrapper.typeKeyFilters != null ? #listContains(document.newMaintainableObject.dataObject.loDialogWrapper.typeKeyFilters, #line.typeKey) : true}" />
+                        </list>
+                    </property>
+                    <property name="refreshWhenChangedPropertyNames" value="loDialogWrapper.typeKeyFilters" />
+                </bean>
+             </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Add" p:methodToCall="addLoCategory" />
+                        <ref bean="Uif-CancelAction" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    
 </beans>

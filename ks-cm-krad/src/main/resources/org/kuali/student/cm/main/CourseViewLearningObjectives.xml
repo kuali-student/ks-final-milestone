@@ -86,7 +86,7 @@
 					<property name="addLineActions">
             			<list>
                             <bean parent="Uif-ActionLink" p:actionLabel="Browse for categories"
-                                        p:methodToCall="browseForCategories" p:actionParameters="selectedIndex:@{#parent.#index}"/>
+                                        p:methodToCall="showLoCategories" p:actionParameters="selectedIndex:@{#parent.#index}"/>
                 			<bean parent="Uif-AddLineAction" p:actionLabel="Add" />
             			</list>
         			</property>
@@ -107,25 +107,6 @@
 										</property>
 									</bean>
 								</property>
-<!-- 								<property name="quickfinder"> -->
-<!--             						<bean parent="Uif-QuickFinder"> -->
-<!-- 	            						<property name="quickfinderAction"> -->
-<!-- 						           			<bean parent="Uif-ActionLink"> -->
-<!-- 								                <property name="methodToCall" value="performLookup"/> -->
-<!-- 								                <property name="actionLabel" value="Advanced Search"/> -->
-<!-- 								                <property name="cssClasses"> -->
-<!-- 								                	<list merge="true"> -->
-<!--         												<value>uif-actionLink-block</value> -->
-<!--       												</list> -->
-<!-- 								                </property> -->
-<!-- 						            		</bean> -->
-<!-- 					        			</property> -->
-<!-- 								        <property name="lightBoxLookup"> -->
-<!-- 								            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/> -->
-<!-- 								        </property> -->
-<!-- 								        <property name="dataObjectClassName" value="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo"/> -->
-<!-- 								     </bean> -->
-<!--         						</property> -->
 								<property name="help">
 									<bean parent="Uif-Help"
 										p:tooltipHelpContent="Add a category to classify your learning 

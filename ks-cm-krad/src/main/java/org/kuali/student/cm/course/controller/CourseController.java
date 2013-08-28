@@ -37,6 +37,7 @@ import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.name.EntityNameContract;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -61,6 +62,7 @@ import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.core.constants.CommentServiceConstants;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -86,7 +88,11 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(value = "/courses")
 public class CourseController extends MaintenanceDocumentController {
+    
     private static final String DECISIONS_DIALOG_KEY = "decisionsDialog";
+    private static final String LEARNING_OBJECTIVES_CAT_DIALOG_KEY = "loCategoryDialog";
+    
+    private static final String VIEW_CURRENT_PAGE_ID = "view.currentPageId";
 
     private CourseService courseService;
     private CommentService commentService;
@@ -117,15 +123,45 @@ public class CourseController extends MaintenanceDocumentController {
 
     }
     
-    private static final String VIEW_CURRENT_PAGE_ID = "view.currentPageId";
+    @Override
+    @RequestMapping(params = "methodToCall=start")
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                              HttpServletRequest request, HttpServletResponse response) { 
+        final MaintenanceDocumentForm courseForm = (MaintenanceDocumentForm) form;
+        
+
+        
+        try {
+            redrawDecisionTable(courseForm);
+        }
+        catch (Exception e) {
+            error("Untable to create decision table: %s", e.getMessage());
+        }
+
+        // Create the document in the super method
+        final ModelAndView retval = super.start(courseForm, result, request, response);
+        CourseProposalInfo courseProposal = ((CourseProposalInfo) courseForm.getDocument().getNewMaintainableObject().getDataObject());
+        
+        // We can actually get this from the workflow document initiator id. It doesn't need to be stored in the form.
+        courseProposal.setUserId(ContextUtils.getContextInfo().getPrincipalId());
+
+        // After creating the document, modify the state
+        // Should look into replacing this with calls to WorkflowUtilities
+        // ((CourseProposalInfo) courseForm.getDocument().getNewMaintainableObject().getDataObject()).getCourse().setStateKey(DtoConstants.STATE_DRAFT);
+
+        return retval;
+    }
         
     /**
      * This will save the Course Proposal.
-     * @param form The CourseForm that contains all the needed information to save the proposal.
+     * @param form The {@link MaintenanceDocumentForm} will contain the
+     * {@link CourseProposalInfo} object on the document. This object contains references
+     * to the {@link CourseInfo} and {@link ProposalInfo} DTOs which contain the necessary
+     * information to create a Course/Proposal.
      * @param result
-     * @param request
-     * @param response
-     * @return
+     * @param request {@link HttpServletRequest} instance of the actual HTTP request made
+     * @param response The intended {@link HttpServletResponse} sent back to the user
+     * @return The new {@link ModelAndView} that contains the newly created/updated {@CourseInfo} and {@ProposalInfo} information.
      */
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=saveAndContinue")
     public ModelAndView saveAndContinue(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
@@ -217,7 +253,10 @@ public class CourseController extends MaintenanceDocumentController {
     }
     
     /**
-     * Return the user name of the instructor using the display name
+     * Converts the display name of the instructor into the plain user name (for use in a search query)
+     * 
+     * @param displayName The display name of the instructor.
+     * @return The user name of the instructor.
      */
     private String getInstructorSearchString(String displayName) {
         String searchString = null;
@@ -227,6 +266,12 @@ public class CourseController extends MaintenanceDocumentController {
         return searchString;
     }
     
+    /**
+     * Determines to which page to navigate.
+     * 
+     * @param currentPageId The current page id.
+     * @return The id of the next page to navigate to.
+     */
     protected String getNextPageId(final String currentPageId) {
         String nextPageId = null;
         final CourseViewPages[] pages = CourseViewPages.values();
@@ -241,40 +286,112 @@ public class CourseController extends MaintenanceDocumentController {
         }
         return nextPageId;
     }
+    
+    /**
+     * Server-side action for rendering the comments lightbox
+     * 
+     * @param form {@link MaintenanceDocumentForm} instance used for this action
+     * @param result
+     * @param request {@link HttpServletRequest} instance of the actual HTTP request made
+     * @param response The intended {@link HttpServletResponse} sent back to the user
+     * @throws Exception
+     */
+    @RequestMapping(params = "methodToCall=showComment")
+    public ModelAndView showComment(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-    @Override
-    @RequestMapping(params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                              HttpServletRequest request, HttpServletResponse response) { 
-        final MaintenanceDocumentForm courseForm = (MaintenanceDocumentForm) form;
-        
-
-        
-        try {
-            redrawDecisionTable(courseForm);
-        }
-        catch (Exception e) {
-            error("Untable to create decision table: %s", e.getMessage());
-        }
-
-        // Create the document in the super method
-        final ModelAndView retval = super.start(courseForm, result, request, response);
-        CourseProposalInfo courseProposal = ((CourseProposalInfo) courseForm.getDocument().getNewMaintainableObject().getDataObject());
-        
-        // We can actually get this from the workflow document initiator id. It doesn't need to be stored in the form.
-        courseProposal.setUserId(ContextUtils.getContextInfo().getPrincipalId());
-
-        // After creating the document, modify the state
-        // Should look into replacing this with calls to WorkflowUtilities
-        // ((CourseProposalInfo) courseForm.getDocument().getNewMaintainableObject().getDataObject()).getCourse().setStateKey(DtoConstants.STATE_DRAFT);
-
-        return retval;
+            // redirect back to client to display lightbox
+            return showDialog("commentsLightBox", form, request, response);
     }
+    
+    /**
+     * This is called from the Comments lightbox. This is used to save the comments.
+     * 
+     * @param form {@link MaintenanceDocumentForm} instance used for this action
+     * @param result
+     * @param request {@link HttpServletRequest} instance of the actual HTTP request made
+     * @param response The intended {@link HttpServletResponse} sent back to the user
+     * @throws Exception
+     */
+    @RequestMapping(params = "methodToCall=saveAndCloseComment")
+    public ModelAndView saveAndCloseComment(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CourseProposalInfo courseProposalInfo = (CourseProposalInfo) form.getDocument().getNewMaintainableObject().getDataObject();
+        
+        DateFormat df = new SimpleDateFormat("MMMM dd, yyyy - hh:mmaaa");
+        Date date = new Date();
+        
+        for (CommentInfo ittCommentInfo : courseProposalInfo.getCommentInfos()) {
+            CommentInfo commentInfo = ittCommentInfo;
+            commentInfo.getCommentText().setFormatted(commentInfo.getCommentText().getPlain());
+            //get the userID from the form to save with the comment made.
+            commentInfo.setCommenterId(getUserNameLoggedin(courseProposalInfo.getUserId())+" "+df.format(date));
+            commentInfo.setEffectiveDate(date);
+            commentInfo.setTypeKey("kuali.comment.type.generalRemarks");
+            //TODO KSCM-848 : Will need to replace these temp values once we get UMD's reference data
+            commentInfo.setReferenceId("temp_reference_id");
+            commentInfo.setReferenceTypeKey("referenceType.clu.proposal");
+            commentInfo.setStateKey(DtoState.ACTIVE.toString());
+            CommentInfo newComment = null;
+            try {
+                newComment = getCommentService().createComment_KRAD(commentInfo.getReferenceId(),
+                        commentInfo.getReferenceTypeKey(), commentInfo.getTypeKey(), commentInfo,
+                        ContextUtils.getContextInfo());
+            } catch (Exception e) {
+                throw new RuntimeException("Error creating a new comment.", e);
+            }
+            ittCommentInfo = newComment;
+        }
+        //form.getDialogManager().removeDialog("commentsLightBox");
+        /*return getUIFModelAndView(form);*/
+        form.getDialogManager().setDialogReturnMethod("commentsLightBox", UifConstants.MethodToCallNames.START);
+        return returnFromLightbox(form, result, request, response);
+    }
+    
+    /**
+     * @param userId The id of the person currently logged in.
+     * @return returns User name of person currently logged in.
+     */
+    public String getUserNameLoggedin(String userId){
+        Entity kimEntityInfo = getIdentityService().getEntityByPrincipalId(userId);
+        return getUserRealNameByEntityInfo(kimEntityInfo);
+    }
+    
+    /**
+     * @param kimEntityInfo The (@link Entity) information for the currently logged in user.
+     * @return The formatted user name of the currently logged in user.
+     */
+    protected String getUserRealNameByEntityInfo(Entity kimEntityInfo){
+        EntityNameContract kimEntityNameInfo = (kimEntityInfo == null)? null : kimEntityInfo.getDefaultName();
+        StringBuilder name = new StringBuilder(); 
+        if (kimEntityNameInfo != null) {
+            if (!StringUtils.defaultString(kimEntityNameInfo.getFirstName()).trim().isEmpty()) {
+                if (!name.toString().isEmpty()) {
+                    name.append(" ");
+                }
+                name.append(StringUtils.defaultString(kimEntityNameInfo.getFirstName()));
+            }
+            
+            if (!StringUtils.defaultString(kimEntityNameInfo.getMiddleName()).trim().isEmpty()) {
+                if (!name.toString().isEmpty()) {
+                    name.append(" ");
+                }
+                name.append(StringUtils.defaultString(kimEntityNameInfo.getMiddleName()));
+            }
+            if (!StringUtils.defaultString(kimEntityNameInfo.getLastName()).trim().isEmpty()) {
+                if (!name.toString().isEmpty()) {
+                    name.append(" ");
+                }
+                name.append(StringUtils.defaultString(kimEntityNameInfo.getLastName()));
+            }
+        }
+        return name.toString();
+    }    
 
     /**
      * Server-side action for rendering the decisions lightbox
      *
-     * @param form {@link CourseForm} instance used for this action
+     * @param form {@link MaintenanceDocumentForm} instance used for this action
      * @param result
      * @param request {@link HttpServletRequest} instance of the actual HTTP request made
      * @param response The intended {@link HttpServletResponse} sent back to the user
@@ -345,12 +462,11 @@ public class CourseController extends MaintenanceDocumentController {
                                        final List<CommentInfo> commentInfos,
                                        final Map<String, MembershipInfo> members) {
 		if (commentInfos != null) {
-			int rowIndex = 0;
 			for (final CommentInfo commentInfo : commentInfos) {
 			    /* we only want decision rationale comments so if no DecisionRationaleDetail is returned for comment
                  * type then don't add that comment to the table
                  */
-			    final DecisionRationaleDetail drDetails = DecisionRationaleDetail.getByType(commentInfo.getType());
+			    final DecisionRationaleDetail drDetails = DecisionRationaleDetail.getByType(commentInfo.getTypeKey());
 			    if (drDetails != null) {
                     final DecisionInfo decision = new DecisionInfo();
                     decision.setDecision(drDetails.getLabel());
@@ -389,98 +505,56 @@ public class CourseController extends MaintenanceDocumentController {
         return identities;
     }
      
-    @RequestMapping(params = "methodToCall=showComment")
-    public ModelAndView showComment(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-            // redirect back to client to display lightbox
-            return showDialog("commentsLightBox", form, request, response);
+    /**
+     * Server-side action for rendering Learning Objective's 'Browse for Categories' lightbox  
+     *
+     * @param form {@link MaintenanceDocumentForm} instance used for this action
+     * @param result
+     * @param request {@link HttpServletRequest} instance of the actual HTTP request made
+     * @param response The intended {@link HttpServletResponse} sent back to the user
+     * @throws Exception
+     */
+    @RequestMapping(params = "methodToCall=showLoCategories")
+    public ModelAndView showLoCategories(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CourseProposalInfo courseProposalInfo = (CourseProposalInfo) form.getDocument().getNewMaintainableObject().getDataObject();
+        //Get the available categories
+        courseProposalInfo.getLoDialogWrapper().setLearningObjectiveOptions(getLoCategories());
+        
+        // redirect back to client to display lightbox
+        return showDialog(LEARNING_OBJECTIVES_CAT_DIALOG_KEY, form, request, response);
     }
     
-    
-    @RequestMapping(params = "methodToCall=saveAndCloseComment")
-    public ModelAndView saveAndCloseComment(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+    /**
+     * This is called from 'Browse for Categories' lightbox in Learning Objectives. This method adds the selected categories to the collection.
+     * 
+     * @param form {@link MaintenanceDocumentForm} instance used for this action
+     * @param result
+     * @param request {@link HttpServletRequest} instance of the actual HTTP request made
+     * @param response The intended {@link HttpServletResponse} sent back to the user
+     * @throws Exception
+     */
+    @RequestMapping(params = "methodToCall=addLoCategory")
+    public ModelAndView addLoCategory(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         CourseProposalInfo courseProposalInfo = (CourseProposalInfo) form.getDocument().getNewMaintainableObject().getDataObject();
-        
-        DateFormat df = new SimpleDateFormat("MMMM dd, yyyy - hh:mmaaa");
-        Date date = new Date();
-        
-        for (CommentInfo ittCommentInfo : courseProposalInfo.getCommentInfos()) {
-            CommentInfo commentInfo = ittCommentInfo;
-            commentInfo.getCommentText().setFormatted(commentInfo.getCommentText().getPlain());
-            //get the userID from the form to save with the comment made.
-            commentInfo.setCommenterId(getUserNameLoggedin(courseProposalInfo.getUserId())+" "+df.format(date));
-            commentInfo.setEffectiveDate(date);
-            commentInfo.setTypeKey("kuali.comment.type.generalRemarks");
-            //TODO KSCM-848 : Will need to replace these temp values once we get UMD's reference data
-            commentInfo.setReferenceId("temp_reference_id");
-            commentInfo.setReferenceTypeKey("referenceType.clu.proposal");
-            commentInfo.setStateKey(DtoState.ACTIVE.toString());
-            CommentInfo newComment = null;
-            try {
-                newComment = getCommentService().createComment_KRAD(commentInfo.getReferenceId(),
-                        commentInfo.getReferenceTypeKey(), commentInfo.getTypeKey(), commentInfo,
-                        ContextUtils.getContextInfo());
-            } catch (Exception e) {
-                throw new RuntimeException("Error creating a new comment.", e);
+        for (LoCategoryInfoWrapper loCategoryInfoWrapper : courseProposalInfo.getLoDialogWrapper().getLearningObjectiveOptions()) {
+            if (loCategoryInfoWrapper.isSelected()) {
+                LoDisplayInfo selectedLo = getSelectedLo(form);
+                if (selectedLo != null) {
+                    selectedLo.getLoCategoryInfoList().add(loCategoryInfoWrapper);
+                }
             }
-            ittCommentInfo = newComment;
         }
-        //form.getDialogManager().removeDialog("commentsLightBox");
-        /*return getUIFModelAndView(form);*/
-        form.getDialogManager().setDialogReturnMethod("commentsLightBox", "start");
+        form.getDialogManager().setDialogReturnMethod(LEARNING_OBJECTIVES_CAT_DIALOG_KEY, UifConstants.MethodToCallNames.START);
         return returnFromLightbox(form, result, request, response);
     }
     
-    @RequestMapping(params = "methodToCall=browseForCategories")
-    public ModelAndView browseForCategories(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CourseProposalInfo courseProposalInfo = (CourseProposalInfo) form.getDocument().getNewMaintainableObject().getDataObject();
-        String commentDialogKey = "loCategoryDialog";
-        if (!hasDialogBeenAnswered(commentDialogKey, form)){
-            //Get the available categories
-            courseProposalInfo.getLoDialogWrapper().setLearningObjectiveOptions(getLoCategories());
-            
-            // redirect back to client to display lightbox
-            return showDialog(commentDialogKey, form, request, response);
-        }
-        
-        // Get value from chosen radio button
-        boolean choice = getBooleanDialogResponse(commentDialogKey, form, request, response);
-        
-        if (choice) {
-            for (LoCategoryInfoWrapper loCategoryInfoWrapper : courseProposalInfo.getLoDialogWrapper().getLearningObjectiveOptions()) {
-                if (loCategoryInfoWrapper.isSelected()) {
-                    LoDisplayInfo selectedLo = getSelectedLo(form);
-                    if (selectedLo != null) {
-                        selectedLo.getLoCategoryInfoList().add(loCategoryInfoWrapper);
-                    }
-                }
-            }
-            
-        }
-        
-        // clear dialog history so they can press the button again
-        form.getDialogManager().removeDialog(commentDialogKey);
-        return getUIFModelAndView(form);
-    }
-    
-    private LoDisplayInfo getSelectedLo(MaintenanceDocumentForm form){
-        String selectedIndex = form.getActionParamaterValue("selectedIndex");
-        int index = -1;
-        if (StringUtils.isNumeric(selectedIndex)) {
-            index = Integer.parseInt(selectedIndex);
-        }
-        LoDisplayInfo selectedLo = null;
-        if (index != -1) {
-            CourseProposalInfo courseProposalInfo = (CourseProposalInfo) form.getDocument().getNewMaintainableObject().getDataObject();
-            selectedLo = courseProposalInfo.getCourse().getCourseSpecificLOs().get(index);
-        }
-        
-        return selectedLo;
-    }
-    
+    /**
+     * Performs a search to retrieve the Learning Objective Categories.
+     * @return A list of {@link LoCategoryInfoWrapper} objects. This represents the
+     * Learning Objective categories that are currently available to choose from.
+     */
     private List<LoCategoryInfoWrapper> getLoCategories() {
         List<LoCategoryInfoWrapper> loCategories = new ArrayList<LoCategoryInfoWrapper>();
         SearchRequestInfo searchRequest = new SearchRequestInfo();
@@ -512,6 +586,25 @@ public class CourseController extends MaintenanceDocumentController {
         return loCategories;
     }   
     
+    /**
+     * @param form {@link MaintenanceDocumentForm} instance used for this action
+     * @return The currently selected {@link LoDisplayInfo}s on the 'Browse for Categories' lightbox.
+     */
+    private LoDisplayInfo getSelectedLo(MaintenanceDocumentForm form){
+        String selectedIndex = form.getActionParamaterValue("selectedIndex");
+        int index = -1;
+        if (StringUtils.isNumeric(selectedIndex)) {
+            index = Integer.parseInt(selectedIndex);
+        }
+        LoDisplayInfo selectedLo = null;
+        if (index != -1) {
+            CourseProposalInfo courseProposalInfo = (CourseProposalInfo) form.getDocument().getNewMaintainableObject().getDataObject();
+            selectedLo = courseProposalInfo.getCourse().getCourseSpecificLOs().get(index);
+        }
+        
+        return selectedLo;
+    }
+    
     protected CourseService getCourseService() {
         if (courseService == null) {
             courseService = (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, CourseServiceConstants.SERVICE_NAME_LOCAL_PART));
@@ -538,49 +631,6 @@ public class CourseController extends MaintenanceDocumentController {
             identityService = GlobalResourceLoader.getService(new QName(KimConstants.Namespaces.KIM_NAMESPACE_2_0, "identityService"));
         }
         return identityService;
-    }
-    
-    /**
-     * Returns the KimentityInfo of the person logged in.
-     * @param userId.
-     * @return returns UserName of person logged in.
-     */
-    public String getUserNameLoggedin(String userId){
-        
-        Entity kimEntityInfo = getIdentityService().getEntityByPrincipalId(userId);
-        return getUserRealNameByEntityInfo(kimEntityInfo);
-        
-    }
-    
-    protected String getUserRealNameByEntityInfo(Entity kimEntityInfo){
-        EntityNameContract kimEntityNameInfo = (kimEntityInfo == null)? null : kimEntityInfo.getDefaultName();
-        StringBuilder name = new StringBuilder(); 
-        if (kimEntityNameInfo != null) {
-            if (!nvl(kimEntityNameInfo.getFirstName()).trim().isEmpty()) {
-                if (!name.toString().isEmpty()) {
-                    name.append(" ");
-                }
-                name.append(nvl(kimEntityNameInfo.getFirstName()));
-            }
-            
-            if (!nvl(kimEntityNameInfo.getMiddleName()).trim().isEmpty()) {
-                if (!name.toString().isEmpty()) {
-                    name.append(" ");
-                }
-                name.append(nvl(kimEntityNameInfo.getMiddleName()));
-            }
-            if (!nvl(kimEntityNameInfo.getLastName()).trim().isEmpty()) {
-                if (!name.toString().isEmpty()) {
-                    name.append(" ");
-                }
-                name.append(nvl(kimEntityNameInfo.getLastName()));
-            }
-        }
-        return name.toString();
-    }
-    
-    private String nvl(String inString) {
-        return (inString == null)? "" : inString;
     }
     
 }
