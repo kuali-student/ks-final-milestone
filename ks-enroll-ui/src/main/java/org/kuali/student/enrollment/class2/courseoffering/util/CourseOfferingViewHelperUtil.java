@@ -198,6 +198,17 @@ public class CourseOfferingViewHelperUtil {
                 }
             }
         }
+
+        // change CO state
+        String oldCoState = coInfo.getCourseOfferingStateKey();
+        String newCoState = getNewCoState(formatOfferings);
+        if (newCoState != null && !StringUtils.equals(oldCoState, newCoState)) {
+            coInfo.setCourseOfferingStateKey(newCoState);
+            StatusInfo statusInfo = coService.changeCourseOfferingState(coInfo.getCourseOfferingId(), newCoState, context);
+            if (!statusInfo.getIsSuccess()){
+                throw new RuntimeException(statusInfo.getMessage());
+            }
+        }
     }
 
     // if all of the AO states are Draft or Approved, the FO that owns the AO's cannot be Offered.  
@@ -253,11 +264,12 @@ public class CourseOfferingViewHelperUtil {
         return null;
     }
 
-    public static String getNewCoState(List<FormatOfferingInfo>  formatOfferings) {
+    public static String getNewCoState(List<FormatOfferingInfo> formatOfferings) {
         boolean draftState= false;
         boolean plannedState= false;
         boolean offeredState= false;
         boolean cancelledState= false;
+        boolean suspendedState= false;
 
         if(formatOfferings == null || formatOfferings.size() == 0) {
             return LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY;
@@ -272,6 +284,8 @@ public class CourseOfferingViewHelperUtil {
                  offeredState = true;
              } else if(StringUtils.equals(LuiServiceConstants.LUI_FO_STATE_CANCELED_KEY, fo.getStateKey())) {
                  cancelledState = true;
+             } else if(StringUtils.equals(LuiServiceConstants.LUI_FO_STATE_SUSPENDED_KEY, fo.getStateKey())) {
+                 suspendedState = true;
              }
         }
 
@@ -281,6 +295,8 @@ public class CourseOfferingViewHelperUtil {
             return LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY;
         }  else if (draftState) {
             return LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY;
+        } else if (suspendedState) {
+            return LuiServiceConstants.LUI_CO_STATE_SUSPENDED_KEY;
         }
 
         // no offered, planned, and draft state
