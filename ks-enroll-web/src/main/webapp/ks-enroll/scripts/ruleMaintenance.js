@@ -288,13 +288,25 @@ function ajaxCallOnTabSelect(event, ui, editwithgroup, editwithlogic, controller
 }
 
 function show(e){
-    var nextElement = jq(e.currentTarget).next().next();
-    nextElement.show();
+    //Show the subcollections
+    jq(e.currentTarget).siblings('div.uif-subCollection').show();
+
+    //Show the Hide Link
+    jq(e.currentTarget).siblings('.hideActionLink').show();
+
+    //Hide the Show Link
+    jq(e.currentTarget).hide();
 }
 
 function hide(e){
-    var nextElement = jq(e.currentTarget).next('div.uif-subCollection');
-    nextElement.hide();
+    //Hide the subcollections
+    jq(e.currentTarget).siblings('div.uif-subCollection').hide();
+
+    //Show the Show Link
+    jq(e.currentTarget).siblings('.showActionLink').show();
+
+    //Hide the Hide Link
+    jq(e.currentTarget).hide();
 }
 
 function ajaxCutPropositionTree() {
@@ -640,6 +652,10 @@ function initPreviewTree(componentId) {
     jq('#' + componentId).bind('loaded.jstree', function (event, data) {
         /* make the tree load with all nodes expanded */
         jq('#' + componentId).jstree('open_all');
+
+        //Hide initial sub collections.
+        jq(this).find(".hideActionLink").hide();
+        jq(this).find("div.uif-subCollection").hide();
 
         // set type to 'logic' on logic nodes -- this prevents them from being selected
         jq('a.compoundOpCodeNode').each(function () {

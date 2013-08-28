@@ -309,10 +309,10 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KSAO-ListItems-DataGroup" parent="KRMS-ListItems-DataGroup-parent" p:renderAddLine="false">
+    <bean id="KSAO-ListItems-DataGroup-parent" parent="KRMS-ListItems-DataGroup-parent" p:renderAddLine="false">
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems" class="org.kuali.student.core.krms.HorizontalActionsStackedLayoutManager">
-                <property name="actionsInLineGroup" value="false"/>
+                <property name="actionsInLineGroup" value="true"/>
                 <property name="lineGroupPrototype">
                     <bean parent="Uif-CollectionHorizontalBoxItem">
                         <property name="cssClasses">
@@ -344,12 +344,22 @@ limitations under the License.
             <list>
                 <bean parent="KS-Uif-ActionLink" p:actionScript="show(e);" p:render="@{#line.showTitle}"
                       p:actionLabel="Show Courses">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>showActionLink</value>
+                        </list>
+                    </property>
                     <property name="actionImage">
                         <null/>
                     </property>
                 </bean>
                 <bean parent="KS-Uif-ActionLink" p:actionScript="hide(e);" p:render="@{#line.showTitle}"
-                      p:actionLabel="Hide Courses" p:style="margin-left: 1em;">
+                      p:actionLabel="Hide Courses">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>hideActionLink</value>
+                        </list>
+                    </property>
                     <property name="actionImage">
                         <null/>
                     </property>
@@ -359,6 +369,16 @@ limitations under the License.
         <property name="subCollections">
             <list>
                 <ref bean="KSAO-ListItems-SubGroup" />
+            </list>
+        </property>
+    </bean>
+    <bean id="KSAO-ListItems-DataGroup" parent="KSCO-ListItems-DataGroup-parent">
+        <property name="subCollections">
+            <list>
+                <ref bean="KSAO-ListItems-SubGroup" />
+                <bean parent="KSAO-ListItems-DataGroup-parent">
+                    <property name="propertyName" value="cluGroups"/>
+                </bean>
             </list>
         </property>
     </bean>
@@ -380,7 +400,7 @@ limitations under the License.
         <property name="renderSequenceField" value="false" />
     </bean>
 
-    <bean id="KSAO-ListItems-SubGroup" parent="Uif-TableCollectionGroup" p:renderAddLine="false">
+    <bean id="KSAO-ListItems-SubGroup" parent="Uif-TableCollectionGroup" p:style="width: 550px; padding: 0;" p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.CluCore" />
         <property name="propertyName" value="clus" />
         <property name="collectionLookup">
