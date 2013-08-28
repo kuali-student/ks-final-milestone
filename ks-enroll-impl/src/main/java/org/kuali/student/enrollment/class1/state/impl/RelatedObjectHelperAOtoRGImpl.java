@@ -50,8 +50,10 @@ public class RelatedObjectHelperAOtoRGImpl implements RelatedObjectHelper {
 
         List<RegistrationGroupInfo> registrationGroupInfos = getRegistrationGroupInfosByActivityOfferingId(activityOfferingId, contextInfo);
 
-        for(RegistrationGroupInfo regInfo : registrationGroupInfos)  {
-            idsAndStates.put(regInfo.getId(),regInfo.getStateKey());
+        if (registrationGroupInfos != null && !registrationGroupInfos.isEmpty()) {
+            for(RegistrationGroupInfo regInfo : registrationGroupInfos)  {
+                idsAndStates.put(regInfo.getId(),regInfo.getStateKey());
+            }
         }
 
         return idsAndStates;
