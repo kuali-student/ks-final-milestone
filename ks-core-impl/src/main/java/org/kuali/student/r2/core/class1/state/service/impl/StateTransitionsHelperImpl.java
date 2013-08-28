@@ -207,16 +207,16 @@ public class StateTransitionsHelperImpl implements StateTransitionsHelper {
                     continue;
                 }
 
-
                 Map<String,String> idsAndState = relatedObjectHelper.getRelatedObjectsIdAndState(entityId, context);
-
-                for (String id : idsAndState.keySet()) {
-                    String currentStateKey = idsAndState.get(id);
-                    StatusInfo si = new StatusInfo();
-                    if (StringUtils.equals(stateChangeInfo.getFromStateKey(),currentStateKey)){
-                        si = stateHelper.updateState(id, stateChangeInfo.getToStateKey(), context);
+                if (idsAndState != null && !idsAndState.isEmpty()) {
+                    for (String id : idsAndState.keySet()) {
+                        String currentStateKey = idsAndState.get(id);
+                        StatusInfo si = new StatusInfo();
+                        if (StringUtils.equals(stateChangeInfo.getFromStateKey(),currentStateKey)){
+                            si = stateHelper.updateState(id, stateChangeInfo.getToStateKey(), context);
+                        }
+                        resultMap.put(id, si);
                     }
-                    resultMap.put(id, si);
                 }
             }
         }
