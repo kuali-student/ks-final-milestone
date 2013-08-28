@@ -63,4 +63,99 @@ insert into KSEN_STATE_CHG_CNSTRNT (STATE_CHG_ID, STATE_CNSTRNT_ID) values ('kua
 /
 insert into KSEN_STATE_CHG_CNSTRNT (STATE_CHG_ID, STATE_CNSTRNT_ID) values ('kuali.statechange.courseoffering.suspended.planned', 'kuali.stateconstraint.courseoffering.tostate.planned.2' )
 /
--- To change CO when FO is changed (FIX AFTERWARDS)
+
+-- group 1 (8) Lines 63-70
+insert into KSEN_STATE_PROPAGT (CREATEID, CREATETIME, OBJ_ID, ID, STATE_PROPAGT_TYPE, STATE_PROPAGT_STATE, TARGET_STATE_CHG_ID, UPDATEID, UPDATETIME, VER_NBR) values ('SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), null, 'kuali.statepropagation.ao2fo.canceled.draft.2.canceled.draft', 'kuali.state.propagation.type', 'kuali.state.propagation.state', 'kuali.statechange.formatoffering.canceled.draft', 'SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), 0 )
+/
+insert into KSEN_STATE_PROPAGT (CREATEID, CREATETIME, OBJ_ID, ID, STATE_PROPAGT_TYPE, STATE_PROPAGT_STATE, TARGET_STATE_CHG_ID, UPDATEID, UPDATETIME, VER_NBR) values ('SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), null, 'kuali.statepropagation.ao2fo.canceled.draft.2.suspended.draft', 'kuali.state.propagation.type', 'kuali.state.propagation.state', 'kuali.statechange.formatoffering.suspended.draft', 'SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), 0 )
+/
+insert into KSEN_STATE_PROPAGT (CREATEID, CREATETIME, OBJ_ID, ID, STATE_PROPAGT_TYPE, STATE_PROPAGT_STATE, TARGET_STATE_CHG_ID, UPDATEID, UPDATETIME, VER_NBR) values ('SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), null, 'kuali.statepropagation.ao2fo.suspended.draft.2.suspended.draft', 'kuali.state.propagation.type', 'kuali.state.propagation.state', 'kuali.statechange.formatoffering.suspended.draft', 'SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), 0 )
+/
+insert into KSEN_STATE_PROPAGT (CREATEID, CREATETIME, OBJ_ID, ID, STATE_PROPAGT_TYPE, STATE_PROPAGT_STATE, TARGET_STATE_CHG_ID, UPDATEID, UPDATETIME, VER_NBR) values ('SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), null, 'kuali.statepropagation.ao2fo.suspended.approved.2.suspended.planned', 'kuali.state.propagation.type', 'kuali.state.propagation.state', 'kuali.statechange.formatoffering.suspended.planned', 'SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), 0 )
+/
+insert into KSEN_STATE_PROPAGT (CREATEID, CREATETIME, OBJ_ID, ID, STATE_PROPAGT_TYPE, STATE_PROPAGT_STATE, TARGET_STATE_CHG_ID, UPDATEID, UPDATETIME, VER_NBR) values ('SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), null, 'kuali.statepropagation.ao2fo.suspended.approved.2.draft.planned', 'kuali.state.propagation.type', 'kuali.state.propagation.state', 'kuali.statechange.formatoffering.draft.planned', 'SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), 0 )
+/
+insert into KSEN_STATE_PROPAGT (CREATEID, CREATETIME, OBJ_ID, ID, STATE_PROPAGT_TYPE, STATE_PROPAGT_STATE, TARGET_STATE_CHG_ID, UPDATEID, UPDATETIME, VER_NBR) values ('SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), null, 'kuali.statepropagation.ao2fo.suspended.offered.2.suspended.offered', 'kuali.state.propagation.type', 'kuali.state.propagation.state', 'kuali.statechange.formatoffering.suspended.offered', 'SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), 0 )
+/
+insert into KSEN_STATE_PROPAGT (CREATEID, CREATETIME, OBJ_ID, ID, STATE_PROPAGT_TYPE, STATE_PROPAGT_STATE, TARGET_STATE_CHG_ID, UPDATEID, UPDATETIME, VER_NBR) values ('SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), null, 'kuali.statepropagation.ao2fo.suspended.offered.2.draft.offered', 'kuali.state.propagation.type', 'kuali.state.propagation.state', 'kuali.statechange.formatoffering.draft.offered', 'SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), 0 )
+/
+insert into KSEN_STATE_PROPAGT (CREATEID, CREATETIME, OBJ_ID, ID, STATE_PROPAGT_TYPE, STATE_PROPAGT_STATE, TARGET_STATE_CHG_ID, UPDATEID, UPDATETIME, VER_NBR) values ('SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), null, 'kuali.statepropagation.ao2fo.suspended.offered.2.planned.offered', 'kuali.state.propagation.type', 'kuali.state.propagation.state', 'kuali.statechange.formatoffering.planned.offered', 'SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), 0 )
+/
+-- group 2 (8) Lines 72-79
+insert into KSEN_STATE_PROPAGT (CREATEID, CREATETIME, OBJ_ID, ID, STATE_PROPAGT_TYPE, STATE_PROPAGT_STATE, TARGET_STATE_CHG_ID, UPDATEID, UPDATETIME, VER_NBR) values ('SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), null, 'kuali.statepropagation.fo2co.canceled.draft.2.canceled.draft', 'kuali.state.propagation.type', 'kuali.state.propagation.state', 'kuali.statechange.courseoffering.canceled.draft', 'SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), 0 )
+/
+insert into KSEN_STATE_PROPAGT (CREATEID, CREATETIME, OBJ_ID, ID, STATE_PROPAGT_TYPE, STATE_PROPAGT_STATE, TARGET_STATE_CHG_ID, UPDATEID, UPDATETIME, VER_NBR) values ('SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), null, 'kuali.statepropagation.fo2co.canceled.draft.2.suspended.draft', 'kuali.state.propagation.type', 'kuali.state.propagation.state', 'kuali.statechange.courseoffering.suspended.draft', 'SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), 0 )
+/
+insert into KSEN_STATE_PROPAGT (CREATEID, CREATETIME, OBJ_ID, ID, STATE_PROPAGT_TYPE, STATE_PROPAGT_STATE, TARGET_STATE_CHG_ID, UPDATEID, UPDATETIME, VER_NBR) values ('SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), null, 'kuali.statepropagation.fo2co.suspended.draft.2.suspended.draft', 'kuali.state.propagation.type', 'kuali.state.propagation.state', 'kuali.statechange.courseoffering.suspended.draft', 'SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), 0 )
+/
+insert into KSEN_STATE_PROPAGT (CREATEID, CREATETIME, OBJ_ID, ID, STATE_PROPAGT_TYPE, STATE_PROPAGT_STATE, TARGET_STATE_CHG_ID, UPDATEID, UPDATETIME, VER_NBR) values ('SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), null, 'kuali.statepropagation.fo2co.suspended.offered.2.suspended.offered', 'kuali.state.propagation.type', 'kuali.state.propagation.state', 'kuali.statechange.courseoffering.suspended.offered', 'SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), 0 )
+/
+insert into KSEN_STATE_PROPAGT (CREATEID, CREATETIME, OBJ_ID, ID, STATE_PROPAGT_TYPE, STATE_PROPAGT_STATE, TARGET_STATE_CHG_ID, UPDATEID, UPDATETIME, VER_NBR) values ('SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), null, 'kuali.statepropagation.fo2co.suspended.offered.2.draft.offered', 'kuali.state.propagation.type', 'kuali.state.propagation.state', 'kuali.statechange.courseoffering.draft.offered', 'SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), 0 )
+/
+insert into KSEN_STATE_PROPAGT (CREATEID, CREATETIME, OBJ_ID, ID, STATE_PROPAGT_TYPE, STATE_PROPAGT_STATE, TARGET_STATE_CHG_ID, UPDATEID, UPDATETIME, VER_NBR) values ('SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), null, 'kuali.statepropagation.fo2co.suspended.offered.2.planned.offered', 'kuali.state.propagation.type', 'kuali.state.propagation.state', 'kuali.statechange.courseoffering.planned.offered', 'SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), 0 )
+/
+insert into KSEN_STATE_PROPAGT (CREATEID, CREATETIME, OBJ_ID, ID, STATE_PROPAGT_TYPE, STATE_PROPAGT_STATE, TARGET_STATE_CHG_ID, UPDATEID, UPDATETIME, VER_NBR) values ('SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), null, 'kuali.statepropagation.fo2co.suspended.planned.2.suspended.planned', 'kuali.state.propagation.type', 'kuali.state.propagation.state', 'kuali.statechange.courseoffering.suspended.planned', 'SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), 0 )
+/
+insert into KSEN_STATE_PROPAGT (CREATEID, CREATETIME, OBJ_ID, ID, STATE_PROPAGT_TYPE, STATE_PROPAGT_STATE, TARGET_STATE_CHG_ID, UPDATEID, UPDATETIME, VER_NBR) values ('SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), null, 'kuali.statepropagation.fo2co.suspended.planned.2.draft.planned', 'kuali.state.propagation.type', 'kuali.state.propagation.state', 'kuali.statechange.courseoffering.draft.planned', 'SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), 0 )
+/
+-- group 3(6) Lines 81-86
+insert into KSEN_STATE_PROPAGT (CREATEID, CREATETIME, OBJ_ID, ID, STATE_PROPAGT_TYPE, STATE_PROPAGT_STATE, TARGET_STATE_CHG_ID, UPDATEID, UPDATETIME, VER_NBR) values ('SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), null, 'kuali.statepropagation.ao2rg.canceled.draft.2.canceled.pending', 'kuali.state.propagation.type', 'kuali.state.propagation.state', 'kuali.statechange.registrationgroup.canceled.pending', 'SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), 0 )
+/
+insert into KSEN_STATE_PROPAGT (CREATEID, CREATETIME, OBJ_ID, ID, STATE_PROPAGT_TYPE, STATE_PROPAGT_STATE, TARGET_STATE_CHG_ID, UPDATEID, UPDATETIME, VER_NBR) values ('SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), null, 'kuali.statepropagation.ao2rg.canceled.draft.2.canceled.suspended', 'kuali.state.propagation.type', 'kuali.state.propagation.state', 'kuali.statechange.registrationgroup.canceled.suspended', 'SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), 0 )
+/
+insert into KSEN_STATE_PROPAGT (CREATEID, CREATETIME, OBJ_ID, ID, STATE_PROPAGT_TYPE, STATE_PROPAGT_STATE, TARGET_STATE_CHG_ID, UPDATEID, UPDATETIME, VER_NBR) values ('SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), null, 'kuali.statepropagation.ao2rg.suspended.draft.2.suspended.pending', 'kuali.state.propagation.type', 'kuali.state.propagation.state', 'kuali.statechange.registrationgroup.suspended.pending', 'SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), 0 )
+/
+insert into KSEN_STATE_PROPAGT (CREATEID, CREATETIME, OBJ_ID, ID, STATE_PROPAGT_TYPE, STATE_PROPAGT_STATE, TARGET_STATE_CHG_ID, UPDATEID, UPDATETIME, VER_NBR) values ('SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), null, 'kuali.statepropagation.ao2rg.suspended.approved.2.suspended.pending', 'kuali.state.propagation.type', 'kuali.state.propagation.state', 'kuali.statechange.registrationgroup.suspended.pending', 'SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), 0 )
+/
+insert into KSEN_STATE_PROPAGT (CREATEID, CREATETIME, OBJ_ID, ID, STATE_PROPAGT_TYPE, STATE_PROPAGT_STATE, TARGET_STATE_CHG_ID, UPDATEID, UPDATETIME, VER_NBR) values ('SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), null, 'kuali.statepropagation.ao2rg.suspended.offered.2.suspended.pendng', 'kuali.state.propagation.type', 'kuali.state.propagation.state', 'kuali.statechange.registrationgroup.suspended.pending', 'SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), 0 )
+/
+insert into KSEN_STATE_PROPAGT (CREATEID, CREATETIME, OBJ_ID, ID, STATE_PROPAGT_TYPE, STATE_PROPAGT_STATE, TARGET_STATE_CHG_ID, UPDATEID, UPDATETIME, VER_NBR) values ('SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), null, 'kuali.statepropagation.ao2rg.suspended.offered.2.suspended.offered', 'kuali.state.propagation.type', 'kuali.state.propagation.state', 'kuali.statechange.registrationgroup.suspended.offered', 'SYSTEMLOADER', TO_DATE ('8/11/2013', 'MM/DD/YYYY'), 0 )
+/
+-- KSEN_STATE_CHG_PROPAGT section
+-- Part 1 (8)
+insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.activityoffering.canceled.draft', 'kuali.statepropagation.ao2fo.canceled.draft.2.canceled.draft' )
+/
+insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.activityoffering.canceled.draft', 'kuali.statepropagation.ao2fo.canceled.draft.2.suspended.draft' )
+/
+insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.activityoffering.suspended.draft', 'kuali.statepropagation.ao2fo.suspended.draft.2.suspended.draft' )
+/
+insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.activityoffering.suspended.approved', 'kuali.statepropagation.ao2fo.suspended.approved.2.suspended.planned' )
+/
+insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.activityoffering.suspended.approved', 'kuali.statepropagation.ao2fo.suspended.approved.2.draft.planned' )
+/
+insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.activityoffering.suspended.offered', 'kuali.statepropagation.ao2fo.suspended.offered.2.suspended.offered' )
+/
+insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.activityoffering.suspended.offered', 'kuali.statepropagation.ao2fo.suspended.offered.2.draft.offered' )
+/
+insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.activityoffering.suspended.offered', 'kuali.statepropagation.ao2fo.suspended.offered.2.planned.offered' )
+/
+-- Part 2 (8)
+insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.formatoffering.canceled.draft', 'kuali.statepropagation.fo2co.canceled.draft.2.canceled.draft' )
+/
+insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.formatoffering.canceled.draft', 'kuali.statepropagation.fo2co.canceled.draft.2.suspended.draft' )
+/
+insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.formatoffering.suspended.draft', 'kuali.statepropagation.fo2co.suspended.draft.2.suspended.draft' )
+/
+insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.formatoffering.suspended.planned', 'kuali.statepropagation.fo2co.suspended.planned.2.suspended.planned' )
+/
+insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.formatoffering.suspended.planned', 'kuali.statepropagation.fo2co.suspended.planned.2.draft.planned' )
+/
+insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.formatoffering.suspended.offered', 'kuali.statepropagation.fo2co.suspended.offered.2.suspended.offered' )
+/
+insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.formatoffering.suspended.offered', 'kuali.statepropagation.fo2co.suspended.offered.2.draft.offered' )
+/
+insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.formatoffering.suspended.offered', 'kuali.statepropagation.fo2co.suspended.offered.2.planned.offered' )
+/
+-- Part 3 (6)
+insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.activityoffering.canceled.draft', 'kuali.statepropagation.ao2rg.canceled.draft.2.canceled.pending' )
+/
+insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.activityoffering.canceled.draft', 'kuali.statepropagation.ao2rg.canceled.draft.2.canceled.suspended' )
+/
+insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.activityoffering.suspended.draft', 'kuali.statepropagation.ao2rg.suspended.draft.2.suspended.pending' )
+/
+insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.activityoffering.suspended.approved', 'kuali.statepropagation.ao2rg.suspended.approved.2.suspended.pending' )
+/
+insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.activityoffering.suspended.offered', 'kuali.statepropagation.ao2rg.suspended.offered.2.suspended.pendng' )
+/
+insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.activityoffering.suspended.offered', 'kuali.statepropagation.ao2rg.suspended.offered.2.suspended.offered' )
+/
