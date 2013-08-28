@@ -222,7 +222,7 @@
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ARGFormatsForCreateRGKeyValues" p:addBlankOption="false" />
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatsForCreateRGKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
                 <bean parent="Uif-InputField"  p:id="privateClusterNamePopover" p:propertyName="privateClusterNamePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true" p:required="true">
@@ -277,7 +277,7 @@
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ARGListOfAOClustersForFOKeyValues" p:addBlankOption="false" />
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ListOfAOClustersForFOKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
                 <bean p:id="foIdForAOMoveId" parent="Uif-DataField" p:propertyName="selectedFOIDForAOMove" p:label="Format Offering Id" p:labelPlacement="TOP" p:style="display:none;">
