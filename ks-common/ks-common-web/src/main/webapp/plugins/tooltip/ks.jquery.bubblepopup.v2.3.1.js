@@ -614,7 +614,7 @@
             var H = m(x);
             switch (K) {
                 case "left":
-                    I.top = t - M - z + l(w);
+                    I.top = O == "top" ? t - M - z + l(w) : t + L + z + w;
                     I.left = y + A;
                     break;
                 case "center":
@@ -624,7 +624,7 @@
                     break;
                 case "right":
                     var D = Math.abs(v - P);
-                    I.top = t - M + z + P;
+                    I.top = O == "top" ? t - M - z + l(w) : t + L + z + w;
                     I.left = v >= P ? y - D + l(A) : y + D + l(A);
                     break;
                 case "top":
@@ -989,17 +989,15 @@
                     }
                     d(this, H);
                     b(H);
-                    /* KF- existing code removed
-                    if (a("#" + H.privateVars.id).length > 0) {
-                        a("#" + H.privateVars.id).remove()
-                    }
-                    var y = {};
-                    var B = p(H);
-                    y = a(B);
-                    y.appendTo("body");
-                    y = a("#" + H.privateVars.id);
-                    */
-                    //KF- new code begins  (3-20-13 change)
+                    /* kuali customization */
+                    /*                    if (a("#" + H.privateVars.id).length > 0) {
+                     a("#" + H.privateVars.id).remove()
+                     }
+                     var y = {};
+                     var B = p(H);
+                     y = a(B);
+                     y.appendTo("body");
+                     y = a("#" + H.privateVars.id);*/
                     var y = a("#" + H.privateVars.id);
                     if (y.length == 0) {
                         var B = p(H);
@@ -1015,7 +1013,8 @@
                         var popupContent = jQuery("#" + H.innerHtmlId);
                         popupContent.detach().show();
                         jQuery("td.jquerybubblepopup-innerHtml",y).append(popupContent);
-                        y.insertAfter(this);
+                        y.appendTo("body" );
+                        //y.insertAfter(this);
                     }
                     //KF- new code ends
                     y.attr("data-for", w.id);
