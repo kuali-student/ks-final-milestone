@@ -28,7 +28,9 @@
 .jstree-viewrule li,
 .jstree-viewrule ins {  }
 .jstree-viewrule li { display: inline-block; background-position:-90px 0; background-repeat:repeat-y; }
+/*
 .jstree-viewrule li.jstree-last { background:transparent; }
+*/
 .jstree-viewrule .jstree-open a:not(.uif-action) { color: black; height: auto; }
 .jstree-viewrule .jstree-closed a { display: none; }
 .jstree-viewrule .jstree-open > ins { display: none; }
