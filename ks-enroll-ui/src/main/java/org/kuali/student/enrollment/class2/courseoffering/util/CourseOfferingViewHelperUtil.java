@@ -198,17 +198,6 @@ public class CourseOfferingViewHelperUtil {
                 }
             }
         }
-
-        // change CO state
-        String oldCoState = coInfo.getCourseOfferingStateKey();
-        String newCoState = getNewCoState(formatOfferings);
-        if (newCoState != null && !StringUtils.equals(oldCoState, newCoState)) {
-            coInfo.setCourseOfferingStateKey(newCoState);
-            StatusInfo statusInfo = coService.changeCourseOfferingState(coInfo.getCourseOfferingId(), newCoState, context);
-            if (!statusInfo.getIsSuccess()){
-                throw new RuntimeException(statusInfo.getMessage());
-            }
-        }
     }
 
     // if all of the AO states are Draft or Approved, the FO that owns the AO's cannot be Offered.  
@@ -261,49 +250,6 @@ public class CourseOfferingViewHelperUtil {
             return LuiServiceConstants.LUI_FO_STATE_CANCELED_KEY;
         }
         // If all AOs are suspended
-        return null;
-    }
-
-    public static String getNewCoState(List<FormatOfferingInfo> formatOfferings) {
-        boolean draftState= false;
-        boolean plannedState= false;
-        boolean offeredState= false;
-        boolean cancelledState= false;
-        boolean suspendedState= false;
-
-        if(formatOfferings == null || formatOfferings.size() == 0) {
-            return LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY;
-        }
-
-        for (FormatOfferingInfo fo : formatOfferings) {
-             if(StringUtils.equals(LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY, fo.getStateKey())) {
-                 draftState = true;
-             } else if(StringUtils.equals(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY, fo.getStateKey())) {
-                 plannedState = true;
-             } else if(StringUtils.equals(LuiServiceConstants.LUI_FO_STATE_OFFERED_KEY, fo.getStateKey())) {
-                 offeredState = true;
-             } else if(StringUtils.equals(LuiServiceConstants.LUI_FO_STATE_CANCELED_KEY, fo.getStateKey())) {
-                 cancelledState = true;
-             } else if(StringUtils.equals(LuiServiceConstants.LUI_FO_STATE_SUSPENDED_KEY, fo.getStateKey())) {
-                 suspendedState = true;
-             }
-        }
-
-        if (offeredState) {
-            return LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY;
-        }  else if(plannedState) {
-            return LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY;
-        }  else if (draftState) {
-            return LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY;
-        } else if (suspendedState) {
-            return LuiServiceConstants.LUI_CO_STATE_SUSPENDED_KEY;
-        }
-
-        // no offered, planned, and draft state
-        if(cancelledState)  {
-            return LuiServiceConstants.LUI_CO_STATE_CANCELED_KEY;
-        }
-        // Something wrong return null
         return null;
     }
 
