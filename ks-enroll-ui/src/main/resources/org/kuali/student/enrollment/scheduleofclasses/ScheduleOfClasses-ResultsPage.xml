@@ -123,6 +123,7 @@
         </property>
         <property name="header.lowerGroup">
           <bean parent="Uif-HorizontalBoxGroup">
+            <property name="style" value="border-top: 1px solid #666666; padding-top:5px;"/>
             <property name="items">
               <list>
                   <bean id="expand_or_collapse_all" parent="Uif-ActionLink" p:actionLabel="Collapse All" p:actionScript="showOrHideAOClusters('expand_or_collapse_all_line@{#index}','ao_cluster_header_line@{#index}');"/>
