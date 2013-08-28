@@ -400,13 +400,14 @@ public class ScheduleWrapper implements Serializable{
             if (colocatedAOs == null){
                 return StringUtils.EMPTY;
             }
-            StringBuffer buffer = new StringBuffer();
-            buffer.append("This activity is colocated with:<br>");
+            //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+            StringBuilder sb = new StringBuilder();
+            sb.append("This activity is colocated with:<br>");
             for (String code : colocatedAOs){
-                buffer.append(code + "<br>");
+                sb.append(code + "<br>");
             }
 
-            return StringUtils.removeEnd(buffer.toString(),"<br>");
+            return StringUtils.removeEnd(sb.toString(),"<br>");
         }
 
     }

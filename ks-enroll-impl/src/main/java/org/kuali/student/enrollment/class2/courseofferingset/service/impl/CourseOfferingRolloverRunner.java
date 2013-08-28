@@ -309,7 +309,8 @@ public class CourseOfferingRolloverRunner implements Runnable {
             boolean firstTime = true;
 
             // This provides a better error message for display in rollover results page= (KSENROLL-4582)
-            StringBuffer errorBuffer = new StringBuffer("Validation error(s): ");
+            //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+            StringBuilder errorBuffer = new StringBuilder("Validation error(s): ");
             if (!StringUtils.isBlank(ex.getMessage())){
                 errorBuffer.append(ex.getMessage());
                 firstTime = false;

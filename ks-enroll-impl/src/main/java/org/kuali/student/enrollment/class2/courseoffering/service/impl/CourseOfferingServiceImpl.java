@@ -3743,11 +3743,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         } else {
             // Some reg groups still exist, so error.
             statusInfo.setSuccess(Boolean.FALSE);
-            StringBuffer buffer = new StringBuffer("Failed to delete:");
+
+            //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+            StringBuilder builder = new StringBuilder("Failed to delete:");
             for (String str: failedToDelete) {
-                buffer.append(" " + str);
+                builder.append(" " + str);
             }
-            statusInfo.setMessage(buffer.toString());
+            statusInfo.setMessage(builder.toString());
         }
         if (!statusInfo.getIsSuccess()) {
             // Only doing this because the mock impl appears to do this too.

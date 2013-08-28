@@ -144,8 +144,8 @@ public class CourseOfferingViewHelperUtil {
                 }
 
                 Collections.sort(names);
-
-                result = nameMap.get(names.get(0));
+                int firstName = 0;
+                result = nameMap.get(names.get(firstName));
             }
         }
 
@@ -256,7 +256,8 @@ public class CourseOfferingViewHelperUtil {
     public static String createTheCrossListedCos(CourseOfferingInfo coToShow){
         if (coToShow != null && coToShow.getCrossListings() != null && coToShow.getCrossListings().size() > 0) {
             // Always include an option for Course
-            StringBuffer crossListedCodes = new StringBuffer();
+            //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+            StringBuilder crossListedCodes = new StringBuilder();
 
             for (CourseOfferingCrossListingInfo courseInfo : coToShow.getCrossListings()) {
                 crossListedCodes.append(courseInfo.getCode());
@@ -274,7 +275,9 @@ public class CourseOfferingViewHelperUtil {
      */
     public static String createColocatedDisplayData(ActivityOfferingInfo ao, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException,
             OperationFailedException, DoesNotExistException {
-        StringBuffer buffer = new StringBuffer(" ");
+
+        //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+        StringBuilder sb = new StringBuilder(" ");
         CourseOfferingService coService = CourseOfferingResourceLoader.loadCourseOfferingService();
         SchedulingService schedulingService = CourseOfferingResourceLoader.loadSchedulingService();
         List<ScheduleRequestSetInfo> scheduleRequestSets = schedulingService
@@ -282,10 +285,10 @@ public class CourseOfferingViewHelperUtil {
         for(ScheduleRequestSetInfo srs : scheduleRequestSets) {
             List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByIds(srs.getRefObjectIds(), context);
             for(ActivityOfferingInfo aoInfo : aoList) {
-                buffer.append(aoInfo.getCourseOfferingCode() + " " + aoInfo.getActivityCode() + ActivityOfferingDisplayWrapper.BR);
+                sb.append(aoInfo.getCourseOfferingCode() + " " + aoInfo.getActivityCode() + ActivityOfferingDisplayWrapper.BR);
             }
         }
-        return buffer.toString();
+        return sb.toString();
     }
 
     /**

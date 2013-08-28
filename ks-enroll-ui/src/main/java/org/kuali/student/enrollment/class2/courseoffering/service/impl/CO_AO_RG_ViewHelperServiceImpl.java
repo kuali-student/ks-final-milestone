@@ -64,8 +64,9 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
         if(scheduleRequestSetInfoList != null && scheduleRequestSetInfoList.size() > 0) {
 
-            StringBuffer buffer = new StringBuffer();
-            buffer.append(" ");
+            //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+            StringBuilder sb = new StringBuilder();
+            sb.append(" ");
             CourseOfferingService coService = CourseOfferingResourceLoader.loadCourseOfferingService();
 
             if (!scheduleRequestSetInfoList.isEmpty()){
@@ -73,11 +74,11 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
                     List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByIds(coloSet.getRefObjectIds(), createContextInfo());
                     for(ActivityOfferingInfo coloActivity : aoList) {
                         if (!StringUtils.equals(coloActivity.getId(),aoInfo.getId())){
-                            buffer.append(coloActivity.getCourseOfferingCode() + " " + coloActivity.getActivityCode() + "<br>");
+                            sb.append(coloActivity.getCourseOfferingCode() + " " + coloActivity.getActivityCode() + "<br>");
                         }
                     }
                 }
-                aoWrapper.setColocatedAoInfo(buffer.toString());
+                aoWrapper.setColocatedAoInfo(sb.toString());
             }
          }
 

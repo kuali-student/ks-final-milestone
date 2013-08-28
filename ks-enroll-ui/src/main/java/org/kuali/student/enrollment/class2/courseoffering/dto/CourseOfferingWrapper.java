@@ -227,12 +227,14 @@ public class CourseOfferingWrapper implements Serializable{
     */
    @SuppressWarnings("unused")
    public String getAlternateCOCodesUIList(){
-       StringBuffer buffer = new StringBuffer();
+
+       //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+       StringBuilder sb = new StringBuilder();
        for (String code : alternateCOCodes){
-           buffer.append(code + ", ");
+           sb.append(code + ", ");
        }
 
-       return StringUtils.removeEnd(buffer.toString(), ", ");
+       return StringUtils.removeEnd(sb.toString(), ", ");
    }
 
     /**
@@ -244,11 +246,12 @@ public class CourseOfferingWrapper implements Serializable{
     */
    @SuppressWarnings("unused")
    public String getAlternateCOCodesUITooltip(){
-       StringBuffer buffer = new StringBuffer();
+       //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+       StringBuilder sb = new StringBuilder();
        for (String code : alternateCOCodes){
-           buffer.append(code + "<br>");
+           sb.append(code + "<br>");
        }
-       return StringUtils.removeEnd(buffer.toString(), "<br>");
+       return StringUtils.removeEnd(sb.toString(), "<br>");
    }
 
     public List<String> getOwnerAliases() {
@@ -268,15 +271,17 @@ public class CourseOfferingWrapper implements Serializable{
     }
 
     public String getOwnerAliasesUIList(){
-        StringBuffer buffer = new StringBuffer();
+
+        //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+        StringBuilder sb = new StringBuilder();
 
         if(ownerAliases!=null){
             for (String code : ownerAliases){
-                buffer.append(code + ", ");
+                sb.append(code + ", ");
             }
         }
 
-        return StringUtils.removeEnd(buffer.toString(), ", ");
+        return StringUtils.removeEnd(sb.toString(), ", ");
      }
 
     /**

@@ -136,7 +136,8 @@ public class CourseOfferingCopyWrapper implements Serializable{
 
     public String getStudentRegistrationGradingOptionsUI() {
         String returnString = CourseOfferingConstants.COURSEOFFERING_TEXT_STD_REG_OPTS_EMPTY;
-        StringBuffer sb = new StringBuffer();
+        //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+        StringBuilder sb = new StringBuilder();
         List<String> studentGradingOptionsList = getStudentRegistrationGradingOptionsList();
         //JIRA FIX : KSENROLL-8730 - Added NULL check
         int firstStudentGradingOption = 0;

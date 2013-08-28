@@ -468,7 +468,9 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
     private String getActivityTypeNames(FormatInfo formatInfo){
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-        StringBuffer activities = new StringBuffer();
+
+        //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+        StringBuilder activities = new StringBuilder();
 
         try {
             List<ActivityInfo> activityInfos = formatInfo.getActivities();

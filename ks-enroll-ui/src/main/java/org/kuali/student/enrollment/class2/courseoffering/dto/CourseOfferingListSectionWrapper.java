@@ -367,13 +367,15 @@ public class CourseOfferingListSectionWrapper implements Serializable{
      */
     @SuppressWarnings("unused")
     public String getCrossListedCodesUI(){
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("This course is crosslisted with:<br>");
+
+        //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+        StringBuilder sb = new StringBuilder();
+        sb.append("This course is crosslisted with:<br>");
         for (String code : alternateCOCodes){
-            buffer.append(code + "<br>");
+            sb.append(code + "<br>");
         }
 
-        return StringUtils.removeEnd(buffer.toString(),"<br>");
+        return StringUtils.removeEnd(sb.toString(),"<br>");
     }
 
     /**
@@ -384,11 +386,13 @@ public class CourseOfferingListSectionWrapper implements Serializable{
      */
     @SuppressWarnings("unused")
     public String getJointDefinedCodesUI(){
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("This course is joint defined with:<br>");
-        buffer.append(jointDefinedCoCode + "<br>");
 
-        return StringUtils.removeEnd(buffer.toString(),"<br>");
+        //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+        StringBuilder sb = new StringBuilder();
+        sb.append("This course is joint defined with:<br>");
+        sb.append(jointDefinedCoCode + "<br>");
+
+        return StringUtils.removeEnd(sb.toString(),"<br>");
     }
 
     /**
@@ -399,11 +403,12 @@ public class CourseOfferingListSectionWrapper implements Serializable{
      */
     @SuppressWarnings("unused")
     public String getColocatedInfoUI(){
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("One or more activities in this course is colocated with activities in:<br>");
-        buffer.append(colocatedCoCode + "<br>");
+        //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+        StringBuilder sb = new StringBuilder();
+        sb.append("One or more activities in this course is colocated with activities in:<br>");
+        sb.append(colocatedCoCode + "<br>");
 
-        return StringUtils.removeEnd(buffer.toString(),"<br>");
+        return StringUtils.removeEnd(sb.toString(),"<br>");
     }
 
     public String getAdminOrg(){

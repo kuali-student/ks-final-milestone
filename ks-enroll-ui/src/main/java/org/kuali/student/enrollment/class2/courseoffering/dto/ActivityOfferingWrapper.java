@@ -925,11 +925,12 @@ public class ActivityOfferingWrapper implements Serializable{
      */
     @SuppressWarnings("unused")
     public String getColocatedAoInfoUI(){
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("This activity is colocated with:<br>");
-        buffer.append(colocatedAoInfo + "<br>");
+        //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+        StringBuilder sb = new StringBuilder();
+        sb.append("This activity is colocated with:<br>");
+        sb.append(colocatedAoInfo + "<br>");
 
-        return StringUtils.removeEnd(buffer.toString(),"<br>");
+        return StringUtils.removeEnd(sb.toString(),"<br>");
     }
 
     public boolean isPartOfColoSetOnLoadAlready() {
@@ -1037,11 +1038,12 @@ public class ActivityOfferingWrapper implements Serializable{
         }
 
         public String getColocatedActivitiesAsString(){
-            StringBuffer s = new StringBuffer();
+            //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+            StringBuilder sb = new StringBuilder();
             for (ColocatedActivity colo : getColocatedActivities()){
-                s.append(colo.getEditRenderHelper().getCode() + ", ");
+                sb.append(colo.getEditRenderHelper().getCode() + ", ");
             }
-            return StringUtils.stripEnd(s.toString(),", ");
+            return StringUtils.stripEnd(sb.toString(),", ");
         }
 
         public boolean isScheduleEditInProgress() {

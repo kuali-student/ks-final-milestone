@@ -341,12 +341,13 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
      */
     @SuppressWarnings("unused")
     public String getAlternateCOCodesUIList(){
-        StringBuffer buffer = new StringBuffer();
+        //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+        StringBuilder sb = new StringBuilder();
         for (String crosslistingCode : alternateCourseCodesSuffixStripped){
-            buffer.append(crosslistingCode + ", ");
+            sb.append(crosslistingCode + ", ");
         }
 
-        return StringUtils.removeEnd(buffer.toString(), ", ");
+        return StringUtils.removeEnd(sb.toString(), ", ");
     }
 
     public RenderHelper getRenderHelper() {
