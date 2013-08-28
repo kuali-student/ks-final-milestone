@@ -122,11 +122,14 @@
           </bean>
         </property>
         <property name="header.lowerGroup">
-          <bean parent="Uif-HorizontalBoxGroup">
-            <property name="style" value="border-top: 1px solid #666666; padding-top:5px;"/>
-            <property name="items">
+          <bean parent="Uif-HorizontalBoxGroup" >
+              <property name="style" value="border-bottom: 1px solid #666666;margin-top:-10px;"/>
+            <property name="items" >
               <list>
-                  <bean id="expand_or_collapse_all" parent="Uif-ActionLink" p:actionLabel="Collapse All" p:actionScript="showOrHideAOClusters('expand_or_collapse_all_line@{#index}','ao_cluster_header_line@{#index}');"/>
+                  <bean id="expand_or_collapse_all" parent="Uif-ActionLink" p:actionLabel="Collapse All" p:actionScript="showOrHideAOClusters('expand_or_collapse_all_line@{#index}','ao_cluster_header_line@{#index}');">
+                         <!-- KSENROLL-9092 this will position the collapse all link on the right side, on the same line as Activities-->
+                      <property name="style" value="float:right;margin-top:-19px;"/>
+                  </bean>
               </list>
             </property>
           </bean>
