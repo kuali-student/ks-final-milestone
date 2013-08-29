@@ -1053,7 +1053,61 @@ div.jGrowl div.WARNING div.jGrowl-message {
   theme-builder is usable in the ks-enroll project
   @TODO: KSENROLL-9114 - Refactor rice upgrade hacks from enroll.less
 */
+/* BEGIN DATA TABLE PAGINATION */
+/* PREV/NEXT ONLY */
+.dataTables_paginate.paging_two_button {margin-top:0;}
+.paginate_disabled_previous,
+.paginate_enabled_previous,
+.paginate_disabled_next,
+.paginate_enabled_next {
+  width:auto;
+  min-width: 40px;
+  text-align: center;
+  height:auto;
+}
+.dataTables_paginate .paginate_disabled_next,
+.dataTables_paginate .paginate_enabled_next {
+  border:1px solid #ddd;
+}
+.dataTables_paginate  a.paginate_disabled_previous,
+.dataTables_paginate  a.paginate_disabled_next {
+  color: #ddd;
+}
+.dataTables_paginate  a.paginate_disabled_previous:hover,
+.dataTables_paginate  a.paginate_disabled_next:hover {
+  text-decoration: none;
+  cursor:auto;
+}
 
+/* ACTUAL PAGINATION WITH MULTIPLE PAGES */
+.dataTables_paginate.paging_full_numbers > span, .dataTables_paginate.paging_full_numbers > a.paginate_button {
+  display:block;
+  float:left;
+}
+.dataTables_paginate.paging_full_numbers span a, .dataTables_paginate.paging_full_numbers > a.paginate_button {
+  border: 1px solid #ddd;
+  height: auto;
+  display: block;
+  float: left;
+  margin-left: 5px;
+}
+.dataTables_paginate.paging_full_numbers span .paginate_active {
+  color:#888;
+  background-color:#E0E0E0;
+  border: 1px solid #ccc;
+}
+.dataTables_paginate.paging_full_numbers span .paginate_active:hover {
+  color:#888;
+  text-decoration: none;
+}
+/* PREV/NEXT ONLY */
+.paging_two_button .paginate_disabled_previous,
+.paging_two_button .paginate_enabled_previous,
+.paging_two_button .paginate_disabled_next,
+.paging_two_button .paginate_enabled_next {
+  margin-left: 0;
+}
+/* END DATA TABLE PAGINATION */
 /*
   END POST RICE 2.3 UPGRADE OVERRIDES
 */
