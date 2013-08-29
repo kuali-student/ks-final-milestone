@@ -161,10 +161,11 @@ public class CourseOfferingManagementUtil {
             OrgInfo org = getOrganizationService().getOrg(orgIds.get(0), contextInfo);
             currentCOWrapper.setCoOwningDeptName(org.getShortName());
             // managing multiple orgs
-            String orgIDs = "";
+            StringBuilder sb = new StringBuilder("");
             for (String orgId : orgIds) {
-                orgIDs = orgIDs + orgId + ",";
+                sb.append(orgId).append(",");
             }
+            String orgIDs = sb.toString();
             if (orgIDs.length() > 0) {
                 form.setAdminOrg(orgIDs.substring(0, orgIDs.length()- 1));
             }
