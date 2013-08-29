@@ -205,8 +205,10 @@ public class SchedulingServiceUtil {
                             compInfo.setRoomId(defaultRoomId);
                         }
                     } else {
-                        //  Has room Ids but no building Ids, throw because this shouldn't happen.
-                        throw new RuntimeException(String.format("Could not create ADL from RDL %s because room Ids were present, but no building Ids. This is corrupt data.", request.getId()));
+                        //  No building Ids, but room Ids exist. For RDLs that were created within the app this shouldn't
+                        //  happen, but some ref data RDLs only provide a room id. Strictly speaking the data isn't correct,
+                        //  but since it is sufficient to create the ADL just continue.
+                        compInfo.setRoomId(reqComp.getRoomIds().get(0));
                     }
                 }
             } else {
