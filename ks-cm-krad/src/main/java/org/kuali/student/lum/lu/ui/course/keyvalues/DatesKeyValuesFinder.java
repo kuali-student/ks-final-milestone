@@ -30,11 +30,13 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.student.cm.course.dto.CourseProposalInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+
+import static org.kuali.student.logging.FormattedLogger.*;
 
 /**
  * This is the helper class for CourseView
@@ -43,7 +45,6 @@ import org.kuali.student.r2.core.constants.AtpServiceConstants;
  */
 
 public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DatesKeyValuesFinder.class);
     private transient AtpService atpService;
 
     @Override
@@ -83,11 +84,11 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
             List<AtpInfo> searchResult) {
         if (model instanceof MaintenanceDocumentForm) {
             MaintenanceDocumentForm courseForm = (MaintenanceDocumentForm) model;
-            CourseProposalInfo courseProposalInfo = (CourseProposalInfo) courseForm.getDocument().getNewMaintainableObject().getDataObject();
-            if (courseProposalInfo.getCourse().isPilotCourse()) {
+            final CourseInfo courseInfo = (CourseInfo) courseForm.getDocument().getNewMaintainableObject().getDataObject();
+            if (courseInfo.isPilotCourse()) {
 
                 for (int i = 0; i < searchResult.size(); i++) {
-                    if (courseProposalInfo.getCourse().getStartTerm().equals(searchResult.get(i).getId().toString())) {
+                    if (courseInfo.getStartTerm().equals(searchResult.get(i).getId().toString())) {
                         searchResult.remove(searchResult.get(i));
                         i--;
                         break;
