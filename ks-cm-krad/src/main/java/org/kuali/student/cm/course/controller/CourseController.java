@@ -39,9 +39,10 @@ import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.name.EntityNameContract;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
+import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.cm.course.dto.CourseProposalInfo;
+import org.kuali.student.cm.course.infc.CourseProposal;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
@@ -124,13 +125,14 @@ public class CourseController extends MaintenanceDocumentController {
 
     }
     
+    /**
+     * After the document is loaded calls method to setup the maintenance object
+     */
     @Override
-    @RequestMapping(params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                              HttpServletRequest request, HttpServletResponse response) { 
-        final MaintenanceDocumentForm courseForm = (MaintenanceDocumentForm) form;
-        
-
+    @RequestMapping(params = "methodToCall=docHandler")
+    public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase formBase, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        final MaintenanceDocumentForm courseForm = (MaintenanceDocumentForm) formBase;
         
         try {
             redrawDecisionTable(courseForm);
@@ -140,15 +142,17 @@ public class CourseController extends MaintenanceDocumentController {
         }
 
         // Create the document in the super method
-        final ModelAndView retval = super.start(courseForm, result, request, response);
-        final CourseProposalInfo courseProposal = ((CourseProposalInfo) courseForm.getDocument().getNewMaintainableObject().getDataObject());
+        final ModelAndView retval = super.docHandler(courseForm, result, request, response);
+        courseForm.getDocument().getDocumentHeader().setDocumentDescription("New Course Proposal");
+
+        final CourseProposal courseProposal = ((CourseInfoMaintainable) courseForm.getDocument().getNewMaintainableObject()).getCourseProposal();
         
         // We can actually get this from the workflow document initiator id. It doesn't need to be stored in the form.
         courseProposal.setUserId(ContextUtils.getContextInfo().getPrincipalId());
 
         // After creating the document, modify the state
         // Should look into replacing this with calls to WorkflowUtilities
-        // ((CourseProposalInfo) courseForm.getDocument().getNewMaintainableObject().getDataObject()).getCourse().setStateKey(DtoConstants.STATE_DRAFT);
+        ((CourseInfo) courseForm.getDocument().getNewMaintainableObject().getDataObject()).setStateKey(DtoConstants.STATE_DRAFT);
 
         return retval;
     }
@@ -167,7 +171,7 @@ public class CourseController extends MaintenanceDocumentController {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=saveAndContinue")
     public ModelAndView saveAndContinue(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) {
-        CourseProposalInfo courseProposalInfo = (CourseProposalInfo) form.getDocument().getNewMaintainableObject().getDataObject();
+        final CourseProposal courseProposalInfo = ((CourseInfoMaintainable) form.getDocument().getNewMaintainableObject()).getCourseProposal();
         
         //Clear collection fields (those with matching 'display' collections)
         courseProposalInfo.getCourse().getJoints().clear();
@@ -317,7 +321,7 @@ public class CourseController extends MaintenanceDocumentController {
     @RequestMapping(params = "methodToCall=saveAndCloseComment")
     public ModelAndView saveAndCloseComment(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CourseProposalInfo courseProposalInfo = (CourseProposalInfo) form.getDocument().getNewMaintainableObject().getDataObject();
+        CourseProposal courseProposalInfo = ((CourseInfoMaintainable) form.getDocument().getNewMaintainableObject()).getCourseProposal();
         
         DateFormat df = new SimpleDateFormat("MMMM dd, yyyy - hh:mmaaa");
         Date date = new Date();
@@ -467,8 +471,8 @@ public class CourseController extends MaintenanceDocumentController {
 	protected void redrawDecisionTable(final MaintenanceDocumentForm form,
                                        final List<CommentInfo> commentInfos,
                                        final Map<String, MembershipInfo> members) {
-        final CourseProposalInfo courseProposal = 
-            (CourseProposalInfo) form.getDocument().getNewMaintainableObject().getDataObject();
+        final CourseProposal courseProposal = 
+            ((CourseInfoMaintainable) form.getDocument().getNewMaintainableObject()).getCourseProposal();
 
 		if (commentInfos != null) {
 			for (final CommentInfo commentInfo : commentInfos) {
@@ -533,7 +537,7 @@ public class CourseController extends MaintenanceDocumentController {
     @RequestMapping(params = "methodToCall=showLoCategories")
     public ModelAndView showLoCategories(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CourseProposalInfo courseProposalInfo = (CourseProposalInfo) form.getDocument().getNewMaintainableObject().getDataObject();
+        final CourseProposal courseProposalInfo = ((CourseInfoMaintainable) form.getDocument().getNewMaintainableObject()).getCourseProposal();
         //Get the available categories
         courseProposalInfo.getLoDialogWrapper().setLearningObjectiveOptions(getLoCategories());
         
@@ -553,7 +557,7 @@ public class CourseController extends MaintenanceDocumentController {
     @RequestMapping(params = "methodToCall=addLoCategory")
     public ModelAndView addLoCategory(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CourseProposalInfo courseProposalInfo = (CourseProposalInfo) form.getDocument().getNewMaintainableObject().getDataObject();
+        final CourseProposal courseProposalInfo = ((CourseInfoMaintainable) form.getDocument().getNewMaintainableObject()).getCourseProposal();
         for (LoCategoryInfoWrapper loCategoryInfoWrapper : courseProposalInfo.getLoDialogWrapper().getLearningObjectiveOptions()) {
             if (loCategoryInfoWrapper.isSelected()) {
                 LoDisplayInfo selectedLo = getSelectedLo(form);
@@ -614,7 +618,7 @@ public class CourseController extends MaintenanceDocumentController {
         }
         LoDisplayInfo selectedLo = null;
         if (index != -1) {
-            CourseProposalInfo courseProposalInfo = (CourseProposalInfo) form.getDocument().getNewMaintainableObject().getDataObject();
+            final CourseProposal courseProposalInfo = ((CourseInfoMaintainable) form.getDocument().getNewMaintainableObject()).getCourseProposal();
             selectedLo = courseProposalInfo.getCourse().getCourseSpecificLOs().get(index);
         }
         

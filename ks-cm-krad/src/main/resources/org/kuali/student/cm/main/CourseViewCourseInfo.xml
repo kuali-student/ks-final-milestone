@@ -29,9 +29,6 @@
             	<ref bean="KS-CourseView-CourseInfoPage-Widgets" />
             </list>
         </property>
-        <property name="footer">
-            <ref bean="KS-CourseView-Footer" />
-        </property>
         <property name="onDocumentReadyScript" value="setupCharCounters()" />
     </bean>
     
@@ -49,7 +46,6 @@
 							p:tooltipHelpContent="Avoid naming your proposal &quot;my proposal&quot; or &quot;Sarah's Proposal&quot; so that it can be easily identified later." />
 					</property>
 				</bean>
-
 				<bean parent="Uif-InputField-LabelTop" p:label="Course Title"
 					p:propertyName="course.courseTitle" p:required="true">
 					<property name="instructionalText"
@@ -185,7 +181,7 @@
 						</list>
 					</property>
 				</bean>
-				
+
 				<bean parent="Uif-VerticalBoxSubSection" p:headerText="Description and Rationale">
 					<property name="items">
 						<list>
@@ -214,7 +210,6 @@
 						</list>
 					</property>
 				</bean>
-
 			</list>
 		</property>
 	</bean>
@@ -238,8 +233,8 @@
 					<property name="addBlankLineAction.actionLabel" value="Add Another Cross Listing" />
 					<property name="items">
 						<list>
-							<bean id="KS-CrossList-SubjectArea-Field" parent="KS-SubjectArea-Field" p:propertyName="subjectArea" />
-							<bean id="KS-CrossList-CourseNumberSuffix-Field" parent="KS-CourseNumberSuffix-Field" p:propertyName="courseNumberSuffix" />
+							<bean id="KS-CrossList-SubjectArea-Field" parent="KS-SubjectArea-Field" p:propertyName="course.subjectArea" />
+							<bean id="KS-CrossList-CourseNumberSuffix-Field" parent="KS-CourseNumberSuffix-Field" p:propertyName="course.courseNumberSuffix" />
 						</list>
 					</property>
 				</bean>

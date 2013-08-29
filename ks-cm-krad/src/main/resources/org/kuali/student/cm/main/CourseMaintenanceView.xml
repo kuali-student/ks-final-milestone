@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License"); 
-    you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.opensource.org/licenses/ecl2.php 
-    Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS 
-    IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language 
-    governing permissions and limitations under the License. -->
+<!-- 
+  Copyright 2005-2013 The Kuali Foundation
+ 
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+  http://www.opensource.org/licenses/ecl2.php
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -13,7 +23,8 @@
         This view has couple of pages (edit and copy) with all the beans defined at 1. CourseViewCourseInfoPage.xml -->
 
     <bean id="KS-CourseView" parent="KSMaintenanceView">     
-        <property name="dataObjectClassName" value="org.kuali.student.cm.course.dto.CourseProposalInfo"/>
+        <property name="defaultBindingObjectPath" value="document.newMaintainableObject" />
+        <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
         <property name="headerText" value="Course View" />
         <property name="header.render" value="false" />
         <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
@@ -63,7 +74,7 @@
     </bean>
     
     <bean id="CourseInfoMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
-        <property name="dataObjectClass" value="org.kuali.student.cm.course.dto.CourseProposalInfo" />
+        <property name="dataObjectClass" value="org.kuali.student.r2.lum.course.dto.CourseInfo" />
         <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl"/>
         <property name="documentTypeName" value="kuali.proposal.type.course.create"/>
         <property name="documentAuthorizerClass" value="org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase"/>
@@ -105,7 +116,7 @@
                                         <property name="items">
                                             <list>
                                                 <bean parent="Uif-DataField" p:label="Proposal Status"
-                                                    p:shortLabel="Status" p:labelPlacement="LEFT" p:propertyName="stateKey" />
+                                                    p:shortLabel="Status" p:labelPlacement="LEFT" p:propertyName="course.stateKey" />
                                                 <bean parent="Uif-ActionLink" p:actionLabel="Comments"
                                                     p:methodToCall="showComment" />
                                                 <bean parent="Uif-ActionLink" p:actionLabel="Decisions"
@@ -190,11 +201,13 @@
                 <bean parent="Uif-DataField" p:propertyName="proposal.name" />
                 <bean parent="Uif-Message"
                     p:messageText="All comments posted here will be visible to authors, and to reviewers after you submit the proposal" />
+
                 <!--"commentTableSection" -->
-                <bean parent="Uif-MessageField" p:messageText="Logged in as: @{document.newMaintainableObject.dataObject.userId}" />
+                <bean parent="Uif-MessageField" p:messageText="Logged in as: @{document.newMaintainableObject.userId}" />
                 <bean parent="Uif-TableCollectionSection" lazy-init="false">
                     <property name="headerText" value="Leave a Comment" />
                     <property name="collectionObjectClass" value="org.kuali.student.r2.core.comment.dto.CommentInfo" />
+                    
                     <property name="propertyName" value="commentInfos" />
                     <property name="layoutManager.separateAddLine" value="true" />
                     <property name="addLineLabel">
@@ -212,6 +225,7 @@
                         </list>
                     </property>
                 </bean>
+
                 <bean parent="Uif-PrimaryActionButton" p:actionLabel="Submit" p:methodToCall="saveAndCloseComment" />
             </list>
         </property>

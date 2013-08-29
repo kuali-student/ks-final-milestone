@@ -60,14 +60,14 @@
 		<property name="items">
 			<list>
 				<bean id="KS-DurationTypeDropDown" parent="Uif-InputField-LabelTop"
-					p:propertyName="course.duration.atpDurationTypeKey" p:label="Duration Type"
+					p:propertyName="duration.atpDurationTypeKey" p:label="Duration Type"
 					p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.DurationTypeKeyValueFinder">
 					<property name="control">
 						<bean parent="Uif-DropdownControl" />
 					</property>
 				</bean>
 				<bean id="KS-DurationTimeQuantity-Field" parent="Uif-InputField-LabelTop"
-					p:label="Durantion Count" p:propertyName="course.duration.timeQuantity">
+					p:label="Durantion Count" p:propertyName="duration.timeQuantity">
 					<property name="validCharactersConstraint">
 						<bean parent="NumericPatternConstraint" />
 					</property>
@@ -98,7 +98,7 @@
 		</property>
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField-LabelTop" p:propertyName="course.gradingOptions"
+				<bean parent="Uif-InputField-LabelTop" p:propertyName="gradingOptions"
 					p:label="Assessment Scale" p:required="true">
 					<property name="control">
 						<bean parent="Uif-VerticalCheckboxesControl" />
@@ -240,7 +240,7 @@
 	</bean>
 	<bean id="KS-CourseView-CourseLogisticsPage-CourseFormats-Widgets"
 		parent="Uif-StackedCollectionSection" p:headerText="Course Format(s)"
-		p:propertyName="course.formats" p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.FormatInfo">
+		p:propertyName="formats" p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.FormatInfo">
 		<property name="instructionalText"
 			value="Each course format can consist of any number of activities, and you may have more than one course format for this&lt;br&gt;course." />
 		<property name="help">

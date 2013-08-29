@@ -77,6 +77,11 @@ public class CourseProposalInfo extends IdEntityInfo implements CourseProposal, 
     private List<OrganizationInfoWrapper> administeringOrganizations;
     @XmlElement
     private String lastUpdated;
+
+    public CourseProposalInfo(final CourseInfo course, final ProposalInfo proposal) {
+        setProposal(proposal);
+        setCourse(course);
+    }
     
     @Override
     public ProposalInfo getProposal() {
