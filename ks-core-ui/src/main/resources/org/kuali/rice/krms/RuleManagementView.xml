@@ -295,7 +295,7 @@ limitations under the License.
             <list>
                 <bean parent="Uif-MessageField" p:messageText="@{#np.data}"/>
                 <bean parent="Uif-SpaceField"/>
-                <bean parent="Uif-ActionLink" p:actionLabel="edit" p:align="right" p:methodToCall="getSelectedKey">
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="edit" p:align="right" p:methodToCall="getSelectedKey">
                     <property name="additionalSubmitData" value="selectedKey:@{#np.key != null ? #np.key : -1}"/>
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
