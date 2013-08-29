@@ -742,9 +742,12 @@ img {
 
 /* Overriding from block as required fields were dropping to another line */
 label:not(.uif-labelBlock) {
-    display: inline-block;
-    margin-right: 15px;
-    padding-right: 2px;
+  display: inline-block;
+}
+
+span.infoline label:not(.uif-labelBlock) {
+  margin-right: 15px;
+  padding-right: 2px;
 }
 
 /* Overriding from margin-left 20px as this was indenting titles */
