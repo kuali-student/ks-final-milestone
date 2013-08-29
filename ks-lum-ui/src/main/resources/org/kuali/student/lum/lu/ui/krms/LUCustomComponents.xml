@@ -192,7 +192,7 @@ limitations under the License.
                     <property name="propertyName" value="name"/>
                     <property name="control">
                         <bean parent="Uif-TextControl"
-                              p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;" p:readOnly="true">
+                              p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;" p:disabled="true">
                             <!--this is a hack-->
                             <!--property name="onMouseOverScript" value="disableMe(jq(this));"/>
                             <property name="onFocusScript" value="disableMe(jq(this));"/>
@@ -265,7 +265,7 @@ limitations under the License.
                     <property name="propertyName" value="code"/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:style="background-color: #DDDDDD;margin-top:null 2px;"
-                              p:readOnly="true">
+                              p:disabled="true">
                             <!--this is a hack-->
                             <!--property name="onMouseOverScript" value="disableMe(jq(this));"/>
                             <property name="onFocusScript" value="disableMe(jq(this));"/>
