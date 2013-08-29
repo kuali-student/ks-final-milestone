@@ -15,12 +15,7 @@
  */
 package org.kuali.student.cm.course.controller;
 
-import static org.kuali.student.logging.FormattedLogger.debug;
 import static org.kuali.student.logging.FormattedLogger.error;
-
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,6 +28,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
@@ -43,12 +41,12 @@ import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.cm.course.infc.CourseProposal;
+import org.kuali.student.cm.course.dto.CourseProposalInfo;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
+import org.kuali.student.cm.course.infc.CourseProposal;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.impl.LookupableConstants;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
@@ -149,13 +147,11 @@ public class CourseController extends MaintenanceDocumentController {
         
         final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) courseForm.getDocument().getNewMaintainableObject();
 
-        final CourseProposal courseProposal = maintainable.getCourseProposal();
-        
         // We can actually get this from the workflow document initiator id. It doesn't need to be stored in the form.
-        courseProposal.setUserId(ContextUtils.getContextInfo().getPrincipalId());
+        maintainable.setUserId(ContextUtils.getContextInfo().getPrincipalId());
 
         // After creating the document, modify the state
-        courseProposal.getCourse().setStateKey(DtoConstants.STATE_DRAFT);
+        maintainable.getCourse().setStateKey(DtoConstants.STATE_DRAFT);
         maintainable.setLastUpdated(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(new DateTime()));
                 
         return retval;
@@ -312,21 +308,34 @@ public class CourseController extends MaintenanceDocumentController {
     @RequestMapping(params = "methodToCall=saveAndCloseComment")
     public ModelAndView saveAndCloseComment(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CourseProposal courseProposalInfo = ((CourseInfoMaintainable) form.getDocument().getNewMaintainableObject()).getCourseProposal();
+        
+        
+        //TODO KSCM-848 : Will need to replace these temp values once we get UMD's reference data
+        
+        String tempRefId =  "temp_reference_id";
+        String tempRefTypeKey = "referenceType.clu.proposal";
+        
+        final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
+        //CourseProposal courseProposalInfo = ((CourseInfoMaintainable) form.getDocument().getNewMaintainableObject()).getCourseProposal();
         
         final String dateStr = DateTimeFormat.forPattern("MMMM dd, yyyy - hh:mmaaa").print(new DateTime());
         final Date date = new Date();
         
-        for (CommentInfo ittCommentInfo : courseProposalInfo.getCommentInfos()) {
+        // This needs to be looked at when Reference data is retrieved. Lookup what comments are in the DB
+        // prob might move to showComment so that it displays the comments already made.
+        //List<CommentInfo> commentInfoFromDB = getCommentService().getCommentsByReferenceAndType(tempRefId, tempRefTypeKey,ContextUtils.getContextInfo());
+        
+        for (CommentInfo ittCommentInfo : maintainable.getCommentInfos()) {
             CommentInfo commentInfo = ittCommentInfo;
             commentInfo.getCommentText().setFormatted(commentInfo.getCommentText().getPlain());
             //get the userID from the form to save with the comment made.
-            commentInfo.setCommenterId(getUserNameLoggedin(courseProposalInfo.getUserId()) + " " + dateStr);
-            commentInfo.setEffectiveDate(date);
+            commentInfo.setCommenterId(getUserNameLoggedin(maintainable.getUserId()) + " " + dateStr);
+            if(commentInfo.getEffectiveDate() == null){
+                commentInfo.setEffectiveDate(date);
+            }
             commentInfo.setTypeKey("kuali.comment.type.generalRemarks");
-            //TODO KSCM-848 : Will need to replace these temp values once we get UMD's reference data
-            commentInfo.setReferenceId("temp_reference_id");
-            commentInfo.setReferenceTypeKey("referenceType.clu.proposal");
+            commentInfo.setReferenceId(tempRefId);
+            commentInfo.setReferenceTypeKey(tempRefTypeKey);
             commentInfo.setStateKey(DtoState.ACTIVE.toString());
             CommentInfo newComment = null;
             try {
