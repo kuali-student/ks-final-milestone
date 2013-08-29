@@ -64,7 +64,7 @@ public class ProgramComponentBuilder extends CluComponentBuilder {
         String cluSetId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_PROGRAM_CLUSET_KEY);
         if (cluSetId != null) {
             try {
-                CluSetInformation cluSetInfo = this.getCluSetInformation(cluSetId);
+                CluSetInformation cluSetInfo = this.getCluInfoHelper().getCluSetInformation(cluSetId);
                 propositionEditor.setProgCluSet(cluSetInfo);
             } catch (Exception e) {
                 throw new RuntimeException(e);

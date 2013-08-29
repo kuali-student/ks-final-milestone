@@ -63,7 +63,7 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
         String cluSetId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
         if (cluSetId != null) {
             try {
-                CluSetInformation cluSetInfo = this.getCluSetInformation(cluSetId);
+                CluSetInformation cluSetInfo = this.getCluInfoHelper().getCluSetInformation(cluSetId);
                 propositionEditor.setCluSet(cluSetInfo);
                 populatePropositionWrapper(propositionEditor);
 
