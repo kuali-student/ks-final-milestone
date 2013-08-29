@@ -136,8 +136,8 @@
                                     <bean parent="Uif-Message">
                                         <property name="cssClasses">
                                             <list merge="true">
-                                                <value>uif-pageValidationMessages-warning
-                                                </value>
+                                                <value>uif-pageValidationMessages</value>
+                                                <value>uif-pageValidationMessages-warning</value>
                                             </list>
                                         </property>
                                         <property name="messageText"
