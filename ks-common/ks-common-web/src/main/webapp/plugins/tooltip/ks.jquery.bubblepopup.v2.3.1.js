@@ -614,7 +614,7 @@
             var H = m(x);
             switch (K) {
                 case "left":
-                    I.top = O == "top" ? t - M - z + l(w) : t + L + z + w;
+                    I.top = t - M - z + l(w);
                     I.left = y + A;
                     break;
                 case "center":
@@ -624,7 +624,7 @@
                     break;
                 case "right":
                     var D = Math.abs(v - P);
-                    I.top = O == "top" ? t - M - z + l(w) : t + L + z + w;
+                    I.top = t - M + z + P;
                     I.left = v >= P ? y - D + l(A) : y + D + l(A);
                     break;
                 case "top":
@@ -1013,8 +1013,7 @@
                         var popupContent = jQuery("#" + H.innerHtmlId);
                         popupContent.detach().show();
                         jQuery("td.jquerybubblepopup-innerHtml",y).append(popupContent);
-                        y.appendTo("body" );
-                        //y.insertAfter(this);
+                        y.insertAfter(this);
                     }
                     //KF- new code ends
                     y.attr("data-for", w.id);
