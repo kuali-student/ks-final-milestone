@@ -39,7 +39,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides controller methods for Delete Target Term ui
  *
  * @author Kuali Student Team
  */

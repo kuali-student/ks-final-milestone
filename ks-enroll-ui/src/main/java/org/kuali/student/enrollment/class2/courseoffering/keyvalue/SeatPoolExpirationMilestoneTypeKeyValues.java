@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides a key value finder for Milestone types for SeatPool expirations
  *
  * @author Kuali Student Team
  */

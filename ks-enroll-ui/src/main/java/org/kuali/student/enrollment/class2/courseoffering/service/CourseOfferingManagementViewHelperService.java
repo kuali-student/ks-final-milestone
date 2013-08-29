@@ -25,7 +25,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
 import java.util.List;
 /**
- * This class //TODO ...
+ * This class defines an interface for helper methods related to the Course Offering Management ui
  *
  * @author Kuali Student Team
  */

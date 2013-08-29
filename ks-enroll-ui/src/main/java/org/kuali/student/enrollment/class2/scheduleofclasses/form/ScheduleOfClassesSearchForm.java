@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides a form for the Schedule of Classes ui
  *
  * @author Kuali Student Team
  */

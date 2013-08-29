@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides a key value finder for Activity Offering Clusters for the Create Activity Offering ui
  *
  * @author Kuali Student Team
  */

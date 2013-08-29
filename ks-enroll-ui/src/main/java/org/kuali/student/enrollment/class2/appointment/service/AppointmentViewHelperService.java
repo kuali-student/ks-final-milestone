@@ -23,7 +23,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 
 /**
- * This class //TODO ...
+ * This class defines the ViewHelper service methods for Appointment Views
  *
  * @author Kuali Student Team
  */

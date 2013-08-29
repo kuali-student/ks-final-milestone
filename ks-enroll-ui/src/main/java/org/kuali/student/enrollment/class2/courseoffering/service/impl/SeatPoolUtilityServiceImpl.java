@@ -31,7 +31,7 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides a default implementation of the SeatPoolUtility Service
  *
  * @author Kuali Student Team
  */

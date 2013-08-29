@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides logic for saving a Course Offering maintenance document in the Edit ui
  *
  * @author Kuali Student Team
  */

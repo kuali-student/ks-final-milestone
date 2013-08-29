@@ -17,7 +17,7 @@
 package org.kuali.student.enrollment.class2.scheduleofclasses.controller;
 
 /**
- * This class //TODO ...
+ * This class provides a controller for the Schedule of Classes ui
  *
  * @author Kuali Student Team
  */

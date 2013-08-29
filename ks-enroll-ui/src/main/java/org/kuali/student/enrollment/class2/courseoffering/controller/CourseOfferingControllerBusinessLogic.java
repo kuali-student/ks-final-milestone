@@ -92,7 +92,7 @@ import java.util.Set;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
 /**
- * This class //TODO ...
+ * This class provides business logic related to the CourseOfferingController
  *
  * @author Kuali Student Team
  */

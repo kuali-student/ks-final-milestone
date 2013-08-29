@@ -18,7 +18,7 @@ package org.kuali.student.enrollment.class2.acal.util;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**
- * This class //TODO ...
+ * This class provides constants related to Academic and Holiday Calendars
  *
  * @author Kuali Student Team
  */

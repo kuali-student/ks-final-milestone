@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class defines a form for the Type Verification ui
  *
  * @author Kuali Student Team
  */

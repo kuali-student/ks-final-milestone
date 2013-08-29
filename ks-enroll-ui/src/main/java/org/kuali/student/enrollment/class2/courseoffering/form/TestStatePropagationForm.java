@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides a form for the test state propagation ui
  *
  * @author Kuali Student Team
  */

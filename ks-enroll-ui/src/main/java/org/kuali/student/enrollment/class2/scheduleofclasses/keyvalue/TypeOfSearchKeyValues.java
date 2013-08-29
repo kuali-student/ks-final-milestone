@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides a key value finder for the type of search in the Schedule of Classes ui
  *
  * @author Kuali Student Team
  */

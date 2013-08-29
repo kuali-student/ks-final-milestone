@@ -30,11 +30,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/* TODO : see https://jira.kuali.org/browse/KSENROLL-5931
- */
-
 /**
- * This class //TODO ...
+ * This class provides a wrapper for CourseOffering data for the Course Offering Edit ui
  *
  * @author Kuali Student Team
  */

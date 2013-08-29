@@ -25,7 +25,7 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import java.io.Serializable;
 
 /**
- * This class //TODO ...
+ * This class provides a wrapper for Registration Group data
  *
  * @author Kuali Student Team
  */

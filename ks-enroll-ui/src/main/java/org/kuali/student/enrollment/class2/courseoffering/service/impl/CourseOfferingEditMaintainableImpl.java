@@ -90,7 +90,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This class //TODO ...
+ * This class provides Maintainable logic for Course Offerings in the Course Offering Edit ui
  *
  * @author Kuali Student Team
  */

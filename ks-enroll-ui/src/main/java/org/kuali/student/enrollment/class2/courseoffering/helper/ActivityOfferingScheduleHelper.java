@@ -20,7 +20,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWr
 import org.kuali.student.r2.common.dto.ContextInfo;
 
 /**
- * This class //TODO ...
+ * This class defines methods to load and save schedules in Activity Offering schedule logic
  *
  * @author Kuali Student Team
  */

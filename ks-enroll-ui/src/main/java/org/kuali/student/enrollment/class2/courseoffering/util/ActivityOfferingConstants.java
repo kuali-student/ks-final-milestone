@@ -18,7 +18,7 @@ package org.kuali.student.enrollment.class2.courseoffering.util;
 import org.kuali.rice.krad.util.ErrorMessage;
 
 /**
- * This class //TODO ...
+ * This class defines constants related to the Activity Offering ui
  *
  * @author Kuali Student Team
  */

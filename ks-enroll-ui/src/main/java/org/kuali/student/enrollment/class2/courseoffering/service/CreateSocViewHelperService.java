@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
 /**
- * This class //TODO ...
+ * This class defines an interface for helper methods related to the Create Soc ui
  *
  * @author Kuali Student Team
  */

@@ -19,7 +19,7 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
 import java.io.Serializable;
 
 /**
- * This class //TODO ...
+ * This class provides a wrapper for SocRolloverResultItem data
  *
  * @author Kuali Student Team
  */

@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides a static set of Activity Offering state transitions
  *
  * @author Kuali Student Team
  */

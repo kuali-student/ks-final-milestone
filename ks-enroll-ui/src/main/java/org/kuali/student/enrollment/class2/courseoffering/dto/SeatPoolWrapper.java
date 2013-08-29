@@ -22,7 +22,7 @@ import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import java.io.Serializable;
 
 /**
- * This class //TODO ...
+ * This class provides a wrapper for Seat Pool data
  *
  * @author Kuali Student Team
  */

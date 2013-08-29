@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides common utility methods related to acal logic
  *
  * @author Kuali Student Team
  */

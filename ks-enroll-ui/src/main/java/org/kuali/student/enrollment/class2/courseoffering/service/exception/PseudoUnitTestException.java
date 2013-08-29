@@ -16,11 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.exception;
 
-/**
- * This class //TODO ...
- *
- * @author Kuali Student Team
- */
 public class PseudoUnitTestException extends Exception {
     public PseudoUnitTestException(String message) {
         super(message);

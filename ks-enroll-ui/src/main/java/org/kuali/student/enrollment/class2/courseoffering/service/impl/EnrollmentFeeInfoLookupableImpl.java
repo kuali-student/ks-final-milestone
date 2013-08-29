@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides a Lookupable implementation for Enrollment Fees
  *
  * @author Kuali Student Team
  */

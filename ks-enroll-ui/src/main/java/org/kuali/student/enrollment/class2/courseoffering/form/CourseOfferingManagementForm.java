@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides a form for the Course Offering Management ui
  *
  * @author Kuali Student Team
  */

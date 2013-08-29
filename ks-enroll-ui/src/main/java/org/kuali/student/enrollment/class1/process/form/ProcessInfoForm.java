@@ -22,7 +22,7 @@ import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides a form for Process objects
  *
  * @author Kuali Student Team
  */

@@ -20,7 +20,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
 /**
- * This class //TODO ...
+ * This class provides a form for the Diagnose Rollover ui
  *
  * @author Kuali Student Team
  */

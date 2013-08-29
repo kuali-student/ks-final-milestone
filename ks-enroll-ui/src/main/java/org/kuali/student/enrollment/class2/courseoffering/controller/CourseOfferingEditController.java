@@ -40,7 +40,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Properties;
 
 /**
- * This class //TODO ...
+ * This class provides controller methods for Course Offering Edit ui
  *
  * @author Kuali Student Team
  */

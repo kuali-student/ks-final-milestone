@@ -68,7 +68,7 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides the KS default implementation of the AppointmentViewHelper Service
  *
  * @author Kuali Student Team
  */

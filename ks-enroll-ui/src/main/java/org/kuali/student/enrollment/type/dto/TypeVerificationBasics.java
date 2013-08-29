@@ -17,7 +17,7 @@
 package org.kuali.student.enrollment.type.dto;
 
 /**
- * This class //TODO ...
+ * This class defines a data bean for the Type Verification ui
  *
  * @author Kuali Student Team
  */

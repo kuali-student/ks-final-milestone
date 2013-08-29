@@ -20,7 +20,7 @@ import org.kuali.student.r2.core.process.dto.CheckInfo;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides a form for CheckInfo objects
  *
  * @author Kuali Student Team
  */

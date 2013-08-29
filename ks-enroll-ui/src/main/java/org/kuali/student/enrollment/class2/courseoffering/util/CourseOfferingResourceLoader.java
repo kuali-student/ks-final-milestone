@@ -45,7 +45,7 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import javax.xml.namespace.QName;
 
 /**
- * This class //TODO ...
+ * This class provides common accessor logic to the service bus for specific service instances
  *
  * @author Kuali Student Team
  */

@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class defines a Registration Group state result
  *
  * @author Kuali Student Team
  */

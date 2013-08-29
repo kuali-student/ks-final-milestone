@@ -75,7 +75,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ... This calss is specific to CourseOffering and should be renamed appropriately
+ * This class provides utility methods for Course Offering related ui
  *
  * @author Kuali Student Team
  */

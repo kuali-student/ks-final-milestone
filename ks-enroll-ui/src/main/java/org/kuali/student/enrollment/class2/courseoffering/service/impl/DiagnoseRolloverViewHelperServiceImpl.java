@@ -45,7 +45,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides helper logic for the Diagnose Rollover ui
  *
  * @author Kuali Student Team
  */

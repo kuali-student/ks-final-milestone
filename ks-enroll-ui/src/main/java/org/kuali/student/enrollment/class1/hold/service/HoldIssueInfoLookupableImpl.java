@@ -39,7 +39,7 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
 
 
 /**
- * This class //TODO ...
+ * This class provides a Lookupable implementation for HoldIssue objects
  *
  * @author Kuali Student Team
  */

@@ -28,7 +28,7 @@ import java.util.List;
  */
 
 /**
- * This class //TODO ...
+ * This class defines a wrapper for Course Offering Display data
  *
  * @author Kuali Student Team
  */

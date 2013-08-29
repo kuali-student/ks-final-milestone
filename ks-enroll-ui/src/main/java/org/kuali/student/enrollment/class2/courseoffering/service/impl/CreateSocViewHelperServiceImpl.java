@@ -42,7 +42,7 @@ import javax.xml.namespace.QName;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides helper logic for the Create Soc ui
  *
  * @author Kuali Student Team
  */

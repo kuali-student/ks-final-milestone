@@ -29,7 +29,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides a key value finder for Waitlist types
  *
  * @author Kuali Student Team
  */

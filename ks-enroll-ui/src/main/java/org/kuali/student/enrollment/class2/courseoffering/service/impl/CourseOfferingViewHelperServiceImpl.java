@@ -48,7 +48,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides helper logic for Course Offering related ui
  *
  * @author Kuali Student Team
  */

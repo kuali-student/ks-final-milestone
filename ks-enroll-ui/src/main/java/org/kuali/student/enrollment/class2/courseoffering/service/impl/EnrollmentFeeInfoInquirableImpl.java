@@ -28,7 +28,7 @@ import javax.xml.namespace.QName;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides a Inquirable implementation for Enrollment Fees
  *
  * @author Kuali Student Team
  */

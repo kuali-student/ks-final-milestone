@@ -17,7 +17,7 @@
 package org.kuali.student.enrollment.class2.scheduleofclasses.util;
 
 /**
- * This class //TODO ...
+ * This class defines constants used in the Schedule of Classes ui
  *
  * @author Kuali Student Team
  */

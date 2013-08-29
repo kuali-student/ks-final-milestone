@@ -67,7 +67,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides controller methods to test state propagation through the ui
  *
  * @author Kuali Student Team
  */

@@ -39,7 +39,7 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides controller methods for Diagnose Rollover ui
  *
  * @author Kuali Student Team
  */

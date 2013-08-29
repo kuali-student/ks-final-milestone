@@ -16,7 +16,7 @@
 package org.kuali.student.enrollment.class2.appointment.util;
 
 /**
- * This class //TODO ...
+ * This class provides constant values for the Appointment ui
  *
  * @author Kuali Student Team
  */
