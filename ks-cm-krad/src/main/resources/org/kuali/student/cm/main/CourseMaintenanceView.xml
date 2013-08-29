@@ -257,7 +257,7 @@
         </property>
     </bean>
 
-    <bean id="loCategoryDialog" parent="Uif-VerticalBoxSection" p:fieldBindingObjectPath="document.newMaintainableObject.dataObject.loDialogWrapper">
+    <bean id="loCategoryDialog" parent="Uif-VerticalBoxSection" p:fieldBindingObjectPath="document.newMaintainableObject.loDialogWrapper">
         <property name="hidden" value="true" />
         <property name="headerText" value="Select Categories" />
         <property name="items">
