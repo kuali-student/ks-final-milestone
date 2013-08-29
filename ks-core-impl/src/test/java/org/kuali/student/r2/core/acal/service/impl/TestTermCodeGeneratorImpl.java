@@ -44,7 +44,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 /**
- * This class //TODO ...
+ * Unit test class for TermCodeGeneratorImpl
  *
  * @author Kuali Student Team
  */

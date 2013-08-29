@@ -18,11 +18,6 @@ package org.kuali.student.common.uif.view;
 
 import org.kuali.rice.krad.uif.view.InquiryView;
 
-/**
- * This class //TODO ...
- *
- * @author Kuali Student Team
- */
 public class KSInquiryView extends InquiryView {
 
 }

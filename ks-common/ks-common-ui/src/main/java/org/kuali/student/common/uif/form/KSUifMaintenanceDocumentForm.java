@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides base functionality for KS Maintenance Document forms
  *
  * @author Kuali Student Team
  */

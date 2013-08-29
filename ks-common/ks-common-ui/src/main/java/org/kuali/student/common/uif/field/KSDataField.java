@@ -22,11 +22,6 @@ import org.kuali.rice.krad.uif.field.DataField;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This class //TODO ...
- *
- * @author Kuali Student Team
- */
 public class KSDataField extends DataField{
 
     /*@Override

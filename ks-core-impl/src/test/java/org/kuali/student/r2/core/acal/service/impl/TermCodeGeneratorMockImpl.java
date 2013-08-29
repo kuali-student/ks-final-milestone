@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides a mock implementation of TermCodeGenerator
  *
  * @author Kuali Student Team
  */

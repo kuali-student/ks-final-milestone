@@ -18,11 +18,6 @@ package org.kuali.student.rice.kim;
 
 import org.kuali.rice.kim.api.identity.Person;
 
-/**
- * This class //TODO ...
- *
- * @author Kuali Student Team
- */
 public interface KSPerson {
 
     public String getPersonAffiliationType();

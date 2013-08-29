@@ -34,7 +34,7 @@ import javax.jws.WebParam;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class implements the SearchService for one specific search key, "appt.search.appointmentCountForWindowId"
  *
  * @author Kuali Student Team
  */

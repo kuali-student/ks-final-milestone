@@ -30,7 +30,7 @@ import javax.jws.WebParam;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides a base definition of a decorator for the AppointmentService
  *
  * @author Kuali Student Team
  */

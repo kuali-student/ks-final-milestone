@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * This class //TODO ...
+ * This class is the form class for the kitchen sink pages
  *
  * @author Kuali Student Team
  */

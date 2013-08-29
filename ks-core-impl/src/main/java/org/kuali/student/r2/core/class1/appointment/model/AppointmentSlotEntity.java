@@ -28,7 +28,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * This class //TODO ...
+ * This class defines the entity for AppointmentSlots
  *
  * @author Kuali Student Team
  */

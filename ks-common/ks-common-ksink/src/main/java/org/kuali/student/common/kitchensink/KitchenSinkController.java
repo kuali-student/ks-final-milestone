@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class is the controller class for kitchen sink pages
  *
  * @author Kuali Student Team
  */

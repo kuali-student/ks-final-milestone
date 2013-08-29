@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class extends ViewHelperServiceImpl to provide additional controller layer logic for the kitchen sink
  *
  * @author Kuali Student Team
  */

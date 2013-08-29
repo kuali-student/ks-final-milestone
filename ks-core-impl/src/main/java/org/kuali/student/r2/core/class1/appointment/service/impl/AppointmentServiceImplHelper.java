@@ -39,7 +39,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides helper methods for AppointmentServiceImpl
  *
  * @author Kuali Student Team
  */

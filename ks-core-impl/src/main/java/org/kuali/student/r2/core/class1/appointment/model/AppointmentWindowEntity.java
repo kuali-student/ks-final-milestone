@@ -28,7 +28,7 @@ import javax.persistence.*;
 import java.util.*;
 
 /**
- * This class //TODO ...
+ * This class defines the entity for AppointmentWindows
  *
  * @author Kuali Student Team
  */

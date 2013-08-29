@@ -52,7 +52,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides the default implementation of the AppointmentService
  *
  * @author Kuali Student Team
  */
