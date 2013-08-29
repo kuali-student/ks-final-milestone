@@ -240,7 +240,7 @@
 	</bean>
 	<bean id="KS-CourseView-CourseLogisticsPage-CourseFormats-Widgets"
 		parent="Uif-StackedCollectionSection" p:headerText="Course Format(s)"
-		p:propertyName="formats" p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.FormatInfo">
+		p:propertyName="course.formats" p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.FormatInfo">
 		<property name="instructionalText"
 			value="Each course format can consist of any number of activities, and you may have more than one course format for this&lt;br&gt;course." />
 		<property name="help">
