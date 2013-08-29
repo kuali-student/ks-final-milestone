@@ -41,12 +41,10 @@ import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.student.cm.course.dto.CourseProposalInfo;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
-import org.kuali.student.cm.course.infc.CourseProposal;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.impl.LookupableConstants;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
@@ -471,8 +469,9 @@ public class CourseController extends MaintenanceDocumentController {
 	protected void redrawDecisionTable(final MaintenanceDocumentForm form,
                                        final List<CommentInfo> commentInfos,
                                        final Map<String, MembershipInfo> members) {
-        final CourseProposal courseProposal = 
-            ((CourseInfoMaintainable) form.getDocument().getNewMaintainableObject()).getCourseProposal();
+	    
+        final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
+        
         final DateTimeFormatter dateFormat = DateTimeFormat.forPattern("MM/dd/yyyy");
 
 		if (commentInfos != null) {
@@ -499,7 +498,7 @@ public class CourseController extends MaintenanceDocumentController {
     					decision.setActor(memberName.toString());
     				}
     				decision.setRationale(commentInfo.getCommentText().getPlain());
-                    courseProposal.getDecisions().add(decision);
+    				maintainable.getDecisions().add(decision);
 			    }
 			}
 		}
@@ -536,9 +535,11 @@ public class CourseController extends MaintenanceDocumentController {
     @RequestMapping(params = "methodToCall=showLoCategories")
     public ModelAndView showLoCategories(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
-        final CourseProposal courseProposalInfo = ((CourseInfoMaintainable) form.getDocument().getNewMaintainableObject()).getCourseProposal();
+        
+        final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
+        
         //Get the available categories
-        courseProposalInfo.getLoDialogWrapper().setLearningObjectiveOptions(getLoCategories());
+        maintainable.getLoDialogWrapper().setLearningObjectiveOptions(getLoCategories());
         
         // redirect back to client to display lightbox
         return showDialog(LEARNING_OBJECTIVES_CAT_DIALOG_KEY, form, request, response);
@@ -556,8 +557,8 @@ public class CourseController extends MaintenanceDocumentController {
     @RequestMapping(params = "methodToCall=addLoCategory")
     public ModelAndView addLoCategory(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        final CourseProposal courseProposalInfo = ((CourseInfoMaintainable) form.getDocument().getNewMaintainableObject()).getCourseProposal();
-        for (LoCategoryInfoWrapper loCategoryInfoWrapper : courseProposalInfo.getLoDialogWrapper().getLearningObjectiveOptions()) {
+        final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
+        for (LoCategoryInfoWrapper loCategoryInfoWrapper : maintainable.getLoDialogWrapper().getLearningObjectiveOptions()) {
             if (loCategoryInfoWrapper.isSelected()) {
                 LoDisplayInfo selectedLo = getSelectedLo(form);
                 if (selectedLo != null) {
@@ -617,8 +618,8 @@ public class CourseController extends MaintenanceDocumentController {
         }
         LoDisplayInfo selectedLo = null;
         if (index != -1) {
-            final CourseProposal courseProposalInfo = ((CourseInfoMaintainable) form.getDocument().getNewMaintainableObject()).getCourseProposal();
-            selectedLo = courseProposalInfo.getCourse().getCourseSpecificLOs().get(index);
+            final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
+            selectedLo = maintainable.getCourse().getCourseSpecificLOs().get(index);
         }
         
         return selectedLo;

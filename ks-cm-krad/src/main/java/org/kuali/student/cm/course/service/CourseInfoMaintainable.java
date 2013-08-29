@@ -19,12 +19,12 @@ import java.util.List;
 
 import org.kuali.rice.krad.maintenance.Maintainable;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
+import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.LearningObjectiveDialogWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.SubjectCodeWrapper;
-import org.kuali.student.cm.course.infc.CourseProposal;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
@@ -68,12 +68,6 @@ public interface CourseInfoMaintainable extends Maintainable {
 
     void setProposal(final ProposalInfo proposal);
         
-    /**
-     *
-     * @return CourseProposal
-     */
-    CourseProposal getCourseProposal();
-
     /**
      * Gets the value of audit
      * 
@@ -240,6 +234,20 @@ public interface CourseInfoMaintainable extends Maintainable {
      * @param commentInfos List of {@link CommentInfo}
      */
     void setCommentInfos(List<CommentInfo> commentInfos);
+    
+    /**
+     * Gets the list of CollaboratorWrapper
+     * 
+     * @return the list of {@link CollaboratorWrapper}
+     */
+    List<CollaboratorWrapper> getCollaboratorWrappers();
+
+    /**
+     * Sets the list of CollaboratorWrapper
+     * 
+     * @param CollaboratorWrapper List of {@link CollaboratorWrapper}
+     */
+    void setCollaboratorWrappers(List<CollaboratorWrapper> collaboratorWrappers);
 
     /**
      * Gets the list of Decisions

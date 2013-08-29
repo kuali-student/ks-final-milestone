@@ -15,22 +15,24 @@
  */
 package org.kuali.student.cm.course.service.impl;
 
+import static org.kuali.student.logging.FormattedLogger.error;
+import static org.kuali.student.logging.FormattedLogger.info;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
-import org.kuali.student.cm.course.dto.CourseProposalInfo;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
+import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.LearningObjectiveDialogWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.SubjectCodeWrapper;
-import org.kuali.student.cm.course.infc.CourseProposal;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
-import org.kuali.student.lum.lu.ui.course.keyvalues.KeyValueConstants;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -50,8 +52,6 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
-
-import static org.kuali.student.logging.FormattedLogger.*;
 
 /**
  * Base view helper service for both create and edit course info presentations.
@@ -73,9 +73,6 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
 	private LearningObjectiveService learningObjectiveService;
 
 	private static CourseInfoMaintainable instance;
-
-    
-    private CourseProposal courseProposal;
 
     private ProposalInfo proposalInfo;
     
@@ -106,6 +103,8 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
     private List<OrganizationInfoWrapper> administeringOrganizations;
     
     private String lastUpdated;
+    
+    private List<CollaboratorWrapper> collaboratorWrappers;
 
 	
 	public static final CourseInfoMaintainable getInstance() {
@@ -536,13 +535,6 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
         setDataObject(course);
     }
 
-    public CourseProposal getCourseProposal() {
-        if (courseProposal == null) {
-            courseProposal = new CourseProposalInfo((CourseInfo) getDataObject(), getProposal());
-        }
-        return courseProposal;
-    }
-
     /**
      * Gets the value of audit
      * 
@@ -812,4 +804,19 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
     public void setAdministeringOrganizations(List<OrganizationInfoWrapper> administeringOrganizations) {
         this.administeringOrganizations = administeringOrganizations;
     }
+
+    @Override
+    public List<CollaboratorWrapper> getCollaboratorWrappers() {
+        if (collaboratorWrappers == null) {
+            collaboratorWrappers = new ArrayList<CollaboratorWrapper>(0);
+        }
+        return collaboratorWrappers;
+    }
+
+    @Override
+    public void setCollaboratorWrappers(List<CollaboratorWrapper> collaboratorWrappers) {
+        this.collaboratorWrappers = collaboratorWrappers;
+        
+    }
+
 }
