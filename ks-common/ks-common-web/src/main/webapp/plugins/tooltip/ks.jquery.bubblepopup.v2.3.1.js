@@ -614,7 +614,7 @@
             var H = m(x);
             switch (K) {
                 case "left":
-                    I.top = t - M - z + l(w);
+                    I.top = t - M - z + l(w) - 20;
                     I.left = y + A;
                     break;
                 case "center":
