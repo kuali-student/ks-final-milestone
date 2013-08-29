@@ -27,8 +27,5 @@
 <!-- 				<ref bean="KS-CourseView-AuthorsAndCollaboratorsPage-Widgets" /> -->
 <!-- 			</list> -->
 <!-- 		</property> -->
-		<property name="footer">
-            <ref bean="KS-CourseView-Footer" />
-        </property>
 	</bean>
 </beans>
