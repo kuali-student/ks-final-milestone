@@ -1354,10 +1354,10 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 if (!CommonUtils.isValidDateRange(examWrapper.getStartDate(),examWrapper.getEndDate())){
                     GlobalVariables.getMessageMap().putErrorForSectionId(finalExamSectionName, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE, examWrapper.getExamPeriodNameUI(),CommonUtils.formatDate(examWrapper.getStartDate()),CommonUtils.formatDate(examWrapper.getEndDate()));
                 }
-                // Start and End Dates of the exam period should be within the the term period.
+                // Warning message when Start and End Dates of the exam period not within the term period.
                 if (!CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),examWrapper.getStartDate()) ||
                         !CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),examWrapper.getEndDate())){
-                    GlobalVariables.getMessageMap().putErrorForSectionId(finalExamSectionName, CalendarConstants.MessageKeys.ERROR_TERM_NOT_IN_TERM_RANGE,examWrapper.getExamPeriodNameUI(),termWrapperToValidate.getName());
+                    GlobalVariables.getMessageMap().putWarningForSectionId(finalExamSectionName, CalendarConstants.MessageKeys.ERROR_TERM_NOT_IN_TERM_RANGE,examWrapper.getExamPeriodNameUI(),termWrapperToValidate.getName());
                 }
                 // Both or neither dates should be filled
                 if ( examWrapper.getStartDate()!= null && !examWrapper.getStartDate().equals("") && (examWrapper.getEndDate() == null || examWrapper.getEndDate().equals(""))) {
