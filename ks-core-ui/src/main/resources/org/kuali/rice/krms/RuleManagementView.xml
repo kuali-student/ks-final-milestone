@@ -133,7 +133,7 @@ limitations under the License.
     </bean>
     <bean id="KRMS-Tree" parent="KRMS-Tree-parent"/>
 
-    <bean id="KRMS-Tree-Section-parent" parent="Uif-TreeSection">
+    <bean id="KRMS-Tree-Section-parent" parent="Uif-TreeSection" class="org.kuali.rice.krms.util.ViewTreeGroup">
         <property name="template" value="/ks-enroll/WEB-INF/ftl/ruleTreeGroup.ftl"/>
         <property name="templateName" value="uif_ruleTreeGroup"/>
         <property name="tree">
@@ -142,7 +142,7 @@ limitations under the License.
     </bean>
     <bean id="KRMS-Tree-Section" parent="KRMS-Tree-Section-parent"/>
 
-    <bean id="KRMS-ViewTree-Section-parent" parent="KRMS-Tree-Section" class="org.kuali.rice.krms.util.ViewTreeGroup">
+    <bean id="KRMS-ViewTree-Section-parent" parent="KRMS-Tree-Section">
         <property name="defaultNodePrototype">
             <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
                 <property name="labelPrototype">
