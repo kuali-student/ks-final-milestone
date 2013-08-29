@@ -18,8 +18,10 @@ package org.kuali.student.cm.course.controller;
 import static org.kuali.student.logging.FormattedLogger.debug;
 import static org.kuali.student.logging.FormattedLogger.error;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -144,16 +146,18 @@ public class CourseController extends MaintenanceDocumentController {
         // Create the document in the super method
         final ModelAndView retval = super.docHandler(courseForm, result, request, response);
         courseForm.getDocument().getDocumentHeader().setDocumentDescription("New Course Proposal");
+        
+        final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) courseForm.getDocument().getNewMaintainableObject();
 
-        final CourseProposal courseProposal = ((CourseInfoMaintainable) courseForm.getDocument().getNewMaintainableObject()).getCourseProposal();
+        final CourseProposal courseProposal = maintainable.getCourseProposal();
         
         // We can actually get this from the workflow document initiator id. It doesn't need to be stored in the form.
         courseProposal.setUserId(ContextUtils.getContextInfo().getPrincipalId());
 
         // After creating the document, modify the state
-        // Should look into replacing this with calls to WorkflowUtilities
-        ((CourseInfo) courseForm.getDocument().getNewMaintainableObject().getDataObject()).setStateKey(DtoConstants.STATE_DRAFT);
-
+        courseProposal.getCourse().setStateKey(DtoConstants.STATE_DRAFT);
+        maintainable.setLastUpdated(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(new DateTime()));
+                
         return retval;
     }
         
@@ -171,7 +175,8 @@ public class CourseController extends MaintenanceDocumentController {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=saveAndContinue")
     public ModelAndView saveAndContinue(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) {
-        final CourseProposal courseProposalInfo = ((CourseInfoMaintainable) form.getDocument().getNewMaintainableObject()).getCourseProposal();
+        final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
+        final CourseProposal courseProposalInfo = maintainable.getCourseProposal();
         
         //Clear collection fields (those with matching 'display' collections)
         courseProposalInfo.getCourse().getJoints().clear();
@@ -222,6 +227,7 @@ public class CourseController extends MaintenanceDocumentController {
         }
         savedCourseInfo.setUnitsContentOwner(courseProposalInfo.getCourse().getUnitsContentOwner());
         courseProposalInfo.setCourse(savedCourseInfo);
+        maintainable.setLastUpdated(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(new DateTime()));
 
         try {
             save(form, result, request, response);
@@ -331,14 +337,14 @@ public class CourseController extends MaintenanceDocumentController {
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         CourseProposal courseProposalInfo = ((CourseInfoMaintainable) form.getDocument().getNewMaintainableObject()).getCourseProposal();
         
-        DateFormat df = new SimpleDateFormat("MMMM dd, yyyy - hh:mmaaa");
-        Date date = new Date();
+        final String dateStr = DateTimeFormat.forPattern("MMMM dd, yyyy - hh:mmaaa").print(new DateTime());
+        final Date date = new Date();
         
         for (CommentInfo ittCommentInfo : courseProposalInfo.getCommentInfos()) {
             CommentInfo commentInfo = ittCommentInfo;
             commentInfo.getCommentText().setFormatted(commentInfo.getCommentText().getPlain());
             //get the userID from the form to save with the comment made.
-            commentInfo.setCommenterId(getUserNameLoggedin(courseProposalInfo.getUserId())+" "+df.format(date));
+            commentInfo.setCommenterId(getUserNameLoggedin(courseProposalInfo.getUserId()) + " " + dateStr);
             commentInfo.setEffectiveDate(date);
             commentInfo.setTypeKey("kuali.comment.type.generalRemarks");
             //TODO KSCM-848 : Will need to replace these temp values once we get UMD's reference data
@@ -481,6 +487,7 @@ public class CourseController extends MaintenanceDocumentController {
                                        final Map<String, MembershipInfo> members) {
         final CourseProposal courseProposal = 
             ((CourseInfoMaintainable) form.getDocument().getNewMaintainableObject()).getCourseProposal();
+        final DateTimeFormatter dateFormat = DateTimeFormat.forPattern("MM/dd/yyyy");
 
 		if (commentInfos != null) {
 			for (final CommentInfo commentInfo : commentInfos) {
@@ -493,10 +500,8 @@ public class CourseController extends MaintenanceDocumentController {
                     decision.setDecision(drDetails.getLabel());
                     decision.setId(commentInfo.getId());
 
-                    final SimpleDateFormat dateformat = new SimpleDateFormat("MM/dd/yyyy");
-                    
-                    final StringBuilder rationaleDate = new StringBuilder(dateformat.format(commentInfo.getMeta().getCreateTime()));
-    				decision.setDate(rationaleDate.toString());
+                    final String rationaleDate = dateFormat.print(new DateTime(commentInfo.getMeta().getCreateTime().getTime()));
+    				decision.setDate(rationaleDate);
     
     				if (members.get(commentInfo.getMeta().getCreateId()) != null) {
     					final MembershipInfo memberInfo = members.get(commentInfo.getMeta().getCreateId());
