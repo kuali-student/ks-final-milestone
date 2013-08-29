@@ -293,9 +293,11 @@ function show(e){
 
     //Show the Hide Link
     jq(e.currentTarget).siblings('.hideActionLink').show();
+    jq(e.currentTarget).siblings().find('.hideActionLink').show();
 
     //Hide the Show Link
     jq(e.currentTarget).hide();
+    jq(e.currentTarget).siblings().find('.showActionLink').hide();
 }
 
 function hide(e){
@@ -304,9 +306,11 @@ function hide(e){
 
     //Show the Show Link
     jq(e.currentTarget).siblings('.showActionLink').show();
+    jq(e.currentTarget).siblings().find('.showActionLink').show();
 
     //Hide the Hide Link
     jq(e.currentTarget).hide();
+    jq(e.currentTarget).siblings().find('.hideActionLink').hide();
 }
 
 function ajaxCutPropositionTree() {
