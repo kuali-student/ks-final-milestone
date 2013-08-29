@@ -27,5 +27,8 @@
 <!-- 				<ref bean="KS-CourseView-reviewProposalPagePage-Widgets" /> -->
 <!-- 			</list> -->
 <!-- 		</property> -->
-	</bean>
+        <property name="footer">
+            <bean parent="KS-CourseView-Footer"/>
+        </property>	
+    </bean>
 </beans>

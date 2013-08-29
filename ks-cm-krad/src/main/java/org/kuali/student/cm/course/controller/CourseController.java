@@ -222,6 +222,14 @@ public class CourseController extends MaintenanceDocumentController {
         }
         savedCourseInfo.setUnitsContentOwner(courseProposalInfo.getCourse().getUnitsContentOwner());
         courseProposalInfo.setCourse(savedCourseInfo);
+
+        try {
+            save(form, result, request, response);
+        }
+        catch (Exception e) {
+            error("Unable to save document: %s", e.getMessage());
+        }
+
         return getUIFModelAndView(form, getNextPageId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
     }
     

@@ -16,6 +16,9 @@
                 <ref bean="KS-CourseView-ActiveDatesPage-Widgets" />
             </list>
         </property>
+        <property name="footer">
+            <bean parent="KS-CourseView-Footer"/>
+        </property>
     </bean>
 
     <bean id="KS-CourseView-ActiveDatesPage-Widgets" parent="Uif-VerticalBoxSection">

@@ -29,6 +29,9 @@
             	<ref bean="KS-CourseView-CourseInfoPage-Widgets" />
             </list>
         </property>
+        <property name="footer">
+            <bean parent="KS-CourseView-Footer"/>
+        </property>
         <property name="onDocumentReadyScript" value="setupCharCounters()" />
     </bean>
     

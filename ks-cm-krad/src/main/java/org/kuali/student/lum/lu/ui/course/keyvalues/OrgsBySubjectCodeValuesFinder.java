@@ -20,7 +20,6 @@ import static org.kuali.student.logging.FormattedLogger.info;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -29,13 +28,13 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.student.cm.course.dto.CourseProposalInfo;
 import org.kuali.student.cm.course.service.impl.LookupableConstants;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 /**
  * Return all organizations by a specific subject code.
@@ -54,8 +53,9 @@ public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
 
         final SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
-        CourseProposalInfo courseProposalInfo = (CourseProposalInfo) form.getDocument().getNewMaintainableObject().getDataObject();
-        searchRequest.addParam("subjectCode.queryParam.code", courseProposalInfo.getCourse().getSubjectArea());
+
+        final CourseInfo course = (CourseInfo) form.getDocument().getNewMaintainableObject().getDataObject();
+        searchRequest.addParam("subjectCode.queryParam.code", course.getSubjectArea());
 
         try {
         	for (final SearchResultRowInfo result 
@@ -65,7 +65,7 @@ public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
                 String subjectCodeOptionalLongName = "";
                 String subjectCodeType = "";
                 
-                for (SearchResultCellInfo resultCell : result.getCells()) {
+                for (final SearchResultCellInfo resultCell : result.getCells()) {
                     if ("subjectCode.resultColumn.orgId".equals(resultCell.getKey())) {
                         subjectCodeId = resultCell.getValue();
                     } else if ("subjectCode.resultColumn.orgShortName".equals(resultCell.getKey())) {

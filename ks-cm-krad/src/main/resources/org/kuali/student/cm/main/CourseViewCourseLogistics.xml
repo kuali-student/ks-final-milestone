@@ -29,6 +29,9 @@
 				<ref bean="KS-CourseView-CourseLogisticsPage-CourseFormats-Widgets" />
 			</list>
 		</property>
+        <property name="footer">
+            <bean parent="KS-CourseView-Footer"/>
+        </property>
 	</bean>
 	<bean id="KS-CourseView-CourseLogisticsPage-Scheduling-Widgets"
 		parent="Uif-VerticalBoxSection" p:headerText="Scheduling">

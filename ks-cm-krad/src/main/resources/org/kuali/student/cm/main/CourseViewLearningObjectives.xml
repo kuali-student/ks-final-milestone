@@ -29,6 +29,9 @@
 				<ref bean="LearningObjective-CollectionSection" />
 			</list>
 		</property>
+        <property name="footer">
+            <bean parent="KS-CourseView-Footer"/>
+        </property>
     </bean>
 
 	<bean id="LearningObjective-CollectionSection" parent="Uif-StackedCollectionSection"

@@ -27,6 +27,9 @@
                 <ref bean="KS-CourseView-GovernancePage-Widgets" /> 
             </list> 
         </property> 
+        <property name="footer">
+            <bean parent="KS-CourseView-Footer"/>
+        </property>
     </bean>
 
     <bean id="KS-CourseView-GovernancePage-Widgets" parent="Uif-VerticalBoxSection">

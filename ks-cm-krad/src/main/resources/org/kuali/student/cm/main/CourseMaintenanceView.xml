@@ -51,9 +51,9 @@
         </property>
         <property name="dialogs">
             <list>
-                  <ref bean="commentsLightBox" />
-                  <ref bean="decisionsDialog" />
-                  <ref bean="loCategoryDialog" />
+                <ref bean="commentsLightBox" />
+                <ref bean="decisionsDialog" />
+                <ref bean="loCategoryDialog" />
             </list>
         </property>
 
@@ -116,14 +116,14 @@
                                         <property name="items">
                                             <list>
                                                 <bean parent="Uif-DataField" p:label="Proposal Status"
-                                                    p:shortLabel="Status" p:labelPlacement="LEFT" p:propertyName="course.stateKey" />
+                                                      p:shortLabel="Status" p:labelPlacement="LEFT" p:propertyName="course.stateKey" />
                                                 <bean parent="Uif-ActionLink" p:actionLabel="Comments"
-                                                    p:methodToCall="showComment" />
+                                                      p:methodToCall="showComment" />
                                                 <bean parent="Uif-ActionLink" p:actionLabel="Decisions"
-                                                    p:methodToCall="showDecisions" />
+                                                      p:methodToCall="showDecisions" />
                                                 <bean parent="Uif-Space" />
                                                 <bean parent="Uif-DataField" p:label="Last Updated"
-                                                    p:shortLabel="Updated" p:labelPlacement="LEFT" p:propertyName="lastUpdated" />
+                                                      p:shortLabel="Updated" p:labelPlacement="LEFT" p:propertyName="lastUpdated" />
                                             </list>
                                         </property>
                                     </bean>
@@ -141,7 +141,7 @@
                                             </list>
                                         </property>
                                         <property name="messageText"
-                                            value="Showing required and optional fields. Show only required fields" />
+                                                  value="Showing required and optional fields. Show only required fields" />
                                     </bean>
                                 </list>
                             </property>
@@ -151,31 +151,102 @@
             </bean>
         </property>
     </bean>
-        
+    
+    <bean id="KS-CourseView-Footer" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" 
+                      p:ajaxSubmit="false" 
+                      p:methodToCall="performRouteReport" 
+                      p:actionLabel="Route Report"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_PERFORM_ROUTE_REPORT]}"/>
+                <bean parent="Uif-PrimaryActionButton" 
+                      p:ajaxSubmit="false" 
+                      p:methodToCall="sendAdHocRequests" 
+                      p:actionLabel="Send Adhoc"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}"/>
+                <bean parent="Uif-PrimaryActionButton" 
+                      p:ajaxSubmit="false" 
+                      p:methodToCall="route" 
+                      p:actionLabel="Submit" 
+                      p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="Uif-SaveAction" 
+                      p:ajaxSubmit="false" 
+                      p:methodToCall="saveAndContinue" 
+                      p:actionLabel="Save and Continue" 
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
+                <bean parent="Uif-PrimaryActionButton" 
+                      p:ajaxSubmit="false" 
+                      p:methodToCall="reload" 
+                      p:actionLabel="Reload"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RELOAD]}"/>
+                <bean parent="Uif-PrimaryActionButton" 
+                      p:ajaxSubmit="false" 
+                      p:methodToCall="blanketApprove" 
+                      p:actionLabel="Blanket Approve" 
+                      p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
+                <bean parent="Uif-PrimaryActionButton" 
+                      p:ajaxSubmit="false" 
+                      p:methodToCall="approve" 
+                      p:actionLabel="Approve" 
+                      p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
+                <bean parent="Uif-PrimaryActionButton" 
+                      p:ajaxSubmit="false" 
+                      p:methodToCall="disapprove" 
+                      p:actionLabel="Disapprove"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}"/>
+                <bean parent="Uif-PrimaryActionButton" 
+                      p:ajaxSubmit="false" 
+                      p:methodToCall="fyi" 
+                      p:actionLabel="FYI"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI]}"/>
+                <bean parent="Uif-PrimaryActionButton" 
+                      p:ajaxSubmit="false" 
+                      p:methodToCall="acknowledge" 
+                      p:actionLabel="Acknowledge"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE]}"/>
+                <bean parent="Uif-CloseAction" 
+                      p:ajaxSubmit="false" 
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
+                <bean parent="Uif-CancelAction" 
+                      p:ajaxSubmit="false" 
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+                <bean parent="Uif-ActionLink" 
+                      p:ajaxSubmit="false" 
+                      p:methodToCall="copy" 
+                      p:actionLabel="copy"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY]}"/>
+            </list>
+        </property>
+    </bean>
+    
     <bean id="KS-CourseNavigation-Menu" parent="Uif-MenuNavigationGroup">
         <property name="items">
             <list>
                 <bean parent="Uif-HeaderTwo" p:headerText="Course Sections" />
                 <bean id="KS-CourseViewCourseInfo-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-CourseInfoPage"
-                    p:actionLabel="Course Information" />
+                      p:actionLabel="Course Information" />
                 <bean id="KS-CourseViewGovernance-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-GovernancePage"
-                    p:actionLabel="Governance" />
+                      p:actionLabel="Governance" />
                 <bean id="KS-CourseViewCourseLogistics-ActionLink" parent="Uif-NavigationActionLink"
-                    p:navigateToPageId="KS-CourseView-CourseLogisticsPage" p:actionLabel="Course Logistics" />
+                      p:navigateToPageId="KS-CourseView-CourseLogisticsPage" p:actionLabel="Course Logistics" />
                 <bean id="KS-CourseViewLearningObjectives-ActionLink" parent="Uif-NavigationActionLink"
-                    p:navigateToPageId="KS-CourseView-LearningObjectivesPage" p:actionLabel="Learning Objectives" p:disabled="true" />
+                      p:navigateToPageId="KS-CourseView-LearningObjectivesPage" p:actionLabel="Learning Objectives" p:disabled="true" />
                 <bean id="KS-CourseViewCourseRequisites-ActionLink" parent="Uif-NavigationActionLink"
-                    p:navigateToPageId="KS-CourseView-CourseRequisitesPage" p:actionLabel="Course Requisites" p:disabled="true" />
+                      p:navigateToPageId="KS-CourseView-CourseRequisitesPage" p:actionLabel="Course Requisites" p:disabled="true" />
                 <bean id="KS-CourseViewActiveDates-ActionLink" parent="Uif-NavigationActionLink"
-                    p:navigateToPageId="KS-CourseView-ActiveDatesPage" p:actionLabel="Active Dates" />
+                      p:navigateToPageId="KS-CourseView-ActiveDatesPage" p:actionLabel="Active Dates" />
                 <bean id="KS-CourseViewFinancials-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-FinancialsPage"
-                    p:actionLabel="Financials" p:disabled="true"/>
+                      p:actionLabel="Financials" p:disabled="true"/>
                 <bean id="KS-CourseViewAuthorsAndCollaborators-ActionLink" parent="Uif-NavigationActionLink"
-                    p:navigateToPageId="KS-CourseView-AuthorsAndCollaboratorsPage" p:actionLabel="Authors &amp; Collaborators" p:disabled="true"/>
+                      p:navigateToPageId="KS-CourseView-AuthorsAndCollaboratorsPage" p:actionLabel="Authors &amp; Collaborators" p:disabled="true"/>
                 <bean id="KS-CourseViewSupportingDocuments-ActionLink" parent="Uif-NavigationActionLink"
-                    p:navigateToPageId="KS-CourseView-SupportingDocumentsPage" p:actionLabel="Supporting Documents" />
+                      p:navigateToPageId="KS-CourseView-SupportingDocumentsPage" p:actionLabel="Supporting Documents" />
                 <bean id="KS-CourseViewReviewProposal-ActionLink" parent="Uif-NavigationActionLink"
-                    p:navigateToPageId="KS-CourseView-ReviewProposalPage" p:actionLabel="Review Proposal" p:disabled="true"/>
+                      p:navigateToPageId="KS-CourseView-ReviewProposalPage" p:actionLabel="Review Proposal" p:disabled="true"/>
             </list>
         </property>
     </bean>
@@ -190,7 +261,7 @@
                 <!--"propsalCommentSection" -->
                 <bean parent="Uif-DataField" p:propertyName="proposal.name" />
                 <bean parent="Uif-Message"
-                    p:messageText="All comments posted here will be visible to authors, and to reviewers after you submit the proposal" />
+                      p:messageText="All comments posted here will be visible to authors, and to reviewers after you submit the proposal" />
 
                 <!--"commentTableSection" -->
                 <bean parent="Uif-MessageField" p:messageText="Logged in as: @{document.newMaintainableObject.userId}" />
@@ -271,7 +342,7 @@
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.LoCategoryInfoTypeKeyValueFinder"
-                            p:addBlankOption="false" />
+                              p:addBlankOption="false" />
                     </property>
                 </bean>
 
@@ -310,12 +381,12 @@
                     <property name="filters">
                         <list>
                             <bean parent="Uif-ConditionalCollectionFilter"
-                                p:expression="@{document.newMaintainableObject.dataObject.loDialogWrapper.typeKeyFilters != null ? #listContains(document.newMaintainableObject.dataObject.loDialogWrapper.typeKeyFilters, #line.typeKey) : true}" />
+                                  p:expression="@{document.newMaintainableObject.dataObject.loDialogWrapper.typeKeyFilters != null ? #listContains(document.newMaintainableObject.dataObject.loDialogWrapper.typeKeyFilters, #line.typeKey) : true}" />
                         </list>
                     </property>
                     <property name="refreshWhenChangedPropertyNames" value="loDialogWrapper.typeKeyFilters" />
                 </bean>
-             </list>
+            </list>
         </property>
         <property name="footer">
             <bean parent="Uif-FooterBase">
