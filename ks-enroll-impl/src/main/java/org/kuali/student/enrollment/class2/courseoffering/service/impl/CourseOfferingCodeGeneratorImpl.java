@@ -27,7 +27,7 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides a default implementation of CourseOfferingCodeGenerator
  *
  * @author Kuali Student Team
  */

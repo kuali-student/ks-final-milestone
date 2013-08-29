@@ -20,7 +20,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * This class //TODO ...
+ * This class describes a problem with auto-generating a FormatOffering
+ * because an Activity Offering was not in a Activity Offering Cluster
  *
  * @author Kuali Student Team
  */

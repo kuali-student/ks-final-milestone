@@ -54,7 +54,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 /**
- * This class //TODO ...
+ * This class provides unit tests for the Appointment Service
  *
  * @author Kuali Student Team
  */

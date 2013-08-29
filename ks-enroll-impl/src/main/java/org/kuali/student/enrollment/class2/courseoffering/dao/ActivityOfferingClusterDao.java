@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.dao.GenericEntityDao;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides data accessor methods for ActivityOfferingCluster entities
  *
  * @author Kuali Student Team
  */

@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * This class //TODO ...
+ * This class provides utility methods for generating registration group codes
  *
  * @author Kuali Student Team
  */

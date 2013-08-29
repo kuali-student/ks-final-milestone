@@ -43,7 +43,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This class //TODO ...
+ * This class defines the entity for ActivityOfferingClusters
  *
  * @author Kuali Student Team
  */

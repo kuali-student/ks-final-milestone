@@ -25,7 +25,7 @@ import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides a mock implementation of the NaturalLanguageUsageBo Service
  *
  * @author Kuali Student Team
  */

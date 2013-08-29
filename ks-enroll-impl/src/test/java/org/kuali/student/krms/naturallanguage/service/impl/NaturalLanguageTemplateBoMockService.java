@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides a mock implementation of the NaturalLanguageTemplateBo Service
  *
  * @author Kuali Student Team
  */

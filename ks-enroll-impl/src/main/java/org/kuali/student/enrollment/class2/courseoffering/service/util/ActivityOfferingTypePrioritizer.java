@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides a fixed priority for activity offering types
  *
  * @author Kuali Student Team
  */

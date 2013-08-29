@@ -25,7 +25,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * This class //TODO ...
+ * This class defines the entity for attributes of EnrollmentFees
  *
  * @author Kuali Student Team
  */

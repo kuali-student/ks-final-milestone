@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class describes a problem with auto-generating a Course Offering
  *
  * @author Kuali Student Team
  */

@@ -19,7 +19,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import java.util.Calendar;
 
 /**
- * This class //TODO ...
+ * This class provides a basic timing stopwatch
  *
  * @author Kuali Student Team
  */

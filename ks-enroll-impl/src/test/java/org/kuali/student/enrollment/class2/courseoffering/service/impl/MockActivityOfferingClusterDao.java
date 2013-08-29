@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides a mock implementation of ActivityOfferingClusterDaoApi
  *
  * @author Kuali Student Team
  */

@@ -30,7 +30,7 @@ import org.kuali.rice.krms.api.repository.typerelation.RelationshipType;
 import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
 
 /**
- * This class //TODO ...
+ * This class provides a mock implementation of the KrmsTypeRepository Service
  *
  * @author Kuali Student Team
  */

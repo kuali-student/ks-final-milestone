@@ -30,11 +30,6 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This class //TODO ...
- *
- * @author Kuali Student Team
- */
 public class SeatPoolGenerator {
     CourseOfferingService coService;
     LuiService luiService;

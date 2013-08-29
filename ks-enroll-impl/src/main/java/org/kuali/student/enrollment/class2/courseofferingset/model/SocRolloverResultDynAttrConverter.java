@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class converts dynamic attributes from SocRolloverResults
  *
  * @author Kuali Student Team
  */

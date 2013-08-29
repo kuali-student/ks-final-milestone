@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides conversion methods for OfferingInstructors and LprInfos
  *
  * @author Kuali Student Team
  */

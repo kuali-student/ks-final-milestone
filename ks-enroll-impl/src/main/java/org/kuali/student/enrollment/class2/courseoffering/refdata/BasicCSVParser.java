@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * This class //TODO ...
+ * This class provides a basic conversion from a CSV file to a SpreadsheetData object
  *
  * @author Kuali Student Team
  */

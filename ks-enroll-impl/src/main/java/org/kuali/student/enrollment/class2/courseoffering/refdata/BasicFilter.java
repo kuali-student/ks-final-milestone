@@ -16,11 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.refdata;
 
-/**
- * This class //TODO ...
- *
- * @author Kuali Student Team
- */
 public interface BasicFilter {
     boolean permits(String input);
 }

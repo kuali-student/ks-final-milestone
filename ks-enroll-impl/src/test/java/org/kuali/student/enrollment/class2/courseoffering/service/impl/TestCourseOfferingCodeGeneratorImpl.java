@@ -39,7 +39,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * This class //TODO ...
+ * This class provides unit tests for CourseOfferingCodeGeneratorImpl
  *
  * @author Kuali Student Team
  */

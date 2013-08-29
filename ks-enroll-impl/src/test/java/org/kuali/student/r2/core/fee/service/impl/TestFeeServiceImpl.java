@@ -38,7 +38,7 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 
 /**
- * This class //TODO ...
+ * This class provides unit tests for FeeServiceImpl
  *
  * @author Kuali Student Team
  */

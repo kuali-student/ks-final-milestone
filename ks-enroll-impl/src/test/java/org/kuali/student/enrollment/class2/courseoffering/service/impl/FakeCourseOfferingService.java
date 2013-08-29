@@ -16,12 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-/**
- * This class //TODO ...
- *
- * @author Kuali Student Team
- */
-
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -41,7 +35,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * To test UMDRegGroupCodeGenerator
+ * This class provides a fake implementation of the Course Offering Service to test UMDRegGroupCodeGenerator
+ *
+ * @author Kuali Student Team
  */
 class FakeCourseOfferingService implements CourseOfferingService {
     Map<String, List<RegistrationGroupInfo>> foIdsToRegGroups = new HashMap<String, List<RegistrationGroupInfo>>();
