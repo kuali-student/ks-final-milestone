@@ -36,21 +36,25 @@ public class CourseOfferingAgendaBuilder extends AgendaBuilder {
     protected Component buildRule(RuleEditor rule, String bindingPrefix, AgendaSection agendaSection) {
         Component group = super.buildRule(rule, bindingPrefix, agendaSection);
 
-        //Open disclosure if rule has statements
-        if(!rule.isDummy()) {
-            ((Group) group).getDisclosure().setDefaultOpen(true);
-        }
-
         //Add warning messages for empty or deleted rules.
+        boolean hasMessage = false;
         if (rule.isDummy() && rule.getParent() != null)  {
             GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_WARNING_CO_RULE_HASPARENT);
+            hasMessage = true;
         } else if ((rule.getProposition()==null) && (rule.getParent()!=null) && (rule.getParent().getProposition()!=null)) {
             GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_WARNING_CO_RULE_EMPTY);
+            hasMessage = true;
         }
 
         //Add Info message if co rule differs from clu rule.
         if (!this.getViewHelperService().compareRules(rule)) {
             GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_INFO_CO_RULE_CHANGED);
+            hasMessage = true;
+        }
+
+        //Open disclosure if rule has statements
+        if(hasMessage || !rule.isDummy()){
+            ((Group) group).getDisclosure().setDefaultOpen(true);
         }
 
         return group;
