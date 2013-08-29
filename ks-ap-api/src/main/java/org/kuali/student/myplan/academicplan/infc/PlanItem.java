@@ -1,11 +1,11 @@
 package org.kuali.student.myplan.academicplan.infc;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.kuali.student.r2.common.infc.HasId;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.infc.TypeStateEntity;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  * A single plan item. Plan items can link to different entities in the system based on the refObjectType.
@@ -48,6 +48,6 @@ public interface PlanItem extends HasId, TypeStateEntity {
     * The plan credits
     * @name The number of credits
     */
-    public Float getCredit();
+    public BigDecimal getCredit();
 
 }
