@@ -515,13 +515,13 @@ public class CourseOfferingManagementController extends UifControllerBase {
         String quantity = theForm.getNoOfActivityOfferings();
         if(!StringUtils.isEmpty(quantity) && StringUtils.isNumeric(quantity)){
             if(Integer.parseInt(quantity) < 1){
-                KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_INVALID_ERROR);
+                GlobalVariables.getMessageMap().putError("addActivityOfferingQuantity", CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_INVALID_ERROR);
             } else {
                 ActivityOfferingClusterHandler.addActivityOfferings(theForm);
             }
         }
         else{
-            KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_INVALID_ERROR);
+            GlobalVariables.getMessageMap().putError("addActivityOfferingQuantity", CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_INVALID_ERROR);
         }
 
         return getUIFModelAndView(theForm);
