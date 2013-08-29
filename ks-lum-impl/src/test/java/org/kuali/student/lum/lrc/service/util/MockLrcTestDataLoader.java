@@ -32,7 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * This class //TODO ...
+ * This class provides mock data to test the LrcService
  *
  * @author Kuali Student Team
  */
