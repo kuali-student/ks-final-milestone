@@ -236,8 +236,8 @@
 					<property name="addBlankLineAction.actionLabel" value="Add Another Cross Listing" />
 					<property name="items">
 						<list>
-							<bean id="KS-CrossList-SubjectArea-Field" parent="KS-SubjectArea-Field" p:propertyName="course.subjectArea" />
-							<bean id="KS-CrossList-CourseNumberSuffix-Field" parent="KS-CourseNumberSuffix-Field" p:propertyName="course.courseNumberSuffix" />
+							<bean id="KS-CrossList-SubjectArea-Field" parent="KS-SubjectArea-Field" p:propertyName="subjectArea" />
+							<bean id="KS-CrossList-CourseNumberSuffix-Field" parent="KS-CourseNumberSuffix-Field" p:propertyName="courseNumberSuffix" />
 						</list>
 					</property>
 				</bean>

@@ -175,58 +175,35 @@ public class CourseController extends MaintenanceDocumentController {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=saveAndContinue")
     public ModelAndView saveAndContinue(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) {
-        final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
-        final CourseProposal courseProposalInfo = maintainable.getCourseProposal();
+        final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
         
-        //Clear collection fields (those with matching 'display' collections)
-        courseProposalInfo.getCourse().getJoints().clear();
-        courseProposalInfo.getCourse().getInstructors().clear();
+        //Clear collection fields (those with matching 'wrapper' collections)
+        maintainable.getCourse().getJoints().clear();
+        maintainable.getCourse().getInstructors().clear();
+        maintainable.getCourse().getUnitsDeployment().clear();
         
         //Retrieve the collection display values and get the fully loaded object (containing all the IDs and related IDs)
-        if (courseProposalInfo.getCourseJointWrappers() != null) {
-            for (final CourseJointInfoWrapper jointInfoDisplay : courseProposalInfo.getCourseJointWrappers()) {
-                courseProposalInfo.getCourse().getJoints().add(getCourseMaintainableFrom(form).getJointOfferingCourse(jointInfoDisplay.getCourseCode()));
+        if (maintainable.getCourseJointWrappers() != null) {
+            for (final CourseJointInfoWrapper jointInfoDisplay : maintainable.getCourseJointWrappers()) {
+                maintainable.getCourse().getJoints().add(maintainable.getJointOfferingCourse(jointInfoDisplay.getCourseCode()));
             }
         }
         
-        if (courseProposalInfo.getInstructorWrappers() != null) {
-            for (final CluInstructorInfoWrapper instructorDisplay : courseProposalInfo.getInstructorWrappers()) {
+        if (maintainable.getInstructorWrappers() != null) {
+            for (final CluInstructorInfoWrapper instructorDisplay : maintainable.getInstructorWrappers()) {
                 final CluInstructorInfoWrapper retrievedInstructor = getCourseMaintainableFrom(form).getInstructor(getInstructorSearchString(instructorDisplay.getDisplayName()));
-                courseProposalInfo.getCourse().getInstructors().add(retrievedInstructor);
+                maintainable.getCourse().getInstructors().add(retrievedInstructor);
             }
         }
 
-        if (courseProposalInfo.getAdministeringOrganizations() != null) {
-            for (final OrganizationInfoWrapper org : courseProposalInfo.getAdministeringOrganizations()) {
-                courseProposalInfo.getCourse().getUnitsDeployment().add(org.getOrganizationName());
+        if (maintainable.getAdministeringOrganizations() != null) {
+            for (final OrganizationInfoWrapper org : maintainable.getAdministeringOrganizations()) {
+                maintainable.getCourse().getUnitsDeployment().add(org.getOrganizationName());
             }
         }
         
         //Set derived course fields before saving/updating
-        courseProposalInfo.setCourse(calculateCourseDerivedFields(courseProposalInfo.getCourse()));
-        
-        CourseInfo savedCourseInfo = null;
-        if (courseProposalInfo.getCourse().getId() == null) {
-            debug("Create the course proposal");
-            try {
-                savedCourseInfo = getCourseService().createCourse_KRAD(
-                        courseProposalInfo.getCourse(), ContextUtils.getContextInfo());
-            } catch (Exception e) {
-                throw new RuntimeException(
-                        "Error creating a new course.", e);
-            }
-            
-        } else {
-            debug("Update the course proposal");
-            try {
-                savedCourseInfo = courseService.updateCourse_KRAD(courseProposalInfo.getCourse().getId(), courseProposalInfo.getCourse(), ContextUtils.getContextInfo());
-            } catch (Exception e) {
-                throw new RuntimeException("Error updating a course with title: " + courseProposalInfo.getCourse().getCourseTitle(), e);
-            }
-            
-        }
-        savedCourseInfo.setUnitsContentOwner(courseProposalInfo.getCourse().getUnitsContentOwner());
-        courseProposalInfo.setCourse(savedCourseInfo);
+        maintainable.setCourse(calculateCourseDerivedFields(maintainable.getCourse()));
         maintainable.setLastUpdated(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(new DateTime()));
 
         try {
