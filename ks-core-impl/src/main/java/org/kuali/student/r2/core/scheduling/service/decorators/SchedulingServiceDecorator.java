@@ -264,11 +264,6 @@ public class SchedulingServiceDecorator implements SchedulingService {
     }
 
     @Override
-    public List<ScheduleBatchInfo> getScheduleBatchesForScheduleTransaction(@WebParam(name = "scheduleTransactionId") String scheduleTransactionId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getScheduleBatchesForScheduleTransaction(scheduleTransactionId, contextInfo);
-    }
-
-    @Override
     public ScheduleTransactionInfo getScheduleTransaction(@WebParam(name = "scheduleTransactionId") String scheduleTransactionId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getScheduleTransaction(scheduleTransactionId, contextInfo);
     }

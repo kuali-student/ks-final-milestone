@@ -881,16 +881,6 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
     }
 
     @Override
-    public List<ScheduleBatchInfo> getScheduleBatchesForScheduleTransaction(String scheduleTransactionId, ContextInfo contextInfo)
-            throws InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-    {
-        throw new OperationFailedException ("getScheduleBatchesForScheduleTransaction has not been implemented");
-    }
-
-    @Override
     public ScheduleTransactionInfo getScheduleTransaction(String scheduleTransactionId, ContextInfo contextInfo)
             throws DoesNotExistException
             ,InvalidParameterException

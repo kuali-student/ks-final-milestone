@@ -236,8 +236,7 @@ public class MessageServiceMock implements MessageService {
 
     @Override
     public StatusInfo deleteMessage(LocaleInfo localeInfo, String messageGroupKey, String messageKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	  throw new UnsupportedOperationException ("not implemented");
     }
     
     @Override
@@ -254,12 +253,13 @@ public class MessageServiceMock implements MessageService {
         return status;
     }
 
-    @Override
-    public List<ValidationResultInfo> validateProposal(String validationTypeKey, MessageInfo messageInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException ("Not supported yet.");
-    }
-    
-    
+	@Override
+	public List<ValidationResultInfo> validateMessage(String validationTypeKey,
+			MessageInfo messageInfo, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		  throw new UnsupportedOperationException ("not implemented");
+	}
     
     
 

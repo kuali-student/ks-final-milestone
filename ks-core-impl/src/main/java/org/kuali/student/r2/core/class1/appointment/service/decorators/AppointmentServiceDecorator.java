@@ -27,6 +27,7 @@ import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
 
 import javax.jws.WebParam;
+
 import java.util.List;
 
 /**
@@ -239,4 +240,33 @@ public abstract class AppointmentServiceDecorator implements AppointmentService 
     public StatusInfo deleteAppointmentSlotsByWindowCascading(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().deleteAppointmentSlotsByWindowCascading(appointmentWindowId, contextInfo);
     }
+
+	@Override
+	public StatusInfo changeAppointmentState(String appointmentId,
+			String nextStateKey, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().changeAppointmentState(appointmentId, nextStateKey, contextInfo);
+	}
+
+	@Override
+	public StatusInfo changeAppointmentWindowState(String appointmentWindowId,
+			String nextStateKey, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().changeAppointmentWindowState(appointmentWindowId, nextStateKey, contextInfo);
+	}
+
+	@Override
+	public StatusInfo changeAppointmentSlotState(String appointmentSlotId,
+			String nextStateKey, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().changeAppointmentSlotState(appointmentSlotId, nextStateKey, contextInfo);
+	}
+    
+    
 }
