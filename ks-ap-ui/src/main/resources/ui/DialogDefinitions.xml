@@ -1188,7 +1188,8 @@
     </bean>
 
     <!-- Add Course to plan Dialog Box Content-->
-    <bean id="plan_item_course_add_dialog" parent="Uif-VerticalBoxSection" p:headerText="Add to Plan"
+    <bean id="plan_item_course_add_dialog" parent="plan_item_course_add_dialog-parent"/>
+    <bean id="plan_item_course_add_dialog-parent" abstract="true" parent="Uif-VerticalBoxSection" p:headerText="Add to Plan"
           p:style="margin:0;">
         <property name="header">
             <bean parent="Uif-HeaderSix"/>
