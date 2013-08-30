@@ -69,18 +69,26 @@
 	<bean id="conversation_controls" parent="conversation_controls-parent" />
 	<bean abstract="true" id="conversation_controls-parent" parent="Uif-VerticalBoxGroup" p:id="conversation_controls">
 		<property name="forceSessionPersistence" value="true"/>
+		<property name="headerText" value="@{messageSummaryText}" />
+		<property name="header">
+			<bean parent="Uif-HeaderFour">
+				<property name="rightGroup">
+					<bean parent="Uif-HeaderRightGroup">
+						<property name="items">
+							<list>
+								<bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="New" p:disabled="@{hasNoAdvisors}" 
+										p:disabledReason="No available advisors"
+										p:actionScript="showLightboxUrl('review/conversation?viewId=Conversation-create-FormView&amp;methodToCall=create@{mockData ? '&amp;mockData=true' : ''}'+ksapAddGetParameters(), {width:'30%', afterClose: function(){
+														retrieveComponent('conversation_year_list','ajaxRefresh',null,null,true);
+												}})" />
+							</list>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
 		<property name="items">
 			<list>
-				<bean parent="Uif-HeaderOne" p:headerText="[strong]Conversations[/strong]" />
-				<bean parent="Uif-HorizontalFieldGroup" p:width="100%">
-					<property name="items">
-            			<list>
-            				<bean parent="Uif-MessageField" p:messageText="@{messageSummaryText}"/>
-							<bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="New" p:additionalCssClasses="floatRight"
-								p:actionScript="showLightboxUrl('review/conversation?methodToCall=create@{mockData ? '&amp;mockData=true' : ''}'+ksapAddGetParameters(), {width:'30%'})" />
-						</list>
-					</property>
-				</bean>
 				<bean parent="Uif-MessageField" p:messageText="[hr]"/>
 				<ref bean="conversation_year_list" />
 			</list>
@@ -126,12 +134,16 @@
         <property name="propertyName" value="conversations"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
         <property name="disclosure.render" value="@{#index eq 0 ? false : true}"/>
-        <!-- <property name="disclosure.render" value="true"/>  -->
         <property name="disclosure.defaultOpen" value="@{#index eq 0 ? true : false}"/>
+        <property name="disclosure.renderImage" value="false"/>
         <property name="headerText" value="@{#index eq 0 ? #line.headerOpenText : #line.headerClosedText}" />
+        <property name="header.onClickScript" value="
+        		replaceDisclosureWithText(jQuery(this).attr('id'), '@{#line.headerOpenText}');
+        	"/>
+        <property name="header.additionalCssClasses" value="headerCentered"/>
         <property name="items">
             <list>
-            	<bean parent="Uif-HorizontalFieldGroup">
+            	<bean id="conversationrow" parent="Uif-HorizontalFieldGroup">
                     <property name="fieldLabel.render" value="false"/>
                     <property name="group.validationMessages.render" value="false"/>
                     <property name="cssClasses">
@@ -141,38 +153,42 @@
 	            		</list>
 	        		</property>
 	        		<property name="onClickScript" value="
-	        			location.href='review/view?learningPlanId=@{#line.learningPlanId}';
+	        			location.href='plan?methodToCall=start&amp;viewId=SnapshotCourses-FormView&amp;learningPlanId=@{#line.learningPlanId}';
 	        			"/>
                     <property name="items">
                         <list>
                         	<bean parent="Uif-ImageField" p:altText="Unread Conversation" p:valign="middle"
-    							p:source="@{#line.hasUnreadComments() ? '../arm-ks/images/bullet_black.png' : '../ks-myplan/images/pixel.gif'}">
+    							p:source="../arm-ks/images/bullet_black.png">
     							<property name="cssClasses">
 				            		<list merge="true">
-				                		<value>unreadConversationColumn</value>
+				                		<!-- <value>unreadConversationColumn</value> -->
+				                		<value>@{#line.hasUnreadComments() ? 'commentUnread' : 'commentRead'}</value>
 				            		</list>
 				        		</property>
     						</bean>
-			                <bean parent="Uif-VerticalFieldGroup" p:id="@{#line.learningPlanId}">
+    						
+    						<bean parent="Uif-VerticalFieldGroup">
 			                    <property name="fieldLabel.render" value="false"/>
 			                    <property name="group.validationMessages.render" value="false"/>
 			                    <property name="items">
 			                        <list>
 			                        	<bean id="conversation_topic" parent="Uif-MessageField" p:messageText="[strong]@{#line.topic}[/strong]"
 			                        			p:additionalCssClasses="ellipsisWrapper,singleLineEllipsis"/>
-			                        	<bean parent="Uif-HorizontalFieldGroup" p:id="@{#line.learningPlanId}">
+			                        
+			                        	 <bean parent="Uif-HorizontalFieldGroup" p:id="@{#line.learningPlanId}">
 						                    <property name="fieldLabel.render" value="false"/>
 						                    <property name="group.validationMessages.render" value="false"/>
 						                    <property name="items">
 						                        <list>
-						                            <bean id="conversation_advisor_id" parent="Uif-MessageField" p:messageText="@{getAdvisorInfo(#line.advisorId, #line.advisingRole).advisorName}"/>
-						                            <bean id="conversation_comment_date" parent="Uif-MessageField" p:messageText="@{#line.getLatestComment().getHumanReadableDate()}" p:additionalCssClasses="floatedRight"/>
+						                            <bean id="conversation_advisor_id" parent="Uif-MessageField" p:messageText="@{#line.advisor.name}"/>
+						                            <bean id="conversation_comment_date" parent="Uif-MessageField" p:messageText="@{#line.getLatestComment().getHumanReadableDate()}" 
+						                            		p:additionalCssClasses="floatedRight"/>
 						                        </list>
 						                    </property>
 						                </bean>
+						                
 						                <bean id="conversation_comment" parent="Uif-MessageField" p:messageText="@{#line.getLatestComment().commentText.plain}"
-						                	p:additionalCssClasses="ellipsisWrapper,doubleLineEllipsis">
-						                </bean>
+						                	p:additionalCssClasses="ellipsisWrapper,doubleLineEllipsis"/>
 			                        </list>
 			                    </property>
 			                </bean>
@@ -182,7 +198,8 @@
         	</list>
         </property>
         <property name="onDocumentReadyScript" value="
-          		jQuery('.ellipsisWrapper').dotdotdot();"/>
+          		jQuery('.ellipsisWrapper').dotdotdot();
+          		"/>
     </bean>
  
 </beans>

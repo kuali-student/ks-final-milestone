@@ -39,7 +39,6 @@
         </property>
 		
 		<property name="headerText" value="New Conversation" />
-		<!-- <property name="footer" ref="create_conversation_buttons" /> -->
 	</bean>
 	
 	<bean id="create_conversation_page" parent="create_conversation_page-parent" />
@@ -177,7 +176,7 @@
 						        <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
 						        <property name="cssClasses">
 									<list merge="true">
-										<value>termCheckboxRows</value>
+										<value>checkboxRows</value>
 									</list>
 								</property>
 						        <property name="items">
@@ -374,7 +373,7 @@
 						p:methodToCall="nextStep" p:disabled="@{topicTypeEmpty}" p:enabledWhenChangedPropertyNames="topicType"/>
 				<bean id="step3_send" parent="Uif-PrimaryActionButton" p:actionLabel="Send" p:render="@{step3}"
 						p:methodToCall="send" p:disabled="@{messageTextEmpty}" p:enabledWhenChangedPropertyNames="messageText" 
-						p:evaluateDisabledOnKeyUp="true"/>
+						p:evaluateDisabledOnKeyUp="true" p:successCallback="closeLightbox()"/>
 			</list>
 		</property>
 	</bean>
