@@ -73,6 +73,7 @@
         <property name="additionalCssFiles">
             <list merge="true">
                 <value>ks-enroll/css/acal.css</value>
+                <value>ks-enroll/css/courseOfferingEdit.css</value>
             </list>
         </property>
 
@@ -584,44 +585,52 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>
-                <bean parent="Uif-VerticalBoxSection">
+                <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField-LabelTop" p:propertyName="courseOfferingInfo.hasWaitlist" p:label="Waitlists" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                            <bean id="KS-CourseOfferingEdit-HasWaitlist" parent="Uif-InputField" p:propertyName="courseOfferingInfo.hasWaitlist" p:showLabel="false" >
                                 <property name="control">
-                                    <bean parent="Uif-CheckboxControl">
-                                        <property name="checkboxLabel" value="This course offering has a waitlist"/>
-                                    </bean>
+                                    <!-- Notes:
+                                    1.  use setLabelIfElse(...) to set waitlist label wording depending on whether  waitlist is checked or unchecked
+                                    2.  show dialog prompt if user deactivates waitlist -->
+                                    <bean parent="Uif-CheckboxControl" p:onChangeScript="setLabelIfElse('KS-CourseOfferingEdit-Waitlist-LabelId',jQuery(this).attr('checked'),'Waitlist Active','Waitlist Inactive');"
+                                            p:onClickScript="if (!jQuery('#KS-CourseOfferingEdit-HasWaitlist_control').attr('checked')) {showLightboxComponent('CourseOfferingEdit-Waitlist-Inactivate-Prompt'); }"/>
+
                                 </property>
                             </bean>
-                            <bean parent="Uif-HorizontalBoxSection" p:refreshWhenChangedPropertyNames="#dp.courseOfferingInfo.hasWaitlist">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.waitlistLevelTypeKey"
-                                              p:onChangeScript="jQuery('#dirtyForm').val(true);" p:label="Waitlist Level" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
-                                            <property name="control">
-                                                <bean parent="Uif-VerticalRadioControl" p:disabled="@{!#dp.courseOfferingInfo.hasWaitlist}"/>
-                                            </property>
-                                            <property name="optionsFinder">
-                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistLevelOptionsKeyValues" />
-                                            </property>
-                                        </bean>
-                                        <bean parent="Uif-InputField" p:label="Waitlist Type" p:propertyName="courseOfferingInfo.waitlistTypeKey" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
-                                            <property name="control">
-                                                <bean parent="Uif-DropdownControl" p:disabled="@{!#dp.courseOfferingInfo.hasWaitlist}"/>
-                                            </property>
-                                            <property name="optionsFinder">
-                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistTypeOptionsKeyValues" />
-                                            </property>
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>
+                            <bean id="KS-CourseOfferingEdit-Waitlist-LabelId" parent="Uif-Label"
+                                  p:labelText="Waitlists @{#dp.courseOfferingInfo.hasWaitlist ? 'Active' : 'Inactive'}"
+                                  p:labelForComponentId="KS-CourseOfferingEdit-HasWaitlist"
+                                  p:renderColon="false"/>
+                            <ref bean="CourseOfferingEdit-Waitlist-Inactivate-Prompt"/>
                         </list>
                     </property>
                 </bean>
+                <ref bean="KS-CourseOfferingEdit-WailtList-Message-Section"/>
             </list>
         </property>
+    </bean>
+
+    <bean id="KS-CourseOfferingEdit-WailtList-Message-Section" parent="Uif-VerticalBoxSection" p:header.style="margin-top: 0;"
+          p:progressiveRender="@{#dp.courseOfferingInfo.hasWaitlist}" >
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message"
+                      p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/info.png&quot;] The waitlist settings can be managed on the individual Edit Activity Offering screens."
+                      p:cssClasses="ks-informational-message-for-field"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="CourseOfferingEdit-Waitlist-Inactivate-Prompt" parent="Uif-DialogGroup" p:renderHeader="false">
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="Continue" p:value="Continue"/>
+                <bean parent="Uif-KeyLabelPair" p:key="Cancel" p:value="Cancel"/>
+            </list>
+        </property>
+        <property name="promptText" value="Waitlists for all Activity Offerings associated with this Course Offering will be deactivated upon update."/>
+        <property name="forceSessionPersistence" value="false"/>
+        <property name="onDialogResponseScript" value="handleWaitListPrompt(this);"/>
     </bean>
 
     <bean id="KS-CourseOfferingEdit-PersonnelSection" parent="Uif-VerticalBoxSection">

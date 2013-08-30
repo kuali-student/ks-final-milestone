@@ -95,3 +95,37 @@ function handleCONavigation(component, coId) {
     showLightboxComponent( 'CourseOfferingEdit-NavigationConfirmation' );
 
 }
+// Set label based on the passed in condition
+function setLabelIfElse(setId,condition,trueString,falseString){
+    if (condition) {
+        jQuery('#'+setId).text(trueString);
+    }else {
+        jQuery('#'+setId).text(falseString);
+    }
+}
+//revert waitlist to active if user selects Cancel
+function handleWaitListPrompt(dialog) {
+    var dialogResponses = jQuery('input.uif-dialogButtons',dialog);
+    for(i =0; i < dialogResponses.length; i++){
+        if (dialogResponses[i].checked==true) {
+            if (dialogResponses[i].value=='Cancel') {
+
+                //if user Cancels then: 1. Revert check box , 2. reset label, 3. display approp. informational message
+                jQuery('#KS-CourseOfferingEdit-HasWaitlist_control').prop('checked',true);
+                jQuery('#KS-CourseOfferingEdit-Waitlist-LabelId').text('Waitlist Active');
+                jQuery('#KS-CourseOfferingEdit-WailtList-Message-Section').show();
+            }
+            //Uncheck checked button ...because krad implemented it as a radio bttn!!
+            dialogResponses[i].checked=false;
+        }
+    }
+
+    //set label style-class-states back to default
+    //TODO: (KSENROLL-9194) research why the following style classes are reverted again sometime
+    //      before it is displayed 2nd and subsequent times!!!
+    var labels = jQuery("label.uif-primaryDialogButton",dialog);
+    labels.removeClass('ui-state-active');
+    labels.addClass('ui-state-default');
+    closeLightbox();
+}
+
