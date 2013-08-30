@@ -197,6 +197,7 @@
                 <value>classpath:org/kuali/student/lum/lu/ui/krms/LUCustomComponents.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/CORuleMaintenance.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/AORuleMaintenance.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/FERuleMaintenance.xml</value>
 
                 <!-- Type -->
                 <value>classpath:org/kuali/student/enrollment/type/TypeVerificationView.xml</value>
