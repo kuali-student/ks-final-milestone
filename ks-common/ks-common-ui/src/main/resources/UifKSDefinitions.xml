@@ -31,7 +31,6 @@
         </property>
         <property name="scriptFiles">
             <list merge="true">
-                <value>ks-enroll/bootstrap/js/bootstrap.js</value>
                 <value>ks-enroll/scripts/enroll.js</value>
                 <value>krad/scripts/ks.krad.widget.js</value>
             </list>
