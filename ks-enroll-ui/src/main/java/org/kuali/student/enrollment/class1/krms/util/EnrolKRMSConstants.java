@@ -34,6 +34,13 @@ public class EnrolKRMSConstants {
     public static final String KSKRMS_RULE_AO_EDITWITHOBJECT_ID = "KSAO-EditWithObject-EditSection";
     public static final String KSKRMS_RULE_AO_EDITWITHLOGIC_ID = "KSAO-EditWithLogic-EditSection";
 
+    // FE Bean references
+    public static final String KSKRMS_RULE_FE_MAINTENANCE_PAGE_ID = "KSFE-RuleMaintenance-Page";
+    public static final String KSKRMS_AGENDA_FE_MAINTENANCE_PAGE_ID = "KSFE-AgendaMaintenance-Page";
+    public static final String KSKRMS_RULE_FE_TABS_ID = "KSFE-TabsWidget";
+    public static final String KSKRMS_RULE_FE_EDITWITHOBJECT_ID = "KSFE-EditWithObject-EditSection";
+    public static final String KSKRMS_RULE_FE_EDITWITHLOGIC_ID = "KSFE-EditWithLogic-EditSection";
+
     // message keys
     public static final String KSKRMS_MSG_WARNING_CO_RULE_HASPARENT = "warning.krms.agenda.rule.co.hasparent";
     public static final String KSKRMS_MSG_WARNING_CO_RULE_EMPTY = "warning.krms.agenda.rule.co.empty";

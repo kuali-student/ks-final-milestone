@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2007-2013 The Kuali Foundation
+
+Licensed under the Educational Community License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.opensource.org/licenses/ecl2.php
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="FERuleWrapperMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper"/>
+        <property name="maintainableClass"
+                  value="org.kuali.student.enrollment.class1.krms.service.impl.FERuleEditorMaintainableImpl"/>
+        <property name="documentTypeName" value="FERuleMaintenanceDocument"/>
+        <property name="businessRulesClass" value="org.kuali.rice.krms.util.RuleEditorBusRule"/>
+        <property name="lockingKeys">
+            <list>
+                <value>refObjectId</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="FERuleManagementWrapper" parent="EnrolRuleManagementWrapper">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper"/>
+    </bean>
+
+    <bean id="KSFE-AgendaManagement-View" parent="KS-Uif-MaintenanceView">
+        <property name="viewName" value="FEAgendaManagementView"/>
+        <property name="dataObjectClassName"
+                  value="org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.enrollment.class1.krms.service.impl.FERuleViewHelperServiceImpl"/>
+        <property name="headerText" value="Final Exam Matrix"/>
+        <property name="items">
+            <list>
+                <bean id="KSFE-AgendaMaintenance-Page" parent="KSFE-AgendaMaintenance-Page-parent"/>
+                <bean id="KSFE-RuleMaintenance-Page" parent="KSFE-RuleMaintenance-Page-Parent"/>
+            </list>
+        </property>
+        <property name="dialogs">
+            <list>
+                <bean id="warningMessagedYesNo" parent="KRMS-WarningMessagedYesNo"/>
+            </list>
+        </property>
+
+        <property name="singlePageView" value="false"/>
+        <property name="entryPageId" value="KSFE-AgendaMaintenance-Page"/>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ks-enroll/scripts/ruleMaintenance.js</value>
+                <value>krms/scripts/requiredAlerts.js</value>
+                <value>krms/scripts/countdownInputs.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ks-enroll/css/krms.css</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="KSFE-AgendaMaintenance-Page-parent" parent="KRMS-AgendaMaintenance-Page-Parent">
+        <property name="headerText" value="Course Offering Requisites"/>
+        <property name="items">
+            <list>
+                <bean parent="KRMS-AgendaManage-Section" class="org.kuali.student.enrollment.class1.krms.util.FinalExamAgendaSection">
+                    <property name="agendaPrototype">
+                        <ref bean="KSFE-RuleTable"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="KSFE-DocumentPageFooter-SubmitCancel"/>
+        </property>
+    </bean>
+
+    <bean id="KSFE-DocumentPageFooter-SubmitCancel" parent="KSFE-DocumentPageFooter-SubmitCancel-parent"/>
+    <bean id="KSFE-DocumentPageFooter-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route"
+                      p:actionLabel="Submit" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="KS-Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFE-RuleTable" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="true"
+          p:readOnly="false">
+        <property name="id" value="ruledefinitions"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.rice.krms.dto.RuleEditor"/>
+        <property name="propertyName" value="rules"/>
+        <property name="headerText" value=""/>
+        <property name="header">
+            <bean parent="Uif-SectionHeader"/>
+        </property>
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false"/>
+        </property>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+        <property name="layoutManager.richTable">
+            <bean parent="KS-Uif-RichTable"/>
+        </property>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 3, 'desc' ], [ 1, 'asc']]"/>
+                <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="If course meets:" p:propertyName="description"/>
+                <bean parent="Uif-DataField" p:label="Exam will be on:" p:propertyName="copyKey"/>
+                <bean parent="Uif-DataField" p:label="Time:" p:propertyName="copyKey"/>
+            </list>
+        </property>
+
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="addRule" p:actionLabel="Add"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="goToRuleView" p:actionLabel="Edit"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="deleteRule" p:actionLabel="Delete"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="KSFE-RuleMaintenance-Page-Parent" parent="KRMS-RuleMaintenance-Page-Parent">
+        <property name="headerText"
+                  value="@{#dp.ruleEditor.dummy == true ? 'Add' : 'Edit'} Matrix Rule"/>
+        <property name="items">
+            <list>
+                <ref bean="KSFE-Rules-ManageSection"/>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean id="KSFE-UpdateRule-Button" parent="KS-Uif-PrimaryActionButton"
+                              p:performClientSideValidation="true">
+                            <property name="actionLabel" value="Update Rule"/>
+                            <property name="methodToCall" value="updateRule"/>
+                        </bean>
+                        <bean id="KSFE-CancelRule-Button" parent="KS-Uif-ActionLink"
+                              p:style="margin-left: 0.5em;margin-top: 0.3em;">
+                            <property name="actionLabel" value="Cancel"/>
+                            <property name="methodToCall" value="cancelEditRule"/>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KSFE-Rules-ManageSection" parent="KRMS-Rules-ManageSection">
+        <property name="items">
+            <list>
+                <ref bean="KSFE-RuleEdit-TabSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFE-RuleEdit-TabSection" parent="KRMS-RuleEdit-TabSection">
+        <property name="items">
+            <list>
+                <ref bean="KSFE-EditWithObject-EditSection"/>
+                <ref bean="KSFE-EditWithLogic-EditSection"/>
+            </list>
+        </property>
+        <property name="tabsWidget">
+            <ref bean="KSFE-TabsWidget"/>
+        </property>
+    </bean>
+
+    <bean id="KSFE-TabsWidget" parent="KRMS-TabsWidget">
+        <property name="templateOptions">
+            <map>
+                <entry key="selected" value="0"/>
+                <entry key="select"
+                       value="function(event, ui) {ajaxCallOnTabSelect(event, ui, 'KRMS-RuleEditor-TreeGroup', 'KSFE-EditWithLogic-EditGroup', 'refreshLogicArea', 'KRMS-LogicArea-InputField');}"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="KSFE-EditWithObject-EditSection" parent="KRMS-EditWithObject-EditSection-parent">
+        <property name="items">
+            <list>
+                <bean parent="KSFE-EditWithObject-EditGroup"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFE-EditWithObject-EditGroup" parent="KRMS-EditWithObject-EditGroup">
+        <property name="headerText" value="Proposition Tree"/>
+        <property name="items">
+            <list>
+                <ref bean="KSFE-EditRule-ToolbarSection"/>
+                <ref bean="KRMS-RuleEditor-TreeExpandCollapse"/>
+                <ref bean="KRMS-RuleEditor-TreeGroup"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFE-EditRule-ToolbarSection" parent="KS-Uif-HorizontalBoxSection-ToolbarSection">
+        <property name="items">
+            <list>
+
+                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                    <property name="items">
+                        <list>
+                            <bean parent="KRMS-RuleEditorView-AddButton"/>
+                            <bean parent="KRMS-RuleEditorView-EditButton"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                    <property name="items">
+                        <list>
+                            <bean parent="KRMS-RuleEditorView-GroupButton"/>
+                            <bean parent="KRMS-RuleEditorView-LeftButton"/>
+                            <bean parent="KRMS-RuleEditorView-RightButton"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                    <property name="items">
+                        <list>
+                            <bean parent="KRMS-RuleEditorView-UpButton"/>
+                            <bean parent="KRMS-RuleEditorView-DownButton"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                    <property name="items">
+                        <list>
+                            <bean parent="KRMS-RuleEditorView-CopyButton"/>
+                            <bean parent="KRMS-RuleEditorView-CutButton"/>
+                            <bean parent="KRMS-RuleEditorView-PasteButton"/>
+                            <bean parent="KRMS-RuleEditorView-DeleteButton"/>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFE-EditWithLogic-EditSection" parent="KRMS-EditWithLogic-EditSection-parent">
+        <property name="items">
+            <list>
+                <ref bean="KSFE-EditWithLogic-EditGroup"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFE-EditWithLogic-EditGroup" parent="KRMS-EditWithLogic-EditGroup">
+        <property name="items">
+            <list>
+                <ref bean="KSFE-EditWithLogic-TreeGroup"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFE-EditWithLogic-TreeGroup" parent="KRMS-EditWithLogic-TreeGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-LogicArea-InputField"/>
+                <ref bean="KRMS-LogicPreview-Button"/>
+                <ref bean="KSFE-LogicPreview-Tree"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFE-LogicPreview-Tree" parent="KRMS-LogicPreview-Tree">
+        <property name="items">
+            <list>
+                <ref bean="KSFE-PreviewTree-Section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFE-PreviewTree-Section" parent="KRMS-PreviewTree-Section">
+        <property name="defaultNodePrototype">
+            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                <property name="labelPrototype">
+                    <bean parent="Uif-Message"/>
+                </property>
+                <property name="dataGroupPrototype">
+                    <ref bean="KSFE-PreviewPrototype-BoxGroup"/>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KSFE-PreviewPrototype-BoxGroup" parent="KRMS-PreviewPrototype-BoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-PrototypeHeader-BoxGroup"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>
