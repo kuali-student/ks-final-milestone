@@ -35,6 +35,7 @@ public class RuleManagementWrapper extends UifFormBase {
 
     private List<AgendaEditor> agendas;
     private RuleEditor ruleEditor;
+    private AgendaEditor agendaEditor;
 
     private Tree<CompareTreeNode, String> compareTree;
 
@@ -70,6 +71,14 @@ public class RuleManagementWrapper extends UifFormBase {
 
     public void setRuleEditor(RuleEditor ruleEditor) {
         this.ruleEditor = ruleEditor;
+    }
+
+    public AgendaEditor getAgendaEditor() {
+        return agendaEditor;
+    }
+
+    public void setAgendaEditor(AgendaEditor agendaEditor) {
+        this.agendaEditor = agendaEditor;
     }
 
     public Tree<RuleEditorTreeNode, String> getEditTree() {
