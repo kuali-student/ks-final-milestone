@@ -54,7 +54,8 @@
     </bean>
 
     <!-- This page is for adding courses, course placeholder, or a general placeholder -->
-    <bean parent="KSAP-PopoverPage" p:id="plan_item_add_page" id="plan_item_add_page"
+    <bean parent="plan_item_add_page-parent" p:id="plan_item_add_page" id="plan_item_add_page"/>
+    <bean parent="KSAP-PopoverPage" abstract="true" id="plan_item_add_page-parent"
           p:headerText="@{#form.planItemId EQ null ? 'What would you like to add to ':'Edit your course for '} @{#form.termName}@{#form.planItemId EQ null ? '?' : ''}"
           p:width="325px">
         <property name="items">
