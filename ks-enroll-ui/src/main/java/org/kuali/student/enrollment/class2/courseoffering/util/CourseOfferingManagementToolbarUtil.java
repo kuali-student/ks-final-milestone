@@ -294,7 +294,7 @@ public class CourseOfferingManagementToolbarUtil {
                 }
 
                 //for Suspend AO button
-                if (!activityWrapper.isColocatedAO() && checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_SUSPEND)) {
+                if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_SUSPEND)) {
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_SUSPEND);
                     if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                         activityWrapper.setEnableSuspendButton(true);
@@ -302,7 +302,7 @@ public class CourseOfferingManagementToolbarUtil {
                 }
 
                 //for Reinstate AO button
-                if (!activityWrapper.isColocatedAO() && checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_REINSTATE)) {
+                if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_REINSTATE)) {
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_REINSTATE);
                     if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                         activityWrapper.setEnableReinstateButton(true);
