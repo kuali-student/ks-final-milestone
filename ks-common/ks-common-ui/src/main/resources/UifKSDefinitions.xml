@@ -33,6 +33,7 @@
             <list merge="true">
                 <value>ks-enroll/scripts/enroll.js</value>
                 <value>krad/scripts/ks.krad.widget.js</value>
+                <value>themes/bootstrap/scripts/bootstrap.js</value>
             </list>
         </property>
     </bean>
