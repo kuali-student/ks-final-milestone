@@ -193,15 +193,6 @@ limitations under the License.
                     <property name="control">
                         <bean parent="Uif-TextControl"
                               p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;" p:disabled="true">
-                            <!--this is a hack-->
-                            <!--property name="onMouseOverScript" value="disableMe(jq(this));"/>
-                            <property name="onFocusScript" value="disableMe(jq(this));"/>
-                            <property name="cssClasses">
-                                <list merge="true">
-                                    <value>disableme</value>
-                                </list>
-                            </property-->
-                            <!--this is a hack-->
                         </bean>
                     </property>
                     <property name="label" value="Course Set Name"/>
@@ -266,15 +257,6 @@ limitations under the License.
                     <property name="control">
                         <bean parent="Uif-TextControl" p:style="background-color: #DDDDDD;margin-top:null 2px;"
                               p:disabled="true">
-                            <!--this is a hack-->
-                            <!--property name="onMouseOverScript" value="disableMe(jq(this));"/>
-                            <property name="onFocusScript" value="disableMe(jq(this));"/>
-                            <property name="cssClasses">
-                                <list merge="true">
-                                    <value>disableme</value>
-                                </list>
-                            </property-->
-                            <!--this is a hack-->
                         </bean>
                     </property>
                     <property name="label" value="Course Code"/>
