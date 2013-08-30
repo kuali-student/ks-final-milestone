@@ -787,6 +787,16 @@ public class CourseRegistrationServiceMockImpl
         return load;
     }
 
+    @Override
+	public StatusInfo changeRegistrationRequestState(
+			String registrationRequestId, String nextStateKey,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO KSENROLL-8712
+		throw new UnsupportedOperationException("not implemented");
+	}
+    
 
     private static String newId() {
         return Long.toString(++id);

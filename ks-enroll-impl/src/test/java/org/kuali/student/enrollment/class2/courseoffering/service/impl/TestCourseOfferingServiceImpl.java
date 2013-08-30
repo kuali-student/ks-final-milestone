@@ -436,11 +436,21 @@ public class TestCourseOfferingServiceImpl {
         }
     }
 
+    private static Comparator<CourseOfferingCrossListingInfo>orderByIdComparator = new Comparator<CourseOfferingCrossListingInfo>() {
+		
+		@Override
+		public int compare(CourseOfferingCrossListingInfo o1,
+				CourseOfferingCrossListingInfo o2) {
+			return o1.getId().compareTo(o2.getId());
+		}
+	};
+	
     private void validateCrossListings(List<CourseOfferingCrossListingInfo> crossListings) {
 
         assertTrue( this.crossListings.size() == crossListings.size() );
-        Collections.sort(this.crossListings);
-        Collections.sort(crossListings);
+        
+        Collections.sort(this.crossListings, orderByIdComparator);
+        Collections.sort(crossListings, orderByIdComparator);
 
         for( int i = 0, j = this.crossListings.size() ; i < j ; i++ ) {
             CourseOfferingCrossListingInfo expected = this.crossListings.get(i);

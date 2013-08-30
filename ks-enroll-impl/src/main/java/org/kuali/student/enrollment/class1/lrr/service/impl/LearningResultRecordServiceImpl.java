@@ -251,4 +251,26 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
         return new ArrayList<LearningResultRecordInfo>();
     }
 
+	@Override
+	public StatusInfo changeLearningResultRecordState(
+			String learningResultRecordId, String nextStateKey,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO KSENROLL-8713
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public StatusInfo changeResultSourceState(String resultSourceId,
+			String nextStateKey, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO KSENROLL-8713
+		throw new UnsupportedOperationException("not implemented");
+	}
+    
+    
+
 }
