@@ -39,7 +39,7 @@ insert into KSEN_STATE_CNSTRNT_ROS (STATE_CNSTRNT_ID, REL_OBJ_STATE_ID) values (
 insert into KSEN_STATE_CNSTRNT_ROS (STATE_CNSTRNT_ID, REL_OBJ_STATE_ID) values ('kuali.stateconstraint.activityoffering.suspended.approved.soc', 'kuali.soc.state.finaledits' )
 /
 -- Insert  KSEN_STATE_CHG_CNSTRNT
-insert into KSEN_STATE_CHG_CNSTRNT (STATE_CHG_ID, STATE_CNSTRNT_ID) values ('kuali.statechange.activityoffering.suspended.draft', 'kuali.stateconstraint.activityoffering.suspended.offered.soc' )
+insert into KSEN_STATE_CHG_CNSTRNT (STATE_CHG_ID, STATE_CNSTRNT_ID) values ('kuali.statechange.activityoffering.suspended.offered', 'kuali.stateconstraint.activityoffering.suspended.offered.soc' )
 /
 insert into KSEN_STATE_CHG_CNSTRNT (STATE_CHG_ID, STATE_CNSTRNT_ID) values ('kuali.statechange.activityoffering.suspended.approved', 'kuali.stateconstraint.activityoffering.suspended.approved.soc' )
 /
