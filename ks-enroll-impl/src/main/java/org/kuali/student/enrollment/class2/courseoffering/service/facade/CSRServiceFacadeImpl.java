@@ -74,6 +74,7 @@ public class CSRServiceFacadeImpl implements CSRServiceFacade {
 
     @Override
     public void reinstateActivityOffering(ActivityOfferingInfo aoInfo, String socState, ContextInfo context) throws Exception {
+        // Checking if we have ADLs for AO or not. If we have no ADLs (scheduleIDs) -> AO goes into draft state, otherwise will depend on SOC state
         if (aoInfo.getScheduleIds() != null && !aoInfo.getScheduleIds().isEmpty()) {
             if (StringUtils.equals(socState, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY)) {
                 StatusInfo statusInfo = coService.changeActivityOfferingState(aoInfo.getId(), LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY, context);
