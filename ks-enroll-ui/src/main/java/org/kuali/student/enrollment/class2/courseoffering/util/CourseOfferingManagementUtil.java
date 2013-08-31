@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.util;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -20,28 +21,50 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrap
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.CSRServiceFacade;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseInfoByTermLookupableImpl;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.constants.StateServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.*;
+
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
 /**
  * Created with IntelliJ IDEA.
@@ -59,10 +82,13 @@ public class CourseOfferingManagementUtil {
     private static AcademicCalendarService academicCalendarService;
     private static AutogenRegGroupServiceAdapter argServiceAdapter;
     private static CSRServiceFacade csrServiceFacade;
-
-    public static CourseOfferingService getCourseOfferingService() {
-        return CourseOfferingResourceLoader.loadCourseOfferingService();
-    }
+    private static CourseService courseService;
+    private static CourseOfferingSetService socService;
+    private static AtpService atpService;
+    private static CluService cluService;
+    private static CourseOfferingSetService courseOfferingSetService;
+    private static CourseOfferingService courseOfferingService;
+    private static SearchService searchService;
 
     public static CourseOfferingManagementViewHelperService getViewHelperService(CourseOfferingManagementForm theForm) {
 
@@ -125,6 +151,55 @@ public class CourseOfferingManagementUtil {
             csrServiceFacade = (CSRServiceFacade) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/csrServiceFacade", "CSRServiceFacade"));
         }
         return csrServiceFacade;
+    }
+
+    public static CourseService getCourseService() {
+        if(courseService == null) {
+            courseService = CourseOfferingResourceLoader.loadCourseService();
+        }
+        return courseService;
+    }
+
+    private static CourseOfferingSetService getSocService() {
+        if (socService == null) {
+            socService = CourseOfferingResourceLoader.loadSocService();
+        }
+        return socService;
+    }
+
+    private static AtpService getAtpService() {
+        if(atpService == null){
+            atpService = CourseOfferingResourceLoader.loadAtpService();
+        }
+        return atpService;
+    }
+
+    private static CluService getCluService() {
+        if (cluService == null) {
+            cluService = CourseOfferingResourceLoader.loadCluService();
+        }
+        return cluService;
+    }
+
+    public static CourseOfferingService getCourseOfferingService() {
+        if (courseOfferingService == null) {
+            courseOfferingService = CourseOfferingResourceLoader.loadCourseOfferingService();
+        }
+        return courseOfferingService;
+    }
+
+    public static CourseOfferingSetService getCourseOfferingSetService(){
+        if (courseOfferingSetService == null){
+            courseOfferingSetService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return courseOfferingSetService;
+    }
+
+    public static SearchService getSearchService() {
+        if (searchService == null) {
+            searchService = (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "search", SearchService.class.getSimpleName()));
+        }
+        return searchService;
     }
 
     public static boolean checkEditViewAuthz(CourseOfferingManagementForm theForm) {
@@ -417,5 +492,192 @@ public class CourseOfferingManagementUtil {
         return displayString;
     }
 
+    public static CourseOfferingInfo createCourseOfferingInfo(String termId, CourseInfo courseInfo) throws Exception {
+
+        int firstGradingOption = 0;
+        CourseOfferingInfo courseOffering = new CourseOfferingInfo();
+
+        courseOffering.setTermId(termId);
+        courseOffering.setCourseOfferingTitle(courseInfo.getCourseTitle());
+        courseOffering.setCourseId(courseInfo.getId());
+        courseOffering.setCourseCode(courseInfo.getCode());
+        courseOffering.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
+        courseOffering.setStateKey(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY);
+        courseOffering.setHasWaitlist(false);
+        courseOffering.setCourseOfferingCode(courseInfo.getCode());
+
+        //Copy grading and credit options
+        if(!courseInfo.getCreditOptions().isEmpty()){
+            courseOffering.setCreditOptionId(courseInfo.getCreditOptions().get(firstGradingOption).getKey());
+        }
+        //Remove these two special student registration options and set them on the CO
+        List<String> courseGradingOptions = new ArrayList<String>(courseInfo.getGradingOptions());
+        if(courseGradingOptions.remove(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL) ){
+            courseOffering.getStudentRegistrationGradingOptions().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
+        }
+        if(courseGradingOptions.remove(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT) ){
+            courseOffering.getStudentRegistrationGradingOptions().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
+        }
+        //set the first remaining grading option on the CO
+        if(!courseGradingOptions.isEmpty()){
+            courseOffering.setGradingOptionId(courseGradingOptions.get(firstGradingOption));
+        }
+
+        // make sure we set attribute information from the course
+        if(!courseInfo.getAttributes().isEmpty()){
+            for(AttributeInfo info: courseInfo.getAttributes()){
+                // Default the CourseOffering Final Exam Type to the Final Exam type in the Course
+                if(info.getKey().equals("finalExamStatus")){
+                    courseOffering.setFinalExamType(convertCourseFinalExamTypeToCourseOfferingFinalExamType(info.getValue()));
+                }
+            }
+        }
+
+        return courseOffering;
+    }
+
+    private static String convertCourseFinalExamTypeToCourseOfferingFinalExamType(String courseFinalExamType){
+        String sRet = null;
+        if("STD".equals(courseFinalExamType))   {
+            sRet = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD;
+        } else if("ALT".equals(courseFinalExamType)) {
+            sRet = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_ALTERNATE;
+        } else {
+            sRet = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_NONE;
+        }
+        return sRet;
+    }
+
+    public static TermInfo getTerm(String termCode) {
+
+        int firstTerm = 0;
+
+        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
+        List<Predicate> pList = new ArrayList<Predicate>();
+        Predicate p = null;
+
+        qBuilder.setPredicates();
+        if (StringUtils.isNotBlank(termCode)) {
+            p = equal("atpCode", termCode);
+            pList.add(p);
+        }
+        qBuilder.setPredicates(p);
+
+        try {
+            List<TermInfo> terms = getAcademicCalendarService().searchForTerms(qBuilder.build(), ContextUtils.createDefaultContextInfo());
+            if (terms.size() > 1) {
+                return null;
+            } else if (terms.isEmpty()) {
+                return null;
+            }
+            return terms.get(firstTerm);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<CourseInfo> retrieveMatchingCourses(String courseCode, TermInfo term) {
+
+        int firstTerm = 0;
+        ContextInfo context = ContextUtils.createDefaultContextInfo();
+        CourseInfo returnCourseInfo;
+        String courseId;
+        List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
+        List<CourseInfo> courseInfoList = new ArrayList<CourseInfo>();
+
+        SearchParamInfo qpv = new SearchParamInfo();
+        qpv.setKey("lu.queryParam.luOptionalType");
+        qpv.getValues().add("kuali.lu.type.CreditCourse");
+        searchParams.add(qpv);
+
+        //Include course states of: Active, Superseded and Retired
+        qpv = new SearchParamInfo();
+        qpv.setKey("lu.queryParam.luOptionalState");
+        qpv.setValues(Arrays.asList(
+                DtoConstants.STATE_ACTIVE,
+                DtoConstants.STATE_SUPERSEDED,
+                DtoConstants.STATE_RETIRED));
+        searchParams.add(qpv);
+
+        /**Note:  TermCode lookup criteria field takes the special bus route:  it is used to retrieve
+         * term begin/end dates to in-turn constrain courses by their effective and
+         * retire dates, respectively.  AND NOTE that termId is not itself used
+         * directly in the course lookup query.
+         */
+        List<AtpInfo> atps;
+        try {
+            atps = getAtpService().getAtpsByCode(term.getCode(), context);
+        } catch (Exception e) {
+            return courseInfoList;
+        }
+        if (atps == null || atps.size() != 1) {
+            return courseInfoList;
+        }
+
+        qpv = new SearchParamInfo();
+        qpv.setKey(CourseInfoByTermLookupableImpl.QueryParamEnum.TERM_START.getQueryKey());
+        qpv.getValues().add(DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(firstTerm).getStartDate()));
+        searchParams.add(qpv);
+
+        qpv = new SearchParamInfo();
+        qpv.setKey(CourseInfoByTermLookupableImpl.QueryParamEnum.TERM_END.getQueryKey());
+        qpv.getValues().add(DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(firstTerm).getEndDate()));
+        searchParams.add(qpv);
+
+        //set courseCode to query by
+        qpv = new SearchParamInfo();
+        qpv.setKey(CourseInfoByTermLookupableImpl.QueryParamEnum.CODE.getQueryKey());
+        qpv.getValues().add(courseCode);
+        searchParams.add(qpv);
+
+        SearchRequestInfo searchRequest = new SearchRequestInfo();
+        searchRequest.setParams(searchParams);
+        searchRequest.setSearchKey("lu.search.courseCodes");
+
+        try {
+            SearchResultInfo searchResult = getCluService().search(searchRequest, ContextUtils.getContextInfo());
+            if (searchResult.getRows().size() > 0) {
+                for (SearchResultRowInfo row : searchResult.getRows()) {
+                    List<SearchResultCellInfo> srCells = row.getCells();
+                    if (srCells != null && srCells.size() > 0) {
+                        for (SearchResultCellInfo cell : srCells) {
+                            if ("lu.resultColumn.cluId".equals(cell.getKey())) {
+                                courseId = cell.getValue();
+                                returnCourseInfo = getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
+                                courseInfoList.add(returnCourseInfo);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return courseInfoList;
+    }
+
+    public static Properties _buildCOURLParameters(String courseId, String termId, String socId, String methodToCall) {
+        Properties props = new Properties();
+        props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
+        props.put(CourseOfferingConstants.COURSE_ID, courseId);
+        props.put(CourseOfferingConstants.TARGET_TERM_ID, termId);
+        props.put(CourseOfferingConstants.SOC_ID, socId);
+        props.put(CourseOfferingConstants.CREATE_COURSEOFFERING, "true");
+        props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseOfferingEditWrapper.class.getName());
+
+        return props;
+    }
+
+    public static SocInfo getMainSocForTerm(TermInfo term, ContextInfo contextInfo) throws Exception {
+        List<String> socIds = getSocService().getSocIdsByTerm(term.getId(), contextInfo);
+        List<SocInfo> socInfos = getSocService().getSocsByIds(socIds, contextInfo);
+        for (SocInfo socInfo: socInfos) {
+            if (socInfo.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
+                return socInfo;
+            }
+        }
+        return null;
+    }
 
 }

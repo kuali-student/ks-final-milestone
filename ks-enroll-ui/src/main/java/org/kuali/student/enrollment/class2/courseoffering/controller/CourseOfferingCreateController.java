@@ -15,61 +15,29 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.criteria.Predicate;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.service.CreateSocViewHelperService;
-import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseInfoByTermLookupableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl;
-import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOptionKeysService;
-import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOptionKeysServiceImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.enrollment.common.util.EnrollConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
-import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.class1.search.CourseOfferingHistorySearchImpl;
-import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.core.search.dto.SearchParamInfo;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
-import org.kuali.student.r2.core.search.service.SearchService;
-import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -78,16 +46,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
-
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
 
 /**
@@ -126,7 +88,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
             // check if creating CO and populate the form
             String createCO = request.getParameter(CourseOfferingConstants.CREATE_COURSEOFFERING);
             if (createCO != null && createCO.equals("true")) {
-                CourseOfferingControllerBusinessLogic.populateCreateCourseOfferingForm(maintenanceForm, request);
+                CourseOfferingControllerPopulateUIForm.populateCreateCourseOfferingForm(maintenanceForm, request);
             }
             // done with creating CO
 
@@ -139,7 +101,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                     String catalogCourseCode = request.getParameter("catalogCourseCode");
                     String coId = request.getParameter("courseOfferingId");
 
-                    CourseOfferingControllerBusinessLogic.copyCourseOfferingInfo(coCreateWrapper, targetTermCode, catalogCourseCode, coId);
+                    CourseOfferingControllerPopulateUIForm.copyCourseOfferingInfo(coCreateWrapper, targetTermCode, catalogCourseCode, coId);
                 }
             }
             checkViewAuthorization(form, methodToCall);
@@ -307,7 +269,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
             return getUIFModelAndView(form);
         }
 
-        TermInfo term = CourseOfferingControllerBusinessLogic.getTerm(termCode);
+        TermInfo term = CourseOfferingManagementUtil.getTerm(termCode);
         if (term == null) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_TERM_INVALID, termCode);
             return getUIFModelAndView(form);
@@ -315,7 +277,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
 
         coWrapper.setTerm(term);
 
-        List<CourseInfo> matchingCourses = CourseOfferingControllerBusinessLogic.retrieveMatchingCourses(courseCode, term);
+        List<CourseInfo> matchingCourses = CourseOfferingManagementUtil.retrieveMatchingCourses(courseCode, term);
         coWrapper.clear();
 
         if (matchingCourses.size() == 1) {
@@ -346,10 +308,10 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
             } else {
                 // check if SOC state is "published"
                 ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-                List<String> socIds = CourseOfferingControllerBusinessLogic.getCourseOfferingSetService().getSocIdsByTerm(term.getId(), contextInfo);
+                List<String> socIds = CourseOfferingManagementUtil.getCourseOfferingSetService().getSocIdsByTerm(term.getId(), contextInfo);
                 if (socIds != null && !socIds.isEmpty()){
                     // check if user authz for the soc
-                    SocInfo soc = CourseOfferingControllerBusinessLogic.getCourseOfferingSetService().getSoc(socIds.get(0), contextInfo);
+                    SocInfo soc = CourseOfferingManagementUtil.getCourseOfferingSetService().getSoc(socIds.get(0), contextInfo);
                     coWrapper.setSocInfo(soc);
                     boolean canOpenViewSoc = form.getView().getAuthorizer().canOpenView(form.getView(), form, user);
 
@@ -362,11 +324,11 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                         return getUIFModelAndView(form);
                     } else {
                         if (coWrapper.isCreateFromCatalog()) {
-                            Properties urlParameters = CourseOfferingControllerBusinessLogic._buildCOURLParameters(course.getId(), term.getId(), soc.getId(), KRADConstants.Maintenance.METHOD_TO_CALL_NEW);
+                            Properties urlParameters = CourseOfferingManagementUtil._buildCOURLParameters(course.getId(), term.getId(), soc.getId(), KRADConstants.Maintenance.METHOD_TO_CALL_NEW);
                             return super.performRedirect(form, CourseOfferingConstants.CONTROLLER_PATH_COURSEOFFERING_CREATE_MAINTENANCE, urlParameters);
                         } else {  // Copy part
                             //Get all the course offerings in a term
-                            CourseOfferingControllerBusinessLogic.continueFromCreateCopyCourseOfferingInfo(coWrapper, course, term);
+                            CourseOfferingControllerPopulateUIForm.continueFromCreateCopyCourseOfferingInfo(coWrapper, course, term);
 
                             //sort existing COs by term code
                             Collections.sort(coWrapper.getExistingTermOfferings(), new Comparator<CourseOfferingEditWrapper>() {
@@ -422,14 +384,14 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
             return getUIFModelAndView(form);
         }
 
-        List<String> optionKeys = CourseOfferingControllerBusinessLogic.getOptionKeys(createWrapper, existingCO);
+        List<String> optionKeys = CourseOfferingControllerPopulateUIForm.getOptionKeys(createWrapper, existingCO);
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-        SocRolloverResultItemInfo item = CourseOfferingControllerBusinessLogic.getCourseOfferingService().rolloverCourseOffering(existingCO.getId(),
+        SocRolloverResultItemInfo item = CourseOfferingManagementUtil.getCourseOfferingService().rolloverCourseOffering(existingCO.getId(),
                 createWrapper.getTerm().getId(),
                 optionKeys,
                 contextInfo);
-        CourseOfferingInfo courseOfferingInfo = CourseOfferingControllerBusinessLogic.getCourseOfferingService().getCourseOffering(item.getTargetCourseOfferingId(), contextInfo);
+        CourseOfferingInfo courseOfferingInfo = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(item.getTargetCourseOfferingId(), contextInfo);
 
         Properties urlParameters;
         urlParameters = new Properties();
