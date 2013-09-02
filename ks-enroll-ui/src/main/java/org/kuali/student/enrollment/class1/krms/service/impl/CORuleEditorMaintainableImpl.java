@@ -16,6 +16,7 @@
 package org.kuali.student.enrollment.class1.krms.service.impl;
 
 //import org.apache.commons.lang.StringUtils;
+
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -33,9 +34,6 @@ import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
-import org.kuali.student.lum.lu.ui.krms.dto.LUAgendaEditor;
-import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
-import org.kuali.student.lum.lu.ui.krms.tree.LURuleViewTreeBuilder;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
@@ -44,18 +42,22 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.lum.lu.ui.krms.dto.LUAgendaEditor;
+import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
+import org.kuali.student.lum.lu.ui.krms.tree.LURuleViewTreeBuilder;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.StateServiceConstants;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.springframework.util.StringUtils;
 
 import javax.xml.namespace.QName;
@@ -208,7 +210,7 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         } catch (Exception e) {
             throw new RuntimeException("Could not retrieve course offering for " + refObjectId);
         }
-        return this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(KSKRMSServiceConstants.RULE_DISCR_TYPE_CREDIT, courseOffering.getCourseId());
+        return this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseServiceConstants.REF_OBJECT_URI_COURSE, courseOffering.getCourseId());
     }
 
     /**
