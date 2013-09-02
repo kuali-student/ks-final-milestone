@@ -362,6 +362,90 @@
         </property>
     </bean>
 
+    <bean id="ActivityOfferingEdit-NoWaitlist" parent="Uif-VerticalBoxSection" p:headerText="Waitlist" p:render="@{!#dp.hasWaitlistCO}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="Waitlists are deactivated for the Course Offering"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ActivityOfferingEdit-Waitlist" parent="Uif-VerticalBoxSection" p:headerText="Waitlist" p:render="@{#dp.hasWaitlistCO}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean id="ActivityOfferingEdit-HasWaitlist" parent="Uif-InputField-LabelRight" p:propertyName="hasWaitlist" p:label="Waitlist Active">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl" />
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <ref bean="ActivityOfferingEdit-WailtList-Info-Section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ActivityOfferingEdit-WailtList-Info-Section" parent="Uif-VerticalBoxSection"
+          p:progressiveRender="@{#dp.hasWaitlist}" p:refreshWhenChangedPropertyNames="@{#dp.hasWaitlist}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-VerticalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField" p:propertyName="courseWaitListInfo.typeKey" p:label="Waitlist Type"
+                                              p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                            <property name="control">
+                                                <bean parent="Uif-VerticalRadioControl"/>
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistTypeOptionsKeyValues" p:addBlankOption="false" />
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-VerticalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-MessageField" p:label="Waitlist Options" p:fieldLabel.renderColon="false"/>
+                                        <bean parent="Uif-HorizontalBoxSection">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-InputField-LabelRight" p:propertyName="limitWaitlistSize" p:label="Limit Waitlist Size">
+                                                        <property name="control">
+                                                            <bean parent="Uif-CheckboxControl" />
+                                                        </property>
+                                                    </bean>
+                                                    <bean parent="Uif-InputField" p:propertyName="courseWaitListInfo.maxSize" p:refreshWhenChangedPropertyNames="@{#dp.limitWaitlistSize}">
+                                                        <property name="control">
+                                                            <bean parent="Uif-TextControl" p:size="3" p:disabled="@{!#dp.limitWaitlistSize}" />
+                                                        </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField-LabelRight" p:propertyName="courseWaitListInfo.allowHoldUntilEntries" p:label="Allow Hold List">
+                                            <property name="control">
+                                                <bean parent="Uif-CheckboxControl" />
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
     <bean id="ActivityOfferingEdit-SeatPool" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Seat Pools"/>
         <property name="cssClasses">

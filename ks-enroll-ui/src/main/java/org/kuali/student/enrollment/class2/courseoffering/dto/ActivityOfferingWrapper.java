@@ -9,6 +9,7 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -148,6 +149,11 @@ public class ActivityOfferingWrapper implements Serializable{
 
     private SchOfClassesRenderHelper schOfClassesRenderHelper;
 
+    private CourseWaitListInfo courseWaitListInfo;
+    private boolean hasWaitlist;
+    private boolean hasWaitlistCO;
+    private boolean limitWaitlistSize;
+
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
         instructors = new ArrayList<OfferingInstructorWrapper>();
@@ -169,6 +175,10 @@ public class ActivityOfferingWrapper implements Serializable{
         maxEnrollmentShared = true;
         editRenderHelper = new EditRenderHelper();
         deletedScheduleComponents = new ArrayList<ScheduleWrapper>();
+        courseWaitListInfo = new CourseWaitListInfo();
+        hasWaitlist = false;
+        hasWaitlistCO = false;
+        limitWaitlistSize = false;
     }
 
     public ActivityOfferingWrapper(ActivityOfferingInfo info){
@@ -1191,6 +1201,29 @@ public class ActivityOfferingWrapper implements Serializable{
         this.hasRule = hasRule;
     }
 
+    public CourseWaitListInfo getCourseWaitListInfo() {
+        return courseWaitListInfo;
+    }
+
+    public void setCourseWaitListInfo(CourseWaitListInfo courseWaitListInfo) {
+        this.courseWaitListInfo = courseWaitListInfo;
+    }
+
+    public boolean isHasWaitlist() {
+        return hasWaitlist;
+    }
+
+    public void setHasWaitlist(boolean hasWaitlist) {
+        this.hasWaitlist = hasWaitlist;
+    }
+
+    public boolean isHasWaitlistCO() {
+        return hasWaitlistCO;
+    }
+
+    public void setHasWaitlistCO(boolean hasWaitlistCO) {
+        this.hasWaitlistCO = hasWaitlistCO;
+    }
 
     public String getReinstateStateName() {
         return reinstateStateName;
@@ -1200,5 +1233,12 @@ public class ActivityOfferingWrapper implements Serializable{
         this.reinstateStateName = reinstateStateName;
     }
 
+    public boolean isLimitWaitlistSize() {
+        return limitWaitlistSize;
+    }
+
+    public void setLimitWaitlistSize(boolean limitWaitlistSize) {
+        this.limitWaitlistSize = limitWaitlistSize;
+    }
 
 }
