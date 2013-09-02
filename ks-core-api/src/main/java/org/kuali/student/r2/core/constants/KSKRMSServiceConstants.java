@@ -37,11 +37,14 @@ public class KSKRMSServiceConstants {
     // Context Types
     public static final String AGENDA_TYPE_COURSE = "kuali.krms.agenda.type.course";
     public static final String AGENDA_TYPE_PROGRAM = "kuali.krms.agenda.type.program";
+    public static final String AGENDA_TYPE_FINAL_EXAM = "kuali.krms.agenda.type.final.exam";
 
     // Agenda Types
     public static final String AGENDA_TYPE_COURSE_ENROLLMENTELIGIBILITY = "kuali.krms.agenda.type.course.enrollmentEligibility";
     public static final String AGENDA_TYPE_COURSE_CREDITCONSTRAINTS = "kuali.krms.agenda.type.course.creditConstraints";
     public static final String AGENDA_TYPE_SCHEDULE_ELIGIBILITY = "kuali.krms.agenda.type.schedule.eligibility";
+    public static final String AGENDA_TYPE_FINAL_EXAM_STANDARD = "kuali.krms.agenda.type.final.exam.standard";
+    public static final String AGENDA_TYPE_FINAL_EXAM_COMMON = "kuali.krms.agenda.type.final.exam.common";
 
     //Rule Discriminator Types
     public static final String RULE_DISCR_TYPE_CREDIT = "kuali.lu.type.CreditCourse";
@@ -59,6 +62,8 @@ public class KSKRMSServiceConstants {
     public static final String RULE_TYPE_PROGRAM_ENTRANCE = "kuali.krms.rule.type.program.entrance";
     public static final String RULE_TYPE_PROGRAM_SATISFACTORYPROGRESS = "kuali.krms.rule.type.program.satisfactoryProgress";
     public static final String RULE_TYPE_SCHEDULE_ELIGIBILITY = "kuali.krms.rule.type.schedule.eligibility";
+    public static final String RULE_TYPE_FINAL_EXAM_STANDARD = "kuali.krms.rule.type.final.exam.standard";
+    public static final String RULE_TYPE_FINAL_EXAM_COMMON = "kuali.krms.rule.type.final.exam.common";
 
     // proposition types
     public static final String PROPOSITION_TYPE_SUCCESS_COMPL_COURSE = "kuali.krms.proposition.type.success.compl.course";
@@ -118,6 +123,10 @@ public class KSKRMSServiceConstants {
     public static final String PROPOSITION_TYPE_COMPOUND_AND = "kuali.krms.proposition.type.compound.and";
     public static final String PROPOSITION_TYPE_COMPOUND_OR = "kuali.krms.proposition.type.compound.or";
     public static final String PROPOSITION_TYPE_POPULATION = "kuali.krms.proposition.type.memberof.population";
+    public static final String PROPOSITION_TYPE_FINAL_EXAM_TIMESLOT = "kuali.krms.proposition.type.final.exam.timeslot";
+    public static final String PROPOSITION_TYPE_FINAL_EXAM_COURSE_OFFERING = "kuali.krms.proposition.type.final.exam.course.offering";
+    public static final String PROPOSITION_TYPE_FINAL_EXAM_COURSESET = "kuali.krms.proposition.type.final.exam.courseset";
+
     // term types
     public static final String TERM_TYPE_COURSE_ID = "kuali.krms.term.type.course.specific.id";
     public static final String TERM_TYPE_COURSE = "kuali.krms.term.type.course.specific";
