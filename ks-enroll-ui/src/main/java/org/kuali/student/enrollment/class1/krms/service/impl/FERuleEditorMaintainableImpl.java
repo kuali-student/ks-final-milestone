@@ -98,7 +98,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
     @Override
     public String getViewTypeName() {
-        return KSKRMSServiceConstants.AGENDA_TYPE_COURSE;
+        return KSKRMSServiceConstants.AGENDA_TYPE_FINAL_EXAM;
     }
 
     protected List<AgendaEditor> getAgendasForRef(String discriminatorType, String refObjectId) {
