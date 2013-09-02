@@ -59,8 +59,10 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.StateServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.springframework.util.StringUtils;
 
@@ -87,7 +89,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         FERuleManagementWrapper dataObject = new FERuleManagementWrapper();
 
         dataObject.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
-        dataObject.setRefDiscriminatorType(CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING);
+        dataObject.setRefDiscriminatorType(AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY);
 
         String coId = dataObjectKeys.get("refObjectId");
         dataObject.setRefObjectId(coId);
