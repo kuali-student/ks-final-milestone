@@ -52,6 +52,7 @@ public class CourseOfferingWrapper implements Serializable{
     private List<String> ownerAliases;
     private String ownerCode;
     private String coOwningDeptName;
+    private String finalExamDriver;
 
     private boolean isColocatedAoToDelete;
     private boolean isColocatedAoToCSR;
@@ -387,6 +388,14 @@ public class CourseOfferingWrapper implements Serializable{
 
     public void setContextBar(CourseOfferingContextBar contextBar) {
         this.contextBar = contextBar;
+    }
+
+    public String getFinalExamDriver() {
+        return finalExamDriver;
+    }
+
+    public void setFinalExamDriver(String finalExamDriver) {
+        this.finalExamDriver = finalExamDriver;
     }
 
 }

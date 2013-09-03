@@ -500,7 +500,15 @@
                         </list>
                     </property>
                 </bean>
-
+                <bean parent="Uif-InputField" p:label="Final Exam Driver" p:propertyName="finalExamDriver" p:fieldLabel.renderColon="false" >
+                    <property name="id" value="KS-CourseOfferingEdit-FinalExamDriver" />
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FinalExamDriversKeyValues" p:addBlankOption="false"/>
+                    </property>
+                </bean>
                 <ref bean="KS-CourseOfferingEdit-DeliveryFormats"/>
 
             </list>

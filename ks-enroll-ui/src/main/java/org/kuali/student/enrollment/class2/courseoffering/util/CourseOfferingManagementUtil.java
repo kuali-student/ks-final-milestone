@@ -33,6 +33,7 @@ import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
@@ -678,6 +679,30 @@ public class CourseOfferingManagementUtil {
             }
         }
         return null;
+    }
+
+    /**
+     * Store information in CO about final exam driver
+     * @param finalExamDriverStr - driver for AO or CO
+     * @param co the course offering to add this dynamic attribute to
+     */
+    public static void addFinalExamDriverAttributeToCo(String finalExamDriverStr, CourseOfferingInfo co) {
+        AttributeInfo newAttr = new AttributeInfo();
+        newAttr.setKey("finalExamDriver");
+        newAttr.setValue(finalExamDriverStr);
+        if (co.getAttributes() == null) {
+            co.setAttributes(new ArrayList<AttributeInfo>());
+        }
+        co.getAttributes().add(newAttr);
+    }
+
+    public static int getFinalExamDriverAttributeToCo(CourseOfferingInfo fetched) throws OperationFailedException {
+        for (AttributeInfo attr: fetched.getAttributes()) {
+            if ("finalExamDriver".equals(attr.getKey())) {
+                return Integer.parseInt(attr.getValue());
+            }
+        }
+        throw new OperationFailedException("Unable to find dynamic attribute for: finalExamDriver");
     }
 
 }
