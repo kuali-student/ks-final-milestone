@@ -52,6 +52,8 @@ public class CourseOfferingConstants {
     public static final String COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_CANCEL = "error.courseoffering.selected.AO.cancel.confirmation";
     public static final String COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_SUSPEND = "error.courseoffering.selected.AO.suspend.confirmation";
     public static final String COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_REINSTATE = "error.courseoffering.selected.AO.reinstate.confirmation";
+    public static final String COURSEOFFERING_MSG_WARNING_FINALEXAMTYPE_DIFF_CM = "error.courseoffering.finalexam.type.warning";
+
     public static final String COURSEOFFERING_INVALID_STATE_FOR_DELETE = "error.enroll.courseoffering.delete.invalid.state";
     public static final String COURSEOFFERING_INVALID_STATE_FOR_CANCEL = "error.enroll.courseoffering.cancel.invalid.state";
     public static final String COURSEOFFERING_INVALID_AO_STATE_FOR_DELETE = "error.enroll.courseoffering.delete.invalid.ao.state";
@@ -170,6 +172,7 @@ public class CourseOfferingConstants {
     public static final String CONTROLLER_PATH_COURSEOFFERING_CREATE_MAINTENANCE = "courseOfferingCreate";
 
     // Final Exam Types
+    public final static String COURSEOFFERING_FINAL_EXAM_TYPE_KEY = "finalExamStatus";
     public final static String COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD = "STANDARD";
     public final static String COURSEOFFERING_FINAL_EXAM_TYPE_ALTERNATE = "ALTERNATE";
     public final static String COURSEOFFERING_FINAL_EXAM_TYPE_NONE = "NONE";

@@ -31,6 +31,7 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
@@ -712,6 +713,12 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
                 loadNavigationDetails( formObject );
 
+                //check if the final exam status is the same as the one of CM
+                String finalExamTypeCM = courseInfo.getAttributeValue(CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_KEY);
+                if (!StringUtils.equals(convertCourseFinalExamTypeToCourseOfferingFinalExamType(finalExamTypeCM), coInfo.getFinalExamType())) {
+                    GlobalVariables.getMessageMap().putWarningForSectionId("delivery_and_assessment", CourseOfferingConstants.COURSEOFFERING_MSG_WARNING_FINALEXAMTYPE_DIFF_CM);
+                }
+
                 return formObject;
             }
         }catch (AuthorizationException ae){
@@ -721,6 +728,18 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    protected static String convertCourseFinalExamTypeToCourseOfferingFinalExamType(String courseFinalExamType){
+        String sRet = null;
+        if("STD".equals(courseFinalExamType))   {
+            sRet = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD;
+        } else if("ALT".equals(courseFinalExamType)) {
+            sRet = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_ALTERNATE;
+        } else {
+            sRet = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_NONE;
+        }
+        return sRet;
     }
 
     private void loadNavigationDetails( CourseOfferingEditWrapper wrapper ) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {

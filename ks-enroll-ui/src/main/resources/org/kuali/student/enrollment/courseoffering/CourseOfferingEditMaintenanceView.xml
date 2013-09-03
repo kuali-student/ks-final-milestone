@@ -479,7 +479,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingEdit-DeliveryAndAssessment" parent="Uif-VerticalBoxSection" p:headerText="Delivery and Assessment">
+    <bean id="KS-CourseOfferingEdit-DeliveryAndAssessment" p:id="delivery_and_assessment" parent="Uif-VerticalBoxSection" p:headerText="Delivery and Assessment">
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>
