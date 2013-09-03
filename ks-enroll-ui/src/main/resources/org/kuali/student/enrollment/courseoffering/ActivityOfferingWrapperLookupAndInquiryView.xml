@@ -72,6 +72,7 @@
                 <ref bean="ActivityOffering-Inquiry-DeliveryLogistic-Actuals"/>
                 <ref bean="ActivityOffering-Inquiry-DeliveryLogistic-Requested"/>
                 <ref bean="ActivityOfferingEdit-PersonnelSection"/>
+                <ref bean="KS-ActivityOffering-Inquiry-WaitList"/>
                 <ref bean="KS-ActivityOffering-Inquiry-SeatPool"/>
                 <ref bean="KS-ActivityOffering-Inquiry-HonorsOffering"/>
                 <ref bean="KS-ActivityOffering-Inquiry-Evaluation"/>
@@ -248,6 +249,37 @@
                         </list>
                     </property>
                 </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-ActivityOffering-Inquiry-WaitList" parent="Uif-VerticalBoxSection">
+        <property name="componentSecurity.editAuthz" value="true"/>
+        <property name="items">
+            <list>
+                <bean id="KS-ActivityOffering-Inquiry-WaitList-waitlistSection" parent="Uif-TableCollectionSection"
+                      p:layoutManager.numberOfColumns="6"
+                      p:id="ao-seatpoolgroup"
+                      p:layoutManager.style="width: 100%; display:block;">
+                    <property name="headerText" value="Waitlist"/>
+                    <property name="layoutManager.renderSequenceField" value="false" />
+                    <property name="layoutManager.separateAddLine" value="false" />
+                    <property name="layoutManager.richTable.render" value="false" />
+                    <property name="layoutManager.applyDefaultCellWidths" value="false" />
+                    <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+
+                    <property name="lineActions">
+                        <list>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="delete"
+                                  p:actionEvent="deleteLine" p:onDocumentReadyScript="calculatePercent()" />
+                        </list>
+                    </property>
+
+                </bean>
+                <bean parent="Uif-MessageField" p:label="Waitlist Active" p:messageText="@{(dataObject.hasWaitlist eq null or !dataObject.hasWaitlist) ? 'No':'Yes'}" p:fieldLabel.renderColon="true"/>
+                <bean parent="Uif-MessageField" p:label="Waitlist Processing" p:messageText="@{(dataObject.courseWaitListInfo.automaticallyProcessed eq null or !dataObject.courseWaitListInfo.automaticallyProcessed) ? 'Manual':'Automatic'}" p:fieldLabel.renderColon="true"/>
+                <bean parent="Uif-MessageField" p:label="Waitlist Max Size" p:messageText="@{(dataObject.courseWaitListInfo.maxSize eq null) ? 'Unlimited':' Limit to (dataObject.courseWaitListInfo.maxSize)'}" p:fieldLabel.renderColon="true"/>
+                <bean parent="Uif-MessageField" p:label="Allow Holds in Waitlist" p:messageText="@{(dataObject.courseWaitListInfo.allowHoldUntilEntries eq null or !dataObject.courseWaitListInfo.allowHoldUntilEntries) ? 'No':'Yes'}" p:fieldLabel.renderColon="true"/>
             </list>
         </property>
     </bean>
