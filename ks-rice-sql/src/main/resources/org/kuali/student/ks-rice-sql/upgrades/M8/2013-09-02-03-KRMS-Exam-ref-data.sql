@@ -18,17 +18,16 @@ INSERT INTO KRMS_REF_OBJ_KRMS_OBJ_T (ACTV,COLLECTION_NM,KRMS_DSCR_TYP,KRMS_OBJ_I
   VALUES ('Y','FinalExamMatrix','Agenda','KS-KRMS-AGENDA-11924','KS-SYS','kuali.atp.type.group.term','kuali.atp.type.Fall','KS-KRMS-REF-OBJ-KRMS-OBJ-11915',0)
 /
 
---Rules
+--
 Insert into KRMS_RULE_T (ACTV,DESC_TXT,NM,NMSPC_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR) values ('Y',null,concat(concat('kuali.atp.type.Fall:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':1'),'KS-SYS',null,'KS-KRMS-RULE-12037',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
 /
-Insert into KRMS_RULE_T (ACTV,DESC_TXT,NM,NMSPC_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR) values ('Y',null,concat(concat('kuali.atp.type.Fall:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.common')), ':1'),'KS-SYS',null,'KS-KRMS-RULE-12038',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.common'),1)
-/
-
---Agenda Items
 INSERT INTO KRMS_AGENDA_ITM_T (AGENDA_ID,AGENDA_ITM_ID,RULE_ID,VER_NBR)
   VALUES ('KS-KRMS-AGENDA-11923','KS-KRMS-AGENDA-ITM-12031','KS-KRMS-RULE-12037',1)
 /
 UPDATE KRMS_AGENDA_T set INIT_AGENDA_ITM_ID = 'KS-KRMS-AGENDA-ITM-12031' WHERE AGENDA_ID = 'KS-KRMS-AGENDA-11923'
+/
+--
+Insert into KRMS_RULE_T (ACTV,DESC_TXT,NM,NMSPC_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR) values ('Y',null,concat(concat('kuali.atp.type.Fall:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.common')), ':1'),'KS-SYS',null,'KS-KRMS-RULE-12038',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.common'),1)
 /
 INSERT INTO KRMS_AGENDA_ITM_T (AGENDA_ID,AGENDA_ITM_ID,RULE_ID,VER_NBR)
   VALUES ('KS-KRMS-AGENDA-11924','KS-KRMS-AGENDA-ITM-12032','KS-KRMS-RULE-12038',1)
@@ -45,7 +44,7 @@ Insert into KRMS_PROP_T (CMPND_OP_CD,DESC_TXT,PROP_ID,RULE_ID,TYP_ID,VER_NBR,DSC
 /
 Insert into KRMS_PROP_T (CMPND_OP_CD,DESC_TXT,PROP_ID,RULE_ID,TYP_ID,VER_NBR,DSCRM_TYP_CD,CMPND_SEQ_NO) values (null,'Final exam for course set','KS-KRMS-PROP-14728','KS-KRMS-RULE-12038',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.proposition.type.final.exam.courseset'),1,'S',2)
 /
-Insert into KRMS_PROP_T (CMPND_OP_CD,DESC_TXT,PROP_ID,RULE_ID,TYP_ID,VER_NBR,DSCRM_TYP_CD,CMPND_SEQ_NO) values ('|','Must meet 1 of the following','KS-KRMS-PROP-14729','KS-KRMS-RULE-12038','10077',1,'C',1);
+Insert into KRMS_PROP_T (CMPND_OP_CD,DESC_TXT,PROP_ID,RULE_ID,TYP_ID,VER_NBR,DSCRM_TYP_CD,CMPND_SEQ_NO) values ('|','Must meet 1 of the following','KS-KRMS-PROP-14729','KS-KRMS-RULE-12038','10077',1,'C',1)
 /
 Insert into KRMS_CMPND_PROP_PROPS_T (CMPND_PROP_ID,PROP_ID) values ('KS-KRMS-PROP-14729','KS-KRMS-PROP-14727')
 /
