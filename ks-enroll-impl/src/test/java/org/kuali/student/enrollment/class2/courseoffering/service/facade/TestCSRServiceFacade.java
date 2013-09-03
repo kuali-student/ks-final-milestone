@@ -11,6 +11,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
@@ -149,5 +150,24 @@ public class TestCSRServiceFacade {
 
         activityOfferingInfo = coService.getActivityOffering("CO-1:LEC-ONLY:LEC-A",contextInfo);
         assertTrue((activityOfferingInfo.getState().contains("suspend")));
+    }
+
+    @Test
+    public void testReinstateActivityOffering() throws Exception{
+
+        createActivityOffering();
+        ActivityOfferingInfo ao = coService.getActivityOffering("CO-1:LEC-ONLY:LEC-A",contextInfo);
+
+        csrServiceFacade.cancelActivityOffering("CO-1:LEC-ONLY:LEC-A",contextInfo);
+        assertTrue(ao.getState().contains("cancel"));
+
+        csrServiceFacade.reinstateActivityOffering(ao, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS,contextInfo);
+        assertTrue(ao.getState().contains("draft"));
+
+        csrServiceFacade.suspendActivityOffering("CO-1:LEC-ONLY:LEC-A",contextInfo);
+        assertTrue(ao.getState().contains("suspend"));
+
+        csrServiceFacade.reinstateActivityOffering(ao, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS,contextInfo);
+        assertTrue(ao.getState().contains("draft"));
     }
 }
