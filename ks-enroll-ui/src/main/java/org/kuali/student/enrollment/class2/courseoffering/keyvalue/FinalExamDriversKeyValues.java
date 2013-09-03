@@ -42,7 +42,7 @@ public class FinalExamDriversKeyValues extends UifKeyValuesFinderBase implements
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        List<String> finalExamDriverTypes  =  new ArrayList<String>(Arrays.asList(LuServiceConstants.ALL_EXAM_TYPE_KEYS));
+        List<String> finalExamDriverTypes  =  new ArrayList<String>(Arrays.asList(LuServiceConstants.ALL_EXAM_DRIVER_KEYS));
 
         //set default
         keyValues.add(new ConcreteKeyValue("", "Select Final Exam Driver"));
@@ -51,10 +51,10 @@ public class FinalExamDriversKeyValues extends UifKeyValuesFinderBase implements
 
         //add values
         for(String finalExamDriverType: finalExamDriverTypes) {
-            if (finalExamDriverType.equals(LuServiceConstants.LUEXAM_TYPE_AO_KEY)) {
-                keyValues.add(new ConcreteKeyValue(finalExamDriverType, "Final Exam Per Activity Offering"));
-            } else if (finalExamDriverType.equals(LuServiceConstants.LUEXAM_TYPE_CO_KEY)) {
-                keyValues.add(new ConcreteKeyValue(finalExamDriverType, "Final Exam Per Course Offering"));
+            if (finalExamDriverType.equals(LuServiceConstants.LU_EXAM_DRIVER_AO_KEY)) {
+                keyValues.add(new ConcreteKeyValue("Activity Offering", "Final Exam Per Activity Offering"));
+            } else if (finalExamDriverType.equals(LuServiceConstants.LU_EXAM_DRIVER_CO_KEY)) {
+                keyValues.add(new ConcreteKeyValue("Course Offering", "Final Exam Per Course Offering"));
             }
         }
 
