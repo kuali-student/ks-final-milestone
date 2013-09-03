@@ -19,6 +19,7 @@ import static org.springframework.util.StringUtils.hasText;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -40,7 +41,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.datadictionary.exception.DuplicateEntryException;
@@ -52,13 +52,10 @@ import org.kuali.student.ap.framework.context.EnrollmentStatusHelper;
 import org.kuali.student.ap.framework.context.EnrollmentStatusHelper.CourseCode;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.TermHelper;
-import org.kuali.student.ap.framework.context.UserSessionHelper;
 import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.acal.infc.Term;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.myplan.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.myplan.academicplan.dto.PlanItemInfo;
 import org.kuali.student.myplan.academicplan.infc.LearningPlan;
@@ -385,11 +382,11 @@ public class PlanController extends UifControllerBase {
             }
 
             String credits="";
-            float newPlanCredits = 0;
+            BigDecimal newPlanCredits = new BigDecimal(0.0);
             try{
                 if(hasText(form.getCourseCredit())){
                     credits=form.getCourseCredit();
-                    newPlanCredits = Float.parseFloat(credits);
+                    newPlanCredits = BigDecimal.valueOf(Float.parseFloat(credits));
                 }
             }catch(NumberFormatException e){
                 return doOperationFailedError(form, "Unable to read credit value",
@@ -465,8 +462,77 @@ public class PlanController extends UifControllerBase {
         return getUIFModelAndView(planForm);
     }
 
+    @RequestMapping(params = "methodToCall=academicPlanner")
+    public ModelAndView academicPlanner(@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
+                                        HttpServletRequest httprequest, HttpServletResponse httpresponse) {
+        if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
+            String[] params = {};
+            return doErrorPage(form, PlanConstants.ERROR_KEY_ADVISER_ACCESS, params);
+        }
+        LearningPlanInfo plan = null;
+        try {
+            String studentId = getUserId();
+            plan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
+            if (plan!=null) {
+                if (!plan.getShared().toString()
+                        .equalsIgnoreCase(form.getEnableAdviserView())) {
+                    if (form.getEnableAdviserView().equalsIgnoreCase(
+                            PlanConstants.LEARNING_PLAN_ITEM_SHARED_TRUE_KEY)) {
+                        plan.setShared(true);
+                    } else {
+                        plan.setShared(false);
+                    }
+                    plan.setStateKey(
+                            PlanConstants.LEARNING_PLAN_ACTIVE_STATE_KEY);
+                    getAcademicPlanService().updateLearningPlan(
+                            plan.getId(),
+                            plan,
+                            KsapFrameworkServiceLocator.getContext()
+                                    .getContextInfo());
+                }
+            } else {
+                LearningPlanInfo planInfo = new LearningPlanInfo();
+                planInfo.setTypeKey(PlanConstants.LEARNING_PLAN_TYPE_PLAN);
+                RichTextInfo rti = new RichTextInfo();
+                rti.setFormatted("");
+                rti.setPlain("");
+                if (form.getEnableAdviserView().equalsIgnoreCase(PlanConstants.LEARNING_PLAN_ITEM_SHARED_TRUE_KEY)) {
+                    planInfo.setShared(true);
+                } else {
+                    planInfo.setShared(false);
+                }
+                planInfo.setDescr(rti);
+                planInfo.setStudentId(studentId);
+                planInfo.setStateKey(PlanConstants.LEARNING_PLAN_ACTIVE_STATE_KEY);
+                planInfo.setMeta(new MetaInfo());
 
+                ContextInfo context = new ContextInfo();
+                context.setPrincipalId(studentId);
+                getAcademicPlanService().createLearningPlan(planInfo, context);
+            }
+        } catch (Exception e) {
+            return doOperationFailedError(form, "Query for default learning plan failed.", e);
+        }
 
+        return getUIFModelAndView(form);
+
+    }
+
+    /**
+     * Dialog Actions
+     */
+
+    /**
+     * Move a Plan Item from 1 term to another.
+     * So that there is still 1 copies of the Plan item, only in the new term.
+     * A moved item differs only in term.
+     *
+     * @param form
+     * @param result
+     * @param httprequest
+     * @param httpresponse
+     * @return
+     */
 	@RequestMapping(params = "methodToCall=movePlanCourse")
 	public ModelAndView movePlannedCourse(@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
 			HttpServletRequest httprequest, HttpServletResponse httpresponse) {
@@ -612,6 +678,17 @@ public class PlanController extends UifControllerBase {
 		return doPlanActionSuccess(form, PlanConstants.SUCCESS_KEY_PLANNED_ITEM_MOVED, params);
 	}
 
+    /**
+     * Copy a Plan Item from 1 term to another.
+     * So that there are now 2 copies of the Plan item, one in each term.
+     * The copies are term to term different only.
+     *
+     * @param form
+     * @param result
+     * @param httprequest
+     * @param httpresponse
+     * @return
+     */
 	@RequestMapping(params = "methodToCall=copyPlanCourse")
 	public ModelAndView copyPlannedCourse(@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
 			HttpServletRequest httprequest, HttpServletResponse httpresponse) {
@@ -626,8 +703,6 @@ public class PlanController extends UifControllerBase {
 			return doOperationFailedError(form, "Plan Item ID was missing.", null);
 		}
 
-		// validation of Year and Term will happen in the service validation
-		// methods.
 		if (StringUtils.isEmpty(form.getAtpId())) {
 			return doOperationFailedError(form, "Term Year value missing", null);
 		}
@@ -751,6 +826,17 @@ public class PlanController extends UifControllerBase {
 		return doPlanActionSuccess(form, PlanConstants.SUCCESS_KEY_PLANNED_ITEM_COPIED, params);
 	}
 
+    /**
+     * Create and save a new plan item for a course in a specific term.
+     * Requires: Course id and atpId.
+     * Handles Plan and section additions.
+     *
+     * @param form
+     * @param result
+     * @param httprequest
+     * @param httpresponse
+     * @return
+     */
 	@RequestMapping(params = "methodToCall=addPlanCourse")
 	public ModelAndView addPlannedCourse(@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
 			HttpServletRequest httprequest, HttpServletResponse httpresponse) {
@@ -1040,7 +1126,16 @@ public class PlanController extends UifControllerBase {
 		return doPlanActionSuccess(form, PlanConstants.SUCCESS_KEY_PLANNED_ITEM_ADDED, params);
 	}
 
-
+    /**
+     * Update the information for a plan item.
+     * Currently Updated: Credits, Course Note.
+     *
+     * @param form
+     * @param result
+     * @param httprequest
+     * @param httpresponse
+     * @return
+     */
     @RequestMapping(params = "methodToCall=editPlanCourse")
     public ModelAndView editPlannedCourse(
             @ModelAttribute("KualiForm") PlanForm form, BindingResult result,
@@ -1085,11 +1180,11 @@ public class PlanController extends UifControllerBase {
 
 
         String credits="";
-        float newPlanCredits = 0;
+        BigDecimal newPlanCredits = new BigDecimal(0.0);
         try{
             if(hasText(form.getCourseCredit())){
                 credits=form.getCourseCredit();
-                newPlanCredits = Float.parseFloat(credits);
+                newPlanCredits = BigDecimal.valueOf(Float.parseFloat(credits));
             }
         }catch(NumberFormatException e){
             return doOperationFailedError(form, "Unable to read credit value",
@@ -1125,6 +1220,14 @@ public class PlanController extends UifControllerBase {
 
     }
 
+    /**
+     *
+     * @param form
+     * @param result
+     * @param httprequest
+     * @param httpresponse
+     * @return
+     */
     @RequestMapping(params = "methodToCall=editTermNote")
     public ModelAndView editTermNote(
             @ModelAttribute("KualiForm") PlanForm form, BindingResult result,
@@ -1190,62 +1293,6 @@ public class PlanController extends UifControllerBase {
         return doPlanActionSuccess(form,
                 PlanConstants.SUCCESS_KEY_ITEM_EDITED, new String[0]);
     }
-
-	@RequestMapping(params = "methodToCall=academicPlanner")
-	public ModelAndView academicPlanner(@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
-			HttpServletRequest httprequest, HttpServletResponse httpresponse) {
-		if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
-			String[] params = {};
-			return doErrorPage(form, PlanConstants.ERROR_KEY_ADVISER_ACCESS, params);
-		}
-		LearningPlanInfo plan = null;
-		try {
-			String studentId = getUserId();
-			plan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
-			if (plan!=null) {
-				if (!plan.getShared().toString()
-						.equalsIgnoreCase(form.getEnableAdviserView())) {
-					if (form.getEnableAdviserView().equalsIgnoreCase(
-							PlanConstants.LEARNING_PLAN_ITEM_SHARED_TRUE_KEY)) {
-						plan.setShared(true);
-					} else {
-						plan.setShared(false);
-					}
-					plan.setStateKey(
-							PlanConstants.LEARNING_PLAN_ACTIVE_STATE_KEY);
-					getAcademicPlanService().updateLearningPlan(
-							plan.getId(),
-							plan,
-							KsapFrameworkServiceLocator.getContext()
-									.getContextInfo());
-				}
-			} else {
-				LearningPlanInfo planInfo = new LearningPlanInfo();
-				planInfo.setTypeKey(PlanConstants.LEARNING_PLAN_TYPE_PLAN);
-				RichTextInfo rti = new RichTextInfo();
-				rti.setFormatted("");
-				rti.setPlain("");
-				if (form.getEnableAdviserView().equalsIgnoreCase(PlanConstants.LEARNING_PLAN_ITEM_SHARED_TRUE_KEY)) {
-					planInfo.setShared(true);
-				} else {
-					planInfo.setShared(false);
-				}
-				planInfo.setDescr(rti);
-				planInfo.setStudentId(studentId);
-				planInfo.setStateKey(PlanConstants.LEARNING_PLAN_ACTIVE_STATE_KEY);
-				planInfo.setMeta(new MetaInfo());
-
-				ContextInfo context = new ContextInfo();
-				context.setPrincipalId(studentId);
-				getAcademicPlanService().createLearningPlan(planInfo, context);
-			}
-		} catch (Exception e) {
-			return doOperationFailedError(form, "Query for default learning plan failed.", e);
-		}
-
-		return getUIFModelAndView(form);
-
-	}
 
 	@RequestMapping(params = "methodToCall=addSavedCourse")
 	public ModelAndView addSavedCourse(@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
@@ -3409,6 +3456,7 @@ public class PlanController extends UifControllerBase {
     }
 
     /**
+     * NEED REWRITE IN KSAP (get(0)s and forced strings). (CreditFormatter as well)
      *
      * Verifies or returns the default credit value for the course.
      * @param newPlanCredits
@@ -3416,7 +3464,7 @@ public class PlanController extends UifControllerBase {
      * @return
      * @throws Exception
      */
-    private float getPlanItemCredits(float newPlanCredits, PlanItemInfo planItem) throws Exception{
+    private BigDecimal getPlanItemCredits(BigDecimal newPlanCredits, PlanItemInfo planItem) throws Exception{
         float minCredit = 100;
         float maxCredit = 0;
 
@@ -3434,7 +3482,7 @@ public class PlanController extends UifControllerBase {
                     if (rv == null)
                         useAttributes = true;
                     else
-                        return Float.parseFloat(rv.getValue());
+                        return BigDecimal.valueOf(Float.parseFloat(rv.getValue()));
                 } catch (DoesNotExistException e) {
                     throw new IllegalArgumentException("LRC lookup error", e);
                 } catch (InvalidParameterException e) {
@@ -3447,7 +3495,7 @@ public class PlanController extends UifControllerBase {
                     throw new IllegalStateException("LRC lookup error", e);
                 }
             if (useAttributes)
-                return Float.parseFloat(rci.getAttributeValue("fixedCreditValue"));
+                return BigDecimal.valueOf(Float.parseFloat(rci.getAttributeValue("fixedCreditValue")));
         } else if (type.equals("kuali.result.values.group.type.range")) {
             ResultValueRangeInfo rvr = rci.getResultValueRange();
             if (rvr != null){
@@ -3458,9 +3506,9 @@ public class PlanController extends UifControllerBase {
                 maxCredit= Float.parseFloat(rci.getAttributeValue("maxCreditValue"));
             }
         }
-
-        if(newPlanCredits>maxCredit || newPlanCredits<minCredit){
-            newPlanCredits=minCredit;
+        Float newPlanCreditsTemp = newPlanCredits.floatValue();
+        if(newPlanCreditsTemp>maxCredit || newPlanCreditsTemp<minCredit){
+            newPlanCredits=new BigDecimal(minCredit);
         }
 
         return newPlanCredits;

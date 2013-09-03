@@ -22,7 +22,8 @@
     <!-- ################################ Plan Item Action Menu ############################ -->
 
     <!-- This is the Actions menu on the term view page. May be Unused-->
-    <bean id="PlannedCourseMenuItem-FormView" parent="MyPlanBaseFormView">
+    <bean id="PlannedCourseMenuItem-FormView" parent="PlannedCourseMenuItem-FormView-parent"/>
+    <bean id="PlannedCourseMenuItem-FormView-parent" abstract="true" parent="MyPlanBaseFormView">
         <property name="headerText" value="Plan"/>
         <property name="id" value="PlannedCourseMenuItem-FormView"/>
         <property name="footer.render" value="false"/>
@@ -44,7 +45,8 @@
     </bean>
 
     <!--View Course Summary Dialog Box content -->
-    <bean id="course_summary_dialog_page" parent="KSAP-PopoverPage" p:id="course_summary_dialog_page" p:headerText="View Course Summary">
+    <bean id="course_summary_dialog_page" parent="course_summary_dialog_page-parent"/>
+    <bean id="course_summary_dialog_page-parent" abstract="true" parent="KSAP-PopoverPage" p:id="course_summary_dialog_page" p:headerText="View Course Summary">
         <property name="items">
             <list>
                 <bean parent="course_title_link"/>
@@ -157,7 +159,8 @@
     </bean>
 
     <!--Delete confirmation Dialog Box content -->
-    <bean id="plan_item_delete_page" parent="KSAP-PopoverPage" p:id="plan_item_delete_page"
+    <bean id="plan_item_delete_page" parent="plan_item_delete_page-parent"/>
+    <bean id="plan_item_delete_page-parent" abstract="true" parent="KSAP-PopoverPage" p:id="plan_item_delete_page"
           p:headerText="Delete @{courseSummaryDetails.code} @{atpId eq null ? 'Bookmark' : 'from the '+shortTerm+' Plan'}">
         <property name="items">
             <list>
@@ -213,7 +216,8 @@
     </bean>
 
     <!--Move Course to another Quarter Dialog Box Content-->
-    <bean id="move_dialog_page" parent="KSAP-PopoverPage" p:id="move_dialog_page" p:headerText="Move to Another Quarter">
+    <bean id="move_dialog_page" parent="move_dialog_page-parent"/>
+    <bean id="move_dialog_page-parent" abstract="true" parent="KSAP-PopoverPage" p:id="move_dialog_page" p:headerText="Move to Another Quarter">
         <property name="items">
             <list>
                 <bean parent="Uif-Message"
@@ -313,7 +317,8 @@
     </bean>
 
     <!--Copy Course to another Quarter Dialog Box Content-->
-    <bean id="copy_dialog_page" parent="KSAP-PopoverPage" p:id="copy_dialog_page" p:headerText="Copy to Another Quarter">
+    <bean id="copy_dialog_page" parent="copy_dialog_page-parent"/>
+    <bean id="copy_dialog_page-parent" abstract="true" parent="KSAP-PopoverPage" p:id="copy_dialog_page" p:headerText="Copy to Another Quarter">
         <property name="items">
             <list>
                 <bean parent="Uif-Message"
@@ -451,7 +456,8 @@
     </bean>
 
     <!--Edit plan item Dialog Box content -->
-    <bean id="plan_item_edit_page" parent="KSAP-PopoverPage" p:id="plan_item_edit_page"
+    <bean id="plan_item_edit_page" parent="plan_item_edit_page-parent"/>
+    <bean id="plan_item_edit_page-parent" abstract="true" parent="KSAP-PopoverPage" p:id="plan_item_edit_page"
           p:headerText="Edit @{courseSummaryDetails.code} @{atpId eq null ? 'Bookmark' : 'from the '+shortTerm+' Plan'}">
         <property name="items">
             <list>
@@ -510,7 +516,8 @@
     </bean>
 
     <!--Edit plan item Dialog Box content -->
-    <bean id="term_note_edit_page" parent="KSAP-PopoverPage" p:id="term_note_edit_page"
+    <bean id="term_note_edit_page" parent="term_note_edit_page-parent"/>
+    <bean id="term_note_edit_page-parent" abstract="true" parent="KSAP-PopoverPage" p:id="term_note_edit_page"
           p:headerText="Edit @{shortTerm} Term Note">
         <property name="items">
             <list>
@@ -553,8 +560,8 @@
     </bean>
 
 
-
-    <bean id="course_title_link" parent="Uif-Link" p:target="" p:style="width:280px; display:block;">
+    <bean id="course_title_link" parent="course_title_link-parent"/>
+    <bean id="course_title_link-parent" abstract="true" parent="Uif-Link" p:target="" p:style="width:280px; display:block;">
         <property name="cssClasses">
             <list merge="true">
                 <value>fl-text-bold</value>
@@ -572,7 +579,8 @@
     <!-- ################# Course Details Summary Bean ############################# -->
 
     <!-- Course details summary component used in both the popover and dialog box -->
-    <bean id="course_details_summary_info" parent="Uif-VerticalBoxGroup" p:style="margin:0px;">
+    <bean id="course_details_summary_info" parent="course_details_summary_info-parent"/>
+    <bean id="course_details_summary_info-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:style="margin:0px;">
         <property name="validationMessages.render" value="false"/>
         <property name="items">
             <list>
@@ -606,7 +614,8 @@
         </property>
     </bean>
 
-    <bean id="course_details_summary_data" parent="Uif-VerticalBoxGroup">
+    <bean id="course_details_summary_data" parent="course_details_summary_data-parent"/>
+    <bean id="course_details_summary_data-parent" abstract="true" parent="Uif-VerticalBoxGroup">
         <property name="validationMessages.render" value="false"/>
         <property name="cssClasses">
             <list merge="true">
@@ -676,7 +685,8 @@
         </property>
     </bean>
 
-    <bean id="course_details_summary_messages" parent="Uif-VerticalBoxGroup" p:style="margin:0px;">
+    <bean id="course_details_summary_messages" parent="course_details_summary_messages-parent"/>
+    <bean id="course_details_summary_messages-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:style="margin:0px;">
         <property name="validationMessages.render" value="false"/>
         <property name="items">
             <list>
@@ -801,7 +811,8 @@
     </bean>
 
     <!--  Add to plan button. Used contextually in course details popup actions -->
-    <bean id="addToPlanButton" p:id="addToPlanButton" parent="Uif-PrimaryActionButton-Small" p:actionLabel="Add to Plan"
+    <bean id="addToPlanButton" parent="addToPlanButton-parent"/>
+    <bean id="addToPlanButton-parent" abstract="true" p:id="addToPlanButton" parent="Uif-PrimaryActionButton-Small" p:actionLabel="Add to Plan"
           p:actionImagePlacement="RIGHT">
         <property name="actionScript"
                   value="fnPopoverSlider('add_planned_course_fields', 'course_popover_group', 'left');"/>
@@ -817,7 +828,8 @@
     </bean>
 
     <!--  Add to saved courses. Used contextually in course details popup actions -->
-    <bean id="addSavedCourseButton" p:id="addSavedCourseButton" parent="Uif-SecondaryActionButton-Small"
+    <bean id="addSavedCourseButton" parent="addSavedCourseButton-parent"/>
+    <bean id="addSavedCourseButton-parent" abstract="true" p:id="addSavedCourseButton" parent="Uif-SecondaryActionButton-Small"
           p:actionLabel="Bookmark Course">
         <property name="onDocumentReadyScript"
                   value="jQuery('#addSavedCourseButton').subscribe('PLAN_ITEM_ADDED', function(data){
@@ -830,7 +842,8 @@
     </bean>
 
     <!-- Remove from saved courses list button. -->
-    <bean id="removeSavedCourseButton" p:id="removeSavedCourseButton" parent="Uif-SecondaryActionButton-Small"
+    <bean id="removeSavedCourseButton" parent="removeSavedCourseButton-parent"/>
+    <bean id="removeSavedCourseButton-parent" abstract="true" p:id="removeSavedCourseButton" parent="Uif-SecondaryActionButton-Small"
           p:actionLabel="Delete">
         <property name="actionScript"
                   value="fnPopoverSlider('delete_from_list_confirmation','course_popover_group','left');"/>
@@ -838,7 +851,8 @@
 
     <!-- Page displaying all plan action response
         This page is returned in response to any action on a plan item. It passes data base to javascripts on the UI-->
-    <bean id="plan_action_response_page" parent="Uif-Page" p:id="plan_item_action_response_page">
+    <bean id="plan_action_response_page" parent="plan_action_response_page-parent"/>
+    <bean id="plan_action_response_page-parent" abstract="true" parent="Uif-Page" p:id="plan_item_action_response_page">
         <property name="validationMessages">
             <bean parent="Uif-GroupValidationMessages">
                 <property name="displayMessages" value="true"/>
@@ -852,7 +866,8 @@
         </property>
     </bean>
 
-    <bean id="plan_item_actions_response" parent="Uif-VerticalBoxSection">
+    <bean id="plan_item_actions_response" parent="plan_item_actions_response-parent"/>
+    <bean id="plan_item_actions_response-parent" abstract="true" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean id="request_status_item_key" parent="Uif-DataField" p:propertyName="requestStatus"/>
@@ -870,10 +885,7 @@
         </property>
     </bean>
 
-
-
     <!-- ################################# Course Details Popover ############################## -->
-
 
     <!--
       This provides the pop-over panels (not the "dialog" ones) for CRUD actions on Course items.
@@ -950,7 +962,8 @@
 
 
     <!-- Course details 3 box group  -->
-    <bean id="course_popover_group" parent="Uif-HorizontalBoxGroup" p:style="margin:0px;">
+    <bean id="course_popover_group" parent="course_popover_group-parent"/>
+    <bean id="course_popover_group-parent" abstract="true" parent="Uif-HorizontalBoxGroup" p:style="margin:0px;">
         <property name="validationMessages.render" value="false"/>
         <property name="cssClasses">
             <list merge="true">
@@ -969,7 +982,8 @@
         </property>
     </bean>
 
-    <bean id="course_details_info" parent="Uif-VerticalBoxGroup">
+    <bean id="course_details_info" parent="course_details_info-parent"/>
+    <bean id="course_details_info-parent" abstract="true" parent="Uif-VerticalBoxGroup">
         <property name="validationMessages.render" value="false"/>
         <property name="cssClasses">
             <list merge="true">
@@ -984,7 +998,8 @@
     </bean>
 
     <!-- Group for "Add Plan Item" inputs -->
-    <bean id="add_planned_course_fields" parent="Uif-VerticalBoxGroup" p:style="display:none;">
+    <bean id="add_planned_course_fields" parent="add_planned_course_fields-parent"/>
+    <bean id="add_planned_course_fields-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:style="display:none;">
         <property name="validationMessages.render" value="false"/>
         <property name="cssClasses">
             <list merge="true">
@@ -1090,7 +1105,8 @@
         </property>
     </bean>
 
-    <bean id="planned_course_quarter_selection" parent="Uif-HorizontalFieldGroup" p:style="padding-top: 0.5em;"
+    <bean id="planned_course_quarter_selection" parent="planned_course_quarter_selection-parent"/>
+    <bean id="planned_course_quarter_selection-parent" abstract="true" parent="Uif-HorizontalFieldGroup" p:style="padding-top: 0.5em;"
           p:label="Quarter &amp; Year" p:labelPlacement="TOP">
         <property name="fieldLabel.cssClasses" value="myplan-text-normal"/>
         <property name="fieldLabel.renderColon" value="false"/>
@@ -1121,7 +1137,8 @@
     </bean>
 
     <!--  Backup checkbox -->
-    <bean id="planned_course_backup" parent="Uif-HorizontalFieldGroup" p:style="padding-top: 1em;">
+    <bean id="planned_course_backup" parent="planned_course_backup-parent"/>
+    <bean id="planned_course_backup-parent" abstract="true" parent="Uif-HorizontalFieldGroup" p:style="padding-top: 1em;">
         <property name="fieldLabel.render" value="false"/>
         <property name="group.validationMessages.render" value="false"/>
         <property name="items">
@@ -1140,8 +1157,8 @@
     </bean>
 
     <!-- Delete from courses list confirmation -->
-    <bean id="delete_from_list_confirmation" parent="Uif-VerticalBoxGroup"
-          p:style="display:none;">
+    <bean id="delete_from_list_confirmation" parent="delete_from_list_confirmation-parent"/>
+    <bean id="delete_from_list_confirmation-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:style="display:none;">
         <property name="validationMessages.render" value="false"/>
         <property name="cssClasses">
             <list merge="true">
@@ -1285,8 +1302,8 @@
         </property>
     </bean>
 
-
-    <bean id="plan_item_course_move_dialog" parent="Uif-VerticalBoxSection" p:headerText="Move to Another Quarter">
+    <bean id="plan_item_course_move_dialog" parent="plan_item_course_move_dialog-parent"/>
+    <bean id="plan_item_course_move_dialog-parent" abstract="true" parent="Uif-VerticalBoxSection" p:headerText="Move to Another Quarter">
         <property name="header">
             <bean parent="Uif-HeaderSix"/>
         </property>
@@ -1381,7 +1398,8 @@
     </bean>
 
     <!--****************************Academic Planned Form View**********************-->
-    <bean id="StudentAcademicPlanner-FormView" parent="MyPlanBaseFormView">
+    <bean id="StudentAcademicPlanner-FormView" parent="StudentAcademicPlanner-FormView-parent"/>
+    <bean id="StudentAcademicPlanner-FormView-parent" abstract="true" parent="MyPlanBaseFormView">
         <property name="id" value="StudentAcademicPlanner-FormView"/>
         <property name="footer.render" value="false"/>
         <property name="header.render" value="false"/>
@@ -1506,7 +1524,8 @@
     </bean>
 
     <!-- Atp/Term Selection for Copy and Move plan items-->
-    <bean id="courseTermSelection" parent="Uif-HorizontalFieldGroup"
+    <bean id="courseTermSelection" parent="courseTermSelection-parent"/>
+    <bean id="courseTermSelection-parent" abstract="true" parent="Uif-HorizontalFieldGroup"
           p:label="Quarter &amp; Year" p:labelPlacement="TOP">
         <property name="fieldLabel.cssClasses" value="myplan-text-normal"/>
         <property name="items">
@@ -1534,7 +1553,8 @@
     </bean>
 
     <!-- Placeholder DIV for error messages after submission failure -->
-    <bean id="errorPlaceholder" parent="KSAP-SimpleInputField" p:id="errorPlaceholder" p:hidden="true"
+    <bean id="errorPlaceholder" parent="errorPlaceholder-parent"/>
+    <bean id="errorPlaceholder-parent" abstract="true" parent="KSAP-SimpleInputField" p:id="errorPlaceholder" p:hidden="true"
           p:propertyName="courseSummaryDetails.courseIdXmlSafe">
         <property name="control">
             <bean parent="Uif-HiddenControl"/>
@@ -1542,14 +1562,16 @@
     </bean>
 
     <!-- Cancel button to close popover -->
-    <bean id="closePopoverCancel" parent="Uif-SecondaryActionButton-Small" p:id="closePopoverCancel"
+    <bean id="closePopoverCancel" parent="closePopoverCancel-parent"/>
+    <bean id="closePopoverCancel-parent" abstract="true" parent="Uif-SecondaryActionButton-Small" p:id="closePopoverCancel"
           p:actionLabel="Cancel">
         <property name="actionScript"
                   value="fnClosePopup();"/>
     </bean>
 
     <!-- Text input for plan item notes field -->
-    <bean id="planItemNote" parent="KSAP-SimpleInputField" p:propertyName="fakeCourseNote"
+    <bean id="planItemNote" parent="planItemNote-parent"/>
+    <bean id="planItemNote-parent" abstract="true" parent="KSAP-SimpleInputField" p:propertyName="fakeCourseNote"
           p:defaultValue="@{#form.planItemId NE null ? #form.courseNote : ''}">
         <property name="label" value="Note for course"/>
         <property name="fieldLabel.render" value="true"/>

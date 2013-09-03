@@ -86,6 +86,11 @@ function stopEvent(e) {
     return false;
 }
 
+/**
+ * Used by the course link builder to open created links
+ * @param courseId
+ * @param e
+ */
 function openCourse(courseId, e) {
     stopEvent(e);
     var target = (e.currentTarget) ? e.currentTarget : e.srcElement;
@@ -353,10 +358,20 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
     });
 }
 
-/*
- ######################################################################################
- Function: Launch generic bubble popup
- ######################################################################################
+/**
+ * Used in the MyplanApplicationHeader.jsp
+ *
+ * Function: Launch generic bubble popup
+ * @param id
+ * @param getId
+ * @param methodToCall
+ * @param action
+ * @param retrieveOptions
+ * @param e
+ * @param selector
+ * @param popupStyles
+ * @param popupOptions
+ * @param close
  */
 function openPopUpForm(id, getId, methodToCall, action, retrieveOptions, e, selector, popupStyles, popupOptions, close) {
     stopEvent(e);
@@ -580,6 +595,7 @@ function openPlanItemPopUp(xid, getId, retrieveOptions, e, selector, popupOption
     myplanAjaxSubmitForm("startAddPlannedCourseForm", updateRefreshableComponentCallback, {reqComponentId:xid, skipViewInit:"false"}, elementToBlock, xid);
     jQuery("form#" + xid + "_form").remove();
 }
+
 function openDialog(sText, e, close) {
     stopEvent(e);
 
@@ -634,6 +650,11 @@ function openDialog(sText, e, close) {
     });
 }
 
+/**
+ * Used to position dialog popups
+ *
+ * @param popupBoxId
+ */
 function fnPositionPopUp(popupBoxId) {
     if (parseFloat(jQuery("#" + popupBoxId).css("top")) < 0 || parseFloat(jQuery("#" + popupBoxId).css("left")) < 0) {
         var top = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
@@ -644,7 +665,13 @@ function fnPositionPopUp(popupBoxId) {
     }
 }
 
-
+/**
+ * Only used in StudentAcademicPlanner-FormView
+ *
+ * @param propertyName
+ * @param propertyValue
+ * @param formId
+ */
 function myplanWriteHiddenToForm(propertyName, propertyValue, formId) {
     //removing because of performFinalize bug
     jQuery('input[name="' + escapeName(propertyName) + '"]').remove();
@@ -655,10 +682,16 @@ function myplanWriteHiddenToForm(propertyName, propertyValue, formId) {
         jQuery("<input type='hidden' name='" + propertyName + "' value='" + propertyValue + "'/>").appendTo(jQuery("#" + formId));
     }
 }
-/*
- ######################################################################################
- Function: Submit
- ######################################################################################
+
+/**
+ * Old Submit version of dialogs.
+ * Function: Submit
+ * @param id
+ * @param xid
+ * @param type
+ * @param methodToCall
+ * @param e
+ * @param bDialog
  */
 function myplanAjaxSubmitPlanItem(id, xid, type, methodToCall, e, bDialog) {
     var target = (e.currentTarget) ? e.currentTarget : e.srcElement;
@@ -712,7 +745,14 @@ function myplanAjaxSubmitPlanItem(id, xid, type, methodToCall, e, bDialog) {
     myplanAjaxSubmitForm(methodToCall, updateRefreshableComponentCallback, {reqComponentId:xid, skipViewInit:'false'}, elementToBlock, xid, blockOptions);
 }
 
-/*Function used for moving the plan Item from planned to backup*/
+/**
+ * Function used for moving the plan Item from planned to backup
+ * @param id
+ * @param xid
+ * @param type
+ * @param methodToCall
+ * @param e
+ */
 function myPlanAjaxPlanItemMove(id, xid, type, methodToCall, e) {
     stopEvent(e);
     var tempForm = jQuery('<form />').attr("id", xid + "_form").attr("action", "plan").attr("method", "post").hide();
@@ -722,7 +762,15 @@ function myPlanAjaxPlanItemMove(id, xid, type, methodToCall, e) {
     jQuery("form#" + id + "_form").remove();
 }
 
-
+/**
+ * Submit Function for activities
+ *
+ * @param id
+ * @param methodToCall
+ * @param action
+ * @param formData
+ * @param e
+ */
 function myplanAjaxSubmitSectionItem(id, methodToCall, action, formData, e) {
     stopEvent(e);
     var target = (e.currentTarget) ? e.currentTarget : e.srcElement;
@@ -1471,9 +1519,16 @@ Array.max = function (array) {
     return Math.max.apply(Math, array);
 };
 
-
-/*Quick Add*/
-
+/**
+ * Quick add Not used
+ * @param id
+ * @param getId
+ * @param retrieveOptions
+ * @param e
+ * @param selector
+ * @param popupOptions
+ * @param close
+ */
 function openQuickAddPopUp(id, getId, retrieveOptions, e, selector, popupOptions, close) {
     stopEvent(e);
 
@@ -1752,6 +1807,7 @@ function expandHiddenSubcollection(actionComponent, expandText, collapseText) {
     }
 }
 
+// Not used in KSAP
 function myplanReplaceWithJson(id, url, retrieveOptions) {
     jQuery.getJSON(url, retrieveOptions, function (response) {
         jQuery("#" + id).fadeOut(250, function () {
@@ -1760,6 +1816,12 @@ function myplanReplaceWithJson(id, url, retrieveOptions) {
     });
 }
 
+/**
+ * Retrieves the current enrollment status of an activity.
+ * @param url
+ * @param retrieveOptions
+ * @param componentId
+ */
 function myplanGetSectionEnrollment(url, retrieveOptions, componentId) {
     var elementToBlock = jQuery(".myplan-enrl-data").parent();
     if (componentId) elementToBlock = jQuery("#" + componentId + " .myplan-enrl-data").parent();
@@ -1811,7 +1873,7 @@ function myplanGetSectionEnrollment(url, retrieveOptions, componentId) {
     });
 }
 
-
+// only used in switchfetchaction()
 function updateHiddenScript(id, script) {
     jQuery("#" + id).unbind();
     var input = jQuery("input[data-for='" + id + "'][data-role='script']");
@@ -1819,12 +1881,14 @@ function updateHiddenScript(id, script) {
     runScriptsForId(id);
 }
 
+// not used
 function switchFetchAction(actionId, toggleId) {
     var script = "jQuery('#' + '" + actionId + "').click(function(e){ toggleSections('" + actionId + "', '" + toggleId + "', 'myplan-section-planned', 'Show all scheduled sections', 'Hide non-selected sections'); });";
     updateHiddenScript(actionId, script);
     jQuery("#" + actionId).text("Hide non-selected sections").removeAttr("data-hidden").data("hidden", false);
 }
 
+// only used in switchfetchaction
 function toggleSections(actionId, toggleId, showClass, showText, hideText) {
     var group = jQuery("#" + toggleId + " table tbody tr.row").not("." + showClass);
     var action = jQuery("#" + actionId);
@@ -1871,6 +1935,7 @@ function toggleSectionDetails(sectionRow, obj, expandText, collapseText) {
     }
 }
 
+// not used
 function toggleRegisteredDetails(sectionRow, obj) {
     var collapsibleRow = sectionRow.next("tr.collapsible");
     if (collapsibleRow.is(":visible")) {
@@ -1884,6 +1949,7 @@ function toggleRegisteredDetails(sectionRow, obj) {
     }
 }
 
+// not used
 function buildHoverText(obj) {
     var message = '';
     var temp = '';

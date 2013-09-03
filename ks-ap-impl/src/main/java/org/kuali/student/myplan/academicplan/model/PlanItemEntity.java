@@ -8,6 +8,7 @@ import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -71,7 +72,7 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
     private Set<String> planPeriods;
 
     @Column(name = "CREDIT")
-    private Float credit;
+    private BigDecimal credit;
 
     public PlanItemEntity() {
         super();
@@ -135,11 +136,11 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
         this.planPeriods = planPeriods;
     }
 
-    public Float getCredit() {
+    public BigDecimal getCredit() {
         return credit;
     }
 
-    public void setCredit(Float credit) {
+    public void setCredit(BigDecimal credit) {
         this.credit = credit;
     }
 

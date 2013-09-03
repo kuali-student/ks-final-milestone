@@ -174,7 +174,7 @@ public class PlannedTermsHelperBase {
 		// Can't do this step until the sort has been done else the index
 		// won't be correct.
 		for (int i = 0; i < perfectPlannedTerms.size(); i++) {
-			PlannedTerm pt = perfectPlannedTerms.get(0);
+			PlannedTerm pt = perfectPlannedTerms.get(i);
 			if (pt.getAtpId().isEmpty())
 				continue;
 			YearTerm qy = th.getYearTerm(pt.getAtpId());

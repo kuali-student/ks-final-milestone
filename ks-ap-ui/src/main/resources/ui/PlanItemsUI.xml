@@ -93,12 +93,6 @@
             </list>
         </property>
         <property name="validationMessages.displayMessages" value="false"/>
-        <!--
-        if (user == 'true' &amp;&amp; !jQuery.cookie('new_user_cookie')) {
-                jQuery.cookie('new_user_cookie', 'true');
-                showLightboxUrl('@{#ConfigProperties['myplan.getting.started.page']}');
-            }
-        -->
         <property name="onDocumentReadyScript" value="
             var user = jQuery.trim(jQuery('#hidden_new_user_flag').text());
             var retrieveOptions = {};
@@ -119,14 +113,15 @@
     </bean>
 
     <!--Planned Menu Items-->
-    <bean id="cart_menu_items" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+    <bean id="cart_menu_items" parent="cart_menu_items-parent"/>
+    <bean id="cart_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
 
                 <ref bean="menuOptionCourseSummary"/>
 
-                <ref bean="menuOptionEdit"/>
+                <ref bean="menuOptionEditPlanItem"/>
 
                 <bean parent="Uif-Link" p:target="" p:href="#"
                       p:linkText="Validate Cart Items"
@@ -167,7 +162,7 @@
                 <bean parent="Uif-Message" p:messageText="Will be moved out of the cart credit total"
                       p:cssClasses="fl-text-gray fl-font-size-90"/>
 
-                <ref bean="menuOptionDelete"/>
+                <ref bean="menuOptionDeletePlanItem"/>
 
                 <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
                       p:cssClasses="fl-text-gray fl-font-size-90"/>
@@ -176,13 +171,14 @@
         </property>
     </bean>
 
-    <bean id="planned_menu_items" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+    <bean id="planned_menu_items" parent="planned_menu_items-parent" p:cssClasses="fl-container-150"/>
+    <bean id="planned_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
                 <ref bean="menuOptionCourseSummary"/>
 
-                <ref bean="menuOptionEdit"/>
+                <ref bean="menuOptionEditPlanItem"/>
 
                 <bean parent="Uif-Link" p:target="" p:href="#"
                       p:linkText="Place in Cart"
@@ -206,11 +202,11 @@
                 <bean parent="Uif-Message" p:messageText="Will be moved below the Total Credit line"
                       p:cssClasses="fl-text-gray fl-font-size-90"/>
 
-                <ref bean="menuOptionMove"/>
+                <ref bean="menuOptionMovePlanItem"/>
 
                 <ref bean="menuOptionCopyPlanItem"/>
 
-                <ref bean="menuOptionDelete"/>
+                <ref bean="menuOptionDeletePlanItem"/>
 
                 <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
                       p:cssClasses="fl-text-gray fl-font-size-90"/>
@@ -220,13 +216,14 @@
     </bean>
 
     <!--Backup menu items-->
-    <bean id="backup_menu_items" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+    <bean id="backup_menu_items" parent="backup_menu_items-parent"/>
+    <bean id="backup_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
                 <ref bean="menuOptionCourseSummary"/>
 
-                <ref bean="menuOptionEdit"/>
+                <ref bean="menuOptionEditPlanItem"/>
 
                 <bean parent="Uif-Link" p:target="" p:href="#"
                       p:linkText="Place in Cart"
@@ -250,8 +247,8 @@
                       p:cssClasses="fl-text-gray fl-font-size-90"/>
 
                 <ref bean="menuOptionCopyPlanItem"/>
-                <ref bean="menuOptionMove"/>
-                <ref bean="menuOptionDelete"/>
+                <ref bean="menuOptionMovePlanItem"/>
+                <ref bean="menuOptionDeletePlanItem"/>
                 <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
                       p:cssClasses="fl-text-gray fl-font-size-90"/>
             </list>
@@ -259,7 +256,8 @@
     </bean>
 
     <!--Completed Menu Items-->
-    <bean id="completed_menu_items" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+    <bean id="completed_menu_items" parent="completed_menu_items-parent"/>
+    <bean id="completed_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
@@ -270,13 +268,14 @@
     </bean>
 
     <!--Completed backup Menu Items-->
-    <bean id="completed_backup_menu_items" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+    <bean id="completed_backup_menu_items" parent="completed_backup_menu_items-parent"/>
+    <bean id="completed_backup_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
                 <ref bean="menuOptionCourseSummary"/>
                 <ref bean="menuOptionCopyPlanItem"/>
-                <ref bean="menuOptionDelete"/>
+                <ref bean="menuOptionDeletePlanItem"/>
 
                 <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
                       p:cssClasses="fl-text-gray fl-font-size-90"/>
@@ -285,8 +284,8 @@
     </bean>
 
     <!--Completed backup Menu Items-->
-    <bean id="termnote_menu_items" parent="Uif-VerticalBoxSubSection" p:style=""
-          p:cssClasses="fl-container-150">
+    <bean id="termnote_menu_items" parent="termnote_menu_items-parent"/>
+    <bean id="termnote_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
@@ -299,7 +298,8 @@
     <!--
       This lookup provides the term by term view of Planned Courses.
     -->
-    <bean id="PlannedCourses-LookupView" parent="MyPlanBaseLookupView">
+    <bean id="PlannedCourses-LookupView" parent="PlannedCourses-LookupView-parent"/>
+    <bean id="PlannedCourses-LookupView-parent" abstract="true" parent="MyPlanBaseLookupView">
         <property name="headerText" value="Plan"/>
         <property name="header.render" value="false"/>
         <property name="viewName" value="PlannedCourses-LookupView"/>
@@ -551,10 +551,11 @@
                             <property name="propertyName" value="lookupResults[@{#index}].termNoteUI" />
                             <property name="control">
                                 <bean parent="Uif-TextAreaControl"
-                                      p:watermarkText="No Term Notes">
+                                      p:watermarkText="No Term Notes" p:style="width: 97%; resize: none;">
                                     <property name="disabled" value="true"/>
                                 </bean>
                             </property>
+
                         </bean>
                     </list>
                 </property>
@@ -650,7 +651,8 @@
         "/>
     </bean>
 
-    <bean id="academicRecordCollection" parent="Uif-StackedCollectionGroup"
+    <bean id="academicRecordCollection" parent="academicRecordCollection-parent"/>
+    <bean id="academicRecordCollection-parent" abstract="true" parent="Uif-StackedCollectionGroup"
           p:headerText="@{#parentLine.completedTerm ? 'Completed': (#parentLine.academicRecord.size() gt 0 or !#parentLine.openForPlanning)? 'Registered' : ''}">
         <property name="render" value="@{#line.completedTerm or #line.academicRecord.size() gt 0 or !#line.openForPlanning}"/>
         <property name="validationMessages.render" value="false"/>
@@ -826,7 +828,8 @@
         </property>
     </bean>
 
-    <bean id="advisorAcademicRecordCollection" parent="Uif-StackedCollectionGroup"
+    <bean id="advisorAcademicRecordCollection" parent="advisorAcademicRecordCollection-parent"/>
+    <bean id="advisorAcademicRecordCollection-parent" abstract="true" parent="Uif-StackedCollectionGroup"
           p:headerText="@{#parentLine.completedTerm ? 'Completed': (#parentLine.academicRecord.size() gt 0 or !#parentLine.openForPlanning)? 'Registered' : ''}">
         <property name="validationMessages.render" value="false"/>
         <property name="header">
@@ -992,7 +995,8 @@
         </property>
     </bean>
 
-    <bean id="cartCollection" parent="Uif-StackedCollectionGroup" p:headerText="Cart">
+    <bean id="cartCollection" parent="cartCollection-parent"/>
+    <bean id="cartCollection-parent" abstract="true" parent="Uif-StackedCollectionGroup" p:headerText="Cart">
         <property name="validationMessages.render" value="false"/>
         <property name="header">
             <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
@@ -1167,7 +1171,8 @@
         </property>
     </bean>
 
-    <bean id="plannedCollection" parent="Uif-StackedCollectionGroup" p:headerText="Planned">
+    <bean id="plannedCollection" parent="plannedCollection-parent"/>
+    <bean id="plannedCollection-parent" abstract="true" parent="Uif-StackedCollectionGroup" p:headerText="Planned">
         <property name="validationMessages.render" value="false"/>
         <property name="header">
             <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
@@ -1329,7 +1334,8 @@
         </property>
     </bean>
 
-    <bean id="advisorPlannedCollection" parent="Uif-StackedCollectionGroup" p:headerText="Planned">
+    <bean id="advisorPlannedCollection" parent="advisorPlannedCollection-parent"/>
+    <bean id="advisorPlannedCollection-parent" abstract="true" parent="Uif-StackedCollectionGroup" p:headerText="Planned">
         <property name="validationMessages.render" value="false"/>
         <property name="header">
             <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
@@ -1460,7 +1466,8 @@
         </property>
     </bean>
 
-    <bean id="backupCollection" parent="Uif-StackedCollectionGroup" p:headerText="Backup">
+    <bean id="backupCollection" parent="backupCollection-parent"/>
+    <bean id="backupCollection-parent" abstract="true" parent="Uif-StackedCollectionGroup" p:headerText="Backup">
         <property name="validationMessages.render" value="false"/>
         <property name="header">
             <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
@@ -1582,7 +1589,8 @@
         </property>
     </bean>
 
-    <bean id="advisorBackupCollection" parent="Uif-StackedCollectionGroup" p:headerText="Backup">
+    <bean id="advisorBackupCollection" parent="advisorBackupCollection-parent"/>
+    <bean id="advisorBackupCollection-parent" abstract="true" parent="Uif-StackedCollectionGroup" p:headerText="Backup">
         <property name="validationMessages.render" value="false"/>
         <property name="header">
             <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
@@ -1673,7 +1681,8 @@
         </property>
     </bean>
 
-    <bean id="term_no_courses" parent="Uif-VerticalBoxGroup">
+    <bean id="term_no_courses" parent="term_no_courses-parent"/>
+    <bean id="term_no_courses-parent" abstract="true" parent="Uif-VerticalBoxGroup">
         <property name="validationMessages.render" value="false"/>
         <property name="items">
             <list>
@@ -1731,8 +1740,8 @@
 
     <!--Single Plan Item View-->
 
-
-    <bean id="single_planned_courses_detail_list" parent="Uif-ListCollectionSection"
+    <bean id="single_planned_courses_detail_list" parent="single_planned_courses_detail_list-parent"/>
+    <bean id="single_planned_courses_detail_list-parent" abstract="true" parent="Uif-ListCollectionSection"
           p:validationMessages.render="false" p:style="width: 620px;">
         <property name="collectionObjectClass" value="org.kuali.student.myplan.plan.dataobject.PlannedTerm"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
@@ -1758,8 +1767,8 @@
         </property>
     </bean>
 
-
-    <bean id="plan_item_section_add_dialog" parent="Uif-VerticalBoxSection" p:headerText="@{courseInPlan eq false AND courseInBackup eq true ? 'Add to Backup' : 'Add to Plan'}"
+    <bean id="plan_item_section_add_dialog" parent="plan_item_section_add_dialog-parent"/>
+    <bean id="plan_item_section_add_dialog-parent" abstract="true" parent="Uif-VerticalBoxSection" p:headerText="@{courseInPlan eq false AND courseInBackup eq true ? 'Add to Backup' : 'Add to Plan'}"
           p:style="margin:0;">
         <property name="header">
             <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
@@ -1873,69 +1882,8 @@
         </property>
     </bean>
 
-    <bean id="termNoteCollection" parent="Uif-StackedCollectionGroup">
-        <property name="validationMessages.render" value="false"/>
-        <property name="renderHeader" value="false"/>
-
-        <property name="layoutManager">
-            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
-                <property name="lineGroupPrototype">
-                    <bean parent="Uif-CollectionVerticalBoxItem"/>
-                </property>
-            </bean>
-        </property>
-        <property name="dataAttributes">
-            <map>
-                <entry key="atpid" value="@{#line.atpId}"/>
-                <entry key="size" value="@{#line.termNoteList.size()}"/>
-            </map>
-        </property>
-            <property name="cssClasses">
-                <list merge="false">
-                    <value>myplan-carousel-term</value>
-                    <value>@{#line.atpId.replaceAll("\.","-")}</value>
-                    <value>myplan-term-fixed-height</value>
-                </list>
-            </property>
-        <property name="layoutManager.lineGroupPrototype.footer.render" value="false"/>
-        <property name="layoutManager.lineGroupPrototype.validationMessages.render" value="false"/>
-        <property name="collectionObjectClass"
-                  value="org.kuali.student.myplan.plan.dataobject.TermNoteDataObject"/>
-        <property name="propertyName" value="termNoteList"/>
-        <property name="renderAddLine" value="false"/>
-        <property name="renderLineActions" value="false"/>
-        <property name="bindingInfo.bindToForm" value="true"/>
-        <property name="disclosure.render" value="false"/>
-        <property name="items">
-            <list>
-                <bean p:id="@{#line.atpId}_termNote" parent="Uif-HorizontalFieldGroup"
-                      p:render="@{#line.atpId ne null}"
-                      p:title="@{#line.atpId}">
-                    <property name="group.validationMessages.render" value="false"/>
-<!--
-                    <property name="onClickScript" value="openMenu('@{#line.planItemDataObject.id}_planned','planned_menu_items','@{#line.planItemDataObject.atp}',e,'.uif-collectionItem','fl-container-150 uif-boxLayoutHorizontalItem',{tail:{align:'top'},align:'top',position:'right'},false);"/>
--->
-                    <property name="dataAttributes">
-                        <map>
-                            <entry key="noteid" value="@{#line.id}"/>
-                            <entry key="atpid" value="@{#line.atpId}"/>
-                        </map>
-                    </property>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-MessageField">
-                                <property name="messageText" value="@{#line.termNoteUI}"/>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-        <property name="collectionLookup.render" value="false"/>
-        <property name="collectionLookup.quickfinderAction.render" value="false"/>
-    </bean>
-
-    <bean id="menuOptionMove" parent="Uif-ActionLink" p:actionLabel="Move to Another Quarter"
+    <bean id="menuOptionMovePlanItem" parent="menuOptionMovePlanItem-parent"/>
+    <bean id="menuOptionMovePlanItem-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="Move to Another Quarter"
           p:title="Move to Another Quarter">
         <property name="actionScript" value="
             var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', planItemId:jQuery(this).data('planitemid'), atpId:jQuery(this).data('atpid'), pageId:'move_dialog_page'};
@@ -1945,7 +1893,8 @@
         "/>
     </bean>
 
-    <bean id="menuOptionCopyPlanItem" parent="Uif-ActionLink" p:actionLabel="Copy to Another Quarter"
+    <bean id="menuOptionCopyPlanItem" parent="menuOptionCopyPlanItem-parent"/>
+    <bean id="menuOptionCopyPlanItem-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="Copy to Another Quarter"
           p:title="Copy to Another Quarter">
         <property name="actionScript" value="
             var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', planItemId:jQuery(this).data('planitemid'), atpId:jQuery(this).data('atpid'), pageId:'copy_dialog_page'};
@@ -1955,7 +1904,8 @@
         "/>
     </bean>
 
-    <bean id="menuOptionDelete" parent="Uif-ActionLink" p:actionLabel="Delete from Plan"
+    <bean id="menuOptionDeletePlanItem" parent="menuOptionDeletePlanItem-parent"/>
+    <bean id="menuOptionDeletePlanItem-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="Delete from Plan"
           p:title="Delete from Plan">
         <property name="cssClasses">
             <list merge="true">
@@ -1970,7 +1920,8 @@
         "/>
     </bean>
 
-    <bean id="menuOptionCourseSummary" parent="Uif-ActionLink" p:actionLabel="View Course Summary"
+    <bean id="menuOptionCourseSummary" parent="menuOptionCourseSummary-parent"/>
+    <bean id="menuOptionCourseSummary-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="View Course Summary"
           p:title="View Course Summary">
         <property name="actionScript" value="
             var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', planItemId:jQuery(this).data('planitemid'), courseId:jQuery(this).data('courseid'), pageId:'course_summary_dialog_page'};
@@ -1980,7 +1931,8 @@
         "/>
     </bean>
 
-    <bean id="menuOptionEdit" parent="Uif-ActionLink" p:actionLabel="Edit Plan Item"
+    <bean id="menuOptionEditPlanItem" parent="menuOptionEditPlanItem-parent"/>
+    <bean id="menuOptionEditPlanItem-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="Edit Plan Item"
           p:title="Edit Plan Item">
         <property name="actionScript" value="
             var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', planItemId:jQuery(this).data('planitemid'), atpId:jQuery(this).data('atpid'), pageId:'plan_item_edit_page'};
@@ -1990,7 +1942,8 @@
         "/>
     </bean>
 
-    <bean id="menuTermOptionEdit" parent="Uif-ActionLink" p:actionLabel="Edit Term Note"
+    <bean id="menuTermOptionEdit" parent="menuTermOptionEdit-parent"/>
+    <bean id="menuTermOptionEdit-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="Edit Term Note"
           p:title="Edit Term Note">
         <property name="actionScript" value="
             var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startTermNoteForm', atpId:jQuery(this).data('atpid'), pageId:'term_note_edit_page'};
@@ -1999,8 +1952,5 @@
             openPopup('term_note_edit_page', retrieveData, 'plan', popupStyle, popupOptions, e);
         "/>
     </bean>
-
-
-
 
 </beans>
