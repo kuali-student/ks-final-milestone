@@ -58,7 +58,7 @@
     <bean id="scheduleOfClassesViewHelperService" parent="scheduleOfClassesViewHelperService-parent"/>
 
     <bean id="scheduleOfClassesViewHelperService-parent" class="org.kuali.student.enrollment.class2.scheduleofclasses.service.impl.ScheduleOfClassesViewHelperServiceImpl">
-        <property name="KSComparatorChain">
+        <property name="comparatorChain">
             <ref bean="scheduleOfClassesAOSorting"/>
         </property>
     </bean>

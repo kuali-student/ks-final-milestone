@@ -186,6 +186,9 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
+        /**
+         * Sort the AOs first by the type and then by institutionally configured list of comparators
+         */
         for (ActivityOfferingClusterWrapper clusterWrapper : coDisplayWrapper.getClusterResultList()){
             if(clusterWrapper.getAoWrapperList().size() >1){
                 //Sort AOs by AO type (which is not institutionally configurable)
