@@ -300,7 +300,8 @@ limitations under the License.
 	<bean id="KS-AcademicCalendar-EventSubSection" parent="Uif-Disclosure-TableCollectionSubSection"
 		  p:layoutManager.numberOfColumns="@{#view.readOnly ? 3 : 7}" p:id="acal-info-event" p:style="@{!#view.readOnly ? '' : !#form.events.empty ?  '' : 'display:none'}">
 		<property name="headerText" value="Events" />
-        <property name="disclosure.defaultOpen" value="@{!#form.events.empty}"/>
+        <!-- Waiting for Rice fix, walkaround solution for KSENROLL-9255 -->
+        <!--<property name="disclosure.defaultOpen" value="@{!#form.events.empty}"/>-->
         <property name="instructionalText" value="@{!#view.readOnly ? 'Adding events is optional.' : ''}"/>
         <property name="instructionalMessage">
           <bean parent="Uif-InstructionalMessage"/>
