@@ -23,15 +23,15 @@ package org.kuali.student.enrollment.class2.scheduleofclasses.sort;
  */
 public abstract class ComparatorElementBase<T> implements ComparatorElement<T> {
 
-    private boolean reverseSearch;
+    private boolean reverseSort;
 
     @Override
-    public void setReverseSearch(boolean reverseSearch) {
-        this.reverseSearch = reverseSearch;
+    public void setReverseSort(boolean reverseSort) {
+        this.reverseSort = reverseSort;
     }
 
     @Override
-    public boolean isReverseSearch() {
-        return reverseSearch;
+    public boolean isReverseSort() {
+        return reverseSort;
     }
 }

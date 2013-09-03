@@ -16,6 +16,7 @@
 package org.kuali.student.enrollment.class2.scheduleofclasses.sort;
 
 import org.apache.commons.collections.comparators.ComparatorChain;
+import org.apache.log4j.Logger;
 
 import java.io.Serializable;
 import java.util.BitSet;
@@ -46,7 +47,7 @@ public class KSComparatorChain implements Serializable{
             BitSet bitSet = new BitSet(comparators.size());
             int index = 0;
             for (ComparatorElement comparatorElement : comparators){
-                bitSet.set(index++,comparatorElement.isReverseSearch());
+                bitSet.set(index++,comparatorElement.isReverseSort());
             }
             comparatorChain = new ComparatorChain(comparators,bitSet);
         }

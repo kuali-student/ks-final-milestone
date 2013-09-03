@@ -24,7 +24,7 @@ import java.util.Comparator;
  */
 public interface ComparatorElement<T> extends Comparator<T>{
 
-    public void setReverseSearch(boolean reverseSearch);
+    public void setReverseSort(boolean reverseSort);
 
-    public boolean isReverseSearch();
+    public boolean isReverseSort();
 }
