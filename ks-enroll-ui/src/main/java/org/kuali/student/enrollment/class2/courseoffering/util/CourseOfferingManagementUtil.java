@@ -696,10 +696,10 @@ public class CourseOfferingManagementUtil {
         co.getAttributes().add(newAttr);
     }
 
-    public static int getFinalExamDriverAttributeToCo(CourseOfferingInfo fetched) throws OperationFailedException {
+    public static String getFinalExamDriverAttribute(CourseOfferingInfo fetched) throws OperationFailedException {
         for (AttributeInfo attr: fetched.getAttributes()) {
             if ("finalExamDriver".equals(attr.getKey())) {
-                return Integer.parseInt(attr.getValue());
+                return attr.getValue();
             }
         }
         throw new OperationFailedException("Unable to find dynamic attribute for: finalExamDriver");
