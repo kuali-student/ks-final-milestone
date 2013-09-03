@@ -1078,7 +1078,10 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
                     aoMap.put(aoWrapper.getAoInfo().getId(), aoWrapper);
 
-                    //Check if there is a schedule id, if not add it to the list to get RDLs
+                    // Check if there is a schedule id, if not add it to the list to get RDLs
+                    // Note that since AOs can have multiple delivery logistics and it is possible to have a scheduleId
+                    // in the collection while at the same time having an unprocessed request. However, the POs currently
+                    // only want to see requests if there are no schedules.
                     if (aoWrapper.getAoInfo().getScheduleIds() == null || aoWrapper.getAoInfo().getScheduleIds().isEmpty()) {
                         aoIdsWithoutSch.add(aoWrapper.getAoInfo().getId());
                     }
