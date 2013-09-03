@@ -1,9 +1,12 @@
 package org.kuali.student.enrollment.class2.scheduleofclasses.service;
 
 
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
+
+import java.util.List;
 
 
 /**
@@ -38,5 +41,7 @@ public interface ScheduleOfClassesViewHelperService extends CourseOfferingManage
     public String getRequisitiesForCourseOffering(String coId);
 
     public String getTermStartEndDate(TermInfo term);
+
+    public void sortActivityOfferings(List<ActivityOfferingWrapper> aoWrappers);
 
 }

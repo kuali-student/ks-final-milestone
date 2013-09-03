@@ -33,6 +33,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
 import org.kuali.student.enrollment.class2.scheduleofclasses.service.ScheduleOfClassesViewHelperService;
+import org.kuali.student.enrollment.class2.scheduleofclasses.sort.ActivityOfferingTypeComparator;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesUtil;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
@@ -187,18 +188,10 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
 
         for (ActivityOfferingClusterWrapper clusterWrapper : coDisplayWrapper.getClusterResultList()){
             if(clusterWrapper.getAoWrapperList().size() >1){
-                Collections.sort(clusterWrapper.getAoWrapperList(), new Comparator<ActivityOfferingWrapper>() {
-                    @Override
-                    public int compare(ActivityOfferingWrapper o1, ActivityOfferingWrapper o2) {
-                        int typeComparison = (o1.getTypeName().compareTo(o2.getTypeName())) * -1;
-                        int nameComparison = o1.getActivityCode().compareTo(o2.getActivityCode());
-                        if (typeComparison == 0) {
-                            return nameComparison;
-                        } else {
-                            return typeComparison;
-                        }
-                    }
-                });
+                //Sort AOs by AO type (which is not institutionally configurable)
+                Collections.sort(clusterWrapper.getAoWrapperList(),new ActivityOfferingTypeComparator());
+                //Sort by whatever configured at the xml (which are institutionally configurable)
+                getViewHelperService(theForm).sortActivityOfferings(clusterWrapper.getAoWrapperList());
             }
         }
 
@@ -241,7 +234,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
 
     public ScheduleOfClassesViewHelperService getViewHelperService(ScheduleOfClassesSearchForm theForm) {
         if (viewHelperService == null) {
-            if (theForm.getView().getViewHelperServiceClass() != null) {
+            if (theForm.getView().getViewHelperService() != null) {
                 viewHelperService = (ScheduleOfClassesViewHelperService) theForm.getView().getViewHelperService();
             } else {
                 viewHelperService = (ScheduleOfClassesViewHelperService) theForm.getPostedView().getViewHelperService();

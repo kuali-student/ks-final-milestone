@@ -5,6 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.class2.scheduleofclasses.sort.ComparatorModel;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
@@ -29,7 +30,7 @@ import java.util.List;
  * @see ColocatedActivity
  *
  */
-public class ActivityOfferingWrapper implements Serializable{
+public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
 
     private String aoClusterName;
     private String aoClusterID;

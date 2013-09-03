@@ -22,11 +22,14 @@
     <bean id="KS-ScheduleOfClassesSearch-View" parent="KS-Uif-FormView" p:applyDirtyCheck="true"
           p:id="scheduleOfClassesSearchView"
           p:entryPageId="searchInputPage"
-          p:viewHelperServiceClass="org.kuali.student.enrollment.class2.scheduleofclasses.service.impl.ScheduleOfClassesViewHelperServiceImpl"
+          p:viewHelperServiceClass=""
           p:formClass="org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm">
         <!-- property name="header">
             <bean parent="Uif-HeaderThree" p:headerText="Schedule of Classes" p:render="false"/>
         </property-->
+        <property name="viewHelperService">
+            <ref bean="scheduleOfClassesViewHelperService"/>
+        </property>
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <ref bean="KS-Enrollment-HomewardPathBreadcrumbs"/>
         </property>
@@ -47,6 +50,25 @@
             <list>
                 <ref bean="KS-ScheduleOfClasses-SearchInputPage"/>
                 <ref bean="KS-ScheduleOfClasses-ResultsSection"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="scheduleOfClassesViewHelperService" parent="scheduleOfClassesViewHelperService-parent"/>
+
+    <bean id="scheduleOfClassesViewHelperService-parent" class="org.kuali.student.enrollment.class2.scheduleofclasses.service.impl.ScheduleOfClassesViewHelperServiceImpl">
+        <property name="KSComparatorChain">
+            <ref bean="scheduleOfClassesAOSorting"/>
+        </property>
+    </bean>
+
+    <bean id="scheduleOfClassesAOSorting" parent="scheduleOfClassesAOSorting-parent"/>
+
+    <bean id="scheduleOfClassesAOSorting-parent" class="org.kuali.student.enrollment.class2.scheduleofclasses.sort.KSComparatorChain">
+        <property name="comparators">
+            <list>
+                <bean class="org.kuali.student.enrollment.class2.scheduleofclasses.sort.ActivityOfferingCodeComparator"/>
             </list>
         </property>
     </bean>

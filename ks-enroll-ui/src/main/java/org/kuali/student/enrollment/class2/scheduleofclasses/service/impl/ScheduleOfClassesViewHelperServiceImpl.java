@@ -28,12 +28,14 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
 import org.kuali.student.enrollment.class2.scheduleofclasses.service.ScheduleOfClassesViewHelperService;
+import org.kuali.student.enrollment.class2.scheduleofclasses.sort.KSComparatorChain;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -75,6 +77,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
     private AcademicCalendarService academicCalendarService;
     private TypeService typeService;
     private RuleManagementService ruleManagementService;
+    private KSComparatorChain KSComparatorChain;
 
     public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, ScheduleOfClassesSearchForm form) throws Exception {
 
@@ -407,5 +410,15 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
             displayString = stringBuilder.toString();
         }
         return displayString;
+    }
+
+    public void sortActivityOfferings(List<ActivityOfferingWrapper> aoWrappers){
+        if (KSComparatorChain != null){
+            KSComparatorChain.sort(aoWrappers);
+        }
+    }
+
+    public void setKSComparatorChain(KSComparatorChain KSComparatorChain) {
+        this.KSComparatorChain = KSComparatorChain;
     }
 }
