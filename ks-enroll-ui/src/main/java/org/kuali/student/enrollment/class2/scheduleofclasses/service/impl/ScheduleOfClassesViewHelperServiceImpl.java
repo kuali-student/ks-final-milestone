@@ -77,7 +77,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
     private AcademicCalendarService academicCalendarService;
     private TypeService typeService;
     private RuleManagementService ruleManagementService;
-    private KSComparatorChain comparatorChain;
+    private KSComparatorChain activityComparatorChain;
 
     public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, ScheduleOfClassesSearchForm form) throws Exception {
 
@@ -418,17 +418,17 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
      * @param aoWrappers
      */
     public void sortActivityOfferings(List<ActivityOfferingWrapper> aoWrappers){
-        if (comparatorChain != null){
-            comparatorChain.sort(aoWrappers);
+        if (activityComparatorChain != null){
+            activityComparatorChain.sort(aoWrappers);
         }
     }
 
     /**
      * Comparators to be executed on the AOs
      *
-     * @param comparatorChain
+     * @param activityComparatorChain
      */
-    public void setComparatorChain(KSComparatorChain comparatorChain) {
-        this.comparatorChain = comparatorChain;
+    public void setActivityComparatorChain(KSComparatorChain activityComparatorChain) {
+        this.activityComparatorChain = activityComparatorChain;
     }
 }

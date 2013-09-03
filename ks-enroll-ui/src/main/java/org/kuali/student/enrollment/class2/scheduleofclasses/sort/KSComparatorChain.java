@@ -16,7 +16,6 @@
 package org.kuali.student.enrollment.class2.scheduleofclasses.sort;
 
 import org.apache.commons.collections.comparators.ComparatorChain;
-import org.apache.log4j.Logger;
 
 import java.io.Serializable;
 import java.util.BitSet;
