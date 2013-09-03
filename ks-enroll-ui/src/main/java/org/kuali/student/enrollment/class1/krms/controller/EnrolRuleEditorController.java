@@ -17,7 +17,6 @@ package org.kuali.student.enrollment.class1.krms.controller;
 
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
@@ -27,16 +26,18 @@ import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
+import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSConstants;
-import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
-import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
-import org.kuali.student.lum.lu.ui.krms.service.impl.LURuleViewHelperServiceImpl;
-import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetRangeInformation;
+import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
+import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
+import org.kuali.student.lum.lu.ui.krms.dto.LURuleManagementWrapper;
+import org.kuali.student.lum.lu.ui.krms.service.impl.LURuleViewHelperServiceImpl;
 import org.kuali.student.lum.lu.ui.krms.util.CluSetRangeHelper;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +45,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Properties;
 
 /**
  * Override of RuleEditorController for Student
@@ -79,7 +81,20 @@ public class EnrolRuleEditorController extends RuleEditorController {
                               HttpServletRequest request, HttpServletResponse response) {
 
         super.route(form, result, request, response);
-        return back(form, result, request, response);
+
+        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
+        LURuleManagementWrapper wrapper = (LURuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
+
+        Properties urlParameters = new Properties();
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "show");
+        urlParameters.put("pageId", "manageTheCourseOfferingPage");
+        urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfo.class.getName());
+        urlParameters.put("viewId", "courseOfferingManagementView");
+        urlParameters.put(KRADConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+        urlParameters.put("inputCode", wrapper.getCluDescription());
+        urlParameters.put("termCode", wrapper.getCluTermCode());
+
+        return super.performRedirect(form, "courseOfferingManagement", urlParameters);
     }
 
     /**
