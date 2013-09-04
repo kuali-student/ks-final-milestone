@@ -131,8 +131,9 @@
                                   p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;] Warning"
                                   p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2"
                                   p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip == '' and !currentCourseOfferingWrapper.colocatedAoToCSR }" />
+                            <!--Code Changed for JIRA 9072-->
                             <bean parent="Uif-Message"
-                                  p:messageText="You are about to cancel the following activity offering(s) from this course offering."
+                                  p:messageText="You are about to cancel the following activity offering(s)."
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2"
                                   p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip == '' and !currentCourseOfferingWrapper.colocatedAoToCSR }" />
 
@@ -279,7 +280,7 @@
                             <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-DataField"  p:showLabel="false" p:propertyName="aoInfo.activityCode"/>
+                                       <bean parent="Uif-DataField"  p:showLabel="false" p:propertyName="aoInfo.activityCode"/>
                                         <!--Colocated is not in scope for M8
                                         <bean parent="Uif-ImageField" p:image.altText="@{#lp.colocatedAoInfoUI}"
                                               p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
