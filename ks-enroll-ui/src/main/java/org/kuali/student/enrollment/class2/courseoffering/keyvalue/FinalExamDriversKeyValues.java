@@ -52,9 +52,9 @@ public class FinalExamDriversKeyValues extends UifKeyValuesFinderBase implements
         //add values
         for(String finalExamDriverType: finalExamDriverTypes) {
             if (finalExamDriverType.equals(LuServiceConstants.LU_EXAM_DRIVER_AO_KEY)) {
-                keyValues.add(new ConcreteKeyValue("Activity Offering", "Final Exam Per Activity Offering"));
+                keyValues.add(new ConcreteKeyValue(LuServiceConstants.LU_EXAM_DRIVER_AO_KEY, "Final Exam Per Activity Offering"));
             } else if (finalExamDriverType.equals(LuServiceConstants.LU_EXAM_DRIVER_CO_KEY)) {
-                keyValues.add(new ConcreteKeyValue("Course Offering", "Final Exam Per Course Offering"));
+                keyValues.add(new ConcreteKeyValue(LuServiceConstants.LU_EXAM_DRIVER_CO_KEY, "Final Exam Per Course Offering"));
             }
         }
 
