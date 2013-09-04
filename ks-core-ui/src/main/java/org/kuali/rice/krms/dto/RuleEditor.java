@@ -55,7 +55,7 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
     private boolean active = true;
     private Long versionNumber;
 
-    private List<ActionDefinitionContract> actions;
+    private List<ActionEditor> actions;
     private Map<String, String> attributes;
 
     private PropositionEditor proposition;
@@ -110,9 +110,9 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
         this.versionNumber = definition.getVersionNumber();
 
         if(definition.getActions()!=null){
-            this.actions = new ArrayList<ActionDefinitionContract>();
+            this.actions = new ArrayList<ActionEditor>();
             for(ActionDefinitionContract action : definition.getActions()){
-                this.actions.add(action);
+                this.actions.add(new ActionEditor(action));
             }
         } else {
             this.actions = null;
@@ -283,7 +283,7 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
 
     @Override
     public List<? extends ActionDefinitionContract> getActions() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return actions;
     }
 
     @Override
