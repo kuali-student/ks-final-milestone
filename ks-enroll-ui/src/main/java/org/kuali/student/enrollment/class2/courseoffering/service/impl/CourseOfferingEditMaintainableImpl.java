@@ -850,7 +850,6 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 AttributeInfo newAttr = new AttributeInfo();
                 newAttr.setKey("finalExamDriver");
                 newAttr.setValue(coEditWrapper.getFinalExamDriverUI());
-                coInfo.setAttributes(new ArrayList<AttributeInfo>());
                 coInfo.getAttributes().add(newAttr);
             }
         } else {  //no attributes > add finalExamDriver attribute
