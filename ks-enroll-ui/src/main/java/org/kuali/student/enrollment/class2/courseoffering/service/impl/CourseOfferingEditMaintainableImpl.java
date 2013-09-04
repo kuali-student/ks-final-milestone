@@ -48,6 +48,7 @@ import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -196,6 +197,9 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             //Save cross lists
             loadCrossListedCOs(coEditWrapper, coInfo);
 
+            // update Final Exam Driver
+            setFinalExamDriverAttr(coInfo, coEditWrapper);
+
             getCourseOfferingService().updateCourseOffering(coInfo.getId(), coInfo, contextInfo);
 
             // check for changes to states in CO and related FOs (may happen in the case of deleted FOs)
@@ -277,6 +281,9 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
             //Save cross lists
             loadCrossListedCOs(coCreateWrapper, coInfo);
+
+            // set Final Exam Driver
+            setFinalExamDriverAttr(coInfo, coCreateWrapper);
 
             CourseOfferingInfo info = getCourseOfferingService().createCourseOffering(coInfo.getCourseId(), coInfo.getTermId(), LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, coInfo, optionKeys, contextInfo);
             return info;
@@ -825,6 +832,34 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             }
         }
         return null;
+    }
+
+    private void setFinalExamDriverAttr(CourseOfferingInfo coInfo, CourseOfferingEditWrapper coEditWrapper) {
+        boolean found = false;
+        if(!coInfo.getAttributes().isEmpty()){
+            for(AttributeInfo info: coInfo.getAttributes()){
+                if(info.getKey().equals("finalExamDriver")){
+                    if (!info.getValue().equals(coEditWrapper.getFinalExamDriverUI())) { //update selected driver
+                        info.setValue(coEditWrapper.getFinalExamDriverUI());
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (!found){  //finalExamDriver attribute is missing from attributes > add
+                AttributeInfo newAttr = new AttributeInfo();
+                newAttr.setKey("finalExamDriver");
+                newAttr.setValue(coEditWrapper.getFinalExamDriverUI());
+                coInfo.setAttributes(new ArrayList<AttributeInfo>());
+                coInfo.getAttributes().add(newAttr);
+            }
+        } else {  //no attributes > add finalExamDriver attribute
+            AttributeInfo newAttr = new AttributeInfo();
+            newAttr.setKey("finalExamDriver");
+            newAttr.setValue(coEditWrapper.getFinalExamDriverUI());
+            coInfo.setAttributes(new ArrayList<AttributeInfo>());
+            coInfo.getAttributes().add(newAttr);
+        }
     }
 
     private OrganizationService getOrganizationService(){

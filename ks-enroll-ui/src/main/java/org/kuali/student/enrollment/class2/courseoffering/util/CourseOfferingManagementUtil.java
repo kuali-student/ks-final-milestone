@@ -681,28 +681,4 @@ public class CourseOfferingManagementUtil {
         return null;
     }
 
-    /**
-     * Store information in CO about final exam driver
-     * @param finalExamDriverStr - driver for AO or CO
-     * @param co the course offering to add this dynamic attribute to
-     */
-    public static void addFinalExamDriverAttributeToCo(String finalExamDriverStr, CourseOfferingInfo co) {
-        AttributeInfo newAttr = new AttributeInfo();
-        newAttr.setKey("finalExamDriver");
-        newAttr.setValue(finalExamDriverStr);
-        if (co.getAttributes() == null) {
-            co.setAttributes(new ArrayList<AttributeInfo>());
-        }
-        co.getAttributes().add(newAttr);
-    }
-
-    public static String getFinalExamDriverAttribute(CourseOfferingInfo fetched) throws OperationFailedException {
-        for (AttributeInfo attr: fetched.getAttributes()) {
-            if ("finalExamDriver".equals(attr.getKey())) {
-                return attr.getValue();
-            }
-        }
-        throw new OperationFailedException("Unable to find dynamic attribute for: finalExamDriver");
-    }
-
 }

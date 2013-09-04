@@ -45,7 +45,7 @@ public class FinalExamDriversKeyValues extends UifKeyValuesFinderBase implements
         List<String> finalExamDriverTypes  =  new ArrayList<String>(Arrays.asList(LuServiceConstants.ALL_EXAM_DRIVER_KEYS));
 
         //set default
-        keyValues.add(new ConcreteKeyValue("", "Select Final Exam Driver"));
+        keyValues.add(new ConcreteKeyValue("na", "Select Final Exam Driver"));
 
         Collections.sort(finalExamDriverTypes);
 

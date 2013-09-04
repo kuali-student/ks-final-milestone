@@ -21,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
@@ -85,6 +86,14 @@ public class CourseOfferingWrapper implements Serializable{
         this.courseOfferingInfo = courseOfferingInfo;
         this.alternateCOCodes = new ArrayList<String>();
         this.ownerAliases = new ArrayList<String>();
+        // set Final Exam Driver
+        if(!courseOfferingInfo.getAttributes().isEmpty()){
+            for(AttributeInfo attrInfo: courseOfferingInfo.getAttributes()){
+                if(attrInfo.getKey().equals("finalExamDriver")){
+                    this.finalExamDriverUI = attrInfo.getValue();
+                }
+            }
+        }
     }
 
     /**
