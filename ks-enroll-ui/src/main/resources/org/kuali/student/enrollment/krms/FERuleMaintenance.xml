@@ -348,7 +348,7 @@ limitations under the License.
                         <bean parent="Uif-DropdownControl" p:cssClasses="new_rdl_components"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.lum.lu.ui.krms.keyvalues.DaysValuesFinder"/>
+                        <bean class="org.kuali.student.enrollment.class1.krms.keyvalue.DaysValuesFinder"/>
                     </property>
                 </bean>
                 <bean id="FinalExam_starttime" parent="Uif-InputField-LabelTop" p:label="Start Time" p:propertyName="startTime" p:required="true">
