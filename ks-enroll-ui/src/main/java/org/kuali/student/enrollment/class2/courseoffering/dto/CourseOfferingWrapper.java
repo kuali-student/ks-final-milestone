@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
@@ -53,6 +54,7 @@ public class CourseOfferingWrapper implements Serializable{
     private List<String> ownerAliases;
     private String ownerCode;
     private String coOwningDeptName;
+    private String finalExamDriver;
     private String finalExamDriverUI;
 
     private boolean isColocatedAoToDelete;
@@ -89,8 +91,13 @@ public class CourseOfferingWrapper implements Serializable{
         // set Final Exam Driver
         if(!courseOfferingInfo.getAttributes().isEmpty()){
             for(AttributeInfo attrInfo: courseOfferingInfo.getAttributes()){
-                if(attrInfo.getKey().equals("finalExamDriver")){
-                    this.finalExamDriverUI = attrInfo.getValue();
+                if(StringUtils.equals(attrInfo.getKey(), "finalExamDriver")){
+                    this.finalExamDriver = attrInfo.getValue();
+                    if (StringUtils.equals(attrInfo.getValue(), LuServiceConstants.LU_EXAM_DRIVER_CO_KEY)) {
+                        this.finalExamDriverUI = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_DRIVER_CO_UI;
+                    } else if (StringUtils.equals(attrInfo.getValue(), LuServiceConstants.LU_EXAM_DRIVER_AO_KEY)) {
+                        this.finalExamDriverUI = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_DRIVER_AO_UI;
+                    }
                 }
             }
         }
@@ -405,5 +412,13 @@ public class CourseOfferingWrapper implements Serializable{
 
     public void setFinalExamDriverUI(String finalExamDriverUI) {
         this.finalExamDriverUI = finalExamDriverUI;
+    }
+
+    public String getFinalExamDriver() {
+        return finalExamDriver;
+    }
+
+    public void setFinalExamDriver(String finalExamDriver) {
+        this.finalExamDriver = finalExamDriver;
     }
 }

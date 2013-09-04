@@ -177,6 +177,10 @@ public class CourseOfferingConstants {
     public final static String COURSEOFFERING_FINAL_EXAM_TYPE_ALTERNATE = "ALTERNATE";
     public final static String COURSEOFFERING_FINAL_EXAM_TYPE_NONE = "NONE";
 
+    // Final Exam Driver UI
+    public final static String COURSEOFFERING_FINAL_EXAM_DRIVER_CO_UI = "Course Offering";
+    public final static String COURSEOFFERING_FINAL_EXAM_DRIVER_AO_UI = "Activity Offering";
+
     //colocation
     public static final String COLOCATION_MAX_ENR_SHARED="info.enroll.courseoffering.colocation.enr.shared";
     public static final String COLOCATION_MAX_ENR_SEPARATED="info.enroll.courseoffering.colocation.enr.separated";

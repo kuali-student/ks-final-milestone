@@ -500,7 +500,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="Final Exam Driver" p:propertyName="finalExamDriverUI" p:fieldLabel.renderColon="false" p:onChangeScript="updateExamDriverInFOTable('KS-CourseOfferingEdit-FinalExamDriver', 'final_exam_driver_ui');">
+                <bean parent="Uif-InputField" p:label="Final Exam Driver" p:propertyName="finalExamDriver" p:fieldLabel.renderColon="false" p:onChangeScript="updateExamDriverInFOTable('KS-CourseOfferingEdit-FinalExamDriver', 'final_exam_driver_ui');">
                     <property name="id" value="KS-CourseOfferingEdit-FinalExamDriver" />
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>

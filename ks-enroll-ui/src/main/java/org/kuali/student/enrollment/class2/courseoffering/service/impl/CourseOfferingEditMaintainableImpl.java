@@ -541,6 +541,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 for (FormatOfferingInfo fo : formatOfferingList){
                     FormatOfferingWrapper wrapper = new FormatOfferingWrapper();
                     wrapper.setFormatOfferingInfo(fo);
+                    wrapper.setCourseOfferingWrapper(formObject);
                     foList.add(wrapper);
                 }
                 formObject.setFormatOfferingList(foList);
@@ -548,6 +549,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 if (foList.isEmpty()){
                     FormatOfferingWrapper defaultFO = new FormatOfferingWrapper();
                     defaultFO.getRenderHelper().setNewRow(true);
+                    defaultFO.setCourseOfferingWrapper(formObject);
                     formObject.getFormatOfferingList().add(defaultFO);
                 }
 
@@ -839,8 +841,8 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
         if(!coInfo.getAttributes().isEmpty()){
             for(AttributeInfo info: coInfo.getAttributes()){
                 if(info.getKey().equals("finalExamDriver")){
-                    if (!info.getValue().equals(coEditWrapper.getFinalExamDriverUI())) { //update selected driver
-                        info.setValue(coEditWrapper.getFinalExamDriverUI());
+                    if (!info.getValue().equals(coEditWrapper.getFinalExamDriver())) { //update selected driver
+                        info.setValue(coEditWrapper.getFinalExamDriver());
                         found = true;
                         break;
                     }
@@ -849,13 +851,13 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             if (!found){  //finalExamDriver attribute is missing from attributes > add
                 AttributeInfo newAttr = new AttributeInfo();
                 newAttr.setKey("finalExamDriver");
-                newAttr.setValue(coEditWrapper.getFinalExamDriverUI());
+                newAttr.setValue(coEditWrapper.getFinalExamDriver());
                 coInfo.getAttributes().add(newAttr);
             }
         } else {  //no attributes > add finalExamDriver attribute
             AttributeInfo newAttr = new AttributeInfo();
             newAttr.setKey("finalExamDriver");
-            newAttr.setValue(coEditWrapper.getFinalExamDriverUI());
+            newAttr.setValue(coEditWrapper.getFinalExamDriver());
             coInfo.setAttributes(new ArrayList<AttributeInfo>());
             coInfo.getAttributes().add(newAttr);
         }
