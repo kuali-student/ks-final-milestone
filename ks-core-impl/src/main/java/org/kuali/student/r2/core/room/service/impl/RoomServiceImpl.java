@@ -16,6 +16,7 @@
  */
 package org.kuali.student.r2.core.room.service.impl;
 
+import org.apache.cxf.common.util.StringUtils;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
@@ -87,7 +88,12 @@ public class RoomServiceImpl implements RoomService {
     @Override
     @Transactional(readOnly = true)
     public RoomInfo getRoom(String roomId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        checkValid("id", roomId, contextInfo);
+        // An activity is not necessarily associated with a room
+//        checkValid("id", roomId, contextInfo);
+
+        if(StringUtils.isEmpty(roomId)){
+            return null;
+        }
 
         RoomEntity e = roomServiceDao.find(roomId);
         if (e == null) {

@@ -73,7 +73,9 @@ public class RoomServiceCacheDecorator extends RoomServiceDecorator {
         Object result = null;
         if (cachedResult == null) {
             result = getNextDecorator().getRoom(roomId, contextInfo);
-            cacheManager.getCache(roomCacheName).put(new Element(cacheKey, result));
+            if(result != null){
+                cacheManager.getCache(roomCacheName).put(new Element(cacheKey, result));
+            }
         } else {
             result = cachedResult.getValue();
         }
