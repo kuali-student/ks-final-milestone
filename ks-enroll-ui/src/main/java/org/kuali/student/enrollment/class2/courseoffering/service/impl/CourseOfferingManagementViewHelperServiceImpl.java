@@ -587,8 +587,10 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             }
             List<RoomInfo> roomInfos = getRoomService().getRoomsByIds(new ArrayList<String>(roomIds), contextInfo);
             for (RoomInfo roomInfo : roomInfos) {
-                roomIdMap.put(roomInfo.getId(), roomInfo);
-                buildingIds.add(roomInfo.getBuildingId());
+                if(roomInfo != null){
+                    roomIdMap.put(roomInfo.getId(), roomInfo);
+                    buildingIds.add(roomInfo.getBuildingId());
+                }
             }
             List<BuildingInfo> buildingInfos = getRoomService().getBuildingsByIds(new ArrayList<String>(buildingIds), contextInfo);
             for (BuildingInfo buildingInfo : buildingInfos) {
@@ -607,8 +609,10 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                         List<TimeSlotInfo> timeSlots = new ArrayList<TimeSlotInfo>();
                         
                         for (String roomId : src.getRoomIds()) {
-                            rooms.add(roomIdMap.get(roomId));
-                            buildings.add(buildingIdMap.get(roomIdMap.get(roomId).getBuildingId()));
+                            if (roomId != null) {
+                                rooms.add(roomIdMap.get(roomId));
+                                buildings.add(buildingIdMap.get(roomIdMap.get(roomId).getBuildingId()));
+                            }
                         }
 
                         if (src.getRoomIds().isEmpty()){
