@@ -500,7 +500,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="Final Exam Driver" p:propertyName="finalExamDriverUI" p:fieldLabel.renderColon="false" >
+                <bean parent="Uif-InputField" p:label="Final Exam Driver" p:propertyName="finalExamDriverUI" p:fieldLabel.renderColon="false" p:onChangeScript="updateExamDriverInFOTable('KS-CourseOfferingEdit-FinalExamDriver', 'final_exam_driver_ui');">
                     <property name="id" value="KS-CourseOfferingEdit-FinalExamDriver" />
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
@@ -574,6 +574,9 @@
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
                     </property>
                 </bean>
+
+                <bean parent="Uif-DataField" p:id="final_exam_driver_ui" p:propertyName="courseOfferingWrapper.finalExamDriverUI" p:label="FINAL EXAM DRIVER"/>
+
                 <bean id="edit_co_final_exam_type" parent="Uif-InputField" p:propertyName="formatOfferingInfo.finalExamLevelTypeKey" p:label="FINAL EXAM DRIVER ACTIVITY"
                       p:labelPlacement="TOP" p:required="true" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'STANDARD'}"  p:finalizeMethodToCall="populateFinalExamDriverTypes" p:forceSessionPersistence="true">
                     <property name="control">

@@ -31,6 +31,7 @@ public class FormatOfferingWrapper implements Serializable{
 
     private FormatOfferingInfo formatOfferingInfo;
     private JointCourseWrapper jointCreateWrapper;
+    private CourseOfferingWrapper courseOfferingWrapper;
     private String courseCode;
     private FormatInfo formatInfo;
 
@@ -64,6 +65,14 @@ public class FormatOfferingWrapper implements Serializable{
         if (jointCreateWrapper != null){
             this.isJointOffering = true;
         }
+    }
+
+    public CourseOfferingWrapper getCourseOfferingWrapper() {
+        return courseOfferingWrapper;
+    }
+
+    public void setCourseOfferingWrapper(CourseOfferingWrapper courseOfferingWrapper) {
+        this.courseOfferingWrapper = courseOfferingWrapper;
     }
 
     /**

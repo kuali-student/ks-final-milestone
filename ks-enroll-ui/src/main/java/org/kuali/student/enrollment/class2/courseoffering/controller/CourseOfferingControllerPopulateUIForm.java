@@ -89,6 +89,7 @@ public class CourseOfferingControllerPopulateUIForm {
             FormatOfferingWrapper defaultFO = new FormatOfferingWrapper();
             defaultFO.setFormatId(courseInfo.getFormats().get(firstValue).getId());
             defaultFO.getRenderHelper().setNewRow(true);
+            defaultFO.setCourseOfferingWrapper(formObject);
             formObject.getFormatOfferingList().add(defaultFO);
 
             //4. Checking if Grading Options should be disabled or not and assign default (if no value)

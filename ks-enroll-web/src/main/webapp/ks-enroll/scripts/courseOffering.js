@@ -129,3 +129,20 @@ function handleWaitListPrompt(dialog) {
     closeLightbox();
 }
 
+function updateExamDriverInFOTable(finalExamDropDownId, finalExamTableCellId) {
+    var finalExamDropDown = jQuery("#" + finalExamDropDownId + "_control");
+    var finalExamDriverUI = "";
+
+    if (finalExamDropDown.val()== "kuali.lu.exam.driver.CourseOffering") {
+        finalExamDriverUI = "Course Offering"
+    } else if (finalExamDropDown.val()== "kuali.lu.exam.driver.ActivityOffering") {
+        finalExamDriverUI = "Activity Offering"
+    }
+
+    var finalExamTableCells = jQuery('[id^="' + finalExamTableCellId + '_line"][id$="_control"');
+    finalExamTableCells.each(function () {
+        jQuery(this).text(finalExamDriverUI);
+    });
+
+}
+
