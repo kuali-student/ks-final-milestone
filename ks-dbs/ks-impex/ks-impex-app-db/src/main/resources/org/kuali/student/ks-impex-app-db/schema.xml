@@ -192,6 +192,26 @@
         <foreignColumnNames>ID</foreignColumnNames>
         <localColumnNames>OWNER_ID</localColumnNames>
     </foreignKey>
+    <foreignKey foreignTableName="KSEN_CWL" localTableName="KSEN_CWL_ACTIV_OFFER" name="KSEN_CWL_ACTIV_OFFER_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CWL_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_CWL" localTableName="KSEN_CWL_ATTR" name="KSEN_CWL_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_CWL" localTableName="KSEN_CWL_FORMAT_OFFER" name="KSEN_CWL_FORMAT_OFFER_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CWL_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_CWL" localTableName="KSEN_CWL_WLIST_ENTRY" name="KSEN_CWL_WLIST_ENTRY_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CWL_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_CWL_WLIST_ENTRY" localTableName="KSEN_CWL_WLIST_ENTRY_ATTR" name="KSEN_CWL_WL_ENTRY_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
     <foreignKey foreignTableName="KSEN_ENROLLMENT_FEE" localTableName="KSEN_ENROLLMENT_FEE_ATTR" name="KSEN_ENRL_FEE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
         <foreignColumnNames>ID</foreignColumnNames>
         <localColumnNames>OWNER_ID</localColumnNames>
@@ -2899,6 +2919,189 @@
             <size value="255"/>
         </column>
         <index name="KSEN_CO_SPD_ATTR_IF1">
+            <column>OWNER_ID</column>
+        </index>
+    </table>
+    <table name="KSEN_CWL">
+        <column name="ALLOW_HOLD_UTIL_ENTRIES_IND" type="FLOAT">
+            <size value="0"/>
+        </column>
+        <column name="AUTO_PROCESSED_IND" type="FLOAT">
+            <size value="0"/>
+        </column>
+        <column name="CHECK_IN_REQ_IND" type="FLOAT">
+            <size value="0"/>
+        </column>
+        <column name="CONF_REQ_IND" type="FLOAT">
+            <size value="0"/>
+        </column>
+        <column name="CREATEID" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="CREATETIME" nullable="false" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="CWL_STATE" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="CWL_TYPE" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="EFF_DT" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="EXPIR_DT" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="MAX_SIZE" type="FLOAT">
+            <size value="0"/>
+        </column>
+        <column name="OBJ_ID" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="REG_IN_FIRST_AAO_IND" type="FLOAT">
+            <size value="0"/>
+        </column>
+        <column name="STD_DUR_TIME_QTY" type="FLOAT">
+            <size value="0"/>
+        </column>
+        <column name="STD_DUR_TYPE" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="UPDATEID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="UPDATETIME" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="VER_NBR" nullable="false" type="FLOAT">
+            <size value="19"/>
+        </column>
+        <index name="KSEN_CWL_I1">
+            <column>CWL_TYPE</column>
+        </index>
+    </table>
+    <table name="KSEN_CWL_ACTIV_OFFER">
+        <column name="ACTIV_OFFER_ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="CWL_ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <index name="KSEN_CWL_ACTIV_OFFER_IF1">
+            <column>CWL_ID</column>
+        </index>
+    </table>
+    <table name="KSEN_CWL_ATTR">
+        <column name="ATTR_KEY" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="ATTR_VALUE" type="STRING">
+            <size value="4000"/>
+        </column>
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="OBJ_ID" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="OWNER_ID" type="STRING">
+            <size value="255"/>
+        </column>
+        <index name="KSEN_CWL_ATTR_IF1">
+            <column>OWNER_ID</column>
+        </index>
+    </table>
+    <table name="KSEN_CWL_FORMAT_OFFER">
+        <column name="CWL_ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="FORMAT_OFFER_ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <index name="KSEN_CWL_FORMAT_OFFER_IF1">
+            <column>CWL_ID</column>
+        </index>
+    </table>
+    <table name="KSEN_CWL_WLIST_ENTRY">
+        <column name="CREATEID" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="CREATETIME" nullable="false" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="CWL_ID" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="EFF_DT" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="EXPIR_DT" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="LAST_CHECK_IN" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="OBJ_ID" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="POSITION" type="FLOAT">
+            <size value="0"/>
+        </column>
+        <column name="REG_GROUP_ID" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="STUDENT_ID" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="UPDATEID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="UPDATETIME" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="VER_NBR" nullable="false" type="FLOAT">
+            <size value="0"/>
+        </column>
+        <column name="WAIT_LIST_ENTRY_STATE" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="WAIT_LIST_ENTRY_TYPE" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <index name="KSEN_CWL_WLIST_ENTRY_I1">
+            <column>WAIT_LIST_ENTRY_TYPE</column>
+        </index>
+        <index name="KSEN_CWL_WLIST_ENTRY_I2">
+            <column>STUDENT_ID</column>
+        </index>
+        <index name="KSEN_CWL_WLIST_ENTRY_IF1">
+            <column>CWL_ID</column>
+        </index>
+    </table>
+    <table name="KSEN_CWL_WLIST_ENTRY_ATTR">
+        <column name="ATTR_KEY" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="ATTR_VALUE" type="STRING">
+            <size value="4000"/>
+        </column>
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="OBJ_ID" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="OWNER_ID" type="STRING">
+            <size value="255"/>
+        </column>
+        <index name="KSEN_CWL_WLIST_ENTRY_ATTR_IF1">
             <column>OWNER_ID</column>
         </index>
     </table>
