@@ -42,8 +42,6 @@ import java.util.Map;
  */
 public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
 
-    private KSRuleCompareTreeBuilder compareTreeBuilder;
-
     /**
      *
      * @return
@@ -53,24 +51,15 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
         return LUPropositionEditor.class;
     }
 
-    /**
-     * Builds compare tree for the compare CO and CLU lightbox links.
-     *
-     * @param original
-     * @param compare
-     * @return
-     * @throws Exception
-     */
     @Override
-    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, RuleEditor compare) {
+    public void refreshInitTrees(RuleEditor rule) {
 
-        //Set the original nl if not already exists.
-        checkNaturalLanguageForTree(original);
-        checkNaturalLanguageForTree(compare);
+        if (rule == null) {
+            return;
+        }
 
-        Tree<CompareTreeNode, String> compareTree = this.getCompareTreeBuilder().buildTree(original, compare);
-
-        return compareTree;
+        //Rebuild the trees
+        rule.setEditTree(getEditTreeBuilder().buildTree(rule));
     }
 
     /**
@@ -125,14 +114,6 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
         }
 
         return termParameters;
-    }
-
-    protected RuleCompareTreeBuilder getCompareTreeBuilder() {
-        if (compareTreeBuilder == null) {
-            compareTreeBuilder = new CORuleCompareTreeBuilder();
-            compareTreeBuilder.setNlHelper(this.getNaturalLanguageHelper());
-        }
-        return compareTreeBuilder;
     }
 
 }

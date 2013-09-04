@@ -73,7 +73,7 @@ limitations under the License.
     </bean>
 
     <bean name="KSFE-AgendaMaintenance-Page-parent" parent="KRMS-AgendaMaintenance-Page-Parent">
-        <property name="headerText" value="Course Offering Requisites"/>
+        <property name="headerText" value="Term Type"/>
         <property name="items">
             <list>
                 <bean parent="KRMS-AgendaManage-Section" class="org.kuali.student.enrollment.class1.krms.util.FinalExamAgendaSection">
@@ -102,14 +102,25 @@ limitations under the License.
     </bean>
 
     <bean id="KSFE-RuleTable" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="true"
-          p:readOnly="false">
+          p:readOnly="false" p:width="75%">
         <property name="id" value="ruledefinitions"/>
         <property name="collectionObjectClass"
                   value="org.kuali.rice.krms.dto.RuleEditor"/>
         <property name="propertyName" value="rules"/>
         <property name="headerText" value=""/>
         <property name="header">
-            <bean parent="Uif-SectionHeader"/>
+            <bean parent="Uif-SectionHeader">
+                <property name="rightGroup">
+                    <bean parent="Uif-ActionsGroup">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-NavigationActionLink" p:methodToCall="addRule" p:actionLabel="Add"/>
+                            </list>
+                        </property>
+                    </bean>
+
+                </property>
+            </bean>
         </property>
         <property name="collectionLookup">
             <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false"/>
@@ -123,22 +134,25 @@ limitations under the License.
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="sDom" value="rtip"/>
-                <entry key="aaSorting" value="[[ 3, 'desc' ], [ 1, 'asc']]"/>
                 <entry key="bPaginate" value="false"/>
                 <entry key="bAutoWidth" value="false"/>
+                <entry key="aoColumns"
+                       value="[ {'bSortable':false, 'sWidth':'55%'},
+                                {'bSortable':false, 'sWidth':'15%'},
+                                {'bSortable':false, 'sWidth':'15%'}
+                            ]"/>
             </map>
         </property>
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:label="If course meets:" p:propertyName="description"/>
-                <bean parent="Uif-DataField" p:label="Exam will be on:" p:propertyName="copyKey"/>
-                <bean parent="Uif-DataField" p:label="Time:" p:propertyName="copyKey"/>
+                <bean parent="Uif-DataField" p:label="Exam will be on:" p:propertyName="day"/>
+                <bean parent="Uif-DataField" p:label="Time:" p:propertyName="time"/>
             </list>
         </property>
 
         <property name="lineActions">
             <list>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="addRule" p:actionLabel="Add"/>
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="goToRuleView" p:actionLabel="Edit"/>
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="deleteRule" p:actionLabel="Delete"/>
             </list>

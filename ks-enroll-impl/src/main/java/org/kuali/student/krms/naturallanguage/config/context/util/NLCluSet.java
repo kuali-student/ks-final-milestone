@@ -92,7 +92,15 @@ public class NLCluSet {
 		return this.cluList;
 	}
 
-	/**
+    public CluSetInfo getCluSet() {
+        return cluSet;
+    }
+
+    public void setCluSet(CluSetInfo cluSet) {
+        this.cluSet = cluSet;
+    }
+
+    /**
 	 * Gets a particular CLU's official identifier short name.
 	 * 
 	 * @param index Index in CLU set

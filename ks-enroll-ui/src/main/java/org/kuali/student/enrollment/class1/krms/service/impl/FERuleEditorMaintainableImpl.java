@@ -37,6 +37,7 @@ import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.dto.FEAgendaEditor;
+import org.kuali.student.enrollment.class1.krms.dto.FERuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
@@ -182,10 +183,11 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         if (agendaItem.getRule() != null) {
 
             //Build the ruleEditor
-            RuleEditor ruleEditor = new LURuleEditor(agendaItem.getRule());
+            RuleEditor ruleEditor = new FERuleEditor(agendaItem.getRule());
 
             String description = this.getRuleManagementService().translateNaturalLanguageForObject(this.getUsageId(), "rule", ruleEditor.getId(), "en");
-            ruleEditor.setDescription(description);
+            int index = description.indexOf(": ");
+            ruleEditor.setDescription(description.substring(index + 1));
 
             //Initialize the Proposition tree
             if (initProps) {

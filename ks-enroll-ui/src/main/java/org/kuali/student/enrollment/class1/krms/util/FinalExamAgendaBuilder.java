@@ -15,9 +15,11 @@
  */
 package org.kuali.student.enrollment.class1.krms.util;
 
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Group;
+import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.dto.AgendaEditor;
@@ -48,6 +50,11 @@ public class FinalExamAgendaBuilder extends AgendaBuilder {
         for (CollectionGroup fieldCollectionGroup : components) {
             ComponentUtils.prefixBindingPath(fieldCollectionGroup, bindingPrefix);
             fieldCollectionGroup.setSubCollectionSuffix(agendaSuffix);
+        }
+
+        List<Action> actionLinks = ComponentUtils.getComponentsOfTypeDeep(group, Action.class);
+        for (Action actionLink : actionLinks) {
+            actionLink.getActionParameters().put(UifParameters.SELECTED_LINE_INDEX, "" + index);
         }
 
         return group;

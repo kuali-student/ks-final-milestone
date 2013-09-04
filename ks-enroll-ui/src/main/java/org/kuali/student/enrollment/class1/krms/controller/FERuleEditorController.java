@@ -8,15 +8,19 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.dto.AgendaEditor;
+import org.kuali.rice.krms.dto.AgendaTypeInfo;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.check.form.CheckInfoForm;
 import org.kuali.student.enrollment.class1.krms.dto.FEAgendaEditor;
+import org.kuali.student.enrollment.class1.krms.dto.FERuleEditor;
 import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSConstants;
+import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -52,8 +56,24 @@ public class FERuleEditorController extends EnrolRuleEditorController {
     public ModelAndView addRule(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
                                 @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
+
+        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
+        RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper(document);
+        ruleWrapper.setAgendaEditor(this.getSelectedAgenda(document, "Edit"));
+
+        //Set a copy on the wrapper so that we can allow the user to cancel his/her action.
+        RuleEditor rule = new FERuleEditor();
+        AgendaTypeInfo agendaType = ruleWrapper.getAgendaEditor().getAgendaTypeInfo();
+        for(RuleTypeInfo ruleType : agendaType.getRuleTypes()){
+            rule.setTypeId(ruleType.getId());
+            rule.setRuleTypeInfo(ruleType);
+            break;
+        }
+        ruleWrapper.setRuleEditor(rule);
+        this.getViewHelper(form).refreshInitTrees(ruleWrapper.getRuleEditor());
+
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_RULE_FE_MAINTENANCE_PAGE_ID);
-        return super.addRule(form, result, request, response);
+        return super.navigate(form, result, request, response);
     }
 
     /**

@@ -88,11 +88,13 @@
     <bean id="populationContext" class="org.kuali.student.krms.naturallanguage.config.context.PopulationContextImpl">
         <property name="populationService" ref="PopulationServiceClient"/>
     </bean>
+    <bean id="finalExamContext" class="org.kuali.student.krms.naturallanguage.config.context.FinalExamContextImpl"/>
     <!-- TODO this contextRegistry should be part of KS -->
     <bean id="translationContextRegistry"
           class="org.kuali.rice.krms.impl.repository.language.TranslationContextRegistry">
         <constructor-arg>
             <map>
+                <!--Catalog, Course Offering and Activity Offering types -->
                 <entry key="kuali.krms.proposition.type.course.courseset.completed.none">
                     <list>
                         <ref local="luContext"/>
@@ -365,6 +367,24 @@
                         <ref bean="populationContext"/>
                     </list>
                 </entry>
+
+                <!-- Final Exam Proposition Types -->
+                <entry key="kuali.krms.proposition.type.final.exam.timeslot">
+                    <list>
+                        <ref bean="finalExamContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.final.exam.course">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.final.exam.courseset">
+                    <list>
+                        <ref bean="luContext"/>
+                    </list>
+                </entry>
+
             </map>
         </constructor-arg>
     </bean>
