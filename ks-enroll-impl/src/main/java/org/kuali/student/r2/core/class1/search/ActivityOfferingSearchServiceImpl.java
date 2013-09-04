@@ -71,6 +71,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         public static final String OFFERING_ID = "offeringId";
         public static final String FO_ID = "foId";
         public static final String AO_IDS = "aoIds";
+        public static final String AO_STATUSES = "aoStatuses";
     }
 
     public static final class SearchResultColumns {
@@ -478,6 +479,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
+        List<String> aoStatuses = requestHelper.getParamAsList(SearchParameters.AO_STATUSES);
 //TODO JPQL does not support on clauses in outer joins, so to accomplish this, we would need to update the entities
 //        String queryStr =
 //                "SELECT DISTINCT " +
@@ -553,8 +555,16 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "WHERE " +
                 "    co2fo.LUI_ID= :coId " +
                 "AND co2fo.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.deliveredvia.co2fo'";
+
+        if((aoStatuses != null) && !aoStatuses.isEmpty()) {
+            queryStr = queryStr + " AND ao.LUI_STATE IN(:aoStatuses)";
+        }
+
         Query query = entityManager.createNativeQuery(queryStr);
         query.setParameter(SearchParameters.CO_ID, coId);
+        if((aoStatuses != null) && !aoStatuses.isEmpty()) {
+            query.setParameter(SearchParameters.AO_STATUSES, aoStatuses);
+        }
         List<Object[]> results = query.getResultList();
 
         Map<String, SearchResultRowInfo> aoMap = new HashMap<String, SearchResultRowInfo>();
@@ -681,13 +691,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
 
     private static String commaString(List<String> items){
-        StringBuilder sb = new StringBuilder();
-        String delim = "";
-        for (String str : items) {
-            sb.append(delim).append("'" + str + "'");
-            delim = ",";
-        }
-        return sb.toString();
+
+        return items.toString().replace("[", "'").replace("]", "'").replace(", ", "','");
+
     }
 
     public EntityManager getEntityManager() {

@@ -283,18 +283,36 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
      * activityWrapperList for View All Activities tab,
      * clusterResultList for View byClusters
      * rgResultList for View Registration Groupsall the course offerings for a term and course/subject code.
-     *
+     * Note: Use the other overloaded function when the client needs to specify search params
      * @param form input form
      * @throws Exception
      */
     public void build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(ActivityOfferingDisplayUI form) throws Exception {
+
+
+        //First search for AOs and Cluster information
+        SearchRequestInfo searchRequestInfo = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY);
+
+        this.build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(form, searchRequestInfo);
+    }
+
+
+    /**
+     * This method fetches, prepares and sets
+     * activityWrapperList for View All Activities tab,
+     * clusterResultList for View byClusters
+     * rgResultList for View Registration Groupsall the course offerings for a term and course/subject code.
+     * Note: Use the other overloaded function when the client does not need to specify search params
+     * @param form input form
+     * @param sr Client supplied search info with params
+     * @throws Exception
+     */
+    public void build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(ActivityOfferingDisplayUI form, SearchRequestInfo sr) throws Exception {
         //KSENROLL-6102 performance improvements, delete this code when performance work is complete
 
         //New Search Stuff!
         String coId = form.getCourseOfferingId();
 
-        //First search for AOs and Cluster information
-        SearchRequestInfo sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY);
         sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, coId);
         SearchResultInfo results = getSearchService().search(sr, null);
 
@@ -805,6 +823,9 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 }
             }
             ActivityOfferingWrapper aoWrapper = aoMap.get(aoId);
+            if(aoWrapper == null) {
+                    continue;
+            }
             RegistrationGroupWrapper rgWrapper = rgMap.get(rgId);
 
             if (rgWrapper == null) {
@@ -1326,8 +1347,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         for (ActivityOfferingSetInfo aos : aoCluster.getActivityOfferingSets()) {
             for (String aoId : aos.getActivityOfferingIds()) {
                 ActivityOfferingWrapper aoWrapper = aoMap.get(aoId);
-                ActivityOfferingInfo aoInfo = aoWrapper.getAoInfo();
-                if (aoInfo != null && aoInfo.getMaximumEnrollment() != null) {
+                ActivityOfferingInfo aoInfo = null;
+                if((aoWrapper != null) && ((aoInfo = aoWrapper.getAoInfo()) != null) && aoInfo.getMaximumEnrollment() != null) {
                     aoSetMaxEnrollNumber += aoInfo.getMaximumEnrollment();
                 }
             }

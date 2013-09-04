@@ -22,6 +22,7 @@ package org.kuali.student.enrollment.class2.scheduleofclasses.controller;
  * @author Kuali Student Team
  */
 
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -29,6 +30,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
@@ -40,16 +42,19 @@ import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetS
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -60,6 +65,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -171,7 +177,25 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
 
         CourseOfferingDisplayWrapper coDisplayWrapper = (CourseOfferingDisplayWrapper)KSControllerHelper.getSelectedCollectionItem(theForm);
         theForm.setCourseOfferingId(coDisplayWrapper.getCoDisplayInfo().getId());
-        getViewHelperService(theForm).build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(theForm);
+
+        SearchRequestInfo searchRequestInfo = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY);
+
+        String allowedAOStatuses = ConfigContext.getCurrentContextConfig().getProperty(CourseOfferingConstants.CONFIG_PARAM_KEY_SCHOC_AO_STATUSES);
+        if ((allowedAOStatuses != null) && (!allowedAOStatuses.isEmpty())) {
+            List<String> aoStatuses = Arrays.asList(allowedAOStatuses.split("\\s*,\\s*"));
+            if (!Arrays.asList(LuiServiceConstants.ACTIVITY_OFFERING_LIFECYCLE_STATE_KEYS).containsAll(aoStatuses)) {
+                String errorMessage = String.format("Error: invalid value for configuration parameter:  %s Value: %s",
+                        CourseOfferingConstants.CONFIG_PARAM_KEY_SCHOC_AO_STATUSES, aoStatuses.toString());
+                LOG.error(errorMessage);
+                return getUIFModelAndView(theForm);
+            }
+            searchRequestInfo.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_STATUSES, aoStatuses);
+        } else {
+            // If an institution does not customize valid AO states, then the default is AO Offered state
+            searchRequestInfo.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_STATUSES, LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY);
+        }
+
+        getViewHelperService(theForm).build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(theForm, searchRequestInfo);
 
         coDisplayWrapper.getClusterResultList().clear();
         coDisplayWrapper.getClusterResultList().addAll(theForm.getClusterResultList());

@@ -16,12 +16,12 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service;
 
-import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.service.CO_AO_RG_ViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ActivityOfferingDisplayUI;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 
 import java.util.List;
 /**
@@ -52,6 +52,7 @@ public interface CourseOfferingManagementViewHelperService extends CO_AO_RG_View
     public void draftActivityOfferings(CourseOfferingManagementForm form) throws Exception;
 
     public void build_AOs_RGs_AOCs_Lists_For_TheCourseOffering (ActivityOfferingDisplayUI form) throws Exception;
+    public void build_AOs_RGs_AOCs_Lists_For_TheCourseOffering (ActivityOfferingDisplayUI form, SearchRequestInfo searchRequestInfo) throws Exception;
 
     public void  setupRuleIndicator(List<ActivityOfferingWrapper> wrappers );
 }
