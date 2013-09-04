@@ -198,7 +198,8 @@
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
                             <bean parent="Uif-Message"
                                   p:messageText="@{numIneligibleAOsForCSR} activity offering(s) cannot be reinstated (ineligible status)"
-                                  p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"
+                                  p:render="@{numIneligibleAOsForCSR != 0}"/>
                         </list>
                     </property>
                 </bean>
