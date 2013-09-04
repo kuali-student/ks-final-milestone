@@ -18,11 +18,13 @@ package org.kuali.student.enrollment.class2.scheduleofclasses.sort;
 import java.util.Comparator;
 
 /**
- * Interface which extends from {@link Comparator} and provides an option for reverse sorting.
+ * Interface which extends from {@link Comparator} and provides an option for reverse sorting. This is
+ * intended to use with {@link KSComparatorChain} to allow configuration at the xml. For all regular
+ * comparisons at the class level, it's better to use the java {@link Comparator}
  *
  * @author Kuali Student Team
  */
-public interface ComparatorElement<T> extends Comparator<T>{
+public interface KSComparator<T> extends Comparator<T>{
 
     public void setReverseSort(boolean reverseSort);
 

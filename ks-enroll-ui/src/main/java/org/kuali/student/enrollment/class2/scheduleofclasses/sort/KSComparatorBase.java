@@ -16,12 +16,12 @@
 package org.kuali.student.enrollment.class2.scheduleofclasses.sort;
 
 /**
- * This abstract class is the default implementation of {@link ComparatorElement} with getter/setter for reverse search
+ * This abstract class is the default implementation of {@link KSComparator} with getter/setter for reverse search
  * which allows the implementation comparators just to extend this class.
  *
  * @author Kuali Student Team
  */
-public abstract class ComparatorElementBase<T> implements ComparatorElement<T> {
+public abstract class KSComparatorBase<T> implements KSComparator<T> {
 
     private boolean reverseSort;
 

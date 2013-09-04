@@ -41,12 +41,12 @@ public class KSComparatorChain implements Serializable{
      *
      * @param comparators
      */
-    public void setComparators(List<ComparatorElement> comparators){
+    public void setComparators(List<KSComparator> comparators){
         if (comparators != null){
             BitSet bitSet = new BitSet(comparators.size());
             int index = 0;
-            for (ComparatorElement comparatorElement : comparators){
-                bitSet.set(index++,comparatorElement.isReverseSort());
+            for (KSComparator KSComparator : comparators){
+                bitSet.set(index++, KSComparator.isReverseSort());
             }
             comparatorChain = new ComparatorChain(comparators,bitSet);
         }

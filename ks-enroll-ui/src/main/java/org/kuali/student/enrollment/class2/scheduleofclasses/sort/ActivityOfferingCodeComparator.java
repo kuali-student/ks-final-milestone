@@ -23,7 +23,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWr
  * @author Kuali Student Team
  */
 
-public class ActivityOfferingCodeComparator extends ComparatorElementBase<ActivityOfferingWrapper> {
+public class ActivityOfferingCodeComparator extends KSComparatorBase<ActivityOfferingWrapper> {
 
     @Override
     public int compare(ActivityOfferingWrapper o1, ActivityOfferingWrapper o2) {
