@@ -13,10 +13,12 @@
  * permissions and limitations under the License.
  *
  */
-package org.kuali.student.enrollment.class2.scheduleofclasses.sort;
+package org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl;
+
+import org.kuali.student.enrollment.class2.scheduleofclasses.sort.KSComparator;
 
 /**
- * This abstract class is the default implementation of {@link KSComparator} with getter/setter for reverse search
+ * This abstract class is the default implementation of {@link org.kuali.student.enrollment.class2.scheduleofclasses.sort.KSComparator} with getter/setter for reverse search
  * which allows the implementation comparators just to extend this class.
  *
  * @author Kuali Student Team

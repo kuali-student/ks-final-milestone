@@ -13,20 +13,21 @@
  * permissions and limitations under the License.
  *
  */
-package org.kuali.student.enrollment.class2.scheduleofclasses.sort;
+package org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl;
 
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 
 /**
- * This comparator sorts the {@link ActivityOfferingWrapper} by format type name
+ * This comparator sorts the {@link ActivityOfferingWrapper} by activity code.
  *
  * @author Kuali Student Team
  */
-public class ActivityOfferingTypeComparator extends KSComparatorBase<ActivityOfferingWrapper> {
+
+public class ActivityOfferingCodeComparator extends KSComparatorBase<ActivityOfferingWrapper> {
 
     @Override
     public int compare(ActivityOfferingWrapper o1, ActivityOfferingWrapper o2) {
-        return (o1.getTypeName().compareTo(o2.getTypeName()) * -1);
+        return o1.getActivityCode().compareTo(o2.getActivityCode());
     }
 
 }

@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Generic implementation of {@link ComparatorChain}, which allows sorting a model by multiple {@link java.util.Comparator}
+ * Generic implementation of {@link ComparatorChain}, which allows sorting a model by multiple {@link KSComparator}
  *
  * @author Kuali Student Team
  */
@@ -37,7 +37,7 @@ public class KSComparatorChain implements Serializable{
     }
 
     /**
-     * Creates a new {@link ComparatorChain} with the passed in {@link java.util.Comparator}
+     * Creates a new {@link ComparatorChain} with the passed in {@link KSComparator} list
      *
      * @param comparators
      */

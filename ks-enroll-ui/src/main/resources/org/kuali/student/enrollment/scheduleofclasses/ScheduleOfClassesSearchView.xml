@@ -72,7 +72,7 @@
     <bean id="scheduleOfClassesAOSorting-parent" class="org.kuali.student.enrollment.class2.scheduleofclasses.sort.KSComparatorChain">
         <property name="comparators">
             <list>
-                <bean class="org.kuali.student.enrollment.class2.scheduleofclasses.sort.ActivityOfferingCodeComparator"/>
+                <bean class="org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.ActivityOfferingCodeComparator"/>
             </list>
         </property>
     </bean>
