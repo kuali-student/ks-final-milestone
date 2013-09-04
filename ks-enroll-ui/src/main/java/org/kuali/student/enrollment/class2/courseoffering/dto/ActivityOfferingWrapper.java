@@ -151,9 +151,7 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
     private SchOfClassesRenderHelper schOfClassesRenderHelper;
 
     private CourseWaitListInfo courseWaitListInfo;
-    private boolean hasWaitlist;
     private boolean hasWaitlistCO;
-    private boolean limitWaitlistSize;
 
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
@@ -177,9 +175,7 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         editRenderHelper = new EditRenderHelper();
         deletedScheduleComponents = new ArrayList<ScheduleWrapper>();
         courseWaitListInfo = new CourseWaitListInfo();
-        hasWaitlist = false;
         hasWaitlistCO = false;
-        limitWaitlistSize = false;
     }
 
     public ActivityOfferingWrapper(ActivityOfferingInfo info){
@@ -1210,13 +1206,7 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         this.courseWaitListInfo = courseWaitListInfo;
     }
 
-    public boolean isHasWaitlist() {
-        return hasWaitlist;
-    }
 
-    public void setHasWaitlist(boolean hasWaitlist) {
-        this.hasWaitlist = hasWaitlist;
-    }
 
     public boolean isHasWaitlistCO() {
         return hasWaitlistCO;
@@ -1234,12 +1224,6 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         this.reinstateStateName = reinstateStateName;
     }
 
-    public boolean isLimitWaitlistSize() {
-        return limitWaitlistSize;
-    }
 
-    public void setLimitWaitlistSize(boolean limitWaitlistSize) {
-        this.limitWaitlistSize = limitWaitlistSize;
-    }
 
 }
