@@ -241,7 +241,7 @@
 
     <bean id="ManageSOCView-SchedulingDetails-CloseButton" parent="Uif-PrimaryActionButton" p:methodToCall="closeSOC" p:actionLabel="Close Set" p:disabled="true" p:render="@{showCloseSetButton}"/>
 
-    <bean id="ManageSOCView-SchedulingDetails-ManageCOButton" parent="Uif-Link" p:linkText="Manage Course Offerings" p:style="margin-top:10px;"
+    <bean id="ManageSOCView-SchedulingDetails-ManageCOButton" parent="Uif-Link" p:linkText="Manage Course Offerings" p:style="margin-top:5px;"
             p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementView&amp;pageId=searchInputPage&amp;methodToCall=start"/>
 
     <bean id="ManageSOCView-SchedulingDetails-SendToSchedulerButton" parent="Uif-PrimaryActionButton" p:methodToCall="sendApprovedActivitiesToScheduler" p:actionLabel="Send Approved Activities to Scheduler" p:render="@{enableMSEButton}"/>
