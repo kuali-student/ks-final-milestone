@@ -86,10 +86,9 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public RoomInfo getRoom(String roomId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // An activity is not necessarily associated with a room
-//        checkValid("id", roomId, contextInfo);
+        checkValid("id", roomId, contextInfo);
 
         if(StringUtils.isEmpty(roomId)){
             return null;

@@ -73,25 +73,12 @@ public class RoomServiceCacheDecorator extends RoomServiceDecorator {
         Object result = null;
         if (cachedResult == null) {
             result = getNextDecorator().getRoom(roomId, contextInfo);
-            if(result != null){
-                cacheManager.getCache(roomCacheName).put(new Element(cacheKey, result));
-            }
+            cacheManager.getCache(roomCacheName).put(new Element(cacheKey, result));
         } else {
             result = cachedResult.getValue();
         }
 
         return   (RoomInfo)result;
-    }
-
-    @Override
-    public List<RoomInfo> getRoomsByIds(@WebParam(name = "roomIds") List<String> roomIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<RoomInfo> result = new ArrayList<RoomInfo>(roomIds.size());
-
-        for (String id : roomIds) {
-            result.add( this.getRoom(id, contextInfo));
-        }
-
-        return result;
     }
 
     @Override
@@ -143,17 +130,6 @@ public class RoomServiceCacheDecorator extends RoomServiceDecorator {
         }
 
         return (BuildingInfo)result;
-    }
-
-    @Override
-    public List<BuildingInfo> getBuildingsByIds(@WebParam(name = "buildingIds") List<String> buildingIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<BuildingInfo> result = new ArrayList<BuildingInfo>(buildingIds.size());
-
-        for (String id : buildingIds) {
-            result.add( this.getBuilding(id, contextInfo) );
-        }
-
-        return result;
     }
 
     @Override
