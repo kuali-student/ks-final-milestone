@@ -923,7 +923,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
 
-        //Compare CO to CLU and display info message
+        //Compare rule to parent and display info message
         if (ruleEditor.getProposition() != null) {
             if (!this.getViewHelper(form).compareRules(ruleWrapper.getRuleEditor())) {
                 GlobalVariables.getMessageMap().putInfoForSectionId(KRMSConstants.KRMS_RULE_TREE_GROUP_ID, "info.krms.tree.rule.changed");
