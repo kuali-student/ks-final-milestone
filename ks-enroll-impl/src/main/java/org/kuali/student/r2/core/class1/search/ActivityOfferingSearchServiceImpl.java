@@ -557,7 +557,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "AND co2fo.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.deliveredvia.co2fo'";
 
         if((aoStates != null) && !aoStates.isEmpty()) {
-            queryStr = queryStr + " AND ao.LUI_STATE IN(:aoStatuses)";
+            queryStr = queryStr + " AND ao.LUI_STATE IN(:aoStates)";
         }
 
         Query query = entityManager.createNativeQuery(queryStr);
