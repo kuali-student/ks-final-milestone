@@ -596,7 +596,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-DataField" p:id="final_exam_driver_ui" p:propertyName="courseOfferingWrapper.finalExamDriverUI" p:label="FINAL EXAM DRIVER"/>
+                <bean parent="Uif-DataField" p:id="final_exam_driver_ui" p:propertyName="courseOfferingWrapper.finalExamDriverUI" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'STANDARD'}" p:label="FINAL EXAM DRIVER"/>
 
                 <bean id="edit_co_final_exam_type" parent="Uif-InputField" p:propertyName="formatOfferingInfo.finalExamLevelTypeKey" p:label="FINAL EXAM DRIVER ACTIVITY"
                       p:labelPlacement="TOP" p:required="true" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'STANDARD'}"  p:finalizeMethodToCall="populateFinalExamDriverTypes" p:forceSessionPersistence="true">
@@ -607,8 +607,8 @@
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
                     </property>
                 </bean>
-                <bean parent="Uif-MessageField" p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Alternate exam for this offering" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'ALTERNATE'}" />
-                <bean parent="Uif-MessageField" p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="No final exam for this offering" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'NONE'}" />
+                <bean parent="Uif-MessageField" p:label="FINAL EXAM DRIVER" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Alternate exam for this offering" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'ALTERNATE'}" />
+                <bean parent="Uif-MessageField" p:label="FINAL EXAM DRIVER" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="No final exam for this offering" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'NONE'}" />
             </list>
         </property>
     </bean>
