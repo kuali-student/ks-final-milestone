@@ -60,6 +60,11 @@
     <bean parent="KSAP-PopoverPage" abstract="true" id="plan_item_add_page-parent"
           p:headerText="@{#form.planItemId EQ null ? 'What would you like to add to ':'Edit your course for '} @{#form.termName}@{#form.planItemId EQ null ? '?' : ''}"
           p:width="325px">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>@{atpId.replaceAll("\.","-")}-@{#form.backup ? 'backup' : 'planned'}</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="KSAP-VerticalBoxGroup">
@@ -75,17 +80,18 @@
                                     <list>
 										<bean parent="Uif-Message" p:messageText="Enter the course code"></bean>
                                         <bean parent="Uif-InputField" p:propertyName="courseCd"
-                                              p:id="courseCode" p:width="70%">
+                                              p:id="courseCode_@{atpId.replaceAll('\.','-')}-@{#form.backup ? 'backup' : 'planned'}" p:width="70%">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:style="width:180px;">
                                                     <property name="onDocumentReadyScript"
                                                               value="jQuery('#courseCode_control').focus();"/>
                                                     <property name="watermarkText" value="e.g. MATH-M 119"/>
                                                     <property name="maxLength" value="10"/>
+
                                                 </bean>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField" p:id="courseCreditsNew_@{atpId.replaceAll('\.','-')}">
+                                        <bean parent="Uif-InputField" p:id="courseCreditsNew_@{atpId.replaceAll('\.','-')}-@{#form.backup ? 'backup' : 'planned'}">
                                             <property name="label" value="Enter Course Credits"/>
                                             <property name="instructionalText" value="Empty and invalid values will default to the minimum credit value."/>
                                             <property name="fieldLabel.render" value="true"/>
@@ -102,7 +108,7 @@
                                                 </bean>
                                             </property>
                                         </bean>
-                                        <bean parent="planItemNote" p:id="courseNoteNew_@{atpId.replaceAll('\.','-')}"/>
+                                        <bean parent="planItemNote" p:id="courseNoteNew_@{atpId.replaceAll('\.','-')}-@{#form.backup ? 'backup' : 'planned'}"/>
                                     </list>
                                 </property>
                             </bean>
@@ -519,13 +525,17 @@
     <bean id="term_note_edit_page" parent="term_note_edit_page-parent"/>
     <bean id="term_note_edit_page-parent" abstract="true" parent="KSAP-PopoverPage" p:id="term_note_edit_page"
           p:headerText="Edit @{shortTerm} Term Note">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>@{atpId.replaceAll("\.","-")}</value>
+            </list>
+        </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Message"
-                      p:messageText="Edit @{shortTerm} Term Note"/>
+
                 <bean parent="planItemNote" p:id="termNote_@{atpId.replaceAll('\.','-')}" p:propertyName="fakeTermNote"
                       p:defaultValue="@{#form.atpId NE null ? #form.termNote : ''}">
-                    <property name="label" value="Note for the term"/>
+                    <property name="label" value="Edit note for the term"/>
 
                 </bean>
                 <bean parent="KSAP-HorizontalBoxGroup">

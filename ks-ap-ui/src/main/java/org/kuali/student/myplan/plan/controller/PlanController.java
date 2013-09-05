@@ -37,6 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParser;
@@ -1260,7 +1261,10 @@ public class PlanController extends UifControllerBase {
                 if(form.getAtpId().equals(commentAtpId)){
                     found=true;
                     comment.setCommentText(newNote);
-                    commentService.updateComment(comment.getId(),comment,KsapFrameworkServiceLocator.getContext().getContextInfo());
+                    commentService.deleteComment(comment.getId(),KsapFrameworkServiceLocator.getContext().getContextInfo());
+                    if(!StringUtils.isEmpty(comment.getCommentText().getFormatted())){
+                        commentService.createComment(comment.getReferenceId(), comment.getReferenceTypeKey(), PlanConstants.TERM_NOTE_COMMENT_TYPE, comment, KsapFrameworkServiceLocator.getContext().getContextInfo());
+                    }
                     break;
                 }
             }
@@ -1276,7 +1280,9 @@ public class PlanController extends UifControllerBase {
                 atpIdAttr.setKey(PlanConstants.TERM_NOTE_COMMENT_ATTRIBUTE_ATPID);
                 atpIdAttr.setValue(form.getAtpId());
                 newComment.getAttributes().add(atpIdAttr);
-                commentService.createComment(newComment.getReferenceId(), newComment.getReferenceTypeKey(), PlanConstants.TERM_NOTE_COMMENT_TYPE, newComment, KsapFrameworkServiceLocator.getContext().getContextInfo());
+                if(!StringUtils.isEmpty(newComment.getCommentText().getFormatted())){
+                    commentService.createComment(newComment.getReferenceId(), newComment.getReferenceTypeKey(), PlanConstants.TERM_NOTE_COMMENT_TYPE, newComment, KsapFrameworkServiceLocator.getContext().getContextInfo());
+                }
             }
         }catch(Exception e){
             return doOperationFailedError(form, "Query for term note failed.",
@@ -1288,7 +1294,7 @@ public class PlanController extends UifControllerBase {
 
         Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> events = new LinkedHashMap<PlanConstants.JS_EVENT_NAME, Map<String, String>>();
 
-        events.putAll(makeUpdateTermNoteEvent(form.getAtpId(), note, PlanConstants.JS_EVENT_NAME.TERM_NOTE_UPDATED));
+        events.putAll(makeUpdateTermNoteEvent(form.getAtpId(),note, PlanConstants.JS_EVENT_NAME.TERM_NOTE_UPDATED));
         form.setJavascriptEvents(events);
         return doPlanActionSuccess(form,
                 PlanConstants.SUCCESS_KEY_ITEM_EDITED, new String[0]);
@@ -2543,9 +2549,10 @@ public class PlanController extends UifControllerBase {
         Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> events = new LinkedHashMap<PlanConstants.JS_EVENT_NAME, Map<String, String>>();
 
         Map<String, String> params = new HashMap<String, String>();
+        note = escapeForJson(note);
 
         params.put("atpId", formatAtpIdForUI(atpId));
-        params.put("termNote", note);
+        params.put("termNote",note);
 
         events.put(eventName, params);
         return events;
@@ -3269,7 +3276,11 @@ public class PlanController extends UifControllerBase {
                     newTermNote.setId(comment.getId());
                     newTermNote.setAtpId(commentAtp);
                     newTermNote.setDate(comment.getEffectiveDate());
-                    newTermNote.setTermNote(comment.getCommentText().getFormatted());
+                    if(StringUtils.isEmpty(comment.getCommentText().getFormatted())){
+                        newTermNote.setTermNote("");
+                    }else{
+                        newTermNote.setTermNote(comment.getCommentText().getFormatted());
+                    }
                     termNoteList.add(newTermNote);
                 }
             }
@@ -3559,5 +3570,14 @@ public class PlanController extends UifControllerBase {
 
     public void setAcademicRecordService(AcademicRecordService academicRecordService) {
         this.academicRecordService = academicRecordService;
+    }
+
+    public String escapeForJson(String text){
+        text = StringEscapeUtils.escapeHtml(text);
+        text = text.replaceAll("\\{","&#123;");
+        text = text.replaceAll("}","&#125;");
+        text = text.replaceAll(StringEscapeUtils.escapeJava("\\"),StringEscapeUtils.escapeJava("\\")+StringEscapeUtils.escapeJava("\\"));
+
+        return text;
     }
 }

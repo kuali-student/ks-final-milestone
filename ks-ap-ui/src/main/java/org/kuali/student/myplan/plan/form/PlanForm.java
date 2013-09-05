@@ -432,6 +432,8 @@ public class PlanForm extends UifFormBase {
         //  TODO: Determine if there is a config that can be set to avoid having to do this.
         jsonOut = jsonOut.replaceAll("\"\\{", "{");
         jsonOut = jsonOut.replaceAll("}\"", "}");
+        jsonOut = jsonOut.replaceAll("&#123;", "{");
+        jsonOut = jsonOut.replaceAll("&#125;", "}");
 
         return jsonOut;
     }

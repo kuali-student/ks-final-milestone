@@ -350,10 +350,14 @@
             jQuery('.myplan-carousel-list li .myplan-term-current.open, .myplan-carousel-list li .myplan-term-future.open').find('.myplan-term-planned .uif-stackedCollectionLayout, .myplan-term-backup .uif-stackedCollectionLayout').each(function(){
             	var atpId = jQuery(this).parents('.myplan-carousel-term').data('atpid');
             	var backup = jQuery(this).parents('.myplan-carousel-term').data('plantype');
+            	var boolbackup;
+            	if(backup == 'planned') boolbackup=false;
+            	else boolbackup=true;
             	var size = jQuery(this).parents('.myplan-carousel-term').data('size');
+            	var xmlSafeAtpId=atpId.replace(/\./g, '-');
             	var jQuickAdd = jQuery('&lt;div /&gt;').addClass('quick-add-cell ks-plan-Bucket-addItem').html('Add a course to plan').click(function(e){
-            		var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', atpId:atpId, backup:backup, pageId:'plan_item_add_page'};
-                    openPopup('plan_item_add_page', retrieveData, 'plan', popupStyle, popupOptions, e);
+            		var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', atpId:atpId, backup:boolbackup, pageId:'plan_item_add_page'};
+                    openPopup('plan_item_add_page.'+xmlSafeAtpId+'-'+backup, retrieveData, 'plan', popupStyle, popupOptions, e);
             	});
             	if (size &lt; 8) {
             		jQuery(this).append(jQuickAdd.show());
@@ -1949,7 +1953,8 @@
             var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startTermNoteForm', atpId:jQuery(this).data('atpid'), pageId:'term_note_edit_page'};
             var popupStyle = {width:'300px', height:'16px'};
             var popupOptions = {tail:{hidden:true}, align:'top', close:true};
-            openPopup('term_note_edit_page', retrieveData, 'plan', popupStyle, popupOptions, e);
+            var xmlSafeAtpId=jQuery(this).data('atpid').replace(/\./g, '-');
+            openPopup('term_note_edit_page.'+xmlSafeAtpId, retrieveData, 'plan', popupStyle, popupOptions, e);
         "/>
     </bean>
 
