@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+ <import resource="classpath:ks-base-dictionary-context.xml"/>
+
+ <!-- CommentInfo-->
+ <bean id="commentInfo.commentText-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="commentText"/>
+  <property name="dataObjectStructure">
+      <bean parent="org.kuali.student.r2.common.dto.RichTextInfo">
+          <property name="attributes">
+              <list>
+                  <bean parent="richTextInfo.formatted">
+                      <property name="validChars">
+                          <bean parent="ValidCharDefinition">
+                              <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;_\\/\-\?\+=()\[\];:'&quot;&amp;%$#@!\t\n\r`~{}|*^ ]*"/>
+                          </bean>
+                      </property>
+                  </bean>
+                  <bean parent="richTextInfo.plain">
+                      <property name="validChars">
+                          <bean parent="ValidCharDefinition">
+                              <property name="value" value="regex:[A-Za-z0-9.,&gt;&lt;_\\/\-\?\+=()\[\];:'&quot;&amp;%$#@!\t\n\r`~{}|*^ ]*"/>
+                          </bean>
+                      </property>
+                  </bean>
+              </list>
+          </property>
+      </bean>
+  </property>
+ </bean>
+
+
+</beans>

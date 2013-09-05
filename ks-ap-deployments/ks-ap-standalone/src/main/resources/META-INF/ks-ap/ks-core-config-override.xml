@@ -1,0 +1,3 @@
+<config>
+    <param name="ks.core.dictionary.serviceContextLocations">classpath:ks-proposalInfo-dictionary-context.xml, classpath:ks-workflow-dictionary-context.xml, classpath:ks-document-dictionary-context.xml, classpath:ks-atp-dictionary-context.xml, classpath:ks-lrc-dictionary-context.xml, classpath:ks-courseInfo-dictionary-context.xml,classpath:ks-comment-dictionary-context.xml, classpath:ks-comment-dictionary-context-overrides.xml</param>
+</config>
