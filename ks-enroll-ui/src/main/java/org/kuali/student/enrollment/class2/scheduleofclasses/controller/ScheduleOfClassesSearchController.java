@@ -258,6 +258,19 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         return getUIFModelAndView(theForm, ScheduleOfClassesConstants.SOC_RESULT_PAGE);
     }
 
+    @RequestMapping(params = "methodToCall=populateRegGroups")
+    public ModelAndView populateRegGroups(@ModelAttribute("KualiForm") ScheduleOfClassesSearchForm theForm) throws Exception {
+
+        CourseOfferingDisplayWrapper coDisplayWrapper = (CourseOfferingDisplayWrapper)KSControllerHelper.getSelectedCollectionItem(theForm);
+        theForm.setCourseOfferingId(coDisplayWrapper.getCoDisplayInfo().getId());
+        getViewHelperService(theForm).build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(theForm);
+
+        coDisplayWrapper.getClusterResultList().clear();
+        coDisplayWrapper.getClusterResultList().addAll(theForm.getClusterResultList());
+
+        return getUIFModelAndView(theForm, ScheduleOfClassesConstants.SOC_RESULT_PAGE);
+    }
+
     public ScheduleOfClassesViewHelperService getViewHelperService(ScheduleOfClassesSearchForm theForm) {
         if (viewHelperService == null) {
             if (theForm.getView().getViewHelperService() != null) {
