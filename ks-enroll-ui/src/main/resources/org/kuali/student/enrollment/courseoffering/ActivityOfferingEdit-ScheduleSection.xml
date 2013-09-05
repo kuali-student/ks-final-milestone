@@ -223,10 +223,11 @@
                     </property>
                    <!-- <property name="attributeQuery">
                         <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveBuildingInfo" p:queryMethodArgumentFieldList="newScheduleRequest.buildingCode" p:dataObjectClassName="org.kuali.student.r2.core.room.dto.BuildingInfo" p:queryFieldMapping="newScheduleRequest.buildingCode:buildingCode" p:returnFieldMapping="buildingCode:newScheduleRequest.buildingCode,name:newScheduleRequest.editRenderHelper.buildingName"/>
-                    </property>
+                    </property>-->
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="buildingCode"
                               p:suggestQuery.dataObjectClassName="org.kuali.student.r2.core.room.dto.BuildingInfo">
+                            <property name="style" value="background: none;"/>
                           <property name="suggestQuery">
                             <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveBuildingInfo" p:queryFieldMapping="newScheduleRequest.buildingCode:buildingCode" p:returnFieldMapping="buildingCode:newScheduleRequest.buildingCode,name:newScheduleRequest.editRenderHelper.buildingName"/>
                           </property>
@@ -236,7 +237,7 @@
                             </map>
                           </property>
                         </bean>
-                    </property>-->
+                    </property>
                 </bean>
                 <bean id="rdl_room" parent="Uif-InputField-LabelTop" p:label="Room" p:propertyName="newScheduleRequest.roomCode">
                     <property name="control">

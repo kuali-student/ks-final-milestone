@@ -268,6 +268,19 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         coDisplayWrapper.getClusterResultList().clear();
         coDisplayWrapper.getClusterResultList().addAll(theForm.getClusterResultList());
 
+        /**
+         * Sort the RegGroups first by the ID and then by institutionally configured list of comparators
+         */
+        for (ActivityOfferingClusterWrapper clusterWrapper : coDisplayWrapper.getClusterResultList()){
+            if(clusterWrapper.getRgWrapperList().size() >1){
+                //Sort Reg Groups by Reg Group name (which is not institutionally configurable)
+               // Collections.sort(clusterWrapper.getRgWrapperList(),new RegGroupNameComparator());
+                //Sort by whatever configured at the xml (which are institutionally configurable)
+                getViewHelperService(theForm).sortRegGroups(clusterWrapper.getRgWrapperList());
+            }
+        }
+
+
         return getUIFModelAndView(theForm, ScheduleOfClassesConstants.SOC_RESULT_PAGE);
     }
 

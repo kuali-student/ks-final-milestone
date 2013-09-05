@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.enrollment.class2.scheduleofclasses.sort.ComparatorModel;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
@@ -29,7 +30,7 @@ import java.io.Serializable;
  *
  * @author Kuali Student Team
  */
-public class RegistrationGroupWrapper implements Serializable {
+public class RegistrationGroupWrapper implements Serializable, ComparatorModel {
     //added for ARG
     private ActivityOfferingClusterInfo aoCluster;
     private FormatOfferingInfo formatOfferingInfo;

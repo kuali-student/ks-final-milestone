@@ -29,8 +29,9 @@ import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl;
+import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
@@ -78,6 +79,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
     private TypeService typeService;
     private RuleManagementService ruleManagementService;
     private KSComparatorChain activityComparatorChain;
+    private KSComparatorChain regGroupComparatorChain;
 
     public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, ScheduleOfClassesSearchForm form) throws Exception {
 
@@ -430,5 +432,25 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
      */
     public void setActivityComparatorChain(KSComparatorChain activityComparatorChain) {
         this.activityComparatorChain = activityComparatorChain;
+    }
+
+    /**
+     * Sorts regGroups by the comparators in the chain.
+     *
+     * @param regGroupWrappers
+     */
+    public void sortRegGroups(List<RegistrationGroupWrapper> regGroupWrappers){
+        if (regGroupComparatorChain != null){
+            regGroupComparatorChain.sort(regGroupWrappers);
+        }
+    }
+
+    /**
+     * Comparators to be executed on the AOs
+     *
+     * @param regGroupComparatorChain
+     */
+    public void setRegGroupComparatorChain(KSComparatorChain regGroupComparatorChain) {
+        this.regGroupComparatorChain = regGroupComparatorChain;
     }
 }
