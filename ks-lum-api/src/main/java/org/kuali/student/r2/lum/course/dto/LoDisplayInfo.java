@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Detailed information about an LO and all it's children for application use.
+ * Detailed information about a Learning Objective (Lo) and all it's children for application use, returnable in a single service call.
  * 
  * @Author KSContractMojo
  * @Author Kamal

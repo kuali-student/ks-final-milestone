@@ -7,8 +7,8 @@ import org.kuali.student.r2.lum.lo.infc.Lo;
 import org.kuali.student.r2.lum.lo.infc.LoCategory;
 
 /**
- * This class //TODO ...
- *
+ * Detailed information about a Learning Objective (Lo) and all it's children for application use, returnable in a single service call.
+ * 
  * @author Kuali Student Team
  */
 public interface LoDisplay extends IdEntity {
