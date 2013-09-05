@@ -235,4 +235,9 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         return agendaEditor;
     }
 
+    protected void compareRulePropositions(MaintenanceDocumentForm form, RuleEditor ruleEditor) {
+        //We don't do comparisons on Final Exam.
+        return;
+    }
+
 }

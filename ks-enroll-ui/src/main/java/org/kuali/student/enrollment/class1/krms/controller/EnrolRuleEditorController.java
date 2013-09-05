@@ -81,20 +81,7 @@ public class EnrolRuleEditorController extends RuleEditorController {
                               HttpServletRequest request, HttpServletResponse response) {
 
         super.route(form, result, request, response);
-
-        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
-        LURuleManagementWrapper wrapper = (LURuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
-
-        Properties urlParameters = new Properties();
-        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "show");
-        urlParameters.put("pageId", "manageTheCourseOfferingPage");
-        urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfo.class.getName());
-        urlParameters.put("viewId", "courseOfferingManagementView");
-        urlParameters.put(KRADConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-        urlParameters.put("inputCode", wrapper.getCluDescription());
-        urlParameters.put("termCode", wrapper.getCluTermCode());
-
-        return super.performRedirect(form, "courseOfferingManagement", urlParameters);
+        return back(form, result, request, response);
     }
 
     /**

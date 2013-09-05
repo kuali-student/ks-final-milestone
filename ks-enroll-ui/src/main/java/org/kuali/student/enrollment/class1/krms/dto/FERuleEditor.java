@@ -49,8 +49,8 @@ public class FERuleEditor extends LURuleEditor {
     public String getDay() {
         if(this.getActions().size()>0){
             ActionDefinitionContract action = this.getActions().get(0);
-            if(action.getAttributes().containsKey("weekdays")){
-                String day = action.getAttributes().get("weekdays");
+            if(action.getAttributes().containsKey("day")){
+                String day = action.getAttributes().get("day");
                 return "Day " + day;
             }
         }

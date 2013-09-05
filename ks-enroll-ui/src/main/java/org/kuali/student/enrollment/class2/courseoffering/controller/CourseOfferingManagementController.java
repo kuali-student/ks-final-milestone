@@ -112,6 +112,15 @@ public class CourseOfferingManagementController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
+
+    @Override
+    public ModelAndView refresh(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //Refresh AO list on KRMS return
+        CourseOfferingManagementForm form = (CourseOfferingManagementForm) uifForm;
+        CourseOfferingManagementUtil.getViewHelperService(form).setupRuleIndicator(form.getActivityWrapperList());
+        return super.refresh(form, result, request, response);
+    }
+
     /**
      * <p>
      * <p/>
