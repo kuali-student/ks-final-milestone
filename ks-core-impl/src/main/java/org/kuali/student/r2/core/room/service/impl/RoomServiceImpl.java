@@ -86,7 +86,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
-    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    @Transactional(readOnly = true)
     public RoomInfo getRoom(String roomId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkValid("id", roomId, contextInfo);
 
