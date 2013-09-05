@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.jws.WebParam;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -123,8 +124,13 @@ public class CourseWaitListServiceImpl implements CourseWaitListService {
                                                                          ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        //Need to implement this method first
-        throw new OperationFailedException("not implemented");
+        List<CourseWaitListEntity> entities = courseWaitListDao.getCourseWaitListsByActivityOffering(activityOfferingId);
+        List<CourseWaitListInfo> infoList = new ArrayList<CourseWaitListInfo>();
+        for (CourseWaitListEntity entity : entities) {
+            CourseWaitListInfo courseWaitListInfo = entity.toDto();
+            infoList.add(courseWaitListInfo);
+        }
+        return infoList;
     }
 
     @Override

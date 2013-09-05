@@ -371,6 +371,10 @@
         <property name="atpService" ref="AtpService" />
   </bean>
 
+    <bean id="courseWaitListServiceImpl" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceImpl">
+        <property name="courseWaitListDao" ref="courseWaitListDao" />
+    </bean>
+
     <bean id="stateTransitionsHelper" class="org.kuali.student.r2.core.class1.state.service.impl.StateTransitionsHelperImpl">
         <property name="stateService" ref="stateService"/>
         <property name="stateHelperMap" ref="stateHelperMap" />
