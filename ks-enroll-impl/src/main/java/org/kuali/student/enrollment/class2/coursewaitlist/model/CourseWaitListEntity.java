@@ -19,6 +19,7 @@ import org.kuali.student.enrollment.coursewaitlist.infc.CourseWaitList;
 
 import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
@@ -103,6 +104,10 @@ public class CourseWaitListEntity extends MetaEntity implements AttributeOwner<C
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private Set<CourseWaitListAttributeEntity> attributes = new HashSet<CourseWaitListAttributeEntity>();
+
+    public CourseWaitListEntity() {
+        super();
+    }
 
     public Boolean getRegisterInFirstAvailableActivityOffering() {
         return registerInFirstAvailableActivityOffering;
@@ -277,6 +282,10 @@ public class CourseWaitListEntity extends MetaEntity implements AttributeOwner<C
         this.setMaxSize(courseWaitList.getMaxSize());
         this.setRegisterInFirstAvailableActivityOffering(courseWaitList.getRegisterInFirstAvailableActivityOffering());
         this.setState(courseWaitList.getStateKey());
+        if(courseWaitList.getCheckInFrequency() != null) {
+            this.setStandardDurationTime(courseWaitList.getCheckInFrequency().getTimeQuantity());
+            this.setStandardDurationType(courseWaitList.getCheckInFrequency().getAtpDurationTypeKey());
+        }
     }
 
     public CourseWaitListEntity(CourseWaitList courseWaitList) {
@@ -296,6 +305,10 @@ public class CourseWaitListEntity extends MetaEntity implements AttributeOwner<C
         cwlInfo.setAllowHoldUntilEntries(getAllowHoldUntilEntries());
         cwlInfo.setAutomaticallyProcessed(getAutomaticallyProcessed());
         cwlInfo.setCheckInRequired(getCheckInRequired());
+        TimeAmountInfo timeAmountInfo = new TimeAmountInfo();
+        timeAmountInfo.setTimeQuantity(getStandardDurationTime());
+        timeAmountInfo.setAtpDurationTypeKey(getStandardDurationType());
+        cwlInfo.setCheckInFrequency(timeAmountInfo);
         cwlInfo.setConfirmationRequired(getConfirmationRequired());
         cwlInfo.setEffectiveDate(getEffectiveDate());
         cwlInfo.setExpirationDate(getExpirationDate());
@@ -304,16 +317,11 @@ public class CourseWaitListEntity extends MetaEntity implements AttributeOwner<C
             AttributeInfo attInfo = att.toDto();
             cwlInfo.getAttributes().add(attInfo);
         }
+        cwlInfo.setActivityOfferingIds(new ArrayList());
+        cwlInfo.getActivityOfferingIds().addAll(activityOfferingIds);
+        cwlInfo.setFormatOfferingIds(new ArrayList());
+        cwlInfo.getFormatOfferingIds().addAll(formatOfferingIds);
 
-        cwlInfo.getActivityOfferingIds().clear();
-        if (activityOfferingIds != null){
-            cwlInfo.getActivityOfferingIds().addAll(activityOfferingIds);
-        }
-
-        cwlInfo.getFormatOfferingIds().clear();
-        if (formatOfferingIds != null){
-            cwlInfo.getFormatOfferingIds().addAll(formatOfferingIds);
-        }
         return cwlInfo;
     }
 }

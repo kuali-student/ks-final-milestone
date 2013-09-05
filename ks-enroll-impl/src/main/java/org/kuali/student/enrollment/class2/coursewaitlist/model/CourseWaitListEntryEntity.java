@@ -64,6 +64,9 @@ public class CourseWaitListEntryEntity extends MetaEntity implements AttributeOw
     @Column(name = "LAST_CHECK_IN")
     private Date lastCheckIn;
 
+    @Column(name = "CWL_ID")
+    private String courseWaitListId;
+
     // =====================================================================
     // The fields below are inherited from MetaEntity (and everything MetaEntity inherits from)
     // MetaEntity is what CourseWaitListEntry extends (Meta fields are included by in heritance from MetaIdentity)
@@ -82,6 +85,18 @@ public class CourseWaitListEntryEntity extends MetaEntity implements AttributeOw
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private Set<CourseWaitListEntryAttributeEntity> attributes = new HashSet<CourseWaitListEntryAttributeEntity>();
+
+    public CourseWaitListEntryEntity() {
+        super();
+    }
+
+    public String getCourseWaitListId() {
+        return courseWaitListId;
+    }
+
+    public void setCourseWaitListId(String courseWaitListId) {
+        this.courseWaitListId = courseWaitListId;
+    }
 
     public Set<CourseWaitListEntryAttributeEntity> getAttributes() {
         return attributes;
@@ -182,6 +197,7 @@ public class CourseWaitListEntryEntity extends MetaEntity implements AttributeOw
         this.setPosition(entry.getPosition());
         this.setRegGroupId(entry.getRegistrationGroupId());
         this.setStudentId(entry.getStudentId());
+        this.setCourseWaitListId(entry.getCourseWaitListId());
     }
 
     public CourseWaitListEntryEntity(CourseWaitListEntry entry) {
@@ -202,6 +218,7 @@ public class CourseWaitListEntryEntity extends MetaEntity implements AttributeOw
         entryInfo.setPosition(getPosition());
         entryInfo.setLastCheckIn(getLastCheckIn());
         entryInfo.setRegistrationGroupId(getRegGroupId());
+        entryInfo.setCourseWaitListId(getCourseWaitListId());
         entryInfo.setMeta(super.toDTO());
         for(CourseWaitListEntryAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
