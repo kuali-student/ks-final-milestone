@@ -10,9 +10,9 @@ package org.kuali.student.enrollment.class2.courseoffering.util;
 public class CourseOfferingConstants {
 
     //  Keys for features which are institutionally configurable via config file params
-    public final static String CONFIG_PARAM_KEY_SELECTIVE_CROSSLISTING = "kuali.ks.enrollment.options.selective-crosslisting-allowed";
-    public final static String CONFIG_PARAM_KEY_EDIT_ACTIVITY_CODE = "kuali.ks.enrollment.options.edit-activity-offering-code-allowed";
-    public final static String CONFIG_PARAM_KEY_SCHOC_AO_STATES = "kuali.ks.enrollment.options.schoc-ao-state-keys";
+    public final static String CONFIG_PARAM_KEY_SELECTIVE_CROSSLISTING = "kuali.ks.enrollment.edit_co.options.selective_crosslisting_allowed";
+    public final static String CONFIG_PARAM_KEY_EDIT_ACTIVITY_CODE = "kuali.ks.enrollment.edit_ao.options.edit_activity_offering_code_allowed";
+    public final static String CONFIG_PARAM_KEY_SCHOC_AO_STATES = "kuali.ks.enrollment.schoc.options.ao_state_keys";
 
     //Attributes defined in CourseOfferingInfo
     public final static String COURSEOFFERING_ID = "id";
