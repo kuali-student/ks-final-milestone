@@ -371,8 +371,21 @@
         <property name="atpService" ref="AtpService" />
   </bean>
 
-    <bean id="courseWaitListServiceImpl" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceImpl">
+    <bean id="courseWaitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceImpl">
         <property name="courseWaitListDao" ref="courseWaitListDao" />
+    </bean>
+
+    <bean id="ks.exp.courseWaitListService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="courseWaitListService" />
+                <property name="serviceInterface" value="org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService" />
+                <property name="localServiceName" value="CourseWaitListService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseWaitList" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
     </bean>
 
     <bean id="stateTransitionsHelper" class="org.kuali.student.r2.core.class1.state.service.impl.StateTransitionsHelperImpl">
@@ -443,6 +456,9 @@
             </bean>
         </property>
     </bean>
+
+
+
 
    <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorDBImpl">
        <property name="codeGeneratorLocksDao" ref="codeGeneratorLocksDao" />
