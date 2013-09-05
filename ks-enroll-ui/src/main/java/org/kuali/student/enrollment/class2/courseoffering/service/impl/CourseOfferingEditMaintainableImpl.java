@@ -842,21 +842,32 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
     private void setFinalExamDriverAttr(CourseOfferingInfo coInfo, CourseOfferingEditWrapper coEditWrapper) {
         boolean found = false;
-        if(!coInfo.getAttributes().isEmpty()){
-            for(AttributeInfo info: coInfo.getAttributes()){
-                if(info.getKey().equals("finalExamDriver")){
-                    if (!info.getValue().equals(coEditWrapper.getFinalExamDriver())) { //update selected driver
-                        info.setValue(coEditWrapper.getFinalExamDriver());
-                        found = true;
-                        break;
+        if(!coInfo.getAttributes().isEmpty() ){
+            if (coInfo.getFinalExamType().equals("STANDARD")){  //driver is only for 'STANDARD'
+                for(AttributeInfo info: coInfo.getAttributes()){
+                    if(info.getKey().equals("finalExamDriver")){
+                        if (!info.getValue().equals(coEditWrapper.getFinalExamDriver())) { //update selected driver
+                            info.setValue(coEditWrapper.getFinalExamDriver());
+                            found = true;
+                            break;
+                        }
                     }
                 }
-            }
-            if (!found){  //finalExamDriver attribute is missing from attributes > add
-                AttributeInfo newAttr = new AttributeInfo();
-                newAttr.setKey("finalExamDriver");
-                newAttr.setValue(coEditWrapper.getFinalExamDriver());
-                coInfo.getAttributes().add(newAttr);
+                if (!found){  //finalExamDriver attribute is missing from attributes > add
+                    AttributeInfo newAttr = new AttributeInfo();
+                    newAttr.setKey("finalExamDriver");
+                    newAttr.setValue(coEditWrapper.getFinalExamDriver());
+                    coInfo.getAttributes().add(newAttr);
+                }
+            } else {
+                for(AttributeInfo info: coInfo.getAttributes()){  //FEType is not 'STANDARD' > driver to default
+                    if(info.getKey().equals("finalExamDriver")){
+                        if (!info.getValue().equals("na")) { //update driver
+                            info.setValue("na");
+                            break;
+                        }
+                    }
+                }
             }
         } else {  //no attributes > add finalExamDriver attribute
             AttributeInfo newAttr = new AttributeInfo();
@@ -870,20 +881,31 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
     private void setUseFinalExamMatrix(CourseOfferingInfo coInfo, CourseOfferingEditWrapper coEditWrapper) {
         boolean found = false;
         if(!coInfo.getAttributes().isEmpty()){
-            for(AttributeInfo info: coInfo.getAttributes()){
-                if(info.getKey().equals("useFinalExamMatrix")){
-                    if (!info.getValue().equals(coEditWrapper.isUseFinalExamMatrix())) { //update
-                        info.setValue(String.valueOf(coEditWrapper.isUseFinalExamMatrix()));
-                        found = true;
-                        break;
+            if (coInfo.getFinalExamType().equals("STANDARD")){  //driver is only for 'STANDARD'
+                for(AttributeInfo info: coInfo.getAttributes()){
+                    if(info.getKey().equals("useFinalExamMatrix")){
+                        if (!info.getValue().equals(coEditWrapper.isUseFinalExamMatrix())) { //update
+                            info.setValue(String.valueOf(coEditWrapper.isUseFinalExamMatrix()));
+                            found = true;
+                            break;
+                        }
                     }
                 }
-            }
-            if (!found){  //useFinalExamMatrix attribute is missing from attributes > add
-                AttributeInfo newAttr = new AttributeInfo();
-                newAttr.setKey("useFinalExamMatrix");
-                newAttr.setValue(String.valueOf(coEditWrapper.isUseFinalExamMatrix()));
-                coInfo.getAttributes().add(newAttr);
+                if (!found){  //useFinalExamMatrix attribute is missing from attributes > add
+                    AttributeInfo newAttr = new AttributeInfo();
+                    newAttr.setKey("useFinalExamMatrix");
+                    newAttr.setValue(String.valueOf(coEditWrapper.isUseFinalExamMatrix()));
+                    coInfo.getAttributes().add(newAttr);
+                }
+            } else {
+                for(AttributeInfo info: coInfo.getAttributes()){   //FEType is not 'STANDARD' > matrix checkbox to default
+                    if(info.getKey().equals("useFinalExamMatrix")){
+                        if (!info.getValue().equals(true)) { //update
+                            info.setValue("false");
+                            break;
+                        }
+                    }
+                }
             }
         } else {  //no attributes > add useFinalExamMatrix attribute
             AttributeInfo newAttr = new AttributeInfo();
