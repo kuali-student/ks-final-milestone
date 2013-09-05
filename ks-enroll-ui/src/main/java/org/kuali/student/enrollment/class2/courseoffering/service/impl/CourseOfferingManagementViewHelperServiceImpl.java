@@ -2084,8 +2084,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         if (co == null) return null;
 
         List<CourseInfo> coInfoList = CourseOfferingViewHelperUtil.getMatchingCoursesFromClu(co.getCourseOfferingCode());
-        StringBuffer jointDefinedCodes = new StringBuffer();
-
+        StringBuilder jointDefinedCodes = new StringBuilder();
         for (CourseInfo coInfo : coInfoList) {
             List<CourseJointInfo> jointList = coInfo.getJoints();
             if (!jointList.isEmpty() && jointList.size() >= 1) {
