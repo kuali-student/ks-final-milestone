@@ -500,16 +500,38 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="Final Exam Driver" p:propertyName="finalExamDriver" p:fieldLabel.renderColon="false" p:onChangeScript="updateExamDriverInFOTable('KS-CourseOfferingEdit-FinalExamDriver', 'final_exam_driver_ui');">
-                    <property name="id" value="KS-CourseOfferingEdit-FinalExamDriver" />
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FinalExamDriversKeyValues" p:addBlankOption="false"/>
+                <bean parent="Uif-VerticalBoxSection" abstract="true">
+                    <property name="refreshWhenChangedPropertyNames" value="#dp.courseOfferingInfo.finalExamType"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-HorizontalBoxGroup">
+                                <property name="hidden" value="@{#dp.courseOfferingInfo.finalExamType != 'STANDARD'}"/>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField" p:label="Final Exam Driver" p:propertyName="finalExamDriver" p:fieldLabel.renderColon="false" p:onChangeScript="updateExamDriverInFOTable('KS-CourseOfferingEdit-FinalExamDriver', 'final_exam_driver_ui');">
+                                            <property name="id" value="KS-CourseOfferingEdit-FinalExamDriver" />
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl"/>
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FinalExamDriversKeyValues" p:addBlankOption="false"/>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:label="Use Final Exam Matrix" p:propertyName="useFinalExamMatrix" p:labelPlacement="RIGHT">
+                                            <property name="id" value="KS-CourseOfferingEdit-FinalExamMatrix" />
+                                            <property name="control">
+                                                <bean parent="Uif-CheckboxControl"/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+
+                            <ref bean="KS-CourseOfferingEdit-DeliveryFormats"/>
+
+                        </list>
                     </property>
                 </bean>
-                <ref bean="KS-CourseOfferingEdit-DeliveryFormats"/>
 
             </list>
         </property>
@@ -521,7 +543,6 @@
 
 
         <property name="instructionalText" value="Add the delivery formats to be used for this course offering"/>
-        <property name="refreshWhenChangedPropertyNames" value="#dp.courseOfferingInfo.finalExamType"/>
 
         <property name="header.headerText" value="Delivery Formats"/>
         <property name="header.headerLevel" value="Uif-HeaderOne"/>

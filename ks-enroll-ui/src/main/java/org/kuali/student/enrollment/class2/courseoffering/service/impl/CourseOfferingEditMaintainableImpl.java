@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -31,7 +30,6 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
@@ -200,6 +198,9 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             // update Final Exam Driver
             setFinalExamDriverAttr(coInfo, coEditWrapper);
 
+            // update Use Final Exam Matrix
+            setUseFinalExamMatrix(coInfo, coEditWrapper);
+
             getCourseOfferingService().updateCourseOffering(coInfo.getId(), coInfo, contextInfo);
 
             // check for changes to states in CO and related FOs (may happen in the case of deleted FOs)
@@ -284,6 +285,9 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
             // set Final Exam Driver
             setFinalExamDriverAttr(coInfo, coCreateWrapper);
+
+            //set Use Final Exam Matrix
+            setUseFinalExamMatrix(coInfo, coCreateWrapper);
 
             CourseOfferingInfo info = getCourseOfferingService().createCourseOffering(coInfo.getCourseId(), coInfo.getTermId(), LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, coInfo, optionKeys, contextInfo);
             return info;
@@ -858,6 +862,33 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             AttributeInfo newAttr = new AttributeInfo();
             newAttr.setKey("finalExamDriver");
             newAttr.setValue(coEditWrapper.getFinalExamDriver());
+            coInfo.setAttributes(new ArrayList<AttributeInfo>());
+            coInfo.getAttributes().add(newAttr);
+        }
+    }
+
+    private void setUseFinalExamMatrix(CourseOfferingInfo coInfo, CourseOfferingEditWrapper coEditWrapper) {
+        boolean found = false;
+        if(!coInfo.getAttributes().isEmpty()){
+            for(AttributeInfo info: coInfo.getAttributes()){
+                if(info.getKey().equals("useFinalExamMatrix")){
+                    if (!info.getValue().equals(coEditWrapper.isUseFinalExamMatrix())) { //update
+                        info.setValue(String.valueOf(coEditWrapper.isUseFinalExamMatrix()));
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (!found){  //useFinalExamMatrix attribute is missing from attributes > add
+                AttributeInfo newAttr = new AttributeInfo();
+                newAttr.setKey("useFinalExamMatrix");
+                newAttr.setValue(String.valueOf(coEditWrapper.isUseFinalExamMatrix()));
+                coInfo.getAttributes().add(newAttr);
+            }
+        } else {  //no attributes > add useFinalExamMatrix attribute
+            AttributeInfo newAttr = new AttributeInfo();
+            newAttr.setKey("useFinalExamMatrix");
+            newAttr.setValue(String.valueOf(coEditWrapper.isUseFinalExamMatrix()));
             coInfo.setAttributes(new ArrayList<AttributeInfo>());
             coInfo.getAttributes().add(newAttr);
         }

@@ -56,6 +56,7 @@ public class CourseOfferingWrapper implements Serializable{
     private String coOwningDeptName;
     private String finalExamDriver;
     private String finalExamDriverUI;
+    private boolean useFinalExamMatrix;
 
     private boolean isColocatedAoToDelete;
     private boolean isColocatedAoToCSR;
@@ -98,6 +99,8 @@ public class CourseOfferingWrapper implements Serializable{
                     } else if (StringUtils.equals(attrInfo.getValue(), LuServiceConstants.LU_EXAM_DRIVER_AO_KEY)) {
                         this.finalExamDriverUI = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_DRIVER_AO_UI;
                     }
+                } else if(StringUtils.equals(attrInfo.getKey(), "useFinalExamMatrix")) {
+                    this.useFinalExamMatrix = Boolean.valueOf(attrInfo.getValue());
                 }
             }
         }
@@ -420,5 +423,13 @@ public class CourseOfferingWrapper implements Serializable{
 
     public void setFinalExamDriver(String finalExamDriver) {
         this.finalExamDriver = finalExamDriver;
+    }
+
+    public boolean isUseFinalExamMatrix() {
+        return useFinalExamMatrix;
+    }
+
+    public void setUseFinalExamMatrix(boolean useFinalExamMatrix) {
+        this.useFinalExamMatrix = useFinalExamMatrix;
     }
 }
