@@ -71,7 +71,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         public static final String OFFERING_ID = "offeringId";
         public static final String FO_ID = "foId";
         public static final String AO_IDS = "aoIds";
-        public static final String AO_STATUSES = "aoStatuses";
+        public static final String AO_STATES = "aoStates";
     }
 
     public static final class SearchResultColumns {
@@ -479,7 +479,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
-        List<String> aoStatuses = requestHelper.getParamAsList(SearchParameters.AO_STATUSES);
+        List<String> aoStates = requestHelper.getParamAsList(SearchParameters.AO_STATES);
 //TODO JPQL does not support on clauses in outer joins, so to accomplish this, we would need to update the entities
 //        String queryStr =
 //                "SELECT DISTINCT " +
@@ -556,14 +556,14 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "    co2fo.LUI_ID= :coId " +
                 "AND co2fo.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.deliveredvia.co2fo'";
 
-        if((aoStatuses != null) && !aoStatuses.isEmpty()) {
+        if((aoStates != null) && !aoStates.isEmpty()) {
             queryStr = queryStr + " AND ao.LUI_STATE IN(:aoStatuses)";
         }
 
         Query query = entityManager.createNativeQuery(queryStr);
         query.setParameter(SearchParameters.CO_ID, coId);
-        if((aoStatuses != null) && !aoStatuses.isEmpty()) {
-            query.setParameter(SearchParameters.AO_STATUSES, aoStatuses);
+        if((aoStates != null) && !aoStates.isEmpty()) {
+            query.setParameter(SearchParameters.AO_STATES, aoStates);
         }
         List<Object[]> results = query.getResultList();
 
