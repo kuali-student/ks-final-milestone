@@ -237,7 +237,7 @@ function addActionColumn(isReadOnly, componentId) {
 
 function generateFieldLinkSublist(parentSectionData, currentFields, messageMap, sectionId, before) {
 
-    var sectionTitle = jQuery("[data-headerFor='" + sectionId + "']").find("> :header .uif-headerText-span, "
+    var sectionTitle = jQuery("[data-header_for='" + sectionId + "']").find("> :header .uif-headerText-span, "
         + "> label .uif-headerText-span").text();
     var sectionType = "section";
     if (sectionTitle == null || sectionTitle == "") {
