@@ -923,80 +923,6 @@ function updateViewHeaderText( value ) {
     jQuery( 'div.uif-formView h1.uif-headerText span.uif-headerText-span' ).html( value );
 }
 
-function createDisclosure(groupId, headerId, widgetId, defaultOpen, collapseImgSrc, expandImgSrc, animationSpeed, renderImage) {
-    jQuery(document).ready(function () {
-        var groupToggleLinkId = groupId + "_toggle";
-
-        var expandImage = "";
-        var collapseImage = "";
-        if (renderImage) {
-            var expandImage = "<img id='" + groupId + "_exp" + "' src='" + expandImgSrc + "' alt='" + getMessage(kradVariables.MESSAGE_EXPAND) + "' class='uif-disclosure-image'/>";
-            var collapseImage = "<img id='" + groupId + "_col" + "' src='" + collapseImgSrc + "' alt='" + getMessage(kradVariables.MESSAGE_COLLAPSE) + "' class='uif-disclosure-image'/>";
-        }
-
-        var groupAccordionSpanId = groupId + "_disclosureContent";
-
-        // perform initial open/close and insert toggle link and image
-        var headerText = jQuery("#" + headerId + " > :header, #" + headerId + " > label").find(".uif-headerText-span");
-        // Strip out whitespace that is causing problems for disclosures in chrome
-        headerText.text(headerText.text().trim());
-        if (defaultOpen) {
-            jQuery("#" + groupAccordionSpanId).slideDown(000);
-            headerText.prepend(expandImage);
-        }
-        else {
-            jQuery("#" + groupAccordionSpanId).slideUp(000);
-            headerText.prepend(collapseImage);
-        }
-
-        headerText.wrap("<a data-role='disclosureLink' data-linkfor='" + groupAccordionSpanId + "' href='#' "
-            + "id='" + groupToggleLinkId + "'></a>");
-
-        var animationFinishedCallback = function () {
-            jQuery("#" + kradVariables.APP_ID).attr("data-skipResize", false);
-        };
-        var disclosureContent = jQuery("#" + groupAccordionSpanId);
-        // perform slide and switch image
-        if (defaultOpen) {
-            disclosureContent.attr(kradVariables.ATTRIBUTES.DATA_OPEN, true);
-            jQuery("#" + groupToggleLinkId).toggle(
-                function () {
-                    jQuery("#" + kradVariables.APP_ID).attr("data-skipResize", true);
-                    disclosureContent.attr(kradVariables.ATTRIBUTES.DATA_OPEN, false);
-                    disclosureContent.slideUp(animationSpeed, animationFinishedCallback);
-                    jQuery("#" + groupId + "_exp").replaceWith(collapseImage);
-                    setComponentState(widgetId, 'open', false);
-                }, function () {
-                    jQuery("#" + kradVariables.APP_ID).attr("data-skipResize", true);
-                    disclosureContent.attr(kradVariables.ATTRIBUTES.DATA_OPEN, true);
-                    disclosureContent.slideDown(animationSpeed, animationFinishedCallback);
-                    jQuery("#" + groupId + "_col").replaceWith(expandImage);
-                    setComponentState(widgetId, 'open', true);
-                }
-            );
-        }
-        else {
-            disclosureContent.attr(kradVariables.ATTRIBUTES.DATA_OPEN, false);
-            jQuery("#" + groupToggleLinkId).toggle(
-                function () {
-                    jQuery("#" + kradVariables.APP_ID).attr("data-skipResize", true);
-                    disclosureContent.attr(kradVariables.ATTRIBUTES.DATA_OPEN, true);
-                    disclosureContent.slideDown(animationSpeed, animationFinishedCallback);
-                    jQuery("#" + groupId + "_col").replaceWith(expandImage);
-                    setComponentState(widgetId, 'open', true);
-
-                }, function () {
-                    jQuery("#" + kradVariables.APP_ID).attr("data-skipResize", true);
-                    disclosureContent.attr(kradVariables.ATTRIBUTES.DATA_OPEN, false);
-                    disclosureContent.slideUp(animationSpeed, animationFinishedCallback);
-                    jQuery("#" + groupId + "_exp").replaceWith(collapseImage);
-                    setComponentState(widgetId, 'open', false);
-                }
-            );
-        }
-    });
-}
-
 /**
  * Function for a delayed removal of the highlighting of added collection items.
  *
@@ -1105,13 +1031,6 @@ function initAddExamPeriodButtons(examPeriodSectionId, lineIdPrefix, addExamPeri
         if (jQuery("#"+lineId).length > 0) {
             jQuery("#"+addExamPeriodButtonId).hide();
         }
-
-        //TODO get runHiddenScripts() working - https://jira.kuali.org/browse/KSENROLL-8860
-        //  runHiddenScripts(exam_date_start_date, true, true);
-        createWatermark(exam_date_start_date, 'mm/dd/yyyy ');
-        createDatePicker(exam_date_start_date, {constrainInput:false,buttonImageOnly:true,buttonImage: baseUrl +'/themes/kboot/images/cal.gif',showOn:'button',disabled:false});
-        createWatermark(exam_date_end_date, 'mm/dd/yyyy ');
-        createDatePicker(exam_date_end_date, {constrainInput:false,buttonImageOnly:true,buttonImage: baseUrl +'/themes/kboot/images/cal.gif',showOn:'button',disabled:false});
     });
 
 }
