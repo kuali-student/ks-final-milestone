@@ -24,6 +24,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
+import org.kuali.rice.krad.uif.component.ReferenceCopy;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
@@ -78,6 +79,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
     private AcademicCalendarService academicCalendarService;
     private TypeService typeService;
     private RuleManagementService ruleManagementService;
+    @ReferenceCopy
     private KSComparatorChain activityComparatorChain;
     private KSComparatorChain regGroupComparatorChain;
 

@@ -51,4 +51,8 @@ public class ScheduleOfClassesConstants {
     public static final String SOC_RESULT_PAGE_GRADING_SATISFACTORY_IMG = "../ks-enroll/images/s.png";
     public static final String SOC_RESULT_PAGE_GRADING_PERCENT_IMG = "../ks-enroll/images/percent.png";
     public static final String SOC_RESULT_PAGE_SUBTERM_IMG = "../ks-enroll/images/subterm_icon.png";
+
+    public static class ConfigProperties{
+        public static final String AO_DISPLAY_FORMAT = "kuali.ks.enrollment.schoc.options.default_ao_display_format";
+    }
 }

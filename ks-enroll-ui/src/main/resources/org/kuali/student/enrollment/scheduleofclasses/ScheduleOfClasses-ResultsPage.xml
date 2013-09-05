@@ -52,6 +52,20 @@
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper" />
         <property name="propertyName" value="coDisplayWrapperList" />
         <property name="renderLineActions" value="false" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="COURSE" p:propertyName="coDisplayInfo.courseOfferingCode" />
+                <bean parent="Uif-DataField" p:label="TITLE" p:propertyName="coDisplayInfo.courseOfferingTitle"/>
+                <bean parent="Uif-DataField" p:label="CREDITS" p:propertyName="coDisplayInfo.creditOption.name"/>
+                <bean parent="Uif-MessageField" p:label="" p:messageText="@{#line.information}">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>course-offering-display-info-icon</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="true" />
@@ -69,51 +83,35 @@
                            ]"/>
             </map>
         </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-DataField" p:label="COURSE" p:propertyName="coDisplayInfo.courseOfferingCode" />
-                <bean parent="Uif-DataField" p:label="TITLE" p:propertyName="coDisplayInfo.courseOfferingTitle"/>
-                <bean parent="Uif-DataField" p:label="CREDITS" p:propertyName="coDisplayInfo.creditOption.name"/>
-                <bean parent="Uif-MessageField" p:label="" p:messageText="@{#line.information}">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>course-offering-display-info-icon</value>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-        <property name="layoutManager.expandDetailsActionPrototype">
-            <bean parent="Uif-ExpandDetailsImageAction">
-                <!--<property name="methodToCall" value="populateAOs"/>-->
-                <property name="methodToCall" value="populateRegGroups"/>
-            </bean>
-        </property>
         <property name="layoutManager.ajaxDetailsRetrieval" value="true"/>
         <property name="layoutManager.rowDetailsGroup">
-            <!--<bean parent="SchOfClasses-aoClusterSearchResults"/> -->
-            <bean parent="SchOfClasses-regGroupSearchResults"/>
+           <bean parent="SchOfClasses-rowDetailsSection"/>
         </property>
-        <!--<property name="propertyReplacers">
-              <list>
-                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="layoutManager.rowDetailsGroup"
-                      p:condition="@{displayType == 1}" >
-                      <property name="replacement">
-                          <bean parent="scheduleOfClassesSearchResults"/>
-                      </property>
-                </bean>
-                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="layoutManager.rowDetailsGroup"
-                      p:condition="@{true}" >
-                      <property name="replacement">
-                          <bean parent="scheduleOfClassesSearchResults2"/>
-                      </property>
-                </bean>
-              </list>
-        </property>-->
+        <property name="layoutManager.expandDetailsActionPrototype">
+          <bean parent="Uif-ExpandDetailsImageAction">
+              <property name="methodToCall" value="populateAOs"/>
+              <property name="propertyReplacers">
+                <list>
+                  <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="methodToCall"
+                        p:condition="@{#form.aoDisplayFormat == AoDisplayFormat.REG_GROUP}" p:replacement="populateRegGroups"/>
+                </list>
+              </property>
+          </bean>
+        </property>
     </bean>
 
 
-    <bean id="SchOfClasses-aoClusterSearchResults" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroup">
+    <bean id="SchOfClasses-rowDetailsSection" parent="Uif-VerticalBoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="SchOfClasses-aoFlatDisplay"/>
+                <ref bean="SchOfClasses-aoClusterDisplay"/>
+                <ref bean="SchOfClasses-regGroupDisplay"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="SchOfClasses-aoClusterDisplay" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroup" p:render="@{aoDisplayFormat == AoDisplayFormat.CLUSTER}">
         <property name="headerText" value="Activities"/>
         <property name="propertyName" value="clusterResultList" />
         <property name="disclosure.render" value="false"/>
@@ -201,7 +199,7 @@
     </bean>
 
 
-    <bean id="scheduleOfClassesSearchResults2" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false" p:render="@{courseOfferingId != ''}" p:style="display: none">
+    <bean id="SchOfClasses-aoFlatDisplay" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false" p:render="@{aoDisplayFormat == AoDisplayFormat.FLAT}">
         <property name="headerText" value="Activities" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="propertyName" value="activityWrapperList" />
@@ -213,15 +211,36 @@
             <list>
                 <bean parent="Uif-DataField" p:label="CODE" p:propertyName="aoInfo.activityCode" />
                 <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="typeName" />
-                <!--<bean parent="Uif-DataField" p:label="TBA"  p:propertyName="tbaDisplayName" p:render="false" />-->
+                <bean parent="Uif-DataField" p:label="TBA"  p:propertyName="tbaDisplayName" p:render="false" />
 
-                <!--<bean parent="Uif-DataField" p:label="DAYS" p:propertyName="daysDisplayName"/> -->
+                <bean parent="Uif-MessageField"
+                      p:label="DAYS"
+                      p:messageText="@{#line.daysDisplayName}" />
+
+                <bean parent="Uif-MessageField"
+                      p:label="START TIME"
+                      p:messageText="@{#line.startTimeDisplay}" />
+
+                <bean parent="Uif-MessageField"
+                      p:label="END TIME"
+                      p:messageText="@{#line.endTimeDisplay}" />
+                <bean parent="Uif-MessageField"
+                      p:label="BUILDING"
+                      p:messageText="@{#line.buildingName}" />
+                <bean parent="Uif-MessageField"
+                      p:label="ROOM"
+                      p:messageText="@{#line.roomName}" />
+                <bean parent="Uif-MessageField"
+                      p:label="INSTRUCTOR"
+                      p:messageText="@{#line.instructorDisplayNames}" />
+
+                <bean parent="Uif-DataField" p:label="MAX ENR" p:propertyName="aoInfo.maximumEnrollment" />
             </list>
         </property>
     </bean>
 
 
-    <bean id="SchOfClasses-regGroupSearchResults" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroup">
+    <bean id="SchOfClasses-regGroupDisplay" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroup" p:render="@{aoDisplayFormat == AoDisplayFormat.REG_GROUP}">
         <property name="headerText" value="Activities"/>
         <property name="propertyName" value="clusterResultList" />
         <property name="disclosure.render" value="false"/>

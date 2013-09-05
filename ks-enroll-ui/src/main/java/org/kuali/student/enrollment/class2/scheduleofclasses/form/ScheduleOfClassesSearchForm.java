@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.scheduleofclasses.form;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
@@ -56,14 +57,36 @@ public class ScheduleOfClassesSearchForm extends UifFormBase implements Activity
     private List<RegistrationGroupWrapper> rgResultList;
     private Map<String,FormatOfferingInfo> foId2aoTypeMap;
     private boolean hasMoreThanOneCluster = false;
-//    private List<ActivityOfferingDisplayWrapper> aoDisplayWrapperList;
-//    private List<ActivityOfferingDisplayWrapper> aoDisplayWrapperAddList;
-    // Temporal solution to display 2 AO lists simultaneously.
     private String displayCoId;
     private String displayCoIdAdd;
-    private DisplayType displayType;
+    private AoDisplayFormat aoDisplayFormat;
 
-    public static enum DisplayType {AO_DISPLAY, AO_CLUSTER_DISPLAY, REG_GROUP_DISPLAY};
+    public static enum AoDisplayFormat {FLAT("flat"),
+                                        CLUSTER("cluster"),
+                                        REG_GROUP("reg_group");
+
+        private String text;
+
+        private AoDisplayFormat(String text){
+            this.text = text;
+        }
+
+        public String getText(){
+            return text;
+        }
+
+        public static AoDisplayFormat fromString(String text) {
+            if (text != null) {
+              for (AoDisplayFormat format : AoDisplayFormat.values()) {
+                if (StringUtils.equalsIgnoreCase(text,format.text)) {
+                  return format;
+                }
+              }
+            }
+            return null;
+        }
+
+    };
 
     public ScheduleOfClassesSearchForm (){
         coDisplayWrapperList = new ArrayList<CourseOfferingDisplayWrapper>();
@@ -71,10 +94,8 @@ public class ScheduleOfClassesSearchForm extends UifFormBase implements Activity
         rgResultList = new ArrayList<RegistrationGroupWrapper>();
         foId2aoTypeMap = new HashMap<String, FormatOfferingInfo>();
         aoClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
-//        aoDisplayWrapperList = new ArrayList<ActivityOfferingDisplayWrapper>();
-//        aoDisplayWrapperAddList = new ArrayList<ActivityOfferingDisplayWrapper>();
         courseOfferingId = "";
-        setDisplayType(DisplayType.AO_DISPLAY);
+        setAoDisplayFormat(AoDisplayFormat.FLAT);
     }
 
     public List<CourseOfferingDisplayWrapper> getCoDisplayWrapperList() {
@@ -201,22 +222,6 @@ public class ScheduleOfClassesSearchForm extends UifFormBase implements Activity
         this.courseOfferingId = courseOfferingId;
     }
 
-    /*public List<ActivityOfferingDisplayWrapper> getAoDisplayWrapperList() {
-        return aoDisplayWrapperList;
-    }
-
-    public void setAoDisplayWrapperList(List<ActivityOfferingDisplayWrapper> aoDisplayWrapperList) {
-        this.aoDisplayWrapperList = aoDisplayWrapperList;
-    }
-
-    public List<ActivityOfferingDisplayWrapper> getAoDisplayWrapperAddList() {
-        return aoDisplayWrapperAddList;
-    }
-
-    public void setAoDisplayWrapperAddList(List<ActivityOfferingDisplayWrapper> aoDisplayWrapperAddList) {
-        this.aoDisplayWrapperAddList = aoDisplayWrapperAddList;
-    }*/
-
     public String getDisplayCoId() {
         return displayCoId;
     }
@@ -257,19 +262,12 @@ public class ScheduleOfClassesSearchForm extends UifFormBase implements Activity
         this.hasMoreThanOneCluster = hasMoreThanOneCluster;
     }
 
-    public int getDisplayType() {
-            if (displayType == DisplayType.AO_DISPLAY){
-            return 1;
-        } else if (displayType == DisplayType.AO_CLUSTER_DISPLAY){
-            return 2;
-        } else if (displayType == DisplayType.REG_GROUP_DISPLAY){
-            return 3;
-        }
-        return 0;
+    public AoDisplayFormat getAoDisplayFormat() {
+        return aoDisplayFormat;
     }
 
-    public void setDisplayType(DisplayType displayType) {
-        this.displayType = displayType;
+    public void setAoDisplayFormat(AoDisplayFormat aoDisplayFormat) {
+        this.aoDisplayFormat = aoDisplayFormat;
     }
 
 }

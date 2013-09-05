@@ -22,6 +22,7 @@ package org.kuali.student.enrollment.class2.scheduleofclasses.controller;
  * @author Kuali Student Team
  */
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -101,6 +102,16 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
             if (!atps.isEmpty()) {
                 scheduleOfClassesSearchForm.setTermCode(ScheduleOfClassesUtil.getCurrentAtp(atps).getCode());
             }
+        }
+
+        String aoDisplayFormat = ConfigContext.getCurrentContextConfig().getProperty(ScheduleOfClassesConstants.ConfigProperties.AO_DISPLAY_FORMAT);
+
+        if (StringUtils.isNotBlank(aoDisplayFormat)){
+            ScheduleOfClassesSearchForm.AoDisplayFormat format = ScheduleOfClassesSearchForm.AoDisplayFormat.fromString(aoDisplayFormat);
+            if (format == null){
+                throw new RuntimeException("Invalid " + ScheduleOfClassesConstants.ConfigProperties.AO_DISPLAY_FORMAT + " value");
+            }
+            scheduleOfClassesSearchForm.setAoDisplayFormat(format);
         }
 
         return super.start(form, result, request, response);
