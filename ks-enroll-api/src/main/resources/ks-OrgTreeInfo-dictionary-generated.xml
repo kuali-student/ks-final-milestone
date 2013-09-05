@@ -170,7 +170,7 @@ Gets the Id of the parent to the Organization node.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="OrgTreeInfo.positions-generated" abstract="true" parent="BaseKuali.long">
+	<bean id="OrgTreeInfo.positions-generated" abstract="true" parent="BaseKuali.long.positive">
 		<property name="name" value="positions"/>
 		<property name="shortLabel" value="Positions"/>
 		<property name="summary">

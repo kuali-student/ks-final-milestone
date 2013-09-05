@@ -182,7 +182,7 @@ Version independent Id that remains the same across all versions
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="ProgramVariationInfo.version.sequenceNumber-generated" abstract="true" parent="BaseKuali.long">
+	<bean id="ProgramVariationInfo.version.sequenceNumber-generated" abstract="true" parent="BaseKuali.long.positive">
 		<property name="name" value="sequenceNumber"/>
 		<property name="shortLabel" value="Sequence Number"/>
 		<property name="summary">

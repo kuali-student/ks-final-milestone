@@ -122,7 +122,7 @@ URI identifying the object
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="VersionDisplayInfo.sequenceNumber-generated" abstract="true" parent="BaseKuali.long">
+	<bean id="VersionDisplayInfo.sequenceNumber-generated" abstract="true" parent="BaseKuali.long.positive">
 		<property name="name" value="sequenceNumber"/>
 		<property name="shortLabel" value="Sequence Number"/>
 		<property name="summary">
