@@ -603,16 +603,22 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             for (TimeSlotInfo timeSlotInfo : timeSlotInfos) {
                 timeslotIdMap.put(timeSlotInfo.getId(), timeSlotInfo);
             }
-            List<RoomInfo> roomInfos = getRoomService().getRoomsByIds(new ArrayList<String>(roomIds), contextInfo);
-            for (RoomInfo roomInfo : roomInfos) {
-                if(roomInfo != null){
+            // The method cachkey in RoomServiceImpl is checking to see if a list is empty, contains null or contains empaty
+            // and it throws an exception. To avoid that check to see if the list is a valid list first. Awkward, I know.
+            if (!roomIds.isEmpty() && !roomIds.contains(null) && !roomIds.contains("")) {
+                List<RoomInfo> roomInfos = getRoomService().getRoomsByIds(new ArrayList<String>(roomIds), contextInfo);
+                for (RoomInfo roomInfo : roomInfos) {
                     roomIdMap.put(roomInfo.getId(), roomInfo);
                     buildingIds.add(roomInfo.getBuildingId());
                 }
             }
-            List<BuildingInfo> buildingInfos = getRoomService().getBuildingsByIds(new ArrayList<String>(buildingIds), contextInfo);
-            for (BuildingInfo buildingInfo : buildingInfos) {
-                buildingIdMap.put(buildingInfo.getId(), buildingInfo);
+            // The method cachkey in RoomServiceImpl is checking to see if a list is empty, contains null or contains empaty
+            // and it throws an exception. To avoid that check to see if the list is a valid list first. Awkward, I know.
+            if (!buildingIds.isEmpty()&& !buildingIds.contains(null) && !buildingIds.contains("")) {
+                List<BuildingInfo> buildingInfos = getRoomService().getBuildingsByIds(new ArrayList<String>(buildingIds), contextInfo);
+                for (BuildingInfo buildingInfo : buildingInfos) {
+                    buildingIdMap.put(buildingInfo.getId(), buildingInfo);
+                }
             }
 
             for (String aoId : aoIdsSet) {
