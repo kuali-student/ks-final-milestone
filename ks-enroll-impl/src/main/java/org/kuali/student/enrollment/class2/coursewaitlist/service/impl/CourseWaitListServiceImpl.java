@@ -25,6 +25,26 @@ public class CourseWaitListServiceImpl implements CourseWaitListService {
     @Resource
     private CourseWaitListDao courseWaitListDao;
 
+    public CourseWaitListDao getCourseWaitListDao() {
+        return courseWaitListDao;
+    }
+
+    public void setCourseWaitListDao(CourseWaitListDao courseWaitListDao) {
+        this.courseWaitListDao = courseWaitListDao;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public CourseWaitListInfo getCourseWaitList(String courseWaitListId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException {
+        CourseWaitListEntity courseWaitListEntity = courseWaitListDao.find(courseWaitListId);
+        if (null == courseWaitListEntity) {
+            throw new DoesNotExistException(courseWaitListId);
+        }
+        return courseWaitListEntity.toDto();
+    }
+    
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public CourseWaitListInfo createCourseWaitList(String courseWaitListTypeKey,
@@ -63,31 +83,46 @@ public class CourseWaitListServiceImpl implements CourseWaitListService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public StatusInfo changeCourseWaitListState( String courseWaitListId,
-                                                 String stateKey, ContextInfo contextInfo)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public StatusInfo changeCourseWaitListState(String courseWaitListId, String stateKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException{
+            OperationFailedException, PermissionDeniedException {
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
         CourseWaitListEntity courseWaitListEntity = courseWaitListDao.find(courseWaitListId);
-        //need to implement this first
-        throw new OperationFailedException("not implemented");
+        if (null != courseWaitListEntity) {
+            courseWaitListEntity.setState(stateKey);
+            courseWaitListEntity.setEntityUpdated(contextInfo);
+            courseWaitListDao.merge(courseWaitListEntity);
+        } else {
+            throw new DoesNotExistException(courseWaitListId);
+        }
+        return status;
     }
 
     @Override
     @Transactional(readOnly = true)
     public StatusInfo deleteCourseWaitList(String courseWaitListId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException{
-        //need to implement this first
-        throw new OperationFailedException("not implemented");
-    }
+            OperationFailedException, PermissionDeniedException {
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+
+        CourseWaitListEntity courseWaitListEntity = courseWaitListDao.find(courseWaitListId);
+        if (null != courseWaitListEntity) {
+            courseWaitListDao.remove(courseWaitListEntity);
+        } else {
+            throw new DoesNotExistException(courseWaitListId);
+        }
+        return status;
+    }   
 
     @Override
     @Transactional(readOnly = true)
     public List<CourseWaitListInfo> getCourseWaitListsByActivityOffering(String activityOfferingId,
                                                                          ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException{
+            OperationFailedException, PermissionDeniedException {
         //Need to implement this method first
         throw new OperationFailedException("not implemented");
     }
@@ -104,18 +139,6 @@ public class CourseWaitListServiceImpl implements CourseWaitListService {
             OperationFailedException,
             PermissionDeniedException{
         //put implementation in Decorator?
-        throw new OperationFailedException("not implemented");
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public CourseWaitListInfo getCourseWaitList(@WebParam(name = "courseWaitListId") String courseWaitListId,
-                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException {
         throw new OperationFailedException("not implemented");
     }
 
