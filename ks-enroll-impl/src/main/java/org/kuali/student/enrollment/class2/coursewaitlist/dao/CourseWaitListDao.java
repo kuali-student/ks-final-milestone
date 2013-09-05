@@ -17,11 +17,6 @@ package org.kuali.student.enrollment.class2.coursewaitlist.dao;
 import org.kuali.student.enrollment.class2.coursewaitlist.model.CourseWaitListEntity;
 import org.kuali.student.r2.common.dao.GenericEntityDao;
 
-/**
- * User: jonrcook
- * Date: 8/27/13
- * Time: 9:28 AM
- */
 public class CourseWaitListDao extends GenericEntityDao<CourseWaitListEntity> {
     // what do we need besides basic CRUD provided by parent class?
 }

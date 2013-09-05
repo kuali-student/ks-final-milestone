@@ -33,9 +33,6 @@ import java.util.List;
 
 /**
  * JPA Entity for the CourseWaitList table
- * User: jonrcook
- * Date: 8/27/13
- * Time: 9:58 AM
  */
 
 @Entity

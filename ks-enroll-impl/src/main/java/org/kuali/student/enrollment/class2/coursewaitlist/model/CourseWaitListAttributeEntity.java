@@ -17,19 +17,14 @@ package org.kuali.student.enrollment.class2.coursewaitlist.model;
 import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
+import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-/**
- * User: jonrcook
- * Date: 9/3/13
- * Time: 10:48 AM
- */
+@Entity
+@Table(name = "KSEN_CWL_ATTR")
 public class CourseWaitListAttributeEntity extends BaseAttributeEntity<CourseWaitListEntity> {
-
-    @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
-    private CourseWaitListEntity owner;
 
     public CourseWaitListAttributeEntity() {
         super();
@@ -37,13 +32,5 @@ public class CourseWaitListAttributeEntity extends BaseAttributeEntity<CourseWai
 
     public CourseWaitListAttributeEntity(Attribute att, CourseWaitListEntity owner) {
         super(att, owner);
-    }
-
-    public void setOwner(CourseWaitListEntity owner) {
-        this.owner = owner;
-    }
-
-    public CourseWaitListEntity getOwner() {
-        return owner;
     }
 }

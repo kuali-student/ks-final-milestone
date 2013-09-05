@@ -26,7 +26,9 @@ import org.kuali.student.r2.common.infc.Attribute;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
@@ -35,10 +37,9 @@ import java.util.Set;
 
 /**
  * JPA Entity for the CourseWaitListEntry table
- * User: jonrcook
- * Date: 9/3/13
- * Time: 11:54 AM
  */
+@Entity
+@Table(name = "KSEN_CWL_WLIST_ENTRY")
 public class CourseWaitListEntryEntity extends MetaEntity implements AttributeOwner<CourseWaitListEntryAttributeEntity> {
 
     @Temporal(TemporalType.TIMESTAMP)
