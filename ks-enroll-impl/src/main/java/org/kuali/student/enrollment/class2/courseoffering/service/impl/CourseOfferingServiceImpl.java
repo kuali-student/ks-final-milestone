@@ -1539,12 +1539,178 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return luiRel;
     }
 
+    private boolean _hasADLs(ActivityOfferingInfo sourceAO) {
+        return sourceAO.getScheduleIds() != null && ! sourceAO.getScheduleIds().isEmpty();
+    }
+
+    private ScheduleRequestSetInfo _buildDefaultSRSInfo(ScheduleRequestSetInfo set, ActivityOfferingInfo targetAO) {
+        ScheduleRequestSetInfo newSrs = new ScheduleRequestSetInfo(set);
+        newSrs.getRefObjectIds().clear();
+        // Add the newly created AO
+        newSrs.getRefObjectIds().add(targetAO.getId());
+        newSrs.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
+        newSrs.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_STATE_CREATED);
+        newSrs.setMaxEnrollmentShared(false); // kind of arbitrary, but feel booleans should be set --cclin
+        newSrs.setName("Schedule request set for " + targetAO.getCourseOfferingCode() + " - " + targetAO.getActivityCode());
+        // Must clear out old ID
+        newSrs.setId(null);
+        return newSrs;
+    }
+
+    private void _copyAO_copyWithADLs(List<ScheduleRequestSetInfo> srsList,
+                                      ActivityOfferingInfo targetAO,
+                                      String sourceAOStateKey,
+                                      ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
+
+        for (ScheduleRequestSetInfo originalSRSet: srsList) {
+            // Should only loop once since exception thrown if multiple SRSes --cclin
+            List<String> coloAoIds = originalSRSet.getRefObjectIds(); // Set of AOs associated with the SRS
+            boolean isColocated = coloAoIds.size() > 1;
+
+            if (isColocated) {
+                // Change state to match target AO, otherwise stays in draft
+                // A little hack--the validation forces creation of AOs to be in draft
+                LuiInfo targetAOLui = luiService.getLui(targetAO.getId(), context);
+                targetAOLui.setStateKey(sourceAOStateKey); // Sets state to original AO
+                LuiInfo modifiedAOLui = null;
+                try {
+                    modifiedAOLui = luiService.updateLui(targetAO.getId(), targetAOLui, context);
+                    targetAO = getActivityOffering(targetAO.getId(), context); // refetch
+                } catch (VersionMismatchException e) {
+                    throw new OperationFailedException("copyAO error: version mismatch: " + e.getMessage());
+                }
+            }
+            // Convert ADLs to RDLS
+            // Step 1: Create the SRS
+            ScheduleRequestSetInfo newSrs = _buildDefaultSRSInfo(originalSRSet, targetAO);
+            if (isColocated) {
+                // Add rest of AO ids if colocated
+                newSrs.getRefObjectIds().addAll(originalSRSet.getRefObjectIds());
+            }
+            String newSrsTypeKey = newSrs.getTypeKey();
+            String newRefObjectTypeKey = newSrs.getRefObjectTypeKey();
+            ScheduleRequestSetInfo createdSRSet =
+                    schedulingService.createScheduleRequestSet(newSrsTypeKey, newRefObjectTypeKey, newSrs, context);
+
+            // Step 2: get the scheduleIds from the schedule requests (instead of using AO schedule IDs)
+            List<ScheduleRequestInfo> sourceRequests =
+                    schedulingService.getScheduleRequestsByScheduleRequestSet(originalSRSet.getId(), context);
+            for (ScheduleRequestInfo request: sourceRequests) {
+                // Step 3: for each schedule ID, create a schedule request and attach it to newly created SRS
+                String schedId = request.getScheduleId(); // Get the ID of the ADL
+                if (schedId == null) {
+                    throw new OperationFailedException("Copy AO: schedule ID should exist");
+                }
+                ScheduleInfo schedule = schedulingService.getSchedule(schedId, context);
+                ScheduleRequestInfo newRequest = SchedulingServiceUtil.scheduleToRequest(schedule, roomService, context);
+                newRequest.setScheduleRequestSetId(createdSRSet.getId()); // Attach to SRS
+                // Persist to DB
+                ScheduleRequestInfo savedRequest =
+                        schedulingService.createScheduleRequest(newRequest.getTypeKey(), newRequest, context);
+                if (isColocated) {
+                    // Delete the original schedule requests since they are being replaced by new schedule requests
+                    schedulingService.deleteScheduleRequest(request.getId(), context);
+                    List<ScheduleRequestSetInfo> fetchedSrses =
+                            schedulingService.getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,
+                                    targetAO.getId(), context);
+                    if (!fetchedSrses.isEmpty()) {
+                        ScheduleRequestSetInfo retrieved = fetchedSrses.get(0);
+                        List<ScheduleRequestInfo> srInfos = schedulingService.getScheduleRequestsByScheduleRequestSet(retrieved.getId(), context);
+                        LOGGER.info("Hi");
+                    }
+                }
+            }
+
+            if (isColocated) {
+                // Delete original SRS if colocated
+                schedulingService.deleteScheduleRequestSet(originalSRSet.getId(), context);
+                // Schedule the AO.
+                // (No need to delete schedules since scheduleActivityOffering deletes schedule IDs
+                // before rescheduling)
+                scheduleActivityOffering(targetAO.getId(), context);
+            }
+        }
+    }
+
+    private ScheduleRequestInfo _buildDefaultScheduleRequest(ScheduleRequestInfo request) {
+        ScheduleRequestInfo copySchedReq = new ScheduleRequestInfo(request);
+        copySchedReq.setId(null); // Clear out ID
+        for (ScheduleRequestComponentInfo comp: copySchedReq.getScheduleRequestComponents()) {
+            // Null out the IDs
+            comp.setId(null);
+        }
+        return copySchedReq;
+    }
+
+    private void _copyAO_copyWithoutADLs(List <ScheduleRequestSetInfo> srsList,
+                                         ActivityOfferingInfo targetAO,
+                                         ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException {
+
+        for (ScheduleRequestSetInfo set: srsList) {
+            // Should only loop once since exception thrown if multiple SRSes --cclin
+            List<String> coloAoIds = set.getRefObjectIds(); // Set of AOs associated with the SRS
+            boolean isColocated = coloAoIds.size() > 1;
+            if (isColocated) {
+                // Just add the AO to the colo and update
+                set.getRefObjectIds().add(targetAO.getId());
+                try {
+                    schedulingService.updateScheduleRequestSet(set.getId(), set, context);
+                } catch (VersionMismatchException e) {
+                    // Re-wrap exception
+                    throw new OperationFailedException("Version mismatch: " + e.getMessage());
+                }
+            } else {
+                // Not co-located so need to create a new SRS
+                ScheduleRequestSetInfo newSrs = _buildDefaultSRSInfo(set, targetAO);
+                String newSrsTypeKey = newSrs.getTypeKey();
+                String newRefObjectTypeKey = newSrs.getRefObjectTypeKey();
+                ScheduleRequestSetInfo createdSRSet =
+                        schedulingService.createScheduleRequestSet(newSrsTypeKey, newRefObjectTypeKey, newSrs, context);
+
+                // Fetch all SRs attached to original SRS. Make copy of each request and attach to new SRS
+                List<ScheduleRequestInfo> requests =
+                        schedulingService.getScheduleRequestsByScheduleRequestSet(set.getId(), context);
+                for (ScheduleRequestInfo request: requests) {
+                    // For each request, create a copy, and attach it to new SRS
+                    ScheduleRequestInfo copySchedReq = SchedulingServiceUtil.copyScheduleRequest(request, createdSRSet.getId());
+                    // Persist to DB
+                    schedulingService.createScheduleRequest(copySchedReq.getTypeKey(), copySchedReq, context);
+                }
+            }
+        }
+        // TO DELETE---everything below
+//        List<ScheduleRequestInfo> requests = getSchedulingService()
+//                .getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, sourceAO.getId(), context);
+//
+//        // begin KSENROLL-8064
+//        // Case 1: Colo AOs have no ADLs
+//
+//        // Add the AO id from the copied AO to the SRS list of AO Ids and call updateScheduleRequestSetInfo (easy)
+//        String targetAOId = targetAO.getId();
+//        ScheduleRequestSetInfo sourceAOSrs = getSchedulingService().getScheduleRequestSet(requests.get(0).getScheduleRequestSetId(),context);
+//        List<String> aoIds = new ArrayList<String>();
+//        aoIds.add(targetAOId);
+//        sourceAOSrs.setRefObjectIds(aoIds);
+//        try {
+//            // and call updateScheduleRequestSetInfo
+//            getSchedulingService().updateScheduleRequestSet(targetAOId, sourceAOSrs, context);
+//        } catch(VersionMismatchException e) {
+//            // TODO: what to throw?
+//            throw new OperationFailedException("unexpected", e);
+//        }
+//        // end KSENROLL-8064
+    }
+
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ActivityOfferingInfo copyActivityOffering(String activityOfferingId, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         ActivityOfferingInfo sourceAO = getActivityOffering(activityOfferingId, context);
         ActivityOfferingInfo targetAO = new ActivityOfferingInfo(sourceAO);
-        targetAO.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
+        targetAO.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY); // Need to set to draft
         targetAO.setId(null);
         targetAO.getScheduleIds().clear();
         if (targetAO.getInstructors() != null && !targetAO.getInstructors().isEmpty()) {
@@ -1563,41 +1729,19 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
          * Otherwise, copy the requests from the source AO.
          */
         List<ScheduleRequestInfo> scheduleRequestInfos = new ArrayList<ScheduleRequestInfo>();
-        if (sourceAO.getScheduleIds() != null && ! sourceAO.getScheduleIds().isEmpty()) {
-            List<ScheduleInfo> sourceScheduleInfos = getSchedulingService().getSchedulesByIds(sourceAO.getScheduleIds(), context);
-            for (ScheduleInfo schedule : sourceScheduleInfos) {
-                scheduleRequestInfos.add(SchedulingServiceUtil.scheduleToRequest(schedule, getRoomService(), context));
-            }
-        } else {
-            List<ScheduleRequestInfo> requests = getSchedulingService()
-                .getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, sourceAO.getId(), context);
-            for (ScheduleRequestInfo sr : requests) {
-                scheduleRequestInfos.add(SchedulingServiceUtil.scheduleRequestToScheduleRequest(sr, context));
-            }
+        String sourceAoId = sourceAO.getId();
+        // Get all SRSes associated with the AO (typically, just one, but with partial colo, could be many --cclin)
+        List<ScheduleRequestSetInfo> srsList =
+                schedulingService.getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,
+                        sourceAoId, context);
+        if (srsList.size() > 1) {
+            throw new OperationFailedException("Copy AO: Only one SRS is currently supported");
         }
 
-        //  Create RDLs if any were identified.
-        if ( ! scheduleRequestInfos.isEmpty()) {
-            ScheduleRequestSetInfo srsInfo = new ScheduleRequestSetInfo();
-            srsInfo.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
-            srsInfo.setName("Schedule request set for " + targetAO.getCourseOfferingCode() + " - " + targetAO.getActivityCode());
-            srsInfo.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_STATE_CREATED);
-            srsInfo.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
-            List<String> aoIds = new ArrayList<String>();
-            aoIds.add(targetAO.getId());
-            srsInfo.getRefObjectIds().clear();
-            srsInfo.getRefObjectIds().add(targetAO.getId());
-
-            srsInfo = getSchedulingService().createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
-                                                                      CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,
-                                                                      srsInfo, context);
-
-            for (ScheduleRequestInfo sr : scheduleRequestInfos) {
-                sr.setScheduleRequestSetId(srsInfo.getId());
-                sr.setName(String.format("Schedule request for %s-%s", targetAO.getCourseOfferingCode(), targetAO.getActivityCode()));
-                sr.setDescr(RichTextHelper.buildRichTextInfo(sr.getName(), sr.getName()));
-                getSchedulingService().createScheduleRequest(sr.getTypeKey(), sr, context);
-            }
+        if (_hasADLs(sourceAO)) {
+            _copyAO_copyWithADLs(srsList, targetAO, sourceAO.getStateKey(), context);
+        } else {
+            _copyAO_copyWithoutADLs(srsList, targetAO, context);
         }
 
         try {
@@ -1901,7 +2045,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         StatusInfo result = new StatusInfo();
 
-        List<String> scheduleInfoList = new ArrayList<String>(aoInfo.getScheduleIds());
+        List<String> scheduleInfoListToDelete = new ArrayList<String>(aoInfo.getScheduleIds());
 
         aoInfo.getScheduleIds().clear();
 
@@ -1948,7 +2092,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             }
         }
 
-        for(String scheduleId : scheduleInfoList){
+        for(String scheduleId : scheduleInfoListToDelete){
 
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
             qbcBuilder.setPredicates(PredicateFactory.equal("scheduleId", scheduleId));
