@@ -1080,3 +1080,6 @@ function displayCalendarInformation(jqObject, fieldId){
     field.text(value);
 }
 
+function stepBrowserBackTwoPages() {
+    window.history.back(-2);
+}

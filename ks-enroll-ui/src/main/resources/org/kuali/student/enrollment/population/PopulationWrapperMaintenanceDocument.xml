@@ -59,13 +59,8 @@
                       p:render="@{(maintenanceAction eq 'New') and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:id="button_createPopulation"/>
                 <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Update" p:performClientSideValidation="true"
                       p:render="@{(maintenanceAction eq 'Edit') and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:id="button_updatePopulation"/>
-                <bean parent="Uif-ActionLink" p:actionScript="stepBrowserBack()" p:actionLabel="Cancel"
+                <bean parent="Uif-ActionLink" p:actionScript="stepBrowserBackTwoPages()" p:actionLabel="Cancel"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}" p:id="link_cancelPopulation"/>
-            </list>
-        </property>
-        <property name="additionalScriptFiles">
-            <list merge="true">
-                <value>ks-enroll/scripts/common.js</value>
             </list>
         </property>
     </bean>

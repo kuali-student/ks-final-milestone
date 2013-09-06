@@ -112,7 +112,7 @@ limitations under the License.
                                           p:performClientSideValidation="true" p:render="@{reload}" />
                                     <bean parent="KS-Uif-ActionLink" p:methodToCall="delete" p:actionLabel="Delete"
                                           p:render="@{!reload and !newCalendar and !#view.readOnly and !officialUI}"/>
-                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()" p:render="@{!#view.readOnly}" />
+                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBackTwoPages()" p:render="@{!#view.readOnly}" />
                                 </list>
                             </property>
                         </bean>

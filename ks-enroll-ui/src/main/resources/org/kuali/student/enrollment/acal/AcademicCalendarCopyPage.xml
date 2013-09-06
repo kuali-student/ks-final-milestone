@@ -89,7 +89,7 @@ limitations under the License.
                               p:methodToCall="copy"
                               p:actionLabel="Copy Academic Calendar"
                               p:render="@{academicCalendarInfo != null}"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBackTwoPages()"/>
                     </list>
                 </property>
             </bean>

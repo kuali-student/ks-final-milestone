@@ -31,11 +31,6 @@
                 <ref bean="KS-ProcessInfoSearch-EditPage"/>
             </list>
         </property>
-        <property name="additionalScriptFiles">
-            <list merge="true">
-                <value>ks-enroll/scripts/common.js</value>
-            </list>
-        </property>
         <property name="dialogs">
             <list>
                 <bean id="deleteConfirmationDialog" parent="KS-ProcessInfoSearch-DeleteDialog"/>

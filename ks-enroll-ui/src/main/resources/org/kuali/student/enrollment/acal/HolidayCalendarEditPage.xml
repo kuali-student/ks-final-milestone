@@ -99,7 +99,7 @@
                                     <bean parent="Uif-ActionLink" p:methodToCall="delete"
                                           p:actionLabel="Delete"
                                           p:render="@{!newCalendar and !officialUI}"/>
-                                    <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()"
+                                    <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBackTwoPages()"
                                             p:style="float: right  !important;"/>
                                 </list>
                             </property>

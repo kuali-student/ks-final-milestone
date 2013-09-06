@@ -93,11 +93,5 @@
                 </bean>
             </list>
         </property>
-        <property name="additionalScriptFiles">
-            <list merge="true">
-                <value>ks-enroll/scripts/common.js</value>
-            </list>
-        </property>
-
     </bean>
 </beans>
