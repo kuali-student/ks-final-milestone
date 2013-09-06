@@ -1,6 +1,6 @@
 
 --Day 1 8:00-10:00
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13463','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13463','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13463','KS-KRMS-TERM-PARM-13548','kuali.term.parameter.type.timeslot.weekday.string','TH',1)
 /
@@ -10,23 +10,23 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 /
 
 --Day 3 10:30-12:30
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Course Set Term','KS-KRMS-TERM-13455','KS-TERM-SPEC-10021',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Course Set Term','KS-KRMS-TERM-13455','KS-KRMS-TERM-SPEC-10021',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13455','KS-KRMS-TERM-PARM-13551','kuali.term.parameter.type.course.cluSet.id','5a11018a-9aeb-4c87-9ee4-97a180d0c724',1)
 /
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Course Set Term','KS-KRMS-TERM-13487','KS-TERM-SPEC-10021',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Course Set Term','KS-KRMS-TERM-13487','KS-KRMS-TERM-SPEC-10021',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13487','KS-KRMS-TERM-PARM-13552','kuali.term.parameter.type.course.cluSet.id','c24cd9f9-0743-4450-b61e-06d408c7e8d0',1)
 /
 
 --Day 3 18:30-20:30
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Course Term','KS-KRMS-TERM-13456','KS-TERM-SPEC-10020',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Course Term','KS-KRMS-TERM-13456','KS-KRMS-TERM-SPEC-10020',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13456','KS-KRMS-TERM-PARM-13553','kuali.term.parameter.type.course.clu.id','54414200-ea95-47dd-9718-1ec1d81f366b',1)
 /
 
 --Day 2 8:00-10:00
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13464','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13464','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13464','KS-KRMS-TERM-PARM-13554','kuali.term.parameter.type.timeslot.weekday.string','TH',1)
 /
@@ -36,7 +36,7 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 /
 
 --Day 2 13:30-15:30
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13465','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13465','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13465','KS-KRMS-TERM-PARM-13557','kuali.term.parameter.type.timeslot.weekday.string','MWF',1)
 /
@@ -46,7 +46,7 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 /
 
 --Day 4 8:00-10:00
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13466','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13466','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13466','KS-KRMS-TERM-PARM-13560','kuali.term.parameter.type.timeslot.weekday.string','MWF',1)
 /
@@ -56,7 +56,7 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 /
 
 --Day 4 10:30-12:30
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13467','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13467','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13467','KS-KRMS-TERM-PARM-13563','kuali.term.parameter.type.timeslot.weekday.string','TH',1)
 /
@@ -66,7 +66,7 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 /
 
 --Day 5 10:30-12:30
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13468','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13468','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13468','KS-KRMS-TERM-PARM-13566','kuali.term.parameter.type.timeslot.weekday.string','TH',1)
 /
@@ -76,7 +76,7 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 /
 
 --Day 5 13:30-15:30
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13469','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13469','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13469','KS-KRMS-TERM-PARM-13569','kuali.term.parameter.type.timeslot.weekday.string','TH',1)
 /
@@ -86,7 +86,7 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 /
 
 --Day 5 16:00-18:00
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13470','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13470','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13470','KS-KRMS-TERM-PARM-13572','kuali.term.parameter.type.timeslot.weekday.string','TH',1)
 /
@@ -96,7 +96,7 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 /
 
 --Day 6 10:30-12:30
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13471','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13471','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13471','KS-KRMS-TERM-PARM-13575','kuali.term.parameter.type.timeslot.weekday.string','TH',1)
 /
@@ -106,7 +106,7 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 /
 
 --Day 6 13:30-15:30
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13472','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13472','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13472','KS-KRMS-TERM-PARM-13578','kuali.term.parameter.type.timeslot.weekday.string','MWF',1)
 /
@@ -116,7 +116,7 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 /
 
 --Day 4 16:00-18:00
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13473','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13473','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13473','KS-KRMS-TERM-PARM-13581','kuali.term.parameter.type.timeslot.weekday.string','MWF',1)
 /
@@ -124,7 +124,7 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13473','KS-KRMS-TERM-PARM-13583','kuali.term.parameter.type.timeslot.end','82200000',1)
 /
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13474','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13474','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13474','KS-KRMS-TERM-PARM-13584','kuali.term.parameter.type.timeslot.weekday.string','MW',1)
 /
@@ -134,7 +134,7 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 /
 
 --Day 6 8:00-10:00
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13475','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13475','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13475','KS-KRMS-TERM-PARM-13587','kuali.term.parameter.type.timeslot.weekday.string','MWF',1)
 /
@@ -142,7 +142,7 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13475','KS-KRMS-TERM-PARM-13589','kuali.term.parameter.type.timeslot.end','57000000',1)
 /
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13476','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13476','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13476','KS-KRMS-TERM-PARM-13590','kuali.term.parameter.type.timeslot.weekday.string','MW',1)
 /
@@ -152,7 +152,7 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 /
 
 --Day 5 8:00-10:00
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13477','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13477','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13477','KS-KRMS-TERM-PARM-13593','kuali.term.parameter.type.timeslot.weekday.string','MWF',1)
 /
@@ -160,7 +160,7 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13477','KS-KRMS-TERM-PARM-13595','kuali.term.parameter.type.timeslot.end','64200000',1)
 /
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13478','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13478','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13478','KS-KRMS-TERM-PARM-13596','kuali.term.parameter.type.timeslot.weekday.string','MW',1)
 /
@@ -171,35 +171,35 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 
 --EPM
 --Day 1 13:30-15:30
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Course Set Term','KS-KRMS-TERM-13457','KS-TERM-SPEC-10021',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Course Set Term','KS-KRMS-TERM-13457','KS-KRMS-TERM-SPEC-10021',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) 
   values ('KS-KRMS-TERM-13457','KS-KRMS-TERM-PARM-13599','kuali.term.parameter.type.course.cluSet.id','5a11018a-9aeb-4c87-9ee4-97a180d0c724',1)
 /
 
 --Day 1 16:00-18:00
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Course Set Term','KS-KRMS-TERM-13458','KS-TERM-SPEC-10021',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Course Set Term','KS-KRMS-TERM-13458','KS-KRMS-TERM-SPEC-10021',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) 
   values ('KS-KRMS-TERM-13458','KS-KRMS-TERM-PARM-13600','kuali.term.parameter.type.course.cluSet.id','c24cd9f9-0743-4450-b61e-06d408c7e8d0',1)
 /
 
 --Day 2 10:30-12:30
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Course Set Term','KS-KRMS-TERM-13459','KS-TERM-SPEC-10021',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Course Set Term','KS-KRMS-TERM-13459','KS-KRMS-TERM-SPEC-10021',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) 
   values ('KS-KRMS-TERM-13459','KS-KRMS-TERM-PARM-13601','kuali.term.parameter.type.course.cluSet.id','5a11018a-9aeb-4c87-9ee4-97a180d0c724',1)
 /
 
 --Day 2 16:00-18:00
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Course Set Term','KS-KRMS-TERM-13460','KS-TERM-SPEC-10021',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Course Set Term','KS-KRMS-TERM-13460','KS-KRMS-TERM-SPEC-10021',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) 
   values ('KS-KRMS-TERM-13460','KS-KRMS-TERM-PARM-13602','kuali.term.parameter.type.course.cluSet.id','c24cd9f9-0743-4450-b61e-06d408c7e8d0',1)
 /
 
 --Day 2 18:30-20:30
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Course Set Term','KS-KRMS-TERM-13461','KS-TERM-SPEC-10021',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Course Set Term','KS-KRMS-TERM-13461','KS-KRMS-TERM-SPEC-10021',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) 
   values ('KS-KRMS-TERM-13461','KS-KRMS-TERM-PARM-13603','kuali.term.parameter.type.course.cluSet.id','5a11018a-9aeb-4c87-9ee4-97a180d0c724',1)
@@ -207,14 +207,14 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR)
 
 
 --Day 3 16:00-18:00
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Course Set Term','KS-KRMS-TERM-13462','KS-TERM-SPEC-10021',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Course Set Term','KS-KRMS-TERM-13462','KS-KRMS-TERM-SPEC-10021',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) 
   values ('KS-KRMS-TERM-13462','KS-KRMS-TERM-PARM-13604','kuali.term.parameter.type.course.cluSet.id','c24cd9f9-0743-4450-b61e-06d408c7e8d0',1)
 /
 
 --Day 1 10:30-12:30
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13479','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13479','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13479','KS-KRMS-TERM-PARM-13605','kuali.term.parameter.type.timeslot.weekday.string','MWF',1)
 /
@@ -223,7 +223,7 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13479','KS-KRMS-TERM-PARM-13607','kuali.term.parameter.type.timeslot.end','49800000',1)
 /
 
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13480','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13480','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13480','KS-KRMS-TERM-PARM-13608','kuali.term.parameter.type.timeslot.weekday.string','MW',1)
 /
@@ -233,7 +233,7 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 /
 
 --Day 3 08:00-10:00
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13481','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13481','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13481','KS-KRMS-TERM-PARM-13611','kuali.term.parameter.type.timeslot.weekday.string','MWF',1)
 /
@@ -242,7 +242,7 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13481','KS-KRMS-TERM-PARM-13613','kuali.term.parameter.type.timeslot.end','60600000',1)
 /
 
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13482','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13482','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13482','KS-KRMS-TERM-PARM-13614','kuali.term.parameter.type.timeslot.weekday.string','MW',1)
 /
@@ -252,7 +252,7 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 /
 
 --Day 3 13:30-15:30
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13483','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13483','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13483','KS-KRMS-TERM-PARM-13617','kuali.term.parameter.type.timeslot.weekday.string','MWF',1)
 /
@@ -261,7 +261,7 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13483','KS-KRMS-TERM-PARM-13619','kuali.term.parameter.type.timeslot.end','75000000',1)
 /
 
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13484','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13484','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13484','KS-KRMS-TERM-PARM-13620','kuali.term.parameter.type.timeslot.weekday.string','MW',1)
 /
@@ -272,7 +272,7 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 
 
 --Day 4 13:30-15:30
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13485','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13485','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13485','KS-KRMS-TERM-PARM-13623','kuali.term.parameter.type.timeslot.weekday.string','MWF',1)
 /
@@ -281,7 +281,7 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13485','KS-KRMS-TERM-PARM-13625','kuali.term.parameter.type.timeslot.end','71400000',1)
 /
 
-Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13486','KS-TERM-SPEC-10019',1)
+Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Timeslot Term','KS-KRMS-TERM-13486','KS-KRMS-TERM-SPEC-10019',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-KRMS-TERM-13486','KS-KRMS-TERM-PARM-13626','kuali.term.parameter.type.timeslot.weekday.string','MW',1)
 /
