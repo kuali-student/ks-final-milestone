@@ -41,6 +41,7 @@ import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
 import org.kuali.student.enrollment.common.util.EnrollConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
@@ -1406,7 +1407,11 @@ public class AcademicCalendarController extends UifControllerBase {
                 ExamPeriodInfo updatedExamPeriodInfo = getAcalService().updateExamPeriod(examPeriodInfo.getId(), examPeriodInfo, helperService.createContextInfo());
                 examPeriodWrapper.setExamPeriodInfo(updatedExamPeriodInfo);
             }
-        }catch(Exception e){
+        } catch (OperationFailedException oe){
+            LOG.error("Save exam period has failed",oe);
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_TERM_EXAMPERIOD_FAILED,examPeriodWrapper.getExamPeriodNameUI(),term.getName() +". FEP is not allowed for the selected term.");
+        }
+        catch(Exception e){
             LOG.error("Save exam period has failed",e);
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_TERM_EXAMPERIOD_FAILED,examPeriodWrapper.getExamPeriodNameUI(),term.getName());
         }
