@@ -124,7 +124,9 @@ public class CourseWaitListServiceImpl implements CourseWaitListService {
                                                                          ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        List<CourseWaitListEntity> entities = courseWaitListDao.getCourseWaitListsByActivityOffering(activityOfferingId);
+        List<String> aoIds = new ArrayList<String>();
+        aoIds.add(activityOfferingId);
+        List<CourseWaitListEntity> entities = courseWaitListDao.getCourseWaitListsByActivityOffering(aoIds);
         List<CourseWaitListInfo> infoList = new ArrayList<CourseWaitListInfo>();
         for (CourseWaitListEntity entity : entities) {
             CourseWaitListInfo courseWaitListInfo = entity.toDto();

@@ -23,11 +23,17 @@ public class CourseWaitListDao extends GenericEntityDao<CourseWaitListEntity> {
     // what do we need besides basic CRUD provided by parent class?
     /**
      * Get list of CourseWaitlists given a course offering ID
-     * @param activityOfferingId The id of an activity offering (which course waitlists will be fetched)
+     * @param activityOfferingIds The id of an activity offering (which course waitlists will be fetched) -- have to put it in a list
      * @return List of CourseWaitListEntity objects
      */
-    public List<CourseWaitListEntity> getCourseWaitListsByActivityOffering(String activityOfferingId) {
-        return em.createQuery("FROM CourseWaitListEntity a WHERE a.activityOfferingIds = :activityOfferingIds ORDER BY a.effectiveDate ASC")
-                .setParameter("activityOfferingIds", activityOfferingId).getResultList();
+    public List<CourseWaitListEntity> getCourseWaitListsByActivityOffering(List<String> activityOfferingIds) {
+//        return em.createQuery("FROM CourseWaitListEntity a WHERE a.activityOfferingIds = :activityOfferingIds ORDER BY a.effectiveDate ASC")
+//                .setParameter("activityOfferingIds", activityOfferingIds).getResultList();
+
+//        return em.createQuery("FROM CourseWaitListEntity a WHERE :activityOfferingId MEMBER OF a.activityOfferingIds")
+//                .setParameter("activityOfferingId", activityOfferingId).getResultList();
+
+          return em.createQuery("FROM CourseWaitListEntity cwl, IN(cwl.activityOfferingIds) a WHERE a IN (:activityOfferingIds)")
+                 .setParameter("activityOfferingIds", activityOfferingIds).getResultList();
     }
 }
