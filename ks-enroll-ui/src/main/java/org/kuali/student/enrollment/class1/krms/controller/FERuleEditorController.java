@@ -16,12 +16,9 @@ import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
-import org.kuali.student.enrollment.class1.check.form.CheckInfoForm;
 import org.kuali.student.enrollment.class1.krms.dto.FEAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleEditor;
 import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSConstants;
-import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
-import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -74,6 +71,37 @@ public class FERuleEditorController extends EnrolRuleEditorController {
 
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_RULE_FE_MAINTENANCE_PAGE_ID);
         return super.navigate(form, result, request, response);
+    }
+
+    /**
+     * Deletes selected rule from agenda on Manage Course Requistes page
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(params = "methodToCall=deleteRule")
+    public ModelAndView deleteRule(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+                                   @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
+
+        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
+        RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper(document);
+
+        FEAgendaEditor agenda = this.getSelectedAgenda(document, "Delete");
+        if (agenda != null) {
+            RuleEditor ruleEditor = getSelectedRule(document, "Delete");
+
+            //Only add rules to delete list that are already persisted.
+            if (ruleEditor.getId() != null) {
+                agenda.getDeletedRules().add(ruleEditor);
+            }
+            agenda.getRules().remove(ruleEditor);
+
+        }
+
+        return getUIFModelAndView(document);
     }
 
     /**
@@ -213,7 +241,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         return rule;
     }
 
-    private AgendaEditor getSelectedAgenda(MaintenanceDocumentForm form, String actionLink){
+    private FEAgendaEditor getSelectedAgenda(MaintenanceDocumentForm form, String actionLink){
         String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set for " + actionLink);
@@ -230,9 +258,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
             throw new RuntimeException("Selected line index was not set");
         }
 
-        AgendaEditor agendaEditor = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
-
-        return agendaEditor;
+        return ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
     }
 
     protected void compareRulePropositions(MaintenanceDocumentForm form, RuleEditor ruleEditor) {

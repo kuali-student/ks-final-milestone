@@ -23,6 +23,8 @@ import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.core.room.dto.BuildingInfo;
+import org.kuali.student.r2.core.room.dto.RoomInfo;
 
 import java.util.Date;
 import java.util.Map;
@@ -33,6 +35,17 @@ import java.util.Map;
 public class FERuleEditor extends LURuleEditor {
 
     private static final long serialVersionUID = 1L;
+
+    private String day;
+    private String startTime;
+    private String startTimeAMPM;
+    private String endTime;
+    private String endTimeAMPM;
+
+    private boolean tba;
+
+    private BuildingInfo building;
+    private RoomInfo room;
 
     public FERuleEditor(){
         super();
@@ -46,30 +59,100 @@ public class FERuleEditor extends LURuleEditor {
         super(key, dummy, ruleTypeInfo);
     }
 
-    public String getDay() {
-        if(this.getActions().size()>0){
-            ActionDefinitionContract action = this.getActions().get(0);
-            if(action.getAttributes().containsKey("day")){
-                String day = action.getAttributes().get("day");
-                return "Day " + day;
+    public ActionEditor getActionForType(String typeId){
+        for(ActionDefinitionContract action : this.getActions()){
+            if(action.getTypeId().equals(typeId)){
+                return (ActionEditor) action;
             }
+        }
+        return null;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getStartTimeAMPM() {
+        return startTimeAMPM;
+    }
+
+    public void setStartTimeAMPM(String startTimeAMPM) {
+        this.startTimeAMPM = startTimeAMPM;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getEndTimeAMPM() {
+        return endTimeAMPM;
+    }
+
+    public void setEndTimeAMPM(String endTimeAMPM) {
+        this.endTimeAMPM = endTimeAMPM;
+    }
+
+    public boolean isTba() {
+        return tba;
+    }
+
+    public void setTba(boolean tba) {
+        this.tba = tba;
+    }
+
+    public BuildingInfo getBuilding() {
+        if(building==null){
+            building = new BuildingInfo();
+        }
+        return building;
+    }
+
+    public void setBuilding(BuildingInfo building) {
+        this.building = building;
+    }
+
+    public RoomInfo getRoom() {
+        if(room==null){
+            room = new RoomInfo();
+        }
+        return room;
+    }
+
+    public void setRoom(RoomInfo room) {
+        this.room = room;
+    }
+
+    public String getDayToDisplay() {
+        if(this.getDay()!=null){
+            return "Day " + day;
         }
 
         return StringUtils.EMPTY;
     }
 
-    public String getTime() {
+    public String getTimePeriodToDisplay() {
         String timeString = StringUtils.EMPTY;
-        if(this.getActions().size()>0){
-            Map<String, String> attributes = this.getActions().get(0).getAttributes();
-            if(attributes.containsKey("startTime")){
-                Date timeForDisplay = new Date(Long.parseLong(attributes.get("startTime")));
-                timeString = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay);
-            }
-            if(attributes.containsKey("endTime")){
-                Date timeForDisplay = new Date(Long.parseLong(attributes.get("endTime")));
-                timeString += "-" + DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay);
-            }
+        if(this.getStartTime() != null){
+            timeString = this.getStartTime() + " " + this.getStartTimeAMPM();
+        }
+        if(this.getEndTime() != null){
+            timeString += "-" + this.getEndTime() + " " + this.getEndTimeAMPM();
         }
 
         return timeString;

@@ -26,6 +26,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
+import org.kuali.rice.krms.dto.ActionEditor;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.AgendaTypeInfo;
 import org.kuali.rice.krms.dto.RuleEditor;
@@ -51,9 +52,11 @@ import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetS
 import org.kuali.student.lum.lu.ui.krms.dto.LUAgendaEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
 import org.kuali.student.lum.lu.ui.krms.tree.LURuleViewTreeBuilder;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
@@ -69,6 +72,7 @@ import org.springframework.util.StringUtils;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -183,7 +187,24 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         if (agendaItem.getRule() != null) {
 
             //Build the ruleEditor
-            RuleEditor ruleEditor = new FERuleEditor(agendaItem.getRule());
+            FERuleEditor ruleEditor = new FERuleEditor(agendaItem.getRule());
+            ActionEditor action = ruleEditor.getActionForType(this.getActionTypeId());
+            Map<String, String> attributes = action.getAttributes();
+            if(attributes.containsKey("day")){
+                ruleEditor.setDay(attributes.get("day"));
+            }
+            if(attributes.containsKey("startTime")){
+                Date timeForDisplay = new Date(Long.parseLong(attributes.get("startTime")));
+                String startTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay);
+                ruleEditor.setStartTime(org.apache.commons.lang.StringUtils.substringBefore(startTime, " "));
+                ruleEditor.setStartTimeAMPM(org.apache.commons.lang.StringUtils.substringAfter(startTime, " "));
+            }
+            if(attributes.containsKey("endTime")){
+                Date timeForDisplay = new Date(Long.parseLong(attributes.get("endTime")));
+                String endTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay);
+                ruleEditor.setEndTime(org.apache.commons.lang.StringUtils.substringBefore(endTime, " "));
+                ruleEditor.setEndTimeAMPM(org.apache.commons.lang.StringUtils.substringAfter(endTime, " "));
+            }
 
             String description = this.getRuleManagementService().translateNaturalLanguageForObject(this.getUsageId(), "rule", ruleEditor.getId(), "en");
             int index = description.indexOf(": ");
@@ -203,6 +224,10 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         }
 
         return rules;
+    }
+
+    protected String getActionTypeId(){
+        return this.getKrmsTypeRepositoryService().getTypeByName(StudentIdentityConstants.KS_NAMESPACE_CD, KSKRMSServiceConstants.ACTION_TYPE_REQUESTED_DELIVERY_LOGISTIC).getId();
     }
 
     protected String getUsageId(){
