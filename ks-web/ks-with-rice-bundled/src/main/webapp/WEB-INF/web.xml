@@ -160,7 +160,7 @@
     </listener>
 
     <!-- uncomment for jetty  -->
-    <servlet>
+    <!-- <servlet>
         <servlet-name>default</servlet-name>
         <servlet-class>org.eclipse.jetty.servlet.DefaultServlet</servlet-class>
         <init-param>
@@ -168,7 +168,7 @@
             <param-value>false</param-value>
         </init-param>
         <load-on-startup>0</load-on-startup>
-    </servlet>
+    </servlet> -->
 
     <servlet>
 		<servlet-name>action</servlet-name>
