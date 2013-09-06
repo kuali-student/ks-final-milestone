@@ -30,13 +30,11 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
-
-import static org.kuali.student.logging.FormattedLogger.*;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 /**
  * This is the helper class for CourseView
@@ -89,8 +87,6 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
 
                 for (int i = 0; i < searchResult.size(); i++) {
                     if (courseInfo.getStartTerm().equals(searchResult.get(i).getId().toString())) {
-                        searchResult.remove(searchResult.get(i));
-                        i--;
                         break;
                     }
                     else {
