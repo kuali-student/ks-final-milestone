@@ -432,8 +432,6 @@ public class PlanForm extends UifFormBase {
         //  TODO: Determine if there is a config that can be set to avoid having to do this.
         jsonOut = jsonOut.replaceAll("\"\\{", "{");
         jsonOut = jsonOut.replaceAll("}\"", "}");
-        jsonOut = jsonOut.replaceAll("&#123;", "{");
-        jsonOut = jsonOut.replaceAll("&#125;", "}");
 
         return jsonOut;
     }
@@ -479,19 +477,19 @@ public class PlanForm extends UifFormBase {
      */
 
     public String getFakeTermNote() {
-        return getTermNote();
+        return escapeHtml(getTermNote());
     }
 
     public void setFakeTermNote(String fakeTermNote) {}
 
     public String getFakeCourseNote() {
-        return getCourseNote();
+        return escapeHtml(getCourseNote());
     }
 
     public void setFakeCourseNote(String fakeCourseNote) {}
 
     public String getFakeCourseCredit() {
-        return getCourseCredit();
+        return escapeHtml(getCourseCredit());
     }
 
     public void setFakeCourseCredit(BigDecimal fakeCourseCredit) {}
@@ -508,4 +506,15 @@ public class PlanForm extends UifFormBase {
 
     public void setFakeBackup(boolean fakeBackup) {}
 
+    /**
+     * XSS Prevention Encoding
+     * @param text - Text to be encoded
+     * @return HTML Safe Text
+     */
+    private String escapeHtml(String text){
+        String encoded = StringEscapeUtils.escapeHtml(text);
+        encoded = encoded.replaceAll("'","&#x27;");
+        encoded = encoded.replaceAll("/", "&#x2F;");
+        return encoded;
+    }
 }

@@ -1947,7 +1947,7 @@
     </bean>
 
     <bean id="menuTermOptionEdit" parent="menuTermOptionEdit-parent"/>
-    <bean id="menuTermOptionEdit-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="Edit Term Note"
+    <bean id="menuTermOptionEdit-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="Add/Edit Term Note"
           p:title="Edit Term Note">
         <property name="actionScript" value="
             var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startTermNoteForm', atpId:jQuery(this).data('atpid'), pageId:'term_note_edit_page'};

@@ -3574,8 +3574,10 @@ public class PlanController extends UifControllerBase {
 
     public String escapeForJson(String text){
         text = StringEscapeUtils.escapeHtml(text);
-        text = text.replaceAll("\\{","&#123;");
-        text = text.replaceAll("}","&#125;");
+        text = text.replaceAll("\\{","&#x7B;");
+        text = text.replaceAll("}","&#x7D;");
+        text = text.replaceAll("'","&#x27;");
+        text = text.replaceAll("}","&#x2F;");
         text = text.replaceAll(StringEscapeUtils.escapeJava("\\"),StringEscapeUtils.escapeJava("\\")+StringEscapeUtils.escapeJava("\\"));
 
         return text;
