@@ -369,6 +369,7 @@
         <property name="stateTransitionsHelper" ref="stateTransitionsHelper"/>
         <property name="searchService" ref="searchService" />
         <property name="atpService" ref="AtpService" />
+        <property name="roomService" ref="RoomService"/>
   </bean>
 
     <bean id="courseWaitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceImpl">
