@@ -61,6 +61,17 @@ public class ScheduleOfClassesSearchForm extends UifFormBase implements Activity
     private String displayCoIdAdd;
     private AoDisplayFormat aoDisplayFormat;
 
+    /**
+     * Valid display types of activities in schedule of classes.
+     *
+     * The application supports three display types.
+     * 1. Display a flat list of activities for each CourseOffering
+     * 2. Display activities grouped by activity clusters
+     * 3. Display registration group and activities grouped by activity clusters.
+     *
+     * By default, it displays the flat type. If property kuali.ks.enrollment.schoc.options.default_ao_display_format is
+     * configured, display the configured type.
+     */
     public static enum AoDisplayFormat {
 
         FLAT("flat"),
@@ -253,10 +264,19 @@ public class ScheduleOfClassesSearchForm extends UifFormBase implements Activity
         this.hasMoreThanOneCluster = hasMoreThanOneCluster;
     }
 
+    /**
+     * Returns the display type.
+     * @return
+     */
     public AoDisplayFormat getAoDisplayFormat() {
         return aoDisplayFormat;
     }
 
+    /**
+     * Set the display type
+     *
+     * @param aoDisplayFormat
+     */
     public void setAoDisplayFormat(AoDisplayFormat aoDisplayFormat) {
         this.aoDisplayFormat = aoDisplayFormat;
     }
