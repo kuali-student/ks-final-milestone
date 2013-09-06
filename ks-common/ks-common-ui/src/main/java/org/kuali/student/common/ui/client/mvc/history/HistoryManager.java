@@ -293,15 +293,18 @@ public class HistoryManager {
 		if(context.getIdType() != null){
 			path = path + "&" + ViewContext.ID_TYPE_ATR + "=" + context.getIdType();
 		}
+        //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
 		if(!context.getAttributes().isEmpty()){
-			Map<String,String> attributes = context.getAttributes();
-			Iterator<String> it = attributes.keySet().iterator();
-			while(it.hasNext()){
-				String key = it.next();
-				String value = attributes.get(key);
-				path = path + "&" + key + "=" + value;
-			}
-		}
+            Map<String,String> attributes = context.getAttributes();
+            Iterator<Map.Entry<String,String>> it = attributes.entrySet().iterator();
+            while(it.hasNext()){
+                Map.Entry<String,String> entry = it.next();
+                String key = entry.getKey();
+                String value = entry.getValue();
+                path = path + "&" + key + "=" + value;
+            }
+        }
+
 		//TODO add the ability for view context to add a variety of additional attributes
 		return path;
 	}

@@ -37,10 +37,12 @@ public class LogRpcGwtServlet extends RemoteServiceServlet implements LogRpcServ
 		// TODO Use sl4j for logging
 	    logger.debug(DELIM);
 	    logger.debug("Client info: ");
-		for (String key : clientContextInfo.keySet()) {
-			String value = clientContextInfo.get(key);
-			logger.debug("\t" + key + " = " + value);
-		}
+        //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
+		for(Map.Entry<String, String> entry: clientContextInfo.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            logger.debug("\t" + key + " = " + value);
+        }
 		logger.debug("\n\nLog:");
 		logger.debug(log);
 		return true;

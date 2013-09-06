@@ -179,14 +179,15 @@ public class MessageServiceMock implements MessageService {
 
         Map<String, String> groupMessages = ((LocaleMessages) messages.get(localeInfo.getLocaleLanguage())).getMessages(messageGroupKey);
         List<MessageInfo> messageArrayList = new ArrayList<MessageInfo>();
-
-        Iterator<String> i = groupMessages.keySet().iterator();
+        //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
+        Iterator<Map.Entry<String,String>> i = groupMessages.entrySet().iterator();
         while (i.hasNext()) {
-            String id = i.next();
+            Map.Entry<String,String> entry = i.next();
+            String id = entry.getKey();
             MessageInfo m = new MessageInfo();
             m.setGroupName(messageGroupKey);
             m.setMessageKey(id);
-            m.setValue(groupMessages.get(id));
+            m.setValue(entry.getValue());
             LocaleInfo locale = new LocaleInfo();
             locale.setLocaleLanguage(localeInfo.getLocaleLanguage());
             m.setLocale(locale);

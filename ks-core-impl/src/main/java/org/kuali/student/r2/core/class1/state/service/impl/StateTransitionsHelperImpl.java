@@ -209,8 +209,10 @@ public class StateTransitionsHelperImpl implements StateTransitionsHelper {
 
                 Map<String,String> idsAndState = relatedObjectHelper.getRelatedObjectsIdAndState(entityId, context);
                 if (idsAndState != null && !idsAndState.isEmpty()) {
-                    for (String id : idsAndState.keySet()) {
-                        String currentStateKey = idsAndState.get(id);
+                    //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
+                    for(Map.Entry<String,String> entry: idsAndState.entrySet()) {
+                        String id = entry.getKey();
+                        String currentStateKey = entry.getValue();
                         StatusInfo si = new StatusInfo();
                         if (StringUtils.equals(stateChangeInfo.getFromStateKey(),currentStateKey)){
                             si = stateHelper.updateState(id, stateChangeInfo.getToStateKey(), context);

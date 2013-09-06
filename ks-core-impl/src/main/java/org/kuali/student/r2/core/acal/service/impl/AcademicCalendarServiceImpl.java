@@ -1517,9 +1517,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             }
         }
         // delete any existing ones that should no longer exist
-        for (String existingAtpId : existing.keySet()) {
+        //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
+        for (Map.Entry<String, String>  entry: existing.entrySet()) {
+            String existingAtpId = entry.getKey();
             if (!newRelatedAtpIds.contains(existingAtpId)) {
-                String atpAtpRelationId = existing.get(existingAtpId);
+                String atpAtpRelationId = entry.getValue();
                 try {
                     StatusInfo status = atpService.deleteAtpAtpRelation(atpAtpRelationId, context);
                 } catch (DoesNotExistException ex) {
