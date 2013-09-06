@@ -127,6 +127,9 @@ public class KSKRMSServiceConstants {
     public static final String PROPOSITION_TYPE_FINAL_EXAM_COURSE_OFFERING = "kuali.krms.proposition.type.final.exam.course.offering";
     public static final String PROPOSITION_TYPE_FINAL_EXAM_COURSESET = "kuali.krms.proposition.type.final.exam.courseset";
 
+    // Action types
+    public static final String ACTION_TYPE_REQUESTED_DELIVERY_LOGISTIC = "kuali.krms.action.type.requested.delivery.logistic";
+
     // term types
     public static final String TERM_TYPE_COURSE_ID = "kuali.krms.term.type.course.specific.id";
     public static final String TERM_TYPE_COURSE = "kuali.krms.term.type.course.specific";
