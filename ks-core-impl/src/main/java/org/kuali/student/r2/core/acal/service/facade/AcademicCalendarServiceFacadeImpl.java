@@ -332,7 +332,7 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
     public ExamPeriodInfo addExamPeriod (String examPeriodTypeKey, List<String> termTypeKeyList, ExamPeriodInfo examPeriodInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         for (String termTypeKey : termTypeKeyList) {
             if (!_validateExamPeriodType(examPeriodTypeKey, termTypeKey, context)){
-                throw new OperationFailedException("Exam Period type validation failed. Exam Period can't be created with the type:" + examPeriodTypeKey);
+                throw new OperationFailedException("Exam Period type validation failed. Exam Period can't be created with the type:" + examPeriodTypeKey + ". Final Exam Period is not allowed for the selected term. (" + termTypeKey +")");
             }
         }
 
@@ -351,7 +351,11 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
 
         try {
             examPeriodTypes = acalService.getExamPeriodTypesForTermType(termTypeKey, context);
-            return checkTypeInTypes(examPeriodTypeKey, examPeriodTypes);
+            if (examPeriodTypes != null && examPeriodTypes.size() > 0) {
+                return checkTypeInTypes(examPeriodTypeKey, examPeriodTypes);
+            } else {
+                return false;
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
