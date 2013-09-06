@@ -32,14 +32,6 @@ function confirmDeletionResponse(msg) {
     return response;
 }
 
-function confirmDeletion(msg) {
-    var response = confirm(msg);
-
-    if (response == true) {
-        submitForm();
-    }
-}
-
 function stepBrowserBack() {
     window.history.back(-2);
 }
