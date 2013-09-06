@@ -94,7 +94,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         FERuleManagementWrapper dataObject = new FERuleManagementWrapper();
 
         dataObject.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
-        dataObject.setRefDiscriminatorType(AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY);
+        dataObject.setRefDiscriminatorType(TypeServiceConstants.REF_OBJECT_URI_TYPE);
 
         String coId = dataObjectKeys.get("refObjectId");
         dataObject.setRefObjectId(coId);
