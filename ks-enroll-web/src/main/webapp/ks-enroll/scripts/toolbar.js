@@ -42,35 +42,6 @@ function processToolbar(divId, hiddenColumnsMap, buttonsMap) {
     handleButtons(hiddenColumnsMap, buttonsMap);
 }
 
-/** The following method only get one table from specified divId. We want to support the case with
- *  multiple tables. so replace it with the above one.
-function processToolbar(divId, hiddenColumnsMap, buttonsMap){
-    var oTable = getDataTableFromDiv(divId);
-
-    var selectedRows =  jQuery(oTable.fnGetNodes()).filter(':has(:input:checkbox:checked)');
-
-   jQuery(selectedRows).each(function(){
-       var cellData = oTable.fnGetData(this);
-       for(var i=0; i<cellData.length; i++)
-       {
-           for(var key in hiddenColumnsMap){
-               if(jQuery(cellData[i]).find(key).val() == 'true' || jQuery(cellData[i]).find(key).val() == 'false'){
-                   hiddenColumnsMap[key].push(jQuery(cellData[i]).find(key).val());
-               }
-           }
-       }
-   });
-
-   handleButtons(hiddenColumnsMap, buttonsMap);
-}
-
-function getDataTableFromDiv(divId){
- var id = jQuery("#" + divId).find("table").attr('id');
- var oTable = jQuery("#" + id).dataTable();
- return oTable;
- }
-*/
-
 function getDataTableHandle(divId){
     var id = jQuery("#" + divId).attr('id');
     var oTable = jQuery("#" + id).dataTable();
