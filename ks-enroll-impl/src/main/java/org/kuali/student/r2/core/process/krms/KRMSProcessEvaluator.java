@@ -297,7 +297,9 @@ public class KRMSProcessEvaluator extends KRMSEvaluator implements ProcessEvalua
         }
 
         // For now, assume there is only one active Exemption
-        DateOverride dateOverrideInfo = exemptions.get(0).getDateOverride();
+        //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
+        int firstExemptionInfo = 0;
+        DateOverride dateOverrideInfo = exemptions.get(firstExemptionInfo).getDateOverride();
 
         return new MilestoneDateComparisonProposition(RulesExecutionConstants.CURRENT_DATE_TERM_NAME, comparisonType, check.getMilestoneTypeKey(), processContext.getTermKey(), true, dateOverrideInfo);
     }

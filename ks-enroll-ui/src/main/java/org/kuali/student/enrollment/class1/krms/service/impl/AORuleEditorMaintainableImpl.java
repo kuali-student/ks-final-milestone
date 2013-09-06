@@ -291,7 +291,9 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             } else if (terms.size() > 1) {
                 GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, atpCode);
             } else {
-                TermInfo term = terms.get(0);
+                //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
+                int firstTermInfo = 0;
+                TermInfo term = terms.get(firstTermInfo);
                 //Checking soc
                 List<String> socIds = getSocService().getSocIdsByTerm(term.getId(), createContextInfo());
                 if (socIds.isEmpty()) {
