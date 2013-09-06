@@ -22,6 +22,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupW
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.CSRServiceFacade;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseInfoByTermLookupableImpl;
+import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -90,6 +91,7 @@ public class CourseOfferingManagementUtil {
     private static CourseOfferingSetService courseOfferingSetService;
     private static CourseOfferingService courseOfferingService;
     private static SearchService searchService;
+    private static CourseWaitListServiceFacade courseWaitListServiceFacade;
 
     public static CourseOfferingManagementViewHelperService getViewHelperService(CourseOfferingManagementForm theForm) {
 
@@ -154,6 +156,12 @@ public class CourseOfferingManagementUtil {
         return csrServiceFacade;
     }
 
+    public static CourseWaitListServiceFacade getCourseWaitListServiceFacade() {
+        if (courseWaitListServiceFacade == null) {
+            courseWaitListServiceFacade = (CourseWaitListServiceFacade) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseWaitListServiceFacade", "courseWaitListServiceFacade"));
+        }
+        return courseWaitListServiceFacade;
+    }
     public static CourseService getCourseService() {
         if(courseService == null) {
             courseService = CourseOfferingResourceLoader.loadCourseService();

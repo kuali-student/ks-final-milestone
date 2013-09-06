@@ -619,7 +619,7 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean id="KS-CourseOfferingEdit-HasWaitlist" parent="Uif-InputField" p:propertyName="courseOfferingInfo.hasWaitlist" p:showLabel="false" >
+                            <bean id="KS-CourseOfferingEdit-HasWaitlist" parent="Uif-InputField" p:propertyName="hasWaitlistForUI" p:showLabel="false" >
                                 <property name="control">
                                     <!-- Notes:
                                     1.  use setLabelIfElse(...) to set waitlist label wording depending on whether  waitlist is checked or unchecked
