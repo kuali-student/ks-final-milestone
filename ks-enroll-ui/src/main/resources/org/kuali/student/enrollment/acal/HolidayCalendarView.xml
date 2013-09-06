@@ -59,7 +59,7 @@
             <list>
                 <ref bean="KS-HolidayCalendar-CopyPage"/>
                 <bean parent="KS-HolidayCalendar-EditPage" p:stickyFooter="true"/>
-                <ref bean="KS-HolidayCalendar-ViewPage"/>
+                <!--<ref bean="KS-HolidayCalendar-ViewPage"/>-->
             </list>
         </property>
         <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm"/>
