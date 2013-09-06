@@ -42,12 +42,6 @@ function processToolbar(divId, hiddenColumnsMap, buttonsMap) {
     handleButtons(hiddenColumnsMap, buttonsMap);
 }
 
-function getDataTableHandle(divId){
-    var id = jQuery("#" + divId).attr('id');
-    var oTable = jQuery("#" + id).dataTable();
-    return oTable;
-}
-
 function handleButtons(hiddenColumnsMap, buttonsMap) {
    for(var key in hiddenColumnsMap)
    {
