@@ -122,11 +122,9 @@
 						<bean parent="Uif-CheckboxControl" p:checkboxLabel="This course can be audited" />
 					</property>
 				</bean>
-				<bean parent="Uif-InputField-LabelTop" p:propertyName="passFail">
-					<property name="instructionalText"
-						value="This course will have a student selectable pass/fail option" />
+				<bean parent="Uif-InputField-LabelTop" p:propertyName="passFail" p:label="Pass Fail Transcript Grade">
 					<property name="control">
-						<bean parent="Uif-CheckboxControl" p:checkboxLabel="Pass Fail Transcript Grade" />
+						<bean parent="Uif-CheckboxControl" p:checkboxLabel="This course will have a student selectable pass/fail option" />
 					</property>
 				</bean>
 			</list>
