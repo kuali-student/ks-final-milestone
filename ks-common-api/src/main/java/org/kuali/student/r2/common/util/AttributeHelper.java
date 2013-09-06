@@ -34,8 +34,9 @@ public class AttributeHelper {
     }
 
     public void putAll(Map<String, String> map) {
-        for (String key : map.keySet()) {
-            this.put(key, map.get(key));
+        //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
+        for(Map.Entry<String, String> entry: map.entrySet()) {
+            this.put(entry.getKey(), entry.getValue());
         }
     }
 
