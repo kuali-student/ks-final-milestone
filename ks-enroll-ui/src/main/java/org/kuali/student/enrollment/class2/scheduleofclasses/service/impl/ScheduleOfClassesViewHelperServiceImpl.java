@@ -81,6 +81,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
     private RuleManagementService ruleManagementService;
     @ReferenceCopy
     private KSComparatorChain activityComparatorChain;
+    @ReferenceCopy
     private KSComparatorChain regGroupComparatorChain;
 
     public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, ScheduleOfClassesSearchForm form) throws Exception {

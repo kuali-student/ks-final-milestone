@@ -77,17 +77,6 @@ public class ScheduleOfClassesSearchForm extends UifFormBase implements Activity
             return text;
         }
 
-        public static AoDisplayFormat fromString(String text) {
-            if (text != null) {
-              for (AoDisplayFormat format : AoDisplayFormat.values()) {
-                if (StringUtils.equalsIgnoreCase(text,format.text)) {
-                  return format;
-                }
-              }
-            }
-            return null;
-        }
-
     };
 
     public ScheduleOfClassesSearchForm (){

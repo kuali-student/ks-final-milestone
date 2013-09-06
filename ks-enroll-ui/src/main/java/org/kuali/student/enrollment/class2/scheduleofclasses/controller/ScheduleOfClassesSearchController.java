@@ -107,10 +107,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         String aoDisplayFormat = ConfigContext.getCurrentContextConfig().getProperty(ScheduleOfClassesConstants.ConfigProperties.AO_DISPLAY_FORMAT);
 
         if (StringUtils.isNotBlank(aoDisplayFormat)){
-            ScheduleOfClassesSearchForm.AoDisplayFormat format = ScheduleOfClassesSearchForm.AoDisplayFormat.fromString(aoDisplayFormat);
-            if (format == null){
-                throw new RuntimeException("Invalid " + ScheduleOfClassesConstants.ConfigProperties.AO_DISPLAY_FORMAT + " value");
-            }
+            ScheduleOfClassesSearchForm.AoDisplayFormat format = ScheduleOfClassesSearchForm.AoDisplayFormat.valueOf(StringUtils.upperCase(aoDisplayFormat));
             scheduleOfClassesSearchForm.setAoDisplayFormat(format);
         }
 
