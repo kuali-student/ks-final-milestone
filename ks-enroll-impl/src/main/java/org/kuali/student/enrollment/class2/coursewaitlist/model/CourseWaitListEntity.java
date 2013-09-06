@@ -72,10 +72,6 @@ public class CourseWaitListEntity extends MetaEntity implements AttributeOwner<C
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
 
-    @ManyToOne
-    @JoinColumn(name = "ENTRY_ID")
-    private CourseWaitListEntryEntity courseWaitListEntry;
-
     @ElementCollection
     @CollectionTable(name ="KSEN_CWL_ACTIV_OFFER",joinColumns = @JoinColumn(name = "CWL_ID"))
     @Column(name="ACTIV_OFFER_ID")
@@ -95,12 +91,6 @@ public class CourseWaitListEntity extends MetaEntity implements AttributeOwner<C
 
     @Column(name = "CWL_STATE")
     private String state;
-
-    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
-    private String plain;
-
-    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
-    private String formatted;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private Set<CourseWaitListAttributeEntity> attributes = new HashSet<CourseWaitListAttributeEntity>();
@@ -204,30 +194,6 @@ public class CourseWaitListEntity extends MetaEntity implements AttributeOwner<C
 
     public void setState(String state) {
         this.state = state;
-    }
-
-    public String getPlain() {
-        return plain;
-    }
-
-    public void setPlain(String plain) {
-        this.plain = plain;
-    }
-
-    public String getFormatted() {
-        return formatted;
-    }
-
-    public void setFormatted(String formatted) {
-        this.formatted = formatted;
-    }
-
-    public CourseWaitListEntryEntity getCourseWaitListEntryEntity() {
-        return this.courseWaitListEntry;
-    }
-
-    public void setCourseWaitListEntry(CourseWaitListEntryEntity entry) {
-        this.courseWaitListEntry = entry;
     }
 
     public Set<CourseWaitListAttributeEntity> getAttributes() {

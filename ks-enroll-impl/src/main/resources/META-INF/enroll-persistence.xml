@@ -101,6 +101,11 @@
           <class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntryAttributeEntity</class>
           -->
 
+        <class>org.kuali.student.enrollment.class2.coursewaitlist.model.CourseWaitListEntity</class>
+        <class>org.kuali.student.enrollment.class2.coursewaitlist.model.CourseWaitListAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class2.coursewaitlist.model.CourseWaitListEntryEntity</class>
+        <class>org.kuali.student.enrollment.class2.coursewaitlist.model.CourseWaitListEntryAttributeEntity</class>
+
         <class>org.kuali.student.r2.core.fee.model.EnrollmentFeeEntity</class>
         <class>org.kuali.student.r2.core.fee.model.EnrollmentFeeAttributeEntity</class>
 

@@ -27,6 +27,8 @@ import org.kuali.student.r2.common.infc.Attribute;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -64,8 +66,9 @@ public class CourseWaitListEntryEntity extends MetaEntity implements AttributeOw
     @Column(name = "LAST_CHECK_IN")
     private Date lastCheckIn;
 
-    @Column(name = "CWL_ID")
-    private String courseWaitListId;
+    @ManyToOne
+    @JoinColumn(name = "CWL_ID")
+    private CourseWaitListEntity courseWaitListEntity;
 
     // =====================================================================
     // The fields below are inherited from MetaEntity (and everything MetaEntity inherits from)
@@ -77,12 +80,6 @@ public class CourseWaitListEntryEntity extends MetaEntity implements AttributeOw
     @Column(name = "WAIT_LIST_ENTRY_STATE")
     private String state;
 
-    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
-    private String plain;
-
-    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
-    private String formatted;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private Set<CourseWaitListEntryAttributeEntity> attributes = new HashSet<CourseWaitListEntryAttributeEntity>();
 
@@ -90,12 +87,12 @@ public class CourseWaitListEntryEntity extends MetaEntity implements AttributeOw
         super();
     }
 
-    public String getCourseWaitListId() {
-        return courseWaitListId;
+    public CourseWaitListEntity getCourseWaitListEntity() {
+        return courseWaitListEntity;
     }
 
-    public void setCourseWaitListId(String courseWaitListId) {
-        this.courseWaitListId = courseWaitListId;
+    public void setCourseWaitListEntity(CourseWaitListEntity courseWaitListEntity) {
+        this.courseWaitListEntity = courseWaitListEntity;
     }
 
     public Set<CourseWaitListEntryAttributeEntity> getAttributes() {
@@ -170,21 +167,6 @@ public class CourseWaitListEntryEntity extends MetaEntity implements AttributeOw
         this.state = state;
     }
 
-    public String getPlain() {
-        return plain;
-    }
-
-    public void setPlain(String plain) {
-        this.plain = plain;
-    }
-
-    public String getFormatted() {
-        return formatted;
-    }
-
-    public void setFormatted(String formatted) {
-        this.formatted = formatted;
-    }
     public void fromDto(CourseWaitListEntry entry) {
         this.setEffectiveDate(entry.getEffectiveDate());
         this.setExpirationDate(entry.getExpirationDate());
@@ -197,7 +179,12 @@ public class CourseWaitListEntryEntity extends MetaEntity implements AttributeOw
         this.setPosition(entry.getPosition());
         this.setRegGroupId(entry.getRegistrationGroupId());
         this.setStudentId(entry.getStudentId());
-        this.setCourseWaitListId(entry.getCourseWaitListId());
+        //
+        // Note: CourseWaitListEntity can't be set from CourseWaitListEntryEntity which only contains the
+        // id (which is a string) for courseWaitListEntity.  When constructing an CourseWaitListEntryEntity
+        // in CourseWaitListServiceImpl, one needs to use the CourseWaitListDao to "find" (call the find
+        // method) to get the courseWaitListEntity and call courseWaitListEntity to set the value
+        // separately
     }
 
     public CourseWaitListEntryEntity(CourseWaitListEntry entry) {
@@ -218,7 +205,7 @@ public class CourseWaitListEntryEntity extends MetaEntity implements AttributeOw
         entryInfo.setPosition(getPosition());
         entryInfo.setLastCheckIn(getLastCheckIn());
         entryInfo.setRegistrationGroupId(getRegGroupId());
-        entryInfo.setCourseWaitListId(getCourseWaitListId());
+        entryInfo.setCourseWaitListId(getCourseWaitListEntity().getId());
         entryInfo.setMeta(super.toDTO());
         for(CourseWaitListEntryAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
