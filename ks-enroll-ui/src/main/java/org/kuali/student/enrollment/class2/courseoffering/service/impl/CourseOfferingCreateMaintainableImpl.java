@@ -67,8 +67,10 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * View helper service to deal with all the create course offering presentation.
@@ -646,6 +648,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
     private List<String> _retrieveCourseCodes(String targetTermCode, String catalogCourseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
 
         List<String> rList = new ArrayList<String>();
+        Set<String> rSet = new LinkedHashSet<String>(rList);
         ContextInfo context = ContextUtils.createDefaultContextInfo();
 
         //First get ATP information
@@ -661,16 +664,16 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         request.addParam(CourseInfoByTermLookupableImpl.QueryParamEnum.TERM_START.getQueryKey(), DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(0).getStartDate()));
         request.addParam(CourseInfoByTermLookupableImpl.QueryParamEnum.TERM_END.getQueryKey(), DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(0).getEndDate()));
         request.setSortColumn("lu.resultColumn.cluOfficialIdentifier.cluCode");
-        
+
         SearchResultInfo results = getCluService().search(request, context);
         for(SearchResultRow row:results.getRows()){
             for(SearchResultCell cell:row.getCells()){
                 if("lu.resultColumn.cluOfficialIdentifier.cluCode".equals(cell.getKey())){
-                    rList.add(cell.getValue());
+                    rSet.add(cell.getValue());
                 }
             }
         }
-        return rList;
+        return new ArrayList<String>(rSet);
     }
 
     private CluService getCluService() {
