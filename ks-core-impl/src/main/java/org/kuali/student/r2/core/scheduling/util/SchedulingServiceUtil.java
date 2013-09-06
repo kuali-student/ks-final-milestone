@@ -30,6 +30,7 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import java.util.ArrayList;
@@ -251,7 +252,7 @@ public class SchedulingServiceUtil {
             requestComponentInfo.getRoomIds().add(schedComp.getRoomId());
 
             // retrieve the room to find the building id
-            if(schedComp.getRoomId() != null) {
+            if (schedComp.getRoomId() != null) {
                 RoomInfo room = roomService.getRoom(schedComp.getRoomId(), callContext);
                 requestComponentInfo.getBuildingIds().add(room.getBuildingId());
 
@@ -273,6 +274,7 @@ public class SchedulingServiceUtil {
     }
 
     /**
+     * TODO: Delete this eventually (KSENROLL-9321)
      * Convenience method to translate an request Schedule into a ScheduleReqeust
      * Used during CO/AO copy to make requests in the target that are copies from the request schedule of the source
      *
@@ -310,5 +312,25 @@ public class SchedulingServiceUtil {
         }
 
         return result;
+    }
+
+    /**
+     * Copies the original request into a new one, but nulls out IDs, and replaces the SRS id with the
+     * one passed in
+     * @param origRequest The request to be copied
+     * @param srsId The new srs ID to set this to
+     * @return A copy of the SRI minus the IDs
+     */
+    public static ScheduleRequestInfo copyScheduleRequest(ScheduleRequestInfo origRequest, String srsId) {
+        ScheduleRequestInfo copy = new ScheduleRequestInfo(origRequest);
+        copy.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED); // Reset the state
+        copy.setScheduleRequestSetId(srsId);
+        copy.setId(null); // Null out the IDs
+        if (copy.getScheduleRequestComponents() != null) {
+            for (ScheduleRequestComponentInfo comp: copy.getScheduleRequestComponents()) {
+                comp.setId(null); // Null these out too
+            }
+        }
+        return copy;
     }
 }
