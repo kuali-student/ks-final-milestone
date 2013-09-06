@@ -805,6 +805,12 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
         this.administeringOrganizations = administeringOrganizations;
     }
 
+    /**
+     * 
+     * This overridden method ...
+     * 
+     * @see org.kuali.student.cm.course.service.CourseInfoMaintainable#getCollaboratorWrappers()
+     */
     @Override
     public List<CollaboratorWrapper> getCollaboratorWrappers() {
         if (collaboratorWrappers == null) {
@@ -813,10 +819,68 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
         return collaboratorWrappers;
     }
 
+    /**
+     * 
+     * This overridden method ...
+     * 
+     * @see org.kuali.student.cm.course.service.CourseInfoMaintainable#setCollaboratorWrappers(java.util.List)
+     */
     @Override
     public void setCollaboratorWrappers(List<CollaboratorWrapper> collaboratorWrappers) {
         this.collaboratorWrappers = collaboratorWrappers;
         
     }
+    
+    /**
+    *
+    * @see CourseInfoMaintainable#getCollaboratorWrappersSuggest(String)
+    */
+   public List<CollaboratorWrapper> getCollaboratorWrappersSuggest(
+           String principalId) {
+       List<CollaboratorWrapper> listCollaboratorWrappers = new ArrayList<CollaboratorWrapper>();
+       
+       List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
+       
+       SearchParamInfo displayNameParam = new SearchParamInfo();
+       displayNameParam.setKey(QuickViewByGivenName.NAME_PARAM);
+       displayNameParam.getValues().add(principalId);
+       queryParamValueList.add(displayNameParam);
+       
+       SearchRequestInfo searchRequest = new SearchRequestInfo();
+       searchRequest.setSearchKey(QuickViewByGivenName.SEARCH_TYPE);
+       searchRequest.setParams(queryParamValueList);
+       searchRequest.setStartAt(0);
+       searchRequest.setMaxResults(10);
+       searchRequest.setNeededTotalResults(false);
+       searchRequest.setSortColumn(QuickViewByGivenName.DISPLAY_NAME_RESULT);
+       
+       SearchResultInfo searchResult = null;
+       try {
+           searchResult = getSearchService().search(searchRequest, ContextUtils.getContextInfo());
+           for (SearchResultRowInfo result : searchResult.getRows()) {
+               List<SearchResultCellInfo> cells = result.getCells();
+               CollaboratorWrapper theCollaboratorWrapper = new CollaboratorWrapper();
+               for (SearchResultCellInfo cell : cells) {
+                   if (QuickViewByGivenName.GIVEN_NAME_RESULT.equals(cell.getKey())) {
+                       theCollaboratorWrapper.setGivenName(cell.getValue());
+                   } else if (QuickViewByGivenName.PERSON_ID_RESULT.equals(cell.getKey())) {
+                       theCollaboratorWrapper.setPersonID(cell.getValue());
+                   } else if (QuickViewByGivenName.ENTITY_ID_RESULT.equals(cell.getKey())) {
+                       theCollaboratorWrapper.setPrincipalId(cell.getValue());
+                   } else if (QuickViewByGivenName.PRINCIPAL_NAME_RESULT.equals(cell.getKey())) {
+                       theCollaboratorWrapper.setPrincipalName(cell.getValue());
+                   } else if (QuickViewByGivenName.DISPLAY_NAME_RESULT.equals(cell.getKey())) {
+                       theCollaboratorWrapper.setDisplayName(cell.getValue());
+                   }
+               }
+               listCollaboratorWrappers.add(theCollaboratorWrapper);
+           }
+       } catch (Exception e) {
+           error("Error retrieving Personel search List %s", e);
+           //throw new RuntimeException();
+       }
+       
+       return listCollaboratorWrappers;
+   }
 
 }

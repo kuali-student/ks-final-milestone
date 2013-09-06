@@ -242,7 +242,7 @@
                 <bean id="KS-CourseViewFinancials-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-FinancialsPage"
                       p:actionLabel="Financials" p:disabled="true"/>
                 <bean id="KS-CourseViewAuthorsAndCollaborators-ActionLink" parent="Uif-NavigationActionLink"
-                      p:navigateToPageId="KS-CourseView-AuthorsAndCollaboratorsPage" p:actionLabel="Authors &amp; Collaborators" p:disabled="true"/>
+                      p:navigateToPageId="KS-CourseView-AuthorsAndCollaboratorsPage" p:actionLabel="Authors &amp; Collaborators" p:disabled="false"/>
                 <bean id="KS-CourseViewSupportingDocuments-ActionLink" parent="Uif-NavigationActionLink"
                       p:navigateToPageId="KS-CourseView-SupportingDocumentsPage" p:actionLabel="Supporting Documents" />
                 <bean id="KS-CourseViewReviewProposal-ActionLink" parent="Uif-NavigationActionLink"

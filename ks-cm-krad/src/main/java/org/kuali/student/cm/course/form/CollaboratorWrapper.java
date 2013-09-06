@@ -9,7 +9,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class CollaboratorWrapper {
 
         private static final long serialVersionUID = 1L;
-
+        
+        private String personID;
+        private String principalName;        
+        private String givenName;
+        private String displayName;
         private String principalId;
         private String firstName;
         private String lastName;
@@ -75,5 +79,29 @@ public class CollaboratorWrapper {
         }
         public void setActionRequestId(String actionRequestId) {
             this.actionRequestId = actionRequestId;
+        }
+        public String getDisplayName() {
+            return displayName;
+        }
+        public void setDisplayName(String displayName) {
+            this.displayName = displayName;
+        }
+        public String getGivenName() {
+            return givenName;
+        }
+        public void setGivenName(String givenName) {
+            this.givenName = givenName;
+        }
+        public String getPrincipalName() {
+            return principalName;
+        }
+        public void setPrincipalName(String principalName) {
+            this.principalName = principalName;
+        }
+        public String getPersonID() {
+            return personID;
+        }
+        public void setPersonID(String personID) {
+            this.personID = personID;
         }
 }
