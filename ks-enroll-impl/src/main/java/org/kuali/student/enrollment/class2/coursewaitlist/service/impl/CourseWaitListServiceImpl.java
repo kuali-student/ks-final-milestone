@@ -102,7 +102,7 @@ public class CourseWaitListServiceImpl implements CourseWaitListService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteCourseWaitList(String courseWaitListId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
