@@ -15,11 +15,25 @@
  */
 package org.kuali.student.enrollment.class1.krms.keyvalue;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.student.r2.core.acal.infc.Term;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
+import javax.xml.namespace.QName;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,24 +42,45 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class TermKeyValueFinder extends KeyValuesBase {
+public class TermKeyValueFinder extends UifKeyValuesFinderBase implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private transient TypeService typeService;
 
     @Override
-    public List<KeyValue> getKeyValues() {
-        List<KeyValue> labels = new ArrayList<KeyValue>();
-        labels.add(new ConcreteKeyValue("", "Select Term Type"));
-        labels.add(new ConcreteKeyValue("1", "Fall Term"));
-        labels.add(new ConcreteKeyValue("2", "Subterm: Half Fall1"));
-        labels.add(new ConcreteKeyValue("3", "Subterm: Half Fall2"));
-        labels.add(new ConcreteKeyValue("4", "Spring Term"));
-        labels.add(new ConcreteKeyValue("5", "Summer Term"));
-        labels.add(new ConcreteKeyValue("6", "Summer 1"));
-        labels.add(new ConcreteKeyValue("7", "Summer 2"));
-        labels.add(new ConcreteKeyValue("8", "Continuing Education Term 1"));
-        labels.add(new ConcreteKeyValue("9", "Continuing Education Term 2"));
-        labels.add(new ConcreteKeyValue("10", "Continuing Education Term 3"));
-        labels.add(new ConcreteKeyValue("11", "Continuing Education Term 4"));
+    public List<KeyValue> getKeyValues(ViewModel model) {
 
-        return labels;
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        try {
+
+            keyValues.add(new ConcreteKeyValue("", "Select Term Type"));
+
+            for (TypeInfo type : getAcalTermTypes()) {
+
+                    ConcreteKeyValue keyValue = new ConcreteKeyValue();
+                    keyValue.setKey(type.getKey());
+                    keyValue.setValue(type.getName());
+                    keyValues.add(keyValue);
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error getting term key values.", e);
+        }
+
+        return keyValues;
     }
-}
+
+    private List<TypeInfo> getAcalTermTypes() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        return getTypeService().getTypesForGroupType(AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY, ContextUtils.createDefaultContextInfo());
+    }
+
+    public TypeService getTypeService() {
+        if (typeService == null) {
+            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return this.typeService;
+    }
+
+    }
+
