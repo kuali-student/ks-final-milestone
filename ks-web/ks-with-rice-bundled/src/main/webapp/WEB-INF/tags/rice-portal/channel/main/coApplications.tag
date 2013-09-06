@@ -2,9 +2,15 @@
 
 <channel:portalChannelTop channelTitle="Course Offering Sandbox" />
 <div class="body">
+    <strong>Toolbar</strong>
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Toolbar"
+                               url="${ConfigProperties.application.url}/kr-krad/toolbarController?viewId=Toolbar-Sample&methodToCall=start" /></li>
+    </ul>
     <strong>Course Offering</strong>
     <ul class="chan">
         <!-- WARNING: the following 3 links are duplicated in "EnrollmentHomeView.xml" -->
+        <li><portal:portalLink displayTitle="true" title="Perform Rollover via Maintenance Document" url="${ConfigProperties.application.url}/kr-krad//maintenance?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingRolloverWrapper&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
         <li><portal:portalLink displayTitle="true" title="Perform Rollover" url="${ConfigProperties.application.url}/kr-krad/courseOfferingRollover?viewId=courseOfferingRolloverManagementView&pageId=selectTermsForRollover&methodToCall=start"/></li>
         <li><portal:portalLink displayTitle="true" title="Rollover Details" url="${ConfigProperties.application.url}/kr-krad/courseOfferingRollover?viewId=courseOfferingRolloverManagementView&pageId=selectTermForRolloverDetails&methodToCall=start"/></li>
         <li><portal:portalLink displayTitle="true" title="Manage Course Offerings (POC)" url="${ConfigProperties.lum.application.url}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementViewPOC&pageId=searchInputPagePOC&methodToCall=start"/></li>
