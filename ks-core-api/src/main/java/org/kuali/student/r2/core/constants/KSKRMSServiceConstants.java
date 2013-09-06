@@ -174,6 +174,13 @@ public class KSKRMSServiceConstants {
     public static final String TERM_PARAMETER_TYPE_TIMESLOT_START = "kuali.term.parameter.type.timeslot.start";
     public static final String TERM_PARAMETER_TYPE_TIMESLOT_END = "kuali.term.parameter.type.timeslot.end";
 
+    // action parameters
+    public static final String ACTION_PARAMETER_TYPE_RDL_DAY = "day";
+    public static final String ACTION_PARAMETER_TYPE_RDL_STARTTIME = "startTime";
+    public static final String ACTION_PARAMETER_TYPE_RDL_ENDTIME = "endTime";
+    public static final String ACTION_PARAMETER_TYPE_RDL_FACILITY = "facility";
+    public static final String ACTION_PARAMETER_TYPE_RDL_ROOM = "room";
+
     // term parameter types for nl
     public static final String TERM_PARAMETER_TYPE_CLULIST_KEY = "kuali.term.parameter.type.course.nl.clu.list";
     public static final String TERM_PARAMETER_TYPE_CLUSETLIST_KEY = "kuali.term.parameter.type.course.nl.cluset.list";
