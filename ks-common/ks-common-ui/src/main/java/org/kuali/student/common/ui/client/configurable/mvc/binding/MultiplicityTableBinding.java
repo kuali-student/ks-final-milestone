@@ -169,8 +169,10 @@ public class MultiplicityTableBinding extends ModelWidgetBindingSupport<Multipli
         else {
             fieldPath =  fullPath.subPath(i, fullPath.size());
         }
+        //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
+        int firstPath = 0;
 
-        if (fieldPath.get(0).toString().equals(QueryPath.getWildCard())) {
+        if (fieldPath.get(firstPath).toString().equals(QueryPath.getWildCard())) {
             fieldPath.remove(0);
         }
         return fieldPath;

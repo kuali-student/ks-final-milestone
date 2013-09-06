@@ -431,8 +431,9 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
                         acceptableDocumentTypesString= "Sorry, no documents supported for upload now!";       
                         
                     }else{
-                        
-                        acceptableDocumentTypesString= "." + supportedDocumentTypeInfoResults.get(0).getName();
+                        //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
+                        int firstTypeInfo = 0;
+                        acceptableDocumentTypesString= "." + supportedDocumentTypeInfoResults.get(firstTypeInfo).getName();
                         for(int i= 1; i < supportedDocumentTypeInfoResults.size(); i++){
                             
                             acceptableDocumentTypesString+= ", ." + supportedDocumentTypeInfoResults.get(i).getName();

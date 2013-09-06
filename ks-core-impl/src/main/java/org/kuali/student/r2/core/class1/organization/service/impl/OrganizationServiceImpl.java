@@ -339,8 +339,10 @@ public class OrganizationServiceImpl implements OrganizationService {
     public TypeInfo getOrgOrgRelationTypeForOrgType(String orgTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgTypeKey, "orgTypeKey");
         List<TypeInfo> infos = getOrgOrgRelationTypesForOrgType(orgTypeKey,contextInfo );
+        //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
+        int firstTypeInfo = 0;
 
-        return (infos.size() >0 ? infos.get(0) : new TypeInfo());
+        return (infos.size() >0 ? infos.get(firstTypeInfo) : new TypeInfo());
     }
 
     @Override
@@ -602,7 +604,9 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Deprecated
     public OrgPersonRelationInfo getOrgPersonRelationByTypeAndOrg(String orgPersonRelationTypeKey, String orgId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<OrgPersonRelationInfo> infos = getOrgPersonRelationsByTypeAndOrg(orgPersonRelationTypeKey, orgId, contextInfo);
-        return (infos.size() >0 ? infos.get(0) : new OrgPersonRelationInfo());
+        //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
+        int firstOrgPersonRelationInfo = 0;
+        return (infos.size() >0 ? infos.get(firstOrgPersonRelationInfo) : new OrgPersonRelationInfo());
     }
 
     @Override

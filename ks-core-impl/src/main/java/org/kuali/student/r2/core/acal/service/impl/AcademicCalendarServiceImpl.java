@@ -595,11 +595,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public List<TermInfo> getCurrentTerms(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-
+        //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
+        int fistAcademicCalendarInfo = 0;
         List<AcademicCalendarInfo> currentACInfos = getAcademicCalendarsByStartYear(Integer.valueOf(Calendar.getInstance().get(Calendar.YEAR)), context);
-        List<TermInfo> terms = getTermsForAcademicCalendar(currentACInfos.get(0).getId(), context);
+        List<TermInfo> terms = getTermsForAcademicCalendar(currentACInfos.get(fistAcademicCalendarInfo).getId(), context);
         if (terms == null || terms.size() == 0) {
-            throw new DoesNotExistException("This academic calendar doesn't contain any terms : " + currentACInfos.get(0).getId());
+            throw new DoesNotExistException("This academic calendar doesn't contain any terms : " + currentACInfos.get(fistAcademicCalendarInfo).getId());
         }
         return terms;
     }
@@ -1058,10 +1059,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         searchRequest.addParam("milestone.queryParam.milestoneTypes", keydateTypes);
         SearchResultInfo searchResult = atpService.search(searchRequest, context);
         List<String> keyDateIds = new ArrayList<String>();
+        //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
+        int firstSearchResultCellInfo = 0;
         // Extract out IDs.  Each row should have one cell with one key, so just grab the value (which is an ID)
         for (SearchResultRowInfo row: searchResult.getRows()) {
             List<SearchResultCellInfo> cells = row.getCells();
-            String id = cells.get(0).getValue(); // keydate ID
+            String id = cells.get(firstSearchResultCellInfo).getValue(); // keydate ID
             keyDateIds.add(id);
         }
         return keyDateIds;

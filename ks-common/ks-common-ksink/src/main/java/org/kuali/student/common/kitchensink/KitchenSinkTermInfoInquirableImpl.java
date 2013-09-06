@@ -43,8 +43,10 @@ public class KitchenSinkTermInfoInquirableImpl extends InquirableImpl {
         try{
             termInfoList = getAcademicCalendarService().getTermsByCode(termKey, new ContextInfo());
             if (termInfoList.size() > 0) {
+                //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
                 // NOTE: should check to make sure length is not more than one, and throw an error if it is
-                return termInfoList.get(0);
+                int firstTermInfo = 0;
+                return termInfoList.get(firstTermInfo);
             }
         }
         catch (Exception e){

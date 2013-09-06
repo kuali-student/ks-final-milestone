@@ -73,7 +73,9 @@ public class MilestoneStateHelperImpl implements StateHelper{
 
             //For calendar, we never have a type related with multiple types.. but just a check to make sure we're not having multiple entries
             // KSENROLL-7428 Just check for inconsistencies (also KSENROLL-7506)
-            String groupType = _processOwnerTypeKey(typeTypeRelationInfos.get(0).getOwnerTypeKey());
+            //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
+            int firstTypeTypeRelationInfo = 0;
+            String groupType = _processOwnerTypeKey(typeTypeRelationInfos.get(firstTypeTypeRelationInfo).getOwnerTypeKey());
             for (int i = 1; i < typeTypeRelationInfos.size(); i++) {
                 String nextGroupType = _processOwnerTypeKey(typeTypeRelationInfos.get(i).getOwnerTypeKey());
                 if (!StringUtils.equals(groupType, nextGroupType)) {

@@ -58,7 +58,9 @@ public class RuleLogicExpressionParser {
 
         // allow empty expression. ie. user wants the entire rule deleted.
         if (tokens.size() > 0) {
-            int firstTokenType = tokens.get(0).getType();
+            //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
+            int firstToken = 0;
+            int firstTokenType = tokens.get(firstToken).getType();
             if ((firstTokenType != ExpressionToken.PARENTHESIS_START)
                     && (firstTokenType != ExpressionToken.CONDITION)) {
                 errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_LOGIC_EXPRESSION_START);

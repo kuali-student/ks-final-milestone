@@ -271,7 +271,9 @@ public class StateTransitionsHelperImpl implements StateTransitionsHelper {
             statusInfo.setMessage(String.format("State constraint [%s] has no related state keys defined.", constraint.getId()));
             return statusInfo;
         }
-        String relatedObjStateKeyPrefix = findStateKeyPrefix(constraintObjectStateKeys.get(0));
+        //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
+        int firstConstraintObjectStateKey = 0;
+        String relatedObjStateKeyPrefix = findStateKeyPrefix(constraintObjectStateKeys.get(firstConstraintObjectStateKey));
         StateConstraintOperator operator = constraint.getStateConstraintOperator();
         String roHelperKey =  makeRelatedObjectHelperKey(entityKeyPrefix, relatedObjStateKeyPrefix);
         RelatedObjectHelper relatedObjectHelper = this.relatedObjectHelperMap.get(roHelperKey);

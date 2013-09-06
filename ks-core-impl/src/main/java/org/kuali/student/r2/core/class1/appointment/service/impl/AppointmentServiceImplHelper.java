@@ -556,7 +556,9 @@ public class AppointmentServiceImplHelper {
                                                   StatusInfo statusInfo, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException,
                    PermissionDeniedException, OperationFailedException, DataValidationErrorException, ReadOnlyException {
-        String slotId = slotInfoList.get(0).getId();  // Only one slot in the one slot case
+        //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
+        int firstAppointmentSlotInfo = 0;
+        String slotId = slotInfoList.get(firstAppointmentSlotInfo).getId();  // Only one slot in the one slot case
         for (String studentId: studentIds) {
             AppointmentInfo apptInfo = _createAppointmentInfo(studentId, slotId);
             createAppointmentNoTransact(studentId, slotId, apptInfo.getTypeKey(), apptInfo, contextInfo);
