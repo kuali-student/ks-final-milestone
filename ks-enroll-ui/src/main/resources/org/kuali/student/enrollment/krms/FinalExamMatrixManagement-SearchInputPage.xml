@@ -22,7 +22,6 @@
 
     <bean id="KSFE-FinalExamMatrixManagement-SearchInputPage" parent="KS-Uif-Page" p:disclosure.render="false"
           p:id="finalExamSearchInputPage">
-        <!--<property name="onDocumentReadyScript" value="removeEmptyContextBar('KS-CourseOffering-View-ContextBar-PlaceHolder');"/>-->
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
                 <ref bean="KSFE-HomewardPathBreadcrumbs-ManageFEM-Landing" />
@@ -60,7 +59,7 @@
                                     <bean class="org.kuali.student.enrollment.class1.krms.keyvalue.TermKeyValueFinder"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="false" p:actionLabel="Show" p:methodToCall="show"/>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Show" p:methodToCall="show"/>
                         </list>
                     </property>
                 </bean>

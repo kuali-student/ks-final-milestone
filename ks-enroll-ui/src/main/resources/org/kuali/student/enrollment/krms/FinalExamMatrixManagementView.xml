@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
     <!--
      Copyright 2007-2012 The Kuali Foundation
 
@@ -19,14 +19,12 @@
      limitations under the License.
     -->
 
-    <bean id="KSFE-FinalExamMatrixManagement-View" parent="KS-Uif-FormView" p:applyDirtyCheck="true"
-          p:id="finalExamMatrixManagementView"
-          p:entryPageId="finalExamSearchInputPage"
-          p:viewHelperServiceClass="org.kuali.student.enrollment.class1.krms.service.impl.FERuleViewHelperServiceImpl"
-          p:formClass="org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper" >
+    <bean id="KSFE-FinalExamMatrixManagement-View" parent="KS-Uif-FormView" p:applyDirtyCheck="false">
 
-        <!-- This is a placeholder; it will be dynamically replaced by child-pages using JS-onDocumentReadyScript.
-             This is a work-around at least until KRAD 2.3-m3 -->
+        <property name="id" value="finalExamMatrixManagementView"/>
+        <property name="entryPageId" value="finalExamSearchInputPage"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.FERuleViewHelperServiceImpl"/>
+        <property name="formClass" value="org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper"/>
         <property name="headerText" value="Manage Final Exam Matrix" />
         <property name="header.cssClasses">
             <list merge="true">
@@ -39,6 +37,7 @@
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
         </property>
+
 
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
