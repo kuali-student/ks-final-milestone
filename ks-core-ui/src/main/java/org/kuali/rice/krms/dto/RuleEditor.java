@@ -283,6 +283,9 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
 
     @Override
     public List<? extends ActionDefinitionContract> getActions() {
+        if(this.actions==null){
+            this.actions = new ArrayList<ActionEditor>();
+        }
         return actions;
     }
 
