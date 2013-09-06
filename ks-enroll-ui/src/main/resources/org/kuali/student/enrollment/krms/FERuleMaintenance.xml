@@ -393,13 +393,11 @@ limitations under the License.
                             <property name="dataObjectClassName" value="org.kuali.student.r2.core.room.dto.BuildingInfo"/>
                             <property name="fieldConversions">
                                 <map>
-                                    <entry key="id" value="ruleEditor.building.id"/>
                                     <entry key="buildingCode" value="ruleEditor.building.buildingCode"/>
                                 </map>
                             </property>
                         </bean>
                     </property>
-
                 </bean>
                 <bean id="FinalExam_room" parent="Uif-InputField-LabelTop" p:label="Room" p:propertyName="ruleEditor.room.roomCode">
                     <property name="control">
@@ -411,8 +409,6 @@ limitations under the License.
                             <property name="autoSearch" value="true"/>
                             <property name="fieldConversions">
                                 <map>
-                                    <entry key="id" value="ruleEditor.room.id"/>
-                                    <entry key="buildingId" value="ruleEditor.room.buildingId"/>
                                     <entry key="roomCode" value="ruleEditor.room.roomCode"/>
                                 </map>
                             </property>

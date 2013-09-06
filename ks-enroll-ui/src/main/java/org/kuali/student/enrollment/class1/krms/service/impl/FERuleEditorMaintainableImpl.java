@@ -53,6 +53,11 @@ import org.kuali.student.lum.lu.ui.krms.dto.LUAgendaEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
 import org.kuali.student.lum.lu.ui.krms.tree.LURuleViewTreeBuilder;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
@@ -67,6 +72,7 @@ import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.StateServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.springframework.util.StringUtils;
 
@@ -86,7 +92,10 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FERuleEditorMaintainableImpl.class);
 
+    private RoomService roomService;
+
     private String usageId;
+    private String actionTypeId;
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
@@ -190,20 +199,36 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             FERuleEditor ruleEditor = new FERuleEditor(agendaItem.getRule());
             ActionEditor action = ruleEditor.getActionForType(this.getActionTypeId());
             Map<String, String> attributes = action.getAttributes();
-            if(attributes.containsKey("day")){
-                ruleEditor.setDay(attributes.get("day"));
+            if(attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY)){
+                ruleEditor.setDay(attributes.get(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY));
             }
-            if(attributes.containsKey("startTime")){
-                Date timeForDisplay = new Date(Long.parseLong(attributes.get("startTime")));
+            if(attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME)){
+                Date timeForDisplay = new Date(Long.parseLong(attributes.get(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME)));
                 String startTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay);
                 ruleEditor.setStartTime(org.apache.commons.lang.StringUtils.substringBefore(startTime, " "));
                 ruleEditor.setStartTimeAMPM(org.apache.commons.lang.StringUtils.substringAfter(startTime, " "));
             }
-            if(attributes.containsKey("endTime")){
-                Date timeForDisplay = new Date(Long.parseLong(attributes.get("endTime")));
+            if(attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME)){
+                Date timeForDisplay = new Date(Long.parseLong(attributes.get(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME)));
                 String endTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay);
                 ruleEditor.setEndTime(org.apache.commons.lang.StringUtils.substringBefore(endTime, " "));
                 ruleEditor.setEndTimeAMPM(org.apache.commons.lang.StringUtils.substringAfter(endTime, " "));
+            }
+            if(attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY)){
+                String buildingId = attributes.get(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY);
+                try {
+                    ruleEditor.setBuilding(this.getRoomService().getBuilding(buildingId, this.createContextInfo()));
+                } catch (Exception e) {
+                    throw new RuntimeException("Could not retrieve building for " + buildingId);
+                }
+            }
+            if(attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM)){
+                String roomId = attributes.get(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM);
+                try {
+                    ruleEditor.setRoom(this.getRoomService().getRoom(roomId, this.createContextInfo()));
+                } catch (Exception e) {
+                    throw new RuntimeException("Could not retrieve room for " + roomId);
+                }
             }
 
             String description = this.getRuleManagementService().translateNaturalLanguageForObject(this.getUsageId(), "rule", ruleEditor.getId(), "en");
@@ -227,7 +252,10 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
     }
 
     protected String getActionTypeId(){
-        return this.getKrmsTypeRepositoryService().getTypeByName(StudentIdentityConstants.KS_NAMESPACE_CD, KSKRMSServiceConstants.ACTION_TYPE_REQUESTED_DELIVERY_LOGISTIC).getId();
+        if(actionTypeId==null){
+            actionTypeId = this.getKrmsTypeRepositoryService().getTypeByName(StudentIdentityConstants.KS_NAMESPACE_CD, KSKRMSServiceConstants.ACTION_TYPE_REQUESTED_DELIVERY_LOGISTIC).getId();
+        }
+        return actionTypeId;
     }
 
     protected String getUsageId(){
@@ -236,6 +264,13 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                 PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
         }
         return usageId;
+    }
+
+    public RoomService getRoomService(){
+        if (roomService == null){
+            roomService = CourseOfferingResourceLoader.loadRoomService();
+        }
+        return roomService;
     }
 
 }

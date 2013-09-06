@@ -15,6 +15,9 @@
  */
 package org.kuali.student.enrollment.class1.krms.service.impl;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
@@ -30,10 +33,14 @@ import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.core.krms.tree.KSRuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.CORuleCompareTreeBuilder;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.lum.lu.ui.krms.service.impl.LURuleViewHelperServiceImpl;
+import org.kuali.student.r2.core.room.dto.BuildingInfo;
+import org.kuali.student.r2.core.room.service.RoomService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,6 +48,8 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
+
+    private RoomService roomService;
 
     /**
      *
@@ -114,6 +123,27 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
         }
 
         return termParameters;
+    }
+
+    public List<BuildingInfo> retrieveBuildingInfo(String buildingCode,boolean strictMatch) throws Exception{
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        if (!strictMatch){
+            buildingCode = StringUtils.upperCase(buildingCode) + "%";
+        }
+        qbcBuilder.setPredicates(PredicateFactory.like("buildingCode", buildingCode));
+
+        QueryByCriteria criteria = qbcBuilder.build();
+
+        List<BuildingInfo> b = getRoomService().searchForBuildings(criteria, createContextInfo());
+        return b;
+    }
+
+    public RoomService getRoomService(){
+        if (roomService == null){
+            roomService = CourseOfferingResourceLoader.loadRoomService();
+        }
+        return roomService;
     }
 
 }
