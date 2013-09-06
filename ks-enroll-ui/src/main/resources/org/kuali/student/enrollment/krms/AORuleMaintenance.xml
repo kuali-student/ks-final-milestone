@@ -553,7 +553,7 @@ limitations under the License.
         <property name="items">
             <list>
 
-                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup">
                     <property name="items">
                         <list>
                             <bean parent="KRMS-RuleEditorView-AddButton" p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditGroupRule"/>
@@ -562,7 +562,7 @@ limitations under the License.
                     </property>
                 </bean>
 
-                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup">
                     <property name="items">
                         <list>
                             <bean parent="KRMS-RuleEditorView-GroupButton" p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditGroupRule"/>
@@ -572,7 +572,7 @@ limitations under the License.
                     </property>
                 </bean>
 
-                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup">
                     <property name="items">
                         <list>
                             <bean parent="KRMS-RuleEditorView-UpButton" p:componentSecurity.performActionAuthz="true" p:actionEvent="moveRule"/>
@@ -581,7 +581,7 @@ limitations under the License.
                     </property>
                 </bean>
 
-                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup">
                     <property name="items">
                         <list>
                             <bean parent="KRMS-RuleEditorView-CopyButton" p:componentSecurity.performActionAuthz="true" p:actionEvent="copyCutRule"/>
