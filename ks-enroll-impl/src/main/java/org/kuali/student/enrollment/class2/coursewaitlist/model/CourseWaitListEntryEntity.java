@@ -27,6 +27,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -80,7 +81,7 @@ public class CourseWaitListEntryEntity extends MetaEntity implements AttributeOw
     @Column(name = "WAIT_LIST_ENTRY_STATE")
     private String state;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch= FetchType.EAGER, orphanRemoval=true)
     private Set<CourseWaitListEntryAttributeEntity> attributes = new HashSet<CourseWaitListEntryAttributeEntity>();
 
     public CourseWaitListEntryEntity() {

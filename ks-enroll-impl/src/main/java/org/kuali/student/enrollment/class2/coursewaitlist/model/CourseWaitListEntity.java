@@ -92,7 +92,7 @@ public class CourseWaitListEntity extends MetaEntity implements AttributeOwner<C
     @Column(name = "CWL_STATE")
     private String state;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch=FetchType.EAGER, orphanRemoval=true)
     private Set<CourseWaitListAttributeEntity> attributes = new HashSet<CourseWaitListAttributeEntity>();
 
     public CourseWaitListEntity() {
@@ -283,10 +283,14 @@ public class CourseWaitListEntity extends MetaEntity implements AttributeOwner<C
             AttributeInfo attInfo = att.toDto();
             cwlInfo.getAttributes().add(attInfo);
         }
-        cwlInfo.setActivityOfferingIds(new ArrayList());
-        cwlInfo.getActivityOfferingIds().addAll(activityOfferingIds);
-        cwlInfo.setFormatOfferingIds(new ArrayList());
-        cwlInfo.getFormatOfferingIds().addAll(formatOfferingIds);
+        if(activityOfferingIds != null) {
+            cwlInfo.setActivityOfferingIds(new ArrayList());
+            cwlInfo.getActivityOfferingIds().addAll(activityOfferingIds);
+        }
+        if(formatOfferingIds != null) {
+            cwlInfo.setFormatOfferingIds(new ArrayList());
+            cwlInfo.getFormatOfferingIds().addAll(formatOfferingIds);
+        }
 
         return cwlInfo;
     }
