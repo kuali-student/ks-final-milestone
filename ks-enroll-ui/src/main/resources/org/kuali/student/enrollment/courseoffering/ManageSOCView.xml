@@ -160,7 +160,7 @@
    </bean>
 
 
-    <bean id="ManageSOCView-GoButton" parent="Uif-SecondaryActionButton-Small"
+    <bean id="ManageSOCView-GoButton" parent="Uif-SecondaryActionButton"
           p:onClickScript="updateContextBar( null, 'KS-CourseOffering-View-ContextBar-PlaceHolder' );"
           p:actionLabel="Go" p:methodToCall="buildModel" p:valign="bottom"/>
 
