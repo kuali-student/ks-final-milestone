@@ -1,82 +1,5 @@
 var dirtyFieldsRefreshed = false;
 
-function removeSelfFromDropdowns(headerTextNameContainerId) {
-    jQuery('select[name=clusterIdForAOMove]').each(function () {
-        var dropdownId = jQuery(this).attr('id');
-        var lineIndex = dropdownId.indexOf('_line');
-        var controlIndex = dropdownId.indexOf('_control');
-        var postFix = '';
-        if (lineIndex > -1) {
-            if (controlIndex > -1) {
-                postfix = dropdownId.substring(lineIndex, controlIndex);
-            } else {
-                postfix = dropdownId.substring(lineIndex);
-            }
-        }
-        var headerContainer = headerTextNameContainerId + postfix;
-        var headerText = jQuery("#" + headerContainer).find("label").text();
-        var braketIndex = headerText.indexOf('(');
-        if (braketIndex > -1) {
-            headerText = headerText.substring(0, braketIndex);
-        }
-
-        jQuery("#" + dropdownId + " > option").each(function (i) {
-            var optionText = jQuery.trim(jQuery.trim(jQuery(this).text()));
-            headerText = jQuery.trim(headerText);
-            if (headerText == optionText) {
-                jQuery(this).remove();
-            }
-        });
-    });
-    toggleAssignButton();
-}
-
-function addDropdownGroup(dropdownId, prepend, groupText, optionList, withinPortal) {
-    if (withinPortal) {
-        return;
-    }
-    var dropdown = jQuery("#" + dropdownId);
-    if (dropdown != 'undefined') {
-        if (optionList != 'undefined') {
-            if (prepend) {
-                dropdown.prepend('<optgroup label="' + groupText + '"></optgroup>');
-            } else {
-                dropdown.append('<optgroup label="' + groupText + '"></optgroup>');
-            }
-            jQuery.each(optionList, function (key, value) {
-                addOption(dropdown, prepend, key, value);
-            });
-        }
-    }
-}
-
-function addOption(dropdown, prepend, key, value) {
-    if (prepend) {
-        dropdown.prepend(jQuery('<option>', {key:value}).text(value));
-    } else {
-        dropdown.append(jQuery('<option>', {value:key}).text(value));
-    }
-}
-
-function populateLightboxForm(propertyContainerId, defaultPropertyValues) {
-//    var lightboxForm = jQuery("#" + "kualiLightboxForm");
-    jQuery.each(defaultPropertyValues, function (lightboxPropId, kualiPropId) {
-        var lightboxInput = jQuery("#kualiLightboxForm :input[name='" + lightboxPropId + "']");
-        var kualiProp = jQuery("#" + kualiPropId);
-        lightboxInput.val(kualiProp.text());
-    });
-}
-
-function toggleAssignButton() {
-    var table = jQuery("#KS-ManageRegistrationGroups-UnassignedActivityOfferingsPerFormatSection").find("table");
-    var checkedCheckboxesCount = jQuery(table).find('input:checkbox:checked').length;
-    if (checkedCheckboxesCount > 0) {
-        jQuery("#move_ao_button").removeAttr("disabled");
-    } else {
-        jQuery("#move_ao_button").attr("disabled", "disabled");
-    }
-}
-
 function toggleAddAOCButton(buttonId, controlId) {
     if ((buttonId=="moveAOCButton" && jQuery("#clusterIDListForAOMove_control").val()== "createNewCluster")
         || buttonId=="addAOCButton" || buttonId=="renameAOCButton") {
@@ -88,19 +11,6 @@ function toggleAddAOCButton(buttonId, controlId) {
     } else {
         jQuery("#"+buttonId).removeAttr("disabled");
     }
-}
-
-function renameDialogButtons(labelsToReplace) {
-    var checkboxes = jQuery("#kualiLightboxForm :input[name='dialogResponse']");
-    jQuery.each(labelsToReplace, function (key, newLabelValue) {
-        jQuery(checkboxes).each(function () {
-            if (jQuery(this).val() == key) {
-                var labelForId = jQuery(this).attr("id");
-                var label = jQuery("label[for='" + labelForId + "']");
-                jQuery(label).text(newLabelValue);
-            }
-        });
-    });
 }
 
 function removeCheckboxColumns(column, componentId, functionToCall) {
@@ -317,268 +227,6 @@ function generateFieldLinkSublist(parentSectionData, currentFields, messageMap, 
     return disclosureLink;
 }
 
-function ajaxShow(url) {
-    //var formData = jQuery('#kualiForm').serialize();
-    var viewId = jQuery.trim(jQuery('#viewId').val());
-    var formKey = jQuery.trim(jQuery('#formKey').val());
-    var validateDirty = jQuery.trim(jQuery('#validateDirty').val());
-    var renderedInLightBox = jQuery.trim(jQuery('#renderedInLightBox').val());
-    var termCodeId_control = jQuery.trim(jQuery('#termCodeId_control').val());
-    var inputCodeId_control = jQuery.trim(jQuery('#inputCodeId_control').val());
-    var pageId = jQuery.trim(jQuery('#pageId').val());
-    var pageTitle = jQuery.trim(jQuery('#pageTitle').val());
-    var historyParameterString = jQuery.trim(jQuery('#historyParameterString').val());
-    var _dialogResponse = "on";
-    var formData = {
-        "viewId":viewId,
-        "formKey":formKey,
-        "view.applyDirtyCheck":validateDirty,
-        "renderedInLightBox":renderedInLightBox,
-        "termCode":termCodeId_control,
-        "inputCode":inputCodeId_control,
-        "view.currentPageId":pageId,
-        "view.currentPage.header.headerText":pageTitle,
-        "_dialogResponse":_dialogResponse
-    };
-    // console.log("theDate: " + jQuery.now());
-    // console.log("formData: " + jQuery(formData).serialize());
-    // console.log("historyParameterString " + historyParameterString);
-    jQuery.ajax({
-        url:url + "/kr-krad/courseOfferingManagement/ajaxShow.do",
-        type:"GET",
-        data:formData,
-        // callback handler that will be called on success
-        success:function (data, textStatus, jqXHR) {
-            updateTable(data);
-        }
-    });
-//  return false;
-
-    function updateTable(data) {
-
-        var page = jQuery('<html/>').html(data);
-        var div = jQuery('#Uif-PageContentWrapper');
-        var tableContainer = jQuery('#tableContainer');
-        if(tableContainer.length == 0){
-            tableContainer = jQuery("<div id='tableContainer' />");
-            div.append(tableContainer);
-        }
-        tableContainer.html(page);
-    }
-}
-
-
-function jsonShow(url) {
-    //var formData = jQuery('#kualiForm').serialize();
-    var viewId = jQuery.trim(jQuery('#viewId').val());
-    var formKey = jQuery.trim(jQuery('#formKey').val());
-    var validateDirty = jQuery.trim(jQuery('#validateDirty').val());
-    var renderedInLightBox = jQuery.trim(jQuery('#renderedInLightBox').val());
-    var termCodeId_control = jQuery.trim(jQuery('#termCodeId_control').val());
-    var inputCodeId_control = jQuery.trim(jQuery('#inputCodeId_control').val());
-    var pageId = jQuery.trim(jQuery('#pageId').val());
-    var pageTitle = jQuery.trim(jQuery('#pageTitle').val());
-    var historyParameterString = jQuery.trim(jQuery('#historyParameterString').val());
-    var _dialogResponse = "on";
-    var formData = {
-        "viewId":viewId,
-        "formKey":formKey,
-        "view.applyDirtyCheck":validateDirty,
-        "renderedInLightBox":renderedInLightBox,
-        "termCode":termCodeId_control,
-        "inputCode":inputCodeId_control,
-        "view.currentPageId":pageId,
-        "view.currentPage.header.headerText":pageTitle,
-        "_dialogResponse":_dialogResponse
-    };
-    jQuery.ajax({
-        dataType:"json",
-        url:url + "/kr-krad/courseOfferingManagement/jsonShow.do",
-        type:"GET",
-        data:formData,
-        success:function (data, textStatus, jqXHR) {
-            updateTable(data);
-        }
-    });
-
-    return false;
-
-    function updateTable(data) {
-
-        var codeContainerIds = [];
-
-        var table = jQuery("<table class='uif-tableCollectionLayout dataTable'/>");
-        var tHead = jQuery("<thead/>").append("<tr/>")
-            .append("<th scope='col' colspan='1' rowspan='1' class='sorting' role='columnheader' tabindex='0' aria-controls='tableContainer' aria-label=': activate to sort column ascending'></th>")
-            .append("<th scope='col' colspan='1' rowspan='1' class='sorting_asc' role='columnheader' tabindex='0' aria-controls='tableContainer' aria-sort='ascending' aria-label=': activate to sort column descending'></th>")
-            .append("<th scope='col' colspan='1' rowspan='1' class='sorting' role='columnheader' tabindex='0' aria-controls='tableContainer' aria-label=': Status'>Status</th>")
-            .append("<th scope='col' colspan='1' rowspan='1' class='sorting' role='columnheader' tabindex='0' aria-controls='tableContainer' aria-label=': Title'>Title</th>")
-            .append("<th scope='col' colspan='1' rowspan='1' class='sorting' role='columnheader' tabindex='0' aria-controls='tableContainer' aria-label=': Credits'>Credits</th>")
-            .append("<th scope='col' colspan='1' rowspan='1' class='sorting' role='columnheader' tabindex='0' aria-controls='tableContainer' aria-label=': Grading'>Grading</th>");
-//            .append("<th scope='col' colspan='1' rowspan='1' class='sorting' role='columnheader' tabindex='0' aria-controls='tableContainer' aria-label=': Actions'>Actions</th>");
-        table.append(tHead);
-        var tBody = jQuery("<tbody/>");
-        var tableData = data.tableData;
-        jQuery.each(tableData, function (rowNumber, columns) {
-            var row = jQuery("<tr/>");
-            var checkboxColumn = jQuery("<td/>");
-            var checkbox = jQuery("<input type='checkbox' />");
-            checkboxColumn.append(checkbox);
-            row.append(checkboxColumn);
-
-            var codeAnchor = jQuery("<a id='code_line" + rowNumber + "'"
-                + "href='" + url + "/kr-krad/inquiry?courseOfferingId=" + columns.courseOfferingId +"&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper&amp;renderedInLightBox=true&amp;history=" + historyParameterString
-                + "' target='_self' class='uif-link' title='Course Offering =courseOfferingId'>" + columns.courseOfferingCode + "</a>");
-
-//            <input type="hidden" data-role="script" value="
-//                createLightBoxLink('u240_line83', {fitToView:true,height:'95%',width:'75%',autoSize:false,openEffect:'fade',closeEffect:'fade',openSpeed:200,closeSpeed:200,helpers:{overlay:{css:{cursor:'arrow'},closeClick:false}},type:'iframe'}, true);
-//                " script="first_run">
-
-            var id = "code_line" + rowNumber;
-            codeContainerIds.push(id);
-
-            var code = jQuery("<td role='presentation' colspan='1' rowspan='1' class='  sorting_1'/>");
-            code.append(codeAnchor);
-            row.append(code);
-
-            var status = jQuery("<td>" + columns.courseOfferingStateDisplay + "</td>");
-            row.append(status);
-
-            var title = jQuery("<td>" + columns.courseOfferingDesc + "</td>");
-            row.append(title);
-
-            var credits = jQuery("<td>" + columns.courseOfferingCreditOptionDisplay + "</td>");
-            row.append(credits);
-
-            var grading = jQuery("<td>" + columns.courseOfferingGradingOptionDisplay + "</td>");
-            row.append(grading);
-
-            tBody.append(row);
-        });
-        table.append(tBody);
-        var tFoot = jQuery("<tfoot/>").append("<tr/>")
-            .append("<th rowspan='1' colspan='1' />")
-            .append("<th rowspan='1' colspan='1' />")
-            .append("<th rowspan='1' colspan='1' />")
-            .append("<th rowspan='1' colspan='1' />")
-            .append("<th rowspan='1' colspan='1' />")
-            .append("<th rowspan='1' colspan='1' />");
-//            .append("<th rowspan='1' colspan='1' />");
-        table.append(tFoot);
-        var div = jQuery('#Uif-PageContentWrapper');
-        var tableContainer = jQuery('#tableContainer');
-        if(tableContainer.length == 0){
-            tableContainer = jQuery("<div id='tableContainer' />");
-            div.append(tableContainer);
-        }
-        tableContainer.html(table);
-
-        jQuery.each(codeContainerIds, function(index){
-            createLightBoxLink(codeContainerIds[index] , {fitToView:true,height:'95%',width:'75%',autoSize:false,openEffect:'fade',closeEffect:'fade',openSpeed:200,closeSpeed:200,helpers:{overlay:{css:{cursor:'arrow'},closeClick:false}},type:'iframe'}, true);
-        });
-    }
-}
-
-
-function dataTableShow(url, containerId, tableId) {
-    var termCodeId_control = jQuery.trim(jQuery('#termCodeId_control').val());
-    var inputCodeId_control = jQuery.trim(jQuery('#inputCodeId_control').val());
-    var viewId = jQuery.trim(jQuery('#viewId').val());
-    var formKey = jQuery.trim(jQuery('#formKey').val());
-    var source = url +  "/kr-krad/courseOfferingManagement/dataTableShow.do?viewId=" + viewId + "&formKey=" + formKey + "&termCode=" + termCodeId_control + "&inputCode=" + inputCodeId_control;
-
-    var tableContainer = jQuery('#' + containerId);
-    var theTable = jQuery('#' + tableId);
-    if(theTable.length == 0){
-        theTable = jQuery("<table id='" + tableId + "' />");
-        tableContainer.append(theTable);
-    }else{
-        jQuery('#' + tableId).dataTable().fnDestroy();
-    }
-
-    jQuery('#' + tableId).dataTable({
-        //  bServerSide: true,
-        bPaginate: false,
-        bFilter: false,
-        asSorting: [ 2, 'asc' ],
-        aoColumns: [
-            {'sTitle':'', 'bSortable':false, 'bSearchable':false},
-            {'sTitle':'', 'bSortable':true, 'bSearchable':true},
-            {'sTitle':'STATUS', 'bSortable':true, 'bSearchable':true},
-            {'sTitle':'TITLE', 'bSortable':true, 'bSearchable':true},
-            {'sTitle':'CREDITS', 'bSortable':true, 'bSearchable':false},
-            {'sTitle':'GRADING', 'bSortable':true, 'bSearchable':false}
-        ],
-        fnInitComplete:function(oSettings, json){
-            jQuery('#' + tableId).find('a').each(function(index){
-                var coId = jQuery(this).attr("id");
-                createLightBoxLink(coId , {fitToView:true,height:'95%',width:'75%',autoSize:false,openEffect:'fade',closeEffect:'fade',openSpeed:200,closeSpeed:200,helpers:{overlay:{css:{cursor:'arrow'},closeClick:false}},type:'iframe'}, true);
-            });
-        },
-        bRetrieve: true,
-        sAjaxSource: source
-    });
-}
-
-function addTabs(aoTabName , regTabName, aoDivIdPrefix, regDivIdPrefix){
-    var aoDiv = jQuery('div[id^="' + aoDivIdPrefix + '"]');
-
-    jQuery.each(aoDiv, function(index){
-        var ul = jQuery("<ul class='ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all' />");
-        var aoLi = jQuery("<li class='ui-state-default ui-corner-top ui-tabs-selected ui-state-active ui-state-hover'/>");
-        var aoAnchor = jQuery("<a href='#'>" + aoTabName + "</a>");
-        //ui-state-default ui-corner-top ui-tabs-selected ui-state-active ui-state-hover
-//        ui-state-default ui-corner-top
-        aoLi.html(aoAnchor);
-
-        var rgLi = jQuery("<li class='ui-state-default ui-corner-top'/>");
-        var rgAnchor = jQuery("<a href='#'>" + regTabName + "</a>");
-        rgLi.html(rgAnchor);
-        //jQuery(rgLi).text(regTabName);
-
-        //jQuery(aoLi).text(aoTabName);
-        var aoDivId = jQuery(this).attr('id');
-        var index = aoDivId.split(aoDivIdPrefix)[1];
-        var regDivId = regDivIdPrefix + index;
-        aoLi.click(function () {
-            jQuery(aoLi).addClass("ui-tabs-selected ui-state-active ui-state-hover");
-            jQuery(rgLi).removeClass("ui-tabs-selected ui-state-active ui-state-hover");
-            jQuery("#" + aoDivId).find("table").show();
-            jQuery("#" + regDivId).hide();
-        });
-        ul.append(aoLi);
-        rgLi.click(function () {
-            jQuery(rgLi).addClass("ui-tabs-selected ui-state-active ui-state-hover");
-            jQuery(aoLi).removeClass("ui-tabs-selected ui-state-active ui-state-hover");
-            jQuery("#" + regDivId).show();
-            jQuery("#" + aoDivId).find("table").hide();
-        });
-        ul.append(rgLi);
-        jQuery(this).prepend(ul);
-
-    });
-}
-
-function closeTooltip(e) {
-    var popupTarget;
-    if (typeof e === "string") {
-        popupTarget = jQuery("#" + e);
-    } else {  // source is a trigger event
-        stopEvent(e);
-        popupTarget = jQuery((e.currentTarget) ? e.currentTarget : e.srcElement);
-    }
-
-    // save open property before closing popups
-    var isPopupOpen = popupTarget.IsBubblePopupOpen();
-    if (isPopupOpen) {
-        var b = jQuery(popupTarget).data("private_jquerybubblepopup_options");
-        if (b != 'undefined') {
-//            var bubbleId = jQuery(b).attr('privateVars').id = null;
-            var isOpen = jQuery(b).attr('privateVars').is_open = null;
-        }
-    }
-}
-
 function addNewClusterOptionSuccessCallBack(){
     retrieveComponent('KS-CourseOfferingManagement-MoveAOCPopupForm',undefined, addNewClusterOption, undefined);
 }
@@ -676,7 +324,6 @@ function createErrorTable(url) {
     return table;
 }
 
-
 function highlightElements(validationJSONString, isValid, url) {
     if (!isValid) {
         var table = createErrorTable(url);
@@ -686,8 +333,6 @@ function highlightElements(validationJSONString, isValid, url) {
             var parentDiv = jQuery(controlDiv).parent().closest('div');
             var id = jQuery(parentDiv).attr("id");
             var errorDiv = createErrorDiv(message, url, id);
-//            console.log(jQuery(errorDiv).text());
-            //var table = createErrorTable(url);
 
             jQuery(parentDiv).append(errorDiv);
             jQuery(controlDiv).addClass("ks-uif-hasError");
@@ -695,15 +340,11 @@ function highlightElements(validationJSONString, isValid, url) {
                 function (e) {
                     var moveLeft = -20;
                     var moveDown = -60;
-                    //var table = createErrorTable(url);
                     var id = jQuery(this).parent().closest('div').attr("id");
                     var thisErrorDiv = jQuery('#' + id + '_messageDiv');
-//                    console.log(jQuery(thisErrorDiv).html());
-//                    console.log(jQuery(thisErrorDiv).text());
                     var div = jQuery(table).find('[id$="_messageDiv"]');
                     jQuery(table).find('[id$="_messageDiv"]').html(jQuery(thisErrorDiv).html());
                     jQuery(table).find('[id$="_messageDiv"]').text(jQuery(thisErrorDiv).text());
-//                    console.log(jQuery(jQuery(table).find('[id$="_messageDiv"]')).text());
                     jQuery('table#errorTable').show().css('top', jQuery(this).offset().top + moveDown).css('left', jQuery(this).offset().left + moveLeft);
                 },
                 function (e) {
@@ -1060,7 +701,6 @@ function openDataTablePage(tableId, pageNumber) {
 function toggleTextBoxes(textBox){
     jQuery(textBox).bind('input', function(event) {
         jQuery(textBox).keyup();
-//        console.log(event);
     });
 }
 
