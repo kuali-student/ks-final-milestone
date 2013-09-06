@@ -1,6 +1,5 @@
 package org.kuali.rice.krad.uif.util;
 
-// TODO: KSENROLL-8469 temporarily overriding KRAD's Uif-Url as it was throwing stack traces. should be resolved in Rice 2.3.1
 import org.kuali.rice.krad.datadictionary.uif.UifDictionaryBeanBase;
 
 import com.google.common.collect.Maps;
@@ -30,6 +29,9 @@ import java.util.Map;
  *
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
+
+// TODO: KSENROLL-9318 temporarily overriding KRAD's Uif-Url as it was throwing stack traces. should be resolved in Rice 2.3.1
+
 @BeanTag(name = "url-bean", parent = "Uif-Url")
 public class UrlInfo extends UifDictionaryBeanBase implements Serializable {
 
