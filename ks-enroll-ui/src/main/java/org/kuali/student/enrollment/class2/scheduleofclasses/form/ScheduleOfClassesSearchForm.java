@@ -61,9 +61,11 @@ public class ScheduleOfClassesSearchForm extends UifFormBase implements Activity
     private String displayCoIdAdd;
     private AoDisplayFormat aoDisplayFormat;
 
-    public static enum AoDisplayFormat {FLAT("flat"),
-                                        CLUSTER("cluster"),
-                                        REG_GROUP("reg_group");
+    public static enum AoDisplayFormat {
+
+        FLAT("flat"),
+        CLUSTER("cluster"),
+        REG_GROUP("reg_group");
 
         private String text;
 
