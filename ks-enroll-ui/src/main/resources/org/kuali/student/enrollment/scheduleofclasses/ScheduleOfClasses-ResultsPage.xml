@@ -260,7 +260,7 @@
                 <property name="style" value="border-bottom: 1px solid #666666;margin-top:-10px;"/>
                 <property name="items" >
                     <list>
-                        <bean id="expand_or_collapse_all" parent="Uif-ActionLink" p:actionLabel="Collapse All" p:actionScript="showOrHideAOClusters('expand_or_collapse_all_line@{#index}','ao_cluster_header_line@{#index}');">
+                        <bean id="reg_group_expand_or_collapse_all" parent="Uif-ActionLink" p:actionLabel="Collapse All" p:actionScript="showOrHideAOClusters('reg_group_expand_or_collapse_all_line@{#index}','reg_group_cluster_header_line@{#index}');">
                             <!-- KSENROLL-9092 this will position the collapse all link on the right side, on the same line as Activities-->
                             <property name="style" value="float:right;margin-top:-19px;"/>
                         </bean>
@@ -273,7 +273,7 @@
                 <property name="disclosure.render" value="true"/>
                 <property name="footer.render" value="false"/>
                 <property name="header">
-                    <bean id="ao_cluster_header" parent="Uif-HeaderFour">
+                    <bean id="reg_group_cluster_header" parent="Uif-HeaderFour">
                         <property name="headerText" value="@{#line.aoCluster.name}"/>
                     </bean>
                 </property>
