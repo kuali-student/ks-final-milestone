@@ -108,9 +108,11 @@ public class ActivitiesForCreateAOKeyValues extends UifKeyValuesFinderBase imple
                         //ActivityInfo to construct the key/value pair
                         if (typeTypeRelationInfos != null && typeTypeRelationInfos.size() > 0) {
                             for (Map.Entry<String, String> entry : activityIdToTypeMapKeys.entrySet()) {
-                                if (entry.getValue().equals(typeTypeRelationInfos.get(0).getOwnerTypeKey())) {
-                                    TypeInfo activityType = getTypeService().getType(entry.getValue(), ContextUtils.getContextInfo());
-                                    keyValues.add(new ConcreteKeyValue(entry.getKey(), activityType.getName()));
+                                for(TypeTypeRelationInfo typeTypeRelationInfo : typeTypeRelationInfos){
+                                    if (entry.getValue().equals(typeTypeRelationInfo.getOwnerTypeKey())) {
+                                        TypeInfo activityType = getTypeService().getType(entry.getValue(), ContextUtils.getContextInfo());
+                                        keyValues.add(new ConcreteKeyValue(entry.getKey(), activityType.getName()));
+                                    }
                                 }
                             }
                         }
