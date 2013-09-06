@@ -76,6 +76,7 @@ limitations under the License.
         <property name="headerText" value="Term Type"/>
         <property name="items">
             <list>
+                <ref bean="KSFE-FinalExamMatrixSearch-Page-parent"/>
                 <bean parent="KRMS-AgendaManage-Section" class="org.kuali.student.enrollment.class1.krms.util.FinalExamAgendaSection">
                     <property name="agendaPrototype">
                         <ref bean="KSFE-RuleTable"/>
@@ -196,27 +197,6 @@ limitations under the License.
         </property>
     </bean>
 
-    <!--<bean id="KSFE-RuleEdit-TabSection" parent="KRMS-RuleEdit-TabSection">-->
-        <!--<property name="items">-->
-            <!--<list>-->
-                <!--<ref bean="KSFE-EditWithObject-EditSection"/>-->
-                <!--&lt;!&ndash;<ref bean="KSFE-EditWithLogic-EditSection"/>&ndash;&gt;-->
-            <!--</list>-->
-        <!--</property>-->
-        <!--<property name="tabsWidget">-->
-            <!--<ref bean="KSFE-TabsWidget"/>-->
-        <!--</property>-->
-    <!--</bean>-->
-
-    <!--<bean id="KSFE-TabsWidget" parent="KRMS-TabsWidget">-->
-        <!--<property name="templateOptions">-->
-            <!--<map>-->
-                <!--<entry key="selected" value="0"/>-->
-                <!--<entry key="select"-->
-                       <!--value="function(event, ui) {ajaxCallOnTabSelect(event, ui, 'KRMS-RuleEditor-TreeGroup', 'KSFE-EditWithLogic-EditGroup', 'refreshLogicArea', 'KRMS-LogicArea-InputField');}"/>-->
-            <!--</map>-->
-        <!--</property>-->
-    <!--</bean>-->
 
     <bean id="KSFE-EditWithObject-EditSection" parent="KRMS-EditWithObject-EditSection-parent">
         <property name="items">
@@ -464,4 +444,38 @@ limitations under the License.
             </list>
         </property>
     </bean>
+
+    <bean name="KSFE-FinalExamMatrixSearch-Page-parent" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="Use the same Matrix as:"/>
+                <ref bean="KS-FinalExamMatrixManagement-CriteriaSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-FinalExamMatrixManagement-CriteriaSection" parent="Uif-HorizontalBoxSection"
+          p:id="finalExamMatrixManagementCriteriaSection">
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="term" p:label="Term" p:labelPlacement="LEFT" p:required="true" p:readOnly="false">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class1.krms.keyvalue.TermKeyValueFinder"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
 </beans>

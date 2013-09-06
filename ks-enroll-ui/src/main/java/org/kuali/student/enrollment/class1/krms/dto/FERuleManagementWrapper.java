@@ -16,12 +16,19 @@
 package org.kuali.student.enrollment.class1.krms.dto;
 
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
-import org.kuali.student.r2.core.room.dto.BuildingInfo;
-import org.kuali.student.r2.core.room.dto.RoomInfo;
 
 /**
  * @author Kuali Student Team
  */
 public class FERuleManagementWrapper extends RuleManagementWrapper {
 
+    private String term;
+
+    public String getTerm() {
+        return term;
+    }
+
+    public void setTerm(String term) {
+        this.term = term;
+    }
 }
