@@ -489,7 +489,7 @@ public class PlanForm extends UifFormBase {
     public void setFakeCourseNote(String fakeCourseNote) {}
 
     public String getFakeCourseCredit() {
-        return escapeHtml(getCourseCredit());
+        return getCourseCredit();
     }
 
     public void setFakeCourseCredit(BigDecimal fakeCourseCredit) {}
@@ -512,6 +512,7 @@ public class PlanForm extends UifFormBase {
      * @return HTML Safe Text
      */
     private String escapeHtml(String text){
+        if(text==null) return text;
         String encoded = StringEscapeUtils.escapeHtml(text);
         encoded = encoded.replaceAll("'","&#x27;");
         encoded = encoded.replaceAll("/", "&#x2F;");
