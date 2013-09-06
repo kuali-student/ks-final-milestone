@@ -53,8 +53,9 @@ public class StudentGroupWrapperLookupableImpl extends LookupableImpl {
         List<Predicate> pList = new ArrayList<Predicate>();
         qBuilder.setPredicates();
         // create predicates for search parameters
-        for(String key : fieldValues.keySet()){
-            Predicate words = like(key,fieldValues.get(key));
+        //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
+        for(Map.Entry<String,String> entry:fieldValues.entrySet()){
+            Predicate words = like(entry.getKey(),entry.getValue());
             pList.add(words);
         }
         if (!pList.isEmpty()){

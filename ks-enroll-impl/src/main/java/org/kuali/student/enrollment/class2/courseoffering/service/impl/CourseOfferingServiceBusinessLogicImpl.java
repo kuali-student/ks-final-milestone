@@ -477,8 +477,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         TermInfo sourceTerm = acalService.getTerm(sourceTermId, contextInfo);
         sourceTermTypeToTermId.put(sourceTerm.getTypeKey(), sourceTermId);
         // Scan through AOs for subterm IDs
-        for (String foId: foIdsToAoList.keySet()) {
-            List<ActivityOfferingInfo> aos = foIdsToAoList.get(foId);
+        //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
+       for(Map.Entry<String, List<ActivityOfferingInfo>> entry: foIdsToAoList.entrySet()) {
+            List<ActivityOfferingInfo> aos = entry.getValue();
             for (ActivityOfferingInfo ao: aos) {
                 String termId = ao.getTermId();
                 if (sourceTermTypeToTermId.containsValue(termId) || termId.equals(sourceTermId)) {

@@ -805,9 +805,10 @@ public class GradingServiceImpl implements GradingService {
                 entryAttributes.put(entryAttributesKey, resultValue.getKey());
             }
         }
-
-        for (LprRosterEntryInfo lprRosterEntry : entryKeysMap.keySet()) {
-            Map<String, String> entryAttributes = entryKeysMap.get(lprRosterEntry);
+        //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
+        for(Map.Entry<LprRosterEntryInfo, Map<String, String>> entry: entryKeysMap.entrySet()){
+            LprRosterEntryInfo lprRosterEntry = entry.getKey();
+            Map<String, String> entryAttributes = entry.getValue();
             String studentId = entryAttributes.get(STUDENT_ID);
             String activityOfferingId = entryAttributes.get(ACTIVITY_OFFERING_ID);
             String assignedGradeKey = entryAttributes.get(ASSIGNED_GRADE);

@@ -44,19 +44,20 @@ public class LifecycleInfoAdminLookupableImpl extends LookupableImpl
 	{
 		QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
 		List<Predicate> pList = new ArrayList<Predicate>();
-		for (String fieldName : fieldValues.keySet())
-		{
-			String value = fieldValues.get(fieldName);
-			if (value != null && !value.isEmpty())
-			{
-				if (fieldName.equals("maxResultsToReturn"))
-				{
-					qBuilder.setMaxResults (Integer.parseInt(value));
-					continue;
-				}
-				pList.add(PredicateFactory.equal(fieldName, value));
-			}
-		}
+        //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
+		for(Map.Entry<String, String> entry: fieldValues.entrySet()) {
+            String fieldName = entry.getKey();
+            String value = entry.getValue();
+            if (value != null && !value.isEmpty())
+            {
+                if (fieldName.equals("maxResultsToReturn"))
+                {
+                    qBuilder.setMaxResults (Integer.parseInt(value));
+                    continue;
+                }
+                pList.add(PredicateFactory.equal(fieldName, value));
+            }
+        }
 		if (!pList.isEmpty())
 		{
 			qBuilder.setPredicates(PredicateFactory.and(pList.toArray(new Predicate[pList.size()])));
