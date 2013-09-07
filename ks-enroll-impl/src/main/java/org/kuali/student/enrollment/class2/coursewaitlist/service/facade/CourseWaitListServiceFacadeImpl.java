@@ -39,6 +39,9 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
                 List aoIds = new ArrayList<String>();
                 aoIds.add(aoInfo.getId());
                 theWaitListInfo.setActivityOfferingIds(aoIds);
+                List foIds = new ArrayList<String>();
+                foIds.add(aoInfo.getFormatOfferingId());
+                theWaitListInfo.setFormatOfferingIds(foIds);
                 theWaitListInfo = activateCourseWaitListWithDefaultValues(theWaitListInfo);
                 courseWaitListService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
                                                            theWaitListInfo,context);
@@ -64,6 +67,9 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
                 List aoIds = new ArrayList<String>();
                 aoIds.add(aoInfo.getId());
                 theWaitListInfo.setActivityOfferingIds(aoIds);
+                List foIds = new ArrayList<String>();
+                foIds.add(aoInfo.getFormatOfferingId());
+                theWaitListInfo.setFormatOfferingIds(foIds);
                 theWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
                 courseWaitListService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
                         theWaitListInfo,context);
