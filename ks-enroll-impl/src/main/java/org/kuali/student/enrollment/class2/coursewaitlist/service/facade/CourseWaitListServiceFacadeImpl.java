@@ -45,11 +45,12 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
                 theWaitListInfo = activateCourseWaitListWithDefaultValues(theWaitListInfo);
                 courseWaitListService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
                                                            theWaitListInfo,context);
-                return;
             }
-            for (CourseWaitListInfo waitListInfo : waitListInfos){
-                waitListInfo = activateCourseWaitListWithDefaultValues(waitListInfo);
-                courseWaitListService.updateCourseWaitList(waitListInfo.getId(), waitListInfo, context);
+            else{
+                for (CourseWaitListInfo waitListInfo : waitListInfos){
+                    waitListInfo = activateCourseWaitListWithDefaultValues(waitListInfo);
+                    courseWaitListService.updateCourseWaitList(waitListInfo.getId(), waitListInfo, context);
+                }
             }
         }
     }
@@ -73,11 +74,12 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
                 theWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
                 courseWaitListService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
                         theWaitListInfo,context);
-                return;
             }
-            for (CourseWaitListInfo waitListInfo : waitListInfos){
-                waitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
-                courseWaitListService.updateCourseWaitList(waitListInfo.getId(), waitListInfo, context);
+            else {
+                for (CourseWaitListInfo waitListInfo : waitListInfos){
+                    waitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
+                    courseWaitListService.updateCourseWaitList(waitListInfo.getId(), waitListInfo, context);
+                }
             }
         }
 
