@@ -43,10 +43,8 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
-import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
-import org.kuali.student.cm.course.service.impl.LookupableConstants;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities.DecisionRationaleDetail;
 import org.kuali.student.r2.common.dto.DtoConstants;
@@ -57,21 +55,13 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.core.constants.CommentServiceConstants;
-import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -90,13 +80,12 @@ import org.springframework.web.servlet.ModelAndView;
 public class CourseController extends MaintenanceDocumentController {
     
     private static final String DECISIONS_DIALOG_KEY = "decisionsDialog";
-    private static final String LEARNING_OBJECTIVES_CAT_DIALOG_KEY = "loCategoryDialog";
     
     private static final String VIEW_CURRENT_PAGE_ID = "view.currentPageId";
 
     private CourseService courseService;
     private CommentService commentService;
-    private LearningObjectiveService learningObjectiveService;
+    
     private IdentityService identityService;
     
     private enum CourseViewPages {
@@ -130,21 +119,21 @@ public class CourseController extends MaintenanceDocumentController {
     @RequestMapping(params = "methodToCall=docHandler")
     public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase formBase, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        final MaintenanceDocumentForm courseForm = (MaintenanceDocumentForm) formBase;
+        final MaintenanceDocumentForm maintenanceDocForm = (MaintenanceDocumentForm) formBase;
         
         try {
-            redrawDecisionTable(courseForm);
+            redrawDecisionTable(maintenanceDocForm);
         }
         catch (Exception e) {
-            error("Untable to create decision table: %s", e.getMessage());
+            error("Unable to create decision table: %s", e.getMessage());
         }
 
         // Create the document in the super method
-        final ModelAndView retval = super.docHandler(courseForm, result, request, response);
-        courseForm.getDocument().getDocumentHeader().setDocumentDescription("New Course Proposal");
+        final ModelAndView retval = super.docHandler(maintenanceDocForm, result, request, response);
+        maintenanceDocForm.getDocument().getDocumentHeader().setDocumentDescription("New Course Proposal");
         
-        final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) courseForm.getDocument().getNewMaintainableObject();
-
+        final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(maintenanceDocForm);
+        
         // We can actually get this from the workflow document initiator id. It doesn't need to be stored in the form.
         maintainable.setUserId(ContextUtils.getContextInfo().getPrincipalId());
 
@@ -157,10 +146,7 @@ public class CourseController extends MaintenanceDocumentController {
         
     /**
      * This will save the Course Proposal.
-     * @param form The {@link MaintenanceDocumentForm} will contain the
-     * {@link CourseProposalInfo} object on the document. This object contains references
-     * to the {@link CourseInfo} and {@link ProposalInfo} DTOs which contain the necessary
-     * information to create a Course/Proposal.
+     * @param form {@link MaintenanceDocumentForm} instance used for this action
      * @param result
      * @param request {@link HttpServletRequest} instance of the actual HTTP request made
      * @param response The intended {@link HttpServletResponse} sent back to the user
@@ -313,8 +299,7 @@ public class CourseController extends MaintenanceDocumentController {
         String tempRefId =  "temp_reference_id";
         String tempRefTypeKey = "referenceType.clu.proposal";
         
-        final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
-        //CourseProposal courseProposalInfo = ((CourseInfoMaintainable) form.getDocument().getNewMaintainableObject()).getCourseProposal();
+        final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
         
         final String dateStr = DateTimeFormat.forPattern("MMMM dd, yyyy - hh:mmaaa").print(new DateTime());
         final Date date = new Date();
@@ -416,7 +401,7 @@ public class CourseController extends MaintenanceDocumentController {
 
     /**
      *
-     * @param form the {@link CourseForm} instance where the decisions are to be stored for the lightbox.
+     * @param form the {@link MaintenanceDocumentForm} instance where the decisions are to be stored for the lightbox.
      * @throws InvalidParameterException when incorrect parameters are used for looking up the comments made
      * @throws MissingParameterException when null or empty parameters are used for looking up the comments made
      * @throws OperationFailedException when it cannot be determined what comments were made.
@@ -470,7 +455,7 @@ public class CourseController extends MaintenanceDocumentController {
                                        final List<CommentInfo> commentInfos,
                                        final Map<String, MembershipInfo> members) {
 	    
-        final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
+        final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
         
         final DateTimeFormatter dateFormat = DateTimeFormat.forPattern("MM/dd/yyyy");
 
@@ -524,108 +509,6 @@ public class CourseController extends MaintenanceDocumentController {
     }
      
     /**
-     * Server-side action for rendering Learning Objective's 'Browse for Categories' lightbox  
-     *
-     * @param form {@link MaintenanceDocumentForm} instance used for this action
-     * @param result
-     * @param request {@link HttpServletRequest} instance of the actual HTTP request made
-     * @param response The intended {@link HttpServletResponse} sent back to the user
-     * @throws Exception
-     */
-    @RequestMapping(params = "methodToCall=showLoCategories")
-    public ModelAndView showLoCategories(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
-        
-        //Get the available categories
-        maintainable.getLoDialogWrapper().setLearningObjectiveOptions(getLoCategories());
-        
-        // redirect back to client to display lightbox
-        return showDialog(LEARNING_OBJECTIVES_CAT_DIALOG_KEY, form, request, response);
-    }
-    
-    /**
-     * This is called from 'Browse for Categories' lightbox in Learning Objectives. This method adds the selected categories to the collection.
-     * 
-     * @param form {@link MaintenanceDocumentForm} instance used for this action
-     * @param result
-     * @param request {@link HttpServletRequest} instance of the actual HTTP request made
-     * @param response The intended {@link HttpServletResponse} sent back to the user
-     * @throws Exception
-     */
-    @RequestMapping(params = "methodToCall=addLoCategory")
-    public ModelAndView addLoCategory(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-        final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
-        for (LoCategoryInfoWrapper loCategoryInfoWrapper : maintainable.getLoDialogWrapper().getLearningObjectiveOptions()) {
-            if (loCategoryInfoWrapper.isSelected()) {
-                LoDisplayInfo selectedLo = getSelectedLo(form);
-                if (selectedLo != null) {
-                    selectedLo.getLoCategoryInfoList().add(loCategoryInfoWrapper);
-                }
-            }
-        }
-        form.getDialogManager().setDialogReturnMethod(LEARNING_OBJECTIVES_CAT_DIALOG_KEY, UifConstants.MethodToCallNames.START);
-        return returnFromLightbox(form, result, request, response);
-    }
-    
-    /**
-     * Performs a search to retrieve the Learning Objective Categories.
-     * @return A list of {@link LoCategoryInfoWrapper} objects. This represents the
-     * Learning Objective categories that are currently available to choose from.
-     */
-    private List<LoCategoryInfoWrapper> getLoCategories() {
-        List<LoCategoryInfoWrapper> loCategories = new ArrayList<LoCategoryInfoWrapper>();
-        SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey(LookupableConstants.LOCATEGORY_SEARCH);
-        searchRequest.setSortColumn(LookupableConstants.LO_CATEGORY_NAME_RESULT);
-        try {
-            SearchResultInfo searchResult = getLearningObjectiveService().search(searchRequest, ContextUtils.getContextInfo());
-            for (SearchResultRowInfo result : searchResult.getRows()) {
-                List<SearchResultCellInfo> cells = result.getCells();
-                LoCategoryInfoWrapper loWrapper = new LoCategoryInfoWrapper();
-                for (SearchResultCellInfo cell : cells) {
-                    if (LookupableConstants.LO_CATEGORY_ID_RESULT.equals(cell.getKey())) {
-                        loWrapper.setId(cell.getValue());
-                    } else if (LookupableConstants.LO_CATEGORY_NAME_RESULT.equals(cell.getKey())) {
-                        loWrapper.setName(cell.getValue());
-                    } else if(LookupableConstants.LO_CATEGORY_TYPE_RESULT.equals(cell.getKey())){
-                        loWrapper.setTypeKey(cell.getValue());
-                    } else if(LookupableConstants.LO_CATEGORY_TYPE_NAME_RESULT.equals(cell.getKey())){
-                        loWrapper.setTypeName(cell.getValue());
-                    } else if(LookupableConstants.LO_CATEGORY_STATE_RESULT.equals(cell.getKey())){
-                        loWrapper.setStateKey(cell.getValue());
-                    }
-                }
-                loCategories.add(loWrapper);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("An error occurred while searching for the available Learning Categories", e);
-        }
-        return loCategories;
-    }   
-    
-    /**
-     * @param form {@link MaintenanceDocumentForm} instance used for this action
-     * @return The currently selected {@link LoDisplayInfo}s on the 'Browse for Categories' lightbox.
-     */
-    private LoDisplayInfo getSelectedLo(MaintenanceDocumentForm form){
-        String selectedIndex = form.getActionParamaterValue("selectedIndex");
-        int index = -1;
-        if (StringUtils.isNumeric(selectedIndex)) {
-            index = Integer.parseInt(selectedIndex);
-        }
-        LoDisplayInfo selectedLo = null;
-        if (index != -1) {
-            final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
-            selectedLo = maintainable.getCourse().getCourseSpecificLOs().get(index);
-        }
-        
-        return selectedLo;
-    }
-    
-    /**
      * Retrieves the {@link CourseInfoMaintainable} instance from the {@link MaintenanceDocumentForm} in session
      * 
      * @param form {@link MaintenanceDocumentForm}
@@ -647,13 +530,6 @@ public class CourseController extends MaintenanceDocumentController {
             commentService = (CommentService) GlobalResourceLoader.getService(new QName(CommentServiceConstants.NAMESPACE, CommentService.class.getSimpleName()));
         }
         return commentService;
-    }
-    
-    protected LearningObjectiveService getLearningObjectiveService() {
-        if (learningObjectiveService == null) {
-            learningObjectiveService = GlobalResourceLoader.getService(new QName(LearningObjectiveServiceConstants.NAMESPACE, LearningObjectiveService.class.getSimpleName()));
-        }
-        return learningObjectiveService;
     }
 
     protected IdentityService getIdentityService() {

@@ -162,7 +162,7 @@
 		<property name="name" value="formatted" />
 	</bean>
 
-	<bean id="KS-CourseJointInfoWrapper-LookupView" parent="Uif-LookupView">
+	<bean id="KS-CourseJointInfoWrapper-LookupView" parent="KSLookupView">
 		<property name="id" value="CourseJointInfoWrapperLookupView" />
 		<property name="headerText" value="Advanced Search: Courses and Proposals" />
 		<property name="dataObjectClassName"

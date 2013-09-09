@@ -21,24 +21,24 @@ public class LoCategoryInfoWrapper extends LoCategoryInfo {
 
 	private static final long serialVersionUID = -5261772221177797788L;
 	
-	private boolean selected;
-	
 	private String typeName;
+	
+	private String catNameAndType;
 
-	public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
-    
-    public String getTypeName() {
+	public String getTypeName() {
         return typeName;
     }
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
+    }
+
+    public String getCatNameAndType() {
+        return catNameAndType;
+    }
+
+    public void setCatNameAndType(String catNameAndType) {
+        this.catNameAndType = catNameAndType;
     }
 
 }

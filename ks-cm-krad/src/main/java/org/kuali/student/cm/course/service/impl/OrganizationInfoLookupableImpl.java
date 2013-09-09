@@ -15,6 +15,8 @@
  */
 package org.kuali.student.cm.course.service.impl;
 
+import static org.kuali.student.logging.FormattedLogger.info;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -26,20 +28,14 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
-import org.kuali.student.lum.lu.ui.course.keyvalues.KeyValueConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
-import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
-
-import org.kuali.student.r2.core.organization.service.OrganizationService;
-
-
-import static org.kuali.student.logging.FormattedLogger.*;
 
 
 /**

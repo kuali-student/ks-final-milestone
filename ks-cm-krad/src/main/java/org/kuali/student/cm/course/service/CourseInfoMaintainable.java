@@ -22,6 +22,7 @@ import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.LearningObjectiveDialogWrapper;
+import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.SubjectCodeWrapper;
@@ -29,7 +30,6 @@ import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 
 /**
  * {@link CourseInfo} Maintainable interface
@@ -62,7 +62,7 @@ public interface CourseInfoMaintainable extends Maintainable {
 	 */
 	CourseJointInfoWrapper getJointOfferingCourse(String courseCode);
 	
-	List<LoCategoryInfo> getLoCategoriesForSuggest(String categoryName);
+	List<LoCategoryInfoWrapper> getLoCategoriesForSuggest(String categoryName);
 
     ProposalInfo getProposal();
 

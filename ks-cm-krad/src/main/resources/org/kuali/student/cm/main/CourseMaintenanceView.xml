@@ -53,7 +53,6 @@
             <list>
                 <ref bean="commentsLightBox" />
                 <ref bean="decisionsDialog" />
-                <ref bean="loCategoryDialog" />
             </list>
         </property>
 
@@ -315,88 +314,6 @@
                     </property>
                 </bean>
             </list>
-        </property>
-    </bean>
-
-    <bean id="loCategoryDialog" parent="Uif-VerticalBoxSection" p:fieldBindingObjectPath="document.newMaintainableObject.loDialogWrapper">
-        <property name="hidden" value="true" />
-        <property name="headerText" value="Select Categories" />
-        <property name="items">
-            <list>
-                <bean parent="Uif-HeaderThree" p:headerText="Filter">
-                    <property name="lowerGroup">
-                        <bean parent="Uif-LinkGroup" p:linkSeparator="|">
-                            <property name="items">
-                                <list>
-                                    <bean parent="Uif-ActionLink" p:actionLabel="Select All" />
-                                    <bean parent="Uif-ActionLink" p:actionLabel="Clear" />
-                                </list>
-                            </property>
-                        </bean>
-                    </property>
-                </bean>
-                
-                <bean parent="Uif-InputField" p:propertyName="typeKeyFilters" p:showLabel="false">
-                    <property name="control">
-                        <bean parent="Uif-VerticalCheckboxesControl" />
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.LoCategoryInfoTypeKeyValueFinder"
-                              p:addBlankOption="false" />
-                    </property>
-                </bean>
-
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="categoryName" p:label="By words in category">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" />
-                    </property>
-                </bean>
-                
-                <bean parent="Uif-TableCollectionSection" p:propertyName="learningObjectiveOptions">
-                    <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.LoCategoryInfoWrapper" />
-                    <property name="layoutManager.renderSequenceField" value="false" />
-                    <property name="layoutManager.applyDefaultCellWidths" value="false" />
-                    <property name="layoutManager.richTable.render" value="false" />
-                    <property name="layoutManager.suppressLineWrapping" value="true" />
-                    <property name="lineSelectPropertyName" value="selected" />
-                    <property name="renderLineActions" value="false" />
-                    <property name="renderAddLine" value="false" />
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-InputField" p:propertyName="selected" p:required="false">
-                                <property name="control">
-                                    <bean parent="Uif-CheckboxControl" />
-                                </property>
-                            </bean>
-                            <bean parent="Uif-DataField" p:propertyName="name" p:label="Category" />
-                            <bean parent="Uif-DataField" p:propertyName="typeName" p:label="Type" />
-                            <bean parent="Uif-DataField" p:propertyName="typeKey" p:hidden="true" />
-                        </list>
-                    </property>
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>cm-collection-width</value>
-                        </list>
-                    </property>
-                    <property name="filters">
-                        <list>
-                            <bean parent="Uif-ConditionalCollectionFilter"
-                                  p:expression="@{document.newMaintainableObject.dataObject.loDialogWrapper.typeKeyFilters != null ? #listContains(document.newMaintainableObject.dataObject.loDialogWrapper.typeKeyFilters, #line.typeKey) : true}" />
-                        </list>
-                    </property>
-                    <property name="refreshWhenChangedPropertyNames" value="loDialogWrapper.typeKeyFilters" />
-                </bean>
-            </list>
-        </property>
-        <property name="footer">
-            <bean parent="Uif-FooterBase">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Add" p:methodToCall="addLoCategory" />
-                        <ref bean="Uif-CancelAction" />
-                    </list>
-                </property>
-            </bean>
         </property>
     </bean>
     

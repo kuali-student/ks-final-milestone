@@ -26,6 +26,7 @@ import java.io.Serializable;
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
 public class OrganizationInfoWrapper extends OrgInfo implements Serializable {
+    private static final long serialVersionUID = -277262408836106453L;
     private String abbreviation;
     private String organizationName;
     private String id;

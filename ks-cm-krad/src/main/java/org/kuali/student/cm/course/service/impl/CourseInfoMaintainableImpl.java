@@ -29,6 +29,7 @@ import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.LearningObjectiveDialogWrapper;
+import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.SubjectCodeWrapper;
@@ -440,8 +441,8 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
 		return courseJointInfo;
 	}
 	
-	public List<LoCategoryInfo> getLoCategoriesForSuggest(String categoryName) {
-        List<LoCategoryInfo> retrievedCategories = new ArrayList<LoCategoryInfo>();
+	public List<LoCategoryInfoWrapper> getLoCategoriesForSuggest(String categoryName) {
+        List<LoCategoryInfoWrapper> retrievedCategories = new ArrayList<LoCategoryInfoWrapper>();
 
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
 
@@ -463,12 +464,20 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
                     ContextUtils.getContextInfo());
             for (SearchResultRowInfo result : searchResult.getRows()) {
                 List<SearchResultCellInfo> cells = result.getCells();
-                LoCategoryInfo newCat = new LoCategoryInfo();
+                LoCategoryInfoWrapper newCat = new LoCategoryInfoWrapper();
                 for (SearchResultCellInfo cell : cells) {
                     if (LookupableConstants.LO_CATEGORY_ID_RESULT.equals(cell.getKey())) {
                         newCat.setId(cell.getValue());
-                    } else if (LookupableConstants.LO_CATEGORY_NAME_AND_TYPE_RESULT.equals(cell.getKey())) {
+                    } else if (LookupableConstants.LO_CATEGORY_NAME_RESULT.equals(cell.getKey())) {
                         newCat.setName(cell.getValue());
+                    } else if(LookupableConstants.LO_CATEGORY_TYPE_RESULT.equals(cell.getKey())){
+                        newCat.setTypeKey(cell.getValue());
+                    } else if(LookupableConstants.LO_CATEGORY_TYPE_NAME_RESULT.equals(cell.getKey())){
+                        newCat.setTypeName(cell.getValue());
+                    } else if (LookupableConstants.LO_CATEGORY_NAME_AND_TYPE_RESULT.equals(cell.getKey())) {
+                        newCat.setCatNameAndType(cell.getValue());
+                    } else if(LookupableConstants.LO_CATEGORY_STATE_RESULT.equals(cell.getKey())){
+                        newCat.setStateKey(cell.getValue());
                     }
                 }
                 retrievedCategories.add(newCat);

@@ -28,6 +28,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
  */
 public class ResultValuesGroupInfoWrapper extends ResultValuesGroupInfo{
     
+    private static final long serialVersionUID = 8595074563846388089L;
     private List<ResultValueKeysWrapper> resultValueKeysDisplay;
     
     public ResultValuesGroupInfoWrapper() {

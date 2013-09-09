@@ -83,13 +83,6 @@
 					<property name="layoutManager.lineGroupPrototype.header.headerText"
 						value="Category @{(#index + 1)}" />
 					<property name="addLineLabel.render" value="false" />
-					<property name="addLineActions">
-            			<list>
-                            <bean parent="Uif-ActionLink" p:actionLabel="Browse for categories"
-                                        p:methodToCall="showLoCategories" p:actionParameters="selectedIndex:@{#parent.#index}"/>
-                			<bean parent="Uif-AddLineAction" p:actionLabel="Add" />
-            			</list>
-        			</property>
 					<property name="items">
 						<list>
 							<bean parent="Uif-InputField-LabelTop" p:label="Category"
@@ -107,6 +100,32 @@
 										</property>
 									</bean>
 								</property>
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder">
+                                        <property name="autoSearch" value="true" />
+                                        <property name="quickfinderAction">
+                                            <bean parent="Uif-ActionLink">
+                                                <property name="methodToCall" value="performLookup" />
+                                                <property name="actionLabel" value="Browse for categories" />
+                                                <property name="cssClasses">
+                                                    <list merge="true">
+                                                        <value>uif-actionLink-block</value>
+                                                    </list>
+                                                </property>
+                                            </bean>
+                                        </property>
+                                        <property name="lightBoxLookup">
+                                            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false" />
+                                        </property>
+                                        <property name="dataObjectClassName"
+                                            value="org.kuali.student.cm.course.form.LoCategoryInfoWrapper" />
+                                        <property name="fieldConversions">
+                                            <map>
+                                                <entry key="catNameAndType" value="name" />
+                                            </map>
+                                        </property>
+                                    </bean>
+                                </property>
 								<property name="help">
 									<bean parent="Uif-Help"
 										p:tooltipHelpContent="Add a category to classify your learning 
@@ -116,6 +135,10 @@
 							
 						</list>
 					</property>
+                    <!--<property name="collectionLookup.render" value="true"/>
+                    <property name="collectionLookup.dataObjectClassName" value="org.kuali.student.cm.course.form.LoCategoryInfoWrapper"/>
+                    <property name="collectionLookup.fieldConversions" value="catNameAndType:name"/>
+                    <property name="collectionLookup.autoSearch" value="true" />-->                    
 				</bean>
 			</list>
 		</property>
