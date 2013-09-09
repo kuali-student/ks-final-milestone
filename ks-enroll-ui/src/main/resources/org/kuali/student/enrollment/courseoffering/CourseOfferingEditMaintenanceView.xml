@@ -73,7 +73,6 @@
         <property name="additionalCssFiles">
             <list merge="true">
                 <value>themes/ksboot/stylesheets/acal.css</value>
-                <value>themes/ksboot/stylesheets/courseOfferingEdit.css</value>
             </list>
         </property>
 
