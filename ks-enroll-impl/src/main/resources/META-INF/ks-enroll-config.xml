@@ -81,7 +81,7 @@
     <param name="resourceBundleNames" override="true">${resourceBundleNames},org.kuali.student.enrollment.KSEnroll-ApplicationResources,org.kuali.rice.krms.KRMS-ApplicationResources</param>
 
     <!-- These needs to be refactored. ks.externalizable.images.url should specificall say ENR in its name and have to remove 'common' from ks.common.externalizable.images.url-->
-    <param name="ks.externalizable.images.url">themes/ksboot/images</param>
+    <param name="ks.externalizable.images.url">../themes/ksboot/images</param>
     <param name="ks.common.externalizable.images.url">../ks-common-ksink/images</param>
 
     <!-- default automatic user for /kitchensink urls -->

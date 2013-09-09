@@ -45,12 +45,12 @@ public class ScheduleOfClassesConstants {
     public static final String SOC_RESULT_PAGE_HELP_HONORS_ACTIVITY = "Honors activity";
 
     // Images locations
-    public static final String SOC_RESULT_PAGE_HONORS_COURSE_IMG = "themes/ksboot/images/h.png";
-    public static final String SOC_RESULT_PAGE_STUREG_PASSFAIL_IMG = "themes/ksboot/images/p.png";
-    public static final String SOC_RESULT_PAGE_STUREG_AUDIT_IMG = "themes/ksboot/images/a.png";
-    public static final String SOC_RESULT_PAGE_GRADING_SATISFACTORY_IMG = "themes/ksboot/images/s.png";
-    public static final String SOC_RESULT_PAGE_GRADING_PERCENT_IMG = "themes/ksboot/images/percent.png";
-    public static final String SOC_RESULT_PAGE_SUBTERM_IMG = "themes/ksboot/images/subterm_icon.png";
+    public static final String SOC_RESULT_PAGE_HONORS_COURSE_IMG = "../themes/ksboot/images/h.png";
+    public static final String SOC_RESULT_PAGE_STUREG_PASSFAIL_IMG = "../themes/ksboot/images/p.png";
+    public static final String SOC_RESULT_PAGE_STUREG_AUDIT_IMG = "../themes/ksboot/images/a.png";
+    public static final String SOC_RESULT_PAGE_GRADING_SATISFACTORY_IMG = "../themes/ksboot/images/s.png";
+    public static final String SOC_RESULT_PAGE_GRADING_PERCENT_IMG = "../themes/ksboot/images/percent.png";
+    public static final String SOC_RESULT_PAGE_SUBTERM_IMG = "../themes/ksboot/images/subterm_icon.png";
 
     public static class ConfigProperties{
         public static final String AO_DISPLAY_FORMAT = "kuali.ks.enrollment.schoc.options.default_ao_display_format";

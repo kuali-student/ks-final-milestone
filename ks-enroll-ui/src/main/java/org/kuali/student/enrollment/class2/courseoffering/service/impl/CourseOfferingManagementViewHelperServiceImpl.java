@@ -944,7 +944,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     sb.append(rgWrapper.getAoActivityCodeText());
                     sb.append(newLine ? "<br/>" : "");
                     sb.append(aoWrapper.getAoInfo().getActivityCode());
-                    sb.append("&nbsp;&nbsp;&nbsp;<img src=\"themes/ksboot/images/subterm_icon.png\" title=\"This activity is in ");
+                    sb.append("&nbsp;&nbsp;&nbsp;<img src=\"../themes/ksboot/images/subterm_icon.png\" title=\"This activity is in ");
                     sb.append(aoWrapper.getSubTermName());
                     sb.append(" -\n");
                     sb.append(aoWrapper.getTermStartEndDate());
