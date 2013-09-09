@@ -41,6 +41,11 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClas
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesUtil;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -77,11 +82,17 @@ import java.util.Map;
 public class ScheduleOfClassesSearchController extends UifControllerBase {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScheduleOfClassesSearchController.class);
+
+    private static final String MODEL_ATTRIBUTE_FORM = "KualiForm";
+    private static final String SEARCH_TYPE_COURSE = "course";
+    private static final String SEARCH_FIELD = "course";
+    private static final String ERROR_SEARCH_FIELD_CANNOT_BE_EMPTY = "Error: search field can't be empty";
+
     private ScheduleOfClassesViewHelperService viewHelperService;
     private AcademicCalendarService acalService;
     private CourseOfferingSetService courseOfferingSetService;
     private AtpService atpService;
-    protected TypeService typeService;
+    private TypeService typeService;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -90,11 +101,11 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
 
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start( @ModelAttribute( "KualiForm" ) UifFormBase form,
+    public ModelAndView start( @ModelAttribute( MODEL_ATTRIBUTE_FORM ) UifFormBase form,
                                BindingResult result, HttpServletRequest request, HttpServletResponse response) {
 
         ScheduleOfClassesSearchForm scheduleOfClassesSearchForm = (ScheduleOfClassesSearchForm) form;
-        scheduleOfClassesSearchForm.setSearchType("course");
+        scheduleOfClassesSearchForm.setSearchType( SEARCH_TYPE_COURSE );
 
         configureCurrentTermCodeOnInitialRequest( scheduleOfClassesSearchForm );
         configureDefaultAoDisplayFormat( scheduleOfClassesSearchForm );
@@ -148,7 +159,9 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
      * Search for course offerings based on search parameters: term and courseCode/Title&Desc/Instructor/Department
      */
     @RequestMapping(params = "methodToCall=show")
-    public ModelAndView show(@ModelAttribute("KualiForm") ScheduleOfClassesSearchForm theForm) throws Exception {
+    public ModelAndView show(@ModelAttribute( MODEL_ATTRIBUTE_FORM ) ScheduleOfClassesSearchForm theForm)
+            throws Exception, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException
+    {
 
         //First, find termName based on termCode
         String termCode = theForm.getTermCode();
@@ -162,14 +175,14 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         }
 
         //Second, handle searchType
-        if (theForm.getSearchType().equals("course")) {
+        if (theForm.getSearchType().equals( SEARCH_TYPE_COURSE )) {
             String course = theForm.getCourse();
             if (course != null && course.length() > 0) {
                 getViewHelperService(theForm).loadCourseOfferingsByTermAndCourseCode(termCode, course, theForm);
                 theForm.setSearchParameter("Course: " + course);
             } else {
-                LOG.error("Error: search field can't be empty");
-                GlobalVariables.getMessageMap().putError("course", ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
+                LOG.error( ERROR_SEARCH_FIELD_CANNOT_BE_EMPTY );
+                GlobalVariables.getMessageMap().putError( SEARCH_FIELD, ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
                 return getUIFModelAndView(theForm);
             }
         } else if (theForm.getSearchType().equals("instructor")) {
@@ -179,8 +192,8 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
                 getViewHelperService(theForm).loadCourseOfferingsByTermAndInstructor(termCode, instructorId, instructorName, theForm);
                 theForm.setSearchParameter("Instructor: " + instructorName);
             } else {
-                LOG.error("Error: search field can't be empty");
-                GlobalVariables.getMessageMap().putError("course", ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
+                LOG.error( ERROR_SEARCH_FIELD_CANNOT_BE_EMPTY );
+                GlobalVariables.getMessageMap().putError( SEARCH_FIELD, ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
                 return getUIFModelAndView(theForm);
             }
         } else if (theForm.getSearchType().equals("department")) {
@@ -190,8 +203,8 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
                 getViewHelperService(theForm).loadCourseOfferingsByTermAndDepartment(termCode, departmentId, departmentName, theForm);
                 theForm.setSearchParameter("Department: " + departmentName);
             } else {
-                LOG.error("Error: search field can't be empty");
-                GlobalVariables.getMessageMap().putError("course", ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
+                LOG.error( ERROR_SEARCH_FIELD_CANNOT_BE_EMPTY );
+                GlobalVariables.getMessageMap().putError( SEARCH_FIELD, ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
                 return getUIFModelAndView(theForm);
             }
         } else if (theForm.getSearchType().equals("titleDesc")) {
@@ -200,8 +213,8 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
                 getViewHelperService(theForm).loadCourseOfferingsByTitleAndDescription(termCode, titleDesc, theForm);
                 theForm.setSearchParameter("Title & Description: " + titleDesc);
             } else {
-                LOG.error("Error: search field can't be empty");
-                GlobalVariables.getMessageMap().putError("course", ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
+                LOG.error(ERROR_SEARCH_FIELD_CANNOT_BE_EMPTY );
+                GlobalVariables.getMessageMap().putError( SEARCH_FIELD, ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
                 return getUIFModelAndView(theForm);
             }
         }
@@ -210,7 +223,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=populateAOs")
-    public ModelAndView populateAOs(@ModelAttribute("KualiForm") ScheduleOfClassesSearchForm theForm) throws Exception {
+    public ModelAndView populateAOs(@ModelAttribute( MODEL_ATTRIBUTE_FORM ) ScheduleOfClassesSearchForm theForm) throws Exception {
 
         CourseOfferingDisplayWrapper coDisplayWrapper = (CourseOfferingDisplayWrapper)KSControllerHelper.getSelectedCollectionItem(theForm);
         theForm.setCourseOfferingId(coDisplayWrapper.getCoDisplayInfo().getId());
@@ -296,7 +309,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=populateRegGroups")
-    public ModelAndView populateRegGroups(@ModelAttribute("KualiForm") ScheduleOfClassesSearchForm theForm) throws Exception {
+    public ModelAndView populateRegGroups(@ModelAttribute( MODEL_ATTRIBUTE_FORM ) ScheduleOfClassesSearchForm theForm) throws Exception {
 
         SearchRequestInfo searchRequestInfo = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY);
 
@@ -379,7 +392,5 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         }
         return this.typeService;
     }
-
-
 
 }

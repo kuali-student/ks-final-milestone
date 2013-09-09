@@ -56,4 +56,11 @@ public class ScheduleOfClassesConstants {
         public static final String AO_DISPLAY_FORMAT = "kuali.ks.enrollment.schoc.options.default_ao_display_format";
         public static final String ALLOW_SELECTABLE_AO_RENDERING = "kuali.ks.enrollment.schoc.options.allow_selectable_ao_rendering";
     }
+
+    private ScheduleOfClassesConstants() {
+        /* Sonar-fix: "Utility classes should not have a public or default constructor"
+         * http://sonar.kuali.org/dashboard/index/86872
+         */
+    }
+
 }

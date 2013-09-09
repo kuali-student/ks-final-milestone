@@ -97,8 +97,8 @@ public class ScheduleOfClassesSearchForm extends UifFormBase implements Activity
         foId2aoTypeMap = new HashMap<String, FormatOfferingInfo>();
         aoClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
         courseOfferingId = "";
-        setAoDisplayFormat(AoDisplayFormat.FLAT);
-        setAllowSelectableAoRendering( false );
+        aoDisplayFormat = AoDisplayFormat.FLAT;
+        allowSelectableAoRendering = false;
     }
 
     public List<CourseOfferingDisplayWrapper> getCoDisplayWrapperList() {
