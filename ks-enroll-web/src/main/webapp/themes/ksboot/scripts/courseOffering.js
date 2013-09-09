@@ -142,5 +142,10 @@ function updateExamDriverInFOTable(finalExamDropDownId, finalExamTableCellId) {
         jQuery(this).text(finalExamDriverUI);
     });
 
+    if (finalExamDropDown.val()== "kuali.lu.exam.driver.CourseOffering") {
+        jQuery('#edit_co_final_exam_type_line0_control').hide();
+    } else {
+        jQuery('#edit_co_final_exam_type_line0_control').show();
+    }
 }
 
