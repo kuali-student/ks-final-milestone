@@ -561,11 +561,8 @@ public class HolidayCalendarController extends UifControllerBase {
         Collections.sort(hcForm.getHolidays());
 
         KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, updateMsg, hCalInfo.getName());
-        if (isSetOfficial) {
-            return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_VIEWPAGE);
-        } else {
-            return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
-        }
+        return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
+
     }
 
     private boolean isValidHolidayCalendar(HolidayCalendarInfo hc)throws Exception {
