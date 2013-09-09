@@ -51,7 +51,7 @@
                     <property name="items">
                         <list>
 
-                            <bean parent="Uif-InputField" p:propertyName="term" p:label="Term" p:labelPlacement="LEFT" p:required="true" p:readOnly="false">
+                            <bean parent="Uif-InputField" p:propertyName="type.key" p:label="Term" p:labelPlacement="LEFT" p:required="true" p:readOnly="false">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>

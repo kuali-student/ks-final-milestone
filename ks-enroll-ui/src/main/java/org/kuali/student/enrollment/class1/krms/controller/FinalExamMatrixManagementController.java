@@ -74,7 +74,7 @@ public class FinalExamMatrixManagementController extends UifControllerBase {
     public ModelAndView show(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
         FERuleManagementWrapper theForm = (FERuleManagementWrapper) form;
-        Properties urlParameters = this.showFE(theForm, theForm.getTerm());
+        Properties urlParameters = this.showFE(theForm, theForm.getType().getKey());
         return super.performRedirect(theForm, "finalExamRules", urlParameters);
     }
 

@@ -73,11 +73,12 @@ limitations under the License.
     </bean>
 
     <bean name="KSFE-AgendaMaintenance-Page-parent" parent="KRMS-AgendaMaintenance-Page-Parent">
-        <property name="headerText" value="Term Type"/>
+        <property name="headerText" value="Term Type: @{#dp.type.name}"/>
         <property name="items">
             <list>
                 <ref bean="KSFE-FinalExamMatrixSearch-Page-parent"/>
-                <bean parent="KRMS-AgendaManage-Section" class="org.kuali.student.enrollment.class1.krms.util.FinalExamAgendaSection">
+                <bean parent="KRMS-AgendaManage-Section" class="org.kuali.student.enrollment.class1.krms.util.FinalExamAgendaSection"
+                      p:progressiveRender="#dp.termToUse eq 'na'">
                     <property name="agendaPrototype">
                         <ref bean="KSFE-RuleTable"/>
                     </property>
@@ -163,7 +164,7 @@ limitations under the License.
 
     <bean name="KSFE-RuleMaintenance-Page-Parent" parent="KRMS-RuleMaintenance-Page-Parent">
         <property name="headerText"
-                  value="@{#dp.ruleEditor.dummy == true ? 'Add' : 'Edit'} Matrix Rule"/>
+                  value="@{#dp.ruleEditor.dummy == true ? 'Add' : 'Edit'} @{#dp.type.name} Matrix Rule"/>
         <property name="items">
             <list>
                 <ref bean="KSFE-Rules-ManageSection"/>
@@ -229,16 +230,6 @@ limitations under the License.
                         <list>
                             <bean parent="KRMS-RuleEditorView-AddButton"/>
                             <bean parent="KRMS-RuleEditorView-EditButton"/>
-                        </list>
-                    </property>
-                </bean>
-
-                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
-                    <property name="items">
-                        <list>
-                            <bean parent="KRMS-RuleEditorView-GroupButton"/>
-                            <bean parent="KRMS-RuleEditorView-LeftButton"/>
-                            <bean parent="KRMS-RuleEditorView-RightButton"/>
                         </list>
                     </property>
                 </bean>
@@ -429,7 +420,7 @@ limitations under the License.
         </property>
     </bean>
     <bean id="KSFE-FinalExam-DeliveryLogistic-New-Group" parent="Uif-VerticalBoxSection" p:header.render="true">
-        <property name="headerText" value="Requested Exam Offering Delivery Logistics to be Created"/>
+        <property name="headerText" value="Requested Exam Offering Delivery Logistic to be Created"/>
         <property name="header">
             <bean parent="Uif-HeaderFour"/>
         </property>
@@ -458,12 +449,12 @@ limitations under the License.
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="term" p:label="Term" p:labelPlacement="LEFT" p:required="true" p:readOnly="false">
+                            <bean parent="Uif-InputField" p:propertyName="termToUse" p:label="Term Type" p:labelPlacement="LEFT" p:readOnly="false">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
                                 <property name="optionsFinder">
-                                    <bean class="org.kuali.student.enrollment.class1.krms.keyvalue.TermKeyValueFinder"/>
+                                    <bean class="org.kuali.student.enrollment.class1.krms.keyvalue.ExistingMatrixKeyValueFinder"/>
                                 </property>
                             </bean>
                         </list>

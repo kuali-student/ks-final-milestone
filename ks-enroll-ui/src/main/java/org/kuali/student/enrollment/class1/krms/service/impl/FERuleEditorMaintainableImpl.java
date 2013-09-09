@@ -67,6 +67,7 @@ import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.service.StateService;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
@@ -92,7 +93,8 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FERuleEditorMaintainableImpl.class);
 
-    private RoomService roomService;
+    private transient RoomService roomService;
+    private transient TypeService typeService;
 
     private String usageId;
     private String actionTypeId;
@@ -105,9 +107,15 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         dataObject.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
         dataObject.setRefDiscriminatorType(TypeServiceConstants.REF_OBJECT_URI_TYPE);
 
-        String coId = dataObjectKeys.get("refObjectId");
-        dataObject.setRefObjectId(coId);
-        dataObject.setAgendas(this.getAgendasForRef(dataObject.getRefDiscriminatorType(), coId));
+        String typeKey = dataObjectKeys.get("refObjectId");
+        dataObject.setRefObjectId(typeKey);
+        dataObject.setAgendas(this.getAgendasForRef(dataObject.getRefDiscriminatorType(), typeKey));
+
+        try {
+            dataObject.setType(this.getTypeService().getType(typeKey, this.createContextInfo()));
+        } catch (Exception e) {
+            throw new RuntimeException("Could not retrieve type for " + typeKey);
+        }
 
         return dataObject;
     }
@@ -271,6 +279,13 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             roomService = CourseOfferingResourceLoader.loadRoomService();
         }
         return roomService;
+    }
+
+    public TypeService getTypeService(){
+        if (typeService == null){
+            typeService = CourseOfferingResourceLoader.loadTypeService();
+        }
+        return typeService;
     }
 
 }

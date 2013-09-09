@@ -16,19 +16,33 @@
 package org.kuali.student.enrollment.class1.krms.dto;
 
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 /**
  * @author Kuali Student Team
  */
 public class FERuleManagementWrapper extends RuleManagementWrapper {
 
-    private String term;
+    private TypeInfo type;
+    private String termToUse;
 
-    public String getTerm() {
-        return term;
+    public FERuleManagementWrapper() {
+        this.setTermToUse("na");
     }
 
-    public void setTerm(String term) {
-        this.term = term;
+    public TypeInfo getType() {
+        return type;
+    }
+
+    public void setType(TypeInfo type) {
+        this.type = type;
+    }
+
+    public String getTermToUse() {
+        return termToUse;
+    }
+
+    public void setTermToUse(String termToUse) {
+        this.termToUse = termToUse;
     }
 }
