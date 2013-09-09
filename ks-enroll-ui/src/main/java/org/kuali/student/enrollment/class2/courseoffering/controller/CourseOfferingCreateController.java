@@ -279,9 +279,9 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
 
         List<CourseInfo> matchingCourses = CourseOfferingManagementUtil.retrieveMatchingCourses(courseCode, term);
         coWrapper.clear();
-
+        int firstMatchingCourse = 0;
         if (matchingCourses.size() == 1) {
-            CourseInfo course = matchingCourses.get(0);
+            CourseInfo course = matchingCourses.get(firstMatchingCourse);
 
             // set organization IDs and check if the user is authorized to create a course
             List<String> orgIds = course.getUnitsContentOwner();
@@ -309,9 +309,10 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                 // check if SOC state is "published"
                 ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
                 List<String> socIds = CourseOfferingManagementUtil.getCourseOfferingSetService().getSocIdsByTerm(term.getId(), contextInfo);
+                int firstSocID = 0;
                 if (socIds != null && !socIds.isEmpty()){
                     // check if user authz for the soc
-                    SocInfo soc = CourseOfferingManagementUtil.getCourseOfferingSetService().getSoc(socIds.get(0), contextInfo);
+                    SocInfo soc = CourseOfferingManagementUtil.getCourseOfferingSetService().getSoc(socIds.get(firstSocID), contextInfo);
                     coWrapper.setSocInfo(soc);
                     boolean canOpenViewSoc = form.getView().getAuthorizer().canOpenView(form.getView(), form, user);
 

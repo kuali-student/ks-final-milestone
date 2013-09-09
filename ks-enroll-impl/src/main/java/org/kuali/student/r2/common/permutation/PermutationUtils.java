@@ -59,10 +59,11 @@ public final class PermutationUtils {
                                             List<String> prefix, Map<String, List<String>> dataMap,
                                             List<List<String>> generatedPermutations) {
 
-        if (keyList.isEmpty()) {
+        if (keyList == null || keyList.isEmpty()) {
             generatedPermutations.add(prefix);
         } else {
-            String type = keyList.get(0);
+            int firstKey = 0;
+            String type = keyList.get(firstKey);
             List<String> typeOptionsList = dataMap.get(type);
 
             if (typeOptionsList == null) {
