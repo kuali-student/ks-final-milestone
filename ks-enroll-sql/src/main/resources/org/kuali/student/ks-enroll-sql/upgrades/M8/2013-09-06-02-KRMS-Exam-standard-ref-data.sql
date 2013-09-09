@@ -1,14 +1,14 @@
 --Agendas and References
 INSERT INTO KRMS_AGENDA_T (ACTV,AGENDA_ID,CNTXT_ID,INIT_AGENDA_ITM_ID,NM,TYP_ID,VER_NBR)
-  VALUES ('Y','KS-KRMS-AGENDA-11926','KS-KRMS-CNTXT-10002',null,'Winter Standard Final Exam Rules',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.agenda.type.final.exam.standard'),0)
+  VALUES ('Y','KS-KRMS-AGENDA-11926','KS-KRMS-CNTXT-10002',null,'Spring Standard Final Exam Rules',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.agenda.type.final.exam.standard'),0)
 /
 INSERT INTO KRMS_REF_OBJ_KRMS_OBJ_T (ACTV,COLLECTION_NM,KRMS_DSCR_TYP,KRMS_OBJ_ID,NMSPC_CD,REF_DSCR_TYP,REF_OBJ_ID,REF_OBJ_KRMS_OBJ_ID,VER_NBR)
-  VALUES ('Y','FinalExamMatrix','Agenda','KS-KRMS-AGENDA-11926','KS-SYS','http://student.kuali.org/wsdl/type/TypeInfo','kuali.atp.type.Winter','KS-KRMS-REF-OBJ-KRMS-OBJ-11917',0)
+  VALUES ('Y','FinalExamMatrix','Agenda','KS-KRMS-AGENDA-11926','KS-SYS','http://student.kuali.org/wsdl/type/TypeInfo','kuali.atp.type.Spring','KS-KRMS-REF-OBJ-KRMS-OBJ-11917',0)
 /
 
 --Day 1 8:00-10:00
 Insert into KRMS_RULE_T (ACTV,DESC_TXT,NM,NMSPC_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR) 
-  values ('Y',null,concat(concat('kuali.atp.type.Winter:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':1'),'KS-SYS',null,'KS-KRMS-RULE-12071',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
+  values ('Y',null,concat(concat('kuali.atp.type.Spring:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':1'),'KS-SYS',null,'KS-KRMS-RULE-12071',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
 /
 INSERT INTO KRMS_AGENDA_ITM_T (AGENDA_ID,AGENDA_ITM_ID,RULE_ID,VER_NBR)
   VALUES ('KS-KRMS-AGENDA-11926','KS-KRMS-AGENDA-ITM-12064','KS-KRMS-RULE-12071',1)
@@ -28,7 +28,7 @@ Insert into KRMS_PROP_PARM_T (PARM_TYP_CD,PARM_VAL,PROP_ID,PROP_PARM_ID,SEQ_NO,V
 
 --Day 2 8:00-10:00
 Insert into KRMS_RULE_T (ACTV,DESC_TXT,NM,NMSPC_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR) 
-  values ('Y',null,concat(concat('kuali.atp.type.Winter:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':2'),'KS-SYS',null,'KS-KRMS-RULE-12072',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
+  values ('Y',null,concat(concat('kuali.atp.type.Spring:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':2'),'KS-SYS',null,'KS-KRMS-RULE-12072',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
 /
 INSERT INTO KRMS_AGENDA_ITM_T (AGENDA_ID,AGENDA_ITM_ID,RULE_ID,VER_NBR)
   VALUES ('KS-KRMS-AGENDA-11926','KS-KRMS-AGENDA-ITM-12065','KS-KRMS-RULE-12072',1)
@@ -49,7 +49,7 @@ Insert into KRMS_PROP_PARM_T (PARM_TYP_CD,PARM_VAL,PROP_ID,PROP_PARM_ID,SEQ_NO,V
 
 --Day 2 13:30-15:30
 Insert into KRMS_RULE_T (ACTV,DESC_TXT,NM,NMSPC_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR) 
-  values ('Y',null,concat(concat('kuali.atp.type.Winter:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':3'),'KS-SYS',null,'KS-KRMS-RULE-12073',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
+  values ('Y',null,concat(concat('kuali.atp.type.Spring:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':3'),'KS-SYS',null,'KS-KRMS-RULE-12073',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
 /
 INSERT INTO KRMS_AGENDA_ITM_T (AGENDA_ID,AGENDA_ITM_ID,RULE_ID,VER_NBR)
   VALUES ('KS-KRMS-AGENDA-11926','KS-KRMS-AGENDA-ITM-12066','KS-KRMS-RULE-12073',1)
@@ -70,7 +70,7 @@ Insert into KRMS_PROP_PARM_T (PARM_TYP_CD,PARM_VAL,PROP_ID,PROP_PARM_ID,SEQ_NO,V
 
 --Day 4 8:00-10:00
 Insert into KRMS_RULE_T (ACTV,DESC_TXT,NM,NMSPC_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR) 
-  values ('Y',null,concat(concat('kuali.atp.type.Winter:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':4'),'KS-SYS',null,'KS-KRMS-RULE-12074',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
+  values ('Y',null,concat(concat('kuali.atp.type.Spring:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':4'),'KS-SYS',null,'KS-KRMS-RULE-12074',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
 /
 INSERT INTO KRMS_AGENDA_ITM_T (AGENDA_ID,AGENDA_ITM_ID,RULE_ID,VER_NBR)
   VALUES ('KS-KRMS-AGENDA-11926','KS-KRMS-AGENDA-ITM-12067','KS-KRMS-RULE-12074',1)
@@ -91,7 +91,7 @@ Insert into KRMS_PROP_PARM_T (PARM_TYP_CD,PARM_VAL,PROP_ID,PROP_PARM_ID,SEQ_NO,V
 
 --Day 4 10:30-12:30
 Insert into KRMS_RULE_T (ACTV,DESC_TXT,NM,NMSPC_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR) 
-  values ('Y',null,concat(concat('kuali.atp.type.Winter:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':5'),'KS-SYS',null,'KS-KRMS-RULE-12075',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
+  values ('Y',null,concat(concat('kuali.atp.type.Spring:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':5'),'KS-SYS',null,'KS-KRMS-RULE-12075',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
 /
 INSERT INTO KRMS_AGENDA_ITM_T (AGENDA_ID,AGENDA_ITM_ID,RULE_ID,VER_NBR)
   VALUES ('KS-KRMS-AGENDA-11926','KS-KRMS-AGENDA-ITM-12068','KS-KRMS-RULE-12075',1)
@@ -112,7 +112,7 @@ Insert into KRMS_PROP_PARM_T (PARM_TYP_CD,PARM_VAL,PROP_ID,PROP_PARM_ID,SEQ_NO,V
 
 --Day 5 10:30-12:30
 Insert into KRMS_RULE_T (ACTV,DESC_TXT,NM,NMSPC_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR) 
-  values ('Y',null,concat(concat('kuali.atp.type.Winter:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':6'),'KS-SYS',null,'KS-KRMS-RULE-12076',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
+  values ('Y',null,concat(concat('kuali.atp.type.Spring:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':6'),'KS-SYS',null,'KS-KRMS-RULE-12076',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
 /
 INSERT INTO KRMS_AGENDA_ITM_T (AGENDA_ID,AGENDA_ITM_ID,RULE_ID,VER_NBR)
   VALUES ('KS-KRMS-AGENDA-11926','KS-KRMS-AGENDA-ITM-12069','KS-KRMS-RULE-12076',1)
@@ -133,7 +133,7 @@ Insert into KRMS_PROP_PARM_T (PARM_TYP_CD,PARM_VAL,PROP_ID,PROP_PARM_ID,SEQ_NO,V
 
 --Day 5 13:30-15:30
 Insert into KRMS_RULE_T (ACTV,DESC_TXT,NM,NMSPC_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR) 
-  values ('Y',null,concat(concat('kuali.atp.type.Winter:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':7'),'KS-SYS',null,'KS-KRMS-RULE-12077',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
+  values ('Y',null,concat(concat('kuali.atp.type.Spring:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':7'),'KS-SYS',null,'KS-KRMS-RULE-12077',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
 /
 INSERT INTO KRMS_AGENDA_ITM_T (AGENDA_ID,AGENDA_ITM_ID,RULE_ID,VER_NBR)
   VALUES ('KS-KRMS-AGENDA-11926','KS-KRMS-AGENDA-ITM-12070','KS-KRMS-RULE-12077',1)
@@ -154,7 +154,7 @@ Insert into KRMS_PROP_PARM_T (PARM_TYP_CD,PARM_VAL,PROP_ID,PROP_PARM_ID,SEQ_NO,V
 
 --Day 5 16:00-18:00
 Insert into KRMS_RULE_T (ACTV,DESC_TXT,NM,NMSPC_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR) 
-  values ('Y',null,concat(concat('kuali.atp.type.Winter:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':8'),'KS-SYS',null,'KS-KRMS-RULE-12078',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
+  values ('Y',null,concat(concat('kuali.atp.type.Spring:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':8'),'KS-SYS',null,'KS-KRMS-RULE-12078',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
 /
 INSERT INTO KRMS_AGENDA_ITM_T (AGENDA_ID,AGENDA_ITM_ID,RULE_ID,VER_NBR)
   VALUES ('KS-KRMS-AGENDA-11926','KS-KRMS-AGENDA-ITM-12071','KS-KRMS-RULE-12078',1)
@@ -175,7 +175,7 @@ Insert into KRMS_PROP_PARM_T (PARM_TYP_CD,PARM_VAL,PROP_ID,PROP_PARM_ID,SEQ_NO,V
 
 --Day 6 10:30-12:30
 Insert into KRMS_RULE_T (ACTV,DESC_TXT,NM,NMSPC_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR) 
-  values ('Y',null,concat(concat('kuali.atp.type.Winter:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':9'),'KS-SYS',null,'KS-KRMS-RULE-12079',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
+  values ('Y',null,concat(concat('kuali.atp.type.Spring:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':9'),'KS-SYS',null,'KS-KRMS-RULE-12079',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
 /
 INSERT INTO KRMS_AGENDA_ITM_T (AGENDA_ID,AGENDA_ITM_ID,RULE_ID,VER_NBR)
   VALUES ('KS-KRMS-AGENDA-11926','KS-KRMS-AGENDA-ITM-12072','KS-KRMS-RULE-12079',1)
@@ -196,7 +196,7 @@ Insert into KRMS_PROP_PARM_T (PARM_TYP_CD,PARM_VAL,PROP_ID,PROP_PARM_ID,SEQ_NO,V
 
 --Day 6 13:30-15:30
 Insert into KRMS_RULE_T (ACTV,DESC_TXT,NM,NMSPC_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR) 
-  values ('Y',null,concat(concat('kuali.atp.type.Winter:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':10'),'KS-SYS',null,'KS-KRMS-RULE-12080',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
+  values ('Y',null,concat(concat('kuali.atp.type.Spring:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':10'),'KS-SYS',null,'KS-KRMS-RULE-12080',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
 /
 INSERT INTO KRMS_AGENDA_ITM_T (AGENDA_ID,AGENDA_ITM_ID,RULE_ID,VER_NBR)
   VALUES ('KS-KRMS-AGENDA-11926','KS-KRMS-AGENDA-ITM-12073','KS-KRMS-RULE-12080',1)
@@ -217,7 +217,7 @@ Insert into KRMS_PROP_PARM_T (PARM_TYP_CD,PARM_VAL,PROP_ID,PROP_PARM_ID,SEQ_NO,V
 
 --Day 4 16:00-18:00
 Insert into KRMS_RULE_T (ACTV,DESC_TXT,NM,NMSPC_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR) 
-  values ('Y',null,concat(concat('kuali.atp.type.Winter:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':11'),'KS-SYS',null,'KS-KRMS-RULE-12081',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
+  values ('Y',null,concat(concat('kuali.atp.type.Spring:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':11'),'KS-SYS',null,'KS-KRMS-RULE-12081',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
 /
 INSERT INTO KRMS_AGENDA_ITM_T (AGENDA_ID,AGENDA_ITM_ID,RULE_ID,VER_NBR)
   VALUES ('KS-KRMS-AGENDA-11926','KS-KRMS-AGENDA-ITM-12074','KS-KRMS-RULE-12081',1)
@@ -254,7 +254,7 @@ Insert into KRMS_PROP_PARM_T (PARM_TYP_CD,PARM_VAL,PROP_ID,PROP_PARM_ID,SEQ_NO,V
 
 --Day 6 8:00-10:00
 Insert into KRMS_RULE_T (ACTV,DESC_TXT,NM,NMSPC_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR) 
-  values ('Y',null,concat(concat('kuali.atp.type.Winter:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':12'),'KS-SYS',null,'KS-KRMS-RULE-12082',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
+  values ('Y',null,concat(concat('kuali.atp.type.Spring:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':12'),'KS-SYS',null,'KS-KRMS-RULE-12082',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
 /
 INSERT INTO KRMS_AGENDA_ITM_T (AGENDA_ID,AGENDA_ITM_ID,RULE_ID,VER_NBR)
   VALUES ('KS-KRMS-AGENDA-11926','KS-KRMS-AGENDA-ITM-12075','KS-KRMS-RULE-12082',1)
@@ -291,7 +291,7 @@ Insert into KRMS_PROP_PARM_T (PARM_TYP_CD,PARM_VAL,PROP_ID,PROP_PARM_ID,SEQ_NO,V
 
 --Day 5 8:00-10:00
 Insert into KRMS_RULE_T (ACTV,DESC_TXT,NM,NMSPC_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR) 
-  values ('Y',null,concat(concat('kuali.atp.type.Winter:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':13'),'KS-SYS',null,'KS-KRMS-RULE-12083',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
+  values ('Y',null,concat(concat('kuali.atp.type.Spring:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':13'),'KS-SYS',null,'KS-KRMS-RULE-12083',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
 /
 INSERT INTO KRMS_AGENDA_ITM_T (AGENDA_ID,AGENDA_ITM_ID,RULE_ID,VER_NBR)
   VALUES ('KS-KRMS-AGENDA-11926','KS-KRMS-AGENDA-ITM-12076','KS-KRMS-RULE-12083',1)
@@ -329,7 +329,7 @@ Insert into KRMS_PROP_PARM_T (PARM_TYP_CD,PARM_VAL,PROP_ID,PROP_PARM_ID,SEQ_NO,V
 --EPM
 --Day 1 10:30-12:30
 Insert into KRMS_RULE_T (ACTV,DESC_TXT,NM,NMSPC_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR) 
-  values ('Y',null,concat(concat('kuali.atp.type.Winter:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':14'),'KS-SYS',null,'KS-KRMS-RULE-12084',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
+  values ('Y',null,concat(concat('kuali.atp.type.Spring:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':14'),'KS-SYS',null,'KS-KRMS-RULE-12084',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
 /
 INSERT INTO KRMS_AGENDA_ITM_T (AGENDA_ID,AGENDA_ITM_ID,RULE_ID,VER_NBR)
   VALUES ('KS-KRMS-AGENDA-11926','KS-KRMS-AGENDA-ITM-12077','KS-KRMS-RULE-12084',1)
@@ -368,7 +368,7 @@ Insert into KRMS_PROP_PARM_T (PARM_TYP_CD,PARM_VAL,PROP_ID,PROP_PARM_ID,SEQ_NO,V
 
 --Day 3 08:00-10:00
 Insert into KRMS_RULE_T (ACTV,DESC_TXT,NM,NMSPC_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR) 
-  values ('Y',null,concat(concat('kuali.atp.type.Winter:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':15'),'KS-SYS',null,'KS-KRMS-RULE-12085',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
+  values ('Y',null,concat(concat('kuali.atp.type.Spring:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':15'),'KS-SYS',null,'KS-KRMS-RULE-12085',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
 /
 INSERT INTO KRMS_AGENDA_ITM_T (AGENDA_ID,AGENDA_ITM_ID,RULE_ID,VER_NBR)
   VALUES ('KS-KRMS-AGENDA-11926','KS-KRMS-AGENDA-ITM-12078','KS-KRMS-RULE-12085',1)
@@ -407,7 +407,7 @@ Insert into KRMS_PROP_PARM_T (PARM_TYP_CD,PARM_VAL,PROP_ID,PROP_PARM_ID,SEQ_NO,V
 
 --Day 3 13:30-15:30
 Insert into KRMS_RULE_T (ACTV,DESC_TXT,NM,NMSPC_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR) 
-  values ('Y',null,concat(concat('kuali.atp.type.Winter:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':16'),'KS-SYS',null,'KS-KRMS-RULE-12086',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
+  values ('Y',null,concat(concat('kuali.atp.type.Spring:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':16'),'KS-SYS',null,'KS-KRMS-RULE-12086',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
 /
 INSERT INTO KRMS_AGENDA_ITM_T (AGENDA_ID,AGENDA_ITM_ID,RULE_ID,VER_NBR)
   VALUES ('KS-KRMS-AGENDA-11926','KS-KRMS-AGENDA-ITM-12079','KS-KRMS-RULE-12086',1)
@@ -446,7 +446,7 @@ Insert into KRMS_PROP_PARM_T (PARM_TYP_CD,PARM_VAL,PROP_ID,PROP_PARM_ID,SEQ_NO,V
 
 --Day 4 13:30-15:30
 Insert into KRMS_RULE_T (ACTV,DESC_TXT,NM,NMSPC_CD,PROP_ID,RULE_ID,TYP_ID,VER_NBR) 
-  values ('Y',null,concat(concat('kuali.atp.type.Winter:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':17'),'KS-SYS',null,'KS-KRMS-RULE-12087',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
+  values ('Y',null,concat(concat('kuali.atp.type.Spring:',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard')), ':17'),'KS-SYS',null,'KS-KRMS-RULE-12087',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.final.exam.standard'),1)
 /
 INSERT INTO KRMS_AGENDA_ITM_T (AGENDA_ID,AGENDA_ITM_ID,RULE_ID,VER_NBR)
   VALUES ('KS-KRMS-AGENDA-11926','KS-KRMS-AGENDA-ITM-12080','KS-KRMS-RULE-12087',1)
