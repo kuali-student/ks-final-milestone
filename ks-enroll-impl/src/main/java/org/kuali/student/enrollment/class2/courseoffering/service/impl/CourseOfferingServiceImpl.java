@@ -1682,27 +1682,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 }
             }
         }
-        // TO DELETE---everything below
-//        List<ScheduleRequestInfo> requests = getSchedulingService()
-//                .getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, sourceAO.getId(), context);
-//
-//        // begin KSENROLL-8064
-//        // Case 1: Colo AOs have no ADLs
-//
-//        // Add the AO id from the copied AO to the SRS list of AO Ids and call updateScheduleRequestSetInfo (easy)
-//        String targetAOId = targetAO.getId();
-//        ScheduleRequestSetInfo sourceAOSrs = getSchedulingService().getScheduleRequestSet(requests.get(0).getScheduleRequestSetId(),context);
-//        List<String> aoIds = new ArrayList<String>();
-//        aoIds.add(targetAOId);
-//        sourceAOSrs.setRefObjectIds(aoIds);
-//        try {
-//            // and call updateScheduleRequestSetInfo
-//            getSchedulingService().updateScheduleRequestSet(targetAOId, sourceAOSrs, context);
-//        } catch(VersionMismatchException e) {
-//            // TODO: what to throw?
-//            throw new OperationFailedException("unexpected", e);
-//        }
-//        // end KSENROLL-8064
     }
 
     @Override
