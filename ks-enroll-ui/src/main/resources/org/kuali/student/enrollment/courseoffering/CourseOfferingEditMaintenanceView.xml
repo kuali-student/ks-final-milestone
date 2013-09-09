@@ -619,20 +619,13 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean id="KS-CourseOfferingEdit-HasWaitlist" parent="Uif-InputField" p:propertyName="hasWaitlistForUI" p:showLabel="false" >
+                            <bean id="KS-CourseOfferingEdit-HasWaitlist" parent="Uif-InputField-LabelRight" p:propertyName="hasWaitlistForUI" p:label="Waitlists Active" >
                                 <property name="control">
-                                    <!-- Notes:
-                                    1.  use setLabelIfElse(...) to set waitlist label wording depending on whether  waitlist is checked or unchecked
-                                    2.  show dialog prompt if user deactivates waitlist -->
-                                    <bean parent="Uif-CheckboxControl" p:onChangeScript="setLabelIfElse('KS-CourseOfferingEdit-Waitlist-LabelId',jQuery(this).attr('checked'),'Waitlist Active','Waitlist Inactive');"
+                                    <!-- show dialog prompt if user deactivates waitlist -->
+                                    <bean parent="Uif-CheckboxControl"
                                             p:onClickScript="if (!jQuery('#KS-CourseOfferingEdit-HasWaitlist_control').attr('checked')) {showLightboxComponent('CourseOfferingEdit-Waitlist-Inactivate-Prompt'); }"/>
-
                                 </property>
                             </bean>
-                            <bean id="KS-CourseOfferingEdit-Waitlist-LabelId" parent="Uif-Label"
-                                  p:labelText="Waitlists @{#dp.courseOfferingInfo.hasWaitlist ? 'Active' : 'Inactive'}"
-                                  p:labelForComponentId="KS-CourseOfferingEdit-HasWaitlist"
-                                  p:renderColon="false"/>
                             <ref bean="CourseOfferingEdit-Waitlist-Inactivate-Prompt"/>
                         </list>
                     </property>
@@ -643,7 +636,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingEdit-WailtList-Message-Section" parent="Uif-VerticalBoxSection" p:header.style="margin-top: 0;"
-          p:progressiveRender="@{#dp.courseOfferingInfo.hasWaitlist}" >
+          p:progressiveRender="@{#dp.hasWaitlistForUI}" >
         <property name="items">
             <list>
                 <bean parent="Uif-Message"
