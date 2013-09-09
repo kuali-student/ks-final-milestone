@@ -747,8 +747,15 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 loadNavigationDetails( formObject );
 
                 //check if the final exam status is the same as the one of CM
-                String finalExamTypeCM = courseInfo.getAttributeValue(CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_KEY);
-                if (!StringUtils.equals(convertCourseFinalExamTypeToCourseOfferingFinalExamType(finalExamTypeCM), coInfo.getFinalExamType())) {
+                String finalExamTypeCM = "";
+                if(!courseInfo.getAttributes().isEmpty()){
+                    for(AttributeInfo info: courseInfo.getAttributes()){
+                        if(info.getKey().equals(CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_KEY)){
+                            finalExamTypeCM = info.getValue();
+                        }
+                    }
+                }
+                if (!finalExamTypeCM.isEmpty() && !StringUtils.equals(convertCourseFinalExamTypeToCourseOfferingFinalExamType(finalExamTypeCM), coInfo.getFinalExamType())) {
                     GlobalVariables.getMessageMap().putWarningForSectionId("delivery_and_assessment", CourseOfferingConstants.COURSEOFFERING_MSG_WARNING_FINALEXAMTYPE_DIFF_CM);
                 }
 
