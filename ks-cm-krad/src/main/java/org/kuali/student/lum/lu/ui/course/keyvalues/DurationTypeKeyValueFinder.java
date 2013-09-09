@@ -65,7 +65,13 @@ public class DurationTypeKeyValueFinder extends UifKeyValuesFinderBase {
                 AtpServiceConstants.DURATION_MONTH_TYPE_KEY,
                 AtpServiceConstants.DURATION_TERM_TYPE_KEY,
                 AtpServiceConstants.DURATION_HOURS_TYPE_KEY,
-                AtpServiceConstants.DURATION_WEEK_TYPE_KEY);
+                AtpServiceConstants.DURATION_WEEK_TYPE_KEY,
+                AtpServiceConstants.DURATION_TBD_TYPE_KEY,
+                AtpServiceConstants.DURATION_MINUTES_TYPE_KEY,
+                AtpServiceConstants.DURATION_SEMESTER_TYPE_KEY,
+                AtpServiceConstants.DURATION_TWO_YEARS_TYPE_KEY,
+                AtpServiceConstants.DURATION_DAY_TYPE_KEY,
+                AtpServiceConstants.DURATION_QUARTER_TYPE_KEY);
         qBuilder.setPredicates(predicate);
         try
         {
