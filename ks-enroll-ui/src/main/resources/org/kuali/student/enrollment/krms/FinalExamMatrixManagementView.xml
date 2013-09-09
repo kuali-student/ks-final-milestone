@@ -100,4 +100,51 @@
         </property>
     </bean>
 
+    <bean id="KSFE-FinalExamMatrixManagement-SearchInputPage" parent="KS-Uif-Page" p:disclosure.render="false"
+          p:id="finalExamSearchInputPage">
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <ref bean="KSFE-HomewardPathBreadcrumbs-ManageFEM-Landing" />
+            </list>
+        </property>
+
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="KSFE-FinalExamMatrixManagement-CriteriaSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="KSFE-FinalExamMatrixManagement-CriteriaSection" parent="Uif-HorizontalBoxSection"
+          p:id="finalExamMatrixManagementCriteriaSection">
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+
+                            <bean parent="Uif-InputField" p:propertyName="type.key" p:label="Term" p:labelPlacement="LEFT" p:required="true" p:readOnly="false">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class1.krms.keyvalue.TermKeyValueFinder"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Show" p:methodToCall="show"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
 </beans>
