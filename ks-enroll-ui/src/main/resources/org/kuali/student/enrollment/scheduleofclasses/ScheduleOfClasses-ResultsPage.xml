@@ -223,6 +223,16 @@
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.richTable.render" value="false" />
+        <property name="header.upperGroup">
+          <bean parent="Uif-HorizontalBoxGroup">
+            <property name="items">
+              <list>
+                  <bean parent="Uif-MessageField" p:label="" p:messageText="@{#line.requisites}"/>
+                  <bean parent="Uif-MessageField" p:label="[b]Course Description[/b]" p:messageText="@{#line.xmlEscapedFormatted}"/>
+              </list>
+            </property>
+          </bean>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:label="CODE" p:propertyName="aoInfo.activityCode" />
@@ -266,7 +276,8 @@
             <bean parent="Uif-HorizontalBoxGroup">
                 <property name="items">
                     <list>
-                         <bean parent="Uif-MessageField" p:label="[b]Course Description[/b]" p:messageText="@{#line.xmlEscapedFormatted}"/>
+                        <bean parent="Uif-MessageField" p:label="" p:messageText="@{#line.requisites}"/>
+                        <bean parent="Uif-MessageField" p:label="[b]Course Description[/b]" p:messageText="@{#line.xmlEscapedFormatted}"/>
                     </list>
                 </property>
             </bean>
