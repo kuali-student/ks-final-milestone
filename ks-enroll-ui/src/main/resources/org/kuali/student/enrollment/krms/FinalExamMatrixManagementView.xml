@@ -45,15 +45,15 @@
 
         <property name="additionalScriptFiles">
             <list merge="true">
-                <value>ks-enroll/scripts/toolbar.js</value>
+                <value>themes/ksboot/scripts/toolbar.js</value>
                 <!--<value>ks-enroll/scripts/courseOffering.js</value>-->
                 <value>ks-krad/scripts/ks-krad-collection-rowSelection.js</value>
             </list>
         </property>
         <property name="additionalCssFiles">
             <list merge="true">
-                <value>ks-enroll/css/acal.css</value>
-                <value>ks-enroll/css/krms.css</value>
+                <value>themes/ksboot/stylesheets/acal.css</value>
+                <value>themes/ksboot/stylesheets/krms.css</value>
             </list>
         </property>
 

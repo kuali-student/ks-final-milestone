@@ -52,12 +52,12 @@
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingWrapperInquirableImpl">
         <property name="additionalCssFiles">
             <list merge="true">
-                <value>ks-enroll/css/activityOffering.css</value>
+                <value>themes/ksboot/stylesheets/activityOffering.css</value>
             </list>
         </property>
         <property name="additionalScriptFiles">
             <list merge="true">
-                <value>ks-enroll/scripts/activity-offering.js</value>
+                <value>themes/ksboot/scripts/activity-offering.js</value>
             </list>
         </property>
         <property name="page.header">

@@ -60,14 +60,14 @@ limitations under the License.
         <property name="entryPageId" value="KSFE-AgendaMaintenance-Page"/>
         <property name="additionalScriptFiles">
             <list>
-                <value>ks-enroll/scripts/ruleMaintenance.js</value>
+                <value>themes/ksboot/scripts/ruleMaintenance.js</value>
                 <value>krms/scripts/requiredAlerts.js</value>
                 <value>krms/scripts/countdownInputs.js</value>
             </list>
         </property>
         <property name="additionalCssFiles">
             <list>
-                <value>ks-enroll/css/krms.css</value>
+                <value>themes/ksboot/stylesheets/krms.css</value>
             </list>
         </property>
     </bean>

@@ -35,7 +35,7 @@
         </property>
         <property name="additionalCssFiles">
             <list merge="true">
-                <value>ks-enroll/css/acal.css</value>
+                <value>themes/ksboot/stylesheets/acal.css</value>
             </list>
         </property>
         <property name="items">
