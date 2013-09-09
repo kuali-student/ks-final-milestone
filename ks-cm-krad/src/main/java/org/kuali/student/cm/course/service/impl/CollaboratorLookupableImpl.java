@@ -73,7 +73,6 @@ public class CollaboratorLookupableImpl extends LookupableImpl {
         searchRequest.setSearchKey(QuickViewByGivenName.SEARCH_TYPE);
         searchRequest.setParams(queryParamValueList);
         searchRequest.setStartAt(0);
-        searchRequest.setMaxResults(10);
         searchRequest.setNeededTotalResults(false);
         searchRequest.setSortColumn(QuickViewByGivenName.DISPLAY_NAME_RESULT);
         

@@ -81,7 +81,6 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
         searchRequest.setSearchKey("org.search.generic");
         searchRequest.setParams(queryParamValueList);
         searchRequest.setStartAt(0);
-        searchRequest.setMaxResults(10);
         searchRequest.setNeededTotalResults(false);
         searchRequest.setSortColumn("org.resultColumn.orgOptionalId");
         

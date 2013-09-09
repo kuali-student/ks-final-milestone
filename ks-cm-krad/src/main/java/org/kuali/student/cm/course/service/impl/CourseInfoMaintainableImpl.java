@@ -142,7 +142,6 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
         searchRequest.setSearchKey("org.search.generic");
         searchRequest.setParams(queryParamValueList);
         searchRequest.setStartAt(0);
-        searchRequest.setMaxResults(10);
         searchRequest.setNeededTotalResults(false);
         searchRequest.setSortColumn("org.resultColumn.orgOptionalLongName");
         
@@ -192,7 +191,6 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
         searchRequest.setSearchKey(QuickViewByGivenName.SEARCH_TYPE);
         searchRequest.setParams(queryParamValueList);
         searchRequest.setStartAt(0);
-        searchRequest.setMaxResults(10);
         searchRequest.setNeededTotalResults(false);
         searchRequest.setSortColumn(QuickViewByGivenName.DISPLAY_NAME_RESULT);
         
@@ -242,7 +240,6 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
 		searchRequest.setSearchKey(QuickViewByGivenName.SEARCH_TYPE);
 		searchRequest.setParams(queryParamValueList);
 		searchRequest.setStartAt(0);
-		searchRequest.setMaxResults(10);
 		searchRequest.setNeededTotalResults(false);
 		searchRequest.setSortColumn(QuickViewByGivenName.DISPLAY_NAME_RESULT);
 
@@ -859,7 +856,6 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
        searchRequest.setSearchKey(QuickViewByGivenName.SEARCH_TYPE);
        searchRequest.setParams(queryParamValueList);
        searchRequest.setStartAt(0);
-       searchRequest.setMaxResults(10);
        searchRequest.setNeededTotalResults(false);
        searchRequest.setSortColumn(QuickViewByGivenName.DISPLAY_NAME_RESULT);
        
