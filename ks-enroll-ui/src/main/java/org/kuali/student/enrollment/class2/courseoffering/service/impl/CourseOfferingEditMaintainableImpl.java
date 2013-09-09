@@ -872,7 +872,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
         if(!coInfo.getAttributes().isEmpty() ){
             if (coInfo.getFinalExamType().equals("STANDARD")){  //driver is only for 'STANDARD'
                 for(AttributeInfo info: coInfo.getAttributes()){
-                    if(info.getKey().equals("finalExamDriver")){
+                    if(info.getKey().equals(CourseOfferingServiceConstants.FINAL_EXAM_DRIVER_ATTR)){
                         if (!info.getValue().equals(coEditWrapper.getFinalExamDriver())) { //update selected driver
                             info.setValue(coEditWrapper.getFinalExamDriver());
                             found = true;
@@ -882,13 +882,13 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 }
                 if (!found){  //finalExamDriver attribute is missing from attributes > add
                     AttributeInfo newAttr = new AttributeInfo();
-                    newAttr.setKey("finalExamDriver");
+                    newAttr.setKey(CourseOfferingServiceConstants.FINAL_EXAM_DRIVER_ATTR);
                     newAttr.setValue(coEditWrapper.getFinalExamDriver());
                     coInfo.getAttributes().add(newAttr);
                 }
             } else {
                 for(AttributeInfo info: coInfo.getAttributes()){  //FEType is not 'STANDARD' > driver to default
-                    if(info.getKey().equals("finalExamDriver")){
+                    if(info.getKey().equals(CourseOfferingServiceConstants.FINAL_EXAM_DRIVER_ATTR)){
                         if (!info.getValue().equals("na")) { //update driver
                             info.setValue("na");
                             break;
@@ -898,7 +898,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             }
         } else {  //no attributes > add finalExamDriver attribute
             AttributeInfo newAttr = new AttributeInfo();
-            newAttr.setKey("finalExamDriver");
+            newAttr.setKey(CourseOfferingServiceConstants.FINAL_EXAM_DRIVER_ATTR);
             newAttr.setValue(coEditWrapper.getFinalExamDriver());
             coInfo.setAttributes(new ArrayList<AttributeInfo>());
             coInfo.getAttributes().add(newAttr);

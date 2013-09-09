@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -92,7 +93,7 @@ public class CourseOfferingWrapper implements Serializable{
         // set Final Exam Driver
         if(!courseOfferingInfo.getAttributes().isEmpty()){
             for(AttributeInfo attrInfo: courseOfferingInfo.getAttributes()){
-                if(StringUtils.equals(attrInfo.getKey(), "finalExamDriver")){
+                if(StringUtils.equals(attrInfo.getKey(), CourseOfferingServiceConstants.FINAL_EXAM_DRIVER_ATTR)){
                     this.finalExamDriver = attrInfo.getValue();
                     if (StringUtils.equals(attrInfo.getValue(), LuServiceConstants.LU_EXAM_DRIVER_CO_KEY)) {
                         this.finalExamDriverUI = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_DRIVER_CO_UI;
