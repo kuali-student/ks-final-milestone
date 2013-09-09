@@ -11,12 +11,12 @@
     <packaging>war</packaging>
     <properties>
         <web.launch.spring.file>classpath:SampleAppBeans.xml</web.launch.spring.file>
-            <webapp.source.dir>${project.build.directory}/themebuilder</webapp.source.dir>
-            <theme.builder.output.dir>${project.build.directory}/${project.artifactId}-webapp</theme.builder.output.dir>
-            <theme.builder.excludes >bootstrap,kboot</theme.builder.excludes>
-            <theme.builder.theme.adddirs />
-            <theme.builder.plugin.adddirs />
-            <theme.skip.theme.processing>false</theme.skip.theme.processing>
+        <webapp.source.dir>${project.build.directory}/themebuilder</webapp.source.dir>
+        <theme.builder.output.dir>${project.build.directory}/${project.artifactId}-webapp</theme.builder.output.dir>
+        <theme.builder.excludes >bootstrap,kboot</theme.builder.excludes>
+        <theme.builder.theme.adddirs />
+        <theme.builder.plugin.adddirs />
+        <theme.skip.theme.processing>false</theme.skip.theme.processing>
     </properties>
     <build>
         <plugins>
