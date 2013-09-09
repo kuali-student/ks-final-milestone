@@ -14,6 +14,8 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
+import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.date.DateFormatters;
@@ -61,20 +63,22 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
             FormatOfferingInfo formatOfferingInfo = getCourseOfferingService().getFormatOffering(info.getFormatOfferingId(), contextInfo);
             wrapper.setFormatOffering(formatOfferingInfo);
 
-            // Added for WaitList Tanveer 06/27/2012
-            wrapper.setWaitListLevelTypeKey(courseOfferingInfo.getWaitlistLevelTypeKey());
-            wrapper.setWaitListTypeKey(courseOfferingInfo.getWaitlistTypeKey());
-            wrapper.setHasWaitList(courseOfferingInfo.getHasWaitlist());
-            if (!wrapper.getHasWaitList())
-                wrapper.setWaitListText("There is no wait list for this offering.");
-            if (wrapper.getWaitListLevelTypeKey().equals("Course Offering")) {
-                wrapper.setWaitListText("This waitlist is managed at the Course Offering level.");
-                wrapper.setToolTipText("There is one waitlist for all Activity Offerings");
+            //get the waitlist info
+           List <CourseWaitListInfo> courseWaitListInfoList = getCourseWaitListService().getCourseWaitListsByActivityOffering(info.getActivityId(), contextInfo);
+           int firstCourseWaitListInfo = 0;
+            CourseWaitListInfo courseWaitListInfo = new CourseWaitListInfo();
+            //set waitlist info in wrapper
+            wrapper.setHasWaitlistCO(false);
+            if ( null != courseWaitListInfoList && courseWaitListInfoList.size() > 0 )
+            {
+                courseWaitListInfo = courseWaitListInfoList.get(firstCourseWaitListInfo);
+                if ( org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY.equalsIgnoreCase(courseWaitListInfo.getStateKey()))
+                {
+                  wrapper.setHasWaitlistCO(true);
+                }
             }
-            if (wrapper.getWaitListLevelTypeKey().equals("Activity Offering")) {
-                wrapper.setWaitListText("This waitlist is managed at the Activity Offering level.");
-                wrapper.setToolTipText("Each Activity Offering has its own wait list.");
-            }
+            wrapper.setCourseWaitListInfo(courseWaitListInfo);
+
 
             // Now have to deal with subterms: have to check if it's subterm or term
             TermInfo term = null;
@@ -197,6 +201,9 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
         return CourseOfferingResourceLoader.loadCourseOfferingService();
     }
 
+    public CourseWaitListService getCourseWaitListService() {
+        return CourseOfferingResourceLoader.loadCourseWaitlistService();
+    }
     public TypeService getTypeService(){
        if (typeService == null){
            typeService = CourseOfferingResourceLoader.loadTypeService();
