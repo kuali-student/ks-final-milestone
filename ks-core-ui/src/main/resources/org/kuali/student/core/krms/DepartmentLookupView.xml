@@ -124,7 +124,7 @@ limitations under the License.
         </property>
         <property name="additionalCssFiles">
             <list>
-                <value>ks-enroll/css/krms.css</value>
+                <value>themes/ksboot/stylesheets/krms.css</value>
             </list>
         </property>
     </bean>

@@ -25,13 +25,13 @@
         <property name="cssFiles">
             <list merge="true">
                 <value>plugins/tooltip/ks.jquery.bubblepopup.css</value>
-                <value>ks-enroll/css/enroll.css</value>
-                <value>ks-enroll/css/link-tabs.css</value>
+                <value>themes/ksboot/stylesheets/enroll.css</value>
+                <value>themes/ksboot/stylesheets/link-tabs.css</value>
             </list>
         </property>
         <property name="scriptFiles">
             <list merge="true">
-                <value>ks-enroll/scripts/enroll.js</value>
+                <value>themes/ksboot/scripts/enroll.js</value>
                 <value>krad/scripts/ks.krad.widget.js</value>
                 <value>themes/bootstrap/scripts/bootstrap.js</value>
             </list>

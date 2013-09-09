@@ -8,7 +8,7 @@
 </script>
 
 <div class="ks-uif-viewHeader-container navbar-inverse navbar">
-    <img class="ks-logo-image" title="Kuali Student" src="../ks-enroll/images/header/logo_kuali.png">
+    <img class="ks-logo-image" title="Kuali Student" src="../themes/ksboot/images/header/logo_kuali.png">
     <span class="ks-header-student">Student</span>
 
     <div class="header-right-group">
