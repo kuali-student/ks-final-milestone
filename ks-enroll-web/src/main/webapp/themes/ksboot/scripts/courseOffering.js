@@ -109,11 +109,9 @@ function handleWaitListPrompt(dialog) {
     for(i =0; i < dialogResponses.length; i++){
         if (dialogResponses[i].checked==true) {
             if (dialogResponses[i].value=='Cancel') {
-
-                //if user Cancels then: 1. Revert check box , 2. reset label, 3. display approp. informational message
-                jQuery('#KS-CourseOfferingEdit-HasWaitlist_control').prop('checked',true);
-                jQuery('#KS-CourseOfferingEdit-Waitlist-LabelId').text('Waitlist Active');
-                jQuery('#KS-CourseOfferingEdit-WailtList-Message-Section').show();
+               //if user Cancels then: 1. Revert check box , 2. display approp. informational message
+               jQuery('#KS-CourseOfferingEdit-HasWaitlist_control').prop('checked',true);
+               jQuery('#KS-CourseOfferingEdit-WailtList-Message-Section').show();
             }
             //Uncheck checked button ...because krad implemented it as a radio bttn!!
             dialogResponses[i].checked=false;
