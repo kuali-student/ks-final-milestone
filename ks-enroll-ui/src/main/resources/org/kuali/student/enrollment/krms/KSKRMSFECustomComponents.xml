@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2007-2013 The Kuali Foundation
+
+Licensed under the Educational Community License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.opensource.org/licenses/ecl2.php
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <bean id="KSFE-CustomCompnents-View" parent="KS-Uif-FormView" p:applyDirtyCheck="false">
+
+        <property name="id" value="FECustomCompnentsView"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.enrollment.class1.krms.service.impl.FERuleViewHelperServiceImpl"/>
+        <property name="entryPageId" value="finalExamCustomComponentsPage"/>
+        <property name="formClass" value="org.kuali.student.enrollment.class1.krms.dto.FECustomComponentsForm"/>
+        <property name="headerText" value="Custom Components"/>
+
+        <property name="items">
+            <list>
+                <ref bean="KRMSFE-CustomCompnents-Section"/>
+            </list>
+        </property>
+
+    </bean>
+
+
+    <bean id="KRMSFE-CustomCompnents-Section" parent="KS-Uif-Page" p:disclosure.render="false"
+          p:id="finalExamCustomComponentsPage">
+
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="KRMSFE_tba"/>
+                            <ref bean="KRMSFE_days"/>
+                            <ref bean="KRMSFE-starttime_ampm-Section"/>
+                            <ref bean="KRMSFE-endtime_ampm-Section"/>
+                            <ref bean="KRMSFE-FinalExamTermSerach-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMSFE_tba-Parent" parent="Uif-InputField-LabelRight" p:propertyName="ruleEditor.tba" p:label="TBA"
+          p:style="margin-top:15px">
+        <property name="control">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+    </bean>
+    <bean id="KRMSFE_tba" parent="KRMSFE_tba-Parent"/>
+
+    <bean id="KRMSFE_days-Parent" parent="Uif-InputField-LabelTop" p:label="Days" p:propertyName="ruleEditor.day"
+          p:uppercaseValue="true">
+        <property name="constraintText" value="MTWHFSU"/>
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="10" p:cssClasses="new_rdl_components"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="CharsetPatternConstraint" p:validChars="MTWHFSUmtwhfsu"
+                  p:messageKey="validation.enroll.ao.scheduleValidChars"/>
+        </property>
+    </bean>
+    <bean id="KRMSFE_days" parent="KRMSFE_days-Parent"/>
+
+    <bean id="KRMSFE_starttime-Parent" parent="Uif-InputField-LabelTop" p:label="Start Time"
+          p:propertyName="ruleEditor.startTime" p:required="true">
+        <property name="fieldLabel.requiredMessage.messageText" value=""/>
+        <property name="constraintText" value="HH:MM"/>
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="5" p:cssClasses="new_rdl_components"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="TimePatternConstraint"/>
+        </property>
+        <property name="dependencyConstraints">
+            <list>
+                <bean parent="PrerequisiteConstraint" p:propertyName="ruleEditor.startTimeAMPM"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KRMSFE_starttime" parent="KRMSFE_starttime-Parent"/>
+
+    <bean id="KRMSFE_starttime_ampm-Parent" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;"
+          p:propertyName="ruleEditor.startTimeAMPM" p:required="true">
+        <property name="fieldLabel.requiredMessage.messageText" value=""/>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_rdl_components"/>
+        </property>
+    </bean>
+    <bean id="KRMSFE_starttime_ampm" parent="KRMSFE_starttime_ampm-Parent"/>
+
+    <bean id="KRMSFE_endtime-Parent" parent="Uif-InputField-LabelTop" p:label="End Time"
+          p:propertyName="ruleEditor.endTime" p:required="true">
+        <property name="fieldLabel.requiredMessage.messageText" value=""/>
+        <property name="constraintText" value="HH:MM"/>
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="5" p:cssClasses="new_rdl_components"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="TimePatternConstraint"/>
+        </property>
+    </bean>
+    <bean id="KRMSFE_endtime" parent="KRMSFE_endtime-Parent"/>
+
+    <bean id="KRMSFE_endtime_ampm-Parent" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;"
+          p:propertyName="ruleEditor.endTimeAMPM" p:required="true">
+        <property name="fieldLabel.requiredMessage.messageText" value=""/>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_rdl_components"/>
+        </property>
+    </bean>
+    <bean id="KRMSFE_endtime_ampm" parent="KRMSFE_endtime_ampm-Parent"/>
+
+
+    <bean id="KRMSFE-starttime_ampm-Section-Parent" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="KRMSFE_starttime"/>
+                <ref bean="KRMSFE_starttime_ampm"/>
+
+            </list>
+        </property>
+    </bean>
+    <bean id="KRMSFE-starttime_ampm-Section" parent="KRMSFE-starttime_ampm-Section-Parent"/>
+
+    <bean id="KRMSFE-endtime_ampm-Section-Parent" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="KRMSFE_endtime"/>
+                <ref bean="KRMSFE_endtime_ampm"/>
+
+            </list>
+        </property>
+    </bean>
+    <bean id="KRMSFE-endtime_ampm-Section" parent="KRMSFE-endtime_ampm-Section-Parent"/>
+
+
+    <bean id="KRMSFE-FinalExamTermSerach-Section-Parent" parent="Uif-HorizontalBoxSection">
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+
+                            <bean parent="Uif-InputField" p:propertyName="ruleManagementWrapper.term" p:label="Term" p:labelPlacement="LEFT"
+                                  p:required="true" p:readOnly="false">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class1.krms.keyvalue.TermKeyValueFinder"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true"
+                                  p:actionLabel="Show" p:methodToCall="show"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="KRMSFE-FinalExamTermSerach-Section" parent="KRMSFE-FinalExamTermSerach-Section-Parent"/>
+</beans>
+
+

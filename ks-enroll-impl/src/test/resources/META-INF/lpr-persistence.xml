@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Use this one for deploying to JBoss -->
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+	http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+	version="1.0">
+
+	<!-- JPA test "unit" -->
+	<persistence-unit name="persistentUnit"
+		transaction-type="JTA">
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprAttributeEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionAttributeEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemAttributeEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemRequestOptionEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemResultValueGroupEntity</class>
+		
+
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+
+	</persistence-unit>
+
+
+</persistence>
