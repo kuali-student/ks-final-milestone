@@ -478,8 +478,9 @@ public class MetadataServiceImpl {
      * @return true if workflowNode is first item in values, otherwise returns false
      */
     private boolean isWorkflowNodeFirstConstraintValue(String workflowNode, List<Object> values){
+        int firstValue = 0;
     	if (values != null && !values.isEmpty()){
-    		return values.get(0).equals(workflowNode);
+    		return values.get(firstValue).equals(workflowNode);
     	} else {
     		return false;
     	}

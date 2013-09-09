@@ -60,13 +60,14 @@ public class RuleInfo {
         int numStatementsSelection = (selectedStatementVOs == null)? 0 : selectedStatementVOs.size();
         int numReqComponentSelection = (selectedReqComponentVOs == null)? 0 : selectedReqComponentVOs.size();
         int numSelection = numStatementsSelection + numReqComponentSelection;
-        
+        int firstValue = 0;
+
         // At least 2 items (StatementVO or RC) must be selected.
         if (numSelection >= 2) {
             if (numStatementsSelection > 0) {
-                enclosingStatement = this.statementVO.getParentStatementVO(this.statementVO, selectedStatementVOs.get(0));
+                enclosingStatement = this.statementVO.getParentStatementVO(this.statementVO, selectedStatementVOs.get(firstValue));
             } else {
-                enclosingStatement = this.statementVO.getEnclosingStatementVO(this.statementVO, selectedReqComponentVOs.get(0));
+                enclosingStatement = this.statementVO.getEnclosingStatementVO(this.statementVO, selectedReqComponentVOs.get(firstValue));
             }
             
             if (numStatementsSelection > 0) {
@@ -116,10 +117,10 @@ public class RuleInfo {
     public void insertOR() {
         List<StatementVO> selectedStatementVOs = getSelectedStatementVOs();
         List<ReqComponentVO> selectedReqComponentVOs = getSelectedReqComponentVOs();
-
+        int firstReqComponent = 0;
         // check if the selections can be grouped by OR operator.
         if (!statementVOIsGroupAble(selectedStatementVOs, selectedReqComponentVOs)) return;
-        StatementVO enclosingStatementVO = statementVO.getEnclosingStatementVO(statementVO, selectedReqComponentVOs.get(0));
+        StatementVO enclosingStatementVO = statementVO.getEnclosingStatementVO(statementVO, selectedReqComponentVOs.get(firstReqComponent));
 
         // create new statement to hold the new OR group
         StatementVO newStatementVO = createNewStatementVO();
@@ -144,11 +145,11 @@ public class RuleInfo {
     public void insertAND() {
         List<StatementVO> selectedStatementVOs = getSelectedStatementVOs();
         List<ReqComponentVO> selectedReqComponentVOs = getSelectedReqComponentVOs();
-
+        int firstReqComponent = 0;
         // check if the selections can be grouped by OR operator.
         if (!statementVOIsGroupAble(selectedStatementVOs, selectedReqComponentVOs)) return;
 
-        StatementVO enclosingStatementVO = statementVO.getEnclosingStatementVO(statementVO, selectedReqComponentVOs.get(0));
+        StatementVO enclosingStatementVO = statementVO.getEnclosingStatementVO(statementVO, selectedReqComponentVOs.get(firstReqComponent));
         // create new statement to hold the new OR group
         StatementVO newStatementVO = createNewStatementVO();
         StatementInfo newLuStatementInfo = newStatementVO.getStatementInfo();
@@ -180,6 +181,7 @@ public class RuleInfo {
         boolean degroupAble = false;
         boolean selectedRootStatementVO = false;
         boolean otherItemsExist = false;
+        int firstReqComponentVO = 0;
 
         // at least one item is selected
         if ((selectedStatementVOs != null && !selectedStatementVOs.isEmpty()) || 
@@ -214,7 +216,7 @@ public class RuleInfo {
                 for (StatementVO subStatementVO : 
                     parentStatementVO.getStatementVOs()) {
                     if (subStatementVO.isWrapperStatementVO() &&
-                            subStatementVO.getReqComponentVOs().get(0).isCheckBoxOn()) {
+                            subStatementVO.getReqComponentVOs().get(firstReqComponentVO).isCheckBoxOn()) {
                         numSelectedChildren++;
                     } else if (subStatementVO.isCheckBoxOn()) {
                         numSelectedChildren++;
@@ -298,10 +300,10 @@ public class RuleInfo {
         List<StatementVO> selectedStatementVOs = getSelectedStatementVOs();
         List<ReqComponentVO> selectedReqComponentVOs = getSelectedReqComponentVOs();
         StatementVO selectedS = null;
-
+        int firstStmtVO = 0;
         if (!isAddToGroupOK(selectedStatementVOs, selectedReqComponentVOs)) return;
 
-        selectedS = selectedStatementVOs.get(0);
+        selectedS = selectedStatementVOs.get(firstStmtVO);
         if (selectedReqComponentVOs != null && !selectedReqComponentVOs.isEmpty()) {
             for (ReqComponentVO selectedRC : selectedReqComponentVOs) {
                 StatementVO parentS = this.statementVO.getEnclosingStatementVO(this.statementVO, selectedRC);

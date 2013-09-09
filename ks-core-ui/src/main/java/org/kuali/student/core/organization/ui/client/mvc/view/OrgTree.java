@@ -91,7 +91,8 @@ public class OrgTree  extends Composite{
         orgRpcServiceAsync.getOrgHierarchies(new KSAsyncCallback<List<OrgHierarchyInfo>>(){
 
             public void onSuccess(List<OrgHierarchyInfo> result) {
-                if(result != null){
+                if(result != null && !result.isEmpty()){
+                    final int firstValue = 0;
                     for(final OrgHierarchyInfo orgHInfo:result){
 
                         // setting maxLevel to -1 to obtain only the root Node
@@ -99,7 +100,7 @@ public class OrgTree  extends Composite{
 
                             @Override
                             public void onSuccess(List<OrgTreeInfo> result) {
-                                OrgTreeInfo root = result.get(0);
+                                OrgTreeInfo root = result.get(firstValue);
                                 TreeItem item = new TreeItem(new RootNode(root.getOrgId(),root.getDisplayName(),root.getPositions(),root.getOrgHierarchyId()));
                                 tree.addItem(item);
                                 item.addItem("");

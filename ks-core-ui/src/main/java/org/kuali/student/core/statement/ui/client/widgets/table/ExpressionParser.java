@@ -165,10 +165,12 @@ public class ExpressionParser {
     * */
    private void sequeceNonLeaves(List<Node> nonLeafChildList, List<Token> list){
        if(nonLeafChildList.size() == 2){
-           if (indexInInputTokenList((Token)nonLeafChildList.get(0).getFirstLeafDescendant().getUserObject(), list)> 
-           indexInInputTokenList((Token)nonLeafChildList.get(1).getFirstLeafDescendant().getUserObject(), list)) {
-               Node buffer = nonLeafChildList.get(0);
-               nonLeafChildList.remove(0);
+           int firstChild = 0;
+           int nextChild = 1;
+           if (indexInInputTokenList((Token)nonLeafChildList.get(firstChild).getFirstLeafDescendant().getUserObject(), list)>
+           indexInInputTokenList((Token)nonLeafChildList.get(nextChild).getFirstLeafDescendant().getUserObject(), list)) {
+               Node buffer = nonLeafChildList.get(firstChild);
+               nonLeafChildList.remove(firstChild);
                nonLeafChildList.add(buffer);
            }
        }
@@ -207,12 +209,14 @@ public class ExpressionParser {
     /**Reorder the children*/
     private void sequeceLeaves(List<Node> leafChildList, List<Token> list){
         if(leafChildList.size() == 2){
-            if (indexInInputTokenList((Token)leafChildList.get(0).getUserObject(), list)> 
-            indexInInputTokenList((Token)leafChildList.get(1).getUserObject(), list)) {
+            int firstChild = 0;
+            int nextChild = 1;
+            if (indexInInputTokenList((Token)leafChildList.get(firstChild).getUserObject(), list)>
+            indexInInputTokenList((Token)leafChildList.get(nextChild).getUserObject(), list)) {
               // swap them
-                Token buffer = (Token)leafChildList.get(0).getUserObject();
-                leafChildList.get(0).setUserObject(leafChildList.get(1).getUserObject());
-                leafChildList.get(1).setUserObject(buffer);
+                Token buffer = (Token)leafChildList.get(firstChild).getUserObject();
+                leafChildList.get(firstChild).setUserObject(leafChildList.get(nextChild).getUserObject());
+                leafChildList.get(nextChild).setUserObject(buffer);
             }
             
         }
@@ -419,8 +423,9 @@ public class ExpressionParser {
             errorMessageList.add("input not complete");
             return;
         }
-        if ((tokenList.get(0).type == Token.StartParenthesis 
-                || tokenList.get(0).type == Token.Condition) == false) {
+        int firstToken = 0;
+        if ((tokenList.get(firstToken).type == Token.StartParenthesis
+                || tokenList.get(firstToken).type == Token.Condition) == false) {
             errorMessageList.add("must start with ( or condition");
             return;
         }

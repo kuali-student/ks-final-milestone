@@ -703,13 +703,14 @@ public class AtpServiceImpl implements AtpService {
     public StatusInfo removeMilestoneFromAtp(String milestoneId, String atpId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> ids = atpMilestoneRelationDao.getIdsByAtpAndMilestone(atpId, milestoneId);
-        if (ids.isEmpty()) {
+        if (ids == null || ids.isEmpty()) {
             throw new DoesNotExistException("No relationship exists between the atp " + atpId + " and milestone " + milestoneId);
         }
         if (ids.size() > 1) {
             throw new OperationFailedException("Database error there should only be one relationship record found " + ids.size());
         }
-        AtpMilestoneRelationEntity entity = atpMilestoneRelationDao.find(ids.get(0));
+        int firstId = 0;
+        AtpMilestoneRelationEntity entity = atpMilestoneRelationDao.find(ids.get(firstId));
         if (entity == null) {
             throw new OperationFailedException("rror there should only be one relationship record found " + ids.size());
         }

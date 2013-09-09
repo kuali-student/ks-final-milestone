@@ -243,9 +243,12 @@ public class DataModelValidator {
         if (s.isEmpty() && isRequiredCheck(meta)) {
             addError(results, element, REQUIRED);
         } else if (!s.isEmpty()) {
+            int firstElement = 0;
             if (s.equals(UtilConstants.IMPOSSIBLE_CHARACTERS)) {
                 QueryPath path = new QueryPath();
-                path.add(new StringKey(element.get(0).toString()));
+                if (element != null && !element.isEmpty()) {
+                    path.add(new StringKey(element.get(firstElement).toString()));
+                }
                 addError(results, path, INVALID_VALUE);
             } else {
                 int len = s.length();

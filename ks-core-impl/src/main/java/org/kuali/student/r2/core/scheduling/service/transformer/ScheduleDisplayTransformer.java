@@ -156,8 +156,9 @@ public class ScheduleDisplayTransformer {
         componentDisplayInfo.setId(componentInfo.getId());
         componentDisplayInfo.setIsTBA(componentInfo.getIsTBA());
         List<RoomResponsibleOrgInfo> responsibleOrgInfos = roomService.getRoomResponsibleOrgsByIds(componentInfo.getOrgIds(), contextInfo);
+        int firstOrgInfo = 0;
         if( responsibleOrgInfos != null && !responsibleOrgInfos.isEmpty() ) {
-            RoomResponsibleOrgInfo orgInfo = responsibleOrgInfos.get(0);
+            RoomResponsibleOrgInfo orgInfo = responsibleOrgInfos.get(firstOrgInfo);
             OrgInfo info = new OrgInfo();
             info.setEffectiveDate(orgInfo.getEffectiveDate());
 
