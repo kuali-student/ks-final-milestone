@@ -90,28 +90,57 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
 
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                              HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView start( @ModelAttribute( "KualiForm" ) UifFormBase form,
+                               BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+
         ScheduleOfClassesSearchForm scheduleOfClassesSearchForm = (ScheduleOfClassesSearchForm) form;
         scheduleOfClassesSearchForm.setSearchType("course");
 
-        if (scheduleOfClassesSearchForm.getTermCode() == null) {
+        configureCurrentTermCodeOnInitialRequest( scheduleOfClassesSearchForm );
+        configureDefaultAoDisplayFormat( scheduleOfClassesSearchForm );
+        configureSelectableAoRenderingWidget( scheduleOfClassesSearchForm, request );
+
+        return super.start(form, result, request, response);
+    }
+
+    private void configureCurrentTermCodeOnInitialRequest( ScheduleOfClassesSearchForm form ) {
+
+        if (form.getTermCode() == null) {
             ContextInfo context = ContextUtils.getContextInfo();
             List<AtpInfo> atps = ScheduleOfClassesUtil.getValidSocTerms(getCourseOfferingSetService(), getAtpService(), context);
 
             if (!atps.isEmpty()) {
-                scheduleOfClassesSearchForm.setTermCode(ScheduleOfClassesUtil.getCurrentAtp(atps).getCode());
+                form.setTermCode(ScheduleOfClassesUtil.getCurrentAtp(atps).getCode());
             }
         }
+    }
+
+    private void configureDefaultAoDisplayFormat( ScheduleOfClassesSearchForm form ) {
 
         String aoDisplayFormat = ConfigContext.getCurrentContextConfig().getProperty(ScheduleOfClassesConstants.ConfigProperties.AO_DISPLAY_FORMAT);
-
         if (StringUtils.isNotBlank(aoDisplayFormat)){
             ScheduleOfClassesSearchForm.AoDisplayFormat format = ScheduleOfClassesSearchForm.AoDisplayFormat.valueOf(StringUtils.upperCase(aoDisplayFormat));
-            scheduleOfClassesSearchForm.setAoDisplayFormat(format);
+            form.setAoDisplayFormat(format);
+        }
+    }
+
+    private void configureSelectableAoRenderingWidget( ScheduleOfClassesSearchForm form, HttpServletRequest request ) {
+
+        boolean displaySelectableAoRenderingWidget = false;
+
+        // URL-parameter overrides setting in kuali config file
+        if( request.getParameter( "showAoDisplayWidget" ) != null ) {
+            displaySelectableAoRenderingWidget = Boolean.valueOf( request.getParameter( "showAoDisplayWidget" ) );
         }
 
-        return super.start(form, result, request, response);
+        // Setting in kuali config file is applied if URL-parameter was not supplied
+        // (and in event kuali config file does not specify, then UI widget will be set to not show)
+        else {
+            String allowSelectableAoRendering = ConfigContext.getCurrentContextConfig().getProperty( ScheduleOfClassesConstants.ConfigProperties.ALLOW_SELECTABLE_AO_RENDERING );
+            displaySelectableAoRenderingWidget = Boolean.valueOf( allowSelectableAoRendering );
+        }
+
+        form.setAllowSelectableAoRendering(displaySelectableAoRenderingWidget);
     }
 
     /**
@@ -332,5 +361,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         }
         return this.typeService;
     }
+
+
 
 }

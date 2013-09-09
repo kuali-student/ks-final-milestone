@@ -41,10 +41,26 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="@{searchParameter}" p:style="font-size:125%;font-weight:bold;"/>
+                <ref bean="KS-ScheduleOfClasses-AoDisplaySelector" />
                 <ref bean="KS-ScheduleOfClasses-CourseOfferingListSection"/>
                 <bean parent="Uif-DataField" p:propertyName="displayCoId" p:hidden="true" p:id="displayCoId" />
                 <bean parent="Uif-DataField" p:propertyName="displayCoIdAdd" p:hidden="true" p:id="displayCoIdAdd" />
             </list>
+        </property>
+    </bean>
+
+
+    <bean id="KS-ScheduleOfClasses-AoDisplaySelector" parent="Uif-InputField"
+          p:label="Activity Offering Display"
+          p:propertyName="aoDisplayFormat"
+          p:render="@{allowSelectableAoRendering}"
+          p:onChangeScript="jQuery('#show_button').click();">
+
+        <property name="control">
+            <bean parent="Uif-DropdownControl" />
+        </property>
+        <property name="optionsFinder" >
+            <bean class="org.kuali.student.enrollment.class2.scheduleofclasses.keyvalue.ScheduleOfClassesAoDisplayFormatKeyValues" />
         </property>
     </bean>
 

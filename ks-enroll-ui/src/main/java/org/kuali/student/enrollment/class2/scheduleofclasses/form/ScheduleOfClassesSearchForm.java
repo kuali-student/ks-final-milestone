@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.scheduleofclasses.form;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
@@ -60,6 +59,7 @@ public class ScheduleOfClassesSearchForm extends UifFormBase implements Activity
     private String displayCoId;
     private String displayCoIdAdd;
     private AoDisplayFormat aoDisplayFormat;
+    private boolean allowSelectableAoRendering;
 
     /**
      * Valid display types of activities in schedule of classes.
@@ -74,9 +74,9 @@ public class ScheduleOfClassesSearchForm extends UifFormBase implements Activity
      */
     public static enum AoDisplayFormat {
 
-        FLAT("flat"),
-        CLUSTER("cluster"),
-        REG_GROUP("reg_group");
+        FLAT( "Flat" ),
+        CLUSTER( "By Cluster" ),
+        REG_GROUP( "By Registration Group" );
 
         private String text;
 
@@ -98,6 +98,7 @@ public class ScheduleOfClassesSearchForm extends UifFormBase implements Activity
         aoClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
         courseOfferingId = "";
         setAoDisplayFormat(AoDisplayFormat.FLAT);
+        setAllowSelectableAoRendering( false );
     }
 
     public List<CourseOfferingDisplayWrapper> getCoDisplayWrapperList() {
@@ -279,6 +280,24 @@ public class ScheduleOfClassesSearchForm extends UifFormBase implements Activity
      */
     public void setAoDisplayFormat(AoDisplayFormat aoDisplayFormat) {
         this.aoDisplayFormat = aoDisplayFormat;
+    }
+
+    /**
+     * Set to display a control to change display format
+     *
+     * @param allowSelectableAoRendering
+     */
+    public void setAllowSelectableAoRendering( boolean allowSelectableAoRendering ) {
+        this.allowSelectableAoRendering = allowSelectableAoRendering;
+    }
+
+    /**
+     * Returns if the control is displayed to change the display format
+     *
+     * @return
+     */
+    public boolean getAllowSelectableAoRendering() {
+        return this.allowSelectableAoRendering;
     }
 
 }

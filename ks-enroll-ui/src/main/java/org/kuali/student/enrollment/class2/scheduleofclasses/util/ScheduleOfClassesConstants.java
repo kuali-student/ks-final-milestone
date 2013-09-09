@@ -54,5 +54,6 @@ public class ScheduleOfClassesConstants {
 
     public static class ConfigProperties{
         public static final String AO_DISPLAY_FORMAT = "kuali.ks.enrollment.schoc.options.default_ao_display_format";
+        public static final String ALLOW_SELECTABLE_AO_RENDERING = "kuali.ks.enrollment.schoc.options.allow_selectable_ao_rendering";
     }
 }
