@@ -242,13 +242,11 @@ public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl
 
         if (StringUtils.equals(methodToCall,CalendarConstants.HC_COPY_METHOD)){
            props.put(CalendarConstants.PAGE_ID,CalendarConstants.HOLIDAYCALENDAR_COPYPAGE);
-        }else if (StringUtils.equals(methodToCall,CalendarConstants.HC_VIEW_METHOD) && readOnlyView){
-            props.put(CalendarConstants.PAGE_ID,CalendarConstants.HOLIDAYCALENDAR_VIEWPAGE);
         } else {
            props.put(CalendarConstants.PAGE_ID,CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
         }
 
-        //KSENROLL - 5668 Added below prop setup for read only view of HCal screen.
+        //KSENROLL-5668 Added below prop setup for read only view of HCal screen.
         if (readOnlyView){
             props.put(CalendarConstants.READ_ONLY_VIEW,""+ true);
         }
