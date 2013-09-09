@@ -298,9 +298,27 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=populateRegGroups")
     public ModelAndView populateRegGroups(@ModelAttribute("KualiForm") ScheduleOfClassesSearchForm theForm) throws Exception {
 
+        SearchRequestInfo searchRequestInfo = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY);
+
         CourseOfferingDisplayWrapper coDisplayWrapper = (CourseOfferingDisplayWrapper)KSControllerHelper.getSelectedCollectionItem(theForm);
         theForm.setCourseOfferingId(coDisplayWrapper.getCoDisplayInfo().getId());
-        getViewHelperService(theForm).build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(theForm);
+
+        String allowedRegGroupStates = ConfigContext.getCurrentContextConfig().getProperty(CourseOfferingConstants.CONFIG_PARAM_KEY_SCHOC_REG_GROUP_STATES);
+        if ((allowedRegGroupStates != null) && (!allowedRegGroupStates.isEmpty())) {
+            List<String> regGroupStates = Arrays.asList(allowedRegGroupStates.split("\\s*,\\s*"));
+            if (!Arrays.asList(LuiServiceConstants.REGISTRATION_GROUP_LIFECYCLE_KEY_STATES).containsAll(regGroupStates)) {
+                String errorMessage = String.format("Error: invalid value for configuration parameter:  %s Value: %s",
+                        CourseOfferingConstants.CONFIG_PARAM_KEY_SCHOC_REG_GROUP_STATES, regGroupStates.toString());
+                LOG.error(errorMessage);
+                return getUIFModelAndView(theForm);
+            }
+            searchRequestInfo.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.REGGROUP_STATES, regGroupStates);
+        } else {
+            // If an institution does not customize valid RegGroup states, then the default is RegGroup Offered state
+            searchRequestInfo.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.REGGROUP_STATES, LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY);
+        }
+
+        getViewHelperService(theForm).build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(theForm,searchRequestInfo);
 
         coDisplayWrapper.getClusterResultList().clear();
         coDisplayWrapper.getClusterResultList().addAll(theForm.getClusterResultList());

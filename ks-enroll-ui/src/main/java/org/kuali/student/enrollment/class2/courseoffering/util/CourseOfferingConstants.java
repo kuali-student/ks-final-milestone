@@ -13,6 +13,7 @@ public class CourseOfferingConstants {
     public final static String CONFIG_PARAM_KEY_SELECTIVE_CROSSLISTING = "kuali.ks.enrollment.edit_co.options.selective_crosslisting_allowed";
     public final static String CONFIG_PARAM_KEY_EDIT_ACTIVITY_CODE = "kuali.ks.enrollment.edit_ao.options.edit_activity_offering_code_allowed";
     public final static String CONFIG_PARAM_KEY_SCHOC_AO_STATES = "kuali.ks.enrollment.schoc.options.ao_state_keys";
+    public final static String CONFIG_PARAM_KEY_SCHOC_REG_GROUP_STATES = "kuali.ks.enrollment.schoc.options.reggroup_state_keys";
 
     //Attributes defined in CourseOfferingInfo
     public final static String COURSEOFFERING_ID = "id";

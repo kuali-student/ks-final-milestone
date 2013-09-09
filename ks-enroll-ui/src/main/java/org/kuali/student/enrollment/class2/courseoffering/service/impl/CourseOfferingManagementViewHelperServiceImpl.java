@@ -98,6 +98,7 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -312,6 +313,13 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
         //New Search Stuff!
         String coId = form.getCourseOfferingId();
+        List<String> filterRegGroupStates = null;
+
+        for (SearchParamInfo param : sr.getParams()){
+            if (StringUtils.equals(param.getKey(),ActivityOfferingSearchServiceImpl.SearchParameters.REGGROUP_STATES)){
+                filterRegGroupStates = param.getValues();
+            }
+        }
 
         sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, coId);
         SearchResultInfo results = getSearchService().search(sr, null);
@@ -408,6 +416,9 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             //Search for registration group information
             sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.REG_GROUPS_BY_CO_ID_SEARCH_KEY);
             sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, form.getCourseOfferingId());
+            if (filterRegGroupStates != null && !filterRegGroupStates.isEmpty()){
+                sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.REGGROUP_STATES, filterRegGroupStates);
+            }
             results = searchService.search(sr, null);
 
             List<RegistrationGroupWrapper> rgWrappers = processRgData(results, clusterMap, aoMap);

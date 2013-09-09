@@ -72,6 +72,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         public static final String FO_ID = "foId";
         public static final String AO_IDS = "aoIds";
         public static final String AO_STATES = "aoStates";
+        public static final String REGGROUP_STATES = "regGroupStates";
     }
 
     public static final class SearchResultColumns {
@@ -409,6 +410,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
+        List<String> regGroupStates = requestHelper.getParamAsList(SearchParameters.REGGROUP_STATES);
 
         String queryStr =
                 "SELECT rg2ao.relatedLui.id," +
@@ -425,8 +427,15 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "  AND co2fo.relatedLui.id = fo2ao.lui.id " +
                 "  AND rg2ao.relatedLui.id = fo2ao.relatedLui.id ";
 
+        if(regGroupStates != null && !regGroupStates.isEmpty()) {
+            queryStr = queryStr + " AND rg2ao.lui.luiState IN(:regGroupStates)";
+        }
+
         Query query = entityManager.createQuery(queryStr);
         query.setParameter(SearchParameters.CO_ID, coId);
+        if(regGroupStates != null && !regGroupStates.isEmpty()) {
+            query.setParameter(SearchParameters.REGGROUP_STATES, regGroupStates);
+        }
         List<Object[]> results = query.getResultList();
 
         for(Object[] resultRow : results){
