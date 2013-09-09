@@ -16,6 +16,7 @@
 package org.kuali.student.lum.lu.ui.course.keyvalues;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -29,7 +30,6 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
-
 
 /**
  * 
@@ -53,7 +53,17 @@ public class ActivityTypeKeyValueFinder extends UifKeyValuesFinderBase {
 
             if (list != null) {
                 for (TypeInfo info : list) {
-                    keyValues.add(new ConcreteKeyValue(info.getKey(), info.getName()));
+                    if ( info.getKey().equals(CluServiceConstants.COURSE_ACTIVITY_DIRECTED_TYPE_KEY) ||
+                            info.getKey().equals(CluServiceConstants.COURSE_ACTIVITY_DISCUSSION_TYPE_KEY) ||
+                            info.getKey().equals(CluServiceConstants.COURSE_ACTIVITY_EXP_LEARNING_OTHER_TYPE_KEY) ||
+                            info.getKey().equals(CluServiceConstants.COURSE_ACTIVITY_HOMEWORK_TYPE_KEY) ||
+                            info.getKey().equals(CluServiceConstants.COURSE_ACTIVITY_LAB_TYPE_KEY) ||
+                            info.getKey().equals(CluServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY) ||
+                            info.getKey().equals(CluServiceConstants.COURSE_ACTIVITY_SEMINAR_TYPE_KEY) ||
+                            info.getKey().equals(CluServiceConstants.COURSE_ACTIVITY_TUTORIAL_TYPE_KEY) ||
+                            info.getKey().equals(CluServiceConstants.COURSE_ACTIVITY_WEBDISCUSS_TYPE_KEY) ||
+                            info.getKey().equals(CluServiceConstants.COURSE_ACTIVITY_WEBLECTURE_TYPE_KEY))
+                        keyValues.add(new ConcreteKeyValue(info.getKey(), info.getName()));
                 }
             }
         } catch (Exception ex) {
@@ -70,4 +80,19 @@ public class ActivityTypeKeyValueFinder extends UifKeyValuesFinderBase {
         }
         return cluService;
     }
+
+    private final Hashtable<String, String> luTypes = new Hashtable<String, String>() {
+        {
+            put("kuali.lu.type.activity.Directed", "Directed");
+            put("kuali.lu.type.activity.Discussion", "Discussion");
+            put("kuali.lu.type.activity.ExperientialLearningOROther", "Experiential Learning/Other");
+            put("kuali.lu.type.activity.Homework", "Homework");
+            put("kuali.lu.type.activity.Lab", "Lab");
+            put("kuali.lu.type.activity.Lecture", "Lecture");
+            put("kuali.lu.type.activity.Seminar", "Lecture or Seminar");
+            put("kuali.lu.type.activity.Tutorial", "Tutorial");
+            put("kuali.lu.type.activity.WebDiscussion", "Web Discussion");
+            put("kuali.lu.type.activity.WebLecture", "Web Lecture");
+        }
+    };
 }
