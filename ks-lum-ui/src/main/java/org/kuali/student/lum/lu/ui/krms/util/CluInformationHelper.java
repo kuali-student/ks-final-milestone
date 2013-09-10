@@ -193,6 +193,7 @@ public class CluInformationHelper {
     private String getParentCluId(CluInfo cluInfo){
         //If the clu type is variation, get the parent clu id.
         if ("kuali.lu.type.Variation".equals(cluInfo.getTypeKey())) {
+            int firstClu = 0;
             List<String> clus = null;
             try {
                 clus = this.getCluService().getCluIdsByRelatedCluAndRelationType(cluInfo.getId(), "kuali.lu.lu.relation.type.hasVariationProgram", ContextUtils.getContextInfo());
@@ -204,7 +205,7 @@ public class CluInformationHelper {
             } else if (clus.size() > 1) {
                 throw new RuntimeException("Statement Dependency clu can only have one parent Program relation");
             }
-            return clus.get(0);
+            return clus.get(firstClu);
         }
         return null;
     }

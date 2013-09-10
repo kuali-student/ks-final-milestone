@@ -143,22 +143,19 @@ public class CourseComponentBuilder extends CluComponentBuilder {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.equal("atpCode", termCode));
 
-        List<TermInfo> terms = null;
         try {
-            terms = getAcalService().searchForTerms(qbcBuilder.build(), ContextUtils.getContextInfo());
+            int firstTerm = 0;
+            List<TermInfo> terms = getAcalService().searchForTerms(qbcBuilder.build(), ContextUtils.getContextInfo());
+            if (terms.isEmpty()) {
+                GlobalVariables.getMessageMap().putError(propName, LUKRMSConstants.KSKRMS_MSG_ERROR_NO_TERM_IS_FOUND, termCode);
+            } else if (terms.size() > 1) {
+                GlobalVariables.getMessageMap().putError(propName, LUKRMSConstants.KSKRMS_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
+            } else {
+                return terms.get(firstTerm);
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
-        if (terms.isEmpty()) {
-            GlobalVariables.getMessageMap().putError(propName, LUKRMSConstants.KSKRMS_MSG_ERROR_NO_TERM_IS_FOUND, termCode);
-        } else if (terms.size() > 1) {
-            GlobalVariables.getMessageMap().putError(propName, LUKRMSConstants.KSKRMS_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
-        } else {
-            return terms.get(0);
-        }
-
         return null;
     }
 
