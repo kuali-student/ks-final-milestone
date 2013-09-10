@@ -82,11 +82,15 @@
     Here goes a list of comparators which needs to run on the AOs for each AO cluster. This is intended to be institutionally configurable sothat
     institutions can inject or change order of the comparators list.
     -->
-    <bean id="scheduleOfClassesRegGroupSorting-parent" class="org.kuali.student.enrollment.class2.scheduleofclasses.sort.KSComparatorChain">
+    <bean id="scheduleOfClassesRegGroupSorting-parent"
+          class="org.kuali.student.enrollment.class2.scheduleofclasses.sort.KSComparatorChain">
         <property name="comparators">
             <list>
-                <bean class="org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.RegGroupNameComparator"/>
-            </list>
+                <bean id="RegGroupNameComparator" class="org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.RegGroupNameComparator"/>
+                <bean id="RegGroupBeginTimeComparator" class="org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.RegGroupBeginTimeComparator"/>
+                <bean id="RegGroupEndTimeComparator"   class="org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.RegGroupEndTimeComparator"/>
+                <bean id="RegGroupDaysOfWeekComparator" class="org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.RegGroupDaysOfWeekComparator"/>
+             </list>
         </property>
     </bean>
 

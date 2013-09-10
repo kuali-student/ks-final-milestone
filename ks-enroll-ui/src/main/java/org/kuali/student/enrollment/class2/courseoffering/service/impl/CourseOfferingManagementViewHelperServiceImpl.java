@@ -708,8 +708,14 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 if (ao2sch.containsKey(aoWrapper.getId())) {
                     ao2sch.get(aoWrapper.getId()).add(scheduleCalcContainer);
                 } else {
+                    aoWrapper.getStartTime().clear();
+                    aoWrapper.getEndTime().clear();
+                    aoWrapper.getWeekDays().clear();
                     List<ScheduleCalcContainer> schList = new ArrayList<ScheduleCalcContainer>();
                     schList.add(scheduleCalcContainer);
+                    aoWrapper.getStartTime().add(startTime);
+                    aoWrapper.getEndTime().add(endTime);
+                    aoWrapper.getWeekDays().add(weekdays);
                     ao2sch.put(aoWrapper.getId(), schList);
                 }
             }
@@ -788,6 +794,17 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             setStartTimeOnAoWrapper( timeSlotInfo, aoWrapper, newline, cssStyle );
             setEndTimeOnAoWrapper( timeSlotInfo, aoWrapper, newline, cssStyle );
             setDaysOnAoWrapper( timeSlotInfo, aoWrapper, newline, cssStyle );
+            if( timeSlotInfo != null ) {
+                if(timeSlotInfo.getStartTime() != null && timeSlotInfo.getStartTime().getMilliSeconds() != null ) {
+                    aoWrapper.getStartTime().add(timeSlotInfo.getStartTime().getMilliSeconds().toString());
+                }
+                if(timeSlotInfo.getEndTime() != null && timeSlotInfo.getEndTime().getMilliSeconds() != null) {
+                    aoWrapper.getEndTime().add(timeSlotInfo.getEndTime().getMilliSeconds().toString());
+                }
+                if(timeSlotInfo.getWeekdays() != null && !timeSlotInfo.getWeekdays().isEmpty()) {
+                    aoWrapper.getWeekDays().add(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlotInfo.getWeekdays()));
+                }
+            }
         }
     }
 
@@ -903,6 +920,10 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 ActivityOfferingWrapper aoWrapper = aoList.get(j);
 
                 rgWrapper.getRgInfo().getActivityOfferingIds().add(aoWrapper.getAoInfo().getId());
+
+                rgWrapper.setStartTime(aoWrapper.getStartTime());
+                rgWrapper.setEndTime(aoWrapper.getEndTime());
+                rgWrapper.setWeekDays(aoWrapper.getWeekDays());
 
                 //if there are more than one instructors re-arrange the rows
                 StringBuilder lineBreaksInstructorsSB = new StringBuilder();

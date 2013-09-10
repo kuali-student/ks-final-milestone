@@ -24,6 +24,8 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class provides a wrapper for Registration Group data
@@ -51,12 +53,22 @@ public class RegistrationGroupWrapper implements Serializable, ComparatorModel {
     private String buildingName = "";
     private String roomName = "";
 
+    private List<String> startTime;
+    private List<String> endTime;
+    private List<String> weekDays;
+
     public RegistrationGroupWrapper() {
         rgInfo = new RegistrationGroupInfo();
+        startTime = new ArrayList<String>();
+        endTime = new ArrayList<String>();
+        weekDays = new ArrayList<String>();
     }
 
     public RegistrationGroupWrapper(RegistrationGroupInfo info) {
         rgInfo = info;
+        startTime = new ArrayList<String>();
+        endTime = new ArrayList<String>();
+        weekDays = new ArrayList<String>();
     }
 
     public ActivityOfferingClusterInfo getAoCluster() {
@@ -215,6 +227,30 @@ public class RegistrationGroupWrapper implements Serializable, ComparatorModel {
         }else{
             this.daysDisplayName = "<span " + cssClass + " >" + daysDisplayName + "</span>";
         }
+    }
+
+    public List<String> getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(List<String> startTime) {
+        this.startTime = startTime;
+    }
+
+    public List<String> getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(List<String> endTime) {
+        this.endTime = endTime;
+    }
+
+    public List<String> getWeekDays() {
+        return weekDays;
+    }
+
+    public void setWeekDays(List<String> weekDays) {
+        this.weekDays = weekDays;
     }
 
     public String getBuildingName() {

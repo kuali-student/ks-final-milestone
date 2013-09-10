@@ -83,6 +83,10 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
     private String tbaDisplayName = "";
     private String colocatedAoInfo = "";
 
+    private List<String> startTime;
+    private List<String> endTime;
+    private List<String> weekDays;
+
     private boolean schedulesModified;
 
     private String adminOrg;
@@ -180,6 +184,9 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         hasWaitlist = false;
         hasWaitlistCO = false;
         limitWaitlistSize = false;
+        startTime = new ArrayList<String>();
+        endTime = new ArrayList<String>();
+        weekDays = new ArrayList<String>();
     }
 
     public ActivityOfferingWrapper(ActivityOfferingInfo info){
@@ -200,6 +207,9 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         }
         seatpools = new ArrayList<SeatPoolWrapper>();
         populationsForSPValidation = new ArrayList<PopulationInfo>();
+        startTime = new ArrayList<String>();
+        endTime = new ArrayList<String>();
+        weekDays = new ArrayList<String>();
     }
 
     public String getAoClusterName() {
@@ -718,6 +728,30 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         }else{
             this.daysDisplayName = "<span " + cssClass + " >" + daysDisplayName + "</span>";
         }
+    }
+
+    public List<String> getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(List<String> startTime) {
+        this.startTime = startTime;
+    }
+
+    public List<String> getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(List<String> endTime) {
+        this.endTime = endTime;
+    }
+
+    public List<String> getWeekDays() {
+        return weekDays;
+    }
+
+    public void setWeekDays(List<String> weekDays) {
+        this.weekDays = weekDays;
     }
 
     public String getBuildingName() {
