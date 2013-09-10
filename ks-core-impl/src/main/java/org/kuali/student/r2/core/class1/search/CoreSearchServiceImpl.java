@@ -17,9 +17,8 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.util.SearchRequestHelper;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -40,9 +39,6 @@ import java.util.Set;
 public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBase {
 
     private static Logger LOG = Logger.getLogger(CoreSearchServiceImpl.class);
-
-    @Resource
-    private EntityManager entityManager;
 
     public static final TypeInfo SCH_AND_ROOM_SEARH_BY_ID_SEARCH_TYPE;
     public static final TypeInfo SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_TYPE;
@@ -156,6 +152,7 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
 
 
     @Override
+    @Transactional(readOnly = true)
     public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         // As this class expands, you can add multiple searches. Ie. right now there is only one search (so only one search key).
@@ -484,11 +481,4 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
         return sb.toString();
     }
 
-    public EntityManager getEntityManager() {
-        return entityManager;
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
 }

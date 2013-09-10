@@ -38,7 +38,7 @@ public abstract class SearchServiceAbstractHardwiredImplBase
 
 
     @Resource
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     /**
      * Get the search type that the sub class implements.
