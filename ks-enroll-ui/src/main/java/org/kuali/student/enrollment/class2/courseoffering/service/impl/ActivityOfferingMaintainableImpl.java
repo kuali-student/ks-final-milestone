@@ -135,6 +135,16 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 activityOfferingWrapper.setAoInfo(activityOfferingInfo);
                 CourseWaitListInfo courseWaitListInfo = getCourseWaitListService().updateCourseWaitList(activityOfferingWrapper.getCourseWaitListInfo().getId(),activityOfferingWrapper.getCourseWaitListInfo(),contextInfo );
                 activityOfferingWrapper.setCourseWaitListInfo(courseWaitListInfo);
+
+                //looks like in inquiry view.xml we are using HasWaitlist for the "Waitlist active" field
+                if(courseWaitListInfo.getStateKey() == null || courseWaitListInfo.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY)){
+                    activityOfferingWrapper.setHasWaitlist(false);
+                }
+                else if (courseWaitListInfo.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY)){
+                    activityOfferingWrapper.setHasWaitlist(true);
+                }
+
+
             } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);
             }
