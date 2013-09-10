@@ -100,7 +100,7 @@ public class CourseOfferingWrapper implements Serializable{
                     } else if (StringUtils.equals(attrInfo.getValue(), LuServiceConstants.LU_EXAM_DRIVER_AO_KEY)) {
                         this.finalExamDriverUI = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_DRIVER_AO_UI;
                     }
-                } else if(StringUtils.equals(attrInfo.getKey(), "useFinalExamMatrix")) {
+                } else if(StringUtils.equals(attrInfo.getKey(), CourseOfferingServiceConstants.FINAL_EXAM_USE_MATRIX)) {
                     this.useFinalExamMatrix = Boolean.valueOf(attrInfo.getValue());
                 }
             }
