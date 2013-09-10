@@ -307,12 +307,12 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
         List<ReferenceObjectBinding> refObjectsBindings = ruleManagementService.findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING, courseOfferingId);
 
         //Retrieve agenda's for course offering
-        String requisites = StringUtils.EMPTY;
+        StringBuilder requisites = new StringBuilder();
         for (ReferenceObjectBinding referenceObjectBinding : refObjectsBindings) {
-            requisites += ruleManagementService.translateNaturalLanguageForObject(usageId, "agenda", referenceObjectBinding.getKrmsObjectId(), "en");
+            requisites.append(ruleManagementService.translateNaturalLanguageForObject(usageId, "agenda", referenceObjectBinding.getKrmsObjectId(), "en"));
         }
 
-        return requisites;
+        return requisites.toString();
     }
 
     private String millisToTime(Long milliseconds) {
