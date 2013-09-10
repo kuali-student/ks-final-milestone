@@ -55,9 +55,9 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
 
     private Date termRegStartDate;
 
-    private String waitListLevelTypeKey;
-    private String waitListTypeKey;
-    private boolean hasWaitList;
+//    private String waitListLevelTypeKey;
+//    private String waitListTypeKey;
+//    private boolean hasWaitList;
     private String waitListText = "";
     private String toolTipText = "";
 
@@ -155,7 +155,9 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
     private SchOfClassesRenderHelper schOfClassesRenderHelper;
 
     private CourseWaitListInfo courseWaitListInfo;
+    //indicate at AO level, the state of the waitlist
     private boolean hasWaitlist;
+    //indicate if wailtlist has been enabled in CO level
     private boolean hasWaitlistCO;
     private boolean limitWaitlistSize;
 
@@ -390,9 +392,9 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
 
 
 
-    public boolean getHasWaitList() {
-        return hasWaitList;
-    }
+//    public boolean getHasWaitList() {
+//        return hasWaitList;
+//    }
 
     public String getTbaDisplayName() {
         return tbaDisplayName;
@@ -409,22 +411,22 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         }
     }
 
-    public void setHasWaitList(boolean hasWaitList) {
-        this.hasWaitList = hasWaitList;
-    }
-
-    public String getWaitListLevelTypeKey() {
-        return waitListLevelTypeKey;
-    }
-    public void setWaitListLevelTypeKey(String waitListLevelTypeKey) {
-        this.waitListLevelTypeKey = waitListLevelTypeKey;
-    }
-    public String getWaitListTypeKey() {
-        return waitListTypeKey;
-    }
-    public void setWaitListTypeKey(String waitListTypeKey) {
-        this.waitListTypeKey = waitListTypeKey;
-    }
+//    public void setHasWaitList(boolean hasWaitList) {
+//        this.hasWaitList = hasWaitList;
+//    }
+//
+//    public String getWaitListLevelTypeKey() {
+//        return waitListLevelTypeKey;
+//    }
+//    public void setWaitListLevelTypeKey(String waitListLevelTypeKey) {
+//        this.waitListLevelTypeKey = waitListLevelTypeKey;
+//    }
+//    public String getWaitListTypeKey() {
+//        return waitListTypeKey;
+//    }
+//    public void setWaitListTypeKey(String waitListTypeKey) {
+//        this.waitListTypeKey = waitListTypeKey;
+//    }
 
     public FormatOfferingInfo getFormatOffering() {
         return formatOffering;

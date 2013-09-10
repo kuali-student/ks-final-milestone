@@ -298,19 +298,20 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             }
 
             // Added for WaitList Tanveer 06/27/2012
-            wrapper.setWaitListLevelTypeKey(courseOfferingInfo.getWaitlistLevelTypeKey());
-            wrapper.setWaitListTypeKey(courseOfferingInfo.getWaitlistTypeKey());
-            wrapper.setHasWaitList(courseOfferingInfo.getHasWaitlist());
-            if (!wrapper.getHasWaitList())
-                wrapper.setWaitListText("There is no wait list for this offering.");
-            if (wrapper.getWaitListLevelTypeKey().equals("Course Offering")) {
-                wrapper.setWaitListText("This waitlist is managed at the Course Offering level.");
-                wrapper.setToolTipText("There is one waitlist for all Activity Offerings");
-            }
-            if (wrapper.getWaitListLevelTypeKey().equals("Activity Offering")) {
-                wrapper.setWaitListText("This waitlist is managed at the Activity Offering level.");
-                wrapper.setToolTipText("Each Activity Offering has its own wait list.");
-            }
+            //this code should be removed!!!
+//            wrapper.setWaitListLevelTypeKey(courseOfferingInfo.getWaitlistLevelTypeKey());
+//            wrapper.setWaitListTypeKey(courseOfferingInfo.getWaitlistTypeKey());
+//            wrapper.setHasWaitList(courseOfferingInfo.getHasWaitlist());
+//            if (!wrapper.getHasWaitList())
+//                wrapper.setWaitListText("There is no wait list for this offering.");
+//            if (wrapper.getWaitListLevelTypeKey().equals("Course Offering")) {
+//                wrapper.setWaitListText("This waitlist is managed at the Course Offering level.");
+//                wrapper.setToolTipText("There is one waitlist for all Activity Offerings");
+//            }
+//            if (wrapper.getWaitListLevelTypeKey().equals("Activity Offering")) {
+//                wrapper.setWaitListText("This waitlist is managed at the Activity Offering level.");
+//                wrapper.setToolTipText("Each Activity Offering has its own wait list.");
+//            }
 
             // Set the display string (e.g. 'FALL 2020 (9/26/2020 to 12/26/2020)')
             // Now have to deal with subterms: have to check if it's subterm or term

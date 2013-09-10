@@ -16,6 +16,7 @@ import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
+import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.date.DateFormatters;
@@ -31,6 +32,7 @@ import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
+
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -53,87 +55,90 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
         try {
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
-            ActivityOfferingInfo info = getCourseOfferingService().getActivityOffering(dataObjectKeys.get(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID), contextInfo);
-            ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(info);
+            ActivityOfferingInfo aoInfo = getCourseOfferingService().getActivityOffering(dataObjectKeys.get(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID), contextInfo);
+            ActivityOfferingWrapper aoWapper = new ActivityOfferingWrapper(aoInfo);
 
             //get the course offering
-            CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(info.getCourseOfferingId(), contextInfo);
+            CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(aoInfo.getCourseOfferingId(), contextInfo);
 
             // get the format offering
-            FormatOfferingInfo formatOfferingInfo = getCourseOfferingService().getFormatOffering(info.getFormatOfferingId(), contextInfo);
-            wrapper.setFormatOffering(formatOfferingInfo);
+            FormatOfferingInfo formatOfferingInfo = getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), contextInfo);
+            aoWapper.setFormatOffering(formatOfferingInfo);
 
             //get the waitlist info
-           List <CourseWaitListInfo> courseWaitListInfoList = getCourseWaitListService().getCourseWaitListsByActivityOffering(info.getActivityId(), contextInfo);
+            aoWapper.setHasWaitlistCO(courseOfferingInfo.getHasWaitlist());
+            //From Bonnie: The logic has some problem. when courseWaitListInfoList.size() == 0, here you try to display an empty waitlist
+           List <CourseWaitListInfo> courseWaitListInfoList = getCourseWaitListService().getCourseWaitListsByActivityOffering(aoInfo.getId(), contextInfo);
            int firstCourseWaitListInfo = 0;
-            CourseWaitListInfo courseWaitListInfo = new CourseWaitListInfo();
+           CourseWaitListInfo courseWaitListInfo = new CourseWaitListInfo();
             //set waitlist info in wrapper
-            wrapper.setHasWaitlistCO(false);
+
             if ( null != courseWaitListInfoList && courseWaitListInfoList.size() > 0 )
             {
                 courseWaitListInfo = courseWaitListInfoList.get(firstCourseWaitListInfo);
-                if ( org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY.equalsIgnoreCase(courseWaitListInfo.getStateKey()))
-                {
-                  wrapper.setHasWaitlistCO(true);
-                }
             }
-            wrapper.setCourseWaitListInfo(courseWaitListInfo);
-
+            aoWapper.setCourseWaitListInfo(courseWaitListInfo);
+            //looks like in inquiry view.xml we are using HasWaitlist for the "Waitlist active" field
+            if (courseWaitListInfo.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY)){
+                aoWapper.setHasWaitlist(true);
+            }else if(courseWaitListInfo.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY)){
+                aoWapper.setHasWaitlist(false);
+            }
 
             // Now have to deal with subterms: have to check if it's subterm or term
             TermInfo term = null;
             TermInfo subTerm=null;
-            wrapper.setSubTermName("None");
-            TermInfo termTemp = getAcalService().getTerm(info.getTermId(), contextInfo);
+            aoWapper.setSubTermName("None");
+            TermInfo termTemp = getAcalService().getTerm(aoInfo.getTermId(), contextInfo);
             List<TypeTypeRelationInfo> terms = getTypeService().getTypeTypeRelationsByRelatedTypeAndType(termTemp.getTypeKey(), TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, contextInfo);
             if (terms == null || terms.isEmpty()) {
                 term = new TermInfo(termTemp);
             } else {
                 subTerm = new TermInfo(termTemp);
-                term = getAcalService().getContainingTerms(info.getTermId(), contextInfo).get(0);
+                term = getAcalService().getContainingTerms(aoInfo.getTermId(), contextInfo).get(0);
                 TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
-                wrapper.setSubTermName(subTermType.getName());
+                aoWapper.setSubTermName(subTermType.getName());
             }
-            wrapper.setTerm(term);
+            aoWapper.setTerm(term);
             if (term != null) {
-                wrapper.setTermName(term.getName());
+                aoWapper.setTermName(term.getName());
             }
-            wrapper.setTermDisplayString(getTermDisplayString(info.getTermId(), term));
+            aoWapper.setTermDisplayString(getTermDisplayString(aoInfo.getTermId(), term));
 
             if (subTerm!=null) {
-                wrapper.setTermStartEndDate(getTermStartEndDate(info.getTermId(), subTerm));
+                aoWapper.setTermStartEndDate(getTermStartEndDate(aoInfo.getTermId(), subTerm));
             } else {
-                wrapper.setTermStartEndDate(getTermStartEndDate(info.getTermId(), term));
+                aoWapper.setTermStartEndDate(getTermStartEndDate(aoInfo.getTermId(), term));
             }
             // end subterms
 
-            wrapper.setCourseOfferingCode(info.getCourseOfferingCode());
-            wrapper.setCourseOfferingTitle(info.getCourseOfferingTitle());
+            aoWapper.setCourseOfferingCode(aoInfo.getCourseOfferingCode());
+            aoWapper.setCourseOfferingTitle(aoInfo.getCourseOfferingTitle());
 
             String sCredits = courseOfferingInfo.getCreditCnt();
             if (sCredits == null) {
                 sCredits = "0";
             }
-            wrapper.setCredits(sCredits);
+            aoWapper.setCredits(sCredits);
             //wrapper.setAbbreviatedActivityCode(info.getActivityCode().toUpperCase().substring(0,3));
-            wrapper.setActivityCode(info.getActivityCode());
-            wrapper.setAbbreviatedCourseType(getTypeService().getType(info.getTypeKey(), contextInfo).getName().toUpperCase().substring(0, 3));
+            aoWapper.setActivityCode(aoInfo.getActivityCode());
+            aoWapper.setAbbreviatedCourseType(getTypeService().getType(aoInfo.getTypeKey(), contextInfo).getName().toUpperCase().substring(0, 3));
 
             //process instructor effort
-            assembleInstructorWrapper(info.getInstructors(), wrapper);
+            assembleInstructorWrapper(aoInfo.getInstructors(), aoWapper);
 
 
             boolean readOnlyView = Boolean.parseBoolean(dataObjectKeys.get("readOnlyView"));
-            wrapper.setReadOnlyView(readOnlyView);
+            aoWapper.setReadOnlyView(readOnlyView);
 
 
-            StateInfo state = getStateService().getState(wrapper.getAoInfo().getStateKey(), contextInfo);
-            wrapper.setStateName(state.getName());
-            TypeInfo typeInfo = getTypeService().getType(wrapper.getAoInfo().getTypeKey(), contextInfo);
-            wrapper.setTypeName(typeInfo.getName());
+            StateInfo state = getStateService().getState(aoWapper.getAoInfo().getStateKey(), contextInfo);
+            aoWapper.setStateName(state.getName());
+            TypeInfo typeInfo = getTypeService().getType(aoWapper.getAoInfo().getTypeKey(), contextInfo);
+            aoWapper.setTypeName(typeInfo.getName());
 
             // Get/Set SeatPools
-            List<SeatPoolDefinitionInfo> seatPoolDefinitionInfoList = getCourseOfferingService().getSeatPoolDefinitionsForActivityOffering(info.getId(), contextInfo);
+            List<SeatPoolDefinitionInfo> seatPoolDefinitionInfoList = getCourseOfferingService().getSeatPoolDefinitionsForActivityOffering(aoInfo.getId(), contextInfo);
 
             //Sort the seatpools by priority order
             Collections.sort(seatPoolDefinitionInfoList, new Comparator<SeatPoolDefinitionInfo>() {
@@ -154,11 +159,11 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
                 spWrapper.setId(seatPoolDefinitionInfo.getId());
                 seatPoolWrapperList.add(spWrapper);
             }
-            wrapper.setSeatpools(seatPoolWrapperList);
+            aoWapper.setSeatpools(seatPoolWrapperList);
 
-            getScheduleHelper().loadSchedules(wrapper,contextInfo);
+            getScheduleHelper().loadSchedules(aoWapper,contextInfo);
 
-            return wrapper;
+            return aoWapper;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
