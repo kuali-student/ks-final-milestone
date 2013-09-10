@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2007-2013 The Kuali Foundation
+
+Licensed under the Educational Community License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.opensource.org/licenses/ecl2.php
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!--Generic Components-->
+    <bean id="KRMS-Integer-ConstantValue-Parent" parent="Uif-InputField"
+          p:propertyName="proposition.parameters[1].value" p:showLabel="true" p:label="Value" p:maxLength="255"
+          p:required="true">
+        <property name="control">
+            <bean parent="Uif-TextControl" p:style="margin-top:null 2px;"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="IntegerPatternConstraint" p:allowNegative="false"/>
+        </property>
+    </bean>
+
+    <bean id="KRMS-CustomComponent-BoxGroup" parent="Uif-VerticalBoxGroup"/>
+
+    <bean id="KRMS-Minutes-ConstantValue" parent="KRMS-Integer-ConstantValue-Parent" p:label="Minutes"/>
+
+    <bean id="KRMS-QuickFinder" parent="Uif-QuickFinder">
+        <property name="quickfinderAction">
+            <bean parent="Uif-ActionLink">
+                <property name="methodToCall" value="performLookup"/>
+                <property name="actionLabel" value="Advanced Search"/>
+                <property name="style" value="display:block;color: #3F7826;"/>
+            </bean>
+        </property>
+        <property name="lightBoxLookup">
+            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+        </property>
+    </bean>
+
+    <!-- TextArea component -->
+    <bean id="KRMS-FreeForm-InputField-parent" parent="Uif-InputField-LabelTop"
+          p:propertyName="proposition.termParameter" p:showLabel="true" p:label="Text" p:required="true">
+        <property name="maxLength" value="255"/>
+        <property name="control">
+            <bean parent="Uif-TextAreaControl"/>
+        </property>
+    </bean>
+    <bean id="KRMS-FreeForm-InputField" parent="KRMS-FreeForm-InputField-parent"/>
+
+    <bean id="KRMS-OrgDepartment-Field-Parent" parent="Uif-InputField-LabelTop"
+          p:propertyName="proposition.orgInfo.longName" p:required="true">
+        <property name="style" value="width:450px;"/>
+        <!--<property name="suggest">
+            <bean parent="Uif-Suggest">
+                <property name="render" value="true"/>
+                <property name="valuePropertyName" value="displayName"/>
+                <property name="templateOptions" value="minLength:1,delay:0"/>
+                <property name="suggestQuery">
+                    <bean parent="Uif-AttributeQueryConfig">
+                        <property name="queryMethodToCall" value="getOrgDepartmentForSuggest"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>-->
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="60" p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;"
+                  p:readOnly="true"/>
+        </property>
+        <property name="quickfinder">
+            <bean parent="KRMS-OrgDepartment-QuickFinder"/>
+        </property>
+    </bean>
+
+    <bean id="KRMS-Department-Field" parent="KRMS-OrgDepartment-Field-Parent" p:label="Department"/>
+
+    <bean id="KRMS-Administering-Org-Field" parent="KRMS-OrgDepartment-Field-Parent" p:label="Organization"/>
+
+    <bean id="KRMS-Population-Group" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-Population-Field"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-CampusAndDur" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list>
+                <!-- TODO: Campus component -->
+                <ref bean="KRMS-Duration-section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-OrgDepartment-QuickFinder" parent="KRMS-QuickFinder">
+        <property name="dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo"/>
+        <property name="viewName" value="krmsOrgDepartmentView"/>
+        <property name="fieldConversions">
+            <map>
+                <entry key="longName" value="proposition.orgInfo.longName"/>
+                <entry key="id" value="proposition.orgInfo.id"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="KRMS-Population-Field-Parent" parent="Uif-InputField-LabelTop"
+          p:propertyName="proposition.population.name" p:required="true">
+        <property name="style" value="width:450px;"/>
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="60" p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;"
+                  p:readOnly="true"/>
+        </property>
+        <property name="quickfinder">
+            <bean parent="KRMS-Population-QuickFinder"/>
+        </property>
+    </bean>
+    <bean id="KRMS-Population-Field" parent="KRMS-Population-Field-Parent" p:label="Population"/>
+
+    <bean id="KRMS-Population-QuickFinder" parent="KRMS-QuickFinder">
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+        <property name="viewName" value="krmsPopulationView"/>
+        <property name="fieldConversions">
+            <map>
+                <entry key="populationInfo.name" value="proposition.population.name"/>
+                <entry key="id" value="proposition.population.id"/>
+            </map>
+        </property>
+    </bean>
+
+</beans>
+
+
