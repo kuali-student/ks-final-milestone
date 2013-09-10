@@ -133,8 +133,6 @@
         </property>
         <property name="page.items">
             <list>
-                <!--<ref bean="KS-CourseOffering-ContextBar" />-->
-
                 <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{#dp.crossListedCourseCodes}" p:render="@{#dp.crossListedCourseCodes != ''}" p:style="font-weight:bold; margin-bottom:8px;"/>
 
                 <ref bean="ActivityOfferingEdit-section1"/>

@@ -547,7 +547,6 @@
 
         <property name="items">
             <list>
-                <!--<ref bean="KS-CourseOffering-ContextBar"/>-->
                 <ref bean="KS-CreateFromExistingOffering"/>
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="render" value="true" />
