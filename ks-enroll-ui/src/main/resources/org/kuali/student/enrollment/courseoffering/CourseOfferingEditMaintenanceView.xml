@@ -654,6 +654,7 @@
         <property name="promptText" value="Waitlists for all Activity Offerings associated with this Course Offering will be deactivated upon update."/>
         <property name="forceSessionPersistence" value="false"/>
         <property name="onDialogResponseScript" value="handleWaitListPrompt(this);"/>
+        <property name="onShowDialogScript" value="handleWaitListShowDialog(this);"/>
     </bean>
 
     <bean id="KS-CourseOfferingEdit-PersonnelSection" parent="Uif-VerticalBoxSection">
