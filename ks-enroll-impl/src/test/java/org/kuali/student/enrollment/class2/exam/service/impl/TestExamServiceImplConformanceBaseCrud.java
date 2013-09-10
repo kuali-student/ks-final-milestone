@@ -58,7 +58,7 @@ public abstract class TestExamServiceImplConformanceBaseCrud {
     // SETUP
     // ====================
 
-    @Resource
+    @Resource(name = "testExamService")
     public ExamService testService;
     public ExamService getExamService() { return testService; }
     public void setExamService(ExamService service) { testService = service; }
