@@ -20,7 +20,6 @@
     -->
 
 	<import resource="classpath:ks-LifecycleInfo-dictionary.xml"/>
-	<import resource="classpath:UifKSDefinitions.xml"/>
 	<!-- **********************************************
 	Paste this link below into WEB-INF ksAdminLinks.tag
 	<li><portal:portalLink displayTitle="true" title="LifecycleInfo Lookup"url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.r2.core.class1.state.dto.LifecycleInfo&viewId=LifecycleInfoAdminLookupView.xml&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>

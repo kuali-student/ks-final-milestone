@@ -21,7 +21,6 @@
     -->
 
     <!--<import resource="classpath:ks-FormatOfferingInfo-dictionary.xml"/>-->
-    <!--<import resource="classpath:UifKSDefinitions.xml"/>-->
 
 
     <!-- LookupView -->
