@@ -79,7 +79,7 @@
                                 </property>
 
                             </bean>
-                            <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="false" p:actionLabel="Show" p:methodToCall="show"/>
+                            <bean parent="Uif-PrimaryActionButton" p:performClientSideValidation="false" p:actionLabel="Show" p:methodToCall="show"/>
                         </list>
                     </property>
                 </bean>
