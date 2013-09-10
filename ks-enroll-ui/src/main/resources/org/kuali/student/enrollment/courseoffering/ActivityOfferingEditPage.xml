@@ -423,7 +423,7 @@
                                                             <bean parent="Uif-CheckboxControl" />
                                                         </property>
                                                     </bean>
-                                                    <bean parent="Uif-InputField" p:propertyName="courseWaitListInfo.maxSize" p:refreshWhenChangedPropertyNames="@{#dp.limitWaitlistSize}">
+                                                    <bean parent="Uif-InputField" p:required="true" p:propertyName="courseWaitListInfo.maxSize" p:refreshWhenChangedPropertyNames="@{#dp.limitWaitlistSize}">
                                                         <property name="control">
                                                             <bean parent="Uif-TextControl" p:size="3" p:disabled="@{!#dp.limitWaitlistSize}" />
                                                         </property>
