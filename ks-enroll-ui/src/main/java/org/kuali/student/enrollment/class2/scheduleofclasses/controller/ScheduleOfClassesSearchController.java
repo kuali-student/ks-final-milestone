@@ -36,13 +36,11 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
 import org.kuali.student.enrollment.class2.scheduleofclasses.service.ScheduleOfClassesViewHelperService;
-import org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.ActivityOfferingTypeComparator;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesUtil;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
@@ -72,7 +70,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -255,21 +252,11 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         String requisites =  getViewHelperService(theForm).getRequisitiesForCourseOffering(coDisplayWrapper.getCoDisplayInfo().getId());
         coDisplayWrapper.setRequisites(requisites);
 
+        getViewHelperService(theForm).sortActivityOfferings(theForm,coDisplayWrapper);
+
         Map<String, String> subTermInfoMap = new HashMap<String, String>();
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-
-        /**
-         * Sort the AOs first by the type and then by institutionally configured list of comparators
-         */
-        for (ActivityOfferingClusterWrapper clusterWrapper : coDisplayWrapper.getClusterResultList()){
-            if(clusterWrapper.getAoWrapperList().size() >1){
-                //Sort AOs by AO type (which is not institutionally configurable)
-                Collections.sort(clusterWrapper.getAoWrapperList(),new ActivityOfferingTypeComparator());
-                //Sort by whatever configured at the xml (which are institutionally configurable)
-                getViewHelperService(theForm).sortActivityOfferings(clusterWrapper.getAoWrapperList());
-            }
-        }
 
         for (ActivityOfferingWrapper aoWrapper : coDisplayWrapper.getActivityWrapperList()){
             // Adding Information (icons)

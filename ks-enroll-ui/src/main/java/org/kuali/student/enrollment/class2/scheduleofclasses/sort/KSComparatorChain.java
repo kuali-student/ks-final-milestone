@@ -31,6 +31,7 @@ import java.util.List;
 public class KSComparatorChain implements Serializable{
 
     private ComparatorChain comparatorChain;
+    private List<KSComparator> comparators;
 
     public KSComparatorChain(){
         comparatorChain = new ComparatorChain();
@@ -43,13 +44,34 @@ public class KSComparatorChain implements Serializable{
      */
     public void setComparators(List<KSComparator> comparators){
         if (comparators != null){
-            BitSet bitSet = new BitSet(comparators.size());
-            int index = 0;
-            for (KSComparator comparator : comparators){
-                bitSet.set(index++, comparator.isReverseSort());
-            }
-            comparatorChain = new ComparatorChain(comparators,bitSet);
+            this.comparators = comparators;
+            initializeComparatorChain();
         }
+    }
+
+    /**
+     * Adds a comparator to the chain at the given index.
+     *
+     * Note: Avoid this method to add multiple comparators. Use setComparators() in that case
+     *
+     * @param index
+     * @param comparator
+     */
+    public void addComparator(int index, KSComparator comparator){
+        if (comparator != null){
+            comparators.add(index,comparator);
+            initializeComparatorChain();
+        }
+    }
+
+
+    protected void initializeComparatorChain(){
+        BitSet bitSet = new BitSet(comparators.size());
+        int index = 0;
+        for (KSComparator comparator : comparators){
+            bitSet.set(index++, comparator.isReverseSort());
+        }
+        comparatorChain = new ComparatorChain(comparators,bitSet);
     }
 
     /**
@@ -59,5 +81,14 @@ public class KSComparatorChain implements Serializable{
      */
     public void sort(List<? extends ComparatorModel> comparatorItems){
         Collections.sort(comparatorItems, comparatorChain);
+    }
+
+    /**
+     * Returns the comparator chain.
+     *
+     * @return comparatorChain
+     */
+    public ComparatorChain getComparatorChain() {
+        return comparatorChain;
     }
 }

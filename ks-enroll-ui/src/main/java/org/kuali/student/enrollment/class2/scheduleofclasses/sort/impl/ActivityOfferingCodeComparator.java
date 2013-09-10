@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 
 /**
@@ -27,7 +28,15 @@ public class ActivityOfferingCodeComparator extends KSComparatorBase<ActivityOff
 
     @Override
     public int compare(ActivityOfferingWrapper o1, ActivityOfferingWrapper o2) {
-        return o1.getActivityCode().compareTo(o2.getActivityCode());
+
+        if (StringUtils.length(o1.getActivityCode()) > StringUtils.length(o2.getActivityCode())){
+            return 1;
+        } else if (StringUtils.length(o1.getActivityCode()) < StringUtils.length(o2.getActivityCode())){
+            return -1;
+        } else {
+            return o1.getActivityCode().compareTo(o2.getActivityCode());
+        }
+
     }
 
 }

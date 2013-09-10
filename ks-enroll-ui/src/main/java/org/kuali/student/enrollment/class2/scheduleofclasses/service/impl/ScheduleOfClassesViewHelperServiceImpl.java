@@ -29,7 +29,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl;
@@ -37,7 +37,10 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
 import org.kuali.student.enrollment.class2.scheduleofclasses.service.ScheduleOfClassesViewHelperService;
+import org.kuali.student.enrollment.class2.scheduleofclasses.sort.KSComparator;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.KSComparatorChain;
+import org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.ActivityOfferingCodeComparator;
+import org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.ActivityOfferingTypeComparator;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -418,23 +421,21 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
     }
 
     /**
-     * Sorts AOs by the comparators in the chain.
-     *
-     * @param aoWrappers
-     */
-    public void sortActivityOfferings(List<ActivityOfferingWrapper> aoWrappers){
-        if (activityComparatorChain != null){
-            activityComparatorChain.sort(aoWrappers);
-        }
-    }
-
-    /**
      * Comparators to be executed on the AOs
      *
      * @param activityComparatorChain
      */
     public void setActivityComparatorChain(KSComparatorChain activityComparatorChain) {
         this.activityComparatorChain = activityComparatorChain;
+    }
+
+    /**
+     * Returns the Comparator chain associated with the Acivity sorting
+     *
+     * @return activityComparatorChain
+     */
+    public KSComparatorChain getActivityComparatorChain() {
+        return activityComparatorChain;
     }
 
     /**
@@ -455,5 +456,33 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
      */
     public void setRegGroupComparatorChain(KSComparatorChain regGroupComparatorChain) {
         this.regGroupComparatorChain = regGroupComparatorChain;
+    }
+
+    /**
+     * Sorts AOs by the comparators in the chain.
+     *
+     * @param form
+     * @param coWrapper
+     */
+    public void sortActivityOfferings(ScheduleOfClassesSearchForm form,CourseOfferingDisplayWrapper coWrapper){
+        if (form.getAoDisplayFormat() == ScheduleOfClassesSearchForm.AoDisplayFormat.FLAT){
+           KSComparatorChain defaultComparator = new KSComparatorChain();
+           List<KSComparator> comparators = new ArrayList<KSComparator>(2);
+           comparators.add(new ActivityOfferingTypeComparator());
+           comparators.add(new ActivityOfferingCodeComparator());
+           defaultComparator.setComparators(comparators);
+           defaultComparator.sort(coWrapper.getActivityWrapperList());
+        } else if (form.getAoDisplayFormat() == ScheduleOfClassesSearchForm.AoDisplayFormat.CLUSTER){
+           /**
+            * Sort the AOs first by the type and then by institutionally configured list of comparators
+            */
+           for (ActivityOfferingClusterWrapper clusterWrapper : form.getClusterResultList()){
+               if(clusterWrapper.getAoWrapperList().size() >1){
+                   //Add the type sorting as first.
+                   getActivityComparatorChain().addComparator(0,new ActivityOfferingTypeComparator());
+                   activityComparatorChain.sort(clusterWrapper.getAoWrapperList());
+               }
+           }
+        }
     }
 }
