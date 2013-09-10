@@ -66,7 +66,6 @@
         <property name="additionalCssFiles">
             <list merge="true">
                 <value>themes/ksboot/stylesheets/calendar.css</value>
-                <value>themes/ksboot/stylesheets/hcal.css</value>
             </list>
         </property>
 

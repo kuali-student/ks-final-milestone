@@ -63,7 +63,6 @@ limitations under the License.
         <property name="additionalCssFiles">
             <list merge="true">
                 <value>themes/ksboot/stylesheets/calendar.css</value>
-                <value>themes/ksboot/stylesheets/acal.css</value>
             </list>
         </property>
 
