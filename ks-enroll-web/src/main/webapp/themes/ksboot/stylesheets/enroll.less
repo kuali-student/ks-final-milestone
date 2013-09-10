@@ -1,3 +1,4 @@
+@import "variables.less";
 /* Enrollment Title
    Enrollment header found on the enrollment home page
 */
@@ -47,7 +48,11 @@
 
 /* Tabs */
 .ui-widget-content a {
-    color: #3F7826;
+  color: @linkColor;
+}
+.ui-widget-content a:hover {
+  color: @linkColorHover;
+  text-decoration: underline;
 }
 
 /* Pagination nested */
