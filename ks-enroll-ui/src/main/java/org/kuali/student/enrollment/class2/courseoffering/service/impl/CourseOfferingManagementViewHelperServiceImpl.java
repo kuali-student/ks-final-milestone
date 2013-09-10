@@ -34,16 +34,26 @@ import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
-import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleCalcContainer;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleRequestCalcContainer;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementToolbarUtil;
-import org.kuali.student.enrollment.class2.courseoffering.dto.*;
-import org.kuali.student.enrollment.class2.courseoffering.util.*;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ActivityOfferingDisplayUI;
+import org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.ActivityOfferingTypeComparator;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
@@ -898,19 +908,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             RegistrationGroupWrapper rgWrapper = rgMap.get(keyList.get(i));
             List<ActivityOfferingWrapper> aoList = storedAOs.get(keyList.get(i));
 
-            //Sort aoList
-            Collections.sort(aoList,new Comparator<ActivityOfferingWrapper>() {
-                @Override
-                public int compare(ActivityOfferingWrapper ao1, ActivityOfferingWrapper ao2) {
-                    if(ao1.getTypeName().compareTo("Lecture")==0){
-                        return -1;
-                    }
-                    if(ao2.getTypeName().compareTo("Lecture")==0){
-                        return 1;
-                    }
-                    return ao1.getTypeName().compareTo(ao2.getTypeName());
-                }
-            });
+            //Sort aoList by AO types
+            Collections.sort(aoList, new ActivityOfferingTypeComparator());
 
             for(int j=0;j<aoList.size();j++){
                 boolean newLine = true;
