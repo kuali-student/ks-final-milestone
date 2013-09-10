@@ -292,7 +292,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 int temp = 0;
                 CourseWaitListInfo courseWaitListInfo = courseWaitLists.get(temp);
                 wrapper.setCourseWaitListInfo(courseWaitListInfo);
-                if(courseOfferingInfo.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY)) {
+                if(courseWaitListInfo.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY)) {
                     wrapper.setHasWaitlistCO(true);
                 }
             }
