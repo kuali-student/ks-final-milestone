@@ -139,9 +139,12 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 //looks like in inquiry view.xml we are using HasWaitlist for the "Waitlist active" field
                 if(courseWaitListInfo.getStateKey() == null || courseWaitListInfo.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY)){
                     activityOfferingWrapper.setHasWaitlist(false);
+                    activityOfferingWrapper.setHasWaitlistCO(false);
                 }
                 else if (courseWaitListInfo.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY)){
                     activityOfferingWrapper.setHasWaitlist(true);
+                    activityOfferingWrapper.setHasWaitlistCO(true);
+
                 }
 
             } catch (Exception e) {
@@ -304,9 +307,11 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 //looks like in inquiry view.xml we are using HasWaitlist for the "Waitlist active" field
                 if(courseWaitListInfo.getStateKey() == null || courseWaitListInfo.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY)){
                     wrapper.setHasWaitlist(false);
+                    wrapper.setHasWaitlistCO(false);
                 }
                 else if (courseWaitListInfo.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY)){
                     wrapper.setHasWaitlist(true);
+                    wrapper.setHasWaitlistCO(true);
                 }
             }
 
