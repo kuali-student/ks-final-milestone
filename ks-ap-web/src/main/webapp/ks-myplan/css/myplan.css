@@ -2590,6 +2590,15 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
     content: ')' !important;
 }
 
+.ks-plan-Popover-body {
+    margin: 0 !important;
+}
+
+.ks-plan-Popover-bodyLabel {
+    display: block !important;
+    width: 280px !important;
+}
+
 .ks-plan-Header-headline {
     margin: 0 !important;
     width: 440px !important;
@@ -2648,4 +2657,8 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
 
 .ks-plan-TermsList-itemHeader {
 		position: relative;
+}
+.ks-plan-TermNote-input {
+    width: 97%;
+    resize: none;
 }

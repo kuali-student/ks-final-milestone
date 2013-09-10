@@ -241,7 +241,6 @@ public class PlanController extends UifControllerBase {
 			    planForm.setCourseNote(planItem.getDescr().getPlain());
 			}
 
-
 			if (hasText(planItem.getRefObjectId())) {
 				courseId = planItem.getRefObjectId();
 				CourseInfo courseInfo;
@@ -383,11 +382,11 @@ public class PlanController extends UifControllerBase {
             }
 
             String credits="";
-            BigDecimal newPlanCredits = new BigDecimal(0.0);
+			BigDecimal newPlanCredits = BigDecimal.ZERO;
             try{
                 if(hasText(form.getCourseCredit())){
                     credits=form.getCourseCredit();
-                    newPlanCredits = BigDecimal.valueOf(Float.parseFloat(credits));
+					newPlanCredits = new BigDecimal(credits);
                 }
             }catch(NumberFormatException e){
                 return doOperationFailedError(form, "Unable to read credit value",
@@ -1179,13 +1178,12 @@ public class PlanController extends UifControllerBase {
         planItemNote.setFormatted(note);
         planItem.setDescr(planItemNote);
 
-
         String credits="";
-        BigDecimal newPlanCredits = new BigDecimal(0.0);
+		BigDecimal newPlanCredits = BigDecimal.ZERO;
         try{
             if(hasText(form.getCourseCredit())){
                 credits=form.getCourseCredit();
-                newPlanCredits = BigDecimal.valueOf(Float.parseFloat(credits));
+				newPlanCredits = new BigDecimal(credits);
             }
         }catch(NumberFormatException e){
             return doOperationFailedError(form, "Unable to read credit value",
@@ -3475,9 +3473,10 @@ public class PlanController extends UifControllerBase {
      * @return
      * @throws Exception
      */
+    private static final BigDecimal ONE_HUNDRED = new BigDecimal("100");
     private BigDecimal getPlanItemCredits(BigDecimal newPlanCredits, PlanItemInfo planItem) throws Exception{
-        float minCredit = 100;
-        float maxCredit = 0;
+		BigDecimal minCredit = ONE_HUNDRED;
+		BigDecimal maxCredit = BigDecimal.ZERO;
 
         CourseInfo courseInfo = KsapFrameworkServiceLocator.getCourseService().getCourse(planItem.getRefObjectId(), KsapFrameworkServiceLocator.getContext().getContextInfo());
         ResultValuesGroupInfo rci = courseInfo.getCreditOptions().get(0);
@@ -3493,7 +3492,7 @@ public class PlanController extends UifControllerBase {
                     if (rv == null)
                         useAttributes = true;
                     else
-                        return BigDecimal.valueOf(Float.parseFloat(rv.getValue()));
+						return new BigDecimal(rv.getValue());
                 } catch (DoesNotExistException e) {
                     throw new IllegalArgumentException("LRC lookup error", e);
                 } catch (InvalidParameterException e) {
@@ -3506,20 +3505,20 @@ public class PlanController extends UifControllerBase {
                     throw new IllegalStateException("LRC lookup error", e);
                 }
             if (useAttributes)
-                return BigDecimal.valueOf(Float.parseFloat(rci.getAttributeValue("fixedCreditValue")));
+				return new BigDecimal(rci.getAttributeValue("fixedCreditValue"));
         } else if (type.equals("kuali.result.values.group.type.range")) {
             ResultValueRangeInfo rvr = rci.getResultValueRange();
             if (rvr != null){
-                minCredit= Float.parseFloat(rvr.getMinValue());
-                maxCredit= Float.parseFloat(rvr.getMaxValue());
+				minCredit = new BigDecimal(rvr.getMinValue());
+				maxCredit = new BigDecimal(rvr.getMaxValue());
             }else{
-                minCredit= Float.parseFloat(rci.getAttributeValue("minCreditValue"));
-                maxCredit= Float.parseFloat(rci.getAttributeValue("maxCreditValue"));
+				minCredit = new BigDecimal(rci.getAttributeValue("minCreditValue"));
+				maxCredit = new BigDecimal(rci.getAttributeValue("maxCreditValue"));
             }
         }
-        Float newPlanCreditsTemp = newPlanCredits.floatValue();
-        if(newPlanCreditsTemp>maxCredit || newPlanCreditsTemp<minCredit){
-            newPlanCredits=new BigDecimal(minCredit);
+
+		if (newPlanCredits.compareTo(maxCredit) > 0 || newPlanCredits.compareTo(minCredit) < 0) {
+			newPlanCredits = minCredit;
         }
 
         return newPlanCredits;

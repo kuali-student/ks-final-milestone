@@ -218,6 +218,11 @@
     <!--Backup menu items-->
     <bean id="backup_menu_items" parent="backup_menu_items-parent"/>
     <bean id="backup_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+        <property name="layoutManager.cssClasses">
+        	<list merge="true">
+        		<value>ks-plan-ContextMenu</value>
+        	</list>
+        </property>
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
@@ -250,7 +255,7 @@
                 <ref bean="menuOptionMovePlanItem"/>
                 <ref bean="menuOptionDeletePlanItem"/>
                 <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
-                      p:cssClasses="fl-text-gray fl-font-size-90"/>
+                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
             </list>
         </property>
     </bean>
@@ -258,6 +263,11 @@
     <!--Completed Menu Items-->
     <bean id="completed_menu_items" parent="completed_menu_items-parent"/>
     <bean id="completed_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+        <property name="layoutManager.cssClasses">
+        	<list merge="true">
+        		<value>ks-plan-ContextMenu</value>
+        	</list>
+        </property>
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
@@ -270,6 +280,11 @@
     <!--Completed backup Menu Items-->
     <bean id="completed_backup_menu_items" parent="completed_backup_menu_items-parent"/>
     <bean id="completed_backup_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+        <property name="layoutManager.cssClasses">
+        	<list merge="true">
+        		<value>ks-plan-ContextMenu</value>
+        	</list>
+        </property>
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
@@ -278,7 +293,7 @@
                 <ref bean="menuOptionDeletePlanItem"/>
 
                 <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
-                      p:cssClasses="fl-text-gray fl-font-size-90"/>
+                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
             </list>
         </property>
     </bean>
@@ -286,6 +301,11 @@
     <!--Completed backup Menu Items-->
     <bean id="termnote_menu_items" parent="termnote_menu_items-parent"/>
     <bean id="termnote_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+        <property name="layoutManager.cssClasses">
+        	<list merge="true">
+        		<value>ks-plan-ContextMenu</value>
+        	</list>
+        </property>
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
@@ -516,6 +536,7 @@
         <property name="validationMessages.render" value="false"/>
         <property name="collectionObjectClass" value="org.kuali.student.myplan.plan.dataobject.PlannedTerm"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
+        <property name="layoutManager.lineGroupPrototype.header.additionalCssClasses" value="ks-plan-TermsList-itemHeader"/>
         <property name="layoutManager.lineGroupPrototype.headerText" value="@{#line.qtrYear}"/>
         <property name="layoutManager.lineGroupPrototype.validationMessages.render" value="false"/>
         <property name="layoutManager.lineGroupPrototype.cssClasses">
@@ -539,8 +560,7 @@
                   value="width:@{588/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px;
                   margin:0 @{20/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px;"/>
         <property name="layoutManager.lineGroupPrototype.header.upperGroup">
-            <bean parent="Uif-HorizontalBoxGroup">
-
+            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-TermNote">
                 <property name="items">
                     <list>
                         <bean parent="menuTermOptionEdit">
@@ -554,12 +574,11 @@
                         <bean p:id="@{#line.atpId.replaceAll('\.','-')}termnote_message" parent="Uif-InputField">
                             <property name="propertyName" value="lookupResults[@{#index}].termNoteUI" />
                             <property name="control">
-                                <bean parent="Uif-TextAreaControl"
-                                      p:watermarkText="No Term Notes" p:style="width: 97%; resize: none;">
+                                <bean parent="Uif-TextAreaControl" p:cssClasses="ks-plan-TermNote-input"
+                                      p:watermarkText="No Term Notes">
                                     <property name="disabled" value="true"/>
                                 </bean>
                             </property>
-
                         </bean>
                     </list>
                 </property>
@@ -1893,7 +1912,8 @@
             var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', planItemId:jQuery(this).data('planitemid'), atpId:jQuery(this).data('atpid'), pageId:'move_dialog_page'};
             var popupStyle = {width:'300px', height:'16px'};
             var popupOptions = {tail:{hidden:true}, align:'top', close:true};
-            openPopup('move_dialog_page', retrieveData, 'plan', popupStyle, popupOptions, e);
+            var pageId ='move_dialog_page.'+jQuery(this).data('planitemid').replace(/\./g, '-');
+            openPopup(pageId, retrieveData, 'plan', popupStyle, popupOptions, e);
         "/>
     </bean>
 
@@ -1904,7 +1924,8 @@
             var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', planItemId:jQuery(this).data('planitemid'), atpId:jQuery(this).data('atpid'), pageId:'copy_dialog_page'};
             var popupStyle = {width:'300px', height:'16px'};
             var popupOptions = {tail:{hidden:true}, align:'top', close:true};
-            openPopup('copy_dialog_page', retrieveData, 'plan', popupStyle, popupOptions, e);
+            var pageId ='copy_dialog_page.'+jQuery(this).data('planitemid').replace(/\./g, '-');
+            openPopup(pageId, retrieveData, 'plan', popupStyle, popupOptions, e);
         "/>
     </bean>
 
@@ -1920,7 +1941,8 @@
             var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', planItemId:jQuery(this).data('planitemid'), atpId:jQuery(this).data('atpid'), pageId:'plan_item_delete_page'};
             var popupStyle = {width:'300px', height:'16px'};
             var popupOptions = {tail:{hidden:true}, align:'top', close:true};
-            openPopup('plan_item_delete_page', retrieveData, 'plan', popupStyle, popupOptions, e);
+            var pageId ='plan_item_delete_page.'+jQuery(this).data('planitemid').replace(/\./g, '-');
+            openPopup(pageId, retrieveData, 'plan', popupStyle, popupOptions, e);
         "/>
     </bean>
 
@@ -1928,10 +1950,11 @@
     <bean id="menuOptionCourseSummary-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="View Course Summary"
           p:title="View Course Summary">
         <property name="actionScript" value="
-            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', planItemId:jQuery(this).data('planitemid'), courseId:jQuery(this).data('courseid'), pageId:'course_summary_dialog_page'};
+            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', planItemId:jQuery(this).data('planitemid'), courseId:jQuery(this).data('courseid'),atpId:jQuery(this).data('atpid'), pageId:'course_summary_dialog_page'};
             var popupStyle = {width:'300px', height:'16px'};
             var popupOptions = {tail:{hidden:true}, align:'top', close:true};
-            openPopup('course_summary_dialog_page', retrieveData, 'plan', popupStyle, popupOptions, e);
+            var pageId ='course_summary_dialog_page.'+jQuery(this).data('atpid').replace(/\./g, '-');
+            openPopup(pageId, retrieveData, 'plan', popupStyle, popupOptions, e);
         "/>
     </bean>
 
@@ -1942,7 +1965,8 @@
             var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', planItemId:jQuery(this).data('planitemid'), atpId:jQuery(this).data('atpid'), pageId:'plan_item_edit_page'};
             var popupStyle = {width:'300px', height:'16px'};
             var popupOptions = {tail:{hidden:true}, align:'top', close:true};
-            openPopup('plan_item_edit_page', retrieveData, 'plan', popupStyle, popupOptions, e);
+            var pageId ='plan_item_edit_page.'+jQuery(this).data('planitemid').replace(/\./g, '-');
+            openPopup(pageId, retrieveData, 'plan', popupStyle, popupOptions, e);
         "/>
     </bean>
 
@@ -1953,8 +1977,8 @@
             var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startTermNoteForm', atpId:jQuery(this).data('atpid'), pageId:'term_note_edit_page'};
             var popupStyle = {width:'300px', height:'16px'};
             var popupOptions = {tail:{hidden:true}, align:'top', close:true};
-            var xmlSafeAtpId=jQuery(this).data('atpid').replace(/\./g, '-');
-            openPopup('term_note_edit_page.'+xmlSafeAtpId, retrieveData, 'plan', popupStyle, popupOptions, e);
+            var pageId ='term_note_edit_page.'+jQuery(this).data('atpid').replace(/\./g, '-');
+            openPopup(pageId, retrieveData, 'plan', popupStyle, popupOptions, e);
         "/>
     </bean>
 

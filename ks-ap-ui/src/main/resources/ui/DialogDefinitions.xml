@@ -47,6 +47,11 @@
     <!--View Course Summary Dialog Box content -->
     <bean id="course_summary_dialog_page" parent="course_summary_dialog_page-parent"/>
     <bean id="course_summary_dialog_page-parent" abstract="true" parent="KSAP-PopoverPage" p:id="course_summary_dialog_page" p:headerText="View Course Summary">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>@{atpId.replaceAll("\.","-")}</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="course_title_link"/>
@@ -168,6 +173,11 @@
     <bean id="plan_item_delete_page" parent="plan_item_delete_page-parent"/>
     <bean id="plan_item_delete_page-parent" abstract="true" parent="KSAP-PopoverPage" p:id="plan_item_delete_page"
           p:headerText="Delete @{courseSummaryDetails.code} @{atpId eq null ? 'Bookmark' : 'from the '+shortTerm+' Plan'}">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>@{planItemIdXmlSafe}</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-Message"
@@ -194,7 +204,7 @@
                 <bean parent="KSAP-HorizontalBoxGroup">
                     <property name="items">
                         <list>
-                            <bean p:id="deletePlannedCourse" parent="Uif-PrimaryActionButton-Small"
+                            <bean p:id="deletePlannedCourse_@{planItemIdXmlSafe}" parent="Uif-PrimaryActionButton-Small"
                                   p:actionLabel="Delete">
                                 <property name="actionScript" value="
                                                 var additionalFormData = {
@@ -206,14 +216,14 @@
                                                 submitPopupForm(additionalFormData, e, false);
                                             "/>
                                 <property name="onDocumentReadyScript" value="
-                                                jQuery('#deletePlannedCourse').on('PLAN_ITEM_DELETED', function(event, data){
-                                                    fnDisplayMessage(data.message, data.cssClass, 'deletePlannedCourse', true, true);
+                                                jQuery('#deletePlannedCourse_@{planItemIdXmlSafe}').on('PLAN_ITEM_DELETED', function(event, data){
+                                                    fnDisplayMessage(data.message, data.cssClass, 'deletePlannedCourse_@{planItemIdXmlSafe}', true, true);
                                                 }).on('ERROR', function(event, data) {
-                                                    fnDisplayMessage(data.message, data.cssClass, 'deletePlannedCourse', true, true);
+                                                    fnDisplayMessage(data.message, data.cssClass, 'deletePlannedCourse_@{planItemIdXmlSafe}', true, true);
                                                 });
                                             "/>
                             </bean>
-                            <bean parent="closePopoverCancel"/>
+                            <bean parent="closePopoverCancel" p:id="closePopoverCancel_delete_@{planItemIdXmlSafe}"/>
                         </list>
                     </property>
                 </bean>
@@ -224,6 +234,11 @@
     <!--Move Course to another Quarter Dialog Box Content-->
     <bean id="move_dialog_page" parent="move_dialog_page-parent"/>
     <bean id="move_dialog_page-parent" abstract="true" parent="KSAP-PopoverPage" p:id="move_dialog_page" p:headerText="Move to Another Quarter">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>@{planItemIdXmlSafe}</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-Message"
@@ -325,6 +340,11 @@
     <!--Copy Course to another Quarter Dialog Box Content-->
     <bean id="copy_dialog_page" parent="copy_dialog_page-parent"/>
     <bean id="copy_dialog_page-parent" abstract="true" parent="KSAP-PopoverPage" p:id="copy_dialog_page" p:headerText="Copy to Another Quarter">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>@{planItemIdXmlSafe}</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-Message"
@@ -465,6 +485,11 @@
     <bean id="plan_item_edit_page" parent="plan_item_edit_page-parent"/>
     <bean id="plan_item_edit_page-parent" abstract="true" parent="KSAP-PopoverPage" p:id="plan_item_edit_page"
           p:headerText="Edit @{courseSummaryDetails.code} @{atpId eq null ? 'Bookmark' : 'from the '+shortTerm+' Plan'}">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>@{planItemIdXmlSafe}</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-Message"
@@ -608,14 +633,8 @@
 
                     <property name="control">
                         <bean parent="Uif-TextAreaControl"
-                              p:watermarkText="Enter a short note (500 characters max)" p:maxLength="500"
                               p:style="resize:none; width:97%;">
                             <property name="disabled" value="true"/>
-                            <property name="cssClasses">
-                                <list merge="true">
-                                    <value>ksap-characterCount</value>
-                                </list>
-                            </property>
                         </bean>
                     </property>
                 </bean>

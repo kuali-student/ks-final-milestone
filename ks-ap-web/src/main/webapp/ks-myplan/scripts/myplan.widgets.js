@@ -2072,3 +2072,168 @@ function submitPopupForm(additionalFormData, e, bDialog) {
     };
     ksapAjaxSubmitForm(additionalFormData, successCallback, elementToBlock, "popupForm", blockOptions);
 }
+
+// KSAP 0.7.1 and previous deprecated planner scripts
+
+function ksapLoadPlanItems(imageUrl) {
+	var user = jQuery.trim(jQuery('#hidden_new_user_flag').text());
+	var retrieveOptions = {};
+	var sFocusAtpId = '';
+	var aParams = window.location.search.replace('?','').split('&amp;');
+	jQuery.each(aParams, function(index, value) {
+	    if (value.split('=')[0].indexOf('focusAtpId') >= 0) {
+	        sFocusAtpId = decodeURIComponent(value.split('=')[1]);
+	    }
+	});
+	if(sFocusAtpId != ''){
+	    retrieveOptions = {viewId:'PlannedCourses-LookupView', focusAtpId:sFocusAtpId};
+	} else {
+	    retrieveOptions = {viewId:'PlannedCourses-LookupView'};
+	}
+	myplanRetrieveComponent('planned_mock_detail','planned_courses_detail','search','lookup', retrieveOptions, null,
+		{	message: '<p><img src="' + imageUrl +
+				'ajaxAuditRunning32.gif" alt="loading..." /></p><p>Please wait while we are fetching your plan...</p>',
+			fadeIn : 0,
+			fadeOut : 0
+		});
+}
+
+function ksapInitializePlanItems(pageSize) {
+    var popupStyle = {width:'300px', height:'16px'};
+    var popupOptions = {tail:{hidden:true}, position:'right', align:'top', close:true};
+
+    jQuery('.myplan-carousel-list li .myplan-term-current.open, .myplan-carousel-list li .myplan-term-future.open').find('.myplan-term-planned .uif-stackedCollectionLayout, .myplan-term-backup .uif-stackedCollectionLayout').each(function(){
+        var atpId = jQuery(this).parents('.myplan-carousel-term').data('atpid');
+        var backup = jQuery(this).parents('.myplan-carousel-term').data('plantype');
+        var size = jQuery(this).parents('.myplan-carousel-term').data('size');
+        var jQuickAdd = jQuery('<div />')
+            .addClass('quick-add-cell ks-plan-Bucket-addItem')
+            .html('Add a course to plan')
+            .click(function(e){
+                var retrieveData = {
+                    action : 'plan' ,
+                    viewId : 'PlannedCourse-FormView' ,
+                    methodToCall : 'startAddPlannedCourseForm' ,
+                    atpId : atpId ,
+                    backup : backup ,
+                    pageId : 'plan_item_add_page'
+                };
+                openPopup('plan_item_add_page', retrieveData, 'plan', popupStyle, popupOptions, e);
+            });
+        // TODO: consider removing size limit enforcement
+        if (size < 8) {
+            jQuery(this).append(jQuickAdd).show();
+        } else {
+            jQuery(this).append(jQuickAdd).show();
+        }
+    });
+
+    if (jQuery('#planned_courses_detail_list ul:not(.errorLines) li').length > 0) {
+        var iMaxHeight = Math.max.apply(null, jQuery('#planned_courses_detail_list ul:not(.errorLines) li')
+            .map(function() {
+                return jQuery(this).height();
+            }).get(	));
+        jQuery('#planned_courses_detail_list ul:not(.errorLines) li').height(iMaxHeight);
+        var iStart = 0;
+        if (readUrlHash('planView')) {
+            iStart = parseFloat(readUrlHash('planView'));
+        } else if ( jQuery("div:hidden[id^='atp_start_index']").length > 0 ) {
+            iStart = parseFloat(jQuery("div:hidden[id^='atp_start_index']").text());
+        }
+
+        jQuery('#planned_courses_detail_list').jCarouselLite({
+            btnNext: '.myplan-carousel-next',
+            btnPrev: '.myplan-carousel-prev',
+            scroll: pageSize,
+            visible: pageSize,
+            start: iStart,
+            afterEnd: function(a) {
+                fnBuildTitle(a);
+                var planView = jQuery(a[0]).index();
+                if (planView == 0 && a.length < pageSize) {
+                    planView = a.length - pageSize;
+                }
+                setUrlHash('planView', planView);
+            },
+            initCallback: function(a) { fnBuildTitle(a); jQuery.unblockUI(); }
+        });
+    }
+
+    truncateField('planned_courses_detail_list', true);
+    jQuery('#planned_courses_detail_list')
+        .subscribe('PLAN_ITEM_ADDED', function(data){
+            var campusCode = data.courseDetails.campusCode;
+            var courseCode = data.courseDetails.courseCode;
+            var activityCode = data.courseDetails.activityCode;
+            var code;
+            if (campusCode != null)
+                code = campusCode + " " + courseCode;
+            else
+                code = courseCode;
+            if (activityCode != null)
+                code += " " + activityCode;
+            fnAddPlanItem(data.atpId, data.planItemType, data.planItemId, code, data.courseDetails.courseTitle, data.courseDetails.credit, data.showAlert, data.termName, data.timeScheduleOpen);
+        })
+        .subscribe('PLAN_ITEM_DELETED', function(data){
+            fnRemovePlanItem(data.atpId, data.planItemType, data.planItemId);
+        })
+        .subscribe('UPDATE_NEW_TERM_TOTAL_CREDITS', function(data){
+            fnUpdateCredits(data.atpId, data.totalCredits, data.cartCredits);
+        })
+        .subscribe('UPDATE_OLD_TERM_TOTAL_CREDITS', function(data){
+            fnUpdateCredits(data.atpId, data.totalCredits, data.cartCredits);
+        });
+    jQuery('#planned_courses_detail_list').on('PLAN_ITEM_ADDED', function(event, data) {
+        fnAddPlanItem(data.atpId, data.planItemType, data.planItemId, data.courseDetails.code, data.courseDetails.courseTitle, data.courseDetails.credit, data.showAlert, data.termName, data.timeScheduleOpen);
+    }).on('PLAN_ITEM_DELETED', function(event, data) {
+            fnRemovePlanItem(data.atpId, data.planItemType, data.planItemId);
+        }).on('TERM_NOTE_UPDATED', function(event, data) {
+            fnUpdateTermNote(data.atpId, data.termNote);
+        }).on('UPDATE_NEW_TERM_TOTAL_CREDITS', function(event, data) {
+            fnUpdateCredits(data.atpId, data.totalCredits, data.cartCredits);
+        }).on('UPDATE_OLD_TERM_TOTAL_CREDITS', function(event, data) {
+            fnUpdateCredits(data.atpId, data.totalCredits, data.cartCredits);
+        });
+}
+// KSAP 0.7.5 refactored planner scripts
+
+function ksapLoadPlannerItems(imageUrl) {
+	var retrieveOptions = {};
+	var sFocusAtpId = '';
+	var aParams = window.location.search.replace('?','').split('&amp;');
+	jQuery.each(aParams, function(index, value) {
+	    if (value.split('=')[0].indexOf('focusAtpId') >= 0) {
+	        sFocusAtpId = decodeURIComponent(value.split('=')[1]);
+	    }
+	});
+	if(sFocusAtpId != ''){
+	    retrieveOptions = {viewId:'Planner-LookupView', focusAtpId:sFocusAtpId};
+	} else {
+	    retrieveOptions = {viewId:'Planner-LookupView'};
+	}
+	myplanRetrieveComponent('planner_lookup_wrapper','planner_courses_detail','search','lookup', retrieveOptions, null,
+		{	message: '<p><img src="' + imageUrl +
+				'ajaxAuditRunning32.gif" alt="loading..." /></p><p>Please wait while we are fetching your plan...</p>',
+			fadeIn : 0,
+			fadeOut : 0
+		});
+}
+
+function ksapPlannerOpenDialog(pageId, action, methodToCall) {
+	var retrieveData = {
+			action : action,
+			methodToCall : methodToCall,
+			learningPlanId : jQuery(this).data('learningplanid'),
+			termId : jQuery(this).data('termid'),
+			planItemId : jQuery(this).data('planitemid'),
+			courseId : jQuery(this).data('courseid'),
+			pageId : pageId+"_page"
+		};
+	var popupOptions = {
+			tail : { hidden : true },
+			align : 'top',
+ 			close : true
+		};
+	openPopup(pageId+"_inner", retrieveData, action, popupStyle, popupOptions, e);
+}
+

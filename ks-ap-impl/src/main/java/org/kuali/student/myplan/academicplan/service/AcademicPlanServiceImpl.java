@@ -410,8 +410,11 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 			planItemEntity.setAttributes(attributeEntities);
 		}
 
-		//  Update text entity.
-		planItemEntity.setDescr(new PlanItemRichTextEntity(planItem.getDescr()));
+		//  Update text entity - This replaces the current description entry with the new values.
+        planItemEntity.getDescr().setFormatted(planItem.getDescr().getFormatted());
+        planItemEntity.getDescr().setPlain(planItem.getDescr().getPlain());
+        //  Update text entity - This creates a new entry in the table keeping a copy of the old entry.
+		//planItemEntity.setDescr(new PlanItemRichTextEntity(planItem.getDescr()));
 
 		//  Update meta data.
 		planItemEntity.setUpdateId(context.getPrincipalId());
