@@ -108,10 +108,9 @@ function handleWaitListPrompt(dialog) {
     var dialogResponses = jQuery('input.uif-dialogButtons',dialog);
     for(i =0; i < dialogResponses.length; i++){
         if (dialogResponses[i].checked==true) {
-            if (dialogResponses[i].value=='Cancel') {
-               //if user Cancels then: 1. Revert check box , 2. display approp. informational message
-               jQuery('#KS-CourseOfferingEdit-HasWaitlist_control').prop('checked',true);
-               jQuery('#KS-CourseOfferingEdit-WailtList-Message-Section').show();
+            if (dialogResponses[i].value=='Continue') {
+                jQuery('#KS-CourseOfferingEdit-HasWaitlist_control').prop('checked',false);
+                jQuery('#KS-CourseOfferingEdit-WailtList-Message-Section').hide();
             }
             //Uncheck checked button ...because krad implemented it as a radio bttn!!
             dialogResponses[i].checked=false;
@@ -125,6 +124,15 @@ function handleWaitListPrompt(dialog) {
     labels.removeClass('ui-state-active');
     labels.addClass('ui-state-default');
     closeLightbox();
+}
+
+/*
+ * Since there is no onClose event triggered for the lightbox we need this to do
+ * some dom maipulation prior to open the lightbox
+ */
+function handleWaitListShowDialog(dialog){
+    jQuery('#KS-CourseOfferingEdit-HasWaitlist_control').prop('checked',true);
+    jQuery('#KS-CourseOfferingEdit-WailtList-Message-Section').show();
 }
 
 function updateExamDriverInFOTable(finalExamDropDownId, finalExamTableCellId) {
