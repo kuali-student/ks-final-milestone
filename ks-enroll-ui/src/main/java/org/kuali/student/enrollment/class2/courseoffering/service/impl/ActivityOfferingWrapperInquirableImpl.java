@@ -72,17 +72,14 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
            int firstCourseWaitListInfo = 0;
            CourseWaitListInfo courseWaitListInfo = new CourseWaitListInfo();
             //set waitlist info in wrapper
-
             if ( null != courseWaitListInfoList && courseWaitListInfoList.size() > 0 )
             {
                 courseWaitListInfo = courseWaitListInfoList.get(firstCourseWaitListInfo);
             }
             aoWapper.setCourseWaitListInfo(courseWaitListInfo);
             //looks like in inquiry view.xml we are using HasWaitlist for the "Waitlist active" field
-            if(courseWaitListInfo.getStateKey() == null || courseWaitListInfo.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY)){
-                aoWapper.setHasWaitlist(false);
-            }
-            else if (courseWaitListInfo.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY)){
+            aoWapper.setHasWaitlist(false);             
+            if (CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY.equals(courseWaitListInfo.getStateKey())){
                 aoWapper.setHasWaitlist(true);
             }
 
