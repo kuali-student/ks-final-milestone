@@ -18,7 +18,6 @@ package org.kuali.student.enrollment.class1.krms.builder;
 import org.apache.log4j.Logger;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.FEPropositionEditor;
-import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 
 import java.util.HashMap;
 import java.util.List;

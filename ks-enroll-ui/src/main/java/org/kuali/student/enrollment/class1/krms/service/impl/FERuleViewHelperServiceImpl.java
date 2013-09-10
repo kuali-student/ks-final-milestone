@@ -32,9 +32,9 @@ import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.core.krms.tree.KSRuleCompareTreeBuilder;
+import org.kuali.student.enrollment.class1.krms.dto.FEPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.tree.CORuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.lum.lu.ui.krms.service.impl.LURuleViewHelperServiceImpl;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
@@ -57,7 +57,7 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
      */
     @Override
     public Class<? extends PropositionEditor> getPropositionEditorClass() {
-        return LUPropositionEditor.class;
+        return FEPropositionEditor.class;
     }
 
     @Override
