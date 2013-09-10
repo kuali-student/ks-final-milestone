@@ -79,10 +79,11 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
             }
             aoWapper.setCourseWaitListInfo(courseWaitListInfo);
             //looks like in inquiry view.xml we are using HasWaitlist for the "Waitlist active" field
-            if (courseWaitListInfo.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY)){
-                aoWapper.setHasWaitlist(true);
-            }else if(courseWaitListInfo.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY)){
+            if(courseWaitListInfo.getStateKey() == null || courseWaitListInfo.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY)){
                 aoWapper.setHasWaitlist(false);
+            }
+            else if (courseWaitListInfo.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY)){
+                aoWapper.setHasWaitlist(true);
             }
 
             // Now have to deal with subterms: have to check if it's subterm or term
