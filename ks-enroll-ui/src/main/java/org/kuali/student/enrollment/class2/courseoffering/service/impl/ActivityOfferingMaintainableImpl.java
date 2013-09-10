@@ -45,6 +45,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
@@ -291,6 +292,9 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 int temp = 0;
                 CourseWaitListInfo courseWaitListInfo = courseWaitLists.get(temp);
                 wrapper.setCourseWaitListInfo(courseWaitListInfo);
+                if(courseOfferingInfo.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY)) {
+                    wrapper.setHasWaitlistCO(true);
+                }
             }
 
             // Added for WaitList Tanveer 06/27/2012
@@ -993,7 +997,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
     protected CourseWaitListService getCourseWaitListService() {
         if(courseWaitListService == null) {
-            courseWaitListService = CourseOfferingResourceLoader.loadCourseWaitListService();
+            courseWaitListService = CourseOfferingResourceLoader.loadCourseWaitlistService();
         }
         return courseWaitListService;
     }
