@@ -79,8 +79,21 @@
                                                           p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);
                                                            findDirtyFields('AcalEdit-DirtyFields');"
                                                           p:render="@{!#line.official and !#view.readOnly}"/>
-                                                    <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{#line.official}"/>
-                                                    <bean parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{!#line.official}"/>
+                                                    <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{#line.official}">
+                                                        <property name="dataAttributes">
+                                                            <map key-type="java.lang.String" merge="true">
+                                                                <entry key="aft-id" value="@{#line.termInfo.code}-Official-Lozenge"/>
+                                                            </map>
+                                                        </property>
+                                                    </bean>
+
+                                                    <bean parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{!#line.official}">
+                                                        <property name="dataAttributes">
+                                                            <map key-type="java.lang.String" merge="true">
+                                                                <entry key="aft-id" value="@{#line.termInfo.code}-Draft-Lozenge"/>
+                                                            </map>
+                                                        </property>
+                                                    </bean>
                                                 </list>
                                             </property>
                                         </bean>

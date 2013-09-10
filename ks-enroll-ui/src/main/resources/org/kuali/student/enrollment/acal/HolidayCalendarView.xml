@@ -106,8 +106,8 @@
                             <bean parent="Uif-VerticalBoxGroup">
                                 <property name="items">
                                     <list>
-                                        <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{officialCalendar}"/>
-                                        <bean parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{!officialCalendar}"/>
+                                        <bean id="HCAL-Official-Lozenge" parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{officialCalendar}"/>
+                                        <bean id="HCAL-Draft-Lozenge" parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{!officialCalendar}"/>
                                     </list>
                                 </property>
                             </bean>

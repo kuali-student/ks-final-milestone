@@ -101,8 +101,8 @@ limitations under the License.
                             <bean parent="Uif-VerticalBoxGroup">
                                 <property name="items">
                                     <list>
-                                        <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{officialUI}"/>
-                                        <bean parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{!officialUI}"/>
+                                        <bean id="ACAL-Official-Lozenge" parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{officialUI}"/>
+                                        <bean id="ACAL-Draft-Lozenge" parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{!officialUI}"/>
                                     </list>
                                 </property>
                             </bean>
