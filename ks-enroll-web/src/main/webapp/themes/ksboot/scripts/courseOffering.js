@@ -132,20 +132,16 @@ function updateExamDriverInFOTable(finalExamDropDownId, finalExamTableCellId) {
     var finalExamDriverUI = "";
 
     if (finalExamDropDown.val()== "kuali.lu.exam.driver.CourseOffering") {
-        finalExamDriverUI = "Course Offering"
+        finalExamDriverUI = "Course Offering";
+        jQuery('#edit_co_final_exam_type_line0_control').hide();
     } else if (finalExamDropDown.val()== "kuali.lu.exam.driver.ActivityOffering") {
-        finalExamDriverUI = "Activity Offering"
+        finalExamDriverUI = "Activity Offering";
+        jQuery('#edit_co_final_exam_type_line0_control').show();
     }
 
     var finalExamTableCells = jQuery('[id^="' + finalExamTableCellId + '_line"][id$="_control"]');
     finalExamTableCells.each(function () {
         jQuery(this).text(finalExamDriverUI);
     });
-
-    if (finalExamDropDown.val()== "kuali.lu.exam.driver.CourseOffering") {
-        jQuery('#edit_co_final_exam_type_line0_control').hide();
-    } else {
-        jQuery('#edit_co_final_exam_type_line0_control').show();
-    }
 }
 
