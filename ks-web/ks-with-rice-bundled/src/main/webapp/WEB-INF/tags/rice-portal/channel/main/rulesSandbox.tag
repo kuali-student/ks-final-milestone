@@ -23,10 +23,5 @@
         <li><portal:portalLink displayTitle="true" title="Manage Activity Offering Agendas" url="${ConfigProperties.application.url}/kr-krad/activityOfferingRules?viewTypeName=MAINTENANCE&methodToCall=maintenanceEdit&dataObjectClassName=org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper&viewName=AOAgendaManagementView&overrideKeys=refObjectId&refObjectId=e8639267-ae0c-40b8-ac3e-a1cc83fddec9"/></li>
         <li><portal:portalLink displayTitle="true" title="Final Exam Scheduling Matrix" url="${ConfigProperties.application.url}/kr-krad/finalExamRules?viewTypeName=MAINTENANCE&methodToCall=maintenanceEdit&dataObjectClassName=org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper&viewName=FEAgendaManagementView&overrideKeys=refObjectId&refObjectId=kuali.atp.type.Fall"/></li>
     </ul>
-
-    <strong>Custom Components Views</strong>
-    <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Final Exam Custom Components" url="${ConfigProperties.application.url}/kr-krad/feCustomComponents?viewId=FECustomCompnentsView&methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class1.krms.dto.FECustomComponentsForm"/></li>
-    </ul>
 </div>
 <channel:portalChannelBottom />

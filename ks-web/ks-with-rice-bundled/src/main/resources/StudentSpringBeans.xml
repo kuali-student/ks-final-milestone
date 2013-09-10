@@ -199,8 +199,6 @@
                 <value>classpath:org/kuali/student/enrollment/krms/AORuleMaintenance.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/FERuleMaintenance.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/FinalExamMatrixManagementView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/krms/KSKRMSFECustomComponents.xml</value>
-
 
                 <!-- Type -->
                 <value>classpath:org/kuali/student/enrollment/type/TypeVerificationView.xml</value>
