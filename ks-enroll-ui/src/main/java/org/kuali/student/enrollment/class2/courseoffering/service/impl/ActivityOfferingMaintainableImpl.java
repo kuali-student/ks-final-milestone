@@ -38,6 +38,8 @@ import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
+import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -93,6 +95,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     private transient CourseService courseService;
     private transient SearchService searchService;
     private transient LuiService luiService;
+    private transient CourseWaitListService courseWaitListService;
 
     @Override
     public void saveDataObject() {
@@ -127,9 +130,10 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                         activityOfferingWrapper.getAoInfo().setTermId(subTermId);
                     }
                 }
-
                 activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), contextInfo);
                 activityOfferingWrapper.setAoInfo(activityOfferingInfo);
+                CourseWaitListInfo courseWaitListInfo = getCourseWaitListService().updateCourseWaitList(activityOfferingWrapper.getCourseWaitListInfo().getId(),activityOfferingWrapper.getCourseWaitListInfo(),contextInfo );
+                activityOfferingWrapper.setCourseWaitListInfo(courseWaitListInfo);
             } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);
             }
@@ -280,6 +284,14 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             // get the format offering
             FormatOfferingInfo formatOfferingInfo = getCourseOfferingService().getFormatOffering(info.getFormatOfferingId(), contextInfo);
             wrapper.setFormatOffering(formatOfferingInfo);
+
+            List<CourseWaitListInfo> courseWaitLists  = getCourseWaitListService().getCourseWaitListsByActivityOffering(dataObjectKeys.get(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID),contextInfo);
+
+            if(courseWaitLists != null && courseWaitLists.size() >0){
+                int temp = 0;
+                CourseWaitListInfo courseWaitListInfo = courseWaitLists.get(temp);
+                wrapper.setCourseWaitListInfo(courseWaitListInfo);
+            }
 
             // Added for WaitList Tanveer 06/27/2012
             wrapper.setWaitListLevelTypeKey(courseOfferingInfo.getWaitlistLevelTypeKey());
@@ -977,6 +989,13 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             courseOfferingService = CourseOfferingResourceLoader.loadCourseOfferingService();
         }
         return courseOfferingService;
+    }
+
+    protected CourseWaitListService getCourseWaitListService() {
+        if(courseWaitListService == null) {
+            courseWaitListService = CourseOfferingResourceLoader.loadCourseWaitListService();
+        }
+        return courseWaitListService;
     }
 
     protected CourseService getCourseService() {
