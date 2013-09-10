@@ -262,7 +262,7 @@
                 <property name="items">
                     <list>
                         <bean parent="Uif-MessageField" p:label="Waitlist Active" p:messageText="@{(!dataObject.hasWaitlistCO) ? 'No':'Yes'}" p:fieldLabel.renderColon="true"/>
-                        <bean parent="Uif-MessageField" p:label="Waitlist Processing" p:messageText="@{( dataObject.courseWaitListInfo.automaticallyProcessed eq null ? '' : (dataObject.courseWaitListInfo.confirmationRequired eq null ? '' : (dataObject.courseWaitListInfo.automaticallyProcessed ? (dataObject.courseWaitListInfo.confirmationRequired ? 'Semi-automatic' : 'Automatic') : 'Manual')))}"
+                        <bean parent="Uif-MessageField" p:label="Waitlist Processing" p:messageText="@{( dataObject.courseWaitListInfo.wlProcessing eq null) ? '' : 'dataObject.courseWaitListInfo.wlProcessing' }"
                               p:fieldLabel.renderColon="true" p:style="@{(dataObject.hasWaitlistCO) ?  '' : 'display:none'}"/>
                         <bean parent="Uif-MessageField" p:label="Waitlist Max Size" p:messageText="@{(dataObject.courseWaitListInfo.maxSize eq null) ? 'Unlimited':' Limit to (dataObject.courseWaitListInfo.maxSize)'}" p:fieldLabel.renderColon="true"
                               p:style="@{(dataObject.hasWaitlistCO) ? '' : 'display:none'}"/>
