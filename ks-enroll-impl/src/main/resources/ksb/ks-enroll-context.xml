@@ -1021,6 +1021,13 @@
         <property name="entityManager" ref="enrollEntityManager"/>
     </bean>
 
+    <!-- KSENROLL-9340 Overriding this to use the same EM as the services that change the db
+     This was causing problems since scheduling service was using enroll EM and changing things,
+     but the search was using core EM and not picking up the changes -->
+    <bean id="CoreSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.CoreSearchServiceImpl">
+        <property name="entityManager" ref="enrollEntityManager"/>
+    </bean>
+
     <bean id="searchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
         <property name="searchServices">
             <list>
