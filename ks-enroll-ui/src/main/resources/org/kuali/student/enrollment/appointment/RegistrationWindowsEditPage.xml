@@ -348,7 +348,7 @@
             <list>
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="assignStudents" p:actionLabel="Assign Students" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.draft'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="breakAppointments" p:actionLabel="Break Appointments" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
-                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLineThroughDialog" p:actionLabel="X" p:render="@{!#isAddLine}" />
+                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLineThroughDialog" p:actionLabel="X" p:render="@{!#isAddLine}"  p:clearDirtyOnAction="true" />
             </list>
         </property>
 
