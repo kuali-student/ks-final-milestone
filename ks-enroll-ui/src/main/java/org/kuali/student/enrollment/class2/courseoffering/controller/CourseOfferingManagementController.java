@@ -147,13 +147,13 @@ public class CourseOfferingManagementController extends UifControllerBase {
             return getUIFModelAndView(form);
         }
 
-        //Reset the form (not including term- and course-codes though)
-        CourseOfferingManagementUtil.clearForm(form);
-
         validateUserPopulatedTermAndCourseFields( form );
         if( GlobalVariables.getMessageMap().hasErrors() ) {
             return getUIFModelAndView( form );
         }
+
+        //Reset the form (not including term- and course-codes though)
+        CourseOfferingManagementUtil.clearForm(form);
 
         // convert term-code to UPPERCASE
         form.setInputCode( form.getInputCode().toUpperCase() );
@@ -202,10 +202,6 @@ public class CourseOfferingManagementController extends UifControllerBase {
             GlobalVariables.getMessageMap().putError( "inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_COURSECODE_IS_REQUIRED, "Course", courseCode );
         }
 
-        if( GlobalVariables.getMessageMap().hasErrors() ) {
-            form.getCourseOfferingResultList().clear();
-            form.setActivityWrapperList(null);
-        }
     }
 
     @RequestMapping(params = "methodToCall=manageRegGroups")
