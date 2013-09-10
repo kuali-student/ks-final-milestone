@@ -328,6 +328,11 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 // A target schedule request set already exists.  Just add the AO id to the co-located
                 // and update
                 _RCO_addAoIdToTargetSRSAndUpdate(targetSetId, targetAo, context);
+                // If same source/target term (i.e. copyCO), then attempt to reschedule (KSENROLL-8064)
+                if (sourceTermSameAsTarget && doColocate) {
+                    // Note that this could potentially reschedule multiple times --cclin
+                    coService.scheduleActivityOffering(targetAo.getId(), context);
+                }
             } else {
                 ScheduleRequestSetInfo targetScheduleRequestSet =
                         _RCO_createScheduleRequestSet(targetAo.getId(), context);
@@ -335,7 +340,18 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 if (doColocate) {
                     rolloverAssist.mapSourceSRSIdToTargetSRSId(rolloverId, sourceSRSet.getId(), targetScheduleRequestSet.getId());
                 }
-                _RCO_createTargetScheduleRequestsFromScheduleIds(sourceAo.getScheduleIds(), targetAo,
+                // Use SRS to get Schedule Ids (note: getScheduleIds() from AO may produce a superset of IDs
+                // compared to fetching it this way) --cclin
+                List<String> scheduleIds = new ArrayList<String>();
+                List<ScheduleRequestInfo> requests =
+                        schedulingService.getScheduleRequestsByScheduleRequestSet(sourceSRSet.getId(), context);
+                for (ScheduleRequestInfo request: requests) {
+                    if (request.getScheduleId() == null) {
+                        throw new OperationFailedException("_RCO_rolloverSrcSchedsToTargetSchedReqs: should have non null schedules");
+                    }
+                    scheduleIds.add(request.getScheduleId());
+                }
+                _RCO_createTargetScheduleRequestsFromScheduleIds(scheduleIds, targetAo,
                         targetScheduleRequestSet.getId(), context);
             }
         }
@@ -621,8 +637,6 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                     continue;
                 }
 
-                sourceAo.setCourseOfferingCode(sourceCo.getCourseOfferingCode());        // courseOfferingCOde is required, but it doesn't seem to get populated by the service call above.
-
                 // Find appropriate target term ID
                 String targetTermIdCustom = targetTermId;
                 // KSENROLL-7795 If the source AO has a different ID from the CO (which is always a parent term)
@@ -632,21 +646,37 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                     // Handle subterm case
                     targetTermIdCustom = sourceTermIdToTargetTermId.get(sourceAo.getTermId());
                 }
-                ActivityOfferingInfo targetAo =
-                        _RCO_createTargetActivityOffering(sourceAo, targetFo, targetTermIdCustom, optionKeys, context);
-                sourceAoIdToTargetAoId.put(sourceAo.getId(), targetAo.getId());
 
-                if (!optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
-                    boolean doColocate = sourceTermSameAsTarget || isPartOfRolloverSoc;
-                    if (_hasAtLeastOneValidScheduleId(sourceAo)) {
-                        _RCO_rolloverSrcSchedsToTargetSchedReqs(sourceAo, targetAo, rolloverId, doColocate, sourceTermSameAsTarget, context);
-                    } else {
-                        // KSNEROLL-6475 Copy RDLs if there are no ADLs from source to target term
-                        _RCO_rolloverSrcSchedReqsToTargetSchedReqs(sourceAo, targetAo, rolloverId, doColocate, sourceTermSameAsTarget, context);
+                if (sourceTermSameAsTarget) {
+                    // KSENROLL-8064: Make behavior of copying an AO the same (other than the option
+                    // keys in the if statement above
+                    ActivityOfferingInfo targetAo =
+                        CopyActivityOfferingCommon.copy(sourceAo.getId(), coService, schedulingService,
+                                roomService, activityOfferingTransformer,
+                                targetFo, targetTermIdCustom,
+                                context, optionKeys);
+                    // Need to do this, otherwise mapping of source/target AO clusters fails
+                    sourceAoIdToTargetAoId.put(sourceAo.getId(), targetAo.getId());
+                } else {
+                    // Different term, so either rollover or copy CO from different term
+                    boolean doColocate = isPartOfRolloverSoc; // Try to colocate, if possible (if false, break colocation)
+                    sourceAo.setCourseOfferingCode(sourceCo.getCourseOfferingCode());        // courseOfferingCOde is required, but it doesn't seem to get populated by the service call above.
+
+                    ActivityOfferingInfo targetAo =
+                            _RCO_createTargetActivityOffering(sourceAo, targetFo, targetTermIdCustom, optionKeys, context);
+                    sourceAoIdToTargetAoId.put(sourceAo.getId(), targetAo.getId());
+
+                    if (!optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
+
+                        if (_hasADLs(sourceAo)) {
+                            _RCO_rolloverSrcSchedsToTargetSchedReqs(sourceAo, targetAo, rolloverId, doColocate, sourceTermSameAsTarget, context);
+                        } else {
+                            // KSNEROLL-6475 Copy RDLs if there are no ADLs from source to target term
+                            _RCO_rolloverSrcSchedReqsToTargetSchedReqs(sourceAo, targetAo, rolloverId, doColocate, sourceTermSameAsTarget, context);
+                        }
                     }
+                    _RCO_rolloverSeatpools(sourceAo, targetAo, context);
                 }
-                _RCO_rolloverSeatpools(sourceAo, targetAo, context);
-
                 aoCount++;
             }
             List<ActivityOfferingClusterInfo> targetClusters =
@@ -667,7 +697,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         return item;
     }
 
-    private boolean _hasAtLeastOneValidScheduleId( ActivityOfferingInfo ao ) {
+    private boolean _hasADLs(ActivityOfferingInfo ao) {
         if (ao.getScheduleIds() == null || ao.getScheduleIds().isEmpty()) {
             return false;
         }
