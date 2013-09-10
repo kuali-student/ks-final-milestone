@@ -144,7 +144,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     activityOfferingWrapper.setHasWaitlist(true);
                 }
 
-
             } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);
             }
@@ -302,8 +301,12 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 int temp = 0;
                 CourseWaitListInfo courseWaitListInfo = courseWaitLists.get(temp);
                 wrapper.setCourseWaitListInfo(courseWaitListInfo);
-                if(courseWaitListInfo.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY)) {
-                    wrapper.setHasWaitlistCO(true);
+                //looks like in inquiry view.xml we are using HasWaitlist for the "Waitlist active" field
+                if(courseWaitListInfo.getStateKey() == null || courseWaitListInfo.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY)){
+                    wrapper.setHasWaitlist(false);
+                }
+                else if (courseWaitListInfo.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY)){
+                    wrapper.setHasWaitlist(true);
                 }
             }
 
