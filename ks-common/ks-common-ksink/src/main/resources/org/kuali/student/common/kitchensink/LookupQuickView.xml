@@ -30,15 +30,11 @@
                   value="Please enter a term to begin"/>
         <property name="propertyName" value="stringField5"/>
         <property name="defaultValue" value="199708"/>
-        <property name="inquiry.dataObjectClassName" value="org.kuali.student.r2.core.acal.dto.TermInfo" />
-        <!-- inquiry view doesn't use "viewName" to find the correct inquiry view: -->
-        <property name="inquiry.viewName" value="KS-KitchenSink-TermInfo-InquiryView"/>
-        <property name="inquiry.inquiryParameters" value="stringField5:code"/>
-        <!-- the wordier way to define inquiry.inquiryParameters:
-        <property name="inquiry.inquiryParameters">
-            <map> <entry key="stringField5" value="id"/> </map>
+        <property name="inquiry">
+            <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.acal.dto.TermInfo"
+                  p:viewName="KS-KitchenSink-TermInfo-InquiryView"
+                  p:inquiryParameters="stringField5:code" />
         </property>
-        -->
     </bean>
 
     <!--
