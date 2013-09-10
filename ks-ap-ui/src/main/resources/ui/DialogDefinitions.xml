@@ -80,7 +80,7 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="KSAP-HorizontalBoxGroup" p:style="margin-left:2em;" p:id="courseOptions">
+                            <bean parent="KSAP-HorizontalBoxGroup" p:id="courseOptions">
                                 <property name="items">
                                     <list>
 										<bean parent="Uif-Message" p:messageText="Enter the course code"></bean>
@@ -594,6 +594,164 @@
         </property>
     </bean>
 
+    <bean id="add_dialog_page" parent="add_dialog_page-parent"/>
+    <bean id="add_dialog_page-parent" abstract="true" parent="KSAP-PopoverPage" p:id="add_dialog_page">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>fl-container-300</value>
+                <value>@{courseSummaryDetails.courseIdXmlSafe}</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="course_add_dialog" parent="Uif-VerticalBoxSection" p:headerText="Add to Plan"
+                      p:style="margin:0;">
+                    <property name="header">
+                        <bean parent="Uif-HeaderSix"/>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="KSAP-VerticalBoxGroup">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>myplan-remove-margin</value>
+                                    </list>
+                                </property>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="KSAP-HorizontalBoxGroup" p:id="courseOptions">
+                                            <property name="items">
+                                                <list>
+
+                                                    <bean parent="Uif-Message"
+                                                          p:messageText="Which quarter would you like to copy &lt;strong&gt;@{courseSummaryDetails.code}&lt;/strong&gt; to?"/>
+
+                                                    <bean parent="Uif-DataField" p:propertyName="courseSummaryDetails.scheduledTermsNames"
+                                                          p:label="Scheduled For"
+                                                          p:fieldLabel.cssClasses="fl-text-gray fl-font-size-90 myplan-text-normal"
+                                                          p:labelPlacement="LEFT">
+                                                        <property name="cssClasses">
+                                                            <list merge="true">
+                                                                <value>myplan-data-list</value>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+
+                                                    <bean parent="Uif-HorizontalFieldGroup"
+                                                          p:label="Quarter &amp; Year" p:labelPlacement="TOP">
+                                                        <property name="fieldLabel.cssClasses" value="myplan-text-normal"/>
+                                                        <property name="items">
+                                                            <list>
+                                                                <bean p:id="courseAtpNew_@{courseSummaryDetails.courseIdXmlSafe}" parent="KSAP-SimpleInputField" p:propertyName="fakeAtpId"
+                                                                      p:width="120px">
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-DropdownControl"/>
+                                                                    </property>
+                                                                    <property name="optionsFinder">
+                                                                        <bean class="org.kuali.student.myplan.plan.util.TermsListBuilder"/>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean parent="KSAP-Message"
+                                                                      p:messageText="Note: This course MAY NOT be offered in your selected quarter. Check back after the Time Schedule is released.">
+                                                                    <property name="cssClasses">
+                                                                        <list merge="true">
+                                                                            <value>fl-font-size-80</value>
+                                                                            <value>fl-text-gray</value>
+                                                                        </list>
+                                                                    </property>
+                                                                </bean>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+
+                                                    <!--  Backup checkbox -->
+                                                    <bean parent="Uif-InputField" p:propertyName="fakeBackup" p:defaultValue="false"
+                                                          p:label="Mark as &lt;strong&gt;'Backup'&lt;/strong&gt; course. (Optional)"
+                                                          p:labelPlacement="RIGHT">
+                                                        <property name="id" value="courseBackupNew_@{courseSummaryDetails.courseIdXmlSafe}"/>
+                                                        <property name="fieldLabel.cssClasses" value="myplan-text-normal"/>
+                                                        <property name="fieldLabel.renderColon" value="false"/>
+                                                        <property name="control">
+                                                            <bean parent="Uif-CheckboxControl"/>
+                                                        </property>
+                                                    </bean>
+
+                                                    <bean parent="Uif-InputField" p:id="courseCreditsNew_@{courseSummaryDetails.courseIdXmlSafe}">
+                                                        <property name="label" value="Enter Course Credits"/>
+                                                        <property name="instructionalText" value="Empty and invalid values will default to the minimum credit value."/>
+                                                        <property name="fieldLabel.render" value="true"/>
+                                                        <property name="fieldLabel.cssClasses">
+                                                            <list merge="true">
+                                                                <value>myplan-text-normal</value>
+                                                            </list>
+                                                        </property>
+                                                        <property name="propertyName" value="fakeCourseCredit"/>
+                                                        <property name="defaultValue" value="@{#form.courseCredit NE null ? #form.courseCredit : ''}"/>
+                                                        <property name="control">
+                                                            <bean parent="Uif-TextControl">
+                                                                <property name="size" value="3"/>
+                                                            </bean>
+                                                        </property>
+                                                    </bean>
+                                                    <bean parent="planItemNote" p:id="courseNoteNew_@{courseSummaryDetails.courseIdXmlSafe}"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="KSAP-VerticalBoxGroup-NoMargin" p:id="actionButtonsGroup">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="KSAP-HorizontalBoxGroup-NoMargin">
+                                                        <property name="items">
+                                                            <list>
+                                                                <bean p:id="actionCoursePlaceholder"
+                                                                      parent="Uif-PrimaryActionButton-Small"
+                                                                      p:actionLabel="Add to Plan">
+                                                                    <property name="actionScript" value="
+                                                                        var newNote = jQuery('#courseNoteNew_@{courseSummaryDetails.courseIdXmlSafe}_control').val();
+                                                                        var newCredit = jQuery('#courseCreditsNew_@{courseSummaryDetails.courseIdXmlSafe}_control').val();
+                                                                        var newBackup = jQuery('#courseBackupNew_@{courseSummaryDetails.courseIdXmlSafe}_control').is(':checked');
+                                                                        var newAtp = jQuery('#courseAtpNew_@{courseSummaryDetails.courseIdXmlSafe}_control').val();
+                                                                        var newCourseId = '@{courseSummaryDetails.courseId}';
+                                                                        var additionalFormData = {
+                                                                            viewId: 'PlannedCourse-FormView',
+                                                                            methodToCall: 'addPlanCourse',
+                                                                            atpId: newAtp,
+                                                                            backup: newBackup,
+                                                                            pageId: 'add_dialog_page',
+                                                                            courseCredit: newCredit,
+                                                                            courseNote: newNote,
+                                                                            courseId: newCourseId
+                                                                        };
+                                                                        submitPopupForm(additionalFormData, e, false);
+                                                                    "/>
+                                                                     <property name="onDocumentReadyScript" value="
+                                                                        jQuery('#actionCoursePlaceholder').on('COURSE_ADDED', function(event, data){
+                                                                            fnUpdateSearchList(data.courseId,data.type);
+                                                                            fnClosePopup();
+                                                                        }).on('ERROR', function(event, data){
+                                                                            fnDisplayMessage(data.message, data.cssClass, 'errorPlaceholder', true, false,true,'errorPlaceholder');
+                                                                        });
+                                                                    "/>
+                                                                </bean>
+                                                                <bean parent="closePopoverCancel"/>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+                                                    <bean parent="errorPlaceholder"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
 
     <bean id="course_title_link" parent="course_title_link-parent"/>
     <bean id="course_title_link-parent" abstract="true" parent="Uif-Link" p:target="" p:style="width:280px; display:block;">
@@ -954,18 +1112,8 @@
                 <!--This page is used for the View Course Summary Dialog box -->
                 <ref bean="course_summary_dialog_page"/>
 
-                <bean parent="Uif-Page" p:id="add_dialog_page">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>fl-container-300</value>
-                        </list>
-                    </property>
-                    <property name="items">
-                        <list>
-                            <bean parent="plan_item_course_add_dialog"/>
-                        </list>
-                    </property>
-                </bean>
+                <!-- This page is used for the course add Dialog box-->
+                <ref bean="add_dialog_page"/>
 
                 <!--This page is used for the quick add Dialog box -->
                 <ref bean="plan_item_add_page"/>
@@ -1167,7 +1315,7 @@
 
     <!--  Backup checkbox -->
     <bean id="planned_course_backup" parent="planned_course_backup-parent"/>
-    <bean id="planned_course_backup-parent" abstract="true" parent="Uif-HorizontalFieldGroup" p:style="padding-top: 1em;">
+    <bean id="planned_course_backup-parent" abstract="true" parent="Uif-HorizontalFieldGroup">
         <property name="fieldLabel.render" value="false"/>
         <property name="group.validationMessages.render" value="false"/>
         <property name="items">
@@ -1226,103 +1374,6 @@
                                   p:actionLabel="Cancel">
                                 <property name="actionScript"
                                           value="fnPopoverSlider('course_details_info', 'course_popover_group', 'right');"/>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <!-- Add Course to plan Dialog Box Content-->
-    <bean id="plan_item_course_add_dialog" parent="plan_item_course_add_dialog-parent"/>
-    <bean id="plan_item_course_add_dialog-parent" abstract="true" parent="Uif-VerticalBoxSection" p:headerText="Add to Plan"
-          p:style="margin:0;">
-        <property name="header">
-            <bean parent="Uif-HeaderSix"/>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-VerticalBoxGroup" p:style="display:block; margin:0;">
-                    <property name="validationMessages.render" value="false"/>
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>fl-container-300</value>
-                        </list>
-                    </property>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-Message"
-                                  p:messageText="Which quarter would you like to add &lt;strong&gt;@{courseSummaryDetails.code}&lt;/strong&gt; to?"/>
-
-                            <bean parent="Uif-DataField" p:propertyName="courseSummaryDetails.scheduledTermsNames"
-                                  p:label="Scheduled For"
-                                  p:fieldLabel.cssClasses="fl-text-gray fl-font-size-90 myplan-text-normal"
-                                  p:labelPlacement="LEFT">
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>myplan-data-list</value>
-                                    </list>
-                                </property>
-                            </bean>
-
-                            <ref bean="planned_course_quarter_selection"/>
-
-                            <!--  Backup checkbox -->
-                            <ref bean="planned_course_backup"/>
-                            <bean id="plan_add_actions" parent="Uif-VerticalFieldGroup" p:style="margin:0;">
-                                <property name="fieldLabel.render" value="false"/>
-                                <property name="group.validationMessages.render" value="false"/>
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-HorizontalFieldGroup">
-                                            <property name="fieldLabel.render" value="false"/>
-                                            <property name="group.validationMessages.render" value="false"/>
-                                            <property name="items">
-                                                <list>
-                                                    <bean p:id="addPlannedCourse" parent="Uif-PrimaryActionButton-Small"
-                                                          p:actionLabel="Add To Plan">
-                                                        <property name="actionScript"
-                                                                  value="myplanAjaxSubmitPlanItem('@{courseSummaryDetails.courseId}', '@{courseSummaryDetails.courseIdXmlSafe}', 'courseId', 'addPlanCourse', e,true);"/>
-                                                        <property name="onDocumentReadyScript" value="
-                                                       jQuery('#addPlannedCourse')
-                                                           .subscribe('PLAN_ITEM_ADDED', function(data){
-                                                               if (data.planItemType === 'planned' || data.planItemType === 'backup') {
-                                                                   fnDisplayMessage(data.message, data.cssClass, 'plan_add_actions', true, false);
-                                                               }
-                                                           })
-                                                           .subscribe('ERROR', function(data){
-                                                               fnDisplayMessage(data.message, data.cssClass, 'hidden_add_error_block', true, false,true,'hidden_add_error_block');
-                                                           });"/>
-                                                    </bean>
-                                                    <bean p:id="cancelAddPlannedCourse"
-                                                          parent="Uif-SecondaryActionButton-Small"
-                                                          p:actionLabel="Cancel">
-                                                        <property name="actionScript"
-                                                                  value="fnCloseAllPopups();"/>
-                                                    </bean>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                        <bean parent="Uif-HorizontalFieldGroup" p:style="margin:0;">
-                                            <property name="fieldLabel.render" value="false"/>
-                                            <property name="group.validationMessages.render" value="false"/>
-                                            <property name="items">
-                                                <list>
-                                                    <bean id="hidden_add_error_block" p:id="hidden_add_error_block"
-                                                          parent="Uif-InputField"
-                                                          p:propertyName="courseSummaryDetails.courseId"
-                                                          p:style="width: 300px;">
-                                                        <property name="fieldLabel.render" value="false"/>
-                                                        <property name="control">
-                                                            <bean parent="Uif-HiddenControl"/>
-                                                        </property>
-                                                    </bean>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                    </list>
-                                </property>
                             </bean>
                         </list>
                     </property>

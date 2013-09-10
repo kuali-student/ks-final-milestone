@@ -110,6 +110,8 @@ public class PlanConstants extends AcademicPlanServiceConstants {
         /* atpId, planItemId */
         PLAN_NOTE_UPDATED,
         /*atpId*/
-        TERM_NOTE_UPDATED
+        TERM_NOTE_UPDATED,
+        /*courseId, type*/
+        COURSE_ADDED
 	}
 }

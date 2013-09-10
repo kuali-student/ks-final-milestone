@@ -212,7 +212,7 @@ public class PlanController extends UifControllerBase {
 
 		String pageId = planForm.getPageId();
 		boolean courseIdRequired = PlanConstants.COURSE_SUMMARY_DIALOG_PAGE.equals(pageId)
-				|| PlanConstants.COPY_DIALOG_PAGE.equals(pageId);
+				|| PlanConstants.COPY_DIALOG_PAGE.equals(pageId) || pageId.equals("add_dialog_page");
 		String courseId = form.getCourseId();
 
 		boolean hasPlanItem = hasText(planForm.getPlanItemId());
@@ -1103,6 +1103,7 @@ public class PlanController extends UifControllerBase {
 		}
 
 		if (planItem != null) {
+            events.putAll(makeCourseAddEvent(planItem));
 			events.putAll(makeUpdateTotalCreditsEvent(planItem.getPlanPeriods().get(0),
 					PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS));
 		}
@@ -1528,8 +1529,8 @@ public class PlanController extends UifControllerBase {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unable to retrieve plan item");
                 return getUIFModelAndView(form);
             }
-            form.setCourseCredit(planItem.getCredit().toString());
-            form.setCourseNote(planItem.getDescr().getPlain());
+            if(planItem.getCredit()!=null) form.setCourseCredit(planItem.getCredit().toString());
+            if(planItem.getDescr()!=null) form.setCourseNote(planItem.getDescr().getPlain());
         }
         if(hasText(form.getCourseId())){
             form.setCourseSummaryDetails(getCourseDetailsInquiryService().retrieveCourseSummaryById(form.getCourseId()));
@@ -1689,8 +1690,8 @@ public class PlanController extends UifControllerBase {
             return getUIFModelAndView(form);
         }
 
-        form.setCourseCredit(planItem.getCredit().toString());
-        form.setCourseNote(planItem.getDescr().getPlain());
+        if(planItem.getCredit()!=null) form.setCourseCredit(planItem.getCredit().toString());
+        if(planItem.getDescr()!=null) form.setCourseNote(planItem.getDescr().getPlain());
 
         if (hasText(planItem.getRefObjectId())) {
             form.setCourseSummaryDetails(getCourseDetailsInquiryService().retrieveCourseSummaryById(planItem.getRefObjectId()));
@@ -2575,6 +2576,28 @@ public class PlanController extends UifControllerBase {
             params.put("atpId", formatAtpIdForUI(planItem.getPlanPeriods().get(0)));
         }
         events.put(PlanConstants.JS_EVENT_NAME.PLAN_ITEM_DELETED, params);
+        return events;
+    }
+
+    /**
+     * Creates events map for a remove.
+     * This is currently only used for removing items from the bookmarks
+     *
+     * @param planItem
+     * @return
+     */
+    private Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> makeCourseAddEvent(PlanItemInfo planItem) {
+        Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> events = new LinkedHashMap<PlanConstants.JS_EVENT_NAME, Map<String, String>>();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("courseId", planItem.getRefObjectId());
+        if(planItem.getTypeKey().equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST)){
+            params.put("type","bookmarked");
+        }
+        else{
+            params.put("type","planned");
+        }
+
+        events.put(PlanConstants.JS_EVENT_NAME.COURSE_ADDED, params);
         return events;
     }
 

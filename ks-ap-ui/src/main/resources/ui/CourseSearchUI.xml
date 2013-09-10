@@ -407,10 +407,11 @@
                 <bean parent="Uif-ActionLink" p:actionLabel="Add to Plan"
                       p:title="Add to Plan">
                     <property name="actionScript" value="
-                        var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', courseId:jQuery(this).data('courseid'),pageId:'add_dialog_page'};
+                        var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddDialog', courseId:jQuery(this).data('courseid'),pageId:'add_dialog_page'};
                         var popupStyle = {width:'300px', height:'16px'};
                         var popupOptions = {tail:{hidden:true}, align:'top', close:true};
-                        openPopup('add_dialog_page', retrieveData, 'plan', popupStyle, popupOptions, e);
+                        var pageId = 'add_dialog_page.'+ jQuery(this).data('coursexid');
+                        openPopup(pageId, retrieveData, 'plan', popupStyle, popupOptions, e);
                     "/>
                 </bean>
 

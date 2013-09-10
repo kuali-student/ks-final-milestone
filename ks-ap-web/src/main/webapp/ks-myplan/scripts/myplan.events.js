@@ -91,6 +91,15 @@ function fnUpdateTermNote (atpId, newNote) {
         jQuery(this).html(newNote).fadeIn(250);
     });
 }
+function fnUpdateSearchList(courseId, type){
+    jQuery("#"+courseId+"_status").fadeOut(250, function() {
+        if(type=="planned"){
+            jQuery(this).html("Planned").addClass("planned").fadeIn(250);
+        }else if(type=="bookmark"){
+            jQuery(this).html("Bookmarked").addClass("bookmarked").fadeIn(250);
+        }
+    });
+}
 /*
 #################################################################
     Function: swap action button with feedback message

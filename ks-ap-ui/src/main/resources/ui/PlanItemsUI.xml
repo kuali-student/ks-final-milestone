@@ -376,7 +376,7 @@
             	var size = jQuery(this).parents('.myplan-carousel-term').data('size');
             	var xmlSafeAtpId=atpId.replace(/\./g, '-');
             	var jQuickAdd = jQuery('&lt;div /&gt;').addClass('quick-add-cell ks-plan-Bucket-addItem').html('Add a course to plan').click(function(e){
-            		var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', atpId:atpId, backup:boolbackup, pageId:'plan_item_add_page'};
+            		var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startQuickAddDialog', atpId:atpId, backup:boolbackup, pageId:'plan_item_add_page'};
                     openPopup('plan_item_add_page.'+xmlSafeAtpId+'-'+backup, retrieveData, 'plan', popupStyle, popupOptions, e);
             	});
             	if (size &lt; 8) {
@@ -1909,7 +1909,7 @@
     <bean id="menuOptionMovePlanItem-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="Move to Another Quarter"
           p:title="Move to Another Quarter">
         <property name="actionScript" value="
-            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', planItemId:jQuery(this).data('planitemid'), atpId:jQuery(this).data('atpid'), pageId:'move_dialog_page'};
+            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startMoveDialog', planItemId:jQuery(this).data('planitemid'), atpId:jQuery(this).data('atpid'), pageId:'move_dialog_page'};
             var popupStyle = {width:'300px', height:'16px'};
             var popupOptions = {tail:{hidden:true}, align:'top', close:true};
             var pageId ='move_dialog_page.'+jQuery(this).data('planitemid').replace(/\./g, '-');
@@ -1921,7 +1921,7 @@
     <bean id="menuOptionCopyPlanItem-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="Copy to Another Quarter"
           p:title="Copy to Another Quarter">
         <property name="actionScript" value="
-            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', planItemId:jQuery(this).data('planitemid'), atpId:jQuery(this).data('atpid'), pageId:'copy_dialog_page'};
+            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startCopyDialog', planItemId:jQuery(this).data('planitemid'), atpId:jQuery(this).data('atpid'), pageId:'copy_dialog_page'};
             var popupStyle = {width:'300px', height:'16px'};
             var popupOptions = {tail:{hidden:true}, align:'top', close:true};
             var pageId ='copy_dialog_page.'+jQuery(this).data('planitemid').replace(/\./g, '-');
@@ -1938,7 +1938,7 @@
             </list>
         </property>
         <property name="actionScript" value="
-            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', planItemId:jQuery(this).data('planitemid'), atpId:jQuery(this).data('atpid'), pageId:'plan_item_delete_page'};
+            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startDeleteDialog', planItemId:jQuery(this).data('planitemid'), atpId:jQuery(this).data('atpid'), pageId:'plan_item_delete_page'};
             var popupStyle = {width:'300px', height:'16px'};
             var popupOptions = {tail:{hidden:true}, align:'top', close:true};
             var pageId ='plan_item_delete_page.'+jQuery(this).data('planitemid').replace(/\./g, '-');
@@ -1950,7 +1950,7 @@
     <bean id="menuOptionCourseSummary-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="View Course Summary"
           p:title="View Course Summary">
         <property name="actionScript" value="
-            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', planItemId:jQuery(this).data('planitemid'), courseId:jQuery(this).data('courseid'),atpId:jQuery(this).data('atpid'), pageId:'course_summary_dialog_page'};
+            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startSummaryDialog', planItemId:jQuery(this).data('planitemid'), courseId:jQuery(this).data('courseid'),atpId:jQuery(this).data('atpid'), pageId:'course_summary_dialog_page'};
             var popupStyle = {width:'300px', height:'16px'};
             var popupOptions = {tail:{hidden:true}, align:'top', close:true};
             var pageId ='course_summary_dialog_page.'+jQuery(this).data('atpid').replace(/\./g, '-');
@@ -1962,7 +1962,7 @@
     <bean id="menuOptionEditPlanItem-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="Edit Plan Item"
           p:title="Edit Plan Item">
         <property name="actionScript" value="
-            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', planItemId:jQuery(this).data('planitemid'), atpId:jQuery(this).data('atpid'), pageId:'plan_item_edit_page'};
+            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startEditDialog', planItemId:jQuery(this).data('planitemid'), atpId:jQuery(this).data('atpid'), pageId:'plan_item_edit_page'};
             var popupStyle = {width:'300px', height:'16px'};
             var popupOptions = {tail:{hidden:true}, align:'top', close:true};
             var pageId ='plan_item_edit_page.'+jQuery(this).data('planitemid').replace(/\./g, '-');
@@ -1974,7 +1974,7 @@
     <bean id="menuTermOptionEdit-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="Add/Edit Term Note"
           p:title="Edit Term Note">
         <property name="actionScript" value="
-            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startTermNoteForm', atpId:jQuery(this).data('atpid'), pageId:'term_note_edit_page'};
+            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startTermNoteDialog', atpId:jQuery(this).data('atpid'), pageId:'term_note_edit_page'};
             var popupStyle = {width:'300px', height:'16px'};
             var popupOptions = {tail:{hidden:true}, align:'top', close:true};
             var pageId ='term_note_edit_page.'+jQuery(this).data('atpid').replace(/\./g, '-');
