@@ -48,6 +48,7 @@ public class CourseOfferingServiceConstants {
     public static final String FINAL_EXAM_LEVEL_TYPE_KEY_ATTR = "kuali.attribute.final.exam.level.type";
     public static final String COURSE_EVALUATION_INDICATOR_ATTR = "kuali.attribute.course.evaluation.indicator";
     public static final String FINAL_EXAM_DRIVER_ATTR = "kuali.attribute.final.exam.driver";
+    public static final String FINAL_EXAM_USE_MATRIX = "kuali.attribute.final.exam.use.matrix";
     public static final String FINAL_EXAM_INDICATOR_ATTR = "kuali.attribute.final.exam.indicator";
     public static final String FUNDING_SOURCE_ATTR = "kuali.attribute.funding.source";
     public static final String FEES_ATTACHED_FLAG_ATTR = "kuali.attribute.where.fees.attached.flag";
