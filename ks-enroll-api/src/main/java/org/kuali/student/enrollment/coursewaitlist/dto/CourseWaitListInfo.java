@@ -20,6 +20,7 @@ package org.kuali.student.enrollment.coursewaitlist.dto;
 import org.kuali.student.enrollment.coursewaitlist.infc.CourseWaitList;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -37,7 +38,7 @@ import java.util.List;
         "formatOfferingIds", "registerInFirstAvailableActivityOffering",
         "automaticallyProcessed", "confirmationRequired", "maxSize",
         "checkInRequired", "checkInFrequency", "allowHoldUntilEntries", "effectiveDate", "expirationDate",
-        "meta", "attributes", "_futureElements" })
+        "meta", "attributes", "_futureElements", "wlProcessing" })
 public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWaitList, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -67,6 +68,8 @@ public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWa
     @XmlAnyElement
     private List<Object> _futureElements;
 
+    @XmlAnyElement
+    private String wlProcessing;
 
     public CourseWaitListInfo() {
     }
@@ -146,6 +149,31 @@ public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWa
         this.confirmationRequired = confirmationRequired;
     }
 
+    public String getWlProcessing(){
+        if((automaticallyProcessed == null &&  confirmationRequired == null)) {
+            return null;
+        }
+        else if( automaticallyProcessed.equals(true) && (confirmationRequired.equals(false)))   {
+            wlProcessing = "Automatic";
+            return wlProcessing;
+        }
+
+        else if ( automaticallyProcessed.equals(true) && (confirmationRequired.equals(true)))   {
+            wlProcessing = "Semi-Automatic";
+            return wlProcessing;
+        }
+
+        else if( automaticallyProcessed.equals(false) && (confirmationRequired.equals(false)))  {
+            wlProcessing = "Manual";
+            return wlProcessing;
+        }
+        else {   // This is for default value
+            wlProcessing = "Automatic";
+            return wlProcessing;
+        }
+    }
+
+
     @Override
     public Integer getMaxSize() {
         return maxSize;
@@ -190,6 +218,7 @@ public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWa
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
+
 
     @Override
     public Date getExpirationDate() {
