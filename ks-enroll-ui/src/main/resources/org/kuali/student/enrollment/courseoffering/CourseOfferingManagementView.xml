@@ -47,7 +47,6 @@
         <property name="additionalScriptFiles">
             <list merge="true">
                 <value>themes/ksboot/scripts/toolbar.js</value>
-                <!--<value>ks-enroll/scripts/courseOffering.js</value>-->
                 <value>ks-krad/scripts/ks-krad-collection-rowSelection.js</value>
             </list>
         </property>
