@@ -473,7 +473,7 @@ function updateViewHeader(newHeaderTextSource){
  two winters because winter starts at the end of the year and goes through February.
  */
 function setSeasonalColor(objectToColor, dayOfYear, baseUrl) {
-    var image = jQuery('<img src="' + baseUrl + '/ks-enroll/images/season_gradient.png"/>');
+    var image = jQuery('<img src="' + baseUrl + '/themes/ksboot/images/season_gradient.png"/>');
     var objToColor = jQuery('#' + objectToColor);
     var percentage = dayOfYear / 365;
 

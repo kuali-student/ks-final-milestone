@@ -28,16 +28,6 @@
                   </li>
               </ul>
           </li>
-          <!--
-          <li class="ks-header-admin">
-              <img src="../ks-enroll/images/header/user.png" class="ks-header-user">
-              <#--<span>${UserSession.loggedInUserPrincipalName!"You are not logged in."}</span>-->
-          </li>
-          <li class="ks-header-logout">
-              <#--<span><a href="#" onclick="logout();">Logout</a></span>-->
-                <span><button type="button" onclick="logout();" class="btn">Logout</button></span>
-            </li>
-            -->
         </ul>
     </div>
 </div>

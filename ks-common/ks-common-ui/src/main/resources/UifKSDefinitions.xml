@@ -371,12 +371,6 @@
         </property>
     </bean>
 
-    <!--<bean id="KS-Uif-HorizontalBoxGroup-NavigationActionLinkSection" parent="KS-Uif-HorizontalBoxGroup-NavigationActionLinkSection-parent"/>-->
-    <!--<bean id="KS-Uif-HorizontalBoxGroup-NavigationActionLinkSection-parent" parent="Uif-NavigationActionLink" class="org.kuali.student.common.uif.container.KSNavigationLineActionLinkSeperatorerator" abstract="true" scope="prototype">-->
-        <!--<property name="template" value="/ks-enroll/WEB-INF/ftl/ksNavigationActionLinkSection.ftl"/>-->
-        <!--<property name="templateName" value="ks_NavigationActionLinkSection"/>-->
-    <!--</bean>-->
-
     <bean id="KS-Uif-TableCollectionSubSection-WithActionSeperator" parent="KS-Uif-TableCollectionSubSection-WithActionSeperator-parent"/>
     <bean id="KS-Uif-TableCollectionSubSection-WithActionSeperator-parent" parent="Uif-TableCollectionSubSection" class="org.kuali.student.common.uif.container.KSTableCollectionWithLineActionLinkSeperator" abstract="true" scope="prototype">
         <property name="lineActionSeparator" value="&#160;&#160;|&#160;&#160;"/>
@@ -394,15 +388,6 @@
         <!--<property name="template" value="/krad/WEB-INF/jsp/templates/field/actionField.jsp"/>-->
         <!--<property name="cssClasses" value="ui-priority-secondary-sm"/>-->
     <!--</bean>-->
-
-    <!--<bean id="KS-TableCollectionSection" parent="KS-TableCollectionSection-parentBean"/>
-      <bean id="KS-TableCollectionSection-parentBean" parent="Uif-TableCollectionSection" class="org.kuali.student.common.uif.container.KSCollectionGroup">
-          <property name="template" value="/ks-enroll/WEB-INF/ftl/ksCollectionGroup.ftl"/>
-          <property name="templateName" value="ks_collectionGroup"/>
-          &lt;!&ndash;<property name="collectionLookup">
-            <null/>
-          </property>&ndash;&gt;
-      </bean>-->
 
     <!-- Added by David Yin -->
     <!-- For breadcrumb customization -->
