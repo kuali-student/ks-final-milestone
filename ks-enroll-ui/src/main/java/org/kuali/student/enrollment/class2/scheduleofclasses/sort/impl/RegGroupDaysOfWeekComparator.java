@@ -38,10 +38,15 @@ public class RegGroupDaysOfWeekComparator extends KSComparatorBase<RegistrationG
         int firstSetDays = 0;
         Integer o1Day = 0;
         Integer o2Day = 0;
+
         int setDays = o1Days.size() < o2Days.size()? o1Days.size(): o2Days.size();
         if(setDays > 0) {
-            // In an RDL or ADL we may have multiple of week days (represented as the List)
-            // We only consider the first one for sorting purposes.
+
+            /* KSENROLL-9445
+            * A DL can have multiple components (hence the list); but we only need to analyze the first one for sorting
+            * purposes (hence the call to get-0 call).  In this case, it should not be regarded as a Sonar-violation
+            * and can be Sonar-ignored.
+            */
             String o1FirstSetDays = o1Days.get(firstSetDays);
             String o2FirstSetDays = o2Days.get(firstSetDays);
             o1WeekOfDays =  weekdaysString2WeekdaysList(o1FirstSetDays);
