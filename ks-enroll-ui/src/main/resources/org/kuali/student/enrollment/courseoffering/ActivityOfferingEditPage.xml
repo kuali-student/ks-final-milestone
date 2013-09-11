@@ -304,7 +304,7 @@
         <property name="items">
             <list>
                 <bean id="ActivityOffering-PersonnelSection" parent="KS-TableCollectionSubSection-BottomAddLine"
-                      p:id="ao-personnelgroup">
+                      p:id="ao-personnelgroup" p:layoutManager.style="width: 100%;">
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper" />
                     <property name="propertyName" value="instructors" />
                     <property name="addBlankLineAction.actionLabel" value="Add Personnel"/>
@@ -459,7 +459,7 @@
             <list>
                 <bean id="ActivityOffering-SeatpoolsSection" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:id="ao-seatpoolgroupZ"
-                      p:layoutManager.id="ao-seatpoolgroup-table" p:render="@{!(!#dp.hasSeatpools and #parent.readOnly)}">
+                      p:layoutManager.id="ao-seatpoolgroup-table" p:layoutManager.style="width: 100%;" p:render="@{!(!#dp.hasSeatpools and #parent.readOnly)}">
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper" />
                     <property name="propertyName" value="seatpools" />
                     <property name="addBlankLineAction.actionLabel" value="Add Seat Pool"/>
