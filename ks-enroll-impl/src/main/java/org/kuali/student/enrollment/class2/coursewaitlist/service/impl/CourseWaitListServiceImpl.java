@@ -72,14 +72,18 @@ public class CourseWaitListServiceImpl implements CourseWaitListService {
             OperationFailedException, PermissionDeniedException,
             ReadOnlyException, VersionMismatchException {
 
-        CourseWaitListEntity courseWaitListEntity = courseWaitListDao.find(courseWaitListId);
-        if (null != courseWaitListEntity) {
-            courseWaitListEntity.fromDto(courseWaitListInfo);
-            courseWaitListEntity.setEntityUpdated(contextInfo);
-            courseWaitListDao.merge(courseWaitListEntity);
-            return courseWaitListEntity.toDto();
+        if (null != courseWaitListId) {
+            CourseWaitListEntity courseWaitListEntity = courseWaitListDao.find(courseWaitListId);
+            if (null != courseWaitListEntity) {
+                courseWaitListEntity.fromDto(courseWaitListInfo);
+                courseWaitListEntity.setEntityUpdated(contextInfo);
+                courseWaitListDao.merge(courseWaitListEntity);
+                return courseWaitListEntity.toDto();
+            } else {
+                throw new DoesNotExistException(courseWaitListId);
+            }
         } else {
-            throw new DoesNotExistException(courseWaitListId);
+            throw new InvalidParameterException("courseWaitListId can not be null");
         }
     }
 
