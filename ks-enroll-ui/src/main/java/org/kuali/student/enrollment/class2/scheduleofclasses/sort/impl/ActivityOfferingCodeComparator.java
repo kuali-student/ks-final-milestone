@@ -26,6 +26,13 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWr
 
 public class ActivityOfferingCodeComparator extends KSComparatorBase<ActivityOfferingWrapper> {
 
+    /**
+     * Sorts the activity code in alphabetical order like a,b,c.....x,y,z,aa,ab....az,ba etc.
+     *
+     * @param o1
+     * @param o2
+     * @return
+     */
     @Override
     public int compare(ActivityOfferingWrapper o1, ActivityOfferingWrapper o2) {
 
