@@ -321,6 +321,10 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 wrapper.setCourseWaitListInfo(courseWaitListInfo);
                 wrapper.updateWaitListType();
                 wrapper.updateWaitListTypeConstant();
+                if(courseWaitListInfo.getMaxSize() !=null)
+                    wrapper.setLimitWaitlistSize(true);
+                else
+                    wrapper.setLimitWaitlistSize(false);
 
                 //looks like in inquiry view.xml we are using HasWaitlist for the "Waitlist active" field
                 wrapper.setHasWaitlist(false);
