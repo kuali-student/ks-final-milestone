@@ -22,7 +22,27 @@
     <!-- Controller Class: CourseController.java View Helper Class: CourseViewHelperServiceImpl.java UX : http://ux.ks.kuali.org.s3.amazonaws.com/wireframes/ENR/Scheduling_Interface/v3/start.html 
         This view has couple of pages (edit and copy) with all the beans defined at 1. CourseViewCourseInfoPage.xml -->
 
-    <bean id="KS-CourseView" parent="KSMaintenanceView">     
+    <bean id="KS-CourseView" parent="KSMaintenanceView" class="org.kuali.student.uif.view.KsUifMaintenanceDocumentView">
+        <property name="theme">
+            <bean parent="KSTheme"/>
+        </property>
+        <property name="stickyTopGroup" value="false"/>
+        <property name="stickyBreadcrumbs" value="false"/>
+        <property name="stickyApplicationHeader" value="false"/>
+        <property name="stickyHeader" value="true"/>
+
+        <property name="applicationHeader">
+            <bean parent="Uif-GlobalApplicationHeader-parentBean"
+                  p:template="/ks-cm-krad/WEB-INF/ftl/ksApplicationHeader.ftl" p:render="true"
+                  p:templateName="ks_applicationHeader"/>
+        </property>
+        <property name="header.cssClasses">
+            <list merge="true">
+                <value>ks-unified-header</value>
+            </list>
+        </property>
+
+
         <property name="defaultBindingObjectPath" value="document.newMaintainableObject" />
         <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
         <property name="headerText" value="Course View" />
@@ -59,14 +79,18 @@
         <!-- CSS Styling -->
         <property name="additionalCssFiles">
             <list merge="true">
+                <value>themes/kboot/stylesheets/bootstrap.css</value>
+                <value>themes/kboot/stylesheets/kboot.css</value>
                 <value>ks-cm-krad/css/cm.css</value>
             </list>
         </property>
         <!-- Custom JavaScript -->
         <property name="additionalScriptFiles">
             <list merge="true">
-                <value>ks-cm-krad/scripts/jquery.jqEasyCharCounter.custom.js
-                </value>
+                <value>krad/scripts/krad.dirty.js</value>
+                <value>krad/scripts/krad.validate.js</value>
+                <value>krad/scripts/krad.url.js</value>
+                <value>ks-cm-krad/scripts/jquery.jqEasyCharCounter.custom.js</value>
                 <value>ks-cm-krad/scripts/common.js</value>
             </list>
         </property>

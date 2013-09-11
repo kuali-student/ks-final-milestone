@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-    <!--
+<!--
     Copyright 2013 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
@@ -13,10 +13,51 @@
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-    -->
+  -->
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd"
-        >
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd"
+       >
+    <bean id="Uif-GlobalApplicationHeader" parent="Uif-GlobalApplicationHeader-parentBean"/>
+    <bean id="Uif-GlobalApplicationHeader-parentBean" abstract="true" parent="Uif-HeaderBase"
+          p:render="false"/>
+
+    <bean id="Uif-ViewHeader" parent="Uif-ViewHeader-parentBean"/>
+    <bean id="Uif-ViewHeader-parentBean" abstract="true" parent="Uif-HeaderOne"
+          class="org.kuali.student.uif.element.KsViewHeader">
+        <property name="template" value="/krad/WEB-INF/ftl/components/element/viewHeader.ftl"/>
+        <property name="templateName" value="uif_viewHeader"/>
+        <property name="supportTitleMessage">
+            <bean parent="Uif-Message" p:cssClasses="uif-viewHeader-supportTitle"/>
+        </property>
+        <property name="areaTitleMessage">
+            <bean parent="Uif-Message" p:cssClasses="uif-viewHeader-areaTitle"/>
+        </property>
+        <property name="metadataMessage">
+            <bean parent="Uif-Message" p:cssClasses="uif-viewHeader-metadata"/>
+        </property>
+        <property name="cssClasses">
+            <list>
+                <value>uif-viewHeader</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-Home" parent="Uif-BreadcrumbItem">
+        <property name="label" value="Home"/>
+        <property name="url.href" value="@{#ConfigProperties['application.url']}/portal.do"/>
+    </bean>
+    <bean id="Uif-BreadcrumbItem" class="org.kuali.rice.krad.uif.util.BreadcrumbItem" scope="prototype">
+        <property name="template" value="/krad/WEB-INF/ftl/components/widget/breadcrumb.ftl"/>
+        <property name="templateName" value="uif_breadcrumb"/>
+        <property name="renderAsLink" value="true"/>
+        <property name="url">
+            <bean parent="Uif-Url"/>
+        </property>
+    </bean>
+    <bean id="Uif-Url" class="org.kuali.rice.krad.uif.util.UrlInfo" scope="prototype">
+        <property name="baseUrl" value="@{#ConfigProperties['krad.url']}"/>
+        <property name="methodToCall" value="start"/>
+    </bean>
 </beans>

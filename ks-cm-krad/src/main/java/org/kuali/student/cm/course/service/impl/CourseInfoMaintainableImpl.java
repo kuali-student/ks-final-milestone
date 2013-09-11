@@ -63,17 +63,17 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
 
 	private static final long serialVersionUID = 1338662637708570500L;
 
-	private OrganizationService organizationService;
+	private transient OrganizationService organizationService;
 
-	private SearchService searchService;
+	private transient SearchService searchService;
 
-	private SubjectCodeService subjectCodeService;
+	private transient SubjectCodeService subjectCodeService;
 
-	private CluService cluService;
+	private transient CluService cluService;
         
-	private LearningObjectiveService learningObjectiveService;
+	private transient LearningObjectiveService learningObjectiveService;
 
-	private static CourseInfoMaintainable instance;
+	private transient static CourseInfoMaintainable instance;
 
     private ProposalInfo proposalInfo;
     
