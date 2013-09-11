@@ -400,7 +400,7 @@
                             <bean parent="Uif-VerticalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField" p:propertyName="courseWaitListInfo.typeKey" p:label="Waitlist Type"
+                                        <bean parent="Uif-InputField" p:propertyName="waitListTypeConstant" p:label="Waitlist Type"
                                               p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                                             <property name="control">
                                                 <bean parent="Uif-VerticalRadioControl"/>

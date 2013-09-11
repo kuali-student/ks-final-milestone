@@ -46,6 +46,8 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
     private boolean isCheckedByCluster;
     private String courseOfferingId;
     private String populationsJSONString;
+    private String waitListType;
+    private String waitListTypeConstant;
 
     private String stateName;
     private String typeName;
@@ -260,6 +262,53 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
 
     public void setEnableCancelButton(boolean enableCancelButton) {
         this.enableCancelButton = enableCancelButton;
+    }
+
+    public String getWaitListTypeConstant(){
+        return waitListTypeConstant;
+    }
+
+    public void updateWaitListTypeConstant(){
+        if(waitListType.equals("Automatic") || waitListType.equals(""))
+            waitListTypeConstant = LuiServiceConstants.AUTOMATIC_WAITLIST_TYPE_KEY;
+        else if(waitListType.equals("Manual"))
+            waitListTypeConstant = LuiServiceConstants.MANUAL_WAITLIST_TYPE_KEY;
+        else if(waitListType.equals("Semi-Automatic"))
+            waitListTypeConstant  = LuiServiceConstants.SEMIAUTOMATIC_WAITLIST_TYPE_KEY;
+        else  // Default is Automatic.
+            waitListTypeConstant =  LuiServiceConstants.AUTOMATIC_WAITLIST_TYPE_KEY;
+    }
+
+    public void setWaitListTypeConstant(String waitListTypeConstant){
+        this.waitListTypeConstant = waitListTypeConstant;
+    }
+
+    public String getWaitListType(){
+      return waitListType;
+    }
+
+    public void updateWaitListType(){
+        if((courseWaitListInfo.getAutomaticallyProcessed() == null &&  courseWaitListInfo.getConfirmationRequired() == null)) {
+            waitListType = "";
+        }
+        else if( courseWaitListInfo.getAutomaticallyProcessed().equals(true) && (courseWaitListInfo.getConfirmationRequired().equals(false)))   {
+            waitListType = "Automatic";
+        }
+
+        else if ( courseWaitListInfo.getAutomaticallyProcessed().equals(true) && (courseWaitListInfo.getConfirmationRequired().equals(true)))   {
+            waitListType = "Semi-Automatic";
+        }
+
+        else if( courseWaitListInfo.getAutomaticallyProcessed().equals(false) && (courseWaitListInfo.getConfirmationRequired().equals(false)))  {
+            waitListType = "Manual";
+        }
+        else {   // This is for default value
+            waitListType = "Automatic";
+        }
+    }
+
+    public void setWaitListType(String waitListType){
+        this.waitListType = waitListType;
     }
 
     public boolean isEnableMoveToButton() {
