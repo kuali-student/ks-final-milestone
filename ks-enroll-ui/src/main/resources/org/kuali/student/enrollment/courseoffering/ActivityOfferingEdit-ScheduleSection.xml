@@ -227,7 +227,6 @@
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="buildingCode"
                               p:suggestQuery.dataObjectClassName="org.kuali.student.r2.core.room.dto.BuildingInfo">
-                            <property name="style" value="background: none;"/>
                           <property name="suggestQuery">
                             <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveBuildingInfo" p:queryFieldMapping="newScheduleRequest.buildingCode:buildingCode" p:returnFieldMapping="buildingCode:newScheduleRequest.buildingCode,name:newScheduleRequest.editRenderHelper.buildingName"/>
                           </property>
