@@ -12,6 +12,8 @@ import java.util.Map;
  * Time: 2:02 PM
  * To change this template use File | Settings | File Templates.
  */
+// TODO: KSENROLL-8478 temporarily overriding KRAD's Inquiry as it was messing up the hover over. should be resolved in Rice 2.3.1
+
 public class KSUifInquiry extends Inquiry {
 
     private String title;
