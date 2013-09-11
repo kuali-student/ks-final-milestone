@@ -206,7 +206,7 @@ limitations under the License.
           p:actionLabel="Add Statement" p:actionScript="ajaxCallPropositionTree('addProposition','KRMS-RuleEditor-TreeGroup');">
         <property name="actionImage">
             <bean parent="Uif-Image"
-                  p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconAdd.png"
+                  p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconAdd.png"
                   p:altText="Add"/>
         </property>
         <property name="cssClasses">
@@ -220,7 +220,7 @@ limitations under the License.
           p:actionLabel="Edit" p:actionScript="ajaxCallPropositionTree('goToEditProposition', 'KRMS-RuleEditor-TreeGroup');">
         <property name="actionImage">
             <bean parent="Uif-Image"
-                  p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconEdit.png"
+                  p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconEdit.png"
                   p:altText="Edit Proposition"/>
         </property>
     </bean>
@@ -229,7 +229,7 @@ limitations under the License.
           p:actionLabel="Create Group" p:actionScript="ajaxCallPropositionTree('togglePropositionSimpleCompound','KRMS-RuleEditor-TreeGroup');">
         <property name="actionImage">
             <bean parent="Uif-Image"
-                  p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconGroup.png"
+                  p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconGroup.png"
                   p:altText="Add Parent"/>
         </property>
     </bean>
@@ -238,7 +238,7 @@ limitations under the License.
           p:actionLabel="Move Out" p:actionScript="ajaxCallPropositionTree('movePropositionLeft','KRMS-RuleEditor-TreeGroup');">
         <property name="actionImage">
             <bean parent="Uif-Image"
-                  p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconLeft.png"
+                  p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconLeft.png"
                   p:altText="Left"/>
         </property>
         <property name="cssClasses">
@@ -253,7 +253,7 @@ limitations under the License.
           p:actionLabel="Move In" p:actionScript="ajaxCallPropositionTree('movePropositionRight','KRMS-RuleEditor-TreeGroup');">
         <property name="actionImage">
             <bean parent="Uif-Image"
-                  p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconRight.png"
+                  p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconRight.png"
                   p:altText="Right"/>
         </property>
         <property name="cssClasses">
@@ -268,7 +268,7 @@ limitations under the License.
           p:actionLabel="Move Up" p:actionScript="ajaxCallPropositionTree('movePropositionUp','KRMS-RuleEditor-TreeGroup');">
         <property name="actionImage">
             <bean parent="Uif-Image"
-                  p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconUp.png"
+                  p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconUp.png"
                   p:altText="Up"/>
         </property>
         <property name="cssClasses">
@@ -283,7 +283,7 @@ limitations under the License.
           p:actionLabel="Move Down" p:actionScript="ajaxCallPropositionTree('movePropositionDown','KRMS-RuleEditor-TreeGroup');">
         <property name="actionImage">
             <bean parent="Uif-Image"
-                  p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconDown.png"
+                  p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconDown.png"
                   p:altText="Down"/>
         </property>
         <property name="cssClasses">
@@ -298,7 +298,7 @@ limitations under the License.
           p:actionLabel="Copy" p:actionScript="ajaxCopyPropositionTree();">
         <property name="actionImage">
             <bean parent="Uif-Image"
-                  p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconCopy.png"
+                  p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconCopy.png"
                   p:altText="Copy"/>
         </property>
         <property name="cssClasses">
@@ -313,7 +313,7 @@ limitations under the License.
           p:actionLabel="Cut" p:actionScript="ajaxCutPropositionTree();">
         <property name="actionImage">
             <bean parent="Uif-Image"
-                  p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconCut.png"
+                  p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconCut.png"
                   p:altText="Cut"/>
         </property>
         <property name="cssClasses">
@@ -327,7 +327,7 @@ limitations under the License.
           p:actionScript="ajaxPastePropositionTree('pasteProposition', 'KRMS-RuleEditor-TreeGroup');" p:actionLabel="Paste">
         <property name="actionImage">
             <bean parent="Uif-Image"
-                  p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconPaste.png"
+                  p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconPaste.png"
                   p:altText="Paste"/>
         </property>
         <property name="cssClasses">
@@ -341,7 +341,7 @@ limitations under the License.
           p:actionLabel="Delete" p:actionScript="ajaxCallPropositionTree('deleteProposition','KRMS-RuleEditor-TreeGroup');">
         <property name="actionImage">
             <bean parent="Uif-Image"
-                  p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconDelete.png"
+                  p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconDelete.png"
                   p:altText="Delete"/>
         </property>
         <property name="cssClasses">
