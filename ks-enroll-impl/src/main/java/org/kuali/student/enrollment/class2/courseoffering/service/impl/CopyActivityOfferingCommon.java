@@ -126,14 +126,6 @@ public class CopyActivityOfferingCommon {
                 if (isColocated) {
                     // Delete the original schedule requests since they are being replaced by new schedule requests
                     schedulingService.deleteScheduleRequest(request.getId(), context);
-                    List<ScheduleRequestSetInfo> fetchedSrses =
-                            schedulingService.getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,
-                                    targetAO.getId(), context);
-                    if (!fetchedSrses.isEmpty()) {
-                        ScheduleRequestSetInfo retrieved = fetchedSrses.get(0);
-                        List<ScheduleRequestInfo> srInfos = schedulingService.getScheduleRequestsByScheduleRequestSet(retrieved.getId(), context);
-                        LOGGER.info("Hi");
-                    }
                 }
             }
 
