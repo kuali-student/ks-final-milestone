@@ -44,6 +44,7 @@
         </property>
     </bean>
 
+<!--
     <bean id="KS-HomewardPathBreadcrumbs-Home" parent="Uif-BreadcrumbItem">
         <property name="label" value="Home"/>
         <property name="url.href" value="@{#ConfigProperties['application.url']}/portal.do"/>
@@ -60,4 +61,5 @@
         <property name="baseUrl" value="@{#ConfigProperties['krad.url']}"/>
         <property name="methodToCall" value="start"/>
     </bean>
+-->
 </beans>

@@ -52,12 +52,13 @@
             </list>
         </property>
 
+        <!--
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
             </list>
         </property>
-
+        -->
         <property name="items">
             <list>
                 <bean parent="Uif-Page" p:disclosure.render="false">
