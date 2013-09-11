@@ -27,6 +27,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.FormatOfferingAutogenIssue;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.InvalidRegGroupSubissue;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.RegGroupNotGeneratedByAocSubissue;
+import org.kuali.student.enrollment.class2.coursewaitlist.service.CourseWaitListServiceUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
@@ -36,6 +37,8 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
+import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
+import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -53,6 +56,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.permutation.PermutationCounter;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
@@ -97,6 +101,8 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
     private TypeService typeService;
 
     private CourseService courseService;
+    
+    private CourseWaitListService courseWaitListService;
 
     private ActivityOfferingClusterDaoApi activityOfferingClusterDao;
     
@@ -374,14 +380,56 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         // Fetch cluster first, so if it fails, we don't continue on
         ActivityOfferingClusterInfo cluster =
                 coService.getActivityOfferingCluster(aocId, context);
-        // Make a new copy
+        // Make a new copy of AO
         ActivityOfferingInfo copyAoInfo = coService.copyActivityOffering(origAoId, context);
+        // Make a new copy of the associated WL
+        copyToCreateWL(copyAoInfo, origAoId, context);
         // Make sure FO IDs match up
         if (!cluster.getFormatOfferingId().equals(copyAoInfo.getFormatOfferingId())) {
             throw new DataValidationErrorException("Format Offering Ids do not match");
         }
         return _addActivityOfferingToClusterCommon(copyAoInfo, cluster, context);
     }
+    
+    private CourseWaitListInfo copyToCreateWL(ActivityOfferingInfo newAOInfo, String origAoId, ContextInfo context)
+                        throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                               PermissionDeniedException, DoesNotExistException, DataValidationErrorException,
+                               ReadOnlyException{
+
+        List<CourseWaitListInfo> waitListInfos = getCourseWaitListService().getCourseWaitListsByActivityOffering(origAoId, context);
+        CourseWaitListInfo origWaitListInfo, newWaitListInfo;        
+        if (!waitListInfos.isEmpty()){
+            //by default, should only return 1 record in waitListInfos
+            origWaitListInfo = waitListInfos.get(0);
+            newWaitListInfo = new CourseWaitListInfo();
+            List<String> aoIds = new ArrayList<String> ();
+            aoIds.add(newAOInfo.getId());
+            newWaitListInfo.setActivityOfferingIds(aoIds);
+            List<String> foIds = new ArrayList<String> ();
+            foIds.add(newAOInfo.getFormatOfferingId());
+            newWaitListInfo.setFormatOfferingIds(foIds);
+            newWaitListInfo.setTypeKey(origWaitListInfo.getTypeKey());
+            newWaitListInfo.setStateKey(origWaitListInfo.getStateKey());
+            newWaitListInfo.setAllowHoldUntilEntries(origWaitListInfo.getAllowHoldUntilEntries());
+            newWaitListInfo.setAutomaticallyProcessed(origWaitListInfo.getAutomaticallyProcessed());
+            newWaitListInfo.setConfirmationRequired(origWaitListInfo.getConfirmationRequired());
+            if(origWaitListInfo.getMaxSize() != null){
+                newWaitListInfo.setMaxSize(origWaitListInfo.getMaxSize());
+            }
+            newWaitListInfo.setCheckInRequired(origWaitListInfo.getCheckInRequired());
+            newWaitListInfo = getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
+                    newWaitListInfo, context);
+
+        }
+        else{
+            // Assume that every AO should have an associated WL. if not, treat it as a reference data problem.
+            // We will just create a new WL
+            newWaitListInfo = CourseWaitListServiceUtil.createCourseWaitlist(newAOInfo, context);
+        }
+        return newWaitListInfo;
+
+    }
+
 
     public  ActivityOfferingResult updateRegistrationGroups(ActivityOfferingInfo activityOfferingInfo, ContextInfo context) throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException, OperationFailedException, MissingParameterException, DoesNotExistException, VersionMismatchException {
         try{
@@ -998,6 +1046,15 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         }
 
         return coService;
+    }
+
+    public CourseWaitListService getCourseWaitListService() {
+        if(courseWaitListService == null) {
+            courseWaitListService = (CourseWaitListService) GlobalResourceLoader.getService(new QName(CourseWaitListServiceConstants.NAMESPACE,
+                    CourseWaitListServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+
+        return courseWaitListService;
     }
 
     public void setCoService(CourseOfferingService coService) {

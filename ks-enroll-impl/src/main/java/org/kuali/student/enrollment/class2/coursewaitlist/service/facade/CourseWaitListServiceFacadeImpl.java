@@ -78,6 +78,11 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
             else {
                 for (CourseWaitListInfo waitListInfo : waitListInfos){
                     waitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
+                    //Question: do we need to update other values in waitListInfo???
+//                    waitListInfo.setAutomaticallyProcessed(false);
+//                    waitListInfo.setConfirmationRequired(false);
+//                    waitListInfo.setAllowHoldUntilEntries(false);
+//                    waitListInfo.setMaxSize(null);
                     courseWaitListService.updateCourseWaitList(waitListInfo.getId(), waitListInfo, context);
                 }
             }
@@ -94,6 +99,7 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
         //default setting is semi-automatic
         courseWaitListInfo.setAutomaticallyProcessed(true);
         courseWaitListInfo.setConfirmationRequired(true);
+        courseWaitListInfo.setAllowHoldUntilEntries(true);
         return courseWaitListInfo;
     }
 

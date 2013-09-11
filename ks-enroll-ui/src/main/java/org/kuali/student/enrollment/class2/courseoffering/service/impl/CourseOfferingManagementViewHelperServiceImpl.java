@@ -51,6 +51,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
+import org.kuali.student.enrollment.class2.coursewaitlist.service.CourseWaitListServiceUtil;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ActivityOfferingDisplayUI;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.ActivityOfferingTypeComparator;
@@ -1738,7 +1739,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 wrapper.setTypeName(typeInfo.getName());
 
                 //create and persist a WaitlistInfo for AO
-                CourseWaitListInfo theWaitListInfo = createCourseWaitlist(activityOfferingInfo, courseOffering);
+                CourseWaitListInfo theWaitListInfo = CourseWaitListServiceUtil.createCourseWaitlist(activityOfferingInfo, contextInfo);
                 wrapper.setCourseWaitListInfo(theWaitListInfo);
 
                 form.getActivityWrapperList().add(wrapper);
@@ -1753,43 +1754,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         } else {
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_N_SUCCESS);
         }
-    }
-
-    /* when create an AO, create a new CourseWaitListInfo (CWLI) and persist it in DB
-       1)set AOInfo.id to courseWaitListInfo.activityOfferingIds
-       2)set AOInfo.formatOfferingId to courseWaitListInfo.formatOfferingIds
-       3)if COInfo.hasWaitList = true, set courseWaitListInfo.stateKey to active
-          and set automaticallyProcessed, confirmationRequired and allowHoldUntilEntries in courseWaitListInfo to true
-       4)if COInfo.hasWaitList = false, set courseWaitListInfo.stateKey to inactive
-          and set automaticallyProcessed, confirmationRequired and allowHoldUntilEntries in courseWaitListInfo to false
-    */
-    private CourseWaitListInfo createCourseWaitlist(ActivityOfferingInfo aoInfo, CourseOfferingInfo coInfo) throws Exception{
-        ContextInfo contextInfo = createContextInfo();
-        CourseWaitListInfo courseWaitListInfo = new CourseWaitListInfo();
-        List aoIds = new ArrayList<String>();
-        aoIds.add(aoInfo.getId());
-        courseWaitListInfo.setActivityOfferingIds(aoIds);
-        List foIds = new ArrayList<String>();
-        foIds.add(aoInfo.getFormatOfferingId());
-        courseWaitListInfo.setFormatOfferingIds(foIds);
-        if(coInfo.getHasWaitlist()){
-            courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY);
-            //default setting is semi-automatic
-            courseWaitListInfo.setAutomaticallyProcessed(true);
-            courseWaitListInfo.setConfirmationRequired(true);
-            courseWaitListInfo.setAllowHoldUntilEntries(true);
-            courseWaitListInfo = getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
-                    courseWaitListInfo,contextInfo);
-        }
-        else{
-            courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
-            courseWaitListInfo.setAutomaticallyProcessed(false);
-            courseWaitListInfo.setConfirmationRequired(false);
-            courseWaitListInfo.setAllowHoldUntilEntries(false);
-            courseWaitListInfo = getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
-                    courseWaitListInfo,contextInfo);
-        }
-        return courseWaitListInfo;
     }
 
     public void loadActivityOfferingsByCourseOffering(CourseOfferingInfo theCourseOfferingInfo, CourseOfferingManagementForm form) throws Exception {
