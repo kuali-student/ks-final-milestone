@@ -60,6 +60,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final String RELATED_AO_TYPES_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForRelatedAoTypesByCoId";
     public static final String AO_CODES_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAoCodesByCoId";
     public static final String TERM_ID_BY_OFFERING_ID_SEARCH_KEY = "kuali.search.type.lui.searchForTermIdByOfferingId";
+    
+    public static final String DEFAULT_EFFECTIVE_DATE = "01/01/2012";
 
 
     private static final int RESULTROW_AOID_OFFSET = 6;
@@ -102,110 +104,72 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         info.setKey(SCH_IDS_BY_AO_SEARCH_KEY);
         info.setName("Activity Offering Search");
         info.setDescr(new RichTextHelper().fromPlain("Return search results for Activity Offerings"));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
-        try {
-            info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2012"));
-        } catch ( IllegalArgumentException ex) {
-            throw new RuntimeException("bad code");
-        }
         SCH_IDS_BY_AO_SEARCH_TYPE = info;
 
         info = new TypeInfo();
         info.setKey(AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY);
         info.setName("Activity Offerings for CO Search");
         info.setDescr(new RichTextHelper().fromPlain("Return search results for Activity Offerings by CO ID"));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
-        try {
-            info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2012"));
-        } catch ( IllegalArgumentException ex) {
-            throw new RuntimeException("bad code");
-        }
         AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE = info;
 
         info = new TypeInfo();
         info.setKey(REG_GROUPS_BY_CO_ID_SEARCH_KEY);
         info.setName("Reg Groups for CO Search");
         info.setDescr(new RichTextHelper().fromPlain("Return search results for Reg Groups by CO ID"));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
-        try {
-            info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2012"));
-        } catch ( IllegalArgumentException ex) {
-            throw new RuntimeException("bad code");
-        }
         REG_GROUPS_BY_CO_ID_SEARCH_TYPE = info;
-
 
         info = new TypeInfo();
         info.setKey(COLOCATED_AOS_BY_AO_IDS_SEARCH_KEY);
         info.setName("Colocated AOs Search");
         info.setDescr(new RichTextHelper().fromPlain("Return search results for Colocated AOs"));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
-        try {
-            info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2012"));
-        } catch ( IllegalArgumentException ex) {
-            throw new RuntimeException("bad code");
-        }
         COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE = info;
 
         info = new TypeInfo();
         info.setKey(AOS_WO_CLUSTER_BY_FO_ID_SEARCH_KEY);
         info.setName("AOs without cluster by format offering search");
         info.setDescr(new RichTextHelper().fromPlain("Returns a list of AO Ids that are not assigned to a cluster"));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
-        try {
-            info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2012"));
-        } catch ( IllegalArgumentException ex) {
-            throw new RuntimeException("bad code");
-        }
         AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE = info;
 
         info = new TypeInfo();
         info.setKey(FO_BY_CO_ID_SEARCH_KEY);
         info.setName("AOs without cluster by format offering search");
         info.setDescr(new RichTextHelper().fromPlain("Returns a list of AO Ids that are not assigned to a cluster"));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
-        try {
-            info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2012"));
-        } catch ( IllegalArgumentException ex) {
-            throw new RuntimeException("bad code");
-        }
         FO_BY_CO_ID_SEARCH_TYPE = info;
-
 
         info = new TypeInfo();
         info.setKey(RELATED_AO_TYPES_BY_CO_ID_SEARCH_KEY);
         info.setName("Related AO Types for course offering");
         info.setDescr(new RichTextHelper().fromPlain("Returns a list of AO Types allowed for the FOs tied "));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
-        try {
-            info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2012"));
-        } catch ( IllegalArgumentException ex) {
-            throw new RuntimeException("bad code");
-        }
         RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE = info;
 
         info = new TypeInfo();
         info.setKey(AO_CODES_BY_CO_ID_SEARCH_KEY);
         info.setName("AO codes for course offering id");
         info.setDescr(new RichTextHelper().fromPlain("Returns a list of AO codes for a given CO id"));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
-        try {
-            info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2012"));
-        } catch ( IllegalArgumentException ex) {
-            throw new RuntimeException("bad code");
-        }
         AO_CODES_BY_CO_ID_SEARCH_TYPE = info;
 
         info = new TypeInfo();
         info.setKey(TERM_ID_BY_OFFERING_ID_SEARCH_KEY);
         info.setName("Term Id for offering id");
         info.setDescr(new RichTextHelper().fromPlain("Returns term id for a given offering id"));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
-        try {
-            info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2012"));
-        } catch ( IllegalArgumentException ex) {
-            throw new RuntimeException("bad code");
-        }
         TERM_ID_BY_OFFERING_ID_SEARCH_TYPE = info;
     }
 
@@ -689,7 +653,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                         "WHERE lui.id = :offeringId ";
         Query query = entityManager.createQuery(queryStr);
         query.setParameter(SearchParameters.OFFERING_ID, offeringId);
-        List<Object[]> results = query.getResultList();
         String termId = (String)query.getResultList().get(0);
         SearchResultRowInfo row = new SearchResultRowInfo();
         row.addCell(SearchResultColumns.ATP_ID, termId);
