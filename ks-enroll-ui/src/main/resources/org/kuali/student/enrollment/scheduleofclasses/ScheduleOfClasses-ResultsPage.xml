@@ -208,7 +208,7 @@
                 <bean parent="Uif-MessageField"
                       p:label="INSTRUCTOR"
                       p:messageText="@{#line.instructorDisplayNames}" />
-                <bean parent="Uif-DataField" p:label="MAX ENR" p:propertyName="aoInfo.maximumEnrollment" />
+                <bean parent="Uif-DataField" p:label="SEATS" p:propertyName="aoInfo.maximumEnrollment" p:style="text-align:right;"/>
                 <bean parent="Uif-MessageField" p:label="" p:messageText="@{#line.schOfClassesRenderHelper.information}"/>
             </list>
         </property>
@@ -255,7 +255,7 @@
                 <bean parent="Uif-MessageField"
                       p:label="INSTRUCTOR"
                       p:messageText="@{#line.instructorDisplayNames}" />
-                <bean parent="Uif-DataField" p:label="MAX ENR" p:propertyName="aoInfo.maximumEnrollment" />
+                <bean parent="Uif-DataField" p:label="SEATS" p:propertyName="aoInfo.maximumEnrollment" p:style="text-align:right;"/>
                 <bean parent="Uif-MessageField" p:label="" p:messageText="@{#line.schOfClassesRenderHelper.information}"/>
             </list>
         </property>
