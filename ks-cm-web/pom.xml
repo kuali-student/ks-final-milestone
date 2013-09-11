@@ -13,9 +13,9 @@
         <web.launch.spring.file>classpath:SampleAppBeans.xml</web.launch.spring.file>
         <webapp.source.dir>${basedir}/src/main/webapp</webapp.source.dir>
         <theme.builder.output.dir>${project.build.directory}/${project.artifactId}-webapp</theme.builder.output.dir>
-        <theme.builder.excludes />
-        <theme.builder.theme.adddirs />
-        <theme.builder.plugin.adddirs />
+        <theme.builder.excludes/>
+        <theme.builder.theme.adddirs/>
+        <theme.builder.plugin.adddirs/>
         <theme.skip.theme.processing>false</theme.skip.theme.processing>
     </properties>
     <build>
@@ -43,7 +43,6 @@
                     </dependency>
                 </dependencies>
             </plugin>
-
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
