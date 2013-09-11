@@ -157,6 +157,12 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), contextInfo);
                 activityOfferingWrapper.setAoInfo(activityOfferingInfo);
                 fromWaitListTypeToCourseWaitList(activityOfferingWrapper,activityOfferingWrapper.getCourseWaitListInfo());
+
+                if(activityOfferingWrapper.isHasWaitlist())
+                    activityOfferingWrapper.getCourseWaitListInfo().setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY);
+                else
+                    activityOfferingWrapper.getCourseWaitListInfo().setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
+
                 CourseWaitListInfo courseWaitListInfo = getCourseWaitListService().updateCourseWaitList(activityOfferingWrapper.getCourseWaitListInfo().getId(),activityOfferingWrapper.getCourseWaitListInfo(),contextInfo );
                 activityOfferingWrapper.setCourseWaitListInfo(courseWaitListInfo);
 
