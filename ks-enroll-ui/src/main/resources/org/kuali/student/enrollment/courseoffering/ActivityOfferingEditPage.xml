@@ -321,6 +321,7 @@
                                     <entry key="bPaginate" value="false"/>
                                 </map>
                             </property>
+                            <property name="showExportOption" value="false"/>
                         </bean>
                     </property>
 
