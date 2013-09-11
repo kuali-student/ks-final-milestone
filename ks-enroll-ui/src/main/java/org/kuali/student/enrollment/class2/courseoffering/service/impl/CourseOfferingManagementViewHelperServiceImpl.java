@@ -65,6 +65,8 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
+import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
@@ -81,10 +83,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.permutation.PermutationUtils;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.constants.*;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -148,6 +147,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
     private AcademicCalendarService acalService = null;
     private CourseOfferingService coService = null;
+    private CourseWaitListService courseWaitListService = null;
     private SearchService searchService = null;
 
     private CourseService courseService;
@@ -1698,10 +1698,11 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             throw new RuntimeException(e);
         }
 
+        //create and persist AO
         for (int i = 0; i < noOfActivityOfferings; i++) {
             ActivityOfferingInfo aoInfo = new ActivityOfferingInfo();
             aoInfo.setActivityId(activityId);
-            aoInfo.setFormatOfferingId(formatOfferingInfo.getId());
+            aoInfo.setFormatOfferingId(formatOfferingId);
             aoInfo.setTypeKey(activityOfferingType.getKey());
             aoInfo.setCourseOfferingId(courseOffering.getId());
             aoInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
@@ -1725,6 +1726,11 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 wrapper.setStateName(state.getName());
                 TypeInfo typeInfo = getTypeInfo(wrapper.getAoInfo().getTypeKey());
                 wrapper.setTypeName(typeInfo.getName());
+
+                //create and persist a WaitlistInfo for AO
+                CourseWaitListInfo theWaitListInfo = createCourseWaitlist(activityOfferingInfo, courseOffering);
+                wrapper.setCourseWaitListInfo(theWaitListInfo);
+
                 form.getActivityWrapperList().add(wrapper);
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -1737,6 +1743,43 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         } else {
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_N_SUCCESS);
         }
+    }
+
+    /* when create an AO, create a new CourseWaitListInfo (CWLI) and persist it in DB
+       1)set AOInfo.id to courseWaitListInfo.activityOfferingIds
+       2)set AOInfo.formatOfferingId to courseWaitListInfo.formatOfferingIds
+       3)if COInfo.hasWaitList = true, set courseWaitListInfo.stateKey to active
+          and set automaticallyProcessed, confirmationRequired and allowHoldUntilEntries in courseWaitListInfo to true
+       4)if COInfo.hasWaitList = false, set courseWaitListInfo.stateKey to inactive
+          and set automaticallyProcessed, confirmationRequired and allowHoldUntilEntries in courseWaitListInfo to false
+    */
+    private CourseWaitListInfo createCourseWaitlist(ActivityOfferingInfo aoInfo, CourseOfferingInfo coInfo) throws Exception{
+        ContextInfo contextInfo = createContextInfo();
+        CourseWaitListInfo courseWaitListInfo = new CourseWaitListInfo();
+        List aoIds = new ArrayList<String>();
+        aoIds.add(aoInfo.getId());
+        courseWaitListInfo.setActivityOfferingIds(aoIds);
+        List foIds = new ArrayList<String>();
+        foIds.add(aoInfo.getFormatOfferingId());
+        courseWaitListInfo.setFormatOfferingIds(foIds);
+        if(coInfo.getHasWaitlist()){
+            courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY);
+            //default setting is semi-automatic
+            courseWaitListInfo.setAutomaticallyProcessed(true);
+            courseWaitListInfo.setConfirmationRequired(true);
+            courseWaitListInfo.setAllowHoldUntilEntries(true);
+            courseWaitListInfo = getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
+                    courseWaitListInfo,contextInfo);
+        }
+        else{
+            courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
+            courseWaitListInfo.setAutomaticallyProcessed(false);
+            courseWaitListInfo.setConfirmationRequired(false);
+            courseWaitListInfo.setAllowHoldUntilEntries(false);
+            courseWaitListInfo = getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
+                    courseWaitListInfo,contextInfo);
+        }
+        return courseWaitListInfo;
     }
 
     public void loadActivityOfferingsByCourseOffering(CourseOfferingInfo theCourseOfferingInfo, CourseOfferingManagementForm form) throws Exception {
@@ -2235,6 +2278,13 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         return courseService;
     }
 
+    protected CourseWaitListService getCourseWaitListService() {
+        if(courseWaitListService == null) {
+            courseWaitListService = (CourseWaitListService)GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseWaitList", "CourseWaitListService"));
+        }
+        return courseWaitListService;
+
+    }
 
     protected LRCService getLrcService() {
         if (lrcService == null) {
