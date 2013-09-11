@@ -849,7 +849,7 @@
                                 </property>
                             </bean>
 
-                            <bean id="edit_co_cancel" parent="Uif-SecondaryActionButton-Small"
+                            <bean id="edit_co_cancel" parent="Uif-SecondaryActionButton"
                                   p:ajaxSubmit="false" p:methodToCall="cancel"
                                   p:actionLabel="Continue Without Saving">
                                 <property name="actionParameters">
