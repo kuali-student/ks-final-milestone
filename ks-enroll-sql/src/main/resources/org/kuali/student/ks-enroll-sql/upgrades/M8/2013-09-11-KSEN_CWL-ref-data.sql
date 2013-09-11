@@ -73,7 +73,7 @@ DELETE FROM KSEN_LUI_ATTR WHERE ATTR_KEY IN ('isWaitlistCheckinRequired',
 /
 
 --Add in has waitlist and waitlist level to all the COs
-INSERT INTO KSEN_LUI_ATTR SELECT 'kuali.attribute.wait.list.indicator', 'true', SYS_GUID(), SYS_GUID(), co.ID FROM KSEN_LUI co where co.LUI_TYPE='kuali.lui.type.course.offering'
+INSERT INTO KSEN_LUI_ATTR (ATTR_KEY, ATTR_VALUE, ID, OBJ_ID, OWNER_ID) SELECT 'kuali.attribute.wait.list.indicator', 'true', SYS_GUID(), SYS_GUID(), co.ID FROM KSEN_LUI co where co.LUI_TYPE='kuali.lui.type.course.offering'
 /
-INSERT INTO KSEN_LUI_ATTR SELECT 'kuali.attribute.wait.list.level.type.key', 'AO', SYS_GUID(), SYS_GUID(), co.ID FROM KSEN_LUI co where co.LUI_TYPE='kuali.lui.type.course.offering'
+INSERT INTO KSEN_LUI_ATTR (ATTR_KEY, ATTR_VALUE, ID, OBJ_ID, OWNER_ID) SELECT 'kuali.attribute.wait.list.level.type.key', 'AO', SYS_GUID(), SYS_GUID(), co.ID FROM KSEN_LUI co where co.LUI_TYPE='kuali.lui.type.course.offering'
 /
