@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.scheduleofclasses.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -33,6 +34,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingCl
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
@@ -62,6 +64,7 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Formatter;
 import java.util.HashMap;
@@ -484,5 +487,36 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
                }
            }
         }
+    }
+
+    /**
+     * This method returns the institutionally configured reg group states to filter at the ui. If it's not
+     * configured, by default, it returns offerred, invalid and offered-invalid states.
+     *
+     * @return
+     */
+    public List<String> getRegGroupStateFilter(){
+
+        String allowedRegGroupStates = ConfigContext.getCurrentContextConfig().getProperty(CourseOfferingConstants.CONFIG_PARAM_KEY_SCHOC_REG_GROUP_STATES);
+        List<String> regGroupStates;
+
+        if ((allowedRegGroupStates != null) && (!allowedRegGroupStates.isEmpty())) {
+            regGroupStates = Arrays.asList(allowedRegGroupStates.split("\\s*,\\s*"));
+            if (!Arrays.asList(LuiServiceConstants.REGISTRATION_GROUP_LIFECYCLE_KEY_STATES).containsAll(regGroupStates)) {
+                String errorMessage = String.format("Error: invalid value for configuration parameter:  %s Value: %s",
+                        CourseOfferingConstants.CONFIG_PARAM_KEY_SCHOC_REG_GROUP_STATES, regGroupStates.toString());
+                throw new RuntimeException(errorMessage);
+            }
+        } else {
+            /*
+            If an institution does not customize valid RegGroup states, then the default is RegGroup Offered+Invalid+Offered-invalid state.
+            Offered-invalid not yet available. So, we ignored for now but eventually that will be added.
+             */
+            regGroupStates = new ArrayList<String>(2);
+            regGroupStates.add(LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY);
+            regGroupStates.add(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY);
+        }
+
+        return regGroupStates;
     }
 }

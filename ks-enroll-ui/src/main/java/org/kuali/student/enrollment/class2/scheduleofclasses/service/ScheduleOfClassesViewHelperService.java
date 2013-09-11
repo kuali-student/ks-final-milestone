@@ -50,4 +50,6 @@ public interface ScheduleOfClassesViewHelperService extends CourseOfferingManage
 
     public KSComparatorChain getActivityComparatorChain();
 
+    public List<String> getRegGroupStateFilter();
+
 }

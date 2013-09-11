@@ -296,6 +296,13 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         return getUIFModelAndView(theForm, ScheduleOfClassesConstants.SOC_RESULT_PAGE);
     }
 
+    /**
+     * Populates the reg group when the user clicks on the disclosure at the CO display.
+     *
+     * @param theForm
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(params = "methodToCall=populateRegGroups")
     public ModelAndView populateRegGroups(@ModelAttribute( MODEL_ATTRIBUTE_FORM ) ScheduleOfClassesSearchForm theForm) throws Exception {
 
@@ -304,26 +311,8 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         CourseOfferingDisplayWrapper coDisplayWrapper = (CourseOfferingDisplayWrapper)KSControllerHelper.getSelectedCollectionItem(theForm);
         theForm.setCourseOfferingId(coDisplayWrapper.getCoDisplayInfo().getId());
 
-        String allowedRegGroupStates = ConfigContext.getCurrentContextConfig().getProperty(CourseOfferingConstants.CONFIG_PARAM_KEY_SCHOC_REG_GROUP_STATES);
-        if ((allowedRegGroupStates != null) && (!allowedRegGroupStates.isEmpty())) {
-            List<String> regGroupStates = Arrays.asList(allowedRegGroupStates.split("\\s*,\\s*"));
-            if (!Arrays.asList(LuiServiceConstants.REGISTRATION_GROUP_LIFECYCLE_KEY_STATES).containsAll(regGroupStates)) {
-                String errorMessage = String.format("Error: invalid value for configuration parameter:  %s Value: %s",
-                        CourseOfferingConstants.CONFIG_PARAM_KEY_SCHOC_REG_GROUP_STATES, regGroupStates.toString());
-                LOG.error(errorMessage);
-                return getUIFModelAndView(theForm);
-            }
-            searchRequestInfo.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.REGGROUP_STATES, regGroupStates);
-        } else {
-            /*
-            If an institution does not customize valid RegGroup states, then the default is RegGroup Offered+Invalid+Offered-invalid state.
-            Offered-invalid not yet available. So, we ignored for now but eventually that will be added.
-             */
-            List<String> regGroupStates = new ArrayList<String>(2);
-            regGroupStates.add(LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY);
-            regGroupStates.add(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY);
-            searchRequestInfo.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.REGGROUP_STATES, regGroupStates);
-        }
+        List<String> regGroupStates = getViewHelperService(theForm).getRegGroupStateFilter();
+        searchRequestInfo.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.REGGROUP_STATES, regGroupStates);
 
         getViewHelperService(theForm).build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(theForm,searchRequestInfo);
 
