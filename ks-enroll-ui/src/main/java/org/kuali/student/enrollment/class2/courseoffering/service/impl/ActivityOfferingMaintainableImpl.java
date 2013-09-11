@@ -298,6 +298,8 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             FormatOfferingInfo formatOfferingInfo = getCourseOfferingService().getFormatOffering(info.getFormatOfferingId(), contextInfo);
             wrapper.setFormatOffering(formatOfferingInfo);
 
+            // get Waitlist
+            wrapper.setHasWaitlistCO(courseOfferingInfo.getHasWaitlist());
             List<CourseWaitListInfo> courseWaitLists  = getCourseWaitListService().getCourseWaitListsByActivityOffering(dataObjectKeys.get(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID),contextInfo);
 
             if(courseWaitLists != null && courseWaitLists.size() >0){
@@ -305,14 +307,11 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 CourseWaitListInfo courseWaitListInfo = courseWaitLists.get(temp);
                 wrapper.setCourseWaitListInfo(courseWaitListInfo);
                 //looks like in inquiry view.xml we are using HasWaitlist for the "Waitlist active" field
-                if(courseWaitListInfo.getStateKey() == null || courseWaitListInfo.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY)){
-                    wrapper.setHasWaitlist(false);
-                    wrapper.setHasWaitlistCO(false);
-                }
-                else if (courseWaitListInfo.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY)){
+                wrapper.setHasWaitlist(false);
+                if (CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY.equals(courseWaitListInfo.getStateKey())){
                     wrapper.setHasWaitlist(true);
-                    wrapper.setHasWaitlistCO(true);
                 }
+
             }
 
             // Added for WaitList Tanveer 06/27/2012
