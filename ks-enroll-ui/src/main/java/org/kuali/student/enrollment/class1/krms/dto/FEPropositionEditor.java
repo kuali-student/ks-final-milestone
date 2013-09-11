@@ -17,18 +17,7 @@ package org.kuali.student.enrollment.class1.krms.dto;
 
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.dto.PropositionEditor;
-import org.kuali.student.core.krms.dto.KSPropositionEditor;
-import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.organization.dto.OrgInfo;
-import org.kuali.student.r2.core.room.dto.BuildingInfo;
-import org.kuali.student.r2.core.room.dto.RoomInfo;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
-
-import java.util.Map;
-
-//import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
 
 /**
  * @author Kuali Student Team
@@ -50,6 +39,12 @@ public class FEPropositionEditor extends LUPropositionEditor {
         super(definition);
     }
 
+    public void clear(){
+        super.clear();
+        this.weekdays= null;
+        this.startTime = null;
+        this.endTime = null;
+    }
     public String getWeekdays() {
         return weekdays;
     }
@@ -88,6 +83,11 @@ public class FEPropositionEditor extends LUPropositionEditor {
 
     public void setEndTimeAMPM(String endTimeAMPM) {
         this.endTimeAMPM = endTimeAMPM;
+    }
+
+    @Override
+    protected PropositionEditor createPropositionEditor(PropositionDefinitionContract definition){
+        return new FEPropositionEditor(definition);
     }
 
 }

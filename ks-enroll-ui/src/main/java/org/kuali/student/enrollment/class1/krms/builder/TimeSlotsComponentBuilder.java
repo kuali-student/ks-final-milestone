@@ -18,7 +18,11 @@ package org.kuali.student.enrollment.class1.krms.builder;
 import org.apache.log4j.Logger;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.FEPropositionEditor;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,14 +41,67 @@ public class TimeSlotsComponentBuilder implements ComponentBuilder<FEProposition
 
     @Override
     public void resolveTermParameters(FEPropositionEditor propositionEditor, Map<String, String> termParameters) {
-        //To change body of implemented methods use File | Settings | File Templates.
+
+        String weekDay = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TIMESLOT_WEEKDAY_STRING);
+        String startTime = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TIMESLOT_START);
+        String endTime = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TIMESLOT_END);
+
+        if (weekDay != null) {
+            propositionEditor.setWeekdays(weekDay);
+
+
+        }
+        if (startTime != null) {
+            Date timeForDisplay = new Date(Long.parseLong(startTime));
+            String formatStartTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay);
+            propositionEditor.setStartTime(org.apache.commons.lang.StringUtils.substringBefore(formatStartTime, " "));
+            propositionEditor.setStartTimeAMPM(org.apache.commons.lang.StringUtils.substringAfter(formatStartTime, " "));
+
+        }
+        if (endTime != null) {
+
+            Date timeForDisplay = new Date(Long.parseLong(endTime));
+            String formatEndTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay);
+            propositionEditor.setEndTime(org.apache.commons.lang.StringUtils.substringBefore(formatEndTime, " "));
+            propositionEditor.setEndTimeAMPM(org.apache.commons.lang.StringUtils.substringAfter(formatEndTime, " "));
+        }
     }
 
     @Override
     public Map<String, String> buildTermParameters(FEPropositionEditor propositionEditor) {
-       Map<String, String> termParameters = new HashMap<String, String>();
-        //To change body of implemented methods use File | Settings | File Templates.
+        Map<String, String> termParameters = new HashMap<String, String>();
+        try {
+
+
+            if (propositionEditor.getWeekdays() != null) {
+
+                termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TIMESLOT_WEEKDAY_STRING, propositionEditor.getWeekdays());
+            }
+
+            if (propositionEditor.getStartTime() != null) {
+                String startTimeAMPM = new StringBuilder(propositionEditor.getStartTime()).append(" ").append(propositionEditor.getStartTimeAMPM()).toString();
+                long startTimeMillis = this.parseTimeToMillis(startTimeAMPM);
+                String startTime = String.valueOf(startTimeMillis);
+                termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TIMESLOT_START, startTime);
+            }
+
+            if (propositionEditor.getEndTime() != null) {
+
+                String endTimeAMPM = new StringBuilder(propositionEditor.getEndTime()).append(" ").append(propositionEditor.getEndTimeAMPM()).toString();
+                long endTimeMillis = this.parseTimeToMillis(endTimeAMPM);
+                String endTime = String.valueOf(endTimeMillis);
+                termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TIMESLOT_END, endTime);
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return termParameters;
+    }
+
+
+    private long parseTimeToMillis(final String time) throws ParseException {
+        return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(time).getTime();
     }
 
     @Override

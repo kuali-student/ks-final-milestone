@@ -507,8 +507,8 @@ limitations under the License.
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="Population" p:value="true">
                         <property name="componentId" value="KSFE-FinalExam-DeliveryLogistic-Group"/>
-                        <!--<property name="componentBuilderClass"-->
-                                  <!--value="org.kuali.student.enrollment.class1.krms.builder.TimeSlotsComponentBuilder"/>-->
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.enrollment.class1.krms.builder.TimeSlotsComponentBuilder"/>
                     </bean>
                 </entry>
                 <entry key="kuali.krms.proposition.type.final.exam.course">
