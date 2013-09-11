@@ -1005,6 +1005,7 @@
 
     <bean id="acalEventAssembler" class="org.kuali.student.r2.core.acal.service.assembler.AcalEventAssembler"/>
 
+    <!-- KSENROLL-9340 Overriding this bean in ks-enroll-context.xml so it uses the same entity manager as the service impl-->
     <bean id="CoreSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.CoreSearchServiceImpl">
         <property name="entityManager" ref="coreEntityManager"/>
     </bean>
