@@ -489,6 +489,38 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
         }
     }
 
+
+    /**
+     * This method returns the institutionally configured AO states to filter at the ui. If it's not
+     * configured, by default, it returns offerred state.
+     *
+     * @return
+     */
+    public List<String> getAOStateFilter(){
+
+        String allowedAOStates = ConfigContext.getCurrentContextConfig().getProperty(CourseOfferingConstants.CONFIG_PARAM_KEY_SCHOC_AO_STATES);
+        List<String> aoStates;
+
+        if ((allowedAOStates != null) && (!allowedAOStates.isEmpty())) {
+
+            aoStates = Arrays.asList(allowedAOStates.split("\\s*,\\s*"));
+
+            if (!Arrays.asList(LuiServiceConstants.ACTIVITY_OFFERING_LIFECYCLE_STATE_KEYS).containsAll(aoStates)) {
+                String errorMessage = String.format("Error: invalid value for configuration parameter:  %s Value: %s",
+                        CourseOfferingConstants.CONFIG_PARAM_KEY_SCHOC_AO_STATES, aoStates.toString());
+                throw new RuntimeException(errorMessage);
+            }
+
+        } else {
+            // If an institution does not customize valid AO states, then the default is AO Offered state
+            aoStates = new ArrayList<String>();
+            aoStates.add(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY);
+        }
+
+        return aoStates;
+    }
+
+
     /**
      * This method returns the institutionally configured reg group states to filter at the ui. If it's not
      * configured, by default, it returns offerred, invalid and offered-invalid states.

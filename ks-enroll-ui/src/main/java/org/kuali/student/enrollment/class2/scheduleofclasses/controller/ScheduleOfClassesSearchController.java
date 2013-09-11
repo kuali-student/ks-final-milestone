@@ -220,6 +220,14 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         return getUIFModelAndView(theForm, ScheduleOfClassesConstants.SOC_RESULT_PAGE);
     }
 
+    /**
+     *
+     * Populates the AOs and clusters when the user clicks on the disclosure at the CO display.
+     *
+     * @param theForm
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(params = "methodToCall=populateAOs")
     public ModelAndView populateAOs(@ModelAttribute( MODEL_ATTRIBUTE_FORM ) ScheduleOfClassesSearchForm theForm) throws Exception {
 
@@ -228,20 +236,8 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
 
         SearchRequestInfo searchRequestInfo = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY);
 
-        String allowedAOStates = ConfigContext.getCurrentContextConfig().getProperty(CourseOfferingConstants.CONFIG_PARAM_KEY_SCHOC_AO_STATES);
-        if ((allowedAOStates != null) && (!allowedAOStates.isEmpty())) {
-            List<String> aoStates = Arrays.asList(allowedAOStates.split("\\s*,\\s*"));
-            if (!Arrays.asList(LuiServiceConstants.ACTIVITY_OFFERING_LIFECYCLE_STATE_KEYS).containsAll(aoStates)) {
-                String errorMessage = String.format("Error: invalid value for configuration parameter:  %s Value: %s",
-                        CourseOfferingConstants.CONFIG_PARAM_KEY_SCHOC_AO_STATES, aoStates.toString());
-                LOG.error(errorMessage);
-                return getUIFModelAndView(theForm);
-            }
-            searchRequestInfo.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_STATES, aoStates);
-        } else {
-            // If an institution does not customize valid AO states, then the default is AO Offered state
-            searchRequestInfo.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_STATES, LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY);
-        }
+        List<String> aoStates = getViewHelperService(theForm).getAOStateFilter();
+        searchRequestInfo.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_STATES, aoStates);
 
         getViewHelperService(theForm).build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(theForm, searchRequestInfo);
 
