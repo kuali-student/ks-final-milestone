@@ -69,6 +69,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -315,7 +316,10 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
             searchRequestInfo.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.REGGROUP_STATES, regGroupStates);
         } else {
             // If an institution does not customize valid RegGroup states, then the default is RegGroup Offered state
-            searchRequestInfo.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.REGGROUP_STATES, LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY);
+            List<String> regGroupStates = new ArrayList<String>(2);
+            regGroupStates.add(LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY);
+            regGroupStates.add(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY);
+            searchRequestInfo.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.REGGROUP_STATES, regGroupStates);
         }
 
         getViewHelperService(theForm).build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(theForm,searchRequestInfo);
