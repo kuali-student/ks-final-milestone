@@ -22,7 +22,7 @@
     <bean id="Uif-GlobalApplicationHeader" parent="Uif-GlobalApplicationHeader-parentBean"/>
     <bean id="Uif-GlobalApplicationHeader-parentBean" abstract="true" parent="Uif-HeaderBase"
           p:render="false"/>
-
+<!--
     <bean id="Uif-ViewHeader" parent="Uif-ViewHeader-parentBean"/>
     <bean id="Uif-ViewHeader-parentBean" abstract="true" parent="Uif-HeaderOne"
           class="org.kuali.student.uif.element.KsViewHeader">
@@ -43,6 +43,7 @@
             </list>
         </property>
     </bean>
+-->
 
 <!--
     <bean id="KS-HomewardPathBreadcrumbs-Home" parent="Uif-BreadcrumbItem">
