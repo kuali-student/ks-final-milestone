@@ -16,10 +16,11 @@
  */
 package org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl;
 
-import com.google.common.collect.ImmutableMap;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 
 import java.util.List;
+
+import static org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil.weekdaysString2WeekdaysList;
 
 /**
  * This class sorts the {@link RegistrationGroupWrapper} by AO DL Component Days of the week
@@ -27,39 +28,41 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class RegGroupDaysOfWeekComparator extends KSComparatorBase<RegistrationGroupWrapper> {
-    static final ImmutableMap<String, Integer> DAYS_MAP = ImmutableMap.<String, Integer>builder()
-            .put("M", 1)
-            .put("T", 2)
-            .put("W", 3)
-            .put("H", 4)
-            .put("F", 5)
-            .put("S", 6)
-            .put("U", 7)
-            .build();
-
     @Override
     public int compare(RegistrationGroupWrapper o1, RegistrationGroupWrapper o2) {
         List<String> o1Days = o1.getWeekDays();
         List<String>  o2Days = o2.getWeekDays();
+        List<Integer> o1WeekOfDays;
+        List<Integer> o2WeekOfDays;
+
+        int firstSetDays = 0;
         Integer o1Day = 0;
         Integer o2Day = 0;
         int setDays = o1Days.size() < o2Days.size()? o1Days.size(): o2Days.size();
         if(setDays > 0) {
-            String o1FirstSetDays = o1Days.get(0);
-            String o2FirstSetDays = o2Days.get(0);
-            int minLength = o1FirstSetDays.length() < o2FirstSetDays.length()? o1FirstSetDays.length() : o2FirstSetDays.length();
+            // In an RDL or ADL we may have multiple of week days (represented as the List)
+            // We only consider the first one for sorting purposes.
+            String o1FirstSetDays = o1Days.get(firstSetDays);
+            String o2FirstSetDays = o2Days.get(firstSetDays);
+            o1WeekOfDays =  weekdaysString2WeekdaysList(o1FirstSetDays);
+            o2WeekOfDays =  weekdaysString2WeekdaysList(o2FirstSetDays);
+            if(!o1WeekOfDays.isEmpty())  {
+                o1Day = o1WeekOfDays.size();
+            }
+            if(!o2WeekOfDays.isEmpty())  {
+                o2Day = o2WeekOfDays.size();
+            }
+            int minLength = o1Day < o2Day? o1Day : o2Day;
             for ( int i = 0; i < minLength; i++ ) {
-                char c = o1FirstSetDays.charAt( i );
-                String chString = Character.toString(c);
-                o1Day += DAYS_MAP.get(chString);
-
-                c = o2FirstSetDays.charAt( i );
-                chString = Character.toString(c);
-                o2Day += DAYS_MAP.get(chString);
+                if(o1WeekOfDays.get(i).compareTo(o2WeekOfDays.get(i)) == 0) {
+                    o1Day = o1WeekOfDays.get(i);
+                    o2Day = o2WeekOfDays.get(i);
+                } else {
+                    return o1WeekOfDays.get(i).compareTo(o2WeekOfDays.get(i));
+                }
             }
         }
 
         return o1Day.compareTo(o2Day);
     }
-
 }
