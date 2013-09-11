@@ -315,7 +315,10 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
             }
             searchRequestInfo.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.REGGROUP_STATES, regGroupStates);
         } else {
-            // If an institution does not customize valid RegGroup states, then the default is RegGroup Offered state
+            /*
+            If an institution does not customize valid RegGroup states, then the default is RegGroup Offered+Invalid+Offered-invalid state.
+            Offered-invalid not yet available. So, we ignored for now but eventually that will be added.
+             */
             List<String> regGroupStates = new ArrayList<String>(2);
             regGroupStates.add(LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY);
             regGroupStates.add(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY);
