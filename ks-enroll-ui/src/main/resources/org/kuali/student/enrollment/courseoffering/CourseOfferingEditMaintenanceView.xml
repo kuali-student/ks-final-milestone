@@ -664,7 +664,7 @@
                 <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>
                 <bean id="KS-CourseOfferingEdit-PersonnelTableSection" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:layoutManager.id="ao-personnelgroup-table"
-                      p:layoutManager.style="width: 100%; display:block;">
+                      p:layoutManager.style="width: 100%;">
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper" />
                     <property name="propertyName" value="instructors" />
                     <property name="addBlankLineAction.actionLabel" value="Add Personnel"/>
@@ -735,7 +735,7 @@
 
 
     <bean id="KS-CourseOfferingEdit-OrganizationSection" parent="KS-TableCollectionSubSection-BottomAddLine"
-          p:layoutManager.style="width: 100%; display:block;"
+          p:layoutManager.style="width: 100%;"
           p:layoutManager.numberOfColumns="1"
           p:headerText="ADMINISTERING ORGANIZATIONS"
           p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper"
