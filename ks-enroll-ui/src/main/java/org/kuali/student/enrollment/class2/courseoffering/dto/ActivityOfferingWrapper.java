@@ -59,7 +59,6 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
 
 //    private String waitListLevelTypeKey;
 //    private String waitListTypeKey;
-//    private boolean hasWaitList;
     private String waitListText = "";
     private String toolTipText = "";
 
@@ -161,6 +160,7 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
     private boolean hasWaitlist;
     //indicate if wailtlist has been enabled in CO level
     private boolean hasWaitlistCO;
+    //hold the checkbox value for Limit Waitlist Size
     private boolean limitWaitlistSize;
 
     public ActivityOfferingWrapper(){
@@ -439,12 +439,6 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         this.waitListText = waitListText;
     }
 
-
-
-//    public boolean getHasWaitList() {
-//        return hasWaitList;
-//    }
-
     public String getTbaDisplayName() {
         return tbaDisplayName;
     }
@@ -460,10 +454,6 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         }
     }
 
-//    public void setHasWaitList(boolean hasWaitList) {
-//        this.hasWaitList = hasWaitList;
-//    }
-//
 //    public String getWaitListLevelTypeKey() {
 //        return waitListLevelTypeKey;
 //    }
