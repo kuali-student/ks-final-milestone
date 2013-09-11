@@ -38,7 +38,7 @@ import java.util.List;
         "formatOfferingIds", "registerInFirstAvailableActivityOffering",
         "automaticallyProcessed", "confirmationRequired", "maxSize",
         "checkInRequired", "checkInFrequency", "allowHoldUntilEntries", "effectiveDate", "expirationDate",
-        "meta", "attributes", "_futureElements", "wlProcessing" })
+        "meta", "attributes", "_futureElements"})
 public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWaitList, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -67,9 +67,6 @@ public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWa
     private Date expirationDate;
     @XmlAnyElement
     private List<Object> _futureElements;
-
-    @XmlAnyElement
-    private String wlProcessing;
 
     public CourseWaitListInfo() {
     }
@@ -148,31 +145,6 @@ public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWa
     public void setConfirmationRequired(Boolean confirmationRequired) {
         this.confirmationRequired = confirmationRequired;
     }
-
-    public String getWlProcessing(){
-        if((automaticallyProcessed == null &&  confirmationRequired == null)) {
-            return null;
-        }
-        else if( automaticallyProcessed.equals(true) && (confirmationRequired.equals(false)))   {
-            wlProcessing = "Automatic";
-            return wlProcessing;
-        }
-
-        else if ( automaticallyProcessed.equals(true) && (confirmationRequired.equals(true)))   {
-            wlProcessing = "Semi-Automatic";
-            return wlProcessing;
-        }
-
-        else if( automaticallyProcessed.equals(false) && (confirmationRequired.equals(false)))  {
-            wlProcessing = "Manual";
-            return wlProcessing;
-        }
-        else {   // This is for default value
-            wlProcessing = "Automatic";
-            return wlProcessing;
-        }
-    }
-
 
     @Override
     public Integer getMaxSize() {
