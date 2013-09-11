@@ -968,6 +968,16 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
                 //Set the wrapper
                 rgWrapper.setAoMaxEnrText(rgWrapper.getAoMaxEnrText() + (newLine ? "<br/>" : "") + (aoWrapper.getAoInfo().getMaximumEnrollment() == null ? "" : aoWrapper.getAoInfo().getMaximumEnrollment()) + lineBreaks);
+                if(rgWrapper.getRgMaxEnrText() !=null && rgWrapper.getRgMaxEnrText().length() > 1)  {
+                    Integer seats = Integer.parseInt(rgWrapper.getRgMaxEnrText());
+                    Integer nSeats = aoWrapper.getAoInfo().getMaximumEnrollment();
+                    if(seats.compareTo(nSeats) > 0 ) {
+                        rgWrapper.setRgMaxEnrText(nSeats.toString());
+                    }
+                } else {
+                    String rgSeats = aoWrapper.getAoInfo().getMaximumEnrollment() == null ? "" : aoWrapper.getAoInfo().getMaximumEnrollment().toString();
+                    rgWrapper.setRgMaxEnrText(rgSeats);
+                }
                 rgWrapper.setAoStateNameText(rgWrapper.getAoStateNameText() + (newLine ? "<br/>" : "") + aoWrapper.getStateName() + lineBreaks);
                 //sub-term icon and tooltip setup
                 if(!aoWrapper.getSubTermName().equals("None")){  //sub-term? > icon + name and dates

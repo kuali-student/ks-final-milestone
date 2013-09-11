@@ -34,7 +34,7 @@ public class RegGroupEndTimeComparator extends KSComparatorBase<RegistrationGrou
         Long o1End = 0L;
         Long o2End = 0L;
 
-        // always compare the first set of start time
+        // always compare the first set of End time
         if(o1EndTime.size() > 0) {
             String  o1Time = o1.getEndTime().get(0);
             if(!o1Time.isEmpty()) {

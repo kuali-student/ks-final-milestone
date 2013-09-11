@@ -53,22 +53,16 @@ public class RegistrationGroupWrapper implements Serializable, ComparatorModel {
     private String buildingName = "";
     private String roomName = "";
 
-    private List<String> startTime;
-    private List<String> endTime;
-    private List<String> weekDays;
+    private List<String> startTime = new ArrayList<String>();
+    private List<String> endTime = new ArrayList<String>();
+    private List<String> weekDays = new ArrayList<String>();
 
     public RegistrationGroupWrapper() {
         rgInfo = new RegistrationGroupInfo();
-        startTime = new ArrayList<String>();
-        endTime = new ArrayList<String>();
-        weekDays = new ArrayList<String>();
     }
 
     public RegistrationGroupWrapper(RegistrationGroupInfo info) {
         rgInfo = info;
-        startTime = new ArrayList<String>();
-        endTime = new ArrayList<String>();
-        weekDays = new ArrayList<String>();
     }
 
     public ActivityOfferingClusterInfo getAoCluster() {

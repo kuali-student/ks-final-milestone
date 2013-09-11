@@ -372,9 +372,9 @@
                       p:label="Instructor"
                       p:messageText="@{#line.aoInstructorText}">
                 </bean>
-                <bean parent="Uif-MessageField"
+                <bean parent="Uif-DataField"
                       p:label="Seats"
-                      p:messageText="@{#line.aoMaxEnrText}">
+                      p:propertyName="rgMaxEnrText" p:valign="middle">
                 </bean>
             </list>
         </property>
