@@ -629,12 +629,13 @@ public class CourseOfferingTransformer {
                         }
                         Collections.sort(creditValuesF); //Do the sort
 
+                        StringBuilder creditCounts = new StringBuilder();
                         //Convert back to strings and concatenate to one field
                         for (Float creditF : creditValuesF ){
-                            creditCount = creditCount + ", " + trimTrailing0(String.valueOf(creditF));
+                            creditCounts.append(", ").append(trimTrailing0(String.valueOf(creditF)));
                         }
-                        if(creditCount.length() >=  2)  {
-                            creditCount =  creditCount.substring(2);  //trim leading ", "
+                        if(creditCounts.length() >=  2)  {
+                            creditCount =  creditCounts.substring(2);  //trim leading ", "
                         }
                     }
                 } else {

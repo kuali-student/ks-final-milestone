@@ -343,6 +343,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
             }
 
+            /*
             // Added for WaitList Tanveer 06/27/2012
             //this code should be removed!!!
 //            wrapper.setWaitListLevelTypeKey(courseOfferingInfo.getWaitlistLevelTypeKey());
@@ -358,7 +359,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 //                wrapper.setWaitListText("This waitlist is managed at the Activity Offering level.");
 //                wrapper.setToolTipText("Each Activity Offering has its own wait list.");
 //            }
-
+             */
             // Set the display string (e.g. 'FALL 2020 (9/26/2020 to 12/26/2020)')
             // Now have to deal with subterms: have to check if it's subterm or term
             TermInfo term = null;
@@ -447,9 +448,9 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             // allows multiple orgs
             List<String> orgIds = courseOfferingInfo.getUnitsDeploymentOrgIds();
             if(orgIds != null && !orgIds.isEmpty()){
-                String orgIDs = "";
+                StringBuilder orgIDs = new StringBuilder("");
                 for (String orgId : orgIds) {
-                    orgIDs = orgIDs + orgId + ",";
+                    orgIDs.append(orgId).append(",");
                 }
                 if (orgIDs.length() > 0) {
                     wrapper.setAdminOrg(orgIDs.substring(0, orgIDs.length()-1));

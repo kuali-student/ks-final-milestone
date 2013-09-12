@@ -708,19 +708,21 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     }
 
     private String _computeDisplayString(String aoFromState, String aoToState, int size) {
-        String transition = "[AO " + aoFromState + " => AO " + aoToState + "]";
+        StringBuilder transition = new StringBuilder("[AO ");
+        transition.append(aoFromState).append(" => AO ").append(aoToState).append("]");
         while (transition.length() < size) {
-            transition = transition + " ";
+            transition.append(" ");
         }
-        return transition;
+        return transition.toString();
     }
 
     private String _computeExpectedActual(String expected, String actual, int size) {
-        String result = expected + "/" + actual;
+        StringBuilder result = new StringBuilder(expected);
+        result.append("/").append(actual);
         while (result.length() < size) {
-            result = result + " ";
+            result.append(" ");
         }
-        return result;
+        return result.toString();
     }
 
     private void _compareGrids(Map<String, PseudoUnitTestStateTransitionGrid> gridTypeToGrid,

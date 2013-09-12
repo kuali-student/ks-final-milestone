@@ -277,9 +277,9 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
     public Map<String,String> getAdminOrg(){
         Map<String,String> adminOrgMap = new HashMap<String,String>();
         if (organizationNames != null && !organizationNames.isEmpty()){
-            String orgIDs = "";
+            StringBuilder orgIDs = new StringBuilder("");
             for (OrganizationInfoWrapper organizationName : organizationNames) {
-                orgIDs = orgIDs + organizationName.getId() + ",";
+                orgIDs.append(organizationName.getId()).append(",");
             }
             if (orgIDs.length() > 0) {
                 adminOrgMap.put("offeringAdminOrgId", orgIDs.substring(0, orgIDs.length()-1));

@@ -55,9 +55,9 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
                 //Pull out the org ids and pass in the first one as a role qualifier
                 List<String> orgIds = theForm.getTheCourseOffering().getUnitsDeploymentOrgIds();
                 if(orgIds != null && !orgIds.isEmpty()){
-                    String orgIDs = "";
+                    StringBuilder orgIDs = new StringBuilder("");
                     for (String orgId : orgIds) {
-                        orgIDs = orgIDs + orgId + ",";
+                        orgIDs.append(orgId).append(",");
                     }
                     if (orgIDs.length() > 0) {
                         attributes.put("offeringAdminOrgId", orgIDs.substring(0, orgIDs.length()-1));
