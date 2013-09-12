@@ -79,10 +79,10 @@ public class ExamServiceImpl implements ExamService {
             , ReadOnlyException {
 
         CluInfo cluInfo = new CluInfo();
-        examTransformer.exam2Clu(examInfo,cluInfo,contextInfo);
+        getExamTransformer().exam2Clu(examInfo,cluInfo,contextInfo);
         CluInfo createdClu = getCluService().createClu(examTypeKey,cluInfo,contextInfo);
         ExamInfo createdExam = new ExamInfo();
-        examTransformer.clu2Exam(createdClu,createdExam,contextInfo);
+        getExamTransformer().clu2Exam(createdClu,createdExam,contextInfo);
         return createdExam;
     }
 
@@ -192,6 +192,10 @@ public class ExamServiceImpl implements ExamService {
 
     public void setExamTransformer(ExamTransformer examTransformer) {
         this.examTransformer = examTransformer;
+    }
+
+    public ExamTransformer getExamTransformer() {
+        return examTransformer;
     }
 
 }
