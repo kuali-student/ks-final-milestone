@@ -465,12 +465,15 @@ limitations under the License.
     </bean>
 
     <bean id="KRMS-GPA-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.parameters[1].value"
-          p:label="GPA" p:minLength="3" p:maxLength="4" p:required="true">
+          p:label="GPA" p:maxLength="4" p:required="true">
         <property name="control">
             <bean parent="Uif-TextControl"/>
         </property>
         <property name="validCharactersConstraint">
             <bean parent="FixedPointPatternConstraint" p:precision="3" p:scale="2" p:allowNegative="false"/>
+        </property>
+        <property name="simpleConstraint">
+            <bean parent="SimpleConstraint" p:minLength="3" p:messageKey="validation.krms.minLengthConditional"/>
         </property>
         <property name="help">
             <bean parent="Uif-Help" p:tooltipHelpContent="Enter value with at least one decimal place and up to two"/>
