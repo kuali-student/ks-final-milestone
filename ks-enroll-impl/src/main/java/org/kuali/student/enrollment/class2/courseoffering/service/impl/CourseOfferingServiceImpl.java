@@ -113,6 +113,8 @@ import java.util.Set;
 
 public class CourseOfferingServiceImpl implements CourseOfferingService {
 
+    private static final Logger LOGGER = Logger.getLogger(CourseOfferingServiceImpl.class);
+
     private static final String OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE = "unexpected";
     private static final String FAILED_TO_UPDATE_LUI_STATE_ERROR_MESSAGE = "Failed to update State";
 
@@ -121,13 +123,20 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private static final String DELIVERY_LOGISTIC_TYPE_ACTUAL = "actual";
     private static final String DELIVERY_LOGISTIC_TYPE_REQUESTED = "requested";
 
-    private LuiService luiService;
-    private TypeService typeService;
-    private CourseService courseService;
     private AcademicCalendarService acalService;
-    private RegistrationGroupAssembler registrationGroupAssembler;
-    private StateService stateService;
+    private AtpService atpService;
+    private CourseService courseService;
+    private CriteriaLookupService criteriaLookupService;
     private LprService lprService;
+    private LRCService lrcService;
+    private LuiService luiService;
+    private RoomService roomService;
+    private SchedulingService schedulingService;
+    private SearchService searchService;
+    private StateService stateService;
+    private TypeService typeService;
+
+    private RegistrationGroupAssembler registrationGroupAssembler;
     private CourseOfferingServiceBusinessLogic businessLogic;
     private CourseOfferingCodeGenerator offeringCodeGenerator;
     private CourseOfferingTransformer courseOfferingTransformer;
@@ -135,19 +144,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private SeatPoolDefinitionDaoApi seatPoolDefinitionDao;
     private ActivityOfferingClusterDaoApi activityOfferingClusterDao;
     private RegistrationGroupTransformer registrationGroupTransformer;
-    private SchedulingService schedulingService;
-    private LRCService lrcService;
-    private CriteriaLookupService criteriaLookupService;
-    private RoomService roomService;
     private StateTransitionsHelper stateTransitionsHelper;
-    private SearchService searchService;
-    private AtpService atpService;
 
-    private static final Logger LOGGER = Logger.getLogger(CourseOfferingServiceImpl.class);
-
-    public void setBusinessLogic(CourseOfferingServiceBusinessLogic businessLogic) {
-        this.businessLogic = businessLogic;
-    }
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
@@ -170,20 +168,23 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return new StatusInfo();
     }
 
-    private void deleteLprsByLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Override
+    @Transactional(readOnly = true)
+    public List<FormatOfferingInfo> getFormatOfferingsByCourseOffering(String courseOfferingId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
 
-        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(PredicateFactory.equal("luiId", luiId));
+        List<FormatOfferingInfo> formatOfferings = new ArrayList<FormatOfferingInfo>();
 
-        QueryByCriteria criteria = qbcBuilder.build();
-
-        List<String> lprIds = lprService.searchForLprIds(criteria, context);
-        for (String lprId : lprIds) {
-            StatusInfo status = lprService.deleteLpr(lprId, context);
-            if (!status.getIsSuccess()) {
-                throw new OperationFailedException("Error Deleting related LPR with id ( " + lprId + " ), given message was: " + status.getMessage());
-            }
+        // Find all related luis to the course Offering
+        List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY, context);
+        for (LuiInfo lui : luis) {
+            FormatOfferingInfo formatOffering = new FormatOfferingInfo();
+            new FormatOfferingTransformer().lui2Format(lui, formatOffering);
+            formatOffering.setCourseOfferingId(courseOfferingId);
+            formatOfferings.add(formatOffering);
         }
+        return formatOfferings;
     }
 
     @Override
@@ -206,6 +207,34 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         StatusInfo statusInfo = new StatusInfo();
         statusInfo.setSuccess(true);
         return statusInfo;
+    }
+
+    private void deleteLprsByLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("luiId", luiId));
+
+        QueryByCriteria criteria = qbcBuilder.build();
+
+        List<String> lprIds = lprService.searchForLprIds(criteria, context);
+        for (String lprId : lprIds) {
+            StatusInfo status = lprService.deleteLpr(lprId, context);
+            if (!status.getIsSuccess()) {
+                throw new OperationFailedException("Error Deleting related LPR with id ( " + lprId + " ), given message was: " + status.getMessage());
+            }
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public StatusInfo deleteCourseOffering(String courseOfferingId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        try {
+            return luiService.deleteLui(courseOfferingId, context);
+        } catch (DependentObjectsExistException e) {
+            throw new OperationFailedException("Error deleting course offering", e);
+        }
     }
 
 
@@ -332,89 +361,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return rgInfo;
     }
 
-    public RoomService getRoomService() {
-        if (roomService == null){
-            roomService = (RoomService)GlobalResourceLoader.getService(new QName(RoomServiceConstants.NAMESPACE,
-                    RoomServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return roomService;
-    }
-
-    @SuppressWarnings("unused")
-    public void setRoomService(RoomService roomService) {
-        this.roomService = roomService;
-    }
-
-    public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
-        this.criteriaLookupService = criteriaLookupService;
-    }
-
-    public LuiService getLuiService() {
-        return luiService;
-    }
-
-    public void setLuiService(LuiService luiService) {
-        this.luiService = luiService;
-    }
-
-    public TypeService getTypeService() {
-        return typeService;
-    }
-
-    public void setTypeService(TypeService typeService) {
-        this.typeService = typeService;
-    }
-
-    public CourseService getCourseService() {
-        return courseService;
-    }
-
-    public void setCourseService(CourseService courseService) {
-        this.courseService = courseService;
-    }
-
-    public AcademicCalendarService getAcalService() {
-        return acalService;
-    }
-
-    public void setAcalService(AcademicCalendarService acalService) {
-        this.acalService = acalService;
-    }
-
-    public void setRgAssembler(RegistrationGroupAssembler rgAssembler) {
-        this.registrationGroupAssembler = rgAssembler;
-    }
-
-    public StateService getStateService() {
-        return stateService;
-    }
-
-    public void setStateService(StateService stateService) {
-        this.stateService = stateService;
-    }
-
-    public LprService getLprService() {
-        return lprService;
-    }
-
-    public void setLprService(LprService lprService) {
-        this.lprService = lprService;
-    }
-    public void setSeatPoolDefinitionDao(SeatPoolDefinitionDaoApi seatPoolDefinitionDao) {
-        this.seatPoolDefinitionDao = seatPoolDefinitionDao;
-    }
-
-    public void setActivityOfferingClusterDao(ActivityOfferingClusterDaoApi activityOfferingClusterDao) {
-        this.activityOfferingClusterDao = activityOfferingClusterDao;
-    }
-
-    public AtpService getAtpService() {
-        return atpService;
-    }
-
-    public void setAtpService(AtpService atpService) {
-        this.atpService = atpService;
-    }
 
     @Override
     @Transactional(readOnly = true)
@@ -786,18 +732,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
-    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo deleteCourseOffering(String courseOfferingId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        try {
-            return luiService.deleteLui(courseOfferingId, context);
-        } catch (DependentObjectsExistException e) {
-            throw new OperationFailedException("Error deleting course offering", e);
-        }
-    }
-
-    @Override
     public List<ValidationResultInfo> validateCourseOffering(String validationType, CourseOfferingInfo courseOfferingInfo,
                                                              ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return new ArrayList<ValidationResultInfo>();
@@ -864,24 +798,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<FormatOfferingInfo> getFormatOfferingsByCourseOffering(String courseOfferingId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-
-        List<FormatOfferingInfo> formatOfferings = new ArrayList<FormatOfferingInfo>();
-
-        // Find all related luis to the course Offering
-        List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY, context);
-        for (LuiInfo lui : luis) {
-            FormatOfferingInfo formatOffering = new FormatOfferingInfo();
-            new FormatOfferingTransformer().lui2Format(lui, formatOffering);
-            formatOffering.setCourseOfferingId(courseOfferingId);
-            formatOfferings.add(formatOffering);
-        }
-        return formatOfferings;
-    }
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
@@ -1691,8 +1607,47 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
     }
 
-    private void dAoRemoveActivityOfferingIdFromAoCluster(String activityOfferingId,
-                                                          ContextInfo context) {
+
+    @Override
+    @Transactional
+    public StatusInfo deleteActivityOfferingCascaded(String activityOfferingId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        List<SeatPoolDefinitionInfo> seatPoolsToDelete = getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
+        deleteSeatPoolsFromAo( seatPoolsToDelete, activityOfferingId, context );
+        removeActivityOfferingFromAoCluster(activityOfferingId, context);
+
+        return deleteActivityOffering(activityOfferingId, context);
+
+    }
+
+    /* Delete RegGroups attached to the AO */
+    private void deleteRegGroupsForAo( String activityOfferingId, ContextInfo context )
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+
+        // Delete RGs attached to this AO
+        List<RegistrationGroupInfo> regGroups = getRegistrationGroupsByActivityOffering(activityOfferingId, context);
+        if (regGroups != null && !regGroups.isEmpty()) {
+            for (RegistrationGroupInfo regGroup : regGroups) {
+                deleteRegistrationGroup(regGroup.getId(), context);
+            }
+        }
+    }
+
+    /* Removes the seat pool reference from the AO and then deletes the orphaned seat pool */
+    private void deleteSeatPoolsFromAo( List<SeatPoolDefinitionInfo> seatPoolsToDelete, String activityOfferingId, ContextInfo context )
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+
+        for (SeatPoolDefinitionInfo seatPool : seatPoolsToDelete) {
+            removeSeatPoolDefinitionFromActivityOffering(seatPool.getId(), activityOfferingId, context);
+            deleteSeatPoolDefinition(seatPool.getId(), context);
+        }
+    }
+
+
+    /* Removes the AO from AO cluster */
+    private void removeActivityOfferingFromAoCluster(String activityOfferingId, ContextInfo context) {
+
         boolean exceptionThrown = false;
         try {
             ActivityOfferingInfo aoInfo = getActivityOffering(activityOfferingId, context);
@@ -1737,37 +1692,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             // Avoids catching all exceptions
             LOGGER.warn("Unable to find AO: " + activityOfferingId);
         }
-    }
-
-    @Override
-    @Transactional
-    public StatusInfo deleteActivityOfferingCascaded(String activityOfferingId,
-                                                     ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // get seat pools to delete
-        List<SeatPoolDefinitionInfo> seatPools = getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
-
-        // remove seat pool reference  to AO then delete orphaned seat pool
-        for (SeatPoolDefinitionInfo seatPool : seatPools) {
-            removeSeatPoolDefinitionFromActivityOffering(seatPool.getId(), activityOfferingId, context);
-            deleteSeatPoolDefinition(seatPool.getId(), context);
-        }
-
-        // Delete RGs attached to this AO
-        List<RegistrationGroupInfo> regGroups = getRegistrationGroupsByActivityOffering(activityOfferingId, context);
-        if (regGroups != null && !regGroups.isEmpty()) {
-            for (RegistrationGroupInfo regGroup : regGroups) {
-                deleteRegistrationGroup(regGroup.getId(), context);
-            }
-        }
-
-        // Remove AO from AO cluster
-        dAoRemoveActivityOfferingIdFromAoCluster(activityOfferingId, context);
-
-        // Delete the Activity offering
-        return deleteActivityOffering(activityOfferingId, context);
-
     }
 
     /**
@@ -1888,7 +1812,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return result;
     }
 
-        @Override
+    @Override
     public List<ValidationResultInfo> validateActivityOffering(String validationType,
                                                                ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
             throws DoesNotExistException,
@@ -2394,66 +2318,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         return false;
     }
-
-    @SuppressWarnings("unused")
-    //TODO This code is an example of refactoring validateRG, please delete when it replaces validateRG or is no longer needed
-    private Object[] validateRG2(String validationType, String activityOfferingClusterId, String registrationGroupType,
-                                 RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        List<List<String>> listOfTimeSlotIds = new ArrayList<List<String>>();
-        List<Boolean> usedActualScheduleList = new ArrayList<Boolean>();
-
-        List<String> aoIds = registrationGroupInfo.getActivityOfferingIds();
-        for (String aoId: aoIds) {
-            ActivityOfferingInfo aoInfo = getActivityOffering(aoId, context);
-            List<String> scheduleIds = aoInfo.getScheduleIds();
-            boolean needToCheckScheduleRequest = true;
-            if (scheduleIds != null && ! scheduleIds.isEmpty()) {
-                // Check if there are schedules with these IDs (might not be)
-                List<ScheduleInfo> scheduleInfos = getSchedulingService().getSchedulesByIds(scheduleIds, context);
-                if (scheduleInfos != null && ! scheduleInfos.isEmpty()) {
-                    for (ScheduleInfo scheduleInfo : scheduleInfos) {
-                        List<ScheduleComponentInfo> scInfos = scheduleInfo.getScheduleComponents();
-                        List<String> timeSlotIds = new ArrayList<String>();
-                        for (ScheduleComponentInfo compInfo: scInfos) {
-                            timeSlotIds.addAll(compInfo.getTimeSlotIds());
-                        }
-                        listOfTimeSlotIds.add(timeSlotIds);
-                        needToCheckScheduleRequest = false;
-                        usedActualScheduleList.add(Boolean.TRUE);  // Use schedule
-                    }
-                }
-            }
-            if (needToCheckScheduleRequest) {  // Couldn't find a schedule for this AO
-                // See if there's a schedule request to use instead
-                List<ScheduleRequestInfo> scheduleRequestInfos =
-                        getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoId, context);
-                usedActualScheduleList.add(Boolean.FALSE); // Used schedule request or nothing
-                if (scheduleRequestInfos.isEmpty()) {
-                    // Neither a schedule nor a schedule request is found
-                    listOfTimeSlotIds.add(null);  // May not be needed
-                } else {
-                    // Found schedule requests, so extract out time slots
-                    List<String> timeSlotIds = new ArrayList<String>();
-                    for (ScheduleRequestInfo requestInfo: scheduleRequestInfos) {
-                        // For M5, expected to be only one ScheduleRequestComponentInfo
-                        List<ScheduleRequestComponentInfo> scrInfos = requestInfo.getScheduleRequestComponents();
-                        for (ScheduleRequestComponentInfo reqInfo: scrInfos) {
-                            timeSlotIds.addAll(reqInfo.getTimeSlotIds());
-                        }
-                    }
-                    listOfTimeSlotIds.add(timeSlotIds);
-                }
-            }
-        }
-
-        List<Object> result = new ArrayList<Object>();
-        result.add( listOfTimeSlotIds );
-        result.add( usedActualScheduleList );
-        result.add( aoIds );
-
-        return result.toArray();
-    }
-
 
     private List<ValidationResultInfo> vRgCheckTimeConflict(List<String> timeSlotIdsFirst, List<String> timeSlotIdsSecond,
                                                             List<ValidationResultInfo> validationResultInfos,
@@ -2968,18 +2832,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
     }
 
-
-    /*
-     SeatPoolDefinitionEntity spEntity = this.getSeatPoolDefinitionDao().find(seatPoolDefinitionId);
-
-            if(spEntity == null){
-                throw new DoesNotExistException("No Seatpool with id=" + seatPoolDefinitionId);
-            }
-
-            spEntity.fromDto(seatPoolDefinitionInfo);
-            return seatPoolDefinitionDao.merge(spEntity).toDto();
-     */
-
     @Override
     public List<ValidationResultInfo> validateSeatPoolDefinition(String validationTypeKey,
                                                                  SeatPoolDefinitionInfo seatPoolDefinitionInfo, ContextInfo context) throws
@@ -3230,22 +3082,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
 
         return false;
-    }
-
-    public void setCourseOfferingTransformer(CourseOfferingTransformer courseOfferingTransformer) {
-        this.courseOfferingTransformer = courseOfferingTransformer;
-    }
-
-    public void setActivityOfferingTransformer(ActivityOfferingTransformer activityOfferingTransformer) {
-        this.activityOfferingTransformer = activityOfferingTransformer;
-    }
-
-    public void setRegistrationGroupTransformer(RegistrationGroupTransformer registrationGroupTransformer) {
-        this.registrationGroupTransformer = registrationGroupTransformer;
-    }
-
-    public void setOfferingCodeGenerator(CourseOfferingCodeGenerator offeringCodeGenerator) {
-        this.offeringCodeGenerator = offeringCodeGenerator;
     }
 
     @Override
@@ -3753,16 +3589,36 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return qbcBuilder.build();
     }
 
-    public SchedulingService getSchedulingService() {
-        return schedulingService;
+    public void setActivityOfferingClusterDao(ActivityOfferingClusterDaoApi activityOfferingClusterDao) {
+        this.activityOfferingClusterDao = activityOfferingClusterDao;
     }
 
-    public void setSchedulingService(SchedulingService schedulingService) {
-        this.schedulingService = schedulingService;
+    public void setActivityOfferingTransformer(ActivityOfferingTransformer activityOfferingTransformer) {
+        this.activityOfferingTransformer = activityOfferingTransformer;
     }
 
-    public void setLrcService(LRCService lrcService) {
-        this.lrcService = lrcService;
+    public void setBusinessLogic(CourseOfferingServiceBusinessLogic businessLogic) {
+        this.businessLogic = businessLogic;
+    }
+
+    public void setCourseOfferingTransformer(CourseOfferingTransformer courseOfferingTransformer) {
+        this.courseOfferingTransformer = courseOfferingTransformer;
+    }
+
+    public void setOfferingCodeGenerator(CourseOfferingCodeGenerator offeringCodeGenerator) {
+        this.offeringCodeGenerator = offeringCodeGenerator;
+    }
+
+    public void setRegistrationGroupTransformer(RegistrationGroupTransformer registrationGroupTransformer) {
+        this.registrationGroupTransformer = registrationGroupTransformer;
+    }
+
+    public void setRgAssembler(RegistrationGroupAssembler rgAssembler) {
+        this.registrationGroupAssembler = rgAssembler;
+    }
+
+    public void setSeatPoolDefinitionDao(SeatPoolDefinitionDaoApi seatPoolDefinitionDao) {
+        this.seatPoolDefinitionDao = seatPoolDefinitionDao;
     }
 
     public StateTransitionsHelper getStateTransitionsHelper() {
@@ -3773,6 +3629,75 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         this.stateTransitionsHelper = stateTransitionsHelper;
     }
 
+    public AcademicCalendarService getAcalService() {
+    return acalService;
+}
+
+    public void setAcalService(AcademicCalendarService acalService) {
+        this.acalService = acalService;
+    }
+
+    public AtpService getAtpService() {
+        return atpService;
+    }
+
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
+    }
+
+    public CourseService getCourseService() {
+        return courseService;
+    }
+
+    public void setCourseService(CourseService courseService) {
+        this.courseService = courseService;
+    }
+
+    public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
+        this.criteriaLookupService = criteriaLookupService;
+    }
+
+    public LprService getLprService() {
+        return lprService;
+    }
+
+    public void setLprService(LprService lprService) {
+        this.lprService = lprService;
+    }
+
+    public void setLrcService(LRCService lrcService) {
+        this.lrcService = lrcService;
+    }
+
+    public LuiService getLuiService() {
+        return luiService;
+    }
+
+    public void setLuiService(LuiService luiService) {
+        this.luiService = luiService;
+    }
+
+    public RoomService getRoomService() {
+        if (roomService == null){
+            roomService = (RoomService)GlobalResourceLoader.getService(new QName(RoomServiceConstants.NAMESPACE,
+                    RoomServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return roomService;
+    }
+
+    @SuppressWarnings("unused")
+    public void setRoomService(RoomService roomService) {
+        this.roomService = roomService;
+    }
+
+    public SchedulingService getSchedulingService() {
+        return schedulingService;
+    }
+
+    public void setSchedulingService(SchedulingService schedulingService) {
+        this.schedulingService = schedulingService;
+    }
+
     public SearchService getSearchService() {
         return searchService;
     }
@@ -3780,4 +3705,21 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public void setSearchService(SearchService searchService) {
         this.searchService = searchService;
     }
+
+    public StateService getStateService() {
+        return stateService;
+    }
+
+    public void setStateService(StateService stateService) {
+        this.stateService = stateService;
+    }
+
+    public TypeService getTypeService() {
+        return typeService;
+    }
+
+    public void setTypeService(TypeService typeService) {
+        this.typeService = typeService;
+    }
+
 }
