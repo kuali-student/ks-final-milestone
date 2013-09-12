@@ -645,15 +645,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return helper.getCourse(courseId);
     }
 
+
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public CourseOfferingInfo updateCourseOffering(String courseOfferingId, CourseOfferingInfo coInfo, ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException,
-            ReadOnlyException, VersionMismatchException {
-        if (!courseOfferingId.equals(coInfo.getId())) {
-            throw new InvalidParameterException(courseOfferingId + " does not match the corresponding value in the object " + coInfo.getId());
-        }
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+
+        validateThatCourseOfferingIdsMatch( courseOfferingId, coInfo );
 
         // get the backing lui
         LuiInfo lui = luiService.getLui(courseOfferingId, context);
@@ -662,6 +661,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         if (!StringUtils.equals(lui.getStateKey(),coInfo.getStateKey())){
             throw new OperationFailedException("Changing the CourseOffering state is not supported with updateCourseOffering(). Please call changeCourseOfferingState() for state changes.");
         }
+
         // copy fields and update
         courseOfferingTransformer.courseOffering2Lui(coInfo, lui, context);
 
@@ -715,9 +715,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
 
         lui = luiService.updateLui(courseOfferingId, lui, context);
-        // convert back to co and return
+
+        return convertLuiToCourseOffering( lui, context );
+    }
+
+    private void validateThatCourseOfferingIdsMatch( String courseOfferingId, CourseOfferingInfo coInfo ) throws InvalidParameterException {
+
+        if (!courseOfferingId.equals(coInfo.getId())) {
+            throw new InvalidParameterException(courseOfferingId + " does not match the corresponding value in the object " + coInfo.getId());
+        }
+    }
+
+    private CourseOfferingInfo convertLuiToCourseOffering( LuiInfo lui, ContextInfo contextInfo ) {
+
         CourseOfferingInfo co = new CourseOfferingInfo();
-        courseOfferingTransformer.lui2CourseOffering(lui, co, context);
+        courseOfferingTransformer.lui2CourseOffering(lui, co, contextInfo);
+
         return co;
     }
 
@@ -1614,7 +1627,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<SeatPoolDefinitionInfo> seatPoolsToDelete = getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
-        deleteSeatPoolsFromAo( seatPoolsToDelete, activityOfferingId, context );
+        deleteSeatPoolsFromAo(seatPoolsToDelete, activityOfferingId, context);
         removeActivityOfferingFromAoCluster(activityOfferingId, context);
 
         return deleteActivityOffering(activityOfferingId, context);
