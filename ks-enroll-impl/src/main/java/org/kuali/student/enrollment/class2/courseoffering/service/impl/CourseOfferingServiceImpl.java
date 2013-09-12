@@ -114,7 +114,10 @@ import java.util.Set;
 public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     private static final String OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE = "unexpected";
+    private static final String FAILED_TO_UPDATE_LUI_STATE_ERROR_MESSAGE = "Failed to update State";
+
     private static final String PREDICATE_FACTORY_PATH_FOR_LUITYPE = "luiType";
+
     private static final String DELIVERY_LOGISTIC_TYPE_ACTUAL = "actual";
     private static final String DELIVERY_LOGISTIC_TYPE_REQUESTED = "requested";
 
@@ -1639,7 +1642,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 OperationFailedException, PermissionDeniedException {
         LuiInfo lui = luiService.getLui(activityOfferingId, context);
 
-        if (!_checkTypeForActivityOfferingType(lui.getTypeKey(), context)) {
+        if (!checkTypeForActivityOfferingType(lui.getTypeKey(), context)) {
             throw new InvalidParameterException("Given lui id ( " + activityOfferingId + " ) is not an Activity Offering");
         }
 
@@ -2120,13 +2123,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                     && LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY.equals(llr.getTypeKey())
                     && !llr.getLuiId().equals(registrationGroupInfo.getFormatOfferingId())) {
                 luiService.deleteLuiLuiRelation(llr.getId(), context);
-                _createLuiLuiRelationForRegGroups(registrationGroupInfo.getFormatOfferingId(), registrationGroupId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY, context);
+                createLuiLuiRelationForRegGroups(registrationGroupInfo.getFormatOfferingId(), registrationGroupId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY, context);
             }
         }
         // Create relations for added Activity Offerings or Course Offering
         for (String luiId : newRelatedLuiIds) {
             if (!existingRelatedLuiIds.contains(luiId)) {
-                _createLuiLuiRelationForRegGroups(registrationGroupId, luiId, LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY, context);
+                createLuiLuiRelationForRegGroups(registrationGroupId, luiId, LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY, context);
             }
         }
 
@@ -2442,12 +2445,15 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 }
             }
         }
-        Object[] result = new Object[3];
-        result[0] = listOfTimeSlotIds;
-        result[1] = usedActualScheduleList;
-        result[2] = aoIds;
-        return result;
+
+        List<Object> result = new ArrayList<Object>();
+        result.add( listOfTimeSlotIds );
+        result.add( usedActualScheduleList );
+        result.add( aoIds );
+
+        return result.toArray();
     }
+
 
     private List<ValidationResultInfo> vRgCheckTimeConflict(List<String> timeSlotIdsFirst, List<String> timeSlotIdsSecond,
                                                             List<ValidationResultInfo> validationResultInfos,
@@ -2521,7 +2527,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return list;
     }
 
-    private Set<String> _verifyUniquenessOfAoTypes(ActivityOfferingClusterInfo clusterInfo) throws InvalidParameterException {
+    private Set<String> verifyUniquenessOfAoTypes(ActivityOfferingClusterInfo clusterInfo) throws InvalidParameterException {
         Set<String> aoTypeSet = new HashSet<String>();
         if (clusterInfo.getActivityOfferingSets() == null) {
             return aoTypeSet;
@@ -2542,9 +2548,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return aoTypeSet;
     }
 
-    private void _verifyClusterAoTypesMatchFoAoTypes(Set<String> clusterAoTypes, Set<String> foAoTypes,
-                                                     ActivityOfferingClusterInfo clusterInfo,
-                                                     String foId) throws InvalidParameterException {
+    private void verifyClusterAoTypesMatchFoAoTypes(Set<String> clusterAoTypes, Set<String> foAoTypes,
+                                                    ActivityOfferingClusterInfo clusterInfo,
+                                                    String foId) throws InvalidParameterException {
         if (!clusterAoTypes.equals(foAoTypes)) {
             Set<String> aoTypeSetCopy = new HashSet<String>(clusterAoTypes);
             aoTypeSetCopy.removeAll(foAoTypes);
@@ -2569,7 +2575,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
     }
 
-    private void _verifyAoIdsInCorrectAoSet(ActivityOfferingClusterInfo clusterInfo, ContextInfo contextInfo)
+    private void verifyAoIdsInCorrectAoSet(ActivityOfferingClusterInfo clusterInfo, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException,
             PermissionDeniedException, OperationFailedException {
 
@@ -2591,20 +2597,20 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
      * @param clusterInfo AO cluster info
      * @param contextInfo Context
      */
-    private void _verifyAOSetsInCluster(FormatOfferingInfo foInfo, ActivityOfferingClusterInfo clusterInfo,
-                                        ContextInfo contextInfo)
+    private void verifyAOSetsInCluster(FormatOfferingInfo foInfo, ActivityOfferingClusterInfo clusterInfo,
+                                       ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException,
             OperationFailedException, PermissionDeniedException {
         // Make sure types are unique
-        Set<String> clusterAoTypes = _verifyUniquenessOfAoTypes(clusterInfo);
+        Set<String> clusterAoTypes = verifyUniquenessOfAoTypes(clusterInfo);
         List<String> aoTypes = foInfo.getActivityOfferingTypeKeys();
         Set<String> foAoTypes = new HashSet<String>(aoTypes);
         if (foAoTypes.size() != aoTypes.size()) {
             // FOs should not have more than one AO type
             throw new InvalidParameterException("FO (" + foInfo.getId() + ") has AO types that appear more than once");
         }
-        _verifyClusterAoTypesMatchFoAoTypes(clusterAoTypes, foAoTypes, clusterInfo, foInfo.getId());
-        _verifyAoIdsInCorrectAoSet(clusterInfo, contextInfo);
+        verifyClusterAoTypesMatchFoAoTypes(clusterAoTypes, foAoTypes, clusterInfo, foInfo.getId());
+        verifyAoIdsInCorrectAoSet(clusterInfo, contextInfo);
     }
 
     @Override
@@ -2633,9 +2639,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         if (activityOfferingClusterInfo.getActivityOfferingSets() == null ||
                 activityOfferingClusterInfo.getActivityOfferingSets().isEmpty()) {
             // If it's empty
-            _createAOSets(foInfo, activityOfferingClusterInfo);
+            createAOSets(foInfo, activityOfferingClusterInfo);
         } else {
-            _verifyAOSetsInCluster(foInfo, activityOfferingClusterInfo, contextInfo);  // Throws exception if it fails to verify
+            verifyAOSetsInCluster(foInfo, activityOfferingClusterInfo, contextInfo);  // Throws exception if it fails to verify
         }
         // persist
         ActivityOfferingClusterEntity activityOfferingClusterEntity =
@@ -2653,7 +2659,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return activityOfferingClusterEntity.toDto();
     }
 
-    private void _createAOSets(FormatOfferingInfo foInfo, ActivityOfferingClusterInfo clusterInfo) {
+    private void createAOSets(FormatOfferingInfo foInfo, ActivityOfferingClusterInfo clusterInfo) {
         if (clusterInfo.getActivityOfferingSets() == null) {
             clusterInfo.setActivityOfferingSets(new ArrayList<ActivityOfferingSetInfo>());
         }
@@ -2772,7 +2778,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     }
 
-    private void _uAOC_deleteRegGroupsWithAosNotInCluster(ActivityOfferingClusterInfo clusterInfo, ContextInfo contextInfo)
+    private void uAoCDeleteRegGroupsWithAosNotInCluster(ActivityOfferingClusterInfo clusterInfo, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException,
             OperationFailedException {
 
@@ -2817,7 +2823,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 throw new ReadOnlyException("state key can only be changed by calling changeActivityOfferingClusterState");
             }
             FormatOfferingInfo foInfo = getFormatOffering(formatOfferingId, contextInfo);
-            _verifyAOSetsInCluster(foInfo, activityOfferingClusterInfo, contextInfo);
+            verifyAOSetsInCluster(foInfo, activityOfferingClusterInfo, contextInfo);
 
             List<Object> orphans = activityOfferingClusterEntity.fromDto(activityOfferingClusterInfo);
             // Delete any orphaned children
@@ -2833,7 +2839,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             ActivityOfferingClusterInfo merged = mergedEntity.toDto();
             // Delete reg groups with AOs no longer in AO cluster (put here, in case merge fails--then, this code won't
             // run.
-            _uAOC_deleteRegGroupsWithAosNotInCluster(merged, contextInfo);
+            uAoCDeleteRegGroupsWithAosNotInCluster(merged, contextInfo);
             return merged;
         } else {
             throw new DoesNotExistException("No activityOfferingCluster has been found for activityOfferingClusterId=" + activityOfferingClusterId);
@@ -3084,7 +3090,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return courseOfferings;
     }
 
-    private void _createLuiLuiRelationForRegGroups(String luiId, String relatedLuiId, String luLuRelationTypeKey, ContextInfo context) throws DataValidationErrorException,
+    private void createLuiLuiRelationForRegGroups(String luiId, String relatedLuiId, String luLuRelationTypeKey, ContextInfo context) throws DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         try {
             LuiLuiRelationInfo luiRel = new LuiLuiRelationInfo();
@@ -3097,9 +3103,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             } catch (ReadOnlyException roe) {
                 throw new OperationFailedException("setting read only fields", roe);
             }
-        }
-        catch (DoesNotExistException e) {
-            throw new OperationFailedException();
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException(e);
         }
     }
 
@@ -3210,16 +3215,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         throw new UnsupportedOperationException();
     }
 
-    private boolean _checkTypeForCourseOfferingType(String typeKey) {
-        return typeKey.equals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
-    }
-
-    private boolean _checkTypeForActivityOfferingType(String typeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    private boolean checkTypeForActivityOfferingType(String typeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<TypeInfo> types = getActivityOfferingTypes(context);
-        return _checkTypeInTypes(typeKey, types);
+        return checkTypeInTypes(typeKey, types);
     }
 
-    private boolean _checkTypeInTypes(String typeKey, List<TypeInfo> types) {
+    private boolean checkTypeInTypes(String typeKey, List<TypeInfo> types) {
         if (types != null && !types.isEmpty()) {
             for (TypeInfo type : types) {
                 if (type.getKey().equals(typeKey)) {
@@ -3348,7 +3349,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 try{
                     luiService.updateLui(lui.getId(), lui, contextInfo);
                 }catch(Exception e){
-                    throw new OperationFailedException("Failed to update State", e);
+                    throw new OperationFailedException(FAILED_TO_UPDATE_LUI_STATE_ERROR_MESSAGE, e);
                 }
 
                 String propagationKey = thisStateKey + ":" + nextStateKey;
@@ -3389,7 +3390,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             try{
                 luiService.updateLui(lui.getId(), lui, contextInfo);
             }catch(Exception e){
-                throw new OperationFailedException("Failed to update State", e);
+                throw new OperationFailedException(FAILED_TO_UPDATE_LUI_STATE_ERROR_MESSAGE, e);
             }
 
             String propagationKey = thisStateKey + ":" + nextStateKey;
@@ -3426,7 +3427,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 try{
                     luiService.updateLui(lui.getId(), lui, contextInfo);
                 }catch(Exception e){
-                    throw new OperationFailedException("Failed to update State", e);
+                    throw new OperationFailedException(FAILED_TO_UPDATE_LUI_STATE_ERROR_MESSAGE, e);
                 }
 
                 //propagation
@@ -3501,7 +3502,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 exceptionMessage = e.getMessage();
             }catch(Exception e){
                 exceptionOccurred = true;
-                exceptionMessage = "Failed to update State" + e.getMessage();
+                exceptionMessage = FAILED_TO_UPDATE_LUI_STATE_ERROR_MESSAGE + " " + e.getMessage();
             }
             if (exceptionOccurred) {
                 throw new OperationFailedException(exceptionMessage);
@@ -3536,7 +3537,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
         // TODO: Is it OK if the state does not change?
         entity.setActivityOfferingClusterState(nextStateKey);
-        this._logAOCStateChange(entity, contextInfo);
+        this.logAOCStateChange(entity, contextInfo);
         entity.setEntityUpdated(contextInfo);
         activityOfferingClusterDao.merge(entity);
         StatusInfo status = new StatusInfo ();
@@ -3544,7 +3545,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return status;
     }
 
-    private void _logAOCStateChange(ActivityOfferingClusterEntity entity, ContextInfo contextInfo) {
+    private void logAOCStateChange(ActivityOfferingClusterEntity entity, ContextInfo contextInfo) {
         // add the state change to the log
         // TODO: consider changing this to a call to a real logging facility instead of stuffing it in the dynamic attributes
         Date date = contextInfo.getCurrentDate();
@@ -3730,11 +3731,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         GenericQueryResults<String> results = criteriaLookupService.lookupIds(LuiEntity.class, criteria);
         List<String> ids = results.getResults();
 
-        if(ids != null && !ids.isEmpty()){
-            return true;
-        } else{
+        if( ids == null || ids.isEmpty() ) {
             return false;
         }
+
+        return true;
     }
 
     /**
@@ -3750,10 +3751,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         qbcBuilder.setPredicates(PredicateFactory.equal("id", luiId));
 
         return qbcBuilder.build();
-    }
-
-    private boolean _checkTypeForFormatOfferingType(String typeKey) {
-        return typeKey.equals(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
     }
 
     public SchedulingService getSchedulingService() {
