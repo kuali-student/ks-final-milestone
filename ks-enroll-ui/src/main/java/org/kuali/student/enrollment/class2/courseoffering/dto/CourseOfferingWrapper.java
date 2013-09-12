@@ -58,6 +58,7 @@ public class CourseOfferingWrapper implements Serializable{
     private String finalExamDriver;
     private String finalExamDriverUI;
     private boolean useFinalExamMatrix;
+    private String useFinalExamMatrixUI;
 
     private boolean isColocatedAoToDelete;
     private boolean isColocatedAoToCSR;
@@ -432,5 +433,13 @@ public class CourseOfferingWrapper implements Serializable{
 
     public void setUseFinalExamMatrix(boolean useFinalExamMatrix) {
         this.useFinalExamMatrix = useFinalExamMatrix;
+    }
+
+    public String getUseFinalExamMatrixUI() {
+        return useFinalExamMatrixUI;
+    }
+
+    public void setUseFinalExamMatrixUI(String useFinalExamMatrixUI) {
+        this.useFinalExamMatrixUI = useFinalExamMatrixUI;
     }
 }

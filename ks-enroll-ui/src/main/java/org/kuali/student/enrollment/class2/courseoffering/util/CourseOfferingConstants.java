@@ -110,6 +110,8 @@ public class CourseOfferingConstants {
 
     // Display text
     public static final String COURSEOFFERING_TEXT_STD_REG_OPTS_EMPTY = "None available";
+    public static final String COURSEOFFERING_TEXT_USE_FINAL_EXAM_MATRIX = "Yes";
+    public static final String COURSEOFFERING_TEXT_NOT_USE_FINAL_EXAM_MATRIX = "No";
 
     /**
      * Course Offering create constants

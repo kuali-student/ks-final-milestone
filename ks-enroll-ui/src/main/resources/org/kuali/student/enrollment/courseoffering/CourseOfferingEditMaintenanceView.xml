@@ -97,70 +97,70 @@
             </list>
         </property>
 
-       <property name="header.rightGroup">
-           <bean parent="KS-Unified-Header-Right-Group" >
-                   <property name="items">
-                       <list>
-                           <bean parent="KS-Unified-Header-Action-Group" p:render="@{!document.oldMaintainableObject.dataObject.createCO and #dp.renderHelper.relatedCOs.size() > 1}">
-                               <property name="items">
-                                   <list>
+        <property name="header.rightGroup">
+            <bean parent="KS-Unified-Header-Right-Group" >
+                <property name="items">
+                    <list>
+                        <bean parent="KS-Unified-Header-Action-Group" p:render="@{!document.oldMaintainableObject.dataObject.createCO and #dp.renderHelper.relatedCOs.size() > 1}">
+                            <property name="items">
+                                <list>
 
-                                       <!-- PREVIOUS CO -->
-                                       <bean parent="Uif-ActionLink"
-                                             id="edit_co_prev"
-                                             p:actionImagePlacement="LEFT"
-                                             p:methodToCall="route"
-                                             p:actionLabel="@{#dp.renderHelper.prevCO==null?'':#dp.renderHelper.prevCO.courseOfferingCode}"
-                                             p:render="@{#dp.renderHelper.prevCO==null?false:#dp.renderHelper.prevCO.id != null}"
-                                             p:actionScript="handleCONavigation( this, &quot;@{#dp.renderHelper.prevCO==null?null:#dp.renderHelper.prevCO.id}&quot; );" >
-                                           <property name="actionParameters">
-                                               <map>
-                                                   <entry key="coId" value="@{#dp.renderHelper.prevCO==null?null:#dp.renderHelper.prevCO.id}" />
-                                               </map>
-                                           </property>
-                                           <property name="actionImage">
-                                               <bean parent="Uif-Image" p:altText=""
-                                                     p:source="@{#ConfigProperties['ks.externalizable.images.url']}/icon-arrow-left.png"/>
-                                           </property>
-                                       </bean>
+                                    <!-- PREVIOUS CO -->
+                                    <bean parent="Uif-ActionLink"
+                                          id="edit_co_prev"
+                                          p:actionImagePlacement="LEFT"
+                                          p:methodToCall="route"
+                                          p:actionLabel="@{#dp.renderHelper.prevCO==null?'':#dp.renderHelper.prevCO.courseOfferingCode}"
+                                          p:render="@{#dp.renderHelper.prevCO==null?false:#dp.renderHelper.prevCO.id != null}"
+                                          p:actionScript="handleCONavigation( this, &quot;@{#dp.renderHelper.prevCO==null?null:#dp.renderHelper.prevCO.id}&quot; );" >
+                                        <property name="actionParameters">
+                                            <map>
+                                                <entry key="coId" value="@{#dp.renderHelper.prevCO==null?null:#dp.renderHelper.prevCO.id}" />
+                                            </map>
+                                        </property>
+                                        <property name="actionImage">
+                                            <bean parent="Uif-Image" p:altText=""
+                                                  p:source="@{#ConfigProperties['ks.externalizable.images.url']}/icon-arrow-left.png"/>
+                                        </property>
+                                    </bean>
 
-                                       <!-- DROP-DOWN LIST OF ALL RELATED COs -->
-                                       <bean parent="Uif-InputField"
-                                             id="edit_co_select"
-                                             p:propertyName="renderHelper.selectedCoCode">
-                                           <property name="control">
-                                               <bean parent="Uif-DropdownControl" p:onChangeScript="handleCOSelection(this);" />
-                                           </property>
-                                           <property name="optionsFinder">
-                                               <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.CourseOfferingCodesKeyValues" p:addBlankOption="false" />
-                                           </property>
-                                       </bean>
+                                    <!-- DROP-DOWN LIST OF ALL RELATED COs -->
+                                    <bean parent="Uif-InputField"
+                                          id="edit_co_select"
+                                          p:propertyName="renderHelper.selectedCoCode">
+                                        <property name="control">
+                                            <bean parent="Uif-DropdownControl" p:onChangeScript="handleCOSelection(this);" />
+                                        </property>
+                                        <property name="optionsFinder">
+                                            <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.CourseOfferingCodesKeyValues" p:addBlankOption="false" />
+                                        </property>
+                                    </bean>
 
-                                       <!-- NEXT CO -->
-                                       <bean parent="Uif-ActionLink"
-                                             id="edit_co_next"
-                                             p:actionImagePlacement="RIGHT"
-                                             p:methodToCall="route"
-                                             p:actionLabel="@{#dp.renderHelper.nextCO==null?'':#dp.renderHelper.nextCO.courseOfferingCode}"
-                                             p:render="@{#dp.renderHelper.nextCO==null?false:#dp.renderHelper.nextCO.id != null}"
-                                             p:actionScript="handleCONavigation( this, &quot;@{#dp.renderHelper.nextCO==null?null:#dp.renderHelper.nextCO.id}&quot; );" >
-                                           <property name="actionParameters">
-                                               <map>
-                                                   <entry key="coId" value="@{#dp.renderHelper.nextCO==null?null:#dp.renderHelper.nextCO.id}" />
-                                               </map>
-                                           </property>
-                                           <property name="actionImage">
-                                               <bean parent="Uif-Image" p:altText=""
-                                                     p:source="@{#ConfigProperties['ks.externalizable.images.url']}/icon-arrow-right.png"/>
-                                           </property>
-                                       </bean>
-                                   </list>
-                               </property>
-                           </bean>
-                       </list>
-                   </property>
-           </bean>
-       </property>
+                                    <!-- NEXT CO -->
+                                    <bean parent="Uif-ActionLink"
+                                          id="edit_co_next"
+                                          p:actionImagePlacement="RIGHT"
+                                          p:methodToCall="route"
+                                          p:actionLabel="@{#dp.renderHelper.nextCO==null?'':#dp.renderHelper.nextCO.courseOfferingCode}"
+                                          p:render="@{#dp.renderHelper.nextCO==null?false:#dp.renderHelper.nextCO.id != null}"
+                                          p:actionScript="handleCONavigation( this, &quot;@{#dp.renderHelper.nextCO==null?null:#dp.renderHelper.nextCO.id}&quot; );" >
+                                        <property name="actionParameters">
+                                            <map>
+                                                <entry key="coId" value="@{#dp.renderHelper.nextCO==null?null:#dp.renderHelper.nextCO.id}" />
+                                            </map>
+                                        </property>
+                                        <property name="actionImage">
+                                            <bean parent="Uif-Image" p:altText=""
+                                                  p:source="@{#ConfigProperties['ks.externalizable.images.url']}/icon-arrow-right.png"/>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
 
         <!--Override the default maintenance doc buttons. -->
         <property name="footer">
@@ -517,12 +517,13 @@
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FinalExamDriversKeyValues" p:addBlankOption="false"/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField" p:id="finalExamMatrix" p:label="Use Final Exam Matrix" p:propertyName="useFinalExamMatrix" p:labelPlacement="RIGHT"
-                                              p:componentSecurity.editAuthz="true" p:defaultValue="true">
+                                        <bean parent="Uif-InputField" p:id="finalExamMatrix" p:label="Use Final Exam Matrix" p:propertyName="useFinalExamMatrix" p:labelPlacement="RIGHT" p:render="@{!#parent.readOnly}" p:componentSecurity.editAuthz="true" p:defaultValue="true">
                                             <property name="control">
                                                 <bean parent="Uif-CheckboxControl"/>
                                             </property>
                                         </bean>
+                                        <bean parent="Uif-MessageField" p:label="Use Final Exam Matrix" p:labelPlacement="LEFT" p:fieldLabel.renderColon="false" p:messageText="@{#dp.useFinalExamMatrixUI}" p:render="@{#parent.readOnly}" />
+
                                     </list>
                                 </property>
                             </bean>
@@ -566,11 +567,11 @@
         <property name="lineActions">
             <list>
                 <bean parent="KS-Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="delete"
-                          p:dirtyOnAction="true"
-                          p:onMouseOverScript="deleteLineMouseOver(this, 'uif-collectionDeleteHighlight');"
-                          p:onMouseOutScript="deleteLineMouseOut(this, 'uif-collectionDeleteHighlight');"
-                          p:onClickScript="writeCurrentPageToSession(this);"
-                          p:loadingMessageText="Deleting Line..." p:id="@{#collectionGroup.id}_del@{#lineSuffix}">
+                      p:dirtyOnAction="true"
+                      p:onMouseOverScript="deleteLineMouseOver(this, 'uif-collectionDeleteHighlight');"
+                      p:onMouseOutScript="deleteLineMouseOut(this, 'uif-collectionDeleteHighlight');"
+                      p:onClickScript="writeCurrentPageToSession(this);"
+                      p:loadingMessageText="Deleting Line..." p:id="@{#collectionGroup.id}_del@{#lineSuffix}">
                     <property name="render" value="@{#lp.formatOfferingInfo.stateKey ne 'kuali.lui.format.offering.state.offered'}"/>
                 </bean>
             </list>
@@ -587,7 +588,7 @@
                     </property>
                 </bean>
                 <bean id="edit_co_grade_roster_level" parent="Uif-InputField" p:propertyName="formatOfferingInfo.gradeRosterLevelTypeKey"
-                      p:label="GRADE ROSTER LEVEL" p:required="true" p:finalizeMethodToCall="populateGradeRosterLevelTypes" p:forceSessionPersistence="true">
+                      p:label="GRADE ROSTER LEVEL" p:required="true" p:finalizeMethodToCall="populateGradeRosterLevelTypes" p:forceSessionPersistence="true" p:readOnlyDisplayReplacementPropertyName="gradeRosterUI">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>
@@ -596,10 +597,11 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-DataField" p:id="final_exam_driver_ui" p:propertyName="courseOfferingWrapper.finalExamDriverUI" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'STANDARD'}" p:label="FINAL EXAM DRIVER"/>
+                <bean parent="Uif-DataField" p:id="final_exam_driver_ui" p:propertyName="courseOfferingWrapper.finalExamDriverUI" p:render="@{!#parent.readOnly and (#dp.courseOfferingInfo.finalExamType eq 'STANDARD')}" p:label="FINAL EXAM DRIVER"/>
+                <bean parent="Uif-MessageField" p:label="FINAL EXAM DRIVER" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="@{#lp.courseOfferingWrapper.finalExamDriverUI}" p:render="@{#parent.readOnly and (#dp.courseOfferingInfo.finalExamType eq 'STANDARD')}" />
 
                 <bean id="edit_co_final_exam_type" parent="Uif-InputField" p:propertyName="formatOfferingInfo.finalExamLevelTypeKey" p:label="FINAL EXAM DRIVER ACTIVITY"
-                      p:labelPlacement="TOP" p:required="true" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'STANDARD'}"  p:finalizeMethodToCall="populateFinalExamDriverTypes" p:forceSessionPersistence="true">
+                      p:labelPlacement="TOP" p:required="true" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'STANDARD'}"  p:finalizeMethodToCall="populateFinalExamDriverTypes" p:forceSessionPersistence="true" p:readOnlyDisplayReplacementPropertyName="finalExamUI">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>
@@ -624,7 +626,7 @@
                                 <property name="control">
                                     <!-- show dialog prompt if user deactivates waitlist -->
                                     <bean parent="Uif-CheckboxControl"
-                                            p:onClickScript="if (!jQuery('#KS-CourseOfferingEdit-HasWaitlist_control').attr('checked')) {showLightboxComponent('CourseOfferingEdit-Waitlist-Inactivate-Prompt'); }"/>
+                                          p:onClickScript="if (!jQuery('#KS-CourseOfferingEdit-HasWaitlist_control').attr('checked')) {showLightboxComponent('CourseOfferingEdit-Waitlist-Inactivate-Prompt'); }"/>
                                 </property>
                             </bean>
                             <ref bean="CourseOfferingEdit-Waitlist-Inactivate-Prompt"/>

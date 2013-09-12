@@ -58,6 +58,7 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -565,6 +566,20 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                     FormatOfferingWrapper wrapper = new FormatOfferingWrapper();
                     wrapper.setFormatOfferingInfo(fo);
                     wrapper.setCourseOfferingWrapper(formObject);
+
+                    //set the reader friendly Grade Roster Level
+                    if (!StringUtils.isEmpty(fo.getGradeRosterLevelTypeKey())) {
+                        wrapper.setGradeRosterUI(getTypeService().getType(fo.getGradeRosterLevelTypeKey(), contextInfo).getName());
+                    }
+                    //set the reader friendly Final Exam Driver Activity
+                    if (!StringUtils.isEmpty(fo.getFinalExamLevelTypeKey()) && StringUtils.equals(formObject.getFinalExamDriver(), LuServiceConstants.LU_EXAM_DRIVER_AO_KEY)) {
+                        wrapper.setFinalExamUI(getTypeService().getType(fo.getFinalExamLevelTypeKey(), contextInfo).getName());
+                    } else {
+                        wrapper.setFinalExamUI(" ");
+                    }
+
+
+
                     foList.add(wrapper);
                 }
                 formObject.setFormatOfferingList(foList);
@@ -756,6 +771,13 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 }
                 if (!finalExamTypeCM.isEmpty() && !StringUtils.equals(convertCourseFinalExamTypeToCourseOfferingFinalExamType(finalExamTypeCM), coInfo.getFinalExamType())) {
                     GlobalVariables.getMessageMap().putWarningForSectionId("delivery_and_assessment", CourseOfferingConstants.COURSEOFFERING_MSG_WARNING_FINALEXAMTYPE_DIFF_CM);
+                }
+
+                // set the display text for use final exam matrix in read-only view
+                if (formObject.isUseFinalExamMatrix()) {
+                    formObject.setUseFinalExamMatrixUI(CourseOfferingConstants.COURSEOFFERING_TEXT_USE_FINAL_EXAM_MATRIX);
+                } else {
+                    formObject.setUseFinalExamMatrixUI(CourseOfferingConstants.COURSEOFFERING_TEXT_NOT_USE_FINAL_EXAM_MATRIX);
                 }
 
                 return formObject;
