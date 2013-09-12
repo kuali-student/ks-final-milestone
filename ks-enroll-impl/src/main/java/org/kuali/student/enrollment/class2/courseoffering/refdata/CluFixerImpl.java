@@ -667,9 +667,11 @@ public class CluFixerImpl implements CluFixer {
     private void _printFormats(Map<String, List<String>> courseCodeToFormats, Set<String> uniqueFormats, String fileName) throws IOException {
         // Called by _determineFormats which is the entry point
         PrintStream pOut = _createPrintStream(fileName);
-        for (String courseCode: courseCodeToFormats.keySet()) {
+        //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
+        for(Map.Entry<String, List<String>> entry: courseCodeToFormats.entrySet()){
+            String courseCode = entry.getKey();
             pOut.print("(" + courseCode + ") ");
-            List<String> formats = courseCodeToFormats.get(courseCode);
+            List<String> formats = entry.getValue();
             boolean firstTime = true;
             for (String format: formats) {
                 if (firstTime) {
@@ -730,8 +732,9 @@ public class CluFixerImpl implements CluFixer {
         }
         // Print info
         PrintStream pOut = _createPrintStream("courseIdsAndCodes.txt");
-        for (String coCode: courseCodeToCourseId.keySet()) {
-            pOut.println(coCode + "/" + courseCodeToCourseId.get(coCode));
+        //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
+        for(Map.Entry<String, String> entry: courseCodeToCourseId.entrySet()){
+            pOut.println(entry.getKey() + "/" + entry.getValue());
         }
         pOut.close();
         LOGGER.info("Total courses: " + courseIds.size());
