@@ -141,15 +141,22 @@ function updateExamDriverInFOTable(finalExamDropDownId, finalExamTableCellId) {
 
     if (finalExamDropDown.val()== "kuali.lu.exam.driver.CourseOffering") {
         finalExamDriverUI = "Course Offering";
-        jQuery('#edit_co_final_exam_type_line0_control').hide();
     } else if (finalExamDropDown.val()== "kuali.lu.exam.driver.ActivityOffering") {
         finalExamDriverUI = "Activity Offering";
-        jQuery('#edit_co_final_exam_type_line0_control').show();
     }
 
     var finalExamTableCells = jQuery('[id^="' + finalExamTableCellId + '_line"][id$="_control"]');
     finalExamTableCells.each(function () {
         jQuery(this).text(finalExamDriverUI);
+    });
+
+    var finalExamTableCells1 = jQuery('[id^="edit_co_final_exam_type_line"][id$="_control"]');
+    finalExamTableCells1.each(function () {
+        if (finalExamDriverUI == "Course Offering") {
+            jQuery(this).hide();
+        } else {
+            jQuery(this).show();
+        }
     });
 }
 
