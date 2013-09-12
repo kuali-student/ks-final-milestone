@@ -70,12 +70,11 @@ public class CourseOfferingEditRule extends KsMaintenanceDocumentRuleBase {
             } else { // for Edit CO page
                 String newSuffix = newCOWrapper.getCourseOfferingInfo().getCourseNumberSuffix();
                 String oldSuffix = oldCOWrapper.getCourseOfferingInfo().getCourseNumberSuffix();
-                if ((oldSuffix == null || oldSuffix.isEmpty()) &&
-                    (newSuffix == null || newSuffix.isEmpty())) {
-                    // no change to valid
-                }
-                else if ((newSuffix != null) && !newSuffix.equals(oldSuffix) ) {
-                    valid &= validateDuplicateSuffix(newCOWrapper);
+                if (!((oldSuffix == null || oldSuffix.isEmpty()) &&
+                    (newSuffix == null || newSuffix.isEmpty()))) {
+                   if ((newSuffix != null) && !newSuffix.equals(oldSuffix) ) {
+                        valid &= validateDuplicateSuffix(newCOWrapper);
+                   }
                 }
 
                 // if no duplicate suffix then we validate the personnel ID

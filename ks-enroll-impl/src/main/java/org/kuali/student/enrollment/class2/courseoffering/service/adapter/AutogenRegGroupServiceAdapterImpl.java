@@ -486,9 +486,11 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
                             // service kinda knows. So, try to send it to the highest state, offered.
                             // If that doesn't work, try to send it to pending
                             // if that doesn't work, the state change has failed and throw an exception.
-                            if (coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY, context).getIsSuccess()) {
-                            } else if (coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY, context).getIsSuccess()) {
-                            } else {
+                            boolean status = coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY, context).getIsSuccess();
+                            if (!status && coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY, context).getIsSuccess()) {
+                                status = true;
+                            }
+                            if(!status) {
                                 throw new RuntimeException("State change failed for RG: " + rgInfo.getId() + "From state:" + rgInfo.getStateKey());
                             }
                         } else {
