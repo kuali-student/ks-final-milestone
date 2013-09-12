@@ -55,6 +55,35 @@ limitations under the License.
                 <bean id="warningMessagedYesNo" parent="KRMS-WarningMessagedYesNo"/>
             </list>
         </property>
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Final Exam Matrix"/>
+                    <property name="url.viewId" value="finalExamMatrixManagementView"/>
+                    <property name="url.controllerMapping" value="finalExamMatrixManagement"/>
+                    <property name="url.requestParameters">
+                        <map key-type="java.lang.String" merge="true">
+                            <entry key="methodToCall" value="start"/>
+                            <entry key="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper"/>
+                            <entry key="hideReturnLink" value="true"/>
+                            <entry key="pageId" value="finalExamSearchInputPage"/>
+                            <entry key="viewName" value="Manage Final Exam Matrix"/>
+                            <entry key="hideReturnLink" value="true"/>
+                            <entry key="formKey" value="@{returnFormKey}"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="@{#dp.type.name}"/>
+                </bean>
+            </list>
+        </property>
 
         <property name="singlePageView" value="false"/>
         <property name="entryPageId" value="KSFE-AgendaMaintenance-Page"/>
