@@ -517,7 +517,8 @@
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FinalExamDriversKeyValues" p:addBlankOption="false"/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField" p:id="finalExamMatrix" p:label="Use Final Exam Matrix" p:propertyName="useFinalExamMatrix" p:labelPlacement="RIGHT" p:componentSecurity.editAuthz="true">
+                                        <bean parent="Uif-InputField" p:id="finalExamMatrix" p:label="Use Final Exam Matrix" p:propertyName="useFinalExamMatrix" p:labelPlacement="RIGHT"
+                                              p:componentSecurity.editAuthz="true" p:defaultValue="true">
                                             <property name="control">
                                                 <bean parent="Uif-CheckboxControl"/>
                                             </property>

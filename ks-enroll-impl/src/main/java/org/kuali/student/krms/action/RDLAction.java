@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.class2.exam.service.impl;
+package org.kuali.student.krms.action;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
