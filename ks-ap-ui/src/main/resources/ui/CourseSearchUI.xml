@@ -258,23 +258,23 @@
 		</property>
 		<property name="onDocumentReadyScript"
 			value="
-            jq('#course_search_results')
-                .subscribe('PLAN_ITEM_DELETED', function(data){
+            jQuery('#course_search_results')
+                .on('PLAN_ITEM_DELETED', function(event, data){
                     if (data.planItemType === 'wishlist') {
                         fnRestoreSearchAddButton(data.courseDetails.courseId);
                     }
                 })
-                .subscribe('PLAN_ITEM_ADDED', function(data){
+                .on('PLAN_ITEM_ADDED', function(event, data){
                     if (data.planItemType === 'wishlist') {
                         fnDisplayMessage('Bookmarked', 'bookmarked', data.courseDetails.courseId+'_status', false);
                     }
                 })
-                .subscribe('PLAN_ITEM_ADDED', function(data){
+                .on('PLAN_ITEM_ADDED', function(event, data){
                     if (data.planItemType === 'planned') {
                         fnDisplayMessage('Planned', 'planned', data.courseDetails.courseId+'_status', false);
                     }
                 })
-                .subscribe('PLAN_ITEM_ADDED', function(data){
+                .on('PLAN_ITEM_ADDED', function(event, data){
                     if (data.planItemType === 'backup') {
                         fnDisplayMessage('Planned', 'planned', data.courseDetails.courseId+'_status', false);
                     }
@@ -416,9 +416,12 @@
                 </bean>
 
 				<bean parent="Uif-Link" p:target="" p:href="#" p:linkText="Bookmark"
-					p:title="Bookmark" p:style="margin:0;">
-					<property name="onClickScript"
-						value="myPlanAjaxPlanItemMove(jQuery(this).data('courseid'),jQuery(this).data('coursexid'),'courseId','addSavedCourse',e);" />
+                      p:title="Bookmark"
+                      p:style="margin:0;">
+                    <property name="onClickScript" value="
+                        var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'addSavedCourse', courseId:jQuery(this).data('courseid')};
+                        submitHiddenForm('plan', additionalFormData, e);
+                    "/>
 				</bean>
 
 			</list>

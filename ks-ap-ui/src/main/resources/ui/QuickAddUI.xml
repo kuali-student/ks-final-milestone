@@ -171,10 +171,10 @@
                 myplanAjaxSubmitQuickAdd(tempId,{ atpId:'@{atpId}',planType:'@{planType}'},'quickAddNewCourse',e);"/>
         <property name="onDocumentReadyScript" value="
                                     jQuery('#quickAddCourse')
-                                        .subscribe('PLAN_ITEM_ADDED', function(data){
+                                        .on('PLAN_ITEM_ADDED', function(data){
                                                 fnCloseAllPopups();
                                         })
-                                        .subscribe('ERROR', function(data){
+                                        .on('ERROR', function(data){
                                             jQuery('#hidden_temp').hide().addClass(data.cssClass).html(data.message).fadeIn(250);
 
                                         });"/>

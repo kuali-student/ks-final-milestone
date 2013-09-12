@@ -285,11 +285,11 @@
         <property name="render" value="@{lookupResults.size() gt 0}"/>
         <property name="onDocumentReadyScript" value="
             jQuery('#saved_courses_detail_list ul').css('minHeight',jQuery('#saved_courses_detail_list ul').height());
-            jQuery('.myplan-saved-courses-detail').subscribe('PLAN_ITEM_DELETED', function(data){
+            jQuery('.myplan-saved-courses-detail').on('PLAN_ITEM_DELETED', function(event, data){
                 if (data.planItemType === 'wishlist') {
                     fnRemoveSavedItem(data.planItemId, 'myplan-saved-courses-detail');
                     fnUpdateSavedCount( jQuery(this).find('.uif-sectionHeader .uif-headerText strong').text() );
-                    fnCloseAllPopups();
+                    fnClosePopup();
                 }
             });
         "/>
@@ -461,8 +461,14 @@
                                         <value>uif-tooltip</value>
                                     </list>
                                 </property>
-                                <property name="actionScript"
-                                          value="openPlanItemPopUp('@{#line.courseDetails.courseIdXmlSafe}','add_dialog_page',{courseId:'@{#line.courseDetails.courseId}',pageId:'add_dialog_page', moveCourse:'false'},e,null,{tail:{hidden:true},align:'bottom',position:'right'});"/>
+                                <property name="actionScript" value="
+                                    var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddDialog', courseId:'@{#line.courseDetails.courseIdXmlSafe}',pageId:'add_dialog_page'};
+                                    var popupStyle = {width:'300px', height:'16px'};
+                                    var popupOptions = {tail:{hidden:true}, align:'top', close:true};
+                                    var pageId = 'add_dialog_page.@{#line.courseDetails.courseIdXmlSafe}';
+                                    openPopup(pageId, retrieveData, 'plan', popupStyle, popupOptions, e);
+                                "/>
+
                             </bean>
                             <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Delete">
                                 <property name="cssClasses">
@@ -470,8 +476,13 @@
                                         <value>uif-tooltip</value>
                                     </list>
                                 </property>
-                                <property name="actionScript"
-                                          value="openPlanItemPopUp('@{#line.planItemDataObject.idXmlSafe}','plan_item_delete_page',{planItemId:'@{#line.planItemDataObject.id}',pageId:'plan_item_delete_page'},e,null,{tail:{hidden:true},align:'bottom',position:'right'});"/>
+                                <property name="actionScript" value="
+                                    var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startDeleteDialog', planItemId:'@{#line.planItemDataObject.id}', pageId:'plan_item_delete_page'};
+                                    var popupStyle = {width:'300px', height:'16px'};
+                                    var popupOptions = {tail:{hidden:true}, align:'top', close:true};
+                                    var pageId ='plan_item_delete_page.'+'@{#line.planItemDataObject.id}'.replace(/\./g, '-');
+                                    openPopup(pageId, retrieveData, 'plan', popupStyle, popupOptions, e);
+                                "/>
                             </bean>
                         </list>
                     </property>

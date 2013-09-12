@@ -55,7 +55,12 @@
                                     <bean parent="Uif-VerticalBoxLayout"/>
                                 </property>
                                 <property name="onDocumentReadyScript" value="
-                                    blockPendingAudit('audit_section');
+                                    if (jQuery.cookie('myplan_audit_running')) {
+                                        if (readUrlParam('degreeAudit.auditId') == false) {
+                                            var data = jQuery.parseJSON(decodeURIComponent(jQuery.cookie('myplan_audit_running')));
+                                            blockPendingAudit(data);
+                                        }
+                                    }
                                 "/>
                                 <property name="items">
                                     <list>
@@ -411,14 +416,14 @@
     <bean id="degree_audit_run" parent="Uif-PrimaryActionButton" p:methodToCall="runAudit" p:disabled="false"
           p:refreshId="audit_section" p:focusOnIdAfterSubmit="degree_audits_summary"
           p:actionLabel="Run Degree Audit"> <!-- audit_report_section degree_audit_block-->
-        <property name="onClickScript" value="setPendingAudit(2); setUrlHash('modified','yes'); changeLoadingMessage('.myplan-audit-report');"/>
+        <property name="onClickScript" value="setPendingAudit(jQuery(this),2); setUrlHash('modified','yes'); changeLoadingMessage('.myplan-audit-report');"/>
         <property name="onDocumentReadyScript" value="
             if (jQuery.cookie('myplan_audit_running')) {
                 jQuery('button#degree_audit_run').attr('disabled', true);
             } else {
                 jQuery('button#degree_audit_run').attr('disabled', degreeAuditButton());
             }
-            jQuery('button#degree_audit_run').subscribe('AUDIT_COMPLETE', function () {
+            jQuery('button#degree_audit_run').on('AUDIT_COMPLETE', function () {
                 jQuery(this).attr('disabled', degreeAuditButton());
             });
         "/>

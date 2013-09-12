@@ -124,93 +124,6 @@
                         <list>
                             <bean parent="Uif-MessageField" p:messageText="@{#line.courseCode} @{#line.activityCode}"/>
                             <bean parent="Uif-Link" p:linkText="@{#line.courseTitle}" p:href="#"/>
-                            <!--<bean p:id="@{#line.code}-@{#line.registrationCode}" parent="Uif-ActionLink" p:actionLabel="View more" p:style="margin:0 0 4px 0;">
-                                <property name="actionScript" value="
-                                    if(jQuery(this).hasClass('disabled')){return false;}
-                                    expandDataTableDetail(this, 'course_details_section_datatable', false, 'View more', 'View less');
-                                "/>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>fl-font-size-80</value>
-                                        <value>fl-text-align-center</value>
-                                    </list>
-                                </property>
-                            </bean>-->
-                            <!--<bean  parent="Uif-VerticalBoxSection"
-                                  p:style="margin:0 0 0 56px; display:none; width:561px;">
-                                <property name="header.render" value="false"/>
-                                <property name="validationMessages.render" value="false"/>
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-HorizontalBoxGroup">
-                                            <property name="validationMessages.render" value="false"/>
-                                            <property name="style"
-                                                      value="margin:0; background:url('../ks-myplan/images/bkgrdDottedCCC.png') 353px 0px repeat-y;"/>
-                                            <property name="items">
-                                                <list>
-                                                    <bean parent="Uif-DataField" p:propertyName="instructor"
-                                                          p:label="Instructor" p:labelPlacement="TOP"
-                                                          p:style="width:345px;">
-                                                        <property name="fieldLabel.renderColon" value="false"/>
-                                                    </bean>
-                                                    <bean parent="Uif-VerticalFieldGroup" p:label="Other"
-                                                          p:labelPlacement="TOP" p:style="width:199px;">
-                                                        <property name="fieldLabel.renderColon" value="false"/>
-                                                        <property name="group.validationMessages.render" value="false"/>
-                                                        <property name="items">
-                                                            <list>
-                                                                <bean parent="Uif-Message"
-                                                                      p:messageText="@{#line.gradingOption}"
-                                                                      p:render="@{#line.gradingOption ne null}"/>
-                                                                <bean parent="Uif-Message"
-                                                                      p:messageText="Distance learning"
-                                                                      p:render="@{#line.distanceLearning}"/>
-                                                                <bean parent="Uif-Message" p:messageText="Honors"
-                                                                      p:render="@{#line.honorsSection}"/>
-                                                                <bean parent="Uif-Message"
-                                                                      p:messageText="Jointly offered"
-                                                                      p:render="@{#line.jointOffering}"/>
-                                                                <bean parent="Uif-Message" p:messageText="Research"
-                                                                      p:render="@{#line.research}"/>
-                                                                <bean parent="Uif-Message" p:messageText="Writing"
-                                                                      p:render="@{#line.writingSection}"/>
-                                                                <bean parent="Uif-Message"
-                                                                      p:messageText="Service learning"
-                                                                      p:render="@{#line.serviceLearning}"/>
-                                                                <bean parent="Uif-Message" p:messageText="New course"
-                                                                      p:render="@{#line.newThisYear}"/>
-                                                                <bean parent="Uif-Message"
-                                                                      p:messageText="May not eligible for Financial Aid"
-                                                                      p:render="@{#line.ineligibleForFinancialAid}"/>
-                                                                <bean parent="Uif-Message" p:messageText="- -"
-                                                                      p:render="@{#line.gradingOption eq null AND
-                                                                                 !#line.distanceLearning AND
-                                                                                 !#line.honorsSection AND
-                                                                                 !#line.jointOffering AND
-                                                                                 !#line.research AND
-                                                                                 !#line.writingSection AND
-                                                                                 !#line.serviceLearning AND
-                                                                                 !#line.newThisYear AND
-                                                                                 !#line.ineligibleForFinancialAid}"/>
-                                                            </list>
-                                                        </property>
-                                                    </bean>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                        <bean parent="Uif-HorizontalFieldGroup" p:label="Additional Details"
-                                              p:style="margin:0;">
-                                            <property name="group.validationMessages.render" value="false"/>
-                                            <property name="items">
-                                                <list>
-                                                    <bean parent="current_section_status"
-                                                          p:actionLabel="@{#line.details}"/>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>-->
                         </list>
                     </property>
                 </bean>
@@ -316,8 +229,6 @@
                                   p:style="float:right; padding-right: 10px;">
                                 <property name="actionScript"
                                           value="myplanRetrieveComponent('@{#line.courseDetails.courseId}_sections_collection','course_details_institution_data','start','inquiry',{viewId:'CourseSections-InquiryView',section_term:'@{#line.planItemDataObject.atp}',courseId:'@{#line.courseDetails.courseId}'});"/>
-                                <!--<property name="actionScript"
-                                          value="expandHiddenSubcollection(this, 'Show all sections', 'Hide all sections');"/>-->
                                 <property name="render" value="@{!#line.showAlert}"/>
                             </bean>
 
@@ -447,10 +358,8 @@
                             </bean>
                             <bean p:id="@{#line.code}-@{#line.registrationCode}" parent="Uif-ActionLink"
                                   p:actionLabel="View more" p:style="margin:0 0 4px 0;">
-                                <property name="actionScript" value="
-                                    if(jQuery(this).hasClass('disabled')){return false;}
-                                    expandDataTableDetail(this, 'course_details_section_datatable', false, 'View more', 'View less');
-                                "/>
+                                <property name="actionScript"
+                                          value="toggleSectionDetails(jQuery(this).parents('tr.row'), jQuery(this), 'View more', 'View less')"/>
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>fl-font-size-80</value>
@@ -611,8 +520,18 @@
                             <value>fl-text-align-center</value>
                         </list>
                     </property>
-                    <property name="onClickScript"
-                              value="myplanAjaxSubmitSectionItem(jQuery('#section_@{#line.instituteCode}_@{#line.atpId.replace('.','-')}_@{#line.code}').parents().prevAll('div.myplan-course-item').data('courseid'), 'addPlannedCourse', 'plan', {courseId:jQuery('#section_@{#line.instituteCode}_@{#line.atpId.replace('.','-')}_@{#line.code}').parents().prevAll('div.myplan-course-item').data('courseid'),sectionCode:'@{#line.code}',atpId:'@{#line.atpId}',instituteCode:@{#line.instituteCode},primary:@{#line.primary},viewId:'PlannedCourse-FormView'}, e);"/>
+                    <property name="onClickScript" value="
+                        var additionalFormData = {
+                            viewId: 'PlannedCourse-FormView',
+                            methodToCall: 'addUpdatePlanItem',
+                            courseId: '@{dataObject.courseSummaryDetails.courseId}',
+                            sectionCode: '@{#line.code}',
+                            atpId: '@{#line.atpId}',
+                            instituteCode: '@{#line.instituteCode}',
+                            registrationCode: '@{#line.registrationCode}'
+                        };
+                        submitHiddenForm('plan', additionalFormData, e);
+                    "/>
                 </bean>
 
 
@@ -633,8 +552,20 @@
                             <entry key="primary" value="@{#line.primary}"/>
                         </map>
                     </property>
-                    <property name="onClickScript"
-                              value="myplanAjaxSubmitSectionItem('@{#line.planItemId}', 'removeItem', 'plan', {planItemId:'@{#line.planItemId}',sectionCode:'@{#line.code}',atpId:'@{#line.atpId}',instituteCode:@{#line.instituteCode},viewId:'PlannedCourse-FormView', primary:@{#line.primary}}, e);"/>
+                    <property name="onClickScript" value="
+                        var additionalFormData = {
+                            methodToCall: 'removeItem',
+                            viewId: 'PlannedCourse-FormView',
+                            planItemId: '@{#line.planItemId}',
+                            sectionCode: '@{#line.code}',
+                            atpId: '@{#line.atpId}',
+                            instituteCode: '@{#line.instituteCode}',
+                            registrationCode: '@{#line.registrationCode}',
+                            primary: @{#line.primary},
+                            activityStateKey: '@{#line.stateKey}'
+                        };
+                        submitHiddenForm('plan', additionalFormData, e);
+                    "/>
                     <property name="onMouseOverScript" value="addDeleteHoverText(jQuery(this));"/>
                 </bean>
             </list>

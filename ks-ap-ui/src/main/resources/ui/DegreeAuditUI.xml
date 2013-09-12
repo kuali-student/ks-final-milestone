@@ -155,8 +155,8 @@
             </list>
         </property>
         <property name="onDocumentReadyScript" value="
-            getPendingAudit('degree_audits_summary');
-            truncateAuditTitle('degree_audits_summary');
+            getPendingAudit('degree_audits_summary','degree');
+             indicateViewingAudit('degree_audits_summary','degreeAudit');
         "/>
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="false"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
@@ -176,7 +176,7 @@
                         </list>
                     </property>
                     <property name="onClickScript"
-                              value="window.location.href = 'audit?methodToCall=audit&amp;viewId=DegreeAudit-FormView&amp;auditId=@{#line.report.auditId}';"/>
+                              value="openDocument('audit?methodToCall=audit&amp;viewId=DegreeAudit-FormView&amp;degreeAudit.auditId=@{#line.report.auditId}');"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="programTitle" p:label="View"

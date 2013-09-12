@@ -167,8 +167,10 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                             fnRestoreDetailsAddButton(data.courseDetails.courseId);
                         }
                     });" />
-		<property name="actionScript"
-			value="myPlanAjaxPlanItemMove('@{dataObject.courseSummaryDetails.courseId}', '@{dataObject.courseSummaryDetails.courseIdXmlSafe}', 'courseId', 'addSavedCourse', e);" />
+        <property name="actionScript" value="
+                        var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'addSavedCourse', courseId:'@{dataObject.courseSummaryDetails.courseId}'};
+                        submitHiddenForm('plan', additionalFormData, e);
+                    "/>
 	</bean>
 
 	<bean id="ksapBookmarked" parent="ksapBookmarked-parent" />
@@ -1430,8 +1432,18 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
             </list>
         </property>
         <property name="style" value="margin:8px 0 0 0;"/>
-        <property name="onClickScript"
-                  value="myplanAjaxSubmitSectionItem('@{dataObject.courseSummaryDetails.courseId}', 'addPlannedCourse', 'plan', {courseId:'@{dataObject.courseSummaryDetails.courseId}',sectionCode:'@{#line.code}',atpId:'@{#line.atpId}',instituteCode:@{#line.instituteCode},registrationCode:'@{#line.registrationCode}',viewId:'PlannedCourse-FormView'}, e);"/>
+        <property name="onClickScript" value="
+            var additionalFormData = {
+                viewId: 'PlannedCourse-FormView',
+                methodToCall: 'addUpdatePlanItem',
+                courseId: '@{dataObject.courseSummaryDetails.courseId}',
+                sectionCode: '@{#line.code}',
+                atpId: '@{#line.atpId}',
+                instituteCode: '@{#line.instituteCode}',
+                registrationCode: '@{#line.registrationCode}'
+            };
+            submitHiddenForm('plan', additionalFormData, e);
+        "/>
     </bean>
 
     <bean id="section_button" parent="Uif-ImageField">
@@ -1490,7 +1502,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 							<property name="onDocumentReadyScript"
 								value="
 		                                              jQuery('body')
-		                                                  .subscribe('SECTION_ITEM_ADDED', function(data){
+		                                                subscribeibe('SECTION_ITEM_ADDED', function(data){
 		                                                      var link = '&lt;a href=&quot;inquiry?methodToCall=start&amp;viewId=SingleTerm-InquiryView&amp;term_atp_id=' + data.atpId.replace(/-/g,'.') + '&quot;&gt;Added&lt;/a&gt;';
 		                                                     jQuery('#button_' + data.atpId + '_' + data.RegistrationCode).attr('title', data.SectionCode + ' is added. To delete or move, go to ' + data.termName + ' Plan.').unbind('click');
 		                                                      fnDisplayMessage(link, 'fl-font-size-80 fl-text-align-center', 'button_' + data.atpId + '_' + data.RegistrationCode, false);

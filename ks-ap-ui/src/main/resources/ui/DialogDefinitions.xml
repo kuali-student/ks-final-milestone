@@ -726,7 +726,6 @@
                                                                     "/>
                                                                      <property name="onDocumentReadyScript" value="
                                                                         jQuery('#actionCoursePlaceholder').on('COURSE_ADDED', function(event, data){
-                                                                            fnUpdateSearchList(data.courseId,data.type);
                                                                             fnClosePopup();
                                                                         }).on('ERROR', function(event, data){
                                                                             fnDisplayMessage(data.message, data.cssClass, 'errorPlaceholder', true, false,true,'errorPlaceholder');
@@ -1019,13 +1018,15 @@
     <bean id="addSavedCourseButton-parent" abstract="true" p:id="addSavedCourseButton" parent="Uif-SecondaryActionButton-Small"
           p:actionLabel="Bookmark Course">
         <property name="onDocumentReadyScript"
-                  value="jQuery('#addSavedCourseButton').subscribe('PLAN_ITEM_ADDED', function(data){
+                  value="jQuery('#addSavedCourseButton').on('PLAN_ITEM_ADDED', function(data){
                       if (data.planItemType === 'wishlist') {
                           fnDisplayMessage(data.message, data.cssClass, 'addSavedCourseButton', true);
                       }
                   });"/>
-        <property name="actionScript"
-                  value="myplanAjaxSubmitPlanItem('@{courseSummaryDetails.courseId}','@{courseSummaryDetails.courseIdXmlSafe}', 'courseId', 'addSavedCourse', e);"/>
+        <property name="actionScript" value="
+            var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'addSavedCourse', courseId:'@{courseSummaryDetails.courseId}'};
+            submitPopupForm(additionalFormData, e, false);
+        "/>
     </bean>
 
     <!-- Remove from saved courses list button. -->
@@ -1214,35 +1215,23 @@
                                 <property name="items">
                                     <list>
                                         <bean p:id="addPlannedCourse" parent="Uif-PrimaryActionButton-Small"
-                                              p:actionLabel="Add To Plan"
-                                              p:render="@{!moveCourse}">
-                                            <property name="actionScript"
-                                                      value="myplanAjaxSubmitPlanItem('@{courseSummaryDetails.courseId}','@{courseSummaryDetails.courseIdXmlSafe}', 'courseId', 'addPlanCourse', e, true);"/>
+                                              p:actionLabel="Add To Plan">
+                                            <property name="actionScript" value="
+                                                var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'addUpdatePlanItem', courseId:'@{courseSummaryDetails.courseId}'};
+                                                submitPopupForm(additionalFormData, e, false);
+                                            "/>
                                             <property name="onDocumentReadyScript" value="
                                            jQuery('#addPlannedCourse')
-                                               .subscribe('PLAN_ITEM_ADDED', function(data){
+                                               .on('PLAN_ITEM_ADDED', function(data){
                                                    if (data.planItemType === 'planned' || data.planItemType === 'backup') {
                                                        fnDisplayMessage(data.message, data.cssClass, 'plan_add_action_items', true, false);
                                                    }
                                                })
-                                               .subscribe('ERROR', function(data){
+                                               .on('ERROR', function(data){
                                                    fnDisplayMessage(data.message, data.cssClass, 'hidden_add_error_block_item', true, false ,true,'hidden_add_error_block_item');
                                                });"/>
                                         </bean>
-                                        <bean p:id="movePlannedCourse" parent="Uif-PrimaryActionButton-Small"
-                                              p:actionLabel="Move" p:render="@{moveCourse}">
-                                            <property name="actionScript"
-                                                      value="myplanAjaxSubmitPlanItem('@{planItemId}', '@{planItemIdXmlSafe}', 'planItemId', 'movePlanCourse', e, true);"/>
-                                            <property name="onDocumentReadyScript" value="
-                                           jQuery('#movePlannedCourse')
-                                               .subscribe('PLAN_ITEM_ADDED', function(data){
-                                                   if (data.planItemType === 'planned' || data.planItemType === 'backup') {
-                                                       fnDisplayMessage(data.message, data.cssClass, 'plan_add_action_items', true, false);
-                                                   }
-                                               }).subscribe('ERROR', function(data){
-                                                   fnDisplayMessage(data.message, data.cssClass, 'hidden_add_error_block_item', true, false,true,'hidden_add_error_block_item');
-                                               });"/>
-                                        </bean>
+
                                         <bean p:id="cancelAddPlannedCourse" parent="Uif-SecondaryActionButton-Small"
                                               p:actionLabel="Cancel"
                                               p:render="@{!moveCourse}">
@@ -1361,12 +1350,14 @@
                         <list>
                             <bean p:id="deleteCourseYesButton" parent="Uif-PrimaryActionButton-Small"
                                   p:actionLabel="Delete">
-                                <property name="actionScript"
-                                          value="myplanAjaxSubmitPlanItem('@{courseSummaryDetails.courseId}', '@{courseSummaryDetails.courseId}', 'courseId', 'removeItem', e);"/>
+                                <property name="actionScript" value="
+                                    var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'removeItem', courseId:'@{courseSummaryDetails.courseId}'};
+                                    submitPopupForm(additionalFormData, e, false);
+                                "/>
                                 <property name="onDocumentReadyScript" value="
-                                   jQuery('#deleteCourseYesButton').subscribe('PLAN_ITEM_DELETED', function(data) {
+                               jQuery('#deleteCourseYesButton').on('PLAN_ITEM_DELETED', function(data) {
                                        fnDisplayMessage(data.message, data.cssClass, 'deleteCourseYesButton', true, true);
-                                   }).subscribe('ERROR', function(data) {
+                                 }).on('ERROR', function(data) {
                                        fnDisplayMessage(data.message, data.cssClass, 'deleteCourseYesButton', true, true);
                                    });"/>
                             </bean>
@@ -1429,15 +1420,17 @@
                                                     <bean p:id="movePlannedCourse"
                                                           parent="Uif-PrimaryActionButton-Small"
                                                           p:actionLabel="Move">
-                                                        <property name="actionScript"
-                                                                  value="myplanAjaxSubmitPlanItem('@{planItemId}', '@{planItemIdXmlSafe}', 'planItemId', 'movePlanCourse', e,true);"/>
+                                                        <property name="actionScript" value="
+                                                            var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'movePlannedCourse', planItemId:'@{planItemId}'};
+                                                            submitPopupForm(additionalFormData, e, false);
+                                                        "/>
                                                         <property name="onDocumentReadyScript" value="
                                                        jQuery('#movePlannedCourse')
-                                                           .subscribe('PLAN_ITEM_ADDED', function(data){
+                                                       .on('PLAN_ITEM_ADDED', function(data){
                                                                if (data.planItemType === 'planned' || data.planItemType === 'backup') {
                                                                    fnDisplayMessage(data.message, data.cssClass, 'plan_move_actions', true, false);
                                                                }
-                                                           }).subscribe('ERROR', function(data){
+                                                        }).on('ERROR', function(data){
                                                                fnDisplayMessage(data.message, data.cssClass, 'hidden_move_error_block', true, false,true, 'hidden_move_error_block');
                                                            });"/>
                                                     </bean>

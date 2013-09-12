@@ -42,168 +42,47 @@
 
     <bean id="completed_help_icon" parent="MyPlanHelpImage"
           p:render="@{#parentLine.completedTerm and #parentLine.displayCompletedHelp ? true : false}">
-        <property name="onDocumentReadyScript" value="
-            myplanCreateTooltip('completed_help_icon_line@{#index}', 'Courses that you registered for in a quarter that is now complete.',{
-                position: 'top',
-                align: 'left',
-                alwaysVisible: false,
-                tail: {
-                    align: 'left',
-                    hidden: false
-                },
-                themeMargins: {total:'22px', difference:'10px'},
-                themeName: 'black',
-                selectable: true,
-                width: '250px',
-                closingDelay: 500
-            }, true, false);
-        "/>
         <property name="toolTip">
-          <bean parent="MyPlan-Tooltip" p:tooltipContent="A completed quarter you registered for."/>
+          <bean parent="MyPlan-Tooltip" p:tooltipContent="Courses that you registered for in a quarter that is now complete."/>
         </property>
     </bean>
 
     <bean id="registered_help_icon" parent="MyPlanHelpImage"
           p:render="@{!#parentLine.completedTerm and (#parentLine.academicRecord.size() gt 0 or !#parentLine.openForPlanning) and #parentLine.displayRegisteredHelp ? true : false}">
-        <property name="onDocumentReadyScript" value="
-            myplanCreateTooltip('registered_help_icon_line@{#index}', 'Courses you are enrolled in for the current or a future academic quarter.',{
-                position: 'top',
-                align: 'left',
-                alwaysVisible: false,
-                tail: {
-                    align: 'left',
-                    hidden: false
-                },
-                themeMargins: {total:'22px', difference:'10px'},
-                themeName: 'black',
-                selectable: true,
-                width: '250px',
-                closingDelay: 500
-            }, true, false);
-        "/>
         <property name="toolTip">
-          <bean parent="MyPlan-Tooltip" p:tooltipContent="A course you have enrolled in for current or future academic quarter(s)."/>
+            <bean parent="MyPlan-Tooltip-Left"
+                  p:tooltipContent="Courses you are enrolled in for the current or a future academic quarter. To update this information, go to the &lt;a target=_blank href=&quot;https://sdb.admin.washington.edu/students/uwnetid/register.asp&quot;&gt;Registration&lt;/a&gt; page."/>
         </property>
     </bean>
 
     <bean id="cart_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayCartHelp ? true : false}">
-        <property name="onDocumentReadyScript" value="
-            myplanCreateTooltip('cart_help_icon_line@{#index}', 'Items in the cart are those you have selected to register for but have not been submitted for registration yet.',{
-                position: 'top',
-                align: 'left',
-                alwaysVisible: false,
-                tail: {
-                    align: 'left',
-                    hidden: false
-                },
-                themeMargins: {total:'22px', difference:'10px'},
-                themeName: 'black',
-                selectable: true,
-                width: '250px',
-                closingDelay: 500
-            }, true, false);
-        "/>
         <property name="toolTip">
             <bean parent="MyPlan-Tooltip" p:tooltipContent="Items in the cart are those you have selected to register for but have not been submitted for registration yet."/>
         </property>
     </bean>
 
-    <bean id="planned_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayPlannedHelp ? true : false}">
-        <property name="onDocumentReadyScript" value="
-            myplanCreateTooltip('planned_help_icon_line@{#index}', 'MyPlan allows you to add courses to your plan, but does not register you. Check the Time Schedule each quarter to verify whether your planned courses will be offered.',{
-                position: 'top',
-                align: 'left',
-                alwaysVisible: false,
-                tail: {
-                    align: 'left',
-                    hidden: false
-                },
-                themeMargins: {total:'22px', difference:'10px'},
-                themeName: 'black',
-                selectable: true,
-                width: '250px',
-                closingDelay: 500
-            }, true, false);
-        "/>
+    <bean id="planned_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayPlannedHelp}">
         <property name="toolTip">
-            <bean parent="MyPlan-Tooltip" p:tooltipContent="A course you added to your plan for a specific quarter, but have not or cannot yet register for. MyPlan allows you to create an academic plan, but does not register you.  Check the Time Schedule to verify that your planned courses will be offered that quarter."/>
+            <bean parent="MyPlan-Tooltip-Left"
+                  p:tooltipContent="MyPlan allows you to add courses to your plan, but does not register you. Check the Time Schedule each quarter to verify whether your planned courses will be offered. &lt;a href=javascript:openHelpWindow(&quot;http://depts.washington.edu/myplan/help-site/#825&quot;);&gt;Learn more&lt;/a&gt;"/>
         </property>
     </bean>
 
-    <bean id="backup_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayBackupHelp ? true : false}">
-        <property name="onDocumentReadyScript" value="
-            myplanCreateTooltip('backup_help_icon_line@{#index}', 'Courses you are considering in case a planned course is full or unavailable.',{
-                position: 'top',
-                align: 'left',
-                alwaysVisible: false,
-                tail: {
-                    align: 'left',
-                    hidden: false
-                },
-                themeMargins: {total:'22px', difference:'10px'},
-                themeName: 'black',
-                selectable: true,
-                width: '250px',
-                closingDelay: 500
-            }, true, false);
-        "/>
+    <bean id="backup_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayBackupHelp}">
         <property name="toolTip">
-          <bean parent="MyPlan-Tooltip" p:tooltipContent="A course you&#39;re considering in case a planned course is not available or is full."/>
+            <bean parent="MyPlan-Tooltip-Left"
+                  p:tooltipContent="Courses you are considering in case a planned course is full or unavailable."/>
         </property>
     </bean>
 
-    <bean id="total_credits_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayCreditsHelp ? true : false}" p:cssClasses="ks-plan-Bucket-creditHelpIcon">
-        <property name="dataAttributes">
-            <map>
-                <entry key="help"
-                       value="@{!#line.openForPlanning ? 'The number of credits registered for a completed quarter. Check your transcript to verify completed credits.' : (#line.academicRecord.size() gt 0 ? ' The total number of credits from your planned and registered courses for the current quarter.' : 'The number of credits you plan to enroll in for future quarter.')}"/>
-            </map>
-        </property>
-        <property name="onDocumentReadyScript" value="
-                myplanCreateTooltip('total_credits_help_icon_line@{#index}', '',{
-                    position: 'top',
-                    align: 'left',
-                    alwaysVisible: false,
-                    tail: {
-                        align: 'left',
-                        hidden: false
-                    },
-                    themeMargins: {total:'22px', difference:'10px'},
-                    themeName: 'black',
-                    selectable: true,
-                    width: '250px',
-                    closingDelay: 500
-                }, true, false);
-            "/>
+    <bean id="total_credits_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayCreditsHelp}">
         <property name="toolTip">
-          <bean parent="MyPlan-Tooltip" p:tooltipContent="The total number of credits attempted for a completed quarter. Check your transcript to verify earned credits.">
-          </bean>
+            <bean parent="MyPlan-Tooltip-Left"
+                  p:tooltipContent="@{!#line.openForPlanning ? 'The number of credits registered for a completed quarter. Check your transcript to verify completed credits.' : (#line.academicRecord.size() gt 0 ? ' The total number of credits from your planned and registered courses for the current quarter.' : 'The number of credits you plan to enroll in for future quarter.')}"/>
         </property>
     </bean>
 
     <bean id="cart_credits_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayCreditsHelp ? true : false}">
-        <property name="dataAttributes">
-            <map>
-                <entry key="help"
-                       value="The total number of credits for all course currently in the shopping cart"/>
-            </map>
-        </property>
-        <property name="onDocumentReadyScript" value="
-                myplanCreateTooltip('cart_credits_help_icon_line@{#index}', '',{
-                    position: 'top',
-                    align: 'left',
-                    alwaysVisible: false,
-                    tail: {
-                        align: 'left',
-                        hidden: false
-                    },
-                    themeMargins: {total:'22px', difference:'10px'},
-                    themeName: 'black',
-                    selectable: true,
-                    width: '250px',
-                    closingDelay: 500
-                }, true, false);
-            "/>
         <property name="toolTip">
             <bean parent="MyPlan-Tooltip" p:tooltipContent="The total number of credits for all course currently in the shopping cart.">
             </bean>

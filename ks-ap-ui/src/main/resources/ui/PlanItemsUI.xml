@@ -140,24 +140,12 @@
                               jQuery('#kualiForm').ajaxSubmit(submitOptions);"/>
                 </bean>
 
-                <bean parent="Uif-Link" p:target="" p:href="#"
-                      p:linkText="Mark as Planned Course"
-                      p:title="Mark as Planned Course"
-                      p:style="margin:0;">
-                    <property name="onClickScript"
-                              value="myPlanAjaxPlanItemMove(jQuery(this).data('planitemid'),jQuery(this).data('planitemid'),'planItemId','cartToPlanned',e);"/>
-                </bean>
+                <ref bean="menuOptionMarkPlanned"/>
 
                 <bean parent="Uif-Message" p:messageText="Will be moved out of the cart credit total and into the planned credit total"
                       p:cssClasses="fl-text-gray fl-font-size-90"/>
 
-                <bean parent="Uif-Link" p:target="" p:href="#"
-                      p:linkText="Mark as Backup Course"
-                      p:title="Mark as Backup Course"
-                      p:style="margin:0;">
-                    <property name="onClickScript"
-                              value="myPlanAjaxPlanItemMove(jQuery(this).data('planitemid'),jQuery(this).data('planitemid'),'planItemId','cartToBackup',e);"/>
-                </bean>
+                <ref bean="menuOptionMarkBackup"/>
 
                 <bean parent="Uif-Message" p:messageText="Will be moved out of the cart credit total"
                       p:cssClasses="fl-text-gray fl-font-size-90"/>
@@ -180,24 +168,19 @@
 
                 <ref bean="menuOptionEditPlanItem"/>
 
-                <bean parent="Uif-Link" p:target="" p:href="#"
-                      p:linkText="Place in Cart"
-                      p:title="Place in Cart"
-                      p:style="margin:0;">
-                    <property name="onClickScript"
-                              value="myPlanAjaxPlanItemMove(jQuery(this).data('planitemid'),jQuery(this).data('planitemid'),'planItemId','plannedToCart',e);"/>
+
+                <bean parent="menuOptionMarkCart">
+                    <property name="onClickScript" value="
+                        var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'plannedToCart', planItemId:jQuery(this).data('planitemid')};
+                        submitHiddenForm('plan', additionalFormData, e);
+                    "/>
                 </bean>
 
                 <bean parent="Uif-Message" p:messageText="Will be moved out of the Total Credit"
                       p:cssClasses="fl-text-gray fl-font-size-90"/>
 
-                <bean parent="Uif-Link" p:target="" p:href="#"
-                      p:linkText="Mark as Backup Course"
-                      p:title="Mark as Backup Course"
-                      p:style="margin:0;">
-                    <property name="onClickScript"
-                              value="myPlanAjaxPlanItemMove(jQuery(this).data('planitemid'),jQuery(this).data('planitemid'),'planItemId','plannedToBackup',e);"/>
-                </bean>
+
+                <ref bean="menuOptionMarkBackup"/>
 
                 <bean parent="Uif-Message" p:messageText="Will be moved below the Total Credit line"
                       p:cssClasses="fl-text-gray fl-font-size-90"/>
@@ -230,24 +213,12 @@
 
                 <ref bean="menuOptionEditPlanItem"/>
 
-                <bean parent="Uif-Link" p:target="" p:href="#"
-                      p:linkText="Place in Cart"
-                      p:title="Place in Cart"
-                      p:style="margin:0;">
-                    <property name="onClickScript"
-                              value="myPlanAjaxPlanItemMove(jQuery(this).data('planitemid'),jQuery(this).data('planitemid'),'planItemId','backupToCart',e);"/>
-                </bean>
+                <ref bean="menuOptionMarkCart"/>
 
                 <bean parent="Uif-Message" p:messageText="Will be moved out of the Total Credit"
                       p:cssClasses="fl-text-gray fl-font-size-90"/>
 
-                <bean parent="Uif-Link" p:target="" p:href="#"
-                      p:linkText="Mark it as Planned course"
-                      p:title="Mark it as Planned course"
-                      p:style="margin:0;">
-                    <property name="onClickScript"
-                              value="myPlanAjaxPlanItemMove(jQuery(this).data('planitemid'),jQuery(this).data('planitemid'),'planItemId','backupToPlanned',e);"/>
-                </bean>
+                <ref bean="menuOptionMarkPlanned"/>
                 <bean parent="Uif-Message" p:messageText="Will be moved above the Total Credit line"
                       p:cssClasses="fl-text-gray fl-font-size-90"/>
 
@@ -645,19 +616,6 @@
         </property>
         <property name="onDocumentReadyScript" value="
             truncateField('planned_courses_detail_list', true);
-            jQuery('#planned_courses_detail_list')
-                .subscribe('PLAN_ITEM_ADDED', function(data){
-                    fnAddPlanItem(data.atpId, data.planItemType, data.planItemId, data.courseDetails.code, data.courseDetails.courseTitle, data.courseDetails.credit, data.showAlert, data.termName, data.timeScheduleOpen);
-                })
-                .subscribe('PLAN_ITEM_DELETED', function(data){
-                    fnRemovePlanItem(data.atpId, data.planItemType, data.planItemId);
-                })
-                .subscribe('UPDATE_NEW_TERM_TOTAL_CREDITS', function(data){
-                    fnUpdateCredits(data.atpId, data.totalCredits, data.cartCredits);
-                })
-                .subscribe('UPDATE_OLD_TERM_TOTAL_CREDITS', function(data){
-                    fnUpdateCredits(data.atpId, data.totalCredits, data.cartCredits);
-                });
             jQuery('#planned_courses_detail_list').on('PLAN_ITEM_ADDED', function(event, data) {
                 fnAddPlanItem(data.atpId, data.planItemType, data.planItemId, data.courseDetails.code, data.courseDetails.courseTitle, data.courseDetails.credit, data.showAlert, data.termName, data.timeScheduleOpen);
             }).on('PLAN_ITEM_DELETED', function(event, data) {
@@ -1790,121 +1748,6 @@
         </property>
     </bean>
 
-    <bean id="plan_item_section_add_dialog" parent="plan_item_section_add_dialog-parent"/>
-    <bean id="plan_item_section_add_dialog-parent" abstract="true" parent="Uif-VerticalBoxSection" p:headerText="@{courseInPlan eq false AND courseInBackup eq true ? 'Add to Backup' : 'Add to Plan'}"
-          p:style="margin:0;">
-        <property name="header">
-            <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-VerticalBoxGroup" p:style="display:block; margin:0;"
-                      p:validationMessages.render="false">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>fl-container-300</value>
-                        </list>
-                    </property>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-Message"
-                                  p:messageText="Would you like to add &lt;strong&gt;@{courseDetails.code} @{sectionCode}&lt;/strong&gt; to @{termName}" p:render="@{courseInPlan eq false AND courseInBackup eq false ? true : false}"/>
-                            <bean parent="Uif-Message"
-                                  p:messageText="You can only add &lt;strong&gt;@{courseDetails.code} @{sectionCode}&lt;/strong&gt; for @{termName} as Plan" p:render="@{courseInPlan eq true AND courseInBackup eq false ? true : false}"/>
-                            <bean parent="Uif-Message"
-                                  p:messageText="You can only add &lt;strong&gt;@{courseDetails.code} @{sectionCode}&lt;/strong&gt; for @{termName} as Backup" p:render="@{courseInPlan eq false AND courseInBackup eq true ? true : false}"/>
-                            <!--  Backup checkbox -->
-                            <ref bean="planned_course_backup"/>
-
-                            <bean id="plan_section_add_actions" parent="Uif-VerticalFieldGroup" p:fieldLabel.render="false"
-                                  p:group.validationMessages.render="false" p:style="margin:0;">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false"
-                                              p:group.validationMessages.render="false">
-                                            <property name="items">
-                                                <list>
-                                                    <bean p:id="addPlannedCourse" parent="Uif-PrimaryActionButton-Small"
-                                                          p:actionLabel="Add To Plan">
-                                                        <property name="actionScript"
-                                                                  value="myplanAjaxSubmitPlanItem('@{courseDetails.courseId}', '@{courseDetails.courseIdXmlSafe}','courseId', 'addPlanCourse', e,true);"/>
-                                                        <property name="onDocumentReadyScript" value="
-                                                jQuery('#addPlannedCourse')
-                                                    .subscribe('PLAN_ITEM_ADDED', function(data){
-                                                        if (data.planItemType === 'planned' || data.planItemType === 'backup') {
-                                                            fnDisplayMessage(data.message, data.cssClass, 'plan_section_add_actions', true, false);
-                                                            jQuery(&quot;#@{courseDetails.courseId}-@{sectionCode}&quot;).replaceWith(&quot;&lt;span class='uif-message fl-font-size-80 fl-text-green'&gt;InPlan&lt;/span&gt;&quot;);
-                                                        }
-                                                    })
-                                                    .subscribe('ERROR', function(data){
-                                                        fnDisplayMessage(data.message, data.cssClass, 'hidden_add_error_block', true, false,true,'hidden_add_error_block');
-                                                    });"/>
-                                                    </bean>
-                                                    <bean p:id="cancelAddPlannedCourse"
-                                                          parent="Uif-SecondaryActionButton-Small"
-                                                          p:actionLabel="Cancel">
-                                                        <property name="actionScript"
-                                                                  value="fnCloseAllPopups();"/>
-                                                    </bean>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                        <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false"
-                                              p:group.validationMessages.render="false" p:style="margin:0;">
-                                            <property name="items">
-                                                <list>
-                                                    <bean id="hidden_section_add_error_block" p:id="hidden_add_error_block"
-                                                          parent="Uif-InputField"
-                                                          p:propertyName="courseDetails.courseId"
-                                                          p:fieldLabel.render="false"
-                                                          p:style="width: 300px;">
-                                                        <property name="control">
-                                                            <bean parent="Uif-HiddenControl"/>
-                                                        </property>
-                                                    </bean>
-                                                    <bean id="hidden_sectionCode" p:id="hidden_sectionCode"
-                                                          parent="Uif-InputField"
-                                                          p:propertyName="sectionCode"
-                                                          p:fieldLabel.render="false"
-                                                          p:style="width: 300px;"
-                                                          p:render="@{sectionCode ne null ? true : false}">
-                                                        <property name="control">
-                                                            <bean parent="Uif-HiddenControl"/>
-                                                        </property>
-                                                    </bean>
-                                                    <bean id="hidden_sectionAtp" p:id="hidden_sectionAtp"
-                                                          parent="Uif-InputField"
-                                                          p:propertyName="termYear"
-                                                          p:fieldLabel.render="false"
-                                                          p:style="width: 300px;"
-                                                          p:render="@{termYear ne null ? true : false}">
-                                                        <property name="control">
-                                                            <bean parent="Uif-HiddenControl"/>
-                                                        </property>
-                                                    </bean>
-                                                    <bean id="hidden_backUp" p:id="hidden_backUp"
-                                                          parent="Uif-InputField"
-                                                          p:render="@{courseInPlan eq false AND courseInBackup eq true ? true : false}"
-                                                          p:propertyName="courseInBackup"
-                                                          p:fieldLabel.render="false"
-                                                          p:style="width: 300px;">
-                                                        <property name="control">
-                                                            <bean parent="Uif-HiddenControl"/>
-                                                        </property>
-                                                    </bean>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
     <bean id="menuOptionMovePlanItem" parent="menuOptionMovePlanItem-parent"/>
     <bean id="menuOptionMovePlanItem-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="Move to Another Quarter"
           p:title="Move to Another Quarter">
@@ -1979,6 +1822,44 @@
             var popupOptions = {tail:{hidden:true}, align:'top', close:true};
             var pageId ='term_note_edit_page.'+jQuery(this).data('atpid').replace(/\./g, '-');
             openPopup(pageId, retrieveData, 'plan', popupStyle, popupOptions, e);
+        "/>
+    </bean>
+
+    <bean id="menuOptionMarkBackup" parent="Uif-Link" p:linkText="Mark as Backup Course"
+          p:title="Mark as Backup Course">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-noMargin</value>
+            </list>
+        </property>
+        <property name="onClickScript" value="
+            var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'plannedToBackup', planItemId:jQuery(this).data('planitemid')};
+            submitHiddenForm('plan', additionalFormData, e);
+        "/>
+    </bean>
+    <bean id="menuOptionMarkPlanned" parent="Uif-Link" p:linkText="Mark as Planned course"
+          p:title="Mark as Planned course">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-noMargin</value>
+            </list>
+        </property>
+        <property name="onClickScript" value="
+            var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'backupToPlanned', planItemId:jQuery(this).data('planitemid')};
+            submitHiddenForm('plan', additionalFormData, e);
+        "/>
+    </bean>
+
+    <bean id="menuOptionMarkCart" parent="Uif-Link" p:linkText="Move to Cart"
+          p:title="Move to Cart">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-noMargin</value>
+            </list>
+        </property>
+        <property name="onClickScript" value="
+            var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'backupToCart', planItemId:jQuery(this).data('planitemid')};
+            submitHiddenForm('plan', additionalFormData, e);
         "/>
     </bean>
 

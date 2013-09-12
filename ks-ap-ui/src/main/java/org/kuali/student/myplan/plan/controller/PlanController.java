@@ -1639,11 +1639,6 @@ public class PlanController extends UifControllerBase {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Plan item id missing");
             return getUIFModelAndView(form);
         }
-        if(!hasText(form.getAtpId())){
-            LOG.warn("Term Id Missing");
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Term id missing");
-            return getUIFModelAndView(form);
-        }
         PlanItemInfo planItem;
         try {
             planItem = getPlanItemFromPlanItemId(form.getPlanItemId());
