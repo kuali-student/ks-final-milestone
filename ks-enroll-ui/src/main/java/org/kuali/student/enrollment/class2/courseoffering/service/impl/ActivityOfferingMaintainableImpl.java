@@ -479,7 +479,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
             try {
                 List<PopulationInfo> populationInfoList = getPopulationService().searchForPopulations(criteria, createContextInfo());
-                if(populationInfoList != null || !populationInfoList.isEmpty()){
+                if(populationInfoList != null && !populationInfoList.isEmpty()){
                     String populationJSONString = "{\"" + CourseOfferingConstants.POPULATIONS_JSON_ROOT_KEY + "\": {";
 
                     int index = 0;
