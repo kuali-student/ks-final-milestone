@@ -168,7 +168,7 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) values ('KS-K
 Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Course Set Term','KS-KRMS-TERM-13457','KS-KRMS-TERM-SPEC-10021',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) 
-  values ('KS-KRMS-TERM-13457','KS-KRMS-TERM-PARM-13599','kuali.term.parameter.type.course.cluSet.id','e5f1c380-04ea-c548-e040-007f0101104a',1)
+  values ('KS-KRMS-TERM-13457','KS-KRMS-TERM-PARM-13599','kuali.term.parameter.type.course.cluSet.id','e5f1c380-04ez-c548-e040-007f0101104a',1)
 /
 
 --Day 1 16:00-18:00
@@ -182,7 +182,7 @@ Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR)
 Insert into KRMS_TERM_T (DESC_TXT,TERM_ID,TERM_SPEC_ID,VER_NBR) values ('Matching Course Set Term','KS-KRMS-TERM-13459','KS-KRMS-TERM-SPEC-10021',1)
 /
 Insert into KRMS_TERM_PARM_T (TERM_ID,TERM_PARM_ID,NM,VAL,VER_NBR) 
-  values ('KS-KRMS-TERM-13459','KS-KRMS-TERM-PARM-13601','kuali.term.parameter.type.course.cluSet.id','e5f1c380-04eb-c548-e040-007f0101104a',1)
+  values ('KS-KRMS-TERM-13459','KS-KRMS-TERM-PARM-13601','kuali.term.parameter.type.course.cluSet.id','e5f1c380-04es-c548-e040-007f0101104a',1)
 /
 
 --Day 2 16:00-18:00
