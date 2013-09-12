@@ -69,6 +69,8 @@ public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWa
     private List<Object> _futureElements;
 
     public CourseWaitListInfo() {
+        activityOfferingIds = new ArrayList<String>();
+        formatOfferingIds = new ArrayList<String>();
     }
 
     public CourseWaitListInfo(CourseWaitList waitList) {
