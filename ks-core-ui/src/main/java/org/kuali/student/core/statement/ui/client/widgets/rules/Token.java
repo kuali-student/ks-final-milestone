@@ -104,7 +104,7 @@ public class Token implements Cloneable {
     
     public int hashCode(){
     	int hash =1;
-    	hash = hash * 31 + new Integer(type).hashCode();
+    	hash = hash * 31 + Integer.valueOf(type).hashCode();
     	hash = hash * 31 + (value == null ? 0 : value.hashCode());
     	return hash;
     }

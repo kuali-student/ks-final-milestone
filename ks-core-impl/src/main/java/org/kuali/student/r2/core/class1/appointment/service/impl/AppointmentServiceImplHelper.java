@@ -299,7 +299,7 @@ public class AppointmentServiceImplHelper {
         }
         List<Calendar> slotTimes = new ArrayList<Calendar>();
         if (weekdays.isEmpty()) {
-            Object[] result = {slotTimes, new Integer(0), new Integer(totalStudents)};
+            Object[] result = {slotTimes, Integer.valueOf(0), new Integer(totalStudents)};
             return result;
         }
         Calendar date = _makeCopy(startDate);
@@ -355,7 +355,7 @@ public class AppointmentServiceImplHelper {
                                                          List<Integer> weekdays) {
         List<Calendar> slotTimes = new ArrayList<Calendar>();
         if (weekdays.isEmpty()) {
-            Object[] result = {slotTimes, new Integer(0), new Integer(totalStudents)};
+            Object[] result = {slotTimes, Integer.valueOf(0), new Integer(totalStudents)};
             return result;
         }
         Calendar date = _makeCopy(startDate);

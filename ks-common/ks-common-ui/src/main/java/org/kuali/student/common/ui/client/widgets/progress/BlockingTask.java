@@ -37,7 +37,7 @@ public class BlockingTask {
 	
 	public int hashCode(){
 		int hash = 1;
-		Integer idObject = new Integer(id);
+		Integer idObject = Integer.valueOf(id);
 		hash = hash * 31 + idObject.hashCode();
 		return hash;
 	}
