@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.exam.service.impl;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.enrollment.class2.exam.service.transformer.ExamTransformer;
 import org.kuali.student.enrollment.exam.dto.ExamInfo;
 import org.kuali.student.enrollment.exam.service.ExamService;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
@@ -34,6 +35,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,6 +51,10 @@ import java.util.List;
 public class ExamServiceImpl implements ExamService {
 
     private CluService cluService;
+
+
+
+    private ExamTransformer examTransformer;
 
     private static final Logger LOGGER = Logger.getLogger(ExamServiceImpl.class);
 
@@ -72,8 +78,12 @@ public class ExamServiceImpl implements ExamService {
             , PermissionDeniedException
             , ReadOnlyException {
 
-
-        throw new OperationFailedException("createExam has not been implemented");
+        CluInfo cluInfo = new CluInfo();
+        examTransformer.exam2Clu(examInfo,cluInfo,contextInfo);
+        CluInfo createdClu = getCluService().createClu(examTypeKey,cluInfo,contextInfo);
+        ExamInfo createdExam = new ExamInfo();
+        examTransformer.clu2Exam(createdClu,createdExam,contextInfo);
+        return createdExam;
     }
 
     @Override
@@ -178,6 +188,10 @@ public class ExamServiceImpl implements ExamService {
 
     public void setCluService(CluService cluService) {
         this.cluService = cluService;
+    }
+
+    public void setExamTransformer(ExamTransformer examTransformer) {
+        this.examTransformer = examTransformer;
     }
 
 }
