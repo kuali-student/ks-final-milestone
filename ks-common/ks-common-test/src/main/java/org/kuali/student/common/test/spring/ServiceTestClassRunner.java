@@ -167,18 +167,18 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 			// Grab the Dao information and pass it to a System variable
 			Daos daos = testImplClass.getAnnotation(Daos.class);
 
-			String daoImpls = "";
+			StringBuilder daoImpls = new StringBuilder("");
 			if (daos != null) {
 				int i = 1;
 				for (Dao dao : daos.value()) {
-					daoImpls += dao.value() + "|" + dao.testDataFile() +"|" + dao.testSqlFile()  ;
+					daoImpls.append(dao.value()).append("|").append(dao.testDataFile()).append("|").append(dao.testSqlFile());
 					if (i < daos.value().length) {
-						daoImpls += ",";
+                        daoImpls.append(",");
 					}
 					i++;
 				}
 			}
-			System.setProperty("ks.test.daoImplClasses", daoImpls);
+            System.setProperty("ks.test.daoImplClasses", daoImpls.toString());
 			
 			server = new Server(Integer.valueOf(System
 					.getProperty("ks.test.port")));

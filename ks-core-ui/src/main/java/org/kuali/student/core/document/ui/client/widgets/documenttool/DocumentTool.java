@@ -422,21 +422,22 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
                 
                 @Override
                 public void onSuccess(List<TypeInfo> supportedDocumentTypeInfoResults){
-                    String acceptableDocumentTypesString;
+                    StringBuilder acceptableDocumentTypesString = new StringBuilder();
                     String maxFileSizeString= "10000000";   //from ks-document-dictionary-context.xml, inaccessible here (in a different service-loaded module?)
                     int maxFileSizeInt= Integer.parseInt(maxFileSizeString)/1048576;
                     
                     if(supportedDocumentTypeInfoResults.isEmpty()){
-                        
-                        acceptableDocumentTypesString= "Sorry, no documents supported for upload now!";       
+
+                        acceptableDocumentTypesString.append("Sorry, no documents supported for upload now!");
                         
                     }else{
                         //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
                         int firstTypeInfo = 0;
-                        acceptableDocumentTypesString= "." + supportedDocumentTypeInfoResults.get(firstTypeInfo).getName();
+                        acceptableDocumentTypesString.append(".").append(supportedDocumentTypeInfoResults.get(firstTypeInfo).getName());
+
                         for(int i= 1; i < supportedDocumentTypeInfoResults.size(); i++){
-                            
-                            acceptableDocumentTypesString+= ", ." + supportedDocumentTypeInfoResults.get(i).getName();
+
+                            acceptableDocumentTypesString.append(", .").append(supportedDocumentTypeInfoResults.get(i).getName());
                         }                 
                     }
                     
@@ -449,8 +450,8 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
                         if (documentToolInstructions.equals("documentToolInstructions")){
                             documentToolInstructions = "Multiple supporting documents associated with this course can be uploaded.<br>";
                         }
-                        ((SectionView) verticalSectionView).setInstructions( documentToolInstructions   
-                                                                            + "&nbsp;&nbsp;&nbsp;<b>Acceptable file types:</b>&nbsp;&nbsp;" + "<i>" + acceptableDocumentTypesString + "</i><br>"
+                        ((SectionView) verticalSectionView).setInstructions( documentToolInstructions
+                                + "&nbsp;&nbsp;&nbsp;<b>Acceptable file types:</b>&nbsp;&nbsp;" + "<i>" + acceptableDocumentTypesString.toString() + "</i><br>"
                                                                             + "&nbsp;&nbsp;&nbsp;<b>Max file size:</b>&nbsp;&nbsp;" + "<i>~" + maxFileSizeInt + "MB </i>");
                     }
                }

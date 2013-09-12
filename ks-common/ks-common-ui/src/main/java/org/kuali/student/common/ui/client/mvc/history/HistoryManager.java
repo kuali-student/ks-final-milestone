@@ -297,12 +297,15 @@ public class HistoryManager {
 		if(!context.getAttributes().isEmpty()){
             Map<String,String> attributes = context.getAttributes();
             Iterator<Map.Entry<String,String>> it = attributes.entrySet().iterator();
+            StringBuilder pathBuilder = new StringBuilder();
             while(it.hasNext()){
                 Map.Entry<String,String> entry = it.next();
                 String key = entry.getKey();
                 String value = entry.getValue();
-                path = path + "&" + key + "=" + value;
+                pathBuilder.append("&").append(key).append("=").append(value);
+
             }
+            path = path + pathBuilder.toString();
         }
 
 		//TODO add the ability for view context to add a variety of additional attributes

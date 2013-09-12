@@ -14,13 +14,13 @@ public class PrintUtils {
      */
     public static void print(UIObject uiObject){
     	String headTag = "";
-    	String styleTags = "";
+    	StringBuilder styleTags = new StringBuilder("");
     	NodeList<com.google.gwt.dom.client.Element> head = Document.get().getElementsByTagName("head");
     	if(head.getItem(0) != null){
     		com.google.gwt.dom.client.Element e = head.getItem(0);
     		NodeList<com.google.gwt.dom.client.Element> styles = e.getElementsByTagName("style");
     		for(int i = 0; i < styles.getLength(); i++){
-    			styleTags = styleTags + styles.getItem(i).getString();
+    			styleTags.append(styles.getItem(i).getString());
     			
     		}
     	}
