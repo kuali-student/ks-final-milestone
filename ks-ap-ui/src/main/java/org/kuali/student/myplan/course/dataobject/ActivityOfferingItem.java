@@ -363,6 +363,7 @@ public class ActivityOfferingItem implements Serializable {
 	}
 
 	public String getInstituteCode() {
+        if(instituteCode==null) instituteCode="default";
 		return instituteCode;
 	}
 
@@ -375,6 +376,7 @@ public class ActivityOfferingItem implements Serializable {
 	}
 
 	public String getInstituteName() {
+        if(instituteName==null) instituteName="Default";
 		return instituteName;
 	}
 

@@ -752,7 +752,7 @@
         <property name="header.render" value="false"/>
         <property name="layoutManager.applyDefaultCellWidths" value="false"/>
         <property name="onDocumentReadyScript" value="jQuery('#messages_detail_list')
-            .subscribe('COMMENT_SENT', function(){
+            .on('COMMENT_SENT', function(){
                 myplanRetrieveComponent('messages_detail_list','messages_detail_list','search','lookup',{viewId:'MessagesDetail-LookupView'});
             });
         "/>

@@ -147,9 +147,14 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 				</property>
 			</bean>
 		</property>
-		<property name="actionScript"
-			value="openPlanItemPopUp('@{dataObject.courseSummaryDetails.courseIdXmlSafe}','add_dialog_page',{courseId:'@{dataObject.courseSummaryDetails.courseId}',pageId:'add_dialog_page', moveCourse:'false'},e,null,{tail:{hidden:true},position:'right',align:'top'});" />
-	</bean>
+		<property name="actionScript" value="
+                        var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddDialog', courseId:'@{dataObject.courseSummaryDetails.courseId}',pageId:'add_dialog_page'};
+                        var popupStyle = {width:'300px', height:'16px'};
+                        var popupOptions = {tail:{hidden:true}, align:'top', close:true};
+                        var pageId = 'add_dialog_page.@{dataObject.courseSummaryDetails.courseIdXmlSafe}';
+                        openPopup(pageId, retrieveData, 'plan', popupStyle, popupOptions, e);
+                    "/>
+    </bean>
 
 	<bean id="ksapAddSavedCourse" parent="ksapAddSavedCourse-parent" />
 	<bean id="ksapAddSavedCourse-parent" parent="Uif-SecondaryActionButton"
@@ -157,12 +162,12 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		<property name="onDocumentReadyScript"
 			value="
                 jQuery('#@{dataObject.courseSummaryDetails.courseIdXmlSafe}_addSavedCourse')
-                    .subscribe('PLAN_ITEM_ADDED', function(data){
+                    .on('PLAN_ITEM_ADDED', function(event, data){
                         if (data.planItemType === 'wishlist') {
                             fnDisplayMessage(data.message, data.cssClass, data.courseDetails.courseId+'_addSavedCourse', true, null, false, '@{dataObject.courseSummaryDetails.courseId}_bookmarked');
                         }
                     })
-                    .subscribe('PLAN_ITEM_DELETED', function(data){
+                    .on('PLAN_ITEM_DELETED', function(event, data){
                         if (data.planItemType === 'wishlist' &amp;&amp; data.courseDetails.courseId === '@{dataObject.courseSummaryDetails.courseId}') {
                             fnRestoreDetailsAddButton(data.courseDetails.courseId);
                         }
@@ -204,12 +209,12 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="onDocumentReadyScript"
                   value="
                       jQuery('#course_details_actions')
-                          .subscribe('PLAN_ITEM_ADDED', function(data){
+                          .on('PLAN_ITEM_ADDED', function(event, data){
                               if (data.planItemType === 'wishlist') {
                                   fnDisplayMessage(data.message, data.cssClass, data.courseDetails.courseIdXmlSafe+'_addSavedCourse', true, null, false, '@{dataObject.courseSummaryDetails.courseId}_bookmarked');
                               }
                           })
-                          .subscribe('PLAN_ITEM_DELETED', function(data){
+                          .on('PLAN_ITEM_DELETED', function(event, data){
                               if (data.planItemType === 'wishlist' &amp;&amp; data.courseDetails.courseIdXmlSafe === '@{dataObject.courseSummaryDetails.courseId}') {
                                   fnRestoreDetailsAddButton(data.courseDetails.courseId);
                               }
@@ -1464,7 +1469,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
     <bean id="current_section_status" parent="Uif-ActionLink" >
         <property name="actionScript"
-                  value="myplanLightBoxLink('https://sdb.admin.washington.edu/timeschd/uwnetid/sln.asp?QTRYR=@{#line.qtryr}&amp;SLN=@{#line.registrationCode}',{helpers:{overlay:{closeClick:false}},autoScale:true,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe'},e);"/>
+                  value="showLightboxUrl('www.google.com');"/>
     </bean>
 
     <bean id="emptyField" parent="KSAP-MessageField" p:messageText="--"/>
@@ -1501,8 +1506,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 						<bean id="course_details_sections_list" parent="Uif-VerticalBoxGroup">
 							<property name="onDocumentReadyScript"
 								value="
-		                                              jQuery('body')
-		                                                subscribeibe('SECTION_ITEM_ADDED', function(data){
+		                                              jQuery('body').on('SECTION_ITEM_ADDED', function(event, data){
 		                                                      var link = '&lt;a href=&quot;inquiry?methodToCall=start&amp;viewId=SingleTerm-InquiryView&amp;term_atp_id=' + data.atpId.replace(/-/g,'.') + '&quot;&gt;Added&lt;/a&gt;';
 		                                                     jQuery('#button_' + data.atpId + '_' + data.RegistrationCode).attr('title', data.SectionCode + ' is added. To delete or move, go to ' + data.termName + ' Plan.').unbind('click');
 		                                                      fnDisplayMessage(link, 'fl-font-size-80 fl-text-align-center', 'button_' + data.atpId + '_' + data.RegistrationCode, false);

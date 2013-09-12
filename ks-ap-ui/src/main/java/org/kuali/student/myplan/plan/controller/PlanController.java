@@ -794,7 +794,7 @@ public class PlanController extends UifControllerBase {
 		PlanItemInfo planItemCopy = null;
 		try {
 			String courseId = planItem.getRefObjectId();
-			planItemCopy = addPlanItem(learningPlan, courseId, newAtpIds, planItem.getTypeKey());
+			planItemCopy = addPlanItem(learningPlan, courseId, newAtpIds, planItem.getTypeKey(),"","");
 		} catch (DuplicateEntryException e) {
 			return doDuplicatePlanItem(form, formatAtpIdForUI(newAtpIds.get(0)), courseDetails);
 		} catch (Exception e) {
@@ -1010,7 +1010,7 @@ public class PlanController extends UifControllerBase {
 		if (planItem == null) {
 			try {
 				if (addCourse) {
-					planItem = addPlanItem(plan, courseDetails.getCourseId(), newAtpIds, newType);
+					planItem = addPlanItem(plan, courseDetails.getCourseId(), newAtpIds, newType, form.getCourseNote(),form.getCourseCredit());
 				}
 				if (addPrimaryCourse) {
 					if (primarySectionCode != null) {
@@ -1356,7 +1356,7 @@ public class PlanController extends UifControllerBase {
 		PlanItemInfo planItem = null;
 		try {
 			planItem = addPlanItem(plan, courseDetails.getCourseId(), null,
-					PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST);
+					PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST,"","");
 		} catch (DuplicateEntryException e) {
 			return doDuplicatePlanItem(form, null, courseDetails);
 		} catch (Exception e) {
@@ -2701,7 +2701,7 @@ public class PlanController extends UifControllerBase {
 	 * @throws RuntimeException
 	 *             on errors.
 	 */
-	protected PlanItemInfo addPlanItem(LearningPlan plan, String courseId, List<String> termIds, String planItemType)
+	protected PlanItemInfo addPlanItem(LearningPlan plan, String courseId, List<String> termIds, String planItemType, String courseNote, String credits)
 			throws DuplicateEntryException {
 
 		if (StringUtils.isEmpty(courseId)) {
@@ -2719,10 +2719,14 @@ public class PlanController extends UifControllerBase {
 		pii.setStateKey(PlanConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
 
 		RichTextInfo rti = new RichTextInfo();
-		rti.setFormatted("");
-		rti.setPlain("");
+		rti.setFormatted(courseNote);
+		rti.setPlain(courseNote);
 		pii.setDescr(rti);
-
+        try{
+            pii.setCredit(getPlanItemCredits(new BigDecimal(credits),pii));
+        }catch(Exception e){
+            LOG.error("Unable to verify the credit value",e);
+        }
 		String atpId = null;
 		if (null != termIds) {
 			pii.setPlanPeriods(termIds);

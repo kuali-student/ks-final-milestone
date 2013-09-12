@@ -725,7 +725,8 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 					TimeOfDayInfo startInfo = timeSlot.getStartTime();
 					TimeOfDayInfo endInfo = timeSlot.getEndTime();
 
-					if (startInfo != null && endInfo != null)
+					if (startInfo != null && endInfo != null
+                            && startInfo.getMilliSeconds()!=null && endInfo.getMilliSeconds()!=null)
 						meeting.setTime(tdf.format(new Date(startInfo.getMilliSeconds())) + " - "
 								+ tdf.format(new Date(endInfo.getMilliSeconds())));
 
