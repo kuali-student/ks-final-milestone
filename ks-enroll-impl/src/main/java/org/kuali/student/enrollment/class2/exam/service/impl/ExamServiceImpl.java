@@ -82,7 +82,7 @@ public class ExamServiceImpl implements ExamService {
 
         CluInfo cluInfo = new CluInfo();
         getExamTransformer().exam2Clu(examInfo,cluInfo,contextInfo);
-        CluInfo createdClu = getCluService().createClu(examTypeKey,cluInfo,contextInfo);
+        CluInfo createdClu = getCluService().createClu(examTypeKey, cluInfo, contextInfo);
         ExamInfo createdExam = new ExamInfo();
         getExamTransformer().clu2Exam(createdClu,createdExam,contextInfo);
         return createdExam;
@@ -141,7 +141,11 @@ public class ExamServiceImpl implements ExamService {
             , MissingParameterException
             , OperationFailedException
             , PermissionDeniedException {
-        throw new OperationFailedException("getExamsByIds has not been implemented");
+        List<ExamInfo> exams = new ArrayList<ExamInfo>(examIds.size());
+        for(String examID : examIds){
+            exams.add(getExam(examID,contextInfo));
+        }
+        return exams;
     }
 
     @Override
