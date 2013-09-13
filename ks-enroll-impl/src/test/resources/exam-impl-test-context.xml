@@ -43,11 +43,14 @@
 
     <bean id="examServiceImpl" class="org.kuali.student.enrollment.class2.exam.service.impl.ExamServiceImpl">
        <property name="cluService" ref="cluService"/>
+       <property name="examTransformer" ref="examTransformer"/>
     </bean>
 
     <bean id="cluService" class="org.kuali.student.r2.lum.lu.service.impl.CluServiceMockImpl">
         <property name="searchService" ref="searchService" />
     </bean>
+
+    <bean id="examTransformer" class="org.kuali.student.enrollment.class2.exam.service.transformer.ExamTransformer"/>
 
     <bean id="searchService" class="org.kuali.student.r2.common.class1.search.SearchServiceMockImpl" />
 

@@ -28,6 +28,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
@@ -45,6 +46,9 @@ import java.util.Map;
 import java.util.Set;
 
 public class ExamTransformer {
+
+    // Course Official Identifier
+    public static final String EXAM_OFFICIAL_IDENT_TYPE  = "kuali.lu.type.exam.identifier.official";
 
     private CluService cluService;
 
@@ -92,6 +96,7 @@ public class ExamTransformer {
         exam.setStateKey(clu.getStateKey());
         exam.setDescr(clu.getDescr());
         exam.setMeta(clu.getMeta());
+        exam.setName(clu.getOfficialIdentifier().getShortName());
 
         //Dynamic attributes
         List<AttributeInfo> attributes = exam.getAttributes();
@@ -110,6 +115,12 @@ public class ExamTransformer {
         clu.setStateKey(exam.getStateKey());
         clu.setDescr(exam.getDescr());
         clu.setMeta(exam.getMeta());
+
+        CluIdentifierInfo identifier = new CluIdentifierInfo();
+        identifier.setTypeKey(EXAM_OFFICIAL_IDENT_TYPE);
+        identifier.setStateKey(exam.getStateKey());
+        identifier.setShortName(exam.getName());
+        clu.setOfficialIdentifier(identifier);
 
         //Dynamic Attributes
         HashMap<String, AttributeInfo> attributesMap = new HashMap<String, AttributeInfo>();
