@@ -18,6 +18,8 @@ package org.kuali.student.enrollment.bundledoffering.infc;
 
 import org.kuali.student.r2.common.infc.IdEntity;
 
+import java.util.List;
+
 
 /**
  * Bundled Offering is a set of Registration Groups for which a
@@ -110,4 +112,14 @@ public interface BundledOffering
      * @name Admin Org Id
      */
     public String getAdminOrgId();
+
+
+    /**
+     * The identifiers for the RegistrationGroups included in this
+     * bundled offering.
+     *
+     * @return the Ids of the registration groups
+     * @name Registration Group Ids
+     */
+    public List<String> getRegistrationGroupIds();
 }

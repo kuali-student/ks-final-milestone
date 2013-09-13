@@ -128,6 +128,27 @@ public interface BundledOfferingService {
                PermissionDeniedException;
 
     /** 
+     * Retrieves a list of BundledOfferings by code.
+     *
+     * @param code a BundledOffering code.
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of BundledOfferings for the given code empty
+     *         list is none found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException code or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<BundledOfferingInfo> getBundledOfferingsByCode(@WebParam(name = "code") String code, 
+                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
+
+    /** 
      * Retrieves a list of BundledOfferings belonging to a
      * CourseBundle.
      *
@@ -191,6 +212,28 @@ public interface BundledOfferingService {
     public List<BundledOfferingInfo> getBundledOfferingsByCourseBundleAndTerm(@WebParam(name = "courseBundleId") String courseBundleId, 
 @WebParam(name = "termId") String termId, 
                                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
+
+    /** 
+     * Retrieves a list of BundledOfferings containing a Registration
+     * Group.
+     *
+     * @param regsitartionGroupId the Id of a registration Group
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of BundledOfferings fwith the registration
+     *         Groupor an empty list is none found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException regsitrationGroupId or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<BundledOfferingInfo> getBundledOfferingsByregistrationGroup(@WebParam(name = "regsitrationGroupId") String registrationGroupId, 
+                                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws InvalidParameterException, 
                MissingParameterException, 
                OperationFailedException, 

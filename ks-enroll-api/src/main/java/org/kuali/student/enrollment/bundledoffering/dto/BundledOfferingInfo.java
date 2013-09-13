@@ -20,9 +20,7 @@ import org.kuali.student.enrollment.bundledoffering.infc.BundledOffering;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -38,7 +36,7 @@ import org.w3c.dom.Element;
         "id", "typeKey", "stateKey", "name", "descr",
         "courseBundleId", "termId",
         "bundledOfferingCode", "subjectAreaOrgId", "bundledOfferingCodeSuffix",
-        "adminOrgId",
+        "adminOrgId", "registrationGroupIds",
         "meta", "attributes", "_futureElements" })
 
 public class BundledOfferingInfo
@@ -66,6 +64,9 @@ public class BundledOfferingInfo
     private String adminOrgId;
 
     @XmlAnyElement
+    private List<String> registrationGroupIds;
+
+    @XmlAnyElement
     private List<Element> _futureElements;
 
 
@@ -91,6 +92,10 @@ public class BundledOfferingInfo
             this.subjectAreaOrgId = offering.getSubjectAreaOrgId();
             this.bundledOfferingCodeSuffix = offering.getBundledOfferingCodeSuffix();
             this.adminOrgId = offering.getAdminOrgId();
+
+            if (offering.getRegistrationGroupIds() != null) {
+                this.registrationGroupIds = new ArrayList(offering.getRegistrationGroupIds());
+            }
         }
     }
 
@@ -147,5 +152,18 @@ public class BundledOfferingInfo
 
     public void setAdminOrgId(String adminOrgId) {
         this.adminOrgId = adminOrgId;
+    }
+
+    @Override
+    public List<String> getRegistrationGroupIds() {
+        if (this.registrationGroupIds == null) {
+            this.registrationGroupIds = new ArrayList<String>(0);
+        }
+
+        return (this.registrationGroupIds);
+    }
+
+    public void setRegistrationGroupIds(List<String> registrationGroupIds) {
+        this.registrationGroupIds = registrationGroupIds;
     }
 }
