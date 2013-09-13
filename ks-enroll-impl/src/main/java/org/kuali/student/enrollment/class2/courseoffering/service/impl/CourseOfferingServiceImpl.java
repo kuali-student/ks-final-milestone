@@ -7,6 +7,7 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
+import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDaoApi;
 import org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDaoApi;
 import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterAttributeEntity;
@@ -1622,6 +1623,16 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
     }
 
+    @Transactional
+    private StatusInfo deleteWaitListFromAo(String activityOfferingId,ContextInfo context) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+        List<CourseWaitListInfo> courseWaitListInfos = courseWaitListService.getCourseWaitListsByActivityOffering(activityOfferingId,context);
+        for(CourseWaitListInfo courseWaitListInfo : courseWaitListInfos){
+            courseWaitListService.deleteCourseWaitList(courseWaitListInfo.getId(),context);
+        }
+        return status;
+    }
 
     @Override
     @Transactional
@@ -1629,6 +1640,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<SeatPoolDefinitionInfo> seatPoolsToDelete = getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
+        deleteWaitListFromAo(activityOfferingId,context);
         deleteSeatPoolsFromAo(seatPoolsToDelete, activityOfferingId, context);
         removeActivityOfferingFromAoCluster(activityOfferingId, context);
 
