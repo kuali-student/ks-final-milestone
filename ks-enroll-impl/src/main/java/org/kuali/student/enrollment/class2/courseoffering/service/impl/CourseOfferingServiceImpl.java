@@ -1623,7 +1623,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
     }
 
-    @Transactional
     private StatusInfo deleteWaitListFromAo(String activityOfferingId,ContextInfo context) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
@@ -1640,7 +1639,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<SeatPoolDefinitionInfo> seatPoolsToDelete = getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
-        deleteWaitListFromAo(activityOfferingId,context);
+        // this is breaking other unit test there fore revoking the changes.
+      //  deleteWaitListFromAo(activityOfferingId,context);
         deleteSeatPoolsFromAo(seatPoolsToDelete, activityOfferingId, context);
         removeActivityOfferingFromAoCluster(activityOfferingId, context);
 
