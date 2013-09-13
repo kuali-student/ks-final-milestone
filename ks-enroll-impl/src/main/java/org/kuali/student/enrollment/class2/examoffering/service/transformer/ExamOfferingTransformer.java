@@ -69,7 +69,7 @@ public class ExamOfferingTransformer {
 
         //Bulk load a list a ScheduleInfos by a list of scheduleIds. Cache the results set in a map.
         Map<String, ScheduleInfo> scheduleIdToScheduleMap = new HashMap<String, ScheduleInfo>();
-        if (scheduleIds != null && !scheduleIds.isEmpty()) {
+        if (!scheduleIds.isEmpty()) {
             List<ScheduleInfo> scheduleInfos = schedulingService.getSchedulesByIds(scheduleIds, context);
             for (ScheduleInfo scheduleInfo : scheduleInfos) {
                 scheduleIdToScheduleMap.put(scheduleInfo.getId(), scheduleInfo);

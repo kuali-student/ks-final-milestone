@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.exam.service.impl;
 
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class2.exam.service.transformer.ExamTransformer;
 import org.kuali.student.enrollment.exam.dto.ExamInfo;
@@ -34,6 +35,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.ExamServiceConstants;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -50,9 +52,9 @@ import java.util.List;
  */
 public class ExamServiceImpl implements ExamService {
 
+    private static final String PREDICATE_FACTORY_PATH_FOR_CLUTYPE = "cluType";
+
     private CluService cluService;
-
-
 
     private ExamTransformer examTransformer;
 
@@ -150,7 +152,11 @@ public class ExamServiceImpl implements ExamService {
             , MissingParameterException
             , OperationFailedException
             , PermissionDeniedException {
-        throw new OperationFailedException("searchForExamIds has not been implemented");
+
+        //Add cluType Predicate
+        QueryByCriteria newCriteria = addCluTypeEqualPredicate(criteria, ExamServiceConstants.EXAM_FINAL_TYPE_KEY);
+
+        return this.getCluService().searchForCluIds(newCriteria, contextInfo);
     }
 
     @Override
@@ -160,7 +166,27 @@ public class ExamServiceImpl implements ExamService {
             , MissingParameterException
             , OperationFailedException
             , PermissionDeniedException {
-        throw new OperationFailedException("searchForExams has not been implemented");
+
+        //Add cluType Predicate
+        QueryByCriteria newCriteria = addCluTypeEqualPredicate(criteria, ExamServiceConstants.EXAM_FINAL_TYPE_KEY);
+
+        List<ExamInfo> examInfos = new ArrayList<ExamInfo>();
+        List<CluInfo> cluInfos = this.getCluService().searchForClus(newCriteria, contextInfo);
+        for(CluInfo cluInfo : cluInfos){
+            ExamInfo exam = new ExamInfo();
+            this.getExamTransformer().clu2Exam(cluInfo, new ExamInfo(), contextInfo);
+            examInfos.add(exam);
+        }
+
+        return examInfos;
+    }
+
+    private QueryByCriteria addCluTypeEqualPredicate(QueryByCriteria criteria, String cluType){
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.and(
+                criteria.getPredicate(),
+                PredicateFactory.equal(PREDICATE_FACTORY_PATH_FOR_CLUTYPE, cluType)));
+        return qbcBuilder.build();
     }
 
     private MetaInfo newMeta(ContextInfo context) {
@@ -180,7 +206,6 @@ public class ExamServiceImpl implements ExamService {
         meta.setVersionInd((Integer.parseInt(meta.getVersionInd()) + 1) + "");
         return meta;
     }
-
 
     public CluService getCluService() {
         return cluService;
