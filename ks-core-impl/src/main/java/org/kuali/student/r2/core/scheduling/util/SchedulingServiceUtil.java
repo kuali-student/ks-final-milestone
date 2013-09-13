@@ -274,47 +274,6 @@ public class SchedulingServiceUtil {
     }
 
     /**
-     * TODO: Delete this eventually (KSENROLL-9321)
-     * Convenience method to translate an request Schedule into a ScheduleReqeust
-     * Used during CO/AO copy to make requests in the target that are copies from the request schedule of the source
-     *
-     * @param sourceRequest
-     * @param callContext
-     * @return
-     */
-    public static ScheduleRequestInfo scheduleRequestToScheduleRequest(ScheduleRequestInfo sourceRequest, ContextInfo callContext)  {
-        ScheduleRequestInfo result = new ScheduleRequestInfo();
-        result.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
-        result.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
-
-        for (ScheduleRequestComponentInfo  sourceSchedComp : sourceRequest.getScheduleRequestComponents()) {
-            ScheduleRequestComponentInfo requestComponentInfo = new ScheduleRequestComponentInfo();
-            requestComponentInfo.setIsTBA(sourceSchedComp.getIsTBA());
-            requestComponentInfo.setTimeSlotIds(sourceSchedComp.getTimeSlotIds());
-
-            for(String id : sourceSchedComp.getRoomIds()) {
-                requestComponentInfo.getRoomIds().add(id);
-            }
-            // retrieve the room to find the building id
-            for(String id : sourceSchedComp.getBuildingIds()) {
-                requestComponentInfo.getBuildingIds().add(id);
-            }
-
-            for(String id : sourceSchedComp.getCampusIds()) {
-                requestComponentInfo.getCampusIds().add(id);
-            }
-
-            for(String id : sourceSchedComp.getOrgIds()) {
-                requestComponentInfo.getOrgIds().add(id);
-            }
-
-            result.getScheduleRequestComponents().add(requestComponentInfo);
-        }
-
-        return result;
-    }
-
-    /**
      * Copies the original request into a new one, but nulls out IDs, and replaces the SRS id with the
      * one passed in
      * @param origRequest The request to be copied
