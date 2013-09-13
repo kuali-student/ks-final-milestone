@@ -10,6 +10,13 @@
         <param-value>dev</param-value>
     </context-param>
 
+    <!-- HTML escape for XSS prevention -->
+    <context-param>
+        <param-name>defaultHtmlEscape</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+
     <!-- Location of File to load application spring contents-->
     <context-param>
         <param-name>web.bootstrap.spring.file</param-name>

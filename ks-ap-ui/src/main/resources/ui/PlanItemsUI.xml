@@ -617,7 +617,10 @@
         <property name="onDocumentReadyScript" value="
             truncateField('planned_courses_detail_list', true);
             jQuery('#planned_courses_detail_list').on('PLAN_ITEM_ADDED', function(event, data) {
-                fnAddPlanItem(data.atpId, data.planItemType, data.planItemId, data.courseDetails.code, data.courseDetails.courseTitle, data.courseDetails.credit, data.showAlert, data.termName, data.timeScheduleOpen);
+                if(data.planItemType === 'wishlist'){
+                }else{
+                    fnAddPlanItem(data.atpId, data.planItemType, data.planItemId, data.courseDetails.code, data.courseDetails.courseTitle, data.courseDetails.credit, data.showAlert, data.termName, data.timeScheduleOpen);
+                }
             }).on('PLAN_ITEM_DELETED', function(event, data) {
                 fnRemovePlanItem(data.atpId, data.planItemType, data.planItemId);
             }).on('PLAN_ITEM_UPDATED', function(event, data) {
@@ -1793,10 +1796,10 @@
     <bean id="menuOptionCourseSummary-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="View Course Summary"
           p:title="View Course Summary">
         <property name="actionScript" value="
-            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startSummaryDialog', planItemId:jQuery(this).data('planitemid'), courseId:jQuery(this).data('courseid'),atpId:jQuery(this).data('atpid'), pageId:'course_summary_dialog_page'};
+            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startSummaryDialog', planItemId:jQuery(this).data('planitemid'), courseId:jQuery(this).data('courseid'),atpId:jQuery(this).data('atpid'), pageId:'add_remove_course_popover_page'};
             var popupStyle = {width:'300px', height:'16px'};
             var popupOptions = {tail:{hidden:true}, align:'top', close:true};
-            var pageId ='course_summary_dialog_page.'+jQuery(this).data('atpid').replace(/\./g, '-');
+            var pageId ='add_remove_course_popover_page.'+jQuery(this).data('planitemid').replace(/\./g, '-');
             openPopup(pageId, retrieveData, 'plan', popupStyle, popupOptions, e);
         "/>
     </bean>

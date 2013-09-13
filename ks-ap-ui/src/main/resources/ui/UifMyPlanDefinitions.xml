@@ -479,21 +479,20 @@
         </property>
         <property name="onDocumentReadyScript" value="
             myplanRetrieveComponent('watch_list','saved_courses_summary','search','lookup',{viewId:'SavedCoursesSummary-LookupView'});
-            jQuery('#watch_list')
-                .on('PLAN_ITEM_DELETED', function(data){
-                    if (data.planItemType === 'wishlist') {
-                        myplanRetrieveComponent('saved_courses_summary','saved_courses_summary','search','lookup',{viewId:'SavedCoursesSummary-LookupView'});
-                        jQuery('div.jquerybubblepopup.jquerybubblepopup-myplan .jquerybubblepopup-tail').fadeOut(250, function() {
-                            jQuery(this).remove();
-                            fnCloseAllPopups();
-                        });
-                    }
-                })
-                .on('PLAN_ITEM_ADDED', function(data){
-                    if (data.planItemType === 'wishlist') {
-                        myplanRetrieveComponent('saved_courses_summary','saved_courses_summary','search','lookup',{viewId:'SavedCoursesSummary-LookupView'},data.planItemId);
-                    }
-                });
+            var obj = jQuery('div.myplan-saved-courses-summary.myplan-stacked-list',jQuery('body').html());
+            obj.on('PLAN_ITEM_DELETED', function(event, data){
+                if (data.planItemType === 'wishlist') {
+                    myplanRetrieveComponent('saved_courses_summary','saved_courses_summary','search','lookup',{viewId:'SavedCoursesSummary-LookupView'});
+                    jQuery('div.jquerybubblepopup.jquerybubblepopup-myplan .jquerybubblepopup-tail').fadeOut(250, function() {
+                        jQuery(this).remove();
+                        fnCloseAllPopups();
+                    });
+                }
+            }).on('PLAN_ITEM_ADDED', function(event, data){
+                if (data.planItemType === 'wishlist') {
+                    myplanRetrieveComponent('saved_courses_summary','saved_courses_summary','search','lookup',{viewId:'SavedCoursesSummary-LookupView'},data.planItemId);
+                }
+            });
         "/>
     </bean>
 

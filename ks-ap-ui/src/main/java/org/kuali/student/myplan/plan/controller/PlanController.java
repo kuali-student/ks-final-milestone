@@ -37,7 +37,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParser;
@@ -3594,12 +3593,8 @@ public class PlanController extends UifControllerBase {
     }
 
     public String escapeForJson(String text){
-        text = StringEscapeUtils.escapeHtml(text);
         text = text.replaceAll("\\{","&#x7B;");
         text = text.replaceAll("}","&#x7D;");
-        text = text.replaceAll("'","&#x27;");
-        text = text.replaceAll("}","&#x2F;");
-        text = text.replaceAll(StringEscapeUtils.escapeJava("\\"),StringEscapeUtils.escapeJava("\\")+StringEscapeUtils.escapeJava("\\"));
 
         return text;
     }

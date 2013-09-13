@@ -96,8 +96,13 @@
                             <value>uif-tooltip</value>
                         </list>
                     </property>
-                    <property name="onClickScript"
-                              value="openPlanItemPopUp('@{#line.courseDetails.courseIdXmlSafe}','add_remove_course_popover_page',{planItemId:'@{#line.planItemDataObject.id}', courseId:'@{#line.courseDetails.courseId}'},e,null,{tail:{align:'top'},align:'top'});"/>
+                   <property name="onClickScript" value="
+                        var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startSummaryDialog', planItemId:'@{#line.planItemDataObject.id}', courseId:'@{#line.courseDetails.courseId}', pageId:'add_remove_course_popover_page'};
+                        var popupStyle = {width:'300px', height:'16px'};
+                        var popupOptions = {tail:{hidden:true}, align:'top', close:true};
+                        var pageId ='add_remove_course_popover_page.@{#line.planItemDataObject.id}';
+                        openPopup(pageId, retrieveData, 'plan', popupStyle, popupOptions, e);
+                    "/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message" p:messageText="@{#line.courseDetails.code}">
