@@ -6,15 +6,15 @@
 function fnAddPlanItem (atpId, type, planItemId, courseCode, courseTitle, courseCredits) {
     var item = '<div id="' + planItemId + '_div" class="uif-group uif-boxGroup uif-verticalBoxGroup uif-collectionItem uif-boxCollectionItem">' +
         '<div class="uif-boxLayout uif-verticalBoxLayout clearfix">' +
-            '<div id="' + planItemId + '_' + type + '" class="uif-field uif-fieldGroup uif-horizontalFieldGroup myplan-course-valid" title="' + courseTitle + '" data-planitemid="' + planItemId + '" data-atpid="' + atpId.replace(/-/g,".") + '">' +
+            '<div id="' + planItemId + '_' + type + '" class="uif-field uif-fieldGroup uif-horizontalFieldGroup myplan-course-valid ks-plan-Bucket-item ks-plan-Bucket-item--valid" title="' + courseTitle + '" data-planitemid="' + planItemId + '" data-atpid="' + atpId.replace(/-/g,".") + '">' +
                 '<fieldset>' +
                     '<div class="uif-group uif-boxGroup uif-horizontalBoxGroup">' +
                         '<div class="uif-boxLayout uif-horizontalBoxLayout clearfix">' +
-                            '<div class="uif-field uif-messageField code uif-boxLayoutHorizontalItem uif-boxLayoutHorizontalItem">' +
+                            '<div class="uif-field uif-messageField code ks-plan-Bucket-itemCode uif-boxLayoutHorizontalItem uif-boxLayoutHorizontalItem">' +
                                 '<span class="uif-message">' + courseCode + '</span>' +
                             '</div>' +
-                            '<div class="uif-field uif-messageField credit uif-boxLayoutHorizontalItem uif-boxLayoutHorizontalItem">' +
-                                '<span class="uif-message">(' + courseCredits + ')</span>' +
+                            '<div class="uif-field uif-messageField credit ks-plan-Bucket-itemCreditCount uif-boxLayoutHorizontalItem uif-boxLayoutHorizontalItem">' +
+                                '<span class="uif-message">' + courseCredits + '</span>' +
                             '</div>' +
                         '</div>' +
                     '</div>' +

@@ -27,16 +27,8 @@ public class MessagesLookupableHelperImpl extends MyPlanLookupableImpl {
 	@Override
 	protected List<MessageDataObject> getSearchResults(LookupForm lookupForm,
 			Map<String, String> fieldValues, boolean unbounded) {
-		// TODO: factory for context /mwfyffe
-		ContextInfo context = new ContextInfo();
 		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
-		List<MessageDataObject> messages;
-		try {
-			messages = getCommentQueryHelper().getMessages(studentId, context);
-			Collections.sort(messages);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		List<MessageDataObject> messages = CommentQueryHelper.getMessages(studentId);
 
 		Collections.sort(messages, new Comparator<MessageDataObject>() {
 			@Override

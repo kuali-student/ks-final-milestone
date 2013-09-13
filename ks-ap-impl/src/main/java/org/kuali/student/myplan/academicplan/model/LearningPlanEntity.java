@@ -26,7 +26,7 @@ public class LearningPlanEntity extends MetaEntity
     @JoinColumn(name = "TYPE_ID")
     private LearningPlanTypeEntity learningPlanType;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval = true)
     private  Set<LearningPlanAttributeEntity> attributes;
 
     @Column(name="SHARED")

@@ -31,6 +31,7 @@ import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstan
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.lum.course.infc.Course;
+import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
@@ -147,11 +148,21 @@ public class DefaultTermHelper implements TermHelper {
 	}
 
 	private TermMarker getTermMarker() {
-		TermMarker rv = (TermMarker) TransactionSynchronizationManager.getResource(MARKER_KEY);
-		if (rv == null) {
-			TransactionSynchronizationManager.bindResource(MARKER_KEY, rv = new TermMarker());
+		if (TransactionSynchronizationManager.isSynchronizationActive()) {
+			TermMarker rv = (TermMarker) TransactionSynchronizationManager.getResource(MARKER_KEY);
+			if (rv == null) {
+				TransactionSynchronizationManager.bindResource(MARKER_KEY, rv = new TermMarker());
+				TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
+					@Override
+					public void afterCompletion(int status) {
+						TransactionSynchronizationManager.unbindResourceIfPossible(MARKER_KEY);
+					}
+				});
+			}
+			return rv;
+		} else {
+			return new TermMarker();
 		}
-		return rv;
 	}
 
 	@Override

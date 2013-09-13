@@ -7,6 +7,7 @@ import java.util.List;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.myplan.academicplan.infc.PlanItem;
+import org.kuali.student.r2.common.infc.Attribute;
 
 public class PlanItemDataObject implements Serializable {
 
@@ -25,6 +26,8 @@ public class PlanItemDataObject implements Serializable {
     private int year;
     private String creditPref;
 
+    private String campusCode;
+    private String activityCode;
 
     public static PlanItemDataObject build(PlanItem item) {
         PlanItemDataObject itemDO = new PlanItemDataObject();
@@ -43,6 +46,15 @@ public class PlanItemDataObject implements Serializable {
         itemDO.setRefObjId(item.getRefObjectId());
         itemDO.setRefObjType(item.getRefObjectType());
         itemDO.setPlanType(item.getTypeKey());
+
+        for (Attribute attr : item.getAttributes()) {
+        	String value = attr.getValue();
+        	if ("campusCode".equals(attr.getKey()))
+        		itemDO.campusCode = value;
+        	if ("activityCode".equals(attr.getKey()))
+        		itemDO.activityCode = value;
+        }
+
         if(item.getCredit()!=null)itemDO.setCreditPref(item.getCredit().toString());
 
         return itemDO;
@@ -143,4 +155,21 @@ public class PlanItemDataObject implements Serializable {
     public void setTermName(String termName) {
         this.termName = termName;
     }
+
+	public String getCampusCode() {
+		return campusCode;
+	}
+
+	public void setCampusCode(String campusCode) {
+		this.campusCode = campusCode;
+	}
+
+	public String getActivityCode() {
+		return activityCode;
+	}
+
+	public void setActivityCode(String activityCode) {
+		this.activityCode = activityCode;
+	}
+
 }

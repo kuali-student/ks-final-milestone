@@ -6,7 +6,6 @@ import java.util.List;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.enrollment.acal.infc.Term;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
 
 /**
  * Created by IntelliJ IDEA. User: hemanthg Date: 4/2/12 Time: 3:17 PM To change
@@ -63,6 +62,10 @@ public class PlannedTerm {
 
 	public String getAtpId() {
 		return atpId;
+	}
+
+	public String getAtpIdXmlSafe() {
+		return atpId == null ? null : atpId.replace(',', '_');
 	}
 
 	public String getQtrYear() {
@@ -313,7 +316,6 @@ public class PlannedTerm {
 			return "0000";
 		}
 	}
-
 
     public List<TermNoteDataObject> getTermNoteList() {
         if(termNoteList==null){

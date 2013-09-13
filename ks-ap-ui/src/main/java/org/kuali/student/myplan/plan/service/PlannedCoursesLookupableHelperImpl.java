@@ -7,14 +7,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
-import org.kuali.student.myplan.academicplan.dto.PlanItemInfo;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedTerm;
 import org.kuali.student.myplan.plan.dataobject.TermNoteDataObject;
@@ -70,7 +67,6 @@ public class PlannedCoursesLookupableHelperImpl extends PlanItemLookupableHelper
 				.getRequest();
 		String focusAtpId = request.getParameter(PlanConstants.FOCUS_ATP_ID_KEY);
 		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
-		String[] params = {};
 
 		/**** academic record SWS call to get the studentCourseRecordInfo list *****/
 		List<StudentCourseRecordInfo> studentCourseRecordInfos = new ArrayList<StudentCourseRecordInfo>();
@@ -147,7 +143,6 @@ public class PlannedCoursesLookupableHelperImpl extends PlanItemLookupableHelper
 
         }
 
-        int futureYears = (int)ConfigContext.getCurrentContextConfig().getNumericProperty("ks.ap.MAX_FUTURE_YEARS", PlanConstants.MAX_FUTURE_YEARS);
 		List<PlannedTerm> perfectPlannedTerms = PlannedTermsHelperBase
 				.populatePlannedTerms(plannedCoursesList, backupCoursesList,
 						studentCourseRecordInfos, cartCoursesList, termNoteList, focusAtpId, false);

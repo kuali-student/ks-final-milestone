@@ -21,6 +21,7 @@ import org.kuali.student.myplan.academicplan.service.AcademicPlanService;
 import org.kuali.student.r2.common.messages.service.MessageService;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -107,6 +108,15 @@ public final class KsapFrameworkServiceLocator {
 	 */
 	public static EnumerationManagementService getEnumerationManagementService() {
 		return getInstance().ksCoreEnumerationManagementService;
+	}
+
+	/**
+	 * Get the ks-core remote comment service.
+	 *
+	 * @return The ks-core remote comment service.
+	 */
+	public static CommentService getCommentService() {
+		return getInstance().ksCoreCommentService;
 	}
 
 	/**
@@ -299,6 +309,8 @@ public final class KsapFrameworkServiceLocator {
 	private transient OrganizationService ksCoreOrganizationService;
 	@EJB
 	private transient EnumerationManagementService ksCoreEnumerationManagementService;
+	@EJB
+	private transient CommentService ksCoreCommentService;
 	@EJB
 	private transient LuiService ksEnrollLuiService;
 	@EJB

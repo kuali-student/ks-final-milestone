@@ -82,7 +82,8 @@ public class PlanConstants extends AcademicPlanServiceConstants {
 	public static final String COURSE_SUMMARY_DIALOG_PAGE = "course_summary_dialog_page";
 	public static final String COPY_DIALOG_PAGE = "copy_dialog_page";
     public static final String COURSE_NOT_FOUND = "myplan.text.error.quickAdd.courseNotFound";
-	
+	public static final String COURSE_CODE_REQUIRED = "myplan.text.error.quickAdd.courseCodeRequired";
+
 	/* Course Credit Types */
 	public static final String RANGE = "-";
 	public static final String MULTIPLE = ",";

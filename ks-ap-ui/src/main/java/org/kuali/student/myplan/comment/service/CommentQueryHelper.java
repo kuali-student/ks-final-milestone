@@ -5,53 +5,41 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.namespace.QName;
-
-import org.apache.log4j.Logger;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.myplan.comment.CommentConstants;
 import org.kuali.student.myplan.comment.dataobject.CommentDataObject;
 import org.kuali.student.myplan.comment.dataobject.MessageDataObject;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
-import org.kuali.student.r2.core.comment.service.CommentService;
 
 public class CommentQueryHelper {
 
-    private final Logger logger = Logger.getLogger(CommentQueryHelper.class);
-
-    private transient CommentService commentService;
-
-    private CommentService getCommentService() {
-        if (commentService == null) {
-            commentService = (CommentService)
-                GlobalResourceLoader.getService(new QName(CommentConstants.NAMESPACE, CommentConstants.SERVICE_NAME));
-        }
-        return commentService;
-    }
-
-    public void setCommentService(CommentService commentService) {
-        this.commentService = commentService;
-    }
-
-    /**
-     * Retrieve a single message.
-     * @param messageId
-     * @return
-     */
-    public synchronized MessageDataObject getMessage(String messageId, ContextInfo context) {
+	public static MessageDataObject getMessage(String messageId) {
         CommentInfo commentInfo;
         try {
-            commentInfo = getCommentService().getComment(messageId, context);
-        } catch (Exception e) {
-            logger.error(String.format("Query for comment [%s] failed.", messageId), e);
-            return null;
+			commentInfo = KsapFrameworkServiceLocator.getCommentService().getComment(messageId,
+						KsapFrameworkServiceLocator.getContext().getContextInfo());
+		} catch (DoesNotExistException e) {
+			throw new IllegalArgumentException("Comment lookup failure", e);
+		} catch (InvalidParameterException e) {
+			throw new IllegalArgumentException("Comment lookup failure", e);
+		} catch (MissingParameterException e) {
+			throw new IllegalArgumentException("Comment lookup failure", e);
+		} catch (OperationFailedException e) {
+			throw new IllegalStateException("Comment lookup failure", e);
+		} catch (PermissionDeniedException e) {
+			throw new IllegalStateException("Comment lookup failure", e);
         }
-        return makeMessageDataObject(commentInfo, context);
+
+		return makeMessageDataObject(commentInfo);
     }
 
-    private MessageDataObject makeMessageDataObject(CommentInfo commentInfo, ContextInfo context) {
+	private static MessageDataObject makeMessageDataObject(CommentInfo commentInfo) {
         MessageDataObject messageDataObject = new MessageDataObject();
         messageDataObject.setCreateDate(commentInfo.getMeta().getCreateTime());
         messageDataObject.setSubject(commentInfo.getAttributeValue(CommentConstants.SUBJECT_ATTRIBUTE_NAME));
@@ -60,7 +48,7 @@ public class CommentQueryHelper {
         messageDataObject.setMessageId(commentInfo.getId());
 
         //  Pass the id of the message to get the comments associated with this message.
-        List<CommentDataObject> comments = getComments(commentInfo.getId(), context);
+		List<CommentDataObject> comments = getComments(commentInfo.getId());
 
         //  Determine the last update date for the message. If comments exist then use the most recent comment create date.
         //  Otherwise, use the message create date.
@@ -81,36 +69,53 @@ public class CommentQueryHelper {
 
     /**
      * Get all messages for a particular student.
+	 *
      * @param studentId
      * @return
      */
-    public synchronized List<MessageDataObject> getMessages(String studentId, ContextInfo context) {
-        List<MessageDataObject> messages = new ArrayList<MessageDataObject>();
-        List<CommentInfo> commentInfos = new ArrayList<CommentInfo>();
+	public static List<MessageDataObject> getMessages(String studentId) {
+		List<CommentInfo> commentInfos;
         try {
-            commentInfos = getCommentService().getCommentsByReferenceAndType(studentId, CommentConstants.MESSAGE_REF_TYPE, context);
-        } catch (Exception e) {
-            logger.error(String.format("Failed to retrieve messages for student [%s].", studentId), e);
+			commentInfos = KsapFrameworkServiceLocator.getCommentService().getCommentsByReferenceAndType(studentId,
+						CommentConstants.MESSAGE_REF_TYPE, KsapFrameworkServiceLocator.getContext().getContextInfo());
+		} catch (DoesNotExistException e) {
+			throw new IllegalArgumentException("Comment lookup failure", e);
+		} catch (InvalidParameterException e) {
+			throw new IllegalArgumentException("Comment lookup failure", e);
+		} catch (MissingParameterException e) {
+			throw new IllegalArgumentException("Comment lookup failure", e);
+		} catch (OperationFailedException e) {
+			throw new IllegalStateException("Comment lookup failure", e);
+		} catch (PermissionDeniedException e) {
+			throw new IllegalStateException("Comment lookup failure", e);
         }
 
-        for (CommentInfo ci : commentInfos) {
-            MessageDataObject messageDataObject = makeMessageDataObject(ci, context);
-            messages.add(messageDataObject);
-        }
+		List<MessageDataObject> messages = new ArrayList<MessageDataObject>(commentInfos.size());
+		for (CommentInfo ci : commentInfos)
+			messages.add(makeMessageDataObject(ci));
 
         Collections.sort(messages);
         return messages;
     }
 
-    private List<CommentDataObject> getComments(String messageId, ContextInfo context) {
-        List<CommentDataObject> comments = new ArrayList<CommentDataObject>();
-        List<CommentInfo> commentInfos = new ArrayList<CommentInfo>();
+	private static List<CommentDataObject> getComments(String messageId) {
+		List<CommentInfo> commentInfos;
         try {
-            commentInfos = getCommentService().getCommentsByReferenceAndType(messageId, CommentConstants.COMMENT_REF_TYPE, context);
-        } catch (Exception e) {
-            logger.error(String.format("Failed to retrieve messages for messages id [%s].", messageId), e);
+			commentInfos = KsapFrameworkServiceLocator.getCommentService().getCommentsByReferenceAndType(messageId,
+					CommentConstants.COMMENT_REF_TYPE, KsapFrameworkServiceLocator.getContext().getContextInfo());
+		} catch (DoesNotExistException e) {
+			throw new IllegalArgumentException("Comment lookup failure", e);
+		} catch (InvalidParameterException e) {
+			throw new IllegalArgumentException("Comment lookup failure", e);
+		} catch (MissingParameterException e) {
+			throw new IllegalArgumentException("Comment lookup failure", e);
+		} catch (OperationFailedException e) {
+			throw new IllegalStateException("Comment lookup failure", e);
+		} catch (PermissionDeniedException e) {
+			throw new IllegalStateException("Comment lookup failure", e);
         }
 
+		List<CommentDataObject> comments = new ArrayList<CommentDataObject>(commentInfos.size());
         for (CommentInfo ci : commentInfos) {
             CommentDataObject commentDataObject = new CommentDataObject();
             commentDataObject.setCreateDate(ci.getMeta().getCreateTime());

@@ -61,7 +61,7 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
     @JoinColumn(name = "RT_DESCR_ID")
     private PlanItemRichTextEntity descr;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval = true)
     private Set<PlanItemAttributeEntity> attributes;
 
     @ElementCollection (fetch=FetchType.EAGER)

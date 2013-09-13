@@ -142,14 +142,7 @@ public class PlanController extends UifControllerBase {
 		} catch (Exception e) {
 			return doOperationFailedError(planForm, "Query for learning plan failed.", e);
 		}
-		List<MessageDataObject> messages = null;
-		try {
-			CommentQueryHelper commentQueryHelper = new CommentQueryHelper();
-			messages = commentQueryHelper.getMessages(getUserId(), KsapFrameworkServiceLocator.getContext()
-					.getContextInfo());
-		} catch (Exception e) {
-			throw new RuntimeException("Could not retrieve messages.", e);
-		}
+		List<MessageDataObject> messages = CommentQueryHelper.getMessages(getUserId());
 		if (messages != null && messages.size() > 0) {
 			planForm.setMessagesCount(messages.size());
 		}

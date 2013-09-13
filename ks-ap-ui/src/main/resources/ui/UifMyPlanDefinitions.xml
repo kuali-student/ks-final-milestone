@@ -837,7 +837,31 @@
             <null/>
         </property>
         <property name="header">
-            <bean parent="Uif-HeaderSix"/>
+            <bean parent="Uif-HeaderSix">
+		        <property name="cssClasses">
+		        	<list merge="true">
+			        	<value>ks-Popover-header</value>
+		        	</list>
+		        </property>
+            </bean>
+        </property>
+        <property name="cssClasses">
+        	<list merge="true">
+	        	<value>ks-Popover</value>
+        	</list>
+        </property>
+        <property name="layoutManager.cssClasses">
+        	<list merge="true">
+	        	<value>ks-Popover-body</value>
+        	</list>
+        </property>
+        <property name="footer">
+            <bean parent="KSAP-VerticalBoxGroup-NoMargin" />
+        </property>
+        <property name="footer.cssClasses">
+        	<list merge="true">
+	        	<value>ks-Popover-footer</value>
+        	</list>
         </property>
         <property name="width" value="300px"/>
     </bean>

@@ -34,6 +34,14 @@ public class PlannedCourseDataObject implements
 		return courseDetails == null ? null : courseDetails.getCode();
 	}
 	
+	public String getCampusCode() {
+		return planItemDataObject == null ? null : planItemDataObject.getCampusCode();
+	}
+
+	public String getActivityCode() {
+		return planItemDataObject == null ? null : planItemDataObject.getActivityCode();
+	}
+
 	public String getCourseTitle() {
 		return courseDetails == null ? null : courseDetails.getCourseTitle();
 	}

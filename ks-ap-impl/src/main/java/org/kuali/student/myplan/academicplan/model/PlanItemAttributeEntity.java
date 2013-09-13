@@ -15,4 +15,5 @@ public class PlanItemAttributeEntity extends BaseAttributeEntity<PlanItemEntity>
     public PlanItemAttributeEntity(Attribute att, PlanItemEntity owner) {
         super(att, owner);
     }
+
 }

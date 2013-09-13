@@ -278,7 +278,14 @@
                 }, o.auto + o.speed);
 
             function vis() {
-                return li.slice(curr).slice(0, v);
+            	// KSAP MOD: allow scrolling to partial pages
+            	var l = v, c = curr;
+            	if (c < 0) {
+            		l += c;
+            		c = 0;
+            }
+                return li.slice(c).slice(0, l);
+                // END KSAP MOD
             }
 
             ;
@@ -306,7 +313,12 @@
                             curr = to == itemLength - v + 1 ? v + 1 : v + o.scroll;
                         } else curr = to;
                     } else {                    // If non-circular and to points to first or last, we just return.
-                        if (to < 0 || to >= itemLength) return;
+
+                    	// KSAP MOD: allow scrolling to partial pages
+                        // Original = if (to < 0 || to >= itemLength) return;
+                        if (to < -v || to >= itemLength) return;
+                        // END KSAP MOD
+
                         else curr = to;
                     }                           // If neither overrides it, the curr will still be "to" and we can proceed.
 

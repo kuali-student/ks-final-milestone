@@ -43,15 +43,14 @@
     <bean id="completed_help_icon" parent="MyPlanHelpImage"
           p:render="@{#parentLine.completedTerm and #parentLine.displayCompletedHelp ? true : false}">
         <property name="toolTip">
-          <bean parent="MyPlan-Tooltip" p:tooltipContent="Courses that you registered for in a quarter that is now complete."/>
+          <bean parent="MyPlan-Tooltip" p:tooltipContent="A completed quarter you registered for."/>
         </property>
     </bean>
 
     <bean id="registered_help_icon" parent="MyPlanHelpImage"
           p:render="@{!#parentLine.completedTerm and (#parentLine.academicRecord.size() gt 0 or !#parentLine.openForPlanning) and #parentLine.displayRegisteredHelp ? true : false}">
         <property name="toolTip">
-            <bean parent="MyPlan-Tooltip-Left"
-                  p:tooltipContent="Courses you are enrolled in for the current or a future academic quarter. To update this information, go to the &lt;a target=_blank href=&quot;https://sdb.admin.washington.edu/students/uwnetid/register.asp&quot;&gt;Registration&lt;/a&gt; page."/>
+          <bean parent="MyPlan-Tooltip" p:tooltipContent="A course you have enrolled in for current or future academic quarter(s)."/>
         </property>
     </bean>
 
@@ -63,28 +62,26 @@
 
     <bean id="planned_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayPlannedHelp}">
         <property name="toolTip">
-            <bean parent="MyPlan-Tooltip-Left"
-                  p:tooltipContent="MyPlan allows you to add courses to your plan, but does not register you. Check the Time Schedule each quarter to verify whether your planned courses will be offered. &lt;a href=javascript:openHelpWindow(&quot;http://depts.washington.edu/myplan/help-site/#825&quot;);&gt;Learn more&lt;/a&gt;"/>
+            <bean parent="MyPlan-Tooltip" p:tooltipContent="A course you added to your plan for a specific quarter, but have not or cannot yet register for. MyPlan allows you to create an academic plan, but does not register you.  Check the Time Schedule to verify that your planned courses will be offered that quarter."/>
         </property>
     </bean>
 
     <bean id="backup_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayBackupHelp}">
         <property name="toolTip">
-            <bean parent="MyPlan-Tooltip-Left"
-                  p:tooltipContent="Courses you are considering in case a planned course is full or unavailable."/>
+          <bean parent="MyPlan-Tooltip" p:tooltipContent="A course you&#39;re considering in case a planned course is not available or is full."/>
         </property>
     </bean>
 
-    <bean id="total_credits_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayCreditsHelp}">
+    <bean id="total_credits_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayCreditsHelp}" p:cssClasses="ks-plan-Bucket-creditHelpIcon">
         <property name="toolTip">
-            <bean parent="MyPlan-Tooltip-Left"
-                  p:tooltipContent="@{!#line.openForPlanning ? 'The number of credits registered for a completed quarter. Check your transcript to verify completed credits.' : (#line.academicRecord.size() gt 0 ? ' The total number of credits from your planned and registered courses for the current quarter.' : 'The number of credits you plan to enroll in for future quarter.')}"/>
+          <bean parent="MyPlan-Tooltip" p:tooltipContent="The total number of credits attempted for a completed quarter. Check your transcript to verify earned credits.">
+          </bean>
         </property>
     </bean>
 
-    <bean id="cart_credits_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayCreditsHelp ? true : false}">
+    <bean id="cart_credits_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayCreditsHelp ? true : false}" p:cssClasses="ks-plan-Bucket-creditHelpIcon">
         <property name="toolTip">
-            <bean parent="MyPlan-Tooltip" p:tooltipContent="The total number of credits for all course currently in the shopping cart.">
+            <bean parent="MyPlan-Tooltip" p:tooltipContent="&lt;div class=\ks-Tooltip\&gt;The total number of credits for all course currently in the shopping cart.&lt;/div&gt;">
             </bean>
         </property>
     </bean>
@@ -92,15 +89,15 @@
     <bean id="course_requisite_help_icon" parent="MyPlanHelpImage">
         <property name="toolTip">
             <bean parent="MyPlan-Tooltip-Left"
-                  p:tooltipContent="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_REQUISITE_TOOLTOP_COREQ_TEXT')}
-                                    #{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_REQUISITE_TOOLTOP_PREREQ_TEXT')}"/>
+                  p:tooltipContent="&lt;div class=\ks-Tooltip\&gt;#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_REQUISITE_TOOLTOP_COREQ_TEXT')}
+                                    #{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_REQUISITE_TOOLTOP_PREREQ_TEXT')}&lt;/div&gt;"/>
         </property>
     </bean>
 
     <bean id="course_quarter_help_icon" parent="MyPlanHelpImage">
         <property name="toolTip">
             <bean parent="MyPlan-Tooltip-Left"
-                  p:tooltipContent="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_TOOLTIP_TEXT')}"/>
+                  p:tooltipContent="&lt;div class=\ks-Tooltip\&gt;#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_TOOLTIP_TEXT')}&lt;/div&gt;"/>
         </property>
     </bean>
 
@@ -116,17 +113,17 @@
     <bean id="course_gened_help_icon" parent="MyPlanHelpImage">
         <property name="toolTip">
             <bean parent="MyPlan-Tooltip-Left"
-                  p:tooltipContent="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_GENED_TOOLTIP_TEXT')}"/>
+                  p:tooltipContent="&lt;div class=\ks-Tooltip\&gt;#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_GENED_TOOLTIP_TEXT')}&lt;/div&gt;"/>
         </property>
     </bean>
 
     <bean id="course_sections_help_icon" parent="MyPlanHelpImage">
         <property name="toolTip">
             <bean parent="MyPlan-Tooltip-Right"
-                  p:tooltipContent="&lt;strong&gt;ENRL/LIMIT&lt;/strong&gt; = section enrollment and overall enrollment limit&lt;/br&gt;
+                  p:tooltipContent="&lt;div class=\ks-Tooltip\&gt;&lt;strong&gt;ENRL/LIMIT&lt;/strong&gt; = section enrollment and overall enrollment limit&lt;/br&gt;
                   &lt;strong&gt;ENRL. RESTR.&lt;/strong&gt; = applicable enrollment restrictions for each section&lt;/br&gt;
                   &lt;strong&gt;OTHER&lt;/strong&gt; = additional information for each section&lt;/br&gt;
-                  &lt;strong&gt;PCE&lt;/strong&gt; = Professional &amp; Continuing Education&lt;/br&gt;
+                  &lt;strong&gt;PCE&lt;/strong&gt; = Professional &amp; Continuing Education&lt;/br&gt;&lt;/div&gt;
                   "/>
         </property>
     </bean>

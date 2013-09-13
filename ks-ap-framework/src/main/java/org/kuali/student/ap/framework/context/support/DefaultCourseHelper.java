@@ -37,6 +37,8 @@ import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 // TODO: REVIEW https://svn.kuali.org/repos/student/contrib/myplan/trunk/ks-myplan/myplan-ui/src/main/java/edu/uw/kuali/student/myplan/util/CourseHelperImpl.java
@@ -100,6 +102,11 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 				return false;
 			return true;
 		}
+
+		@Override
+		public String toString() {
+			return "CourseTermKey [courseId=" + courseId + ", termId=" + termId + "]";
+		}
 	}
 
 	private static class CourseMarker {
@@ -120,11 +127,21 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 	}
 
 	private static CourseMarker getCourseMarker() {
-		CourseMarker rv = (CourseMarker) TransactionSynchronizationManager.getResource(COURSE_MARKER_KEY);
-		if (rv == null) {
-			TransactionSynchronizationManager.bindResource(COURSE_MARKER_KEY, rv = new CourseMarker());
+		if (TransactionSynchronizationManager.isSynchronizationActive()) {
+			CourseMarker rv = (CourseMarker) TransactionSynchronizationManager.getResource(COURSE_MARKER_KEY);
+			if (rv == null) {
+				TransactionSynchronizationManager.bindResource(COURSE_MARKER_KEY, rv = new CourseMarker());
+				TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
+					@Override
+					public void afterCompletion(int status) {
+						TransactionSynchronizationManager.unbindResourceIfPossible(COURSE_MARKER_KEY);
+					}
+				});
+			}
+			return rv;
+		} else {
+			return new CourseMarker();
 		}
-		return rv;
 	}
 
 	@Override
@@ -137,7 +154,10 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 			CourseService courseService = KsapFrameworkServiceLocator.getCourseService();
 			ContextInfo context = KsapFrameworkServiceLocator.getContext().getContextInfo();
 			CourseMarker cm = getCourseMarker();
-			List<CourseInfo> courses = courseService.getCoursesByIds(courseIds, context);
+			List<CourseInfo> courses = new ArrayList<CourseInfo>();
+            for(String courseId : courseIds){
+                courses.add(courseService.getCourse(courseId,context));
+            }
 			cm.cache(courses);
 
 			if (sb != null) {
@@ -183,11 +203,17 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 						sb.append(c.getCode());
 					}
 				}
-				coid2key.put(co.getId(), new CourseTermKey(co.getCourseId(), co.getTermId()));
+				CourseTermKey k = new CourseTermKey(co.getCourseId(), co.getTermId());
+				coid2key.put(co.getId(), k);
+				List<ActivityOfferingDisplayInfo> orm = cm.activityOfferingDisplaysByCourseAndTerm.remove(k);
+				LOG.warn("Cleared stale AO display key " + k + " " + orm);
 			}
 
-			if (!additionalCourseIds.isEmpty()) {
-				List<CourseInfo> additionalCourses = courseService.getCoursesByIds(additionalCourseIds, context);
+			if (!additionalCourseIds.isEmpty()){
+                List<CourseInfo> additionalCourses = new ArrayList<CourseInfo>();
+                for(String courseId : additionalCourseIds){
+                    courses.add(courseService.getCourse(courseId,context));
+                }
 				cm.cache(additionalCourses);
 				if (sb != null) {
 					sb.append("\nAdditional Courses: ");
@@ -300,11 +326,24 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 				CourseOfferingService courseOfferingService = KsapFrameworkServiceLocator.getCourseOfferingService();
 				ContextInfo context = KsapFrameworkServiceLocator.getContext().getContextInfo();
 				rv = new java.util.LinkedList<ActivityOfferingDisplayInfo>();
+				StringBuilder msg = null;
+				if (LOG.isDebugEnabled())
+					msg = new StringBuilder("CO cache miss ").append(courseId).append(" ").append(termId);
 				for (CourseOfferingInfo co : courseOfferingService.getCourseOfferingsByCourseAndTerm(courseId, termId,
-						context))
-					rv.addAll(KsapFrameworkServiceLocator.getCourseOfferingService()
+						context)) {
+					if (msg != null)
+						msg.append("\n  CO ").append(co.getId());
+					List<ActivityOfferingDisplayInfo> aol = KsapFrameworkServiceLocator.getCourseOfferingService()
 							.getActivityOfferingDisplaysForCourseOffering(co.getId(),
-									KsapFrameworkServiceLocator.getContext().getContextInfo()));
+									KsapFrameworkServiceLocator.getContext().getContextInfo());
+					for (ActivityOfferingDisplayInfo aodi : aol) {
+						if (msg != null)
+							msg.append("\n    AO ").append(aodi.getId());
+						rv.add(aodi);
+					}
+				}
+				if (msg != null)
+					LOG.debug(msg);
 				cm.activityOfferingDisplaysByCourseAndTerm.put(k, rv);
 			} catch (DoesNotExistException e) {
 				throw new IllegalArgumentException("CO lookup failure");
@@ -357,8 +396,21 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 
 	public List<String> getScheduledTerms(Course course) {
 		ContextInfo ctx = KsapFrameworkServiceLocator.getContext().getContextInfo();
+        List<String> scheduledTerms = new java.util.LinkedList<String>();
 		try {
-			List<String> courseIds = KsapFrameworkServiceLocator.getCourseService().searchForCourseIds(
+            List<CourseOfferingInfo> offerings = KsapFrameworkServiceLocator.getCourseOfferingService().getCourseOfferingsByCourse(course.getId(),ctx);
+            List<Term> terms = KsapFrameworkServiceLocator.getTermHelper().getPublishedTerms();
+            for(CourseOfferingInfo offering : offerings){
+                for(Term t : terms) {
+                    if(offering.getTermId().equals(t.getId())){
+                        if(!scheduledTerms.contains(t.getId())){
+                            scheduledTerms.add(t.getId());
+                        }
+                    }
+                }
+            }
+            // Not Supported
+			/*List<String> courseIds = KsapFrameworkServiceLocator.getCourseService().searchForCourseIds(
 					QueryByCriteria.Builder.fromPredicates(PredicateFactory.equal("officialIdentifier.code",
 							course.getCode())), ctx);
 			List<String> scheduledTerms = new java.util.LinkedList<String>();
@@ -371,7 +423,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 						.searchForCourseOfferingIds(crit, KsapFrameworkServiceLocator.getContext().getContextInfo())
 						.isEmpty())
 					scheduledTerms.add(t.getId());
-			}
+			}*/
 			return scheduledTerms;
 		} catch (InvalidParameterException e) {
 			throw new IllegalArgumentException("CO lookup failure", e);
@@ -381,7 +433,9 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 			throw new IllegalStateException("CO lookup failure", e);
 		} catch (PermissionDeniedException e) {
 			throw new IllegalStateException("CO lookup failure", e);
-		}
+		} catch (DoesNotExistException e){
+            throw new IllegalStateException("CO lookup failure", e);
+        }
 	}
 
 	@Override
@@ -389,7 +443,16 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 		ContextInfo ctx = KsapFrameworkServiceLocator.getContext().getContextInfo();
 		List<CourseOfferingInfo> courseOfferingInfo = null;
 		try {
-			List<String> courseIds = KsapFrameworkServiceLocator.getCourseService().searchForCourseIds(
+            List<CourseOfferingInfo> offerings = KsapFrameworkServiceLocator.getCourseOfferingService().getCourseOfferingsByCourse(course.getId(),ctx);
+            String termId = KsapFrameworkServiceLocator.getTermHelper().getOldestHistoricalTerm().getId();
+
+            for(CourseOfferingInfo offering : offerings){
+                    if(offering.getTermId().equals(termId)){
+                        courseOfferingInfo.add(offering);
+                    }
+            }
+            // Not supported
+			/*List<String> courseIds = KsapFrameworkServiceLocator.getCourseService().searchForCourseIds(
 					QueryByCriteria.Builder.fromPredicates(PredicateFactory.equal("officialIdentifier.code",
 							course.getCode())), ctx);
 			String termId = KsapFrameworkServiceLocator.getTermHelper().getOldestHistoricalTerm().getId();
@@ -397,7 +460,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 					PredicateFactory.in("cluId", courseIds.toArray(new String[courseIds.size()])),
 					PredicateFactory.greaterThanOrEqual("atpId", termId)));
 			courseOfferingInfo = KsapFrameworkServiceLocator.getCourseOfferingService().searchForCourseOfferings(crit,
-					ctx);
+					ctx);*/
 		} catch (InvalidParameterException e) {
 			throw new IllegalArgumentException("CO lookup failure", e);
 		} catch (MissingParameterException e) {
@@ -406,7 +469,9 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 			throw new IllegalStateException("CO lookup failure", e);
 		} catch (PermissionDeniedException e) {
 			throw new IllegalStateException("CO lookup failure", e);
-		}
+		} catch (DoesNotExistException e){
+            throw new IllegalStateException("CO lookup failure", e);
+        }
 		if (courseOfferingInfo != null && courseOfferingInfo.size() > 0) {
 			TermInfo lo;
 			try {

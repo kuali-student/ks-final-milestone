@@ -77,8 +77,6 @@ public class CommentController extends UifControllerBase {
 	public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
 			BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
-		// TODO: factory for context
-		ContextInfo context = new ContextInfo();
 		super.start(form, result, request, response);
 		Person user = GlobalVariables.getUserSession().getPerson();
 		String principleId = user.getPrincipalId();
@@ -86,15 +84,7 @@ public class CommentController extends UifControllerBase {
 		commentForm.setStudentName(KsapFrameworkServiceLocator.getUserSessionHelper().getStudentName());
 		commentForm.setPersonName(KsapFrameworkServiceLocator.getUserSessionHelper().getName(principleId));
 		if (commentForm.getMessageId() != null) {
-			MessageDataObject messageDataObject = null;
-			try {
-				messageDataObject = getCommentQueryHelper().getMessage(
-						commentForm.getMessageId(), context);
-			} catch (Exception e) {
-				logger.error(String.format("Query for comment [%s] failed.",
-						commentForm.getMessageId()), e);
-				return null;
-			}
+			MessageDataObject messageDataObject = CommentQueryHelper.getMessage(commentForm.getMessageId());
 			if (messageDataObject != null) {
 				commentForm.setSubject(messageDataObject.getSubject());
 				commentForm.setBody(messageDataObject.getBody());
@@ -148,8 +138,8 @@ public class CommentController extends UifControllerBase {
 		 * message
 		 */
 		/*
-		 * if (!KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser() ||
-		 * !principleId.equalsIgnoreCase(commentInfo.getReferenceId())) {
+		 * if (!KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()
+		 * || !principleId.equalsIgnoreCase(commentInfo.getReferenceId())) {
 		 * String[] params = {}; return doErrorPage(form,
 		 * CommentConstants.ADVISER_ACCESS_ERROR, params); }
 		 */
