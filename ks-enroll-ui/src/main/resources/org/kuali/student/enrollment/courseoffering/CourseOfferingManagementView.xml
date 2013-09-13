@@ -25,8 +25,6 @@
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl"
           p:formClass="org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm" >
 
-        <!-- This is a placeholder; it will be dynamically replaced by child-pages using JS-onDocumentReadyScript.
-             This is a work-around at least until KRAD 2.3-m3 -->
         <property name="headerText" value="Course Offerings" />
         <property name="header.cssClasses">
             <list merge="true">
