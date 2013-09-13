@@ -17,7 +17,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
@@ -28,7 +27,11 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.helper.impl.ActivityOfferingScheduleHelperImpl;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.service.SeatPoolUtilityService;
-import org.kuali.student.enrollment.class2.courseoffering.util.*;
+import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -40,7 +43,6 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
-import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -65,7 +67,6 @@ import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
-import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
@@ -95,8 +96,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     private transient PopulationService populationService;
     private transient SeatPoolUtilityService seatPoolUtilityService = new SeatPoolUtilityServiceImpl();
     private transient CourseService courseService;
-    private transient SearchService searchService;
-    private transient LuiService luiService;
     private transient CourseWaitListService courseWaitListService;
 
 
@@ -134,7 +133,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
             processEnrollmentDetail(activityOfferingWrapper);
 
-            ActivityOfferingInfo activityOfferingInfo = null;
+            ActivityOfferingInfo activityOfferingInfo;
 
             /**
              * Save the AO first before processing schedule. (It's important to save first as scheduleAcivityOffering() service method
@@ -243,7 +242,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
      *    from the colo set
      * </p>
      *
-     * @param wrapper
+     * @param wrapper input AO
      */
     protected void processEnrollmentDetail(ActivityOfferingWrapper wrapper){
 
@@ -362,8 +361,8 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
              */
             // Set the display string (e.g. 'FALL 2020 (9/26/2020 to 12/26/2020)')
             // Now have to deal with subterms: have to check if it's subterm or term
-            TermInfo term = null;
-            TermInfo subTerm=null;
+            TermInfo term;
+            TermInfo subTerm = null;
             int firstTerm = 0;
             wrapper.setHasSubTerms(false);
             wrapper.setSubTermName("None");
@@ -394,7 +393,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             //Find available sub-terms for term
             List<TermInfo> availableSubTerms = getAcademicCalendarService().getIncludedTermsInTerm(term.getId(), contextInfo);
             //Now setup start/end date for all subterms to support subterm changes on the screen
-            HashMap<String,String> subTermDates = new HashMap();
+            Map<String, String> subTermDates = new HashMap<String, String>();
             subTermDates.put("none", getTermStartEndDate(term));
             for (TermInfo availSubTerm : availableSubTerms) {
                 if (AtpServiceConstants.ATP_OFFICIAL_STATE_KEY.equals(availSubTerm.getStateKey())) {
@@ -405,12 +404,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             ObjectMapper mapper = new ObjectMapper();
             wrapper.setSubTermDatesJsonString(mapper.writeValueAsString(subTermDates));
             // end subterms
-
-
-            String parentTermType = wrapper.getTerm().getId();
-            if (parentTermType == null || parentTermType.equals("")) {
-                parentTermType = wrapper.getAoInfo().getTermId();
-            }
 
             if(terms.size() > 1) {
                 Collections.sort(terms, new SubtermComparator());
@@ -536,7 +529,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             }
             wrapper.setHasSeatpools(true);
             //try to add an empty line
-            if(seatPoolWrapperList.size()==0){
+            if(seatPoolWrapperList.isEmpty()){
                 wrapper.setHasSeatpools(false);
                 SeatPoolWrapper spWrapper = new SeatPoolWrapper();
                 SeatPoolDefinitionInfo seatPool = new SeatPoolDefinitionInfo();
@@ -1090,11 +1083,11 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         return schedulingService;
     }
 
-    private static class SubtermComparator implements Comparator, Serializable {
+    private static class SubtermComparator implements Comparator<TypeTypeRelationInfo>, Serializable {
         @Override
-        public int compare(Object o1, Object o2) {
-            String value1 = ((TermInfo) o1).getId();
-            String value2 = ((TermInfo) o2).getId();
+        public int compare(TypeTypeRelationInfo o1, TypeTypeRelationInfo o2) {
+            String value1 = o1.getId();
+            String value2 = o2.getId();
 
             int result = value1.compareToIgnoreCase(value2);
             return result;
@@ -1105,13 +1098,10 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         // Return Term as String display like 'FALL 2020 (9/26/2020-12/26/2020)'
         StringBuilder stringBuilder = new StringBuilder();
         Formatter formatter = new Formatter(stringBuilder, Locale.US);
-        String displayString = term.getId(); // use termId as a default.
-        if (term != null) {
-            String startDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getStartDate());
-            String endDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getEndDate());
-            formatter.format("%s - %s", startDate, endDate);
-            displayString = stringBuilder.toString();
-        }
-        return displayString;
+
+        String startDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getStartDate());
+        String endDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getEndDate());
+        formatter.format("%s - %s", startDate, endDate);
+        return stringBuilder.toString();
     }
 }
