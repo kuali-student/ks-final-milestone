@@ -617,7 +617,7 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
     public LRCService getLrcService() {
         if(lrcService == null){
             lrcService = GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE,
-                    LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
+                    "LearningResultService"));
         }
         return lrcService;
     }
