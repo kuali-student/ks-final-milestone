@@ -219,14 +219,9 @@
     </bean>
 
 
-    <bean id="SchOfClasses-aoFlatDisplay" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false" p:render="@{aoDisplayFormat == AoDisplayFormat.FLAT}">
+    <bean id="SchOfClasses-aoFlatDisplay" parent="SchOfClasses-aoSearchResults" p:render="@{aoDisplayFormat == AoDisplayFormat.FLAT}">
         <property name="headerText" value="Activities" />
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="propertyName" value="activityWrapperList" />
-        <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-        <property name="layoutManager.applyDefaultCellWidths" value="false" />
-        <property name="layoutManager.richTable.render" value="false" />
         <property name="header.upperGroup">
           <bean parent="Uif-HorizontalBoxGroup">
             <property name="items">
@@ -236,36 +231,6 @@
               </list>
             </property>
           </bean>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-DataField" p:label="CODE" p:propertyName="aoInfo.activityCode" />
-                <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="typeName" />
-                <bean parent="Uif-MessageField"
-                      p:label="DAYS"
-                      p:messageText="@{#line.daysDisplayName}" />
-                <bean parent="Uif-MessageField"
-                      p:label="START TIME"
-                      p:messageText="@{#line.startTimeDisplay}" />
-                <bean parent="Uif-MessageField"
-                      p:label="END TIME"
-                      p:messageText="@{#line.endTimeDisplay}" />
-                <bean parent="Uif-MessageField">
-                    <property name="label" value="BUILDING"/>
-                    <property name="messageText" value="@{#line.buildingCode}"/>
-                    <property name="toolTip">
-                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#line.buildingName}"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-MessageField"
-                      p:label="ROOM"
-                      p:messageText="@{#line.roomName}" />
-                <bean parent="Uif-MessageField"
-                      p:label="INSTRUCTOR"
-                      p:messageText="@{#line.instructorDisplayNames}" />
-                <bean parent="Uif-DataField" p:label="SEATS" p:propertyName="aoInfo.maximumEnrollment" p:style="text-align:right;"/>
-                <bean parent="Uif-MessageField" p:label="" p:messageText="@{#line.schOfClassesRenderHelper.information}"/>
-            </list>
         </property>
     </bean>
 
