@@ -20,23 +20,23 @@ import org.kuali.student.r2.common.infc.CurrencyAmount;
 import java.io.Serializable;
 
 /**
- * This structure is used to capture flexible credit rate amounts by
- * grouping amounts with credits.
+ * This structure is used to capture flexible unit rate amounts by
+ * grouping amounts with a number of units.
  *
  * @author Kuali Student Services
  */
 
-public interface FlexibleCreditAmount
+public interface FlexibleUnitAmount
     extends Serializable {
 
     /**
-     * The number of credits as a decimal number.
+     * The number of units as a decimal number.
      * 
-     * @return the number of credits
-     * @name Credits
+     * @return the number of units
+     * @name Units
      * @required
      */
-    public String getCredits();
+    public String getUnits();
 
     /**
      * The amount.
