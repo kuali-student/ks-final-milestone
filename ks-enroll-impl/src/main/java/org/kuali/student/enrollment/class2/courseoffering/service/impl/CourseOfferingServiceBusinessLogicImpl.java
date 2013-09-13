@@ -275,8 +275,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             DataValidationErrorException {
 
         for (ScheduleRequestInfo sourceSchedRequest : sourceSchedRequests) {
-            // copy source SRCs to target
-            ScheduleRequestInfo targetSchedRequest = SchedulingServiceUtil.scheduleRequestToScheduleRequest( sourceSchedRequest, context );
+            // copy source SRCs to target and set target SRS id
+            ScheduleRequestInfo targetSchedRequest
+                    = SchedulingServiceUtil.copyScheduleRequest(sourceSchedRequest, targetScheduleRequestSetId);
 
             // set name & descr on target
             StringBuilder nameBuilder = new StringBuilder("Schedule request for ");
@@ -285,7 +286,6 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             targetSchedRequest.setDescr(sourceSchedRequest.getDescr());
 
             // create the target SR
-            targetSchedRequest.setScheduleRequestSetId(targetScheduleRequestSetId);
             schedulingService.createScheduleRequest(targetSchedRequest.getTypeKey(), targetSchedRequest, context);
         }
     }
