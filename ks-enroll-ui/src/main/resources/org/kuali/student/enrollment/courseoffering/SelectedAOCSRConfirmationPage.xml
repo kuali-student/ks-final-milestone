@@ -131,7 +131,6 @@
                                   p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;] Warning"
                                   p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2"
                                   p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip == '' and !currentCourseOfferingWrapper.colocatedAoToCSR }" />
-                            <!--Code Changed for JIRA 9072-->
                             <bean parent="Uif-Message"
                                   p:messageText="You are about to cancel the following activity offering(s)."
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2"
@@ -274,7 +273,6 @@
                     <property name="layoutManager.applyDefaultCellWidths" value="false"/>
                     <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
                     <property name="layoutManager.actionFieldPrototype.render" value="false"/>
-                    <!--Code Changed for JIRA 9032 Start-->
                     <property name="layoutManager.richTable.templateOptions">
                         <map merge="true">
                             <entry key="bLengthChange" value="false"/>
@@ -282,7 +280,6 @@
                             <entry key="bFilter" value="false"/>
                         </map>
                     </property>
-                    <!--Code Changed for JIRA 9032 End-->
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField"
