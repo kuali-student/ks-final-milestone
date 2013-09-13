@@ -116,33 +116,37 @@ public class ExamTransformer {
         clu.setDescr(exam.getDescr());
         clu.setMeta(exam.getMeta());
 
-        CluIdentifierInfo identifier = new CluIdentifierInfo();
+        CluIdentifierInfo identifier = clu.getOfficialIdentifier();
+        if(identifier == null){
+            identifier = new CluIdentifierInfo();
+        }
         identifier.setTypeKey(EXAM_OFFICIAL_IDENT_TYPE);
         identifier.setStateKey(exam.getStateKey());
         identifier.setShortName(exam.getName());
         clu.setOfficialIdentifier(identifier);
 
         //Dynamic Attributes
-        HashMap<String, AttributeInfo> attributesMap = new HashMap<String, AttributeInfo>();
-        List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
-        for (AttributeInfo attr : clu.getAttributes()) {
-            attributesMap.put(attr.getKey(), attr) ;
-        }
-        for (AttributeInfo attr : exam.getAttributes()) {
-            attributesMap.put(attr.getKey(), attr) ;
-        }
+//        HashMap<String, AttributeInfo> attributesMap = new HashMap<String, AttributeInfo>();
+//        List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
+//        for (AttributeInfo attr : clu.getAttributes()) {
+//            attributesMap.put(attr.getKey(), attr) ;
+//        }
+//        for (AttributeInfo attr : exam.getAttributes()) {
+//            attributesMap.put(attr.getKey(), attr) ;
+//        }
 
         //AttributeInfo courseNumberInternalSuffix = new AttributeInfo();
         //courseNumberInternalSuffix.setKey(CourseOfferingServiceConstants.COURSE_NUMBER_IN_SUFX_ATTR);
         //courseNumberInternalSuffix.setValue(eo.getCourseNumberInternalSuffix());
         //attributesMap.put(CourseOfferingServiceConstants.COURSE_NUMBER_IN_SUFX_ATTR, courseNumberInternalSuffix);
 
-        for (Map.Entry<String, AttributeInfo> entry : attributesMap.entrySet()) {
-            attributes.add(entry.getValue());
-        }
+//        for (Map.Entry<String, AttributeInfo> entry : attributesMap.entrySet()) {
+//            attributes.add(entry.getValue());
+//        }
 
-        clu.setAttributes(attributes);
+        clu.setAttributes(exam.getAttributes());
 
+        return;
     }
 
     public CluService getCluService() {

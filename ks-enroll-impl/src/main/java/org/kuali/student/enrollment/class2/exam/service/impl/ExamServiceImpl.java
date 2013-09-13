@@ -113,7 +113,13 @@ public class ExamServiceImpl implements ExamService {
             , PermissionDeniedException
             , ReadOnlyException
             , VersionMismatchException {
-        throw new OperationFailedException("updateExam has not been implemented");
+
+        CluInfo cluToUpdate = getCluService().getClu(examId,contextInfo);
+        getExamTransformer().exam2Clu(examInfo,cluToUpdate,contextInfo);
+        CluInfo updatedClu = getCluService().updateClu(examId,cluToUpdate,contextInfo);
+        ExamInfo updatedExam = new ExamInfo();
+        getExamTransformer().clu2Exam(updatedClu,updatedExam,contextInfo);
+        return updatedExam;
     }
 
     @Override
