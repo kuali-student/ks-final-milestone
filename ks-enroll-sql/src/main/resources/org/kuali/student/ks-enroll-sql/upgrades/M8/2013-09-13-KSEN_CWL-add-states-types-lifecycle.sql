@@ -1,0 +1,8 @@
+insert into KSEN_STATE_LIFECYCLE (ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, OBJ_ID, REF_OBJECT_URI, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.course.waitlist.lifecycle', 'kuali.course.waitlist.lifecycle', 'Waitlist Lifecycle', 'Waitlist Lifecycle', null, null, 0, TO_DATE ('9/13/2013', 'MM/DD/YYYY'), 'SYSTEMLOADER', TO_DATE ('9/13/2013', 'MM/DD/YYYY'), 'SYSTEMLOADER' )
+/
+insert into KSEN_TYPE (TYPE_KEY, NAME, DESCR_PLAIN, DESCR_FORMATTED, OBJ_ID, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.course.waitlist.type.course.waitlist', 'Waitlist', 'Waitlist', 'Waitlist', null, null, null, 0, TO_DATE ('9/13/2013', 'MM/DD/YYYY'), 'SYSTEMLOADER', TO_DATE ('9/13/2013', 'MM/DD/YYYY'), 'SYSTEMLOADER' )
+/
+insert into KSEN_STATE (ID, NAME, OBJ_ID, DESCR_PLAIN, DESCR_FORMATTED, IS_INITIAL_STATE, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.course.waitlist.state.active', 'Active', null, 'The waitlist is active', 'The waitlist is active', 1, 'kuali.course.waitlist.lifecycle', null, null, 0, TO_DATE ('9/13/2013', 'MM/DD/YYYY'), 'SYSTEMLOADER', TO_DATE ('9/13/2013', 'MM/DD/YYYY'), 'SYSTEMLOADER' )
+/
+insert into KSEN_STATE (ID, NAME, OBJ_ID, DESCR_PLAIN, DESCR_FORMATTED, IS_INITIAL_STATE, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.course.waitlist.state.inactive', 'Inactive', null, 'The waitlist is inactive', 'The waitlist is inactive', 0, 'kuali.course.waitlist.lifecycle', null, null, 0, TO_DATE ('9/13/2013', 'MM/DD/YYYY'), 'SYSTEMLOADER', TO_DATE ('9/13/2013', 'MM/DD/YYYY'), 'SYSTEMLOADER' )
+/
