@@ -601,7 +601,8 @@
                 <bean parent="Uif-MessageField" p:label="FINAL EXAM DRIVER" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="@{#lp.courseOfferingWrapper.finalExamDriverUI}" p:render="@{#parent.readOnly and (#dp.courseOfferingInfo.finalExamType eq 'STANDARD')}" />
 
                 <bean id="edit_co_final_exam_type" parent="Uif-InputField" p:propertyName="formatOfferingInfo.finalExamLevelTypeKey" p:label="FINAL EXAM DRIVER ACTIVITY"
-                      p:labelPlacement="TOP" p:required="true" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'STANDARD'}"  p:finalizeMethodToCall="populateFinalExamDriverTypes" p:forceSessionPersistence="true" p:readOnlyDisplayReplacementPropertyName="finalExamUI">
+                      p:labelPlacement="TOP" p:required="true" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'STANDARD'}"  p:finalizeMethodToCall="populateFinalExamDriverTypes" p:forceSessionPersistence="true" p:readOnlyDisplayReplacementPropertyName="finalExamUI"
+                      p:onDocumentReadyScript="updateExamDriverInFOTable('KS-CourseOfferingEdit-FinalExamDriver', 'final_exam_driver_ui');">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>
