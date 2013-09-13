@@ -5,7 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseOfferingEditWrapper-InquiryView" parent="KS-Uif-InquiryView"
+    <bean id="KS-CourseOfferingEditWrapper-InquiryView" parent="KS-Uif-InquiryView" p:stickyFooter="true"
           p:headerText="Course Offering Inquiry"
           p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditInquirableImpl">
