@@ -96,7 +96,10 @@ public class ExamServiceImpl implements ExamService {
             , MissingParameterException
             , OperationFailedException
             , PermissionDeniedException {
-        throw new OperationFailedException("getExam has not been implemented");
+        CluInfo cluInfo = getCluService().getClu(examId,contextInfo);
+        ExamInfo examInfo = new ExamInfo();
+        getExamTransformer().clu2Exam(cluInfo,examInfo,contextInfo);
+        return examInfo;
     }
 
     @Override
