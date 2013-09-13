@@ -168,9 +168,11 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 			Daos daos = testImplClass.getAnnotation(Daos.class);
 
 			StringBuilder daoImpls = new StringBuilder("");
+            boolean foundDAOs = false;
 			if (daos != null) {
 				int i = 1;
 				for (Dao dao : daos.value()) {
+                    foundDAOs = true;
 					daoImpls.append(dao.value()).append("|").append(dao.testDataFile()).append("|").append(dao.testSqlFile());
 					if (i < daos.value().length) {
                         daoImpls.append(",");
@@ -218,7 +220,7 @@ public class ServiceTestClassRunner extends JUnit4ClassRunner {
 			
 			//Set the context config location
 			String contextConfigLocation = "classpath:META-INF/" + wsEngine + "-context.xml";
-			if(!"".equals(daoImpls)){
+			if(foundDAOs){
 				//If there are Daos defined, add the dao context file
 				contextConfigLocation +="\nclasspath:META-INF/default-dao-context-test.xml";
 			}
