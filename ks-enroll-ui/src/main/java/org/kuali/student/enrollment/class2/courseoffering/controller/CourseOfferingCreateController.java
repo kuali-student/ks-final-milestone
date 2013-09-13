@@ -286,9 +286,9 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
             // set organization IDs and check if the user is authorized to create a course
             List<String> orgIds = course.getUnitsContentOwner();
             if(orgIds != null && !orgIds.isEmpty()){
-                String orgIDs = "";
+                StringBuilder orgIDs = new StringBuilder();
                 for (String orgId : orgIds) {
-                    orgIDs = orgIDs + orgId + ",";
+                    orgIDs.append(orgId + ",");
                 }
                 if (orgIDs.length() > 0) {
                     coWrapper.setAdminOrg(orgIDs.substring(0, orgIDs.length()-1));

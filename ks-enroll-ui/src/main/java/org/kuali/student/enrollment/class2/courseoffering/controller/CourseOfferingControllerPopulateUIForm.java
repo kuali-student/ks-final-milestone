@@ -50,14 +50,12 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Properties;
 import java.util.Set;
 
 /**
@@ -196,23 +194,23 @@ public class CourseOfferingControllerPopulateUIForm {
         }
     }
 
-    private static void setTermPropertiesOnFormObject(CourseOfferingEditWrapper formObject, String termId, ContextInfo contextInfo ) throws Exception {
+    private static void setTermPropertiesOnFormObject(CourseOfferingEditWrapper formObject, String termId, ContextInfo contextInfo) throws Exception {
 
         TermInfo termInfo = CourseOfferingManagementUtil.getAcademicCalendarService().getTerm(termId, contextInfo);
         formObject.setTerm(termInfo);
         formObject.setTermName(termInfo.getName());
 
         // Setting term string: Fall 2012 (09/28/2012 to 12/15/2012)
-        String termStartDate = new String( DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format( termInfo.getStartDate() ) );
-        String termEndDate = new String( DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format( termInfo.getEndDate() ) );
+        String termStartDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(termInfo.getStartDate());
+        String termEndDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(termInfo.getEndDate());
         StringBuilder termStartEnd = new StringBuilder();
-        termStartEnd.append( termInfo.getName() );
-        termStartEnd.append( " (" );
-        termStartEnd.append( termStartDate );
-        termStartEnd.append( " to " );
-        termStartEnd.append( termEndDate );
-        termStartEnd.append( ")" );
-        formObject.setTermStartEnd( termStartEnd.toString() );
+        termStartEnd.append(termInfo.getName());
+        termStartEnd.append(" (");
+        termStartEnd.append(termStartDate);
+        termStartEnd.append(" to ");
+        termStartEnd.append(termEndDate);
+        termStartEnd.append(")");
+        formObject.setTermStartEnd(termStartEnd.toString());
     }
 
     private static DefaultOptionKeysService defaultOptionKeysService;

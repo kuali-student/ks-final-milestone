@@ -21,26 +21,32 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.courseoffering.dto.*;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
-import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -51,7 +57,6 @@ public class StatePropagationTestController extends UifControllerBase {
     private transient AcademicCalendarService academicCalendarService;
     private transient CourseOfferingService courseOfferingService;
     private transient StateService stateService;
-    private transient SchedulingService schedulingService;
     private transient CourseOfferingSetService courseOfferingSetService;
 
     private static final Logger LOG = Logger.getLogger(StatePropagationTestController.class);
@@ -81,35 +86,29 @@ public class StatePropagationTestController extends UifControllerBase {
         return this.stateService;
     }
 
-    protected SchedulingService getSchedulingService() {
-         if(schedulingService == null){
-             schedulingService =  CourseOfferingResourceLoader.loadSchedulingService();
-         }
-         return schedulingService;
-     }
-
      protected CourseOfferingSetService getCourseOfferingSetService(){
         if (courseOfferingSetService == null){
             courseOfferingSetService = CourseOfferingResourceLoader.loadCourseOfferingSetService();
         }
         return courseOfferingSetService;
     }
+
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new UifFormBase();
     }
 
     @RequestMapping(value = "/statusview/{termCode}/{coCode}", method = RequestMethod.GET)
-        @ResponseBody
-        public String showAOStates(@PathVariable("termCode") String termCode, @PathVariable("coCode") String coCode, @ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                          HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @ResponseBody
+    public String showAOStates(@PathVariable("termCode") String termCode, @PathVariable("coCode") String coCode, @ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) throws IOException {
         return showAOStates(termCode, coCode, StringUtils.EMPTY, form, result, request, response);
     }
 
     @RequestMapping(value = "/statusview/{termCode}/{coCode}/{aoCode}", method = RequestMethod.GET)
     @ResponseBody
-    public String showAOStates(@PathVariable("termCode") String termCode, @PathVariable("coCode") String coCode, @PathVariable("aoCode") String aoCode, @ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                      HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String showAOStates(@PathVariable("termCode") String termCode, @PathVariable("coCode") String coCode, @PathVariable("aoCode") String aoCode, @ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+                      @SuppressWarnings("unused") HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         StringBuilder stringBuilder = new StringBuilder();
         List<TermInfo> termList;
@@ -138,11 +137,11 @@ public class StatePropagationTestController extends UifControllerBase {
                     if (displayAllAOs){
                         List<ActivityOfferingInfo> aoInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOffering.getId(), getContextInfo());
                         for (ActivityOfferingInfo aoInfo : aoInfos) {
-                            displayAO(stringBuilder,coCode,termCode,aoInfo);
+                            displayAO(stringBuilder, aoInfo);
                         }
                     } else {
                         ActivityOfferingInfo activityOffering = loadActivityOfferingByCOAndAoCode(courseOffering.getId(), aoCode);
-                        displayAO(stringBuilder,coCode,termCode,activityOffering);
+                        displayAO(stringBuilder, activityOffering);
                     }
                     stringBuilder.append("</table>");
                  } catch (Exception e) {
@@ -164,7 +163,7 @@ public class StatePropagationTestController extends UifControllerBase {
         return stringBuilder.toString();
     }
 
-    private void displayAO(StringBuilder stringBuilder, String coCode, String termCode, ActivityOfferingInfo activityOffering) throws Exception{
+    private void displayAO(StringBuilder stringBuilder, ActivityOfferingInfo activityOffering) throws Exception{
         //load activityOffering based on aoCode
 
         FormatOfferingInfo formatOffering = getCourseOfferingService().getFormatOffering(activityOffering.getFormatOfferingId(), getContextInfo());

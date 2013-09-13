@@ -95,7 +95,7 @@ public class CreateSocController extends UifControllerBase {
 
         if (socInfo == null) {
             form.setTermAlreadyHasSoc(true);
-            form.setSocInfo(socInfo);
+            form.setSocInfo(null);
             socInfo = helper.getMainSocForTerm(form.getSocTermCode());
             form.setSocMessage("Term " + form.getSocTermCode() + " already has SOC with state: " + socInfo.getStateKey());
         } else {

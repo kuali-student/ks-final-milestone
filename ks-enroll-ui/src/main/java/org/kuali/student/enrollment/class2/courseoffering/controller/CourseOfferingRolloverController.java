@@ -86,8 +86,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
 
     private static final Logger LOGGER = Logger.getLogger(CourseOfferingRolloverController.class);
     public static final String ROLLOVER_DETAILS_PAGEID = "selectTermForRolloverDetails";
-    public static final String ROLLOVER_MANAGEMENT_VIEWID = "courseOfferingRolloverManagementView";
-    public static final String ROLLOVER_CONFIRM_RELEASE = "releaseToDepts";
+
     @Override
     protected UifFormBase createInitialForm(@SuppressWarnings("unused") HttpServletRequest request) {
         return new CourseOfferingRolloverManagementForm();
@@ -316,8 +315,8 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             }
         }
 
-        boolean sourceTermValid = (sourceTermsByCode != null && sourceTermsByCode.size() == 1);
-        boolean targetTermValid = (targetTermsByCode != null && targetTermsByCode.size() == 1);
+        boolean sourceTermValid = sourceTermsByCode.size() == 1;
+        boolean targetTermValid = targetTermsByCode.size() == 1;
 
         if (sourceTermValid && targetTermValid) {
             TermInfo targetTerm = targetTermsByCode.get(firstTerm);
@@ -653,7 +652,6 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOGGER.info("releaseToDepts");
         CourseOfferingViewHelperService helper = getViewHelperService(form);
-        boolean accept = form.getAcceptIndicator();
         TermInfo targetTerm = form.getTargetTerm();
         if (targetTerm == null) {
             // Didn't get term info from Rollover Results page

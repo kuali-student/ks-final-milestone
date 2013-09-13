@@ -19,13 +19,10 @@ package org.kuali.student.enrollment.class2.courseoffering.controller;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm;
-import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.common.util.EnrollConstants;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
@@ -94,7 +91,7 @@ public class CourseOfferingEditController extends CourseOfferingBaseController {
     /* Returns a ModelAndView for the route()-method to return a new view if we are editing a CO */
     private ModelAndView handleRouteForCoEdit( DocumentFormBase form ) {
 
-        String urlToRedirectTo = "";
+        String urlToRedirectTo;
         Properties urlParameters = new Properties();
 
         GlobalVariables.getUifFormManager().removeSessionForm(form);    // clear current form from session
