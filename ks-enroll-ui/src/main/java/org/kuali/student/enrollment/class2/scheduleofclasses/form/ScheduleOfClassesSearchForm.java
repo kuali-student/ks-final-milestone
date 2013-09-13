@@ -73,9 +73,11 @@ public class ScheduleOfClassesSearchForm extends UifFormBase implements Activity
      * configured, display the configured type.
      */
     public static enum AoDisplayFormat {
-
+        /** Display a flat list of activities for each CourseOffering */
         FLAT( "Flat" ),
+        /** Display activities grouped by activity clusters */
         CLUSTER( "By Cluster" ),
+        /** Display registration group and activities grouped by activity clusters */
         REG_GROUP( "By Registration Group" );
 
         private String text;
@@ -87,10 +89,9 @@ public class ScheduleOfClassesSearchForm extends UifFormBase implements Activity
         public String getText(){
             return text;
         }
-
     };
 
-    public ScheduleOfClassesSearchForm (){
+    public ScheduleOfClassesSearchForm() {
         coDisplayWrapperList = new ArrayList<CourseOfferingDisplayWrapper>();
         aoWrapperList = new ArrayList<ActivityOfferingWrapper>();
         rgResultList = new ArrayList<RegistrationGroupWrapper>();
@@ -109,11 +110,11 @@ public class ScheduleOfClassesSearchForm extends UifFormBase implements Activity
         this.coDisplayWrapperList = coDisplayWrapperList;
     }
 
-    public String getTermCode(){
+    public String getTermCode() {
         return termCode;
     }
 
-    public void setTermCode(String termCode){
+    public void setTermCode(String termCode) {
         this.termCode = termCode;
     }
 

@@ -31,7 +31,6 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
@@ -46,7 +45,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
@@ -69,8 +67,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,19 +109,16 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
     }
 
     private void configureCurrentTermCodeOnInitialRequest( ScheduleOfClassesSearchForm form ) {
-
         if (form.getTermCode() == null) {
             ContextInfo context = ContextUtils.getContextInfo();
             List<AtpInfo> atps = ScheduleOfClassesUtil.getValidSocTerms(getCourseOfferingSetService(), getAtpService(), context);
-
             if (!atps.isEmpty()) {
-                form.setTermCode(ScheduleOfClassesUtil.getCurrentAtp(atps).getCode());
+                form.setTermCode(ScheduleOfClassesUtil.getCurrentAtp(atps).getId());
             }
         }
     }
 
     private void configureDefaultAoDisplayFormat( ScheduleOfClassesSearchForm form ) {
-
         String aoDisplayFormat = ConfigContext.getCurrentContextConfig().getProperty(ScheduleOfClassesConstants.ConfigProperties.AO_DISPLAY_FORMAT);
         if (StringUtils.isNotBlank(aoDisplayFormat)){
             ScheduleOfClassesSearchForm.AoDisplayFormat format = ScheduleOfClassesSearchForm.AoDisplayFormat.valueOf(StringUtils.upperCase(aoDisplayFormat));
@@ -163,7 +156,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
 
         //First, find termName based on termCode
         String termCode = theForm.getTermCode();
-        if (termCode != null && termCode.length() > 0) {
+        if (StringUtils.isNotBlank(termCode)) {
             String termName = getAcademicCalendarService().getTerm(termCode, ContextUtils.createDefaultContextInfo()).getName();
             theForm.setTermName(termName);
         } else {
@@ -172,10 +165,10 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
             return getUIFModelAndView(theForm);
         }
 
-        //Second, handle searchType
+        // Second, handle searchType
         if (theForm.getSearchType().equals( SEARCH_TYPE_COURSE )) {
             String course = theForm.getCourse();
-            if (course != null && course.length() > 0) {
+            if (StringUtils.isNotBlank(course)) {
                 getViewHelperService(theForm).loadCourseOfferingsByTermAndCourseCode(termCode, course, theForm);
                 theForm.setSearchParameter("Course: " + course);
             } else {
@@ -186,7 +179,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         } else if (theForm.getSearchType().equals("instructor")) {
             String instructorId = theForm.getInstructor();
             String instructorName = theForm.getInstructorName();
-            if ((instructorId != null && !instructorId.isEmpty()) || (instructorName != null && !instructorName.isEmpty())) {
+            if ((StringUtils.isNotBlank(instructorId)) || (StringUtils.isNotBlank(instructorName))) {
                 getViewHelperService(theForm).loadCourseOfferingsByTermAndInstructor(termCode, instructorId, instructorName, theForm);
                 theForm.setSearchParameter("Instructor: " + instructorName);
             } else {
@@ -197,7 +190,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         } else if (theForm.getSearchType().equals("department")) {
             String departmentId = theForm.getDepartment();
             String departmentName = theForm.getDepartmentName();
-            if ((departmentId != null && !departmentId.isEmpty()) || (departmentName != null && !departmentName.isEmpty())) {
+            if ((StringUtils.isNotBlank(departmentId)) || (StringUtils.isNotBlank(departmentName))) {
                 getViewHelperService(theForm).loadCourseOfferingsByTermAndDepartment(termCode, departmentId, departmentName, theForm);
                 theForm.setSearchParameter("Department: " + departmentName);
             } else {
@@ -207,7 +200,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
             }
         } else if (theForm.getSearchType().equals("titleDesc")) {
             String titleDesc = theForm.getTitleDesc();
-            if (titleDesc != null && titleDesc.length() > 0) {
+            if (StringUtils.isNotBlank(titleDesc)) {
                 getViewHelperService(theForm).loadCourseOfferingsByTitleAndDescription(termCode, titleDesc, theForm);
                 theForm.setSearchParameter("Title & Description: " + titleDesc);
             } else {
@@ -327,7 +320,6 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
             }
         }
 
-
         return getUIFModelAndView(theForm, ScheduleOfClassesConstants.SOC_RESULT_PAGE);
     }
 
@@ -349,7 +341,6 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         return this.acalService;
     }
 
-    //Methods to get necessary services
     protected CourseOfferingSetService getCourseOfferingSetService() {
         if (courseOfferingSetService == null) {
 
@@ -371,5 +362,4 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         }
         return this.typeService;
     }
-
 }

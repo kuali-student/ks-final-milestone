@@ -52,10 +52,9 @@ public class ScheduleOfClassesTermKeyValues extends UifKeyValuesFinderBase imple
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         List<AtpInfo> atps;
 
-        //Build a predicate to search for published Socs
         ContextInfo context = TestHelper.getContext1();
         try {
-            //Use AtpService to get Term name by Id
+            //  Get published terms
             atps = ScheduleOfClassesUtil.getValidSocTerms(getCourseOfferingSetService(),getAtpService(),context);
             for(AtpInfo atp: atps){
                  keyValues.add(new ConcreteKeyValue(atp.getId(), atp.getName()));
@@ -71,7 +70,8 @@ public class ScheduleOfClassesTermKeyValues extends UifKeyValuesFinderBase imple
     //Methods to get necessary services
     protected CourseOfferingSetService getCourseOfferingSetService() {
         if(courseOfferingSetService == null) {
-            courseOfferingSetService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
+            courseOfferingSetService = (CourseOfferingSetService)
+                    GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.courseOfferingSetService;
     }
