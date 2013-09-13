@@ -37,6 +37,7 @@ import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
+import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
@@ -126,6 +127,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private AcademicCalendarService acalService;
     private AtpService atpService;
     private CourseService courseService;
+    private CourseWaitListService courseWaitListService;
     private CriteriaLookupService criteriaLookupService;
     private LprService lprService;
     private LRCService lrcService;
@@ -3664,6 +3666,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     public void setCourseService(CourseService courseService) {
         this.courseService = courseService;
+    }
+
+    public CourseWaitListService getCourseWaitListService() {
+        return courseWaitListService;
+    }
+
+    public void setCourseWaitListService(CourseWaitListService courseWaitListService) {
+        this.courseWaitListService = courseWaitListService;
     }
 
     public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {

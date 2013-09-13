@@ -370,6 +370,7 @@
         <property name="searchService" ref="searchService" />
         <property name="atpService" ref="AtpService" />
         <property name="roomService" ref="RoomService"/>
+        <property name="courseWaitListService" ref="courseWaitListService"/>
   </bean>
 
     <bean id="courseWaitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceImpl">
