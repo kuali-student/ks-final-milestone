@@ -31,6 +31,7 @@ public class ActivityOfferingDisplayWrapper {
     private String endTimeDisplay;
     private String daysDisplayName;
     private String buildingName;
+    private String buildingCode;
     private String roomName;
     private String tbaDisplayName;
     private String instructorDisplayNames;
@@ -120,6 +121,22 @@ public class ActivityOfferingDisplayWrapper {
             this.buildingName = this.buildingName + BR + StringUtils.defaultString(buildingName);
         } else {
             this.buildingName = StringUtils.defaultString(buildingName);
+        }
+    }
+
+    public String getBuildingCode() {
+        return buildingCode;
+    }
+
+    public void setBuildingCode(String buildingCode) {
+        this.buildingCode = buildingCode;
+    }
+
+    public void setBuildingCode(String buildingCode, boolean appendForDisplay) {
+        if (appendForDisplay && this.buildingCode!=null){
+            this.buildingCode = this.buildingCode + BR + StringUtils.defaultString(buildingCode);
+        } else {
+            this.buildingCode = StringUtils.defaultString(buildingCode);
         }
     }
 

@@ -18,9 +18,10 @@ public class ScheduleCalcContainer {
     private String scheduleType; // requested or actual
     private String roomCode;
     private String bldgName;
+    private String bldgCode;
     private Boolean tbaInd;
 
-    public ScheduleCalcContainer(String aoId, String scheduleId, String scheduleType, String start, String end,String weekdays, String roomCode, String bldgName, Boolean tbaInd) {
+    public ScheduleCalcContainer(String aoId, String scheduleId, String scheduleType, String start, String end,String weekdays, String roomCode, String bldgName, String bldgCode, Boolean tbaInd) {
         this.aoId = aoId;
         this.end = end;
         this.scheduleId = scheduleId;
@@ -29,6 +30,7 @@ public class ScheduleCalcContainer {
         this.weekdays = weekdays;
         this.roomCode = roomCode;
         this.bldgName = bldgName;
+        this.bldgCode = bldgCode;
         this.tbaInd = tbaInd;
     }
 
@@ -86,6 +88,14 @@ public class ScheduleCalcContainer {
 
     public void setBldgName(String bldgName) {
         this.bldgName = bldgName;
+    }
+
+    public String getBldgCode() {
+        return bldgCode;
+    }
+
+    public void setBldgCode(String bldgCode) {
+        this.bldgCode = bldgCode;
     }
 
     public String getRoomCode() {

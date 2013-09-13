@@ -199,9 +199,13 @@
                 <bean parent="Uif-MessageField"
                       p:label="END TIME"
                       p:messageText="@{#line.endTimeDisplay}" />
-                <bean parent="Uif-MessageField"
-                      p:label="BUILDING"
-                      p:messageText="@{#line.buildingName}" />
+                <bean parent="Uif-MessageField" >
+                    <property name="label" value="BUILDING"/>
+                    <property name="messageText" value="@{#line.buildingCode}"/>
+                    <property name="toolTip">
+                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#line.buildingName}"/>
+                    </property>
+                </bean>
                 <bean parent="Uif-MessageField"
                       p:label="ROOM"
                       p:messageText="@{#line.roomName}" />
@@ -246,9 +250,13 @@
                 <bean parent="Uif-MessageField"
                       p:label="END TIME"
                       p:messageText="@{#line.endTimeDisplay}" />
-                <bean parent="Uif-MessageField"
-                      p:label="BUILDING"
-                      p:messageText="@{#line.buildingName}" />
+                <bean parent="Uif-MessageField">
+                    <property name="label" value="BUILDING"/>
+                    <property name="messageText" value="@{#line.buildingCode}"/>
+                    <property name="toolTip">
+                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#line.buildingName}"/>
+                    </property>
+                </bean>
                 <bean parent="Uif-MessageField"
                       p:label="ROOM"
                       p:messageText="@{#line.roomName}" />
@@ -360,9 +368,12 @@
                       p:label="Ends"
                       p:messageText="@{#line.endTimeDisplay}">
                 </bean>
-                <bean parent="Uif-MessageField"
-                      p:label="Building"
-                      p:messageText="@{#line.buildingName}">
+                <bean parent="Uif-MessageField">
+                    <property name="label" value="BUILDING"/>
+                    <property name="messageText" value="@{#line.buildingCode}"/>
+                    <property name="toolTip">
+                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#line.buildingName}"/>
+                    </property>
                 </bean>
                 <bean parent="Uif-MessageField"
                       p:label="Room"

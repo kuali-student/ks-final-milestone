@@ -51,6 +51,7 @@ public class RegistrationGroupWrapper implements Serializable, ComparatorModel {
     private String endTimeDisplay = "";
     private String daysDisplayName = "";
     private String buildingName = "";
+    private String buildingCode = "";
     private String roomName = "";
 
     private List<String> startTime = new ArrayList<String>();
@@ -264,13 +265,40 @@ public class RegistrationGroupWrapper implements Serializable, ComparatorModel {
         if(!StringUtils.isEmpty(dlTypeClass)){
             cssClass = "class=\"" + dlTypeClass + "\"";
         }
-        if(StringUtils.isEmpty(this.roomName)){
+        if(StringUtils.isEmpty(this.buildingName)){
             appendForDisplay = false;
         }
         if (appendForDisplay){
             this.buildingName = this.buildingName + "<br><span " + cssClass + " >" + buildingName + "</span>";
         }else{
             this.buildingName = "<span " + cssClass + " >" + buildingName + "</span>";
+        }
+    }
+
+    public String getBuildingCode() {
+        return buildingCode;
+    }
+
+    public void setBuildingCode(String buildingCode) {
+        setBuildingCode(buildingCode, false);
+    }
+
+    public void setBuildingCode(String buildingCode,boolean appendForDisplay) {
+        setBuildingCode(buildingCode, false, null);
+    }
+
+    public void setBuildingCode(String buildingCode,boolean appendForDisplay, String dlTypeClass) {
+        String cssClass = "";
+        if(!StringUtils.isEmpty(dlTypeClass)){
+            cssClass = "class=\"" + dlTypeClass + "\"";
+        }
+        if(StringUtils.isEmpty(this.buildingCode)){
+            appendForDisplay = false;
+        }
+        if (appendForDisplay){
+            this.buildingCode = this.buildingCode + "<br><span " + cssClass + " >" + buildingCode + "</span>";
+        }else{
+            this.buildingCode = "<span " + cssClass + " >" + buildingCode + "</span>";
         }
     }
 

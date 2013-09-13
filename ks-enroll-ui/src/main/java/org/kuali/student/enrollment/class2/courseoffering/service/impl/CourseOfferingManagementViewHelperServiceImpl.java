@@ -695,6 +695,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             Boolean tbaInd = null;
             String roomCode = null;
             String buildingName = null;
+            String buildingCode = null;
             String weekdays = null;
             for (SearchResultCellInfo cell : row.getCells()) {
                 if (CoreSearchServiceImpl.SearchResultColumns.SCH_ID.equals(cell.getKey())) {
@@ -709,13 +710,15 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     roomCode = cell.getValue();
                 } else if (CoreSearchServiceImpl.SearchResultColumns.BLDG_NAME.equals(cell.getKey())) {
                     buildingName = cell.getValue();
+                } else if (CoreSearchServiceImpl.SearchResultColumns.BLDG_CODE.equals(cell.getKey())) {
+                    buildingCode = cell.getValue();
                 } else if (CoreSearchServiceImpl.SearchResultColumns.WEEKDAYS.equals(cell.getKey())) {
                     weekdays = cell.getValue();
                 }
             }
             for(ActivityOfferingWrapper aoWrapper:sch2aoMap.get(schId)){
 
-                ScheduleCalcContainer scheduleCalcContainer = new ScheduleCalcContainer(aoWrapper.getId(), schId, SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE, startTime, endTime, weekdays, roomCode, buildingName, tbaInd);
+                ScheduleCalcContainer scheduleCalcContainer = new ScheduleCalcContainer(aoWrapper.getId(), schId, SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE, startTime, endTime, weekdays, roomCode, buildingName, buildingCode, tbaInd);
                 if (ao2sch.containsKey(aoWrapper.getId())) {
                     ao2sch.get(aoWrapper.getId()).add(scheduleCalcContainer);
                 } else {
@@ -745,6 +748,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     aoWrapper.setStartTimeDisplay(sched.getStart().isEmpty() ? sched.getStart() : DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(Long.parseLong(sched.getStart()))), newRow);
                     aoWrapper.setEndTimeDisplay(sched.getEnd().isEmpty() ? sched.getEnd() : DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(Long.parseLong(sched.getEnd()))), newRow);
                     aoWrapper.setBuildingName(sched.getBldgName(), newRow);
+                    aoWrapper.setBuildingCode(sched.getBldgCode(), newRow);
                     aoWrapper.setRoomName(sched.getRoomCode(), newRow);
                     aoWrapper.setDaysDisplayName(sched.getWeekdays(), newRow);
                     aoWrapper.setTbaDisplayName(sched.getTbaInd(), newRow);
@@ -759,7 +763,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     String cssStyle = "uif-scheduled-dl";
 
                     setRoomNameOnAoWrapper( sched, aoWrapper, newLine, cssStyle );
-                    setBuildingNameOnAoWrapper( sched, aoWrapper, newLine, cssStyle );
+                    setBuildingNameAndCodeOnAoWrapper( sched, aoWrapper, newLine, cssStyle );
                     setTimesAndDaysOnAoWrapper( sched, aoWrapper, newLine, cssStyle );
 
                     aoWrapper.setTbaDisplayName(sched.getTbaInd(), true);
@@ -781,15 +785,18 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         }
     }
 
-    private void setBuildingNameOnAoWrapper( ScheduleRequestCalcContainer sched, ActivityOfferingWrapper aoWrapper, boolean newline, String cssStyle ) {
+    private void setBuildingNameAndCodeOnAoWrapper( ScheduleRequestCalcContainer sched, ActivityOfferingWrapper aoWrapper, boolean newline, String cssStyle ) {
         if( sched.getBldgs() == null || sched.getBldgs().isEmpty() ) {
             aoWrapper.setBuildingName( StringUtils.EMPTY, newline, cssStyle );
+            aoWrapper.setBuildingCode(StringUtils.EMPTY, newline, cssStyle );
             return;
         }
 
         for (BuildingInfo bldg : sched.getBldgs()) {
             String bldgName = StringUtils.defaultIfEmpty( bldg.getName(), StringUtils.EMPTY );
+            String bldgCode = StringUtils.defaultIfEmpty( bldg.getBuildingCode(), StringUtils.EMPTY );
             aoWrapper.setBuildingName( bldgName, newline, "uif-scheduled-dl");
+            aoWrapper.setBuildingCode(bldgCode, newline, "uif-scheduled-dl");
         }
     }
 
@@ -895,6 +902,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 rgWrapper.setDaysDisplayName("");
                 rgWrapper.setRoomName("");
                 rgWrapper.setBuildingName("");
+                rgWrapper.setBuildingCode("");
                 rgWrapper.setAoInstructorText("");
 
                 rgMap.put(rgId, rgWrapper);
@@ -1002,6 +1010,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 rgWrapper.setDaysDisplayName(rgWrapper.getDaysDisplayName() + (newLine ? "<br/>" : "") + aoWrapper.getDaysDisplayName() + lineBreaksInstructors);
                 rgWrapper.setRoomName(rgWrapper.getRoomName() + (newLine ? "<br/>" : "") + aoWrapper.getRoomName() + lineBreaksInstructors);
                 rgWrapper.setBuildingName(rgWrapper.getBuildingName() + (newLine ? "<br/>" : "") + aoWrapper.getBuildingName() + lineBreaksInstructors);
+                rgWrapper.setBuildingCode(rgWrapper.getBuildingCode() + (newLine ? "<br/>" : "") + aoWrapper.getBuildingCode() + lineBreaksInstructors);
                 rgWrapper.setAoInstructorText(rgWrapper.getAoInstructorText() + (newLine ? "<br/>" : "") + (aoWrapper.getInstructorDisplayNames() == null ? "" : aoWrapper.getInstructorDisplayNames()) + lineBreaksDeliveries);
 
             }
@@ -1878,6 +1887,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                             for (ScheduleComponentDisplay scheduleComponentDisplay : scheduleComponentDisplays) {
                                 if (scheduleComponentDisplay.getBuilding() != null) {
                                     aoDisplayWrapper.setBuildingName(scheduleComponentDisplay.getBuilding().getBuildingCode(), true);
+                                    aoDisplayWrapper.setBuildingCode(scheduleComponentDisplay.getBuilding().getBuildingCode(), true);
                                 }
                                 if (scheduleComponentDisplay.getRoom() != null) {
                                     aoDisplayWrapper.setRoomName(scheduleComponentDisplay.getRoom().getRoomCode(), true);
