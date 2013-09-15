@@ -1634,13 +1634,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteActivityOfferingCascaded(String activityOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<SeatPoolDefinitionInfo> seatPoolsToDelete = getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
         // this is breaking other unit test there fore revoking the changes.
-      //  deleteWaitListFromAo(activityOfferingId,context);
+        deleteWaitListFromAo(activityOfferingId,context);
         deleteSeatPoolsFromAo(seatPoolsToDelete, activityOfferingId, context);
         removeActivityOfferingFromAoCluster(activityOfferingId, context);
 
