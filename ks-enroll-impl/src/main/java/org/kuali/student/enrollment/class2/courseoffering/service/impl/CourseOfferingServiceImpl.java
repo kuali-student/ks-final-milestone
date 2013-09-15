@@ -1640,7 +1640,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         List<SeatPoolDefinitionInfo> seatPoolsToDelete = getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
         // this is breaking other unit test there fore revoking the changes.
-        deleteWaitListFromAo(activityOfferingId,context);
+        //deleteWaitListFromAo(activityOfferingId,context);
         deleteSeatPoolsFromAo(seatPoolsToDelete, activityOfferingId, context);
         removeActivityOfferingFromAoCluster(activityOfferingId, context);
 
