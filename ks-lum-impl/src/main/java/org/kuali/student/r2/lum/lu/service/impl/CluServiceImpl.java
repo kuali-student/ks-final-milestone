@@ -3904,8 +3904,9 @@ public class CluServiceImpl implements CluService {
              ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("not implemented");
+
+        GenericQueryResults<String> results =  cluCriteriaLookupService.lookupIds(Clu.class, criteria);
+        return results.getResults();
     }
 
     /* (non-Javadoc)
