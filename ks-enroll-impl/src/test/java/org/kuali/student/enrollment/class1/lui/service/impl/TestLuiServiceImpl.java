@@ -622,6 +622,20 @@ public class TestLuiServiceImpl {
         assertEquals(luiIdsNonExistent.size(),0);
 
     }
+
+    @Test
+    public void testGetLuisByAtpAndType() throws Exception{
+        List<LuiInfo> luis = luiService.getLuisByAtpAndType("atpId1", "kuali.lui.type.course.offering", callContext);
+        assertNotNull(luis);
+        assertEquals(luis.size(), 1);
+        assertEquals(luis.get(0).getId(), "Lui-1");
+
+        List<LuiInfo> luisNonExistent =  luiService.getLuisByAtpAndType( "atpId21", "kuali.lui.type.course.offering", callContext);
+        assertNotNull(luisNonExistent);
+        assertEquals(luisNonExistent.size(),0);
+
+    }
+
     @Test
     public void testGetRelatedLuiIdsByLui() throws Exception{
         List<String> luiRelationIds =  luiService.getLuiIdsByLuiAndRelationType("Lui-1", "kuali.lui.lui.relation.associated", callContext);
