@@ -113,29 +113,4 @@ public class OfferingInstructorInfo
     public String getPersonName() {
         return personName;
     }
-
-    @Override
-    public boolean equals(Object object) {
-        boolean result = false;
-        if (object == null || object.getClass() != getClass()) {
-            result = false;
-        } else {
-            OfferingInstructorInfo offeringInstructorInfo = (OfferingInstructorInfo) object;
-            if ((this.getId()!= null ? this.getId().equals(offeringInstructorInfo.getId()) : offeringInstructorInfo.getId() == null ? true : false)
-                    && (this.getPersonId()!=null ? this.personId.equals(offeringInstructorInfo.getPersonId()) : offeringInstructorInfo.getPersonId() == null ? true : false)
-                    && (this.getPersonName()!=null ? this.getPersonName().equals(offeringInstructorInfo.getPersonName()) : offeringInstructorInfo.getPersonName() == null ? true : false)
-                    && (this.getPercentageEffort()!=null ? this.getPercentageEffort() == offeringInstructorInfo.getPercentageEffort() : offeringInstructorInfo.getPercentageEffort() == null ? true : false) ){
-                result = true;
-            }
-        }
-        return result;
-    }
-    @Override
-    public int hashCode() {
-        int resultID = (id != null ? id.hashCode() : 0);
-        int resultPersonId = (personId != null ? personId.hashCode() : 0);
-        int resultPersonName = (personName != null ? personName.hashCode() : 0);
-        int resultPercentageEffort = (percentageEffort != null ? percentageEffort.hashCode() : 0);
-        return (31 * resultID) + (37 * resultPersonId) + (41 * resultPersonName) +  (43 * resultPercentageEffort);
-    }
 }
