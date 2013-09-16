@@ -17,72 +17,34 @@ package org.kuali.student.enrollment.class1.krms.service.impl;
 
 //import org.apache.commons.lang.StringUtils;
 
-import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
+import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.dto.ActionEditor;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.AgendaTypeInfo;
 import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.rice.krms.service.impl.RuleEditorMaintainableImpl;
-import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
-import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
-import org.kuali.rice.krms.util.NaturalLanguageHelper;
-import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
-import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.dto.FEAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
-import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.lum.lu.ui.krms.dto.LUAgendaEditor;
-import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
-import org.kuali.student.lum.lu.ui.krms.tree.LURuleViewTreeBuilder;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
-import org.kuali.student.r2.core.constants.StateServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.room.service.RoomService;
-import org.kuali.student.r2.lum.clu.service.CluService;
-import org.springframework.util.StringUtils;
 
-import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 /**
  * Overridden class to handle CO specific maintainable functionality.
@@ -207,22 +169,22 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             FERuleEditor ruleEditor = new FERuleEditor(agendaItem.getRule());
             ActionEditor action = ruleEditor.getActionForType(this.getActionTypeId());
             Map<String, String> attributes = action.getAttributes();
-            if(attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY)){
+            if (attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY)) {
                 ruleEditor.setDay(attributes.get(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY));
             }
-            if(attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME)){
+            if (attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME)) {
                 Date timeForDisplay = new Date(Long.parseLong(attributes.get(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME)));
                 String startTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay);
                 ruleEditor.setStartTime(org.apache.commons.lang.StringUtils.substringBefore(startTime, " "));
                 ruleEditor.setStartTimeAMPM(org.apache.commons.lang.StringUtils.substringAfter(startTime, " "));
             }
-            if(attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME)){
+            if (attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME)) {
                 Date timeForDisplay = new Date(Long.parseLong(attributes.get(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME)));
                 String endTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay);
                 ruleEditor.setEndTime(org.apache.commons.lang.StringUtils.substringBefore(endTime, " "));
                 ruleEditor.setEndTimeAMPM(org.apache.commons.lang.StringUtils.substringAfter(endTime, " "));
             }
-            if(attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY)){
+            if (attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY)) {
                 String buildingId = attributes.get(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY);
                 try {
                     ruleEditor.setBuilding(this.getRoomService().getBuilding(buildingId, this.createContextInfo()));
@@ -230,7 +192,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                     throw new RuntimeException("Could not retrieve building for " + buildingId);
                 }
             }
-            if(attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM)){
+            if (attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM)) {
                 String roomId = attributes.get(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM);
                 try {
                     ruleEditor.setRoom(this.getRoomService().getRoom(roomId, this.createContextInfo()));
@@ -259,30 +221,96 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         return rules;
     }
 
-    protected String getActionTypeId(){
-        if(actionTypeId==null){
+
+    @Override
+    public AgendaItemDefinition maintainAgendaItems(AgendaEditor agenda, String namePrefix, String nameSpace) {
+
+        Queue<RuleEditor> rules = new LinkedList<RuleEditor>();
+        FEAgendaEditor feAgendaEditor = (FEAgendaEditor) agenda;
+        for (RuleEditor rule : feAgendaEditor.getRules())
+            if (!rule.isDummy()) {
+                rules.add(rule);
+            }
+        // Clear the first item and update.
+        AgendaItemDefinition firstItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
+
+        AgendaItemDefinition.Builder firstItemBuilder = AgendaItemDefinition.Builder.create(agenda.getFirstItemId(), agenda.getId());
+        firstItemBuilder.setRule(null);
+        firstItemBuilder.setRuleId(null);
+        firstItemBuilder.setWhenTrue(null);
+        firstItemBuilder.setWhenTrueId(null);
+        firstItemBuilder.setVersionNumber(firstItem.getVersionNumber());
+        this.getRuleManagementService().updateAgendaItem(firstItemBuilder.build());
+
+        //Delete current agenda items to rebuild the tree.
+        if (firstItem.getWhenTrue() != null) {
+            this.deleteAgendaItems(firstItem.getWhenTrue());
+        }
+
+        //Delete rules
+        for (RuleEditor deletedRule : agenda.getDeletedRules()) {
+            this.getRuleManagementService().deleteRule(deletedRule.getId());
+        }
+
+        AgendaItemDefinition rootItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
+        AgendaItemDefinition.Builder rootItemBuilder = AgendaItemDefinition.Builder.create(rootItem);
+        AgendaItemDefinition.Builder itemBuilder = rootItemBuilder;
+        while (rules.peek() != null) {
+            itemBuilder.setRule(this.finRule(rules.poll(), namePrefix, nameSpace));
+            itemBuilder.setRuleId(itemBuilder.getRule().getId());
+            if (rules.peek() != null) {
+                itemBuilder.setWhenTrue(AgendaItemDefinition.Builder.create(null, agenda.getId()));
+                itemBuilder = itemBuilder.getWhenTrue();
+            }
+        }
+        //Update the root item.
+        AgendaItemDefinition updateItem = rootItemBuilder.build();
+        this.getRuleManagementService().updateAgendaItem(updateItem);
+
+        return updateItem;
+    }
+
+    @Override
+    public RuleDefinition.Builder finRule(RuleEditor rule, String rulePrefix, String namespace) {
+        // handle saving new parameterized terms
+        if (rule.getPropositionEditor() != null) {
+            this.finPropositionEditor(rule.getPropositionEditor());
+        }
+
+        if (rule.getNamespace() == null) {
+            rule.setNamespace(namespace);
+        }
+        if (rule.getRuleTypeInfo() != null) {
+            rule.setName(rulePrefix + rule.getRuleTypeInfo().getId() + ":1");
+        }
+
+        return RuleDefinition.Builder.create(rule);
+    }
+
+    protected String getActionTypeId() {
+        if (actionTypeId == null) {
             actionTypeId = this.getKrmsTypeRepositoryService().getTypeByName(StudentIdentityConstants.KS_NAMESPACE_CD, KSKRMSServiceConstants.ACTION_TYPE_REQUESTED_DELIVERY_LOGISTIC).getId();
         }
         return actionTypeId;
     }
 
-    protected String getUsageId(){
-        if(usageId==null){
+    protected String getUsageId() {
+        if (usageId == null) {
             usageId = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_CATALOG,
-                PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
+                    PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
         }
         return usageId;
     }
 
-    public RoomService getRoomService(){
-        if (roomService == null){
+    public RoomService getRoomService() {
+        if (roomService == null) {
             roomService = CourseOfferingResourceLoader.loadRoomService();
         }
         return roomService;
     }
 
-    public TypeService getTypeService(){
-        if (typeService == null){
+    public TypeService getTypeService() {
+        if (typeService == null) {
             typeService = CourseOfferingResourceLoader.loadTypeService();
         }
         return typeService;

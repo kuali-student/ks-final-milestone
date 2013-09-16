@@ -7,7 +7,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.rice.krms.dto.AgendaEditor;
+import org.kuali.rice.krms.dto.ActionEditor;
 import org.kuali.rice.krms.dto.AgendaTypeInfo;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
@@ -19,6 +19,8 @@ import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.dto.FEAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleEditor;
 import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,7 +29,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -164,11 +169,11 @@ public class FERuleEditorController extends EnrolRuleEditorController {
     public ModelAndView updateRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) {
 
-        RuleEditor ruleEditor = getRuleEditor(form);
+        FERuleEditor ruleEditor = (FERuleEditor) getRuleEditor(form);
 
         //Return with error message if user is currently editing a proposition.
         PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
-        if ((proposition!=null) && (proposition.isEditMode())) {
+        if ((proposition != null) && (proposition.isEditMode())) {
             GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID, KRMSConstants.KRMS_MSG_ERROR_RULE_PREVIEW);
             return getUIFModelAndView(form);
         }
@@ -177,14 +182,54 @@ public class FERuleEditorController extends EnrolRuleEditorController {
             PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor.getPropositionEditor());
             ruleEditor.setDummy(false);
             PropositionTreeUtil.resetNewProp(ruleEditor.getPropositionEditor());
+            ruleEditor.setDescription(ruleEditor.getPropositionEditor().getNaturalLanguage().get(KSKRMSServiceConstants.KRMS_NL_RULE_EDIT));
+            try {
+
+                ArrayList<ActionEditor> newActions = new ArrayList<ActionEditor>();
+                ArrayList<ActionEditor> actions = (ArrayList<ActionEditor>) ruleEditor.getActions();
+                for (ActionEditor action : actions) {
+                    Map<String, String> attributes = action.getAttributes();
+                    Map<String, String> newAttributes = new HashMap<String, String>();
+                    if (attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY)) {
+                        newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY, ruleEditor.getDay());
+                    }
+                    if (attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME)) {
+                        String startTimeAMPM = new StringBuilder(ruleEditor.getStartTime()).append(" ").append(ruleEditor.getStartTimeAMPM()).toString();
+                        long startTimeMillis = this.parseTimeToMillis(startTimeAMPM);
+                        String startTime = String.valueOf(startTimeMillis);
+                        newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, startTime);
+                    }
+                    if (attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME)) {
+                        String endTimeAMPM = new StringBuilder(ruleEditor.getEndTime()).append(" ").append(ruleEditor.getEndTimeAMPM()).toString();
+                        long endTimeMillis = this.parseTimeToMillis(endTimeAMPM);
+                        String endTime = String.valueOf(endTimeMillis);
+                        newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME, endTime);
+                    }
+                    if (attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY)) {
+                        newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY, ruleEditor.getBuilding().getId());
+                    }
+                    if (attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM)) {
+                        newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM, ruleEditor.getRoom().getId());
+                    }
+                    action.setAttributes(newAttributes);
+                    action.setDescription(ruleEditor.getDescription());
+                    newActions.add(action);
+                }
+                ((ArrayList<ActionEditor>) ruleEditor.getActions()).clear();
+                ((ArrayList<ActionEditor>) ruleEditor.getActions()).addAll(newActions);
+                ((FERuleEditor) ruleEditor).getTimePeriodToDisplay();
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
 
         //Replace edited rule with existing rule.
         RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper((MaintenanceDocumentForm) form);
         List<RuleEditor> rules = ((FEAgendaEditor) ruleWrapper.getAgendaEditor()).getRules();
         int index = 0;
-        for (RuleEditor existingRule : rules){
-            if(existingRule.getId().equals(ruleEditor.getId())){
+        for (RuleEditor existingRule : rules) {
+            if (existingRule.getId().equals(ruleEditor.getId())) {
                 index = rules.indexOf(existingRule);
             }
         }
@@ -263,6 +308,10 @@ public class FERuleEditorController extends EnrolRuleEditorController {
     protected void compareRulePropositions(MaintenanceDocumentForm form, RuleEditor ruleEditor) {
         //We don't do comparisons on Final Exam.
         return;
+    }
+
+    private long parseTimeToMillis(final String time) throws ParseException {
+        return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(time).getTime();
     }
 
 }
