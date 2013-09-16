@@ -40,6 +40,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.test.util.AttributeTester;
 import org.kuali.student.common.test.util.RichTextTester;
 import org.kuali.student.common.test.util.MetaTester;
+import org.kuali.student.r2.common.util.constants.ExamServiceConstants;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import static org.junit.Assert.assertEquals;
@@ -214,18 +215,31 @@ public abstract class TestExamServiceImplConformanceBaseCrud {
         // -------------------------------------
         // test get by type
         // -------------------------------------
-        // code to get by specific type "typeKey01"
-        examIds = testService.getExamIdsByType ("typeKey01", contextInfo);
+        ExamInfo infoByType = new ExamInfo();
+        testCrudExam_setDTOFieldsForTestCreate(infoByType);
+        infoByType.setStateKey(ExamServiceConstants.EXAM_ACTIVE_STATE_KEY);
+        infoByType.setTypeKey("firstByType");
+        infoByType = testService.createExam( infoByType.getTypeKey(), infoByType, contextInfo);
+        ExamInfo infoByType2 = new ExamInfo();
+        testCrudExam_setDTOFieldsForTestCreate(infoByType2);
+        infoByType2.setStateKey(ExamServiceConstants.EXAM_ACTIVE_STATE_KEY);
+        infoByType2.setTypeKey("otherByType");
+        infoByType2 = testService.createExam(infoByType2.getTypeKey(), infoByType2, contextInfo);
+
+
+
+        // code to get by specific type "firstByType"
+        examIds = testService.getExamIdsByType ("firstByType", contextInfo);
 
         assertEquals(1, examIds.size());
-        assertEquals(alphaDTO.getId(), examIds.get(0));
+        assertEquals(infoByType.getId(), examIds.get(0));
 
         // test get by other type
-        // code to get by specific type "typeKeyBeta"
-        examIds = testService.getExamIdsByType ("typeKeyBeta", contextInfo);
+        // code to get by specific type "otherByType"
+        examIds = testService.getExamIdsByType ("otherByType", contextInfo);
 
         assertEquals(1, examIds.size());
-        assertEquals(betaDTO.getId(), examIds.get(0));
+        assertEquals(infoByType2.getId(), examIds.get(0));
 
         // -------------------------------------
         // test delete

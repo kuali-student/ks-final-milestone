@@ -155,7 +155,16 @@ public class ExamServiceImpl implements ExamService {
             , MissingParameterException
             , OperationFailedException
             , PermissionDeniedException {
-        throw new OperationFailedException("getExamIdsByType has not been implemented");
+        List<String> ids = null;
+        try {
+            ids = getCluService().getCluIdsByLuType(examTypeKey,ExamServiceConstants.EXAM_ACTIVE_STATE_KEY,contextInfo);
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException(e.getMessage());
+        }
+        if(ids == null){
+            ids = new ArrayList<String>(0);
+        }
+        return ids;
     }
 
     @Override
