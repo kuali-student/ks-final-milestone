@@ -103,7 +103,7 @@ The Room.
 The Room.
 					</value>
 				</property>
-
+                <!--
 				<property name="attributes">
 					<list>
 						<ref bean="ScheduleComponentDisplayInfo.room.id"/>
@@ -129,6 +129,7 @@ The Room.
 						<ref bean="ScheduleComponentDisplayInfo.room.roomUsages"/>
 					</list>
 				</property>
+				-->
 			</bean>
 		</property>
 	</bean>
