@@ -1,15 +1,22 @@
 package org.kuali.student.enrollment.class2.coursewaitlist.service.impl;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.enrollment.class2.coursewaitlist.dao.CourseWaitListDaoApi;
+import org.kuali.student.enrollment.class2.coursewaitlist.model.CourseWaitListEntity;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListEntryInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
-import org.kuali.student.enrollment.class2.coursewaitlist.dao.CourseWaitListDao;
-import org.kuali.student.enrollment.class2.coursewaitlist.model.CourseWaitListEntity;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -24,13 +31,13 @@ import java.util.List;
  */
 public class CourseWaitListServiceImpl implements CourseWaitListService {
     @Resource
-    private CourseWaitListDao courseWaitListDao;
+    private CourseWaitListDaoApi courseWaitListDao;
 
-    public CourseWaitListDao getCourseWaitListDao() {
+    public CourseWaitListDaoApi getCourseWaitListDao() {
         return courseWaitListDao;
     }
 
-    public void setCourseWaitListDao(CourseWaitListDao courseWaitListDao) {
+    public void setCourseWaitListDao(CourseWaitListDaoApi courseWaitListDao) {
         this.courseWaitListDao = courseWaitListDao;
     }
 

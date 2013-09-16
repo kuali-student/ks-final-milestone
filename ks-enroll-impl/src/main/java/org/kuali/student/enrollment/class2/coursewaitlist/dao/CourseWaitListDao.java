@@ -19,7 +19,7 @@ import org.kuali.student.r2.common.dao.GenericEntityDao;
 
 import java.util.List;
 
-public class CourseWaitListDao extends GenericEntityDao<CourseWaitListEntity> {
+public class CourseWaitListDao extends GenericEntityDao<CourseWaitListEntity> implements CourseWaitListDaoApi {
     // what do we need besides basic CRUD provided by parent class?
     /**
      * Get list of CourseWaitlists given a course offering ID
