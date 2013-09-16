@@ -125,6 +125,7 @@
         <property name="theme">
             <bean parent="KSTheme"/>
         </property>
+        <property name="stickyFooter" value="true"/> <!-- UX wants all Inquiries to have Sticky Footers -->
         <!--TODO: check with UX, do we need to set page.header as KS-Uif-HeaderOne-Empty by default? -->
         <!--<property name="page.header">-->
             <!--<ref bean="KS-Uif-HeaderOne-Empty" />-->
