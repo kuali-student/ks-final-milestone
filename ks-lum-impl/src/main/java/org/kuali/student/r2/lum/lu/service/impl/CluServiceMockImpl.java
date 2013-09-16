@@ -304,7 +304,7 @@ public class CluServiceMockImpl implements CluService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // GET_BY_ID
         if (!this.cluMap.containsKey(cluId)) {
-            throw new OperationFailedException(cluId);
+            throw new DoesNotExistException(cluId);
         }
         return new CluInfo(this.cluMap.get(cluId));
     }
