@@ -337,6 +337,7 @@
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
         <property name="activityOfferingTransformer" ref="activityTransformer" />
         <property name="acalServiceFacade" ref="acalServiceFacade"/>
+        <property name="courseWaitListService" ref="courseWaitListService"/>
         <!--The coService property is looked up in the service bus to prevent a circular spring reference-->
     </bean>
 
