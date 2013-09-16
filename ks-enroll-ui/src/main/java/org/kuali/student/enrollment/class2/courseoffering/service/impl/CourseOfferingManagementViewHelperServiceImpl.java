@@ -976,7 +976,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
                 //Set the wrapper
                 rgWrapper.setAoMaxEnrText(rgWrapper.getAoMaxEnrText() + (newLine ? "<br/>" : "") + (aoWrapper.getAoInfo().getMaximumEnrollment() == null ? "" : aoWrapper.getAoInfo().getMaximumEnrollment()) + lineBreaks);
-                if(rgWrapper.getRgMaxEnrText() !=null && rgWrapper.getRgMaxEnrText().length() > 1)  {
+                if(rgWrapper.getRgMaxEnrText() !=null && rgWrapper.getRgMaxEnrText().length() > 1 && aoWrapper.getAoInfo().getMaximumEnrollment() != null)  {
                     Integer seats = Integer.parseInt(rgWrapper.getRgMaxEnrText());
                     Integer nSeats = aoWrapper.getAoInfo().getMaximumEnrollment();
                     if(seats.compareTo(nSeats) > 0 ) {
