@@ -16,7 +16,6 @@
  */
 package org.kuali.student.r2.core.room.service.impl;
 
-import org.apache.cxf.common.util.StringUtils;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
@@ -89,10 +88,6 @@ public class RoomServiceImpl implements RoomService {
     @Transactional(readOnly = true)
     public RoomInfo getRoom(String roomId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkValid("id", roomId, contextInfo);
-
-        if(StringUtils.isEmpty(roomId)){
-            return null;
-        }
 
         RoomEntity e = roomServiceDao.find(roomId);
         if (e == null) {
@@ -198,8 +193,6 @@ public class RoomServiceImpl implements RoomService {
      *                    principalId and locale information about the caller of
      *                    service operation
      * @return a list of Room Ids
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
-     *          roomTypeKey not found
      * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException
      *          invalid contextInfo
      * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
@@ -1069,8 +1062,6 @@ public class RoomServiceImpl implements RoomService {
      * @throws org.kuali.student.r2.common.exceptions.DataValidationErrorException
      *          one or more values invalid
      *          for this operation
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
-     *          roomId or orgId not found
      * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException
      *          invalid roomResponsibleOrgInfo or contextInfo
      * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
@@ -1341,18 +1332,6 @@ public class RoomServiceImpl implements RoomService {
 
     public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
         this.criteriaLookupService = criteriaLookupService;
-    }
-
-    public RoomServiceDao getRoomServiceDao() {
-        return roomServiceDao;
-    }
-
-    public BuildingServiceDao getBuildingServiceDao() {
-        return buildingServiceDao;
-    }
-
-    public RoomResponsibleOrgDao getRoomResponsibleOrgDao() {
-        return roomResponsibleOrgDao;
     }
 
     public void setRoomServiceDao(RoomServiceDao roomServiceDao) {
