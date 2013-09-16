@@ -53,7 +53,7 @@ import java.util.List;
  */
 public class ExamServiceImpl implements ExamService {
 
-    private static final String PREDICATE_FACTORY_PATH_FOR_CLUTYPE = "cluType";
+    private static final String PREDICATE_FACTORY_PATH_FOR_CLUTYPE = "luType.id";
 
     private CluService cluService;
 

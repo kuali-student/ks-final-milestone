@@ -17,23 +17,34 @@ package org.kuali.student.enrollment.class2.exam.service.impl;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:exam-impl-test-context.xml"})
+@ContextConfiguration(locations = {"classpath:exam-test-with-mocks-context.xml"})
 @Transactional
 public class TestExamServiceImpl extends  TestExamServiceImplConformanceExtendedCrud {
 
+    /* Method Name: searchForExamIds */
+    @Test
+    public void test_searchForExamIds() throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
 
+        //Exam searches are tested in TestExamServiceImplIntegration.
+    }
+
+    /* Method Name: searchForExams */
+    @Test
+    public void test_searchForExams()
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
+        //Exam searches are tested in TestExamServiceImplIntegration.
+
+    }
 }
