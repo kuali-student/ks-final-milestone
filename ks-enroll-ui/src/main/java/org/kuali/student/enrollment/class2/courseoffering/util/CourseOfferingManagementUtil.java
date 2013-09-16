@@ -513,6 +513,8 @@ public class CourseOfferingManagementUtil {
         courseOffering.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
         courseOffering.setStateKey(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY);
         courseOffering.setHasWaitlist(false);
+        courseOffering.setWaitlistTypeKey(null);
+        courseOffering.setWaitlistLevelTypeKey(null);
         courseOffering.setCourseOfferingCode(courseInfo.getCode());
 
         //Copy grading and credit options
