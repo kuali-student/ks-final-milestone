@@ -103,6 +103,7 @@
         <property name="activityOfferingTransformer" ref="activityTransformer" />
         <property name="acalServiceFacade" ref="acalServiceFacade" />
         <property name="rolloverAssist" ref="rolloverAssist"/>
+        <property name="courseWaitListService" ref="courseWaitListService"/>
     </bean>
 
 
