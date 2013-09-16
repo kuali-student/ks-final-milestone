@@ -512,7 +512,7 @@ public class CourseOfferingManagementUtil {
         courseOffering.setCourseCode(courseInfo.getCode());
         courseOffering.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
         courseOffering.setStateKey(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY);
-        courseOffering.setHasWaitlist(false);
+        courseOffering.setHasWaitlist(true);
         courseOffering.setWaitlistTypeKey(null);
         courseOffering.setWaitlistLevelTypeKey(null);
         courseOffering.setCourseOfferingCode(courseInfo.getCode());

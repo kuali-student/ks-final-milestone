@@ -379,7 +379,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         CourseInfo courseInfo = new R1CourseServiceHelper(courseService, acalService).getCourse(courseId);
         courseOfferingTransformer.copyFromCanonical(courseInfo, copy, optionKeys, context);
         copy.setMeta(newMeta(context));
-        copy.setHasWaitlist(false);
+        copy.setHasWaitlist(true);
         courseOfferingMap.put(copy.getId(), copy);
         log.info("CourseOfferingMockImpl: created course offering: " + copy.getId() + "term=" + copy.getTermId() + " for course =" + copy.getCourseId());
         

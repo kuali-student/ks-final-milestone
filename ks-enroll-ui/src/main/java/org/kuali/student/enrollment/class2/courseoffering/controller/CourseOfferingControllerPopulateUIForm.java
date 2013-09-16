@@ -79,6 +79,12 @@ public class CourseOfferingControllerPopulateUIForm {
             CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(coInfo);
             formObject.setCreateCO(true);
 
+            if (coInfo.getHasWaitlist()) {
+                formObject.setHasWaitlistForUI(true);
+            } else {
+                formObject.setHasWaitlistForUI(false);
+            }
+
             //2. set CourseInfo
             formObject.setCourse(courseInfo);
 

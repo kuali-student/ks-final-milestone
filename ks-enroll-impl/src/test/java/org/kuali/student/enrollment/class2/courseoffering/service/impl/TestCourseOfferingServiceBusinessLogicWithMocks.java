@@ -154,7 +154,7 @@ public class TestCourseOfferingServiceBusinessLogicWithMocks {
                                                   sourceCo.getTypeKey(), sourceCo,
                                                   new ArrayList<String>(),  // the "option-keys"
                                                   callContext);
-        sourceCo.setHasWaitlist(false);
+        sourceCo.setHasWaitlist(true);
 
         return sourceCo;
     }
