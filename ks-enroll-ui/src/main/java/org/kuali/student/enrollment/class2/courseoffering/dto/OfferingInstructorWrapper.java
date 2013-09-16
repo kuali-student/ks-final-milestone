@@ -61,27 +61,4 @@ public class OfferingInstructorWrapper implements Serializable {
     public void setTypeName(String typeName) {
         this.typeName = typeName;
     }
-
-    @Override
-    public boolean equals(Object object) {
-        boolean result = false;
-        if (object == null || object.getClass() != getClass()) {
-            result = false;
-        } else {
-            OfferingInstructorWrapper offeringInstructorWrapper = (OfferingInstructorWrapper) object;
-            if ((this.getsEffort()!= null ? this.getsEffort().equals(offeringInstructorWrapper.getsEffort()) : offeringInstructorWrapper.getsEffort() == null ? true : false)
-                    && (this.getTypeName() != null ? this.getTypeName().equals(offeringInstructorWrapper.getTypeName()) : offeringInstructorWrapper.getTypeName() == null ? true : false)
-                        && (this.getOfferingInstructorInfo()!=null ? this.getOfferingInstructorInfo().equals(offeringInstructorWrapper.getOfferingInstructorInfo()): offeringInstructorWrapper.getOfferingInstructorInfo() == null ? true : false)) {
-                result = true;
-            }
-        }
-        return result;
-    }
-
-    @Override
-    public int hashCode() {
-        int resultsEffort = (sEffort != null ? sEffort.hashCode() : 0);
-        int resultTypeName = (typeName != null ? typeName.hashCode() : 0);
-        return (31 * resultsEffort) + (37 * resultTypeName) + (47 * offeringInstructorInfo.hashCode());
-    }
 }

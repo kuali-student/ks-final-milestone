@@ -3,7 +3,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.helper.impl.ActivityOfferingScheduleHelperImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
@@ -11,14 +10,13 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
-import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
@@ -32,7 +30,6 @@ import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
-
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -123,10 +120,6 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
             aoWapper.setActivityCode(aoInfo.getActivityCode());
             aoWapper.setAbbreviatedCourseType(getTypeService().getType(aoInfo.getTypeKey(), contextInfo).getName().toUpperCase().substring(0, 3));
 
-            //process instructor effort
-            assembleInstructorWrapper(aoInfo.getInstructors(), aoWapper);
-
-
             boolean readOnlyView = Boolean.parseBoolean(dataObjectKeys.get("readOnlyView"));
             aoWapper.setReadOnlyView(readOnlyView);
 
@@ -181,19 +174,6 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
             displayString = stringBuilder.toString();
         }
         return displayString;
-    }
-
-    private void assembleInstructorWrapper(List<OfferingInstructorInfo> instructors, ActivityOfferingWrapper wrapper) {
-        if (instructors != null && !instructors.isEmpty()) {
-            for (OfferingInstructorInfo instructor : instructors) {
-                OfferingInstructorWrapper instructorWrapper = new OfferingInstructorWrapper(instructor);
-                if (instructor.getPercentageEffort() != null) {
-                    instructorWrapper.setsEffort(Integer.toString(instructor.getPercentageEffort().intValue()));
-                }
-                if(!(wrapper.getInstructors().contains(instructorWrapper)))
-                        wrapper.getInstructors().add(instructorWrapper);
-            }
-        }
     }
 
     protected ActivityOfferingScheduleHelperImpl getScheduleHelper(){
