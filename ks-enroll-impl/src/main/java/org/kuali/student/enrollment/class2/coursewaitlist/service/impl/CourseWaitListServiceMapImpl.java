@@ -187,14 +187,12 @@ public class CourseWaitListServiceMapImpl implements MockService, CourseWaitList
             ,ReadOnlyException
     {
         // CREATE
-        if (!courseWaitListTypeKey.equals (courseWaitListInfo.getTypeKey())) {
-            throw new InvalidParameterException ("The type parameter does not match the type on the info object");
-        }
-        CourseWaitListInfo copy = new CourseWaitListInfo(courseWaitListInfo);
+         CourseWaitListInfo copy = new CourseWaitListInfo(courseWaitListInfo);
         if (copy.getId() == null) {
             copy.setId(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(contextInfo));
+        copy.setType(courseWaitListTypeKey);
         courseWaitListMap.put(copy.getId(), copy);
         return new CourseWaitListInfo(copy);
     }
