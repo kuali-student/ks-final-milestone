@@ -338,6 +338,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
     private ActivityOfferingResult _addActivityOfferingToClusterCommon(ActivityOfferingInfo aoInfo, ActivityOfferingClusterInfo cluster, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+
         // Now add the AO ID to the correct AOC set
         for (ActivityOfferingSetInfo set: cluster.getActivityOfferingSets()) {
             if (set.getActivityOfferingType().equals(aoInfo.getTypeKey())) {
@@ -360,6 +361,13 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
             aoResult.getClusterstatus().setSuccess(Boolean.FALSE);
             aoResult.getClusterstatus().setMessage("Error: empty AO sets exist--can't generate reg groups");
         }
+
+        //create and persist a WaitlistInfo for AO
+        CourseWaitListInfo theWaitListInfo = CourseWaitListServiceUtil.createCourseWaitlist(aoInfo, context);
+
+        aoResult.setWaitListInfo(theWaitListInfo);
+
+
         return aoResult;
     }
 

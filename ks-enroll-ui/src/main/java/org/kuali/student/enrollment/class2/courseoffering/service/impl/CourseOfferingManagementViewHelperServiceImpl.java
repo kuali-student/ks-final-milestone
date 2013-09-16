@@ -44,6 +44,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleCalcContai
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleRequestCalcContainer;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.service.adapter.ActivityOfferingResult;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementToolbarUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
@@ -51,7 +52,6 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
-import org.kuali.student.enrollment.class2.coursewaitlist.service.CourseWaitListServiceUtil;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ActivityOfferingDisplayUI;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.ActivityOfferingTypeComparator;
@@ -1648,6 +1648,19 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         }
     }
 
+    /**
+     * This method is a custom method to bulk create AO's via the UI.
+     *
+     * It has some code that will automatically create clusters if they don't exist plus extra validation on the
+     * types.
+     *
+     * It eventually calls the business adapter class to create the AO.
+     *
+     * @param formatOfferingId
+     * @param activityId
+     * @param noOfActivityOfferings
+     * @param form
+     */
     public void createActivityOfferings(String formatOfferingId, String activityId, int noOfActivityOfferings, CourseOfferingManagementForm form) {
         String termcode;
         FormatOfferingInfo formatOfferingInfo;
@@ -1731,23 +1744,23 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             aoInfo.setCourseOfferingTitle(courseOffering.getCourseOfferingTitle());
             aoInfo.setCourseOfferingCode(courseOffering.getCourseOfferingCode());
 
-            ActivityOfferingInfo activityOfferingInfo;
+
             try {
-                //Temp solution here: if there is cluster(s) assocaited with the given FO, call createAO method in adapter
-                //It will associate created AOs with the first cluster of the given FO
-                if (clusterId != null && !clusterId.isEmpty()) {
-                    activityOfferingInfo = CourseOfferingManagementUtil.getArgServiceAdapter().createActivityOffering(aoInfo, clusterId, contextInfo).getCreatedActivityOffering();
-                } else {
-                    activityOfferingInfo = _getCourseOfferingService().createActivityOffering(formatOfferingInfo.getId(), activityId, activityOfferingType.getKey(), aoInfo, contextInfo);
-                }
+                ActivityOfferingInfo activityOfferingInfo;
+                CourseWaitListInfo theWaitListInfo;
+
+                // This is the "business" type call that will create the AO and link the appropiate objects.
+                // This will also create + add any needed Waitlists
+                ActivityOfferingResult aoResult = CourseOfferingManagementUtil.getArgServiceAdapter().createActivityOffering(aoInfo, clusterId, contextInfo);
+                activityOfferingInfo   = aoResult.getCreatedActivityOffering();
+                theWaitListInfo = aoResult.getWaitListInfo();
+
+
                 ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(activityOfferingInfo);
                 StateInfo state = getStateService().getState(wrapper.getAoInfo().getStateKey(), contextInfo);
                 wrapper.setStateName(state.getName());
                 TypeInfo typeInfo = getTypeInfo(wrapper.getAoInfo().getTypeKey());
                 wrapper.setTypeName(typeInfo.getName());
-
-                //create and persist a WaitlistInfo for AO
-                CourseWaitListInfo theWaitListInfo = CourseWaitListServiceUtil.createCourseWaitlist(activityOfferingInfo, contextInfo);
                 wrapper.setCourseWaitListInfo(theWaitListInfo);
 
                 form.getActivityWrapperList().add(wrapper);

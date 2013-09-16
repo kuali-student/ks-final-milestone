@@ -30,19 +30,42 @@ public class CourseWaitListServiceUtil {
     public static CourseWaitListInfo createCourseWaitlist(ActivityOfferingInfo aoInfo, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException {
-        CourseWaitListInfo courseWaitListInfo = new CourseWaitListInfo();
-        List<String> aoIds = new ArrayList<String>();
-        aoIds.add(aoInfo.getId());
-        courseWaitListInfo.setActivityOfferingIds(aoIds);
-        List<String> foIds = new ArrayList<String> ();
-        foIds.add(aoInfo.getFormatOfferingId());
-        courseWaitListInfo.setFormatOfferingIds(foIds);
-        courseWaitListInfo.setTypeKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY);
 
         //need to get the value of coInfo.hasWaitList to set stateKey and other default values
         FormatOfferingInfo foInfo = getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), context);
         CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(foInfo.getCourseOfferingId(), context);
-        if (coInfo.getHasWaitlist()){
+
+        return createCourseWaitlist(aoInfo.getFormatOfferingId(), aoInfo.getId(), coInfo.getHasWaitlist(), context);
+
+
+    }
+
+    /* Create a new CourseWaitListInfo (CWLI) for a specified AO and persist it in DB
+
+        If possible, use this method. The other Method is MUCH less efficient.
+
+       1)set AOInfo.id to courseWaitListInfo.activityOfferingIds
+       2)set AOInfo.formatOfferingId to courseWaitListInfo.formatOfferingIds
+       3)if COInfo.hasWaitList = true, set courseWaitListInfo.stateKey to active and set automaticallyProcessed,
+            confirmationRequired, checkInRequired, and allowHoldUntilEntries in courseWaitListInfo to true
+       4)if COInfo.hasWaitList = false, set courseWaitListInfo.stateKey to inactive and set automaticallyProcessed,
+            confirmationRequired, checkInRequired, and allowHoldUntilEntries in courseWaitListInfo to false
+    */
+    public static CourseWaitListInfo createCourseWaitlist(String foId, String aoId, boolean coHasWaitlist, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException {
+        CourseWaitListInfo courseWaitListInfo = new CourseWaitListInfo();
+        List<String> aoIds = new ArrayList<String>();
+        aoIds.add(aoId);
+        courseWaitListInfo.setActivityOfferingIds(aoIds);
+        List<String> foIds = new ArrayList<String> ();
+        foIds.add(foId);
+        courseWaitListInfo.setFormatOfferingIds(foIds);
+        courseWaitListInfo.setTypeKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY);
+
+        //need to get the value of coInfo.hasWaitList to set stateKey and other default values
+
+        if (coHasWaitlist){
             courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY);
             //default setting is semi-automatic
             courseWaitListInfo.setAllowHoldUntilEntries(true);

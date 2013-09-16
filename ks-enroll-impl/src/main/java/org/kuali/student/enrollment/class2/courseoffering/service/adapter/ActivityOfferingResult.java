@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.adapter;
 
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class ActivityOfferingResult {
     private ActivityOfferingInfo createdActivityOffering;
     private List<BulkStatusInfo> generatedRegistrationGroups;
     private BulkStatusInfo clusterstatus;
+    private CourseWaitListInfo waitListInfo;
 
     public ActivityOfferingResult() {
         clusterstatus = new BulkStatusInfo();
@@ -58,5 +60,13 @@ public class ActivityOfferingResult {
 
     public void setClusterstatus(BulkStatusInfo clusterstatus) {
         this.clusterstatus = clusterstatus;
+    }
+
+    public CourseWaitListInfo getWaitListInfo() {
+        return waitListInfo;
+    }
+
+    public void setWaitListInfo(CourseWaitListInfo waitListInfo) {
+        this.waitListInfo = waitListInfo;
     }
 }
