@@ -380,4 +380,10 @@ public class LuiServiceConstants {
      */
     public static final String HONORS_LU_CODE = "kuali.lu.code.honorsOffering";
 
+    /**
+     * exam offering types
+     */
+    public static final String EXAM_OFFERING_TYPE_KEY = "kuali.lui.type.exam.offering";
+    public static final String FINAL_EXAM_OFFERING_TYPE_KEY = "kuali.lui.type.exam.offering.final";
+
 }
