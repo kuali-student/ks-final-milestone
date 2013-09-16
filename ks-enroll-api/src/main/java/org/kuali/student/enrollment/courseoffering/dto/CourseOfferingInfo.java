@@ -224,7 +224,7 @@ public class CourseOfferingInfo
         this.maximumEnrollment = offering.getMaximumEnrollment();
         this.minimumEnrollment = offering.getMinimumEnrollment();
 
-        this.hasWaitlist = (null != offering.getHasWaitlist()) ? new Boolean(offering.getHasWaitlist()) : null;
+        this.hasWaitlist = (null != offering.getHasWaitlist()) ? new Boolean(offering.getHasWaitlist()) : false;
 
         this.waitlistLevelTypeKey = offering.getWaitlistLevelTypeKey();
 
