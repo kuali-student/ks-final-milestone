@@ -67,7 +67,6 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
-import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
@@ -84,7 +83,10 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.permutation.PermutationUtils;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.*;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -119,7 +121,6 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -148,11 +149,9 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
     private AcademicCalendarService acalService = null;
     private CourseOfferingService coService = null;
-    private CourseWaitListService courseWaitListService = null;
     private SearchService searchService = null;
 
     private CourseService courseService;
-    private LRCService lrcService;
     private AtpService atpService;
     private CourseOfferingSetService socService;
 
@@ -1404,7 +1403,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         for (ActivityOfferingSetInfo aos : aoCluster.getActivityOfferingSets()) {
             for (String aoId : aos.getActivityOfferingIds()) {
                 ActivityOfferingWrapper aoWrapper = aoMap.get(aoId);
-                ActivityOfferingInfo aoInfo = null;
+                ActivityOfferingInfo aoInfo;
                 if((aoWrapper != null) && ((aoInfo = aoWrapper.getAoInfo()) != null) && aoInfo.getMaximumEnrollment() != null) {
                     aoSetMaxEnrollNumber += aoInfo.getMaximumEnrollment();
                 }
@@ -2260,21 +2259,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             courseService = CourseOfferingResourceLoader.loadCourseService();
         }
         return courseService;
-    }
-
-    protected CourseWaitListService getCourseWaitListService() {
-        if(courseWaitListService == null) {
-            courseWaitListService = (CourseWaitListService)GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseWaitList", "CourseWaitListService"));
-        }
-        return courseWaitListService;
-
-    }
-
-    protected LRCService getLrcService() {
-        if (lrcService == null) {
-            lrcService = (LRCService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/lrc", "LrcService"));
-        }
-        return this.lrcService;
     }
 
     public SearchService getSearchService() {
