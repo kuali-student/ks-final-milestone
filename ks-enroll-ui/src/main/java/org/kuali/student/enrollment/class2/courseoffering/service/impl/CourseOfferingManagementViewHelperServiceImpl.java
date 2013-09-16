@@ -1404,7 +1404,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             for (String aoId : aos.getActivityOfferingIds()) {
                 ActivityOfferingWrapper aoWrapper = aoMap.get(aoId);
                 ActivityOfferingInfo aoInfo;
-                if((aoWrapper != null) && ((aoInfo = aoWrapper.getAoInfo()) != null) && aoInfo.getMaximumEnrollment() != null) {
+                if((aoWrapper != null) && ((aoInfo = aoWrapper.getAoInfo()) != null) && aoInfo.getMaximumEnrollment() != null && !(aoInfo.getStateKey().equals(LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY))) {
                     aoSetMaxEnrollNumber += aoInfo.getMaximumEnrollment();
                 }
             }
