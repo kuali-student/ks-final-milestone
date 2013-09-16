@@ -9,6 +9,9 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
+import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
+import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
+import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
@@ -82,6 +85,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     @Resource
     private RolloverAssist rolloverAssist;
 
+    @Resource
+    private CourseWaitListService courseWaitListService;
+
     public RolloverAssist getRolloverAssist() {
         return rolloverAssist;
     }
@@ -142,8 +148,14 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         this.courseOfferingTransformer = courseOfferingTransformer;
     }
 
-    
-    
+    public CourseWaitListService getCourseWaitListService() {
+        return courseWaitListService;
+    }
+
+    public void setCourseWaitListService(CourseWaitListService courseWaitListService) {
+        this.courseWaitListService = courseWaitListService;
+    }
+
     /**
      * Initializes services, if needed
      */
@@ -647,11 +659,11 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                     targetTermIdCustom = sourceTermIdToTargetTermId.get(sourceAo.getTermId());
                 }
 
+                ActivityOfferingInfo targetAo = new ActivityOfferingInfo();
                 if (sourceTermSameAsTarget) {
                     // KSENROLL-8064: Make behavior of copying an AO the same (other than the option
                     // keys in the if statement above
-                    ActivityOfferingInfo targetAo =
-                        CopyActivityOfferingCommon.copy(sourceAo.getId(), coService, schedulingService,
+                    targetAo = CopyActivityOfferingCommon.copy(sourceAo.getId(), coService, schedulingService,
                                 roomService, activityOfferingTransformer,
                                 targetFo, targetTermIdCustom,
                                 context, optionKeys);
@@ -662,8 +674,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                     boolean doColocate = isPartOfRolloverSoc; // Try to colocate, if possible (if false, break colocation)
                     sourceAo.setCourseOfferingCode(sourceCo.getCourseOfferingCode());        // courseOfferingCOde is required, but it doesn't seem to get populated by the service call above.
 
-                    ActivityOfferingInfo targetAo =
-                            _RCO_createTargetActivityOffering(sourceAo, targetFo, targetTermIdCustom, optionKeys, context);
+                    targetAo = _RCO_createTargetActivityOffering(sourceAo, targetFo, targetTermIdCustom, optionKeys, context);
                     sourceAoIdToTargetAoId.put(sourceAo.getId(), targetAo.getId());
 
                     if (!optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
@@ -677,6 +688,36 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                     }
                     _RCO_rolloverSeatpools(sourceAo, targetAo, context);
                 }
+
+                // Waitlist copy/rollover
+                List<CourseWaitListInfo> waitListInfos = courseWaitListService.getCourseWaitListsByActivityOffering(sourceAo.getId(), context);
+                if (waitListInfos.size() == 0) {
+                    //create a new waitListInfo with default setting
+                    CourseWaitListInfo theWaitListInfo = new CourseWaitListInfo();
+                    theWaitListInfo.getActivityOfferingIds().add(targetAo.getId());
+                    theWaitListInfo.getFormatOfferingIds().add(targetFo.getId());
+
+                    if (targetCo.getHasWaitlist()) {
+                        theWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY);
+                        //default setting is semi-automatic
+                        theWaitListInfo.setAutomaticallyProcessed(true);
+                        theWaitListInfo.setConfirmationRequired(true);
+                    } else {
+                        theWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
+                    }
+
+                    courseWaitListService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, theWaitListInfo,context);
+                } else {
+                    for (CourseWaitListInfo waitListInfo : waitListInfos){
+                        waitListInfo.setId(null);
+                        waitListInfo.setActivityOfferingIds(new ArrayList<String>());
+                        waitListInfo.setFormatOfferingIds(new ArrayList<String>());
+                        waitListInfo.getActivityOfferingIds().add(targetAo.getId());
+                        waitListInfo.getFormatOfferingIds().add(targetFo.getId());
+                        courseWaitListService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, waitListInfo, context);
+                    }
+                }
+
                 aoCount++;
             }
             List<ActivityOfferingClusterInfo> targetClusters =
@@ -751,6 +792,13 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         } else {
             courseOfferingTransformer.copyRulesFromExistingCourseOffering(sourceCo, targetCo, optionKeys, context);
         }
+
+        // waitlist
+        targetCo.setHasWaitlist(sourceCo.getHasWaitlist());
+        targetCo.setWaitlistLevelTypeKey(sourceCo.getWaitlistLevelTypeKey());
+        targetCo.setWaitlistMaximum(sourceCo.getWaitlistMaximum());
+        targetCo.setWaitlistTypeKey(sourceCo.getWaitlistTypeKey());
+
         return targetCo;
     }
 
