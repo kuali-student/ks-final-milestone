@@ -26,10 +26,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.scheduling.service.impl.TestSchedulingServiceImplConformanceExtendedCrud;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -37,19 +35,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TestExamServiceImpl extends  TestExamServiceImplConformanceExtendedCrud {
 
-    @Override
-    @Test
-    public void testCrudExam()
-            throws DataValidationErrorException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException,
-            VersionMismatchException,
-            DependentObjectsExistException
-    {
-        //Remove this override once all the exam service crud methods have been implemented
-    }
+
 }

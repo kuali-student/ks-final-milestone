@@ -28,6 +28,7 @@ import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -130,7 +131,16 @@ public class ExamServiceImpl implements ExamService {
             , MissingParameterException
             , OperationFailedException
             , PermissionDeniedException {
-        throw new OperationFailedException("deleteExam has not been implemented");
+
+        try {
+            getCluService().deleteClu(examId,contextInfo);
+        } catch (DependentObjectsExistException e) {
+            StatusInfo failedStatus = new StatusInfo();
+            failedStatus.setSuccess(Boolean.FALSE);
+            failedStatus.setMessage("Exam could not be deleted because dependent child objects exist.");
+            return failedStatus;
+        }
+        return new StatusInfo();
     }
 
     @Override
