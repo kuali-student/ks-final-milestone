@@ -53,8 +53,9 @@
     <bean id="typeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl" />
 
     <!-- KSENROLL-8062 -->
-    <bean id="rolloverAssist" class="org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssistImpl">
-    </bean>
+    <bean id="rolloverAssist" class="org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssistImpl" />
+
+    <bean id="courseWaitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceMapImpl" />
 
     <!-- CourseOfferingServcieMockImpl has a bunch of services defined with @Resource, so they have to be defined as well. -->
     <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceMockImpl" />

@@ -9,10 +9,10 @@
 
     <context:annotation-config />
     
-  <import resource="classpath:META-INF/default-property-config-context-test.xml" />
-  <import resource="classpath:ks-test-system-property-configurer.xml" />
-  <import resource="classpath:ks-enroll-api-data-dictionary-services-configuration.xml" />
-  <import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml" />
+    <import resource="classpath:META-INF/default-property-config-context-test.xml" />
+    <import resource="classpath:ks-test-system-property-configurer.xml" />
+    <import resource="classpath:ks-enroll-api-data-dictionary-services-configuration.xml" />
+    <import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml" />
 
     <bean id="acalService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.AcademicCalendarServiceMockImpl">
     </bean>
@@ -94,9 +94,12 @@
         <property name="activityOfferingTransformer" ref="activityTransformer" />
         <property name="acalServiceFacade" ref="acalServiceFacade" />
         <property name="rolloverAssist" ref="rolloverAssist"/>
+        <property name="courseWaitListService" ref="courseWaitListService"/>
     </bean>
-    <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />
 
+    <bean id="courseWaitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceMapImpl" />
+
+    <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />
 
     <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
         <property name="luiService" ref="luiService" />

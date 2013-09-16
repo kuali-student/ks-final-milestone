@@ -308,9 +308,10 @@
         <property name="activityOfferingTransformer" ref="activityTransformer" />
         <property name="acalServiceFacade" ref="acalServiceFacade" />
         <property name="rolloverAssist" ref="rolloverAssist"/>
+        <property name="courseWaitListService" ref="courseWaitListService"/>
     </bean>
 
-   <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />
+    <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />
 
     <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
     <property name="luiService" ref="luiService" />

@@ -51,7 +51,10 @@
         <property name="activityOfferingTransformer" ref="activityTransformer" />
         <property name="acalServiceFacade" ref="acalServiceFacade" />
         <property name="rolloverAssist" ref="rolloverAssist"/>
+        <property name="courseWaitListService" ref="courseWaitListService"/>
     </bean>
+
+    <bean id="courseWaitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceMapImpl" />
 
     <bean id="krmsRuleManagementCopyMethods" class="org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethodsMockImpl">
     </bean>
