@@ -37,9 +37,8 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructor
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
-import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacade;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
@@ -108,7 +107,6 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
     private transient TypeService typeService;
     private transient StateService stateService;
     private transient SearchService searchService;
-    private transient CourseWaitListServiceFacade courseWaitListServiceFacade;
 
     //TODO : implement the functionality for Personnel section and its been delayed now since the backend implementation is not yet ready (06/06/2012). KSENROLL-1375
 
@@ -184,10 +182,6 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                     CourseOfferingManagementUtil.getCourseWaitListServiceFacade().deactivateActivityOfferingWaitlistsByCourseOffering(coInfo.getId(), contextInfo);
                 }
             }
-//            if (!coInfo.getHasWaitlist()) {
-//                coInfo.setWaitlistTypeKey(null);
-//                coInfo.setWaitlistLevelTypeKey(null);
-//            }
 
             //TODO REMOVE THIS AFTER KRAD CHECKLISTS ARE FIXED for student registration options
             //determine if audit reg options and pass/fail reg options should be added/removed to/from coInfo
@@ -792,7 +786,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
     }
 
     protected static String convertCourseFinalExamTypeToCourseOfferingFinalExamType(String courseFinalExamType) {
-        String sRet = null;
+        String sRet;
         if ("STD".equals(courseFinalExamType)) {
             sRet = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD;
         } else if ("ALT".equals(courseFinalExamType)) {
