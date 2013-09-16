@@ -103,9 +103,10 @@
         <property name="activityOfferingTransformer" ref="activityTransformer" />
         <property name="acalServiceFacade" ref="acalServiceFacade" />
         <property name="rolloverAssist" ref="rolloverAssist"/>
-        <property name="courseWaitListService" ref="courseWaitListService"/>
+        <property name="courseWaitListService" ref="courseWaitListServiceMapImpl"/>
     </bean>
 
+    <bean id="courseWaitListServiceMapImpl" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceMapImpl" />
 
     <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />
 
