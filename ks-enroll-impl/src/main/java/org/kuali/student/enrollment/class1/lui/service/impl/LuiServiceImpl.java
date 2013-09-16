@@ -168,6 +168,17 @@ public class LuiServiceImpl
 
     @Override
     @Transactional(readOnly = true)
+    public List<LuiInfo> getLuisByAtpAndType(String atpId, String luiTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<LuiEntity> luiEntities = luiDao.getLuisByAtpAndType(atpId, luiTypeKey);
+        List<LuiInfo> luiInfos = new ArrayList<LuiInfo>();
+        for(LuiEntity luiEntity: luiEntities){
+            luiInfos.add(luiEntity.toDto());
+        }
+        return luiInfos;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<String> getLuiIdsByAtpAndClu(String cluId, String atpId,ContextInfo context)
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {

@@ -108,6 +108,22 @@ public class LuiServiceMockImpl
     }
 
     @Override
+    public List<LuiInfo> getLuisByAtpAndType(String atpId, String typeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<LuiInfo> list = new ArrayList<LuiInfo>();
+        for (LuiInfo info : this.luis.values()) {
+            if (info.getAtpId().equals(atpId)) {
+                if (info.getTypeKey().equals(typeKey)) {
+                    try { list.add(getLui(info.getId(), contextInfo)); }
+                    catch (DoesNotExistException e) {
+                        /* do nothing */
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    @Override
     public List<String> getLuiIdsByAtpAndClu(String cluId, String atpId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> list = new ArrayList<String>();
         for (LuiInfo info : this.luis.values()) {
