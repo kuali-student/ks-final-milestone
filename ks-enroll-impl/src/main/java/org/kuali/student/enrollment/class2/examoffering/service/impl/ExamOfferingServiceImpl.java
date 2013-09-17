@@ -16,12 +16,15 @@
  */
 package org.kuali.student.enrollment.class2.examoffering.service.impl;
 
+import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.common.UUIDHelper;
-import org.kuali.student.common.mock.MockService;
+import org.kuali.student.enrollment.class2.examoffering.service.transformer.ExamOfferingTransformer;
+import org.kuali.student.enrollment.exam.dto.ExamInfo;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
 import org.kuali.student.enrollment.examoffering.service.ExamOfferingService;
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -36,42 +39,43 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.ExamServiceConstants;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.scheduling.infc.Schedule;
+import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 
-public class ExamOfferingServiceImpl implements ExamOfferingService
-{
+public class ExamOfferingServiceImpl implements ExamOfferingService {
+
+    private static final String PREDICATE_FACTORY_PATH_FOR_LUITYPE = "luType.id";
 
     private LuiService luiService;
+    private SchedulingService schedulingService;
     private TypeService typeService;
     private CriteriaLookupService criteriaLookupService;
 
+    private ExamOfferingTransformer examOfferingTransformer;
+
+    private static final Logger LOGGER = Logger.getLogger(ExamOfferingServiceImpl.class);
 
     @Override
     public ExamOfferingInfo getExamOffering(String examOfferingId, ContextInfo contextInfo)
-            throws DoesNotExistException
-            ,InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-    {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
         throw new OperationFailedException ("getExamOffering has not been implemented");
     }
 
     @Override
     public List<ExamOfferingInfo> getExamOfferingsByIds(List<String> examOfferingIds, ContextInfo contextInfo)
-            throws DoesNotExistException
-            ,InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-    {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
         List<ExamOfferingInfo> list = new ArrayList<ExamOfferingInfo> ();
         for (String id: examOfferingIds) {
             list.add (this.getExamOffering(id, contextInfo));
@@ -81,56 +85,65 @@ public class ExamOfferingServiceImpl implements ExamOfferingService
 
     @Override
     public List<String> getExamOfferingIdsByType(String examTypeKey, ContextInfo contextInfo)
-            throws InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-    {
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
         throw new OperationFailedException ("getExamOfferingIdsByType has not been implemented");
     }
 
     @Override
     public List<String> searchForExamOfferingIds(QueryByCriteria criteria, ContextInfo contextInfo)
-            throws InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-    {
-        throw new OperationFailedException ("searchForExamOfferingIds has not been implemented");
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
+        //Add cluType Predicate
+        QueryByCriteria newCriteria = addLuiTypeEqualPredicate(criteria, ExamOfferingServiceConstants.EXAM_OFFERING_FINAL_TYPE_KEY);
+
+        return this.getLuiService().searchForLuiIds(newCriteria, contextInfo);
     }
 
     @Override
     public List<ExamOfferingInfo> searchForExamOfferings(QueryByCriteria criteria, ContextInfo contextInfo)
-            throws InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-    {
-        throw new OperationFailedException ("searchForExamOfferings has not been implemented");
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
+        //Add cluType Predicate
+        QueryByCriteria newCriteria = addLuiTypeEqualPredicate(criteria, ExamOfferingServiceConstants.EXAM_OFFERING_FINAL_TYPE_KEY);
+
+        List<ExamOfferingInfo> examInfos = new ArrayList<ExamOfferingInfo>();
+        List<LuiInfo> luiInfos = this.getLuiService().searchForLuis(newCriteria, contextInfo);
+        for(LuiInfo luiInfo : luiInfos){
+            ExamOfferingInfo examOffering = new ExamOfferingInfo();
+            this.getExamOfferingTransformer().lui2ExamOffering(luiInfo, examOffering, this.getSchedulingService(), contextInfo);
+            examInfos.add(examOffering);
+        }
+
+        return examInfos;
+    }
+
+    private QueryByCriteria addLuiTypeEqualPredicate(QueryByCriteria criteria, String cluType){
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.and(
+                criteria.getPredicate(),
+                PredicateFactory.equal(PREDICATE_FACTORY_PATH_FOR_LUITYPE, cluType)));
+        return qbcBuilder.build();
     }
 
     @Override
-    public List<ValidationResultInfo> validateExamOffering(String termId, String examId, String examTypeKey, String validationTypeKey, ExamOfferingInfo examOfferingInfo, ContextInfo contextInfo)
-            throws DoesNotExistException
-            ,InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-    {
+    public List<ValidationResultInfo> validateExamOffering(String termId, String examId, String examTypeKey, String validationTypeKey,
+                                                           ExamOfferingInfo examOfferingInfo, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
         // validate
         return new ArrayList<ValidationResultInfo> ();
     }
 
     @Override
-    public ExamOfferingInfo createExamOffering(String termId, String examId, String examTypeKey, ExamOfferingInfo examOfferingInfo, ContextInfo contextInfo)
-            throws DataValidationErrorException
-            ,DoesNotExistException
-            ,InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-            ,ReadOnlyException
-    {
+    public ExamOfferingInfo createExamOffering(String termId, String examId, String examTypeKey, ExamOfferingInfo examOfferingInfo,
+                                               ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException  {
 
         throw new OperationFailedException ("createExamOffering has not been implemented");
     }
@@ -336,6 +349,14 @@ public class ExamOfferingServiceImpl implements ExamOfferingService
         this.luiService = luiService;
     }
 
+    public SchedulingService getSchedulingService() {
+        return schedulingService;
+    }
+
+    public void setSchedulingService(SchedulingService schedulingService) {
+        this.schedulingService = schedulingService;
+    }
+
     public TypeService getTypeService() {
         return typeService;
     }
@@ -350,6 +371,14 @@ public class ExamOfferingServiceImpl implements ExamOfferingService
 
     public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
         this.criteriaLookupService = criteriaLookupService;
+    }
+
+    public ExamOfferingTransformer getExamOfferingTransformer() {
+        return examOfferingTransformer;
+    }
+
+    public void setExamOfferingTransformer(ExamOfferingTransformer examOfferingTransformer) {
+        this.examOfferingTransformer = examOfferingTransformer;
     }
 }
 
