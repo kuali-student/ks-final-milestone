@@ -25,10 +25,12 @@ import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
 import org.kuali.student.enrollment.examoffering.service.ExamOfferingService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -41,6 +43,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.ExamServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.scheduling.infc.Schedule;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
@@ -59,6 +62,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     private TypeService typeService;
 
     private ExamOfferingTransformer examOfferingTransformer;
+    private static final String OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE = "unexpected";
 
     private static final Logger LOGGER = Logger.getLogger(ExamOfferingServiceImpl.class);
 
@@ -216,7 +220,61 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             ,ReadOnlyException
     {
 
-        throw new OperationFailedException ("createExamOfferingRelation has not been implemented");
+        if (formatOfferingId == null){
+            throw new MissingParameterException("Format offering ID is null");
+        }
+
+        if (examOfferingId == null){
+            throw new MissingParameterException("Exam offering ID is null");
+        }
+
+        //set FO / EO relations
+        LuiLuiRelationInfo luiRelFoEo = new LuiLuiRelationInfo();
+        luiRelFoEo.setLuiId(formatOfferingId);
+        luiRelFoEo.setName("fo-eo-relation");
+        luiRelFoEo.setRelatedLuiId(examOfferingId);
+        RichTextInfo descr = new RichTextInfo();
+        descr.setPlain(examOfferingId + "-FO-EO"); // Useful for debugging
+        descr.setFormatted(examOfferingId + "-FO-EO)"); // Useful for debugging
+        luiRelFoEo.setDescr(descr);
+        luiRelFoEo.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY);
+        luiRelFoEo.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
+        luiRelFoEo.setEffectiveDate(new Date());
+        try {
+            luiRelFoEo = luiService.createLuiLuiRelation(luiRelFoEo.getLuiId(), luiRelFoEo.getRelatedLuiId(), luiRelFoEo.getTypeKey(), luiRelFoEo, contextInfo);
+        } catch (Exception ex) {
+            throw new OperationFailedException(OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE, ex);
+        }
+
+        //set AO / EO relations
+        List<String> aoIds = new ArrayList<String>();
+        for (String aoId : examOfferingRelationInfo.getActivityOfferingIds()) {
+            LuiLuiRelationInfo luiRelAoEo = new LuiLuiRelationInfo();
+            luiRelAoEo.setLuiId(aoId);
+            luiRelAoEo.setName("ao-eo-relation");
+            luiRelAoEo.setRelatedLuiId(examOfferingId);
+
+            RichTextInfo descrRgAo = new RichTextInfo();
+            descrRgAo.setPlain(aoId + "AO-EO"); // Useful for debugging
+            descrRgAo.setFormatted(aoId + "AO-EO"); // Useful for debugging
+            luiRelAoEo.setDescr(descrRgAo);
+
+            luiRelAoEo.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_AO_TO_EO_TYPE_KEY);
+            luiRelAoEo.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
+            luiRelAoEo.setEffectiveDate(new Date());
+            try {
+                luiRelAoEo = luiService.createLuiLuiRelation(luiRelAoEo.getLuiId(), luiRelAoEo.getRelatedLuiId(), luiRelAoEo.getTypeKey(), luiRelAoEo, contextInfo);
+            } catch (Exception ex) {
+                throw new OperationFailedException(OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE, ex);
+            }
+            aoIds.add(luiRelAoEo.getLuiId());
+        }
+
+        //return saved info
+        examOfferingRelationInfo.setExamOfferingId(luiRelFoEo.getRelatedLuiId());
+        examOfferingRelationInfo.setFormatOfferingId(luiRelFoEo.getLuiId());
+        examOfferingRelationInfo.setActivityOfferingIds(aoIds);
+        return examOfferingRelationInfo;
     }
 
     @Override
