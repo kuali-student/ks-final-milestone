@@ -44,8 +44,7 @@
   <alias name="courseRegistrationServiceValidator" alias="CourseRegistrationService" />
   <alias name="processServiceValidationDecorator" alias="ProcessService" />
   <alias name="schedulingServiceValidationDecorator" alias="SchedulingService" />
-
-
+  <alias name="courseWaitListServiceImpl" alias="courseWaitListService" />
 
   <bean id="enrollDataSource" class="org.kuali.rice.student.core.database.DerbyXAPoolDataSource">
     <property name="transactionManager" ref="userTransaction" />
@@ -337,7 +336,7 @@
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
         <property name="activityOfferingTransformer" ref="activityTransformer" />
         <property name="acalServiceFacade" ref="acalServiceFacade"/>
-        <property name="courseWaitListService" ref="courseWaitListService"/>
+        <property name="courseWaitListService" ref="courseWaitListServiceImpl"/>
         <!--The coService property is looked up in the service bus to prevent a circular spring reference-->
     </bean>
 
@@ -371,10 +370,10 @@
         <property name="searchService" ref="searchService" />
         <property name="atpService" ref="AtpService" />
         <property name="roomService" ref="RoomService"/>
-        <property name="courseWaitListService" ref="courseWaitListService"/>
+        <property name="courseWaitListService" ref="courseWaitListServiceImpl"/>
   </bean>
 
-    <bean id="courseWaitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceImpl">
+    <bean id="courseWaitListServiceImpl" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceImpl">
         <property name="courseWaitListDao" ref="courseWaitListDao" />
     </bean>
 

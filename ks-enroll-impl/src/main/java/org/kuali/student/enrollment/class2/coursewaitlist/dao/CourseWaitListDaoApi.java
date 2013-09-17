@@ -12,7 +12,7 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by Charles on 10/29/12
+ * Created by Eswaran on 9/17/13
  */
 package org.kuali.student.enrollment.class2.coursewaitlist.dao;
 
