@@ -99,6 +99,12 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     private transient CourseWaitListService courseWaitListService;
 
 
+    /*
+     *   Wait list type is populated with below logic.
+     *   automatic -> automaticallyProcessed = true, confirmationRequired = false
+     *   semi-automatic -> automaticallyProcessed = true, confirmationRequired = true
+     *   manual -> automaticallyProcessed = false, confirmationRequired = false
+     */
     private void fromWaitListTypeToCourseWaitList(ActivityOfferingWrapper aoWrapper , CourseWaitListInfo cowlInfo){
 
         String waitListTypeConstant = aoWrapper.getWaitListTypeConstant();

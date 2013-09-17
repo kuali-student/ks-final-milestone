@@ -32,9 +32,12 @@ import java.util.List;
  */
 public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
 
+    private final String WL_AUTOMATIC = "Automatic";
+    private final String WL_SEMI_AUTOMATIC = "Semi-Automatic";
+    private final String WL_MANUAL = "Manual" ;
+
     private String aoClusterName;
     private String aoClusterID;
-
     private ActivityOfferingInfo aoInfo;
     private FormatOfferingInfo formatOffering;
     private List<OfferingInstructorWrapper> instructors;
@@ -56,9 +59,6 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
     private String formatOfferingName;
 
     private Date termRegStartDate;
-
-//    private String waitListLevelTypeKey;
-//    private String waitListTypeKey;
     private String waitListText = "";
     private String toolTipText = "";
 
@@ -270,14 +270,18 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
     }
 
     public void updateWaitListTypeConstant(){
-        if(waitListType.equals("Automatic") || waitListType.equals(""))
+        if(waitListType.equals(WL_AUTOMATIC) || waitListType.equals(""))  {
             waitListTypeConstant = LuiServiceConstants.AUTOMATIC_WAITLIST_TYPE_KEY;
-        else if(waitListType.equals("Manual"))
+        }
+        else if(waitListType.equals(WL_MANUAL)) {
             waitListTypeConstant = LuiServiceConstants.MANUAL_WAITLIST_TYPE_KEY;
-        else if(waitListType.equals("Semi-Automatic"))
+        }
+        else if(waitListType.equals(WL_SEMI_AUTOMATIC))  {
             waitListTypeConstant  = LuiServiceConstants.SEMIAUTOMATIC_WAITLIST_TYPE_KEY;
-        else  // Default is Automatic.
+        }
+        else     { // Default is Automatic.
             waitListTypeConstant =  LuiServiceConstants.AUTOMATIC_WAITLIST_TYPE_KEY;
+        }
     }
 
     public void setWaitListTypeConstant(String waitListTypeConstant){
@@ -288,23 +292,29 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
       return waitListType;
     }
 
+    /*
+     *   wait list type is populated with below logic.
+     *   automatic -> automaticallyProcessed = true, confirmationRequired = false
+     *   semi-automatic -> automaticallyProcessed = true, confirmationRequired = true
+     *   manual -> automaticallyProcessed = false, confirmationRequired = false
+     */
     public void updateWaitListType(){
         if((courseWaitListInfo.getAutomaticallyProcessed() == null &&  courseWaitListInfo.getConfirmationRequired() == null)) {
             waitListType = "";
         }
         else if( courseWaitListInfo.getAutomaticallyProcessed().equals(true) && (courseWaitListInfo.getConfirmationRequired().equals(false)))   {
-            waitListType = "Automatic";
+            waitListType = WL_AUTOMATIC;
         }
 
         else if ( courseWaitListInfo.getAutomaticallyProcessed().equals(true) && (courseWaitListInfo.getConfirmationRequired().equals(true)))   {
-            waitListType = "Semi-Automatic";
+            waitListType = WL_SEMI_AUTOMATIC;
         }
 
         else if( courseWaitListInfo.getAutomaticallyProcessed().equals(false) && (courseWaitListInfo.getConfirmationRequired().equals(false)))  {
-            waitListType = "Manual";
+            waitListType = WL_MANUAL;
         }
         else {   // This is for default value
-            waitListType = "Automatic";
+            waitListType = WL_AUTOMATIC;
         }
     }
 
