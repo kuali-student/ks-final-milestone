@@ -13,6 +13,7 @@
 
   <!-- This overrides the parent context where CourseOfferingService points to the validation decorator -->
   <alias name="coServiceImpl" alias="CourseOfferingService"/>
+    <alias name="coServiceImpl" alias="coService"/>
   
    <bean id="SearchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
         <property name="searchServices">
@@ -21,10 +22,11 @@
             </list>
         </property>                
     </bean>
-  
+
+
+    <bean id="waitListServiceFacade" class="org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacadeImpl" autowire="byName"/>
+
     <bean id="autogenRegistrationGroupAppLayer" class=" org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapterImpl" autowire="byName" />
-    
-    
 
 </beans>
 

@@ -958,6 +958,7 @@
     <bean id="autogenRegistrationGroupAppLayer" class="org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapterImpl">
         <property name="coService" ref="CourseOfferingService" />
         <property name="activityOfferingClusterDao" ref="activityOfferingClusterDao" />
+        <property name="waitListServiceFacade" ref="courseWaitListServiceFacade" />
     </bean>
 
     <!-- For now, acal KSENROLL-7384 -->

@@ -11,8 +11,14 @@
 
   <import resource="classpath:co-test-context.xml" />
 
-  <bean id="autogenRegistrationGroupAppLayer" class=" org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapterImpl" autowire="autodetect" />
-    
+    <bean id="courseWaitListServiceFacade" class="org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacadeImpl">
+        <property name="coService" ref="CourseOfferingService"/>
+        <property name="courseWaitListService" ref="courseWaitListService" />
+    </bean>
+
+    <bean id="autogenRegistrationGroupAppLayer" class=" org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapterImpl" autowire="autodetect" >
+        <property name="waitListServiceFacade" ref="courseWaitListServiceFacade" />
+    </bean>
 
 </beans>
 

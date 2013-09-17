@@ -27,7 +27,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.FormatOfferingAutogenIssue;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.InvalidRegGroupSubissue;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.RegGroupNotGeneratedByAocSubissue;
-import org.kuali.student.enrollment.class2.coursewaitlist.service.CourseWaitListServiceUtil;
+import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
@@ -105,6 +105,8 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
     private CourseWaitListService courseWaitListService;
 
     private ActivityOfferingClusterDaoApi activityOfferingClusterDao;
+
+    private CourseWaitListServiceFacade waitListServiceFacade;
     
     /* (non-Javadoc)
      * @see org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter#getDefaultClusterName(int)
@@ -363,7 +365,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         }
 
         //create and persist a WaitlistInfo for AO
-        CourseWaitListInfo theWaitListInfo = CourseWaitListServiceUtil.createCourseWaitlist(aoInfo, context);
+        CourseWaitListInfo theWaitListInfo = getWaitListServiceFacade().createDefaultCourseWaitlist(aoInfo, context);
 
         aoResult.setWaitListInfo(theWaitListInfo);
 
@@ -432,7 +434,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         else{
             // Assume that every AO should have an associated WL. if not, treat it as a reference data problem.
             // We will just create a new WL
-            newWaitListInfo = CourseWaitListServiceUtil.createCourseWaitlist(newAOInfo, context);
+            newWaitListInfo = getWaitListServiceFacade().createDefaultCourseWaitlist(newAOInfo, context);
         }
         return newWaitListInfo;
 
@@ -1095,5 +1097,13 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
 
     public void setActivityOfferingClusterDao(ActivityOfferingClusterDaoApi activityOfferingClusterDao) {
         this.activityOfferingClusterDao = activityOfferingClusterDao;
+    }
+
+    public CourseWaitListServiceFacade getWaitListServiceFacade() {
+        return waitListServiceFacade;
+    }
+
+    public void setWaitListServiceFacade(CourseWaitListServiceFacade waitListServiceFacade) {
+        this.waitListServiceFacade = waitListServiceFacade;
     }
 }
