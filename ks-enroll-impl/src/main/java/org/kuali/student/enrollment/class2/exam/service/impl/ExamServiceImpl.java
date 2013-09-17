@@ -63,11 +63,9 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public List<ValidationResultInfo> validateExam(String validationTypeKey, String examTypeKey, ExamInfo examInfo, ContextInfo contextInfo)
-            throws DoesNotExistException
-            , InvalidParameterException
-            , MissingParameterException
-            , OperationFailedException
-            , PermissionDeniedException {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
         return new ArrayList<ValidationResultInfo>();
     }
 
@@ -82,10 +80,10 @@ public class ExamServiceImpl implements ExamService {
             , ReadOnlyException {
 
         CluInfo cluInfo = new CluInfo();
-        getExamTransformer().exam2Clu(examInfo,cluInfo,contextInfo);
+        getExamTransformer().exam2Clu(examInfo, cluInfo, contextInfo);
         CluInfo createdClu = getCluService().createClu(examTypeKey, cluInfo, contextInfo);
         ExamInfo createdExam = new ExamInfo();
-        getExamTransformer().clu2Exam(createdClu,createdExam,contextInfo);
+        getExamTransformer().clu2Exam(createdClu, createdExam, contextInfo);
         return createdExam;
     }
 
@@ -97,9 +95,9 @@ public class ExamServiceImpl implements ExamService {
             , MissingParameterException
             , OperationFailedException
             , PermissionDeniedException {
-        CluInfo cluInfo = getCluService().getClu(examId,contextInfo);
+        CluInfo cluInfo = getCluService().getClu(examId, contextInfo);
         ExamInfo examInfo = new ExamInfo();
-        getExamTransformer().clu2Exam(cluInfo,examInfo,contextInfo);
+        getExamTransformer().clu2Exam(cluInfo, examInfo, contextInfo);
         return examInfo;
     }
 
@@ -115,11 +113,11 @@ public class ExamServiceImpl implements ExamService {
             , ReadOnlyException
             , VersionMismatchException {
 
-        CluInfo cluToUpdate = getCluService().getClu(examId,contextInfo);
-        getExamTransformer().exam2Clu(examInfo,cluToUpdate,contextInfo);
-        CluInfo updatedClu = getCluService().updateClu(examId,cluToUpdate,contextInfo);
+        CluInfo cluToUpdate = getCluService().getClu(examId, contextInfo);
+        getExamTransformer().exam2Clu(examInfo, cluToUpdate, contextInfo);
+        CluInfo updatedClu = getCluService().updateClu(examId, cluToUpdate, contextInfo);
         ExamInfo updatedExam = new ExamInfo();
-        getExamTransformer().clu2Exam(updatedClu,updatedExam,contextInfo);
+        getExamTransformer().clu2Exam(updatedClu, updatedExam, contextInfo);
         return updatedExam;
     }
 
@@ -133,7 +131,7 @@ public class ExamServiceImpl implements ExamService {
             , PermissionDeniedException {
 
         try {
-            getCluService().deleteClu(examId,contextInfo);
+            getCluService().deleteClu(examId, contextInfo);
         } catch (DependentObjectsExistException e) {
             StatusInfo failedStatus = new StatusInfo();
             failedStatus.setSuccess(Boolean.FALSE);
@@ -152,8 +150,8 @@ public class ExamServiceImpl implements ExamService {
             , OperationFailedException
             , PermissionDeniedException {
         List<ExamInfo> exams = new ArrayList<ExamInfo>(examIds.size());
-        for(String examID : examIds){
-            exams.add(getExam(examID,contextInfo));
+        for (String examID : examIds) {
+            exams.add(getExam(examID, contextInfo));
         }
         return exams;
     }
@@ -167,11 +165,11 @@ public class ExamServiceImpl implements ExamService {
             , PermissionDeniedException {
         List<String> ids = null;
         try {
-            ids = getCluService().getCluIdsByLuType(examTypeKey,ExamServiceConstants.EXAM_ACTIVE_STATE_KEY,contextInfo);
+            ids = getCluService().getCluIdsByLuType(examTypeKey, ExamServiceConstants.EXAM_ACTIVE_STATE_KEY, contextInfo);
         } catch (DoesNotExistException e) {
             throw new OperationFailedException(e.getMessage());
         }
-        if(ids == null){
+        if (ids == null) {
             ids = new ArrayList<String>(0);
         }
         return ids;
@@ -180,10 +178,8 @@ public class ExamServiceImpl implements ExamService {
     @Override
     @Transactional(readOnly = true)
     public List<String> searchForExamIds(QueryByCriteria criteria, ContextInfo contextInfo)
-            throws InvalidParameterException
-            , MissingParameterException
-            , OperationFailedException
-            , PermissionDeniedException {
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
 
         //Add cluType Predicate
         QueryByCriteria newCriteria = addCluTypeEqualPredicate(criteria, ExamServiceConstants.EXAM_FINAL_TYPE_KEY);
@@ -194,26 +190,24 @@ public class ExamServiceImpl implements ExamService {
     @Override
     @Transactional(readOnly = true)
     public List<ExamInfo> searchForExams(QueryByCriteria criteria, ContextInfo contextInfo)
-            throws InvalidParameterException
-            , MissingParameterException
-            , OperationFailedException
-            , PermissionDeniedException {
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
 
         //Add cluType Predicate
         QueryByCriteria newCriteria = addCluTypeEqualPredicate(criteria, ExamServiceConstants.EXAM_FINAL_TYPE_KEY);
 
         List<ExamInfo> examInfos = new ArrayList<ExamInfo>();
         List<CluInfo> cluInfos = this.getCluService().searchForClus(newCriteria, contextInfo);
-        for(CluInfo cluInfo : cluInfos){
+        for (CluInfo cluInfo : cluInfos) {
             ExamInfo exam = new ExamInfo();
-            this.getExamTransformer().clu2Exam(cluInfo, new ExamInfo(), contextInfo);
+            this.getExamTransformer().clu2Exam(cluInfo, exam, contextInfo);
             examInfos.add(exam);
         }
 
         return examInfos;
     }
 
-    private QueryByCriteria addCluTypeEqualPredicate(QueryByCriteria criteria, String cluType){
+    private QueryByCriteria addCluTypeEqualPredicate(QueryByCriteria criteria, String cluType) {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.and(
                 criteria.getPredicate(),

@@ -8,6 +8,7 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -289,6 +290,9 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         typeArrays.add(new String[] {LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY, "Lui Lui Relation Delivered via FO to AO", "Lui Lui Relation Delivered via FO to AO", LuiServiceConstants.REF_OBJECT_URI_LUI});
         typeArrays.add(new String[] {LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, "Lui Lui Relation Associated", "Lui Lui Relation Associated", LuiServiceConstants.REF_OBJECT_URI_LUI});
         typeArrays.add(new String[] {LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY, "Lui Set Colocated Offering", "Lui Set Colocated Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+
+        //Exam Offerings - Lui
+        typeArrays.add(new String[] {ExamOfferingServiceConstants.EXAM_OFFERING_FINAL_TYPE_KEY, "Final Exam Offering", "Final Exam Offering", ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING});
 
         typeArrays.add(new String[] {LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, "Lpr Instructor Main", "Lpr Instructor Main", LprServiceConstants.REF_OBJECT_URI_LUI_PERSON_RELATION});
         typeArrays.add(new String[] {LprServiceConstants.COURSE_OFFERING_INSTRUCTOR_MAIN_TYPE_KEY, "Lpr Course Offering Instructor Main", "Lpr Course Offering Instructor Main", LprServiceConstants.REF_OBJECT_URI_LUI_PERSON_RELATION});

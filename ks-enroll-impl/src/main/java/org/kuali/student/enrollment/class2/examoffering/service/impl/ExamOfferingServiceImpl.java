@@ -52,12 +52,11 @@ import java.util.List;
 
 public class ExamOfferingServiceImpl implements ExamOfferingService {
 
-    private static final String PREDICATE_FACTORY_PATH_FOR_LUITYPE = "luType.id";
+    private static final String PREDICATE_FACTORY_PATH_FOR_LUITYPE = "typeKey";
 
     private LuiService luiService;
     private SchedulingService schedulingService;
     private TypeService typeService;
-    private CriteriaLookupService criteriaLookupService;
 
     private ExamOfferingTransformer examOfferingTransformer;
 
@@ -368,14 +367,6 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
 
     public void setTypeService(TypeService typeService) {
         this.typeService = typeService;
-    }
-
-    public CriteriaLookupService getCriteriaLookupService() {
-        return criteriaLookupService;
-    }
-
-    public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
-        this.criteriaLookupService = criteriaLookupService;
     }
 
     public ExamOfferingTransformer getExamOfferingTransformer() {
