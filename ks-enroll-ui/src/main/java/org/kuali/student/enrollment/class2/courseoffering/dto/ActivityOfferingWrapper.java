@@ -465,19 +465,6 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         }
     }
 
-//    public String getWaitListLevelTypeKey() {
-//        return waitListLevelTypeKey;
-//    }
-//    public void setWaitListLevelTypeKey(String waitListLevelTypeKey) {
-//        this.waitListLevelTypeKey = waitListLevelTypeKey;
-//    }
-//    public String getWaitListTypeKey() {
-//        return waitListTypeKey;
-//    }
-//    public void setWaitListTypeKey(String waitListTypeKey) {
-//        this.waitListTypeKey = waitListTypeKey;
-//    }
-
     public FormatOfferingInfo getFormatOffering() {
         return formatOffering;
     }
