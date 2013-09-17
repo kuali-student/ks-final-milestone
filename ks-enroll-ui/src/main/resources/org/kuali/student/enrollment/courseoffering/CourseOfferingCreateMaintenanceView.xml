@@ -53,7 +53,21 @@
         <property name="singlePageView" value="false"/>
         <property name="entryPageId" value="courseOfferingCreatePage"/>
 
-        <property name="headerText" value="Create Course Offering"/>   <!-- This gets updated dynamically by JS via 'viewHeaderUpdater'-div -->
+        <property name="topGroup">
+            <bean parent="KS-CourseOffering-View-ContextBar-PlaceHolder">
+                <property name="items">
+                    <list>
+                        <bean parent="KS-CourseOffering-ContextBar">
+                            <property name="items">
+                                <list/>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+
+        <property name="headerText" value="@{document.newMaintainableObject.dataObject.catalogCourseCode ne null ? document.newMaintainableObject.dataObject.catalogCourseCode : 'Create Course Offering'}"/>   <!-- This gets updated dynamically by JS via 'viewHeaderUpdater'-div -->
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
@@ -90,8 +104,8 @@
         </property>
 
         <property name="header.cssClasses">
-          <list >
-            <value>ks-unified-header</value>
+          <list merge="true">
+            <value>uif-viewHeader</value>
           </list>
         </property>
         <property name="additionalCssFiles">
@@ -390,7 +404,6 @@
         <property name="id" value="courseOfferingCreatePage"/>
         <property name="headerText" value=""/>
         <property name="pageSourceFile" value="CourseOfferingCreateMaintenanceView.xml" />
-        <property name="onDocumentReadyScript" value="removeEmptyContextBar('KS-CourseOffering-View-ContextBar-PlaceHolder');"/>
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
         </property>
@@ -401,12 +414,6 @@
         </property>
         <property name="items">
             <list>
-                <!-- This dynamically updates the view-header -->
-                <bean id="viewHeaderUpdater" parent="Uif-HorizontalBoxSection">
-                    <property name="render" value="@{#showAllSections}" />
-                    <property name="onDocumentReadyScript" value="updateViewHeaderText( '@{document.newMaintainableObject.dataObject.catalogCourseCode}' );" />
-                </bean>
-
                 <ref bean="KS-CourseOffering-CodeTargetSection"/>
                 <ref bean="KS-CourseOffering-CreateChoiceSection"/>
             </list>
@@ -520,38 +527,14 @@
         <property name="id" value="courseOfferingCopyPage"/>
         <property name="headerText" value="Copy Course Offering"/>
         <property name="pageSourceFile" value="CourseOfferingCreateMaintenanceView.xml" />
-        <property name="onDocumentReadyScript" value="resetHeaderPosition('KS-CourseOffering-View-ContextBar-PlaceHolder');"/>
+        <property name="onDocumentReadyScript" value="updateViewHeaderText( '@{document.newMaintainableObject.dataObject.catalogCourseCode}' );" />
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
-        </property>
-        <property name="breadcrumbOptions.breadcrumbOverrides">
-            <list>
-                <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Create Course Offering"/>
-                    <property name="url.viewId" value="createCourseOfferingPage"/>
-                    <property name="url.controllerMapping" value="courseOfferingCreate"/>
-                    <property name="url.requestParameters">
-                        <map key-type="java.lang.String" merge="true">
-                            <entry key="methodToCall" value="start"/>
-                            <entry key="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper"/>
-                            <entry key="hideReturnLink" value="true"/>
-                            <entry key="viewName" value="Create Course Offering"/>
-                        </map>
-                    </property>
-                </bean>
-                <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Create @{document.newMaintainableObject.dataObject.catalogCourseCode}"/>
-                </bean>
-            </list>
         </property>
 
         <property name="items">
             <list>
                 <ref bean="KS-CreateFromExistingOffering"/>
-                <bean parent="Uif-HorizontalBoxSection">
-                    <property name="render" value="true" />
-                    <property name="onDocumentReadyScript" value="updateViewHeaderText( '@{document.newMaintainableObject.dataObject.catalogCourseCode}' );" />
-                </bean>
             </list>
         </property>
         <property name="footer">
