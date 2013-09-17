@@ -313,7 +313,7 @@
                     <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayPersonnelSection();"/>
                     <property name="layoutManager.richTable">
                         <!-- see http://datatables.net/ref for all options -->
-                        <bean parent="Uif-PagedRichTable">
+                        <bean parent="KS-Uif-RichTable">
                             <property name="render" value="true"/>
                             <property name="templateOptions">
                                 <map merge="true">
@@ -321,7 +321,6 @@
                                     <entry key="bPaginate" value="false"/>
                                 </map>
                             </property>
-                            <property name="showExportOption" value="false"/>
                         </bean>
                     </property>
 
