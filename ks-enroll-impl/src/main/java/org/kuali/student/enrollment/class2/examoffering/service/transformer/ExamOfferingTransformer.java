@@ -134,7 +134,7 @@ public class ExamOfferingTransformer {
      * @param lui the LuiInfo that is transformed into ExamOfferingInfo
      * @param eo  the reference of ExamOfferingInfo that is transformed from LuiInfo
      */
-    public void lui2ExamOffering(LuiInfo lui, ExamOfferingInfo eo, SchedulingService schedulingService, ContextInfo context) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+    public void lui2ExamOffering(LuiInfo lui, ExamOfferingInfo eo, SchedulingService schedulingService, ContextInfo context) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException {
 
         eo.setId(lui.getId());
         eo.setTypeKey(lui.getTypeKey());
@@ -152,7 +152,11 @@ public class ExamOfferingTransformer {
 
         // if there is an actual schedule tied to the EO, and at least one of the components is not marked TBA, then the EO scheduling state is Scheduled
         if (eo.getScheduleId() == null) {
-            eo.setSchedulingStateKey(getSchedulingState(eo, schedulingService, context));
+            try {
+                eo.setSchedulingStateKey(getSchedulingState(eo, schedulingService, context));
+            } catch (DoesNotExistException e) {
+                throw new OperationFailedException("Unable the retrieve scheduling state.", e);
+            }
         } else {
             eo.setSchedulingStateKey(getSchedulingStateByScheduleRequest(eo, schedulingService, context));
         }
