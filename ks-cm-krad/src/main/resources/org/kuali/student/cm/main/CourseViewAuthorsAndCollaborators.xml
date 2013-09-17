@@ -38,12 +38,18 @@
                     </property>
                     <property name="layoutManager.renderSequenceField" value="false" />
                     <property name="layoutManager.richTable.render" value="true" />
+                    <property name="layoutManager.addLineGroup">
+                        <bean parent="Uif-CollectionHorizontalBoxItem" p:cssClasses="uif-collectionItem,uif-tableCollectionItem,uif-collectionAddItem">
+                            <property name="header">
+                                <bean parent="Uif-HeaderOne" p:render="false" />
+                            </property>
+                        </bean>
+                    </property>
                     <property name="addLineItems">
                         <list>
-                            <bean parent="Uif-InputField" p:label="Name"
-                                p:propertyName="displayName">
+                            <bean parent="Uif-InputField" p:label="Name" p:propertyName="displayName" p:labelPlacement="TOP">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="50" />
+                                    <bean parent="Uif-TextControl" p:size="20" />
                                 </property>
                                 <property name="suggest">
                                     <bean parent="Uif-Suggest" p:render="true">
@@ -79,7 +85,7 @@
                                     </bean>
                                 </property>
                             </bean>
-                            <bean id="KS-PermissionDropDown" parent="Uif-InputField-LabelTop" p:propertyName="permission"
+                            <bean id="KS-PermissionDropDown" parent="Uif-InputField-LabelTop" p:propertyName="permission" p:labelPlacement="TOP"
                                 p:label="Permission" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
@@ -94,7 +100,7 @@
                                     </bean>
                                 </property>
                             </bean>
-                            <bean id="KS-ActionRequestDropDown" parent="Uif-InputField-LabelTop" p:propertyName="action"
+                            <bean id="KS-ActionRequestDropDown" parent="Uif-InputField-LabelTop" p:propertyName="action" p:labelPlacement="TOP"
                                 p:label="Action Request" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
@@ -107,7 +113,7 @@
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField-LabelTop" p:propertyName="author" p:label="Author Notation">
+                            <bean parent="Uif-InputField-LabelTop" p:propertyName="author" p:label="Author Notation" p:labelPlacement="TOP">
                                 <property name="control">
                                     <bean parent="Uif-CheckboxControl" p:checkboxLabel="Add Author Notation" />
                                 </property>
