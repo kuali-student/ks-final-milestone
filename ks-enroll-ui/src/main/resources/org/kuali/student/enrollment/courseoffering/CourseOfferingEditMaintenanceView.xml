@@ -865,7 +865,7 @@
                             <bean parent="Uif-ActionLink"
                                   p:ajaxSubmit="false"
                                   p:actionScript="closeLightbox();"
-                                  p:actionLabel="Cancel" />
+                                  p:actionLabel="Cancel" p:style="margin-top: 5px;" />
                         </list>
                     </property>
                 </bean>
