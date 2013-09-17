@@ -145,7 +145,12 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException  {
 
-        throw new OperationFailedException ("createExamOffering has not been implemented");
+        LuiInfo luiToCreate = new LuiInfo();
+        getExamOfferingTransformer().examOffering2Lui(examOfferingInfo, luiToCreate, contextInfo);
+        LuiInfo createdLui = getLuiService().createLui(examId, termId, examTypeKey, luiToCreate, contextInfo);
+        ExamOfferingInfo createdExamOffering = new ExamOfferingInfo();
+        getExamOfferingTransformer().lui2ExamOffering(createdLui,createdExamOffering,getSchedulingService(),contextInfo);
+        return createdExamOffering;
     }
 
     @Override
