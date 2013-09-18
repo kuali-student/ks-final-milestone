@@ -188,6 +188,23 @@ public class TestCSRServiceFacade {
     }
 
 
+    // Ao with ADLs -> Error reinstating Activity offering in SOC : SOC_SCHEDULING_STATE_IN_PROGRESS
+    @Test(expected=RuntimeException.class)
+    public void TestReinstateActivityOfferingForException()throws Exception{
+
+        createActivityOffering();
+        ActivityOfferingInfo ao = coService.getActivityOffering("CO-1:LEC-ONLY:LEC-A",contextInfo);
+
+        csrServiceFacade.suspendActivityOffering("CO-1:LEC-ONLY:LEC-A",contextInfo);
+        assertTrue(ao.getState().contains("suspend"));
+
+        // setting ADLs (scheduleIDs) for AO
+        ao.setScheduleIds(generateScheduleIdList("testScheduleId1", "testScheduleId2", "testScheduleId3"));
+
+        csrServiceFacade.reinstateActivityOffering(ao, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS,contextInfo);
+    }
+
+
     private List<String> generateScheduleIdList(String... ids) {
         List<String> scheduleIds = new ArrayList<String>();
         for(String id : ids) {
