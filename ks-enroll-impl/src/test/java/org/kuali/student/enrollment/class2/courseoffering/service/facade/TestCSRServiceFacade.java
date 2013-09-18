@@ -158,16 +158,41 @@ public class TestCSRServiceFacade {
         createActivityOffering();
         ActivityOfferingInfo ao = coService.getActivityOffering("CO-1:LEC-ONLY:LEC-A",contextInfo);
 
+        csrServiceFacade.suspendActivityOffering("CO-1:LEC-ONLY:LEC-A",contextInfo);
+        assertTrue(ao.getState().contains("suspend"));
+
+        // AOs with out ADLs (scheduleIDs) -> AO goes into draft state
+        csrServiceFacade.reinstateActivityOffering(ao, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS,contextInfo);
+        assertTrue(ao.getState().contains("draft"));
+
+
         csrServiceFacade.cancelActivityOffering("CO-1:LEC-ONLY:LEC-A",contextInfo);
         assertTrue(ao.getState().contains("cancel"));
 
-        csrServiceFacade.reinstateActivityOffering(ao, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS,contextInfo);
-        assertTrue(ao.getState().contains("draft"));
+        // setting ADLs (scheduleIDs) for AO
+        ao.setScheduleIds(generateScheduleIdList("testScheduleId1", "testScheduleId2", "testScheduleId3"));
+
+        // AOs with ADLs (scheduleIDs)
+        csrServiceFacade.reinstateActivityOffering(ao, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY,contextInfo);
+        assertTrue(ao.getState().contains("offered"));
+
+
+        csrServiceFacade.reinstateActivityOffering(ao, CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY,contextInfo);
+        assertTrue(ao.getState().contains("approved"));
 
         csrServiceFacade.suspendActivityOffering("CO-1:LEC-ONLY:LEC-A",contextInfo);
         assertTrue(ao.getState().contains("suspend"));
 
-        csrServiceFacade.reinstateActivityOffering(ao, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS,contextInfo);
-        assertTrue(ao.getState().contains("draft"));
+        csrServiceFacade.reinstateActivityOffering(ao, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY,contextInfo);
+        assertTrue(ao.getState().contains("approved"));
+    }
+
+
+    private List<String> generateScheduleIdList(String... ids) {
+        List<String> scheduleIds = new ArrayList<String>();
+        for(String id : ids) {
+            scheduleIds.add(id);
+        }
+        return scheduleIds;
     }
 }
