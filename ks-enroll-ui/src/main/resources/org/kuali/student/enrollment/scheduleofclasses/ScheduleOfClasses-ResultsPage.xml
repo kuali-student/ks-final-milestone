@@ -188,18 +188,18 @@
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:label="CODE" p:propertyName="aoInfo.activityCode" />
-                <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="typeName" />
+                <bean parent="Uif-DataField" p:label="CODE" p:propertyName="aoInfo.activityCode" p:style="width:75px;"/>
+                <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="typeName" p:style="width:100px;"/>
                 <bean parent="Uif-MessageField"
                       p:label="DAYS"
-                      p:messageText="@{#line.daysDisplayName}" />
+                      p:messageText="@{#line.daysDisplayName}" p:style="width:75px;"/>
                 <bean parent="Uif-MessageField"
                       p:label="START TIME"
-                      p:messageText="@{#line.startTimeDisplay}" />
+                      p:messageText="@{#line.startTimeDisplay}" p:style="width:90px;"/>
                 <bean parent="Uif-MessageField"
                       p:label="END TIME"
-                      p:messageText="@{#line.endTimeDisplay}" />
-                <bean parent="Uif-MessageField" >
+                      p:messageText="@{#line.endTimeDisplay}" p:style="width:90px;"/>
+                <bean parent="Uif-MessageField" p:style="width:50px;">
                     <property name="label" value="BUILDING"/>
                     <property name="messageText" value="@{#line.buildingCode}"/>
                     <property name="toolTip">
@@ -208,12 +208,12 @@
                 </bean>
                 <bean parent="Uif-MessageField"
                       p:label="ROOM"
-                      p:messageText="@{#line.roomName}" />
+                      p:messageText="@{#line.roomName}" p:style="width:50px;"/>
                 <bean parent="Uif-MessageField"
                       p:label="INSTRUCTOR"
-                      p:messageText="@{#line.instructorDisplayNames}" />
-                <bean parent="Uif-DataField" p:label="SEATS" p:propertyName="aoInfo.maximumEnrollment" p:style="text-align:right;"/>
-                <bean parent="Uif-MessageField" p:label="ADDITIONAL INFO" p:messageText="@{#line.schOfClassesRenderHelper.information}"/>
+                      p:messageText="@{#line.instructorDisplayNames}" p:style="width:200px;"/>
+                <bean parent="Uif-DataField" p:label="SEATS" p:propertyName="aoInfo.maximumEnrollment" p:style="text-align:right;width:40px;"/>
+                <bean parent="Uif-MessageField" p:label="ADDITIONAL INFO" p:messageText="@{#line.schOfClassesRenderHelper.information}" p:style="width:125px;"/>
             </list>
         </property>
     </bean>
