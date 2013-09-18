@@ -28,6 +28,7 @@ import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -243,62 +244,31 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             ,PermissionDeniedException
             ,ReadOnlyException
     {
-
+        //trap null parameters
         if (formatOfferingId == null){
             throw new MissingParameterException("Format offering ID is null");
         }
-
         if (examOfferingId == null){
             throw new MissingParameterException("Exam offering ID is null");
         }
-
+        if (examOfferingRelationInfo.getFormatOfferingId().equalsIgnoreCase(formatOfferingId) && examOfferingRelationInfo.getExamOfferingId().equals(examOfferingId)) {
+            throw new InvalidParameterException("IDs don’t match");
+        }
         //set FO / EO relations
-        LuiLuiRelationInfo luiRelFoEo = new LuiLuiRelationInfo();
-        luiRelFoEo.setLuiId(formatOfferingId);
-        luiRelFoEo.setName("fo-eo-relation");
-        luiRelFoEo.setRelatedLuiId(examOfferingId);
-        RichTextInfo descr = new RichTextInfo();
-        descr.setPlain(examOfferingId + "-FO-EO"); // Useful for debugging
-        descr.setFormatted(examOfferingId + "-FO-EO)"); // Useful for debugging
-        luiRelFoEo.setDescr(descr);
-        luiRelFoEo.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY);
-        luiRelFoEo.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
-        luiRelFoEo.setEffectiveDate(new Date());
+        LuiLuiRelationInfo luiRel = new LuiLuiRelationInfo();
+        LuiLuiRelationInfo  luiRetrn;
+        //transform
+        luiRel = transformEORelInfoToLuiLuiRelInfo(examOfferingRelationInfo);
+
+        //save
         try {
-            luiRelFoEo = luiService.createLuiLuiRelation(luiRelFoEo.getLuiId(), luiRelFoEo.getRelatedLuiId(), luiRelFoEo.getTypeKey(), luiRelFoEo, contextInfo);
+            luiRetrn = getLuiService().createLuiLuiRelation(luiRel.getLuiId(), luiRel.getRelatedLuiId(), luiRel.getTypeKey(), luiRel, contextInfo);
         } catch (Exception ex) {
             throw new OperationFailedException(OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE, ex);
         }
 
-        //set AO / EO relations
-        List<String> aoIds = new ArrayList<String>();
-        for (String aoId : examOfferingRelationInfo.getActivityOfferingIds()) {
-            LuiLuiRelationInfo luiRelAoEo = new LuiLuiRelationInfo();
-            luiRelAoEo.setLuiId(aoId);
-            luiRelAoEo.setName("ao-eo-relation");
-            luiRelAoEo.setRelatedLuiId(examOfferingId);
-
-            RichTextInfo descrRgAo = new RichTextInfo();
-            descrRgAo.setPlain(aoId + "AO-EO"); // Useful for debugging
-            descrRgAo.setFormatted(aoId + "AO-EO"); // Useful for debugging
-            luiRelAoEo.setDescr(descrRgAo);
-
-            luiRelAoEo.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_AO_TO_EO_TYPE_KEY);
-            luiRelAoEo.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
-            luiRelAoEo.setEffectiveDate(new Date());
-            try {
-                luiRelAoEo = luiService.createLuiLuiRelation(luiRelAoEo.getLuiId(), luiRelAoEo.getRelatedLuiId(), luiRelAoEo.getTypeKey(), luiRelAoEo, contextInfo);
-            } catch (Exception ex) {
-                throw new OperationFailedException(OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE, ex);
-            }
-            aoIds.add(luiRelAoEo.getLuiId());
-        }
-
-        //return saved info
-        examOfferingRelationInfo.setExamOfferingId(luiRelFoEo.getRelatedLuiId());
-        examOfferingRelationInfo.setFormatOfferingId(luiRelFoEo.getLuiId());
-        examOfferingRelationInfo.setActivityOfferingIds(aoIds);
-        return examOfferingRelationInfo;
+        //transform and return saved info
+        return transformLuiLuiRelInfoToEORelInfo(luiRetrn);
     }
 
     @Override
@@ -312,8 +282,28 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             ,ReadOnlyException
             ,VersionMismatchException
     {
+        //trap null parameter
+        if (examOfferingRelationId == null){
+            throw new MissingParameterException("examOfferingRelationId is null");
+        }
+                //trap null parameter
+        if (examOfferingRelationInfo == null){
+            throw new MissingParameterException("examOfferingRelationInfo is null");
+        }
 
-        throw new OperationFailedException ("updateExamOfferingRelation has not been implemented");
+        //transform
+        LuiLuiRelationInfo luiRel = transformEORelInfoToLuiLuiRelInfo(examOfferingRelationInfo);
+        LuiLuiRelationInfo luiRetrn;
+
+        //update
+        try {
+            luiRetrn = getLuiService().updateLuiLuiRelation(examOfferingRelationId, luiRel, contextInfo);
+        } catch (Exception ex) {
+            throw new OperationFailedException(OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE, ex);
+        }        
+
+        //transform and return saved info
+        return transformLuiLuiRelInfoToEORelInfo(luiRetrn);
     }
 
     @Override
@@ -324,7 +314,15 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("deleteExamOfferingRelation has not been implemented");
+        //trap null parameter
+        if (examOfferingRelationId == null){
+            throw new MissingParameterException("examOfferingRelationId is null");
+        }
+        try {
+            return getLuiService().deleteLuiLuiRelation(examOfferingRelationId, contextInfo);
+        } catch (Exception ex) {
+            throw new OperationFailedException(OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE, ex);
+        }
     }
 
     @Override
@@ -335,7 +333,21 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("getExamOfferingRelation has not been implemented");
+        //trap null parameter
+        if (examOfferingRelationId == null){
+            throw new MissingParameterException("examOfferingRelationId is null");
+        }
+
+        //Retrieve LuiLuiRelationInfo for the EO
+        LuiLuiRelationInfo  luiRetrn;
+        try {
+            luiRetrn = getLuiService().getLuiLuiRelation(examOfferingRelationId, contextInfo);
+        } catch (Exception ex) {
+            throw new OperationFailedException(OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE, ex);
+        }
+
+        //return populated EORelationInfo
+        return transformLuiLuiRelInfoToEORelInfo(luiRetrn);
     }
 
     @Override
@@ -427,6 +439,63 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
         return meta;
     }
 
+    private LuiLuiRelationInfo transformEORelInfoToLuiLuiRelInfo(ExamOfferingRelationInfo examOfferingRelationInfo){
+        LuiLuiRelationInfo luiRel = new LuiLuiRelationInfo();
+        String examOfferingId = examOfferingRelationInfo.getExamOfferingId();
+        luiRel.setLuiId(examOfferingRelationInfo.getFormatOfferingId());
+        luiRel.setRelatedLuiId(examOfferingId);
+        RichTextInfo descr = new RichTextInfo();
+        luiRel.setName("Fo-Eo-relation");
+        descr.setPlain(examOfferingId + "-FO-EO"); // Useful for debugging
+        descr.setFormatted(examOfferingId + "-FO-EO)"); // Useful for debugging
+        luiRel.setDescr(descr);
+        luiRel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY);
+        luiRel.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
+        luiRel.setEffectiveDate(new Date());
+        //store AO IDs as attributes
+        int i = 1; //unique key
+        List<AttributeInfo> attributeInfos = new ArrayList<AttributeInfo>();
+        for (String aoId : examOfferingRelationInfo.getActivityOfferingIds()){
+            AttributeInfo attributeInfo = new AttributeInfo();
+            attributeInfo.setKey("AO"+i);
+            attributeInfo.setValue(aoId);
+            attributeInfos.add(attributeInfo);
+            i++;
+        }
+        //store Population IDs as attributes
+        i = 1;
+        for (String aoId : examOfferingRelationInfo.getPopulationIds()){
+            AttributeInfo attributeInfo = new AttributeInfo();
+            attributeInfo.setKey("PO"+i);
+            attributeInfo.setValue(aoId);
+            attributeInfos.add(attributeInfo);
+            i++;
+        }        
+        luiRel.setAttributes(attributeInfos);
+        
+        return luiRel;
+    }
+
+    private ExamOfferingRelationInfo transformLuiLuiRelInfoToEORelInfo(LuiLuiRelationInfo luiLuiRelationInfo){
+        ExamOfferingRelationInfo examOfferingRelationInfoRetrn = new ExamOfferingRelationInfo();
+        List<String> aoIds = new ArrayList<String>();
+        List<String> populationIds = new ArrayList<String>();
+        examOfferingRelationInfoRetrn.setId(luiLuiRelationInfo.getId()); // = examOfferingRelationId
+        examOfferingRelationInfoRetrn.setExamOfferingId(luiLuiRelationInfo.getRelatedLuiId());
+        examOfferingRelationInfoRetrn.setFormatOfferingId(luiLuiRelationInfo.getLuiId());
+        for (AttributeInfo attributeInfo : luiLuiRelationInfo.getAttributes()){
+            if(attributeInfo.getKey().contains("AO")){
+                aoIds.add(attributeInfo.getValue());
+            } else if (attributeInfo.getKey().contains("PO")){
+                populationIds.add(attributeInfo.getValue());
+            }
+        }
+        examOfferingRelationInfoRetrn.setActivityOfferingIds(aoIds);
+        examOfferingRelationInfoRetrn.setPopulationIds(populationIds);
+
+        return examOfferingRelationInfoRetrn;
+    }
+    
     public LuiService getLuiService() {
         return luiService;
     }
