@@ -2687,7 +2687,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public StatusInfo changeExamPeriodState(String examPeriodId, String nextStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException ("has not been implemented yet!");
+        return processAtpStateChange(examPeriodId,nextStateKey,contextInfo);
     }
 
     @Override

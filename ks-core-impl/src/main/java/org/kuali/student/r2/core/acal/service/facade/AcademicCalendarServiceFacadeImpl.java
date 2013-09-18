@@ -106,6 +106,8 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
             }
             // Change the state
             acalService.changeTermState(nextTermId, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, contextInfo);
+            // Change the state of the associated exam period
+            changeExamPeriodStateByTermId(nextTermId, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, contextInfo);
             termIdToTermInfoProcessed.put(nextTermId, nextTerm); // Add to processed
             termIdToTermInfoToBeProcessed.remove(nextTermId); // No longer needs processing, so remove
             // Now visit all parents
@@ -214,6 +216,21 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
             if (examPeriodIds!=null && !examPeriodIds.isEmpty()) {
                 for (String examPeriodId : examPeriodIds) {
                     acalService.deleteExamPeriod(examPeriodId, context);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private void changeExamPeriodStateByTermId (String termId, String nextStateKey, ContextInfo context) {
+        try {
+            //retrieve all the exam period ids of the give term
+            List<String> examPeriodIds = getRelatedAtpIdsForParentAtpIdAndRelationType(termId, AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TERM2EXAMPERIOD_TYPE_KEY, context);
+            if (examPeriodIds!=null && !examPeriodIds.isEmpty()) {
+                for (String examPeriodId : examPeriodIds) {
+                    acalService.changeExamPeriodState(examPeriodId, nextStateKey, context);
                 }
             }
         } catch (Exception e) {
