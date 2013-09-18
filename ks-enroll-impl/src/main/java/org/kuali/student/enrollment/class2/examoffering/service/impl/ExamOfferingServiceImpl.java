@@ -252,7 +252,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             throw new MissingParameterException("Exam offering ID is null");
         }
         if (examOfferingRelationInfo.getFormatOfferingId().equalsIgnoreCase(formatOfferingId) && examOfferingRelationInfo.getExamOfferingId().equals(examOfferingId)) {
-            throw new InvalidParameterException("IDs don’t match");
+            throw new InvalidParameterException("IDs do not match");
         }
         //set FO / EO relations
         LuiLuiRelationInfo luiRel = new LuiLuiRelationInfo();
@@ -282,11 +282,10 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             ,ReadOnlyException
             ,VersionMismatchException
     {
-        //trap null parameter
+        //trap null parameters
         if (examOfferingRelationId == null){
             throw new MissingParameterException("examOfferingRelationId is null");
         }
-                //trap null parameter
         if (examOfferingRelationInfo == null){
             throw new MissingParameterException("examOfferingRelationInfo is null");
         }
