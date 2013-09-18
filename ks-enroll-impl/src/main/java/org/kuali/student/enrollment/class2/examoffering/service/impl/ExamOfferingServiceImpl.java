@@ -34,6 +34,7 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -47,6 +48,7 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.scheduling.infc.Schedule;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -67,14 +69,19 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     private static final Logger LOGGER = Logger.getLogger(ExamOfferingServiceImpl.class);
 
     @Override
+    @Transactional(readOnly = true)
     public ExamOfferingInfo getExamOffering(String examOfferingId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        throw new OperationFailedException ("getExamOffering has not been implemented");
+        LuiInfo luiInfo = getLuiService().getLui(examOfferingId,contextInfo);
+        ExamOfferingInfo examOfferingInfo = new ExamOfferingInfo();
+        getExamOfferingTransformer().lui2ExamOffering(luiInfo,examOfferingInfo,getSchedulingService(),contextInfo);
+        return examOfferingInfo;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ExamOfferingInfo> getExamOfferingsByIds(List<String> examOfferingIds, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -143,6 +150,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ExamOfferingInfo createExamOffering(String termId, String examId, String examTypeKey, ExamOfferingInfo examOfferingInfo,
                                                ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -157,6 +165,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ExamOfferingInfo updateExamOffering(String examOfferingId, ExamOfferingInfo examOfferingInfo, ContextInfo contextInfo)
             throws DataValidationErrorException
             ,DoesNotExistException
@@ -167,10 +176,17 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             ,ReadOnlyException
             ,VersionMismatchException
     {
-        throw new OperationFailedException ("updateExamOffering has not been implemented");
+        LuiInfo luiToUpdate = getLuiService().getLui(examOfferingId,contextInfo);
+        getExamOfferingTransformer().examOffering2Lui(examOfferingInfo,luiToUpdate,contextInfo);
+        getLuiService().updateLui(examOfferingId,luiToUpdate,contextInfo);
+        LuiInfo updatedLui = getLuiService().getLui(examOfferingId,contextInfo);
+        ExamOfferingInfo updatedExamOffering = new ExamOfferingInfo();
+        getExamOfferingTransformer().lui2ExamOffering(updatedLui,updatedExamOffering,getSchedulingService(),contextInfo);
+        return updatedExamOffering;
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteExamOffering(String examOfferingId, ContextInfo contextInfo)
             throws DoesNotExistException
             ,InvalidParameterException
@@ -178,7 +194,15 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("deleteExamOffering has not been implemented");
+        try {
+            getLuiService().deleteLui(examOfferingId,contextInfo);
+        } catch (DependentObjectsExistException e) {
+            StatusInfo failedStatus = new StatusInfo();
+            failedStatus.setSuccess(Boolean.FALSE);
+            failedStatus.setMessage("ExamOffering could not be deleted because dependent child objects exist.");
+            return failedStatus;
+        }
+        return new StatusInfo();
     }
 
     @Override

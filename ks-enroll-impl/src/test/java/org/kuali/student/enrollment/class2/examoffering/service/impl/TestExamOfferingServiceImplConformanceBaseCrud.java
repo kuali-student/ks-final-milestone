@@ -109,7 +109,7 @@ public abstract class TestExamOfferingServiceImplConformanceBaseCrud {
         new AttributeTester().add2ForCreate(expected.getAttributes());
 
         // code to create actual
-        ExamOfferingInfo actual = testService.createExamOffering ( expected.getId(), expected.getId(), expected.getTypeKey(), expected, contextInfo);
+        ExamOfferingInfo actual = testService.createExamOffering ( expected.getExamPeriodId(), expected.getExamId(), expected.getTypeKey(), expected, contextInfo);
 
         assertNotNull(actual.getId());
         new IdEntityTester().check(expected, actual);

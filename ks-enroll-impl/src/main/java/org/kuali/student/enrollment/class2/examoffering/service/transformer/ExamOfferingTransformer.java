@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class2.examoffering.service.transformer;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
+import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -102,6 +103,7 @@ public class ExamOfferingTransformer {
         eo.setStateKey(lui.getStateKey());
         eo.setDescr(lui.getDescr());
         eo.setMeta(lui.getMeta());
+        eo.setName(lui.getOfficialIdentifier().getShortName());
 
         //These still need to be mapped
         eo.setExamPeriodId(lui.getAtpId());
@@ -141,6 +143,7 @@ public class ExamOfferingTransformer {
         eo.setStateKey(lui.getStateKey());
         eo.setDescr(lui.getDescr());
         eo.setMeta(lui.getMeta());
+        eo.setName(lui.getOfficialIdentifier().getShortName());
 
         //These still need to be mapped
         eo.setExamPeriodId(lui.getAtpId());
@@ -186,26 +189,14 @@ public class ExamOfferingTransformer {
         lui.getScheduleIds().clear();
         lui.getScheduleIds().add(eo.getScheduleId());
 
-        //Dynamic Attributes
-        HashMap<String, AttributeInfo> attributesMap = new HashMap<String, AttributeInfo>();
-        List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
-        for (AttributeInfo attr : lui.getAttributes()) {
-            attributesMap.put(attr.getKey(), attr);
+        LuiIdentifierInfo luiIdentifierInfo = lui.getOfficialIdentifier();
+        if(luiIdentifierInfo == null){
+            luiIdentifierInfo = new LuiIdentifierInfo();
+            lui.setOfficialIdentifier(luiIdentifierInfo);
         }
-        for (AttributeInfo attr : eo.getAttributes()) {
-            attributesMap.put(attr.getKey(), attr);
-        }
-
-        //AttributeInfo courseNumberInternalSuffix = new AttributeInfo();
-        //courseNumberInternalSuffix.setKey(CourseOfferingServiceConstants.COURSE_NUMBER_IN_SUFX_ATTR);
-        //courseNumberInternalSuffix.setValue(eo.getCourseNumberInternalSuffix());
-        //attributesMap.put(CourseOfferingServiceConstants.COURSE_NUMBER_IN_SUFX_ATTR, courseNumberInternalSuffix);
-
-        for (Map.Entry<String, AttributeInfo> entry : attributesMap.entrySet()) {
-            attributes.add(entry.getValue());
-        }
-
-        lui.setAttributes(attributes);
+        luiIdentifierInfo.setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);
+        luiIdentifierInfo.setShortName(eo.getName());
+        lui.setAttributes(eo.getAttributes());
 
     }
 
@@ -244,12 +235,12 @@ public class ExamOfferingTransformer {
 
     private static String getSchedulingStateByScheduleRequest(ExamOfferingInfo eo, List<ScheduleRequestInfo> requests) {
         if (requests == null || requests.isEmpty()) {
-            // if there are no requests, the AO scheduling state is Unscheduled
+            // if there are no requests, the EO scheduling state is Unscheduled
             return ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY;
         }
 
         for (ScheduleRequestInfo request : requests) {
-            // if all the schedule request components are set as TBA, the AO scheduling state is Exempt
+            // if all the schedule request components are set as TBA, the EO scheduling state is Exempt
             // otherwise, it's Unscheduled
             for (ScheduleRequestComponentInfo reqComp : request.getScheduleRequestComponents()) {
                 if (!reqComp.getIsTBA()) {
