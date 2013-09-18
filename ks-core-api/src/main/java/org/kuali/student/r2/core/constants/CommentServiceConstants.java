@@ -18,15 +18,19 @@ public class CommentServiceConstants {
     public static final String REF_OBJECT_URI_COMMENT = NAMESPACE + "/" + CommentInfo.class.getSimpleName();
 
     //comment types
-    public static final String GENERAL_REMARKS_COMMENT_TYPE = "kuali.comment.type.generalRemarks";
+    public static final String COMMENT_GENERAL_REMARKS_TYPE_KEY = "kuali.comment.type.generalRemarks";
 
-    public static final String ACKNOWLEDGE_WORKFLOW_DECISION_COMMENT_TYPE = "kuali.comment.type.workflowDecisionRationale.acknowledge";
-    public static final String APPROVE_WORKFLOW_DECISION_COMMENT_TYPE = "kuali.comment.type.workflowDecisionRationale.approve";
-    public static final String BLANKET_APPROVE_WORKFLOW_DECISION_COMMENT_TYPE = "kuali.comment.type.workflowDecisionRationale.blanketApprove";
-    public static final String CANCEL_WORKFLOW_DECISION_COMMENT_TYPE = "kuali.comment.type.workflowDecisionRationale.cancelWorkflow";
-    public static final String FYI_WORKFLOW_DECISION_COMMENT_TYPE = "kuali.comment.type.workflowDecisionRationale.fyi";
-    public static final String REJECT_WORKFLOW_DECISION_COMMENT_TYPE = "kuali.comment.type.workflowDecisionRationale.reject";
-    public static final String RETURN_WORKFLOW_DECISION_COMMENT_TYPE = "kuali.comment.type.workflowDecisionRationale.return";
-    public static final String WITHDRAW_WORKFLOW_DECISION_COMMENT_TYPE = "kuali.comment.type.workflowDecisionRationale.withdraw";
+    public static final String COMMENT_ACKNOWLEDGE_WORKFLOW_DECISION_TYPE_KEY = "kuali.comment.type.workflowDecisionRationale.acknowledge";
+    public static final String COMMENT_APPROVE_WORKFLOW_DECISION_TYPE_KEY = "kuali.comment.type.workflowDecisionRationale.approve";
+    public static final String COMMENT_BLANKET_APPROVE_WORKFLOW_DECISION_TYPE_KEY = "kuali.comment.type.workflowDecisionRationale.blanketApprove";
+    public static final String COMMENT_CANCEL_WORKFLOW_DECISION_TYPE_KEY = "kuali.comment.type.workflowDecisionRationale.cancelWorkflow";
+    public static final String COMMENT_FYI_WORKFLOW_DECISION_TYPE_KEY = "kuali.comment.type.workflowDecisionRationale.fyi";
+    public static final String COMMENT_REJECT_WORKFLOW_DECISION_TYPE_KEY = "kuali.comment.type.workflowDecisionRationale.reject";
+    public static final String COMMENT_RETURN_WORKFLOW_DECISION_TYPE_KEY = "kuali.comment.type.workflowDecisionRationale.return";
+    public static final String COMMENT_WITHDRAW_WORKFLOW_DECISION_TYPE_KEY = "kuali.comment.type.workflowDecisionRationale.withdraw";
+
+    //comment states
+    public static final String COMMENT_ACTIVE_STATE_KEY = "kuali.comment.state.active";
+    public static final String COMMENT_INACTIVE_STATE_KEY = "kuali.comment.state.inactive";
 
 }
