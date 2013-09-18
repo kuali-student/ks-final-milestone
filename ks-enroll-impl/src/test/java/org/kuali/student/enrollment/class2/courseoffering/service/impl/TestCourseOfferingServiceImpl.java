@@ -120,65 +120,7 @@ public class TestCourseOfferingServiceImpl {
         dataLoader.afterTest();
     }
 
-    private void createStateTestData() throws Exception {
 
-        // ActivityOffering state
-        LifecycleInfo aoLifecycle = addLifecycle( LuiServiceConstants.ACTIVITY_OFFERING_LIFECYCLE_KEY );
-        addState( aoLifecycle, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, true );
-
-        // FormatOffering state
-        LifecycleInfo foLifecycle = addLifecycle( LuiServiceConstants.FORMAT_OFFERING_LIFECYCLE_KEY );
-        addState( foLifecycle, LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY, true );
-
-        // CourseOffering state
-        LifecycleInfo coLifecycle = addLifecycle( LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_KEY );
-        addState( coLifecycle, LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY, true );
-
-        LifecycleInfo rgLifecycle = addLifecycle( LuiServiceConstants.REGISTRATION_GROUP_LIFECYCLE_KEY );
-        addState( rgLifecycle, LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY, true );
-    }
-
-    private LifecycleInfo addLifecycle( String name ) throws Exception {
-
-        LifecycleInfo origLife = new LifecycleInfo();
-        RichTextInfo rti = new RichTextInfo();
-        rti.setFormatted("<b>Formatted</b> lifecycle for testing purposes");
-        rti.setPlain("Plain lifecycle for testing purposes");
-        origLife.setDescr(rti);
-        origLife.setKey( name );
-        origLife.setName( "TEST_NAME" );
-        origLife.setRefObjectUri( "TEST_URI" );
-        AttributeInfo attr = new AttributeInfo();
-        attr.setKey("attribute.key");
-        attr.setValue("attribute value");
-        origLife.getAttributes().add(attr);
-
-        return stateService.createLifecycle(origLife.getKey(), origLife, callContext);
-    }
-
-    private StateInfo addState( LifecycleInfo lifecycleInfo, String state, boolean isInitialState ) throws Exception {
-
-        StateInfo orig = new StateInfo();
-        orig.setKey(state);
-        orig.setLifecycleKey(lifecycleInfo.getKey());
-        RichTextInfo rti = new RichTextInfo();
-        rti.setFormatted("<b>Formatted again</b> state for testing purposes");
-        rti.setPlain("Plain state again for testing purposes");
-        orig.setDescr(rti);
-        orig.setName("Testing state");
-        Date effDate = new Date();
-        orig.setEffectiveDate(effDate);
-        Calendar cal = Calendar.getInstance();
-        cal.set(2022, 8, 23);
-        orig.setExpirationDate(cal.getTime());
-        AttributeInfo attr = new AttributeInfo();
-        attr.setKey("attribute.key");
-        attr.setValue("attribute value");
-        orig.getAttributes().add(attr);
-        orig.setIsInitialState(isInitialState);
-
-        return stateService.createState(orig.getLifecycleKey(), orig.getKey(), orig, callContext);
-    }
 
     private void createCourseCHEM123(TermInfo term, ContextInfo context) throws Exception {
 
@@ -275,7 +217,7 @@ public class TestCourseOfferingServiceImpl {
     @Test
     public void testCRUDSCourseOffering() throws Exception {
         new MockLrcTestDataLoader(this.lrcService).loadData();
-        createStateTestData();
+        dataLoader.createStateTestData();
         dataLoader.loadTerms();
         createCourseCHEM123(dataLoader.fall2012, callContext);
 
@@ -499,7 +441,7 @@ public class TestCourseOfferingServiceImpl {
     @Test
     public void testCRFormatOffering() throws Exception {
         new MockLrcTestDataLoader(this.lrcService).loadData();
-        createStateTestData();
+        dataLoader.createStateTestData();
         dataLoader.loadTerms();
         createCourseCHEM123(dataLoader.fall2012, callContext);
 
@@ -564,7 +506,7 @@ public class TestCourseOfferingServiceImpl {
     @Test
     public void testCRActivityOffering() throws Exception {
         new MockLrcTestDataLoader(this.lrcService).loadData();
-        createStateTestData();
+        dataLoader.createStateTestData();
         dataLoader.loadTerms();
         createCourseCHEM123(dataLoader.fall2012, callContext);
 
@@ -618,7 +560,7 @@ public class TestCourseOfferingServiceImpl {
     @Test
     public void testDeleteCourseOfferingCascaded() throws Exception {
         new MockLrcTestDataLoader(this.lrcService).loadData();
-        createStateTestData();
+        dataLoader.createStateTestData();
         dataLoader.loadTerms();
         createCourseCHEM123(dataLoader.fall2012, callContext);
 
@@ -650,7 +592,7 @@ public class TestCourseOfferingServiceImpl {
     @Test
     public void testGetActivityOfferingsForSeatPoolDefinition() throws Exception {
         new MockLrcTestDataLoader(this.lrcService).loadData();
-        createStateTestData();
+        dataLoader.createStateTestData();
         dataLoader.loadTerms();
         createCourseCHEM123(dataLoader.fall2012, callContext);
 
@@ -684,7 +626,7 @@ public class TestCourseOfferingServiceImpl {
     @Test
     public void testActivityOfferingClusters() throws Exception {
         new MockLrcTestDataLoader(this.lrcService).loadData();
-        createStateTestData();
+        dataLoader.createStateTestData();
         dataLoader.beforeTest(false);
 
         // default cluster is 2x3 = 6 reg groups

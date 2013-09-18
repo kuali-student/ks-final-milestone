@@ -42,6 +42,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingVie
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FinalExam;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
@@ -884,7 +885,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
     private void setFinalExamDriverAttr(CourseOfferingInfo coInfo, CourseOfferingEditWrapper coEditWrapper) {
         AttributeInfo attributeInfo = this.getAttributeForKey(coInfo, CourseOfferingServiceConstants.FINAL_EXAM_DRIVER_ATTR);
-        if (coInfo.getFinalExamType().equals("STANDARD")) {  //driver is only for 'STANDARD'
+        if (coInfo.getFinalExamType().equals(FinalExam.STANDARD)) {  //driver is only for 'STANDARD'
             if (attributeInfo != null) {
                 attributeInfo.setValue(coEditWrapper.getFinalExamDriver());
             } else {
@@ -900,7 +901,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
     private void setUseFinalExamMatrix(CourseOfferingInfo coInfo, CourseOfferingEditWrapper coEditWrapper) {
         AttributeInfo attributeInfo = this.getAttributeForKey(coInfo, CourseOfferingServiceConstants.FINAL_EXAM_USE_MATRIX);
-        if (coInfo.getFinalExamType().equals("STANDARD")) {  //driver is only for 'STANDARD'
+        if (coInfo.getFinalExamType().equals(FinalExam.STANDARD)) {  //driver is only for 'STANDARD'
             if (attributeInfo != null) {
                 attributeInfo.setValue(String.valueOf(coEditWrapper.isUseFinalExamMatrix()));
             } else {
