@@ -723,3 +723,13 @@ function displayCalendarInformation(jqObject, fieldId){
 function stepBrowserBackTwoPages() {
     window.history.back(-2);
 }
+
+/* Renaming Twitter Boostrap button() function to avoid conflict with jQueryUI's button() function
+  This problem manifested with dialog radio buttons that did not get the treatment from jQueryUI
+  to render them as regular button inputs.
+
+  To use the Twitter Boostrap button() function, use bootstrapBtn() instead.
+
+  KSENROLL-9338
+ */
+jQuery.fn.bootstrapBtn = jQuery.fn.button.noConflict();
