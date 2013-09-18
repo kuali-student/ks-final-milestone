@@ -42,7 +42,6 @@ import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -133,7 +132,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
                 foIds.add(foInfo.getId());
             }
 
-            if (foIds!=null && !foIds.isEmpty()) {
+            if (!foIds.isEmpty()) {
                 QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
                 qbcBuilder.setPredicates(PredicateFactory.in("formatOfferingId", foIds.toArray()));
                 QueryByCriteria criteria = qbcBuilder.build();
@@ -250,6 +249,11 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
                 break;
             }
         }
+
+        if(format == null){
+            throw new OperationFailedException("No format could be found to match id: " + fo.getFormatId());
+        }
+
         // Get the activity types
         List<String> activityTypes = new ArrayList<String>();
         if (format.getActivities() == null || format.getActivities().isEmpty()) {
@@ -334,7 +338,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
      * Used by both createActivityOffering and copyActivityOfferingToCluster
      * @param aoInfo AO info just created/copied
      * @param cluster The cluster to place it in
-     * @param context
+     * @param context context of service call
      * @return A result with RGs generated
      */
     private ActivityOfferingResult _addActivityOfferingToClusterCommon(ActivityOfferingInfo aoInfo, ActivityOfferingClusterInfo cluster, ContextInfo context)
@@ -486,8 +490,6 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
                     rgStatusInfo.setId(rgInfo.getId());
                     rgStatusInfo.setSuccess(true);
 
-                    StatusInfo statusInfo;
-
                     //Canceled state handling is out of scope. We ignore the state for now
                     // TODO: this checking will be removed when canceled state handling is available.
                     if(!rgInfo.getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY)){
@@ -495,13 +497,10 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
                             // We don't know what the next state should be for this registration group, but the state
                             // service kinda knows. So, try to send it to the highest state, offered.
                             // If that doesn't work, try to send it to pending
-                            // if that doesn't work, the state change has failed and throw an exception.
-                            boolean status = coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY, context).getIsSuccess();
-                            if (!status && coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY, context).getIsSuccess()) {
-                                status = true;
-                            }
-                            if(!status) {
-                                throw new RuntimeException("State change failed for RG: " + rgInfo.getId() + "From state:" + rgInfo.getStateKey());
+                            // if that doesn't work, the state change has failed and log. (suspended aos should not get moved.
+                            if (!(coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY, context).getIsSuccess()
+                                    || coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY, context).getIsSuccess())) {
+                                LOGGER.warn("State change failed for RG: " + rgInfo.getId() + "From state:" + rgInfo.getStateKey());
                             }
                         } else {
                             coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, context);
@@ -555,7 +554,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
                                                ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
                    OperationFailedException, DoesNotExistException {
-        StatusInfo status = coService.deleteActivityOfferingCascaded(aoId, context);
+        coService.deleteActivityOfferingCascaded(aoId, context);
     }
 
     @Override
@@ -634,7 +633,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, DependentObjectsExistException {
         List<ActivityOfferingInfo> aoInfos = coService.getActivityOfferingsByCluster(aocId, context);
-        StatusInfo status = coService.deleteActivityOfferingClusterCascaded(aocId, context);
+        coService.deleteActivityOfferingClusterCascaded(aocId, context);
         // Delete each AO
         for (ActivityOfferingInfo aoInfo: aoInfos) {
             // get seat pools to delete
@@ -913,7 +912,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
                     foIssue.getSubIssues().add(rgIssue);  // Add the issue
                 } else {
                     // Valid RG, store that info
-                    Set<String> rgAOIds = new HashSet(rg.getActivityOfferingIds());
+                    Set<String> rgAOIds = new HashSet<String>(rg.getActivityOfferingIds());
                     actualRgAOIds.add(rgAOIds);
                 }
             }
@@ -1035,8 +1034,8 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
     /**
      * Returns all ActivityOfferingClusterInfos that map back to a single course offering
      *
-     * @param courseOfferingId
-     * @return
+     * @param courseOfferingId CO id search param
+     * @return all ActivityOfferingClusterInfos that map back to a single course offering
      */
     @Override
     public List<ActivityOfferingClusterInfo> getActivityOfferingClusterByCourseOffering(String courseOfferingId) {
@@ -1052,7 +1051,6 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
 
     public CourseOfferingService getCoService() {
         if(coService == null) {
-//            coService = (CourseOfferingService) GlobalResourceLoader.getService("CourseOfferingService");
             coService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
                     CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
