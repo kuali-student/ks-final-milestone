@@ -824,17 +824,18 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
     }
 
     public void setBuildingCode(String buildingCode, boolean appendForDisplay) {
+        String cssClass = "style=\"border-bottom: 1px dotted;\"";
         if (appendForDisplay){
-            this.buildingCode = this.buildingCode + "<br>" + StringUtils.defaultString(buildingCode);
+            this.buildingCode = this.buildingCode + "<br><span " + cssClass + " >" + StringUtils.defaultString(buildingCode) + "</span>";
         }else{
-            this.buildingCode = StringUtils.defaultString(buildingCode);
+            this.buildingCode = "<span " + cssClass + " >" + StringUtils.defaultString(buildingCode) + "</span>";
         }
     }
 
     public void setBuildingCode(String buildingCode, boolean appendForDisplay, String dlTypeClass) {
         String cssClass = "";
         if(!StringUtils.isEmpty(dlTypeClass)){
-            cssClass = "class=\"" + dlTypeClass + "\"";
+            cssClass = "style=\"border-bottom: 1px dotted;\"";
         }
         if(StringUtils.isEmpty(this.buildingCode)){
             appendForDisplay = false;

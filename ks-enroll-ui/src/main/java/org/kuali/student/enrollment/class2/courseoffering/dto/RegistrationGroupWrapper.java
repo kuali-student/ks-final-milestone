@@ -58,6 +58,9 @@ public class RegistrationGroupWrapper implements Serializable, ComparatorModel {
     private List<String> endTime = new ArrayList<String>();
     private List<String> weekDays = new ArrayList<String>();
 
+    private List<String> bldgNameList = new ArrayList<String>();
+    private List<String> bldgCodeList = new ArrayList<String>();
+
     public RegistrationGroupWrapper() {
         rgInfo = new RegistrationGroupInfo();
     }
@@ -300,6 +303,40 @@ public class RegistrationGroupWrapper implements Serializable, ComparatorModel {
         }else{
             this.buildingCode = "<span " + cssClass + " >" + buildingCode + "</span>";
         }
+    }
+
+    public void setBuildingCodeWithTooltip(String buildingCode, String buildingName, String dlTypeClass) {
+        String cssClass = "";
+        boolean  appendForDisplay = true;
+        if(!StringUtils.isEmpty(dlTypeClass)){
+            cssClass = "class=\"" + dlTypeClass + "\"";
+        }
+        if(StringUtils.isEmpty(this.buildingCode)){
+            appendForDisplay = false;
+        } else {
+            appendForDisplay = true;
+        }
+        if (appendForDisplay){
+            this.buildingCode = this.buildingCode + "<br><span " + cssClass + " >" + "  [id='SchOfClasses-RegGroup-BuildingCodeAndName-Tooltip' messageText='" + buildingCode + "'" + " toolTip.tooltipContent="+ "'" + buildingName+"']" + "</span>";
+        }else{
+            this.buildingCode = "<span " + cssClass + " >" + "  [id='SchOfClasses-RegGroup-BuildingCodeAndName-Tooltip' messageText=" + "'" + buildingCode + "'" + " toolTip.tooltipContent=" + "'" + buildingName + "']" + "</span>";
+        }
+    }
+
+    public List<String> getBldgNameList() {
+        return bldgNameList;
+    }
+
+    public void setBldgNameList(List<String> bldgNameList) {
+        this.bldgNameList = bldgNameList;
+    }
+
+    public List<String> getBldgCodeList() {
+        return bldgCodeList;
+    }
+
+    public void setBldgCodeList(List<String> bldgCodeList) {
+        this.bldgCodeList = bldgCodeList;
     }
 
     public String getRoomName() {
