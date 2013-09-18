@@ -482,7 +482,7 @@ limitations under the License.
                             <bean parent="Uif-HorizontalBoxGroup">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField" p:label=" " p:propertyName="id" p:render="@{#isAddLine}"
+                                        <bean parent="Uif-InputField" p:label=" " p:propertyName="id" p:id="holidayCalendars" p:render="@{#isAddLine}"
                                               p:refreshWhenChangedPropertyNames="academicCalendarInfo.startDate">
                                             <property name="inquiry">
                                                 <bean parent="Uif-Inquiry">
@@ -492,14 +492,14 @@ limitations under the License.
                                                 </bean>
                                             </property>
                                             <property name="control">
-                                                <bean parent="Uif-DropdownControl"/>
+                                                <bean parent="Uif-DropdownControl" p:onChangeScript="disableIfSelectedValue('','holidayCalendars_add_control','acal-holidays_add');"/>
                                             </property>
                                             <property name="optionsFinder">
                                                 <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.HolidayWrapperListFinder" p:addBlankOption="false"/>
                                             </property>
                                         </bean>
                                         <bean parent="Uif-AddLineAction" p:actionLabel="Add Holiday Calendar"
-                                              p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');" p:render="@{#isAddLine}"/>
+                                              p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');" p:render="@{#isAddLine}" p:disabled="true"/>
                                     </list>
                                 </property>
                             </bean>
