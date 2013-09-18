@@ -99,7 +99,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        throw new OperationFailedException ("getExamOfferingIdsByType has not been implemented");
+        return luiService.getLuiIdsByType(examTypeKey, contextInfo);
     }
 
     @Override
@@ -302,7 +302,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             luiRetrn = getLuiService().updateLuiLuiRelation(examOfferingRelationId, luiRel, contextInfo);
         } catch (Exception ex) {
             throw new OperationFailedException(OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE, ex);
-        }        
+        }
 
         //transform and return saved info
         ExamOfferingRelationInfo examOfferingRelationInfoRtrn = new ExamOfferingRelationInfo();
