@@ -285,7 +285,6 @@ public class LuiServiceConstants {
     // This is a grouping type
     public static final String LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY = "kuali.lui.lui.relation.type.deliveredvia";
     public static final String LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY = "kuali.lui.lui.relation.type.registeredforvia.fo2eo";
-    public static final String LUI_LUI_RELATION_REGISTERED_FOR_VIA_AO_TO_EO_TYPE_KEY = "kuali.lui.lui.relation.type.registeredforvia.ao2eo";
 
     /**
      * LUI LUI Relation States
