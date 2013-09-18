@@ -724,6 +724,22 @@ function stepBrowserBackTwoPages() {
     window.history.back(-2);
 }
 
+/*
+Added below method for fixing issue KSENROLL-9127-Create Academic Calendar Stacktrace.
+This method is called from AcademicCalendarEditPage.xml
+*/
+function disableIfSelectedValue(matchText,dropDownId,buttonId) {
+    var selectedText = jQuery('#'+ dropDownId).find(":selected").val();
+    var field = jQuery('#'+buttonId);
+    if(selectedText==matchText) {
+        field.addClass("disabled");
+        field.attr("disabled","disabled");
+    } else {
+        field.removeClass("disabled");
+        field.removeAttr("disabled");
+    }
+}
+
 /* Renaming Twitter Boostrap button() function to avoid conflict with jQueryUI's button() function
   This problem manifested with dialog radio buttons that did not get the treatment from jQueryUI
   to render them as regular button inputs.
