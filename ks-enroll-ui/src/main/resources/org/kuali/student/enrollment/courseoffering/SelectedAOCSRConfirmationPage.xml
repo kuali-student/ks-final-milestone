@@ -65,7 +65,7 @@
                                     <bean parent="KS-Uif-PrimaryActionButton" p:id="AoCancelConfirmationCancelButton" p:actionLabel="Cancel Activity Offering(s)" p:methodToCall="cancelSelectedAoList" p:render="@{actionCSR == T(org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants).ACTIVITYOFFERING_ACTION_CANCEL}"/>
                                     <bean parent="KS-Uif-PrimaryActionButton" p:id="AoSuspendConfirmationCancelButton" p:actionLabel="Suspend Activity Offering(s)" p:methodToCall="suspendSelectedAoList" p:render="@{actionCSR == T(org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants).ACTIVITYOFFERING_ACTION_SUSPEND}"/>
                                     <bean parent="KS-Uif-PrimaryActionButton" p:id="AoReinstateConfirmationCancelButton" p:actionLabel="Reinstate Activity Offering(s)" p:methodToCall="reinstateSelectedAoList" p:render="@{actionCSR == T(org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants).ACTIVITYOFFERING_ACTION_REINSTATE}"/>
-                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancelCSRAOs" />
+                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="reloadManageCO" />
                                 </list>
                             </property>
                         </bean>

@@ -399,15 +399,6 @@ public class CourseOfferingManagementController extends UifControllerBase {
     }
 
     /*
-     * Method used to cancel a list of selected Activity Offerings for Cancel/Suspend/Reinstate
-     */
-    @RequestMapping(params = "methodToCall=cancelCSRAOs")
-    public ModelAndView cancelCSRAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
-        CourseOfferingManagementUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
-        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
-    }
-
-    /*
      * Method used to confirm delete AOs
      */
     @RequestMapping(params = "methodToCall=deleteCoConfirmation")
