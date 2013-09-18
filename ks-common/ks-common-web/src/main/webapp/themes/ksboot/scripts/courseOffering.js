@@ -152,10 +152,10 @@ function updateExamDriverInFOTable(finalExamDropDownId, finalExamTableCellId) {
 
     var finalExamTableCells1 = jQuery('[id^="edit_co_final_exam_type_line"][id$="_control"]');
     finalExamTableCells1.each(function () {
-        if (finalExamDriverUI == "Course Offering") {
-            jQuery(this).hide();
-        } else {
+        if (finalExamDriverUI == "Activity Offering") {
             jQuery(this).show();
+        } else {
+            jQuery(this).hide();
         }
     });
 }
