@@ -39,6 +39,7 @@ import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelp
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
 import org.kuali.student.enrollment.common.util.EnrollConstants;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -875,11 +876,9 @@ public class AcademicCalendarController extends UifControllerBase {
         AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(acalForm);
         StatusInfo statusInfo;
         try {
-            if (term.isSubTerm()) {
-                statusInfo = getAcademicCalendarServiceFacade().makeTermOfficialCascaded(term.getTermInfo().getId(), viewHelperService.createContextInfo());
-            } else {
-                statusInfo = getAcalService().changeTermState(term.getTermInfo().getId(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, viewHelperService.createContextInfo());
-            }
+            // no need to check if the term is a sub term.  makeTermOfficialCascaded method works for both sub term and non-sub term
+            statusInfo = getAcademicCalendarServiceFacade().makeTermOfficialCascaded(term.getTermInfo().getId(), viewHelperService.createContextInfo());
+
             if (!statusInfo.getIsSuccess()) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.ERROR_CUSTOM, statusInfo.getMessage());
                 return false;
