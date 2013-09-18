@@ -301,7 +301,7 @@ public class RegistrationGroupWrapper implements Serializable, ComparatorModel {
         if (appendForDisplay){
             this.buildingCode = this.buildingCode + "<br><span " + cssClass + " >" + buildingCode + "</span>";
         }else{
-            this.buildingCode = "<span " + cssClass + " >" + buildingCode + "</span>";
+            this.buildingCode = buildingCode;
         }
     }
 
@@ -316,11 +316,21 @@ public class RegistrationGroupWrapper implements Serializable, ComparatorModel {
         } else {
             appendForDisplay = true;
         }
+        String underlineCssClass = "<span style=\"border-bottom: 1px dotted;\">";
+
+/*
         if (appendForDisplay){
-            this.buildingCode = this.buildingCode + "<br><span " + cssClass + " >" + "  [id='SchOfClasses-RegGroup-BuildingCodeAndName-Tooltip' messageText='" + buildingCode + "'" + " toolTip.tooltipContent="+ "'" + buildingName+"']" + "</span>";
+            this.buildingCode = this.buildingCode + "<br><span " + cssClass + " >" + "  [id='SchOfClasses-RegGroup-BuildingCodeAndName-Tooltip' messageText='" + buildingCode + "'" + " toolTip.tooltipContent="+ "'" + buildingName +"']" + "</span>";
         }else{
             this.buildingCode = "<span " + cssClass + " >" + "  [id='SchOfClasses-RegGroup-BuildingCodeAndName-Tooltip' messageText=" + "'" + buildingCode + "'" + " toolTip.tooltipContent=" + "'" + buildingName + "']" + "</span>";
         }
+*/
+        if (appendForDisplay){
+            this.buildingCode = this.buildingCode + "<br><span " + cssClass + " title='" + buildingName  + "'>" + underlineCssClass + buildingCode + "</span>";
+        }else{
+            this.buildingCode = "<span " + cssClass + "title='" + buildingName  + "'>" + underlineCssClass + buildingCode + "</span>";
+        }
+
     }
 
     public List<String> getBldgNameList() {

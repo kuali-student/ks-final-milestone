@@ -748,6 +748,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     aoWrapper.setEndTimeDisplay(sched.getEnd().isEmpty() ? sched.getEnd() : DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(Long.parseLong(sched.getEnd()))), newRow);
                     aoWrapper.setBuildingName(sched.getBldgName(), newRow);
                     aoWrapper.setBuildingCode(sched.getBldgCode(), newRow);
+                    aoWrapper.setBldgCodeSimple(sched.getBldgCode());
                     aoWrapper.setRoomName(sched.getRoomCode(), newRow);
                     aoWrapper.setDaysDisplayName(sched.getWeekdays(), newRow);
                     aoWrapper.setTbaDisplayName(sched.getTbaInd(), newRow);
@@ -788,6 +789,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         if( sched.getBldgs() == null || sched.getBldgs().isEmpty() ) {
             aoWrapper.setBuildingName( StringUtils.EMPTY, newline, cssStyle );
             aoWrapper.setBuildingCode(StringUtils.EMPTY, newline, cssStyle );
+            aoWrapper.setBldgCodeSimple(StringUtils.EMPTY);
             return;
         }
 
@@ -796,6 +798,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             String bldgCode = StringUtils.defaultIfEmpty( bldg.getBuildingCode(), StringUtils.EMPTY );
             aoWrapper.setBuildingName( bldgName, newline, "uif-scheduled-dl");
             aoWrapper.setBuildingCode(bldgCode, newline, "uif-scheduled-dl");
+            aoWrapper.setBldgCodeSimple(bldgCode);
+
         }
     }
 
@@ -1009,7 +1013,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 rgWrapper.setDaysDisplayName(rgWrapper.getDaysDisplayName() + (newLine ? "<br/>" : "") + aoWrapper.getDaysDisplayName() + lineBreaksInstructors);
                 rgWrapper.setRoomName(rgWrapper.getRoomName() + (newLine ? "<br/>" : "") + aoWrapper.getRoomName() + lineBreaksInstructors);
                 rgWrapper.setBuildingName(rgWrapper.getBuildingName() + (newLine ? "<br/>" : "") + aoWrapper.getBuildingName() + lineBreaksInstructors);
-                rgWrapper.setBuildingCode(rgWrapper.getBuildingCode() + (newLine ? "<br/>" : "") + aoWrapper.getBuildingCode() + lineBreaksInstructors);
+                rgWrapper.setBuildingCodeWithTooltip(aoWrapper.getBldgCodeSimple(), aoWrapper.getBuildingName(), (newLine ? "<br/>" : ""));
                 rgWrapper.setAoInstructorText(rgWrapper.getAoInstructorText() + (newLine ? "<br/>" : "") + (aoWrapper.getInstructorDisplayNames() == null ? "" : aoWrapper.getInstructorDisplayNames()) + lineBreaksDeliveries);
 
             }

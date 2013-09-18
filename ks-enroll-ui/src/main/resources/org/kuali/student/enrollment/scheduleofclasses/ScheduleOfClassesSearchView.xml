@@ -49,9 +49,6 @@
         </property>
     </bean>
 
-    <bean id="SchOfClasses-RegGroup-BuildingCodeAndName-Tooltip" parent="Uif-Message" />
-    <bean id="SchOfClasses-BuildingName-Tooltip" parent="Uif-Tooltip"/>
-
     <bean id="scheduleOfClassesViewHelperService" parent="scheduleOfClassesViewHelperService-parent"/>
 
     <bean id="scheduleOfClassesViewHelperService-parent" class="org.kuali.student.enrollment.class2.scheduleofclasses.service.impl.ScheduleOfClassesViewHelperServiceImpl">

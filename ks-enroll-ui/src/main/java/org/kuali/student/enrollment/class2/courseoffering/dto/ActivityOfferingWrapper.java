@@ -81,6 +81,7 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
     private String daysDisplayName = "";
     private String buildingName = "";
     private String buildingCode = "";
+    private String bldgCodeSimple = "";
     private String roomName = "";
     private String tbaDisplayName = "";
     private String colocatedAoInfo = "";
@@ -817,6 +818,14 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         }else{
             this.buildingName = "<span " + cssClass + " >" + buildingName + "</span>";
         }
+    }
+
+    public String getBldgCodeSimple() {
+        return bldgCodeSimple;
+    }
+
+    public void setBldgCodeSimple(String bldgCodeSimple) {
+        this.bldgCodeSimple = bldgCodeSimple;
     }
 
     public String getBuildingCode() {
