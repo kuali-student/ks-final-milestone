@@ -3,11 +3,14 @@ package org.kuali.student.enrollment.class2.examoffering.service.transformer;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
+import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -25,6 +28,7 @@ import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -275,6 +279,57 @@ public class ExamOfferingTransformer {
         }
 
         return luiToScheduleRequestsMap;
+    }
+
+    public void transformEORel2LuiLuiRel(ExamOfferingRelationInfo examOfferingRelationInfo, LuiLuiRelationInfo luiRel){
+        String examOfferingId = examOfferingRelationInfo.getExamOfferingId();
+        luiRel.setLuiId(examOfferingRelationInfo.getFormatOfferingId());
+        luiRel.setRelatedLuiId(examOfferingId);
+        RichTextInfo descr = new RichTextInfo();
+        luiRel.setName("Fo-Eo-relation");
+        descr.setPlain(examOfferingId + "-FO-EO"); // Useful for debugging
+        descr.setFormatted(examOfferingId + "-FO-EO)"); // Useful for debugging
+        luiRel.setDescr(descr);
+        luiRel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY);
+        luiRel.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
+        luiRel.setEffectiveDate(new Date());
+        //store AO IDs as attributes
+        List<AttributeInfo> attributeInfos = new ArrayList<AttributeInfo>();
+        int i = 1; //unique key
+        for (String aoId : examOfferingRelationInfo.getActivityOfferingIds()){
+            AttributeInfo attributeInfo = new AttributeInfo();
+            attributeInfo.setKey("AO"+i);
+            attributeInfo.setValue(aoId);
+            attributeInfos.add(attributeInfo);
+            i++;
+        }
+        //store Population IDs as attributes
+        i = 1;
+        for (String aoId : examOfferingRelationInfo.getPopulationIds()){
+            AttributeInfo attributeInfo = new AttributeInfo();
+            attributeInfo.setKey("PO"+i);
+            attributeInfo.setValue(aoId);
+            attributeInfos.add(attributeInfo);
+            i++;
+        }
+        luiRel.setAttributes(attributeInfos);
+    }
+
+    public void transformLuiLuiRel2EORel(LuiLuiRelationInfo luiLuiRelationInfo, ExamOfferingRelationInfo examOfferingRelationInfo){
+        List<String> aoIds = new ArrayList<String>();
+        List<String> populationIds = new ArrayList<String>();
+        examOfferingRelationInfo.setId(luiLuiRelationInfo.getId()); // = examOfferingRelationId
+        examOfferingRelationInfo.setExamOfferingId(luiLuiRelationInfo.getRelatedLuiId());
+        examOfferingRelationInfo.setFormatOfferingId(luiLuiRelationInfo.getLuiId());
+        for (AttributeInfo attributeInfo : luiLuiRelationInfo.getAttributes()){
+            if(attributeInfo.getKey().contains("AO")){
+                aoIds.add(attributeInfo.getValue());
+            } else if (attributeInfo.getKey().contains("PO")){
+                populationIds.add(attributeInfo.getValue());
+            }
+        }
+        examOfferingRelationInfo.setActivityOfferingIds(aoIds);
+        examOfferingRelationInfo.setPopulationIds(populationIds);
     }
 
     public LuiService getLuiService() {

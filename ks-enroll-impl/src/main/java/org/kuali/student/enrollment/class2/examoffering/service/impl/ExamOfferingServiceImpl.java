@@ -256,9 +256,9 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
         }
         //set FO / EO relations
         LuiLuiRelationInfo luiRel = new LuiLuiRelationInfo();
-        LuiLuiRelationInfo  luiRetrn;
         //transform
-        luiRel = transformEORelInfoToLuiLuiRelInfo(examOfferingRelationInfo);
+        LuiLuiRelationInfo  luiRetrn;
+        getExamOfferingTransformer().transformEORel2LuiLuiRel(examOfferingRelationInfo, luiRel);
 
         //save
         try {
@@ -268,7 +268,9 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
         }
 
         //transform and return saved info
-        return transformLuiLuiRelInfoToEORelInfo(luiRetrn);
+        ExamOfferingRelationInfo examOfferingRelationInfoRtrn = new ExamOfferingRelationInfo();
+        getExamOfferingTransformer().transformLuiLuiRel2EORel(luiRetrn, examOfferingRelationInfoRtrn);
+        return examOfferingRelationInfoRtrn;
     }
 
     @Override
@@ -291,8 +293,9 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
         }
 
         //transform
-        LuiLuiRelationInfo luiRel = transformEORelInfoToLuiLuiRelInfo(examOfferingRelationInfo);
+        LuiLuiRelationInfo  luiRel = new LuiLuiRelationInfo();
         LuiLuiRelationInfo luiRetrn;
+        getExamOfferingTransformer().transformEORel2LuiLuiRel(examOfferingRelationInfo, luiRel);
 
         //update
         try {
@@ -302,7 +305,9 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
         }        
 
         //transform and return saved info
-        return transformLuiLuiRelInfoToEORelInfo(luiRetrn);
+        ExamOfferingRelationInfo examOfferingRelationInfoRtrn = new ExamOfferingRelationInfo();
+        getExamOfferingTransformer().transformLuiLuiRel2EORel(luiRetrn, examOfferingRelationInfoRtrn);
+        return examOfferingRelationInfoRtrn;
     }
 
     @Override
@@ -346,7 +351,9 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
         }
 
         //return populated EORelationInfo
-        return transformLuiLuiRelInfoToEORelInfo(luiRetrn);
+        ExamOfferingRelationInfo examOfferingRelationInfoRtrn = new ExamOfferingRelationInfo();
+        getExamOfferingTransformer().transformLuiLuiRel2EORel(luiRetrn, examOfferingRelationInfoRtrn);
+        return examOfferingRelationInfoRtrn;
     }
 
     @Override
@@ -438,63 +445,6 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
         return meta;
     }
 
-    private LuiLuiRelationInfo transformEORelInfoToLuiLuiRelInfo(ExamOfferingRelationInfo examOfferingRelationInfo){
-        LuiLuiRelationInfo luiRel = new LuiLuiRelationInfo();
-        String examOfferingId = examOfferingRelationInfo.getExamOfferingId();
-        luiRel.setLuiId(examOfferingRelationInfo.getFormatOfferingId());
-        luiRel.setRelatedLuiId(examOfferingId);
-        RichTextInfo descr = new RichTextInfo();
-        luiRel.setName("Fo-Eo-relation");
-        descr.setPlain(examOfferingId + "-FO-EO"); // Useful for debugging
-        descr.setFormatted(examOfferingId + "-FO-EO)"); // Useful for debugging
-        luiRel.setDescr(descr);
-        luiRel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY);
-        luiRel.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
-        luiRel.setEffectiveDate(new Date());
-        //store AO IDs as attributes
-        int i = 1; //unique key
-        List<AttributeInfo> attributeInfos = new ArrayList<AttributeInfo>();
-        for (String aoId : examOfferingRelationInfo.getActivityOfferingIds()){
-            AttributeInfo attributeInfo = new AttributeInfo();
-            attributeInfo.setKey("AO"+i);
-            attributeInfo.setValue(aoId);
-            attributeInfos.add(attributeInfo);
-            i++;
-        }
-        //store Population IDs as attributes
-        i = 1;
-        for (String aoId : examOfferingRelationInfo.getPopulationIds()){
-            AttributeInfo attributeInfo = new AttributeInfo();
-            attributeInfo.setKey("PO"+i);
-            attributeInfo.setValue(aoId);
-            attributeInfos.add(attributeInfo);
-            i++;
-        }        
-        luiRel.setAttributes(attributeInfos);
-        
-        return luiRel;
-    }
-
-    private ExamOfferingRelationInfo transformLuiLuiRelInfoToEORelInfo(LuiLuiRelationInfo luiLuiRelationInfo){
-        ExamOfferingRelationInfo examOfferingRelationInfoRetrn = new ExamOfferingRelationInfo();
-        List<String> aoIds = new ArrayList<String>();
-        List<String> populationIds = new ArrayList<String>();
-        examOfferingRelationInfoRetrn.setId(luiLuiRelationInfo.getId()); // = examOfferingRelationId
-        examOfferingRelationInfoRetrn.setExamOfferingId(luiLuiRelationInfo.getRelatedLuiId());
-        examOfferingRelationInfoRetrn.setFormatOfferingId(luiLuiRelationInfo.getLuiId());
-        for (AttributeInfo attributeInfo : luiLuiRelationInfo.getAttributes()){
-            if(attributeInfo.getKey().contains("AO")){
-                aoIds.add(attributeInfo.getValue());
-            } else if (attributeInfo.getKey().contains("PO")){
-                populationIds.add(attributeInfo.getValue());
-            }
-        }
-        examOfferingRelationInfoRetrn.setActivityOfferingIds(aoIds);
-        examOfferingRelationInfoRetrn.setPopulationIds(populationIds);
-
-        return examOfferingRelationInfoRetrn;
-    }
-    
     public LuiService getLuiService() {
         return luiService;
     }
