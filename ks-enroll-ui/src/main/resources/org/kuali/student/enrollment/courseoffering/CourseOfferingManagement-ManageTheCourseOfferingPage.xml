@@ -104,11 +104,11 @@
         <property name="headerText" value="@{currentCourseOfferingWrapper.ownerCode} - @{currentCourseOfferingWrapper.courseOfferingDesc} (@{currentCourseOfferingWrapper.creditCnt} Credits, SOC State: @{socState})" />
 -->
         <property name="disclosure.render" value="false"/>
-        <property name="header.cssClasses">
+       <!-- <property name="header.cssClasses">
             <list merge="true">
                 <value>ks-borderBottom</value>
             </list>
-        </property>
+        </property>-->
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{currentCourseOfferingWrapper.ownerAliasesUIList}"
