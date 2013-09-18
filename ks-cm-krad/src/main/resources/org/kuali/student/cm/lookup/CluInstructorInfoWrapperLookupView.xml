@@ -46,13 +46,13 @@
 
 	<bean id="CluInstructorInfoWrapper.personId" parent="BaseKuali.personId">
 		<property name="name" value="personId" />
-		<property name="shortLabel" value="Person Id" />
+		<property name="shortLabel" value="Username" />
 		<property name="summary">
 			<value>
 				Unique identifier for a person record.
 			</value>
 		</property>
-		<property name="label" value="Person Id" />
+		<property name="label" value="Username" />
 		<property name="description">
 			<value>
 				Unique identifier for a person record.
