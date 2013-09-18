@@ -73,7 +73,7 @@
                 <bean parent="Uif-DataField" p:label="COURSE" p:propertyName="coDisplayInfo.courseOfferingCode" />
                 <bean parent="Uif-DataField" p:label="TITLE" p:propertyName="coDisplayInfo.courseOfferingTitle"/>
                 <bean parent="Uif-DataField" p:label="CREDITS" p:propertyName="coDisplayInfo.creditOption.name"/>
-                <bean parent="Uif-MessageField" p:label="" p:messageText="@{#line.information}">
+                <bean parent="Uif-MessageField" p:label="ADDITIONAL INFO" p:messageText="@{#line.information}">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>course-offering-display-info-icon</value>
@@ -213,7 +213,7 @@
                       p:label="INSTRUCTOR"
                       p:messageText="@{#line.instructorDisplayNames}" />
                 <bean parent="Uif-DataField" p:label="SEATS" p:propertyName="aoInfo.maximumEnrollment" p:style="text-align:right;"/>
-                <bean parent="Uif-MessageField" p:label="" p:messageText="@{#line.schOfClassesRenderHelper.information}"/>
+                <bean parent="Uif-MessageField" p:label="ADDITIONAL INFO" p:messageText="@{#line.schOfClassesRenderHelper.information}"/>
             </list>
         </property>
     </bean>
