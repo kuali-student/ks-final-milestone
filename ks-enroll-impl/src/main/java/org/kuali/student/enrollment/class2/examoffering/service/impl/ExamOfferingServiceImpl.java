@@ -46,6 +46,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.ExamServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.scheduling.infc.Schedule;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
@@ -63,6 +64,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     private LuiService luiService;
     private SchedulingService schedulingService;
     private TypeService typeService;
+    private AcademicCalendarService acalService;
 
     private ExamOfferingTransformer examOfferingTransformer;
     private static final String OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE = "unexpected";
@@ -231,7 +233,12 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
 
     @Override
     public List<ExamOfferingInfo> getExamOfferingsByExamPeriod(String examPeriodId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException ("getExamOfferingsByExamPeriod has not been implemented");
+        this.acalService.getExamPeriod(examPeriodId, contextInfo); // check exam period exists
+        List<String> examOfferingIds = luiService.getLuiIdsByAtpAndType(examPeriodId, LuiServiceConstants.FINAL_EXAM_OFFERING_TYPE_KEY, contextInfo);
+        List<ExamOfferingInfo> examOfferingInfos = new ArrayList<ExamOfferingInfo>(examOfferingIds.size());
+        examOfferingTransformer.luis2ExamOfferings(examOfferingIds, examOfferingInfos, schedulingService, contextInfo);
+
+        return examOfferingInfos;
     }
 
     @Override
@@ -467,6 +474,14 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
 
     public void setTypeService(TypeService typeService) {
         this.typeService = typeService;
+    }
+
+    public AcademicCalendarService getAcalService() {
+        return acalService;
+    }
+
+    public void setAcalService(AcademicCalendarService acalService) {
+        this.acalService = acalService;
     }
 
     public ExamOfferingTransformer getExamOfferingTransformer() {
