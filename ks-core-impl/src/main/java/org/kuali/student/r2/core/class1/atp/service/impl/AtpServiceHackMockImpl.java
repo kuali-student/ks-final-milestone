@@ -79,18 +79,21 @@ public class AtpServiceHackMockImpl extends AtpServiceMockImpl {
             SearchResultInfo resultInfo = new SearchResultInfo();
             List<SearchResultRowInfo> rows = new ArrayList<SearchResultRowInfo>();
             String parentAtpId = searchRequest.getParams().get(0).getValues().get(0);
-            try {
-                List<TermInfo> terms = acalService.getIncludedTermsInTerm(parentAtpId, contextInfo);
-                for (TermInfo term: terms) {
-                    SearchResultRowInfo row = new SearchResultRowInfo();
-                    row.addCell("atp.resultColumn.relatedAtpId", term.getId());
-                    rows.add(row);
+            if (!searchRequest.getParams().get(1).getValues().get(0).equals(AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TERM2EXAMPERIOD_TYPE_KEY)) {
+                try {
+                    List<TermInfo> terms = acalService.getIncludedTermsInTerm(parentAtpId, contextInfo);
+                    for (TermInfo term: terms) {
+                        SearchResultRowInfo row = new SearchResultRowInfo();
+                        row.addCell("atp.resultColumn.relatedAtpId", term.getId());
+                        rows.add(row);
+                    }
+                    resultInfo.setRows(rows);
+                    return resultInfo;
+                } catch (DoesNotExistException e) {
+                    throw new OperationFailedException("parentAtpId=" + parentAtpId + " does not exist");
                 }
-                resultInfo.setRows(rows);
-                return resultInfo;
-            } catch (DoesNotExistException e) {
-                throw new OperationFailedException("parentAtpId=" + parentAtpId + " does not exist");
             }
+
         }
         return null;
     }

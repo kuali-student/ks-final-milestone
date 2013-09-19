@@ -306,10 +306,12 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
         searchRequestInfo.addParam("atp.queryParam.relationType", relationTypeKey);
         SearchResultInfo results = atpService.search(searchRequestInfo, context);
 
-        for(SearchResultRowInfo row : results.getRows()){
-            for(SearchResultCellInfo cell: row.getCells()){
-                if("atp.resultColumn.relatedAtpId".equals(cell.getKey())){
-                    includedTermIds.add(cell.getValue());
+        if (results!=null && !results.getRows().isEmpty()) {
+            for(SearchResultRowInfo row : results.getRows()){
+                for(SearchResultCellInfo cell: row.getCells()){
+                    if("atp.resultColumn.relatedAtpId".equals(cell.getKey())){
+                        includedTermIds.add(cell.getValue());
+                    }
                 }
             }
         }
