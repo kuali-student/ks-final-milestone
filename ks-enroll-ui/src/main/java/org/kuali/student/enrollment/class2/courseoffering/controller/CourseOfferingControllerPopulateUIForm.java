@@ -80,9 +80,9 @@ public class CourseOfferingControllerPopulateUIForm {
             formObject.setCreateCO(true);
 
             if (coInfo.getHasWaitlist()) {
-                formObject.setHasWaitlistForUI(true);
+                formObject.getCourseOfferingInfo().setHasWaitlist(true);
             } else {
-                formObject.setHasWaitlistForUI(false);
+                formObject.getCourseOfferingInfo().setHasWaitlist(false);
             }
 
             //2. set CourseInfo

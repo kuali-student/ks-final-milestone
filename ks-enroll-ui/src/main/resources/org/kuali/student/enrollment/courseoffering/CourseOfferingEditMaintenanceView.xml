@@ -622,7 +622,7 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean id="KS-CourseOfferingEdit-HasWaitlist" parent="Uif-InputField-LabelRight" p:propertyName="hasWaitlistForUI" p:label="Waitlists Active" >
+                            <bean id="KS-CourseOfferingEdit-HasWaitlist" parent="Uif-InputField-LabelRight" p:propertyName="courseOfferingInfo.hasWaitlist" p:label="Waitlists Active" >
                                 <property name="control">
                                     <!-- show dialog prompt if user deactivates waitlist -->
                                     <bean parent="Uif-CheckboxControl"
@@ -639,7 +639,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingEdit-WailtList-Message-Section" parent="Uif-VerticalBoxSection" p:header.style="margin-top: 0;"
-          p:progressiveRender="@{#dp.hasWaitlistForUI}" >
+          p:progressiveRender="@{#dp.CourseOfferingInfo.hasWaitlist}" >
         <property name="items">
             <list>
                 <bean parent="Uif-Message"

@@ -170,19 +170,15 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             coInfo.setCourseOfferingCode(courseOfferingCode);
 
             // Waitlist
-            if (coEditWrapper.getHasWaitlistForUI() != coInfo.getHasWaitlist()) {
-                if (coEditWrapper.getHasWaitlistForUI() && !coInfo.getHasWaitlist()) {
+                if(coInfo.getHasWaitlist()) {
                     //activate the waitlist
-                    coInfo.setHasWaitlist(coEditWrapper.getHasWaitlistForUI());
                     CourseOfferingManagementUtil.getCourseWaitListServiceFacade().activateActivityOfferingWaitlistsByCourseOffering(coInfo.getId(), contextInfo);
 
                 }
-                if (!coEditWrapper.getHasWaitlistForUI() && coInfo.getHasWaitlist()) {
+                else if (!coInfo.getHasWaitlist()) {
                     //deactivate the waitlist
-                    coInfo.setHasWaitlist(coEditWrapper.getHasWaitlistForUI());
                     CourseOfferingManagementUtil.getCourseWaitListServiceFacade().deactivateActivityOfferingWaitlistsByCourseOffering(coInfo.getId(), contextInfo);
                 }
-            }
 
             //TODO REMOVE THIS AFTER KRAD CHECKLISTS ARE FIXED for student registration options
             //determine if audit reg options and pass/fail reg options should be added/removed to/from coInfo
@@ -547,9 +543,6 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
                 //1. set CourseOfferingInfo
                 CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(coInfo);
-
-                //1.1 set hasWaitlistForUI
-                formObject.setHasWaitlistForUI(coInfo.getHasWaitlist());
 
                 //2. set CourseInfo
                 formObject.setCourse(courseInfo);

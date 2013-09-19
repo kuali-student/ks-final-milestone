@@ -13,6 +13,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
@@ -27,38 +28,28 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
     @Resource(name="courseWaitListService")
     private CourseWaitListService courseWaitListService;
 
-    public void setCoService(CourseOfferingService coService) {
-        this.coService = coService;
-    }
-    
-    public void setCourseWaitListService(CourseWaitListService courseWaitListService) {
-        this.courseWaitListService = courseWaitListService;
-    }
-
-    public CourseOfferingService getCoService() {
-        return coService;
-    }
-
-    public CourseWaitListService getCourseWaitListService() {
-        return courseWaitListService;
-    }
-
-    public void activateActivityOfferingWaitlistsByCourseOffering(String coId, ContextInfo context) throws Exception {
+    /**
+     *
+     * This method creates/updates new waitListInfo with inactive state for AO from CO.
+     * <p>
+     *     when activate waitlist in CO level, we want to automatically activate all waitlists in associated AO level.
+     * </p>
+     *
+     * @param coId input Course Offering id
+     * @Param context
+     */
+    public void activateActivityOfferingWaitlistsByCourseOffering(String coId, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         List<ActivityOfferingInfo> aoInfos = getCoService().getActivityOfferingsByCourseOffering(coId, context) ;
-        if (aoInfos.size() == 0){
+        if (null == aoInfos || aoInfos.isEmpty()){
             return;
         }
         for (ActivityOfferingInfo aoInfo : aoInfos) {
             List<CourseWaitListInfo> waitListInfos = getCourseWaitListService().getCourseWaitListsByActivityOffering(aoInfo.getId(), context);
-            if (waitListInfos.size() == 0){
+            if (waitListInfos.isEmpty()){
                 //create a new waitListInfo with default setting
                 CourseWaitListInfo theWaitListInfo = new CourseWaitListInfo();
-                List aoIds = new ArrayList<String>();
-                aoIds.add(aoInfo.getId());
-                theWaitListInfo.setActivityOfferingIds(aoIds);
-                List foIds = new ArrayList<String>();
-                foIds.add(aoInfo.getFormatOfferingId());
-                theWaitListInfo.setFormatOfferingIds(foIds);
+                theWaitListInfo.getActivityOfferingIds().add(aoInfo.getId());
+                theWaitListInfo.getFormatOfferingIds().add(aoInfo.getFormatOfferingId());
                 theWaitListInfo = activateCourseWaitListWithDefaultValues(theWaitListInfo);
                 getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
                         theWaitListInfo, context);
@@ -72,22 +63,33 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
         }
     }
 
-    public void deactivateActivityOfferingWaitlistsByCourseOffering(String coId, ContextInfo context) throws Exception {
+    /**
+     *
+     * This method creates/updates new waitListInfo for AO from CO.
+     * <p>
+     *     when activate waitlist(with inactive state) in CO level, we want to automatically activate all waitlists (with inactive state) in associated AO level.
+     * </p>
+     *
+     * @param coId input Course Offering id
+     * @Param context
+     */
+
+    public void deactivateActivityOfferingWaitlistsByCourseOffering(String coId, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         List<ActivityOfferingInfo> aoInfos = getCoService().getActivityOfferingsByCourseOffering(coId, context) ;
-        if (aoInfos.size() == 0){
+        if (aoInfos == null || aoInfos.isEmpty()){
             return;
         }
         for (ActivityOfferingInfo aoInfo : aoInfos) {
             List<CourseWaitListInfo> waitListInfos = getCourseWaitListService().getCourseWaitListsByActivityOffering(aoInfo.getId(), context);
-            if (waitListInfos.size() == 0){
+
+            if(waitListInfos == null)    {
+                return;
+            }
+            if (waitListInfos.isEmpty()){
                 //create a new waitListInfo with the inactive state
                 CourseWaitListInfo theWaitListInfo = new CourseWaitListInfo();
-                List aoIds = new ArrayList<String>();
-                aoIds.add(aoInfo.getId());
-                theWaitListInfo.setActivityOfferingIds(aoIds);
-                List foIds = new ArrayList<String>();
-                foIds.add(aoInfo.getFormatOfferingId());
-                theWaitListInfo.setFormatOfferingIds(foIds);
+                theWaitListInfo.getActivityOfferingIds().add(aoInfo.getId());
+                theWaitListInfo.getFormatOfferingIds().add(aoInfo.getFormatOfferingId());
                 theWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
                 getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
                         theWaitListInfo, context);
@@ -104,7 +106,6 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
                 }
             }
         }
-
     }
 
     /* Create a new CourseWaitListInfo (CWLI) for a specified AO and persist it in DB
@@ -189,4 +190,19 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
         return courseWaitListInfo;
     }
 
+    public void setCoService(CourseOfferingService coService) {
+        this.coService = coService;
+    }
+
+    public void setCourseWaitListService(CourseWaitListService courseWaitListService) {
+        this.courseWaitListService = courseWaitListService;
+    }
+
+    public CourseOfferingService getCoService() {
+        return coService;
+    }
+
+    public CourseWaitListService getCourseWaitListService() {
+        return courseWaitListService;
+    }
 }

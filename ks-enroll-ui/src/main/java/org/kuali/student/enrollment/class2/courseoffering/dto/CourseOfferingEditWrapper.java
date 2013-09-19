@@ -72,8 +72,6 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
     //this field is used for CO inquiry page to display all associated AOs
     private List<ActivityOfferingWrapper> aoWrapperList;
 
-    private boolean hasWaitlistForUI;
-
     public CourseOfferingEditWrapper(){
         formatOfferingList = new ArrayList<FormatOfferingWrapper>();
         studentRegOptions = new ArrayList<String>();
@@ -307,15 +305,6 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
     public void setCreateCO(boolean createCO) {
         this.createCO = createCO;
     }
-
-    public boolean getHasWaitlistForUI() {
-        return hasWaitlistForUI;
-    }
-
-    public void setHasWaitlistForUI(boolean hasWaitlistForUI) {
-        this.hasWaitlistForUI = hasWaitlistForUI;
-    }
-
     /**
      * This is a suffix stripped out version of the Cross List codes from Course Offering DTO. This is needed to display
      * the cross list codes at edit co screen so that users can check/uncheck the cross lists

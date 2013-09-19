@@ -33,14 +33,6 @@ public class CourseWaitListServiceImpl implements CourseWaitListService {
     @Resource
     private CourseWaitListDaoApi courseWaitListDao;
 
-    public CourseWaitListDaoApi getCourseWaitListDao() {
-        return courseWaitListDao;
-    }
-
-    public void setCourseWaitListDao(CourseWaitListDaoApi courseWaitListDao) {
-        this.courseWaitListDao = courseWaitListDao;
-    }
-
     @Override
     @Transactional(readOnly = true)
     public CourseWaitListInfo getCourseWaitList(String courseWaitListId, ContextInfo contextInfo)
@@ -137,7 +129,7 @@ public class CourseWaitListServiceImpl implements CourseWaitListService {
             OperationFailedException, PermissionDeniedException {
         List<String> aoIds = new ArrayList<String>();
         aoIds.add(activityOfferingId);
-        List<CourseWaitListEntity> entities = courseWaitListDao.getCourseWaitListsByActivityOffering(aoIds);
+        List<CourseWaitListEntity> entities = courseWaitListDao.getCourseWaitListsByActivityOfferingIds(aoIds);
         List<CourseWaitListInfo> infoList = new ArrayList<CourseWaitListInfo>();
         for (CourseWaitListEntity entity : entities) {
             CourseWaitListInfo courseWaitListInfo = entity.toDto();
@@ -412,5 +404,11 @@ public class CourseWaitListServiceImpl implements CourseWaitListService {
         throw new OperationFailedException("not implemented");
     }
 
+    public CourseWaitListDaoApi getCourseWaitListDao() {
+        return courseWaitListDao;
+    }
 
+    public void setCourseWaitListDao(CourseWaitListDaoApi courseWaitListDao) {
+        this.courseWaitListDao = courseWaitListDao;
+    }
 }

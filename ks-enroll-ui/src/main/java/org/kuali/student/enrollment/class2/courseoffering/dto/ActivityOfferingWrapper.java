@@ -5,6 +5,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.waitlist.FromUIWaitListType;
+import org.kuali.student.enrollment.class2.courseoffering.waitlist.ManualWaitListType;
+import org.kuali.student.enrollment.class2.courseoffering.waitlist.WaitListTypeWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.ComparatorModel;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -32,10 +35,7 @@ import java.util.List;
  */
 public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
 
-    private final String WL_AUTOMATIC = "Automatic";
-    private final String WL_SEMI_AUTOMATIC = "Semi-Automatic";
-    private final String WL_MANUAL = "Manual" ;
-
+    private WaitListTypeWrapper waitListTypeWrapper;
     private String aoClusterName;
     private String aoClusterID;
     private ActivityOfferingInfo aoInfo;
@@ -49,8 +49,6 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
     private boolean isCheckedByCluster;
     private String courseOfferingId;
     private String populationsJSONString;
-    private String waitListType;
-    private String waitListTypeConstant;
 
     private String stateName;
     private String typeName;
@@ -193,6 +191,7 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         startTime = new ArrayList<String>();
         endTime = new ArrayList<String>();
         weekDays = new ArrayList<String>();
+        waitListTypeWrapper = new FromUIWaitListType();
     }
 
     public ActivityOfferingWrapper(ActivityOfferingInfo info){
@@ -264,63 +263,6 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
 
     public void setEnableCancelButton(boolean enableCancelButton) {
         this.enableCancelButton = enableCancelButton;
-    }
-
-    public String getWaitListTypeConstant(){
-        return waitListTypeConstant;
-    }
-
-    public void updateWaitListTypeConstant(){
-        if(waitListType.equals(WL_AUTOMATIC) || waitListType.equals(""))  {
-            waitListTypeConstant = LuiServiceConstants.AUTOMATIC_WAITLIST_TYPE_KEY;
-        }
-        else if(waitListType.equals(WL_MANUAL)) {
-            waitListTypeConstant = LuiServiceConstants.MANUAL_WAITLIST_TYPE_KEY;
-        }
-        else if(waitListType.equals(WL_SEMI_AUTOMATIC))  {
-            waitListTypeConstant  = LuiServiceConstants.SEMIAUTOMATIC_WAITLIST_TYPE_KEY;
-        }
-        else     { // Default is Automatic.
-            waitListTypeConstant =  LuiServiceConstants.AUTOMATIC_WAITLIST_TYPE_KEY;
-        }
-    }
-
-    public void setWaitListTypeConstant(String waitListTypeConstant){
-        this.waitListTypeConstant = waitListTypeConstant;
-    }
-
-    public String getWaitListType(){
-      return waitListType;
-    }
-
-    /*
-     *   wait list type is populated with below logic.
-     *   automatic -> automaticallyProcessed = true, confirmationRequired = false
-     *   semi-automatic -> automaticallyProcessed = true, confirmationRequired = true
-     *   manual -> automaticallyProcessed = false, confirmationRequired = false
-     */
-    public void updateWaitListType(){
-        if((courseWaitListInfo.getAutomaticallyProcessed() == null &&  courseWaitListInfo.getConfirmationRequired() == null)) {
-            waitListType = "";
-        }
-        else if( courseWaitListInfo.getAutomaticallyProcessed().equals(true) && (courseWaitListInfo.getConfirmationRequired().equals(false)))   {
-            waitListType = WL_AUTOMATIC;
-        }
-
-        else if ( courseWaitListInfo.getAutomaticallyProcessed().equals(true) && (courseWaitListInfo.getConfirmationRequired().equals(true)))   {
-            waitListType = WL_SEMI_AUTOMATIC;
-        }
-
-        else if( courseWaitListInfo.getAutomaticallyProcessed().equals(false) && (courseWaitListInfo.getConfirmationRequired().equals(false)))  {
-            waitListType = WL_MANUAL;
-        }
-        else {   // This is for default value
-            waitListType = WL_AUTOMATIC;
-        }
-    }
-
-    public void setWaitListType(String waitListType){
-        this.waitListType = waitListType;
     }
 
     public boolean isEnableMoveToButton() {
@@ -796,6 +738,19 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
 
     public String getBuildingName() {
         return buildingName;
+    }
+
+    public WaitListTypeWrapper getWaitListTypeWrapper() {
+        return waitListTypeWrapper;
+    }
+
+    public void setWaitListTypeWrapper(WaitListTypeWrapper waitListTypeWrapper) {
+        this.waitListTypeWrapper = waitListTypeWrapper;
+    }
+
+    public void updateWaitListTypeWrapper(){
+        // Manual waitlist Type is first in chain. therefore starting with manual, appropriate waitlist type will be set to this (ActivityOfferingWrapper)
+        new ManualWaitListType().waitListTypeFinder(this);
     }
 
     public void setBuildingName(String buildingName,boolean appendForDisplay) {

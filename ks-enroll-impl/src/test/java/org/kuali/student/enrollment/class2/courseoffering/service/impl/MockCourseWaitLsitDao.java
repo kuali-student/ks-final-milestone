@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class MockCourseWaitLsitDao implements CourseWaitListDaoApi{
 
-    public List<CourseWaitListEntity> getCourseWaitListsByActivityOffering(List<String> activityOfferingIds) {
+    public List<CourseWaitListEntity> getCourseWaitListsByActivityOfferingIds(List<String> activityOfferingIds) {
         return new ArrayList<CourseWaitListEntity>();
     }
 
