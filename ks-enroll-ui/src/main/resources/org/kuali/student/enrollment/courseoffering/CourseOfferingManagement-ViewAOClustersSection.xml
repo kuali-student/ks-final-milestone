@@ -40,6 +40,7 @@
         <property name="subCollections">
             <list>
                 <ref bean="KS-CourseOfferingManagement-ActivityOfferingsPerClusterSubSection" />
+                <ref bean="KS-CourseOfferingManagement-ViewExamOfferingByActivityOffering" />
                 <ref bean="KS-CourseOfferingManagement-RegistrationGroupsPerClusterSubSection" />
             </list>
         </property>
@@ -250,6 +251,65 @@
                 <!--</list>-->
                     <!--</property>-->
                 <!--</bean>-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseOfferingManagement-ViewExamOfferingByActivityOffering" parent="Uif-Disclosure-TableCollectionSubSection"
+          p:renderAddLine="false"  p:renderLineActions="false">
+        <property name="id" value="examOfferingByActivityOffering" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
+        <property name="propertyName" value="aoWrapperList" />
+        <property name="headerText" value="Request Exam Offering Delivery Logistics by Activity Offering"/>
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+        </property>
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="true" />
+        <property name="layoutManager.richTable">
+            <bean parent="KS-Uif-RichTable"/>
+        </property>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[0, 'asc']]"/>
+                <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="ACTIVITY" >
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false">
+                                <property name="inquiry">
+                                    <bean parent="KS-Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField"
+                      p:label="STATE"
+                      p:propertyName="stateName" />
+                <bean parent="Uif-MessageField"
+                      p:label="DAYS"
+                      p:messageText="@{#line.daysDisplayName}" />
+                <bean parent="Uif-MessageField"
+                      p:label="START TIME"
+                      p:messageText="@{#line.startTimeDisplay}" />
+                <bean parent="Uif-MessageField"
+                      p:label="END TIME"
+                      p:messageText="@{#line.endTimeDisplay}" />
+                <bean parent="Uif-MessageField"
+                      p:label="FACILITY"
+                      p:messageText="@{#line.buildingName}" />
+                <bean parent="Uif-MessageField"
+                      p:label="ROOM"
+                      p:messageText="@{#line.roomName}" />
+
             </list>
         </property>
     </bean>
