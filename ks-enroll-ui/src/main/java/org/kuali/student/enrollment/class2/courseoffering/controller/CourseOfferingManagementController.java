@@ -16,10 +16,9 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
-import org.apache.log4j.Logger;
-
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -29,14 +28,18 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
-import org.kuali.student.enrollment.class2.courseoffering.util.*;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementToolbarUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -862,5 +865,72 @@ public class CourseOfferingManagementController extends UifControllerBase {
         urlParameters.put("returnFormKey", form.getFormKey());
 
         return super.performRedirect(form, "courseOfferingRules", urlParameters);
+    }
+
+
+    /**
+     * Redirect to exam Offerings View
+     *
+     * @param form model
+     * @return ModelAndView
+     * @throws Exception
+     */
+    @RequestMapping(params = "methodToCall=viewExamOfferings")
+    public ModelAndView viewExamOfferings(@ModelAttribute("KualiForm") CourseOfferingManagementForm form) throws Exception {
+
+
+
+        CourseOfferingManagementForm examofferingform = (CourseOfferingManagementForm) form;
+        Properties urlParameters = new Properties();
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "getExamOfferings");
+        urlParameters.put("coInfo.id",  form.getCurrentCourseOfferingWrapper().getCourseOfferingId());
+        urlParameters.put("termCode",  form.getTermCode());
+        urlParameters.put("inputCode",  form.getInputCode());
+        urlParameters.put(UifParameters.VIEW_ID, "examOfferingsView");
+        urlParameters.put(UifParameters.PAGE_ID, "examOfferingsViewPage");
+        urlParameters.put("withinPortal", BooleanUtils.toStringTrueFalse(examofferingform.isWithinPortal()));
+
+        return super.performRedirect(form, "courseOfferingManagement", urlParameters);
+
+
+    }
+
+
+
+    /**
+     *
+     * @param form model
+     * @return ModelAndView
+     * @throws Exception
+     */
+    @RequestMapping(params = "methodToCall=getExamOfferings")
+    public ModelAndView getExamOfferings(@ModelAttribute("KualiForm") CourseOfferingManagementForm form) throws Exception {
+
+
+
+        CourseOfferingManagementForm examofferingform =  form;
+
+        examofferingform.setInputCode( form.getInputCode().toUpperCase() );
+
+        CourseOfferingManagementUtil.getViewHelperService(examofferingform).populateTerm(examofferingform);
+
+        CourseOfferingManagementUtil.getViewHelperService(examofferingform).loadCourseOfferingsByTermAndCourseCode(examofferingform.getTermInfo().getId(), examofferingform.getInputCode(), examofferingform);
+
+
+        if (!examofferingform.getCourseOfferingResultList().isEmpty()) {
+            if (examofferingform.getCourseOfferingResultList().size() > 1) {
+                examofferingform.setSubjectCode(examofferingform.getCourseOfferingResultList().get(0).getSubjectArea());
+                String longNameDescr = CourseOfferingManagementUtil.getOrgNameDescription(examofferingform.getSubjectCode());
+                examofferingform.setSubjectCodeDescription(longNameDescr);
+
+                CourseOfferingManagementToolbarUtil.processCoToolbarForUser(examofferingform.getCourseOfferingResultList(), examofferingform);
+            } else { // just one course offering is returned
+                CourseOfferingListSectionWrapper coListWrapper = examofferingform.getCourseOfferingResultList().get(0);
+                CourseOfferingManagementUtil.prepareManageAOsModelAndView(examofferingform, coListWrapper);
+
+            }
+        }
+        return getUIFModelAndView(examofferingform, "examOfferingsViewPage");
+
     }
 }
