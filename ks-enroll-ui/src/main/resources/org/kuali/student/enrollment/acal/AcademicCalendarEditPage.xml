@@ -171,9 +171,6 @@ limitations under the License.
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.name"
-                                  p:label="Academic Calendar Name" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false" p:id="academicCalendarName"/>
                             <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.startDate"
                                   p:label="Start Date" p:colSpan="3"
                                   p:fieldLabel.renderColon="false" p:id="academicCalendarStartDate"/>
