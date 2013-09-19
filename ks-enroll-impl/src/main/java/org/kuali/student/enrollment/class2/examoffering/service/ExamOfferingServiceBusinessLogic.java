@@ -22,9 +22,13 @@ import java.util.List;
 public interface ExamOfferingServiceBusinessLogic {
 
     /**
+     * This method generates new Exam Offerings for the Course Offering for the given Course Offering Id based on
+     * the exam drivers.
+     *
+     * If the Final Exam Status is not STANDARD, then all Exam Offerings linked to the Course Offering will be deleted.
      *
      * @param courseOfferingId
-     * @param targetTermId
+     * @param termId
      * @param optionKeys
      * @param context
      * @throws AlreadyExistsException
@@ -37,14 +41,16 @@ public interface ExamOfferingServiceBusinessLogic {
      * @throws PermissionDeniedException
      * @throws ReadOnlyException
      */
-    void generateFinalExamOffering(String courseOfferingId, String targetTermId, List<String> optionKeys, ContextInfo context)
+    void generateFinalExamOffering(String courseOfferingId, String termId, List<String> optionKeys, ContextInfo context)
             throws AlreadyExistsException,
             DataValidationErrorException, DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
+     * Generates a single Exam Offering per Format Offering.
      *
      * @param courseOfferingId
+     * @param examPeriodId
      * @param context
      * @throws PermissionDeniedException
      * @throws MissingParameterException
@@ -52,11 +58,14 @@ public interface ExamOfferingServiceBusinessLogic {
      * @throws OperationFailedException
      * @throws DoesNotExistException
      */
-    void generateFinalExamOfferingsPerCO(String courseOfferingId, ContextInfo context)
+    void generateFinalExamOfferingsPerCO(String courseOfferingId, String examPeriodId, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
-            OperationFailedException, DoesNotExistException;
+            OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException;
 
     /**
+     * This method removes all Exam Offering from the Course Offering for the given Coure Offering Id. This
+     * include all the Exam Offering for the Format Offerings and Activity Offerings linked to the Course
+     * Offering.
      *
      * @param courseOfferingId
      * @param context
@@ -71,8 +80,10 @@ public interface ExamOfferingServiceBusinessLogic {
             OperationFailedException, DoesNotExistException;
 
     /**
+     * Generates an Exam Offering for each Activity Offering.
      *
      * @param courseOfferingId
+     * @param examPeriodId
      * @param context
      * @throws PermissionDeniedException
      * @throws MissingParameterException
@@ -80,21 +91,8 @@ public interface ExamOfferingServiceBusinessLogic {
      * @throws OperationFailedException
      * @throws DoesNotExistException
      */
-    void generateFinalExamOfferingsPerAO(String courseOfferingId, ContextInfo context)
+    void generateFinalExamOfferingsPerAO(String courseOfferingId, String examPeriodId, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
-            OperationFailedException, DoesNotExistException;
+            OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException;
 
-    /**
-     *
-     * @param courseOfferingId
-     * @param context
-     * @throws PermissionDeniedException
-     * @throws MissingParameterException
-     * @throws InvalidParameterException
-     * @throws OperationFailedException
-     * @throws DoesNotExistException
-     */
-    void removeFinalExamOfferingsPerAO(String courseOfferingId, ContextInfo context)
-            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
-            OperationFailedException, DoesNotExistException;
 }

@@ -21,7 +21,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader;
 import org.kuali.student.enrollment.class2.examoffering.service.ExamOfferingServiceBusinessLogic;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.infc.FormatOffering;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
+import org.kuali.student.enrollment.examoffering.infc.ExamOffering;
+import org.kuali.student.enrollment.examoffering.service.ExamOfferingService;
 import org.kuali.student.lum.lrc.service.util.MockLrcTestDataLoader;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -31,6 +39,9 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.test.context.ContextConfiguration;
@@ -41,9 +52,13 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
+
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:examoffering-test-context.xml"})
-@Transactional
+@ContextConfiguration(locations = {"classpath:eo-businesslogic-test-with-mocks-context.xml"})
 public class TestExamOfferingServiceBusinessLogicImpl {
 
     @Resource
@@ -53,10 +68,19 @@ public class TestExamOfferingServiceBusinessLogicImpl {
     private CourseService courseService;
 
     @Resource
-    protected LRCService lrcService;
+    private CourseOfferingService courseOfferingService;
 
     @Resource
-    protected CourseOfferingServiceTestDataLoader dataLoader;
+    private LRCService lrcService;
+
+    @Resource
+    private ExamOfferingService examOfferingService;
+
+    @Resource
+    private CourseOfferingServiceTestDataLoader coDataLoader;
+
+    @Resource
+    private ExamOfferingServiceTestDataLoader eoDataLoader;
 
     public ContextInfo contextInfo = null;
     public static String principalId = "123";
@@ -64,8 +88,10 @@ public class TestExamOfferingServiceBusinessLogicImpl {
     @Before
     public void setUp() throws Exception {
         new MockLrcTestDataLoader(this.lrcService).loadData();
-        dataLoader.createStateTestData();
-        dataLoader.beforeTest(false);
+        coDataLoader.createStateTestData();
+        coDataLoader.beforeTest(false);
+
+        eoDataLoader.beforeTest();
 
         principalId = "123";
         contextInfo = new ContextInfo();
@@ -74,7 +100,119 @@ public class TestExamOfferingServiceBusinessLogicImpl {
 
     @After
     public void afterTest() throws Exception {
-        dataLoader.afterTest();
+        coDataLoader.afterTest();
+        eoDataLoader.afterTest();
+    }
+
+    @Test
+    public void testGenerateFinalExamOffering() throws InvalidParameterException, AlreadyExistsException,
+            OperationFailedException, MissingParameterException, PermissionDeniedException, ReadOnlyException,
+            DataValidationErrorException, DoesNotExistException, VersionMismatchException {
+
+        String coId = CourseOfferingServiceTestDataLoader.CHEM123_COURSE_OFFERING_ID;
+
+        CourseOfferingInfo co = this.getCourseOfferingService().getCourseOffering(coId, contextInfo);
+        co.getAttributes().add(new AttributeInfo(CourseOfferingServiceConstants.FINAL_EXAM_DRIVER_ATTR, LuServiceConstants.LU_EXAM_DRIVER_AO_KEY));
+        co = this.getCourseOfferingService().updateCourseOffering(co.getId(), co, contextInfo);
+
+        List<String> optionKeys = new ArrayList<String>();
+        this.getExamOfferingBusinessLogic().generateFinalExamOffering(coId,
+                ExamOfferingServiceTestDataLoader.TERM_ONE_ID, optionKeys, contextInfo);
+
+        List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
+                CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);
+        assertEquals(5, eoRelations.size());
+        for(ExamOfferingRelationInfo eoRelation : eoRelations){
+            assertEquals(1, eoRelation.getActivityOfferingIds().size());
+        }
+
+        co.getAttributes().get(0).setValue(LuServiceConstants.LU_EXAM_DRIVER_CO_KEY);
+        this.getCourseOfferingService().updateCourseOffering(co.getId(), co, contextInfo);
+
+        this.getExamOfferingBusinessLogic().generateFinalExamOffering(coId,
+                ExamOfferingServiceTestDataLoader.TERM_ONE_ID, optionKeys, contextInfo);
+
+        eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
+                CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);
+        assertEquals(1, eoRelations.size());
+        for(ExamOfferingRelationInfo eoRelation : eoRelations){
+            assertEquals(5, eoRelation.getActivityOfferingIds().size());
+        }
+
+    }
+
+    @Test
+    public void testGenerateFinalExamOfferingsPerCO() throws MissingParameterException, PermissionDeniedException,
+            InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
+
+        this.getExamOfferingBusinessLogic().generateFinalExamOfferingsPerCO(CourseOfferingServiceTestDataLoader.CHEM123_COURSE_OFFERING_ID,
+                ExamOfferingServiceTestDataLoader.PERIOD_ONE_ID, contextInfo);
+
+        List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
+                CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);
+        assertEquals(1, eoRelations.size());
+        for(ExamOfferingRelationInfo eoRelation : eoRelations){
+            assertEquals(5, eoRelation.getActivityOfferingIds().size());
+            assertNotNull(eoRelation.getFormatOfferingId());
+            assertNotNull(eoRelation.getExamOfferingId());
+
+            ExamOffering eo = this.getExamOfferingService().getExamOffering(eoRelation.getExamOfferingId(), contextInfo);
+            assertNotNull(eo);
+        }
+
+        // Test delete of co exam relationships
+        this.getExamOfferingBusinessLogic().removeFinalExamOfferingsPerCO(CourseOfferingServiceTestDataLoader.CHEM123_COURSE_OFFERING_ID,
+                contextInfo);
+
+        List<ExamOfferingRelationInfo> newRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
+                CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);
+        assertEquals(0, newRelations.size());
+
+        for(ExamOfferingRelationInfo eoRelation : eoRelations){
+            try{
+                ExamOffering eo = this.getExamOfferingService().getExamOffering(eoRelation.getExamOfferingId(), contextInfo);
+                fail("Service should throw does noet exist exception");
+            } catch (DoesNotExistException dne){
+                // do nothing.
+            }
+        }
+    }
+
+    @Test
+    public void testGenerateFinalExamOfferingsPerAO() throws MissingParameterException, PermissionDeniedException,
+            InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
+
+        this.getExamOfferingBusinessLogic().generateFinalExamOfferingsPerAO(CourseOfferingServiceTestDataLoader.CHEM123_COURSE_OFFERING_ID,
+                ExamOfferingServiceTestDataLoader.PERIOD_ONE_ID, contextInfo);
+
+        List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
+                CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);
+        assertEquals(5, eoRelations.size());
+        for(ExamOfferingRelationInfo eoRelation : eoRelations){
+            assertEquals(1, eoRelation.getActivityOfferingIds().size());
+            assertNotNull(eoRelation.getFormatOfferingId());
+            assertNotNull(eoRelation.getExamOfferingId());
+
+            ExamOffering eo = this.getExamOfferingService().getExamOffering(eoRelation.getExamOfferingId(), contextInfo);
+            assertNotNull(eo);
+        }
+
+        // Test delete of ao exam relationships.
+        this.getExamOfferingBusinessLogic().removeFinalExamOfferingsPerCO(CourseOfferingServiceTestDataLoader.CHEM123_COURSE_OFFERING_ID,
+                contextInfo);
+
+        List<ExamOfferingRelationInfo> newRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
+                CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);
+        assertEquals(0, newRelations.size());
+
+        for(ExamOfferingRelationInfo eoRelation : eoRelations){
+            try{
+                ExamOffering eo = this.getExamOfferingService().getExamOffering(eoRelation.getExamOfferingId(), contextInfo);
+                fail("Service should throw does noet exist exception");
+            } catch (DoesNotExistException dne){
+                // do nothing.
+            }
+        }
     }
 
     public ExamOfferingServiceBusinessLogic getExamOfferingBusinessLogic() {
@@ -85,36 +223,51 @@ public class TestExamOfferingServiceBusinessLogicImpl {
         this.examOfferingBusinessLogic = examOfferingBusinessLogic;
     }
 
-    @Test
-    public void testGenerateFinalExamOffering() throws InvalidParameterException, AlreadyExistsException,
-            OperationFailedException, MissingParameterException, PermissionDeniedException, ReadOnlyException,
-            DataValidationErrorException, DoesNotExistException {
-        List<String> optionKeys = new ArrayList<String>();
-        this.getExamOfferingBusinessLogic().generateFinalExamOffering("CO-1", "termId", optionKeys, contextInfo);
+    public CourseService getCourseService() {
+        return courseService;
     }
 
-    @Test
-    public void testGenerateFinalExamOfferingsPerCO() throws MissingParameterException, PermissionDeniedException,
-            InvalidParameterException, OperationFailedException, DoesNotExistException {
-        this.getExamOfferingBusinessLogic().generateFinalExamOfferingsPerCO("CO-1", contextInfo);
+    public void setCourseService(CourseService courseService) {
+        this.courseService = courseService;
     }
 
-    @Test
-    public void testRemoveFinalExamOfferingsPerCO() throws MissingParameterException, PermissionDeniedException,
-            InvalidParameterException, OperationFailedException, DoesNotExistException {
-        this.getExamOfferingBusinessLogic().removeFinalExamOfferingsPerCO("CO-1", contextInfo);
+    public CourseOfferingService getCourseOfferingService() {
+        return courseOfferingService;
     }
 
-    @Test
-    public void testGenerateFinalExamOfferingsPerAO() throws MissingParameterException, PermissionDeniedException,
-            InvalidParameterException, OperationFailedException, DoesNotExistException {
-        this.getExamOfferingBusinessLogic().generateFinalExamOfferingsPerCO("CO-1", contextInfo);
+    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
+        this.courseOfferingService = courseOfferingService;
     }
 
-    @Test
-    public void testRemoveFinalExamOfferingsPerAO() throws MissingParameterException, PermissionDeniedException,
-            InvalidParameterException, OperationFailedException, DoesNotExistException {
-        this.getExamOfferingBusinessLogic().removeFinalExamOfferingsPerAO("CO-1", contextInfo);
+    public LRCService getLrcService() {
+        return lrcService;
     }
 
+    public void setLrcService(LRCService lrcService) {
+        this.lrcService = lrcService;
+    }
+
+    public ExamOfferingService getExamOfferingService() {
+        return examOfferingService;
+    }
+
+    public void setExamOfferingService(ExamOfferingService examOfferingService) {
+        this.examOfferingService = examOfferingService;
+    }
+
+    public CourseOfferingServiceTestDataLoader getCoDataLoader() {
+        return coDataLoader;
+    }
+
+    public void setCoDataLoader(CourseOfferingServiceTestDataLoader coDataLoader) {
+        this.coDataLoader = coDataLoader;
+    }
+
+    public ExamOfferingServiceTestDataLoader getEoDataLoader() {
+        return eoDataLoader;
+    }
+
+    public void setEoDataLoader(ExamOfferingServiceTestDataLoader eoDataLoader) {
+        this.eoDataLoader = eoDataLoader;
+    }
 }
