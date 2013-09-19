@@ -146,6 +146,8 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ManageTheCourseOfferingPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagementView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-DeleteClusterConfirmPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ViewExamOfferingsPage.xml</value>
+
 
                 <!-- East Coast Sandbox (rollover) -->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/DiagnoseRolloverView.xml</value>
