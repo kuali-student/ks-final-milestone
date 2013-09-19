@@ -101,7 +101,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        return luiService.getLuiIdsByType(examTypeKey, contextInfo);
+        return getLuiService().getLuiIdsByType(examTypeKey,contextInfo);
     }
 
     @Override

@@ -35,21 +35,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TestExamOfferingServiceImpl extends  TestExamOfferingServiceImplConformanceExtendedCrud {
 
-    @Override
-    @Test
-    public void testCrudExamOffering()
-            throws DataValidationErrorException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException,
-            VersionMismatchException,
-            DependentObjectsExistException
-    {
-        //Remove this override once all the exam offering service crud methods have been implemented
-    }
 
     @Test
     public void testCrudExamOfferingRelation()
