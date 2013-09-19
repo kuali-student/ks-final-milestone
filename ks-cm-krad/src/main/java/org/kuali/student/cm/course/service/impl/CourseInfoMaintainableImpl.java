@@ -50,7 +50,6 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
@@ -342,6 +341,8 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
         SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey(LookupableConstants.CURRENT_QUICK_SEARCH);
         searchRequest.setParams(queryParamValueList);
+        searchRequest.setStartAt(0);
+        searchRequest.setSortColumn(LookupableConstants.OPTIONALCODE_RESULT);
         
         SearchResultInfo searchResult = null;
         try {
