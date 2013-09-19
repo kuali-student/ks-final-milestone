@@ -1085,9 +1085,17 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        ExamPeriodInfo exam = this.examPeriodMap.get(examPeriodId);
-        exam.setStateKey(nextStateKey);
-        return newStatus();
+        try {
+            ExamPeriodInfo examPeriodInfo = this.examPeriodMap.get(examPeriodId);
+            if (examPeriodInfo == null) {
+                throw new DoesNotExistException("No examperiod for id = " + examPeriodId);
+            }
+            examPeriodInfo.setStateKey(nextStateKey);
+            return _successStatus();
+
+        } catch (Exception e) {
+            throw new OperationFailedException("changeExamPeriodState (id=" + examPeriodId + ", nextStateKey=" + nextStateKey, e);
+        }
     }
 
     @Override
@@ -1106,12 +1114,16 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
 
     @Override
     public StatusInfo addExamPeriodToTerm(String termId, String examPeriodId, ContextInfo contextInfo)
-            throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException
+            throws AlreadyExistsException
+            ,DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
     {
         if (!term2examPeriodSet.containsKey(termId)) {
             term2examPeriodSet.put(termId, new HashSet<String>());
-        }
+    }
         // Note: this doens't check if the examPeriodId already exists for this term
         term2examPeriodSet.get(termId).add(examPeriodId);
         return newStatus();
@@ -1138,7 +1150,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
         Set<String> examPeriodIds = term2examPeriodSet.get(termId);
         if(examPeriodIds==null){
             return examPeriodInfos;
-        }
+    }
 
         for(String examPeriodId : examPeriodIds){
             examPeriodInfos.add(this.getExamPeriod(examPeriodId, contextInfo));
@@ -1147,8 +1159,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
     }
 
     @Override
-    public List<TermInfo> getTermsForExamPeriod(String examPeriodId, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<TermInfo> getTermsForExamPeriod(String examPeriodId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException ("getTermsForExamPeriod has not been implemented");
     }
 
