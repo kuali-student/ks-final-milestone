@@ -92,5 +92,6 @@
     <param name="ks.enroll.coursewaitlist.confirmationRequired.defaultvalue">true</param>
     <param name="ks.enroll.coursewaitlist.allowHoldUntilEntries.defaultvalue">false</param>
     <param name="ks.enroll.coursewaitlist.checkInRequired.defaultvalue">false</param>
-
+    <!--Default value for COInfo.hasWaitlist -->
+    <param name="ks.enroll.coursewaitlist.forCourseOffering.hasWaitlist.defaultvalue">true</param>
 </config>

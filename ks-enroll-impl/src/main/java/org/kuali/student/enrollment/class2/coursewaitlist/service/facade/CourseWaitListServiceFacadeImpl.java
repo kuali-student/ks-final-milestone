@@ -22,23 +22,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFacade{
-    @Resource(name="coService")
+    @Resource
     private CourseOfferingService coService;
     
-    @Resource(name="courseWaitListService")
+    @Resource
     private CourseWaitListService courseWaitListService;
 
-    @Resource(name="automaticallyProcessed")
+    @Resource
     private Boolean automaticallyProcessed;
 
-    @Resource(name="confirmationRequired")
+    @Resource
     private Boolean confirmationRequired;
 
-    @Resource(name="allowHoldUntilEntries")
+    @Resource
     private Boolean allowHoldUntilEntries;
 
-    @Resource(name="checkInRequired")
+    @Resource
     private Boolean checkInRequired;
+
+    //This is the attribute defined in COInfo
+    @Resource
+    private Boolean hasWaitlist;
 
 
 
@@ -222,4 +226,11 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
         this.checkInRequired = checkInRequired;
     }
 
+    public void setHasWaitlist(Boolean hasWaitlist) {
+        this.hasWaitlist = hasWaitlist;
+    }
+
+    public Boolean retrieveHasWaitlist() {
+        return hasWaitlist;
+    }
 }

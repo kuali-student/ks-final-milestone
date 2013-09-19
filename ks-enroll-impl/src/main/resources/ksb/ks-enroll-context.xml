@@ -397,6 +397,8 @@
         <property name="confirmationRequired" value="${ks.enroll.coursewaitlist.confirmationRequired.defaultvalue}" />
         <property name="allowHoldUntilEntries" value="${ks.enroll.coursewaitlist.allowHoldUntilEntries.defaultvalue}" />
         <property name="checkInRequired" value="${ks.enroll.coursewaitlist.checkInRequired.defaultvalue}" />
+        <!--Default value for COInfo.hasWaitlist -->
+        <property name="hasWaitlist" value="${ks.enroll.coursewaitlist.forCourseOffering.hasWaitlist.defaultvalue}" />
     </bean>
 
     <!-- Put facade on the bus -->
