@@ -168,4 +168,11 @@ public class CourseOfferingSetServiceConstants {
     public static final String NOT_GRADING_CREDIT_OPTION_KEY = "kuali.canonical.course.to.course.offering.not.grading.credit.options";
     
     public static final String ACTIVITY_OFFERINGS_CREATED_SOC_ITEM_DYNAMIC_ATTRIBUTE = "activityOfferingsCreated";
+
+    /**
+     * Parameters for performing criteria searches for SOCs.
+     */
+    public static final class SearchParameters {
+        public static final String SOC_STATE = "socState";
+    }
 }
