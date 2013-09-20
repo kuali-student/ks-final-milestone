@@ -282,6 +282,9 @@ public class ExamOfferingTransformer {
     }
 
     public void transformEORel2LuiLuiRel(ExamOfferingRelationInfo examOfferingRelationInfo, LuiLuiRelationInfo luiRel){
+        if (examOfferingRelationInfo.getId() != null && !examOfferingRelationInfo.getId().equals("")) {
+            luiRel.setId(examOfferingRelationInfo.getId());
+        }
         String examOfferingId = examOfferingRelationInfo.getExamOfferingId();
         luiRel.setLuiId(examOfferingRelationInfo.getFormatOfferingId());
         luiRel.setRelatedLuiId(examOfferingId);

@@ -15,8 +15,17 @@
  */
 package org.kuali.student.enrollment.class2.examoffering.service.impl;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
+import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
+import org.kuali.student.enrollment.examoffering.service.ExamOfferingService;
+import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -26,15 +35,63 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:examoffering-test-with-mocks-context.xml"})
-@Transactional
-public class TestExamOfferingServiceImpl extends  TestExamOfferingServiceImplConformanceExtendedCrud {
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:examoffering-test-context.xml"})
+@Transactional
+public class TestExamOfferingServiceImpl {
+
+    private static final Logger log = LoggerFactory.getLogger(TestExamOfferingServiceImpl.class);
+
+    @Resource
+    private ExamOfferingService examOfferingService;
+
+    @Resource(name = "luiServiceDataLoader")
+    protected LuiServiceDataLoader dataLoader = new LuiServiceDataLoader();
+
+    public ContextInfo callContext = null;
+    public static String principalId = "123";
+
+    @Before
+    public void setUp() {
+        callContext = new ContextInfo();
+        callContext.setPrincipalId(principalId);
+        try {
+            dataLoader.loadData();
+        } catch (Exception ex) {
+            throw new RuntimeException (ex);
+        }
+    }
+
+    @After
+    public void cleanup() {
+    }
+
+    private ExamOfferingRelationInfo createExamOfferingRelationInfo (){
+        ExamOfferingRelationInfo examOfferingRelationInfo = new ExamOfferingRelationInfo();
+        examOfferingRelationInfo.setFormatOfferingId("Lui-6");
+        examOfferingRelationInfo.setExamOfferingId("Lui-9");
+        examOfferingRelationInfo.setActivityOfferingIds(Arrays.asList("AO-01","AO-02","AO-03"));
+        examOfferingRelationInfo.setPopulationIds(Arrays.asList("PO-01", "PO-02", "PO-03"));
+        return examOfferingRelationInfo;
+    }
 
     @Test
     public void testCrudExamOfferingRelation()
@@ -48,6 +105,35 @@ public class TestExamOfferingServiceImpl extends  TestExamOfferingServiceImplCon
             VersionMismatchException,
             DependentObjectsExistException
     {
-        //Remove this override once all the exam offering relation crud methods have been implemented
+        ExamOfferingRelationInfo eoRelInfo = createExamOfferingRelationInfo();
+        try {
+            //Create
+            ExamOfferingRelationInfo created = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
+                    LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo, callContext);
+
+            String examOfferingRelationId = created.getId();
+            assertNotNull(created);
+            assertNotNull(examOfferingRelationId);
+            assertEquals(3, created.getActivityOfferingIds().size());
+
+            //Get
+            ExamOfferingRelationInfo retrieved = examOfferingService.getExamOfferingRelation(examOfferingRelationId, callContext);
+            assertNotNull(retrieved);
+            assertEquals(examOfferingRelationId, retrieved.getId());
+            assertEquals(3, created.getActivityOfferingIds().size());
+
+            //Update
+            retrieved.setActivityOfferingIds(Arrays.asList("AO-01","AO-02","AO-03","AO-04"));
+            ExamOfferingRelationInfo retrievedUpdated = examOfferingService.updateExamOfferingRelation(examOfferingRelationId, retrieved, callContext);
+            assertNotNull(retrievedUpdated);
+            assertEquals(examOfferingRelationId, retrievedUpdated.getId());
+            assertEquals(4, retrievedUpdated.getActivityOfferingIds().size());
+
+            //Delete
+            StatusInfo ret = examOfferingService.deleteExamOfferingRelation(examOfferingRelationId, callContext);
+            assertTrue(ret.getIsSuccess());
+      } catch (Exception ex) {
+            fail("exception from service call :" + ex.getMessage());
+        }
     }
 }

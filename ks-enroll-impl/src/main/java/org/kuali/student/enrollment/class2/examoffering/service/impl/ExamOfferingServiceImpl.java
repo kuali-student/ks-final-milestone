@@ -258,7 +258,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
         if (examOfferingId == null){
             throw new MissingParameterException("Exam offering ID is null");
         }
-        if (examOfferingRelationInfo.getFormatOfferingId().equalsIgnoreCase(formatOfferingId) && examOfferingRelationInfo.getExamOfferingId().equals(examOfferingId)) {
+        if (!examOfferingRelationInfo.getFormatOfferingId().equals(formatOfferingId) && !examOfferingRelationInfo.getExamOfferingId().equals(examOfferingId)) {
             throw new InvalidParameterException("IDs do not match");
         }
         //set FO / EO relations

@@ -402,6 +402,8 @@
         <property name="codeGeneratorLocksDao" ref="codeGeneratorLocksDao"/>
     </bean>
 
+    <bean id="luiServiceDataLoader" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader" autowire="byType"/>
+
     <bean id="examOfferingService"
           class="org.kuali.student.enrollment.class2.examoffering.service.impl.ExamOfferingServiceImpl">
         <property name="luiService" ref="luiService"/>
