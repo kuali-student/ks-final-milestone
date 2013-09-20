@@ -1,3 +1,6 @@
+@import "variables";
+@import "mixins";
+
 .tree-bar-button-selected {
     background-image: url('images/buttonDisabled.png');
     background-repeat: no-repeat;
@@ -19,9 +22,7 @@
     border: 1px solid #808080;
     font-weight: normal;
     text-transform: none;
-    -moz-border-radius: none;
-    -webkit-border-radius: none;
-    border-radius: 0px;
+    .border-radius(0);
     background: linear-gradient(none);
     color: #bfbfbf;
     padding-top: 0em;
