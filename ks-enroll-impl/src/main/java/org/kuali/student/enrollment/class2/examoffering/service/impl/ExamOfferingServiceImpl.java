@@ -401,7 +401,26 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("getExamOfferingRelationsByFormatOffering has not been implemented");
+        //trap null parameter
+        if (formatOfferingId == null){
+            throw new MissingParameterException("formatOfferingId is null");
+        }
+
+        //Retrieve ExamOfferingRelationInfos
+        List<ExamOfferingRelationInfo> eoRels = new ArrayList<ExamOfferingRelationInfo>();
+        try {
+            List<LuiLuiRelationInfo>  luiRels = getLuiService().getLuiLuiRelationsByLui(formatOfferingId, contextInfo);
+            for (LuiLuiRelationInfo luiRel : luiRels) {
+                if (luiRel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY)) {
+                    ExamOfferingRelationInfo examOfferingRelationInfo = new ExamOfferingRelationInfo();
+                    getExamOfferingTransformer().transformLuiLuiRel2EORel(luiRel, examOfferingRelationInfo);
+                    eoRels.add(examOfferingRelationInfo);
+                }
+            }            
+        } catch (Exception ex) {
+            throw new OperationFailedException(OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE, ex);
+        }
+        return eoRels;
     }
 
     @Override

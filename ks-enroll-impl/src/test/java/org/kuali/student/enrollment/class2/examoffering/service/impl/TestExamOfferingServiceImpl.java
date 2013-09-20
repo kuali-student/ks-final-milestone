@@ -159,15 +159,40 @@ public class TestExamOfferingServiceImpl {
 
             assertNotNull(examOfferingRelationIds);
             assertEquals(2, examOfferingRelationIds.size());
+            assertTrue(examOfferingRelationIds.contains(created1.getId()));
 
-            //Delete
-            for (String examOfferingRelationId : examOfferingRelationIds) {
-                StatusInfo ret = examOfferingService.deleteExamOfferingRelation(examOfferingRelationId, callContext);
-                assertTrue(ret.getIsSuccess());
-            }
         } catch (Exception ex) {
             fail("exception from service call :" + ex.getMessage());
         }
     }
-    
+
+    @Test
+    public void testGetExamOfferingRelationsByFormatOffering ()
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+
+        ExamOfferingRelationInfo eoRelInfo1 = createExamOfferingRelationInfo();
+        ExamOfferingRelationInfo eoRelInfo2 = createExamOfferingRelationInfo();
+        eoRelInfo2.setExamOfferingId("Lui-10");
+        try {
+            //Create
+            ExamOfferingRelationInfo created1 = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
+                    LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo1, callContext);
+            ExamOfferingRelationInfo created2 = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-10",
+                                LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo2, callContext);
+
+            List<ExamOfferingRelationInfo> examOfferingRelationInfos = examOfferingService.getExamOfferingRelationsByFormatOffering("Lui-6", callContext);
+
+            assertNotNull(examOfferingRelationInfos);
+            assertEquals(2, examOfferingRelationInfos.size());
+            assertEquals("Lui-6", examOfferingRelationInfos.get(0).getFormatOfferingId());
+            assertEquals("Lui-6", examOfferingRelationInfos.get(1).getFormatOfferingId());
+
+        } catch (Exception ex) {
+            fail("exception from service call :" + ex.getMessage());
+        }
+    }
+
 }
