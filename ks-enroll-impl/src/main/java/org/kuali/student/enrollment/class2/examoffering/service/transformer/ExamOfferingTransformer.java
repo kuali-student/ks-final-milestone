@@ -281,7 +281,7 @@ public class ExamOfferingTransformer {
         return luiToScheduleRequestsMap;
     }
 
-    public void transformEORel2LuiLuiRel(ExamOfferingRelationInfo examOfferingRelationInfo, LuiLuiRelationInfo luiRel){
+    public void transformEORel2LuiLuiRel(ExamOfferingRelationInfo examOfferingRelationInfo, LuiLuiRelationInfo luiRel, String examOfferingTypeKey){
         if (examOfferingRelationInfo.getId() != null && !examOfferingRelationInfo.getId().equals("")) {
             luiRel.setId(examOfferingRelationInfo.getId());
         }
@@ -293,7 +293,7 @@ public class ExamOfferingTransformer {
         descr.setPlain(examOfferingId + "-FO-EO"); // Useful for debugging
         descr.setFormatted(examOfferingId + "-FO-EO)"); // Useful for debugging
         luiRel.setDescr(descr);
-        luiRel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY);
+        luiRel.setTypeKey(examOfferingTypeKey);
         luiRel.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
         luiRel.setEffectiveDate(new Date());
         //store AO IDs as attributes

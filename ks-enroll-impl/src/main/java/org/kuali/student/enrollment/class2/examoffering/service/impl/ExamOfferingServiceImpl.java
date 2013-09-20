@@ -265,7 +265,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
         LuiLuiRelationInfo luiRel = new LuiLuiRelationInfo();
         //transform
         LuiLuiRelationInfo  luiRetrn;
-        getExamOfferingTransformer().transformEORel2LuiLuiRel(examOfferingRelationInfo, luiRel);
+        getExamOfferingTransformer().transformEORel2LuiLuiRel(examOfferingRelationInfo, luiRel, examOfferingTypeKey);
 
         //save
         try {
@@ -299,13 +299,13 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             throw new MissingParameterException("examOfferingRelationInfo is null");
         }
 
-        //transform
-        LuiLuiRelationInfo  luiRel = new LuiLuiRelationInfo();
         LuiLuiRelationInfo luiRetrn;
-        getExamOfferingTransformer().transformEORel2LuiLuiRel(examOfferingRelationInfo, luiRel);
-
-        //update
         try {
+            //transform
+            LuiLuiRelationInfo  luiRel = getLuiService().getLuiLuiRelation(examOfferingRelationId, contextInfo);
+            getExamOfferingTransformer().transformEORel2LuiLuiRel(examOfferingRelationInfo, luiRel, luiRel.getTypeKey());
+
+            //update
             luiRetrn = getLuiService().updateLuiLuiRelation(examOfferingRelationId, luiRel, contextInfo);
         } catch (Exception ex) {
             throw new OperationFailedException(OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE, ex);
