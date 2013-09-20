@@ -862,10 +862,10 @@
                                 </property>
                             </bean>
 
-                            <bean parent="Uif-ActionLink"
+                            <bean parent="KS-Uif-ActionLink"
                                   p:ajaxSubmit="false"
                                   p:actionScript="closeLightbox();"
-                                  p:actionLabel="Cancel" p:style="margin-top: 5px;" />
+                                  p:actionLabel="Cancel"/>
                         </list>
                     </property>
                 </bean>
