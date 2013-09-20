@@ -270,7 +270,7 @@
             <property name="items">
               <list>
                   <bean parent="Uif-MessageField" p:label="" p:messageText="@{#line.requisites}"/>
-                  <bean parent="Uif-MessageField" p:label="[b]Course Description[/b]" p:messageText="@{#line.xmlEscapedFormatted}"/>
+                  <bean parent="Uif-MessageField" p:label="[b]Course Description[/b]" p:messageText="@{#line.courseOfferingFormatedDesc}"/>
               </list>
             </property>
           </bean>
@@ -289,7 +289,7 @@
                 <property name="items">
                     <list>
                         <bean parent="Uif-MessageField" p:label="" p:messageText="@{#line.requisites}"/>
-                        <bean parent="Uif-MessageField" p:label="[b]Course Description[/b]" p:messageText="@{#line.xmlEscapedFormatted}"/>
+                        <bean parent="Uif-MessageField" p:label="[b]Course Description[/b]" p:messageText="@{#line.courseOfferingFormatedDesc}"/>
                     </list>
                 </property>
             </bean>

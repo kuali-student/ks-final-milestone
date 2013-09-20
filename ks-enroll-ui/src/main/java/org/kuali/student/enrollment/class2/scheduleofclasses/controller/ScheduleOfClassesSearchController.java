@@ -167,7 +167,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
 
         // Second, handle searchType
         if (theForm.getSearchType().equals( SEARCH_TYPE_COURSE )) {
-            String course = theForm.getCourse();
+            String course = StringUtils.upperCase(theForm.getCourse());
             if (StringUtils.isNotBlank(course)) {
                 getViewHelperService(theForm).loadCourseOfferingsByTermAndCourseCode(termCode, course, theForm);
                 theForm.setSearchParameter("Course: " + course);

@@ -122,7 +122,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
 
             for (CourseOfferingDisplayWrapper coDisplayWrapper : form.getCoDisplayWrapperList()) {
 
-//                coDisplayWrapper.setRequisites(retrieveRequisites(coDisplayWrapper.getCourseOfferingId(), ruleManagementService, catalogUsageId));
+                coDisplayWrapper.setRequisites(retrieveRequisites(coDisplayWrapper.getCourseOfferingId(), ruleManagementService, catalogUsageId));
 
                 // Adding Information (icons)
                 StringBuffer information = new StringBuffer();
