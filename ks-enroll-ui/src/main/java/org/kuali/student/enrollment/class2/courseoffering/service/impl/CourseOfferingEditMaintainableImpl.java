@@ -878,7 +878,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
     private void setFinalExamDriverAttr(CourseOfferingInfo coInfo, CourseOfferingEditWrapper coEditWrapper) {
         AttributeInfo attributeInfo = this.getAttributeForKey(coInfo, CourseOfferingServiceConstants.FINAL_EXAM_DRIVER_ATTR);
-        if (coInfo.getFinalExamType().equals(FinalExam.STANDARD)) {  //driver is only for 'STANDARD'
+        if (coInfo.getFinalExamType().equals(FinalExam.STANDARD.toString())) {  //driver is only for 'STANDARD'
             if (attributeInfo != null) {
                 attributeInfo.setValue(coEditWrapper.getFinalExamDriver());
             } else {
@@ -894,7 +894,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
     private void setUseFinalExamMatrix(CourseOfferingInfo coInfo, CourseOfferingEditWrapper coEditWrapper) {
         AttributeInfo attributeInfo = this.getAttributeForKey(coInfo, CourseOfferingServiceConstants.FINAL_EXAM_USE_MATRIX);
-        if (coInfo.getFinalExamType().equals(FinalExam.STANDARD)) {  //driver is only for 'STANDARD'
+        if (coInfo.getFinalExamType().equals(FinalExam.STANDARD.toString())) {  //driver is only for 'STANDARD'
             if (attributeInfo != null) {
                 attributeInfo.setValue(String.valueOf(coEditWrapper.isUseFinalExamMatrix()));
             } else {
