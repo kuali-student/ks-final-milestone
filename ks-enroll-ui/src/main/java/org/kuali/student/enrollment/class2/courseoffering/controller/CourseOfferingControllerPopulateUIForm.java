@@ -17,7 +17,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -32,7 +31,6 @@ import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOp
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
-import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
@@ -40,7 +38,6 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -52,7 +49,6 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
-import javax.xml.namespace.QName;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,7 +57,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 
 /**
  * This class provides business logic related to the CourseOfferingController
@@ -81,10 +76,6 @@ public class CourseOfferingControllerPopulateUIForm {
 
             //1. set CourseOfferingInfo - no saved Course Offering as of yet (see logic in CourseOfferingEditMaintainableImpl.retrieveObjectForEditOrCopy
             CourseOfferingInfo coInfo = CourseOfferingManagementUtil.createCourseOfferingInfo(termId, courseInfo);
-            // set the default value for hasWaitlist based on info defined in ks-enroll-config.xml through
-            // CourseWaitListServiceFacade
-            coInfo.setHasWaitlist(getCourseWaitListServiceFacade().retrieveHasWaitlist());
-
             CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(coInfo);
             formObject.setCreateCO(true);
 
@@ -234,12 +225,6 @@ public class CourseOfferingControllerPopulateUIForm {
             defaultOptionKeysService = new DefaultOptionKeysServiceImpl();
         }
         return defaultOptionKeysService;
-    }
-
-    protected static CourseWaitListServiceFacade getCourseWaitListServiceFacade() {
-        CourseWaitListServiceFacade courseWaitListServiceFacade = (CourseWaitListServiceFacade) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseWaitListServiceFacade", "courseWaitListServiceFacade"));
-        return  courseWaitListServiceFacade;
-
     }
 
     protected static void copyCourseOfferingInfo(CourseOfferingCreateWrapper coCreateWrapper, String targetTermCode, String catalogCourseCode, String coId) {

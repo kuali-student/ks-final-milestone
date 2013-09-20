@@ -393,12 +393,6 @@
     <bean id="courseWaitListServiceFacade" class="org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacadeImpl">
         <property name="coService" ref="CourseOfferingService"/>
         <property name="courseWaitListService" ref="courseWaitListService" />
-        <property name="automaticallyProcessed" value="${ks.enroll.coursewaitlist.automaticallyProcessed.defaultvalue}" />
-        <property name="confirmationRequired" value="${ks.enroll.coursewaitlist.confirmationRequired.defaultvalue}" />
-        <property name="allowHoldUntilEntries" value="${ks.enroll.coursewaitlist.allowHoldUntilEntries.defaultvalue}" />
-        <property name="checkInRequired" value="${ks.enroll.coursewaitlist.checkInRequired.defaultvalue}" />
-        <!--Default value for COInfo.hasWaitlist -->
-        <property name="hasWaitlist" value="${ks.enroll.coursewaitlist.forCourseOffering.hasWaitlist.defaultvalue}" />
     </bean>
 
     <!-- Put facade on the bus -->
@@ -963,10 +957,7 @@
     <bean id="autogenRegistrationGroupAppLayer" class="org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapterImpl">
         <property name="coService" ref="CourseOfferingService" />
         <property name="activityOfferingClusterDao" ref="activityOfferingClusterDao" />
-        <property name="typeService" ref="typeService" />
-        <property name="courseService" ref="courseServiceImpl" />
-        <property name="courseWaitListService" ref="courseWaitListService" />
-        <property name="courseWaitListServiceFacade" ref="courseWaitListServiceFacade" />
+        <property name="waitListServiceFacade" ref="courseWaitListServiceFacade" />
     </bean>
 
     <!-- For now, acal KSENROLL-7384 -->

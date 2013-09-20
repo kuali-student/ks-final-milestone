@@ -91,29 +91,21 @@ import java.util.Set;
 public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupServiceAdapter {
     private static final Logger LOGGER = Logger.getLogger(AutogenRegGroupServiceAdapterImpl.class);
 
-    @Resource
+    @Resource (name="CourseOfferingService")
     private CourseOfferingService coService;
     
-    //Note: searchService is not configured for AutogenRegGroupServiceAdapterImpl in context.xml
-    @Resource
+    @Resource (name="SearchService")
     private SearchService searchService;
 
-    @Resource
     private TypeService typeService;
 
-    @Resource
     private CourseService courseService;
     
-    @Resource
     private CourseWaitListService courseWaitListService;
 
-    @Resource
-    private CourseWaitListServiceFacade courseWaitListServiceFacade;
-
-    @Resource
     private ActivityOfferingClusterDaoApi activityOfferingClusterDao;
 
-//    private CourseWaitListServiceFacade waitListServiceFacade;
+    private CourseWaitListServiceFacade waitListServiceFacade;
     
     /* (non-Javadoc)
      * @see org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter#getDefaultClusterName(int)
@@ -165,6 +157,10 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         return defaultClusterNameToCreate;
     }
 
+    public void setCourseOfferingService(CourseOfferingService coService) {
+        this.coService = coService;
+    }
+
     @Override
     public ActivityOfferingClusterInfo createDefaultCluster(String foId, ContextInfo context)
             throws PermissionDeniedException,
@@ -183,7 +179,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         FormatOfferingInfo fo = coService.getFormatOffering(foId, context);
         String coId = fo.getCourseOfferingId();
         CourseOfferingInfo co = coService.getCourseOffering(coId, context);
-        CourseInfo course = courseService.getCourse(co.getCourseId(), context);
+        CourseInfo course = getCourseService().getCourse(co.getCourseId(), context);
         try {
             _addActivityOfferingTypesToFormatOffering(fo, course, context);
         } catch (VersionMismatchException e) {
@@ -267,6 +263,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
             activityTypes.add(activityInfo.getTypeKey());
         }
         // Use type service to find corresponding AO types--assumes 1-1 mapping of Activity types to AO types
+        TypeService typeService = getTypeService();
         List<String> aoTypeKeys = new ArrayList<String>();
         for (String activityType: activityTypes) {
             List<TypeTypeRelationInfo> typeTypeRels =
@@ -286,7 +283,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         // Finally, set the ao types for this fo
         fo.setActivityOfferingTypeKeys(aoTypeKeys);
 
-        coService.updateFormatOffering(fo.getId(), fo, context);
+        getCoService().updateFormatOffering(fo.getId(), fo, context);
     }
 
     /**
@@ -372,7 +369,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         }
 
         //create and persist a WaitlistInfo for AO
-        CourseWaitListInfo theWaitListInfo = courseWaitListServiceFacade.createDefaultCourseWaitlist(aoInfo, context);
+        CourseWaitListInfo theWaitListInfo = getWaitListServiceFacade().createDefaultCourseWaitlist(aoInfo, context);
 
         aoResult.setWaitListInfo(theWaitListInfo);
 
@@ -413,7 +410,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
                                PermissionDeniedException, DoesNotExistException, DataValidationErrorException,
                                ReadOnlyException{
 
-        List<CourseWaitListInfo> waitListInfos = courseWaitListService.getCourseWaitListsByActivityOffering(origAoId, context);
+        List<CourseWaitListInfo> waitListInfos = getCourseWaitListService().getCourseWaitListsByActivityOffering(origAoId, context);
         CourseWaitListInfo origWaitListInfo, newWaitListInfo;        
         if (!waitListInfos.isEmpty()){
             //by default, should only return 1 record in waitListInfos
@@ -434,14 +431,14 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
                 newWaitListInfo.setMaxSize(origWaitListInfo.getMaxSize());
             }
             newWaitListInfo.setCheckInRequired(origWaitListInfo.getCheckInRequired());
-            newWaitListInfo = courseWaitListService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
+            newWaitListInfo = getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
                     newWaitListInfo, context);
 
         }
         else{
             // Assume that every AO should have an associated WL. if not, treat it as a reference data problem.
             // We will just create a new WL
-            newWaitListInfo = courseWaitListServiceFacade.createDefaultCourseWaitlist(newAOInfo, context);
+            newWaitListInfo = getWaitListServiceFacade().createDefaultCourseWaitlist(newAOInfo, context);
         }
         return newWaitListInfo;
 
@@ -568,7 +565,9 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException,
             VersionMismatchException {
-
+        if(coService == null) {
+            coService = getCoService();
+        }
         // Fetch the AOInfo
         ActivityOfferingInfo aoInfo = coService.getActivityOffering(aoId, context);
         // Fetch the source AOC
@@ -1042,7 +1041,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
     public List<ActivityOfferingClusterInfo> getActivityOfferingClusterByCourseOffering(String courseOfferingId) {
 
         List<ActivityOfferingClusterInfo> lRet = new ArrayList<ActivityOfferingClusterInfo>();
-        List<ActivityOfferingClusterEntity> aoClusters = activityOfferingClusterDao.getByCourseOffering(courseOfferingId);
+        List<ActivityOfferingClusterEntity> aoClusters = getActivityOfferingClusterDao().getByCourseOffering(courseOfferingId);
 
         for(ActivityOfferingClusterEntity aoc : aoClusters){
             lRet.add(aoc.toDto());
@@ -1050,28 +1049,59 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         return lRet;
     }
 
+    public CourseOfferingService getCoService() {
+        if(coService == null) {
+            coService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
+                    CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
 
-    public void setCourseWaitListService (CourseWaitListService courseWaitListService) {
-        this.courseWaitListService = courseWaitListService;
+        return coService;
+    }
+
+    public CourseWaitListService getCourseWaitListService() {
+        if(courseWaitListService == null) {
+            courseWaitListService = (CourseWaitListService) GlobalResourceLoader.getService(new QName(CourseWaitListServiceConstants.NAMESPACE,
+                    CourseWaitListServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+
+        return courseWaitListService;
     }
 
     public void setCoService(CourseOfferingService coService) {
         this.coService = coService;
     }
 
-    public void setCourseWaitListServiceFacade (CourseWaitListServiceFacade courseWaitListServiceFacade) {
-        this.courseWaitListServiceFacade = courseWaitListServiceFacade;
+    public TypeService getTypeService() {
+        if (typeService == null) {
+            QName qname = new QName(TypeServiceConstants.NAMESPACE,
+                                    TypeServiceConstants.SERVICE_NAME_LOCAL_PART);
+            typeService = (TypeService) GlobalResourceLoader.getService(qname);
+        }
+        return typeService;
     }
 
-    public void setTypeService (TypeService typeService){
-        this.typeService = typeService;
+    public CourseService getCourseService() {
+        if (courseService == null) {
+            QName qname = new QName(CourseServiceConstants.NAMESPACE,
+                    CourseServiceConstants.SERVICE_NAME_LOCAL_PART);
+            courseService = (CourseService) GlobalResourceLoader.getService(qname);
+        }
+        return courseService;
     }
 
-    public void setCourseService (CourseService courseService) {
-        this.courseService = courseService;
+    public ActivityOfferingClusterDaoApi getActivityOfferingClusterDao() {
+        return activityOfferingClusterDao;
     }
 
     public void setActivityOfferingClusterDao(ActivityOfferingClusterDaoApi activityOfferingClusterDao) {
         this.activityOfferingClusterDao = activityOfferingClusterDao;
+    }
+
+    public CourseWaitListServiceFacade getWaitListServiceFacade() {
+        return waitListServiceFacade;
+    }
+
+    public void setWaitListServiceFacade(CourseWaitListServiceFacade waitListServiceFacade) {
+        this.waitListServiceFacade = waitListServiceFacade;
     }
 }

@@ -22,29 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFacade{
-    @Resource
+    @Resource(name="coService")
     private CourseOfferingService coService;
     
-    @Resource
+    @Resource(name="courseWaitListService")
     private CourseWaitListService courseWaitListService;
-
-    @Resource
-    private Boolean automaticallyProcessed;
-
-    @Resource
-    private Boolean confirmationRequired;
-
-    @Resource
-    private Boolean allowHoldUntilEntries;
-
-    @Resource
-    private Boolean checkInRequired;
-
-    //This is the attribute defined in COInfo
-    @Resource
-    private Boolean hasWaitlist;
-
-
 
     /**
      *
@@ -57,25 +39,25 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
      * @Param context
      */
     public void activateActivityOfferingWaitlistsByCourseOffering(String coId, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
-        List<ActivityOfferingInfo> aoInfos = coService.getActivityOfferingsByCourseOffering(coId, context) ;
+        List<ActivityOfferingInfo> aoInfos = getCoService().getActivityOfferingsByCourseOffering(coId, context) ;
         if (null == aoInfos || aoInfos.isEmpty()){
             return;
         }
         for (ActivityOfferingInfo aoInfo : aoInfos) {
-            List<CourseWaitListInfo> waitListInfos = courseWaitListService.getCourseWaitListsByActivityOffering(aoInfo.getId(), context);
+            List<CourseWaitListInfo> waitListInfos = getCourseWaitListService().getCourseWaitListsByActivityOffering(aoInfo.getId(), context);
             if (waitListInfos.isEmpty()){
                 //create a new waitListInfo with default setting
                 CourseWaitListInfo theWaitListInfo = new CourseWaitListInfo();
                 theWaitListInfo.getActivityOfferingIds().add(aoInfo.getId());
                 theWaitListInfo.getFormatOfferingIds().add(aoInfo.getFormatOfferingId());
-                theWaitListInfo = setCourseWaitListWithDefaultValues(theWaitListInfo);
-                courseWaitListService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
+                theWaitListInfo = activateCourseWaitListWithDefaultValues(theWaitListInfo);
+                getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
                         theWaitListInfo, context);
             }
             else{
                 for (CourseWaitListInfo waitListInfo : waitListInfos){
-                    waitListInfo = setCourseWaitListWithDefaultValues(waitListInfo);
-                    courseWaitListService.updateCourseWaitList(waitListInfo.getId(), waitListInfo, context);
+                    waitListInfo = activateCourseWaitListWithDefaultValues(waitListInfo);
+                    getCourseWaitListService().updateCourseWaitList(waitListInfo.getId(), waitListInfo, context);
                 }
             }
         }
@@ -93,12 +75,12 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
      */
 
     public void deactivateActivityOfferingWaitlistsByCourseOffering(String coId, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
-        List<ActivityOfferingInfo> aoInfos = coService.getActivityOfferingsByCourseOffering(coId, context) ;
+        List<ActivityOfferingInfo> aoInfos = getCoService().getActivityOfferingsByCourseOffering(coId, context) ;
         if (aoInfos == null || aoInfos.isEmpty()){
             return;
         }
         for (ActivityOfferingInfo aoInfo : aoInfos) {
-            List<CourseWaitListInfo> waitListInfos = courseWaitListService.getCourseWaitListsByActivityOffering(aoInfo.getId(), context);
+            List<CourseWaitListInfo> waitListInfos = getCourseWaitListService().getCourseWaitListsByActivityOffering(aoInfo.getId(), context);
 
             if(waitListInfos == null)    {
                 return;
@@ -109,13 +91,18 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
                 theWaitListInfo.getActivityOfferingIds().add(aoInfo.getId());
                 theWaitListInfo.getFormatOfferingIds().add(aoInfo.getFormatOfferingId());
                 theWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
-                courseWaitListService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
+                getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
                         theWaitListInfo, context);
             }
             else {
                 for (CourseWaitListInfo waitListInfo : waitListInfos){
                     waitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
-                    courseWaitListService.updateCourseWaitList(waitListInfo.getId(), waitListInfo, context);
+                    //Question: do we need to update other values in waitListInfo???
+//                    waitListInfo.setAutomaticallyProcessed(false);
+//                    waitListInfo.setConfirmationRequired(false);
+//                    waitListInfo.setAllowHoldUntilEntries(false);
+//                    waitListInfo.setMaxSize(null);
+                    getCourseWaitListService().updateCourseWaitList(waitListInfo.getId(), waitListInfo, context);
                 }
             }
         }
@@ -134,8 +121,8 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
             PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException {
 
         //need to get the value of coInfo.hasWaitList to set stateKey and other default values
-        FormatOfferingInfo foInfo = coService.getFormatOffering(aoInfo.getFormatOfferingId(), context);
-        CourseOfferingInfo coInfo = coService.getCourseOffering(foInfo.getCourseOfferingId(), context);
+        FormatOfferingInfo foInfo = getCoService().getFormatOffering(aoInfo.getFormatOfferingId(), context);
+        CourseOfferingInfo coInfo = getCoService().getCourseOffering(foInfo.getCourseOfferingId(), context);
 
         return createDefaultCourseWaitlist(aoInfo.getFormatOfferingId(), aoInfo.getId(), coInfo.getHasWaitlist(), context);
 
@@ -170,7 +157,10 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
         if (coHasWaitlist){
             courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY);
             //default setting is semi-automatic
-            courseWaitListInfo = setCourseWaitListWithDefaultValues(courseWaitListInfo);
+            courseWaitListInfo.setAllowHoldUntilEntries(true);
+            courseWaitListInfo.setAutomaticallyProcessed(true);
+            courseWaitListInfo.setConfirmationRequired(true);
+            courseWaitListInfo.setCheckInRequired(true);
         }
         else{
             courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
@@ -179,7 +169,7 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
             courseWaitListInfo.setConfirmationRequired(false);
             courseWaitListInfo.setCheckInRequired(false);
         }
-        courseWaitListInfo = courseWaitListService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
+        courseWaitListInfo = getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
                 courseWaitListInfo, context);
         return courseWaitListInfo;
     }
@@ -191,14 +181,12 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
      * semi-automatic -> automaticallyProcessed = true, confirmationRequired = true
      * manual -> automaticallyProcessed = false, confirmationRequired = false 
      */
-    private CourseWaitListInfo setCourseWaitListWithDefaultValues(CourseWaitListInfo courseWaitListInfo) {
+    private CourseWaitListInfo activateCourseWaitListWithDefaultValues(CourseWaitListInfo courseWaitListInfo) {
         courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY);
         //default setting is semi-automatic
-        courseWaitListInfo.setAutomaticallyProcessed(automaticallyProcessed);
-        courseWaitListInfo.setConfirmationRequired(confirmationRequired);
-
-        courseWaitListInfo.setAllowHoldUntilEntries(allowHoldUntilEntries);
-        courseWaitListInfo.setCheckInRequired(checkInRequired);
+        courseWaitListInfo.setAutomaticallyProcessed(true);
+        courseWaitListInfo.setConfirmationRequired(true);
+        courseWaitListInfo.setAllowHoldUntilEntries(true);
         return courseWaitListInfo;
     }
 
@@ -210,27 +198,11 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
         this.courseWaitListService = courseWaitListService;
     }
 
-    public void setAutomaticallyProcessed(Boolean automaticallyProcessed) {
-        this.automaticallyProcessed = automaticallyProcessed;
+    public CourseOfferingService getCoService() {
+        return coService;
     }
 
-    public void setConfirmationRequired (Boolean confirmationRequired) {
-        this.confirmationRequired = confirmationRequired;
-    }
-
-    public void setAllowHoldUntilEntries (Boolean allowHoldUntilEntries) {
-        this.allowHoldUntilEntries = allowHoldUntilEntries;
-    }
-
-    public void setCheckInRequired (boolean checkInRequired) {
-        this.checkInRequired = checkInRequired;
-    }
-
-    public void setHasWaitlist(Boolean hasWaitlist) {
-        this.hasWaitlist = hasWaitlist;
-    }
-
-    public Boolean retrieveHasWaitlist() {
-        return hasWaitlist;
+    public CourseWaitListService getCourseWaitListService() {
+        return courseWaitListService;
     }
 }

@@ -47,5 +47,4 @@ public interface CourseWaitListServiceFacade {
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException;
 
-    public Boolean retrieveHasWaitlist();
 }
