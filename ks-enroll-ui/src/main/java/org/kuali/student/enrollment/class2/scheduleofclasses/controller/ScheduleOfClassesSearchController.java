@@ -113,7 +113,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
             ContextInfo context = ContextUtils.getContextInfo();
             List<AtpInfo> atps = ScheduleOfClassesUtil.getValidSocTerms(getCourseOfferingSetService(), getAtpService(), context);
             if (!atps.isEmpty()) {
-                form.setTermCode(ScheduleOfClassesUtil.getCurrentAtp(atps).getId());
+                form.setTermCode(ScheduleOfClassesUtil.getClosestAtp(atps).getId());
             }
         }
     }

@@ -5,6 +5,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 
@@ -48,7 +49,7 @@ public class ScheduleOfClassesUtil {
         // Build a predicate to search for published Socs
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
         qBuilder.setPredicates();
-        Predicate pred = equal("socState", "kuali.soc.state.published");
+        Predicate pred = equal(CourseOfferingSetServiceConstants.SearchParameters.SOC_STATE, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY);
         qBuilder.setPredicates(pred);
         try {
             socs = courseOfferingSetService.searchForSocs(qBuilder.build(), context);
@@ -70,7 +71,7 @@ public class ScheduleOfClassesUtil {
      * @param atpInfos
      * @return
      */
-    public static AtpInfo getCurrentAtp(List<AtpInfo> atpInfos) {
+    public static AtpInfo getClosestAtp(List<AtpInfo> atpInfos) {
         Date now = new Date();
         AtpInfo closestAtp = null;
 
