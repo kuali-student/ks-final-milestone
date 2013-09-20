@@ -315,7 +315,7 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-Label" p:labelText="Suffix" p:renderColon="false" />
-                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.courseNumberSuffix" p:showLabel="false">
+                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.courseNumberSuffix" p:showLabel="false" p:style="margin-top: -5px;" >
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="10" />
                                             </property>
@@ -357,7 +357,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.gradingOptionId" p:id="gradingOptionId" p:label="Grading Options" p:fieldLabel.renderColon="false" p:componentSecurity.editAuthz="true"
-                      p:onChangeScript="jQuery('#dirtyForm').val(true);" >
+                      p:onChangeScript="jQuery('#dirtyForm').val(true);" p:style="margin-top: -12px;" >
                     <property name="control">
                         <bean parent="Uif-HorizontalRadioControl"/>
                     </property>
@@ -385,16 +385,16 @@
                 <!--</bean>-->
                 <bean parent="Uif-MessageField" p:label="Student Registration Options"
                       p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
-                      p:render="true" />
+                      p:render="true" p:style="margin-top: -10px;"  />
                 <!-- List of checkboxes seem to break in KRAD 2.2M3 so had to replace with individual checkboxes -->
                 <bean parent="Uif-CheckboxInputField" p:label="Pass/Fail"
                       p:propertyName="passFailStudentRegOpts"
                       p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.passFail')}"/>
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.passFail')}" p:style="margin-top: -10px;"/>
                 <bean parent="Uif-CheckboxInputField" p:label="Audit"
                       p:propertyName="auditStudentRegOpts"
                       p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.audit')}"/>
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.audit')}" p:style="margin-top: -10px;"/>
                 <!-- For read only view show as message fields -->
                 <bean parent="Uif-MessageField"
                       p:messageText="Pass/Fail" p:render="@{!#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.passFailStudentRegOpts}"/>
@@ -402,7 +402,7 @@
                       p:messageText="Audit" p:render="@{!#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.auditStudentRegOpts}"/>
                 <!-- No reg options were available -->
                 <bean parent="Uif-MessageField"
-                      p:messageText="None available" p:render="@{#dp.studentRegOptions.empty}"/>
+                      p:messageText="None available" p:render="@{#dp.studentRegOptions.empty}" p:style="margin-top: -10px;"/>
             </list>
         </property>
     </bean>
@@ -411,7 +411,7 @@
             <list>
                 <!-- Credit Option Type Selector -->
                 <bean parent="Uif-InputField" p:propertyName="creditOption.typeKey" p:label="Credit Type"
-                      p:onChangeScript="jQuery('#dirtyForm').val(true);" >
+                      p:onChangeScript="jQuery('#dirtyForm').val(true); " p:style="margin-top: -12px;">
                     <property name="id" value="KS-CourseOfferingEdit-CreditType_OptionTypeSelector" />
                     <property name="control" >
                         <bean parent="Uif-HorizontalRadioControl" p:disabled="@{#dp.creditOptionFixed}" />
@@ -424,7 +424,7 @@
                 <bean parent="Uif-InputField" p:label="Credits" p:propertyName="creditOption.fixedCredit" p:fieldLabel.renderColon="false"
                       p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.fixed'}"
                       p:exclusiveMin="@{document.oldMaintainableObject.dataObject.creditOption.courseMinCredits}-0.0001"
-                      p:inclusiveMax="@{document.oldMaintainableObject.dataObject.creditOption.courseMaxCredits}"  >
+                      p:inclusiveMax="@{document.oldMaintainableObject.dataObject.creditOption.courseMaxCredits}" p:style="margin-top: -10px;">
                     <property name="id" value="KS-CourseOfferingEdit-CreditType_OptionTypeFixed" />
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
