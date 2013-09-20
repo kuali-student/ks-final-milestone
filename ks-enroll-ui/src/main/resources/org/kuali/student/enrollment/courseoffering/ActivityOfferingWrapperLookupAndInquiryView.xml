@@ -255,7 +255,6 @@
 
     <bean id="KS-ActivityOffering-Inquiry-WaitList" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Waitlist" />
-        <property name="componentSecurity.editAuthz" value="true"/>
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxSubSection">
@@ -263,11 +262,11 @@
                     <list>
                         <bean parent="Uif-MessageField" p:label="Waitlist Active" p:messageText="@{(!dataObject.hasWaitlist) ? 'No':'Yes'}" p:fieldLabel.renderColon="true"/>
                         <bean parent="Uif-MessageField" p:label="Waitlist Processing" p:messageText="@{( dataObject.waitListTypeWrapper.waitListTypeForUI eq null) ? '' : dataObject.waitListTypeWrapper.waitListTypeForUI }"
-                              p:fieldLabel.renderColon="true" p:style="@{(dataObject.hasWaitlistCO and  dataObject.hasWaitlist ) ?  '' : 'display:none'}"/>
+                              p:fieldLabel.renderColon="true" p:render="@{(dataObject.hasWaitlistCO and dataObject.hasWaitlist)}"/>
                         <bean parent="Uif-MessageField" p:label="Waitlist Max Size" p:messageText="@{(dataObject.courseWaitListInfo.maxSize eq null) ? 'Unlimited':'Limit to '} @{(dataObject.courseWaitListInfo.maxSize eq null) ? '': (dataObject.courseWaitListInfo.maxSize)}" p:fieldLabel.renderColon="true"
-                              p:style="@{(dataObject.hasWaitlistCO and dataObject.hasWaitlist) ? '' : 'display:none'}"/>
+                              p:render="@{(dataObject.hasWaitlistCO and dataObject.hasWaitlist)}"/>
                         <bean parent="Uif-MessageField" p:label="Allow Holds in Waitlist" p:messageText="@{(dataObject.courseWaitListInfo.allowHoldUntilEntries eq null or !dataObject.courseWaitListInfo.allowHoldUntilEntries) ? 'No':'Yes'}"
-                              p:fieldLabel.renderColon="true" p:style="@{(dataObject.hasWaitlistCO and dataObject.hasWaitlist) ? '' : 'display:none'}"/>
+                              p:fieldLabel.renderColon="true" p:render="@{(dataObject.hasWaitlistCO and dataObject.hasWaitlist)}"/>
                     </list>
                 </property>
                 </bean>
