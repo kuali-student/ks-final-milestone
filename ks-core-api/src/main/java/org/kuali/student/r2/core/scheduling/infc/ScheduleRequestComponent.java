@@ -122,6 +122,22 @@ public interface ScheduleRequestComponent extends HasId {
     public List<String> getTimeSlotIds();
 
     /**
+     * The Partition Id to specify a Partition.
+     *
+     * @name Partition Ids
+     * @impl This List has to be an Ordered List (i.e. it must be persisted as such that every time
+     * the List is accessed, the items are returned in the same order). This can be achieved by
+     * using an ordered list in JPA which requires a sequence number in the database. The DTO will not
+     * show the sequence number since it is just presenting an ordered list of preferences but will
+     * document that the list is ordered in this case. One can use @OrderColumn annotation.
+     * http://docs.oracle.com/javaee/6/api/javax/persistence/OrderColumn.html
+     * It self manges the column named and orders the results automatically using it, but it is not stored
+     * in the entity itself (can be accessed via jpql). The DDL will need to have the named column.
+     */
+    public List<String> getPartitionIds();
+
+
+    /**
      * The flag that holds whether this is a TBA schedule request.
      * A ScheduleRequestComponent is TBA if the Room is TBA, or timeslot is completely TBA (not there), or is of
      * type TBA (weekday or start/end time TBA).
