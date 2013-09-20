@@ -381,7 +381,17 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("getExamOfferingRelationIdsByType has not been implemented");
+        //trap null parameter
+        if (relationshipTypeKey == null){
+            throw new MissingParameterException("relationshipTypeKey is null");
+        }
+
+        //Retrieve examOfferingRelationIds
+        try {
+            return getLuiService().getLuiLuiRelationIdsByType(relationshipTypeKey, contextInfo);
+        } catch (Exception ex) {
+            throw new OperationFailedException(OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE, ex);
+        }
     }
 
     @Override

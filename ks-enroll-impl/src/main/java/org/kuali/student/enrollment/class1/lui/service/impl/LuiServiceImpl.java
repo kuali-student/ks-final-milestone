@@ -435,7 +435,7 @@ public class LuiServiceImpl
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
-        throw new UnsupportedOperationException("Not supported yet.");
+        return luiLuiRelationDao.getLuiLuiRelationIdsByType(luiLuiRelationTypeKey);
     }
 
     @Override
