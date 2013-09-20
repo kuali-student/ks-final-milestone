@@ -371,6 +371,7 @@
     </bean>
 
     <bean id="ActivityOfferingEdit-Waitlist" parent="Uif-VerticalBoxSection" p:headerText="Waitlist" p:render="@{#dp.hasWaitlistCO}">
+        <property name="componentSecurity.viewAuthz" value="true"/>
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxSection">
@@ -439,6 +440,28 @@
                                     </list>
                                 </property>
                             </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ActivityOfferingView-Waitlist" parent="Uif-VerticalBoxSection" p:render="@{#dp.hasWaitlistCO}">
+        <property name="componentSecurity.viewAuthz" value="true"/>
+        <property name="headerText" value="Waitlist" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSubSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField" p:label="Waitlist Active" p:messageText="@{(!#dp.hasWaitlist) ? 'No' : 'Yes'}" p:fieldLabel.renderColon="true"/>
+                            <bean parent="Uif-MessageField" p:label="Waitlist Processing" p:messageText="@{(#dp.waitListTypeWrapper.waitListTypeForUI eq null) ? '' : #dp.waitListTypeWrapper.waitListTypeForUI }"
+                                  p:fieldLabel.renderColon="true" p:render="@{#dp.hasWaitlist}"/>
+                            <bean parent="Uif-MessageField" p:label="Waitlist Max Size" p:messageText="@{(#dp.courseWaitListInfo.maxSize eq null) ? 'Unlimited':'Limit to '} @{(#dp.courseWaitListInfo.maxSize eq null) ? '': (#dp.courseWaitListInfo.maxSize)}"
+                                  p:fieldLabel.renderColon="true" p:render="@{#dp.hasWaitlist}"/>
+                            <bean parent="Uif-MessageField" p:label="Allow Holds in Waitlist" p:messageText="@{(#dp.courseWaitListInfo.allowHoldUntilEntries eq null or !#dp.courseWaitListInfo.allowHoldUntilEntries) ? 'No' : 'Yes'}"
+                                  p:fieldLabel.renderColon="true" p:render="@{#dp.hasWaitlist}"/>
                         </list>
                     </property>
                 </bean>
