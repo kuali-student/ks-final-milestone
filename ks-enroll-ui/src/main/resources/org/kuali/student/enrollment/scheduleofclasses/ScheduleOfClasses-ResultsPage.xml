@@ -70,9 +70,32 @@
         <property name="renderLineActions" value="false" />
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:label="COURSE" p:propertyName="coDisplayInfo.courseOfferingCode" />
-                <bean parent="Uif-DataField" p:label="TITLE" p:propertyName="coDisplayInfo.courseOfferingTitle"/>
-                <bean parent="Uif-DataField" p:label="CREDITS" p:propertyName="coDisplayInfo.creditOption.name"/>
+                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
+                    <property name="label" value="Label"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-Uif-DataField-Simple" p:propertyName="courseOfferingCode"/>
+                            <bean parent="Uif-ImageField" p:hidden="@{#lp.alternateCOCodes.isEmpty()}" p:image.altText="@{#lp.crossListedCodesUI}" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png">
+                                <property name="toolTip">
+                                    <bean parent="Uif-Tooltip" p:tooltipContent="@{#lp.crossListedCodesUI}" p:render="@{!#lp.alternateCOCodes.isEmpty()}"/>
+                                </property>
+                                <!--<property name="propertyReplacers">
+                                    <list>
+                                        &lt;!&ndash; Don't render the tooltip elements if they aren't needed &ndash;&gt;
+                                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="toolTip" p:condition="@{#lp.alternateCOCodes.isEmpty()}">
+                                            <property name="replacement">
+                                                <null/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>-->
+                            </bean>
+
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:label="TITLE" p:propertyName="courseOfferingDesc"/>
+                <bean parent="Uif-DataField" p:label="CREDITS" p:propertyName="courseOfferingCreditOptionDisplay"/>
                 <bean parent="Uif-MessageField" p:label="ADDITIONAL INFO" p:messageText="@{#line.information}">
                     <property name="cssClasses">
                         <list merge="true">
@@ -138,7 +161,7 @@
             <property name="items">
               <list>
                   <bean parent="Uif-MessageField" p:label="" p:messageText="@{#line.requisites}"/>
-                  <bean parent="Uif-MessageField" p:label="[b]Course Description[/b]" p:messageText="@{#line.xmlEscapedFormatted}"/>
+                  <bean parent="Uif-MessageField" p:label="[b]Course Description[/b]" p:messageText="@{#line.courseOfferingFormatedDesc}"/>
               </list>
             </property>
           </bean>
@@ -188,8 +211,22 @@
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:label="CODE" p:propertyName="aoInfo.activityCode" p:style="width:75px;"/>
-                <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="typeName" p:style="width:100px;"/>
+                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE" >
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false"/>
+                            <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedAoInfo.isEmpty()}"
+                                  p:image.altText="@{#line.colocatedAoInfoUI}"
+                                  p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
+                                <property name="style" value="padding-left:3px"/>
+                                <property name="toolTip">
+                                    <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedAoInfoUI}" p:render="@{!#lp.colocatedAoInfo.isEmpty()}"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="typeName" />
                 <bean parent="Uif-MessageField"
                       p:label="DAYS"
                       p:messageText="@{#line.daysDisplayName}" p:style="width:75px;"/>

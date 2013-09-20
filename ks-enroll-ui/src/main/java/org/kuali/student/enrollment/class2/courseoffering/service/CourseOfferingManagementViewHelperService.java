@@ -20,6 +20,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWr
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ActivityOfferingDisplayUI;
+import org.kuali.student.enrollment.class2.scheduleofclasses.form.CourseOfferingDisplayUI;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 
@@ -34,7 +35,7 @@ public interface CourseOfferingManagementViewHelperService extends CO_AO_RG_View
 
     public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, CourseOfferingManagementForm form) throws Exception;
 
-    public void loadCourseOfferingsByTermAndSubjectCode(String termId, String subjectCode, CourseOfferingManagementForm form) throws Exception;
+    public void loadCourseOfferingsByTermAndSubjectCode(String termId, String subjectCode, CourseOfferingDisplayUI form) throws Exception;
 
     public void loadActivityOfferingsByCourseOffering (CourseOfferingInfo theCourseOfferingInfo, CourseOfferingManagementForm form) throws Exception;
 

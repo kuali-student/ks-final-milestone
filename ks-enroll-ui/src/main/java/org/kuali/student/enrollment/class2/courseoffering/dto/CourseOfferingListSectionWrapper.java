@@ -39,6 +39,7 @@ public class CourseOfferingListSectionWrapper implements Serializable{
     private String courseOfferingId;
     private String courseOfferingCode;
     private String courseOfferingDesc;
+    private String courseOfferingFormatedDesc;
     private String courseOfferingStateKey;
     private String courseOfferingStateDisplay;
     private String courseOfferingCreditOptionKey;
@@ -47,6 +48,9 @@ public class CourseOfferingListSectionWrapper implements Serializable{
     private String courseOfferingGradingOptionDisplay;
     private String subjectArea;
     private String adminOrg;
+
+    private boolean studentSelectablePassFail;
+    private boolean auditCourse;
 
     private List<String> alternateCOCodes;
     private String ownerCode;
@@ -417,6 +421,30 @@ public class CourseOfferingListSectionWrapper implements Serializable{
 
     public void setAdminOrg(String adminOrg){
         this.adminOrg=adminOrg;
+    }
+
+    public String getCourseOfferingFormatedDesc() {
+        return courseOfferingFormatedDesc;
+    }
+
+    public void setCourseOfferingFormatedDesc(String courseOfferingFormatedDesc) {
+        this.courseOfferingFormatedDesc = courseOfferingFormatedDesc;
+    }
+
+    public boolean isStudentSelectablePassFail() {
+        return studentSelectablePassFail;
+    }
+
+    public void setStudentSelectablePassFail(boolean studentSelectablePassFail) {
+        this.studentSelectablePassFail = studentSelectablePassFail;
+    }
+
+    public boolean isAuditCourse() {
+        return auditCourse;
+    }
+
+    public void setAuditCourse(boolean auditCourse) {
+        this.auditCourse = auditCourse;
     }
 
 }

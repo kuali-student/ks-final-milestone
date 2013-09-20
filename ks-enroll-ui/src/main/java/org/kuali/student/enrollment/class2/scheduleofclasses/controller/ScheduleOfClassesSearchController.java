@@ -225,7 +225,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
     public ModelAndView populateAOs(@ModelAttribute( MODEL_ATTRIBUTE_FORM ) ScheduleOfClassesSearchForm theForm) throws Exception {
 
         CourseOfferingDisplayWrapper coDisplayWrapper = (CourseOfferingDisplayWrapper)KSControllerHelper.getSelectedCollectionItem(theForm);
-        theForm.setCourseOfferingId(coDisplayWrapper.getCoDisplayInfo().getId());
+        theForm.setCourseOfferingId(coDisplayWrapper.getCourseOfferingId());
 
         SearchRequestInfo searchRequestInfo = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY);
 
@@ -239,7 +239,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         coDisplayWrapper.getActivityWrapperList().clear();
         coDisplayWrapper.getActivityWrapperList().addAll(theForm.getActivityWrapperList());
 
-        String requisites =  getViewHelperService(theForm).getRequisitiesForCourseOffering(coDisplayWrapper.getCoDisplayInfo().getId());
+        String requisites =  getViewHelperService(theForm).getRequisitiesForCourseOffering(coDisplayWrapper.getCourseOfferingId());
         coDisplayWrapper.setRequisites(requisites);
 
         getViewHelperService(theForm).sortActivityOfferings(theForm,coDisplayWrapper);
@@ -298,7 +298,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         SearchRequestInfo searchRequestInfo = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY);
 
         CourseOfferingDisplayWrapper coDisplayWrapper = (CourseOfferingDisplayWrapper)KSControllerHelper.getSelectedCollectionItem(theForm);
-        theForm.setCourseOfferingId(coDisplayWrapper.getCoDisplayInfo().getId());
+        theForm.setCourseOfferingId(coDisplayWrapper.getCourseOfferingId());
 
         List<String> regGroupStates = getViewHelperService(theForm).getRegGroupStateFilter();
         searchRequestInfo.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.REGGROUP_STATES, regGroupStates);

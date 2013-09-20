@@ -53,7 +53,10 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingVie
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
+import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ActivityOfferingDisplayUI;
+import org.kuali.student.enrollment.class2.scheduleofclasses.form.CourseOfferingDisplayUI;
+import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.ActivityOfferingTypeComparator;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
@@ -273,7 +276,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
      * @param form        course offering management form
      * @throws Exception
      */
-    public void loadCourseOfferingsByTermAndSubjectCode(String termId, String subjectCode, CourseOfferingManagementForm form) throws Exception {
+    public void loadCourseOfferingsByTermAndSubjectCode(String termId, String subjectCode, CourseOfferingDisplayUI form) throws Exception {
 
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey());
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.SUBJECT_AREA, subjectCode);
@@ -282,10 +285,10 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
         loadCourseOfferings(searchRequest, form);
 
-        if (form.getCourseOfferingResultList().isEmpty()) {
+       /* if (form.getCourseOfferingResultList().isEmpty()) {
             LOG.error("Error: Can't find any Course Offering for a Subject Code: " + subjectCode + " in term: " + termId);
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Subject Code", subjectCode, termId);
-        }
+        }*/
 
     }
 
@@ -1518,16 +1521,26 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
      * @throws Exception
      * @see CourseOfferingManagementSearchImpl Actual CO search happens here
      */
-    protected void loadCourseOfferings(SearchRequestInfo searchRequest, CourseOfferingManagementForm form) throws Exception {
+    protected void loadCourseOfferings(SearchRequestInfo searchRequest, CourseOfferingDisplayUI form) throws Exception {
 
         ContextInfo contextInfo = createContextInfo();
 
         SearchResultInfo searchResult = getSearchService().search(searchRequest, contextInfo);
 
-        form.getCourseOfferingResultList().clear();
+        if (form instanceof ScheduleOfClassesSearchForm){
+            ((ScheduleOfClassesSearchForm)form).getCoDisplayWrapperList().clear();
+        } else {
+            ((CourseOfferingManagementForm)form).getCourseOfferingResultList().clear();
+        }
 
         for (SearchResultRowInfo row : searchResult.getRows()) {
             CourseOfferingListSectionWrapper coListWrapper = new CourseOfferingListSectionWrapper();
+            if (form instanceof ScheduleOfClassesSearchForm){
+                coListWrapper = new CourseOfferingDisplayWrapper();
+                ((ScheduleOfClassesSearchForm)form).getCoDisplayWrapperList().add((CourseOfferingDisplayWrapper)coListWrapper);
+            } else {
+                ((CourseOfferingManagementForm)form).getCourseOfferingResultList().add(coListWrapper);
+            }
 
             for (SearchResultCellInfo cellInfo : row.getCells()) {
 
@@ -1565,10 +1578,15 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     coListWrapper.setOwnerCode(value);
                 } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.OWNER_ALIASES.equals(cellInfo.getKey())) {
                     coListWrapper.setOwnerAliases(Arrays.asList(StringUtils.split(value, ",")));
+                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.DESC_FORMATTED.equals(cellInfo.getKey())) {
+                    coListWrapper.setCourseOfferingFormatedDesc(value);
+                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.HAS_STUDENT_SELECTABLE_PASSFAIL.equals(cellInfo.getKey())) {
+                    coListWrapper.setStudentSelectablePassFail(BooleanUtils.toBoolean(value));
+                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.CAN_AUDIT_COURSE.equals(cellInfo.getKey())) {
+                    coListWrapper.setAuditCourse(BooleanUtils.toBoolean(value));
                 }
 
             }
-            form.getCourseOfferingResultList().add(coListWrapper);
         }
     }
 

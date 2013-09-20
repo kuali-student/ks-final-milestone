@@ -33,7 +33,7 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class ScheduleOfClassesSearchForm extends UifFormBase implements ActivityOfferingDisplayUI {
+public class ScheduleOfClassesSearchForm extends UifFormBase implements ActivityOfferingDisplayUI, CourseOfferingDisplayUI {
 
     private String termCode;
     private String searchType;
@@ -60,6 +60,11 @@ public class ScheduleOfClassesSearchForm extends UifFormBase implements Activity
     private String displayCoIdAdd;
     private AoDisplayFormat aoDisplayFormat;
     private boolean allowSelectableAoRendering;
+
+//    /**
+//     * This is used to display CO search result list
+//     */
+//    private List<CourseOfferingListSectionWrapper> courseOfferingResultList;
 
     /**
      * Valid display types of activities in schedule of classes.

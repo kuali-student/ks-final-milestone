@@ -25,6 +25,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingList
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ActivityOfferingDisplayUI;
+import org.kuali.student.enrollment.class2.scheduleofclasses.form.CourseOfferingDisplayUI;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.common.uif.form.KSUifForm;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -39,7 +40,7 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class CourseOfferingManagementForm extends KSUifForm implements ActivityOfferingDisplayUI{
+public class CourseOfferingManagementForm extends KSUifForm implements ActivityOfferingDisplayUI, CourseOfferingDisplayUI {
     /**
      * This is for authorization purpose of manageTheCO page
      */
