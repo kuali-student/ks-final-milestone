@@ -109,7 +109,6 @@ public class TestExamOfferingServiceImplConformanceExtendedCrud extends TestExam
         expected.setName("name_Updated");
         expected.setDescr(RichTextHelper.buildRichTextInfo("descr_Updated", "descr_Updated"));
         expected.setExamPeriodId("examPeriodId_Updated");
-        expected.setExamId("examId_Updated");
         expected.setScheduleId("scheduleId_Updated");
     }
 
