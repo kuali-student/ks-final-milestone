@@ -51,9 +51,25 @@
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.population.service.impl.PopulationWrapperLookupableImpl" />
         <property name="maintenanceUrlMapping" value="population"/>
 
+        <property name="stickyTopGroup" value="false"/>
+        <property name="stickyBreadcrumbs" value="false"/>
+        <property name="stickyApplicationHeader" value="false"/>
+        <property name="stickyHeader" value="true"/>
+        <property name="applicationHeader">
+            <bean parent="Uif-GlobalApplicationHeader-parentBean"
+                  p:template="/ks-common/WEB-INF/ftl/ksApplicationHeader.ftl" p:render="true"
+                  p:templateName="ks_applicationHeader"/>
+        </property>
+        <property name="header.cssClasses">
+            <list merge="true">
+                <value>ks-unified-header</value>
+            </list>
+        </property>
+
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <ref bean="KS-Enrollment-HomewardPathBreadcrumbs"/>
         </property>
+
         <property name="criteriaFields">
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:label="Keyword" p:propertyName="keyword" p:fieldLabel.style="width:20%;" p:style="width:auto;"/>
