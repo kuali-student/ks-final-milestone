@@ -1251,9 +1251,33 @@ public interface CourseOfferingService
      */
     public List<ActivityOfferingInfo> getActivityOfferingsByFormatOfferingWithoutRegGroup(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    
-    
-    
+
+    /**
+     * Retrieves a list of allowed time slots for an activity offering
+     *
+     * @param activityOfferingId identifier for an activity offering
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return a list of TimeSlots allowed for activityOfferingId or an
+     *         empty list if none found
+     * @throws DoesNotExistException     activityOfferingId does not exist
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException activityOfferingId or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getAllowedTimeSlotsForActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId,
+                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+
+
     /**
      * Searches for ActivityOfferings that meet the given search criteria.
      *
