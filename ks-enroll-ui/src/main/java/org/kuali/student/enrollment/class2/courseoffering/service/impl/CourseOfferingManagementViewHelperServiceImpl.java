@@ -327,10 +327,14 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         //New Search Stuff!
         String coId = form.getCourseOfferingId();
         List<String> filterRegGroupStates = null;
+        List<String> filterAOStates = null;
 
         for (SearchParamInfo param : sr.getParams()){
             if (StringUtils.equals(param.getKey(),ActivityOfferingSearchServiceImpl.SearchParameters.REGGROUP_STATES)){
                 filterRegGroupStates = param.getValues();
+            }
+            if (StringUtils.equals(param.getKey(),ActivityOfferingSearchServiceImpl.SearchParameters.AO_STATES)){
+                filterAOStates = param.getValues();
             }
         }
 
@@ -404,6 +408,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             //Process Colocated
             sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.COLOCATED_AOS_BY_AO_IDS_SEARCH_KEY);
             sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_IDS, new ArrayList<String>(aoMap.keySet()));
+            sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_STATES, filterAOStates);
             results = searchService.search(sr, null);
 
             processColocated(results, aoMap);

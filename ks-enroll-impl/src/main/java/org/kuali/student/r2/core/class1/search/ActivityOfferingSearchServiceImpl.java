@@ -1,5 +1,6 @@
 package org.kuali.student.r2.core.class1.search;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.r2.common.class1.search.SearchServiceAbstractHardwiredImplBase;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -328,7 +329,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         List<String> aoIds = requestHelper.getParamAsList(SearchParameters.AO_IDS);
+        List<String> aoStates = requestHelper.getParamAsList(SearchParameters.AO_STATES);
         String aoIdStr =   commaString(aoIds);
+        String filterAOStates = "'" + StringUtils.join(aoStates, "','") + "'";
 
         String queryStr =
                 "SELECT aoMatchIds," +
@@ -340,7 +343,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "     LuiIdentifierEntity co_ident," +
                 "     LuiIdentifierEntity ao_ident," +
                 "     LuiLuiRelationEntity co2fo," +
-                "     LuiLuiRelationEntity fo2ao " +
+                "     LuiLuiRelationEntity fo2ao, " +
+                "     LuiEntity lui " +
                 "WHERE " +
                 "  aoMatchIds IN(" + aoIdStr + ") " +
                 "  AND co2fo.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
@@ -351,7 +355,12 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "  AND aoIds = ao_ident.lui.id " +
                 "  AND co_ident.type = 'kuali.lui.identifier.type.official' " +
                 "  AND ao_ident.type = 'kuali.lui.identifier.type.official' " +
+                "  AND lui.id = ao_ident.lui.id " +
                 "  AND aoMatchIds != aoIds";
+
+        if (aoStates != null && !aoStates.isEmpty()){
+            queryStr = queryStr + " AND lui.luiState in (" + filterAOStates + ")";
+        }
 
         Query query = entityManager.createQuery(queryStr);
 //        query.setParameter(SearchParameters.AO_IDS, aoIds);
