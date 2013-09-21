@@ -200,7 +200,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         /**
          * Filter results based on the Lui States
          */
-        if (!filterCOStates.isEmpty()){
+        if (filterCOStates!= null && !filterCOStates.isEmpty()){
             String filterCOStatesAsString = "'" + StringUtils.join(filterCOStates,"','") + "'";
             query = query + " AND lui.luiState in (" + filterCOStatesAsString + ") ";
         }
