@@ -114,7 +114,7 @@
                 <entry key="bFilter" value="false"/>
                 <entry key="aaSorting" value="[[1,'asc']]"/>
                 <entry key="aoColumns"
-                       value="[ {'bSortable':false, 'sWidth':'3%'},
+                       value="[ {'bSortable':false, 'sWidth':'2.4%'},
                                 {'bSortable':true, 'sWidth':'10%'},
                                 {'bSortable':false, 'sWidth':'67%'},
                                 {'bSortable':false, 'sWidth':'10%'},
@@ -202,7 +202,7 @@
         </property>
     </bean>
 
-    <bean id="SchOfClasses-aoSearchResults" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false">
+    <bean id="SchOfClasses-aoSearchResults" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false" p:style="margin-left:36px;width:80%;">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="propertyName" value="aoWrapperList" />
         <property name="layoutManager.renderSequenceField" value="false" />
@@ -214,7 +214,7 @@
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE" >
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false"/>
+                            <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false" p:style="width:75px;"/>
                             <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedAoInfo.isEmpty()}"
                                   p:image.altText="@{#line.colocatedAoInfoUI}"
                                   p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
@@ -226,17 +226,17 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="typeName" />
+                <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="typeName"  p:style="width:100px;"/>
                 <bean parent="Uif-MessageField"
                       p:label="DAYS"
                       p:messageText="@{#line.daysDisplayName}" p:style="width:75px;"/>
                 <bean parent="Uif-MessageField"
                       p:label="START TIME"
-                      p:messageText="@{#line.startTimeDisplay}" p:style="width:90px;"/>
+                      p:messageText="@{#line.startTimeDisplay}" p:style="width:77px;"/>
                 <bean parent="Uif-MessageField"
                       p:label="END TIME"
-                      p:messageText="@{#line.endTimeDisplay}" p:style="width:90px;"/>
-                <bean parent="Uif-MessageField" p:style="width:50px;">
+                      p:messageText="@{#line.endTimeDisplay}" p:style="width:64px;"/>
+                <bean parent="Uif-MessageField" p:style="width:57px;">
                     <property name="label" value="BUILDING"/>
                     <property name="messageText" value="@{#line.buildingCode}"/>
                     <property name="toolTip">
@@ -255,8 +255,8 @@
                 <bean parent="Uif-MessageField"
                       p:label="INSTRUCTOR"
                       p:messageText="@{#line.instructorDisplayNames}" p:style="width:200px;"/>
-                <bean parent="Uif-DataField" p:label="SEATS" p:propertyName="aoInfo.maximumEnrollment" p:style="text-align:right;width:40px;"/>
-                <bean parent="Uif-MessageField" p:label="ADDITIONAL INFO" p:messageText="@{#line.schOfClassesRenderHelper.information}" p:style="width:125px;"/>
+                <bean parent="Uif-DataField" p:label="SEATS" p:propertyName="aoInfo.maximumEnrollment" p:style="text-align:right;width:44px;"/>
+                <bean parent="Uif-MessageField" p:label="ADDITIONAL INFO" p:messageText="@{#line.schOfClassesRenderHelper.information}" p:style="width:111px;"/>
             </list>
         </property>
     </bean>
