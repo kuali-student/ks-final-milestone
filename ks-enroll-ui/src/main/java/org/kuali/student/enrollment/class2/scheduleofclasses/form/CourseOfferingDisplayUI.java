@@ -20,7 +20,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingList
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class
  *
  * @author Kuali Student Team
  */
