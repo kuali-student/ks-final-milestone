@@ -125,7 +125,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
                 coDisplayWrapper.setRequisites(retrieveRequisites(coDisplayWrapper.getCourseOfferingId(), ruleManagementService, catalogUsageId));
 
                 // Adding Information (icons)
-                StringBuffer information = new StringBuffer();
+                StringBuilder information = new StringBuilder();
 //                if (coDisplayWrapper.get != null && coDisplayInfo.getIsHonorsOffering()) {
 //                    information = "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HONORS_COURSE_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_HONORS_COURSE + "\"> ";
 //                }
