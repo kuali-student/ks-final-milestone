@@ -244,6 +244,7 @@
                 <value>classpath:org/kuali/student/common/kitchensink/CollectionHorizontal.xml</value>
                 <value>classpath:org/kuali/student/common/kitchensink/CollectionInForm.xml</value>
                 <value>classpath:org/kuali/student/common/kitchensink/CollectionOptions.xml</value>
+                <value>classpath:org/kuali/student/common/kitchensink/CollectionPaginationOptions.xml</value>
                 <value>classpath:org/kuali/student/common/kitchensink/CollectionRowSelection.xml</value>
                 <value>classpath:org/kuali/student/common/kitchensink/CollectionRowSelectionHighlight.xml</value>
                 <value>classpath:org/kuali/student/common/kitchensink/CollectionStacked.xml</value>
