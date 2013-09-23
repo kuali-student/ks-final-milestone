@@ -45,6 +45,8 @@
   <alias name="processServiceValidationDecorator" alias="ProcessService" />
   <alias name="schedulingServiceValidationDecorator" alias="SchedulingService" />
   <alias name="courseWaitListServiceImpl" alias="courseWaitListService" />
+  <alias name="examServiceImpl" alias="ExamService" />
+  <alias name="examOfferingServiceImpl" alias="ExamOfferingService" />
 
   <bean id="enrollDataSource" class="org.kuali.rice.student.core.database.DerbyXAPoolDataSource">
     <property name="transactionManager" ref="userTransaction" />
@@ -542,6 +544,78 @@
       <!--</bean>-->
     <!--</property>-->
   <!--</bean>-->
+
+    <!-- Exam Service beans -->
+    <bean id="examServiceImpl" class="org.kuali.student.enrollment.class2.exam.service.impl.ExamServiceImpl">
+        <property name="cluService" ref="cluServiceImpl"/>
+        <property name="examTransformer" ref="examTransformer"/>
+    </bean>
+
+    <bean id="examTransformer" class="org.kuali.student.enrollment.class2.exam.service.transformer.ExamTransformer">
+        <property name="cluService" ref="cluServiceImpl"/>
+    </bean>
+
+    <bean id="ks.exp.examService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="ExamService" />
+                <property name="serviceInterface" value="org.kuali.student.enrollment.exam.service.ExamService" />
+                <property name="localServiceName" value="ExamService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/exam" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+    <!-- Exam Offering Service beans -->
+    <bean id="examOfferingServiceImpl" class="org.kuali.student.enrollment.class2.examoffering.service.impl.ExamOfferingServiceImpl">
+        <property name="luiService" ref="luiServiceImpl"/>
+        <property name="schedulingService" ref="schedulingServiceImpl"/>
+        <property name="typeService" ref="typeServiceCacheDecorator" />
+        <property name="acalService" ref="AcademicCalendarService" />
+        <property name="examOfferingTransformer" ref="examOfferingTransformer"/>
+    </bean>
+
+    <bean id="examOfferingTransformer" class="org.kuali.student.enrollment.class2.examoffering.service.transformer.ExamOfferingTransformer">
+        <property name="luiService" ref="luiServiceImpl"/>
+    </bean>
+
+    <bean id="ks.exp.examOfferingService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="ExamOfferingService" />
+                <property name="serviceInterface" value="org.kuali.student.enrollment.examoffering.service.ExamOfferingService" />
+                <property name="localServiceName" value="ExamOfferingService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/examOffering" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="examOfferingServiceFacade" class="org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacadeImpl">
+        <property name="acalService" ref="AcademicCalendarService" />
+        <property name="examService" ref="ExamService"/>
+        <property name="courseOfferingService" ref="CourseOfferingService"/>
+        <property name="examOfferingService" ref="ExamOfferingService"/>
+    </bean>
+
+    <!-- Put facade on the bus -->
+    <bean id="ks.exp.examOfferingServiceFacade" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
+                <property name="service" ref="examOfferingServiceFacade" /> <!-- Must match id in the bean -->
+                <property name="serviceInterface" value="org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade" />
+                <property name="localServiceName" value="examOfferingServiceFacade" /> <!-- Part of the QName -->
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/examOfferingServiceFacade" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+
+    <!-- Lui Service beans -->
 
     <bean id="luiServiceValidationDecorator" class=" org.kuali.student.enrollment.class1.lui.service.decorators.LuiServiceValidationDecorator">
         <property name="nextDecorator" ref="luiServiceImpl" />
