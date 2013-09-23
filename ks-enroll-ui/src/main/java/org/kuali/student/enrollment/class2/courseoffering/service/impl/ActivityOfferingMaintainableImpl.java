@@ -32,7 +32,6 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingCon
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
-import org.kuali.student.enrollment.class2.courseoffering.waitlist.FromUIWaitListType;
 import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -50,6 +49,7 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -98,6 +98,33 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     private transient CourseService courseService;
     private transient CourseWaitListService courseWaitListService;
 
+
+    /**
+     *   This method will set automaticallyProcessed and confirmationRequired boolean based on waitListType value
+     *
+     *   automatic -> automaticallyProcessed = true, confirmationRequired = false
+     *   semi-automatic -> automaticallyProcessed = true, confirmationRequired = true
+     *   manual -> automaticallyProcessed = false, confirmationRequired = false
+     *
+     */
+
+    private void setAutoProcConfReq(CourseWaitListInfo courseWaitListInfo, String waitListType){
+
+        if(waitListType.equals(LuiServiceConstants.AUTOMATIC_WAITLIST_TYPE_KEY)) {
+            courseWaitListInfo.setAutomaticallyProcessed(true);
+            courseWaitListInfo.setConfirmationRequired(false);
+        }
+        else if(waitListType.equals(LuiServiceConstants.SEMIAUTOMATIC_WAITLIST_TYPE_KEY)){
+            courseWaitListInfo.setAutomaticallyProcessed(true);
+            courseWaitListInfo.setConfirmationRequired(true);
+        }
+
+        else if(waitListType.equals(LuiServiceConstants.MANUAL_WAITLIST_TYPE_KEY)) {
+            courseWaitListInfo.setAutomaticallyProcessed(false);
+            courseWaitListInfo.setConfirmationRequired(false);
+        }
+    }
+
     @Override
     public void saveDataObject() {
         if (getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
@@ -134,8 +161,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), contextInfo);
                 activityOfferingWrapper.setAoInfo(activityOfferingInfo);
 
-                // FormUIWaitListType is first in chain of responsibility, auto processed & Confirmation required will be set for course wait list info.
-                new FromUIWaitListType().autoProcessedConfReqFinder(activityOfferingWrapper.getCourseWaitListInfo(), activityOfferingWrapper.getWaitListTypeWrapper().getWaitListType());
+                setAutoProcConfReq(activityOfferingWrapper.getCourseWaitListInfo(),activityOfferingWrapper.getWaitListType());
 
                 if(activityOfferingWrapper.isHasWaitlist())
                     activityOfferingWrapper.getCourseWaitListInfo().setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY);
@@ -307,7 +333,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 int temp = 0;
                 CourseWaitListInfo courseWaitListInfo = courseWaitLists.get(temp);
                 wrapper.setCourseWaitListInfo(courseWaitListInfo);
-                wrapper.updateWaitListTypeWrapper();
+                wrapper.updateWaitListType();
                 if(courseWaitListInfo.getMaxSize() !=null)
                     wrapper.setLimitWaitlistSize(true);
                 else

@@ -261,7 +261,8 @@
                 <property name="items">
                     <list>
                         <bean parent="Uif-MessageField" p:label="Waitlist Active" p:messageText="@{(!dataObject.hasWaitlist) ? 'No':'Yes'}" p:fieldLabel.renderColon="true"/>
-                        <bean parent="Uif-MessageField" p:label="Waitlist Processing" p:messageText="@{( dataObject.waitListTypeWrapper.waitListTypeForUI eq null) ? '' : dataObject.waitListTypeWrapper.waitListTypeForUI }"
+                                                                                                                                     <!--  WaitListType constant is replaced with waitlistType, ex: kuali.waitlist.type.automatic to automatic   -->
+                        <bean parent="Uif-MessageField" p:label="Waitlist Processing" p:messageText="@{( dataObject.waitListType eq null) ? '' : (dataObject.waitListType).replace('kuali.waitlist.type.','') }"
                               p:fieldLabel.renderColon="true" p:render="@{(dataObject.hasWaitlistCO and dataObject.hasWaitlist)}"/>
                         <bean parent="Uif-MessageField" p:label="Waitlist Max Size" p:messageText="@{(dataObject.courseWaitListInfo.maxSize eq null) ? 'Unlimited':'Limit to '} @{(dataObject.courseWaitListInfo.maxSize eq null) ? '': (dataObject.courseWaitListInfo.maxSize)}" p:fieldLabel.renderColon="true"
                               p:render="@{(dataObject.hasWaitlistCO and dataObject.hasWaitlist)}"/>
