@@ -133,8 +133,16 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         // URL-parameter overrides setting in kuali config file
         if( request.getParameter( "showAoDisplayWidget" ) != null ) {
             displaySelectableAoRenderingWidget = Boolean.valueOf( request.getParameter( "showAoDisplayWidget" ) );
+        } else if(request.getParameter("scheduleOfClassesDisplayFormat") != null) {
+            String urlSelectedRendering = request.getParameter( "scheduleOfClassesDisplayFormat" );
+            if(ScheduleOfClassesSearchForm.AoDisplayFormat.FLAT.getText().equals(urlSelectedRendering)) {
+                form.setAoDisplayFormat(ScheduleOfClassesSearchForm.AoDisplayFormat.FLAT);
+            } else if(ScheduleOfClassesSearchForm.AoDisplayFormat.CLUSTER.getText().equals(urlSelectedRendering)) {
+                form.setAoDisplayFormat(ScheduleOfClassesSearchForm.AoDisplayFormat.CLUSTER);
+            } else {
+                form.setAoDisplayFormat(ScheduleOfClassesSearchForm.AoDisplayFormat.REG_GROUP);
+            }
         }
-
         // Setting in kuali config file is applied if URL-parameter was not supplied
         // (and in event kuali config file does not specify, then UI widget will be set to not show)
         else {
