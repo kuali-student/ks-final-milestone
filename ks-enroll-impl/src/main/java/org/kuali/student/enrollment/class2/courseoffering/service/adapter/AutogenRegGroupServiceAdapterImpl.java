@@ -277,7 +277,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
                 // types (as they were originally envisioned), then this exception will be thrown.
                 throw new UnsupportedOperationException("Can't handle Activity Type -> AO Type that isn't 1-1.  Search for this message in Java code");
             } else {
-                String aoType = CommonUtil.getZeroElement(typeTypeRels).getRelatedTypeKey();
+                String aoType = CommonUtil.getRequiredZeroElement(typeTypeRels).getRelatedTypeKey();
                 aoTypeKeys.add(aoType);
             }
         }
@@ -415,7 +415,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         CourseWaitListInfo origWaitListInfo, newWaitListInfo;        
         if (!waitListInfos.isEmpty()){
             //by default, should only return 1 record in waitListInfos
-            origWaitListInfo = CommonUtil.getZeroElement(waitListInfos);
+            origWaitListInfo = CommonUtil.getRequiredZeroElement(waitListInfos);
             newWaitListInfo = new CourseWaitListInfo();
             List<String> aoIds = new ArrayList<String> ();
             aoIds.add(newAOInfo.getId());
@@ -457,7 +457,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
 
             if (rgs != null && !rgs.isEmpty()) {
                 //fetch the associated AOC
-                ActivityOfferingClusterInfo cluster = coService.getActivityOfferingCluster(CommonUtil.getZeroElement(rgs).getActivityOfferingClusterId(), context);
+                ActivityOfferingClusterInfo cluster = coService.getActivityOfferingCluster(CommonUtil.getRequiredZeroElement(rgs).getActivityOfferingClusterId(), context);
 
                 if (cluster != null) {
                     // Make sure FO IDs match up
@@ -967,7 +967,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
             throw new DoesNotExistException("No Results");
         }
         // else:
-        SearchResultRowInfo row = CommonUtil.getZeroElement(results.getRows());
+        SearchResultRowInfo row = CommonUtil.getRequiredZeroElement(results.getRows());
 
         AutogenCount count = new AutogenCount();
 
