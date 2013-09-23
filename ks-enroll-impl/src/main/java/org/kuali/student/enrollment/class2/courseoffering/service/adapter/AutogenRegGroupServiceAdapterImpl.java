@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.common.util.CommonUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDaoApi;
 import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterEntity;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.ActivityOfferingNotInAocSubissue;
@@ -276,7 +277,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
                 // types (as they were originally envisioned), then this exception will be thrown.
                 throw new UnsupportedOperationException("Can't handle Activity Type -> AO Type that isn't 1-1.  Search for this message in Java code");
             } else {
-                String aoType = typeTypeRels.get(0).getRelatedTypeKey();
+                String aoType = CommonUtil.getZeroElement(typeTypeRels).getRelatedTypeKey();
                 aoTypeKeys.add(aoType);
             }
         }
@@ -414,11 +415,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         CourseWaitListInfo origWaitListInfo, newWaitListInfo;        
         if (!waitListInfos.isEmpty()){
             //by default, should only return 1 record in waitListInfos
-            if (waitListInfos.size() == 1) {
-                origWaitListInfo = waitListInfos.get(0);
-            } else {
-                throw new OperationFailedException("waitListInfos list size exceeds limit of 1");
-            }
+            origWaitListInfo = CommonUtil.getZeroElement(waitListInfos);
             newWaitListInfo = new CourseWaitListInfo();
             List<String> aoIds = new ArrayList<String> ();
             aoIds.add(newAOInfo.getId());
@@ -460,7 +457,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
 
             if (rgs != null && !rgs.isEmpty()) {
                 //fetch the associated AOC
-                ActivityOfferingClusterInfo cluster = coService.getActivityOfferingCluster(rgs.get(0).getActivityOfferingClusterId(), context);
+                ActivityOfferingClusterInfo cluster = coService.getActivityOfferingCluster(CommonUtil.getZeroElement(rgs).getActivityOfferingClusterId(), context);
 
                 if (cluster != null) {
                     // Make sure FO IDs match up
@@ -970,7 +967,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
             throw new DoesNotExistException("No Results");
         }
         // else:
-        SearchResultRowInfo row = results.getRows().get(0);
+        SearchResultRowInfo row = CommonUtil.getZeroElement(results.getRows());
 
         AutogenCount count = new AutogenCount();
 
