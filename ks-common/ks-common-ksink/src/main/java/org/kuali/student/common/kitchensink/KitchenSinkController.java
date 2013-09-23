@@ -78,6 +78,14 @@ public class KitchenSinkController extends UifControllerBase {
         collectionList.add(new KitchenSinkFormCollection1("John Adams", "A founding father", "1735-10-30"));
         collectionList.add(new KitchenSinkFormCollection1("Big Bang Theory", "A funny show", "2007-09-24"));
         collectionList.add(new KitchenSinkFormCollection1("Chainbreaker IPA", "A tasty beverage", "2011-06-09"));
+        collectionList.add(new KitchenSinkFormCollection1("Troybilt", "A small engine company", "2012-05-07"));
+        collectionList.add(new KitchenSinkFormCollection1("Craftsman", "A brand owned by Sears", "2012-05-07"));
+        collectionList.add(new KitchenSinkFormCollection1("CSS", "A maze of wonder", "2012-05-07"));
+        collectionList.add(new KitchenSinkFormCollection1("Jeep", "A motor vehical company", "2012-05-07"));
+        collectionList.add(new KitchenSinkFormCollection1("Hammer", "A time for which to stop", "2012-05-07"));
+        collectionList.add(new KitchenSinkFormCollection1("Unicorns", "Allegedly mythical horses", "2012-05-07"));
+        collectionList.add(new KitchenSinkFormCollection1("Cobbler", "A dessert, or one who fixes shoes", "2012-05-07"));
+        collectionList.add(new KitchenSinkFormCollection1("Give you up", "Something I'm never gonna do", "2012-05-07"));
         form.setCollection(collectionList);
 
         // Collections.xml has been removed

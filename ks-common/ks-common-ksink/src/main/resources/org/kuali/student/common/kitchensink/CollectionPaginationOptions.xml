@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2006-2011 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!--Here is the main page-->
+
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-View-Base" parent="KS-KitchenSink-FormView" />
+
+    <!--Tables to demo pagination-->
+
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-NoPaging" parent="KS-KitchenSink-Collection-Base">
+        <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="Uif-PagedRichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="aaSorting" value="[[1,'asc']]"/>
+                        <entry key="bPaginate" value="false"/>
+                        <entry key="bFilter" value="false"/>
+                        <!-- bInfo removes "Page x of y" text: -->
+                        <entry key="bInfo" value="false"/>
+                        <!-- bLengthChange removes "Show [10 v] entries" drop-down: -->
+                        <entry key="bLengthChange" value="false"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-TwoButtonPagingDefault" parent="KS-KitchenSink-Collection-Base">
+        <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="Uif-PagedRichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="aaSorting" value="[[1,'asc']]"/>
+                        <entry key="bPaginate" value="true"/>
+                        <entry key="sPaginationType" value="two_button"/>
+                        <entry key="bFilter" value="false"/>
+                        <!-- bInfo removes "Page x of y" text: -->
+                        <entry key="bInfo" value="false"/>
+                        <!-- bLengthChange removes "Show [10 v] entries" drop-down: -->
+                        <entry key="bLengthChange" value="false"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-FullNumberPagingDefault" parent="KS-KitchenSink-Collection-Base">
+        <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="Uif-PagedRichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="aaSorting" value="[[1,'asc']]"/>
+                        <entry key="bPaginate" value="true"/>
+                        <entry key="sPaginationType" value="full_numbers"/>
+                        <entry key="bFilter" value="false"/>
+                        <!-- bInfo removes "Page x of y" text: -->
+                        <entry key="bInfo" value="false"/>
+                        <!-- bLengthChange removes "Show [10 v] entries" drop-down: -->
+                        <entry key="bLengthChange" value="false"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!--PROPOSED CHANGES TO PAGINATION-->
+
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-TwoButtonPaging" parent="KS-KitchenSink-Collection-Base">
+        <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
+        <property name="cssClasses">
+            <list merge="true">
+                <value>pagination-proposed</value>
+            </list>
+        </property>
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="Uif-PagedRichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="aaSorting" value="[[1,'asc']]"/>
+                        <entry key="bPaginate" value="true"/>
+                        <entry key="sPaginationType" value="two_button"/>
+                        <entry key="bFilter" value="false"/>
+                        <!-- bInfo removes "Page x of y" text: -->
+                        <entry key="bInfo" value="false"/>
+                        <!-- bLengthChange removes "Show [10 v] entries" drop-down: -->
+                        <entry key="bLengthChange" value="false"/>
+                        <entry key="oLanguage" value="
+                            {
+                                'oPaginate':
+                                {
+                                    'sPrevious' : '&amp;#8249;',
+                                    'sNext' : '&amp;#8250;'
+                                }
+                            }"
+                        />
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-FullNumberPaging" parent="KS-KitchenSink-Collection-Base">
+        <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
+        <property name="cssClasses">
+            <list merge="true">
+                <value>pagination-proposed</value>
+            </list>
+        </property>
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="Uif-PagedRichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="aaSorting" value="[[1,'asc']]"/>
+                        <entry key="bPaginate" value="true"/>
+                        <entry key="sPaginationType" value="full_numbers"/>
+                        <entry key="bFilter" value="false"/>
+                        <!-- bInfo removes "Page x of y" text: -->
+                        <entry key="bInfo" value="false"/>
+                        <!-- bLengthChange removes "Show [10 v] entries" drop-down: -->
+                        <entry key="bLengthChange" value="false"/>
+                        <entry key="oLanguage" value="
+                            {
+                                'oPaginate':
+                                {
+                                    'sFirst' : '&amp;#8249;',
+                                    'sPrevious' : '&amp;#8249;',
+                                    'sNext' : '&amp;#8250;',
+                                    'sLast' : '&amp;#8250;'
+                                }
+                            }"
+                        />
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-FullNumberCurrentPagePaging" parent="KS-KitchenSink-Collection-Base">
+        <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
+        <property name="cssClasses">
+            <list merge="true">
+                <value>pagination-show-only-current-page</value>
+                <value>pagination-proposed</value>
+            </list>
+        </property>
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="Uif-PagedRichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="aaSorting" value="[[1,'asc']]"/>
+                        <entry key="bPaginate" value="true"/>
+                        <entry key="sPaginationType" value="full_numbers"/>
+                        <entry key="bFilter" value="false"/>
+                        <!-- bInfo removes "Page x of y" text: -->
+                        <entry key="bInfo" value="false"/>
+                        <!-- bLengthChange removes "Show [10 v] entries" drop-down: -->
+                        <entry key="bLengthChange" value="false"/>
+                        <entry key="oLanguage" value="
+                            {
+                                'oPaginate':
+                                {
+                                    'sFirst' : '&amp;#8249;',
+                                    'sPrevious' : '&amp;#8249;',
+                                    'sNext' : '&amp;#8250;',
+                                    'sLast' : '&amp;#8250;'
+                                }
+                            }"
+                        />
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-FullNumberCurrentPageNoFirstLastPaging" parent="KS-KitchenSink-Collection-Base">
+        <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
+        <property name="cssClasses">
+            <list merge="true">
+                <value>pagination-show-only-current-page</value>
+                <value>pagination-hide-first-last</value>
+                <value>pagination-proposed</value>
+            </list>
+        </property>
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="Uif-PagedRichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="aaSorting" value="[[1,'asc']]"/>
+                        <entry key="bPaginate" value="true"/>
+                        <entry key="sPaginationType" value="full_numbers"/>
+                        <entry key="bFilter" value="false"/>
+                        <!-- bInfo removes "Page x of y" text: -->
+                        <entry key="bInfo" value="false"/>
+                        <!-- bLengthChange removes "Show [10 v] entries" drop-down: -->
+                        <entry key="bLengthChange" value="false"/>
+                        <entry key="oLanguage" value="
+                            {
+                                'oPaginate':
+                                {
+                                    'sFirst' : '&amp;#8249;',
+                                    'sPrevious' : '&amp;#8249;',
+                                    'sNext' : '&amp;#8250',
+                                    'sLast' : '&amp;#8250'
+                                }
+                            }"
+                        />
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-FullNumberImagePaging" parent="KS-KitchenSink-Collection-Base">
+        <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
+        <property name="cssClasses">
+            <list merge="true">
+                <value>pagination-proposed</value>
+                <value>pagination-image-nav</value>
+            </list>
+        </property>
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="Uif-PagedRichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="aaSorting" value="[[1,'asc']]"/>
+                        <entry key="bPaginate" value="true"/>
+                        <entry key="sPaginationType" value="full_numbers"/>
+                        <entry key="bFilter" value="false"/>
+                        <!-- bInfo removes "Page x of y" text: -->
+                        <entry key="bInfo" value="false"/>
+                        <!-- bLengthChange removes "Show [10 v] entries" drop-down: -->
+                        <entry key="bLengthChange" value="false"/>
+                        <entry key="oLanguage" value="
+                            {
+                                'oPaginate':
+                                {
+                                    'sFirst' : '&amp;#8249;',
+                                    'sPrevious' : '&amp;#8249;',
+                                    'sNext' : '&amp;#8250;',
+                                    'sLast' : '&amp;#8250;'
+                                }
+                            }"
+                                />
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!--View for tables-->
+
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-View" parent="KS-KitchenSink-CollectionPaginationOptions-View-Base">
+        <property name="headerText" value="Collection Pagination"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:headerText="Pagination Options">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-KitchenSink-Page-Summary">
+                                <property name="messageText">
+                                    <value>
+                                        Options for paginating data in Collections
+                                    </value>
+                                </property>
+                            </bean>
+                            <ref bean="KS-KitchenSink-CollectionPaginationOptions-Content"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--Container for tables-->
+
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-CollectionPaginationOptions-NoPaging-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="KS-KitchenSink-MessageField"
+                                  p:messageText="No paging."/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-KitchenSink-CollectionPaginationOptions-TwoButtonPagingDefault-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="KS-KitchenSink-MessageField"
+                                  p:messageText="Default KRAD Two Button paging."/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-KitchenSink-CollectionPaginationOptions-FullNumberPagingDefault-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="KS-KitchenSink-MessageField"
+                                  p:messageText="Default KRAD Full Number paging."/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-KitchenSink-CollectionPaginationOptions-TwoButtonPaging-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="KS-KitchenSink-MessageField"
+                                  p:messageText="Two Button paging."/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-KitchenSink-CollectionPaginationOptions-FullNumberPaging-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="KS-KitchenSink-MessageField"
+                                  p:messageText="Full Number paging."/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-KitchenSink-CollectionPaginationOptions-FullNumberCurrentPagePaging-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="KS-KitchenSink-MessageField"
+                                  p:messageText="Full Number paging, show only current page."/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-KitchenSink-CollectionPaginationOptions-FullNumberCurrentPageNoFirstLastPaging-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="KS-KitchenSink-MessageField"
+                                  p:messageText="Full Number paging, show only current page, no first/last buttons."/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-KitchenSink-CollectionPaginationOptions-FullNumberImagePaging-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="KS-KitchenSink-MessageField"
+                                  p:messageText="Full Number paging using images for navigation."/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--Descriptive content for each table-->
+
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-NoPaging-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-CollectionPaginationOptions-NoPaging"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-TwoButtonPagingDefault-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-CollectionPaginationOptions-TwoButtonPagingDefault"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-FullNumberPagingDefault-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-CollectionPaginationOptions-FullNumberPagingDefault"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-TwoButtonPaging-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-CollectionPaginationOptions-TwoButtonPaging"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-FullNumberPaging-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-CollectionPaginationOptions-FullNumberPaging"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-FullNumberCurrentPagePaging-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-CollectionPaginationOptions-FullNumberCurrentPagePaging"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-FullNumberCurrentPageNoFirstLastPaging-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-CollectionPaginationOptions-FullNumberCurrentPageNoFirstLastPaging"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-FullNumberImagePaging-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-CollectionPaginationOptions-FullNumberImagePaging"/>
+            </list>
+        </property>
+    </bean>
+</beans>
