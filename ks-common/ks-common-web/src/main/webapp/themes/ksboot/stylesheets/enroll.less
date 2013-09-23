@@ -30,29 +30,6 @@
     border-bottom:  1px solid #d3d3d3;
 }
 
-/* Commenting this out as this does not appear to be used anymore
-.ks-termDates-table{}
-
-.ks-termDates-table tr{
-    border-top:  1px solid #d3d3d3;
-    border-bottom:  1px solid #d3d3d3;
-}
-
-.ks-termDates-table th{
-    border-right:  1px solid #d3d3d3;
-}
-
-.ks-termDates-table .uif-constraintMessage{
-    margin-bottom: 0px;
-}
-*/
-
-/* Brian S says we ought not to do this
-.uif-dropdownControl {
-    margin: 0.3em 0;
-    padding: 3px 3px 4px 3px;
-}*/
-
 /* Tabs */
 .ui-widget-content a {
   color: @linkColor;
@@ -72,9 +49,6 @@
     padding: 7px 16px 5px 16px;
     margin: 3px;
 }
-
-
-
 
 /************************************** CSS COLUMN GRID **************************************/
 .col_1
@@ -316,19 +290,12 @@ a {
   font-size: 13px;
   color: black;
   background-color: #f5f5f5;
-  background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
-  background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
-  background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
-  background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
-  background-repeat: repeat-x;
+  #gradient.vertical(#ffffff, #e6e6e6); /*-- LESS gradient mixin --*/
   border: 1px solid #cccccc;
   border-left:0;
   border-color: #e6e6e6 #e6e6e6 #bfbfbf;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   border-bottom-color: #b3b3b3;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe6e6e6', GradientType=0);
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -346,15 +313,9 @@ a {
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 
 }
-/* Individual Buttons when focused */
+/* Individual Buttons when hovered */
 .ks-toolbar button.tree-bar-button:hover {
-  background: #EBEBEB;
-  background: -moz-linear-gradient(top, #e6e6e6 0%, #e6e6e6 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e6e6e6), color-stop(100%, #e6e6e6));
-  background: -webkit-linear-gradient(top, #e6e6e6 0%, #e6e6e6 100%);
-  background: -o-linear-gradient(top, #e6e6e6 0%, #e6e6e6 100%);
-  background: -ms-linear-gradient(top, #e6e6e6 0%, #e6e6e6 100%);
-  background: linear-gradient(top, #e6e6e6 0%, #e6e6e6 100%);
+  background: #e6e6e6;
   color: black;
   border: 1px solid #cccccc;
   border-color: #e6e6e6 #e6e6e6 #bfbfbf;
@@ -362,16 +323,16 @@ a {
   border-bottom-color: #b3b3b3;
   border-left:0;
 }
-/* Disabled Buttons and the focus state */
+.ks-toolbar button.tree-bar-button:active {
+  #gradient.vertical(#e6e6e6, #ffffff); /*-- LESS gradient mixin --*/
+  }
+.ks-toolbar button.tree-bar-button:focus {
+  background: #e6e6e6;
+}
+/* Disabled Buttons and the hover state */
 .ks-toolbar button.tree-bar-button[disabled],
 .ks-toolbar button.tree-bar-button[disabled]:hover {
-  background-color: #f5f5f5;
-  background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
-  background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
-  background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
-  background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
-  background-repeat: repeat-x;
+  #gradient.vertical(#ffffff, #e6e6e6); /*-- LESS gradient mixin --*/
   border: 1px solid #cccccc;
   border-color: #e6e6e6 #e6e6e6 #bfbfbf;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
