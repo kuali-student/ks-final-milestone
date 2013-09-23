@@ -14,14 +14,14 @@
  */
 package org.kuali.student.enrollment.class2.coursewaitlist.service.impl;
 
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListEntryInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
@@ -31,20 +31,13 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:cwl-test-context.xml"})
@@ -154,6 +147,53 @@ public class TestCourseWaitListServiceImpl {
             assert(false);
         }
     }
+
+    @Test
+    public void testGetCwlsByAo(){
+        CourseWaitListInfo cwlInfo = buildDefaultCourseWaitList();
+        try {
+            List<CourseWaitListInfo> courseWaitListInfos = cwlService.getCourseWaitListsByActivityOffering("123", contextInfo);
+            assertTrue(courseWaitListInfos.isEmpty());
+            CourseWaitListInfo returned = cwlService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlInfo, contextInfo);
+
+            courseWaitListInfos = cwlService.getCourseWaitListsByActivityOffering("123", contextInfo);
+            assertTrue(!courseWaitListInfos.isEmpty());
+
+            for(CourseWaitListInfo courseWaitListInfo : courseWaitListInfos) {
+                assertTrue(courseWaitListInfo.getActivityOfferingIds().contains("123"));
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            assert(false);
+        }
+    }
+
+
+    @Test
+    public void testChangeCwlState(){
+        CourseWaitListInfo cwlInfo = buildDefaultCourseWaitList();
+        try {
+            CourseWaitListInfo returned = cwlService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlInfo, contextInfo);
+            String id = returned.getId();
+            CourseWaitListInfo fetched = cwlService.getCourseWaitList(id, contextInfo);
+
+            assertTrue(null == fetched.getStateKey());
+
+            StatusInfo statusInfo = cwlService.changeCourseWaitListState(fetched.getId(),CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY,contextInfo);
+            assertTrue(statusInfo.getIsSuccess());
+
+            CourseWaitListInfo fetchAgain = cwlService.getCourseWaitList(id, contextInfo);
+            assertNotNull(fetchAgain.getStateKey());
+            assertTrue(fetchAgain.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            assert(false);
+        }
+    }
+
+
 
     @Test
     public void testDeleteCwl() {
