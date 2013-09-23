@@ -33,6 +33,8 @@ import java.util.List;
 public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
 
     private String waitListType;
+    private String waitListTypeUI;
+
     private String aoClusterName;
     private String aoClusterID;
     private ActivityOfferingInfo aoInfo;
@@ -735,21 +737,6 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
     public String getBuildingName() {
         return buildingName;
     }
-/*
-
-    public WaitListTypeWrapper getWaitListTypeWrapper() {
-        return waitListTypeWrapper;
-    }
-
-    public void setWaitListTypeWrapper(WaitListTypeWrapper waitListTypeWrapper) {
-        this.waitListTypeWrapper = waitListTypeWrapper;
-    }
-
-    public void updateWaitListTypeWrapper(){
-        // Manual waitlist Type is first in chain. therefore starting with manual, appropriate waitlist type will be set to this (ActivityOfferingWrapper)
-        new ManualWaitListType().waitListTypeFinder(this);
-    }
-*/
 
     public void setBuildingName(String buildingName,boolean appendForDisplay) {
         if (appendForDisplay){
@@ -1313,6 +1300,14 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         this.waitListType = waitListType;
     }
 
+    public String getWaitListTypeUI() {
+        return waitListTypeUI;
+    }
+
+    public void setWaitListTypeUI(String waitListTypeUI) {
+        this.waitListTypeUI = waitListTypeUI;
+    }
+
     /**
      *   This method will update waitListType depending on automaticallyProcessed and confirmationRequired boolean
      *
@@ -1328,16 +1323,18 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         //default value is automatic
         if((null == automaticallyProcessed) || (null == confirmationRequired)) {
                waitListType = LuiServiceConstants.AUTOMATIC_WAITLIST_TYPE_KEY ;
+               waitListTypeUI = "Automatic";
         }
 
         if(automaticallyProcessed && !(confirmationRequired)){
             waitListType = LuiServiceConstants.AUTOMATIC_WAITLIST_TYPE_KEY ;
-        }
-        else if(automaticallyProcessed && confirmationRequired ) {
+            waitListTypeUI = "Automatic";
+        } else if(automaticallyProcessed && confirmationRequired ) {
             waitListType = LuiServiceConstants.SEMIAUTOMATIC_WAITLIST_TYPE_KEY;
-        }
-        else if(!(automaticallyProcessed) &&  !(confirmationRequired)) {
+            waitListTypeUI = "Semi-Automatic";
+        } else if(!(automaticallyProcessed) &&  !(confirmationRequired)) {
             waitListType = LuiServiceConstants.MANUAL_WAITLIST_TYPE_KEY;
+            waitListTypeUI = "Manual";
         }
     }
 }
