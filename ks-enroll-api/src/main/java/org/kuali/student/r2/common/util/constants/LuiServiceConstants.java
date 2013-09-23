@@ -344,9 +344,9 @@ public class LuiServiceConstants {
      *  defined in CourseOfferingServiceConstants
      */
     public static final String AUTOMATIC_WAITLIST_TYPE_KEY = "kuali.waitlist.type.automatic";
-    public static final String SEMIAUTOMATIC_WAITLIST_TYPE_KEY = "kuali.waitlist.type.semiautomatic";  
+    public static final String CONFIRMATION_WAITLIST_TYPE_KEY = "kuali.waitlist.type.Confirmation";
     public static final String MANUAL_WAITLIST_TYPE_KEY = "kuali.waitlist.type.manual";
-    public static final String[] ALL_WAITLIST_TYPES = { AUTOMATIC_WAITLIST_TYPE_KEY, SEMIAUTOMATIC_WAITLIST_TYPE_KEY,
+    public static final String[] ALL_WAITLIST_TYPES = { AUTOMATIC_WAITLIST_TYPE_KEY, CONFIRMATION_WAITLIST_TYPE_KEY,
         MANUAL_WAITLIST_TYPE_KEY
     };
     /**
