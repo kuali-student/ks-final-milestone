@@ -26,6 +26,8 @@ import java.util.Date;
 
 public class AtpTestDataLoader {
 
+    public AtpTestDataLoader() {
+    }
     public AtpTestDataLoader(AtpService atpService) {
         this.atpService = atpService;
     }
@@ -40,6 +42,12 @@ public class AtpTestDataLoader {
     private AtpService atpService;
     private static String principalId = AtpTestDataLoader.class.getSimpleName();
 
+    public void loadExamPeriod () throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException,
+            DataValidationErrorException, ReadOnlyException, VersionMismatchException, AlreadyExistsException {
+        loadAtp("examPeriod100", "Final Exam Period 100", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", "kuali.atp.type.ExamPeriod", AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Desc Final Examination Period 100");
+
+    }
     public void loadData() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, ReadOnlyException, VersionMismatchException, AlreadyExistsException {
