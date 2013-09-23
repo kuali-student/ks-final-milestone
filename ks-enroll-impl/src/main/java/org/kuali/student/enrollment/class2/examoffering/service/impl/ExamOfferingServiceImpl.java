@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.examoffering.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -46,7 +47,9 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.ExamServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.class1.state.service.StateTransitionsHelper;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.scheduling.infc.Schedule;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
@@ -55,6 +58,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 public class ExamOfferingServiceImpl implements ExamOfferingService {
@@ -67,6 +71,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     private AcademicCalendarService acalService;
 
     private ExamOfferingTransformer examOfferingTransformer;
+    private StateTransitionsHelper stateTransitionsHelper;
     private static final String OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE = "unexpected";
 
     private static final Logger LOGGER = Logger.getLogger(ExamOfferingServiceImpl.class);
@@ -217,7 +222,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             ,PermissionDeniedException
     {
         throw new OperationFailedException ("changeExamOfferingState has not been implemented");
-    }
+                }
 
     @Override
     public List<ValidationResultInfo> validateExamOfferingRelation(String formatOfferingId, String examOfferingId, String examOfferingTypeKey, String validationTypeKey, ExamOfferingRelationInfo examOfferingRelationInfo, ContextInfo contextInfo)
@@ -233,7 +238,16 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
 
     @Override
     public List<ExamOfferingInfo> getExamOfferingsByExamPeriod(String examPeriodId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        this.acalService.getExamPeriod(examPeriodId, contextInfo); // check exam period exists
+        //trap null parameters
+        if (examPeriodId == null){
+            throw new MissingParameterException("Exam Period ID is null");
+        }
+
+        ExamPeriodInfo examPeriod = acalService.getExamPeriod(examPeriodId, contextInfo); // check exam period exists
+        if (examPeriod == null) {
+            throw new OperationFailedException("Didn't retrieve the exam period with the examPeriodId: " + examPeriodId);
+        }
+
         List<String> examOfferingIds = luiService.getLuiIdsByAtpAndType(examPeriodId, LuiServiceConstants.FINAL_EXAM_OFFERING_TYPE_KEY, contextInfo);
         List<ExamOfferingInfo> examOfferingInfos = new ArrayList<ExamOfferingInfo>(examOfferingIds.size());
         examOfferingTransformer.luis2ExamOfferings(examOfferingIds, examOfferingInfos, schedulingService, contextInfo);
@@ -540,6 +554,14 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
 
     public void setExamOfferingTransformer(ExamOfferingTransformer examOfferingTransformer) {
         this.examOfferingTransformer = examOfferingTransformer;
+    }
+
+    public StateTransitionsHelper getStateTransitionsHelper() {
+        return stateTransitionsHelper;
+    }
+
+    public void setStateTransitionsHelper(StateTransitionsHelper stateTransitionsHelper) {
+        this.stateTransitionsHelper = stateTransitionsHelper;
     }
 }
 

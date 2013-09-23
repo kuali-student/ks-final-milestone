@@ -3,10 +3,12 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
     <context:annotation-config/>
 
@@ -403,17 +405,48 @@
     </bean>
 
     <bean id="luiServiceDataLoader" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader" autowire="byType"/>
+    <bean id="atpTestDataLoader" class="org.kuali.student.r2.core.atp.service.impl.AtpTestDataLoader" autowire="byType"/>
 
     <bean id="examOfferingService"
           class="org.kuali.student.enrollment.class2.examoffering.service.impl.ExamOfferingServiceImpl">
         <property name="luiService" ref="luiService"/>
         <property name="schedulingService" ref="schedulingService"/>
         <property name="typeService" ref="typeService"/>
+        <property name="acalService" ref="acalService"/>
+        <property name="stateTransitionsHelper" ref="stateTransitionsHelper"/>
         <property name="examOfferingTransformer" ref="examOfferingTransformer"/>
     </bean>
 
+
+    <bean id="stateTransitionsHelper" class="org.kuali.student.r2.core.class1.state.service.impl.StateTransitionsHelperImpl">
+        <property name="stateService" ref="stateService"/>
+        <property name="stateHelperMap" ref="stateHelperMap" />
+        <property name="relatedObjectHelperMap" ref="relatedObjectHelperMap"/>
+    </bean>
+    <util:map id="stateHelperMap" map-class="java.util.HashMap">
+        <entry key="kuali.lui.activity.offering" value-ref="aoStateHelper"/>
+        <entry key="kuali.lui.format.offering" value-ref="foStateHelper"/>
+        <entry key="kuali.lui.course.offering" value-ref="coStateHelper"/>
+        <entry key="kuali.lui.registration.group" value-ref="rgStateHelperImpl"/>
+        <entry key="kuali.soc" value-ref="socStateHelper"/>
+        <entry key="kuali.soc.scheduling" value-ref="socSchedStateHelper"/>
+    </util:map>
+    <util:map id="relatedObjectHelperMap" map-class="java.util.HashMap">
+        <entry key="kuali.lui.activity.offering:kuali.lui.format.offering" value-ref="aoToFoRelatedObjHelper"/>
+        <entry key="kuali.lui.format.offering:kuali.lui.course.offering" value-ref="foToCoRelatedObjHelper"/>
+        <entry key="kuali.lui.course.offering:kuali.lui.format.offering" value-ref="coToFoRelatedObjHelper"/>
+        <entry key="kuali.lui.format.offering:kuali.lui.activity.offering" value-ref="foToAoRelatedObjHelper"/>
+        <entry key="kuali.lui.activity.offering:kuali.lui.registration.group" value-ref="aoToRgRelatedObjHelper"/>
+        <entry key="kuali.lui.registration.group:kuali.lui.activity.offering" value-ref="rgToAoRelatedObjHelper"/>
+        <entry key="kuali.lui.activity.offering:kuali.lui.activity.offering.scheduling" value-ref="aoToAoSchedRelatedObjHelper"/>
+        <entry key="kuali.soc:kuali.lui.activity.offering" value-ref="socToAORelatedObjHelper"/>
+        <entry key="kuali.lui.activity.offering:kuali.soc" value-ref="aotoSOCRelatedObjHelper"/>
+    </util:map>
+
     <bean id="examOfferingTransformer"
-          class="org.kuali.student.enrollment.class2.examoffering.service.transformer.ExamOfferingTransformer"/>
+          class="org.kuali.student.enrollment.class2.examoffering.service.transformer.ExamOfferingTransformer">
+        <property name="luiService" ref="luiService"/>
+    </bean>
 
     <alias name="examOfferingService" alias="testExamOfferingService"/>
 
@@ -427,6 +460,35 @@
         <property name="examOfferingService" ref="examOfferingService"/>
         <property name="courseOfferingService" ref="courseOfferingService"/>
     </bean>
+
+    <bean id="aoStateHelper" class="org.kuali.student.enrollment.class1.state.impl.AOStateHelperImpl"/>
+
+    <bean id="foStateHelper" class="org.kuali.student.enrollment.class1.state.impl.FOStateHelperImpl"/>
+
+    <bean id="coStateHelper" class="org.kuali.student.enrollment.class1.state.impl.COStateHelperImpl" />
+
+    <bean id="rgStateHelperImpl" class="org.kuali.student.enrollment.class1.state.impl.RGStateHelperImpl" />
+
+    <bean id="socStateHelper" class="org.kuali.student.enrollment.class1.state.impl.SOCStateHelperImpl" />
+
+    <bean id="socSchedStateHelper" class="org.kuali.student.enrollment.class1.state.impl.SOCSchedStateHelperImpl" />
+
+    <bean id="aoToFoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoFOImpl"/>
+
+    <bean id="foToCoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperFOtoCOImpl"/>
+
+    <bean id="coToFoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperCOtoFOImpl"/>
+
+    <bean id="foToAoRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperFOtoAOImpl"/>
+
+    <bean id="aoToRgRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoRGImpl"/>
+
+    <bean id="rgToAoRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperRGtoAOImpl"/>
+
+    <bean id="aoToAoSchedRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoAOSchedImpl"/>
+
+    <bean id="socToAORelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperSOCtoAOImpl"/>
+    <bean id="aotoSOCRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoSOCImpl"/>
 
     <tx:annotation-driven transaction-manager="JtaTxManager" order="1000"/>
 

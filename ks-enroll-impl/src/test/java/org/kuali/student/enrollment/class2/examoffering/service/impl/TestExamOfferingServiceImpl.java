@@ -20,6 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
+import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
 import org.kuali.student.enrollment.examoffering.service.ExamOfferingService;
 import org.kuali.student.enrollment.lui.service.LuiService;
@@ -36,6 +37,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.atp.service.impl.AtpTestDataLoader;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +68,9 @@ public class TestExamOfferingServiceImpl {
     @Resource(name = "luiServiceDataLoader")
     protected LuiServiceDataLoader dataLoader = new LuiServiceDataLoader();
 
+    @Resource(name = "atpTestDataLoader")
+    protected AtpTestDataLoader atpTestDataLoader = new AtpTestDataLoader();
+
     public ContextInfo callContext = null;
     public static String principalId = "123";
 
@@ -75,6 +80,7 @@ public class TestExamOfferingServiceImpl {
         callContext.setPrincipalId(principalId);
         try {
             dataLoader.loadData();
+            atpTestDataLoader.loadExamPeriod();
         } catch (Exception ex) {
             throw new RuntimeException (ex);
         }
@@ -132,11 +138,32 @@ public class TestExamOfferingServiceImpl {
             //Delete
             StatusInfo ret = examOfferingService.deleteExamOfferingRelation(examOfferingRelationId, callContext);
             assertTrue(ret.getIsSuccess());
-      } catch (Exception ex) {
+        } catch (Exception ex) {
             fail("exception from service call :" + ex.getMessage());
         }
     }
-    
+
+    @Test
+    public void testGetExamOfferingsByExamPeriod()
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException,
+            DependentObjectsExistException
+    {
+        List<ExamOfferingInfo> examOfferingInfos = examOfferingService.getExamOfferingsByExamPeriod("examPeriod100", callContext);
+        assertNotNull(examOfferingInfos);
+        assertEquals(1, examOfferingInfos.size());
+        assertEquals(examOfferingInfos.get(0).getId(), "Lui-EO-1");
+
+    }
+
+
+
     @Test 
     public void testGetExamOfferingRelationIdsByType ()
             throws InvalidParameterException,
