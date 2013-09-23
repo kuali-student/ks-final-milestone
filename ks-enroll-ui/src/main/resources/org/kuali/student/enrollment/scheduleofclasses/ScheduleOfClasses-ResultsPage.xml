@@ -208,6 +208,11 @@
              <ref bean="SchOfClasses-aoSearchResults" />
            </list>
         </property>
+        <property name="onDocumentReadyScript" value="jQuery('[id^=ao_cluster_header_line@{#index}] a[data-role=disclosureLink').on('click',
+            function(event) {
+                clusterDisclosureClicked('expand_or_collapse_all_line@{#index}', 'ao_cluster_header_line@{#index}');
+            });">
+        </property>
     </bean>
 
     <bean id="SchOfClasses-aoSearchResults" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false" p:style="margin-left:36px;width:80%;">
@@ -335,6 +340,11 @@
             <list>
                 <ref bean="SchOfClasses-RegistrationGroupsPerClusterResults" />
             </list>
+        </property>
+        <property name="onDocumentReadyScript" value="jQuery('[id^=reg_group_cluster_header_line@{#index}] a[data-role=disclosureLink').on('click',
+            function(event) {
+                clusterDisclosureClicked('reg_group_expand_or_collapse_all_line@{#index}','reg_group_cluster_header_line@{#index}');
+            });">
         </property>
     </bean>
 
