@@ -423,7 +423,7 @@
     <!--</bean>-->
 
     <bean id="examOfferingBusinessLogic"
-          class="org.kuali.student.enrollment.class2.examoffering.service.impl.ExamOfferingServiceBusinessLogicImpl">
+          class="org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacadeImpl">
         <property name="examOfferingService" ref="examOfferingService"/>
         <property name="courseOfferingService" ref="courseOfferingService"/>
     </bean>

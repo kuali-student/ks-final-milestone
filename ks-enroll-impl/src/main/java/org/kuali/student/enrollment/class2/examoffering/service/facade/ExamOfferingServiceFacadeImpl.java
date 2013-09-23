@@ -1,7 +1,6 @@
-package org.kuali.student.enrollment.class2.examoffering.service.impl;
+package org.kuali.student.enrollment.class2.examoffering.service.facade;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.enrollment.class2.examoffering.service.ExamOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FinalExam;
@@ -29,13 +28,9 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -45,9 +40,9 @@ import java.util.Set;
  * Time: 1:49 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ExamOfferingServiceBusinessLogicImpl implements ExamOfferingServiceBusinessLogic {
+public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade {
 
-    private static final Logger LOGGER = Logger.getLogger(ExamOfferingServiceBusinessLogicImpl.class);
+    private static final Logger LOGGER = Logger.getLogger(ExamOfferingServiceFacadeImpl.class);
 
     private AcademicCalendarService acalService;
     private ExamService examService;
@@ -55,55 +50,81 @@ public class ExamOfferingServiceBusinessLogicImpl implements ExamOfferingService
     private ExamOfferingService examOfferingService;
 
     @Override
-    public void generateFinalExamOffering(String courseOfferingId, String termId, List<String> optionKeys,
+    public void generateFinalExamOffering(String courseOfferingId, List<String> optionKeys,
                                           ContextInfo context)
             throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
+        //Retrieve the course offering to create the exam offerings for.
+        CourseOfferingInfo courseOfferingInfo = this.getCourseOfferingService().getCourseOffering(courseOfferingId, context);
+        this.generateFinalExamOffering(courseOfferingInfo, optionKeys, context);
+
+    }
+
+    @Override
+    public void generateFinalExamOffering(CourseOfferingInfo courseOfferingInfo, List<String> optionKeys,
+                                          ContextInfo context)
+            throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, DataValidationErrorException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
+            ReadOnlyException {
+
         //Get the Exam Period Id for the term.
         String epId = null;
-        List<ExamPeriodInfo> epInfos = this.getAcalService().getExamPeriodsForTerm(termId, context);
+        List<ExamPeriodInfo> epInfos = this.getAcalService().getExamPeriodsForTerm(courseOfferingInfo.getTermId(), context);
         for(ExamPeriodInfo epInfo : epInfos){
             epId = epInfo.getId();
             break;
         }
 
-        //Retrieve the course offering to create the exam offerings for.
-        CourseOfferingInfo courseOfferingInfo = this.getCourseOfferingService().getCourseOffering(courseOfferingId, context);
         if (FinalExam.STANDARD.toString().equals(courseOfferingInfo.getFinalExamType())) {
 
             //Check driver.
             String examDriver = getAttrValueForKey(courseOfferingInfo, CourseOfferingServiceConstants.FINAL_EXAM_DRIVER_ATTR);
             if (LuServiceConstants.LU_EXAM_DRIVER_AO_KEY.equals(examDriver)) {
-                generateFinalExamOfferingsPerAO(courseOfferingId, epId, context);
+                generateFinalExamOfferingsPerAO(courseOfferingInfo.getId(), epId, optionKeys, context);
             } else if (LuServiceConstants.LU_EXAM_DRIVER_CO_KEY.equals(examDriver)) {
-                generateFinalExamOfferingsPerCO(courseOfferingId, epId, context);
+                generateFinalExamOfferingsPerFO(courseOfferingInfo.getId(), epId, optionKeys, context);
             }
         } else {
 
             //If it is not a Standard exam, the course offering should not have any exams.
-            removeFinalExamOfferingsPerCO(courseOfferingId, context);
+            removeFinalExamOfferingsFromCO(courseOfferingInfo.getId(), context);
         }
     }
 
     @Override
-    public void generateFinalExamOfferingsPerCO(String courseOfferingId, String examPeriodId, ContextInfo context)
+    public void generateFinalExamOfferingsPerFO(String courseOfferingId, String examPeriodId, List<String> optionKeys,
+                                                ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
 
         //Retrieve all format offerings linked to the course offering.
         List<FormatOfferingInfo> foInfos = this.getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId, context);
-        removeFinalExamOfferingsPerCo(foInfos, context);
+        if(optionKeys.contains(ExamOfferingServiceFacade.RECREATE_OPTION_KEY)){
+            removeFinalExamOfferingsFromCO(foInfos, context);
+        }
 
         for (FormatOfferingInfo foInfo : foInfos) {
+
+            //Check for existing relationships.
+            if(!optionKeys.contains(ExamOfferingServiceFacade.RECREATE_OPTION_KEY)){
+                List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
+                    foInfo.getId(), context);
+                if(eoRelations.size()>1){
+                    removeFinalExamOfferings(eoRelations, context);
+                } else if(eoRelations.size()==1){
+                    return;
+                }
+            }
 
             //Create a new Exam Offering
             ExamOfferingInfo eo = createExamOffering(examPeriodId, context);
 
             //Create new Exam Offering Relationship
             List<String> aoIds = new ArrayList<String>();
-            List<ActivityOfferingInfo> aoInfos = this.getCourseOfferingService().getActivityOfferingsByFormatOffering(foInfo.getId(), context);
+            List<ActivityOfferingInfo> aoInfos = this.getCourseOfferingService().getActivityOfferingsByFormatOffering(
+                    foInfo.getId(), context);
             for(ActivityOfferingInfo aoInfo : aoInfos){
                 aoIds.add(aoInfo.getId());
             }
@@ -112,54 +133,35 @@ public class ExamOfferingServiceBusinessLogicImpl implements ExamOfferingService
     }
 
     @Override
-    public void removeFinalExamOfferingsPerCO(String courseOfferingId, ContextInfo context)
-            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
-            OperationFailedException, DoesNotExistException {
-
-        //Retrieve all format offerings linked to the course offering.
-        List<FormatOfferingInfo> foInfos = this.getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId,
-                context);
-        removeFinalExamOfferingsPerCo(foInfos, context);
-    }
-
-    private void removeFinalExamOfferingsPerCo(List<FormatOfferingInfo> formatOfferings, ContextInfo context) throws
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
-            DoesNotExistException {
-
-        Set<String> eosToDelete = new HashSet<String>();
-        for (FormatOfferingInfo foInfo : formatOfferings) {
-
-            //Retrieve all exam offerings linked to the format offering.
-            List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
-                    foInfo.getId(), context);
-            for (ExamOfferingRelationInfo eoRelation : eoRelations) {
-
-                //Delete both relation and offering.
-                this.getExamOfferingService().deleteExamOfferingRelation(eoRelation.getId(), context);
-                eosToDelete.add(eoRelation.getExamOfferingId());
-            }
-        }
-
-        //Delete the orphaned exam offerings.
-        for (String eoId : eosToDelete) {
-            this.getExamOfferingService().deleteExamOffering(eoId, context);
-        }
-    }
-
-    @Override
-    public void generateFinalExamOfferingsPerAO(String courseOfferingId, String examPeriodId, ContextInfo context)
+    public void generateFinalExamOfferingsPerAO(String courseOfferingId, String examPeriodId, List<String> optionKeys,
+                                                ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
 
         //Retrieve all format offerings linked to the course offering.
         List<FormatOfferingInfo> foInfos = this.getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId, context);
-        removeFinalExamOfferingsPerCo(foInfos, context);
+        if(optionKeys.contains(ExamOfferingServiceFacade.RECREATE_OPTION_KEY)){
+            removeFinalExamOfferingsFromCO(foInfos, context);
+        }
 
         for (FormatOfferingInfo foInfo : foInfos) {
 
             //Retrieve all activity offerings linked to the course offering.
             List<ActivityOfferingInfo> aoInfos = this.getCourseOfferingService().getActivityOfferingsByFormatOffering(
                     foInfo.getId(), context);
+
+            //Check for existing relationships.
+            if(!optionKeys.contains(ExamOfferingServiceFacade.RECREATE_OPTION_KEY)){
+                List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
+                        foInfo.getId(), context);
+                if(aoInfos.size()!=eoRelations.size()){
+                    removeFinalExamOfferings(eoRelations, context);
+                } else {
+                    return;
+                }
+            }
+
+            //Create new Exam Offering per Activity Offering.
             for (ActivityOfferingInfo aoInfo : aoInfos) {
 
                 //Create a new Exam Offering
@@ -172,6 +174,50 @@ public class ExamOfferingServiceBusinessLogicImpl implements ExamOfferingService
             }
         }
 
+    }
+
+    @Override
+    public void removeFinalExamOfferingsFromCO(String courseOfferingId, ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException {
+
+        //Retrieve all format offerings linked to the course offering.
+        List<FormatOfferingInfo> foInfos = this.getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId,
+                context);
+
+        removeFinalExamOfferingsFromCO(foInfos, context);
+    }
+
+    private void removeFinalExamOfferingsFromCO(List<FormatOfferingInfo> foInfos, ContextInfo context) throws
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
+            DoesNotExistException {
+        for (FormatOfferingInfo foInfo : foInfos) {
+            //Retrieve all exam offerings linked to the format offering.
+            List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
+                    foInfo.getId(), context);
+            removeFinalExamOfferings(eoRelations, context);
+        }
+    }
+
+    /**
+     * This method currently assumes that Exam Offerings are only linked to a single Exam Offering Relationship as all
+     * other scenarios are currently out o scope.
+     *
+     * @param eoRelations
+     * @param context
+     * @throws PermissionDeniedException
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws DoesNotExistException
+     */
+    private void removeFinalExamOfferings(List<ExamOfferingRelationInfo> eoRelations, ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException {
+        for (ExamOfferingRelationInfo eoRelation : eoRelations) {
+            this.getExamOfferingService().deleteExamOfferingRelation(eoRelation.getId(), context);
+            this.getExamOfferingService().deleteExamOffering(eoRelation.getExamOfferingId(), context);
+        }
     }
 
     /**

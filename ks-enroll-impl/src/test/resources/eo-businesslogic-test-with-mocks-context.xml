@@ -87,7 +87,7 @@
     </bean>
 
     <bean id="examOfferingBusinessLogic"
-          class="org.kuali.student.enrollment.class2.examoffering.service.impl.ExamOfferingServiceBusinessLogicImpl">
+          class="org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacadeImpl">
         <property name="acalService" ref="acalService"/>
         <property name="examService" ref="examService"/>
         <property name="examOfferingService" ref="examOfferingService"/>

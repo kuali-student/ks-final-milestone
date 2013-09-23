@@ -13,17 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.class2.examoffering.service.impl;
+package org.kuali.student.enrollment.class2.examoffering.service.facade;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader;
-import org.kuali.student.enrollment.class2.examoffering.service.ExamOfferingServiceBusinessLogic;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
+import org.kuali.student.enrollment.class2.examoffering.service.impl.ExamOfferingServiceTestDataLoader;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.infc.FormatOffering;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
 import org.kuali.student.enrollment.examoffering.infc.ExamOffering;
@@ -46,7 +45,6 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -59,10 +57,10 @@ import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:eo-businesslogic-test-with-mocks-context.xml"})
-public class TestExamOfferingServiceBusinessLogicImpl {
+public class TestExamOfferingServiceFacadeImpl {
 
     @Resource
-    private ExamOfferingServiceBusinessLogic examOfferingBusinessLogic;
+    private ExamOfferingServiceFacade examOfferingBusinessLogic;
 
     @Resource
     private CourseService courseService;
@@ -112,12 +110,12 @@ public class TestExamOfferingServiceBusinessLogicImpl {
         String coId = CourseOfferingServiceTestDataLoader.CHEM123_COURSE_OFFERING_ID;
 
         CourseOfferingInfo co = this.getCourseOfferingService().getCourseOffering(coId, contextInfo);
+        co.setTermId(ExamOfferingServiceTestDataLoader.TERM_ONE_ID);
         co.getAttributes().add(new AttributeInfo(CourseOfferingServiceConstants.FINAL_EXAM_DRIVER_ATTR, LuServiceConstants.LU_EXAM_DRIVER_AO_KEY));
         co = this.getCourseOfferingService().updateCourseOffering(co.getId(), co, contextInfo);
 
         List<String> optionKeys = new ArrayList<String>();
-        this.getExamOfferingBusinessLogic().generateFinalExamOffering(coId,
-                ExamOfferingServiceTestDataLoader.TERM_ONE_ID, optionKeys, contextInfo);
+        this.getExamOfferingBusinessLogic().generateFinalExamOffering(coId, optionKeys, contextInfo);
 
         List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                 CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);
@@ -129,8 +127,7 @@ public class TestExamOfferingServiceBusinessLogicImpl {
         co.getAttributes().get(0).setValue(LuServiceConstants.LU_EXAM_DRIVER_CO_KEY);
         this.getCourseOfferingService().updateCourseOffering(co.getId(), co, contextInfo);
 
-        this.getExamOfferingBusinessLogic().generateFinalExamOffering(coId,
-                ExamOfferingServiceTestDataLoader.TERM_ONE_ID, optionKeys, contextInfo);
+        this.getExamOfferingBusinessLogic().generateFinalExamOffering(coId, optionKeys, contextInfo);
 
         eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                 CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);
@@ -145,8 +142,9 @@ public class TestExamOfferingServiceBusinessLogicImpl {
     public void testGenerateFinalExamOfferingsPerCO() throws MissingParameterException, PermissionDeniedException,
             InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
 
-        this.getExamOfferingBusinessLogic().generateFinalExamOfferingsPerCO(CourseOfferingServiceTestDataLoader.CHEM123_COURSE_OFFERING_ID,
-                ExamOfferingServiceTestDataLoader.PERIOD_ONE_ID, contextInfo);
+        List<String> optionKeys = new ArrayList<String>();
+        this.getExamOfferingBusinessLogic().generateFinalExamOfferingsPerFO(CourseOfferingServiceTestDataLoader.CHEM123_COURSE_OFFERING_ID,
+                ExamOfferingServiceTestDataLoader.PERIOD_ONE_ID, optionKeys, contextInfo);
 
         List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                 CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);
@@ -161,7 +159,7 @@ public class TestExamOfferingServiceBusinessLogicImpl {
         }
 
         // Test delete of co exam relationships
-        this.getExamOfferingBusinessLogic().removeFinalExamOfferingsPerCO(CourseOfferingServiceTestDataLoader.CHEM123_COURSE_OFFERING_ID,
+        this.getExamOfferingBusinessLogic().removeFinalExamOfferingsFromCO(CourseOfferingServiceTestDataLoader.CHEM123_COURSE_OFFERING_ID,
                 contextInfo);
 
         List<ExamOfferingRelationInfo> newRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
@@ -182,8 +180,9 @@ public class TestExamOfferingServiceBusinessLogicImpl {
     public void testGenerateFinalExamOfferingsPerAO() throws MissingParameterException, PermissionDeniedException,
             InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
 
+        List<String> optionKeys = new ArrayList<String>();
         this.getExamOfferingBusinessLogic().generateFinalExamOfferingsPerAO(CourseOfferingServiceTestDataLoader.CHEM123_COURSE_OFFERING_ID,
-                ExamOfferingServiceTestDataLoader.PERIOD_ONE_ID, contextInfo);
+                ExamOfferingServiceTestDataLoader.PERIOD_ONE_ID, optionKeys, contextInfo);
 
         List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                 CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);
@@ -198,7 +197,7 @@ public class TestExamOfferingServiceBusinessLogicImpl {
         }
 
         // Test delete of ao exam relationships.
-        this.getExamOfferingBusinessLogic().removeFinalExamOfferingsPerCO(CourseOfferingServiceTestDataLoader.CHEM123_COURSE_OFFERING_ID,
+        this.getExamOfferingBusinessLogic().removeFinalExamOfferingsFromCO(CourseOfferingServiceTestDataLoader.CHEM123_COURSE_OFFERING_ID,
                 contextInfo);
 
         List<ExamOfferingRelationInfo> newRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
@@ -215,11 +214,11 @@ public class TestExamOfferingServiceBusinessLogicImpl {
         }
     }
 
-    public ExamOfferingServiceBusinessLogic getExamOfferingBusinessLogic() {
+    public ExamOfferingServiceFacade getExamOfferingBusinessLogic() {
         return examOfferingBusinessLogic;
     }
 
-    public void setExamOfferingBusinessLogic(ExamOfferingServiceBusinessLogic examOfferingBusinessLogic) {
+    public void setExamOfferingBusinessLogic(ExamOfferingServiceFacade examOfferingBusinessLogic) {
         this.examOfferingBusinessLogic = examOfferingBusinessLogic;
     }
 
