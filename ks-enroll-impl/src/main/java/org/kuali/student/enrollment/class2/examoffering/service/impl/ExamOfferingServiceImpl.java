@@ -411,7 +411,8 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
         try {
             List<LuiLuiRelationInfo>  luiRels = getLuiService().getLuiLuiRelationsByLui(formatOfferingId, contextInfo);
             for (LuiLuiRelationInfo luiRel : luiRels) {
-                if (luiRel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY)) {
+                if (luiRel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY) &&
+                    luiRel.getLuiId().equals(formatOfferingId)) { //getLuiLuiRelationsByLui query brings back both luiId and relatedLuiId > select
                     ExamOfferingRelationInfo examOfferingRelationInfo = new ExamOfferingRelationInfo();
                     getExamOfferingTransformer().transformLuiLuiRel2EORel(luiRel, examOfferingRelationInfo);
                     eoRels.add(examOfferingRelationInfo);
@@ -430,7 +431,27 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("getExamOfferingRelationsByExamOffering has not been implemented");
+        //trap null parameter
+        if (examOfferingId == null){
+            throw new MissingParameterException("examOfferingId is null");
+        }
+
+        //Retrieve ExamOfferingRelationInfos
+        List<ExamOfferingRelationInfo> eoRels = new ArrayList<ExamOfferingRelationInfo>();
+        try {
+            List<LuiLuiRelationInfo>  luiRels = getLuiService().getLuiLuiRelationsByLui(examOfferingId, contextInfo);
+            for (LuiLuiRelationInfo luiRel : luiRels) {
+                if (//luiRel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY) &&  //type should be passed as param?
+                    luiRel.getRelatedLuiId().equals(examOfferingId) ) { //getLuiLuiRelationsByLui query brings back both luiId and relatedLuiId > select
+                    ExamOfferingRelationInfo examOfferingRelationInfo = new ExamOfferingRelationInfo();
+                    getExamOfferingTransformer().transformLuiLuiRel2EORel(luiRel, examOfferingRelationInfo);
+                    eoRels.add(examOfferingRelationInfo);
+                }
+            }
+        } catch (Exception ex) {
+            throw new OperationFailedException(OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE, ex);
+        }
+        return eoRels;
     }
 
     @Override
