@@ -56,12 +56,6 @@
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
         </property>
 
-        <!-- Statically set the title and then dynamically replace the View-title using JS-onDocumentReadyScript so the browser's title remains unchanged.
-             ie: from "Edit Activity Offering" to "ENGL250 - Lecture A"
-             The reason for this is that the specs state the view-title should reflect the CO and AO codes but the AFT code for this is checking that the title displayed in the
-             browser's title-bar (or tab) says "Kuali :: Edit Activity Offering"... so here we set the View-title initially to 'Edit Activity Offering' (which as a side-effect
-             sets the browser's title-bar) and then dynamically update the View-title to reflect the CO/AO codes.
-             This is a work-around, maybe it will be fixed by KRAD 2.3-m3 -->
         <property name="headerText" value="@{document.newMaintainableObject.dataObject.courseOfferingCode} - @{document.newMaintainableObject.dataObject.typeName} @{document.newMaintainableObject.dataObject.activityCode}" />
         <property name="page.headerText" value="Edit Activity Offering"/>
 
