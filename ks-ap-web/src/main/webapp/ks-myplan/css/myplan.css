@@ -2668,3 +2668,7 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
     resize: none;
     width:97%;
 }
+
+#popupForm .jquerybubblepopup{
+    display:none;
+}
