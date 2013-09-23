@@ -26,12 +26,17 @@ public class CommonUtil {
      * at the source rather than requiring implementers to track down the cardinality constraint enforcement in java.
      * This is handled via OperationFailedException being thrown in the examples belowCardinality of one and only one element:
      *
-     * @param list   Typed list passed into method
+     * @param list   Typed list passed into method. Cannot be null.
      * @param <T>    Type of element to return
      * @return       the get(0) element in the list.
      * @throws OperationFailedException
      */
     public static <T> T getRequiredZeroElement(List<T> list) throws OperationFailedException{
+
+        if(list == null){
+            throw new OperationFailedException("list cannot be null");
+        }
+
         T t;
         if (list.size() == 1) {
             t = list.get(0);
@@ -58,12 +63,16 @@ public class CommonUtil {
      * This is handled via OperationFailedException being thrown in the examples belowCardinality of one and only one element:
      *
      *
-     * @param list   Typed list passed into method
+     * @param list   Typed list passed into method. Cannot be null.
      * @param <T>    Type of element to return
      * @return       the get(0) element in the list. If there are no elements, return null.
      * @throws OperationFailedException
      */
     public static <T> T getOptionalZeroElement(List<T> list) throws OperationFailedException{
+        if(list == null){
+            throw new OperationFailedException("list cannot be null");
+        }
+
         T t;
         if (list.size() == 1) {
             t = list.get(0);
