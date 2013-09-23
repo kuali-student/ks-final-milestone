@@ -38,11 +38,6 @@ function showOrHideAOClusters(expandAction, headerId) {
 
     var expandText = jQuery("#" + expandAction).text().trim();
 
-    if (expandText == 'Expand All'){
-        jQuery("#" + expandAction).text('Collapse All');
-    } else {
-        jQuery("#" + expandAction).text('Expand All');
-    }
 
     var aSelector = headerId  + "_line";
 
@@ -58,4 +53,51 @@ function showOrHideAOClusters(expandAction, headerId) {
             }
         }
     });
+
+    if (expandText == 'Expand All'){
+        jQuery("#" + expandAction).text('Collapse All');
+    } else {
+        jQuery("#" + expandAction).text('Expand All');
+    }
+
+}
+
+/**
+ * This method sets the expandAction expand/collapse link
+ *
+ * @param expandAction expand/collapse link id of a particular CO section
+ * @param headerId AO cluster header Id
+ * @param lineNum AO cluster line number
+ */
+function clusterDisclosureClicked(expandAction, headerId) {
+
+    var expandText = jQuery("#" + expandAction).text().trim();
+
+//    if (expandText == 'Collapse All'){
+//        jQuery("#" + expandAction).text('Expand All');
+//    }
+
+    var aSelector = headerId  + "_line";
+    var length = jQuery("[id^=" + aSelector + "]").find("a[data-role='" + kradVariables.DATA_ROLES.DISCLOSURE_LINK + "']").length;
+    var allExpanded = 0;
+
+    for(var i = 0; i<length; i++) {
+        var contentId = jQuery(jQuery("[id^=" + aSelector + "]").find("a[data-role='" + kradVariables.DATA_ROLES.DISCLOSURE_LINK + "']")[i]).attr("data-linkfor");
+        if (jQuery("#" + contentId).attr(kradVariables.ATTRIBUTES.DATA_OPEN) == "true") {
+            allExpanded += 1;
+        }
+    }
+
+    if(length == 1) {
+      if (expandText == 'Collapse All'){
+        jQuery("#" + expandAction).text('Expand All');
+      } else {
+          jQuery("#" + expandAction).text('Collapse All');
+      }
+    } else {
+        jQuery("#" + expandAction).text('Expand All');
+        if(length > 1 && allExpanded == length - 1) {
+            jQuery("#" + expandAction).text('Collapse All');
+        }
+    }
 }
