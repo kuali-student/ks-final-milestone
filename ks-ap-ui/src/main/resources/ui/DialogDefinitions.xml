@@ -84,6 +84,9 @@ limitations under the License.
                 <bean parent="course_details_summary_info"/>
             </list>
         </property>
+        <property name="footer">
+            <ref bean="course_details_summary_messages"/>
+        </property>
     </bean>
 
     <!-- Adding courses to the Plan using the quick add -->
@@ -118,7 +121,6 @@ limitations under the License.
                                                               value="jQuery('#courseCode_@{atpId.replaceAll('\.','-')}-@{#form.backup ? 'backup' : 'planned'}_control').focus();"/>
                                                     <property name="watermarkText" value="e.g. MATH-M 119"/>
                                                     <property name="maxLength" value="10"/>
-
                                                 </bean>
                                             </property>
                                         </bean>
@@ -217,7 +219,7 @@ limitations under the License.
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Message"
+                <bean parent="Uif-Message" p:cssClasses="ks-Popover-bodyLabel"
                       p:messageText="Are you sure that you want to delete &lt;strong&gt;@{courseSummaryDetails.code}&lt;/strong&gt;? Once deleted, you cannot undo."/>
                 <bean parent="KSAP-HorizontalBoxGroup"
                       p:render="@{planActivities ne null AND planActivities.size() gt 0}">
@@ -242,7 +244,7 @@ limitations under the License.
                     <property name="items">
                         <list>
                             <bean p:id="deletePlannedCourse_@{planItemIdXmlSafe}" parent="Uif-PrimaryActionButton-Small"
-                                  p:actionLabel="Delete">
+                              p:actionLabel="Delete" p:additionalCssClasses="ks-Button ks-Button--primary">
                                 <property name="actionScript" value="
                                                 var additionalFormData = {
                                                     viewId: 'PlannedCourse-FormView',
@@ -279,27 +281,27 @@ limitations under the License.
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Message"
+                <bean parent="Uif-Message" p:cssClasses="ks-Popover-bodyLabel"
                       p:messageText="Which quarter would you like to move &lt;strong&gt;@{courseSummaryDetails.code}&lt;/strong&gt; to?"/>
 
                 <bean parent="Uif-DataField" p:propertyName="courseSummaryDetails.scheduledTermsNames"
                       p:label="Scheduled For"
-                      p:fieldLabel.cssClasses="fl-text-gray fl-font-size-90 myplan-text-normal"
+                      p:fieldLabel.cssClasses="fl-text-gray fl-font-size-90 myplan-text-normal ks-Popover-itemLabel"
                       p:labelPlacement="LEFT">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>myplan-data-list</value>
+                            <value>ks-Popover-item</value>
                         </list>
                     </property>
                 </bean>
 
-                <bean parent="Uif-HorizontalFieldGroup"
+                <bean parent="Uif-HorizontalFieldGroup" p:cssClasses="ks-Popover-item"
                       p:label="Quarter &amp; Year" p:labelPlacement="TOP">
-                    <property name="fieldLabel.cssClasses" value="myplan-text-normal"/>
+                    <property name="fieldLabel.cssClasses" value="myplan-text-normal ks-Popover-itemLabel"/>
                     <property name="items">
                         <list>
-                            <bean p:id="atpIdMove_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}" parent="KSAP-SimpleInputField" p:propertyName="fakeAtpId"
-                                  p:width="120px">
+                            <bean p:id="atpIdMove_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}" parent="KSAP-SimpleInputField" p:propertyName="fakeAtpId">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
@@ -307,12 +309,13 @@ limitations under the License.
                                     <bean class="org.kuali.student.myplan.plan.util.TermsListBuilder"/>
                                 </property>
                             </bean>
-                            <bean parent="KSAP-Message" p:width="160px"
+                            <bean parent="KSAP-Message"
                                   p:messageText="Note: This course MAY NOT be offered in your selected quarter. Check back after the Time Schedule is released.">
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>fl-font-size-80</value>
                                         <value>fl-text-gray</value>
+                                        <value>ks-Popover-note</value>
                                     </list>
                                 </property>
                             </bean>
@@ -339,6 +342,9 @@ limitations under the License.
                         </list>
                     </property>
                 </bean>
+            </list>
+        </property>
+        <property name="footer">
                 <bean parent="KSAP-VerticalBoxGroup-NoMargin" p:id="actionButtonsGroup">
                     <property name="items">
                         <list>
@@ -347,7 +353,7 @@ limitations under the License.
                                     <list>
                                         <bean p:id="movePlannedCourse"
                                               parent="Uif-PrimaryActionButton-Small"
-                                              p:actionLabel="Move">
+                                          p:actionLabel="Move" p:additionalCssClasses="ks-Button ks-Button--primary">
                                             <property name="actionScript" value="
                                                             var newAtpId = jQuery('#atpIdMove_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}_control').val();
                                                             var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'movePlanCourse', planItemId:'@{planItemIdXmlSafe}',atpId:newAtpId};
@@ -371,7 +377,6 @@ limitations under the License.
                         </list>
                     </property>
                 </bean>
-            </list>
         </property>
     </bean>
 
@@ -385,27 +390,27 @@ limitations under the License.
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Message"
+                <bean parent="Uif-Message" p:cssClasses="ks-Popover-bodyLabel"
                       p:messageText="Which quarter would you like to copy &lt;strong&gt;@{courseSummaryDetails.code}&lt;/strong&gt; to?"/>
 
                 <bean parent="Uif-DataField" p:propertyName="courseSummaryDetails.scheduledTermsNames"
                       p:label="Scheduled For"
-                      p:fieldLabel.cssClasses="fl-text-gray fl-font-size-90 myplan-text-normal"
+                      p:fieldLabel.cssClasses="fl-text-gray fl-font-size-90 myplan-text-normal ks-Popover-itemLabel"
                       p:labelPlacement="LEFT">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>myplan-data-list</value>
+                            <value>ks-Popover-item</value>
                         </list>
                     </property>
                 </bean>
 
-                <bean parent="Uif-HorizontalFieldGroup"
+                <bean parent="Uif-HorizontalFieldGroup" p:cssClasses="ks-Popover-item"
                       p:label="Quarter &amp; Year" p:labelPlacement="TOP">
-                    <property name="fieldLabel.cssClasses" value="myplan-text-normal"/>
+                    <property name="fieldLabel.cssClasses" value="myplan-text-normal ks-Popover-itemLabel"/>
                     <property name="items">
                         <list>
-                            <bean p:id="atpIdCopy_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}" parent="KSAP-SimpleInputField" p:propertyName="fakeAtpId"
-                                  p:width="120px">
+                            <bean p:id="atpIdCopy_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}" parent="KSAP-SimpleInputField" p:propertyName="fakeAtpId">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
@@ -413,12 +418,13 @@ limitations under the License.
                                     <bean class="org.kuali.student.myplan.plan.util.TermsListBuilder"/>
                                 </property>
                             </bean>
-                            <bean parent="KSAP-Message" p:width="160px"
+                            <bean parent="KSAP-Message"
                                   p:messageText="Note: This course MAY NOT be offered in your selected quarter. Check back after the Time Schedule is released.">
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>fl-font-size-80</value>
                                         <value>fl-text-gray</value>
+                                        <value>ks-Popover-note</value>
                                     </list>
                                 </property>
                             </bean>
@@ -445,6 +451,9 @@ limitations under the License.
                         </list>
                     </property>
                 </bean>
+            </list>
+        </property>
+        <property name="footer">
                 <bean parent="KSAP-VerticalBoxGroup-NoMargin" p:id="actionButtonsGroup">
                     <property name="items">
                         <list>
@@ -454,7 +463,7 @@ limitations under the License.
                                         <bean p:id="copyPlannedCourse"
                                               parent="Uif-PrimaryActionButton-Small"
                                               p:render="@{setToPlanning}"
-                                              p:actionLabel="Copy">
+                                          p:actionLabel="Copy" p:additionalCssClasses="ks-Button ks-Button--primary">
                                             <property name="actionScript" value="
                                                             var newAtpId = jQuery('#atpIdCopy_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}_control').val();
                                                             var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'copyPlanCourse', planItemId:'@{planItemIdXmlSafe}',atpId:newAtpId};
@@ -473,7 +482,7 @@ limitations under the License.
                                         <bean p:id="copyPastPlannedCourse"
                                               parent="Uif-PrimaryActionButton-Small"
                                               p:render="@{setToPlanning eq false and planItemId ne null}"
-                                              p:actionLabel="Copy">
+                                          p:actionLabel="Copy" p:additionalCssClasses="ks-Button ks-Button--primary">
                                             <property name="actionScript" value="
                                                             var newAtpId = jQuery('#atpIdCopy_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}_control').val();
                                                             var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'copyPlanCourse', planItemId:'@{planItemIdXmlSafe}',atpId:newAtpId};
@@ -515,7 +524,6 @@ limitations under the License.
                         </list>
                     </property>
                 </bean>
-            </list>
         </property>
     </bean>
 
@@ -533,11 +541,13 @@ limitations under the License.
                 <bean parent="Uif-Message"
                       p:messageText="Edit @{courseSummaryDetails.code} @{atpId eq null ? 'Bookmark' : 'from the '+shortTerm+' Plan'}"/>
                 <bean parent="Uif-InputField" p:id="courseCredits_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}">
+                    <property name="cssClasses" value="ks-Popover-item ks-Popover-item--divideAfter"/>
                     <property name="label" value="Enter Course Credits"/>
                     <property name="fieldLabel.render" value="true"/>
                     <property name="fieldLabel.cssClasses">
                         <list merge="true">
                             <value>myplan-text-normal</value>
+                            <value>ks-Popover-itemLabel</value>
                         </list>
                     </property>
                     <property name="propertyName" value="fakeCourseCredit"/>
@@ -550,11 +560,15 @@ limitations under the License.
                     </property>
                 </bean>
                 <bean parent="planItemNote" p:id="courseNote_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}"/>
-                <bean parent="KSAP-HorizontalBoxGroup">
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="KSAP-HorizontalBoxGroup" p:additionalCssClasses="ks-Popover-footer">
                     <property name="items">
                         <list>
                             <bean p:id="editPlannedCourse" parent="Uif-PrimaryActionButton-Small"
                                   p:actionLabel="Save">
+                            <property name="additionalCssClasses" value="ks-Button ks-Button--primary"/>
                                 <property name="actionScript" value="
                                                 var newNote = jQuery('#courseNote_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}_control').val();
                                                 var newCredit = jQuery('#courseCredits_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}_control').val();
@@ -580,7 +594,6 @@ limitations under the License.
                         </list>
                     </property>
                 </bean>
-            </list>
         </property>
     </bean>
 
@@ -601,11 +614,14 @@ limitations under the License.
                     <property name="label" value="Edit note for the term"/>
 
                 </bean>
-                <bean parent="KSAP-HorizontalBoxGroup">
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="KSAP-HorizontalBoxGroup" p:additionalCssClasses="ks-Popover-footer">
                     <property name="items">
                         <list>
                             <bean p:id="editTermNote" parent="Uif-PrimaryActionButton-Small"
-                                  p:actionLabel="Save">
+                              p:actionLabel="Save" p:additionalCssClasses="ks-Button ks-Button--primary">
                                 <property name="actionScript" value="
                                                 var newNote = jQuery('#termNote_@{atpId.replaceAll('\.','-')}_control').val();
                                                 var additionalFormData = {
@@ -628,7 +644,6 @@ limitations under the License.
                         </list>
                     </property>
                 </bean>
-            </list>
         </property>
     </bean>
 
@@ -658,6 +673,7 @@ limitations under the License.
                     <property name="cssClasses">
                         <list merge="true">
                             <value>myplan-remove-margin</value>
+                            <value>fl-container-300</value>
                         </list>
                     </property>
                     <property name="items">
@@ -685,8 +701,7 @@ limitations under the License.
                                             <property name="fieldLabel.cssClasses" value="myplan-text-normal"/>
                                             <property name="items">
                                                 <list>
-                                                    <bean p:id="courseAtpNew_@{courseSummaryDetails.courseIdXmlSafe}" parent="KSAP-SimpleInputField" p:propertyName="fakeAtpId"
-                                                          p:width="120px">
+                                                    <bean p:id="courseAtpNew_@{courseSummaryDetails.courseIdXmlSafe}" parent="KSAP-SimpleInputField" p:propertyName="fakeAtpId">
                                                         <property name="control">
                                                             <bean parent="Uif-DropdownControl"/>
                                                         </property>
@@ -838,8 +853,7 @@ limitations under the License.
         <property name="fieldLabel.cssClasses" value="myplan-text-normal"/>
         <property name="items">
             <list>
-                <bean p:id="atpId_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}" parent="KSAP-SimpleInputField" p:propertyName="atpId"
-                      p:width="120px">
+                <bean p:id="atpId_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}" parent="KSAP-SimpleInputField" p:propertyName="atpId">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -847,7 +861,7 @@ limitations under the License.
                         <bean class="org.kuali.student.myplan.plan.util.TermsListBuilder"/>
                     </property>
                 </bean>
-                <bean parent="KSAP-Message" p:width="160px"
+                <bean parent="KSAP-Message"
                       p:messageText="Note: This course MAY NOT be offered in your selected quarter. Check back after the Time Schedule is released.">
                     <property name="cssClasses">
                         <list merge="true">
@@ -886,16 +900,17 @@ limitations under the License.
         <property name="fieldLabel.cssClasses">
             <list merge="true">
                 <value>myplan-text-normal</value>
+                <value>ks-plan-Note-label</value>
             </list>
         </property>
         <property name="labelPlacement" value="TOP"/>
         <property name="control">
             <bean parent="Uif-TextAreaControl"
-                  p:watermarkText="Enter a short note (500 characters max)" p:maxLength="500"
-                  p:style="resize:none; width:97%">
+                  p:watermarkText="Enter a short note (500 characters max)" p:maxLength="500">
                 <property name="cssClasses">
                     <list merge="true">
                         <value>ksap-characterCount</value>
+                        <value>ks-plan-Note-input</value>
                     </list>
                 </property>
             </bean>
@@ -906,6 +921,7 @@ limitations under the License.
                 <property name="cssClasses">
                     <list merge="true">
                         <value>counter</value>
+                        <value>ks-plan-Note-counter</value>
                     </list>
                 </property>
             </bean>
@@ -1043,11 +1059,12 @@ limitations under the License.
     <!-- add remove popover group components (unsure if really still used) -->
 
     <bean id="course_title_link" parent="course_title_link-parent"/>
-    <bean id="course_title_link-parent" abstract="true" parent="Uif-Link" p:target="" p:style="width:280px; display:block;">
+    <bean id="course_title_link-parent" abstract="true" parent="Uif-Link" p:target="">
         <property name="cssClasses">
             <list merge="true">
                 <value>fl-text-bold</value>
                 <value>myplan-text-wrap</value>
+                <value>ks-Popover-bodyLabel</value>
             </list>
         </property>
         <property name="linkText"
@@ -1060,7 +1077,7 @@ limitations under the License.
 
     <!-- Course details 3 box group (Summary, Add, Delete)  -->
     <bean id="course_popover_group" parent="course_popover_group-parent"/>
-    <bean id="course_popover_group-parent" abstract="true" parent="Uif-HorizontalBoxGroup" p:style="margin:0px;">
+    <bean id="course_popover_group-parent" abstract="true" parent="Uif-HorizontalBoxGroup">
         <property name="validationMessages.render" value="false"/>
         <property name="cssClasses">
             <list merge="true">
@@ -1096,31 +1113,38 @@ limitations under the License.
 
     <!-- Course details summary component used in both the popover and dialog box -->
     <bean id="course_details_summary_info" parent="course_details_summary_info-parent"/>
-    <bean id="course_details_summary_info-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:style="margin:0px;">
+    <bean id="course_details_summary_info-parent" abstract="true" parent="Uif-VerticalBoxGroup">
         <property name="validationMessages.render" value="false"/>
         <property name="items">
             <list>
                 <ref bean="course_details_summary_data"/>
                 <bean parent="KSAP-SimpleInputField" p:propertyName="fakeCourseNote"
-                      p:defaultValue="@{#form.planItemId NE null ? #form.courseNote : ''}">
+                      p:defaultValue="@{#form.planItemId NE null ? #form.courseNote : ''}" p:additionalCssClasses="ks-plan-Note">
                     <property name="label" value="Note for course"/>
                     <property name="fieldLabel.render" value="true"/>
                     <property name="fieldLabel.cssClasses">
                         <list merge="true">
                             <value>myplan-text-normal</value>
+                            <value>ks-plan-Note-label</value>
                         </list>
                     </property>
                     <property name="labelPlacement" value="TOP"/>
-
                     <property name="control">
-                        <bean parent="Uif-TextAreaControl"
-                              p:style="resize:none; width:97%;">
+                        <bean parent="Uif-TextAreaControl">
                             <property name="disabled" value="true"/>
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>ksap-characterCount</value>
+                                    <value>ks-plan-Note-input</value>
+                                </list>
+                            </property>
                         </bean>
                     </property>
                 </bean>
-                <ref bean="course_details_summary_messages"/>
             </list>
+        </property>
+        <property name="footer">
+            <ref bean="course_details_summary_messages"/>
         </property>
     </bean>
 
@@ -1130,6 +1154,10 @@ limitations under the License.
         <property name="cssClasses">
             <list merge="true">
                 <value>myplan-course-details</value>
+                <value>ks-Popover-item</value>
+                <value>ks-Popover-item--divideBefore</value>
+                <value>ks-Popover-item--divideAfter</value>
+                <value>ks-Popover-item--secondary</value>
             </list>
         </property>
         <property name="items">
@@ -1137,17 +1165,18 @@ limitations under the License.
                 <!-- Scheduled Terms -->
                 <bean parent="Uif-DataField" p:label="Scheduled for"
                       p:propertyName="courseSummaryDetails.scheduledTermsNames"
-                      p:fieldLabel.cssClasses="fl-text-gray myplan-text-normal" p:labelPlacement="LEFT">
+                      p:fieldLabel.cssClasses="fl-text-gray myplan-text-normal ks-Popover-detailLabel" p:labelPlacement="LEFT">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>myplan-data-list</value>
+                            <value>ks-Popover-detail</value>
                         </list>
                     </property>
                     <property name="render"
                               value="@{courseSummaryDetails.scheduledTerms.size() gt 0}"/>
                 </bean>
                 <bean parent="Uif-MessageField" p:label="Scheduled for"
-                      p:fieldLabel.cssClasses="fl-text-gray myplan-text-normal"
+                      p:fieldLabel.cssClasses="fl-text-gray myplan-text-normal ks-Popover-detailLabel"
                       p:render="@{courseSummaryDetails.scheduledTerms.size() eq 0}">
                     <property name="message">
                         <bean parent="Uif-Message" p:messageText="Not currently scheduled"/>
@@ -1156,17 +1185,18 @@ limitations under the License.
                 <!-- Last Offered -->
                 <bean parent="Uif-DataField" p:label="Last Offered" p:propertyName="courseSummaryDetails.lastOffered"
                       p:labelPlacement="LEFT">
-                    <property name="fieldLabel.cssClasses" value="fl-text-gray myplan-text-normal"/>
+                    <property name="fieldLabel.cssClasses" value="fl-text-gray myplan-text-normal ks-Popover-detailLabel"/>
                     <property name="render" value="@{courseSummaryDetails.lastOffered ne null and courseSummaryDetails.scheduledTerms.size() eq 0}"/>
                 </bean>
                 <!-- Projected Terms -->
                 <bean parent="Uif-DataField" p:label="Projected for" p:propertyName="courseSummaryDetails.termsOffered"
                       p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">
-                    <property name="fieldLabel.cssClasses" value="fl-text-gray myplan-text-normal"/>
+                    <property name="fieldLabel.cssClasses" value="fl-text-gray myplan-text-normal ks-Popover-detailLabel"/>
                     <property name="propertyEditor" ref="terms_formatter"/>
                     <property name="cssClasses">
                         <list merge="true">
                             <value>myplan-data-list</value>
+                            <value>ks-Popover-detail</value>
                         </list>
                     </property>
                     <property name="render"
@@ -1176,12 +1206,13 @@ limitations under the License.
                 <bean id="course_details_popup_requisites_testing" parent="Uif-DataField" p:label="Course Requisites"
                       p:propertyName="courseSummaryDetails.requisites"
                       p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">
-                    <property name="fieldLabel.cssClasses" value="fl-text-gray myplan-text-normal"/>
+                    <property name="fieldLabel.cssClasses" value="fl-text-gray myplan-text-normal ks-Popover-detailLabel"/>
                     <property name="propertyEditor" ref="data_list_formatter"/>
                     <property name="cssClasses">
                         <list merge="true">
                             <value>myplan-data-list</value>
                             <value>myplan-multiline-ellipsis</value>
+                            <value>ks-Popover-detail</value>
                         </list>
                     </property>
                 </bean>
@@ -1196,7 +1227,7 @@ limitations under the License.
     </bean>
 
     <bean id="course_details_summary_messages" parent="course_details_summary_messages-parent"/>
-    <bean id="course_details_summary_messages-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:style="margin:0px;">
+    <bean id="course_details_summary_messages-parent" abstract="true" parent="Uif-VerticalBoxGroup">
         <property name="validationMessages.render" value="false"/>
         <property name="items">
             <list>
@@ -1280,7 +1311,7 @@ limitations under the License.
                         </list>
                     </property>
                 </bean>
-                <bean id="course_details_popup_messaging" parent="Uif-VerticalBoxGroup" p:style="margin:0px"
+                <bean id="course_details_popup_messaging" parent="Uif-VerticalBoxGroup"
                       p:render="@{(plannedCourseSummary.backupList.size() gt 0 or plannedCourseSummary.plannedList.size() gt 0 or plannedCourseSummary.savedItemId ne null or plannedCourseSummary.academicTerms.size() gt 0)}">
                     <property name="validationMessages.render" value="false"/>
                     <property name="cssClasses">

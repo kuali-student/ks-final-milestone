@@ -112,9 +112,14 @@
         "/>
     </bean>
 
-    <!--Planned Menu Items-->
+    <!--Cart Menu Items-->
     <bean id="cart_menu_items" parent="cart_menu_items-parent"/>
     <bean id="cart_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+        <property name="layoutManager.cssClasses">
+        	<list merge="true">
+        		<value>ks-plan-ContextMenu</value>
+        	</list>
+        </property>
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
@@ -152,8 +157,8 @@
 
                 <ref bean="menuOptionDeletePlanItem"/>
 
-                <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
-                      p:cssClasses="fl-text-gray fl-font-size-90"/>
+                <bean parent="Uif-Message" p:messageText="Cannot Undo"
+                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
 
             </list>
         </property>
@@ -161,6 +166,11 @@
 
     <bean id="planned_menu_items" parent="planned_menu_items-parent" p:cssClasses="fl-container-150"/>
     <bean id="planned_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+        <property name="layoutManager.cssClasses">
+            <list merge="true">
+                <value>ks-plan-ContextMenu</value>
+            </list>
+        </property>
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
@@ -177,13 +187,13 @@
                 </bean>
 
                 <bean parent="Uif-Message" p:messageText="Will be moved out of the Total Credit"
-                      p:cssClasses="fl-text-gray fl-font-size-90"/>
+                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
 
 
                 <ref bean="menuOptionMarkBackup"/>
 
                 <bean parent="Uif-Message" p:messageText="Will be moved below the Total Credit line"
-                      p:cssClasses="fl-text-gray fl-font-size-90"/>
+                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
 
                 <ref bean="menuOptionMovePlanItem"/>
 
@@ -192,7 +202,7 @@
                 <ref bean="menuOptionDeletePlanItem"/>
 
                 <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
-                      p:cssClasses="fl-text-gray fl-font-size-90"/>
+                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
 
             </list>
         </property>
@@ -216,11 +226,11 @@
                 <ref bean="menuOptionMarkCart"/>
 
                 <bean parent="Uif-Message" p:messageText="Will be moved out of the Total Credit"
-                      p:cssClasses="fl-text-gray fl-font-size-90"/>
+                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
 
                 <ref bean="menuOptionMarkPlanned"/>
                 <bean parent="Uif-Message" p:messageText="Will be moved above the Total Credit line"
-                      p:cssClasses="fl-text-gray fl-font-size-90"/>
+                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
 
                 <ref bean="menuOptionCopyPlanItem"/>
                 <ref bean="menuOptionMovePlanItem"/>
@@ -1070,7 +1080,7 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-MessageField">
-                                <property name="messageText" value="@{#line.courseCode}"/>
+                                <property name="messageText" value="@{#line.campusCode} @{#line.courseCode} @{#line.activityCode}"/>
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>code</value>
@@ -1231,7 +1241,7 @@
                             <value>@{#line.timeScheduleOpen ? 'schedule':''}</value>
                             <value>ks-plan-Bucket-item</value>
                             <value>ks-plan-Bucket-item--valid</value>
-                            <value>ks-plan-Bucket-scheduleOpen</value>
+                            <value>ks-plan-Bucket--scheduleOpen</value>
                         </list>
                     </property>
                     <property name="items">
@@ -1249,7 +1259,7 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-MessageField">
-                                <property name="messageText" value="@{#line.courseCode}"/>
+                                <property name="messageText" value="@{#line.campusCode} @{#line.courseCode} @{#line.activityCode}"/>
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>code</value>
@@ -1723,7 +1733,6 @@
     </bean>
 
     <!--Single Plan Item View-->
-
     <bean id="single_planned_courses_detail_list" parent="single_planned_courses_detail_list-parent"/>
     <bean id="single_planned_courses_detail_list-parent" abstract="true" parent="Uif-ListCollectionSection"
           p:validationMessages.render="false" p:style="width: 620px;">

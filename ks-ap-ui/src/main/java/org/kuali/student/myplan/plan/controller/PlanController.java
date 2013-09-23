@@ -228,7 +228,7 @@ public class PlanController extends UifControllerBase {
 			} catch (OperationFailedException e) {
 				throw new ServletException("LP lookup failure", e);
 			}
-			// TODO: Add course notes to plan info ?
+
 			if (hasText(planItem.getDescr().getPlain())) {
 			    planForm.setCourseNote(planItem.getDescr().getPlain());
 			}
@@ -2711,6 +2711,9 @@ public class PlanController extends UifControllerBase {
 		pii.setStateKey(PlanConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
 
 		RichTextInfo rti = new RichTextInfo();
+        if(courseNote==null){
+            courseNote="";
+        }
 		rti.setFormatted(courseNote);
 		rti.setPlain(courseNote);
 		pii.setDescr(rti);

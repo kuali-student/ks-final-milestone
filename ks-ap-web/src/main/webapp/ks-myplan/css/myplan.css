@@ -1046,7 +1046,8 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     display: block;
     float: left;
     border: solid 1px transparent;
-    background: none;
+    background-color: #ffffff;
+    width:100%;
     line-height: 18px;
     position: relative;
 }
@@ -2661,4 +2662,9 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
 .ks-plan-TermNote-input {
     width: 97%;
     resize: none;
+}
+
+.ks-plan-Note-input {
+    resize: none;
+    width:97%;
 }
