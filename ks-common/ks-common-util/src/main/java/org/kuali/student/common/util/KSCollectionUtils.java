@@ -13,7 +13,7 @@ import java.util.List;
  * This is a common utility class for the KS project.
  *
  */
-public class CommonUtil {
+public class KSCollectionUtils {
 
     /**
      * Cardinality of one
