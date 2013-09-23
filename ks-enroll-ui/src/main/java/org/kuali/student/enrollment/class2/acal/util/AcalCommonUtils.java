@@ -19,9 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.MutableDateTime;
-import org.kuali.student.enrollment.class2.acal.dto.TimeSetWrapper;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.util.date.DateFormatters;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -32,30 +30,8 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class CommonUtils {
-    public static void assembleTimeSet(TimeSetWrapper timeSetWrapper, Date startDate, Date endDate) throws Exception{
+public class AcalCommonUtils {
 
-        if (startDate !=null) {
-            String startDateFullString = DateFormatters.MONTH_DAY_YEAR_TIME_DATE_FORMATTER.format(startDate);
-            String[] timeStr = startDateFullString.split(" ");
-            timeSetWrapper.setStartDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(timeStr[0]));
-            if (!"12:00".equals(timeStr[1])){
-                timeSetWrapper.setStartTime(timeStr[1]);
-            }
-            timeSetWrapper.setStartTimeAmPm(timeStr[2].toLowerCase());
-        }
-
-        if (endDate !=null) {
-            String endDateFullString = DateFormatters.MONTH_DAY_YEAR_TIME_DATE_FORMATTER.format(endDate);
-            String[] timeStr = endDateFullString.split(" ");
-            timeSetWrapper.setEndDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(timeStr[0]));
-            if (!"12:00".equals(timeStr[1])){
-                timeSetWrapper.setEndTime(timeStr[1]);
-            }
-            timeSetWrapper.setEndTimeAmPm(timeStr[2].toLowerCase());
-
-        }
-    }
 
     public static boolean isValidDateRange(Date startDate,Date endDate){
         if(startDate != null && endDate != null) {

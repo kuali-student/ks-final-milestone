@@ -26,7 +26,7 @@ import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
+import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
 import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper;
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
 import org.kuali.student.enrollment.class2.appointment.service.AppointmentViewHelperService;
@@ -454,8 +454,8 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         AppointmentWindowInfo appointmentWindowInfo = appointmentWindowWrapper.getAppointmentWindowInfo();
         appointmentWindowInfo.setTypeKey(appointmentWindowWrapper.getWindowTypeKey());
         appointmentWindowInfo.setPeriodMilestoneId(appointmentWindowWrapper.getPeriodKey());
-        appointmentWindowInfo.setStartDate(CommonUtils.getDateWithTime(appointmentWindowWrapper.getStartDate(), appointmentWindowWrapper.getStartTime(), appointmentWindowWrapper.getStartTimeAmPm()));
-        appointmentWindowInfo.setEndDate(CommonUtils.getDateWithTime(appointmentWindowWrapper.getEndDate(), appointmentWindowWrapper.getEndTime(), appointmentWindowWrapper.getEndTimeAmPm()));
+        appointmentWindowInfo.setStartDate(AcalCommonUtils.getDateWithTime(appointmentWindowWrapper.getStartDate(), appointmentWindowWrapper.getStartTime(), appointmentWindowWrapper.getStartTimeAmPm()));
+        appointmentWindowInfo.setEndDate(AcalCommonUtils.getDateWithTime(appointmentWindowWrapper.getEndDate(), appointmentWindowWrapper.getEndTime(), appointmentWindowWrapper.getEndTimeAmPm()));
 
         //TODO Default to some value if nothing is entered(Service team needs to make up some real types or make not nullable)
         if (appointmentWindowInfo.getAssignedOrderTypeKey() == null || appointmentWindowInfo.getAssignedOrderTypeKey().isEmpty()) {

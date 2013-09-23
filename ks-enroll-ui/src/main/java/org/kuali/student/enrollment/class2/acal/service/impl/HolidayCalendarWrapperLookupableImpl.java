@@ -5,12 +5,12 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
 import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
-import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.ManageSOCViewHelperServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
@@ -62,15 +62,15 @@ public class HolidayCalendarWrapperLookupableImpl extends LookupableImpl {
                         }
                         holidayCalendarWrapper.setHolidays(holidays);
                     }catch (DoesNotExistException dnee){
-                        CommonUtils.logDebugMsg(LOG, exceptionComment1+dnee.toString());
+                        AcalCommonUtils.logDebugMsg(LOG, exceptionComment1 + dnee.toString());
                     }catch (InvalidParameterException ipe){
-                        CommonUtils.logDebugMsg(LOG, exceptionComment1+ipe.toString());
+                        AcalCommonUtils.logDebugMsg(LOG, exceptionComment1 + ipe.toString());
                     }catch (MissingParameterException mpe){
-                        CommonUtils.logDebugMsg(LOG, exceptionComment1+mpe.toString());
+                        AcalCommonUtils.logDebugMsg(LOG, exceptionComment1 + mpe.toString());
                     }catch (OperationFailedException ofe){
-                        CommonUtils.logDebugMsg(LOG, exceptionComment1+ofe.toString());
+                        AcalCommonUtils.logDebugMsg(LOG, exceptionComment1 + ofe.toString());
                     }catch (PermissionDeniedException pde){
-                        CommonUtils.logDebugMsg(LOG, exceptionComment1+pde.toString());
+                        AcalCommonUtils.logDebugMsg(LOG, exceptionComment1 + pde.toString());
                     }
                     holidayCalendarWrapperList.add(holidayCalendarWrapper);
                 }
@@ -79,13 +79,13 @@ public class HolidayCalendarWrapperLookupableImpl extends LookupableImpl {
             return holidayCalendarWrapperList;
 
         }catch (InvalidParameterException ipe){
-            CommonUtils.logDebugMsg(LOG, exceptionComment2+ipe.toString());
+            AcalCommonUtils.logDebugMsg(LOG, exceptionComment2 + ipe.toString());
         }catch (MissingParameterException mpe){
-            CommonUtils.logDebugMsg(LOG, exceptionComment2+mpe.toString());
+            AcalCommonUtils.logDebugMsg(LOG, exceptionComment2 + mpe.toString());
         }catch (OperationFailedException ofe){
-            CommonUtils.logDebugMsg(LOG, exceptionComment2+ofe.toString());
+            AcalCommonUtils.logDebugMsg(LOG, exceptionComment2 + ofe.toString());
         }catch (PermissionDeniedException pde){
-            CommonUtils.logDebugMsg(LOG, exceptionComment2+pde.toString());
+            AcalCommonUtils.logDebugMsg(LOG, exceptionComment2 + pde.toString());
         }
         return null;
 

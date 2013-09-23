@@ -20,7 +20,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
-import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.view.DialogManager;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -37,9 +36,8 @@ import org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
-import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
+import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
 import org.kuali.student.enrollment.common.util.EnrollConstants;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -1566,7 +1564,7 @@ public class AcademicCalendarController extends UifControllerBase {
      */
     private Date getDateInfoForKeyDate(boolean isAllDay, Date date, String time, String ampm){
         if(!isAllDay){
-            return CommonUtils.getDateWithTime(date, time, ampm);
+            return AcalCommonUtils.getDateWithTime(date, time, ampm);
         }
         return date;
     }

@@ -21,7 +21,6 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.Predicate;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -32,7 +31,6 @@ import org.kuali.rice.krad.uif.control.SelectControl;
 import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
-import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
@@ -46,8 +44,8 @@ import org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.TimeSetWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
+import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
-import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
@@ -175,7 +173,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             HolidayCalendarInfo holidayCalendarInfo = getAcalService().getHolidayCalendar(hcId, contextInfo);
             holidayCalendarWrapper.setHolidayCalendarInfo(holidayCalendarInfo);
             holidayCalendarWrapper.setId(holidayCalendarInfo.getId());
-            holidayCalendarWrapper.setAdminOrgName(CommonUtils.getAdminOrgNameById(holidayCalendarInfo.getAdminOrgId()));
+            holidayCalendarWrapper.setAdminOrgName(AcalCommonUtils.getAdminOrgNameById(holidayCalendarInfo.getAdminOrgId()));
             StateInfo hcState = getAcalService().getHolidayCalendarState(holidayCalendarInfo.getStateKey(), contextInfo);
             holidayCalendarWrapper.setStateName(hcState.getName());
 
@@ -507,8 +505,8 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             AcademicTermWrapper termWrapper = form.getTermWrapperList().get(selectedTermWrapperIndex);
 
             // Key Dates start and end dates should be within the start and end dates of the term
-            if (!CommonUtils.isDateWithinRange(termWrapper.getStartDate(),termWrapper.getEndDate(),keydate.getStartDate()) ||
-                    !CommonUtils.isDateWithinRange(termWrapper.getStartDate(),termWrapper.getEndDate(),keydate.getEndDate())){
+            if (!AcalCommonUtils.isDateWithinRange(termWrapper.getStartDate(), termWrapper.getEndDate(), keydate.getStartDate()) ||
+                    !AcalCommonUtils.isDateWithinRange(termWrapper.getStartDate(), termWrapper.getEndDate(), keydate.getEndDate())){
                 GlobalVariables.getMessageMap().putWarningForSectionId(collectionGroup.getId(), CalendarConstants.MessageKeys.ERROR_INVALID_DATERANGE_KEYDATE,keydate.getKeyDateNameUI(),termWrapper.getName());
             }
 
@@ -549,8 +547,8 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                     return false;
                 }
 
-                if (!CommonUtils.isDateWithinRange(parentTerm.getStartDate(),parentTerm.getEndDate(),term.getStartDate()) ||
-                        !CommonUtils.isDateWithinRange(parentTerm.getStartDate(),parentTerm.getEndDate(),term.getEndDate())){
+                if (!AcalCommonUtils.isDateWithinRange(parentTerm.getStartDate(), parentTerm.getEndDate(), term.getStartDate()) ||
+                        !AcalCommonUtils.isDateWithinRange(parentTerm.getStartDate(), parentTerm.getEndDate(), term.getEndDate())){
                     GlobalVariables.getMessageMap().putWarningForSectionId(collectionGroup.getId(), CalendarConstants.MessageKeys.ERROR_TERM_NOT_IN_TERM_RANGE,term.getName(),parentTerm.getName());
                 }
             }
@@ -683,14 +681,14 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             GlobalVariables.getMessageMap().putError("academicCalendarInfo.name", CalendarConstants.MessageKeys.ERROR_DUPLICATE_NAME);
         }
 
-        if (!CommonUtils.isValidDateRange(acal.getStartDate(),acal.getEndDate())){
-            GlobalVariables.getMessageMap().putErrorForSectionId("KS-AcademicCalendar-MetaSection", CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,"Calendar",CommonUtils.formatDate(acal.getStartDate()),CommonUtils.formatDate(acal.getEndDate()));
+        if (!AcalCommonUtils.isValidDateRange(acal.getStartDate(), acal.getEndDate())){
+            GlobalVariables.getMessageMap().putErrorForSectionId("KS-AcademicCalendar-MetaSection", CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,"Calendar", AcalCommonUtils.formatDate(acal.getStartDate()), AcalCommonUtils.formatDate(acal.getEndDate()));
         }
 
         //Validate Events
         for (AcalEventWrapper eventWrapper : acalForm.getEvents()) {
-            if (!CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),eventWrapper.getStartDate()) ||
-                !CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),eventWrapper.getEndDate())){
+            if (!AcalCommonUtils.isDateWithinRange(acal.getStartDate(), acal.getEndDate(), eventWrapper.getStartDate()) ||
+                !AcalCommonUtils.isDateWithinRange(acal.getStartDate(), acal.getEndDate(), eventWrapper.getEndDate())){
                 GlobalVariables.getMessageMap().putWarningForSectionId("acal-info-event", CalendarConstants.MessageKeys.ERROR_DATE_NOT_IN_ACAL_RANGE,eventWrapper.getEventTypeName());
             }
         }
@@ -698,7 +696,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         //Validate Holiday Calendar are in the date range of the Academic Calendar
         // With holiday calendars we only want there to be Any overlap between the hcal and the acal
         for (HolidayCalendarWrapper holidayCalendarWrapper : acalForm.getHolidayCalendarList())  {
-            if (!CommonUtils.doDatesOverlap(acal.getStartDate(),acal.getEndDate(),
+            if (!AcalCommonUtils.doDatesOverlap(acal.getStartDate(), acal.getEndDate(),
                     holidayCalendarWrapper.getHolidayCalendarInfo().getStartDate(), holidayCalendarWrapper.getHolidayCalendarInfo().getEndDate())){
                 GlobalVariables.getMessageMap().putWarning(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_DATE_NOT_IN_ACAL_RANGE,"Added Holiday Calendar: " + holidayCalendarWrapper.getHolidayCalendarInfo().getName());
             }
@@ -845,13 +843,13 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                     (wrapper.getEndTime()!=null && !StringUtils.isBlank(wrapper.getEndTime()))) {
                 Date startDate = getStartDateWithUpdatedTime(wrapper, false);
                 Date endDate =  timeSetWrapperEndDate(wrapper);
-                if (!CommonUtils.isValidDateRange(startDate, endDate)) {
+                if (!AcalCommonUtils.isValidDateRange(startDate, endDate)) {
                     GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroupId, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE, wrapperName, DateFormatUtils.format(startDate, DateFormatters.MONTH_DAY_YEAR_TIME_DATE_FORMAT), DateFormatUtils.format(endDate, DateFormatters.MONTH_DAY_YEAR_TIME_DATE_FORMAT));
                     sb.append("\"key_date_start_date\":\"Invalid\"");
                 }
             } else {
-                if (!CommonUtils.isValidDateRange(wrapper.getStartDate(), wrapper.getEndDate())) {
-                    GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroupId, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE, wrapperName, CommonUtils.formatDate(wrapper.getStartDate()), CommonUtils.formatDate(wrapper.getEndDate()));
+                if (!AcalCommonUtils.isValidDateRange(wrapper.getStartDate(), wrapper.getEndDate())) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroupId, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE, wrapperName, AcalCommonUtils.formatDate(wrapper.getStartDate()), AcalCommonUtils.formatDate(wrapper.getEndDate()));
                     sb.append("\"key_date_start_date\":\"Invalid\"");
                 }
             }
@@ -885,18 +883,18 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             }
         }
 
-        if (!CommonUtils.isValidDateRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate())){
-            GlobalVariables.getMessageMap().putErrorForSectionId(termSectionName, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,termWrapperToValidate.getName(),CommonUtils.formatDate(termWrapperToValidate.getStartDate()),CommonUtils.formatDate(termWrapperToValidate.getEndDate()));
+        if (!AcalCommonUtils.isValidDateRange(termWrapperToValidate.getStartDate(), termWrapperToValidate.getEndDate())){
+            GlobalVariables.getMessageMap().putErrorForSectionId(termSectionName, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,termWrapperToValidate.getName(), AcalCommonUtils.formatDate(termWrapperToValidate.getStartDate()), AcalCommonUtils.formatDate(termWrapperToValidate.getEndDate()));
         }
 
-        if (!CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),termWrapperToValidate.getStartDate()) ||
-            !CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),termWrapperToValidate.getEndDate())){
+        if (!AcalCommonUtils.isDateWithinRange(acal.getStartDate(), acal.getEndDate(), termWrapperToValidate.getStartDate()) ||
+            !AcalCommonUtils.isDateWithinRange(acal.getStartDate(), acal.getEndDate(), termWrapperToValidate.getEndDate())){
             GlobalVariables.getMessageMap().putWarningForSectionId(termSectionName, CalendarConstants.MessageKeys.ERROR_TERM_NOT_IN_ACAL_RANGE,termWrapperToValidate.getName());
         }
         if(termWrapperToValidate.isSubTerm()){
             if(termWrapperToValidate.getParentTermInfo()!= null){
-                if (!CommonUtils.isDateWithinRange(termWrapperToValidate.getParentTermInfo().getStartDate(),termWrapperToValidate.getParentTermInfo().getEndDate(),termWrapperToValidate.getStartDate()) ||
-                        !CommonUtils.isDateWithinRange(termWrapperToValidate.getParentTermInfo().getStartDate(),termWrapperToValidate.getParentTermInfo().getEndDate(),termWrapperToValidate.getEndDate())){
+                if (!AcalCommonUtils.isDateWithinRange(termWrapperToValidate.getParentTermInfo().getStartDate(), termWrapperToValidate.getParentTermInfo().getEndDate(), termWrapperToValidate.getStartDate()) ||
+                        !AcalCommonUtils.isDateWithinRange(termWrapperToValidate.getParentTermInfo().getStartDate(), termWrapperToValidate.getParentTermInfo().getEndDate(), termWrapperToValidate.getEndDate())){
                     GlobalVariables.getMessageMap().putWarningForSectionId(termSectionName, CalendarConstants.MessageKeys.ERROR_TERM_NOT_IN_TERM_RANGE,termWrapperToValidate.getName(),termWrapperToValidate.getParentTermInfo().getName());
                 }
             }else{
@@ -913,8 +911,8 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                     }
                 }
 
-                if (!CommonUtils.isDateWithinRange(parentTerm.getStartDate(),parentTerm.getEndDate(),termWrapperToValidate.getStartDate()) ||
-                        !CommonUtils.isDateWithinRange(parentTerm.getStartDate(),parentTerm.getEndDate(),termWrapperToValidate.getEndDate())){
+                if (!AcalCommonUtils.isDateWithinRange(parentTerm.getStartDate(), parentTerm.getEndDate(), termWrapperToValidate.getStartDate()) ||
+                        !AcalCommonUtils.isDateWithinRange(parentTerm.getStartDate(), parentTerm.getEndDate(), termWrapperToValidate.getEndDate())){
                     GlobalVariables.getMessageMap().putWarningForSectionId(termSectionName, CalendarConstants.MessageKeys.ERROR_TERM_NOT_IN_TERM_RANGE,termWrapperToValidate.getName(),parentTerm.getName());
                 }
             }
@@ -923,8 +921,8 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         for (KeyDatesGroupWrapper keyDatesGroupWrapper : termWrapperToValidate.getKeyDatesGroupWrappers()){
             for(KeyDateWrapper keyDateWrapper : keyDatesGroupWrapper.getKeydates()){
                 // Start and End Dates of the key date entry should be within the start and end dates of the term.
-                if (!CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),keyDateWrapper.getStartDate()) ||
-                        !CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),keyDateWrapper.getEndDate())){
+                if (!AcalCommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(), termWrapperToValidate.getEndDate(), keyDateWrapper.getStartDate()) ||
+                        !AcalCommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(), termWrapperToValidate.getEndDate(), keyDateWrapper.getEndDate())){
                     GlobalVariables.getMessageMap().putWarningForSectionId(keyDateGroupSectionName, CalendarConstants.MessageKeys.ERROR_INVALID_DATERANGE_KEYDATE,keyDateWrapper.getKeyDateNameUI(),termWrapperToValidate.getName());
                 }
             }
@@ -972,7 +970,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 if (isSaveAction && StringUtils.startsWith(startTime,"12:") && StringUtils.equalsIgnoreCase(startTimeApPm,"am")){
                     startTime = StringUtils.replace(startTime,"12:","00:");
                 }
-                return CommonUtils.getDateWithTime(timeSetWrapper.getStartDate(),startTime,startTimeApPm);
+                return AcalCommonUtils.getDateWithTime(timeSetWrapper.getStartDate(), startTime, startTimeApPm);
             }else{
                 return null; // should never get here.
             }
@@ -999,7 +997,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
         if (timeSetWrapper.isAllDay()) {
             if (timeSetWrapper.isDateRange()) {
-                endDateToInfo = CommonUtils.getDateWithTime(timeSetWrapper.getEndDate(), CalendarConstants.DEFAULT_END_TIME, "PM");
+                endDateToInfo = AcalCommonUtils.getDateWithTime(timeSetWrapper.getEndDate(), CalendarConstants.DEFAULT_END_TIME, "PM");
             } else {
                 endDateToInfo = null;
                 timeSetWrapper.setEndDate(null);
@@ -1024,7 +1022,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                  timeSetWrapper.setEndTime(endTime);
                  timeSetWrapper.setEndTimeAmPm(endTimeAmPm);
 
-                 endDateToInfo = CommonUtils.getDateWithTime(endDate, endTime, endTimeAmPm);
+                 endDateToInfo = AcalCommonUtils.getDateWithTime(endDate, endTime, endTimeAmPm);
              } else {
                  timeSetWrapper.setEndDate(null);
                  timeSetWrapper.setEndTime(null);
@@ -1111,7 +1109,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 if (!StringUtils.isEmpty(holidayCalendarId)) {
                     HolidayCalendarInfo hcInfo = getAcalService().getHolidayCalendar(inputLine.getId(), createContextInfo());
                     inputLine.setHolidayCalendarInfo(hcInfo);
-                    inputLine.setAdminOrgName(CommonUtils.getAdminOrgNameById(hcInfo.getAdminOrgId()));
+                    inputLine.setAdminOrgName(AcalCommonUtils.getAdminOrgNameById(hcInfo.getAdminOrgId()));
                     StateInfo hcState = getAcalService().getHolidayCalendarState(hcInfo.getStateKey(), createContextInfo());
                     inputLine.setStateName(hcState.getName());
                     List<HolidayInfo> holidayInfoList = getAcalService().getHolidaysForHolidayCalendar(hcInfo.getId(), createContextInfo());
@@ -1153,8 +1151,8 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            if (!CommonUtils.isValidDateRange(holiday.getStartDate(),holiday.getEndDate())){
-                GlobalVariables.getMessageMap().putWarningForSectionId("KS-HolidayCalendar-HolidaySection", CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,holiday.getTypeName(),CommonUtils.formatDate(holiday.getStartDate()),CommonUtils.formatDate(holiday.getEndDate()));
+            if (!AcalCommonUtils.isValidDateRange(holiday.getStartDate(), holiday.getEndDate())){
+                GlobalVariables.getMessageMap().putWarningForSectionId("KS-HolidayCalendar-HolidaySection", CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,holiday.getTypeName(), AcalCommonUtils.formatDate(holiday.getStartDate()), AcalCommonUtils.formatDate(holiday.getEndDate()));
             }
         } else {
             super.processBeforeAddLine(view, collectionGroup, model, addLine);
@@ -1351,12 +1349,12 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         if (termWrapperToValidate.getExamdates() != null && termWrapperToValidate.getExamdates().size() > 0) {
             for (ExamPeriodWrapper examWrapper : termWrapperToValidate.getExamdates()){
                 // startDate must be before endDate
-                if (!CommonUtils.isValidDateRange(examWrapper.getStartDate(),examWrapper.getEndDate())){
-                    GlobalVariables.getMessageMap().putErrorForSectionId(finalExamSectionName, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE, examWrapper.getExamPeriodNameUI(),CommonUtils.formatDate(examWrapper.getStartDate()),CommonUtils.formatDate(examWrapper.getEndDate()));
+                if (!AcalCommonUtils.isValidDateRange(examWrapper.getStartDate(), examWrapper.getEndDate())){
+                    GlobalVariables.getMessageMap().putErrorForSectionId(finalExamSectionName, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE, examWrapper.getExamPeriodNameUI(), AcalCommonUtils.formatDate(examWrapper.getStartDate()), AcalCommonUtils.formatDate(examWrapper.getEndDate()));
                 }
                 // Warning message when Start and End Dates of the exam period not within the term period.
-                if (!CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),examWrapper.getStartDate()) ||
-                        !CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),examWrapper.getEndDate())){
+                if (!AcalCommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(), termWrapperToValidate.getEndDate(), examWrapper.getStartDate()) ||
+                        !AcalCommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(), termWrapperToValidate.getEndDate(), examWrapper.getEndDate())){
                     GlobalVariables.getMessageMap().putWarningForSectionId(finalExamSectionName, CalendarConstants.MessageKeys.ERROR_TERM_NOT_IN_TERM_RANGE,examWrapper.getExamPeriodNameUI(),termWrapperToValidate.getName());
                 }
                 // Both or neither dates should be filled

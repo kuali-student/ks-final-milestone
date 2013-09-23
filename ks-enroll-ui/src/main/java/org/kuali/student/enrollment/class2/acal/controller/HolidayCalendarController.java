@@ -19,7 +19,6 @@ package org.kuali.student.enrollment.class2.acal.controller;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
-import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -31,8 +30,8 @@ import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.HolidayCalendarViewHelperService;
+import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
-import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
 import org.kuali.student.enrollment.common.util.EnrollConstants;
 import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
@@ -326,7 +325,7 @@ public class HolidayCalendarController extends UifControllerBase {
         form.getHolidayCalendarInfo().setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         // after changing the state in the info back to the default, reset the isOfficialCalendar flag on the form
         form.setOfficialCalendar(false);
-        form.getHolidayCalendarInfo().setDescr(CommonUtils.buildDesc(form.getNewCalendarName()));
+        form.getHolidayCalendarInfo().setDescr(AcalCommonUtils.buildDesc(form.getNewCalendarName()));
         form.setHolidays(newHolidays);
         form.setHcId(null);
         form.setMeta(form.getHolidayCalendarInfo().getMeta());
@@ -566,7 +565,7 @@ public class HolidayCalendarController extends UifControllerBase {
     }
 
     private boolean isValidHolidayCalendar(HolidayCalendarInfo hc)throws Exception {
-        boolean valid = true; //CommonUtils.isValidDateRange(hc.getStartDate(),hc.getEndDate());
+        boolean valid = true; //AcalCommonUtils.isValidDateRange(hc.getStartDate(),hc.getEndDate());
         Date startDate = hc.getStartDate();
         Date endDate = hc.getEndDate();
 
