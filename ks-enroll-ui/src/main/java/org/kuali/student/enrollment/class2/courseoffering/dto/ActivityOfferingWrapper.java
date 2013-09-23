@@ -1312,7 +1312,7 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
      *   This method will update waitListType depending on automaticallyProcessed and confirmationRequired boolean
      *
      *   automatic -> automaticallyProcessed = true, confirmationRequired = false
-     *   semi-automatic -> automaticallyProcessed = true, confirmationRequired = true
+     *   Confirmation (semi-automatic) -> automaticallyProcessed = true, confirmationRequired = true
      *   manual -> automaticallyProcessed = false, confirmationRequired = false
      *
      */
@@ -1330,8 +1330,8 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
             waitListType = LuiServiceConstants.AUTOMATIC_WAITLIST_TYPE_KEY ;
             waitListTypeUI = "Automatic";
         } else if(automaticallyProcessed && confirmationRequired ) {
-            waitListType = LuiServiceConstants.SEMIAUTOMATIC_WAITLIST_TYPE_KEY;
-            waitListTypeUI = "Semi-Automatic";
+            waitListType = LuiServiceConstants.CONFIRMATION_WAITLIST_TYPE_KEY;
+            waitListTypeUI = "Confirmation";
         } else if(!(automaticallyProcessed) &&  !(confirmationRequired)) {
             waitListType = LuiServiceConstants.MANUAL_WAITLIST_TYPE_KEY;
             waitListTypeUI = "Manual";

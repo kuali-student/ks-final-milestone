@@ -47,8 +47,8 @@ public class WaitlistTypeOptionsKeyValues extends UifKeyValuesFinderBase impleme
         for(String waitlistType: waitlistTypes) {
             if (waitlistType.equals(LuiServiceConstants.AUTOMATIC_WAITLIST_TYPE_KEY)) {
                 keyValues.add(new ConcreteKeyValue(waitlistType, "Automatic"));
-            } else if (waitlistType.equals(LuiServiceConstants.SEMIAUTOMATIC_WAITLIST_TYPE_KEY)) {
-                keyValues.add(new ConcreteKeyValue(waitlistType, "Semi-Automatic"));
+            } else if (waitlistType.equals(LuiServiceConstants.CONFIRMATION_WAITLIST_TYPE_KEY)) {
+                keyValues.add(new ConcreteKeyValue(waitlistType, "Confirmation"));
             } else if (waitlistType.equals(LuiServiceConstants.MANUAL_WAITLIST_TYPE_KEY)) {
                 keyValues.add(new ConcreteKeyValue(waitlistType, "Manual"));
             }

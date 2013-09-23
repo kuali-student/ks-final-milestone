@@ -103,7 +103,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
      *   This method will set automaticallyProcessed and confirmationRequired boolean based on waitListType value
      *
      *   automatic -> automaticallyProcessed = true, confirmationRequired = false
-     *   semi-automatic -> automaticallyProcessed = true, confirmationRequired = true
+     *   Confirmation(semi-automatic) -> automaticallyProcessed = true, confirmationRequired = true
      *   manual -> automaticallyProcessed = false, confirmationRequired = false
      *
      */
@@ -114,7 +114,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             courseWaitListInfo.setAutomaticallyProcessed(true);
             courseWaitListInfo.setConfirmationRequired(false);
         }
-        else if(waitListType.equals(LuiServiceConstants.SEMIAUTOMATIC_WAITLIST_TYPE_KEY)){
+        else if(waitListType.equals(LuiServiceConstants.CONFIRMATION_WAITLIST_TYPE_KEY)){
             courseWaitListInfo.setAutomaticallyProcessed(true);
             courseWaitListInfo.setConfirmationRequired(true);
         }
