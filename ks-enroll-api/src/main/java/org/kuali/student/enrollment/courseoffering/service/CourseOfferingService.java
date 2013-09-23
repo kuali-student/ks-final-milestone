@@ -43,6 +43,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -1253,6 +1254,31 @@ public interface CourseOfferingService
 
 
     /**
+     * Retrieves a list of allowed time slots Ids for an activity offering
+     *
+     * @param activityOfferingId identifier for an activity offering
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return a list of TimeSlots allowed for activityOfferingId or an
+     *         empty list if none found
+     * @throws DoesNotExistException     activityOfferingId does not exist
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException activityOfferingId or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getAllowedTimeSlotIdsForActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId,
+                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+
+    /**
      * Retrieves a list of allowed time slots for an activity offering
      *
      * @param activityOfferingId identifier for an activity offering
@@ -1268,7 +1294,7 @@ public interface CourseOfferingService
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getAllowedTimeSlotsForActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId,
+    public List<TimeSlotInfo> getAllowedTimeSlotsForActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId,
                                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
