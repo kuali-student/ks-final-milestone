@@ -414,7 +414,11 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         CourseWaitListInfo origWaitListInfo, newWaitListInfo;        
         if (!waitListInfos.isEmpty()){
             //by default, should only return 1 record in waitListInfos
-            origWaitListInfo = waitListInfos.get(0);
+            if (waitListInfos.size() == 1) {
+                origWaitListInfo = waitListInfos.get(0);
+            } else {
+                throw new OperationFailedException("waitListInfos list size exceeds limit of 1");
+            }
             newWaitListInfo = new CourseWaitListInfo();
             List<String> aoIds = new ArrayList<String> ();
             aoIds.add(newAOInfo.getId());
@@ -1051,7 +1055,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
 
     public CourseOfferingService getCoService() {
         if(coService == null) {
-            coService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
+            coService =  GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
                     CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
 
@@ -1060,7 +1064,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
 
     public CourseWaitListService getCourseWaitListService() {
         if(courseWaitListService == null) {
-            courseWaitListService = (CourseWaitListService) GlobalResourceLoader.getService(new QName(CourseWaitListServiceConstants.NAMESPACE,
+            courseWaitListService =  GlobalResourceLoader.getService(new QName(CourseWaitListServiceConstants.NAMESPACE,
                     CourseWaitListServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
 
@@ -1075,7 +1079,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         if (typeService == null) {
             QName qname = new QName(TypeServiceConstants.NAMESPACE,
                                     TypeServiceConstants.SERVICE_NAME_LOCAL_PART);
-            typeService = (TypeService) GlobalResourceLoader.getService(qname);
+            typeService =  GlobalResourceLoader.getService(qname);
         }
         return typeService;
     }
@@ -1084,7 +1088,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         if (courseService == null) {
             QName qname = new QName(CourseServiceConstants.NAMESPACE,
                     CourseServiceConstants.SERVICE_NAME_LOCAL_PART);
-            courseService = (CourseService) GlobalResourceLoader.getService(qname);
+            courseService = GlobalResourceLoader.getService(qname);
         }
         return courseService;
     }
