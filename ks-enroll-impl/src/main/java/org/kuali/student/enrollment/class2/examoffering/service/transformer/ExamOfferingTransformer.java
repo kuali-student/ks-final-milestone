@@ -118,7 +118,7 @@ public class ExamOfferingTransformer {
         }
 
         // if there is an actual schedule tied to the AO, and at least one of the components is not marked TBA, then the AO scheduling state is Scheduled
-        if (eo.getScheduleId() == null) {
+        if (eo.getScheduleId() != null) {
             eo.setSchedulingStateKey(getSchedulingState(eo, scheduleIdToScheduleMap));
         } else {
             eo.setSchedulingStateKey(getSchedulingStateByScheduleRequest(eo, luiToScheduleRequestsMap.get(eo.getId())));
@@ -158,7 +158,7 @@ public class ExamOfferingTransformer {
         }
 
         // if there is an actual schedule tied to the EO, and at least one of the components is not marked TBA, then the EO scheduling state is Scheduled
-        if (eo.getScheduleId() == null) {
+        if (eo.getScheduleId() != null) {
             try {
                 eo.setSchedulingStateKey(getSchedulingState(eo, schedulingService, context));
             } catch (DoesNotExistException e) {
