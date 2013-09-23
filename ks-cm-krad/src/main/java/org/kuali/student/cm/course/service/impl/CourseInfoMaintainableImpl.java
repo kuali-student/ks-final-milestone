@@ -28,6 +28,7 @@ import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
+import org.kuali.student.cm.course.form.GenericStringForCollectionWrapper;
 import org.kuali.student.cm.course.form.LearningObjectiveDialogWrapper;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
@@ -52,6 +53,8 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * Base view helper service for both create and edit course info presentations.
@@ -106,6 +109,9 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
     
     private List<CollaboratorWrapper> collaboratorWrappers;
 
+    private String unitsContentOwnerToAdd;
+    
+    private List<KeyValue> unitsContentOwner;
 	
 	public static final CourseInfoMaintainable getInstance() {
 		if (instance == null) {
@@ -113,6 +119,25 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
 		}
 		return instance;
 	}
+
+    public void setUnitsContentOwnerToAdd(final String KeyValue) {
+        this.unitsContentOwnerToAdd = unitsContentOwnerToAdd;
+    }
+
+    public String getUnitsContentOwnerToAdd() {
+        return unitsContentOwnerToAdd;
+    }
+
+    public void setUnitsContentOwner(final List<KeyValue> unitsContentOwner) {
+        this.unitsContentOwner = unitsContentOwner;
+    }
+
+    public List<KeyValue> getUnitsContentOwner() {
+        if (unitsContentOwner == null) {
+            unitsContentOwner = new ArrayList<KeyValue>();
+        }
+        return unitsContentOwner;
+    }
 
     /**
      * Method called when queryMethodToCall is executed for Administering Organizations in order to suggest back to the user an Administering Organization
@@ -155,8 +180,6 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
             final List<SearchResultCellInfo> cells = result.getCells();
             final OrganizationInfoWrapper cluOrgInfoDisplay = new OrganizationInfoWrapper();
             for (final SearchResultCellInfo cell : cells) {
-                info("Got key %s", cell.getKey());
-                info("Got key %s", cell.getValue());
                 
                 if ("org.resultColumn.orgId".equals(cell.getKey())) {
                     cluOrgInfoDisplay.setId(cell.getValue());

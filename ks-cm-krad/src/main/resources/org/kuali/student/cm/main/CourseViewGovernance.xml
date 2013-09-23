@@ -20,7 +20,7 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="KS-CourseView-GovernancePage" parent="Uif-MaintenancePage"
-        p:headerText="Governance" p:disclosure.render="false">
+          p:headerText="Governance" p:disclosure.render="false">
         <property name="header" ref="KS-CourseView-Header" />
         <property name="items">
             <list> 
@@ -33,32 +33,54 @@
     </bean>
 
     <bean id="KS-CourseView-GovernancePage-Widgets" parent="Uif-VerticalBoxSection">
-      <property name="items">
-        <list>
-          <bean parent="Uif-InputField-LabelTop" p:propertyName="course.campusLocations" p:label="Campus Locations"
-                p:instructionalText="" p:width="auto">
-            <property name="control">
-              <bean parent="Uif-VerticalCheckboxesControl" />
-            </property>
-            <property name="optionsFinder">
-              <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.CampusLocationsKeyValuesFinder"
-                    p:addBlankOption="false" />
-              
-            </property>
-          </bean>
-          <bean parent="Uif-InputField-LabelTop" p:propertyName="course.unitsContentOwner" p:label="Curriculum Oversight"
-                p:instructionalText="This is the organization(s) responsible for the content of the course. This selection will determine the workflow/approval process for this proposal." >
-            <property name="control">
-              <bean parent="Uif-DropdownControl" />
-            </property>
-            <property name="optionsFinder">
-              <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.OrgsBySubjectCodeValuesFinder"/>              
-            </property>
-          </bean>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="course.campusLocations" p:label="Campus Locations"
+                      p:instructionalText="" p:width="auto">
+                    <property name="control">
+                        <bean parent="Uif-VerticalCheckboxesControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.CampusLocationsKeyValuesFinder"
+                              p:addBlankOption="false" />
+                        
+                    </property>
+                </bean>
 
-          <ref bean="KS-AdministeringOrganization-Section" />
-        </list>
-      </property>
+                <bean parent="Uif-HorizontalBoxGroup"
+                      p:headerText="Curriculum Oversight"
+                      p:instructionalText="This is the organization(s) responsible for the content of the course. This selection will determine the workflow/approval process for this proposal.">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField-LabelTop" 
+                                  p:propertyName="unitsContentOwnerToAdd">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.OrgsBySubjectCodeValuesFinder"
+                                          p:blankOption="true" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" />
+                                </property>                            
+                            </bean>
+                            <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Add" p:methodToCall="addUnitsContentOwner" />
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-ListCollectionGroup">
+                    <property name="headerText" value="Curriculum Oversight" />
+                    <property name="collectionObjectClass" value="org.kuali.rice.core.api.util.KeyValue" />
+                    <property name="propertyName" value="unitsContentOwner" />
+                    <property name="renderLineActions" value="true" />
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:labelRendered="false" p:propertyName="value"/>
+                        </list>
+                    </property>
+                </bean>
+                <ref bean="KS-AdministeringOrganization-Section" />
+            </list>
+        </property>
     </bean>
 
     <bean id="KS-AdministeringOrganization-Section" parent="Uif-StackedCollectionSection"

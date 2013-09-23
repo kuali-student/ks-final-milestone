@@ -44,10 +44,15 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
 
 	private SubjectCodeService subjectCodeService;
+    private boolean blankOption;
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
         List<KeyValue> departments = new ArrayList<KeyValue>();
+
+        if (blankOption) {
+            departments.add(new ConcreteKeyValue("", ""));
+        }
         
         final MaintenanceDocumentForm form = (MaintenanceDocumentForm) model;
 
@@ -85,6 +90,14 @@ public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
         	error("Error building KeyValues List %s", e);
             throw new RuntimeException(e);
         }
+    }
+
+    public void setBlankOption(final boolean blankOption) {
+        this.blankOption = blankOption;
+    }
+
+    public boolean getBlankOption() {
+        return blankOption;
     }
 
 	protected SubjectCodeService getSubjectCodeService() {

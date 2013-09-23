@@ -43,10 +43,13 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
+import org.kuali.student.cm.course.form.GenericStringForCollectionWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
+import org.kuali.student.cm.course.service.impl.LookupableConstants;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities.DecisionRationaleDetail;
+import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -59,10 +62,15 @@ import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.core.constants.CommentServiceConstants;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -85,7 +93,7 @@ public class CourseController extends MaintenanceDocumentController {
 
     private CourseService courseService;
     private CommentService commentService;
-    
+	private SubjectCodeService subjectCodeService;    
     private IdentityService identityService;
     
     private enum CourseViewPages {
@@ -140,6 +148,11 @@ public class CourseController extends MaintenanceDocumentController {
         // After creating the document, modify the state
         maintainable.getCourse().setStateKey(DtoConstants.STATE_DRAFT);
         maintainable.setLastUpdated(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(new DateTime()));
+
+        // Initialize Curriculum Oversight if it hasn't already been.
+        if (maintainable.getCourse().getUnitsContentOwner() == null) {
+            maintainable.getCourse().setUnitsContentOwner(new ArrayList<String>());
+        }
                 
         return retval;
     }
@@ -182,9 +195,14 @@ public class CourseController extends MaintenanceDocumentController {
             }
         }
         
-        //Set derived course fields before saving/updating
+        // Set derived course fields before saving/updating
         maintainable.setCourse(calculateCourseDerivedFields(maintainable.getCourse()));
         maintainable.setLastUpdated(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(new DateTime()));
+
+        maintainable.getCourse().setUnitsContentOwner(new ArrayList<String>());
+        for (final KeyValue wrapper : maintainable.getUnitsContentOwner()) {
+            maintainable.getCourse().getUnitsContentOwner().add(wrapper.getValue());
+        }
 
         try {
             save(form, result, request, response);
@@ -507,6 +525,69 @@ public class CourseController extends MaintenanceDocumentController {
         }
         return identities;
     }
+
+    /**
+     * Executed when the add line button is clicked for adding Curriculum Oversight
+     *
+     * @param form the {@link MaintenanceDocumentForm} associated with the request
+     * @param result
+     * @param request the {@link HttpServletRequest} instance
+     * @param response the {@link HttpServletResponse} instance
+     * @return ModelAndView of the next view
+     */
+    @RequestMapping(params="methodToCall=addUnitsContentOwner")
+    protected ModelAndView addUnitsContentOwner(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form, 
+                                                final BindingResult result,
+                                                final HttpServletRequest request,
+                                                final HttpServletResponse response) {
+        final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
+        if (maintainable.getUnitsContentOwnerToAdd() == null) {
+            return getUIFModelAndView(form);
+        }
+
+        final String toAdd = maintainable.getUnitsContentOwnerToAdd();
+        
+        maintainable.getUnitsContentOwner().add(getOrganizationBy(maintainable.getCourse().getSubjectArea(), toAdd));
+        maintainable.setUnitsContentOwnerToAdd("");
+        
+        return getUIFModelAndView(form);
+    }
+
+    public KeyValue getOrganizationBy(final String code, final String orgId) {
+
+        final SearchRequestInfo searchRequest = new SearchRequestInfo();
+        searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
+        searchRequest.addParam("subjectCode.queryParam.code", code);
+        searchRequest.addParam("subjectCode.queryParam.optionalOrgId", orgId);
+
+        try {
+        	for (final SearchResultRowInfo result 
+                     : getSubjectCodeService().search(searchRequest, ContextUtils.getContextInfo()).getRows()) {
+                String subjectCodeId = "";
+                String subjectCodeShortName = "";
+                String subjectCodeOptionalLongName = "";
+                String subjectCodeType = "";
+                
+                for (final SearchResultCellInfo resultCell : result.getCells()) {
+                    if ("subjectCode.resultColumn.orgId".equals(resultCell.getKey())) {
+                        subjectCodeId = resultCell.getValue();
+                    } else if ("subjectCode.resultColumn.orgShortName".equals(resultCell.getKey())) {
+                        subjectCodeShortName = resultCell.getValue();
+                    } else if ("subjectCode.resultColumn.orgLongName".equals(resultCell.getKey())) {
+                    	subjectCodeOptionalLongName = resultCell.getValue();
+                    } else if ("subjectCode.resultColumn.orgType".equals(resultCell.getKey())) {
+                    	subjectCodeType = resultCell.getValue();
+                    }
+                }
+                return new ConcreteKeyValue(subjectCodeId, subjectCodeOptionalLongName);
+            }
+        } catch (Exception e) {
+        	error("Error building KeyValues List %s", e);
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
      
     /**
      * Retrieves the {@link CourseInfoMaintainable} instance from the {@link MaintenanceDocumentForm} in session
@@ -539,4 +620,10 @@ public class CourseController extends MaintenanceDocumentController {
         return identityService;
     }
     
+	protected SubjectCodeService getSubjectCodeService() {
+		if (subjectCodeService == null) {
+			subjectCodeService = GlobalResourceLoader.getService(new QName(LookupableConstants.NAMESPACE_SUBJECTCODE, SubjectCodeService.class.getSimpleName()));
+		}
+		return subjectCodeService;
+	}	
 }
