@@ -24,6 +24,14 @@
     </bean>
 
     <bean id="KS-ScheduleOfClasses-ResultsSection" parent="KS-Uif-Page" p:disclosure.render="false" p:id="scheduleOfClassesResultsPage">
+        <property name="onDocumentReadyScript">
+            <value>
+                jQuery("input[script='soc_run']").each(function () {
+                    eval(jQuery(this).val());
+                    jQuery(this).removeAttr("script");
+                });
+           </value>
+        </property>
         <property name="header">
             <bean parent="Uif-HeaderThree" p:headerText="Schedule of Classes"/>
         </property>

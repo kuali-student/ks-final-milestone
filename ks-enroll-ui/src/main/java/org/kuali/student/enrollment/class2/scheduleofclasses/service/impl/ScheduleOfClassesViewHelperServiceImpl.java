@@ -28,9 +28,11 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.rice.krad.uif.component.ReferenceCopy;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
+import org.kuali.student.common.UUIDHelper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
@@ -92,6 +94,21 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
     @ReferenceCopy
     private KSComparatorChain regGroupComparatorChain;
 
+    /**
+     * These are templates to make creating "additional information" icons with BubblePopOver tooltips.
+     * The $FOO items are placeholders which are filled in when the icon is created. The 'script' attribute has been changed
+     * from 'first_run' to 'soc_run' and code has been added to onDocumentReady initialize the popovers.
+     */
+    private final static String TOOLTIP_CREATE_SCRIPT
+        = "<input type='hidden' data-role='script' data-for='$ID' value=\"createTooltip('$ID', '$TEXT', " +
+            "{position:'bottom',alwaysVisible:false,themeName:'black',themePath:'$APPLICATION_URL/plugins/tooltip/jquerybubblepopup-theme/',selectable:true,align:'left',tail:{ align:'left', hidden: false }}, true, false);\" script='soc_run'>";
+
+    private final static String TOOLTIP_ADD_ATTRIBUTE
+        = "<input type='hidden' data-role='script' data-for='$ID' " +
+            "value=\"addAttribute('$ID', 'class', 'uif-tooltip', true);\" script='soc_run'>";
+
+    private final static String IMG = "<img id='$ID' src='$SRC'/>";
+
     public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, ScheduleOfClassesSearchForm form) throws Exception {
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
@@ -130,17 +147,17 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
 //                    information = "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HONORS_COURSE_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_HONORS_COURSE + "\"> ";
 //                }
                 if (StringUtils.equals(coDisplayWrapper.getCourseOfferingGradingOptionKey(),LrcServiceConstants.RESULT_GROUP_KEY_GRADE_SATISFACTORY)) {
-                    information.append("<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_SATISFACTORY_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_SATISFACTORY + "\"> ");
+                    information.append(makeInfoIconWithTooltip(ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_SATISFACTORY_IMG, ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_SATISFACTORY));
                 } else if (StringUtils.equals(coDisplayWrapper.getCourseOfferingGradingOptionKey(),LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE)) {
-                    information.append("<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_PERCENT_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_PERCENT + "\"> ");
+                    information.append(makeInfoIconWithTooltip(ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_PERCENT_IMG, ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_PERCENT));
                 }
 
                 if (coDisplayWrapper.isAuditCourse()){
-                    information.append("<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_AUDIT_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_AUDIT + "\">");
+                    information.append(makeInfoIconWithTooltip(ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_AUDIT_IMG, ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_AUDIT));
                 }
 
-                if (coDisplayWrapper.isStudentSelectablePassFail()){
-                    information.append("<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_PASSFAIL_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_PASSFAIL + "\">");
+                if (coDisplayWrapper.isStudentSelectablePassFail()) {
+                    information.append(makeInfoIconWithTooltip(ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_PASSFAIL_IMG, ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_PASSFAIL));
                 }
 
                 /*if (!coDisplayInfo.getStudentRegistrationGradingOptions().isEmpty()) {
@@ -168,6 +185,22 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
             GlobalVariables.getMessageMap().putError("Term & courseCode", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "courseCode", courseCode, termId);
             form.getCoDisplayWrapperList().clear();
         }*/
+    }
+
+    /**
+     * Creates an HTML img tag and the two hidden input fields to necessary to create a tooltip.
+     * @param src The URL of the image to be used in the icon.
+     * @param text The text to display in the tooltip.
+     * @return An additional information icon with a tooltip attached.
+     */
+    private String makeInfoIconWithTooltip(String src, String text) {
+        String id = UUIDHelper.genStringUUID();
+        String tt = IMG + TOOLTIP_CREATE_SCRIPT + TOOLTIP_ADD_ATTRIBUTE;
+        tt = tt.replace("$APPLICATION_URL", ConfigContext.getCurrentContextConfig().getProperty(KRADConstants.ConfigParameters.APPLICATION_URL));
+        tt = tt.replace("$ID", id);
+        tt = tt.replace("$SRC", src);
+        tt = tt.replace("$TEXT", text);
+        return tt;
     }
 
     @Override
