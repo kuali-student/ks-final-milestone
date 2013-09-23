@@ -30,6 +30,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.persistence.Query;
+
+import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -792,4 +795,15 @@ public class TestLuiServiceImpl {
         assertEquals(2,luiSetInfos.size());
     }
 
+    @Test
+    public void testAttributeQuery() {
+    	/*
+    	 * Used to test the JPA join syntax.
+    	 */
+    	Query q = luiDao.getEm().createQuery("select lui.id from LuiEntity lui inner join lui.attributes a where a.key=:key").setParameter("key", "attr1");
+    	
+    	List<?> results = q.getResultList();
+
+    	assertEquals(1, results.size());
+    }
 }
