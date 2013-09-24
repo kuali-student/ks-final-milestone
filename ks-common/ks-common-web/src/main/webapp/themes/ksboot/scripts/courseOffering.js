@@ -135,28 +135,30 @@ function handleWaitListShowDialog(dialog){
     jQuery('#KS-CourseOfferingEdit-WailtList-Message-Section').show();
 }
 
-function updateExamDriverInFOTable(finalExamDropDownId, finalExamTableCellId) {
-    var finalExamDropDown = jQuery("#" + finalExamDropDownId + "_control");
-    var finalExamDriverUI = "";
-
-    if (finalExamDropDown.val()== "kuali.lu.exam.driver.CourseOffering") {
-        finalExamDriverUI = "Course Offering";
-    } else if (finalExamDropDown.val()== "kuali.lu.exam.driver.ActivityOffering") {
-        finalExamDriverUI = "Activity Offering";
-    }
-
-    var finalExamTableCells = jQuery('[id^="' + finalExamTableCellId + '_line"][id$="_control"]');
-    finalExamTableCells.each(function () {
-        jQuery(this).text(finalExamDriverUI);
-    });
-
-    var finalExamTableCells1 = jQuery('[id^="edit_co_final_exam_type_line"][id$="_control"]');
-    finalExamTableCells1.each(function () {
-        if (finalExamDriverUI == "Activity Offering") {
-            jQuery(this).show();
-        } else {
-            jQuery(this).hide();
+function updateExamDriverInFOTable(finalExamDropDownId, finalExamTableCellId, parentReadOnly) {
+    if (!parentReadOnly) {
+        var finalExamDropDown = jQuery("#" + finalExamDropDownId + "_control");
+        var finalExamDriverUI = "";
+        var test = finalExamDropDown.val();
+        if (finalExamDropDown.val() == "kuali.lu.exam.driver.CourseOffering") {
+            finalExamDriverUI = "Course Offering";
+        } else if (finalExamDropDown.val() == "kuali.lu.exam.driver.ActivityOffering") {
+            finalExamDriverUI = "Activity Offering";
         }
-    });
+
+        var finalExamTableCells = jQuery('[id^="' + finalExamTableCellId + '_line"][id$="_control"]');
+        finalExamTableCells.each(function () {
+            jQuery(this).text(finalExamDriverUI);
+        });
+
+        var finalExamTableCells1 = jQuery('[id^="edit_co_final_exam_type_line"][id$="_control"]');
+        finalExamTableCells1.each(function () {
+            if (finalExamDriverUI == "Activity Offering") {
+                jQuery(this).show();
+            } else {
+                jQuery(this).hide();
+            }
+        });
+    }
 }
 
