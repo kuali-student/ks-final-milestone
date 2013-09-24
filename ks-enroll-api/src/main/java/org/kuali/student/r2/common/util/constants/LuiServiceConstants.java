@@ -281,11 +281,11 @@ public class LuiServiceConstants {
     public static final String LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY = "kuali.lui.lui.relation.type.deliveredvia.fo2rg";
     public static final String LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY = "kuali.lui.lui.relation.type.registeredforvia.rg2ao";
     public static final String LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY = "kuali.lui.lui.relation.type.deliveredvia.fo2eo";
+    public static final String LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY = "kuali.lui.lui.relation.type.registeredforvia.fo2eo";
     // This is a grouping type
     public static final String LUI_LUI_RELATION_REGISTEREDFORVIA_TYPE_KEY = "kuali.lui.lui.relation.type.registeredforvia";
     // This is a grouping type
     public static final String LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY = "kuali.lui.lui.relation.type.deliveredvia";
-    public static final String LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY = "kuali.lui.lui.relation.type.registeredforvia.fo2eo";
 
     /**
      * LUI LUI Relation States
