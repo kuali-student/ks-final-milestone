@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -26,7 +27,6 @@ import org.kuali.student.enrollment.class2.courseoffering.form.TestStatePropagat
 import org.kuali.student.enrollment.class2.courseoffering.service.TestStatePropagationViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.exception.AssertException;
 import org.kuali.student.enrollment.class2.courseoffering.service.exception.PseudoUnitTestException;
-import org.kuali.student.enrollment.class2.courseoffering.service.facade.CSRServiceFacade;
 import org.kuali.student.enrollment.class2.courseoffering.service.util.AFUTTypeEnum;
 import org.kuali.student.enrollment.class2.courseoffering.service.util.AoStateTransitionRefSolution;
 import org.kuali.student.enrollment.class2.courseoffering.service.util.PseudoUnitTestStateTransitionGrid;
@@ -45,6 +45,11 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemI
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.poc.eventproc.KSEventProcessorImpl;
+import org.kuali.student.poc.eventproc.event.KSEvent;
+import org.kuali.student.poc.eventproc.event.KSEventFactory;
+import org.kuali.student.poc.eventproc.event.KSEventResult;
+import org.kuali.student.poc.eventproc.handler.impl.helper.KSHandlerLoader;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -96,11 +101,14 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     private LuiService luiService = null;
     private SchedulingService schedulingService = null;
 
+    private static Logger LOGGER = Logger.getLogger(TestStatePropagationViewHelperServiceImpl.class);
+
     // List of objects used in test
     private SocInfo socInfo;
     private CourseOfferingInfo courseOfferingInfo;
     private List<FormatOfferingInfo> foInfos;
     private RegistrationGroupInfo rgInfo;
+    private List<RegistrationGroupInfo> rgInfos;
     private List<ActivityOfferingInfo> aoInfos; // Only for a single RG in first FO
     private String primaryAoId;
     private String secondaryAoId;
@@ -296,8 +304,8 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             courseOfferingInfo = (CourseOfferingInfo) keyToValues.get(COURSE_OFFERING_KEY);
             // Get FOs (should only be 1)
             foInfos = coService.getFormatOfferingsByCourseOffering(courseOfferingInfo.getId(), CONTEXT);
-            // Use first FO to get RGs
-            List<RegistrationGroupInfo> rgInfos = coService.getRegistrationGroupsByFormatOffering(foInfos.get(0).getId(), CONTEXT);
+            // Save all RGs
+            rgInfos = coService.getRegistrationGroupsByFormatOffering(foInfos.get(0).getId(), CONTEXT);
             // Pick first RG
             rgInfo = rgInfos.get(0);
             // Get list of AOs but only for this RG
@@ -445,12 +453,57 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         System.out.println("Hi");
     }
 
+    private void _testEventProcessor() throws Exception {
+        _reset(true);
+        KSEventProcessorImpl ksEventProcessor
+                = (KSEventProcessorImpl) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/ksEventProcessor", "KSEventProcessor"));
+        // Get all the AOs for the initial RG
+        List<ActivityOfferingInfo> rgAos =
+                coService.getActivityOfferingsByIds(rgInfo.getActivityOfferingIds(), CONTEXT);
+        ActivityOfferingInfo sampleAO = null;
+        for (ActivityOfferingInfo ao: rgAos) {
+            // Find the one that's a lecture
+            if (ao.getTypeKey().equals(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY)) {
+                sampleAO = ao;
+                break;
+            }
+        }
+        // Find another RG that has the same AO as sampleAO and store it in secondRG
+        RegistrationGroupInfo secondRG = null;
+        for (int i = 1; i < rgInfos.size(); i++) {
+            // Skip the zeroth one
+            RegistrationGroupInfo rg = rgInfos.get(i);
+            rgAos = coService.getActivityOfferingsByIds(rgInfo.getActivityOfferingIds(), CONTEXT);
+            for (ActivityOfferingInfo ao: rgAos) {
+                // Find the one that's a lecture
+                if (ao.getId().equals(sampleAO.getId())) {
+                    secondRG = rg;
+                    break;
+                }
+            }
+            if (secondRG != null) {
+                break;
+            }
+        }
+        // Invalidate an RG
+        KSEvent invalidateRGState =
+                KSEventFactory.createInvalidateRegGroupStateEvent(rgInfos.get(2).getId());
+        ksEventProcessor.fireEvent(invalidateRGState, CONTEXT);
+        // Validate it
+        KSEvent validateRGState =
+                KSEventFactory.createValidateRegGroupStateEvent(rgInfos.get(2).getId());
+        ksEventProcessor.fireEvent(validateRGState, CONTEXT);
+        KSEvent changeAOState =
+                KSEventFactory.createChangeActivityOfferingStateEvent(sampleAO.getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
+        List<KSEventResult> results = ksEventProcessor.fireEvent(changeAOState, CONTEXT);
+        LOGGER.info("Hi");
+    }
+
     @Override
     public void runTests(TestStatePropagationForm form) throws Exception {
         _initServices();
-//        CSRServiceFacade csrServiceFacade
-//                = (CSRServiceFacade) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/csrServiceFacade", "CSRServiceFacade"));
-//        System.err.println("Hi");
+//        _testEventProcessor();
+//
 //        if (1 + 1 == 2) {
 //            return;
 //        }
