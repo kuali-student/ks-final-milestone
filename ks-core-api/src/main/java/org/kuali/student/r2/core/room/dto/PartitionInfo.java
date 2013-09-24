@@ -28,7 +28,7 @@ import java.util.List;
 
 /**
  * This class represents a Partition (a loose association
- * of buildings, rooms, campii). Formerly (and also) known
+ * of buildings, rooms, campuses). Formerly (and also) known
  * as a "Region".
  *
  * @author Kuali Student Team

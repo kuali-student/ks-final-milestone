@@ -295,7 +295,7 @@ public class RoomServiceDecorator implements RoomService {
     }
 
     @Override
-    public PartitionInfo createPartition(String partitionTypeKey, PartitionInfo partitionInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public PartitionInfo createPartition(String partitionTypeKey, PartitionInfo partitionInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return getNextDecorator().createPartition(partitionTypeKey, partitionInfo, contextInfo);
     }
 
