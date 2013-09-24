@@ -749,3 +749,15 @@ function disableIfSelectedValue(matchText,dropDownId,buttonId) {
   KSENROLL-9338
  */
 jQuery.fn.bootstrapBtn = jQuery.fn.button.noConflict();
+
+/*
+Below method helps to un-check all checkboxes exist in the given Container Id.
+ */
+function resetCheckboxes(containerId) {
+    var components = jQuery("div[id^='"+containerId+"']");
+    jQuery.each(components, function (index) {
+        jQuery(this).find("input:checkbox").each(function () {
+            jQuery(this).prop("checked", false);
+        });
+    });
+}
