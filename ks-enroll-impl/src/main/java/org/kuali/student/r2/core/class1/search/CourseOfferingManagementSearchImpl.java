@@ -24,6 +24,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -60,6 +61,9 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         public static final String CROSS_LIST_SEARCH_ENABLED = "crossListSearchEnabled";
         public static final String FILTER_CO_STATES = "filterCoStates";
         public static final String IS_EXACT_MATCH_CO_CODE_SEARCH = "isExactMatchSearch";
+        public static final String INSTRUCTOR_ID = "instructorId";
+        public static final String DEPARTMENT_ID = "departmentId";
+        public static final String DESCRIPTION = "description";
     }
 
     public static final class SearchResultColumns {
@@ -138,6 +142,9 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         boolean enableCrossListSearch = BooleanUtils.toBoolean(requestHelper.getParamAsString(SearchParameters.CROSS_LIST_SEARCH_ENABLED));
         boolean isExactMatchSearch = BooleanUtils.toBoolean(requestHelper.getParamAsString(SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH));
         List<String> filterCOStates = requestHelper.getParamAsList(SearchParameters.FILTER_CO_STATES);
+        String instructorId = requestHelper.getParamAsString(SearchParameters.INSTRUCTOR_ID);
+        String departmentId = requestHelper.getParamAsString(SearchParameters.DEPARTMENT_ID);
+        String description = requestHelper.getParamAsString(SearchParameters.DESCRIPTION);
 
         SearchResultInfo resultInfo = new SearchResultInfo();
         resultInfo.setStartAt(0);
@@ -146,9 +153,9 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
             throw new MissingParameterException("Term code is required to search course offerings");
         }
 
-        if (StringUtils.isBlank(searchCourseCode) && StringUtils.isBlank(searchSubjectArea)){
+        /*if (StringUtils.isBlank(searchCourseCode) && StringUtils.isBlank(searchSubjectArea)){
             throw new MissingParameterException("Either Course code or subject area must be set to search course offerings");
-        }
+        }*/
 
         String query = "SELECT" +
                 "    ident.code," +
@@ -170,9 +177,23 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                 "    IN(lui.resultValuesGroupKeys) lui_rvg1," +
                 "    ResultValuesGroupEntity lrc_rvg1, " +
                 "    IN(lui.resultValuesGroupKeys) lui_rvg2," +
-                "    ResultValuesGroupEntity lrc_rvg2 " +
-                "WHERE" +
+                "    ResultValuesGroupEntity lrc_rvg2 ";
+
+        /*
+         For instructor search, include the Lpr table and join with lui with ids
+         */
+        if (StringUtils.isNotBlank(instructorId)){
+            query = query + ",  LprEntity lpr ";
+        }
+
+        if (StringUtils.isNotBlank(departmentId)){
+            query = query + ",  IN(lui.luiContentOwner) lui_dept ";
+        }
+
+        query = query +
+                "    WHERE" +
                 "    lui.id = ident.lui.id" +
+                "    AND lui.luiType = 'kuali.lui.type.course.offering'" +
                 "    AND lui.atpId = '" + searchAtpId + "' " +
                 "    AND lrc_rvg1.id = lui_rvg1" +
                 "    AND lrc_rvg1.resultScaleId LIKE 'kuali.result.scale.credit.%' " +
@@ -180,11 +201,13 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                 "    AND lrc_rvg2.resultScaleId LIKE 'kuali.result.scale.grade.%' " +
                 "    AND ident.lui.id IN (SELECT ident_subquery.lui.id FROM LuiIdentifierEntity ident_subquery WHERE ";
 
-        String coCodeSearchString;
-        if (isExactMatchSearch){
-            coCodeSearchString = " ident_subquery.code = '" + searchCourseCode + "' ";
-        } else {
-            coCodeSearchString = " ident_subquery.code like '" + searchCourseCode + "%' ";
+        String coCodeSearchString = "";
+        if (StringUtils.isNotBlank(searchCourseCode)){
+            if (isExactMatchSearch){
+                coCodeSearchString = " ident_subquery.code = '" + searchCourseCode + "' ";
+            } else {
+                coCodeSearchString = " ident_subquery.code like '" + searchCourseCode + "%' ";
+            }
         }
 
         if (StringUtils.isNotBlank(searchSubjectArea)){
@@ -195,6 +218,34 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
             }
         } else {
             query = query + coCodeSearchString;
+        }
+
+        /*
+        Search for the lpr with main instructor type and active state.
+         */
+        if (StringUtils.isNotBlank(instructorId)){
+            if (!StringUtils.endsWith(query,"WHERE ")){
+                query = query + " AND ";
+            }
+            query = query + "   lpr.luiId = lui.id " +
+                            "   AND lpr.personId = '" + instructorId +  "'" +
+                            "   AND lpr.personRelationTypeId = '" + LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY + "'" +
+                            "   AND lpr.personRelationStateId = '" + LprServiceConstants.ACTIVE_STATE_KEY + "'";
+        }
+
+        if (StringUtils.isNotBlank(departmentId)){
+            query = query + "   AND lui_dept = '" + departmentId + "'";
+        }
+
+
+        /*
+         Search by description
+         */
+        if (StringUtils.isNotBlank(description)){
+            if (!StringUtils.endsWith(query,"WHERE ")){
+                query = query + " AND ";
+            }
+            query = query + "   lui.plain LIKE '%" + description + "%' OR ident.longName LIKE '%" + description + "%'";
         }
 
         /**
@@ -391,7 +442,9 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
     }
 
     private boolean isConsiderSearchResult(String searchSubjectArea, String searchCourseCode, String division){
-        if (StringUtils.equals(searchSubjectArea,division) || StringUtils.startsWith(searchCourseCode,division)){
+        if (StringUtils.isBlank(searchSubjectArea) && StringUtils.isBlank(searchCourseCode)){
+            return true;
+        } else if (StringUtils.equals(searchSubjectArea,division) || StringUtils.startsWith(searchCourseCode,division)){
             return true;
         }
         return false;

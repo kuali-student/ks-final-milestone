@@ -162,6 +162,8 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
             throws Exception, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException
     {
 
+        theForm.getCoDisplayWrapperList().clear();
+
         //First, find termName based on termCode
         String termCode = theForm.getTermCode();
         if (StringUtils.isNotBlank(termCode)) {
@@ -307,6 +309,9 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
 
         CourseOfferingDisplayWrapper coDisplayWrapper = (CourseOfferingDisplayWrapper)KSControllerHelper.getSelectedCollectionItem(theForm);
         theForm.setCourseOfferingId(coDisplayWrapper.getCourseOfferingId());
+
+        String requisites =  getViewHelperService(theForm).getRequisitiesForCourseOffering(coDisplayWrapper.getCourseOfferingId());
+        coDisplayWrapper.setRequisites(requisites);
 
         List<String> regGroupStates = getViewHelperService(theForm).getRegGroupStateFilter();
         searchRequestInfo.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.REGGROUP_STATES, regGroupStates);

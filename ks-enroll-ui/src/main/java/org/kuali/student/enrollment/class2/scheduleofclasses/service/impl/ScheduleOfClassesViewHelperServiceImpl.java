@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -33,6 +34,7 @@ import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.student.common.UUIDHelper;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
@@ -47,17 +49,12 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.sort.KSComparatorCh
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.ActivityOfferingCodeComparator;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.ActivityOfferingTypeComparator;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
@@ -86,9 +83,9 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScheduleOfClassesViewHelperServiceImpl.class);
 
     private OrganizationService organizationService;
-    private AcademicCalendarService academicCalendarService;
     private TypeService typeService;
     private RuleManagementService ruleManagementService;
+
     @ReferenceCopy
     private KSComparatorChain activityComparatorChain;
     @ReferenceCopy
@@ -111,80 +108,62 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
 
     public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, ScheduleOfClassesSearchForm form) throws Exception {
 
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+        Map additionalParams = new HashMap();
+        additionalParams.put(CourseOfferingManagementSearchImpl.SearchParameters.COURSE_CODE, courseCode);
 
-//        // Building a query
-//        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-//        qbcBuilder.setPredicates(PredicateFactory.and(
-//                PredicateFactory.like("courseOfferingCode", courseCode + "%"),
-//                PredicateFactory.equalIgnoreCase("atpId", termId)),
-//                PredicateFactory.equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
-//        QueryByCriteria criteria = qbcBuilder.build();
-//        List<String> courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
+        buildCOResultsDisplay(form, termId, additionalParams);
+
+    }
+
+    protected void buildCOResultsDisplay(ScheduleOfClassesSearchForm form, String termId, Map<String, String> searchParameters) throws Exception {
+
+        form.getCoDisplayWrapperList().clear();
 
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey());
-        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.COURSE_CODE, courseCode);
-        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.ATP_ID, termId);
-        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.CROSS_LIST_SEARCH_ENABLED, BooleanUtils.toStringTrueFalse(true));
-        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, BooleanUtils.toStringTrueFalse(false));
+
+        for (String key : searchParameters.keySet()){
+            searchRequest.addParam(key, searchParameters.get(key));
+        }
+
         List<String> filterCOStates = new ArrayList<String>(1);
         filterCOStates.add(LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY);
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.FILTER_CO_STATES, filterCOStates);
+        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.ATP_ID, termId);
+        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.CROSS_LIST_SEARCH_ENABLED, BooleanUtils.toStringTrueFalse(true));
+        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, BooleanUtils.toStringTrueFalse(false));
 
         loadCourseOfferings(searchRequest, form);
 
-        if (form.getCoDisplayWrapperList().size() > 0) {
+        if (form.getCoDisplayWrapperList() == null || form.getCoDisplayWrapperList().isEmpty()) {
+            LOG.error("Error: Can't find any Course Offering for the selected search");
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.ERROR_CUSTOM, "Can't find any Course Offering for the selected search");
+            return;
+        }
 
-            String catalogUsageId = getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_CATALOG, PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
+        for (CourseOfferingDisplayWrapper coDisplayWrapper : form.getCoDisplayWrapperList()) {
 
-            for (CourseOfferingDisplayWrapper coDisplayWrapper : form.getCoDisplayWrapperList()) {
-
-                coDisplayWrapper.setRequisites(retrieveRequisites(coDisplayWrapper.getCourseOfferingId(), ruleManagementService, catalogUsageId));
-
-                // Adding Information (icons)
-                StringBuilder information = new StringBuilder();
+            // Adding Information (icons)
+            StringBuilder information = new StringBuilder();
 //                if (coDisplayWrapper.get != null && coDisplayInfo.getIsHonorsOffering()) {
 //                    information = "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HONORS_COURSE_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_HONORS_COURSE + "\"> ";
 //                }
-                if (StringUtils.equals(coDisplayWrapper.getCourseOfferingGradingOptionKey(),LrcServiceConstants.RESULT_GROUP_KEY_GRADE_SATISFACTORY)) {
-                    information.append(makeInfoIconWithTooltip(ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_SATISFACTORY_IMG, ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_SATISFACTORY));
-                } else if (StringUtils.equals(coDisplayWrapper.getCourseOfferingGradingOptionKey(),LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE)) {
-                    information.append(makeInfoIconWithTooltip(ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_PERCENT_IMG, ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_PERCENT));
-                }
+            if (StringUtils.equals(coDisplayWrapper.getCourseOfferingGradingOptionKey(),LrcServiceConstants.RESULT_GROUP_KEY_GRADE_SATISFACTORY)) {
+               information.append(makeInfoIconWithTooltip(ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_SATISFACTORY_IMG, ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_SATISFACTORY));
+           } else if (StringUtils.equals(coDisplayWrapper.getCourseOfferingGradingOptionKey(),LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE)) {
+               information.append(makeInfoIconWithTooltip(ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_PERCENT_IMG, ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_PERCENT));
+           }
 
-                if (coDisplayWrapper.isAuditCourse()){
-                    information.append(makeInfoIconWithTooltip(ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_AUDIT_IMG, ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_AUDIT));
-                }
+           if (coDisplayWrapper.isAuditCourse()){
+               information.append(makeInfoIconWithTooltip(ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_AUDIT_IMG, ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_AUDIT));
+           }
 
-                if (coDisplayWrapper.isStudentSelectablePassFail()) {
-                    information.append(makeInfoIconWithTooltip(ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_PASSFAIL_IMG, ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_PASSFAIL));
-                }
+           if (coDisplayWrapper.isStudentSelectablePassFail()) {
+               information.append(makeInfoIconWithTooltip(ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_PASSFAIL_IMG, ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_PASSFAIL));
+           }
 
-                /*if (!coDisplayInfo.getStudentRegistrationGradingOptions().isEmpty()) {
-                    for (KeyNameInfo stuRegOption : coDisplayInfo.getStudentRegistrationGradingOptions()) {
-                        if (stuRegOption.getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)) {
-                            information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_PASSFAIL_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_PASSFAIL + "\">";
-                        } else if (stuRegOption.getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)) {
-                            //FindBugs - it is fine as is
-                            information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_AUDIT_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_AUDIT + "\">";
-                        }
-                    }
-                }*/
-
-
-                coDisplayWrapper.setInformation(information.toString());
-            }
+            coDisplayWrapper.setInformation(information.toString());
 
         }
-
-        /*if (courseOfferingIds.size() > 0) {
-            form.getCoDisplayWrapperList().clear();
-            form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds, getCourseOfferingService(), getRuleManagementService(), contextInfo));
-        } else {
-            LOG.error("Error: Can't find any Course Offering for a Course Code: " + courseCode + " in term: " + termId);
-            GlobalVariables.getMessageMap().putError("Term & courseCode", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "courseCode", courseCode, termId);
-            form.getCoDisplayWrapperList().clear();
-        }*/
     }
 
     /**
@@ -203,186 +182,83 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
         return tt;
     }
 
+
     @Override
     public void loadCourseOfferingsByTermAndInstructor(String termId, String instructorId, String instructorName, ScheduleOfClassesSearchForm form) throws Exception {
 
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-
         // Search ID based on organizationName
-        if (instructorId == null || instructorId.isEmpty()) {
+        if (StringUtils.isBlank(instructorId)) {
+
             Map<String, String> searchCriteria = new HashMap<String, String>();
             searchCriteria.put(KIMPropertyConstants.Person.PRINCIPAL_NAME, instructorName);
+
             List<Person> instructors = getPersonService().findPeople(searchCriteria);
+
             //JIRA FIX : KSENROLL-8730 - Added NULL check
             int firstInstructor = 0;
-            if (null==instructors || instructors.isEmpty()) {
+
+            if (instructors == null || instructors.isEmpty()) {
                 LOG.error("Error: Can't find any instructor for selected instructor in term: " + termId);
                 GlobalVariables.getMessageMap().putError("Term & Instructor", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "instructor", instructorName, termId);
-                form.getCoDisplayWrapperList().clear();
+                return;
             } else if (instructors.size() > 1) {
                 LOG.error("Error: There is more than one instructor with the same name in term: " + termId);
                 GlobalVariables.getMessageMap().putError("Term & Instructor", ScheduleOfClassesConstants.SOC_MSG_ERROR_MULTIPLE_INSTRUCTOR_IS_FOUND, instructorName);
-                instructorId = null;
-                form.getCoDisplayWrapperList().clear();
+                return;
             } else {
                 instructorId = instructors.get(firstInstructor).getPrincipalId();
             }
         }
 
-        if (instructorId != null) {
-            //this is a cross service search between LPR and LUI, so it is inefficient (no join)
-            //First get all the luiIds that the instructor is teaching
-            //Only get active courses
-            List<String> luiIds = getLprService().getLuiIdsByPersonAndTypeAndState(instructorId, LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, LprServiceConstants.ACTIVE_STATE_KEY, contextInfo);
+        if (StringUtils.isNotBlank(instructorId)) {
+            Map additionalParams = new HashMap();
+            additionalParams.put(CourseOfferingManagementSearchImpl.SearchParameters.INSTRUCTOR_ID, instructorId);
 
-            List<String> courseOfferingIds = null;
-
-            if (luiIds != null && !luiIds.isEmpty()) {
-                //Now find all the COs with Aos that are attached to that instructor.
-                // Build a query
-                QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-                qbcBuilder.setPredicates(PredicateFactory.and(
-                        PredicateFactory.in("aoid", luiIds.toArray()),
-                        PredicateFactory.equalIgnoreCase("atpId", termId)),
-                        PredicateFactory.equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
-                QueryByCriteria criteria = qbcBuilder.build();
-                courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
-
-                if (courseOfferingIds.size() > 0) {
-                    form.getCoDisplayWrapperList().clear();
-                    form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds, getCourseOfferingService(), getRuleManagementService(), contextInfo));
-                }
-            }
-
-            //If nothing was found then error
-            if (courseOfferingIds == null || courseOfferingIds.isEmpty()) {
-                LOG.error("Error: Can't find any Course Offering for selected Instructor in term: " + termId);
-                GlobalVariables.getMessageMap().putError("Term & Instructor", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "instructor", instructorId, termId);
-                form.getCoDisplayWrapperList().clear();
-            }
+            buildCOResultsDisplay(form, termId, additionalParams);
         }
+
     }
 
     public void loadCourseOfferingsByTermAndDepartment(String termId, String organizationId, String organizationName, ScheduleOfClassesSearchForm form) throws Exception {
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-
-        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
 
         // Search ID based on organizationName
-        if (organizationId == null || organizationId.isEmpty()) {
+        if (StringUtils.isBlank(organizationId)) {
+
             QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
             qBuilder.setPredicates(PredicateFactory.equalIgnoreCase("longName", organizationName));
             QueryByCriteria query = qBuilder.build();
             OrganizationService organizationService = getOrganizationService();
+
             List<String> orgIDs = organizationService.searchForOrgIds(query, ContextUtils.createDefaultContextInfo());
+
             if (orgIDs.isEmpty()) {
                 LOG.error("Error: Can't find any Department for selected Department in term: " + termId);
                 GlobalVariables.getMessageMap().putError("Term & Department", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "department", organizationName, termId);
-                form.getCoDisplayWrapperList().clear();
+                return;
             } else if (orgIDs.size() > 1) {
                 LOG.error("Error: There is more than one departments with the same long name in term: " + termId);
                 GlobalVariables.getMessageMap().putError("Term & Department", ScheduleOfClassesConstants.SOC_MSG_ERROR_MULTIPLE_DEPARTMENT_IS_FOUND, organizationName);
-                form.getCoDisplayWrapperList().clear();
-            }
-        } else {
-            qbcBuilder.setPredicates(PredicateFactory.and(
-                    PredicateFactory.equal("luiContentOwner", organizationId),
-                    PredicateFactory.equal("atpId", termId),
-                    PredicateFactory.equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY),
-                    PredicateFactory.equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY)));
-            QueryByCriteria criteria = qbcBuilder.build();
-            List<String> courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
-
-            if (courseOfferingIds.size() > 0) {
-                form.getCoDisplayWrapperList().clear();
-                form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds, getCourseOfferingService(), getRuleManagementService(), contextInfo));
-            } else {            //If nothing was found then error
-                LOG.error("Error: Can't find any Course Offering for selected Department in term: " + termId);
-                GlobalVariables.getMessageMap().putError("Term & Department", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "department", organizationName, termId);
-                form.getCoDisplayWrapperList().clear();
+                return;
+            } else {
+                organizationId = KSCollectionUtils.getRequiredZeroElement(orgIDs);
             }
         }
+
+        Map additionalParams = new HashMap();
+        additionalParams.put(CourseOfferingManagementSearchImpl.SearchParameters.DEPARTMENT_ID, organizationId);
+
+        buildCOResultsDisplay(form, termId, additionalParams);
+
     }
 
     @Override
     public void loadCourseOfferingsByTitleAndDescription(String termId, String titleOrDescription, ScheduleOfClassesSearchForm form) throws Exception {
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
-        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        Map additionalParams = new HashMap();
+        additionalParams.put(CourseOfferingManagementSearchImpl.SearchParameters.DESCRIPTION, titleOrDescription);
 
-        // Note: the longName is not in the luiEntity so we need to use the criteriaLookupService is used.
-        // it is linked back to CourseOfferingCriteriaTransform and wired in the ks-enroll-context.xml
-        qbcBuilder.setPredicates(PredicateFactory.and(
-                PredicateFactory.equal("atpId", termId),
-                PredicateFactory.equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY),
-                PredicateFactory.equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY),
-                PredicateFactory.and(
-                        PredicateFactory.or(
-                                PredicateFactory.like("plain", "%" + titleOrDescription + "%"), // this is for the description
-                                PredicateFactory.like("longName", titleOrDescription + "%")     // this is for the title
-                        )
-                )
+        buildCOResultsDisplay(form, termId, additionalParams);
 
-        ));
-        QueryByCriteria criteria = qbcBuilder.build();
-        List<String> courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
-
-        if (courseOfferingIds.size() > 0) {
-            form.getCoDisplayWrapperList().clear();
-            form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds, getCourseOfferingService(), getRuleManagementService(), contextInfo));
-        } else {    //If nothing was found then error
-            LOG.error("Error: Can't find any Course Offering for selected Department in term: " + termId);
-            GlobalVariables.getMessageMap().putError("Title & Description", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "title or description", titleOrDescription, termId);
-            form.getCoDisplayWrapperList().clear();
-        }
-
-    }
-
-    protected static List<CourseOfferingDisplayWrapper> getCourseOfferingDisplayWrappersByIds(List<String> courseOfferingIds, CourseOfferingService courseOfferingService, RuleManagementService ruleManagementService, ContextInfo contextInfo) throws Exception {
-        List<CourseOfferingDisplayWrapper> coDisplayWrapperList = new ArrayList<CourseOfferingDisplayWrapper>();
-
-        if (courseOfferingIds.size() > 0) {
-
-            String catalogUsageId = ruleManagementService.getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_CATALOG, PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
-
-            List<CourseOfferingDisplayInfo> coDisplayInfoList = courseOfferingService.getCourseOfferingDisplaysByIds(courseOfferingIds, contextInfo);
-
-            for (CourseOfferingDisplayInfo coDisplayInfo : coDisplayInfoList) {
-                CourseOfferingDisplayWrapper coDisplayWrapper = new CourseOfferingDisplayWrapper();
-//                coDisplayWrapper.setCourseOfferingId(coDisplayInfo);
-
-                coDisplayWrapper.setRequisites(retrieveRequisites(coDisplayInfo.getId(), ruleManagementService, catalogUsageId));
-
-                // Adding Information (icons)
-                String information = "";
-                if (coDisplayInfo.getIsHonorsOffering() != null && coDisplayInfo.getIsHonorsOffering()) {
-                    information = "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HONORS_COURSE_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_HONORS_COURSE + "\"> ";
-                }
-                if (coDisplayInfo.getGradingOption() != null && coDisplayInfo.getGradingOption().getKey() != null
-                        && coDisplayInfo.getGradingOption().getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_SATISFACTORY)) {
-                    information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_SATISFACTORY_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_SATISFACTORY + "\"> ";
-                } else if (coDisplayInfo.getGradingOption() != null && coDisplayInfo.getGradingOption().getKey() != null
-                        && coDisplayInfo.getGradingOption().getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE)) {
-                    information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_PERCENT_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_PERCENT + "\"> ";
-                }
-                /*if (!coDisplayInfo.getStudentRegistrationGradingOptions().isEmpty()) {
-                    for (KeyNameInfo stuRegOption : coDisplayInfo.getStudentRegistrationGradingOptions()) {
-                        if (stuRegOption.getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)) {
-                            information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_PASSFAIL_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_PASSFAIL + "\">";
-                        } else if (stuRegOption.getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)) {
-                            //FindBugs - it is fine as is
-                            information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_AUDIT_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_AUDIT + "\">";
-                        }
-                    }
-                }*/
-                coDisplayWrapper.setInformation(information);
-
-                coDisplayWrapperList.add(coDisplayWrapper);
-            }
-
-        }
-
-        return coDisplayWrapperList;
     }
 
     public String getRequisitiesForCourseOffering(String coId){
@@ -430,14 +306,6 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
 
     public PersonService getPersonService() {
         return KimApiServiceLocator.getPersonService();
-    }
-
-    private AcademicCalendarService getAcademicCalendarService() {
-        if (academicCalendarService == null) {
-            academicCalendarService = CourseOfferingResourceLoader.loadAcademicCalendarService();
-        }
-
-        return academicCalendarService;
     }
 
     public TypeService getTypeService() {
