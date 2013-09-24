@@ -24,12 +24,11 @@
     <bean id="KS-CourseOfferingManagement-SelectedAOCSRConfirmationPage" parent="KS-Uif-Page"
           p:id="selectedAOCSRConfirmationPage">
 
-        <!-- Dynamically replace by page-title from parent using JS-onDocumentReadyScript to reflect title of the page.
-             ie: from "Course Offerings" to "Cancel Activity Offerings"
-             This is a work-around, at least until KRAD 2.3-m3 -->
+        <!-- This was originally put in as a work-around for a KRAD unified header bug where view headers weren't being updated
+             when pages where refreshed. I investigated and partially implemented handing view title text overrides in the controller
+             code but concluded that this is a much cleaner solution. -->
         <property name="onDocumentReadyScript" value= "updateViewHeaderText('@{currentCourseOfferingWrapper.courseOfferingCode}');"/>
         <property name="headerText" value="@{csrLabel} Activity Offerings" />
-
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <util:list id="KS-Enrollment-HomewardPathBreadcrumbs">
