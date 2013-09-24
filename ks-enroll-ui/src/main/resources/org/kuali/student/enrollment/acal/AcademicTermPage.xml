@@ -333,7 +333,7 @@
         <property name="items">
             <list>
                 <bean id="key_date_group_type" parent="Uif-InputField" p:propertyName="keyDateGroupType" p:render="@{#isAddLine}"
-                      p:label="Key Date Group Type" p:required="true" p:labelPlacement="TOP"
+                      p:label="Key Date Group Type *" p:labelPlacement="TOP"
                       p:finalizeMethodToCall="populateKeyDateGroupTypes" >
                     <property name="onDocumentReadyScript" value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields');" />
                     <property name="control">
@@ -384,8 +384,8 @@
         <property name="items">
             <list>
                 <bean id="key_date_type" parent="Uif-InputField" p:propertyName="keyDateType"
-                      p:readOnly="@{!#isAddLine}"  p:readOnlyDisplayReplacementPropertyName="keyDateNameUI"
-                      p:label="Key Date Type" p:required="true"
+                      p:readOnly="@{!#isAddLine}" p:readOnlyDisplayReplacementPropertyName="keyDateNameUI"
+                      p:label="Key Date Type *"
                       p:finalizeMethodToCall="populateKeyDateTypes" p:style="font-weight:bold;">
                     <property name="onDocumentReadyScript" value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields');" />
                     <property name="control">
@@ -396,7 +396,7 @@
                     </property>
                 </bean>
                 <bean id="key_date_start_date" parent="Uif-InputField" p:propertyName="startDate" p:readOnlyDisplayReplacementPropertyName="startDateUI"
-                      p:label="Start Date"  p:required="true">
+                      p:label="Start Date" >
                     <property name="control">
                         <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
                     </property>
