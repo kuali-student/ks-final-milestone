@@ -34,13 +34,13 @@ import java.util.Map;
  */
 public class SimpleSpringResourceLoader implements ServiceLocator {
 
-    private static ConfigurationService configurationService = new ConfigurationService() {
+    private static final ConfigurationService configurationService = new ConfigurationService() {
         @Override public String getPropertyValueAsString(String key) { return "{0} message"; }
         @Override public boolean getPropertyValueAsBoolean(String key) { return false; }
         @Override public Map<String, String> getAllProperties() { return null; }
     };
 
-    private static KualiModuleServiceImpl kualiModuleService = new KualiModuleServiceImpl();
+    private static final KualiModuleServiceImpl kualiModuleService = new KualiModuleServiceImpl();
 
     private ApplicationContext applicationContext;
 
