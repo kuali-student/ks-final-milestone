@@ -649,6 +649,27 @@ public interface LuiService {
             PermissionDeniedException;
 
     /**
+         * Retrieves all LuiLuiRelations to the given attributeId.
+         *
+         * @param attributeId
+         * @param contextInfo information containing the principalId and
+         *        locale information about the caller of service operation
+         * @return the LuiLuiRelations to the Lui
+         * @throws InvalidParameterException contextInfo is not valid
+         * @throws MissingParameterException luiId or contextInfo is
+         *         missing or null
+         * @throws OperationFailedException unable to complete request
+         * @throws PermissionDeniedException an authorization failure occurred
+         */
+        public List<String> getLuiLuiRelationsByAttribute(@WebParam(name = "attributeId") String attributeId,
+                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+                throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException;
+
+
+    /**
      * Searches for LuiLuiRelations that meet the search criteria and
      * returns a list of LuiLuiRelation identifiers that meet the
      * criteria.
