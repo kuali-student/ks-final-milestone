@@ -484,10 +484,10 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     {
         //trap null parameter
         if (activityOfferingId == null){
-            throw new MissingParameterException("examOfferingId is null");
+            throw new MissingParameterException("activityOfferingId is null");
         }
 
-        //Retrieve ExamOfferingRelationInfos
+        //Retrieve ExamOfferingRelationIDs
         try {
             return getLuiService().getLuiLuiRelationsByAttribute(activityOfferingId, contextInfo);
         } catch (Exception ex) {
