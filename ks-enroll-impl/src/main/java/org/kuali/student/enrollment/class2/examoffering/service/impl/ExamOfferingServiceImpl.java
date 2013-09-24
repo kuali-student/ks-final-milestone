@@ -50,6 +50,7 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.state.service.StateTransitionsHelper;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.scheduling.infc.Schedule;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
@@ -104,9 +105,15 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     @Override
     public List<String> getExamOfferingIdsByType(String examTypeKey, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
+            PermissionDeniedException, DoesNotExistException {
+        List<String> examOfferingIds = new ArrayList<String>();
 
-        return getLuiService().getLuiIdsByType(examTypeKey,contextInfo);
+        List<TypeInfo> allowedTypes = typeService.getAllowedTypesForType(examTypeKey, contextInfo);
+        for (TypeInfo typeInfo : allowedTypes) {
+            examOfferingIds.addAll(getLuiService().getLuiIdsByType(typeInfo.getKey(), contextInfo));
+        }
+
+        return examOfferingIds;
     }
 
     @Override
@@ -222,7 +229,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             ,PermissionDeniedException
     {
         throw new OperationFailedException ("changeExamOfferingState has not been implemented");
-                }
+    }
 
     @Override
     public List<ValidationResultInfo> validateExamOfferingRelation(String formatOfferingId, String examOfferingId, String examOfferingTypeKey, String validationTypeKey, ExamOfferingRelationInfo examOfferingRelationInfo, ContextInfo contextInfo)
@@ -426,12 +433,12 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             List<LuiLuiRelationInfo>  luiRels = getLuiService().getLuiLuiRelationsByLui(formatOfferingId, contextInfo);
             for (LuiLuiRelationInfo luiRel : luiRels) {
                 if (luiRel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY) &&
-                    luiRel.getLuiId().equals(formatOfferingId)) { //getLuiLuiRelationsByLui query brings back both luiId and relatedLuiId > select
+                        luiRel.getLuiId().equals(formatOfferingId)) { //getLuiLuiRelationsByLui query brings back both luiId and relatedLuiId > select
                     ExamOfferingRelationInfo examOfferingRelationInfo = new ExamOfferingRelationInfo();
                     getExamOfferingTransformer().transformLuiLuiRel2EORel(luiRel, examOfferingRelationInfo);
                     eoRels.add(examOfferingRelationInfo);
                 }
-            }            
+            }
         } catch (Exception ex) {
             throw new OperationFailedException(OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE, ex);
         }
@@ -456,7 +463,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             List<LuiLuiRelationInfo>  luiRels = getLuiService().getLuiLuiRelationsByLui(examOfferingId, contextInfo);
             for (LuiLuiRelationInfo luiRel : luiRels) {
                 if (//luiRel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY) &&  //type should be passed as param?
-                    luiRel.getRelatedLuiId().equals(examOfferingId) ) { //getLuiLuiRelationsByLui query brings back both luiId and relatedLuiId > select
+                        luiRel.getRelatedLuiId().equals(examOfferingId) ) { //getLuiLuiRelationsByLui query brings back both luiId and relatedLuiId > select
                     ExamOfferingRelationInfo examOfferingRelationInfo = new ExamOfferingRelationInfo();
                     getExamOfferingTransformer().transformLuiLuiRel2EORel(luiRel, examOfferingRelationInfo);
                     eoRels.add(examOfferingRelationInfo);

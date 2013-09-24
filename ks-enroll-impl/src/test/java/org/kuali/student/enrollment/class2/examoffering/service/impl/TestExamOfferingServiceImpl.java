@@ -24,6 +24,7 @@ import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
 import org.kuali.student.enrollment.examoffering.service.ExamOfferingService;
 import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -36,9 +37,14 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.service.impl.AtpTestDataLoader;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
@@ -48,6 +54,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -64,6 +71,9 @@ public class TestExamOfferingServiceImpl {
 
     @Resource
     private ExamOfferingService examOfferingService;
+
+    @Resource
+    private TypeService typeService;
 
     @Resource(name = "luiServiceDataLoader")
     protected LuiServiceDataLoader dataLoader = new LuiServiceDataLoader();
@@ -274,4 +284,64 @@ public class TestExamOfferingServiceImpl {
         }
     }
 
+    @Test
+    public void testGetExamOfferingIdsByType()
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException,
+            DependentObjectsExistException, AlreadyExistsException {
+        createTypes();
+        List<String> examOfferingIds = examOfferingService.getExamOfferingIdsByType ("kuali.lu.type.exam.final", callContext);
+        assertNotNull(examOfferingIds);
+        assertEquals(3, examOfferingIds.size());
+    }
+
+    private void createTypes () throws InvalidParameterException, DataValidationErrorException, MissingParameterException, AlreadyExistsException, ReadOnlyException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
+        TypeInfo type1 = new TypeInfo();
+        type1.setKey("kuali.lu.type.exam.final");
+        type1.setName("Exam");
+        type1.setDescr(new RichTextHelper().fromPlain("A canonical exam that will be used to instantiate final exam offerings."));
+        type1.setEffectiveDate(new Date());
+        type1.setRefObjectUri("http://student.kuali.org/wsdl/exam/ExamInfo");
+        TypeInfo type1Created = typeService.createType(type1.getKey(), type1, callContext);
+
+        TypeInfo type2 = new TypeInfo();
+        type2.setKey("kuali.lui.type.exam.offering.final");
+        type2.setName("Final Exam Offering");
+        type2.setDescr(new RichTextHelper().fromPlain("Final Exam Offering"));
+        type2.setEffectiveDate(new Date());
+        type2.setRefObjectUri("http://student.kuali.org/wsdl/lui/LuiInfo");
+        TypeInfo type2Created = typeService.createType(type2.getKey(), type2, callContext);
+
+        TypeTypeRelationInfo origRel = new TypeTypeRelationInfo();
+        origRel.setEffectiveDate(new Date());
+        origRel.setTypeKey(TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY);
+        origRel.setStateKey(TypeServiceConstants.TYPE_TYPE_RELATION_ACTIVE_STATE_KEY);
+        origRel.setRank(1);
+        origRel.setOwnerTypeKey(type1.getKey());
+        origRel.setRelatedTypeKey(type2.getKey());
+        /*AttributeInfo attr = new AttributeInfo();
+        attr.setKey("attribute.key");
+        attr.setValue("attribute value");
+        origRel.getAttributes().add(attr);*/
+        TypeTypeRelationInfo infoRel = typeService.createTypeTypeRelation(origRel.getTypeKey(),
+                origRel.getOwnerTypeKey(),
+                origRel.getRelatedTypeKey(),
+                origRel,
+                callContext);
+    }
+
+
+    public TypeService getTypeService() {
+        return typeService;
+    }
+
+    public void setTypeService(TypeService typeService) {
+        this.typeService = typeService;
+    }
 }
