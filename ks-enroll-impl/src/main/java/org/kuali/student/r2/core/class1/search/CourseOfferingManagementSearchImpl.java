@@ -64,6 +64,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         public static final String INSTRUCTOR_ID = "instructorId";
         public static final String DEPARTMENT_ID = "departmentId";
         public static final String DESCRIPTION = "description";
+        public static final String INCLUDE_PASSFAIL_AUDIT_RESULTS = "includePassFailAndAuditResults";
     }
 
     public static final class SearchResultColumns {
@@ -145,6 +146,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         String instructorId = requestHelper.getParamAsString(SearchParameters.INSTRUCTOR_ID);
         String departmentId = requestHelper.getParamAsString(SearchParameters.DEPARTMENT_ID);
         String description = requestHelper.getParamAsString(SearchParameters.DESCRIPTION);
+        boolean includePassFailAndAuditRecords = BooleanUtils.toBoolean(requestHelper.getParamAsString(SearchParameters.INCLUDE_PASSFAIL_AUDIT_RESULTS));
 
         SearchResultInfo resultInfo = new SearchResultInfo();
         resultInfo.setStartAt(0);
@@ -200,7 +202,17 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                 "    AND lrc_rvg1.id = lui_rvg1" +
                 "    AND lrc_rvg1.resultScaleId LIKE 'kuali.result.scale.credit.%' " +
                 "    AND lrc_rvg2.id = lui_rvg2" +
-                "    AND lrc_rvg2.resultScaleId LIKE 'kuali.result.scale.grade.%' " +
+                "    AND lrc_rvg2.resultScaleId LIKE 'kuali.result.scale.grade.%' ";
+
+        if (!includePassFailAndAuditRecords){
+            query = query +
+                    //Exclude these two types that can cause duplicates.
+                    // audit and passfail are moved into different fields, after that there can be only one grading option
+                    // of Satisfactory, Letter, or Percentage
+                    "    AND lrc_rvg2 NOT IN ('kuali.resultComponent.grade.audit','kuali.resultComponent.grade.passFail') ";
+        }
+
+        query = query +
                 "    AND ident.lui.id IN (SELECT ident_subquery.lui.id FROM LuiIdentifierEntity ident_subquery WHERE ";
 
         String coCodeSearchString = "";
