@@ -210,7 +210,7 @@
         </property>
         <property name="onDocumentReadyScript" value="jQuery('[id^=ao_cluster_header_line@{#index}] a[data-role=disclosureLink').on('click',
             function(event) {
-                clusterDisclosureClicked('expand_or_collapse_all_line@{#index}', 'ao_cluster_header_line@{#index}');
+                clusterDisclosureClicked(event, 'expand_or_collapse_all_line@{#index}', 'ao_cluster_header_line@{#index}');
             });">
         </property>
     </bean>
@@ -343,7 +343,7 @@
         </property>
         <property name="onDocumentReadyScript" value="jQuery('[id^=reg_group_cluster_header_line@{#index}] a[data-role=disclosureLink').on('click',
             function(event) {
-                clusterDisclosureClicked('reg_group_expand_or_collapse_all_line@{#index}','reg_group_cluster_header_line@{#index}');
+                clusterDisclosureClicked(event, 'reg_group_expand_or_collapse_all_line@{#index}','reg_group_cluster_header_line@{#index}');
             });">
         </property>
     </bean>
