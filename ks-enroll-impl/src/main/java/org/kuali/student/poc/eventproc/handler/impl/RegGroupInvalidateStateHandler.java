@@ -67,6 +67,7 @@ public class RegGroupInvalidateStateHandler implements KSHandler {
         if (!handlesEvent(event)) {
             return new KSEventResult(KSEventResult.FAIL_INCORRECT_HANDLER);
         }
+        LOGGER.info(">>> " + getName() + " handling " + event.toString());
         String rgId = event.getValueByAttributeKey(KSEventFactory.EVENT_ATTRIBUTE_KEY_RG_ID);
         LuiInfo rgLui = processor.getLuiService().getLui(rgId, context);
         if (rgLui.getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY)) {

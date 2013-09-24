@@ -58,7 +58,8 @@ public class RegGroupRecomputeStateHandler implements KSHandler {
     @Override
     public boolean handlesEvent(KSEvent event) {
         return KSEventFactory.AO_STATE_MODIFIED_EVENT_TYPE.equals(event.getEventType()) ||
-                KSEventFactory.RG_RECOMPUTE_STATE_EVENT_TYPE.equals(event.getEventType());
+                KSEventFactory.RG_RECOMPUTE_STATE_EVENT_TYPE.equals(event.getEventType()) ||
+                KSEventFactory.RG_VALIDATE_STATE_EVENT_TYPE.equals(event.getEventType());
     }
 
     @Override
@@ -73,7 +74,7 @@ public class RegGroupRecomputeStateHandler implements KSHandler {
         if (KSEventFactory.AO_STATE_MODIFIED_EVENT_TYPE.equals(event.getEventType())) {
             String aoId = event.getValueByAttributeKey(KSEventFactory.EVENT_ATTRIBUTE_KEY_AO_ID);
             eventResult = _processAoStateModifiedEvent(aoId, event, context);
-        } else if (KSEventFactory.RG_VALIDATE_STATE_EVENT_NAME.equals(event.getEventType())) {
+        } else if (KSEventFactory.RG_VALIDATE_STATE_EVENT_TYPE.equals(event.getEventType())) {
             String rgId = event.getValueByAttributeKey(KSEventFactory.EVENT_ATTRIBUTE_KEY_RG_ID);
             eventResult = _processValidateRgStateEvent(rgId, event, context);
         } else {
