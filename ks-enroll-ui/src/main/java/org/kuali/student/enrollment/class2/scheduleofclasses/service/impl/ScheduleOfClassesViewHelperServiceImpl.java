@@ -106,6 +106,14 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
 
     private final static String IMG = "<img id='$ID' src='$SRC'/>";
 
+    /**
+     * Loads all the Course offerings in a specific term by course code.
+     *
+     * @param termId
+     * @param courseCode
+     * @param form
+     * @throws Exception
+     */
     public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, ScheduleOfClassesSearchForm form) throws Exception {
 
         Map additionalParams = new HashMap();
@@ -115,6 +123,117 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
 
     }
 
+    /**
+     * Loads course offerings from a term which matches the title or description
+     *
+     * @param termId
+     * @param titleOrDescription
+     * @param form
+     * @throws Exception
+     */
+    public void loadCourseOfferingsByTitleAndDescription(String termId, String titleOrDescription, ScheduleOfClassesSearchForm form) throws Exception {
+
+        Map additionalParams = new HashMap();
+        additionalParams.put(CourseOfferingManagementSearchImpl.SearchParameters.DESCRIPTION, titleOrDescription);
+
+        buildCOResultsDisplay(form, termId, additionalParams);
+
+    }
+
+    /**
+     *
+     * Loads course offerings from a term which has a specific instructor
+     *
+     * @param termId
+     * @param instructorId
+     * @param instructorName
+     * @param form
+     * @throws Exception
+     */
+    public void loadCourseOfferingsByTermAndInstructor(String termId, String instructorId, String instructorName, ScheduleOfClassesSearchForm form) throws Exception {
+
+        // Search ID based on organizationName
+        if (StringUtils.isBlank(instructorId)) {
+
+            Map<String, String> searchCriteria = new HashMap<String, String>();
+            searchCriteria.put(KIMPropertyConstants.Person.PRINCIPAL_NAME, instructorName);
+
+            List<Person> instructors = getPersonService().findPeople(searchCriteria);
+
+            //JIRA FIX : KSENROLL-8730 - Added NULL check
+            int firstInstructor = 0;
+
+            if (instructors == null || instructors.isEmpty()) {
+                LOG.error("Error: Can't find any instructor for selected instructor in term: " + termId);
+                GlobalVariables.getMessageMap().putError("Term & Instructor", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "instructor", instructorName, termId);
+                return;
+            } else if (instructors.size() > 1) {
+                LOG.error("Error: There is more than one instructor with the same name in term: " + termId);
+                GlobalVariables.getMessageMap().putError("Term & Instructor", ScheduleOfClassesConstants.SOC_MSG_ERROR_MULTIPLE_INSTRUCTOR_IS_FOUND, instructorName);
+                return;
+            } else {
+                instructorId = instructors.get(firstInstructor).getPrincipalId();
+            }
+        }
+
+        if (StringUtils.isNotBlank(instructorId)) {
+            Map additionalParams = new HashMap();
+            additionalParams.put(CourseOfferingManagementSearchImpl.SearchParameters.INSTRUCTOR_ID, instructorId);
+
+            buildCOResultsDisplay(form, termId, additionalParams);
+        }
+
+    }
+
+    /**
+     * Loads course offerings by term and department.
+     *
+     * @param termId
+     * @param organizationId
+     * @param organizationName
+     * @param form
+     * @throws Exception
+     */
+    public void loadCourseOfferingsByTermAndDepartment(String termId, String organizationId, String organizationName, ScheduleOfClassesSearchForm form) throws Exception {
+
+        // Search ID based on organizationName
+        if (StringUtils.isBlank(organizationId)) {
+
+            QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
+            qBuilder.setPredicates(PredicateFactory.equalIgnoreCase("longName", organizationName));
+            QueryByCriteria query = qBuilder.build();
+            OrganizationService organizationService = getOrganizationService();
+
+            List<String> orgIDs = organizationService.searchForOrgIds(query, ContextUtils.createDefaultContextInfo());
+
+            if (orgIDs.isEmpty()) {
+                LOG.error("Error: Can't find any Department for selected Department in term: " + termId);
+                GlobalVariables.getMessageMap().putError("Term & Department", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "department", organizationName, termId);
+                return;
+            } else if (orgIDs.size() > 1) {
+                LOG.error("Error: There is more than one departments with the same long name in term: " + termId);
+                GlobalVariables.getMessageMap().putError("Term & Department", ScheduleOfClassesConstants.SOC_MSG_ERROR_MULTIPLE_DEPARTMENT_IS_FOUND, organizationName);
+                return;
+            } else {
+                organizationId = KSCollectionUtils.getRequiredZeroElement(orgIDs);
+            }
+        }
+
+        Map additionalParams = new HashMap();
+        additionalParams.put(CourseOfferingManagementSearchImpl.SearchParameters.DEPARTMENT_ID, organizationId);
+
+        buildCOResultsDisplay(form, termId, additionalParams);
+
+    }
+
+    /**
+     * Loads all the Course offerings from a term which matches the additional search parameters.
+     *
+     * @param form
+     * @param termId
+     * @param searchParameters
+     * @throws Exception
+     */
     protected void buildCOResultsDisplay(ScheduleOfClassesSearchForm form, String termId, Map<String, String> searchParameters) throws Exception {
 
         form.getCoDisplayWrapperList().clear();
@@ -183,98 +302,15 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
         return tt;
     }
 
-
-    @Override
-    public void loadCourseOfferingsByTermAndInstructor(String termId, String instructorId, String instructorName, ScheduleOfClassesSearchForm form) throws Exception {
-
-        // Search ID based on organizationName
-        if (StringUtils.isBlank(instructorId)) {
-
-            Map<String, String> searchCriteria = new HashMap<String, String>();
-            searchCriteria.put(KIMPropertyConstants.Person.PRINCIPAL_NAME, instructorName);
-
-            List<Person> instructors = getPersonService().findPeople(searchCriteria);
-
-            //JIRA FIX : KSENROLL-8730 - Added NULL check
-            int firstInstructor = 0;
-
-            if (instructors == null || instructors.isEmpty()) {
-                LOG.error("Error: Can't find any instructor for selected instructor in term: " + termId);
-                GlobalVariables.getMessageMap().putError("Term & Instructor", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "instructor", instructorName, termId);
-                return;
-            } else if (instructors.size() > 1) {
-                LOG.error("Error: There is more than one instructor with the same name in term: " + termId);
-                GlobalVariables.getMessageMap().putError("Term & Instructor", ScheduleOfClassesConstants.SOC_MSG_ERROR_MULTIPLE_INSTRUCTOR_IS_FOUND, instructorName);
-                return;
-            } else {
-                instructorId = instructors.get(firstInstructor).getPrincipalId();
-            }
-        }
-
-        if (StringUtils.isNotBlank(instructorId)) {
-            Map additionalParams = new HashMap();
-            additionalParams.put(CourseOfferingManagementSearchImpl.SearchParameters.INSTRUCTOR_ID, instructorId);
-
-            buildCOResultsDisplay(form, termId, additionalParams);
-        }
-
-    }
-
-    public void loadCourseOfferingsByTermAndDepartment(String termId, String organizationId, String organizationName, ScheduleOfClassesSearchForm form) throws Exception {
-
-        // Search ID based on organizationName
-        if (StringUtils.isBlank(organizationId)) {
-
-            QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
-            qBuilder.setPredicates(PredicateFactory.equalIgnoreCase("longName", organizationName));
-            QueryByCriteria query = qBuilder.build();
-            OrganizationService organizationService = getOrganizationService();
-
-            List<String> orgIDs = organizationService.searchForOrgIds(query, ContextUtils.createDefaultContextInfo());
-
-            if (orgIDs.isEmpty()) {
-                LOG.error("Error: Can't find any Department for selected Department in term: " + termId);
-                GlobalVariables.getMessageMap().putError("Term & Department", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "department", organizationName, termId);
-                return;
-            } else if (orgIDs.size() > 1) {
-                LOG.error("Error: There is more than one departments with the same long name in term: " + termId);
-                GlobalVariables.getMessageMap().putError("Term & Department", ScheduleOfClassesConstants.SOC_MSG_ERROR_MULTIPLE_DEPARTMENT_IS_FOUND, organizationName);
-                return;
-            } else {
-                organizationId = KSCollectionUtils.getRequiredZeroElement(orgIDs);
-            }
-        }
-
-        Map additionalParams = new HashMap();
-        additionalParams.put(CourseOfferingManagementSearchImpl.SearchParameters.DEPARTMENT_ID, organizationId);
-
-        buildCOResultsDisplay(form, termId, additionalParams);
-
-    }
-
-    @Override
-    public void loadCourseOfferingsByTitleAndDescription(String termId, String titleOrDescription, ScheduleOfClassesSearchForm form) throws Exception {
-
-        Map additionalParams = new HashMap();
-        additionalParams.put(CourseOfferingManagementSearchImpl.SearchParameters.DESCRIPTION, titleOrDescription);
-
-        buildCOResultsDisplay(form, termId, additionalParams);
-
-    }
-
-    public String getRequisitiesForCourseOffering(String coId){
-        String catalogUsageId = getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_CATALOG, PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
-        return retrieveRequisites(coId, getRuleManagementService(), catalogUsageId);
-    }
-
     /**
      * Method to build the course offering requisites string for display
      *
      * @param courseOfferingId
-     * @param ruleManagementService
      * @return Map of course offering requisites
      */
-    protected static String retrieveRequisites(String courseOfferingId, RuleManagementService ruleManagementService, String usageId) {
+    public String retrieveRequisites(String courseOfferingId) {
+
+        String catalogUsageId = getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_CATALOG, PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
 
         //Retrieve reference object bindings for course offering
         List<ReferenceObjectBinding> refObjectsBindings = ruleManagementService.findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING, courseOfferingId);
@@ -282,80 +318,10 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
         //Retrieve agenda's for course offering
         StringBuilder requisites = new StringBuilder();
         for (ReferenceObjectBinding referenceObjectBinding : refObjectsBindings) {
-            requisites.append(ruleManagementService.translateNaturalLanguageForObject(usageId, "agenda", referenceObjectBinding.getKrmsObjectId(), "en"));
+            requisites.append(ruleManagementService.translateNaturalLanguageForObject(catalogUsageId, "agenda", referenceObjectBinding.getKrmsObjectId(), "en"));
         }
 
         return requisites.toString();
-    }
-
-    private OrganizationService getOrganizationService() {
-        if (organizationService == null) {
-            organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "organization", "OrganizationService"));
-        }
-        return organizationService;
-    }
-
-    public PersonService getPersonService() {
-        return KimApiServiceLocator.getPersonService();
-    }
-
-    public TypeService getTypeService() {
-        if (typeService == null) {
-            typeService = CourseOfferingResourceLoader.loadTypeService();
-        }
-        return this.typeService;
-    }
-
-    public RuleManagementService getRuleManagementService() {
-        if (ruleManagementService == null) {
-            ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "ruleManagementService"));
-        }
-        return ruleManagementService;
-    }
-
-    private String convertIntoDaysDisplay(int day) {
-        String dayOfWeek;
-        switch (day) {
-            case 1:
-                dayOfWeek = SchedulingServiceConstants.SUNDAY_TIMESLOT_DISPLAY_DAY_CODE;
-                break;
-            case 2:
-                dayOfWeek = SchedulingServiceConstants.MONDAY_TIMESLOT_DISPLAY_DAY_CODE;
-                break;
-            case 3:
-                dayOfWeek = SchedulingServiceConstants.TUESDAY_TIMESLOT_DISPLAY_DAY_CODE;
-                break;
-            case 4:
-                dayOfWeek = SchedulingServiceConstants.WEDNESDAY_TIMESLOT_DISPLAY_DAY_CODE;
-                break;
-            case 5:
-                dayOfWeek = SchedulingServiceConstants.THURSDAY_TIMESLOT_DISPLAY_DAY_CODE;
-                break;
-            case 6:
-                dayOfWeek = SchedulingServiceConstants.FRIDAY_TIMESLOT_DISPLAY_DAY_CODE;
-                break;
-            case 7:
-                dayOfWeek = SchedulingServiceConstants.SATURDAY_TIMESLOT_DISPLAY_DAY_CODE;
-                break;
-            default:
-                dayOfWeek = StringUtils.EMPTY;
-        }
-        // TODO implement TBA when service stores it.
-        return dayOfWeek;
-    }
-
-    private String getDays(List<Integer> intList) {
-
-        StringBuilder sb = new StringBuilder();
-        if (intList == null) {
-            return sb.toString();
-        }
-
-        for (Integer d : intList) {
-            sb.append(convertIntoDaysDisplay(d));
-        }
-
-        return sb.toString();
     }
 
     public String getTermStartEndDate(TermInfo term) {
@@ -499,5 +465,30 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
         }
 
         return regGroupStates;
+    }
+
+    private OrganizationService getOrganizationService() {
+        if (organizationService == null) {
+            organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "organization", "OrganizationService"));
+        }
+        return organizationService;
+    }
+
+    public PersonService getPersonService() {
+        return KimApiServiceLocator.getPersonService();
+    }
+
+    public TypeService getTypeService() {
+        if (typeService == null) {
+            typeService = CourseOfferingResourceLoader.loadTypeService();
+        }
+        return this.typeService;
+    }
+
+    public RuleManagementService getRuleManagementService() {
+        if (ruleManagementService == null) {
+            ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "ruleManagementService"));
+        }
+        return ruleManagementService;
     }
 }

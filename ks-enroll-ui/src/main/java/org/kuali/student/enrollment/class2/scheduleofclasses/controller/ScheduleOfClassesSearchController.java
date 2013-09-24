@@ -159,7 +159,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=show")
     public ModelAndView show(@ModelAttribute( MODEL_ATTRIBUTE_FORM ) ScheduleOfClassesSearchForm theForm)
-            throws Exception, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException
+            throws Exception, DoesNotExistException, PermissionDeniedException, OperationFailedException
     {
 
         theForm.getCoDisplayWrapperList().clear();
@@ -249,7 +249,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         coDisplayWrapper.getActivityWrapperList().clear();
         coDisplayWrapper.getActivityWrapperList().addAll(theForm.getActivityWrapperList());
 
-        String requisites =  getViewHelperService(theForm).getRequisitiesForCourseOffering(coDisplayWrapper.getCourseOfferingId());
+        String requisites =  getViewHelperService(theForm).retrieveRequisites(coDisplayWrapper.getCourseOfferingId());
         coDisplayWrapper.setRequisites(requisites);
 
         getViewHelperService(theForm).sortActivityOfferings(theForm,coDisplayWrapper);
@@ -310,7 +310,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         CourseOfferingDisplayWrapper coDisplayWrapper = (CourseOfferingDisplayWrapper)KSControllerHelper.getSelectedCollectionItem(theForm);
         theForm.setCourseOfferingId(coDisplayWrapper.getCourseOfferingId());
 
-        String requisites =  getViewHelperService(theForm).getRequisitiesForCourseOffering(coDisplayWrapper.getCourseOfferingId());
+        String requisites =  getViewHelperService(theForm).retrieveRequisites(coDisplayWrapper.getCourseOfferingId());
         coDisplayWrapper.setRequisites(requisites);
 
         List<String> regGroupStates = getViewHelperService(theForm).getRegGroupStateFilter();

@@ -40,7 +40,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
+ * This search is being used at manage co and schedule of classes.
+ * With Manage co, it's always term and course code or subject area search.
+ * But with schedule of classes, it's term with other criterias based at the request.
+ *
+ *
  * User: swedev
  * Date: 11/18/12
  * Time: 4:49 PM
@@ -64,6 +68,10 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         public static final String INSTRUCTOR_ID = "instructorId";
         public static final String DEPARTMENT_ID = "departmentId";
         public static final String DESCRIPTION = "description";
+        /**
+         * For Manage co, it's not needed to fetch the pass/fail and audit records. This is
+         * needed for schedule of classes search. So, we turn it on in schedule of classses.
+         */
         public static final String INCLUDE_PASSFAIL_AUDIT_RESULTS = "includePassFailAndAuditResults";
     }
 
@@ -111,7 +119,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
     }
 
     /**
-     * This method returns all the Course Offerings in a specific term and subject area and/or course code.
+     * This method returns all the Course Offerings in a specific term and with all other criteria passed into the request.
      * If <code>crossListSearchEnabled</code> flag is enabled, it returns all the related cross listed
      * courses (alternate identifiers) as well.
      *

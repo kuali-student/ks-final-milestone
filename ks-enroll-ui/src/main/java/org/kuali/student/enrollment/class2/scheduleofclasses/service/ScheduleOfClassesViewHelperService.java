@@ -40,7 +40,7 @@ public interface ScheduleOfClassesViewHelperService extends CourseOfferingManage
      */
     public void loadCourseOfferingsByTitleAndDescription(String termId, String titleOrDescription, ScheduleOfClassesSearchForm form) throws Exception;
 
-    public String getRequisitiesForCourseOffering(String coId);
+    public String retrieveRequisites(String coId);
 
     public String getTermStartEndDate(TermInfo term);
 
