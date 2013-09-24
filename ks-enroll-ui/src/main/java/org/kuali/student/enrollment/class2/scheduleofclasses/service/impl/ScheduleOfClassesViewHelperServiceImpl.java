@@ -287,16 +287,6 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
         return requisites.toString();
     }
 
-    private String millisToTime(Long milliseconds) {
-        if (milliseconds == null) {
-            return null;
-        }
-        final Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(milliseconds);
-        return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(cal.getTime());
-
-    }
-
     private OrganizationService getOrganizationService() {
         if (organizationService == null) {
             organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "organization", "OrganizationService"));
