@@ -16,8 +16,6 @@
 package org.kuali.student.r2.core.comment.service;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -49,7 +47,7 @@ import java.util.List;
 
 @WebService(name = "CommentService", targetNamespace = CommentServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface CommentService extends DictionaryService {
+public interface CommentService {
 
     /**
      * Retrieves information about a comment.
@@ -313,10 +311,4 @@ public interface CommentService extends DictionaryService {
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException;
-
-    @Deprecated
-    public ObjectStructureDefinition getObjectStructure(String objectTypeKey);
-
-    @Deprecated
-    public List<String> getObjectTypes();
 }

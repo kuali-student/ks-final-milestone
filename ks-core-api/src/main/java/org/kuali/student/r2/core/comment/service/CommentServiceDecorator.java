@@ -16,7 +16,6 @@
 package org.kuali.student.r2.core.comment.service;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -108,17 +107,4 @@ public class CommentServiceDecorator implements CommentService {
     public List<ValidationResultInfo> validateComment(String validationTypeKey, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return getNextDecorator().validateComment(validationTypeKey, commentTypeKey, commentInfo, contextInfo);
     }
-
-    @Override
-    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<String> getObjectTypes() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }
