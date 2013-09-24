@@ -20,6 +20,7 @@
     <bean name="roomServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
+                <bean parent="ksBaseDictionaryLocation" />
                 <bean parent="buildingInfoDictionaryLocation" />
                 <bean parent="roomInfoDictionaryLocation"/>
                 <bean parent="roomResponsibleOrgInfoDictionaryLocation"/>
@@ -51,6 +52,7 @@
     <bean name="schedulingServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
+                <bean parent="ksBaseDictionaryLocation" />
                 <bean parent="scheduleInfoDictionaryLocation" />
                 <bean parent="scheduleRequestInfoDictionaryLocation" />
                 <bean parent="scheduleRequestComponentInfoDictionaryLocation"/>
@@ -70,6 +72,7 @@
     <bean name="populationServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
+                <bean parent="ksBaseDictionaryLocation" />
                 <bean parent="populationInfoDictionaryLocation" />
                 <bean parent="populationRuleInfoDictionaryLocation" />
             </list>
@@ -78,15 +81,7 @@
 
     <!--LPR Service-->
     <bean id="luiPersonRelationInfoDictionaryLocation" class="java.lang.String">
-        <!--<constructor-arg value="classpath:ks-LuiPersonRelationInfo-dictionary.xml" />-->
         <constructor-arg value="classpath:ks-LprInfo-dictionary.xml" />
-    </bean>
-    <bean name="luiPersonRelationServiceDictionaryLocations" class="java.util.ArrayList">
-        <constructor-arg>
-            <list>
-                <bean parent="luiPersonRelationInfoDictionaryLocation" />
-            </list>
-        </constructor-arg>
     </bean>
 
     <!--Academic Calendar Service-->
@@ -108,6 +103,7 @@
     <bean name="acalServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
+                <bean parent="ksBaseDictionaryLocation" />
                 <bean parent="acalInfoDictionaryLocation" />
                 <bean parent="holidayCalendarInfoDictionaryLocation" />
                 <bean parent="termInfoDictionaryLocation" />
@@ -115,6 +111,10 @@
                 <bean parent="keyDateInfoDictionaryLocation" />
             </list>
         </constructor-arg>
+    </bean>
+
+    <bean id="ksBaseDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-base-dictionary.xml" />
     </bean>
 
     <!--ATP Service-->
@@ -131,6 +131,7 @@
     <bean name="atpServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
+                <bean parent="ksBaseDictionaryLocation" />
                 <bean parent="atpInfoDictionaryLocation" />
                 <bean parent="milestoneInfoDictionaryLocation" />
                 <bean parent="atpAtpRelationInfoDictionaryLocation" />
@@ -148,15 +149,6 @@
     <bean id="instructionInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-InstructionInfo-dictionary.xml" />
     </bean>
-    <bean name="processServiceDictionaryLocations" class="java.util.ArrayList">
-        <constructor-arg>
-            <list>
-                <bean parent="processInfoDictionaryLocation" />
-                <bean parent="checkInfoDictionaryLocation" />
-                <bean parent="instructionInfoDictionaryLocation" />
-            </list>
-        </constructor-arg>
-    </bean>
 
     <!--Hold Service-->
     <bean id="appliedHoldInfoDictionaryLocation" class="java.lang.String">
@@ -164,14 +156,6 @@
     </bean>
     <bean id="holdIssueInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-HoldIssueInfo-dictionary.xml" />
-    </bean>
-    <bean name="holdServiceDictionaryLocations" class="java.util.ArrayList">
-        <constructor-arg>
-            <list>
-                <bean parent="appliedHoldInfoDictionaryLocation" />
-                <bean parent="holdIssueInfoDictionaryLocation" />
-            </list>
-        </constructor-arg>
     </bean>
 
     <!-- LUI Service -->
@@ -186,16 +170,6 @@
     </bean>
     <bean id="luiLuiRelationInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-LuiLuiRelationInfo-dictionary.xml" />
-    </bean>
-    <bean name="luiServiceDictionaryLocations" class="java.util.ArrayList">
-        <constructor-arg>
-            <list>
-                <bean parent="luiInfoDictionaryLocation" />
-                <bean parent="luiCapacityInfoDictionaryLocation" />
-                <bean parent="luiLuiRelationInfoDictionaryLocation" />
-                <bean parent="luiSetInfoDictionaryLocation" />
-            </list>
-        </constructor-arg>
     </bean>
     <!-- CourseOffering Service -->
     <bean id="courseOfferingInfoDictionaryLocation" class="java.lang.String">
@@ -241,6 +215,7 @@
     <bean name="courseOfferingServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
+                <bean parent="ksBaseDictionaryLocation" />
                 <bean parent="courseOfferingInfoDictionaryLocation" />
                 <bean parent="formatOfferingInfoDictionaryLocation"/>
                 <bean parent="activityOfferingInfoDictionaryLocation"/>
@@ -252,23 +227,13 @@
         </constructor-arg>
     </bean>
 
-    <bean name="courseOfferingSetServiceDictionaryLocations" class="java.util.ArrayList">
-        <constructor-arg>
-            <list>
-                <bean parent="socInfoDictionaryLocation" />
-                <bean parent="socRolloverResultInfoDictionaryLocation"/>
-                <bean parent="socRolloverResultInfoDictionaryLocation"/>
-
-            </list>
-        </constructor-arg>
-    </bean>
-
     <!--THIS IS USED BY RICE DATA DICTIONARY SERVICE
      and the Global Student Dictionary Service, dataDictionaryServiceForAllUsedByRice
      that is used in the rice dictionary validation service impl -->
     <bean name="allDictionaryFileLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
+                <bean parent="ksBaseDictionaryLocation" />
                 <bean parent="luiPersonRelationInfoDictionaryLocation" />
                 <bean parent="luiInfoDictionaryLocation" />
                 <bean parent="luiCapacityInfoDictionaryLocation" />
