@@ -482,7 +482,17 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("getExamOfferingRelationIdsByActivityOfferingId has not been implemented");
+        //trap null parameter
+        if (activityOfferingId == null){
+            throw new MissingParameterException("examOfferingId is null");
+        }
+
+        //Retrieve ExamOfferingRelationInfos
+        try {
+            return getLuiService().getLuiLuiRelationsByAttribute(activityOfferingId, contextInfo);
+        } catch (Exception ex) {
+            throw new OperationFailedException(OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE, ex);
+        }
     }
 
     @Override

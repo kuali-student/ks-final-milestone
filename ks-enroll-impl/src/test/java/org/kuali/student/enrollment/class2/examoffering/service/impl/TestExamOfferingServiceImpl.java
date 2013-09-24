@@ -336,6 +336,37 @@ public class TestExamOfferingServiceImpl {
                 callContext);
     }
 
+    @Test
+    public void getExamOfferingRelationIdsByActivityOfferingId ()
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+
+        ExamOfferingRelationInfo eoRelInfo = createExamOfferingRelationInfo();
+        try {
+            //Create
+            ExamOfferingRelationInfo created = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
+                    LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo, callContext);
+
+            List<String> examOfferingRelationIds = examOfferingService.getExamOfferingRelationIdsByActivityOfferingId("AO-02", callContext);
+            assertNotNull(examOfferingRelationIds);
+            for (String examOfferingRelationId : examOfferingRelationIds) {
+                ExamOfferingRelationInfo retrieved = examOfferingService.getExamOfferingRelation(examOfferingRelationId, callContext);
+                assertNotNull(retrieved);
+                assertTrue(retrieved.getActivityOfferingIds().contains("AO-02"));
+            }
+
+            //Delete
+            for (String examOfferingRelationId : examOfferingRelationIds) {
+                StatusInfo ret = examOfferingService.deleteExamOfferingRelation(examOfferingRelationId, callContext);
+                assertTrue(ret.getIsSuccess());
+            }
+
+        } catch (Exception ex) {
+            fail("exception from service call :" + ex.getMessage());
+        }
+    }
 
     public TypeService getTypeService() {
         return typeService;

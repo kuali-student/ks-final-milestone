@@ -251,6 +251,12 @@ public class LuiServiceDecorator
     }
 
     @Override
+    public List<String> getLuiLuiRelationsByAttribute(String attributeId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        return getNextDecorator().getLuiLuiRelationsByAttribute(attributeId, contextInfo);
+    }
+
+    @Override
     public List<String> searchForLuiLuiRelationIds(QueryByCriteria criteria, ContextInfo contextInfo) 
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
