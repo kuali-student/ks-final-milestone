@@ -545,9 +545,9 @@ public abstract class TestExamOfferingServiceImplConformanceBaseCrud {
     public abstract void test_getExamOfferingRelationsByExamOffering()
             throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
 
-    /* Method Name: getExamOfferingRelationIdsByActivityOfferingId */
+    /* Method Name: getExamOfferingRelationIdsByActivityOffering */
     @Test
-    public abstract void test_getExamOfferingRelationIdsByActivityOfferingId()
+    public abstract void test_getExamOfferingRelationIdsByActivityOffering()
             throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
 
     /* Method Name: searchForExamOfferingRelationIds */

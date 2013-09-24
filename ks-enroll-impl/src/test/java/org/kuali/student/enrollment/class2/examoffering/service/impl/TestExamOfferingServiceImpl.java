@@ -19,6 +19,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
@@ -250,8 +252,6 @@ public class TestExamOfferingServiceImpl {
             OperationFailedException,
             PermissionDeniedException {
 
-        ExamOfferingRelationInfo eoRelInfo = createExamOfferingRelationInfo();
-
         try {
             ExamOfferingRelationInfo eoRelInfo1 = createExamOfferingRelationInfo();
             ExamOfferingRelationInfo eoRelInfo2 = createExamOfferingRelationInfo();
@@ -266,12 +266,9 @@ public class TestExamOfferingServiceImpl {
             List<ExamOfferingRelationInfo> examOfferingRelationInfos = examOfferingService.getExamOfferingRelationsByExamOffering("Lui-9", callContext);
 
             for (ExamOfferingRelationInfo examOfferingRelationInfo : examOfferingRelationInfos){
-//                if (examOfferingRelationInfo.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY)){    //NOOOOOOOOOOOO need it from the luiRel...?
-
                     assertNotNull(examOfferingRelationInfo);
                     assertEquals("Lui-9", examOfferingRelationInfo.getExamOfferingId());
                 }
-//            }
 
             //Delete
             for (ExamOfferingRelationInfo examOfferingRelationInfo :examOfferingRelationInfos) {
@@ -337,7 +334,7 @@ public class TestExamOfferingServiceImpl {
     }
 
     @Test
-    public void getExamOfferingRelationIdsByActivityOfferingId ()
+    public void getExamOfferingRelationIdsByActivityOffering ()
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -349,7 +346,7 @@ public class TestExamOfferingServiceImpl {
             ExamOfferingRelationInfo created = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
                     LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo, callContext);
 
-            List<String> examOfferingRelationIds = examOfferingService.getExamOfferingRelationIdsByActivityOfferingId("AO-02", callContext);
+            List<String> examOfferingRelationIds = examOfferingService.getExamOfferingRelationIdsByActivityOffering("AO-02", callContext);
             assertNotNull(examOfferingRelationIds);
             for (String examOfferingRelationId : examOfferingRelationIds) {
                 ExamOfferingRelationInfo retrieved = examOfferingService.getExamOfferingRelation(examOfferingRelationId, callContext);
@@ -365,6 +362,30 @@ public class TestExamOfferingServiceImpl {
 
         } catch (Exception ex) {
             fail("exception from service call :" + ex.getMessage());
+        }
+    }
+
+    @Test
+    public void testSearchForExamOfferingRelations() throws Exception {
+        ExamOfferingRelationInfo eoRelInfo = createExamOfferingRelationInfo();
+        ExamOfferingRelationInfo created = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
+                LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo, callContext);
+
+        try {
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(PredicateFactory.and(
+                    PredicateFactory.like("lui.id", "Lui-6"),
+                    PredicateFactory.equalIgnoreCase("relatedLui.id", "Lui-9")));
+            QueryByCriteria criteria = qbcBuilder.build();
+
+            List<ExamOfferingRelationInfo> rels = examOfferingService.searchForExamOfferingRelations(criteria, callContext);
+            assertNotNull(rels);
+            assertEquals(1, rels.size());
+            ExamOfferingRelationInfo rel = rels.get(0);
+            assertEquals("Lui-6", rel.getFormatOfferingId());
+            assertEquals("Lui-9", rel.getExamOfferingId());
+        } catch (Exception ex) {
+            fail("Exception from service call :" + ex.getMessage());
         }
     }
 

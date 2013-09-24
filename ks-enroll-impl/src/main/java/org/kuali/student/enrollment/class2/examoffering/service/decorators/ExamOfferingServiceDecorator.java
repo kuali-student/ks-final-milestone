@@ -135,8 +135,8 @@ public class ExamOfferingServiceDecorator implements ExamOfferingService {
     }
 
     @Override
-    public List<String> getExamOfferingRelationIdsByActivityOfferingId( String activityOfferingId,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getExamOfferingRelationIdsByActivityOfferingId(  activityOfferingId,   contextInfo);
+    public List<String> getExamOfferingRelationIdsByActivityOffering( String activityOfferingId,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getExamOfferingRelationIdsByActivityOffering(  activityOfferingId,   contextInfo);
     }
 
     @Override

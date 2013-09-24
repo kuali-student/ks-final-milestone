@@ -380,7 +380,7 @@ public class ExamOfferingServiceMapImpl implements MockService, ExamOfferingServ
     }
 
     @Override
-    public List<String> getExamOfferingRelationIdsByActivityOfferingId(String activityOfferingId, ContextInfo contextInfo)
+    public List<String> getExamOfferingRelationIdsByActivityOffering(String activityOfferingId, ContextInfo contextInfo)
             throws InvalidParameterException
             ,MissingParameterException
             ,OperationFailedException

@@ -246,9 +246,9 @@ public class TestExamOfferingServiceImplConformanceExtendedCrud extends TestExam
             throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
     }
 
-    /* Method Name: getExamOfferingRelationIdsByActivityOfferingId */
+    /* Method Name: getExamOfferingRelationIdsByActivityOffering */
     @Test
-    public void test_getExamOfferingRelationIdsByActivityOfferingId()
+    public void test_getExamOfferingRelationIdsByActivityOffering()
             throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
     }
 

@@ -175,7 +175,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
         getExamOfferingTransformer().examOffering2Lui(examOfferingInfo, luiToCreate, contextInfo);
         LuiInfo createdLui = getLuiService().createLui(examId, termId, examTypeKey, luiToCreate, contextInfo);
         ExamOfferingInfo createdExamOffering = new ExamOfferingInfo();
-        getExamOfferingTransformer().lui2ExamOffering(createdLui,createdExamOffering,getSchedulingService(),contextInfo);
+        getExamOfferingTransformer().lui2ExamOffering(createdLui, createdExamOffering, getSchedulingService(), contextInfo);
         return createdExamOffering;
     }
 
@@ -476,7 +476,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     }
 
     @Override
-    public List<String> getExamOfferingRelationIdsByActivityOfferingId(String activityOfferingId, ContextInfo contextInfo)
+    public List<String> getExamOfferingRelationIdsByActivityOffering(String activityOfferingId, ContextInfo contextInfo)
             throws InvalidParameterException
             ,MissingParameterException
             ,OperationFailedException
@@ -512,7 +512,15 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("searchForExamOfferingRelations has not been implemented");
+        List<ExamOfferingRelationInfo> examOfferingRelationInfos = new ArrayList<ExamOfferingRelationInfo>();
+        List<LuiLuiRelationInfo> luiLuiRelationInfos = this.getLuiService().searchForLuiLuiRelations(criteria, contextInfo);
+        for(LuiLuiRelationInfo luiLuiRelationInfo : luiLuiRelationInfos){
+            ExamOfferingRelationInfo examOfferingRelationInfo = new ExamOfferingRelationInfo();
+            this.getExamOfferingTransformer().transformLuiLuiRel2EORel(luiLuiRelationInfo, examOfferingRelationInfo);
+            examOfferingRelationInfos.add(examOfferingRelationInfo);
+        }
+
+        return examOfferingRelationInfos;
     }
 
     private MetaInfo newMeta(ContextInfo context) {
