@@ -65,13 +65,7 @@
     <param name="ks.enroll.bus.security">false</param>
     
     <param name="ks.enroll.doDataLoad">false</param>
-<!--     
-    <param name="ks.enroll.dictionary.old.serviceContextLocations">classpath:lu-dictionary-config.xml,classpath:lo-dictionary-config.xml</param>
-    <param name="ks.enroll.dictionary.serviceContextLocations">classpath:ks-courseInfo-dictionary-context.xml, classpath:ks-programInfo-dictionary-context.xml, classpath:ks-statement-dictionary-context.xml, classpath:ks-lrc-dictionary-context.xml</param>
-    <param name="ks.enroll.orchestration.dictionaryContextLocations">classpath:lum-orchestration-dictionary.xml</param>
-    <param name="ks.enroll.ui.lookupContextLocations">classpath:lum-ui-lookup-context.xml</param>
--->    
-    
+
         <!-- Rice URLS -->
     <param name="ks.rice.personLookup.serviceAddress">http://localhost:8081/ks-with-rice-bundled-dev/kr/lookup.do</param>
 	<param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-with-rice-bundled-dev/kew/ActionList.do</param>
