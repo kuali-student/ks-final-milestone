@@ -153,10 +153,6 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
             throw new MissingParameterException("Term code is required to search course offerings");
         }
 
-        /*if (StringUtils.isBlank(searchCourseCode) && StringUtils.isBlank(searchSubjectArea)){
-            throw new MissingParameterException("Either Course code or subject area must be set to search course offerings");
-        }*/
-
         String query = "SELECT" +
                 "    ident.code," +
                 "    ident.longName," +
@@ -171,8 +167,18 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                 "    lrc_rvg2.name, " +
                 "    lui.formatted " +
                 "FROM" +
-                "    LuiIdentifierEntity ident," +
-                "    LuiEntity lui " +
+                "    LuiIdentifierEntity ident, " +
+                "    LuiEntity lui ";
+
+        /*
+         If the department id is supplied, join KSEN_LUI_UNITS_CONT_OWNER
+         */
+        if (StringUtils.isNotBlank(departmentId)){
+            query = query +
+                    "    JOIN lui.luiContentOwner dept ";
+        }
+
+        query = query +
                 "    LEFT JOIN lui.luiUnitsDeployment unitsDeployment, " +
                 "    IN(lui.resultValuesGroupKeys) lui_rvg1," +
                 "    ResultValuesGroupEntity lrc_rvg1, " +
@@ -180,14 +186,10 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                 "    ResultValuesGroupEntity lrc_rvg2 ";
 
         /*
-         For instructor search, include the Lpr table and join with lui with ids
+         For instructor search, include the Lpr table and join with lui ids
          */
         if (StringUtils.isNotBlank(instructorId)){
             query = query + ",  LprEntity lpr ";
-        }
-
-        if (StringUtils.isNotBlank(departmentId)){
-            query = query + ",  IN(lui.luiContentOwner) lui_dept ";
         }
 
         query = query +
@@ -234,9 +236,11 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         }
 
         if (StringUtils.isNotBlank(departmentId)){
-            query = query + "   AND lui_dept = '" + departmentId + "'";
+            if (!StringUtils.endsWith(query,"WHERE ")){
+                query = query + " AND ";
+            }
+            query = query + "  dept = '" + departmentId + "'  ";
         }
-
 
         /*
          Search by description

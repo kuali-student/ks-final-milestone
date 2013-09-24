@@ -262,8 +262,8 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
     }
 
     public String getRequisitiesForCourseOffering(String coId){
-        String catalogUsageId = ruleManagementService.getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_CATALOG, PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
-        return retrieveRequisites(coId, ruleManagementService, catalogUsageId);
+        String catalogUsageId = getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_CATALOG, PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
+        return retrieveRequisites(coId, getRuleManagementService(), catalogUsageId);
     }
 
     /**
