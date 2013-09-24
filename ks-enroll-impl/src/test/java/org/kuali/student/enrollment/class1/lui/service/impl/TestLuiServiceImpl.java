@@ -507,6 +507,18 @@ public class TestLuiServiceImpl {
     }
 
     @Test
+    public void testGetLuiLuiRelationsByIds() throws Exception {
+        List<String> luiLuiRelationIds = new ArrayList<String>();
+        luiLuiRelationIds.add("LUILUIREL-1");
+        luiLuiRelationIds.add("LUILUIREL-2");
+        luiLuiRelationIds.add("LUILUIREL-3");
+
+        List<LuiLuiRelationInfo> objs = luiService.getLuiLuiRelationsByIds(luiLuiRelationIds, callContext);
+        assertNotNull(objs);
+        assertEquals(3, objs.size());
+    }
+
+    @Test
     public void testCreateLuiLuiRelation() throws Exception{
         LuiInfo info = new LuiInfo();
         info.setCluId("testCluId");
