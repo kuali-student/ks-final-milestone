@@ -23,6 +23,16 @@
         <br>
         <li><a class="portal_link" target="_blank" href="${ConfigProperties.application.url}/kr-krad/registrationGroupManagement?viewId=manageRegistrationGroupsView&coInfo.id=b62cf549-ba85-4f85-9679-51155eeff8ae&methodToCall=start&withinPortal=false">Manage Registration Group (seperate form)</a></li>
     </ul>
+    <strong>Schedule of Classes</strong>
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Schedule of Classes - Flat View"
+                               url="${ConfigProperties.application.url}/kr-krad/scheduleOfClassesSearch?viewId=scheduleOfClassesSearchView&pageId=scheduleOfClassesSearchInputPage&methodToCall=start&scheduleOfClassesDisplayFormat=Flat" /></li>
+        <li><portal:portalLink displayTitle="true" title="Schedule of Classes - Cluster View"
+                               url="${ConfigProperties.application.url}/kr-krad/scheduleOfClassesSearch?viewId=scheduleOfClassesSearchView&pageId=scheduleOfClassesSearchInputPage&methodToCall=start&scheduleOfClassesDisplayFormat=By Cluster" /></li>
+        <li><portal:portalLink displayTitle="true" title="Schedule of Classes - Reg Group View"
+                               url="${ConfigProperties.application.url}/kr-krad/scheduleOfClassesSearch?viewId=scheduleOfClassesSearchView&pageId=scheduleOfClassesSearchInputPage&methodToCall=start&scheduleOfClassesDisplayFormat=By Registration Group" /></li>
+    </ul>
+
     <strong>Basic DTO Lookup and Inquiry</strong>
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Activity Offering Lookup" url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&showMaintenanceLinks=true" /></li>
