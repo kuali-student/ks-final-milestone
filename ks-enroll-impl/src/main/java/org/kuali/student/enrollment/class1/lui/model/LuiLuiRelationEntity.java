@@ -38,7 +38,8 @@ import java.util.Set;
     @NamedQuery(name="LuiLuiRelationENR.getRelatedLuiIdsByLuiIdAndRelationType", query="Select rel.relatedLui.id from LuiLuiRelationEntity rel where rel.lui.id=:luiId AND rel.luiLuiRelationType=:luiLuiRelationTypeKey"),
     @NamedQuery(name="LuiLuiRelationENR.getLuiLuiRelationIdsByType", query="select rel.id from LuiLuiRelationEntity rel where rel.luiLuiRelationType=:luiLuiRelationTypeKey"),
     //@NamedQuery(name="LuiLuiRelationENR.getLuiLuiRelationsByAttribute", query="SELECT rel.id from LuiLuiRelationEntity rel inner join rel.attributes attr where attr.value=:attribute") //both this and next line work
-    @NamedQuery(name="LuiLuiRelationENR.getLuiLuiRelationsByAttribute", query="SELECT rel.id from LuiLuiRelationEntity rel, in(rel.attributes) attr where attr.value=:attribute")
+    @NamedQuery(name="LuiLuiRelationENR.getLuiLuiRelationsByAttribute", query="SELECT rel.id from LuiLuiRelationEntity rel, in(rel.attributes) attr where attr.value=:attribute"),
+    @NamedQuery(name="LuiLuiRelationENR.getLuiLuiRelationsByIds", query="Select rel from LuiLuiRelationEntity rel where rel.id in (:ids)")
 })
 public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<LuiLuiRelationAttributeEntity> {
 

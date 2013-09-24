@@ -425,7 +425,15 @@ public class LuiServiceImpl
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<LuiLuiRelationEntity> relEntities = luiLuiRelationDao.getLuiLuiRelationsByIds(luiLuiRelationIds);
+        List<LuiLuiRelationInfo> relInfos = new ArrayList<LuiLuiRelationInfo>();
+        if (relEntities != null && !relEntities.isEmpty()) {
+            for (LuiLuiRelationEntity relEntity : relEntities) {
+                LuiLuiRelationInfo relInfo = relEntity.toDto();
+                relInfos.add(relInfo);
+            }
+        }
+        return relInfos;
     }
 
     @Override
