@@ -30,7 +30,7 @@ import java.util.List;
 public interface ScheduleRequestComponent extends HasId {
 
     /**
-     * The Campus Id to specify a Campus.
+     * The list of Campus Ids to specify a Campus.
      *
      * @name Campus Ids
      * @impl This List has to be an Ordered List (i.e. it must be persisted as such that every time
@@ -45,7 +45,7 @@ public interface ScheduleRequestComponent extends HasId {
     public List<String> getCampusIds();
 
     /**
-     * The Building Id to specify a Building.
+     * The list of Building Ids to specify a Building.
      *
      * @name Building Ids
      * @impl This List has to be an Ordered List (i.e. it must be persisted as such that every time
@@ -60,7 +60,7 @@ public interface ScheduleRequestComponent extends HasId {
     public List<String> getBuildingIds();
 
     /**
-     * The Room Id to specify a Room.
+     * The list of Room Ids to specify a Room.
      *
      * @name Room Ids
      * @impl This List has to be an Ordered List (i.e. it must be persisted as such that every time
@@ -75,7 +75,7 @@ public interface ScheduleRequestComponent extends HasId {
     public List<String> getRoomIds();
 
     /**
-     * The Org Id to specify a Room or Building "owned" by an
+     * The list of Org Ids to specify a Room or Building "owned" by an
      * Organization.
      *
      * @name Org Ids
@@ -91,7 +91,7 @@ public interface ScheduleRequestComponent extends HasId {
     public List<String> getOrgIds();
 
     /**
-     * The Resource Types to specify a Room with types of fixed
+     * The list of Resource Types to specify a Room with types of fixed
      * Resources.
      *
      * @name Resource Type Keys
@@ -107,7 +107,7 @@ public interface ScheduleRequestComponent extends HasId {
     public List<String> getResourceTypeKeys();
 
     /**
-     * The Time Slot Ids to specify a time slot.
+     * The list of Time Slot Ids to specify a time slot.
      *
      * @name Time Slot Ids
      * @impl This List has to be an Ordered List (i.e. it must be persisted as such that every time
@@ -122,7 +122,7 @@ public interface ScheduleRequestComponent extends HasId {
     public List<String> getTimeSlotIds();
 
     /**
-     * The Partition Id to specify a Partition.
+     * The list of Partition Ids to specify a Partition.
      *
      * @name Partition Ids
      * @impl This List has to be an Ordered List (i.e. it must be persisted as such that every time

@@ -198,7 +198,10 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
 
     @Override
     public List<String> getPartitionIds() {
-        return partitionIds;
+        if (null == this.partitionIds) {
+            this.partitionIds = new ArrayList<String>();
+        }
+        return this.partitionIds;
     }
 
     public void setPartitionIds(List<String> partitionIds) {
