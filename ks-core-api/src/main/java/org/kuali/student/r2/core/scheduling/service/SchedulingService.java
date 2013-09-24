@@ -127,28 +127,6 @@ public interface SchedulingService {
             PermissionDeniedException;
 
     /**
-     * Retrieves a list of Schedule Ids by TimeSlot Id
-     *
-     * @param timeSlotId an identifier for a Schedule Type
-     * @param contextInfo     Context information containing the principalId and
-     *                        locale information about the caller of service
-     *                        operation
-     * @return a list of Schedule Ids with timeSlotId or an
-     *         empty list if none found
-     * @throws InvalidParameterException invalid contextInfo
-     * @throws MissingParameterException timeSlotId or contextInfo is
-     *                                   missing or null
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<String> getScheduleIdsByTimeSlot(@WebParam(name = "timeSlotId") String timeSlotId,
-                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
      * Searches for Schedules based on the criteria and returns a list of
      * Schedule identifiers which match the search criteria.
      *
@@ -1201,6 +1179,29 @@ public interface SchedulingService {
                 MissingParameterException,
                 OperationFailedException,
                 PermissionDeniedException;
+
+    /**
+     * Evaluates if a TimeSlot can be updated
+     *
+     * @param timeSlotId      identifier for a TimeSlot
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return True if the TimeSlot can be updated, False otherwise
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException timeSlotId or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @impl    Currently a TimeSlot can be updated if it is not used in
+     *          ScheduleRequest (RDL) or Schedule (ADL)
+     */
+    public Boolean canUpdateTimeSlot(@WebParam(name = "timeSlotId") String timeSlotId,
+                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Calls R25 in our implementation ... the scheduled results may not be
