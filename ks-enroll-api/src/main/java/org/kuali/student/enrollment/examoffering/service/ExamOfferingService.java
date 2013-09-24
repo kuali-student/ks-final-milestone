@@ -101,7 +101,7 @@ public interface ExamOfferingService {
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
-            PermissionDeniedException;
+            PermissionDeniedException, DoesNotExistException;
 
     /**
      * Searches for ExamOfferings that meet the given search criteria.
