@@ -512,15 +512,24 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        List<ExamOfferingRelationInfo> examOfferingRelationInfos = new ArrayList<ExamOfferingRelationInfo>();
-        List<LuiLuiRelationInfo> luiLuiRelationInfos = this.getLuiService().searchForLuiLuiRelations(criteria, contextInfo);
-        for(LuiLuiRelationInfo luiLuiRelationInfo : luiLuiRelationInfos){
-            ExamOfferingRelationInfo examOfferingRelationInfo = new ExamOfferingRelationInfo();
-            this.getExamOfferingTransformer().transformLuiLuiRel2EORel(luiLuiRelationInfo, examOfferingRelationInfo);
-            examOfferingRelationInfos.add(examOfferingRelationInfo);
+        //trap null parameter
+        if (criteria == null){
+            throw new MissingParameterException("criteria is null");
         }
 
-        return examOfferingRelationInfos;
+        //Retrieve ExamOfferingRelation
+        try {
+            List<ExamOfferingRelationInfo> examOfferingRelationInfos = new ArrayList<ExamOfferingRelationInfo>();
+            List<LuiLuiRelationInfo> luiLuiRelationInfos = this.getLuiService().searchForLuiLuiRelations(criteria, contextInfo);
+            for(LuiLuiRelationInfo luiLuiRelationInfo : luiLuiRelationInfos){
+                ExamOfferingRelationInfo examOfferingRelationInfo = new ExamOfferingRelationInfo();
+                this.getExamOfferingTransformer().transformLuiLuiRel2EORel(luiLuiRelationInfo, examOfferingRelationInfo);
+                examOfferingRelationInfos.add(examOfferingRelationInfo);
+            }
+            return examOfferingRelationInfos;
+        } catch (Exception ex) {
+            throw new OperationFailedException(OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE, ex);
+        }
     }
 
     private MetaInfo newMeta(ContextInfo context) {
