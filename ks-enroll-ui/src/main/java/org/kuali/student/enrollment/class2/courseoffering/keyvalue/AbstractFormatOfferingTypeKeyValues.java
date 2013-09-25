@@ -41,33 +41,36 @@ public abstract class AbstractFormatOfferingTypeKeyValues extends UifKeyValuesFi
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "Select Format Type"));
         List<FormatInfo> formatOptions = getFormats(model);
-        List<String> existingFormatIds;
-        try{
-            existingFormatIds = getExistingFormatIdsFromFormatOfferings(model);
-            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-            for (FormatInfo format : formatOptions) {
-                ConcreteKeyValue keyValue = new ConcreteKeyValue();
-                if(!existingFormatIds.contains(format.getId())){
-                    keyValue.setKey(format.getId());
-                    // TODO: fix R2 Format to include name and short name
-                    //keyValue.setValue("FIX ME!");
+        if(formatOptions!=null){
+            List<String> existingFormatIds;
 
-                    //Bonnie: this is only a temporary walk-around solution.
-                    //Still need to address the issue that FormatInfo does not include name and short name
-                    List<ActivityInfo> activityInfos = format.getActivities();
-                    StringBuffer st = new StringBuffer();
-                    for (ActivityInfo activityInfo : activityInfos) {
-                        TypeInfo activityType = getTypeService().getType(activityInfo.getTypeKey(), contextInfo);
-                        st.append(activityType.getName()+"/");
+            try{
+                existingFormatIds = getExistingFormatIdsFromFormatOfferings(model);
+                ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+                for (FormatInfo format : formatOptions) {
+                    ConcreteKeyValue keyValue = new ConcreteKeyValue();
+                    if(!existingFormatIds.contains(format.getId())){
+                        keyValue.setKey(format.getId());
+                        // TODO: fix R2 Format to include name and short name
+                        //keyValue.setValue("FIX ME!");
+
+                        //Bonnie: this is only a temporary walk-around solution.
+                        //Still need to address the issue that FormatInfo does not include name and short name
+                        List<ActivityInfo> activityInfos = format.getActivities();
+                        StringBuffer st = new StringBuffer();
+                        for (ActivityInfo activityInfo : activityInfos) {
+                            TypeInfo activityType = getTypeService().getType(activityInfo.getTypeKey(), contextInfo);
+                            st.append(activityType.getName()+"/");
+                        }
+                        String name =st.toString();
+                        name=name.substring(0,name.length()-1);
+                        keyValue.setValue(name);
+                        keyValues.add(keyValue);
                     }
-                    String name =st.toString();
-                    name=name.substring(0,name.length()-1);
-                    keyValue.setValue(name);
-                    keyValues.add(keyValue);
                 }
+            } catch(Exception e) {
+                LOG.error("Error finding format offering types", e);
             }
-        } catch(Exception e) {
-            LOG.error("Error finding format offering types", e);
         }
         return keyValues;
     }

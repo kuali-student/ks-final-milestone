@@ -1,0 +1,3 @@
+INSERT INTO KSEN_TYPE (TYPE_KEY, NAME, DESCR_PLAIN, DESCR_FORMATTED, REF_OBJECT_URI, SERVICE_URI, VER_NBR, CREATETIME, CREATEID)
+  VALUES ('kuali.luiset.type.colocated.offering.set', 'Colocated Offering Set', 'Set of Activity Offerings that are colocated', 'Set of Activity Offerings that are colocated', 'http://student.kuali.org/wsdl/lui.LuiInfo', 'http://student.kuali.org/wsdl/lui/LuiService', 0, '24-JAN-13 03.16.00 PM', 01)
+/

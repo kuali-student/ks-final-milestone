@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
@@ -117,7 +118,7 @@ public class ProcessInfoLookupableImpl extends LookupableImpl {
 
     public ContextInfo getContextInfo() {
         if (contextInfo == null){
-            contextInfo =  org.kuali.student.enrollment.common.util.ContextBuilder.loadContextInfo();
+            contextInfo =  ContextBuilder.loadContextInfo();
         }
         return contextInfo;
     }

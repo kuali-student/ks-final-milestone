@@ -2,41 +2,73 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.courseoffering.dto.*;
+import org.kuali.student.common.test.util.AttributeTester;
+import org.kuali.student.common.test.util.ListOfStringTester;
+import org.kuali.student.common.test.util.MetaTester;
+import org.kuali.student.common.test.util.RichTextTester;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.test.util.AttributeTester;
-import org.kuali.student.r2.common.dto.*;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.lum.lrc.service.util.MockLrcTestDataLoader;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.mortbay.component.LifeCycle;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 
 /*
@@ -54,32 +86,101 @@ import static org.junit.Assert.assertEquals;
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
 public class TestCourseOfferingServiceImpl {
-   private static final Logger log = Logger
+    private static final Logger log = Logger
             .getLogger(TestCourseOfferingServiceImpl.class);
 
     @Resource
     protected CourseOfferingService coService;
 
     @Resource
-   protected CourseService courseService;
+    protected CourseService courseService;
+
+    @Resource
+    protected StateService stateService;
 
     @Resource
     protected CourseOfferingServiceTestDataLoader dataLoader;
 
+    @Resource(name = "LrcService")
+    protected LRCService lrcService;
+    
     public static String principalId = "123";
     public ContextInfo callContext = null;
+
+    private final List<CourseOfferingCrossListingInfo> crossListings = new ArrayList<CourseOfferingCrossListingInfo>();
 
     @Before
     public void setup() throws Exception {
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
-
-	    // load in custom dates for use in the courses
-		TermInfo fall2012 = dataLoader.createTerm("2012FA", "Fall 2012", AtpServiceConstants.ATP_FALL_TYPE_KEY, new DateTime().withDate(2012, 9, 1).toDate(), new DateTime().withDate(2012, 12, 31).toDate(), callContext);
-        createCourseCHEM123(fall2012, callContext);
     }
 
-    private void createCourseCHEM123(TermInfo term, ContextInfo context) throws Exception{
+    @After
+    public void teardown() throws Exception {
+        dataLoader.afterTest();
+    }
+
+    private void createStateTestData() throws Exception {
+
+        // ActivityOffering state
+        LifecycleInfo aoLifecycle = addLifecycle( LuiServiceConstants.ACTIVITY_OFFERING_LIFECYCLE_KEY );
+        addState( aoLifecycle, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, true );
+
+        // FormatOffering state
+        LifecycleInfo foLifecycle = addLifecycle( LuiServiceConstants.FORMAT_OFFERING_LIFECYCLE_KEY );
+        addState( foLifecycle, LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY, true );
+
+        // CourseOffering state
+        LifecycleInfo coLifecycle = addLifecycle( LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_KEY );
+        addState( coLifecycle, LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY, true );
+
+        LifecycleInfo rgLifecycle = addLifecycle( LuiServiceConstants.REGISTRATION_GROUP_LIFECYCLE_KEY );
+        addState( rgLifecycle, LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY, true );
+    }
+
+    private LifecycleInfo addLifecycle( String name ) throws Exception {
+
+        LifecycleInfo origLife = new LifecycleInfo();
+        RichTextInfo rti = new RichTextInfo();
+        rti.setFormatted("<b>Formatted</b> lifecycle for testing purposes");
+        rti.setPlain("Plain lifecycle for testing purposes");
+        origLife.setDescr(rti);
+        origLife.setKey( name );
+        origLife.setName( "TEST_NAME" );
+        origLife.setRefObjectUri( "TEST_URI" );
+        AttributeInfo attr = new AttributeInfo();
+        attr.setKey("attribute.key");
+        attr.setValue("attribute value");
+        origLife.getAttributes().add(attr);
+
+        return stateService.createLifecycle(origLife.getKey(), origLife, callContext);
+    }
+
+    private StateInfo addState( LifecycleInfo lifecycleInfo, String state, boolean isInitialState ) throws Exception {
+
+        StateInfo orig = new StateInfo();
+        orig.setKey(state);
+        orig.setLifecycleKey(lifecycleInfo.getKey());
+        RichTextInfo rti = new RichTextInfo();
+        rti.setFormatted("<b>Formatted again</b> state for testing purposes");
+        rti.setPlain("Plain state again for testing purposes");
+        orig.setDescr(rti);
+        orig.setName("Testing state");
+        Date effDate = new Date();
+        orig.setEffectiveDate(effDate);
+        Calendar cal = Calendar.getInstance();
+        cal.set(2022, 8, 23);
+        orig.setExpirationDate(cal.getTime());
+        AttributeInfo attr = new AttributeInfo();
+        attr.setKey("attribute.key");
+        attr.setValue("attribute value");
+        orig.getAttributes().add(attr);
+        orig.setIsInitialState(isInitialState);
+
+        return stateService.createState(orig.getLifecycleKey(), orig.getKey(), orig, callContext);
+    }
+
+    private void createCourseCHEM123(TermInfo term, ContextInfo context) throws Exception {
 
         CourseInfo canonicalCourse = buildCanonicalCourse("CLU-1", term.getId(), "CHEM", "CHEM123", "Chemistry 123", "description 1");
 
@@ -110,6 +211,10 @@ public class TestCourseOfferingServiceImpl {
         info.setTypeKey(LuServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
         info.setStateKey(DtoConstants.STATE_ACTIVE);
         info.setFormats(new ArrayList<FormatInfo>());
+        ResultValuesGroupInfo rvg = new ResultValuesGroupInfo();
+        rvg.setKey(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_2_0);
+        rvg.setTypeKey(LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_FIXED);
+        info.getCreditOptions().add(rvg);
         return info;
     }
 
@@ -117,7 +222,7 @@ public class TestCourseOfferingServiceImpl {
     private ActivityInfo buildCanonicalActivity(String activityTypeKey, FormatInfo format) {
 
         ActivityInfo info = new ActivityInfo();
-        info.setId(CourseOfferingServiceDataUtils.createCanonicalActivityId(format.getId(), activityTypeKey));
+        info.setId(CourseOfferingServiceTestDataUtils.createCanonicalActivityId(format.getId(), activityTypeKey));
         info.setTypeKey(activityTypeKey);
         info.setStateKey(DtoConstants.STATE_ACTIVE);
 
@@ -127,7 +232,7 @@ public class TestCourseOfferingServiceImpl {
 
     }
 
-    private FormatInfo buildCanonicalFormat (String formatId, CourseInfo course) {
+    private FormatInfo buildCanonicalFormat(String formatId, CourseInfo course) {
 
         FormatInfo info = new FormatInfo();
         info.setId(formatId);
@@ -156,42 +261,28 @@ public class TestCourseOfferingServiceImpl {
     }
 
     private Date str2Date(String str, String context) {
-	        if (str == null) {
-	            return null;
-	        }
-	        DateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.S");
-	        try {
-	            Date date = df.parse(str);
-	            return date;
-	        } catch (ParseException ex) {
-	            throw new IllegalArgumentException("Bad date " + str + " in " + context);
-	        }
+        if (str == null) {
+            return null;
+        }
+        try {
+            Date date = DateFormatters.DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMATTER.parse(str);
+            return date;
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException("Bad date " + str + " in " + context);
+        }
     }
 
     @Test
     public void testCRUDSCourseOffering() throws Exception {
+        new MockLrcTestDataLoader(this.lrcService).loadData();
+        createStateTestData();
+        dataLoader.loadTerms();
+        createCourseCHEM123(dataLoader.fall2012, callContext);
+
         String coId = testCreateCourseOffering();
         testUpdateCourseOffering(coId);
         testSearchForCourseOfferings();
         testDeleteCourseOffering(coId);
-    }
-
-    private CourseOfferingInfo createCourseOffering() throws Exception{
-        List<String> optionKeys = new ArrayList<String>();
-        CourseInfo canonicalCourse = courseService
-                .getCourse("CLU-1", callContext);
-        CourseOfferingInfo coInfo = CourseOfferingServiceDataUtils
-                .createCourseOffering(canonicalCourse, "2012FA");
-
-        // gets around the unique course code constraint
-        // this is ok for testing.
-        coInfo.setCourseCode(coInfo.getCourseOfferingCode() + "TESTING CREATE");
-
-        CourseOfferingInfo created = coService.createCourseOffering("CLU-1",
-                "2012FA", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, coInfo,
-                optionKeys, callContext);
-
-        return created;
     }
 
     private String testCreateCourseOffering() throws Exception {
@@ -226,6 +317,63 @@ public class TestCourseOfferingServiceImpl {
         return created.getId();
     }
 
+    private CourseOfferingInfo createCourseOffering() throws Exception {
+        List<String> optionKeys = new ArrayList<String>();
+        CourseInfo canonicalCourse = courseService
+                .getCourse("CLU-1", callContext);
+        CourseOfferingInfo coInfo = CourseOfferingServiceTestDataUtils
+                .createCourseOffering(canonicalCourse, "2012FA");
+
+        buildAndAttachCrossListings(coInfo);
+
+        // gets around the unique course code constraint
+        // this is ok for testing.
+        coInfo.setCourseCode(coInfo.getCourseOfferingCode() + "TESTING CREATE");
+
+        CourseOfferingInfo created = coService.createCourseOffering("CLU-1",
+                "2012FA", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, coInfo,
+                optionKeys, callContext);
+
+
+        return created;
+    }
+
+    private void buildAndAttachCrossListings(CourseOfferingInfo coInfo) {
+
+        CourseOfferingCrossListingInfo info = null;
+        Date createTime = new Date();
+        for( int i = 0, j = 3 ; i < j ; i++ ) {
+            info = new CourseOfferingCrossListingInfo();
+
+            info.setId("MY-ID_" + i);
+            info.setTypeKey("MY-TYPE_" + i);
+            info.setStateKey("MY-STATE_" + i);
+            info.setCode("MY-CODE_" + i);
+            info.setSubjectArea("MY-SUBJECT_" + i);
+            //info.setDepartmentOrgId(coInfo.getd);     // not sure how this maps
+            info.setCourseNumberSuffix("MY-SUFFIX_" + i);
+
+            MetaInfo meta = new MetaInfo();
+            meta.setCreateId("META-CREATE-ID_" + i);
+            meta.setCreateTime(createTime);
+            meta.setVersionInd(Integer.toString(i));
+            info.setMeta(meta);
+
+            List<AttributeInfo> attrs = new ArrayList<AttributeInfo>();
+            AttributeInfo attr = new AttributeInfo();
+            attr.setId("ATTRS-ID_" + i);
+            attr.setKey("ATTRS-KEY_" + i);
+            attr.setValue("ATTRS-VALUE_" + i);
+            attrs.add(attr);
+            info.setAttributes(attrs);
+
+            crossListings.add(info);
+        }
+
+        coInfo.setCrossListings(crossListings);
+    }
+
+
     private void testUpdateCourseOffering(String coId) throws Exception {
         try {
             CourseOfferingInfo coi = coService.getCourseOffering(coId,
@@ -235,7 +383,7 @@ public class TestCourseOfferingServiceImpl {
             coi.setMaximumEnrollment(40);
             coi.setMinimumEnrollment(10);
 
-            //skiping instructors test because we can't config kim personservice at test context
+            //skipping instructors test because we can't config kim personservice at test context
 
             // dynamic attributes
             AttributeTester attributeTester = new AttributeTester();
@@ -266,38 +414,70 @@ public class TestCourseOfferingServiceImpl {
         }
     }
 
-	private void testSearchForCourseOfferings() throws Exception {
-		try {
+    private void testSearchForCourseOfferings() throws Exception {
+        try {
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
             qbcBuilder.setPredicates(PredicateFactory.and(
                     PredicateFactory.like("courseOfferingCode", "CHEM%"),
                     PredicateFactory.equalIgnoreCase("atpId", "2012FA")));
             QueryByCriteria criteria = qbcBuilder.build();
 
-			List<CourseOfferingInfo> coList = coService
-					.searchForCourseOfferings(criteria, callContext);
-			assertNotNull(coList);
-			assertEquals(1, coList.size());
-			CourseOfferingInfo coInfo = coList.get(0);
-			assertEquals("CHEM123", coInfo.getCourseOfferingCode());
+            List<CourseOfferingInfo> coList = coService
+                    .searchForCourseOfferings(criteria, callContext);
+            assertNotNull(coList);
+            assertEquals(1, coList.size());
+            CourseOfferingInfo coInfo = coList.get(0);
+            assertEquals("CHEM123", coInfo.getCourseOfferingCode());
             assertEquals("2012FA", coInfo.getTermId());
-		} catch (Exception ex) {
-			fail("Exception from service call :" + ex.getMessage());
-		}
-	}
+
+            validateCrossListings(coInfo.getCrossListings());
+        } catch (Exception ex) {
+            fail("Exception from service call :" + ex.getMessage());
+        }
+    }
+
+    private void validateCrossListings(List<CourseOfferingCrossListingInfo> crossListings) {
+
+        assertTrue( this.crossListings.size() == crossListings.size() );
+        Collections.sort(this.crossListings);
+        Collections.sort(crossListings);
+
+        for( int i = 0, j = this.crossListings.size() ; i < j ; i++ ) {
+            CourseOfferingCrossListingInfo expected = this.crossListings.get(i);
+            CourseOfferingCrossListingInfo actual = crossListings.get(i);
+
+            // basic props
+            assertEquals( expected.getId(), actual.getId() );
+            assertEquals( expected.getTypeKey(), actual.getTypeKey() );
+            assertEquals( expected.getStateKey(), actual.getStateKey() );
+            assertEquals( expected.getCode() + expected.getCourseNumberSuffix(),    // business-rules append the suffix to the code when object is persisted to DB
+                            actual.getCode() );
+            assertEquals( expected.getSubjectArea(), actual.getSubjectArea() );
+            assertEquals( expected.getSubjectOrgId(), actual.getSubjectOrgId() );
+            assertEquals( expected.getCourseNumberSuffix(), actual.getCourseNumberSuffix() );
+        }
+
+    }
+
+    private CourseOfferingCrossListingInfo getCrosslistingWithMatchingIdFromList(CourseOfferingCrossListingInfo target, List<CourseOfferingCrossListingInfo> list) {
+        for( CourseOfferingCrossListingInfo item : list ) {
+            if( item.getId().equals(target.getId())) return target;
+        }
+        return null;
+    }
 
     private void testDeleteCourseOffering(String coId) throws Exception {
-         try {
+        try {
             // Delete the course offering and check that the status returned was
             // a success
             StatusInfo delResult = coService.deleteCourseOffering(coId, callContext);
             assertTrue(delResult.getIsSuccess());
 
-             try{
+            try {
                 coService.getCourseOffering(coId, callContext);
-             }catch(DoesNotExistException ex){
-                 //expected
-             }
+            } catch (DoesNotExistException ex) {
+                //expected
+            }
 
         } catch (Exception ex) {
             log.error("exception due to ", ex);
@@ -308,21 +488,26 @@ public class TestCourseOfferingServiceImpl {
 
     @Test
     public void testCRFormatOffering() throws Exception {
-       CourseOfferingInfo co = createCourseOffering();
+        new MockLrcTestDataLoader(this.lrcService).loadData();
+        createStateTestData();
+        dataLoader.loadTerms();
+        createCourseCHEM123(dataLoader.fall2012, callContext);
+
+        CourseOfferingInfo co = createCourseOffering();
         FormatOfferingInfo created = createFormatOffering(co.getId(), co.getTermId());
 
         assertNotNull(created);
         assertEquals(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY,
-             created.getStateKey());
+                created.getStateKey());
         assertEquals(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY,
-             created.getTypeKey());
+                created.getTypeKey());
         assertEquals("TEST FORMAT OFFERING", created.getDescr().getPlain());
 
-        FormatOfferingInfo retrieved =  coService.getFormatOffering(created.getId(), callContext);
+        FormatOfferingInfo retrieved = coService.getFormatOffering(created.getId(), callContext);
         assertEquals(retrieved.getStateKey(),
-             created.getStateKey());
+                created.getStateKey());
         assertEquals(retrieved.getTypeKey(),
-             created.getTypeKey());
+                created.getTypeKey());
         assertEquals(retrieved.getDescr().getPlain(), created.getDescr().getPlain());
         assertEquals(retrieved.getTermId(), created.getTermId());
     }
@@ -330,7 +515,7 @@ public class TestCourseOfferingServiceImpl {
     private FormatOfferingInfo createFormatOffering(String coId, String coTermId) throws Exception {
         FormatOfferingInfo fo = null;
         try {
-            FormatOfferingInfo newFO = CourseOfferingServiceDataUtils
+            FormatOfferingInfo newFO = CourseOfferingServiceTestDataUtils
                     .createFormatOffering(coId, "CHEM123:LEC-ONLY",
                             coTermId, "TEST FORMAT OFFERING",
                             LuiServiceConstants.ALL_ACTIVITY_TYPES);
@@ -347,16 +532,16 @@ public class TestCourseOfferingServiceImpl {
     }
 
     private ActivityOfferingInfo createActivityOffering(CourseOfferingInfo courseOffering, String foId) throws Exception {
-        String activityId = CourseOfferingServiceDataUtils
-            .createCanonicalActivityId("CHEM123:LEC-ONLY",
-                    LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY);
+        String activityId = CourseOfferingServiceTestDataUtils
+                .createCanonicalActivityId("CHEM123:LEC-ONLY",
+                        LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY);
 
         List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
-        ActivityOfferingInfo ao = CourseOfferingServiceDataUtils
-            .createActivityOffering("2012FA", courseOffering, foId,
-                    null, activityId, "Lecture", "A",
-                    LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,
-                    instructors);
+        ActivityOfferingInfo ao = CourseOfferingServiceTestDataUtils
+                .createActivityOffering("2012FA", courseOffering, foId,
+                        null, activityId, "Lecture", "A",
+                        LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,
+                        instructors);
 
         ActivityOfferingInfo created = coService.createActivityOffering(
                 foId, activityId,
@@ -368,6 +553,11 @@ public class TestCourseOfferingServiceImpl {
 
     @Test
     public void testCRActivityOffering() throws Exception {
+        new MockLrcTestDataLoader(this.lrcService).loadData();
+        createStateTestData();
+        dataLoader.loadTerms();
+        createCourseCHEM123(dataLoader.fall2012, callContext);
+
         CourseOfferingInfo courseOffering = createCourseOffering();
         FormatOfferingInfo fo = createFormatOffering(courseOffering.getId(), courseOffering.getTermId());
 
@@ -405,6 +595,9 @@ public class TestCourseOfferingServiceImpl {
             }
             assertTrue(foundActivityId);
 
+            ActivityOffering createdAo = coService.getActivityOffering(retrieved.getId(), callContext);
+            assertFalse(createdAo.getIsColocated());
+
         } catch (Exception ex) {
             log.fatal("Exception from serviceCall", ex);
 
@@ -412,8 +605,13 @@ public class TestCourseOfferingServiceImpl {
         }
     }
 
-   @Test
-   public void testDeleteCourseOfferingCascaded() throws Exception {
+    @Test
+    public void testDeleteCourseOfferingCascaded() throws Exception {
+        new MockLrcTestDataLoader(this.lrcService).loadData();
+        createStateTestData();
+        dataLoader.loadTerms();
+        createCourseCHEM123(dataLoader.fall2012, callContext);
+
         CourseOfferingInfo courseOffering = createCourseOffering();
         FormatOfferingInfo fo = createFormatOffering(courseOffering.getId(), courseOffering.getTermId());
         ActivityOfferingInfo ao = createActivityOffering(courseOffering, fo.getId());
@@ -432,10 +630,142 @@ public class TestCourseOfferingServiceImpl {
         List<ActivityOfferingInfo> activities = coService.getActivityOfferingsByCourseOffering(courseOffering.getId(), callContext);
         assertEquals(0, activities.size());
 
-        try{
+        try {
             coService.getCourseOffering(courseOffering.getId(), callContext);
-        }catch(DoesNotExistException ex){
-           //expected
+        } catch (DoesNotExistException ex) {
+            //expected
         }
+    }
+
+    @Test
+    public void testGetActivityOfferingsForSeatPoolDefinition() throws Exception {
+        new MockLrcTestDataLoader(this.lrcService).loadData();
+        createStateTestData();
+        dataLoader.loadTerms();
+        createCourseCHEM123(dataLoader.fall2012, callContext);
+
+        // Create  Seatpool
+        SeatPoolDefinitionInfo seatPoolDefinitionInfo = new SeatPoolDefinitionInfo();
+        seatPoolDefinitionInfo.setName("TestSeatPoolDefinitionInfo-Id");
+        seatPoolDefinitionInfo.setStateKey("TestSeatPoolDefinitionInfo-StateKey1");
+        seatPoolDefinitionInfo.setTypeKey("TestSeatPoolDefinitionInfo-TypeKey1");
+        seatPoolDefinitionInfo.setExpirationMilestoneTypeKey("TestSeatPoolDefinitionInfo-MilestoneKey1");
+        seatPoolDefinitionInfo.setIsPercentage(false);
+        seatPoolDefinitionInfo.setSeatLimit(50);
+        seatPoolDefinitionInfo.setProcessingPriority(3);
+        seatPoolDefinitionInfo.setId(null);
+        SeatPoolDefinitionInfo seatPoolCreated = coService.createSeatPoolDefinition(seatPoolDefinitionInfo, callContext);
+
+        // Create AO
+        CourseOfferingInfo courseOffering = createCourseOffering();
+        FormatOfferingInfo fo = createFormatOffering(courseOffering.getId(), courseOffering.getTermId());
+        ActivityOfferingInfo activityOfferingCreated = createActivityOffering(courseOffering, fo.getId());
+
+        // Add Seatpool to AO
+        coService.addSeatPoolDefinitionToActivityOffering(seatPoolCreated.getId(), activityOfferingCreated.getId(), callContext);
+
+        //  Actual test
+        List<ActivityOfferingInfo> activityOfferingInfos = coService.getActivityOfferingsForSeatPoolDefinition(seatPoolCreated.getId(), callContext);
+
+        assertEquals(1, activityOfferingInfos.size());
+        assertEquals(activityOfferingCreated.getId(), activityOfferingInfos.get(0).getId());
+    }
+
+    @Test
+    public void testActivityOfferingClusters() throws Exception {
+        new MockLrcTestDataLoader(this.lrcService).loadData();
+        createStateTestData();
+        dataLoader.beforeTest(false);
+
+        // default cluster is 2x3 = 6 reg groups
+
+        // we want to constrain to not use lec-b
+        // 1x3 = 3 reg groups
+
+        ActivityOfferingInfo activities[] = new ActivityOfferingInfo[]{
+                coService.getActivityOffering("CO-1:LEC-AND-LAB:LEC-A",
+                        callContext),
+                coService.getActivityOffering("CO-1:LEC-AND-LAB:LAB-A",
+                        callContext),
+                coService.getActivityOffering("CO-1:LEC-AND-LAB:LAB-B",
+                        callContext),
+                coService.getActivityOffering("CO-1:LEC-AND-LAB:LAB-C",
+                        callContext),};
+
+        ActivityOfferingClusterInfo expected = CourseOfferingServiceTestDataUtils
+                .createActivityOfferingCluster("CO-1:LEC-AND-LAB", "Default Cluster",
+                        Arrays.asList(activities));
+
+        expected.setId("AOC-1");
+        new AttributeTester().add2ForCreate(expected.getAttributes());
+
+        ActivityOfferingClusterInfo actual = coService.createActivityOfferingCluster("CO-1:LEC-AND-LAB", CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY, expected, callContext);
+
+        validateAoc(actual, expected, activities);
+
+        expected = actual;
+        actual = coService.getActivityOfferingCluster(expected.getId(), callContext);
+
+        validateAoc(actual, expected, activities);
+
+        List<String> aocIds = new ArrayList<String>();
+        aocIds.add(actual.getId());
+        List<String> aocIdsTwo = coService.getActivityOfferingClustersIdsByFormatOffering("CO-2:LEC-ONLY", callContext);
+        aocIds.addAll(aocIdsTwo);
+        List<ActivityOfferingClusterInfo> aocList = coService.getActivityOfferingClustersByIds(aocIds, callContext);
+        assertEquals(2, aocList.size());
+        assertTrue(aocList.get(0).getId().equals(aocIds.get(0)) || aocList.get(1).getId().equals(aocIds.get(0)));
+        assertTrue(aocList.get(0).getId().equals(aocIds.get(1)) || aocList.get(1).getId().equals(aocIds.get(1)));
+
+        List<RegistrationGroupInfo> rgList = coService.getRegistrationGroupsByActivityOfferingCluster(actual.getId(), callContext);
+
+        assertEquals(0, rgList.size());
+
+        coService.generateRegistrationGroupsForCluster(actual.getId(), callContext);
+
+        rgList = coService.getRegistrationGroupsByActivityOfferingCluster(actual.getId(), callContext);
+
+        assertEquals(3, rgList.size());
+
+        coService.generateRegistrationGroupsForCluster(actual.getId(), callContext);
+
+        // verify count stays the same even after calling the method again.
+        rgList = coService.getRegistrationGroupsByActivityOfferingCluster(actual.getId(), callContext);
+
+        assertEquals(3, rgList.size());
+    }
+
+    private void validateAoc(ActivityOfferingClusterInfo actual, ActivityOfferingClusterInfo expected, ActivityOfferingInfo... activities) {
+        assertNotNull(actual.getId());
+        assertEquals(expected.getId(), actual.getId());
+        assertEquals(expected.getTypeKey(), actual.getTypeKey());
+        assertEquals(expected.getStateKey(), actual.getStateKey());
+        assertEquals(expected.getFormatOfferingId(), actual.getFormatOfferingId());
+        assertEquals(expected.getPrivateName(), actual.getPrivateName());
+        assertEquals(expected.getName(), actual.getName());
+
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        new MetaTester().checkAfterCreate(actual.getMeta());
+        new RichTextTester().check(expected.getDescr(), actual.getDescr());
+
+        // check that the union of activity id's matches what we declared
+        assertEquals(expected.getActivityOfferingSets().size(), actual.getActivityOfferingSets().size());
+        List<String> activityIds = new ArrayList<String>();
+        for(ActivityOfferingInfo info : activities) {
+            activityIds.add(info.getId());
+        }
+
+        new ListOfStringTester().checkExistsAnyOrder(activityIds, extractActivityOfferingIds(actual.getActivityOfferingSets()), true);
+    }
+
+    private List<String> extractActivityOfferingIds(List<ActivityOfferingSetInfo> aoList) {
+        List<String> idList = new ArrayList<String>();
+
+        for (ActivityOfferingSetInfo activityOfferingSetInfo : aoList) {
+
+            idList.addAll(activityOfferingSetInfo.getActivityOfferingIds());
+
+        }
+        return idList;
     }
 }

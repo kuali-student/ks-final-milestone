@@ -4,8 +4,8 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
 import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
 import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -22,13 +22,10 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class PopulationWrapperRule extends MaintenanceDocumentRuleBase {
+public class PopulationWrapperRule extends KsMaintenanceDocumentRuleBase {
     private transient PopulationService populationService;
 
-    @Override
-    protected boolean processGlobalSaveDocumentBusinessRules(MaintenanceDocument document) {
-        return true;
-    }
+
 
     /**
      * Main entry for validating populations.

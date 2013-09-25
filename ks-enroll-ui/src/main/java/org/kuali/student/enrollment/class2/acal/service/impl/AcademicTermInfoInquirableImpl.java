@@ -2,13 +2,11 @@ package org.kuali.student.enrollment.class2.acal.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
-import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
 import javax.xml.namespace.QName;
-import java.util.List;
 import java.util.Map;
 
 /**

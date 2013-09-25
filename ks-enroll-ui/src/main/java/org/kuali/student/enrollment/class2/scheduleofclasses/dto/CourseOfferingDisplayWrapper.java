@@ -22,6 +22,9 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo
 import java.util.ArrayList;
 import java.util.List;
 
+/* TODO : This class needs refactoring; should inherit from CourseOfferingWrapper; see https://jira.kuali.org/browse/KSENROLL-5931
+ */
+
 /**
  * This class //TODO ...
  *
@@ -31,6 +34,7 @@ public class CourseOfferingDisplayWrapper {
 
     private CourseOfferingDisplayInfo coDisplayInfo;
     private String information;
+    private String requisites;
 
     public CourseOfferingDisplayWrapper(){
         coDisplayInfo = new CourseOfferingDisplayInfo();
@@ -50,6 +54,14 @@ public class CourseOfferingDisplayWrapper {
 
     public void setInformation(String information) {
         this.information = information;
+    }
+
+    public String getRequisites() {
+        return requisites;
+    }
+
+    public void setRequisites(String requisites) {
+        this.requisites = requisites;
     }
 
     public String getXmlEscapedFormatted() {

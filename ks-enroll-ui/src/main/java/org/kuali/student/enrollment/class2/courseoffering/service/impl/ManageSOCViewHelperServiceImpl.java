@@ -21,10 +21,12 @@ import org.apache.commons.lang.time.DurationFormatUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ManageSOCStatusHistory;
 import org.kuali.student.enrollment.class2.courseoffering.form.ManageSOCForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.ManageSOCViewHelperService;
@@ -34,20 +36,17 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstant
 import org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetPublishingHelper;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.enrollment.uif.service.impl.KSViewHelperServiceImpl;
+import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.class1.state.service.StateService;
+import org.kuali.student.r2.core.constants.StateServiceConstants;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import javax.xml.namespace.QName;
+import java.util.*;
 
 /**
  * This is the view helper class which takes care of most of the functionalities to load data into the model. All the
@@ -61,6 +60,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
     private transient AcademicCalendarService acalService;
     private transient CourseOfferingSetService courseOfferingSetService;
+    private transient StateService stateService;
 
     public TermInfo getTermByCode(String termCode) {
 
@@ -181,6 +181,17 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
                 socForm.setPublishCompleteDate(ManageSocConstants.DISPLAY_PUBLISHING_IN_PROGRESS);
             }
         }
+
+        try {
+            socForm.setContextBar( CourseOfferingContextBar.NEW_INSTANCE(socForm.getTermInfo(), socForm.getSocInfo(),
+                    getStateService(), getAcalService(), createContextInfo()) );
+        } catch (Exception e){
+            if (LOG.isDebugEnabled()){
+                LOG.debug( "Error building CourseOfferingContextBar for SocForm" );
+            }
+            throw convertServiceExceptionsToUI(e);
+        }
+
     }
 
     protected void buildStatusHistory(ManageSOCForm socForm){
@@ -332,11 +343,11 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         }
 
         ContextInfo contextInfo = createContextInfo();
-        CourseOfferingSetPublishingHelper mpeHelper = (CourseOfferingSetPublishingHelper)getHelper("publishHelper");
-
+//        CourseOfferingSetPublishingHelper mpeHelper = (CourseOfferingSetPublishingHelper)getHelper("org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetPublishingHelper");
+        CourseOfferingSetPublishingHelper mpeHelper =  new CourseOfferingSetPublishingHelper();
         try {
             //  First state change the SOC to state "publishing"
-            getCourseOfferingSetService().updateSocState(socForm.getSocInfo().getId(), CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY, contextInfo);
+            getCourseOfferingSetService().changeSocState(socForm.getSocInfo().getId(), CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY, contextInfo);
             //  Then kick off the runner.
             mpeHelper.startMassPublishingEvent(socForm.getSocInfo().getId(), new ArrayList<String>(), contextInfo);
         } catch (Exception e) {
@@ -373,7 +384,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         }
 
         try {
-            StatusInfo status = getCourseOfferingSetService().updateSocState(socInfo.getId(), stateKey, createContextInfo());
+            StatusInfo status = getCourseOfferingSetService().changeSocState(socInfo.getId(), stateKey, createContextInfo());
 
             if (status.getIsSuccess()){
                 GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, message);
@@ -392,8 +403,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
     protected String formatScheduleDate(Date date){
         if (date != null){
-           DateFormat dateFormat = new SimpleDateFormat(ManageSocConstants.SCHEDULE_DATE_FORMAT);
-           return dateFormat.format(date);
+           return DateFormatters.DEFAULT_MONTH_YEAR_TIME_DATE_FORMATTER.format(date);
         }
         return StringUtils.EMPTY;
     }
@@ -417,7 +427,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
         try {
             //  First state change the SOC to state "inprogress".
-            getCourseOfferingSetService().updateSocState(socForm.getSocInfo().getId(),CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS, contextInfo);
+            getCourseOfferingSetService().changeSocState(socForm.getSocInfo().getId(), CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS, contextInfo);
 
             // Then kick off the mass scheduling event.
             List<String> optionKeys = new ArrayList<String>();
@@ -482,6 +492,14 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
             acalService = CourseOfferingResourceLoader.loadAcademicCalendarService();
         }
         return acalService;
+    }
+
+
+    protected StateService getStateService() {
+        if( stateService == null ) {
+            stateService = (StateService) GlobalResourceLoader.getService(new QName(StateServiceConstants.NAMESPACE, StateServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return stateService;
     }
 
     protected CourseOfferingSetService getCourseOfferingSetService(){

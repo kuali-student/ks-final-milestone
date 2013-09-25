@@ -19,7 +19,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
-    <bean id="KS-DeleteTargetTerm-View" parent="KSFormView" p:applyDirtyCheck="true"
+    <bean id="KS-DeleteTargetTerm-View" parent="KS-Uif-FormView" p:applyDirtyCheck="true"
           p:id="deleteTargetTermView" p:headerText="Delete Target Term"
           p:entryPageId="selectTargetTermToDelete"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingViewHelperServiceImpl"
@@ -30,7 +30,7 @@
 
         <property name="items">
             <list>
-                <bean id="KS-DeleteTargetTerm-SelectTermPage" parent="Uif-Page" p:disclosure.render="false"
+                <bean id="KS-DeleteTargetTerm-SelectTermPage" parent="KS-Uif-Page" p:disclosure.render="false"
                       p:id="selectTargetTermToDelete"
                       p:headerText="">
                     <property name="header">
@@ -41,7 +41,7 @@
                             <bean parent="Uif-VerticalBoxGroup">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-Message" p:messageText="Specify a target term to delete"/>
+                                        <bean parent="Uif-Message" p:messageText="Enter a target term to delete"/>
                                         <bean parent="Uif-HorizontalBoxSection">
                                             <property name="items">
                                                 <list>

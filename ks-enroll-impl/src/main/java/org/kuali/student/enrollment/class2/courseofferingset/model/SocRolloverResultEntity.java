@@ -15,22 +15,24 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.persistence.*;
 
 @Entity
 @Table(name = "KSEN_SOC_ROR")
 @NamedQueries({
         @NamedQuery(name="SocRor.getSocRorsByType", query="Select a from SocRolloverResultEntity a where a.socRorType =:socRorType"),
         @NamedQuery(name="SocRor.getSocRorsBySourceSocId", query="Select a from SocRolloverResultEntity a where a.sourceSocId=:sourceSocId"),
-        @NamedQuery(name="SocRor.getSocRorsByTargetSocId", query="Select a from SocRolloverResultEntity a where a.targetSocId=:targetSocId")
+        @NamedQuery(name="SocRor.getSocRolloverResultIdsBySourceSocId", query="Select a.id from SocRolloverResultEntity a where a.sourceSocId=:sourceSocId"),
+        @NamedQuery(name="SocRor.getSocRorsByTargetSocId", query="Select a from SocRolloverResultEntity a where a.targetSocId=:targetSocId"),
+        @NamedQuery(name="SocRor.getSocRolloverResultIdsByTargetSocId", query="Select a.id from SocRolloverResultEntity a where a.targetSocId=:targetSocId")
 
 })
 public class SocRolloverResultEntity extends MetaEntity implements AttributeOwner<SocRolloverResultAttributeEntity> {

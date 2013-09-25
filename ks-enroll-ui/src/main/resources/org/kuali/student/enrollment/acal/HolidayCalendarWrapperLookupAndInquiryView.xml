@@ -82,7 +82,7 @@
         <property name="required" value="true"/>
         <property name="minLength" value="8" />
         <property name="controlField">
-            <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+            <bean parent="Uif-KS-Default-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
         </property>
         <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
         <property name="summary"  value="Official start date of the Academic Calendar" />
@@ -93,7 +93,7 @@
         <property name="required" value="true"/>
         <property name="minLength" value="8" />
         <property name="controlField">
-            <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+            <bean parent="Uif-KS-Default-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
         </property>
         <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
         <property name="summary"  value="Official end date of the Academic Calendar" />
@@ -116,9 +116,9 @@
         </property>
 
         <!--<property name="collections">-->
-            <!--<list>-->
-                <!--<bean parent="CollectionDefinition" p:name="holidays" /> &lt;!&ndash;p:label="Terms" p:shortLabel="Terms" p:elementLabel="Terms" />&ndash;&gt;-->
-            <!--</list>-->
+        <!--<list>-->
+        <!--<bean parent="CollectionDefinition" p:name="holidays" /> &lt;!&ndash;p:label="Terms" p:shortLabel="Terms" p:elementLabel="Terms" />&ndash;&gt;-->
+        <!--</list>-->
         <!--</property>-->
         <property name="objectLabel" value="Holiday Calendar"/>
         <property name="primaryKeys">
@@ -152,10 +152,14 @@
     </bean>
 
     <!-- LookupView -->
-    <bean id="KS-HolidayCalendarWrapper-LookupView" parent="KSLookupView">
+    <bean id="KS-HolidayCalendarWrapper-LookupView" parent="KS-Uif-LookupView">
         <property name="headerText" value="Holiday Calendar (with Holidays) Lookup " />
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.HolidayCalendarWrapperLookupableImpl" />
+
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <ref bean="KS-Enrollment-HomewardPathBreadcrumbs"/>
+        </property>
 
         <property name="criteriaFields">
             <list>
@@ -173,7 +177,7 @@
         </property>
     </bean>
 
-    <bean id="KS-HolidayCalendarWrapper-InquiryView" parent="KSInquiryView">
+    <bean id="KS-HolidayCalendarWrapper-InquiryView" parent="KS-Uif-InquiryView">
         <property name="headerText" value="Holiday Calendar Inquiry"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.HolidayCalendarWrapperInquiryViewHelperServiceImpl" />
@@ -218,15 +222,15 @@
                                     <bean parent="Uif-TextControl"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField"
-                                  p:propertyName="adminOrgName"
-                                  p:label="Organization"
-                                  p:readOnly="true"
-                                  p:fieldLabel.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
+                            <!--<bean parent="Uif-InputField"-->
+                                  <!--p:propertyName="adminOrgName"-->
+                                  <!--p:label="Organization"-->
+                                  <!--p:readOnly="true"-->
+                                  <!--p:fieldLabel.renderColon="false">-->
+                                <!--<property name="control">-->
+                                    <!--<bean parent="Uif-TextControl"/>-->
+                                <!--</property>-->
+                            <!--</bean>-->
                             <bean parent="Uif-InputField"
                                   p:propertyName="holidayCalendarInfo.startDate"
                                   p:label="Start Date"

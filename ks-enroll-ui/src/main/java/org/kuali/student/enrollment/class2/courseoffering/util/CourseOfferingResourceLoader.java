@@ -17,15 +17,19 @@
 package org.kuali.student.enrollment.class2.courseoffering.util;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.RoomServiceConstants;
 import org.kuali.student.r2.core.constants.StateServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
@@ -97,4 +101,19 @@ public class CourseOfferingResourceLoader {
         return roomService;
     }
 
+    public static AtpService loadAtpService() {
+        AtpService atpService = (AtpService)GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART));
+        return atpService;
+    }
+
+    public static LuiService loadLuiService() {
+        LuiService luiService = (LuiService)GlobalResourceLoader.getService(new QName(LuiServiceConstants.NAMESPACE, LuiServiceConstants.SERVICE_NAME_LOCAL_PART));
+        return luiService;
+    }
+
+    public static CourseOfferingSetService loadSocService() {
+        CourseOfferingSetService socService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE,
+                CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
+        return socService;
+    }
 }

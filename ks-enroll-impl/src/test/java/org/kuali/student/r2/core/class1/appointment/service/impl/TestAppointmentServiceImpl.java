@@ -266,47 +266,6 @@ public class TestAppointmentServiceImpl {
         double diff = longdiff / 1000.0;
         return diff;
     }
-    @Test
-    @Ignore //KSENROLL-3487
-    // Ignoring for now since this could randomly break CI unit testing depending on outside factors.
-    public void testMaxSlotGenerationTiming() {
-        // This tests auto-slot generation for max case without end date
-        before();
-        try {
-            apptWindowInfo.setAssignedPopulationId(PopulationServiceConstants.SUMMER_ONLY_STUDENTS_POPULATION_KEY.toString());
-            // Want to adjust to create four slots (assuming 15 minutes between slots)
-            Date startDate = createDate(2012, 3, 5, 12, 0);
-            apptWindowInfo.setStartDate(startDate);
-            apptWindowInfo.setEndDate(null);
-            int maxPerSlot = 40;
-            apptWindowInfo.setMaxAppointmentsPerSlot(maxPerSlot); // Currently, there are 9 students.  This would fill two slot
-            // in full, and 1 additional in a third slot.
-            // Change slot generation type
-            apptWindowInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY.toString());
-            AppointmentWindowInfo windowInfo =
-                    appointmentService.createAppointmentWindow(apptWindowInfo.getTypeKey(), apptWindowInfo, contextInfo);
-            // Use windowInfo afterwards since it has the ID
-            Calendar before = Calendar.getInstance();
-            List<AppointmentSlotInfo> slotInfoList =
-                    appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
-            Calendar after = Calendar.getInstance();
-            System.err.println("Appointment slot generation (in seconds): " + diffInSeconds(before, after));
-            System.err.println("Number of slots: " + slotInfoList.size());
-            
-            before = Calendar.getInstance();
-            StatusInfo statusInfo =
-                    appointmentService.generateAppointmentsByWindow(windowInfo.getId(), windowInfo.getTypeKey(), contextInfo);
-            after = Calendar.getInstance();
-            double diff = diffInSeconds(before, after);
-            System.err.println("Appointment generation (in seconds): " + diffInSeconds(before, after));
-            System.err.println("Number of students: " + statusInfo.getMessage());
-            assert(diff < 3.0);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assert(false);
-        }
-
-    }
 
     @Test
     public void testStatusInfoUniformSlot() {
@@ -932,7 +891,6 @@ public class TestAppointmentServiceImpl {
             try {
                 appointmentService.createAppointmentWindow(info.getTypeKey(), info, contextInfo);
             } catch (Exception e) {
-                e.printStackTrace();
                 assert(false);
             }
         }
@@ -940,9 +898,7 @@ public class TestAppointmentServiceImpl {
         try {
             List<AppointmentWindowInfo> list = appointmentService.getAppointmentWindowsByPeriod(milestoneId, contextInfo);
             assertEquals(3, list.size());
-            System.err.println("Got here");
         } catch (Exception e) {
-            e.printStackTrace();
             assert(false);
         }
     }
@@ -986,8 +942,6 @@ public class TestAppointmentServiceImpl {
             _checkAppointmentSlots(slots, window.getStartDate(), window.getEndDate(), slotRule);
             List<AppointmentSlotInfo> slotInfoList = appointmentService.getAppointmentSlotsByWindow(window.getId(), contextInfo);
         } catch (Exception e) {
-            System.err.println("Exception");
-            e.printStackTrace();
             assert(false);
         }
     }
@@ -1006,8 +960,6 @@ public class TestAppointmentServiceImpl {
             assertEquals(oneSlot.getStartDate(), apptWindowInfo.getStartDate());
             assertNull(oneSlot.getEndDate()); // TODO: Change for
         } catch (Exception e) {
-            System.err.println("Exception");
-            e.printStackTrace();
             assert(false);
         }
     }
@@ -1027,8 +979,6 @@ public class TestAppointmentServiceImpl {
             // Check we're in draft state
             assertEquals(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY, info.getStateKey());
         } catch (Exception e) {
-            System.err.println("Exception caught ==========================");
-            e.printStackTrace();
             assert(false); // If exception is thrown, make unit test fail
         }
     }
@@ -1045,15 +995,12 @@ public class TestAppointmentServiceImpl {
             AppointmentWindowInfo retrieved = appointmentService.getAppointmentWindow(id, contextInfo);
             assertNotNull(retrieved);
             // Then delete it
-            System.err.println("Getting ready to delete");
             appointmentService.deleteAppointmentWindowCascading(id, contextInfo);
             shouldExist = false;
             appointmentService.getAppointmentWindow(id, contextInfo); // should throw DoesNotExistException
         } catch  (DoesNotExistException e) {
-            System.err.println("DoesNotExistException caught ==========================");
             assert(!shouldExist); // We expect this exception if shouldExist is false
         } catch (Exception e) {
-            System.err.println("Exception caught ==========================");
             e.printStackTrace();
             assert(false); // If exception is thrown, make unit test fail
         }
@@ -1083,7 +1030,6 @@ public class TestAppointmentServiceImpl {
             // Make sure we're still in draft state
             assertEquals(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY, retrieved.getStateKey());
         } catch (Exception e) {
-            System.err.println("Exception caught ==========================");
             e.printStackTrace();
             assert(false); // If exception is thrown, make unit test fail
         }
@@ -1104,7 +1050,6 @@ public class TestAppointmentServiceImpl {
             assertNotNull(info);
             assertEquals(created.getId(), info.getId());
         } catch (Exception e) {
-            System.err.println("Exception");
             assert(false);
         }
     }
@@ -1125,15 +1070,12 @@ public class TestAppointmentServiceImpl {
             AppointmentSlotInfo info = appointmentService.getAppointmentSlot(createdId, contextInfo);
             assertNotNull(info);
             // Now try to delete it
-            System.err.println("Getting ready to delete");
             appointmentService.deleteAppointmentSlotCascading(info.getId(), contextInfo);
             shouldExist = false;
             appointmentService.getAppointmentSlot(createdId, contextInfo); // should throw DoesNotExistException
         } catch  (DoesNotExistException e) {
-            System.err.println("DoesNotExistException caught ==========================");
             assert(!shouldExist); // We expect this exception if shouldExist is false
         } catch (Exception e) {
-            System.err.println("Exception");
             assert(false);
         }
     }
@@ -1157,15 +1099,12 @@ public class TestAppointmentServiceImpl {
             // Update it
             info.setStartDate(newStartDate);
             assertEquals(apptWinId, info.getAppointmentWindowId());
-            System.err.println("Getting ready to call: updateAppointmentSlot");
             appointmentService.updateAppointmentSlot(slotId, info, contextInfo);
             // Fetch it again
             AppointmentSlotInfo retrieved = appointmentService.getAppointmentSlot(slotId, contextInfo);
             // Check that date matches the new start date
             assertEquals(newStartDate, retrieved.getStartDate());
         } catch (Exception e) {
-            System.err.println("Exception");
-            e.printStackTrace();
             assert(false);
         }
     }

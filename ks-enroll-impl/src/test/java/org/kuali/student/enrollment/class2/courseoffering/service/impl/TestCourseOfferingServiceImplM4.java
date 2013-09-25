@@ -1,26 +1,49 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import junit.framework.Assert;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.criteria.QueryByCriteria.Builder;
+import org.kuali.student.common.test.util.AttributeTester;
+import org.kuali.student.common.test.util.ListOfStringTester;
+import org.kuali.student.common.test.util.MetaTester;
 import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
+import org.kuali.student.enrollment.class2.acal.util.MockAcalTestDataLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
-import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
-import org.kuali.student.enrollment.test.util.AttributeTester;
-import org.kuali.student.enrollment.test.util.ListOfStringTester;
-import org.kuali.student.enrollment.test.util.MetaTester;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -32,37 +55,31 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.state.service.StateService;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-
 
 /*
- * This class was used to test the class1 backed implementation of CourseOfferingService for CourseOffering, FormatOffering and ActivityOffering.
+ * This class was used to test the class1 backed implementation of CourseOfferingService for CourseOffering,
+ * FormatOffering and ActivityOffering.
  *
- * For M4 it has been refactored.  Most of the test are now in TestCourseOfferingServiceMockImpl and only db dependent tests go here.
- *
+ * For M4 it has been refactored.  Most of the test are now in TestCourseOfferingServiceMockImpl and only db
+ * dependent tests go here.  soc-businesslogic-with-mocks-test-context.xml
  * See TestLprServiceImpl for an example.
- *
- * Once the tests can be run this should be unignored.
- *
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -70,29 +87,139 @@ import static org.junit.Assert.assertNotNull;
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
 public class TestCourseOfferingServiceImplM4 {
+    
+    private static final Logger log = LoggerFactory.getLogger(TestCourseOfferingServiceImplM4.class);
+    
     @Resource
-    private CourseOfferingService coServiceImpl;
+    protected CourseOfferingService coServiceImpl;
     @Resource
-    private PopulationService populationService;
+    protected PopulationService populationService;
     @Resource
-    private LuiService luiService;
+    protected LuiService luiService;
     @Resource
-    private AtpService atpService;
-
-    //private SeatPoolDefinitionDao seatPoolDefinitionDao;
-    private ContextInfo contextInfo;
+    protected AcademicCalendarService acalService;
+    @Resource
+    protected TypeService typeService;
+    @Resource
+    protected StateService stateService;
+    
+    protected ContextInfo contextInfo;
 
     @Resource
     protected LuiServiceDataLoader dataLoader = new LuiServiceDataLoader();
-    @Resource
-    private AtpTestDataLoader atpTestDataLoader = new AtpTestDataLoader(atpService);
 
-    private void before() {
-        contextInfo = ContextUtils.createDefaultContextInfo();
-        contextInfo.setPrincipalId("admin");
-        contextInfo.setAuthenticatedPrincipalId("admin");
+    protected MockAcalTestDataLoader acalTestDataLoader;
+
+    public static String principalId = "123";
+    public ContextInfo callContext = null;
+
+    @Before
+    public void setup() throws Exception {
+        callContext = new ContextInfo();
+        callContext.setPrincipalId(principalId);
+
+        createStateTestData();
+    }
+
+    private void createStateTestData() throws Exception {
+
+        // ActivityOffering statess
+        cleanupStateTestData( LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY );
+        cleanupLifecycleTestData( LuiServiceConstants.ACTIVITY_OFFERING_LIFECYCLE_KEY );
+        LifecycleInfo aoLifecycle = addLifecycle( LuiServiceConstants.ACTIVITY_OFFERING_LIFECYCLE_KEY );
+        addState( aoLifecycle, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, true );
+
+        // FormatOffering states
+        cleanupStateTestData( LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY );
+        cleanupLifecycleTestData( LuiServiceConstants.FORMAT_OFFERING_LIFECYCLE_KEY );
+        LifecycleInfo foLifecycle = addLifecycle( LuiServiceConstants.FORMAT_OFFERING_LIFECYCLE_KEY );
+        addState( foLifecycle, LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY, true );
+
+        // CourseOffering states
+        cleanupStateTestData( LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY );
+        cleanupLifecycleTestData( LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_KEY );
+        LifecycleInfo coLifecycle = addLifecycle( LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_KEY );
+        addState( coLifecycle, LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY, true );
+
+        // RegistrationGroup states
+        cleanupStateTestData( LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY );
+        cleanupStateTestData( LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY );
+        cleanupLifecycleTestData( LuiServiceConstants.REGISTRATION_GROUP_LIFECYCLE_KEY );
+        LifecycleInfo rgLifecycle = addLifecycle( LuiServiceConstants.REGISTRATION_GROUP_LIFECYCLE_KEY );
+        addState( rgLifecycle, LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY, true );
+        addState( rgLifecycle, LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY, true );
+    }
+
+    // TODO: temporary stop-gap because SS throws an error about duplicate-data; this cleans state from previous runs
+    private void cleanupStateTestData( String state ) {
         try {
-            atpTestDataLoader.loadDataOneRecord();
+            stateService.deleteState( state, callContext );
+        } catch( Exception e ) { }
+    }
+
+    // TODO: temporary stop-gap because SS throws an error about duplicate-data; this cleans state from previous runs
+    private void cleanupLifecycleTestData( String name ) {
+        try {
+            stateService.deleteLifecycle( name, callContext );
+        } catch( Exception e ) { }
+    }
+
+    private LifecycleInfo addLifecycle( String name ) throws Exception {
+
+        LifecycleInfo origLife = new LifecycleInfo();
+        RichTextInfo rti = new RichTextInfo();
+        rti.setFormatted("<b>Formatted</b> lifecycle for testing purposes");
+        rti.setPlain("Plain lifecycle for testing purposes");
+        origLife.setDescr(rti);
+        origLife.setKey( name );
+        origLife.setName( "TEST_NAME" );
+        origLife.setRefObjectUri( "TEST_URI" );
+        AttributeInfo attr = new AttributeInfo();
+        attr.setKey("attribute.key");
+        attr.setValue("attribute value");
+        origLife.getAttributes().add(attr);
+
+        return stateService.createLifecycle(origLife.getKey(), origLife, callContext);
+    }
+
+    private StateInfo addState( LifecycleInfo lifecycleInfo, String state, boolean isInitialState ) throws Exception {
+
+        StateInfo orig = new StateInfo();
+        orig.setKey(state);
+        orig.setLifecycleKey(lifecycleInfo.getKey());
+        RichTextInfo rti = new RichTextInfo();
+        rti.setFormatted("<b>Formatted again</b> state for testing purposes");
+        rti.setPlain("Plain state again for testing purposes");
+        orig.setDescr(rti);
+        orig.setName("Testing state");
+        Date effDate = new Date();
+        orig.setEffectiveDate(effDate);
+        Calendar cal = Calendar.getInstance();
+        cal.set(2022, 8, 23);
+        orig.setExpirationDate(cal.getTime());
+        AttributeInfo attr = new AttributeInfo();
+        attr.setKey("attribute.key");
+        attr.setValue("attribute value");
+        orig.getAttributes().add(attr);
+        orig.setIsInitialState(isInitialState);
+
+        return stateService.createState(orig.getLifecycleKey(), orig.getKey(), orig, callContext);
+    }
+
+    protected void before() {
+        if(contextInfo == null) {
+            contextInfo = ContextUtils.createDefaultContextInfo();
+            contextInfo.setPrincipalId("admin");
+            contextInfo.setAuthenticatedPrincipalId("admin");
+
+            acalTestDataLoader = new MockAcalTestDataLoader(acalService);
+
+        }
+        try {
+
+            acalTestDataLoader.loadTerm("atpId5", "atpId5", "2000-01-01 00:00:00.0", "2100-12-31 00:00:00.0", AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, "Desc 101");
+            acalTestDataLoader.loadTerm("atpId8", "atpId8", "2000-01-01 00:00:00.0", "2100-12-31 00:00:00.0", AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, "Desc 101");
+
             dataLoader.loadData();
             FormatOfferingInfo foInfo = coServiceImpl.getFormatOffering("Lui-6", contextInfo);
             if (foInfo.getActivityOfferingTypeKeys() == null |
@@ -123,19 +250,6 @@ public class TestCourseOfferingServiceImplM4 {
         seatPoolDefinitionInfo.setSeatLimit(50);
         seatPoolDefinitionInfo.setProcessingPriority(3);
         return seatPoolDefinitionInfo;
-    }
-
-    private List<SeatPoolDefinitionInfo> _constructSeatPoolDefinitionInfoByIdList() {
-        SeatPoolDefinitionInfo ref = _constructSeatPoolDefinitionInfoById(2);
-        SeatPoolDefinitionInfo three = _constructSeatPoolDefinitionInfoById(3);
-        SeatPoolDefinitionInfo four = _constructSeatPoolDefinitionInfoById(4);
-        SeatPoolDefinitionInfo five = _constructSeatPoolDefinitionInfoById(5);
-        List<SeatPoolDefinitionInfo> poolList = new ArrayList<SeatPoolDefinitionInfo>();
-        poolList.add(ref);
-        poolList.add(three);
-        poolList.add(four);
-        poolList.add(five);
-        return poolList;
     }
 
     private PopulationInfo _constructPopulationInfo(Integer val) {
@@ -226,20 +340,7 @@ public class TestCourseOfferingServiceImplM4 {
         return registrationGroupInfo;
     }
 
-    private List<RegistrationGroupInfo> _constructRegistrationGroupInfoByIdList() {
-        RegistrationGroupInfo ref = _constructRegistrationGroupInfoById(2);
-        RegistrationGroupInfo three = _constructRegistrationGroupInfoById(3);
-        RegistrationGroupInfo four = _constructRegistrationGroupInfoById(4);
-        RegistrationGroupInfo five = _constructRegistrationGroupInfoById(5);
-        List<RegistrationGroupInfo> rgList = new ArrayList<RegistrationGroupInfo>();
-        rgList.add(ref);
-        rgList.add(three);
-        rgList.add(four);
-        rgList.add(five);
-        return rgList;
-    }
-
-    private List<String> extractActivityOfferingIds(List<ActivityOfferingSetInfo> aoList) {
+    protected List<String> extractActivityOfferingIds(List<ActivityOfferingSetInfo> aoList) {
         List<String> idList = new ArrayList<String>();
 
         for (ActivityOfferingSetInfo activityOfferingSetInfo : aoList) {
@@ -250,7 +351,7 @@ public class TestCourseOfferingServiceImplM4 {
         return idList;
     }
 
-    private ActivityOfferingClusterInfo _createAOC() {
+    protected ActivityOfferingClusterInfo _createAOC() {
         ActivityOfferingClusterInfo expected;
         try {
             ActivityOfferingInfo activities[] = new ActivityOfferingInfo[]{
@@ -258,7 +359,7 @@ public class TestCourseOfferingServiceImplM4 {
                 coServiceImpl.getActivityOffering("Lui-Lab2", contextInfo),
                 coServiceImpl.getActivityOffering("Lui-8", contextInfo)};
 
-            expected = CourseOfferingServiceDataUtils.createActivityOfferingCluster("Lui-6", "Default Cluster",
+            expected = CourseOfferingServiceTestDataUtils.createActivityOfferingCluster("Lui-6", "Default Cluster",
                                                                                      Arrays.asList(activities));
         } catch (Exception ex) {
             throw new RuntimeException(ex);
@@ -274,15 +375,23 @@ public class TestCourseOfferingServiceImplM4 {
         try {
             FormatOfferingInfo foInfo = coService.getFormatOffering("foo", null);
             generator.initializeGenerator(coService, foInfo, null, null);
-            String prefix = "02";
-            for (int i = 1; i <= 99; i++) {
+            String prefix = "1";
+            int suffixVal = 1;
+            for (int i = 1; i <= 999; i++) {
                 String code = generator.generateRegistrationGroupCode(foInfo, null, null);
-                String answer = prefix;
-                if (i < 10) {
-                    answer += "0";
+                String suffix = "" + suffixVal;
+                suffixVal++; // Increment to next suffix
+                if (suffixVal % 100 == 0) {
+                    suffixVal++;  // Code generator skips over suffix codes that end in 00.
                 }
-                answer += i;
-                assertEquals(answer, code);
+                while (suffix.length() < 3) {
+                    suffix = "0" + suffix;
+                }
+                String expectedCode = prefix + suffix;
+                assertEquals(expectedCode, code);
+                if (suffixVal > 999) {
+                    break;
+                }
             }
             // Now see if it throws an exception
             boolean codeGenerated = true;
@@ -306,8 +415,8 @@ public class TestCourseOfferingServiceImplM4 {
         try {
             String foId = "Lui-6";
             String aocId = "Aoc-1";
-            RegistrationGroupInfo created = coServiceImpl.createRegistrationGroup(foId, aocId, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, info, contextInfo);
-            RegistrationGroupInfo created2 = coServiceImpl.createRegistrationGroup(foId, aocId, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, info2, contextInfo);
+            coServiceImpl.createRegistrationGroup(foId, aocId, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, info, contextInfo);
+            coServiceImpl.createRegistrationGroup(foId, aocId, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, info2, contextInfo);
 
             List<RegistrationGroupInfo> rgInfos = coServiceImpl.getRegistrationGroupsByFormatOffering(foId, contextInfo);
             assertEquals(2, rgInfos.size());
@@ -357,8 +466,6 @@ public class TestCourseOfferingServiceImplM4 {
             Assert.assertEquals(created.getCourseOfferingId(), fetched.getCourseOfferingId());
             Assert.assertEquals(created.getId(), fetched.getId());
 
-            List<LuiLuiRelationInfo> llrs = luiService.getLuiLuiRelationsByLui(fetched.getId(), contextInfo);
-
             List<String> activityOfferingIds = new ArrayList<String>();
             activityOfferingIds.add("Lui-2");
             activityOfferingIds.add("Lui-Lab2");
@@ -368,18 +475,15 @@ public class TestCourseOfferingServiceImplM4 {
             fetched.setFormatOfferingId("Lui-7");
             RegistrationGroupInfo updated = coServiceImpl.updateRegistrationGroup(fetched.getId(), fetched, contextInfo);
 
-            List<LuiLuiRelationInfo> llrs1 = luiService.getLuiLuiRelationsByLui(updated.getId(), contextInfo);
             coServiceImpl.deleteRegistrationGroup(updated.getId(), contextInfo);
 
-            List<LuiLuiRelationInfo> llrsAfter = luiService.getLuiLuiRelationsByLui(updated.getId(), contextInfo);
             try {
-                RegistrationGroupInfo fetchedAfterDelete = coServiceImpl.getRegistrationGroup(updated.getId(), contextInfo);
+                coServiceImpl.getRegistrationGroup(updated.getId(), contextInfo);
                 //This should throw an exception since the reg group was deleted
                 assert (false);
             } catch (DoesNotExistException e) {
                 assert (true);
             }
-            // System.out.println("here");
         } catch (Exception e) {
             e.printStackTrace();
             assert (false);
@@ -434,7 +538,7 @@ public class TestCourseOfferingServiceImplM4 {
             Assert.assertEquals(info.getProcessingPriority(), fetched.getProcessingPriority());
         } catch (Exception e) {
             e.printStackTrace();
-            assert (false);
+            fail(e.getMessage());
         }
     }
 
@@ -478,8 +582,9 @@ public class TestCourseOfferingServiceImplM4 {
             coServiceImpl.createActivityOfferingCluster("Lui-6", CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY, _createAOC(), contextInfo);
 
             //generate RG
-            StatusInfo status = coServiceImpl.generateRegistrationGroupsForFormatOffering("Lui-6", contextInfo);
-            assertEquals(true, status.getIsSuccess());
+            List<BulkStatusInfo> status = coServiceImpl.generateRegistrationGroupsForFormatOffering("Lui-6", contextInfo);
+            assertNotNull(status);
+            Assert.assertEquals(2, status.size()); 
 
             //test RG generation was successful
             List<RegistrationGroupInfo> rgList = coServiceImpl.getRegistrationGroupsByFormatOffering("Lui-6", contextInfo);
@@ -487,7 +592,7 @@ public class TestCourseOfferingServiceImplM4 {
 
         } catch (Exception e) {
             e.printStackTrace();
-            assert (false);
+            fail(e.getMessage());
         }
     }
 
@@ -557,7 +662,7 @@ public class TestCourseOfferingServiceImplM4 {
         }
 
         // check that the union of activity id's matches what we declared
-        new ListOfStringTester().checkExistsAnyOrder(Arrays.asList(new String[]{"Lui-5", "Lui-Lab2", "Lui-8"}),
+        new ListOfStringTester().checkExistsAnyOrder(Arrays.asList("Lui-5", "Lui-Lab2", "Lui-8"),
                 extractActivityOfferingIds(actual.getActivityOfferingSets()), true);
 
         //test getRegistrationGroupsByActivityOfferingCluster
@@ -576,6 +681,69 @@ public class TestCourseOfferingServiceImplM4 {
         // verify count stays the same even after calling the method again.
         rgList = coServiceImpl.getRegistrationGroupsByActivityOfferingCluster(actual.getId(), contextInfo);
         assertEquals(2, rgList.size());
+    }
+    
+    // shows the problems that need to be resolved in https://jira.kuali.org/browse/KSENROLL-6479
+    // once fixed this test should work ok.
+    // the other search for methods should also be exercised but this one shows the two know problem cases right now.
+    @Test
+    @Ignore
+    public void testSearchForMethods () throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        
+        before();
+        
+        Builder builder = QueryByCriteria.Builder.create();
+        
+        // this shows the filtering that is wrong we should just get 2 co's for both but the second one returns all lui.id's
+        
+        // want to set typeKey since that is what is on the dto but need to specify luiType which is the name of the field in the luiEntity
+        builder.setPredicates(PredicateFactory.equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY));
+        
+        List<String> expectedCOIds = coServiceImpl.searchForCourseOfferingIds(builder.build(), callContext);
+        
+        log.info (String.format("%d expected", expectedCOIds.size()));
+        
+        builder = QueryByCriteria.Builder.create();
+        
+        List<String> actualCOIds = coServiceImpl.searchForCourseOfferingIds(builder.build(), callContext);
+        
+        log.info (String.format("%d actual", actualCOIds.size()));
+        
+        assertEquals(expectedCOIds.size(), actualCOIds.size());
+        
+        assertTrue (CollectionUtils.isEqualCollection(expectedCOIds, actualCOIds));
+        
+        // this shows the paging problem
+        // we should get back 2 co's
+        // but only 1 co in the first 2 lui's
+        
+        builder = QueryByCriteria.Builder.create();
+        
+        // this shows the filtering that is wrong we should just get 2 co's for both but the second one returns all lui.id's
+        
+        // want to set typeKey since that is what is on the dto but need to specify luiType which is the name of the field in the luiEntity
+        builder.setPredicates(PredicateFactory.equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY));
+        
+        builder.setMaxResults(2);
+        builder.setStartAtIndex(0);
+        
+        List<CourseOfferingInfo> expectedCOs = coServiceImpl.searchForCourseOfferings(builder.build(), callContext);
+        
+        log.info (String.format("%d expected", expectedCOs.size()));
+        
+        builder = QueryByCriteria.Builder.create();
+        
+        builder.setMaxResults(2);
+        builder.setStartAtIndex(0);
+        
+        List<CourseOfferingInfo> actualCOs = coServiceImpl.searchForCourseOfferings(builder.build(), callContext);
+        
+        log.info (String.format("%d actual", actualCOs.size()));
+        
+        assertEquals(expectedCOs.size(), actualCOs.size());
+        
+        assertTrue (CollectionUtils.isEqualCollection(expectedCOs, actualCOs));
+        
     }
 
 }

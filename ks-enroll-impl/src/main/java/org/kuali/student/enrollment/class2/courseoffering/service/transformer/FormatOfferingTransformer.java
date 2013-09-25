@@ -8,7 +8,6 @@ import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FormatOfferingTransformer {
@@ -48,9 +47,7 @@ public class FormatOfferingTransformer {
         lui.setId(format.getId());
         lui.setTypeKey(format.getTypeKey());
         lui.setStateKey(format.getStateKey());
-        if (format.getName() == null) {
-            lui.setName("FO"); // Makes it easier to track in DB
-        } else {
+        if (format.getName() != null){
             //Set the format's name into the format offering lui official identifier
             LuiIdentifierInfo luiIdent = lui.getOfficialIdentifier();
             if(luiIdent == null){

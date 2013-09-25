@@ -29,8 +29,20 @@
         This is a single page view with all the required beans defined only here.
     -->
 
-    <bean id="KS-HolidayCalendar-ViewPage" parent="Uif-Page"
-          p:id="holidayCalendarViewPage" >
+    <bean id="KS-HolidayCalendar-ViewPage" parent="KS-Uif-Page"
+          p:id="holidayCalendarViewPage"
+          p:componentSecurity.viewAuthz="true"  >
+
+        <property name="pageSourceFile" value="HolidayCalendarViewPage.xml" /> <!-- Shows up in HTML so devs can find the code -->
+
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="@{holidayCalendarInfo.name}"/>
+                </bean>
+            </list>
+        </property>
+
         <property name="header">
             <bean parent="Uif-HeaderTwo">
                 <property name="cssClasses">
@@ -44,18 +56,20 @@
             <bean parent="Uif-FooterBase"/>
         </property>
         <property name="header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup">
+            <bean parent="Uif-HorizontalBoxGroup" p:id="copyEditDeleteHeader" p:componentSecurity.viewAuthz="true">
                 <property name="items">
                     <list>
                         <bean parent="Uif-ActionLink" p:methodToCall="toCopy" p:actionLabel="Copy" p:style="text-align:center;"/>
                         <bean parent="Uif-ActionLink" p:methodToCall="toEdit" p:actionLabel="Edit" p:style="text-align:center;"/>
-                        <bean parent="Uif-ActionLink" p:preSubmitCall="return confirm('Are you sure you want to delete the holiday calendar?')" p:render="@{!officialUI}" p:methodToCall="delete" p:actionLabel="Delete" p:style="text-align:center;"/>
+                        <bean parent="Uif-ActionLink" p:render="@{!officialUI}" p:methodToCall="delete" p:actionLabel="Delete" p:style="text-align:center;"/>
                     </list>
                 </property>
             </bean>
         </property>
         <property name="items">
             <list>
+                <!-- This adds the file names to the page HTML -->
+                <ref bean="KS-SourceFile-Comment-Group"/>
                 <bean parent="Uif-VerticalBoxSection"
                       p:header.render="false"
                       p:disclosure.render="false">
@@ -63,6 +77,7 @@
                         <list>
                             <ref bean="KS-HolidayCalendar-View-Meta"/>
                             <ref bean="KS-HolidayCalendar-View-Holidays"/>
+                            <ref bean="KS-HolidayCalendarView-Header-Right-Group"/>
                         </list>
                     </property>
                 </bean>
@@ -88,12 +103,6 @@
                                   p:label="Holiday Calendar Name"
                                   p:fieldLabel.width="40%"
                                   p:width="60%"
-                                  p:readOnly="true"
-                                  p:required="false"
-                                  p:fieldLabel.renderColon="false"/>
-                            <bean parent="Uif-InputField"
-                                  p:propertyName="adminOrgName"
-                                  p:label="Organization"
                                   p:readOnly="true"
                                   p:required="false"
                                   p:fieldLabel.renderColon="false"/>

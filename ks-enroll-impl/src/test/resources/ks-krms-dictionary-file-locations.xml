@@ -97,6 +97,27 @@
         <constructor-arg value="classpath:ks-CourseOfferingInfo-dictionary.xml" />
     </bean>
 
+    <bean id="socInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-SocInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="socRolloverResultInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-SocRolloverResultInfo-dictionary.xml" />
+    </bean>
+
+    <!--LRCSerice-->
+    <bean id="resultScaleInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-ResultScaleInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="resultValueInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-ResultValueInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="resultValuesGroupInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-ResultValuesGroupInfo-dictionary.xml" />
+    </bean>
+
     <bean id="activityOfferingInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-ActivityOfferingInfo-dictionary.xml" />
     </bean>
@@ -109,6 +130,28 @@
            <constructor-arg value="classpath:ks-RegistrationGroupInfo-dictionary.xml" />
        </bean>
 
+    <!--RoomService-->
+    <bean id="buildingInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-BuildingInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="roomInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-RoomInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="roomResponsibleOrgInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-RoomResponsibleOrgInfo-dictionary.xml" />
+    </bean>
+
+    <bean name="roomServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="buildingInfoDictionaryLocation" />
+                <bean parent="roomInfoDictionaryLocation"/>
+                <bean parent="roomResponsibleOrgInfoDictionaryLocation"/>
+            </list>
+        </constructor-arg>
+    </bean>
 
     <bean name="courseOfferingServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>
@@ -120,6 +163,29 @@
             </list>
         </constructor-arg>
      </bean>
+
+    <bean name="courseOfferingSetServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="socInfoDictionaryLocation" />
+                <bean parent="socRolloverResultInfoDictionaryLocation"/>
+                <bean parent="socRolloverResultInfoDictionaryLocation"/>
+
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean name="lrcServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="resultScaleInfoDictionaryLocation" />
+                <bean parent="resultValueInfoDictionaryLocation"/>
+                <bean parent="resultValuesGroupInfoDictionaryLocation"/>
+
+            </list>
+        </constructor-arg>
+    </bean>
+
     <!--THIS IS USED BY RICE DATA DICTIONARY SERVICE 
      and the Global Student Dictionary Service, dataDictionaryServiceForAllUsedByRice
      that is used in the rice dictionary validation service impl -->
@@ -142,6 +208,8 @@
                 <bean parent="courseOfferingInfoDictionaryLocation" />
                 <bean parent="activityOfferingInfoDictionaryLocation" />
                 <bean parent="formatOfferingInfoDictionaryLocation" />
+                <bean parent="socInfoDictionaryLocation"/>
+                <bean parent="socRolloverResultInfoDictionaryLocation"/>
             </list>
         </constructor-arg>
     </bean>

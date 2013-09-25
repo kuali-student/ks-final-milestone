@@ -27,11 +27,22 @@
     </bean>
     
     
+   <bean id="krmsRuleManagementCopyMethods" class="org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethodsMockImpl">
+   </bean>   
+    <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
+        <property name="krmsRuleManagementCopyMethods" ref="krmsRuleManagementCopyMethods" />
+    </bean>
+
+    <bean id="rolloverAssist" class="org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssistImpl">
+    </bean>
+
     <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
         <property name="courseService" ref="courseService" />
         <property name="acalService" ref="acalService" />
         <property name="coService" ref="coService" />
         <property name="registrationCodeGeneratorFactory" ref="regGroupCodeGeneratorFactory" />
+        <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
+        <property name="rolloverAssist" ref="rolloverAssist"/>
     </bean>
     <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />
 
@@ -41,6 +52,7 @@
         <property name="coService" ref="coService" />
         <property name="socService" ref="socService" />
         <property name="schedulingService" ref="schedulingService"/>
+        <property name="rolloverAssist" ref="rolloverAssist"/>
     </bean>
     
     <bean id="acalService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.AcademicCalendarServiceMockImpl" />
@@ -67,6 +79,8 @@
         <property name="xaDataSourceClassName" value="${jdbc.xaDataSourceClassName}" />
         <property name="xaProperties" value="${propertiesPrefix.jdbc.xaDataSourceProperties}" />
         <property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+        <property name="minPoolSize" value="${jdbc.minPoolSize}" />
+        <property name="testQuery" value="${jdbc.testQuery}" />
     </bean>
 
     <bean id="vendorAdapter" class="${jpa.vendorAdapter}" depends-on="propertyConfigurer">
@@ -98,6 +112,7 @@
         <property name="socRorDao" ref="socRolloverResultDao" />
         <property name="socRorItemDao" ref="socRolloverResultItemDao" />
         <property name="businessLogic" ref="socBusinessLogic" />
+        <property name="stateService" ref="stateService" />
     </bean>
 
     <bean id="socDao" class="org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao">
@@ -113,8 +128,8 @@
     <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 
     <bean id="typeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl"/>
-    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceMockDataImpl" />
-    <bean id="lrcService" class="org.kuali.student.enrollment.class1.lrc.service.impl.LrcServiceMockImpl" />
+    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.mock.StateServiceMockImpl" />
+    <bean id="lrcService" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceMockImpl" />
     <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl"/>
     <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl"/>
     <bean id="roomService" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImplM5"/>

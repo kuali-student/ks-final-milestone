@@ -4,19 +4,24 @@
  */
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
 import java.util.ArrayList;
@@ -36,6 +41,15 @@ public class CourseOfferingRolloverRunner implements Runnable {
     private AcademicCalendarService acalService;
     private ContextInfo context;
     private SocRolloverResultInfo result;
+    private RolloverAssist rolloverAssist;
+
+    public RolloverAssist getRolloverAssist() {
+        return rolloverAssist;
+    }
+
+    public void setRolloverAssist(RolloverAssist rolloverAssist) {
+        this.rolloverAssist = rolloverAssist;
+    }
 
     public CourseOfferingService getCoService() {
         return coService;
@@ -151,6 +165,16 @@ public class CourseOfferingRolloverRunner implements Runnable {
         return seconds + "." + fractionStr + "s";
     }
 
+    private void _removeRolloverAssistIdFromContext(ContextInfo contextInfo) {
+        int index = 0;
+        for (AttributeInfo attr: contextInfo.getAttributes()) {
+            if (attr.getKey().equals(CourseOfferingSetServiceConstants.ROLLOVER_ASSIST_ID_DYNATTR_KEY)) {
+                contextInfo.getAttributes().remove(index);
+                break; // Assume it only shows up once
+            }
+            index++;
+        }
+    }
     private void runInternal() throws Exception {
         if (this.context == null) {
             throw new NullPointerException("context not set");
@@ -182,6 +206,12 @@ public class CourseOfferingRolloverRunner implements Runnable {
         List<SocRolloverResultItemInfo> items = new ArrayList<SocRolloverResultItemInfo>();
         int count = 1;
         Date start = new Date();
+        //
+        String rolloverAssistId = rolloverAssist.getRolloverId();
+        AttributeInfo attr = new AttributeInfo();
+        attr.setKey(CourseOfferingSetServiceConstants.ROLLOVER_ASSIST_ID_DYNATTR_KEY);
+        attr.setValue(rolloverAssistId);
+        context.getAttributes().add(attr);
         for (String sourceCoId : sourceCoIds) {
             // System.out.println("processing: " + sourceCoId);
             try {
@@ -216,6 +246,7 @@ public class CourseOfferingRolloverRunner implements Runnable {
             count++;
         }
         logger.info("======= Finished processing rollover =======");
+        _removeRolloverAssistIdFromContext(context); // KSENROLL-8062
         reportProgress(items, sourceCoIdsHandled - errors);      // Items Processed = Items - Errors
         // mark finished
         result = socService.getSocRolloverResult(result.getId(), context);
@@ -275,7 +306,24 @@ public class CourseOfferingRolloverRunner implements Runnable {
         } catch (AlreadyExistsException ex) {
             error = ex.getMessage();
         } catch (DataValidationErrorException ex) {
-            error = ex.getMessage();
+            boolean firstTime = true;
+
+            // This provides a better error message for display in rollover results page= (KSENROLL-4582)
+            StringBuffer errorBuffer = new StringBuffer("Validation error(s): ");
+            if (!StringUtils.isBlank(ex.getMessage())){
+                errorBuffer.append(ex.getMessage());
+                firstTime = false;
+            }
+            for (ValidationResultInfo info: ex.getValidationResults()) {
+                if (firstTime) {
+                    firstTime = false;
+                } else {
+                    errorBuffer.append(", ");
+                }
+                // Append on multiple error messages
+                errorBuffer.append(info.getElement() + " has bad data: " + info.getInvalidData());
+            }
+            error = errorBuffer.toString();
         } catch (InvalidParameterException ex) {
             error = ex.getMessage();
         } catch (Exception ex) {

@@ -1,19 +1,20 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CO_AO_RG_ViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
@@ -27,6 +28,7 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.service.CourseService;
@@ -35,7 +37,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public abstract class CO_AO_RG_ViewHelperServiceImpl extends ViewHelperServiceImpl implements CO_AO_RG_ViewHelperService{
+public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl implements CO_AO_RG_ViewHelperService{
 
     protected CourseService courseService;
     protected TypeService typeService;
@@ -47,18 +49,40 @@ public abstract class CO_AO_RG_ViewHelperServiceImpl extends ViewHelperServiceIm
 
         ActivityOfferingWrapper aoWrapper = new ActivityOfferingWrapper(aoInfo);
 
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+        ContextInfo contextInfo = createContextInfo();
 
-        StateInfo state = getStateService().getState(aoInfo.getStateKey(), contextInfo);
+        StateInfo state = getStateInfo(aoInfo.getStateKey());
         aoWrapper.setStateName(state.getName());
 
-        TypeInfo typeInfo = getTypeService().getType(aoInfo.getTypeKey(), contextInfo);
+        TypeInfo typeInfo = getTypeInfo(aoInfo.getTypeKey());
         aoWrapper.setTypeName(typeInfo.getName());
+
+        List<ScheduleRequestSetInfo>  scheduleRequestSetInfoList = getSchedulingService().getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,
+                aoInfo.getId(), contextInfo);
+
+        if(scheduleRequestSetInfoList != null && scheduleRequestSetInfoList.size() > 0) {
+
+            StringBuffer buffer = new StringBuffer();
+            buffer.append(" ");
+            CourseOfferingService coService = CourseOfferingResourceLoader.loadCourseOfferingService();
+
+            if (!scheduleRequestSetInfoList.isEmpty()){
+                for(ScheduleRequestSetInfo coloSet : scheduleRequestSetInfoList) {
+                    List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByIds(coloSet.getRefObjectIds(), createContextInfo());
+                    for(ActivityOfferingInfo coloActivity : aoList) {
+                        if (!StringUtils.equals(coloActivity.getId(),aoInfo.getId())){
+                            buffer.append(coloActivity.getCourseOfferingCode() + " " + coloActivity.getActivityCode() + "<br>");
+                        }
+                    }
+                }
+                aoWrapper.setColocatedAoInfo(buffer.toString());
+            }
+         }
 
         FormatOfferingInfo fo = getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), contextInfo);
         aoWrapper.setFormatOffering(fo);
 
-        OfferingInstructorInfo displayInstructor = ViewHelperUtil.findDisplayInstructor(aoInfo.getInstructors());
+        OfferingInstructorInfo displayInstructor = CourseOfferingViewHelperUtil.findDisplayInstructor(aoInfo.getInstructors());
 
         if(displayInstructor != null) {
             aoWrapper.setFirstInstructorDisplayName(displayInstructor.getPersonName());
@@ -73,8 +97,9 @@ public abstract class CO_AO_RG_ViewHelperServiceImpl extends ViewHelperServiceIm
         }
 
         //This section is to display either schedule request or actuals. If actuals available, display that instead of request
-        if (StringUtils.isNotBlank(aoInfo.getScheduleId())){
+        if (aoInfo.getScheduleIds() != null && aoInfo.getScheduleIds().size() > 0) {
             //FIXME: Use display object once we get the TBA with ScheduleComponentDisplay
+
             /*ScheduleDisplayInfo displayInfo = getSchedulingService().getScheduleDisplay(aoInfo.getScheduleId(),contextInfo);
             if (!displayInfo.getScheduleComponentDisplays().isEmpty()){
                 ScheduleComponentDisplay componentDisplay = displayInfo.getScheduleComponentDisplays().get(0);
@@ -82,29 +107,35 @@ public abstract class CO_AO_RG_ViewHelperServiceImpl extends ViewHelperServiceIm
 
             }*/
 
-            ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(aoInfo.getScheduleId(),contextInfo);
+            List<ScheduleInfo> scheduleInfoList = getSchedulingService().getSchedulesByIds(aoInfo.getScheduleIds(), contextInfo);
 
-            if (!scheduleInfo.getScheduleComponents().isEmpty()){
+            if (!scheduleInfoList.isEmpty()) {
+                for (ScheduleInfo scheduleInfo : scheduleInfoList) {
+                    if (!scheduleInfo.getScheduleComponents().isEmpty()) {
 
-                boolean appendScheduleRowDisplay = false;
+                        boolean appendScheduleRowDisplay = false;
 
-                for (ScheduleComponentInfo scheduleComponentInfo : scheduleInfo.getScheduleComponents()) {
+                        for (ScheduleComponentInfo scheduleComponentInfo : scheduleInfo.getScheduleComponents()) {
 
-                    String roomId = scheduleComponentInfo.getRoomId();
-                    TimeSlotInfo timeSlotInfo =  getSchedulingService().getTimeSlot(scheduleComponentInfo.getTimeSlotIds().get(0),contextInfo);
+                            String roomId = scheduleComponentInfo.getRoomId();
+                            TimeSlotInfo timeSlotInfo = getSchedulingService().getTimeSlot(scheduleComponentInfo.getTimeSlotIds().get(0), contextInfo);
 
-                    updateScheduleToAOWrapperForDisplay(aoWrapper,scheduleComponentInfo.getIsTBA(),roomId,timeSlotInfo,appendScheduleRowDisplay);
+                            updateScheduleToAOWrapperForDisplay(aoWrapper, scheduleComponentInfo.getIsTBA(), roomId, timeSlotInfo, appendScheduleRowDisplay);
 
-                    if (!appendScheduleRowDisplay){
-                        appendScheduleRowDisplay = true;
+                            if (!appendScheduleRowDisplay) {
+                                appendScheduleRowDisplay = true;
+                            }
+                        }
+
                     }
                 }
-
             }
 
         }else{
 
-            List<ScheduleRequestInfo> scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoInfo.getId(), contextInfo);
+            List<ScheduleRequestInfo> scheduleRequestInfoList;
+
+            scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoInfo.getId(), contextInfo);
 
             if (!scheduleRequestInfoList.isEmpty()){
 
@@ -209,20 +240,6 @@ public abstract class CO_AO_RG_ViewHelperServiceImpl extends ViewHelperServiceIm
         }
         // TODO implement TBA when service stores it.
         return dayOfWeek;
-    }
-
-    public TypeService getTypeService() {
-        if(typeService == null) {
-            typeService = CourseOfferingResourceLoader.loadTypeService();
-        }
-        return this.typeService;
-    }
-
-    public StateService getStateService() {
-        if(stateService == null) {
-            stateService = CourseOfferingResourceLoader.loadStateService();
-        }
-        return stateService;
     }
 
     public CourseOfferingService getCourseOfferingService() {

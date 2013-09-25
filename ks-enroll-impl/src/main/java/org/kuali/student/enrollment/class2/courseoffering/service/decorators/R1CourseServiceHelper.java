@@ -6,10 +6,11 @@ package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
@@ -96,11 +97,7 @@ public class R1CourseServiceHelper {
         TermInfo targetTerm;
         try {
             targetTerm = acalService.getTerm(targetTermId, context);
-        } catch (InvalidParameterException ex) {
-            throw new OperationFailedException("unexpected", ex);
-        } catch (MissingParameterException ex) {
-            throw new OperationFailedException("unexpected", ex);
-        } catch (PermissionDeniedException ex) {
+        } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);
         }
         // TODO: Consider adding a shortcut by getting the current version of the course and comparing that first instead of 
@@ -116,14 +113,14 @@ public class R1CourseServiceHelper {
 
         for (VersionDisplayInfo version : versions) {
             CourseInfo course = this.getCourse(version.getId());
-            if (isCourseValidToBeOfferendInTerm(course, targetTerm, context)) {
+            if (!course.getStateKey().equals(DtoConstants.STATE_NOT_APPROVED) && isCourseValidToBeOfferedInTerm(course, targetTerm, context)) {
                 list.add(course);
             }
         }
         return list;
     }
 
-    private boolean isCourseValidToBeOfferendInTerm(CourseInfo course, TermInfo targetTerm, ContextInfo context)
+    private boolean isCourseValidToBeOfferedInTerm(CourseInfo course, TermInfo targetTerm, ContextInfo context)
             throws OperationFailedException {
         // TODO: check the status of the course to make sure it is active, superseded or retired but it cannot be draft or otherwise in-active
 
@@ -139,23 +136,12 @@ public class R1CourseServiceHelper {
         // compare start/end dates
 
         TermInfo startTerm;
-        String startTermCode = course.getStartTerm();
         try {
-
-            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-
-            qbcBuilder.setPredicates(PredicateFactory.equal(ATP_CODE_FIELD_NAME, startTermCode));
-
-            QueryByCriteria criteria = qbcBuilder.build();
-
-            startTerm = acalService.searchForTerms(criteria, context).get(0);
-        } catch (InvalidParameterException ex) {
-            throw new OperationFailedException("unexpected", ex);
-        } catch (MissingParameterException ex) {
-            throw new OperationFailedException("unexpected", ex);
-        } catch (PermissionDeniedException ex) {
+            startTerm = acalService.getTerm(course.getStartTerm(), context);
+        } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);
         }
+
         if (targetTerm.getEndDate().before(startTerm.getStartDate())) {
             return false;
         }
@@ -164,20 +150,9 @@ public class R1CourseServiceHelper {
             return true;
         }
         TermInfo endTerm;
-        String endTermCode = course.getEndTerm();
         try {
-            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-
-            qbcBuilder.setPredicates(PredicateFactory.equal(ATP_CODE_FIELD_NAME, endTermCode));
-
-            QueryByCriteria criteria = qbcBuilder.build();
-
-            endTerm = acalService.searchForTerms(criteria, context).get(0);
-        } catch (InvalidParameterException ex) {
-            throw new OperationFailedException("unexpected", ex);
-        } catch (MissingParameterException ex) {
-            throw new OperationFailedException("unexpected", ex);
-        } catch (PermissionDeniedException ex) {
+            endTerm = acalService.getTerm(course.getEndTerm(), context);
+        } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);
         }
         if (targetTerm.getStartDate().after(endTerm.getEndDate())) {

@@ -29,7 +29,7 @@
 	<value>classpath:org/kuali/student/ui/admin/state/StateInfoAdminLookupView.xml</value>
 	********************************************** -->
 	<!-- LookupView -->
-	<bean id="KS-StateInfo-AdminLookupView" parent="KSLookupView"
+	<bean id="KS-StateInfo-AdminLookupView" parent="KS-Uif-LookupView"
 		p:title="StateInfo Lookup"
 		p:header.headerText="StateInfo Lookup"
 		p:dataObjectClassName="org.kuali.student.r2.core.class1.state.dto.StateInfo"

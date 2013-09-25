@@ -22,8 +22,8 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.DeleteTargetTermForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingViewHelperService;
@@ -36,7 +36,7 @@ import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetS
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
@@ -180,6 +180,15 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         }
     }
     
+    private DefaultOptionKeysService defaultOptionKeysService;
+
+    private DefaultOptionKeysService getDefaultOptionKeysService() {
+        if (defaultOptionKeysService == null) {
+            defaultOptionKeysService = new DefaultOptionKeysServiceImpl();
+        }
+        return this.defaultOptionKeysService;
+    }
+    
     @Override
     public boolean performRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form) {
         CourseOfferingSetService socService = _getSocService();
@@ -191,10 +200,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
                 GlobalVariables.getMessageMap().putError("sourceTermCode", "error.rollover.sourceTerm.noSoc");
             } else {
                 String sourceSocId = socInfo.getId();
-                List<String> options = new ArrayList<String>();
-                // Rollover now runs asynchronously. KSENROLL-1545
-                // options.add(CourseOfferingSetServiceConstants.RUN_SYNCHRONOUSLY_OPTION_KEY);
-                options.add(CourseOfferingSetServiceConstants.LOG_SUCCESSES_OPTION_KEY);
+                List<String> options = this.getDefaultOptionKeysService().getDefaultOptionKeysForRolloverSoc();
                 socService.rolloverSoc(sourceSocId, targetTermId, options, context);
                 return true;
             }

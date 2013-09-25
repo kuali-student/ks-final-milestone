@@ -60,12 +60,12 @@ public class FeeServiceImpl implements FeeService {
     }
 
     @Override
-    public List<EnrollmentFeeInfo> getFeesByIds(@WebParam(name = "feeIds") List<String> feeIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<EnrollmentFeeInfo> getFeesByIds(List<String> feeIds,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<String> getFeeIdsByType(@WebParam(name = "feeTypeKey") String feeTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getFeeIdsByType(String feeTypeKey,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -83,17 +83,17 @@ public class FeeServiceImpl implements FeeService {
     }
 
     @Override
-    public List<String> searchForFeeIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForFeeIds(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<EnrollmentFeeInfo> searchForFees(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<EnrollmentFeeInfo> searchForFees(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<ValidationResultInfo> validateFee(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "feeTypeKey") String feeTypeKey, @WebParam(name = "feeInfo") EnrollmentFeeInfo feeInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateFee( String validationTypeKey,  String feeTypeKey, EnrollmentFeeInfo feeInfo,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

@@ -29,7 +29,7 @@
 	<value>classpath:org/kuali/student/ui/admin/type/TypeTypeRelationInfoAdminLookupView.xml</value>
 	********************************************** -->
 	<!-- LookupView -->
-	<bean id="KS-TypeTypeRelationInfo-AdminLookupView" parent="KSLookupView"
+	<bean id="KS-TypeTypeRelationInfo-AdminLookupView" parent="KS-Uif-LookupView"
 		p:title="TypeTypeRelationInfo Lookup"
 		p:header.headerText="TypeTypeRelationInfo Lookup"
 		p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo"

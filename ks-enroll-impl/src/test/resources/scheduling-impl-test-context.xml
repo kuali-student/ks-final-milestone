@@ -11,8 +11,9 @@
     <context:annotation-config/>
 
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
-    <import resource="classpath:ks-data-dictionary-services-configuration.xml"/>
-    <import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
+    <import resource="classpath:ks-test-system-property-configurer.xml"/>
+    <import resource="classpath:ks-enroll-api-data-dictionary-services-configuration.xml"/>
+    <import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml"/>
 
     <bean id="systemPropertyConfigurer"
           class="org.kuali.student.common.util.SystemPropertyConfigurer">
@@ -46,6 +47,8 @@
                   value="${jdbc.xaDataSourceClassName}" />
         <property name="xaProperties" value="${propertiesPrefix.jdbc.xaDataSourceProperties}"/>
         <property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+        <property name="minPoolSize" value="${jdbc.minPoolSize}" />
+        <property name="testQuery" value="${jdbc.testQuery}" />
     </bean>
 
     <bean id="vendorAdapter" class="${jpa.vendorAdapter}" depends-on="propertyConfigurer">
@@ -87,4 +90,12 @@
     </bean>
 
     <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
+
+    <alias name="schedulingServiceValidationDecorator" alias="SchedulingService" />
+
+    <bean id="schedulingServiceValidationDecorator" class="org.kuali.student.r2.core.scheduling.service.decorators.SchedulingServiceValidationDecorator">
+        <property name="nextDecorator" ref="schedulingServiceImpl"/>
+        <property name="validator" ref="validator" />
+    </bean>
+
 </beans>

@@ -20,10 +20,14 @@
      limitations under the License.
     -->
 
-    <bean id="KS-ManageRegistrationGroups-View" parent="KSFormView" p:applyDirtyCheck="true"
+    <bean id="KS-ManageRegistrationGroups-View" parent="KS-Uif-FormView" p:applyDirtyCheck="true"
           p:id="manageRegistrationGroupsView"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.RegistrationGroupManagementViewHelperServiceImpl"
           p:formClass="org.kuali.student.enrollment.class2.courseoffering.form.RegistrationGroupManagementForm">
+
+        <property name="authorizer">
+            <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
+        </property>
         <property name="header">
             <bean parent="Uif-HeaderThree" p:headerText="Manage Registration Groups" />
         </property>
@@ -32,7 +36,7 @@
         </property>
         <property name="singlePageView" value="true"/>
         <property name="page">
-            <bean parent="Uif-Page"/>
+            <bean parent="KS-Uif-Page" p:id="manageRegistrationGroupsPage" />
         </property>
         <property name="additionalScriptFiles">
             <list merge="true">
@@ -166,7 +170,7 @@
                       p:label="ROOM"
                       p:propertyName="roomName"/>-->
                 <bean parent="Uif-MessageField"
-                      p:label="BUILDING"
+                      p:label="ROOM"
                       p:messageText="@{#line.roomName}" />
 
                 <bean parent="Uif-MessageField"
@@ -191,6 +195,7 @@
                 <entry key="sDom" value="rtip"/>
                 <entry key="aaSorting" value="[[ 3, 'asc' ], [1, 'asc']]"/>
                 <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
             </map>
         </property>
         <property name="items">
@@ -348,11 +353,12 @@
         </property>
     </bean>
 
-    <bean id="KS-ManageRegistrationGroups-ClusterCollection" parent="KS-HorizontalCollectionSection"
+    <bean id="KS-ManageRegistrationGroups-ClusterCollection" parent="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup"
           p:renderAddLine="false"  p:renderLineActions="false" p:onDocumentReadyScript="removeSelfFromDropdowns('KS-ManageRegistrationGroups-ClusterHeaderText');">
         <property name="disclosure.render" value="false"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper" />
         <property name="propertyName" value="filteredAOClusterWrapperList" />
+        <property name="cssClasses" value="aoc_disclosure"/>
         <property name="headerText" value=""/>
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
@@ -419,7 +425,7 @@
                             <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render="@{!withinPortal}"/>
                             <bean parent="Uif-ActionLink" p:methodToCall="deleteACluster" p:actionLabel="Delete" p:render="@{withinPortal}"
                                   p:preSubmitCall="return confirm('This action is not reversible. Are you sure you want to continue?')"
-                                  p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
+                                  p:onClickScript="writeHiddenToForm(&quot;[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
                             <bean parent="Uif-ActionLink" p:methodToCall="deleteAClusterThroughDialog" p:actionLabel="Delete" p:render="@{!withinPortal}"
                                   p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" />
                             <!--p:actionScript="showLightboxComponent('confirmToDeleteClusterDialog');"  />-->
@@ -445,6 +451,7 @@
                 <entry key="sDom" value="rtip"/>
                 <entry key="aaSorting" value="[[ 2, 'asc' ], [0, 'asc']]"/>
                 <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
             </map>
         </property>
         <property name="items">

@@ -4,11 +4,16 @@
     <parent>
         <artifactId>ks-enroll</artifactId>
         <groupId>org.kuali.student.enroll</groupId>
-        <version>1.0.0-KSAP-SNAPSHOT</version>
+        <version>1.0.0-M7</version>
     </parent>
     <artifactId>ks-enroll-ui</artifactId>
     <name>KS Enroll UI</name>
     <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ks-enroll-impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.kuali.student.api</groupId>
             <artifactId>ks-enroll-api</artifactId>
@@ -18,6 +23,27 @@
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-common-util</artifactId>
             <version>${ks.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-common-ui</artifactId>
+            <version>${ks.core.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.gwt</groupId>
+                    <artifactId>gwt-dev</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-core-ui</artifactId>
+            <version>${ks.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.lum</groupId>
+            <artifactId>ks-lum-ui</artifactId>
+            <version>${ks.lum.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
@@ -31,11 +57,6 @@
             <groupId>org.kuali.student.api</groupId>
             <artifactId>ks-lum-api</artifactId>
             <version>${ks.api.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>ks-enroll-impl</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -63,15 +84,8 @@
                             <inputFiles>
                                 <!--  inputFiles that do not end in ".xml" are treated it
                       as a header and used it to group the dictionary files-->
-                                <inputFile>ActivityOfferingInfoUI.xml</inputFile>
-                                <inputFile>ActivityOfferingWrapper.xml</inputFile>
-                                <inputFile>CourseInfoUI.xml</inputFile>
-                                <inputFile>CourseOfferingWrapper.xml</inputFile>
                                 <inputFile>AppliedHoldInfo.xml</inputFile>
                                 <inputFile>HoldIssueInfo.xml</inputFile>
-                                <inputFile>RegistrationGroupInfoUI.xml</inputFile>
-                                <inputFile>RegistrationGroupWrapper.xml</inputFile>
-                                <inputFile>MeetingScheduleWrapper.xml</inputFile>
                             </inputFiles>
                             <supportFiles>
                                 <supportFile>org/kuali/rice/kns/bo/datadictionary/DataDictionaryBaseTypes.xml</supportFile>

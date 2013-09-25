@@ -55,7 +55,7 @@ public class CreditOptionsKeyValues extends UifKeyValuesFinderBase implements Se
         MaintenanceDocumentForm form1 = (MaintenanceDocumentForm)model;
         CourseOfferingEditWrapper form = (CourseOfferingEditWrapper)form1.getDocument().getDocumentDataObject();
 
-        String courseId = form.getCoInfo().getCourseId();
+        String courseId = form.getCourseOfferingInfo().getCourseId();
         List<ResultValuesGroupInfo> creditOptions;
 
         if (courseId != null) {

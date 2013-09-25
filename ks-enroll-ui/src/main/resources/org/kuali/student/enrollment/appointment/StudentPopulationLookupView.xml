@@ -23,7 +23,7 @@
     <import resource="classpath:UifKSDefinitions.xml"/>
 
     <!-- LookupView -->
-    <bean id="KS-StudentPopulationWrapper-LookupView" parent="KSLookupView"
+    <bean id="KS-StudentPopulationWrapper-LookupView" parent="KS-Uif-LookupView"
         p:headerText="Student Population Lookup"
         p:dataObjectClassName="org.kuali.student.enrollment.class2.appointment.dto.StudentGroupWrapper"
         p:viewHelperServiceClass="org.kuali.student.enrollment.class2.appointment.service.impl.StudentGroupWrapperLookupableImpl">

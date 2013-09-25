@@ -12,6 +12,9 @@
     <context:annotation-config/>
 
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
+    <import resource="classpath:ks-test-system-property-configurer.xml"/>
+    <import resource="classpath:ks-enroll-impl-test-data-dictionary-services-configuration.xml"/>
+    <import resource="classpath:ks-enroll-impl-test-data-dictionary-validator-configuration.xml"/>
 
     <bean id="systemPropertyConfigurer"
           class="org.kuali.student.common.util.SystemPropertyConfigurer">
@@ -46,6 +49,8 @@
                   value="${jdbc.xaDataSourceClassName}" />
         <property name="xaProperties" value="${propertiesPrefix.jdbc.xaDataSourceProperties}"/>
         <property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+        <property name="minPoolSize" value="${jdbc.minPoolSize}" />
+        <property name="testQuery" value="${jdbc.testQuery}" />
     </bean>
 
     <bean id="vendorAdapter" class="${jpa.vendorAdapter}" depends-on="propertyConfigurer">
@@ -73,10 +78,15 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
+    <!--<bean id="TypeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl"/>-->
+    <bean id="TypeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl"/>
+
+
+    <bean id="lprServiceImpl" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
         <property name="lprDao" ref="lprDao"/>
         <property name="lprTransactionDao" ref="lprTransDao"/>
         <property name="lprTransactionItemDao" ref="lprTransItemDao"/>
+        <property name="criteriaLookupService" ref="defaultRelationCriteriaLookupService"/>
     </bean>
 
     <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
@@ -86,12 +96,46 @@
     <bean id="lprTransDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTransactionDao">
         <property name="em" ref="entityManager"/>
     </bean>
+
+    <bean id="defaultRelationCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+         <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+         <property name="predicateTransforms">
+             <list>
+                 <ref bean="metaTransform"/>
+                 <ref bean="attributeTransform"/>
+             </list>
+         </property>
+     </bean>
+
+    <bean id="criterialookupDaoJpa" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupDaoJpaImpl">
+        <property name="entityManager" ref="entityManager"/>
+    </bean>
+
+    <bean id="attributeTransform" class="org.kuali.student.r2.common.criteria.transform.AttributeTransform"/>
+
+     <bean id="metaTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+         <property name="renameAttributes">
+             <map>
+                 <entry key="meta.createId" value="createId"/>
+                 <entry key="meta.createTime" value="createTime"/>
+                 <entry key="meta.updateId" value="createId"/>
+                 <entry key="meta.updateTime" value="updateTime"/>
+                 <entry key="meta.versionInd" value="versionInd"/>
+             </map>
+         </property>
+     </bean>
     
      <bean id="lprTransItemDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTransactionItemDao">
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <tx:annotation-driven transaction-manager="JtaTxManager"
-                          order="1000" />
+    <tx:annotation-driven transaction-manager="JtaTxManager"  order="1000" />
+
+    <alias name="lprServiceValidationDecorator" alias="LprService" />
+
+    <bean id="lprServiceValidationDecorator" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LprServiceValidationDecorator">
+        <property name="nextDecorator" ref="lprServiceImpl"/>
+        <property name="validator" ref="validator" />
+    </bean>
 
 </beans>

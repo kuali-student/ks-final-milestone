@@ -23,11 +23,9 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
-import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -35,6 +33,8 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -49,7 +49,6 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.and;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.greaterThanOrEqual;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.lessThanOrEqual;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
 
 /**
  * This is used to display all the official holiday calendars for an academic calendar.
@@ -155,16 +154,24 @@ public class HolidayWrapperListFinder extends UifKeyValuesFinderBase implements 
         
     }
 
+    /**
+     * This builds a criteria that will detect any Overlap between a
+     * HCAL and an ACAL.
+     *
+     * It uses the basic date overlap logic:
+     * hcalStart <= acalEnd && hcalEnd >= acalStart
+     *
+     * @param startDate Acal Start Date
+     * @param endDate   Acal End Date
+     * @return
+     */
     private QueryByCriteria buildQueryByCriteria(Date startDate, Date endDate){
         List<Predicate> predicates = new ArrayList<Predicate>();
 
-        Predicate startDatePredicate = and(greaterThanOrEqual(START_DATE, startDate),
+        Predicate startDatePredicate = and(greaterThanOrEqual(END_DATE, startDate),
                                                    lessThanOrEqual(START_DATE, endDate));
 
-        Predicate endDatePredicate = and(greaterThanOrEqual(END_DATE, startDate),
-                                                lessThanOrEqual(END_DATE, endDate));
-
-        predicates.add(or(startDatePredicate, endDatePredicate));
+        predicates.add(startDatePredicate);
         predicates.add(equal(HCAL_STATE, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY));
         predicates.add(equal(HCAL_TYPE, AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY));
 

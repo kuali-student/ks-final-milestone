@@ -15,8 +15,6 @@
  */
 package org.kuali.student.enrollment.class2.appointment.util;
 
-import org.kuali.rice.krad.util.KRADConstants;
-
 /**
  * This class //TODO ...
  *
@@ -28,10 +26,16 @@ public class AppointmentConstants {
     public static final String SELECT_TERM_PAGE = "selectTermForRegWindows";
     public static final String REGISTRATION_WINDOWS_MANAGEMENT_VIEW = "registrationWindowsManagementView";
 
+    public static final String REGISTRATION_WINDOWS_CONTROLLER_PATH = "registrationWindows";
+
+    // Dialogs
+    public static final String Registration_Windows_ConfirmDelete_Dialog = "KS-RegistrationWindowsManagement-ConfirmDelete-Dialog";
+    public static final String Registration_Windows_ConfirmBreak_Dialog = "KS-RegistrationWindowsManagement-ConfirmBreakAppointments-Dialog";
+
     //Message keys
-    public static final String APPOINTMENT_MSG_INFO_SAVED ="info.enroll.appointment.saved";
-    public static final String APPOINTMENT_MSG_INFO_ASSIGNED ="info.enroll.appointment.assigned";
-    public static final String APPOINTMENT_MSG_INFO_DELETED ="info.enroll.appointment.windowDeleted";
+    public static final String APPOINTMENT_MSG_INFO_SAVED = "info.enroll.appointment.saved";
+    public static final String APPOINTMENT_MSG_INFO_ASSIGNED = "info.enroll.appointment.assigned";
+    public static final String APPOINTMENT_MSG_INFO_DELETED = "info.enroll.appointment.windowDeleted";
     public static final String APPOINTMENT_MSG_ERROR_TOO_MANY_STUDENTS = "error.enroll.appointment.tooManyStudents";
     public static final String APPOINTMENT_MSG_INFO_BREAK_APPOINTMENTS_SUCCESS = "info.enroll.appointment.breakAppointmentsSuccess";
     public static final String APPOINTMENT_MSG_ERROR_BREAK_APPOINTMENTS_FAILURE = "error.enroll.appointment.breakAppointmentsFailure";
@@ -40,6 +44,13 @@ public class AppointmentConstants {
     public static final String APPOINTMENT_MSG_ERROR_END_DATE_REQUIRED_FOR_UNIFORM = "error.enroll.appointment.endDate.requiredForUniform";
     public static final String APPOINTMENT_MSG_ERROR_END_TIME_REQUIRED_FOR_UNIFORM = "error.enroll.appointment.endTime.requiredForUniform";
     public static final String APPOINTMENT_MSG_ERROR_START_DATE_OUT_OF_RANGE = "error.enroll.appointment.startDate.outOfRange";
+    public static final String APPOINTMENT_MSG_ERROR_START_DATE_REQUIRED_FIELD = "error.enroll.appointment.startDate.required";
+    public static final String APPOINTMENT_MSG_ERROR_START_TIME_REQUIRED_FIELD = "error.enroll.appointment.startTime.required";
+    public static final String APPOINTMENT_MSG_ERROR_START_TIME_AM_PM_REQUIRED_FIELD = "error.enroll.appointment.startTimeAmPm.required";
+    public static final String APPOINTMENT_MSG_ERROR_END_TIME_BEFORE_START_TIME = "error.enroll.appointment.endtTime.beforeStartTime";
+    public static final String APPOINTMENT_MSG_ERROR_END_TIME_AM_PM_BEFORE_START_TIME_AM_PM = "error.enroll.appointment.endTimeAmPm.beforeStartTimeAmPm";
+    public static final String APPOINTMENT_MSG_ERROR_DUPLICATE_WINDOW_FOR_PERIOD = "error.enroll.appointment.duplicateWindowName.forPeriod";
+
     public static final String APPOINTMENT_MSG_ERROR_END_DATE_OUT_OF_RANGE = "error.enroll.appointment.endDate.outOfRange";
     public static final String APPOINTMENT_MSG_ERROR_WINDOW_SAVE_FAIL = "error.enroll.appointment.windowSaveFailed";
     public static final String APPOINTMENT_MSG_ERROR_END_DATE_IS_BEFORE_START_DATE = "error.enroll.appointment.window.endDateBeforeStartDate";

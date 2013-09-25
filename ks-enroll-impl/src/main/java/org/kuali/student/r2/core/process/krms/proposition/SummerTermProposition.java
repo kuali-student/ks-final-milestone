@@ -20,7 +20,7 @@ import org.kuali.rice.krms.api.engine.ResultEvent;
 import org.kuali.rice.krms.framework.engine.PropositionResult;
 import org.kuali.rice.krms.framework.engine.result.BasicResult;
 import org.kuali.student.common.util.krms.proposition.AbstractLeafProposition;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 /**

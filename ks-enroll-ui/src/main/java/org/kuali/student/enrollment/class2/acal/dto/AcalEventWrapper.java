@@ -14,7 +14,7 @@
  */
 package org.kuali.student.enrollment.class2.acal.dto;
 
-import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
+import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 

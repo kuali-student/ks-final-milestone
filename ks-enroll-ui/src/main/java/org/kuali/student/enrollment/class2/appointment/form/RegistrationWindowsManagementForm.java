@@ -1,9 +1,8 @@
 package org.kuali.student.enrollment.class2.appointment.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
+import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper;
 
 import java.util.ArrayList;
@@ -20,12 +19,15 @@ public class RegistrationWindowsManagementForm extends UifFormBase {
     private List<KeyDateInfo> periodMilestones;
     private List<AppointmentWindowWrapper> appointmentWindows;
 
-//    private List<String> appointmentWindowIdsToDelete;
+    private AppointmentWindowWrapper selectedAppointmentWindow;
+
+    //    private List<String> appointmentWindowIdsToDelete;
     boolean showAddWindows;
 
 //    private Map<String, List<AppointmentWindowInfo>> periodAndWindowsMap;
 
-    public RegistrationWindowsManagementForm(){
+    public RegistrationWindowsManagementForm() {
+        super();
         termInfo = new TermInfo();
 //        periodInfoDetails = new String();
         periodMilestones = new ArrayList<KeyDateInfo>();
@@ -34,7 +36,7 @@ public class RegistrationWindowsManagementForm extends UifFormBase {
         showAddWindows = false;
     }
 
-    public TermInfo getTermInfo(){
+    public TermInfo getTermInfo() {
         return termInfo;
     }
 
@@ -42,7 +44,7 @@ public class RegistrationWindowsManagementForm extends UifFormBase {
         this.termInfo = termInfo;
     }
 
-    public String getTermType(){
+    public String getTermType() {
         return termType;
     }
 
@@ -50,7 +52,7 @@ public class RegistrationWindowsManagementForm extends UifFormBase {
         this.termType = termType;
     }
 
-    public String getTermYear(){
+    public String getTermYear() {
         return termYear;
     }
 
@@ -86,15 +88,15 @@ public class RegistrationWindowsManagementForm extends UifFormBase {
         return periodMilestones;
     }
 
-    public void setPeriodMilestones(List<KeyDateInfo> periodMilestones){
+    public void setPeriodMilestones(List<KeyDateInfo> periodMilestones) {
         this.periodMilestones = periodMilestones;
     }
 
-    public List<AppointmentWindowWrapper> getAppointmentWindows(){
+    public List<AppointmentWindowWrapper> getAppointmentWindows() {
         return appointmentWindows;
     }
 
-    public void setAppointmentWindows(List<AppointmentWindowWrapper> appointmentWindows){
+    public void setAppointmentWindows(List<AppointmentWindowWrapper> appointmentWindows) {
         this.appointmentWindows = appointmentWindows;
     }
 
@@ -112,5 +114,19 @@ public class RegistrationWindowsManagementForm extends UifFormBase {
 
     public void setShowAddWindows(boolean showAddWindows) {
         this.showAddWindows = showAddWindows;
+    }
+
+    public AppointmentWindowWrapper getSelectedAppointmentWindow() {
+        AppointmentWindowWrapper window = selectedAppointmentWindow;
+        selectedAppointmentWindow = null;
+        return window;
+    }
+
+    public void setSelectedAppointmentWindow(AppointmentWindowWrapper appointmentWindow) {
+        selectedAppointmentWindow = appointmentWindow;
+    }
+
+    public void removeSelectedAppointmentWindow(AppointmentWindowWrapper window) {
+        appointmentWindows.remove(window);
     }
 }

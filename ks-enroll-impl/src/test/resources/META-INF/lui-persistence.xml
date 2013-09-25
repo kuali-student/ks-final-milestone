@@ -20,6 +20,8 @@
         <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitsDeploymentEntity</class>
         <class>org.kuali.student.r2.lum.lrc.model.ResultValuesGroupEntity</class>
         <class>org.kuali.student.r2.lum.lrc.model.ResultValuesGroupAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiSetEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiSetAttributeEntity</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
     </persistence-unit>

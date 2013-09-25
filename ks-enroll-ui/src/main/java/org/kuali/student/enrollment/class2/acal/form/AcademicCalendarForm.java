@@ -16,13 +16,13 @@ package org.kuali.student.enrollment.class2.acal.form;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
-import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.common.uif.form.KSUifForm;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,7 +33,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class AcademicCalendarForm extends UifFormBase {
+public class AcademicCalendarForm extends KSUifForm {
 
     private AcademicCalendarInfo academicCalendarInfo;
     private AcademicCalendarInfo copyFromAcal;
@@ -47,11 +47,47 @@ public class AcademicCalendarForm extends UifFormBase {
     //used by copying
     private boolean newCalendar;
     private boolean officialCalendar;
+    private boolean officialParentTerm;
 
     private String defaultTabToShow;
 
     private List<AcalEventWrapper> eventsToDeleteOnSave;
     private List<AcademicTermWrapper> termsToDeleteOnSave;
+
+    private boolean reload;
+
+    // needed to delete term
+    private String selectedCollectionPath;
+    private String selectedLineIndex;
+
+    //Temporarily add the following two fields to overcome DD validation on addLine problem
+    private boolean addLineValid;
+    private String validationJSONString;
+
+    private boolean makeOfficial;
+    private boolean makeOfficialIsSubterm;
+    private String makeOfficialParentTermName;
+    private String makeOfficialName;
+    private String messageForDeleteTermOrSubterm;
+
+    private String dirtyFields;
+    private List<String> fieldsToSave;
+
+    public String getValidationJSONString() {
+        return validationJSONString;
+    }
+
+    public void setValidationJSONString(String validationJSONString) {
+        this.validationJSONString = validationJSONString;
+    }
+
+    public boolean isAddLineValid() {
+        return addLineValid;
+    }
+
+    public void setAddLineValid(boolean addLineValid) {
+        this.addLineValid = addLineValid;
+    }
 
     public AcademicCalendarForm() {
         super();
@@ -64,6 +100,9 @@ public class AcademicCalendarForm extends UifFormBase {
         defaultTabToShow = CalendarConstants.ACAL_INFO_TAB;
         eventsToDeleteOnSave = new ArrayList<AcalEventWrapper>();
         termsToDeleteOnSave = new ArrayList<AcademicTermWrapper>();
+        addLineValid = true;
+        validationJSONString = new String();
+        fieldsToSave= new ArrayList<String>();
     }
 
     /**
@@ -295,6 +334,19 @@ public class AcademicCalendarForm extends UifFormBase {
     }
 
     /**
+     *
+     * @return true if the user needs to load the latest version
+     */
+    @SuppressWarnings("unused")
+    public boolean isReload() {
+        return reload;
+    }
+
+    public void setReload(boolean reload) {
+        this.reload = reload;
+    }
+
+    /**
      * Resets the form data.
      *
      */
@@ -309,4 +361,110 @@ public class AcademicCalendarForm extends UifFormBase {
         setNewCalendar(false);
     }
 
+    public String getSelectedLineIndex() {
+        return selectedLineIndex;
+    }
+
+    public void setSelectedLineIndex(String selectedLineIndex) {
+        this.selectedLineIndex = selectedLineIndex;
+    }
+
+    public String getSelectedCollectionPath() {
+        return selectedCollectionPath;
+    }
+
+    public void setSelectedCollectionPath(String selectedCollectionPath) {
+        this.selectedCollectionPath = selectedCollectionPath;
+    }
+
+    /**
+     * Whether the Calendar should be made official on save
+     * @return
+     */
+    public boolean isMakeOfficial() {
+        return makeOfficial;
+    }
+
+    public void setMakeOfficial(boolean makeOfficial) {
+        this.makeOfficial = makeOfficial;
+    }
+
+    /**
+     * The name of the calendar or term being made official
+     * @return
+     */
+    public String getMakeOfficialName() {
+        return makeOfficialName;
+    }
+
+    public void setMakeOfficialName(String makeOfficialName) {
+        this.makeOfficialName = makeOfficialName;
+    }
+
+    public String getMessageForDeleteTermOrSubterm() {
+        return messageForDeleteTermOrSubterm;
+    }
+
+    public void setMessageForDeleteTermOrSubterm(String messageForDeleteTermOrSubterm) {
+        this.messageForDeleteTermOrSubterm = messageForDeleteTermOrSubterm;
+    }
+
+    public boolean isMakeOfficialIsSubterm() {
+        return makeOfficialIsSubterm;
+    }
+
+    public void setMakeOfficialIsSubterm(boolean makeOfficialIsSubterm) {
+        this.makeOfficialIsSubterm = makeOfficialIsSubterm;
+    }
+
+    public String getMakeOfficialParentTermName() {
+        return makeOfficialParentTermName;
+    }
+
+    public void setMakeOfficialParentTermName(String makeOfficialParentTermName) {
+        this.makeOfficialParentTermName = makeOfficialParentTermName;
+    }
+
+    /**
+     * A list of properties that have been changed (are dirty) contained in a csv string.
+     *
+     *
+     * @return
+     */
+    public String getDirtyFields() {
+        return dirtyFields;
+    }
+
+    public void setDirtyFields(String dirtyFields) {
+        this.dirtyFields = dirtyFields;
+    }
+
+    /**
+     * A list of Events that have been deleted in the UI and need to be deleted during save.
+     *
+     * @return
+     */
+    public List<AcalEventWrapper> getEventsToDeleteOnSave() {
+        return eventsToDeleteOnSave;
+    }
+
+    public void setEventsToDeleteOnSave(List<AcalEventWrapper> eventsToDeleteOnSave) {
+        this.eventsToDeleteOnSave = eventsToDeleteOnSave;
+    }
+
+    public List<String> getFieldsToSave() {
+        return fieldsToSave;
+    }
+
+    public void setFieldsToSave(List<String> fieldsToSave) {
+        this.fieldsToSave = fieldsToSave;
+    }
+
+    public boolean isOfficialParentTerm() {
+        return officialParentTerm;
+    }
+
+    public void setOfficialParentTerm(boolean officialParentTerm) {
+        this.officialParentTerm = officialParentTerm;
+    }
 }

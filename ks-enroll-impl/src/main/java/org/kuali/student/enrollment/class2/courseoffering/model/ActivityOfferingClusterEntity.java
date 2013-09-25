@@ -25,11 +25,14 @@ import org.kuali.student.r2.common.assembler.TransformUtility;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.util.RichTextHelper;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
@@ -47,6 +50,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_CO_AO_CLUSTER")
+@NamedQueries({
+    @NamedQuery(name="ActivityOfferingClusterENR.getAOCsByIds", query="Select aoc from ActivityOfferingClusterEntity aoc where aoc.id in (:aocIds)"),
+    @NamedQuery(name="ActivityOfferingClusterENR.getAOCsByFormatOfferingIds", query="Select aoc from ActivityOfferingClusterEntity aoc where aoc.formatOfferingId in (:foIds)"),
+    @NamedQuery(name="ActivityOfferingClusterENR.getAOCsByCourseOfferingId", query="Select aoc from ActivityOfferingClusterEntity aoc, LuiLuiRelationEntity rel where rel.lui.id = :coId and rel.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo' and aoc.formatOfferingId = rel.relatedLui.id ")
+})
 public class ActivityOfferingClusterEntity extends MetaEntity implements AttributeOwner<ActivityOfferingClusterAttributeEntity> {
 
     @Column(name = "NAME")
@@ -146,7 +154,7 @@ public class ActivityOfferingClusterEntity extends MetaEntity implements Attribu
         aoClusterInfo.setName(getName());
         aoClusterInfo.setPrivateName(getPrivateName());
         aoClusterInfo.setFormatOfferingId(getFormatOfferingId());
-        aoClusterInfo.setPrivateName(getPrivateName());
+        aoClusterInfo.setDescr(RichTextHelper.buildRichTextInfo(getDescrPlain(), getDescrFormatted()));
 
         // Then, the meta fields
         aoClusterInfo.setMeta(super.toDTO());

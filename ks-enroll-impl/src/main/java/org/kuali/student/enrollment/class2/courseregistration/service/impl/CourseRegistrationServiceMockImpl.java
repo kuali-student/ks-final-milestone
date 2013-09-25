@@ -604,7 +604,7 @@ public class CourseRegistrationServiceMockImpl
 
             /* get the registration groups */
             RegistrationGroup newrg = getCourseOfferingService().getRegistrationGroup(item.getNewRegistrationGroupId(), contextInfo);
-            RegistrationGroup existingrg = getCourseOfferingService().getRegistrationGroup(item.getExistingRegistrationGroupId(), contextInfo);
+            //RegistrationGroup existingrg = getCourseOfferingService().getRegistrationGroup(item.getExistingRegistrationGroupId(), contextInfo);
 
             /* an ADD */
             if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)) {

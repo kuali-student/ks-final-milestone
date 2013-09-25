@@ -4,29 +4,22 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-
-
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
     <context:annotation-config />
 
     <import resource="classpath:META-INF/default-property-config-context-test.xml" />
-    <import resource="classpath:ks-rice-data-dictionary-mock-env.xml" />
-    <import resource="classpath:ks-data-dictionary-services-configuration.xml" />
-    <import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
+    <import resource="classpath:ks-test-system-property-configurer.xml" />
+    <import resource="classpath:ks-enroll-api-data-dictionary-services-configuration.xml" />
+    <import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml" />
     <import resource="classpath:en-course-test-context.xml" />
     <import resource="classpath:search-test-context.xml"/>
-  
+
 <!--  STILL USING THESE MOCKS-->
     <bean id="typeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl"/>
 
     <bean id="courseService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseServiceR1MockImpl">
-    </bean>
-
-    <bean id="systemPropertyConfigurer" class="org.kuali.student.common.util.SystemPropertyConfigurer" depends-on="fakeEnvResourceLoader">
-        <property name="properties" value="${propertiesPrefix.systemProperties}" />
     </bean>
 
     <bean id="AtomikosTxMgr" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init"
@@ -50,6 +43,8 @@
         <property name="xaDataSourceClassName" value="${jdbc.xaDataSourceClassName}" />
         <property name="xaProperties" value="${propertiesPrefix.jdbc.xaDataSourceProperties}" />
         <property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+        <property name="minPoolSize" value="${jdbc.minPoolSize}" />
+        <property name="testQuery" value="${jdbc.testQuery}" />
     </bean>
 
     <bean id="vendorAdapter" class="${jpa.vendorAdapter}" depends-on="propertyConfigurer">
@@ -79,9 +74,14 @@
     <bean id="luiService" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl">
         <property name="luiDao" ref="luiDao" />
         <property name="luiLuiRelationDao" ref="luiLuiRelationDao" />
+        <property name="luiSetDao" ref="luiSetDao" />
     </bean>
 
     <bean id="luiDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiDao">
+        <property name="em" ref="entityManager" />
+    </bean>
+
+    <bean id="luiSetDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiSetDao">
         <property name="em" ref="entityManager" />
     </bean>
 
@@ -139,11 +139,11 @@
         <property name="lprService" ref="lprPersistenceService" />
         <property name="criteriaLookupService" ref="coCriteriaLookupService"/>
         <property name="businessLogic" ref="businessLogic" />
-        <property name="atpService" ref="atpService"/>
         <property name="typeService" ref="typeService"/>
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer"/>
         <property name="schedulingService" ref="schedulingService"/>
+        <property name="atpService" ref="atpService"/>
     </bean>
 
     <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl">
@@ -159,17 +159,28 @@
     <bean id="organizationService" class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceMockImpl">
     </bean>
 
+
+   <bean id="krmsRuleManagementCopyMethods" class="org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethodsMockImpl">
+   </bean>
+    
     <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
     <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
         <property name="lprService" ref="lprPersistenceService" />
         <property name="personService" ref="personService" />
+        <property name="krmsRuleManagementCopyMethods" ref="krmsRuleManagementCopyMethods" />
     </bean>
+
     <bean id="personService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.PersonServiceMockImpl"/>
+
+    <bean id="rolloverAssist" class="org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssistImpl">
+    </bean>
 
     <bean id="businessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
         <property name="courseService" ref="courseService" />
         <property name="acalService" ref="acalService" />
         <property name="coService" ref="coService" />
+        <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
+        <property name="rolloverAssist" ref="rolloverAssist"/>
     </bean>
     
     <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
@@ -180,22 +191,23 @@
     <bean id="grAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler">
     </bean>
 
-    <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
+    <bean id="acalService" class="org.kuali.student.r2.core.acal.service.impl.AcademicCalendarServiceImpl">
         <property name="atpService" ref="atpService" />
+        <property name="stateService" ref="stateService" />
         <property name="acalAssembler" ref="acalAssembler" />
         <property name="termAssembler" ref="termAssembler" />
         <property name="typeService" ref="typeService" />
         <property name="dataDictionaryService" ref="dataDictionaryServiceForAcal" />
     </bean>
 
-    <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
+    <bean id="acalAssembler" class="org.kuali.student.r2.core.acal.service.assembler.AcademicCalendarAssembler">
         <property name="atpService" ref="atpService" />
     </bean>
 
-    <bean id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler">
+    <bean id="termAssembler" class="org.kuali.student.r2.core.acal.service.assembler.TermAssembler">
         <property name="termCodeGenerator" ref = "termCodeGenerator" />
     </bean>
-    <bean id="termCodeGenerator" class="org.kuali.student.enrollment.class2.acal.service.impl.TermCodeGeneratorImpl"/>
+    <bean id="termCodeGenerator" class="org.kuali.student.r2.core.acal.service.impl.TermCodeGeneratorMockImpl"/>
 
     <bean id="coServiceValidationDecorator"
           class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
@@ -215,6 +227,7 @@
         <property name="lprDao" ref="lprDao" />
         <property name="lprTransactionDao" ref="lprTransactionDao" />
         <property name="lprTransactionItemDao" ref="lprTransactionItemDao" />
+        <property name="criteriaLookupService" ref="coCriteriaLookupService"/>
     </bean>
 
     <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">

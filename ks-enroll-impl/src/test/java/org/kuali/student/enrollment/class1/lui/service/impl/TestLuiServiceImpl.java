@@ -16,6 +16,21 @@
 
 package org.kuali.student.enrollment.class1.lui.service.impl;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,10 +39,12 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
+import org.kuali.student.enrollment.class1.lui.dao.LuiSetDao;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
+import org.kuali.student.enrollment.lui.dto.LuiSetInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -42,29 +59,20 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:lui-test-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
 public class TestLuiServiceImpl {
 
-    @Resource(name = "luiService")
+    @Resource(name = "LuiService")
     private LuiService luiService;
 
     @Resource(name = "luiDao")
     private LuiDao luiDao;
+
+    @Resource(name = "luiSetDao")
+    private LuiSetDao luiSetDao;
 
     @Resource(name= "criteriaLookupService")
     private CriteriaLookupService criteriaLookupService;
@@ -95,6 +103,14 @@ public class TestLuiServiceImpl {
 
     public void setLuiDao(LuiDao luiDao) {
         this.luiDao = luiDao;
+    }
+
+    public LuiSetDao getLuiSetDao() {
+        return luiSetDao;
+    }
+
+    public void setLuiSetDao(LuiSetDao luiSetDao) {
+        this.luiSetDao = luiSetDao;
     }
 
     public static String principalId = "123";
@@ -213,23 +229,32 @@ public class TestLuiServiceImpl {
     }
 
     // TODO: KSENROLL-3677 fix this thing
-    //@Test
+    @Test
     public void testGenericLookup() throws Exception {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(PredicateFactory.like("80", "maxSeats"));
+        qbcBuilder.setPredicates(PredicateFactory.like("luiType", "kuali.lui.type.course.offering"));
         QueryByCriteria criteria = qbcBuilder.build();
-        try{
 
+        try{
             ArrayList<String> fields = new ArrayList<String>();
             fields.add("name");
             GenericQueryResults<List<String>> results = criteriaLookupService.genericLookup(LuiEntity.class, criteria, fields);
-            for(List<String> listString: results.getResults()){
-                assertTrue(listString.size()==1);
+            Iterator it = results.getResults().iterator();
+            while(it.hasNext()) {
+                assertTrue(it.next() instanceof String);
             }
+
             fields.add("luiType");
             results = criteriaLookupService.genericLookup(LuiEntity.class, criteria, fields);
-            for(List<String> listString: results.getResults()){
-                assertTrue(listString.size()==2);
+            it = results.getResults().iterator();
+            while(it.hasNext()) {
+                Object[] result = (Object[])it.next();
+                int length = result.length;
+                String[] resultsString = new String[length];
+                for (int i = 0; i < length; i++) {
+                    resultsString[i] = result[i].toString();
+                }
+                assertTrue(length==2);
             }
         }   catch (Exception e){
             e.printStackTrace();
@@ -614,6 +639,143 @@ public class TestLuiServiceImpl {
 
     }
 
+    private LuiSetInfo createLuiSetInfo(){
+        LuiSetInfo luiSetInfo = new LuiSetInfo();
+        luiSetInfo.setName("Lui Set");
+        luiSetInfo.setTypeKey(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY);
+        luiSetInfo.setStateKey(LuiServiceConstants.LUI_SET_ACTIVE_STATE_KEY);
+        luiSetInfo.getLuiIds().add("Lui-1");
+        luiSetInfo.getLuiIds().add("Lui-2");
+        RichTextInfo descr = new RichTextInfo();
+        descr.setPlain("test");
+        luiSetInfo.setDescr(descr);
+        AttributeInfo attributeInfo = new AttributeInfo();
+        attributeInfo.setKey("test.key");
+        attributeInfo.setValue("test.value");
+        luiSetInfo.getAttributes().add(attributeInfo);
+        luiSetInfo.setEffectiveDate(new Date());
+        luiSetInfo.setExpirationDate(new Date());
+        return luiSetInfo;
+    }
 
+    @Test
+    public void testCreateLuiSet() throws Exception {
+
+        LuiSetInfo luiSetInfo = createLuiSetInfo();
+
+        LuiSetInfo newLuiSet = luiService.createLuiSet(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,luiSetInfo,callContext);
+
+        assertNotNull(newLuiSet);
+        assertNotNull(newLuiSet.getId());
+        assertEquals(luiSetInfo.getName(),newLuiSet.getName());
+        assertEquals(luiSetInfo.getTypeKey(),newLuiSet.getTypeKey());
+        assertEquals(luiSetInfo.getStateKey(),newLuiSet.getStateKey());
+        assertEquals(luiSetInfo.getDescr().getPlain(),newLuiSet.getDescr().getPlain());
+        assertEquals(2,newLuiSet.getLuiIds().size());
+        assertEquals(1,newLuiSet.getAttributes().size());
+
+        newLuiSet = luiService.getLuiSet(newLuiSet.getId(), callContext);
+        assertNotNull(newLuiSet);
+        assertNotNull(newLuiSet.getId());
+        assertEquals(luiSetInfo.getName(),newLuiSet.getName());
+        assertEquals(luiSetInfo.getTypeKey(),newLuiSet.getTypeKey());
+        assertEquals(luiSetInfo.getStateKey(),newLuiSet.getStateKey());
+        assertEquals(luiSetInfo.getDescr().getPlain(),newLuiSet.getDescr().getPlain());
+        assertEquals(2,newLuiSet.getLuiIds().size());
+    }
+
+    @Test
+    public void testUpdateLuiSet() throws Exception {
+        LuiSetInfo luiSetInfo1 = createLuiSetInfo();
+
+        LuiSetInfo newLuiSet = luiService.createLuiSet(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,luiSetInfo1,callContext);
+        assertNotNull(newLuiSet);
+
+        newLuiSet.setName("UpdateName");
+        newLuiSet.getLuiIds().add("Lui-3");
+        LuiSetInfo luiSetInfo2 = luiService.updateLuiSet(newLuiSet.getId(),newLuiSet,callContext);
+        assertNotNull(luiSetInfo2);
+        assertEquals(3,luiSetInfo2.getLuiIds().size());
+
+        LuiSetInfo luiSetInfo3 = luiService.getLuiSet(luiSetInfo2.getId(),callContext);
+        assertNotNull(luiSetInfo3);
+        assertEquals(luiSetInfo2.getName(),luiSetInfo3.getName());
+        assertEquals(luiSetInfo2.getTypeKey(),luiSetInfo3.getTypeKey());
+        assertEquals(luiSetInfo2.getStateKey(),luiSetInfo3.getStateKey());
+        assertEquals(luiSetInfo2.getDescr().getPlain(), luiSetInfo3.getDescr().getPlain());
+        assertEquals(3,luiSetInfo3.getLuiIds().size());
+
+        luiSetInfo3.getLuiIds().remove(0);
+        luiSetInfo3.getLuiIds().remove(1);
+        LuiSetInfo luiSetInfo4 = luiService.updateLuiSet(luiSetInfo3.getId(),luiSetInfo3,callContext);
+        assertNotNull(luiSetInfo4);
+        assertEquals(1,luiSetInfo4.getLuiIds().size());
+
+    }
+
+    @Test
+    public void testDeleteLuiSet() throws Exception {
+        LuiSetInfo luiSetInfo = createLuiSetInfo();
+        LuiSetInfo newLuiSet = luiService.createLuiSet(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,luiSetInfo,callContext);
+        assertNotNull(newLuiSet);
+
+        StatusInfo statusInfo = luiService.deleteLuiSet(newLuiSet.getId(),callContext);
+        assertTrue(statusInfo.getIsSuccess());
+
+    }
+
+    @Test
+    public void testGetLuiSetsByLui() throws Exception{
+        LuiSetInfo luiSetInfo = createLuiSetInfo();
+        LuiSetInfo newLuiSet = luiService.createLuiSet(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,luiSetInfo,callContext);
+        assertNotNull(newLuiSet);
+
+        List<LuiSetInfo> luiSetInfos = luiService.getLuiSetsByLui("Lui-1",callContext);
+        assertEquals(1,luiSetInfos.size());
+
+        luiSetInfos = luiService.getLuiSetsByLui("Lui-5",callContext);
+        assertEquals(0,luiSetInfos.size());
+    }
+
+    @Test
+    public void testGetLuiSetIdsByType() throws Exception{
+        LuiSetInfo luiSetInfo = createLuiSetInfo();
+        LuiSetInfo newLuiSet = luiService.createLuiSet(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,luiSetInfo,callContext);
+        assertNotNull(newLuiSet);
+
+        List<String> luiSetIdsByType = luiService.getLuiSetIdsByType(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY, callContext);
+        assertEquals(1,luiSetIdsByType.size());
+
+        luiSetIdsByType = luiService.getLuiSetIdsByType("test.type.invalid",callContext);
+        assertEquals(0,luiSetIdsByType.size());
+    }
+
+    @Test
+    public void testGetLuiIdsFromLuiSet() throws Exception{
+        LuiSetInfo luiSetInfo = createLuiSetInfo();
+        LuiSetInfo newLuiSet = luiService.createLuiSet(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,luiSetInfo,callContext);
+        assertNotNull(newLuiSet);
+
+        List<String> luiIds = luiService.getLuiIdsFromLuiSet(newLuiSet.getId(),callContext);
+        assertEquals(2,luiIds.size());
+    }
+
+    @Test
+    public void testGetLuiSetsByIds() throws Exception{
+        LuiSetInfo luiSetInfo = createLuiSetInfo();
+        LuiSetInfo newLuiSet1 = luiService.createLuiSet(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,luiSetInfo,callContext);
+        assertNotNull(newLuiSet1);
+
+        luiSetInfo = createLuiSetInfo();
+        LuiSetInfo newLuiSet2 = luiService.createLuiSet(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,luiSetInfo,callContext);
+        assertNotNull(newLuiSet2);
+
+        List<String> luiSetIds = new ArrayList<String>();
+        luiSetIds.add(newLuiSet1.getId());
+        luiSetIds.add(newLuiSet2.getId());
+
+        List<LuiSetInfo> luiSetInfos = luiService.getLuiSetsByIds(luiSetIds,callContext);
+        assertEquals(2,luiSetInfos.size());
+    }
 
 }

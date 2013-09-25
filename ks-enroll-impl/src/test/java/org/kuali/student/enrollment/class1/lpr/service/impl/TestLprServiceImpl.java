@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -18,6 +19,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class1.lpr.dao.LprDao;
 import org.kuali.student.enrollment.class1.lpr.service.impl.mock.LprTestDataLoader;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
@@ -25,6 +28,7 @@ import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -52,10 +56,10 @@ public class TestLprServiceImpl extends TestLprServiceMockImpl {
 		this.lprService = lprService;
 	}
 
-	@Resource
+    @Resource(name = "LprService")
 	private LprService lprService;
 
-	@Resource
+	@Resource(name = "lprDao")
 	private LprDao lprDao;
 
 	@Resource
@@ -107,9 +111,11 @@ public class TestLprServiceImpl extends TestLprServiceMockImpl {
 	}
 
 	/**
-	 * Validate that there are 3 columns in the KSEN_LPR_RESULT_VAL_GRP table.
+	 * Validate that there are 2 columns in the KSEN_LPR_RESULT_VAL_GRP table.
 	 * 
-	 * (ID, LPR_ID, RESULT_VAL_GRP_ID)
+	 * (LPR_ID, RESULT_VAL_GRP_ID)
+	 * 
+	 * This was used to test that the @ElementCollection JPA annotation only needed a two columned table.
 	 * 
 	 * @throws SQLException
 	 */
@@ -197,9 +203,11 @@ public class TestLprServiceImpl extends TestLprServiceMockImpl {
 		lpr.setPersonId("person-4");
 		lpr.setCommitmentPercent("20.0");
 		lpr.setStateKey("kuali.courseoffering.");
-		lpr.setTypeKey("kuali.lpr.type.courseoffering.instructor.main");
+//		lpr.setTypeKey("kuali.lpr.type.courseoffering.instructor.main");
+        lpr.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+        lpr.setEffectiveDate(new Date());
 		LprInfo newLprInfo = lprService.createLpr("person-4", "lui-4",
-				"kuali.lpr.type.courseoffering.instructor.main", lpr,
+				lpr.getTypeKey(), lpr,
 				callContext);
 		assertNotNull(newLprInfo.getId());
 		assertEquals(lpr.getId(), newLprInfo.getId());
@@ -260,6 +268,14 @@ public class TestLprServiceImpl extends TestLprServiceMockImpl {
 		lprs = lprService.getLprsByPersonAndLui("Person-1", "lui-2", callContext);
 		
 		assertEquals(1, lprs.size());
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("luiId", "lui-2"));
+
+        QueryByCriteria criteria = qbcBuilder.build();
+
+        lprIds = lprService.searchForLprIds(criteria, callContext);
+        assertEquals(1, lprIds.size());
 	}
 
 }

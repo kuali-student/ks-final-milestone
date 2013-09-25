@@ -4,11 +4,16 @@
  */
 package org.kuali.student.r2.core.process;
 
-import org.junit.*;
-import org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler;
-import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
-import org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.acal.service.assembler.AcademicCalendarAssembler;
+import org.kuali.student.r2.core.acal.service.assembler.TermAssembler;
+import org.kuali.student.r2.core.acal.service.impl.AcademicCalendarServiceImpl;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;

@@ -26,7 +26,7 @@
 	<value>classpath:org/kuali/student/ui/admin/atp/MilestoneInfoAdminInquiryView.xml</value>
 	********************************************** -->
 	<!-- InquiryView -->
-	<bean id="KS-MilestoneInfo-AdminInquiryView" parent="KSInquiryView"
+	<bean id="KS-MilestoneInfo-AdminInquiryView" parent="KS-Uif-InquiryView"
 		p:title="MilestoneInfo Inquiry"
 		p:dataObjectClassName="org.kuali.student.r2.core.atp.dto.MilestoneInfo"
 		p:viewHelperServiceClass="org.kuali.student.ui.admin.atp.MilestoneInfoAdminInquirableImpl">

@@ -34,10 +34,10 @@
        <property name="titleAttribute" value="id"/>
   </bean>
 
-  <bean id="AcademicTerm-LookupView" parent="KSLookupView">
+  <bean id="AcademicTerm-LookupView" parent="KS-Uif-LookupView">
     <property name="id" value="academicTermLookupView"/>
     <property name="headerText" value="Academic Term Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
+    <property name="dataObjectClassName" value="org.kuali.student.r2.core.acal.dto.TermInfo" />
     <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicTermLookupableImpl" />
     <property name="defaultSingleLookupResultAction" value="@{#Constants.PARAM_MAINTENANCE_VIEW_MODE_INQUIRY}"/>
 
@@ -61,8 +61,8 @@
   </bean>
 
 
-    <bean id="KS-AcademicTerm-InquiryView" parent="KSInquiryView">
-        <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
+    <bean id="KS-AcademicTerm-InquiryView" parent="KS-Uif-InquiryView">
+        <property name="dataObjectClassName" value="org.kuali.student.r2.core.acal.dto.TermInfo" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicTermInfoInquirableImpl" />
         <property name="Items">
             <list>

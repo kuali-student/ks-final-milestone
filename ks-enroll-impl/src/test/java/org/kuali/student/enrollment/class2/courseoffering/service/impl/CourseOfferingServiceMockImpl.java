@@ -15,36 +15,73 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.Resource;
+import javax.jws.WebParam;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
+import org.jacorb.poa.AOM;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
-import org.kuali.student.enrollment.courseoffering.dto.*;
+import org.kuali.student.enrollment.courseoffering.dto.AOClusterVerifyResultsInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
-import org.kuali.student.r2.common.dto.*;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.dto.BulkStatusInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.KeyNameInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
-
-import javax.annotation.Resource;
-import javax.jws.WebParam;
-import java.util.*;
 
 public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         MockService {
@@ -74,6 +111,9 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
     @Resource
     private SchedulingService schedulingService;
 
+    @Resource
+    private CourseOfferingTransformer courseOfferingTransformer;
+    
     public SchedulingService getSchedulingService() {
         return schedulingService;
     }
@@ -96,6 +136,14 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     public void setLrcService(LRCService lrcService) {
         this.lrcService = lrcService;
+    }
+
+    public CourseOfferingTransformer getCourseOfferingTransformer() {
+        return courseOfferingTransformer;
+    }
+
+    public void setCourseOfferingTransformer(CourseOfferingTransformer courseOfferingTransformer) {
+        this.courseOfferingTransformer = courseOfferingTransformer;
     }
     
     @Override
@@ -329,11 +377,13 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         // TODO: move this logic to the calculation decorator do the persistence layer doesn't have this logic mixed in with it
         // copy from cannonical
         CourseInfo courseInfo = new R1CourseServiceHelper(courseService, acalService).getCourse(courseId);
-        CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
-        coTransformer.copyFromCanonical(courseInfo, copy, optionKeys, context);
+        courseOfferingTransformer.copyFromCanonical(courseInfo, copy, optionKeys, context);
         copy.setMeta(newMeta(context));
         courseOfferingMap.put(copy.getId(), copy);
-        System.out.println("CourseOfferingMockImpl: created course offering: " + copy.getId() + "term=" + copy.getTermId() + " for course =" + copy.getCourseId());
+        log.info("CourseOfferingMockImpl: created course offering: " + copy.getId() + "term=" + copy.getTermId() + " for course =" + copy.getCourseId());
+        
+        // copy rules from canonical
+        courseOfferingTransformer.copyRulesFromCanonical(courseInfo, copy, optionKeys, context);
         return new CourseOfferingInfo(copy);
     }
 
@@ -441,6 +491,12 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
 
+        for (FormatOfferingInfo fo: formatOfferingMap.values()) {
+            // See if any format offerings are still connected to COs
+            if (fo.getCourseOfferingId().equals(courseOfferingId)) {
+                throw new DependentObjectsExistException("Format offering still attached to CO (" + courseOfferingId + ")");
+            }
+        }
         if (this.courseOfferingMap.remove(courseOfferingId) == null) {
             throw new DoesNotExistException(courseOfferingId);
         }
@@ -576,6 +632,12 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException,
             DependentObjectsExistException {
+        for (ActivityOfferingInfo aoInfo: activityOfferingMap.values()) {
+            // test if AOs still attached to FO, if so, throw dependent object exists exception
+            if (aoInfo.getFormatOfferingId().equals(formatOfferingId)) {
+                throw new DependentObjectsExistException("Activity offerings still attached to FO (" + formatOfferingId + ")");
+            }
+        }
         if (this.formatOfferingMap.remove(formatOfferingId) == null) {
             throw new DoesNotExistException(formatOfferingId);
         }
@@ -681,8 +743,31 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Override
     public List<ActivityOfferingInfo> getActivityOfferingsWithoutClusterByFormatOffering(String formatOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException(
-                "getActivityOfferingsWithoutClusterByFormatOffering has not been implemented");
+    
+        List<ActivityOfferingInfo> aos = getActivityOfferingsByFormatOffering(formatOfferingId, contextInfo);
+        
+        Map<String, ActivityOfferingInfo> aoMap = new HashMap<String, ActivityOfferingInfo>();
+        
+        for (ActivityOfferingInfo activityOfferingInfo : aos) {
+            
+            aoMap.put(activityOfferingInfo.getId(), activityOfferingInfo);
+        
+        }
+        
+        List<ActivityOfferingClusterInfo> aocs = getActivityOfferingClustersByFormatOffering(formatOfferingId, contextInfo);
+    
+        for (ActivityOfferingClusterInfo activityOfferingClusterInfo : aocs) {
+            
+            for (ActivityOfferingSetInfo aoSet : activityOfferingClusterInfo.getActivityOfferingSets()) {
+                
+                for (String aoId : aoSet.getActivityOfferingIds()) {
+                    
+                    aoMap.remove(aoId);
+                }
+            }
+        }
+        
+        return new ArrayList<ActivityOfferingInfo>(aoMap.values());
     }
 
     @Override
@@ -793,6 +878,11 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
                 throw new DependentObjectsExistException("Registration Groups Exist for Activity id = " + activityOfferingId);
         }
 
+        List<String> seatpoolIds =  activityOfferingToSeatPoolMap.get(activityOfferingId);
+        if (seatpoolIds != null && !seatpoolIds.isEmpty()) {
+            throw new DependentObjectsExistException("Seatpools exists for Activity id = " + activityOfferingId);
+        }
+
         if (this.activityOfferingMap.remove(activityOfferingId) == null) {
             throw new DoesNotExistException(activityOfferingId);
         }
@@ -809,6 +899,15 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         // delete seat pool registrations
 
         List<SeatPoolDefinitionInfo> spls = getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
+        List<String> seatpoolIds = new ArrayList<String>();
+        for (SeatPoolDefinitionInfo spInfo: spls) {
+            seatpoolIds.add(spInfo.getId());
+        }
+        // Delete the attachments from AOs to seatpools
+        List<String> fetchedIds = activityOfferingToSeatPoolMap.get(activityOfferingId);
+        if (fetchedIds != null) {
+            fetchedIds.removeAll(seatpoolIds); // Get rid of seatpool IDs in this association
+        }
 
         for (SeatPoolDefinitionInfo spl : spls) {
 
@@ -818,6 +917,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
                 throw new OperationFailedException(status.getMessage());
 
         }
+
+
         // delete registration groups
 
         // intentionally separated to avoid a concurrent modification exception on delete.
@@ -830,6 +931,15 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
                 if (!status.getIsSuccess()) {
                     throw new OperationFailedException(status.getMessage());
+                }
+            }
+        }
+
+        // Remove the AO from the AOC
+        for (ActivityOfferingClusterInfo cluster: this.activityOfferingClusterMap.values()) {
+            for (ActivityOfferingSetInfo set: cluster.getActivityOfferingSets()) {
+                if (set.getActivityOfferingIds().contains(activityOfferingId)) {
+                    set.getActivityOfferingIds().remove(activityOfferingId);
                 }
             }
         }
@@ -924,8 +1034,9 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         List<RegistrationGroupInfo> regGroupList = new ArrayList<RegistrationGroupInfo>();
 
         for (RegistrationGroupInfo rg : this.registrationGroupMap.values()) {
-            if (rg.getCourseOfferingId().equals(courseOfferingId))
+            if (rg.getCourseOfferingId().equals(courseOfferingId)) {
                 regGroupList.add(rg);
+            }
         }
 
         return regGroupList;
@@ -941,14 +1052,27 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         List<RegistrationGroupInfo> regGroupList = new ArrayList<RegistrationGroupInfo>();
 
         for (RegistrationGroupInfo rg : this.registrationGroupMap.values()) {
-
-            if (CollectionUtils.isEqualCollection(activityOfferingIds,
-                    rg.getActivityOfferingIds()))
+            if (CollectionUtils.isSubCollection(activityOfferingIds,
+                    rg.getActivityOfferingIds())) {
                 regGroupList.add(rg);
+            }
         }
 
         return regGroupList;
 
+    }
+
+    @Override
+    public List<RegistrationGroupInfo> getRegistrationGroupsByActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<RegistrationGroupInfo> regGroupList = new ArrayList<RegistrationGroupInfo>();
+
+        for (RegistrationGroupInfo rg : this.registrationGroupMap.values()) {
+            if (rg.getActivityOfferingIds().contains(activityOfferingId)) {
+                regGroupList.add(rg);
+            }
+        }
+
+        return regGroupList;
     }
 
     @Override
@@ -1012,84 +1136,102 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         return successStatus();
     }
 
+    
+  private BulkStatusInfo bulkDeleteRegistrationGroup(RegistrationGroupInfo regGroup, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        
+        StatusInfo status = deleteRegistrationGroup(regGroup.getId(), context);
+
+        BulkStatusInfo bulkStatus = new BulkStatusInfo();
+        
+        bulkStatus.setId(regGroup.getId());
+        bulkStatus.setSuccess(status.getIsSuccess());
+        bulkStatus.setMessage("Registration Group Deleted");
+        
+        return bulkStatus;
+    }
+    
     @Override
-    public StatusInfo deleteRegistrationGroupsByFormatOffering(
+    public List<BulkStatusInfo> deleteRegistrationGroupsByFormatOffering(
             String formatOfferingId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
+        List<BulkStatusInfo> rgChanges = new ArrayList<BulkStatusInfo>();
         List<RegistrationGroupInfo> rgs;
         try {
             rgs = getRegistrationGroupsByFormatOffering(formatOfferingId, context);
 
             for (RegistrationGroupInfo rg : rgs) {
 
-                try {
-                    deleteRegistrationGroup(rg.getId(), context);
-                } catch (DoesNotExistException e) {
-                    return failStatus();
-                }
-
+                   rgChanges.add(bulkDeleteRegistrationGroup(rg, context));
             }
 
-        } catch (DoesNotExistException e1) {
-            return failStatus();
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException("deleteRegistrationGroupsByFormatOffering (formatOfferingId=" + formatOfferingId + "): failed.", e);
         }
 
-
-        return successStatus();
+        return rgChanges;
     }
 
     @Override
-    public StatusInfo deleteGeneratedRegistrationGroupsByFormatOffering(
+    public List<BulkStatusInfo>  deleteGeneratedRegistrationGroupsByFormatOffering(
             String formatOfferingId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
         List<RegistrationGroupInfo> rgs;
+        List<BulkStatusInfo> rgChanges = new ArrayList<BulkStatusInfo>();
+        
+        
         try {
             rgs = getRegistrationGroupsByFormatOffering(formatOfferingId, context);
 
             for (RegistrationGroupInfo rg : rgs) {
 
                 if (rg.getIsGenerated()) {
-                    try {
-                        deleteRegistrationGroup(rg.getId(), context);
-                    } catch (DoesNotExistException e) {
-                        return failStatus();
-                    }
+                    rgChanges.add(bulkDeleteRegistrationGroup(rg, context));
                 }
 
             }
 
-        } catch (DoesNotExistException e1) {
-            return failStatus();
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException("deleteGeneratedRegistrationGroupsByFormatOffering (formatOfferingId=" + formatOfferingId + "): failed", e);
         }
 
 
-        return successStatus();
+        return rgChanges;
     }
 
     @Override
-    public StatusInfo deleteRegistrationGroupsForCluster(String activityOfferingClusterId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<BulkStatusInfo> deleteRegistrationGroupsForCluster(String activityOfferingClusterId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        Iterator<RegistrationGroupInfo> rgIter = this.registrationGroupMap.values().iterator();
-
-        while (rgIter.hasNext()) {
-
-            RegistrationGroupInfo rg = rgIter.next();
-
-            if (rg.getActivityOfferingClusterId().equals(activityOfferingClusterId))
-                rgIter.remove();
+        // copy list to avoid concurrent modification exceptions
+        Collection<RegistrationGroupInfo>groups = new ArrayList<RegistrationGroupInfo> (this.registrationGroupMap.values());
+        
+        List<BulkStatusInfo> rgChanges = new ArrayList<BulkStatusInfo>();
+        
+       for (RegistrationGroupInfo rg : groups) {
+        
+            if (rg.getActivityOfferingClusterId().equals(activityOfferingClusterId)) {
+                
+                try {
+                    rgChanges.add(bulkDeleteRegistrationGroup(rg, contextInfo));
+                } catch (DoesNotExistException e) {
+                    throw new OperationFailedException("Bulk Delete Failed", e);
+                }
+            }
+        }
+                
+        return rgChanges;
+        
+        
         }
 
-        return successStatus();
-
-    }
+   
 
     @Override
     public List<ValidationResultInfo> verifyRegistrationGroup(String registrationGroupId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("unsupported");
+        return Collections.emptyList();
     }
 
     @Override
@@ -1118,8 +1260,21 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
                     "No ActivityOfferingCluster for id = "
                             + activityOfferingClusterId);
 
-        return aoc;
+        return new ActivityOfferingClusterInfo(aoc);
 
+    }
+
+    @Override
+    public List<ActivityOfferingClusterInfo> getActivityOfferingClustersByIds(List<String> activityOfferingClusterIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ActivityOfferingClusterInfo> results = new ArrayList<ActivityOfferingClusterInfo>();
+
+        if(activityOfferingClusterIds != null && !activityOfferingClusterIds.isEmpty()) {
+            for(String id : activityOfferingClusterIds) {
+                results.add(getActivityOfferingCluster(id, context));
+            }
+        }
+
+        return results;
     }
 
     @Override
@@ -1136,10 +1291,10 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Override
     public List<ValidationResultInfo> validateActivityOfferingCluster(
-            @WebParam(name = "validationTypeKey") String validationTypeKey,
-            @WebParam(name = "formatOfferingId") String formatOfferingId,
-            @WebParam(name = "activityOfferingClusterInfo") ActivityOfferingClusterInfo activityOfferingClusterInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String validationTypeKey,
+            String formatOfferingId,
+            ActivityOfferingClusterInfo activityOfferingClusterInfo,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
         // Note: validation is handled in the CourseOfferingServiceValidationDecorator
@@ -1148,8 +1303,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Override
     public StatusInfo deleteActivityOfferingClusterCascaded(
-            @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String activityOfferingClusterId,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -1171,8 +1326,27 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     private Map<String, ActivityOfferingClusterInfo> activityOfferingClusterMap = new LinkedHashMap<String, ActivityOfferingClusterInfo>();
 
+    private void _createAOSets(FormatOfferingInfo foInfo, ActivityOfferingClusterInfo clusterInfo) {
+        if (clusterInfo.getActivityOfferingSets() == null) {
+            // Shouldn't be necessary, but just in case.
+            clusterInfo.setActivityOfferingSets(new ArrayList<ActivityOfferingSetInfo>());
+        }
+        List<ActivityOfferingSetInfo> setInfos = clusterInfo.getActivityOfferingSets();
+        List<String> aoTypeKeys = foInfo.getActivityOfferingTypeKeys();
+        if (aoTypeKeys != null) {
+            for (String aoTypeKey: aoTypeKeys) {
+                // Create an AOSetInfo
+                ActivityOfferingSetInfo setInfo = new ActivityOfferingSetInfo();
+                setInfo.setActivityOfferingType(aoTypeKey);
+                setInfo.setActivityOfferingIds(new ArrayList<String>()); // leave it empty for now
+                // Add it to the list
+                setInfos.add(setInfo);
+            }
+        }
+    }
+
     @Override
-    public ActivityOfferingClusterInfo createActivityOfferingCluster(String activityOfferingClusterId,
+    public ActivityOfferingClusterInfo createActivityOfferingCluster(String formatOfferingId,
                                                                      String activityOfferingClusterTypeKey, ActivityOfferingClusterInfo activityOfferingClusterInfo,
                                                                      ContextInfo contextInfo)
             throws DataValidationErrorException,
@@ -1186,8 +1360,14 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         ActivityOfferingClusterInfo copy = new ActivityOfferingClusterInfo(
                 activityOfferingClusterInfo);
 
-        if (copy.getId() == null)
+        if (copy.getActivityOfferingSets().isEmpty()) {
+            FormatOfferingInfo foInfo = getFormatOffering(formatOfferingId, contextInfo);
+            _createAOSets(foInfo, copy);
+        }
+
+        if (copy.getId() == null) {
             copy.setId(UUIDHelper.genStringUUID());
+        }
 
         copy.setMeta(newMeta(contextInfo));
 
@@ -1250,14 +1430,36 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
                     "The id parameter does not match the id on the info object");
         }
         ActivityOfferingClusterInfo copy = new ActivityOfferingClusterInfo(activityOfferingClusterInfo);
-        CourseOfferingInfo old = this.getCourseOffering(
+        ActivityOfferingClusterInfo old = this.getActivityOfferingCluster(
                 activityOfferingClusterId, contextInfo);
+        // Figure out IDs that appear in old, but not in copy.
+        Set<String> oldIds = new HashSet<String>(); // First the old Ids
+        for (ActivityOfferingSetInfo set: old.getActivityOfferingSets()) {
+            oldIds.addAll(set.getActivityOfferingIds());
+        }
+        Set<String> copyIds = new HashSet<String>(); // First the old Ids
+        for (ActivityOfferingSetInfo set: copy.getActivityOfferingSets()) {
+            copyIds.addAll(set.getActivityOfferingIds());
+        }
+        oldIds.removeAll(copyIds);
+        for (String aoId: oldIds) {
+            // Find any RGs that contain these aoIds
+            for (Map.Entry<String, RegistrationGroupInfo> entry: this.registrationGroupMap.entrySet()) {
+                if (entry.getValue().getFormatOfferingId().equals(formatOfferingId) &&
+                        entry.getValue().getActivityOfferingIds().contains(aoId)) {
+                    // Delete RG with this ao id
+                    this.registrationGroupMap.remove(entry.getKey());
+                }
+            }
+        }
+
         if (!old.getMeta().getVersionInd()
                 .equals(copy.getMeta().getVersionInd())) {
             throw new VersionMismatchException(old.getMeta().getVersionInd());
         }
         copy.setMeta(updateMeta(copy.getMeta(), contextInfo));
         this.activityOfferingClusterMap.put(activityOfferingClusterInfo.getId(), copy);
+
         return new ActivityOfferingClusterInfo(copy);
 
     }
@@ -1517,8 +1719,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
     public ActivityOfferingDisplayInfo getActivityOfferingDisplay(
             String activityOfferingId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException {
         ActivityOfferingInfo ao = this.getActivityOffering(activityOfferingId, contextInfo);
         ActivityOfferingDisplayInfo info = new ActivityOfferingDisplayInfo();
         info.setId(ao.getId());
@@ -1541,8 +1743,16 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
         info.setIsHonorsOffering(ao.getIsHonorsOffering());
         info.setMaximumEnrollment(ao.getMaximumEnrollment());
-        if (ao.getScheduleId() != null) {
-            info.setScheduleDisplay(schedulingService.getScheduleDisplay(ao.getScheduleId(), contextInfo));
+        //  Get the schedule components from all schedules and put them in a single ScheduleDisplayInfo.
+        if (ao.getScheduleIds() != null && ! ao.getScheduleIds().isEmpty()) {
+            List<ScheduleDisplayInfo> scheduleDisplays = schedulingService.getScheduleDisplaysByIds(ao.getScheduleIds(), contextInfo);
+            List<ScheduleComponentDisplayInfo> scheduleComponentDisplayInfos = new ArrayList<ScheduleComponentDisplayInfo>();
+            for (ScheduleDisplayInfo sdi : scheduleDisplays) {
+                scheduleComponentDisplayInfos.addAll((List<ScheduleComponentDisplayInfo>) sdi.getScheduleComponentDisplays());
+            }
+            ScheduleDisplayInfo sdiAggregate = new ScheduleDisplayInfo();
+            sdiAggregate.setScheduleComponentDisplays(scheduleComponentDisplayInfos);
+            info.setScheduleDisplay(sdiAggregate);
         }
         info.setMeta(ao.getMeta());
         info.setAttributes(ao.getAttributes());
@@ -1699,53 +1909,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
     }
 
     @Override
-    public ColocatedOfferingSetInfo getColocatedOfferingSet(@WebParam(name = "colocatedOfferingSetId") String colocatedOfferingSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<ColocatedOfferingSetInfo> getColocatedOfferingSetsByIds(@WebParam(name = "colocatedOfferingSetIds") List<String> colocatedOfferingSetIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<String> getColocatedOfferingSetIdsByType(@WebParam(name = "colocatedOfferingSetTypeKey") String colocatedOfferingSetTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<String> searchForColocatedOfferingSetIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");    }
-
-    @Override
-    public List<ColocatedOfferingSetInfo> searchForColocatedOfferingSets(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");    }
-
-    @Override
-    public List<ValidationResultInfo> validateColocatedOfferingSet(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "colocatedOfferingSetTypeKey") String colocatedOfferingSetTypeKey, @WebParam(name = "colocatedOfferingSetInfo") ColocatedOfferingSetInfo colocatedOfferingSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");   }
-
-    @Override
-    public ColocatedOfferingSetInfo createColocatedOfferingSet(@WebParam(name = "colocatedOfferingSetTypeKey") String colocatedOfferingSetTypeKey, @WebParam(name = "colocatedOfferingSetInfo") ColocatedOfferingSetInfo colocatedOfferingSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        throw new UnsupportedOperationException("Not supported yet.");    }
-
-    @Override
-    public ColocatedOfferingSetInfo updateColocatedOfferingSet(@WebParam(name = "colocatedOfferingSetId") String colocatedOfferingSetId, @WebParam(name = "colocatedOfferingSetInfo") ColocatedOfferingSetInfo colocatedOfferingSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public StatusInfo deleteColocatedOfferingSet(@WebParam(name = "colocatedOfferingSetId") String colocatedOfferingSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<String> getColocatedOfferingSetIdsForActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public StatusInfo generateRegistrationGroupsForFormatOffering(
+    public List<BulkStatusInfo> generateRegistrationGroupsForFormatOffering(
             String formatOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
@@ -1772,10 +1936,10 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
     }
 
     @Override
-    public StatusInfo updateCourseOfferingState(
-            @WebParam(name = "courseOfferingId") String courseOfferingId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public StatusInfo changeCourseOfferingState(
+            String courseOfferingId,
+            String nextStateKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
@@ -1794,15 +1958,15 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
             return successStatus();
 
         } catch (Exception e) {
-            throw new OperationFailedException("updateCourseOfferingState (id=" + courseOfferingId + ", nextStateKey=" + nextStateKey, e);
+            throw new OperationFailedException("changeCourseOfferingState (id=" + courseOfferingId + ", nextStateKey=" + nextStateKey, e);
         }
     }
 
     @Override
-    public StatusInfo updateFormatOfferingState(
-            @WebParam(name = "formatOfferingId") String formatOfferingId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public StatusInfo changeFormatOfferingState(
+            String formatOfferingId,
+            String nextStateKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, MissingParameterException, OperationFailedException {
         try {
             /*
@@ -1819,15 +1983,15 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
             return successStatus();
 
         } catch (Exception e) {
-            throw new OperationFailedException("updateFormatOfferingState (id=" + formatOfferingId + ", nextStateKey=" + nextStateKey, e);
+            throw new OperationFailedException("changeFormatOfferingState (id=" + formatOfferingId + ", nextStateKey=" + nextStateKey, e);
         }
     }
 
     @Override
-    public StatusInfo updateActivityOfferingState(
-            @WebParam(name = "activityOfferingId") String activityOfferingId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public StatusInfo changeActivityOfferingState(
+            String activityOfferingId,
+            String nextStateKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
@@ -1846,15 +2010,15 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
             return successStatus();
 
         } catch (Exception e) {
-            throw new OperationFailedException("updateActivityOfferingState (id=" + activityOfferingId + ", nextStateKey=" + nextStateKey, e);
+            throw new OperationFailedException("changeActivityOfferingState (id=" + activityOfferingId + ", nextStateKey=" + nextStateKey, e);
         }
     }
 
     @Override
-    public StatusInfo updateRegistrationGroupState(
-            @WebParam(name = "registrationGroupId") String registrationGroupId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public StatusInfo changeRegistrationGroupState(
+            String registrationGroupId,
+            String nextStateKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         try {
@@ -1872,15 +2036,15 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
             return successStatus();
 
         } catch (Exception e) {
-            throw new OperationFailedException("updateRegistrationGroupState (id=" + registrationGroupId + ", nextStateKey=" + nextStateKey, e);
+            throw new OperationFailedException("changeRegistrationGroupState (id=" + registrationGroupId + ", nextStateKey=" + nextStateKey, e);
         }
     }
 
     @Override
-    public StatusInfo updateActivityOfferingClusterState(
-            @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public StatusInfo changeActivityOfferingClusterState(
+            String activityOfferingClusterId,
+            String nextStateKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         try {
@@ -1898,15 +2062,15 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
             return successStatus();
 
         } catch (Exception e) {
-            throw new OperationFailedException("updateActivityOfferingClusterState (id=" + activityOfferingClusterId + ", nextStateKey=" + nextStateKey, e);
+            throw new OperationFailedException("changeActivityOfferingClusterState (id=" + activityOfferingClusterId + ", nextStateKey=" + nextStateKey, e);
         }
     }
 
     @Override
-    public StatusInfo updateSeatPoolDefinitionState(
-            @WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public StatusInfo changeSeatPoolDefinitionState(
+            String seatPoolDefinitionId,
+            String nextStateKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         try {
@@ -1924,14 +2088,14 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
             return successStatus();
 
         } catch (Exception e) {
-            throw new OperationFailedException("updateSeatPoolDefinitionState (id=" + seatPoolDefinitionId + ", nextStateKey=" + nextStateKey, e);
+            throw new OperationFailedException("changeSeatPoolDefinitionState (id=" + seatPoolDefinitionId + ", nextStateKey=" + nextStateKey, e);
         }
     }
 
     @Override
     public List<RegistrationGroupInfo> getRegistrationGroupsByActivityOfferingCluster(
-            @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String activityOfferingClusterId,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -1949,8 +2113,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Override
     public List<ActivityOfferingInfo> getActivityOfferingsByCluster(
-            @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String activityOfferingClusterId,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -1971,8 +2135,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Override
     public List<String> getActivityOfferingClustersIdsByFormatOffering(
-            @WebParam(name = "formatOfferingId") String formatOfferingId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String formatOfferingId,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -1991,9 +2155,9 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     
     @Override
-    public StatusInfo generateRegistrationGroupsForCluster(
-            @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<BulkStatusInfo> generateRegistrationGroupsForCluster(
+            String activityOfferingClusterId,
+             ContextInfo contextInfo)
             throws DoesNotExistException, 
             DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
@@ -2023,8 +2187,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Override
     public List<ActivityOfferingInfo> getActivityOfferingsForSeatPoolDefinition(
-            @WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId,
-            @WebParam(name = "context") ContextInfo context)
+            String seatPoolDefinitionId,
+             ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {

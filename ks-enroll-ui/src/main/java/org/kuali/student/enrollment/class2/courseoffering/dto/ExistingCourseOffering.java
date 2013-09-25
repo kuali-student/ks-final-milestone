@@ -3,12 +3,14 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
 public class ExistingCourseOffering {
-
+    private String id;
     private String termCode;
     private String courseOfferingCode;
     private String courseTitle;
     private String credits;
     private String grading;
+
+    private boolean selected;
 
     private CourseOfferingInfo courseOfferingInfo;
 
@@ -18,6 +20,7 @@ public class ExistingCourseOffering {
 
     public ExistingCourseOffering(CourseOfferingInfo courseOfferingInfo){
         this.courseOfferingInfo = courseOfferingInfo;
+        setId(courseOfferingInfo.getId());
         setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
         setCourseTitle(courseOfferingInfo.getCourseOfferingTitle());
     }
@@ -70,4 +73,19 @@ public class ExistingCourseOffering {
         this.courseOfferingInfo = courseOfferingInfo;
     }
 
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

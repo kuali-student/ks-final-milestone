@@ -36,6 +36,10 @@ public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<Lu
     private LuiEntity lui;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
     private Set<LuiIdentifierAttributeEntity> attributes;
+    @Column(name = "ORGID")
+    private String orgId;
+    @Column(name = "IDENT_LEVEL")
+    private String identLevel;
 
     public LuiIdentifierEntity() {
     }
@@ -57,6 +61,8 @@ public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<Lu
         this.setShortName(luiIdentifier.getShortName());
         this.setSuffixCode(luiIdentifier.getSuffixCode());
         this.setVariation(luiIdentifier.getVariation());
+        this.setOrgId(luiIdentifier.getOrgId());
+        this.setIdentLevel(luiIdentifier.getLevel());
 
         //Attributes
         orphansToDelete.addAll(TransformUtility.mergeToEntityAttributes(LuiIdentifierAttributeEntity.class, luiIdentifier, this));
@@ -75,6 +81,8 @@ public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<Lu
         info.setSuffixCode(suffixCode);
         info.setTypeKey(type);
         info.setVariation(variation);
+        info.setOrgId(orgId);
+        info.setLevel(identLevel);
         info.setMeta(super.toDTO());
 
         //Attributes
@@ -170,4 +178,22 @@ public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<Lu
     public void setLui(LuiEntity lui) {
         this.lui = lui;
     }
+
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
+
+    public String getIdentLevel() {
+        return identLevel;
+    }
+
+    public void setIdentLevel(String identLevel) {
+        this.identLevel = identLevel;
+    }
+
+
 }

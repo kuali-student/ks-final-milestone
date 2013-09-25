@@ -33,6 +33,15 @@ public class CalendarConstants {
     public static final String HOLIDAYCALENDAR_VIEWPAGE = "holidayCalendarViewPage";
     public static final String HOLIDAYCALENDAR_FLOWVIEW = "holidayCalendarFlowView";
 
+    //Dialogs
+    public static final String SEARCH_DELETE_CONFIRMATION_DIALOG = "KS-CalendarSearch-ConfirmDelete-Dialog";
+    public static final String ACADEMIC_DELETE_CONFIRMATION_DIALOG = "KS-AcademicCalendar-ConfirmDelete-Dialog";
+    public static final String HOLIDAY_DELETE_CONFIRMATION_DIALOG = "KS-HolidayCalendar-ConfirmDelete-Dialog";
+    public static final String TERM_DELETE_CONFIRMATION_DIALOG = "KS-AcademicTerm-ConfirmDelete-Dialog";
+    public static final String ACADEMIC_CALENDAR_OFFICIAL_CONFIRMATION_DIALOG = "KS-AcademicCalendar-ConfirmCalendarOfficial-Dialog";
+    public static final String ACADEMIC_TERM_OFFICIAL_CONFIRMATION_DIALOG = "KS-AcademicCalendar-ConfirmTermOfficial-Dialog";
+    public static final String ACADEMIC_TERM_AND_CALENDAR_OFFICIAL_CONFIRMATION_DIALOG = "KS-AcademicCalendar-ConfirmCalendarTermOfficial-Dialog";
+
     //Acal
     public static final String ACAL_CONTROLLER_PATH = "academicCalendar";
     public static final String ACAL_VIEW = "academicCalendarFlowView";
@@ -48,6 +57,7 @@ public class CalendarConstants {
     public static final String ACADEMICCALENDER = "AcademicCalendar";
     public static final String HOLIDAYCALENDER = "HolidayCalendar";
     public static final String TERM = "AcademicTerm";
+    public static final String SUBTERM = "SubTerm";
     public static final String CALENDAR_SEARCH_VIEW= "calendarSearchView";
     public static final String CALENDAR_SEARCH_TYPE = "calendarSearchType";
 
@@ -70,12 +80,12 @@ public class CalendarConstants {
     public static final String DEFAULT_DATE_FORMAT = "MM/dd/yyyy";
     public static final String DATE_FORMAT = "MM/dd/yyyy HH:mm:ss";
 
-    public static final String UPDATE_MAKEOFFICIAL = "makeOfficial";
-    public static final String UPDATE_SAVE = "save";
-
     public static class MessageKeys{
         public static final String INFO_ACADEMIC_CALENDAR_OFFICIAL = "info.enroll.academiccalendar.official";
         public static final String INFO_ACADEMIC_CALENDAR_SAVED = "info.enroll.academiccalendar.saved";
+        public static final String INFO_ACADEMIC_CALENDAR_UPDATED = "info.enroll.academiccalendar.updated";
+        public static final String INFO_ACADEMIC_CALENDAR_DELETED = "info.enroll.academiccalendar.deleted";
+        public static final String INFO_HOLIDAY_CALENDAR_DELETED = "info.enroll.holidaycalendar.deleted";
         public static final String INFO_HOLIDAY_CALENDAR_OFFICIAL = "info.enroll.holidaycalendar.official";
         public static final String INFO_HOLIDAY_CALENDAR_SAVED = "info.enroll.holidaycalendar.saved";
         public static final String INFO_SEARCH_DELETE_SUCCESS = "info.enroll.search.delete.success";
@@ -84,16 +94,38 @@ public class CalendarConstants {
         public static final String ERROR_TIME_START_AMPM_REQUIRED = "error.enroll.time.start.ampm.required";
         public static final String ERROR_TIME_END_AMPM_REQUIRED = "error.enroll.time.end.ampm.required";
         public static final String ERROR_ACAL_SAVE_FAILED = "error.enroll.acal.save.failed";
+        public static final String ERROR_ACAL_OFFICIAL_FAILED = "error.enroll.acal.official.failed";
         public static final String ERROR_ACAL_SAVE_TERM_SAVE_FAILED = "error.enroll.acal.term.save.failed";
+        public static final String ERROR_ACAL_SAVE_TERM_OFFICIAL_FAILED = "error.enroll.acal.term.official.failed";
+        public static final String ERROR_ACAL_SAVE_EVENT_FAILED = "error.enroll.acal.event.save.failed";
+        public static final String ERROR_ACAL_SAVE_TERM_KEYDATE_FAILED = "error.enroll.acal.term.keydate.save.failed";
         public static final String ERROR_DUPLICATE_HCAL = "error.enroll.acal.duplicate.hcal";
         public static final String ERROR_KEY_DATE_TYPE_REQUIRED = "error.enroll.keydate.type.empty";
+        public static final String ERROR_KEY_DATE_GROUP_TYPE_REQUIRED = "error.enroll.keydategroup.type.empty";
+        public static final String ERROR_KEY_DATE_START_DATE_REQUIRED = "error.enroll.keydate.startDate.empty";
+        public static final String ERROR_KEY_DATE_START_TIME_REQUIRED = "error.enroll.keydate.startTime.empty";
+        public static final String ERROR_KEY_DATE_END_DATE_REQUIRED = "error.enroll.keydate.endDate.empty";
+        public static final String ERROR_KEY_DATE_END_TIME_REQUIRED = "error.enroll.keydate.endTime.empty";
         public static final String ERROR_DUPLICATE_NAME  = "error.enroll.calendar.duplicateName";
         public static final String ERROR_DATE_NOT_IN_ACAL_RANGE = "error.enroll.event.dateNotInAcal";
         public static final String ERROR_INVALID_DATE_RANGE = "error.enroll.daterange.invalid";
         public static final String ERROR_DUPLICATE_TERM_NAME = "error.enroll.term.duplicateName";
         public static final String ERROR_TERM_NOT_IN_ACAL_RANGE = "error.enroll.term.dateNotInAcal";
+        public static final String ERROR_TERM_NOT_IN_TERM_RANGE = "error.enroll.term.dateNotInTerm";
         public static final String ERROR_INVALID_DATERANGE_KEYDATE = "error.enroll.keydate.dateNotInTerm";
         public static final String ERROR_CALCULATING_INSTRUCTIONAL_DAYS = "error.enroll.acal.instructionaldays.calculation";
+        public static final String ERROR_NO_PARENT_TERM_FOR_SUBTERM = "error.enroll.acal.term.noParentTermForSubterm";
+        public static final String ERROR_INVALID_DATE_TIME = "error.enroll.date.time.invalid";
     }
 
+    public static final String EMPTY_TERM_CODE = "No Code";
+
+    //http session attribute keys
+    public static final String SESSION_CALENDAR_SEARCH_TYPE = "sessionCalendarSearchType";
+    public static final String SESSION_CALENDAR_SEARCH_NAME = "sessionCalendarSearchName";
+    public static final String SESSION_CALENDAR_SEARCH_YEAR = "sessionCalendarSearchYear";
+
+    public static final String MESSAGE_CONFIRM_TO_DELETE_SUBTERM = "Are you sure you want to delete the Academic Subterm?";
+    public static final String MESSAGE_CONFIRM_TO_DELETE_TERM_WITH_SUBTERM = "Are you sure you want to delete the Academic Term? The associated subterms will be deleted as well.";
+    public static final String MESSAGE_CONFIRM_TO_DELETE_TERM_ONLY = "Are you sure you want to delete the Academic Term?";
 }

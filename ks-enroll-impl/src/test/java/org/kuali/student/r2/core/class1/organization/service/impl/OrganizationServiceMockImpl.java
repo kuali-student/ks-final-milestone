@@ -293,7 +293,7 @@ public class OrganizationServiceMockImpl implements OrganizationService, MockSer
     }
 
     @Override
-    public TypeInfo getOrgOrgRelationTypeForOrgType(@WebParam(name = "orgTypeKey") String orgTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public TypeInfo getOrgOrgRelationTypeForOrgType(String orgTypeKey,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -565,7 +565,7 @@ public class OrganizationServiceMockImpl implements OrganizationService, MockSer
     }
 
     @Override
-    public OrgPersonRelationInfo getOrgPersonRelationByTypeAndOrg(@WebParam(name = "orgPersonRelationTypeKey") String orgPersonRelationTypeKey, @WebParam(name = "orgId") String orgId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public OrgPersonRelationInfo getOrgPersonRelationByTypeAndOrg( String orgPersonRelationTypeKey,  String orgId,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -895,18 +895,18 @@ public class OrganizationServiceMockImpl implements OrganizationService, MockSer
 
 
     @Override
-    public List<TypeInfo> getSearchTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<TypeInfo> getSearchTypes( ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public TypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public TypeInfo getSearchType(String searchTypeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
 
     @Override
-    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo,  ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

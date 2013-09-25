@@ -4,23 +4,32 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.kuali.student.enrollment.class2.acal.util.MockAcalTestDataLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.AcademicCalendarServiceMockImpl;
-import org.kuali.student.enrollment.class2.courseoffering.service.impl.AcalTestDataLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseR1TestDataLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseServiceR1MockImpl;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuServiceConstants;
+
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  *
@@ -47,19 +56,19 @@ public class TestR1CourseVersionHelper {
     public void tearDown() {
     }
 
-    private void loadData(CourseService courseService, AcademicCalendarService acalService) {
+    private void loadData(CourseService courseService, AcademicCalendarService acalService) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
 
-        AcalTestDataLoader acalLoader = new AcalTestDataLoader(acalService);
-        acalLoader.loadTerm("2011SP", "Spring 2011", "Spring Term 2011", AtpServiceConstants.ATP_SPRING_TYPE_KEY,
-                "2011-03-01 00:00:00.0", "2011-05-31 00:00:00.0");
-        acalLoader.loadTerm("2011FA", "Fall 2011", "Fall Term 2011", AtpServiceConstants.ATP_FALL_TYPE_KEY,
-                "2011-09-01 00:00:00.0", "2011-12-31 00:00:00.0");
-        acalLoader.loadTerm("2012SP", "Spring 2012", "Spring Term 2012", AtpServiceConstants.ATP_SPRING_TYPE_KEY,
-                "2012-03-01 00:00:00.0", "2012-05-31 00:00:00.0");
-        acalLoader.loadTerm("2012FA", "Fall 2012", "Fall Term 2012", AtpServiceConstants.ATP_FALL_TYPE_KEY,
-                "2012-09-01 00:00:00.0", "2012-12-31 00:00:00.0");
-        acalLoader.loadTerm("2013SP", "Spring 2013", "Spring Term 2013", AtpServiceConstants.ATP_SPRING_TYPE_KEY,
-                "2013-03-01 00:00:00.0", "2013-05-31 00:00:00.0");
+        MockAcalTestDataLoader acalLoader = new MockAcalTestDataLoader(acalService);
+        acalLoader.loadTerm("2011SP", "Spring 2011", "2011-03-01 00:00:00.0", "2011-05-31 00:00:00.0", AtpServiceConstants.ATP_SPRING_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Spring Term 2011"
+        );
+        acalLoader.loadTerm("2011FA", "Fall 2011", "2011-09-01 00:00:00.0", "2011-12-31 00:00:00.0", AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Fall Term 2011"
+        );
+        acalLoader.loadTerm("2012SP", "Spring 2012", "2012-03-01 00:00:00.0", "2012-05-31 00:00:00.0", AtpServiceConstants.ATP_SPRING_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Spring Term 2012"
+        );
+        acalLoader.loadTerm("2012FA", "Fall 2012", "2012-09-01 00:00:00.0", "2012-12-31 00:00:00.0", AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Fall Term 2012"
+        );
+        acalLoader.loadTerm("2013SP", "Spring 2013", "2013-03-01 00:00:00.0", "2013-05-31 00:00:00.0", AtpServiceConstants.ATP_SPRING_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Spring Term 2013"
+        );
 
         CourseR1TestDataLoader courseLoader = new CourseR1TestDataLoader(courseService);
         courseLoader.loadCourse("COURSE1", "2012FA", "CHEM", "CHEM123", "Chemistry 123", "description 1", "COURSE1-FORMAT1",
@@ -76,7 +85,7 @@ public class TestR1CourseVersionHelper {
         System.out.println("getCourse");
         CourseService courseService = new CourseServiceR1MockImpl();
         AcademicCalendarService acalService = new AcademicCalendarServiceMockImpl();
-        loadData (courseService, acalService);
+        loadData(courseService, acalService);
         R1CourseServiceHelper instance = new R1CourseServiceHelper(courseService, acalService);
         CourseInfo course = instance.getCourse("COURSE1");
         assertEquals ("COURSE1", course.getId());

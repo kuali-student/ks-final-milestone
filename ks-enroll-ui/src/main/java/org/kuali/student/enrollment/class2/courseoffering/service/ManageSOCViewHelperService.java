@@ -1,8 +1,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.service;
 
-import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.form.ManageSOCForm;
-import org.kuali.student.enrollment.uif.service.KSViewHelperService;
+import org.kuali.student.common.uif.service.KSViewHelperService;
 
 import java.util.List;
 

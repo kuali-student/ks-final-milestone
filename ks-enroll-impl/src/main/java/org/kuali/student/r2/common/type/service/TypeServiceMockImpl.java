@@ -1,5 +1,6 @@
 package org.kuali.student.r2.common.type.service;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -7,6 +8,7 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
@@ -14,40 +16,36 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
-import javax.jws.WebParam;
+
 import java.util.*;
 
 public class TypeServiceMockImpl implements TypeService, MockService {
 
     private Map<String, TypeInfo> allTypes = new HashMap<String, TypeInfo>();
-    private Map<String, Map<String, TypeTypeRelationInfo>> relationOwners = new HashMap<String, Map<String, TypeTypeRelationInfo>>();
-    private Map<String, Map<String, TypeInfo>> allowedTypes = new HashMap<String, Map<String, TypeInfo>>();
-    private Map<String, Map<String, TypeInfo>> groupTypes = new HashMap<String, Map<String, TypeInfo>>();
 
-    
-    
-    
+    /*
+     * Store each TypeTypeRelationInfo in a Map by TypeTypeRelation type.
+     * The key is the owner type key.
+     * The value is a Map with the related type type key as the key and the TypeTypeRelationInfo as the value.
+     */
+    private Map<String, Map<String, TypeTypeRelationInfo>> groupTypeTypeRelations = new HashMap<String, Map<String, TypeTypeRelationInfo>>();
+    private Map<String, Map<String, TypeTypeRelationInfo>> allowedTypeTypeRelations = new HashMap<String, Map<String, TypeTypeRelationInfo>>();
 
     public TypeServiceMockImpl() {
 		super();
-		
 		init();
 	}
 
     @Override
 	public void clear() {
-    	
-    	this.allowedTypes.clear();
-    	this.allTypes.clear();
-    	this.groupTypes.clear();
-    	this.relationOwners.clear();
-
+        this.allTypes.clear();
+        this.allowedTypeTypeRelations.clear();
+    	this.groupTypeTypeRelations.clear();
     	init();
-		
 	}
 
 	@Override
-    public TypeInfo getType(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public TypeInfo getType(String typeKey,  ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         TypeInfo type = getType(typeKey);
         if (type == null) {
             throw new DoesNotExistException(typeKey);
@@ -56,38 +54,40 @@ public class TypeServiceMockImpl implements TypeService, MockService {
     }
 
     @Override
-    public List<TypeInfo> getTypesByKeys(@WebParam(name = "typeKeys") List<String> typeKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<TypeInfo> getTypesByKeys(List<String> typeKeys,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return new ArrayList<TypeInfo>();
+    }
+
+    @Override
+    public List<String> getRefObjectUris( ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method not implemented."); // TODO implement
     }
 
     @Override
-    public List<String> getRefObjectUris(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
+    public List<TypeInfo> getTypesByRefObjectUri(String refObjectUri,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return new ArrayList<TypeInfo>(){
+
+        };
     }
 
     @Override
-    public List<TypeInfo> getTypesByRefObjectUri(@WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
-    }
-
-    @Override
-    public List<TypeInfo> getTypesForGroupType(@WebParam(name = "groupTypeKey") String groupTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<TypeInfo> getTypesForGroupType(String groupTypeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<TypeInfo> result = new ArrayList<TypeInfo>();
         TypeInfo typeInfo = new TypeInfo();
         typeInfo.setKey("kuali.lui.type.activity.offering.lecture");
         result.add(typeInfo);
         return result;
-
     }
 
     @Override
-    public List<TypeInfo> getAllowedTypesForType(@WebParam(name = "ownerTypeKey") String ownerTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        Map<String, TypeInfo> relationTypes = allowedTypes.get(ownerTypeKey);
-        if (relationTypes != null) {
-            return new ArrayList<TypeInfo>(relationTypes.values());
-        } else {
-            return new ArrayList<TypeInfo>();
+    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey,  ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        Map<String, TypeTypeRelationInfo> allowedRelations = allowedTypeTypeRelations.get(ownerTypeKey);
+        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
+        for (TypeTypeRelationInfo relationInfo : allowedRelations.values()) {
+            TypeInfo typeInfo = allTypes.get(relationInfo.getRelatedTypeKey());
+            typeInfos.add(typeInfo);
         }
+        return typeInfos;
     }
 
     private TypeInfo getType(String typeKey) {
@@ -95,91 +95,104 @@ public class TypeServiceMockImpl implements TypeService, MockService {
     }
 
     //    @Override
-    public List<TypeInfo> getTypesByRefObjectURI(@WebParam(name = "refObjectURI") String refObjectURI, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
-    }
-
-//    @Override
-//    public List<TypeInfo> getAllowedTypesForType(@WebParam(name = "ownerTypeKey") String ownerTypeKey, @WebParam(name = "relatedRefObjectURI") String relatedRefObjectURI, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-//        Map<String, TypeInfo> relationTypes = allowedTypes.get(ownerTypeKey);
-//        if (relationTypes != null) {
-//            return new ArrayList<TypeInfo>(relationTypes.values());
-//        } else {
-//            return new ArrayList<TypeInfo>();
-//        }
-//    }
-    @Override
-    public List<ValidationResultInfo> validateType(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "typeInfo") TypeInfo typeInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI,  ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         throw new OperationFailedException("Method not implemented."); // TODO implement
     }
 
     @Override
-    public TypeInfo createType(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "typeInfo") TypeInfo typeInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateType( String validationTypeKey, TypeInfo typeInfo,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method not implemented."); // TODO implement
     }
 
     @Override
-    public TypeInfo updateType(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "typeInfo") TypeInfo typeInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+    public TypeInfo createType(String typeKey, TypeInfo typeInfo,  ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method not implemented."); // TODO implement
     }
 
     @Override
-    public StatusInfo deleteType(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public TypeInfo updateType(String typeKey, TypeInfo typeInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         throw new OperationFailedException("Method not implemented."); // TODO implement
     }
 
     @Override
-    public TypeTypeRelationInfo getTypeTypeRelation(@WebParam(name = "typeTypeRelationKey") String typeTypeRelationKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteType(String typeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method not implemented."); // TODO implement
     }
 
     @Override
-    public List<TypeTypeRelationInfo> getTypeTypeRelationsByIds(@WebParam(name = "typeTypeRelationIds") List<String> typeTypeRelationIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public TypeTypeRelationInfo getTypeTypeRelation( String typeTypeRelationKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method not implemented."); // TODO implement
     }
 
     @Override
-    public List<TypeTypeRelationInfo> getTypeTypeRelationsByOwnerAndType(@WebParam(name = "ownerTypeKey") String ownerTypeKey, @WebParam(name = "relationTypeKey") String relationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        Map<String, TypeTypeRelationInfo> relationTypes = relationOwners.get(ownerTypeKey);
-        if (relationTypes != null) {
-            return new ArrayList<TypeTypeRelationInfo>(relationTypes.values());
+    public List<TypeTypeRelationInfo> getTypeTypeRelationsByIds(List<String> typeTypeRelationIds,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("Method not implemented."); // TODO implement
+    }
+
+    @Override
+    public List<TypeTypeRelationInfo> getTypeTypeRelationsByOwnerAndType( String ownerTypeKey, String relationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<TypeTypeRelationInfo> typeTypeRelationInfos = new ArrayList<TypeTypeRelationInfo>();
+
+        Map<String, TypeTypeRelationInfo> relations;
+        if (StringUtils.equals(relationTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY)) {
+            relations = allowedTypeTypeRelations.get(ownerTypeKey);
+        } else if (StringUtils.equals(relationTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY) ) {
+            relations = groupTypeTypeRelations.get(ownerTypeKey);
         } else {
-            return new ArrayList<TypeTypeRelationInfo>();
+            throw new OperationFailedException(String.format("Unknown type type relation key [%s].", relationTypeKey));
         }
+        if (relations != null) {
+            typeTypeRelationInfos.addAll(relations.values());
+        }
+        return typeTypeRelationInfos;
     }
 
     @Override
-    public List<TypeTypeRelationInfo> getTypeTypeRelationsByRelatedTypeAndType(@WebParam(name = "relatedTypeKey") String relatedTypeKey, @WebParam(name = "relationTypeKey") String relationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<TypeTypeRelationInfo> getTypeTypeRelationsByRelatedTypeAndType(String relatedTypeKey, String relationTypeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<TypeTypeRelationInfo> list = new ArrayList<TypeTypeRelationInfo>();
-        for (Map<String, TypeTypeRelationInfo> relationTypes : relationOwners.values()) {
-            for (TypeTypeRelationInfo rel : relationTypes.values()) {
-                if (rel.getTypeKey().equals(relationTypeKey)) {
-                    if (rel.getRelatedTypeKey().equals(relatedTypeKey)) {
-                        list.add(rel);
-                    }
-                }
-            }
+        if (StringUtils.equals(relationTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY)) {
+            appendItemsByRelatedTypeKey(allowedTypeTypeRelations, list, relatedTypeKey);
+        } else if (StringUtils.equals(relationTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY) ) {
+            appendItemsByRelatedTypeKey(groupTypeTypeRelations, list, relatedTypeKey);
+        } else {
+            throw new OperationFailedException(String.format("Unknown type type relation key [%s].", relationTypeKey));
         }
         return list;
     }
 
+    /**
+     * Appends TypeTypeRelationInfo with a given related type key to a List.
+     * @param from
+     * @param to
+     * @param relatedTypeKey
+     */
+    private void appendItemsByRelatedTypeKey(Map<String, Map<String, TypeTypeRelationInfo>> from, List<TypeTypeRelationInfo> to, String relatedTypeKey) {
+        for (Map<String, TypeTypeRelationInfo> relationTypes : from.values()) {
+            for (TypeTypeRelationInfo ttrInfo : relationTypes.values()) {
+                if (ttrInfo.getRelatedTypeKey().equals(relatedTypeKey)) {
+                    to.add(ttrInfo);
+                }
+            }
+        }
+    }
+
     @Override
-    public List<ValidationResultInfo> validateTypeTypeRelation(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "typeKey") String typeKey, @WebParam(name = "typePeerKey") String typePeerKey, @WebParam(name = "typeTyperelationTypeKey") String typeTypeRelationTypeKey, @WebParam(name = "typeTypeRelationInfo") TypeTypeRelationInfo typeTypeRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateTypeTypeRelation( String validationTypeKey, String typeKey,  String typePeerKey, String typeTypeRelationTypeKey,  TypeTypeRelationInfo typeTypeRelationInfo,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method not implemented."); // TODO implement
     }
 
     @Override
-    public TypeTypeRelationInfo createTypeTypeRelation(@WebParam(name = "typeTypeRelationKey") String typeTypeRelationKey, @WebParam(name = "typeKey") String typeKey, @WebParam(name = "typePeerKey") String typePeerKey, @WebParam(name = "typeTypeRelationInfo") TypeTypeRelationInfo typeTypeRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public TypeTypeRelationInfo createTypeTypeRelation( String typeTypeRelationKey, String typeKey,  String typePeerKey,  TypeTypeRelationInfo typeTypeRelationInfo,  ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         throw new OperationFailedException("Method not implemented."); // TODO implement
     }
 
     @Override
-    public TypeTypeRelationInfo updateTypeTypeRelation(@WebParam(name = "typeTypeRelationKey") String typeTypeRelationKey, @WebParam(name = "typeTypeRelationInfo") TypeTypeRelationInfo typeTypeRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+    public TypeTypeRelationInfo updateTypeTypeRelation( String typeTypeRelationKey,  TypeTypeRelationInfo typeTypeRelationInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         throw new OperationFailedException("Method not implemented."); // TODO implement
     }
 
     @Override
-    public StatusInfo deleteTypeTypeRelation(@WebParam(name = "typeTypeRelationKey") String typeTypeRelationKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteTypeTypeRelation( String typeTypeRelationKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method not implemented."); // TODO implement
     }
 
@@ -272,7 +285,14 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         typeArrays.add(new String[] {LuiServiceConstants.PRACTICUM_ACTIVITY_OFFERING_TYPE_KEY, "Practicum Activity Offering", "Practicum Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
         typeArrays.add(new String[] {LuiServiceConstants.QUIZ_ACTIVITY_OFFERING_TYPE_KEY, "Quiz Activity Offering", "Quiz Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
         typeArrays.add(new String[] {LuiServiceConstants.SEMINAR_ACTIVITY_OFFERING_TYPE_KEY, "Seminar Activity Offering", "Seminar Activity Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, "Course Offering", "Course Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY, "Lui Lui Relation Delivered via FO to AO", "Lui Lui Relation Delivered via FO to AO", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, "Lui Lui Relation Associated", "Lui Lui Relation Associated", LuiServiceConstants.REF_OBJECT_URI_LUI});
+        typeArrays.add(new String[] {LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY, "Lui Set Colocated Offering", "Lui Set Colocated Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
 
+        typeArrays.add(new String[] {LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, "Lpr Instructor Main", "Lpr Instructor Main", LprServiceConstants.REF_OBJECT_URI_LUI_PERSON_RELATION});
+        typeArrays.add(new String[] {LprServiceConstants.COURSE_OFFERING_INSTRUCTOR_MAIN_TYPE_KEY, "Lpr Course Offering Instructor Main", "Lpr Course Offering Instructor Main", LprServiceConstants.REF_OBJECT_URI_LUI_PERSON_RELATION});
+        
         for (String[] typeArray : typeArrays) {
             createTypeInfo(typeArray[0], typeArray[1], typeArray[2], typeArray[3]);
         }
@@ -308,7 +328,7 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         rgGroup.add(getType(LuiServiceConstants.QUIZ_ACTIVITY_OFFERING_TYPE_KEY));
         rgGroup.add(getType(LuiServiceConstants.SEMINAR_ACTIVITY_OFFERING_TYPE_KEY));
         for (TypeInfo type : rgGroup) {
-            createTypeTypeRelationInfo(rgGroupType, type);
+            createTypeTypeRelationInfo(TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, rgGroupType, type);
         }
 
         // Term Types Grouping
@@ -336,11 +356,11 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         termGroup.add(getType("kuali.atp.type.SessionG2"));
         termGroup.add(getType("kuali.atp.type.Adhoc"));
         for (TypeInfo type : termGroup) {
-            createTypeTypeRelationInfo(termGroupType, type);
+            createTypeTypeRelationInfo(TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, termGroupType, type);
         }
 
         //keydates
-        typeArrays.add(new String[]{"kuali.atp.milestone.AdvanceRegistrationPeriod", "Advance Registration Period", "Advance Registration Period", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{"kuali.atp.milestone.AdvancedRegistrationPeriod", "Advance Registration Period", "Advance Registration Period", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
         typeArrays.add(new String[]{"kuali.atp.milestone.RegistrationPeriod", "Registration Period", "Registration Period", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
         typeArrays.add(new String[]{"kuali.atp.milestone.RegistrationBeginsTransfer", "Registration Begins Transfer", "Registration Begins Transfer", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
         typeArrays.add(new String[]{"kuali.atp.milestone.DropDeadlineWithoutRecord", "Drop Deadline Without Record", "Drop Deadline Without Record", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
@@ -363,7 +383,7 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         //Keydates grouping
         Set<TypeInfo> keydateGroup = new HashSet<TypeInfo>();
         TypeInfo keydateGroupType = createTypeInfo("kuali.milestone.type.group.keydate", "Group for key dates", "Group for key dates", AtpServiceConstants.REF_OBJECT_URI_MILESTONE);
-        keydateGroup.add(getType("kuali.atp.milestone.AdvanceRegistrationPeriod"));
+        keydateGroup.add(getType("kuali.atp.milestone.AdvancedRegistrationPeriod"));
         keydateGroup.add(getType("kuali.atp.milestone.InstructionalPeriod"));
         keydateGroup.add(getType("kuali.atp.milestone.RegistrationPeriod"));
         keydateGroup.add(getType("kuali.atp.milestone.RegistrationBeginsTransfer"));
@@ -371,18 +391,18 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         keydateGroup.add(getType("kuali.atp.milestone.FinalExamPeriod"));
         keydateGroup.add(getType("kuali.atp.milestone.GradesDue"));
         for (TypeInfo type : keydateGroup) {
-            createTypeTypeRelationInfo(keydateGroupType, type);
+            createTypeTypeRelationInfo(TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, keydateGroupType, type);
         }
 
         //Instructional Keydates grouping
         Set<TypeInfo> inskeydateGroup = new HashSet<TypeInfo>();
         TypeInfo inskeydateGroupType = createTypeInfo("kuali.milestone.type.group.registration", "Group for instructional key dates", "Group for instructional key dates", AtpServiceConstants.REF_OBJECT_URI_MILESTONE);
-        inskeydateGroup.add(getType("kuali.atp.milestone.AdvanceRegistrationPeriod"));
+        inskeydateGroup.add(getType("kuali.atp.milestone.AdvancedRegistrationPeriod"));
         inskeydateGroup.add(getType("kuali.atp.milestone.RegistrationPeriod"));
         inskeydateGroup.add(getType("kuali.atp.milestone.RegistrationBeginsTransfer"));
         inskeydateGroup.add(getType("kuali.atp.milestone.DropDeadlineWithoutRecord"));
         for (TypeInfo type : inskeydateGroup) {
-            createTypeTypeRelationInfo(inskeydateGroupType, type);
+            createTypeTypeRelationInfo(TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, inskeydateGroupType, type);
         }
 
         //kuali.milestone.type.group.registration
@@ -397,7 +417,7 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         regkeydateGroup.add(getType("kuali.atp.milestone.DropDate"));
         regkeydateGroup.add(getType("kuali.atp.milestone.InstructionalPeriod"));
         for (TypeInfo type : regkeydateGroup) {
-            createTypeTypeRelationInfo(regkeydateGroupType, type);
+            createTypeTypeRelationInfo(TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, regkeydateGroupType, type);
         }
 
         //curriculum grouping
@@ -408,7 +428,7 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         curriculumGroup.add(getType("kuali.atp.milestone.ProposalPeriod"));
         curriculumGroup.add(getType("kuali.atp.milestone.ReviewPeriod"));
         for (TypeInfo type : curriculumGroup) {
-            createTypeTypeRelationInfo(curriculumGroupType, type);
+            createTypeTypeRelationInfo(TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, curriculumGroupType, type);
         }
 
         //Holiday types Grouping
@@ -434,7 +454,7 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         holidayGroup.add(getType("kuali.atp.milestone.VeteransDayObserved"));
 
         for (TypeInfo type : holidayGroup) {
-            createTypeTypeRelationInfo(holidayGroupType, type);
+            createTypeTypeRelationInfo(TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, holidayGroupType, type);
         }
 
         //Event types Grouping
@@ -449,7 +469,7 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         eventGroup.add(getType("kuali.atp.milestone.Baccalaureate"));
         eventGroup.add(getType("kuali.atp.milestone.Commencement"));
         for (TypeInfo type : eventGroup) {
-            createTypeTypeRelationInfo(eventGroupType, type);
+            createTypeTypeRelationInfo(TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, eventGroupType, type);
         }
 
         // Allowed type relations
@@ -473,7 +493,7 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.17", "kuali.type.type.relation.type.allowed", "kuali.atp.type.SummerEve", "kuali.atp.type.SessionG1", "1", "SummerEve can contain SessionG1"});
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.18", "kuali.type.type.relation.type.allowed", "kuali.atp.type.SummerEve", "kuali.atp.type.SessionG2", "2", "SummerEve can contain SessionG2"});
         // key dates for fall term
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.20", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.milestone.AdvanceRegistrationPeriod", "1", "Fall can have an advanced reg period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.20", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.milestone.AdvancedRegistrationPeriod", "1", "Fall can have an advanced reg period"});
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.21", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.milestone.InstructionalPeriod", "2", "Fall can have an instructional period"});
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.22", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.milestone.RegistrationPeriod", "3", "Fall can have an reg period"});
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.23", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.milestone.RegistrationBeginsTransfer", "4", "Fall can transfer reg period"});
@@ -482,7 +502,7 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.26", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.milestone.GradesDue", "7", "Fall can have a grading period"});
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.27", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.milestone.FinancialAidCensus", "7", "Fall can have a financialaid"});
         // key dates for winter
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.30", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Winter", "kuali.atp.milestone.AdvanceRegistrationPeriod", "1", "Winter can have an advanced reg period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.30", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Winter", "kuali.atp.milestone.AdvancedRegistrationPeriod", "1", "Winter can have an advanced reg period"});
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.31", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Winter", "kuali.atp.milestone.InstructionalPeriod", "2", "Winter can have an instructional period"});
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.32", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Winter", "kuali.atp.milestone.RegistrationPeriod", "3", "Winter can have an reg period"});
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.33", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Winter", "kuali.atp.milestone.RegistrationBeginsTransfer", "4", "Winter can transfer reg period"});
@@ -491,7 +511,7 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.36", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Winter", "kuali.atp.milestone.GradesDue", "7", "Winter can have a grading period"});
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.37", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.milestone.FinancialAidCensus", "7", "Fall can have a financialaid"});
         // key dates for spring
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.40", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.milestone.AdvanceRegistrationPeriod", "1", "Spring can have an advanced reg period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.40", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.milestone.AdvancedRegistrationPeriod", "1", "Spring can have an advanced reg period"});
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.41", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.milestone.InstructionalPeriod", "2", "Spring can have an instructional period"});
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.42", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.milestone.RegistrationPeriod", "3", "Spring can have an reg period"});
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.43", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.milestone.RegistrationBeginsTransfer", "4", "Spring can transfer reg period"});
@@ -500,7 +520,7 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.46", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.milestone.GradesDue", "7", "Spring can have a grading period"});
 
         // key dates for summer
-        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.50", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Summer", "kuali.atp.milestone.AdvanceRegistrationPeriod", "1", "Summer can have an advanced reg period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.50", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Summer", "kuali.atp.milestone.AdvancedRegistrationPeriod", "1", "Summer can have an advanced reg period"});
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.51", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Summer", "kuali.atp.milestone.InstructionalPeriod", "2", "Summer can have an instructional period"});
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.52", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Summer", "kuali.atp.milestone.RegistrationPeriod", "3", "Summer can have an reg period"});
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.53", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Summer", "kuali.atp.milestone.RegistrationBeginsTransfer", "4", "Summer can transfer reg period"});
@@ -512,11 +532,12 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.60", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.milestone.type.group.instructional", "1", "Summer can have a final exam period"});
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.61", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.milestone.type.group.registration", "2", "Summer can have a grading period"});
 
+        //  Activity -> ActivityOffering
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.62", "kuali.type.type.relation.type.allowed", "kuali.lu.type.activity.Lecture", "kuali.lui.type.activity.offering.lecture", "1", ""});
 
         for (String[] allowedArray : allowedArrays) {
             associate(allowedArray[0], allowedArray[1], allowedArray[2], allowedArray[3], allowedArray[4], allowedArray[5]);
         }
-
     }
 
     private TypeInfo createTypeInfo(String typeKey, String typeName, String descr, String refObjectUri) {
@@ -530,40 +551,58 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         return type;
     }
 
-    private TypeTypeRelationInfo createTypeTypeRelationInfo(TypeInfo ownerType, TypeInfo relatedType) {
-        return createTypeTypeRelationInfo(ownerType.getKey(), relatedType.getKey());
+    /**
+     * Creates a TypeTypeRelationInfo.
+     * @param typeKey The type key of the TypeTypeRelationInfo.
+     * @param ownerType The owner TypeInfo.
+     * @param relatedType The related TypeInfo.
+     * @return A TypeTypeRelationInfo.
+     */
+    private TypeTypeRelationInfo createTypeTypeRelationInfo(String typeKey, TypeInfo ownerType, TypeInfo relatedType) {
+        return createTypeTypeRelationInfo(typeKey, ownerType.getKey(), relatedType.getKey());
     }
 
-    private TypeTypeRelationInfo createTypeTypeRelationInfo(String ownerTypeKey, String relatedTypeKey) {
+    /**
+     * Creates a TypeTypeRelationInfo.
+     *
+     * @param typeKey  The type key of the TypeTypeRelationInfo.
+     * @param ownerTypeKey The type key of the owner TypeInfo.
+     * @param relatedTypeKey  The type key of the related TypeInfo.
+     * @return A TypeTypeRelationInfo.
+     */
+    private TypeTypeRelationInfo createTypeTypeRelationInfo(String typeKey, String ownerTypeKey, String relatedTypeKey) {
         TypeTypeRelationInfo relation = new TypeTypeRelationInfo();
+        relation.setTypeKey(typeKey);
         relation.setOwnerTypeKey(ownerTypeKey);
         relation.setRelatedTypeKey(relatedTypeKey);
 
-        Map<String, TypeTypeRelationInfo> relationTypes = relationOwners.get(relation.getOwnerTypeKey());
-        if (null == relationTypes) {
-            relationTypes = (Map) new HashMap<String, Map<String, TypeTypeRelationInfo>>();
-            relationOwners.put(relation.getOwnerTypeKey(), relationTypes);
+        Map<String, TypeTypeRelationInfo> relations = groupTypeTypeRelations.get(relation.getOwnerTypeKey());
+        if (null == relations) {
+            relations = (Map) new HashMap<String, Map<String, TypeTypeRelationInfo>>();
+            groupTypeTypeRelations.put(relation.getOwnerTypeKey(), relations);
         }
-        relationTypes.put(relation.getRelatedTypeKey(), relation);
-
+        relations.put(relation.getRelatedTypeKey(), relation);
         return relation;
     }
 
-    private void associate(String relationKey, String relationTypeKey, String ownerTypeKey, String relatedTypeKey, String relationRank, String relationName) {
-        TypeTypeRelationInfo relation = new TypeTypeRelationInfo();
+    private void associate(String relationId, String relationTypeKey, String ownerTypeKey, String relatedTypeKey,
+                           String relationRank, String relationName) {
 
+        TypeTypeRelationInfo relation = new TypeTypeRelationInfo();
+        relation.setId(relationId);
         relation.setTypeKey(relationTypeKey);
         relation.setOwnerTypeKey(ownerTypeKey);
         relation.setRelatedTypeKey(relatedTypeKey);
         relation.setRank(Integer.parseInt(relationRank));
 
-        Map<String, TypeInfo> types = allowedTypes.get(relation.getOwnerTypeKey());
-        if (null == types) {
-            types = (Map) new HashMap<String, Map<String, TypeInfo>>();
-            allowedTypes.put(relation.getOwnerTypeKey(), types);
+        //  See if an entry for this owner key already exists. If not, create one.
+        Map<String, TypeTypeRelationInfo> relations = allowedTypeTypeRelations.get(relation.getOwnerTypeKey());
+        if (null == relations) {
+            relations = (Map) new HashMap<String, Map<String, TypeTypeRelationInfo>>();
+            allowedTypeTypeRelations.put(relation.getOwnerTypeKey(), relations);
         }
-        TypeInfo relatedType = allTypes.get(relation.getRelatedTypeKey());
-        types.put(relation.getRelatedTypeKey(), relatedType);
+        //  Put the new type type relation into the map.
+        relations.put(relation.getRelatedTypeKey(), relation);
     }
 
     @Override
@@ -585,6 +624,4 @@ public class TypeServiceMockImpl implements TypeService, MockService {
     public List<TypeInfo> searchForTypes(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
-    
 }

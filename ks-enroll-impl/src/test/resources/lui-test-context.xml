@@ -13,15 +13,10 @@
     <context:annotation-config/>
 
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
-    <import resource="classpath:ks-rice-data-dictionary-mock-env.xml"/>
-    <import resource="classpath:ks-data-dictionary-services-configuration.xml"/>
-    <import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
+    <import resource="classpath:ks-test-system-property-configurer.xml"/>
+    <import resource="classpath:ks-enroll-api-data-dictionary-services-configuration.xml"/>
+    <import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml"/>
 
-    <bean id="systemPropertyConfigurer"
-        class="org.kuali.student.common.util.SystemPropertyConfigurer" depends-on="fakeEnvResourceLoader">
-        <property name="properties" value="${propertiesPrefix.systemProperties}"/>
-    </bean>
-        
     <bean id="AtomikosTxMgr"
         class="com.atomikos.icatch.jta.UserTransactionManager"
         init-method="init" destroy-method="close" depends-on="systemPropertyConfigurer" autowire-candidate="false" autowire="no">
@@ -50,6 +45,8 @@
             value="${jdbc.xaDataSourceClassName}" />
         <property name="xaProperties" value="${propertiesPrefix.jdbc.xaDataSourceProperties}"/>
         <property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+        <property name="minPoolSize" value="${jdbc.minPoolSize}" />
+        <property name="testQuery" value="${jdbc.testQuery}" />
     </bean>
 
     <bean id="vendorAdapter" class="${jpa.vendorAdapter}" depends-on="propertyConfigurer">
@@ -76,9 +73,13 @@
     <bean id="entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean" autowire-candidate="false" autowire="no">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
-    
-    <bean id="luiService" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl">
+
+    <!--<bean id="TypeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl"/>-->
+    <bean id="TypeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl"/>
+
+    <bean id="luiServiceImpl" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl">
         <property name="luiDao" ref="luiDao"/>
+        <property name="luiSetDao" ref="luiSetDao"/>
         <property name="luiLuiRelationDao" ref="luiLuiRelationDao" />
         <property name="criteriaLookupService" ref="criteriaLookupService" />
     </bean>
@@ -89,7 +90,16 @@
         <property name="em" ref="entityManager"/>
     </bean>
 
+    <bean id="luiSetDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiSetDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
     <bean id="criteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+        <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+    </bean>
+
+    <bean id="criterialookupDaoJpa" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupDaoJpaImpl">
+        <property name="entityManager" ref="entityManager"/>
     </bean>
     
     <bean id="luiLuiRelationDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao">
@@ -98,5 +108,12 @@
 
     <tx:annotation-driven transaction-manager="JtaTxManager"
 		order="1000" />
+
+    <alias name="luiServiceValidationDecorator" alias="LuiService" />
+
+    <bean id="luiServiceValidationDecorator" class="org.kuali.student.enrollment.class1.lui.service.decorators.LuiServiceValidationDecorator">
+        <property name="nextDecorator" ref="luiServiceImpl"/>
+        <property name="validator" ref="validator" />
+    </bean>
 		
 </beans>

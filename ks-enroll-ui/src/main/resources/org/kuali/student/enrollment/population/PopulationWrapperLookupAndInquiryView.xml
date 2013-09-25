@@ -45,13 +45,14 @@
     </bean>
 
     <!-- LookupView -->
-    <bean id="KS-Population-LookupView" parent="KSLookupView">
+    <bean id="KS-Population-LookupView" parent="KS-Uif-LookupView">
         <property name="headerText" value="@{viewName != null ? 'Manage Populations' : 'Active Population Lookup'}" />
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.population.service.impl.PopulationWrapperLookupableImpl" />
         <property name="maintenanceUrlMapping" value="population"/>
-        <property name="resultsGroup">
-            <bean parent="Uif-LookupResultsCollectionSection" p:id="population_lookup"/>
+
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <ref bean="KS-Enrollment-HomewardPathBreadcrumbs"/>
         </property>
         <property name="criteriaFields">
             <list>
@@ -79,19 +80,31 @@
                 <bean parent="Uif-DataField" p:propertyName="populationStateKeyName"  p:label="State"/>
             </list>
         </property>
-        <!-- use KS-LookupView-ResultActions to display edit link only -->
-        <property name="resultsActionsFieldGroup">
-            <bean parent="Uif-FieldGroupBase">
-                <property name="label" value="Actions"/>
-                <property name="group">
-                    <bean parent="KS-LookupView-ResultActions"/>
-                </property>
-            </bean>
+        <property name="resultsGroup.lineActions">
+            <list>
+                <bean parent="Uif-ActionLink"  p:order="10">
+                    <property name="actionLabel" value="edit"/>
+                    <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+                    <property name="finalizeMethodAdditionalArguments">
+                        <list>
+                            <value>maintenanceEdit</value>
+                        </list>
+                    </property>
+                    <property name="render"
+                              value="@{#ViewHelper.allowsMaintenanceEditAction(#line) and view.showMaintenanceLinks}"/>
+                </bean>
+                <bean parent="Uif-ActionLink">
+                  <property name="actionLabel" value="Return Value"/>
+                  <property name="finalizeMethodToCall" value="getReturnUrlForResults"/>
+                  <property name="render"
+                            value="@{!#empty(returnFormKey) and !#empty(returnLocation) and !view.hideReturnLinks}"/>
+                </bean>
+            </list>
         </property>
     </bean>
 
     <!-- InquiryView -->
-    <bean id="KS-Population-InquiryView" parent="KSInquiryView">
+    <bean id="KS-Population-InquiryView" parent="KS-Uif-InquiryView">
         <property name="headerText" value="View Population"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.population.service.impl.PopulationWrapperInquirableImpl"/>
@@ -114,7 +127,12 @@
                                     <bean class="org.kuali.student.enrollment.class2.population.keyvalue.PopulationRuleTypeKeyValues"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.name" p:label="Rule" p:inquiry.render="false" p:fieldLabel.renderColon="true" p:labelPlacement="LEFT" p:render="@{#dp.populationRuleInfo.typeKey eq 'kuali.population.rule.type.rule'}" p:id="rule_inquiry" />
+                            <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.agendaIds[0]" p:label="Rule" p:inquiry.render="false" p:fieldLabel.renderColon="true" p:labelPlacement="LEFT" p:render="@{#dp.populationRuleInfo.typeKey eq 'kuali.population.rule.type.rule'}" p:id="rule_inquiry" >
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.population.keyvalue.PopulationRuleAgendaKeyValues"/>
+                                </property>
+                            </bean>
+
                             <bean parent="Uif-InputField" p:propertyName="referencePopulation.name" p:label="Reference Population" p:labelPlacement="TOP" p:render="@{#dp.populationRuleInfo.typeKey eq 'kuali.population.rule.type.exclusion'}" p:id="refpop_inquiry" />
 
                             <bean parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1" p:render="@{!#dp.childPopulations.empty}"

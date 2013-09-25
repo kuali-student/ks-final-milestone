@@ -30,10 +30,12 @@ import java.util.Set;
 @NamedQueries({
     @NamedQuery(name="LuiLuiRelationENR.getLuiLuiRelationsByLui", query="SELECT rel from LuiLuiRelationEntity rel where rel.lui.id=:luiId OR rel.relatedLui.id=:luiId"),
     @NamedQuery(name="LuiLuiRelationENR.getLuiIdsByRelation", query="select rel.lui.id from LuiLuiRelationEntity rel where rel.relatedLui.id=:relatedLuiId and rel.luiLuiRelationType=:luLuRelationTypeKey"),
+    @NamedQuery(name="LuiLuiRelationENR.getLuiIdsAndStateByRelatedLuisAndRelationType", query="Select distinct rel.lui.id, rel.lui.luiState from LuiLuiRelationEntity rel where rel.relatedLui.id in (:luiIds) AND rel.luiLuiRelationType=:luiLuiRelationTypeKey"),
     @NamedQuery(name="LuiLuiRelationENR.getLuisByRelation", query = "select rel.lui from LuiLuiRelationEntity rel where rel.relatedLui.id=:relatedLuiId and rel.luiLuiRelationType=:luLuRelationTypeKey"),
     @NamedQuery(name="LuiLuiRelationENR.getRelatedLuisByLuiId", query="select rel.relatedLui.id from LuiLuiRelationEntity rel where rel.lui.id=:luiId and rel.luiLuiRelationType=:luLuRelationTypeKey"),
     @NamedQuery(name="LuiLuiRelationENR.getLuiLuiRelationsByRelatedLuiAndLuiId", query="Select rel from LuiLuiRelationEntity rel where rel.lui.id=:luiId AND rel.relatedLui.id=:relatedLuiId"),
-    @NamedQuery(name="LuiLuiRelationENR.getRelatedLuisByLuiIdAndRelationType", query="Select rel.relatedLui from LuiLuiRelationEntity rel where rel.lui.id=:luiId AND rel.luiLuiRelationType=:luiLuiRelationTypeKey")
+    @NamedQuery(name="LuiLuiRelationENR.getRelatedLuisByLuiIdAndRelationType", query="Select rel.relatedLui from LuiLuiRelationEntity rel where rel.lui.id=:luiId AND rel.luiLuiRelationType=:luiLuiRelationTypeKey"),
+    @NamedQuery(name="LuiLuiRelationENR.getRelatedLuiIdsByLuiIdAndRelationType", query="Select rel.relatedLui.id from LuiLuiRelationEntity rel where rel.lui.id=:luiId AND rel.luiLuiRelationType=:luiLuiRelationTypeKey")
 })
 public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<LuiLuiRelationAttributeEntity> {
 

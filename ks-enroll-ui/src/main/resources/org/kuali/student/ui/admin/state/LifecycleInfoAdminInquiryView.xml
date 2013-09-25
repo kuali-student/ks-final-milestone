@@ -26,7 +26,7 @@
 	<value>classpath:org/kuali/student/ui/admin/state/LifecycleInfoAdminInquiryView.xml</value>
 	********************************************** -->
 	<!-- InquiryView -->
-	<bean id="KS-LifecycleInfo-AdminInquiryView" parent="KSInquiryView"
+	<bean id="KS-LifecycleInfo-AdminInquiryView" parent="KS-Uif-InquiryView"
 		p:title="LifecycleInfo Inquiry"
 		p:dataObjectClassName="org.kuali.student.r2.core.class1.state.dto.LifecycleInfo"
 		p:viewHelperServiceClass="org.kuali.student.ui.admin.state.LifecycleInfoAdminInquirableImpl">

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+                           http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
     <!--
      Copyright 2007-2012 The Kuali Foundation
 
@@ -19,27 +19,108 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
-    <bean id="KS-CourseOfferingManagement-CopyCourseOfferingPage" parent="Uif-Page" p:disclosure.render="false"
-          p:id="copyCourseOfferingPage">
-        <property name="header">
-            <bean parent="Uif-HeaderThree" p:headerText="Copy Course Offering" />
+    <bean id="KS-CourseOfferingManagement-CopyCourseOfferingPage" parent="KS-Uif-Page" p:disclosure.render="false"
+          p:id="copyCourseOfferingPage"
+          p:headerText="Copy Course Offering">
+
+        <!-- Dynamically replace by page-title from parent using JS-onDocumentReadyScript to reflect subject-code.
+             ie: from "Course Offerings" to "WMST200"
+             This is a work-around, at least until KRAD 2.3-m3 -->
+        <property name="onDocumentReadyScript" value="updateViewHeaderText( '@{courseOfferingCopyWrapper.courseOfferingCode}' );" />
+
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <util:list id="KS-Enrollment-HomewardPathBreadcrumbs">
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
+                <bean  parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Course Offerings"/>
+                    <property name="url.viewId" value="courseOfferingManagementView"/>
+                    <property name="url.controllerMapping" value="courseOfferingManagement"/>
+                    <property name="url.requestParameters">
+                        <map key-type="java.lang.String" merge="true">
+                            <entry key="methodToCall" value="start"/>
+                            <entry key="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+                            <entry key="hideReturnLink" value="true"/>
+                            <entry key="pageId" value="searchInputPage"/>
+                            <entry key="viewName" value="Manage Course Offerings"/>
+                        </map>
+                    </property>
+                </bean>
+                <ref bean="KS-HomewardPathBreadcrumbs-Search-Subject"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-TheCO-Page"/>
+            </util:list>
+        </property>
+
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-CopyCo-Page"/>
+            </list>
         </property>
 
         <property name="items">
             <list>
+                <ref bean="KS-CourseOffering-ContextBar" />
                 <ref bean="KS-CourseOfferingManagement-CopyCourseOfferingSection"/>
                 <ref bean="KS-CourseOfferingManagement-ActivityOfferingsSection"/>
                 <ref bean="KS-CourseOfferingManagement-ConfigureCourseOfferingCopySection"/>
                 <ref bean="KS-CourseOfferingManagement-CopyCancelSection"/>
             </list>
         </property>
-
     </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-TheCO-Page" parent="Uif-BreadcrumbItem">
+        <property name="label" value="@{courseOfferingCopyWrapper.courseOfferingCode}"/>
+        <property name="url.viewId" value="courseOfferingManagementView"/>
+        <property name="url.controllerMapping" value="courseOfferingManagement"/>
+        <property name="url.requestParameters">
+            <map key-type="java.lang.String" merge="true">
+                <entry key="methodToCall" value="show"/>
+                <entry key="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+                <entry key="hideReturnLink" value="true"/>
+                <entry key="inputCode" value="@{courseOfferingCopyWrapper.courseOfferingCode}"/>
+                <entry key="formKey" value="@{formKey}"/>
+                <entry key="pageId" value="manageTheCourseOfferingPage"/>
+                <entry key="viewName" value="@{courseOfferingCopyWrapper.courseOfferingCode}"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-CopyCo-Page" parent="Uif-BreadcrumbItem">
+      <property name="label" value="@{(courseOfferingCopyWrapper.courseOfferingCode eq null)? '' : 'Copy '}  @{courseOfferingCopyWrapper.courseOfferingCode}"/>
+    </bean>
+
+    <!--
+     This is the context bar that will be put into the static context bar placeholder on page load. It does this via the
+     "updateContextBar" javascript.
+     Note: because of the way the breadcrumbs are implemented we had to set the "display: none"
+    -->
+    <bean id="KS-CourseOfferingManagement-CopyCourseOfferingPage-ContextBar" parent="Uif-HorizontalBoxGroup" p:style="display: block;"
+          p:onDocumentReadyScript="updateContextBar('KS-CourseOfferingManagement-CopyCourseOfferingPage-ContextBar', 'KS-CourseOfferingManagement-ContextBar-PlaceHolder'); setSeasonalColor('KS-CourseOfferingManagement-CopyCourseOfferingPage-ContextBar',@{termDayOfYear}, '@{#ConfigProperties['application.url']}');">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-topGroup</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Label" p:labelText="@{termCode}" p:renderColon="false">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-topGroup-termCode</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="contextBarSocState" parent="KS-Lozenge-Grey-Uif-InputField" p:readOnly="true" p:propertyName="socState" />
+            </list>
+        </property>
+    </bean>
+
 
     <bean id="KS-CourseOfferingManagement-CopyCourseOfferingSection" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:readOnly="true" p:label="Course Offering Code" p:propertyName="courseOfferingCopyWrapper.courseOfferingCode"/>
+                <bean parent="Uif-DataField" p:readOnly="true" p:label="Cross listed as" p:propertyName="courseOfferingCopyWrapper.alternateCOCodesUIList" p:render="@{!courseOfferingCopyWrapper.coInfo.crossListings.empty}"/>
                 <bean parent="Uif-DataField" p:readOnly="true" p:label="Course Title" p:propertyName="courseOfferingCopyWrapper.courseTitle"/>
                 <bean parent="Uif-DataField" p:readOnly="true" p:label="Term ID" p:propertyName="courseOfferingCopyWrapper.termId"/>
                 <bean parent="Uif-DataField" p:readOnly="true" p:label="Credit Count" p:propertyName="courseOfferingCopyWrapper.creditCountUI"/>
@@ -116,9 +197,6 @@
                 <list>
                     <bean parent="Uif-PrimaryActionButton" p:actionLabel="Create Copy" p:methodToCall="copyCourseOfferingCreateCopy"/>
                     <bean parent="Uif-ActionLink" p:methodToCall="copyCourseOfferingCancel" p:actionLabel="Cancel" />
-
-                    <!--  <bean parent="KS-SubmitActionLink" p:actionLabel="Cancel" p:methodToCall="copyCourseOfferingCancel"/>
-                     <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:methodToCall="copyCourseOfferingCancel"/> -->
                 </list>
             </property>
         </bean>

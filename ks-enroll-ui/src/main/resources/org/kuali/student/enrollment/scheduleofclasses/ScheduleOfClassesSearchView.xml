@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="KS-ScheduleOfClassesSearch-View" parent="KSFormView" p:applyDirtyCheck="true"
+    <bean id="KS-ScheduleOfClassesSearch-View" parent="KS-Uif-FormView" p:applyDirtyCheck="true"
           p:id="scheduleOfClassesSearchView"
           p:entryPageId="searchInputPage"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.scheduleofclasses.service.impl.ScheduleOfClassesViewHelperServiceImpl"
@@ -27,6 +27,9 @@
         <!-- property name="header">
             <bean parent="Uif-HeaderThree" p:headerText="Schedule of Classes" p:render="false"/>
         </property-->
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <ref bean="KS-Enrollment-HomewardPathBreadcrumbs"/>
+        </property>
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
         </property>

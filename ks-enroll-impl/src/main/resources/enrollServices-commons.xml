@@ -23,13 +23,15 @@
                        value="${ks.enroll.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
                 <entry key="hibernate.connection.release_mode"
                        value="${ks.enroll.jpa.JpaProperties.hibernate.connection.release_mode}"/>
+                <entry key="hibernate.default_batch_fetch_size"
+                       value="${ks.enroll.jpa.JpaProperties.hibernate.default_batch_fetch_size}"/>
             </map>
         </property>
     </bean>
 
     <bean id="enrollEntityManagerFactory" parent="enrollDefaultEntityManagerFactory">
-        <property name="persistenceUnitName" value="Acal"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/acal-persistence.xml"/>
+        <property name="persistenceUnitName" value="Enr"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/enroll-persistence.xml"/>
         <property name="dataSource" ref="enrollDataSource"/>
     </bean>
 
@@ -38,14 +40,10 @@
     </bean>
 
     <alias name="jtaUserTransaction" alias="userTransaction"/>
-    <!--<bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
+    <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
         <property name="userTransaction" ref="jtaUserTransaction"/>
         <property name="transactionManager" ref="jtaTransactionManager"/>
         <property name="allowCustomIsolationLevels" value="true"/>
-    </bean>-->
-    <tx:annotation-driven transaction-manager="transactionManager"/>
-    <bean id="transactionManager" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="transactionManager" />
     </bean>
 
 </beans>

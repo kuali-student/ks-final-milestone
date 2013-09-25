@@ -20,8 +20,15 @@
      limitations under the License.
     -->
 
-    <bean id="KS-CourseOfferingManagement-SearchInputPage" parent="Uif-Page" p:disclosure.render="false"
+    <bean id="KS-CourseOfferingManagement-SearchInputPage" parent="KS-Uif-Page" p:disclosure.render="false"
           p:id="searchInputPage">
+        <property name="onDocumentReadyScript" value="removeEmptyContextBar('KS-CourseOffering-View-ContextBar-PlaceHolder');"/>
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-ManageCo-Landing" />
+            </list>
+        </property>
+
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxSection">
@@ -35,20 +42,22 @@
         </property>
     </bean>
 
+
     <bean id="KS-CourseOfferingManagement-CriteriaSection" parent="Uif-HorizontalBoxSection"
         p:id="courseOfferingManagementCriteriaSection">
+        <!--<property name="componentSecurity.editAuthz" value="true" />-->
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true">
+                            <bean parent="Uif-InputField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true" p:readOnly="false">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="6" p:watermarkText="20132" p:minLength="5" p:maxLength="6"/>
+                                    <bean parent="Uif-TextControl" p:size="6" p:watermarkText="201301" p:minLength="5" p:maxLength="6"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="inputCode" p:label="Course" p:required="true">
+                            <bean parent="Uif-InputField" p:propertyName="inputCode" p:label="Course" p:required="true" p:readOnly="false">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="30" p:watermarkText="ENGL or ENGL1 or ENGL101"/>
                                 </property>

@@ -17,11 +17,11 @@ package org.kuali.student.enrollment.class1.hold.service.impl;
 
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.date.utils.EffectiveDateUtils;
 import org.kuali.student.enrollment.class1.hold.dao.AppliedHoldDao;
 import org.kuali.student.enrollment.class1.hold.dao.HoldIssueDao;
 import org.kuali.student.enrollment.class1.hold.model.AppliedHoldEntity;
 import org.kuali.student.enrollment.class1.hold.model.HoldIssueEntity;
-import org.kuali.student.enrollment.class1.hold.util.EffectiveDateUtils;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -89,9 +89,9 @@ public class HoldServiceImpl
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<String> searchForAppliedHoldIds(QueryByCriteria criteria,
-            ContextInfo context)
+     @Transactional(readOnly = true)
+     public List<String> searchForAppliedHoldIds(QueryByCriteria criteria,
+                                                 ContextInfo context)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,

@@ -19,7 +19,7 @@ package org.kuali.student.ui.admin.type;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
-import org.kuali.student.enrollment.common.util.ContextBuilder;
+import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;

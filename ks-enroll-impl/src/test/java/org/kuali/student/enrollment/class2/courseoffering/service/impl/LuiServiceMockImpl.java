@@ -28,11 +28,11 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +47,7 @@ public class LuiServiceMockImpl
 
     private Map<String, LuiInfo> luis = new LinkedHashMap<String, LuiInfo>();
     private Map<String, LuiLuiRelationInfo> luiLuiRelations = new LinkedHashMap<String, LuiLuiRelationInfo>();
+    private Map<String, LuiSetInfo> luiSets = new LinkedHashMap<String, LuiSetInfo>();
 
     @Override
     public void clear() {
@@ -295,7 +296,7 @@ public class LuiServiceMockImpl
     }
 
     @Override
-    public LuiLuiRelationInfo createLuiLuiRelation(String luiId, String relatedLuiId, String luiLuiRelationTypeKey, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo contextInfo) throws CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public LuiLuiRelationInfo createLuiLuiRelation(String luiId, String relatedLuiId, String luiLuiRelationTypeKey, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         LuiLuiRelationInfo copy = new LuiLuiRelationInfo(luiLuiRelationInfo);
         if (copy.getId() == null) {
             copy.setId(UUIDHelper.genStringUUID());
@@ -385,72 +386,149 @@ public class LuiServiceMockImpl
     }
 
     @Override
-    public List<TypeInfo> getLuiSetTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented");
+    public LuiSetInfo getLuiSet(String luiSetId,  ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        if( luiSetId == null || luiSetId.trim().isEmpty() ) throw new InvalidParameterException( "luiSetId must be provided" );
+        luiSetId = luiSetId.trim();
+
+        if( contextInfo == null ) throw new InvalidParameterException( "contextInfo must be provided" );
+
+        if( !this.luiSets.containsKey(luiSetId) ) throw new DoesNotExistException( "luiSetId not found: " + luiSetId );
+
+        return this.luiSets.get( luiSetId );
     }
 
     @Override
-    public TypeInfo getLuiSetType(@WebParam(name = "luiSetTypeKey") String luiSetTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<LuiSetInfo> getLuiSetsByIds(List<String> luiSetIds,  ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if( luiSetIds == null || luiSetIds.isEmpty() ) throw new InvalidParameterException( "luiSetIds must be provided" );
+
+        if( contextInfo == null ) throw new InvalidParameterException( "contextInfo must be provided" );
+
+        List<LuiSetInfo> result = new ArrayList<LuiSetInfo>();
+        for( String id : luiSetIds ) {
+            if( !this.luiSets.containsKey(id) ) throw new DoesNotExistException( "luiSetId not found: " + id );
+            result.add( this.luiSets.get(id) );
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<String> getLuiIdsFromLuiSet(String luiSetId,  ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if( luiSetId == null || luiSetId.trim().isEmpty() ) throw new InvalidParameterException( "luiSetId must be provided" );
+        luiSetId = luiSetId.trim();
+
+        if( contextInfo == null ) throw new InvalidParameterException( "contextInfo must be provided" );
+
+        if( !this.luiSets.containsKey( luiSetId ) ) throw new DoesNotExistException( "luiSetId not found: " + luiSetId );
+
+        return this.luiSets.get( luiSetId ).getLuiIds();
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateLuiSet( String validationTypeKey,  String luiSetTypeKey,
+                                                     LuiSetInfo LuiSetInfo,  ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new RuntimeException("Not implemented");
     }
 
     @Override
-    public LuiSetInfo getLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented");
-    }
-
-    @Override
-    public List<LuiSetInfo> getLuiSetsByIds(@WebParam(name = "luiSetIds") List<String> luiSetIds, @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented");
-    }
-
-    @Override
-    public List<LuiInfo> getLuisFromLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented");
-    }
-
-    @Override
-    public List<String> getLuiIdsFromLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented");
-    }
-
-    @Override
-    public Boolean isLuiInLuiSet(@WebParam(name = "luiId") String luiId, @WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented");
-    }
-
-    @Override
-    public List<ValidationResultInfo> validateLuiSet(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "luiSetTypeKey") String luiSetTypeKey,
-                                                     @WebParam(name = "LuiSetInfo") LuiSetInfo LuiSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented");
-    }
-
-    @Override
-    public LuiSetInfo createLuiSet(@WebParam(name = "luiSetTypeKey") String luiSetTypeKey, @WebParam(name = "luiSetInfo") LuiSetInfo luiSetInfo,
-                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public LuiSetInfo createLuiSet( String luiSetTypeKey,  LuiSetInfo luiSetInfo,
+                                    ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, UnsupportedActionException {
-        throw new RuntimeException("Not implemented");
+        if( luiSetTypeKey == null || luiSetTypeKey.trim().isEmpty() ) throw new InvalidParameterException( "luiSetTypeKey must be provided" );
+        luiSetTypeKey = luiSetTypeKey.trim();
+
+        if( luiSetInfo == null ) throw new InvalidParameterException( "luiSetInfo must be provided" );
+
+        LuiSetInfo created = new LuiSetInfo();
+        created.setId( UUIDHelper.genStringUUID(luiSetInfo.getId()) );
+        created.setDescr(luiSetInfo.getDescr());
+        created.setStateKey(luiSetInfo.getStateKey());
+        created.setTypeKey(luiSetTypeKey);
+        created.setName(luiSetInfo.getName());
+        created.setLuiIds( luiSetInfo.getLuiIds() );
+        created.setEffectiveDate( luiSetInfo.getEffectiveDate() );
+        created.setExpirationDate( luiSetInfo.getExpirationDate() );
+        created.setMeta( luiSetInfo.getMeta() );
+        created.setAttributes( luiSetInfo.getAttributes() );
+
+        this.luiSets.put( created.getId(), created );
+
+        return created;
     }
 
     @Override
-    public LuiSetInfo updateLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "luiSetInfo") LuiSetInfo luiSetInfo,
-                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public LuiSetInfo updateLuiSet( String luiSetId,  LuiSetInfo luiSetInfo,
+                                    ContextInfo contextInfo)
             throws CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, UnsupportedActionException, VersionMismatchException {
-        throw new RuntimeException("Not implemented");
+        if( luiSetId == null || luiSetId.trim().isEmpty() ) throw new InvalidParameterException( "luiSetId must be provided" );
+        luiSetId = luiSetId.trim();
+
+        if( contextInfo == null ) throw new InvalidParameterException( "contextInfo must be provided" );
+
+        if( !this.luiSets.containsKey(luiSetId) ) throw new DoesNotExistException( "luiSetId not found: " + luiSetId );
+
+        return this.luiSets.put( luiSetId, luiSetInfo );
     }
 
     @Override
-    public StatusInfo deleteLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public StatusInfo deleteLuiSet(String luiSetId,  ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new RuntimeException("Not implemented");
+        if( luiSetId == null || luiSetId.trim().isEmpty() ) throw new InvalidParameterException( "luiSetId must be provided" );
+        luiSetId = luiSetId.trim();
+
+        if( contextInfo == null ) throw new InvalidParameterException( "contextInfo must be provided" );
+
+        if( !this.luiSets.containsKey(luiSetId) ) throw new DoesNotExistException( "luiSetId not found: " + luiSetId );
+
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(false);
+        if( this.luiSets.remove( luiSetId ) != null ) {
+            statusInfo.setSuccess(true);
+        }
+
+        return statusInfo;
     }
+
+    @Override
+    public List<LuiSetInfo> getLuiSetsByLui(String luiId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if( luiId == null || luiId.trim().isEmpty() ) throw new InvalidParameterException( "luiId must be provided" );
+        luiId = luiId.trim();
+
+        if( contextInfo == null ) throw new InvalidParameterException( "contextInfo must be provided" );
+
+        List<LuiSetInfo> result = new ArrayList<LuiSetInfo>();
+        Iterator<String> it = this.luiSets.keySet().iterator();
+        while( it.hasNext() ) {
+            String key = it.next();
+            LuiSetInfo value = this.luiSets.get(key);
+            if( value.getLuiIds().contains(luiId)) result.add(value);
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<String> getLuiSetIdsByType(String luiSetTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if( luiSetTypeKey == null || luiSetTypeKey.trim().isEmpty() ) throw new InvalidParameterException( "luiSetTypeKey must be provided" );
+        luiSetTypeKey = luiSetTypeKey.trim();
+
+        if( contextInfo == null ) throw new InvalidParameterException( "contextInfo must be provided" );
+
+        List<String> result = new ArrayList<String>();
+        Iterator<String> it = this.luiSets.keySet().iterator();
+        while( it.hasNext() ) {
+            String key = it.next();
+            LuiSetInfo value = this.luiSets.get(key);
+            if( value.getTypeKey().equals(luiSetTypeKey) ) result.add(key);
+        }
+
+        return result;
+    }
+
 }

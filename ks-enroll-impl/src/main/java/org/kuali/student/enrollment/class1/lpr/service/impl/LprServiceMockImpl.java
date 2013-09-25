@@ -85,8 +85,8 @@ public class LprServiceMockImpl implements LprService, MockService {
 	
     @Override
 	public List<LprInfo> getLprsByLuis(
-			@WebParam(name = "luiIds") List<String> luiIds,
-			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			List<String> luiIds,
+			 ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -289,7 +289,7 @@ public class LprServiceMockImpl implements LprService, MockService {
     @Override
     public List<String> searchForLprIds(QueryByCriteria criteria, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("searchForLprIds has not been implemented");
+        return new ArrayList<String>();
     }
 
     @Override
@@ -592,4 +592,20 @@ public class LprServiceMockImpl implements LprService, MockService {
         meta.setVersionInd((Integer.parseInt(meta.getVersionInd()) + 1) + "");
         return meta;
     }
+
+    /* (non-Javadoc)
+     * @see org.kuali.student.enrollment.lpr.service.LprService#validateLprTransaction(java.lang.String, java.lang.String, org.kuali.student.enrollment.lpr.dto.LprTransactionInfo, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public List<ValidationResultInfo> validateLprTransaction(
+           String validationType,
+           String lprTransactionType,
+           LprTransactionInfo lprTransactionInfo,
+           ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        return new ArrayList<ValidationResultInfo>();
+    }
+    
 }

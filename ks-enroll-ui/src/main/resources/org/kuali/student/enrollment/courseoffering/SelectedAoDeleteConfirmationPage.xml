@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+                           http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
     <!--
      Copyright 2007-2012 The Kuali Foundation
@@ -21,17 +21,54 @@
      limitations under the License.
     -->
 
-    <bean id="KS-CourseOfferingManagement-SelectedAoDeleteConfirmationPage" parent="Uif-Page"
-          p:id="selectedAoDeleteConfirmationPage"
-          p:headerText="">
-        <property name="header">
-            <bean parent="Uif-HeaderTwo"/>
+    <bean id="KS-CourseOfferingManagement-SelectedAoDeleteConfirmationPage" parent="KS-Uif-Page"
+          p:id="selectedAoDeleteConfirmationPage">
+
+        <!-- Dynamically replace by page-title from parent using JS-onDocumentReadyScript to reflect title of the page.
+             ie: from "Course Offerings" to "Delete Activity Offerings"
+             This is a work-around, at least until KRAD 2.3-m3 -->
+        <property name="onDocumentReadyScript" value="updateViewHeaderText( 'Delete Activity Offerings' );" />
+        <property name="headerText" value="@{currentCourseOfferingWrapper.courseOfferingCode}" />
+
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <util:list id="KS-Enrollment-HomewardPathBreadcrumbs">
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-ManageCo-Landing"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-Search-Subject"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-ManageOneCo-Page"/>
+            </util:list>
         </property>
+
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Delete Activity Offerings" />
+                </bean>
+            </list>
+        </property>
+
         <property name="items">
             <list>
-                <ref bean="KS-CourseOfferingManagement-CriteriaSection"/>
                 <ref bean="KS-CourseOfferingManagement-ConfirmationResultSection"/>
             </list>
+        </property>
+
+        <property name="footer">
+            <bean parent="KS-Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-HorizontalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="KS-Uif-PrimaryActionButton" p:id="AoDeleteConfirmationDeleteButton" p:actionLabel="Delete Activity Offering(s)" p:methodToCall="deleteSelectedAoList"/>
+                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancelDeleteAOs" />
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
 
@@ -39,20 +76,14 @@
           p:disclosure.render="false"
           p:id="confirmationResultSection"
           p:colSpan="3"
-          p:style="underline"
-          p:headerText="Delete Activity Offering(s)">
-        <property name="items">
+          p:style="underline">
+       <property name="items">
             <list>
                 <bean id="KS-SelectedAoDeleteConfirmation-Message" parent="Uif-VerticalBoxSection">
-                    <property name="headerText"
-                              value="@{courseOfferingCode} - @{theCourseOffering.courseOfferingTitle}"/>
-                    <property name="header">
-                        <bean parent="Uif-HeaderFour"/>
-                    </property>
                     <property name="disclosure.render" value="false"/>
                     <property name="items" >
                         <list>
-                            <bean parent="Uif-DataField" p:label="Term:" p:propertyName="theCourseOffering.termId" p:fieldLabel.renderColon="false" p:readOnly="true"/>
+                            <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{currentCourseOfferingWrapper.alternateCOCodesUITooltip}" p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != ''}"/>
                          </list>
                     </property>
                 </bean>
@@ -65,12 +96,45 @@
                     <property name="items" >
                         <list>
                             <bean parent="Uif-Message"
-                                  p:messageText="Warning: You are about to permanently delete the following activity offering(s) from this course offering."
-                                  p:style="background-color:#FFEE99; font-size: 110%" p:colSpan="2"/>
+                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;]  Colocated Activity Warning"
+                                  p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2" p:render="@{currentCourseOfferingWrapper.colocatedAoToDelete}"/>
                             <bean parent="Uif-Message"
-                                  p:messageText="Activity Offerings to be deleted: @{selectedToDeleteList.size()}"
-                                  p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2"/>
+                                  p:messageText="Components of one or more of the listed activities are co-located."
+                                  p:style="background-color:#FFEE99;  margin-left: 20px; font-size: 110%" p:colSpan="2" p:render="@{currentCourseOfferingWrapper.colocatedAoToDelete}"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="Deleting will remove the activity offering(s) and break the relationship with the co-located activities and courses."
+                                  p:style="background-color:#FFEE99;  margin-left: 20px; font-size: 110%" p:colSpan="2" p:render="@{currentCourseOfferingWrapper.colocatedAoToDelete}"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png&quot;] icon(s) in the table below for more information."
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2"  p:render="@{currentCourseOfferingWrapper.colocatedAoToDelete}"/>
 
+                            <bean parent="Uif-Message"
+                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;]  Crosslisted Course Warning"
+                                  p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2"
+                                  p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != '' and !currentCourseOfferingWrapper.colocatedAoToDelete}"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="Crosslisted Course Warning"
+                                  p:style="background-color:#FFEE99;   margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"
+                                  p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != '' and currentCourseOfferingWrapper.colocatedAoToDelete}"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="This is a crosslisted course."
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2" p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != ''}"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="You are about to permanently delete the following activity offering(s) from this course offering."
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2" p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != ''}"/>
+
+                            <bean parent="Uif-Message"
+                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;] Warning"
+                                  p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2"
+                                  p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip == '' and !currentCourseOfferingWrapper.colocatedAoToDelete }" />
+                            <bean parent="Uif-Message"
+                                  p:messageText="You are about to permanently delete the following activity offering(s) from this course offering."
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2"
+                                  p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip == '' and !currentCourseOfferingWrapper.colocatedAoToDelete }" />
+
+                            <bean parent="Uif-Message"
+                                  p:messageText="Affected Activities:  @{selectedToDeleteList.size()}"
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
                         </list>
                     </property>
                 </bean>
@@ -91,30 +155,27 @@
                             <bean parent="Uif-DataField"
                                   p:label="STATUS"
                                   p:propertyName="stateName"/>
-                            <bean parent="Uif-DataField"
-                                  p:label="CODE"
-                                  p:propertyName="aoInfo.activityCode"/>
+                             <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
+                                 <property name="items">
+                                    <list>
+                                        <bean parent="Uif-DataField"  p:showLabel="false" p:propertyName="aoInfo.activityCode"/>
+                                        <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedAoInfo.isEmpty()}" p:image.altText="@{#lp.colocatedAoInfoUI}"
+                                            p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
+                                            <property name="style" value="padding-left:5px"/>
+                                            <property name="toolTip">
+                                                <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedAoInfoUI}"/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+
                             <bean parent="Uif-DataField"
                                   p:label="TYPE"
                                   p:propertyName="typeName"/>
                             <bean parent="Uif-DataField"
                                   p:label="FORMAT"
                                   p:propertyName="aoInfo.formatOfferingName"/>
-                        </list>
-                    </property>
-                </bean>
-
-                <bean parent="Uif-HorizontalBoxSection">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Delete Activity Offering(s)" p:methodToCall="deleteSelectedAoList"/>
-                            <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancelDeleteAOs">
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ks-enrollment-cancel-link</value>
-                                    </list>
-                                </property>
-                            </bean>
                         </list>
                     </property>
                 </bean>

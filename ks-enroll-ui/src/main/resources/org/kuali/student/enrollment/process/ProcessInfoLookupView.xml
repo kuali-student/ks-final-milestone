@@ -6,7 +6,7 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
     <import resource="classpath:ks-ProcessInfo-dictionary.xml" />
 
-    <bean id="KS-ProcessInfo-LookupView" parent="KSLookupView">
+    <bean id="KS-ProcessInfo-LookupView" parent="KS-Uif-LookupView">
         <property name="id" value="processInfoLookupView"/>
         <property name="headerText" value="Process Lookup"/>
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.process.dto.ProcessInfo"/>

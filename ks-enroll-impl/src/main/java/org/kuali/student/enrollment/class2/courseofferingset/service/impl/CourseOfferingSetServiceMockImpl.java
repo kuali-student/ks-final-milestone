@@ -4,11 +4,17 @@
  */
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.UnhandledException;
+import org.apache.log4j.Logger;
+import org.hsqldb.lib.StringUtil;
 import org.kuali.rice.core.api.criteria.EqualPredicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
@@ -21,6 +27,7 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import javax.jws.WebParam;
 import java.text.SimpleDateFormat;
@@ -31,8 +38,18 @@ import java.util.List;
 import java.util.Map;
 
 public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetService, MockService {
+    final static Logger LOG = Logger.getLogger(CourseOfferingSetServiceMockImpl.class);
 
     private CourseOfferingSetServiceBusinessLogic businessLogic;
+    private CourseOfferingService coService;
+
+    private final String[] aoSchedStatesForOfferedKeys = {
+            LuiServiceConstants.LUI_AO_SCHEDULING_STATE_EXEMPT_KEY,
+            LuiServiceConstants.LUI_AO_SCHEDULING_STATE_SCHEDULED_KEY
+    };
+    private final String aoOfferedKey = LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY;
+    private final String aoApprovedKey = LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY;
+    private final String foOfferedKey = LuiServiceConstants.LUI_FO_STATE_OFFERED_KEY;
 
     @Override
     public void clear() {
@@ -48,6 +65,10 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
 
     public void setBusinessLogic(CourseOfferingSetServiceBusinessLogic businessLogic) {
         this.businessLogic = businessLogic;
+    }
+     //  For unit testing
+    public void setCoService(CourseOfferingService coService) {
+        this.coService = coService;
     }
 
     public CourseOfferingSetServiceMockImpl() {
@@ -132,12 +153,12 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
     }
 
     @Override
-    public List<SocInfo> searchForSocs(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<SocInfo> searchForSocs(QueryByCriteria criteria,  ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("To be Implemented by services team");
     }
 
     @Override
-    public List<String> searchForSocIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForSocIds(QueryByCriteria criteria,  ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("To be Implemented by services team");
     }
 
@@ -175,7 +196,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
         SocInfo copy = new SocInfo(socInfo);
         SocInfo old = this.getSoc(socInfo.getId(), context);
         if (!socInfo.getStateKey().equals(old.getStateKey())) {
-            throw new ReadOnlyException ("state key can only be changed by calling updateSocState");
+            throw new ReadOnlyException ("state key can only be changed by calling changeSocState");
         }
         if ( ! old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
             throw new VersionMismatchException(old.getMeta().getVersionInd());
@@ -587,13 +608,13 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
     }
 
     @Override
-    public List<String> searchForSocRolloverResultIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws
+    public List<String> searchForSocRolloverResultIds(QueryByCriteria criteria,  ContextInfo context) throws
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<SocRolloverResultInfo> searchForSocRolloverResults(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws
+    public List<SocRolloverResultInfo> searchForSocRolloverResults(QueryByCriteria criteria,  ContextInfo context) throws
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         //throw new UnsupportedOperationException("Not supported yet.");
         List<SocRolloverResultInfo> socRolloverResultInfos = new ArrayList<SocRolloverResultInfo>();
@@ -640,9 +661,9 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
     }
 
     @Override
-    public StatusInfo updateSocState(@WebParam(name = "socId") String socId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public StatusInfo changeSocState(String socId,
+                                     String nextStateKey,
+                                     ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -657,6 +678,9 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
             if (soc == null) {
                 throw new DoesNotExistException("No Soc for id= " + socId);
             }
+
+            propagateState(socId, nextStateKey, contextInfo);
+
             // TODO: call verifySocForState to make sure it is legal to change the state
             soc.setStateKey(nextStateKey);
             this.updateMeta(soc.getMeta(), contextInfo);
@@ -664,7 +688,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
             return newStatus();
 
         } catch (Exception e) {
-            throw new OperationFailedException("updateSocState (id=" + socId + ", nextStateKey=" + nextStateKey, e);
+            throw new OperationFailedException("changeSocState (id=" + socId + ", nextStateKey=" + nextStateKey, e);
         }
     }
 
@@ -675,12 +699,65 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
         Date date = contextInfo.getCurrentDate();
         soc.getAttributes().add(new AttributeInfo(soc.getStateKey(), formatter.format(date)));
     }
-    
+
+    private void propagateState(String socId, String nextState,  ContextInfo contextInfo) throws Exception{
+        if (!StringUtils.isEmpty(nextState) && nextState.equals(CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY)){
+            List<String> coIds = getCourseOfferingIdsBySoc(socId, contextInfo);
+            for (String coId : coIds) {
+                boolean hasAOStateChange = false;
+                List<ActivityOfferingInfo> activityOfferings = coService.getActivityOfferingsByCourseOffering(coId, contextInfo);
+                for (ActivityOfferingInfo ao : activityOfferings) {
+                    /*
+                     * All AOs with BOTH a state of Approved and a Scheduling state of Scheduled or Exempt will change to AO
+                     * state of Offered. The FO and CO for these AOs also changes state from Planned to Offered.
+                     */
+                    String aoState = ao.getStateKey();
+                    String aoSchedState = ao.getSchedulingStateKey();
+
+                    if (StringUtils.equals(aoState, aoApprovedKey) && ArrayUtils.contains(aoSchedStatesForOfferedKeys, aoSchedState)) {
+                        if (! hasAOStateChange) {
+                            hasAOStateChange = true;
+                        }
+                        StatusInfo statusInfo = coService.changeActivityOfferingState(ao.getId(), aoOfferedKey, contextInfo);
+                        if ( ! statusInfo.getIsSuccess()) {
+                            LOG.error(String.format("State change failed for AO [%s]: %s", ao.getId(), statusInfo.getMessage()));
+                        } else {
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug(String.format("Updating AO [%s] state to [%s].", ao.getId(), aoState));
+                            }
+                        }
+                        //  Change the FO state to offered.
+                        statusInfo = coService.changeFormatOfferingState(ao.getFormatOfferingId(), foOfferedKey, contextInfo);
+                        if ( ! statusInfo.getIsSuccess()) {
+                            LOG.error(String.format("State change failed for FO [%s]: %s", ao.getFormatOfferingId(), statusInfo.getMessage()));
+                        }  else {
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug(String.format("Updating FO [%s] state to [%s].", ao.getFormatOfferingId(), foOfferedKey));
+                            }
+                        }
+                    } else {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug(String.format("CO [%s] AO [%s] doesn't need a state change.", coId, ao.getId()));
+                        }
+                    }
+                }
+
+               // If an AO changed state then state change the CO.
+               if (hasAOStateChange) {
+                    coService.changeCourseOfferingState(coId, LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY, contextInfo);
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug(String.format("Updating CO [%s] state to [%s].", coId, LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
+                    }
+                }
+            }
+        }
+    }
+
     @Override
-    public StatusInfo updateSocRolloverResultState(
-            @WebParam(name = "socRolloverResultId") String socRolloverResultId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public StatusInfo changeSocRolloverResultState(
+            String socRolloverResultId,
+            String nextStateKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -698,15 +775,15 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
             return newStatus();
 
         } catch (Exception e) {
-            throw new OperationFailedException("updateSocRolloverResultState (id=" + socRolloverResultId + ", nextStateKey=" + nextStateKey, e);
+            throw new OperationFailedException("changeSocRolloverResultState (id=" + socRolloverResultId + ", nextStateKey=" + nextStateKey, e);
         }
     }
 
     @Override
-    public StatusInfo updateSocRolloverResultItemState(
-            @WebParam(name = "socRolloverResultItemId") String socRolloverResultItemId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public StatusInfo changeSocRolloverResultItemState(
+            String socRolloverResultItemId,
+            String nextStateKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -726,7 +803,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
             return newStatus();
 
         } catch (Exception e) {
-            throw new OperationFailedException("updateSocRolloverResultItemState (id=" + socRolloverResultItemId + ", nextStateKey=" + nextStateKey, e);
+            throw new OperationFailedException("changeSocRolloverResultItemState (id=" + socRolloverResultItemId + ", nextStateKey=" + nextStateKey, e);
         }
     }
 

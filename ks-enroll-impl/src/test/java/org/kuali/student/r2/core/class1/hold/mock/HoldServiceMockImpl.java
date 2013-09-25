@@ -16,8 +16,8 @@
 package org.kuali.student.r2.core.class1.hold.mock;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.date.utils.EffectiveDateUtils;
 import org.kuali.student.common.mock.MockService;
-import org.kuali.student.enrollment.class1.hold.util.EffectiveDateUtils;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;

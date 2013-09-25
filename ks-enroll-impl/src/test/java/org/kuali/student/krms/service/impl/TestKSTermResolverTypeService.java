@@ -15,6 +15,10 @@
 
 package org.kuali.student.krms.service.impl;
 
+import static org.junit.Assert.assertNotNull;
+
+import javax.annotation.Resource;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -29,10 +33,6 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import javax.annotation.Resource;
-
-import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:ks-krms-test-context.xml"})

@@ -5,11 +5,12 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.common.uif.form.KSUifForm;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegistrationGroupManagementForm extends UifFormBase {
+public class RegistrationGroupManagementForm extends KSUifForm {
     private CourseOfferingInfo theCourseOffering;
     private String formatOfferingIdForViewRG;
     private String formatOfferingName;

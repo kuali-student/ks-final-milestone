@@ -26,7 +26,6 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
 import org.kuali.student.enrollment.class2.scheduleofclasses.service.ScheduleOfClassesViewHelperService;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
@@ -34,10 +33,11 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClas
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -70,14 +70,14 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
-        ScheduleOfClassesSearchForm scheduleOfClassesSearchForm = (ScheduleOfClassesSearchForm)form;
+        ScheduleOfClassesSearchForm scheduleOfClassesSearchForm = (ScheduleOfClassesSearchForm) form;
         scheduleOfClassesSearchForm.setSearchType("course");
 
-        if(scheduleOfClassesSearchForm.getTermCode() == null){
+        if (scheduleOfClassesSearchForm.getTermCode() == null) {
             ContextInfo context = ContextUtils.getContextInfo();
             List<AtpInfo> atps = ScheduleOfClassesUtil.getValidSocTerms(getCourseOfferingSetService(), getAtpService(), context);
 
-            if(!atps.isEmpty()){
+            if (!atps.isEmpty()) {
                 scheduleOfClassesSearchForm.setTermCode(ScheduleOfClassesUtil.getCurrentAtp(atps).getCode());
             }
         }
@@ -87,25 +87,24 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
 
     /**
      * Method used to
-     *  Search for course offerings based on search parameters: term and courseCode/Title&Desc/Instructor/Department
+     * Search for course offerings based on search parameters: term and courseCode/Title&Desc/Instructor/Department
      */
     @RequestMapping(params = "methodToCall=show")
-    public ModelAndView show(@ModelAttribute("KualiForm") ScheduleOfClassesSearchForm theForm, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView show(@ModelAttribute("KualiForm") ScheduleOfClassesSearchForm theForm) throws Exception {
 
         //First, find termName based on termCode
         String termCode = theForm.getTermCode();
         if (termCode != null && termCode.length() > 0) {
             String termName = getAcademicCalendarService().getTerm(termCode, ContextUtils.createDefaultContextInfo()).getName();
             theForm.setTermName(termName);
-        } else{
+        } else {
             LOG.error("Error: term can't be empty");
             GlobalVariables.getMessageMap().putError("termCode", ScheduleOfClassesConstants.SOC_MSG_ERROR_TERM_IS_EMPTY);
             return getUIFModelAndView(theForm);
         }
 
         //Second, handle searchType
-        if (theForm.getSearchType().equals("course")){
+        if (theForm.getSearchType().equals("course")) {
             String course = theForm.getCourse();
             if (course != null && course.length() > 0) {
                 getViewHelperService(theForm).loadCourseOfferingsByTermAndCourseCode(termCode, course, theForm);
@@ -115,7 +114,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
                 GlobalVariables.getMessageMap().putError("course", ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
                 return getUIFModelAndView(theForm);
             }
-        } else if (theForm.getSearchType().equals("instructor")){
+        } else if (theForm.getSearchType().equals("instructor")) {
             String instructorId = theForm.getInstructor();
             String instructorName = theForm.getInstructorName();
             if ((instructorId != null && !instructorId.isEmpty()) || (instructorName != null && !instructorName.isEmpty())) {
@@ -126,18 +125,18 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
                 GlobalVariables.getMessageMap().putError("course", ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
                 return getUIFModelAndView(theForm);
             }
-        } else if (theForm.getSearchType().equals("department")){
-           String departmentId = theForm.getDepartment();
-           String departmentName = theForm.getDepartmentName();
-           if ((departmentId != null && !departmentId.isEmpty()) || (departmentName != null && !departmentName.isEmpty())){
-               getViewHelperService(theForm).loadCourseOfferingsByTermAndDepartment(termCode, departmentId, departmentName, theForm);
-               theForm.setSearchParameter("Department: " + departmentName);
-           } else {
+        } else if (theForm.getSearchType().equals("department")) {
+            String departmentId = theForm.getDepartment();
+            String departmentName = theForm.getDepartmentName();
+            if ((departmentId != null && !departmentId.isEmpty()) || (departmentName != null && !departmentName.isEmpty())) {
+                getViewHelperService(theForm).loadCourseOfferingsByTermAndDepartment(termCode, departmentId, departmentName, theForm);
+                theForm.setSearchParameter("Department: " + departmentName);
+            } else {
                 LOG.error("Error: search field can't be empty");
                 GlobalVariables.getMessageMap().putError("course", ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
                 return getUIFModelAndView(theForm);
-           }
-        } else if (theForm.getSearchType().equals("titleDesc")){
+            }
+        } else if (theForm.getSearchType().equals("titleDesc")) {
             String titleDesc = theForm.getTitleDesc();
             if (titleDesc != null && titleDesc.length() > 0) {
                 getViewHelperService(theForm).loadCourseOfferingsByTitleAndDescription(termCode, titleDesc, theForm);
@@ -152,15 +151,14 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         return getUIFModelAndView(theForm, ScheduleOfClassesConstants.SOC_RESULT_PAGE);
     }
 
-    @RequestMapping(params = "methodToCall=populateAOs")
-    public ModelAndView populateAOs(@ModelAttribute("KualiForm") ScheduleOfClassesSearchForm theForm, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(value = "/populateAjaxAos", method = RequestMethod.GET)
+    public ModelAndView populateAjaxAOs(@ModelAttribute("KualiForm") ScheduleOfClassesSearchForm theForm) throws Exception {
 
         String courseOfferingId = theForm.getCourseOfferingId();
 
         if (courseOfferingId != null && courseOfferingId.length() > 0) {
             // Temporal solution to display 2 AO lists simultaneously.
-            if(theForm.getDisplayCoId() != null && !theForm.getDisplayCoId().isEmpty()) {
+            if (theForm.getDisplayCoId() != null && !theForm.getDisplayCoId().isEmpty()) {
                 theForm.setDisplayCoIdAdd(theForm.getDisplayCoId());
                 theForm.setAoDisplayWrapperAddList(theForm.getAoDisplayWrapperList());
             } else if ((theForm.getDisplayCoIdAdd() == null || theForm.getDisplayCoIdAdd().isEmpty()) && !theForm.getAoDisplayWrapperAddList().isEmpty()) {
@@ -178,26 +176,52 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         return getUIFModelAndView(theForm, ScheduleOfClassesConstants.SOC_RESULT_PAGE);
     }
 
-    public ScheduleOfClassesViewHelperService getViewHelperService(ScheduleOfClassesSearchForm theForm){
+    @RequestMapping(params = "methodToCall=populateAOs")
+    public ModelAndView populateAOs(@ModelAttribute("KualiForm") ScheduleOfClassesSearchForm theForm) throws Exception {
+
+        String courseOfferingId = theForm.getCourseOfferingId();
+
+        if (courseOfferingId != null && courseOfferingId.length() > 0) {
+            // Temporal solution to display 2 AO lists simultaneously.
+            if (theForm.getDisplayCoId() != null && !theForm.getDisplayCoId().isEmpty()) {
+                theForm.setDisplayCoIdAdd(theForm.getDisplayCoId());
+                theForm.setAoDisplayWrapperAddList(theForm.getAoDisplayWrapperList());
+            } else if ((theForm.getDisplayCoIdAdd() == null || theForm.getDisplayCoIdAdd().isEmpty()) && !theForm.getAoDisplayWrapperAddList().isEmpty()) {
+                theForm.getAoDisplayWrapperAddList().clear();
+            }
+            getViewHelperService(theForm).loadActivityOfferingsByCourseOfferingId(courseOfferingId, theForm);
+            // Temporal solution to display 2 AO lists simultaneously.
+            theForm.setDisplayCoId(courseOfferingId);
+        } else {
+            LOG.error("Error: search field can't be empty");
+            GlobalVariables.getMessageMap().putError("course", ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
+            return getUIFModelAndView(theForm);
+        }
+
+        return getUIFModelAndView(theForm, ScheduleOfClassesConstants.SOC_RESULT_PAGE);
+    }
+
+    public ScheduleOfClassesViewHelperService getViewHelperService(ScheduleOfClassesSearchForm theForm) {
         if (viewHelperService == null) {
-            if (theForm.getView().getViewHelperServiceClass() != null){
+            if (theForm.getView().getViewHelperServiceClass() != null) {
                 viewHelperService = (ScheduleOfClassesViewHelperService) theForm.getView().getViewHelperService();
-            }else{
-                viewHelperService= (ScheduleOfClassesViewHelperService) theForm.getPostedView().getViewHelperService();
+            } else {
+                viewHelperService = (ScheduleOfClassesViewHelperService) theForm.getPostedView().getViewHelperService();
             }
         }
         return viewHelperService;
     }
 
     protected AcademicCalendarService getAcademicCalendarService() {
-        if(acalService == null) {
+        if (acalService == null) {
             acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.acalService;
     }
+
     //Methods to get necessary services
     protected CourseOfferingSetService getCourseOfferingSetService() {
-        if(courseOfferingSetService == null) {
+        if (courseOfferingSetService == null) {
 
             courseOfferingSetService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
@@ -205,7 +229,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
     }
 
     protected AtpService getAtpService() {
-        if(atpService == null) {
+        if (atpService == null) {
             atpService = (AtpService) GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.atpService;

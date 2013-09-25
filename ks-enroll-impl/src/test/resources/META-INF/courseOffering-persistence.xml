@@ -58,12 +58,8 @@
         <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitsDeploymentEntity</class>
         <class>org.kuali.student.r2.lum.lrc.model.ResultValuesGroupEntity</class>
         <class>org.kuali.student.r2.lum.lrc.model.ResultValuesGroupAttributeEntity</class>
-
-        <!--<class>org.kuali.student.common.entity.Type</class>-->
-        <!--<class>org.kuali.student.common.entity.Attribute</class>-->
-        <!--<class>org.kuali.student.common.entity.Meta</class>-->
-        <!--<class>org.kuali.student.common.entity.MetaEntity</class>-->
-        <!--<class>org.kuali.student.common.entity.TimeAmount</class>-->
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiSetEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiSetAttributeEntity</class>
 
         <class>org.kuali.student.r1.core.organization.entity.Org</class>
         <class>org.kuali.student.r1.core.organization.entity.OrgAttribute</class>
@@ -228,6 +224,7 @@
         <class>org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterEntity</class>
         <class>org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterAttributeEntity</class>
         <class>org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingSetEntity</class>
+        <class>org.kuali.student.enrollment.class2.courseoffering.model.CodeGeneratorLocksEntity</class>
 
         <class>org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterEntity</class>
         <class>org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterAttributeEntity</class>

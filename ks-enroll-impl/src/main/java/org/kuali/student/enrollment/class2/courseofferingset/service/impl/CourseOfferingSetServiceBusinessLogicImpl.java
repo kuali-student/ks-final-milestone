@@ -6,8 +6,9 @@ package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -19,7 +20,6 @@ import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetS
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -28,14 +28,15 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
-import javax.jws.WebParam;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOfferingSetServiceBusinessLogic {
 
@@ -43,6 +44,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
     private CourseService courseService;
     private AcademicCalendarService acalService;
     private CourseOfferingSetService socService;
+    private RolloverAssist rolloverAssist;
     private SocDao socDao;
 
     private SchedulingService schedulingService;
@@ -87,6 +89,14 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         this.acalService = acalService;
     }
 
+    public RolloverAssist getRolloverAssist() {
+        return rolloverAssist;
+    }
+
+    public void setRolloverAssist(RolloverAssist rolloverAssist) {
+        this.rolloverAssist = rolloverAssist;
+    }
+
     private CourseOfferingSetService _getSocService() {
         // If it hasn't been set by Spring, then look it up by GlobalResourceLoader
         if (socService == null) {
@@ -111,10 +121,10 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
                 if (socIds.isEmpty()) {
                     return null;
                 }
-                for (String socId: socIds) {
-                    SocInfo targetSoc = this._getSocService().getSoc(socId, new ContextInfo());
-                    if (targetSoc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
-                        return targetSoc;
+                List<SocInfo> targetSocs = this._getSocService().getSocsByIds(socIds, new ContextInfo());
+                for (SocInfo soc: targetSocs) {
+                    if (soc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
+                        return soc;
                     }
                 }
             }
@@ -132,6 +142,19 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         return count > 0;
     }
 
+    private String _verifyTermsOfficial(TermInfo targetTerm, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        if (!targetTerm.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)) {
+            return targetTerm.getId();
+        }
+        List<TermInfo> childTerms = acalService.getIncludedTermsInTerm(targetTerm.getId(), contextInfo);
+        for (TermInfo termInfo: childTerms) {
+            if (!termInfo.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)) {
+                return termInfo.getId();
+            }
+        }
+        return null;
+    }
+
     @Override
     public SocInfo rolloverSoc(String sourceSocId, String targetTermId, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -146,12 +169,23 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         if (sourceSoc.getTermId().equals(targetTermId)) {
             throw new InvalidParameterException("The term of the source soc and the target term must be different");
         }
+        String termId = null;
+        if ((termId = _verifyTermsOfficial(targetTerm, context)) != null) {
+            throw new OperationFailedException("Target (sub)term (id=" + termId + ") does not have official state.  Can't rollover");
+        } else {
+            // That way, rolloverCourseOffering can do less validation
+            if (!optionKeys.contains(CourseOfferingSetServiceConstants.TARGET_TERM_VALIDATED_OPTION_KEY)) {
+                optionKeys = new ArrayList<String>(optionKeys); // create a shallow copy so original is unmodified
+                optionKeys.add(CourseOfferingSetServiceConstants.TARGET_TERM_VALIDATED_OPTION_KEY);
+            }
+        }
         // DanS says if there are any offerings in the target term, we shouldn't perform rollover.  The implication
         // is that any courses that were copied from canonical prior to a rollover would prevent a rollover from
         // happening. DanS has said this is fine (as of 5/20/2012)
         if (_hasOfferingsInTargetTerm(targetTerm)) {
             throw new OperationFailedException("Can't rollover if course offerings exist in target term");
         }
+
         // Reuse SOC in target term
         SocInfo targetSoc = _findTargetSoc(targetTermId);
         boolean foundTargetSoc = true;
@@ -175,7 +209,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
             if (!targetSoc.getStateKey().equals(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY))
             // Make it draft in the new term            
             // Persist the draft state
-            this._getSocService().updateSocState(targetSoc.getId(), CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY, context);
+            this._getSocService().changeSocState(targetSoc.getId(), CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY, context);
         }
 
 
@@ -207,6 +241,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         runner.setCourseService(courseService);
         runner.setAcalService(acalService);
         runner.setSocService(this._getSocService());
+        runner.setRolloverAssist(rolloverAssist); // KSENROLL-8062 Add colo to rollover
         runner.setResult(result);
 
         if (optionKeys.contains(CourseOfferingSetServiceConstants.RUN_SYNCHRONOUSLY_OPTION_KEY)) {
@@ -296,12 +331,8 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         // to delete all for a term or delete all for a subject area intead of doing it one by one
         List<String> ids = this.getCourseOfferingIdsBySoc(socId, context);
         for (String id : ids) {
-            try {
-                this.coService.deleteCourseOffering(socId, context);
-            } catch (DependentObjectsExistException e) {
-                throw new OperationFailedException(e.getMessage());
-            }
-        }
+            this.coService.deleteCourseOfferingCascaded(id, context);
+         }
         return ids.size();
     }
 
@@ -410,7 +441,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
     }
 
     @Override
-    public StatusInfo startScheduleSoc(@WebParam(name = "socId") String socId, @WebParam(name = "optionKeys") List<String> optionKeys, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo startScheduleSoc(String socId, List<String> optionKeys,  ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         //  Validate SOC. Ensure there is a valid Soc for the given id and make sure the state and scheduling state are correct.
         SocInfo socInfo = this._getSocService().getSoc(socId, context);
         if ( ! StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY)) {

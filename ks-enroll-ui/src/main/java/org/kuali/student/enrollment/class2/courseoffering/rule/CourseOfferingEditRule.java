@@ -17,19 +17,28 @@
 package org.kuali.student.enrollment.class2.courseoffering.rule;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,15 +46,13 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class CourseOfferingEditRule extends MaintenanceDocumentRuleBase {
+public class CourseOfferingEditRule extends KsMaintenanceDocumentRuleBase {
 
-       private CourseOfferingService courseOfferingService;
-
-    private final static String EXISTING_CO_CODE_FOUND_ERROR = "That Course Offering Code is already in use.  Please enter a different, unique Course Offering Code for ";
+    private CourseOfferingService courseOfferingService;
 
     @Override
-    protected boolean processGlobalSaveDocumentBusinessRules(MaintenanceDocument document) {
-        boolean valid = true;
+    protected boolean isDocumentValidForSave(MaintenanceDocument document) {
+        boolean valid = super.isDocumentValidForSave(document);
 
         if (document.getNewMaintainableObject().getDataObject() instanceof CourseOfferingEditWrapper){
             CourseOfferingEditWrapper newCOWrapper = (CourseOfferingEditWrapper)document.getNewMaintainableObject().getDataObject();
@@ -54,13 +61,27 @@ public class CourseOfferingEditRule extends MaintenanceDocumentRuleBase {
             // Only perform validateDuplicateSuffix check when CO code suffix part is changed, the code itself is readOnly and can't be modified at all.
             // also notice a problem: the suffix of a CO from OldMaintainableObject (the DB reference dataset) could be null
             // while even we didn't modify suffix in edit CO page, the suffix value in NewMaintainableObject became an empty string
-            String newSuffix = newCOWrapper.getCoInfo().getCourseNumberSuffix(); 
-            String oldSuffix = oldCOWrapper.getCoInfo().getCourseNumberSuffix();
-            if ((oldSuffix == null || oldSuffix.isEmpty()) && 
-                (newSuffix == null || newSuffix.isEmpty())) {
-                return valid;
-            }else if ((newSuffix != null) && !newSuffix.equals(oldSuffix) ) {
-                validateDuplicateSuffix(newCOWrapper);
+            if(newCOWrapper.getCreateCO()) {  // for Create CO page
+                valid = validateRequiredFields(newCOWrapper);
+
+                if (valid) {
+                    valid = validateDuplicateSuffixCreate(newCOWrapper);
+                }
+            } else { // for Edit CO page
+                String newSuffix = newCOWrapper.getCourseOfferingInfo().getCourseNumberSuffix();
+                String oldSuffix = oldCOWrapper.getCourseOfferingInfo().getCourseNumberSuffix();
+                if ((oldSuffix == null || oldSuffix.isEmpty()) &&
+                    (newSuffix == null || newSuffix.isEmpty())) {
+                    // no change to valid
+                }
+                else if ((newSuffix != null) && !newSuffix.equals(oldSuffix) ) {
+                    valid &= validateDuplicateSuffix(newCOWrapper);
+                }
+
+                // if no duplicate suffix then we validate the personnel ID
+                if(valid) {
+                    valid = validatePersonnel(newCOWrapper);
+                }
             }
         }
 
@@ -70,23 +91,110 @@ public class CourseOfferingEditRule extends MaintenanceDocumentRuleBase {
 
     protected boolean validateDuplicateSuffix(CourseOfferingEditWrapper coWrapper){
         // Catalog course code is case INSENSITIVE, but the suffix is case SENSITIVE
-        String newCoCode = (coWrapper.getCourse().getCode().toUpperCase()) + coWrapper.getCoInfo().getCourseNumberSuffix();
+        String courseCode = coWrapper.getCourse().getCode().toUpperCase();
+        String newCoCode = courseCode + coWrapper.getCourseOfferingInfo().getCourseNumberSuffix();
 
         try {
-            List<CourseOfferingInfo> wrapperList = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(coWrapper.getCourse().getId(), coWrapper.getCoInfo().getTermId(), ContextUtils.createDefaultContextInfo());
+            List<CourseOfferingInfo> wrapperList = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(coWrapper.getCourse().getId(), coWrapper.getCourseOfferingInfo().getTermId(), ContextUtils.createDefaultContextInfo());
             for (CourseOfferingInfo courseOfferingInfo : wrapperList) {
 
                 if (StringUtils.equals(newCoCode, courseOfferingInfo.getCourseOfferingCode())) {
-                    StringBuilder sb = new StringBuilder(EXISTING_CO_CODE_FOUND_ERROR);
-                    sb.append(coWrapper.getCourse().getCode());
-                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, sb.toString());
+                    GlobalVariables.getMessageMap().putError(
+                            "document.newMaintainableObject.dataObject.courseOfferingInfo.courseNumberSuffix",
+                            CourseOfferingConstants.COURSEOFFERING_ERROR_CREATE_DUPLICATECODE, newCoCode, courseCode);
                     return false;
                 }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
         return true;
+    }
+
+
+    protected boolean validatePersonnel(CourseOfferingEditWrapper coWrapper) {
+        List<OfferingInstructorWrapper> instructors = coWrapper.getInstructors();
+        boolean noError = true;
+        if (instructors != null && !instructors.isEmpty()) {
+            for (OfferingInstructorWrapper instructorWrapper : instructors)   {
+                if (instructorWrapper != null) {
+                    OfferingInstructorInfo info = instructorWrapper.getOfferingInstructorInfo();
+                    if ((info != null) && (info.getPersonId() != null) && !info.getPersonId().isEmpty()) {
+                        // verify this is a legal personId
+                        List<Person> personList = CourseOfferingViewHelperUtil.getInstructorByPersonId(info.getPersonId());
+                        if (personList.isEmpty()) {
+                            GlobalVariables.getMessageMap().putErrorForSectionId(
+                                    "KS-CourseOfferingEdit-PersonnelSection",
+                                    CourseOfferingConstants.COURSEOFFERING_ERROR_INVALID_PERSONNEL_ID, info.getPersonId());
+                            noError &= false;
+                        } else {
+                            String instructorName = personList.get(0).getName().trim();
+                            if(instructorName != null && !instructorName.isEmpty()) {
+                                if(!instructorName.equals(info.getPersonName())) {
+                                    GlobalVariables.getMessageMap().putErrorForSectionId(
+                                            "KS-CourseOfferingEdit-PersonnelSection",
+                                            CourseOfferingConstants.COURSEOFFERING_ERROR_UNMATCHING_PERSONNEL_NAME, info.getPersonName(), instructorName);
+                                    noError &=  false;
+                                }
+                            }
+                            if(info.getTypeKey() == null || info.getTypeKey().isEmpty()) {
+                                GlobalVariables.getMessageMap().putErrorForSectionId(
+                                        "KS-CourseOfferingEdit-PersonnelSection",
+                                        CourseOfferingConstants.COURSEOFFERING_ERROR_PERSONNEL_AFFILIATION);
+                                noError &= false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return noError;
+    }
+
+    protected boolean validateRequiredFields(CourseOfferingEditWrapper coWrapper){
+        if (coWrapper.getFormatOfferingList().isEmpty()){
+            GlobalVariables.getMessageMap().putErrorForSectionId("KS-CourseOfferingEdit-DeliveryFormats", CourseOfferingConstants.DELIVERY_FORMAT_REQUIRED_ERROR);
+            return false;
+        }
+        return true;
+    }
+
+    protected boolean validateDuplicateSuffixCreate(CourseOfferingEditWrapper coWrapper){
+        String courseCode = coWrapper.getCourse().getCode().toUpperCase();
+        String newCoCode = courseCode + coWrapper.getCourseOfferingInfo().getCourseNumberSuffix().toUpperCase();
+        try {
+            List<CourseOfferingInfo> wrapperList =
+                    _findCourseOfferingsByTermAndCourseCode(coWrapper.getTerm().getId(), newCoCode);
+            for (CourseOfferingInfo courseOfferingInfo : wrapperList) {
+                if (StringUtils.equals(newCoCode, courseOfferingInfo.getCourseOfferingCode())) {
+                    GlobalVariables.getMessageMap().putError(
+                            "document.newMaintainableObject.dataObject.courseOfferingInfo.courseNumberSuffix",
+                            CourseOfferingConstants.COURSEOFFERING_ERROR_CREATE_DUPLICATECODE, newCoCode, courseCode);
+                    return false;
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return true;
+    }
+
+    private List<CourseOfferingInfo> _findCourseOfferingsByTermAndCourseCode(String termId, String courseCode)
+            throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        List<CourseOfferingInfo> courseOfferings = new ArrayList<CourseOfferingInfo>();
+        if (StringUtils.isNotBlank(courseCode) && StringUtils.isNotBlank(termId)) {
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(PredicateFactory.and(
+                    PredicateFactory.equal("courseOfferingCode", courseCode),
+                    PredicateFactory.equalIgnoreCase("atpId", termId)));
+            QueryByCriteria criteria = qbcBuilder.build();
+
+            courseOfferings = getCourseOfferingService().searchForCourseOfferings(criteria, ContextUtils.createDefaultContextInfo());
+        }
+        return courseOfferings;
     }
 
     protected CourseOfferingService getCourseOfferingService() {

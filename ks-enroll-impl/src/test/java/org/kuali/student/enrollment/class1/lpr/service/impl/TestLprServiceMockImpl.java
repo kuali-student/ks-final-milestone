@@ -1,20 +1,20 @@
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
-import org.kuali.student.r2.common.dto.BulkStatusInfo;
-
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import org.kuali.student.enrollment.test.util.IdEntityTester;
-import org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
-import static org.junit.Assert.*;
-import org.kuali.student.enrollment.test.util.ListOfStringTester;
-import org.kuali.student.enrollment.test.util.RelationshipTester;
-import org.kuali.student.enrollment.test.util.MetaTester;
-import org.kuali.student.enrollment.test.util.AttributeTester;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.kuali.student.common.test.util.AttributeTester;
+import org.kuali.student.common.test.util.IdEntityTester;
+import org.kuali.student.common.test.util.ListOfStringTester;
+import org.kuali.student.common.test.util.MetaTester;
+import org.kuali.student.common.test.util.RelationshipTester;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
-import java.util.Date;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
+import org.kuali.student.enrollment.lpr.service.LprService;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.BulkStatusInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -25,34 +25,19 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import javax.annotation.Resource;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
-import java.util.Date;
-
-import javax.annotation.Resource;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.kuali.student.enrollment.lpr.dto.LprInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
-import org.kuali.student.enrollment.lpr.service.LprService;
-import org.kuali.student.enrollment.test.util.AttributeTester;
-import org.kuali.student.enrollment.test.util.IdEntityTester;
-import org.kuali.student.enrollment.test.util.ListOfStringTester;
-import org.kuali.student.enrollment.test.util.MetaTester;
-import org.kuali.student.enrollment.test.util.RelationshipTester;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:lpr-mock-service-test-context.xml"})
@@ -65,8 +50,10 @@ public class TestLprServiceMockImpl {
     public void setLprService(LprService lprService) {
         this.lprService = lprService;
     }
-    @Resource
+
+    @Resource(name = "LprService")
     private LprService lprService;
+
     public static String principalId = "123";
     public ContextInfo callContext = null;
 

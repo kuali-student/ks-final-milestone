@@ -11,15 +11,11 @@
     <context:annotation-config />
 
     <import resource="classpath:META-INF/default-property-config-context-test.xml" />
-    <import resource="classpath:ks-rice-data-dictionary-mock-env.xml" />
-    <import resource="classpath:ks-data-dictionary-services-configuration.xml" />
-    <import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
+    <import resource="classpath:ks-test-system-property-configurer.xml" />
+    <import resource="classpath:ks-enroll-api-data-dictionary-services-configuration.xml" />
+    <import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml" />
     <import resource="classpath:en-course-test-context.xml" />
     <import resource="classpath:search-test-context.xml"/>
-
-    <bean id="systemPropertyConfigurer" class="org.kuali.student.common.util.SystemPropertyConfigurer" depends-on="fakeEnvResourceLoader">
-        <property name="properties" value="${propertiesPrefix.systemProperties}" />
-    </bean>
 
     <bean id="AtomikosTxMgr" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init"
     destroy-method="close" depends-on="systemPropertyConfigurer">
@@ -42,6 +38,8 @@
         <property name="xaDataSourceClassName" value="${jdbc.xaDataSourceClassName}" />
         <property name="xaProperties" value="${propertiesPrefix.jdbc.xaDataSourceProperties}" />
         <property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+        <property name="minPoolSize" value="${jdbc.minPoolSize}" />
+        <property name="testQuery" value="${jdbc.testQuery}" />
     </bean>
 
     <bean id="vendorAdapter" class="${jpa.vendorAdapter}" depends-on="propertyConfigurer">
@@ -72,6 +70,7 @@
         <property name="socDao" ref="socDao" />
         <property name="socRorDao" ref="socRolloverResultDao" />
         <property name="socRorItemDao" ref="socRolloverResultItemDao" />
+        <property name="stateService" ref="stateService" />
     </bean>
 
     <bean id="socDao" class="org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao">
@@ -83,6 +82,8 @@
     <bean id="socRolloverResultItemDao" class="org.kuali.student.enrollment.class2.courseofferingset.dao.SocRolloverResultItemDao">
         <property name="em" ref="entityManager" />
     </bean>
+
+    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceMockImpl"/>
 
     <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 

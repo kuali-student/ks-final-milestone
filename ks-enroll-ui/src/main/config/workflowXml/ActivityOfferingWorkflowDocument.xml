@@ -13,18 +13,7 @@
       <docHandler>${application.url}/kr-krad/maintenance?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper></docHandler>
       <active>true</active>
       <routingVersion>2</routingVersion>
-      <routePaths>
-        <routePath>
-          <start name="Initiated" />
-        </routePath>
-      </routePaths>
-      <routeNodes>
-        <start name="Initiated">
-          <activationType>P</activationType>
-          <mandatoryRoute>false</mandatoryRoute>
-          <finalApproval>false</finalApproval>
-        </start>
-      </routeNodes>     
+      <routePaths/>
     </documentType>
   </documentTypes>
 </data>

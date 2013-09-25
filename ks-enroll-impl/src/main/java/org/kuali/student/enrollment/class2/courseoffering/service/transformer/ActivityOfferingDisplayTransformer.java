@@ -20,7 +20,11 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayIn
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -35,7 +39,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
  *
  * @author Kuali Student Team
  */
@@ -71,6 +74,9 @@ public class ActivityOfferingDisplayTransformer {
             throws InvalidParameterException, MissingParameterException, DoesNotExistException,
             PermissionDeniedException, OperationFailedException {
         ActivityOfferingDisplayInfo displayInfo = new ActivityOfferingDisplayInfo();
+        // Need for subterm display
+        displayInfo.setId(aoInfo.getId());
+        displayInfo.setTermId(aoInfo.getTermId());
         // Fields in ActivityOfferingDisplayInfo
         // typeName, stateName, courseOfferingTitle;
         TypeInfo aoType = typeService.getType(aoInfo.getTypeKey(), contextInfo);
@@ -99,19 +105,79 @@ public class ActivityOfferingDisplayTransformer {
         // isHonorsOffering, maximumEnrollment
         displayInfo.setIsHonorsOffering(aoInfo.getIsHonorsOffering());
         displayInfo.setMaximumEnrollment(aoInfo.getMaximumEnrollment());
-
-        // scheduleDisplay
-        if(aoInfo.getScheduleId()!=null){
-            displayInfo.setScheduleDisplay(schedulingService.getScheduleDisplay(aoInfo.getScheduleId(), contextInfo));
+        ScheduleDisplayInfo destScheduleDisplayInfo = displayInfo.getScheduleDisplay();
+        if(destScheduleDisplayInfo == null) {
+            destScheduleDisplayInfo = new  ScheduleDisplayInfo();
         }
-        
-        // KSAP-40: Add attributes to support My Plan 1.3.2 CourseDetailsInquiryHelperImpl
-        displayInfo.setId(aoInfo.getId());
-        displayInfo.setAttributes(aoInfo.getAttributes());
+        List<ScheduleComponentDisplayInfo> tempScheduleDisplays = new ArrayList<ScheduleComponentDisplayInfo>();
+        if (aoInfo.getScheduleIds() != null && !aoInfo.getScheduleIds().isEmpty()) {
+            List<ScheduleDisplayInfo> scheduleDisplayInfoList = schedulingService.getScheduleDisplaysByIds(aoInfo.getScheduleIds(), contextInfo);
+            if(scheduleDisplayInfoList != null && !scheduleDisplayInfoList.isEmpty())  {
+                ScheduleDisplayInfo sdInfo = scheduleDisplayInfoList.get(0);
+                destScheduleDisplayInfo.setAtp(sdInfo.getAtp());
+                destScheduleDisplayInfo.setAttributes(sdInfo.getAttributes());
+                destScheduleDisplayInfo.setDescr(sdInfo.getDescr());
+                destScheduleDisplayInfo.setName(sdInfo.getName());
+                destScheduleDisplayInfo.setStateKey(sdInfo.getStateKey());
+                destScheduleDisplayInfo.setTypeKey(sdInfo.getTypeKey());
+                destScheduleDisplayInfo.setMeta(sdInfo.getMeta());
+                destScheduleDisplayInfo.setId(sdInfo.getId());
+            }
+            // add all the components into one ScheduleComponentDisplayInfo
+            for (ScheduleDisplayInfo scheduleDisplayInfo : scheduleDisplayInfoList) {
+                List<ScheduleComponentDisplayInfo> componentDisplays = (List<ScheduleComponentDisplayInfo>) scheduleDisplayInfo.getScheduleComponentDisplays();
+                if (!componentDisplays.isEmpty()) {
+                    for (ScheduleComponentDisplayInfo componentDisplay : componentDisplays) {
+                        if (!tempScheduleDisplays.contains(componentDisplay)) {
+                            tempScheduleDisplays.add(componentDisplay);
+                        }
+                    }
+                }
+            }
+        }
 
-		// KSAP-52: Added for schedule build
-		displayInfo.setName(aoInfo.getName());
+        destScheduleDisplayInfo.setScheduleComponentDisplays(tempScheduleDisplays);
+
+        displayInfo.setScheduleDisplay(destScheduleDisplayInfo);
 
         return displayInfo;
+    }
+
+    /**
+     * Transform a list of ActivityOfferingInfos into ActivityOfferingDisplayInfos. It is the bulk version of ao2aoDisplay transformer
+     *
+     * @param aoInfos                   the list of LuiInfos
+     * @param stateService              the reference of StateService
+     * @param schedulingService         the reference of SchedulingService
+     * @param typeService               the reference of TypeService
+     * @param contextInfo               information containing the principalId and locale
+     *                                  information about the caller of service operation
+     * @return a list of ActivityOfferingDisplayInfos
+     * @throws DoesNotExistException     ActivityOfferingDisplayInfo is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException aoInfos, schedulingService, stateService, typeService or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public static List<ActivityOfferingDisplayInfo> aos2aoDisplays(List<ActivityOfferingInfo> aoInfos,
+                                                           SchedulingService schedulingService,
+                                                           StateService stateService,
+                                                           TypeService typeService,
+                                                           ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException,
+            PermissionDeniedException, OperationFailedException {
+
+        List<ActivityOfferingDisplayInfo> displayInfos = new ArrayList<ActivityOfferingDisplayInfo>(aoInfos.size());
+
+        if (aoInfos != null && !aoInfos.isEmpty()) {
+            for(ActivityOfferingInfo aoInfo : aoInfos)  {
+                ActivityOfferingDisplayInfo aoDisplayInfo = ao2aoDisplay(aoInfo, schedulingService, stateService, typeService, contextInfo);
+
+                 displayInfos.add(aoDisplayInfo);
+            }
+        }
+
+        return displayInfos;
     }
 }

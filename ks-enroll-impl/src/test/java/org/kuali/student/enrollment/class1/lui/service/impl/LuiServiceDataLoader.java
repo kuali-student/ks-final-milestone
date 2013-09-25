@@ -1,13 +1,5 @@
 package org.kuali.student.enrollment.class1.lui.service.impl;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
@@ -26,6 +18,13 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class LuiServiceDataLoader {
 
@@ -43,6 +42,7 @@ public class LuiServiceDataLoader {
     public void setLuiService(LuiService luiService) {
         this.luiService = luiService;
     }
+
     private LuiService luiService;
     private static String principalId = LuiTestDataLoader.class.getSimpleName();
 
@@ -66,11 +66,11 @@ public class LuiServiceDataLoader {
         loadLuiLuiRel("LUILUIREL-4", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-4 Formatted</p>", "LUILUIREL-4 Plain", "Lui-6", "kuali.lui.lui.relation.type.deliveredvia.fo2ao", "Lui-2");
         loadLuiLuiRel("LUILUIREL-5", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-5 Formatted</p>", "LUILUIREL-5 Plain", "Lui-1", "kuali.lui.lui.relation.type.deliveredvia.co2fo", "Lui-6");
         loadLuiLuiRel("LUILUIREL-6", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-6 Formatted</p>", "LUILUIREL-6 Plain", "Lui-6", "kuali.lui.lui.relation.type.deliveredvia.fo2ao", "Lui-5");
-        loadLuiLuiRel("LUILUIREL-7", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-6 Formatted</p>", "LUILUIREL-6 Plain", "Lui-6", "kuali.lui.lui.relation.type.deliveredvia.fo2ao", "Lui-Lab2");
+//        loadLuiLuiRel("LUILUIREL-7", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-6 Formatted</p>", "LUILUIREL-6 Plain", "Lui-6", "kuali.lui.lui.relation.type.deliveredvia.fo2ao", "Lui-Lab2");
         loadLuiLuiRel("LUILUIREL-8", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-6 Formatted</p>", "LUILUIREL-6 Plain", "Lui-7", "kuali.lui.lui.relation.type.deliveredvia.fo2ao", "Lui-Lab2");
         loadLuiLuiRel("LUILUIREL-9", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-6 Formatted</p>", "LUILUIREL-6 Plain", "Lui-1", "kuali.lui.lui.relation.type.deliveredvia.co2fo", "Lui-7");
         loadLuiLuiRel("LUILUIREL-10", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-10 Formatted</p>", "LUILUIREL-10 Plain", "Lui-6", "kuali.lui.lui.relation.type.deliveredvia.fo2ao", "Lui-8");
-        loadLuiLuiRel("LUILUIREL-11", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-10 Formatted</p>", "LUILUIREL-10 Plain", "Lui-7", "kuali.lui.lui.relation.type.deliveredvia.fo2ao", "Lui-8");
+//        loadLuiLuiRel("LUILUIREL-11", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-10 Formatted</p>", "LUILUIREL-10 Plain", "Lui-7", "kuali.lui.lui.relation.type.deliveredvia.fo2ao", "Lui-8");
     }
 
     private void loadLui(String id,
@@ -87,8 +87,8 @@ public class LuiServiceDataLoader {
                          Integer minSeats,
                          String refUrl)
             throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException,
-            DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
+                MissingParameterException, OperationFailedException, PermissionDeniedException,
+                DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
         LuiInfo luiInfo = new LuiInfo();
         luiInfo.setId(id);
         luiInfo.setCluId(cluId);
@@ -138,6 +138,7 @@ public class LuiServiceDataLoader {
         }
         return list;
     }
+
     private Map<String, List<LuiIdentifierInfo>> identifiers = null;
 
     private void loadIdentifiers() {
@@ -213,11 +214,10 @@ public class LuiServiceDataLoader {
         if (str == null) {
             return null;
         }
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.S");
         try {
-            Date date = df.parse(str);
+            Date date = DateFormatters.DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMATTER.parse(str);
             return date;
-        } catch (ParseException ex) {
+        } catch (IllegalArgumentException ex) {
             throw new IllegalArgumentException("Bad date " + str + " in " + context);
         }
     }

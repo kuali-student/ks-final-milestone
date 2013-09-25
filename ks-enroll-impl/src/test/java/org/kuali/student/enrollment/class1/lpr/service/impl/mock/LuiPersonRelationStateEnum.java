@@ -40,7 +40,7 @@ public enum LuiPersonRelationStateEnum implements State, Serializable {
      * Student states to courses
      */
     PLANNED(LprServiceConstants.PLANNED_STATE_KEY, "Planned", "The student plans on taking this course or program", asDate("20100101"), null, null, null),
-        REGISTERED(LprServiceConstants.REGISTERED_STATE_KEY, "Registered", "The student is officially registered for the course or section", asDate("20100101"), null, null, null),
+    REGISTERED(LprServiceConstants.REGISTERED_STATE_KEY, "Registered", "The student is officially registered for the course or section", asDate("20100101"), null, null, null),
     WAITLISTED(LprServiceConstants.WAITLISTED_STATE_KEY, "Waitlisted", "The student attempted to join but has been put on the waitlist", asDate("20100101"), null, null, null),
     DROPPED(LprServiceConstants.DROPPED_STATE_KEY, "Dropped Early", "Student dropped the course before the normal deadline", asDate("20010101"), null, null, null),
     DROPPED_LATE(LprServiceConstants.DROPPED_LATE_STATE_KEY, "Dropped Late", "The student was registered but subsequently dropped the course or section past the normally allotted time period, typically resulting in a special grade or mark to so indicate", asDate("20010101"), null, null, null),
@@ -102,6 +102,11 @@ public enum LuiPersonRelationStateEnum implements State, Serializable {
     @Override
     public String getLifecycleKey() {
         return "norm";
+    }
+
+    @Override
+    public Boolean getIsInitialState() {
+        return Boolean.FALSE;
     }
 
     @Override

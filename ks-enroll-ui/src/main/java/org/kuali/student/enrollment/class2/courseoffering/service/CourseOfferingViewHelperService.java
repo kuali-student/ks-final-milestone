@@ -1,7 +1,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service;
 
 import org.kuali.rice.krad.uif.service.ViewHelperService;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.DeleteTargetTermForm;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;

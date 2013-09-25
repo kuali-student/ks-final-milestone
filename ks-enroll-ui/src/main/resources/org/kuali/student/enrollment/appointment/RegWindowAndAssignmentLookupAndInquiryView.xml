@@ -84,10 +84,23 @@
         p:name="appointmentWindowInfo" p:dataObjectEntry-ref="AppointmentWindowInfo"/>
 
     <!-- LookupView -->
-    <bean id="KS-AppointmentWindowWrapper-LookupView" parent="KSLookupView"
+    <bean id="KS-AppointmentWindowWrapper-LookupView" parent="KS-Uif-LookupView"
         p:headerText="Appointment Window (with Assignments) Lookup"
         p:dataObjectClassName="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"
         p:viewHelperServiceClass="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperLookupableImpl">
+
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Home"/>
+                    <property name="url.href" value="@{#ConfigProperties['application.url']}/portal.do"/>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Enrollment"/>
+                    <property name="url.viewId" value="enrollmentHomeView"/>
+                </bean>
+            </list>
+        </property>
 
         <property name="criteriaFields">
             <list>
@@ -106,12 +119,12 @@
     </bean>
 
     <!-- InquiryView -->
-    <bean id="KS-AppointmentWindowWrapper-InquiryView" parent="KSInquiryView"
+    <bean id="KS-AppointmentWindowWrapper-InquiryView" parent="KS-Uif-InquiryView"
         p:headerText="Appointment Window and Assignment Detail"
         p:dataObjectClassName="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"
         p:viewHelperServiceClass="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperInquiryViewHelperServiceImpl">
         <property name="page.header">
-            <ref bean="KSHeader_Empty" />
+            <ref bean="KS-Uif-HeaderOne-Empty" />
         </property>
         <property name="Items">
             <list>

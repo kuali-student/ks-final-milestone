@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="FormatOfferingInfo-MaintenanceView" parent="KSMaintenanceView">
+    <bean id="FormatOfferingInfo-MaintenanceView" parent="KS-Uif-MaintenanceView">
         <property name="headerText" value="Format Offering Maintenance"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo"/>
         <!--<property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.FormatOfferingInfoMaintainableImpl" />-->

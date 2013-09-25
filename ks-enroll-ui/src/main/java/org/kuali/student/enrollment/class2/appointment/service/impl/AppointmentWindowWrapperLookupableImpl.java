@@ -5,12 +5,13 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
-import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
@@ -22,8 +23,6 @@ import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 
 import javax.xml.namespace.QName;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,30 +43,29 @@ public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
 
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
-  
+
         List<AppointmentWindowWrapper> windowWrapperList;
         String termTypeKey = fieldValues.get(TERM_TYPE_KEY);
         String termYear = fieldValues.get(TERM_YEAR_KEY);
-        try{
+        try {
             List<KeyDateInfo> periods = _searchPeriods(termTypeKey, termYear);
-            if(periods == null || periods.isEmpty()){
+            if (periods == null || periods.isEmpty()) {
                 return null;
             }
             windowWrapperList = _loadWindows(periods);
-        }catch (Exception e){
+        } catch (Exception e) {
             LOG.warn("Error calling _loadWindows", e);
             return null;
         }
-        
+
         return windowWrapperList;
     }
-    
-    private List<KeyDateInfo>  _searchPeriods (String termTypeKey, String termYear) throws Exception {
+
+    private List<KeyDateInfo> _searchPeriods(String termTypeKey, String termYear) throws Exception {
 
         //Parse the year to a date and the next year's date to compare against the startTerm
-        DateFormat df = new SimpleDateFormat("yyyy");
-        Date minBoundDate = df.parse(termYear);
-        Date maxBoundDate = df.parse(Integer.toString(Integer.parseInt(termYear)+1));
+        Date minBoundDate = DateFormatters.DEFULT_YEAR_FORMATTER.parse(termYear);
+        Date maxBoundDate = DateFormatters.DEFULT_YEAR_FORMATTER.parse(Integer.toString(Integer.parseInt(termYear) + 1));
 
         //Build up a term search criteria
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
@@ -83,7 +81,7 @@ public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
         List<TermInfo> terms = academicCalendarService.searchForTerms(criteria, null);
 
         //Check for exceptions
-        if (terms == null || terms.isEmpty()){
+        if (terms == null || terms.isEmpty()) {
             return null; //Nothing found
         }
 
@@ -98,31 +96,31 @@ public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
         if (keyDates != null) {
 
             //Get the valid period types
-            List<TypeTypeRelationInfo> milestoneTypeRelations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.appt.regperiods","kuali.type.type.relation.type.group",new ContextInfo());
+            List<TypeTypeRelationInfo> milestoneTypeRelations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.appt.regperiods", "kuali.type.type.relation.type.group", new ContextInfo());
             List<String> validMilestoneTypes = new ArrayList<String>();
-            for(TypeTypeRelationInfo milestoneTypeRelation:milestoneTypeRelations){
+            for (TypeTypeRelationInfo milestoneTypeRelation : milestoneTypeRelations) {
                 validMilestoneTypes.add(milestoneTypeRelation.getRelatedTypeKey());
             }
 
             //Add in only valid milestones that are registration periods
             List<KeyDateInfo> periodMilestones = new ArrayList<KeyDateInfo>();
-            for(KeyDateInfo keyDate:keyDates){
-                if(validMilestoneTypes.contains(keyDate.getTypeKey())){
+            for (KeyDateInfo keyDate : keyDates) {
+                if (validMilestoneTypes.contains(keyDate.getTypeKey())) {
                     periodMilestones.add(keyDate);
                 }
             }
-            return  periodMilestones;
+            return periodMilestones;
         }
         return null;
-        
+
     }
-    
-    private List<AppointmentWindowWrapper> _loadWindows(List<KeyDateInfo> periods) throws Exception{
+
+    private List<AppointmentWindowWrapper> _loadWindows(List<KeyDateInfo> periods) throws Exception {
         List<AppointmentWindowWrapper> windowWrapperList = new ArrayList<AppointmentWindowWrapper>();
-        for(KeyDateInfo period:periods){
+        for (KeyDateInfo period : periods) {
             List<AppointmentWindowInfo> windows = getAppointmentService().getAppointmentWindowsByPeriod(period.getId(), new ContextInfo());
-            if(windows!=null){
-                for(AppointmentWindowInfo window:windows){
+            if (windows != null) {
+                for (AppointmentWindowInfo window : windows) {
 
                     //Look up the population
                     PopulationInfo population = getPopulationService().getPopulation(window.getAssignedPopulationId(), new ContextInfo());
@@ -155,23 +153,21 @@ public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
     }
 
     private String _parseAmPm(Date date) {
-        if(date==null){
+        if (date == null) {
             return null;
         }
-        DateFormat df = new SimpleDateFormat("a");
-        return df.format(date);
+        return DateFormatters.AM_PM_TIME_FORMATTER.format(date);
     }
 
     private String _parseTime(Date date) {
-        if(date==null){
+        if (date == null) {
             return null;
         }
-        DateFormat df = new SimpleDateFormat("hh:mm");
-        return df.format(date);
+        return DateFormatters.HOUR_MINUTE_TIME_FORMATTER.format(date);
     }
 
     public AcademicCalendarService getAcalService() {
-        if(academicCalendarService == null) {
+        if (academicCalendarService == null) {
             academicCalendarService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.academicCalendarService;
@@ -179,7 +175,7 @@ public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
 
 
     public AppointmentService getAppointmentService() {
-        if(appointmentService == null) {
+        if (appointmentService == null) {
             appointmentService = (AppointmentService) GlobalResourceLoader.getService(new QName(AppointmentServiceConstants.NAMESPACE, AppointmentServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return appointmentService;
@@ -187,14 +183,14 @@ public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
 
 
     public TypeService getTypeService() {
-        if(typeService == null) {
+        if (typeService == null) {
             typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.typeService;
     }
 
     public PopulationService getPopulationService() {
-        if(populationService == null) {
+        if (populationService == null) {
             populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, "PopulationMockService")); // TODO: Fix with real service
         }
         return populationService;

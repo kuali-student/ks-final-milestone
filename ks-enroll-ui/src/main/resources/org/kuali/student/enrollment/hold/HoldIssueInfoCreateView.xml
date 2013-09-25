@@ -19,13 +19,16 @@
      limitations under the License.
     -->
 
-    <bean id="HoldIssueInfo-CreateView" parent="KSFormView">
+    <bean id="HoldIssueInfo-CreateView" parent="KS-Uif-FormView">
         <property name="id" value="holdCreateView"/>
         <property name="headerText" value="Create Hold"/>
         <property name="formClass" value="org.kuali.student.enrollment.class1.hold.form.HoldIssueInfoForm" />
         <property name="singlePageView" value="true"/>
         <property name="page">
-            <bean parent="Uif-Page"/>
+            <bean parent="KS-Uif-Page"/>
+        </property>
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <ref bean="KS-Enrollment-HomewardPathBreadcrumbs"/>
         </property>
         <property name="header">
             <bean parent="Uif-HeaderTwo" />

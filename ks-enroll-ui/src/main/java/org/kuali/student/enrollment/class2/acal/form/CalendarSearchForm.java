@@ -16,9 +16,8 @@
 package org.kuali.student.enrollment.class2.acal.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.class2.acal.dto.AcalSearchResult;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,16 +31,18 @@ public class CalendarSearchForm extends UifFormBase {
     private String calendarType;
     private String name;
     private String year;
-    private List<HolidayCalendarInfo> holidayCalendars;
-    private List<AcademicCalendarInfo> academicCalendars;
-    private List<TermInfo> terms;
+    private List<AcalSearchResult> searchResults;
+
+    private String selectedLineIndex;
+    private String selectedCollectionPath;
+    private boolean clickSearchButton;
 
     public CalendarSearchForm(){
         super();
-        holidayCalendars =  new ArrayList<HolidayCalendarInfo>();
-        academicCalendars = new ArrayList<AcademicCalendarInfo>();
-        terms =  new ArrayList<TermInfo>();
+        searchResults =  new ArrayList<AcalSearchResult>();
+        clickSearchButton = false;
     }
+
     public String getCalendarType() {
         return calendarType;
     }
@@ -66,27 +67,34 @@ public class CalendarSearchForm extends UifFormBase {
         this.year = year;
     }
 
-    public List<HolidayCalendarInfo> getHolidayCalendars() {
-        return holidayCalendars;
+    public String getSelectedLineIndex() {
+        return selectedLineIndex;
     }
 
-    public void setHolidayCalendars(List<HolidayCalendarInfo> holidayCalendars) {
-        this.holidayCalendars = holidayCalendars;
+    public void setSelectedLineIndex(String selectedLineIndex) {
+        this.selectedLineIndex = selectedLineIndex;
+    }
+    public String getSelectedCollectionPath() {
+        return selectedCollectionPath;
     }
 
-    public List<AcademicCalendarInfo> getAcademicCalendars() {
-        return academicCalendars;
+    public void setSelectedCollectionPath(String selectedCollectionPath) {
+        this.selectedCollectionPath = selectedCollectionPath;
     }
 
-    public void setAcademicCalendars(List<AcademicCalendarInfo> academicCalendars) {
-        this.academicCalendars = academicCalendars;
+    public List<AcalSearchResult> getSearchResults() {
+        return searchResults;
     }
 
-    public List<TermInfo> getTerms() {
-        return terms;
+    public void setSearchResults(List<AcalSearchResult> searchResults) {
+        this.searchResults = searchResults;
     }
 
-    public void setTerms(List<TermInfo> terms) {
-        this.terms = terms;
+    public boolean isClickSearchButton() {
+        return clickSearchButton;
+    }
+
+    public void setClickSearchButton(boolean clickSearchButton) {
+        this.clickSearchButton = clickSearchButton;
     }
 }

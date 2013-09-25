@@ -20,8 +20,11 @@
     <param name="module.name">ks-enroll-ui</param>
     <param name="db.vendor">oracle</param>
 	<param name="jpa.vendor">hibernate</param>
-	
-	<param name="ks.enroll.datasource.driver.name.oracle">oracle.jdbc.OracleDriver</param>
+
+    <!-- override Rice's common-config-defaults.xml property: -->
+    <param name="portal.css.files" override="true">${portal.css.files},ks-enroll/css/ks-jquery.css</param>
+
+    <param name="ks.enroll.datasource.driver.name.oracle">oracle.jdbc.OracleDriver</param>
 	<param name="ks.enroll.datasource.driver.name.derby">org.apache.derby.jdbc.ClientDriver</param>
 	<param name="ks.enroll.datasource.driver.name.mysql">com.mysql.jdbc.Driver</param>
 	<param name="ks.enroll.datasource.driver.name">${ks.enroll.datasource.driver.name.${db.vendor}}</param>
@@ -53,6 +56,11 @@
     <param name="ks.enroll.jpa.JpaProperties.hibernate.hbm2ddl.auto">validate</param>
     <param name="ks.enroll.jpa.JpaProperties.hibernate.connection.release_mode">after_statement</param>
     <param name="ks.enroll.jpa.JpaProperties.hibernate.connection.autocommit">false</param>
+    <param name="ks.enroll.jpa.JpaProperties.hibernate.default_batch_fetch_size">64</param>
+
+    <!-- Instructional days have a system default set here. It can be individually overridden per term via the term type attributes -->
+    <!-- MTWHF equates to Mon->Friday. The full week would be MTWHFSU-->
+    <param name="kuali.ks.core.academiccalendar.instructionalDaysDefault">MTWHF</param>
                 	   
     <param name="ks.enroll.bus.security">false</param>
     
@@ -68,7 +76,13 @@
     <param name="ks.rice.personLookup.serviceAddress">http://localhost:8081/ks-with-rice-bundled-dev/kr/lookup.do</param>
 	<param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-with-rice-bundled-dev/kew/ActionList.do</param>
 
-    <param name="resourceBundleNames" override="true">${rice.struts.message.resources},org.kuali.student.enrollment.KSEnroll-ApplicationResources</param>
+    <param name="rice.struts.message.resources" override="true">${rice.struts.message.resources},org.kuali.student.enrollment.KSEnroll-ApplicationResources,org.kuali.rice.krms.KRMS-ApplicationResources</param>
+
+    <param name="resourceBundleNames" override="true">${resourceBundleNames},org.kuali.student.enrollment.KSEnroll-ApplicationResources,org.kuali.rice.krms.KRMS-ApplicationResources</param>
+
+    <!-- These needs to be refactored. ks.externalizable.images.url should specificall say ENR in its name and have to remove 'common' from ks.common.externalizable.images.url-->
+    <param name="ks.externalizable.images.url">../ks-enroll/images</param>
+    <param name="ks.common.externalizable.images.url">../ks-common-ksink/images</param>
 
     <!-- default automatic user for /kitchensink urls -->
     <param name="kitchensink.login.autouser">admin</param>

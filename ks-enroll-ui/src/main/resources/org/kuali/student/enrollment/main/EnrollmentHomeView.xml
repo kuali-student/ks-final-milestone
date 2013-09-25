@@ -5,7 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-EnrollmentHome-View" parent="KSFormView">
+    <bean id="KS-EnrollmentHome-View" parent="KS-Uif-FormView">
         <property name="id" value="enrollmentHomeView"/>
         <property name="headerText" value="Enrollment"/>
         <property name="formClass" value="org.kuali.student.enrollment.main.form.LaunchForm"/>
@@ -17,9 +17,14 @@
                 <value>ks-enrollment-home</value>
             </list>
         </property>
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+            </list>
+        </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Page" p:disclosure.render="false">
+                <bean parent="KS-Uif-Page" p:disclosure.render="false">
                     <property name="items">
                         <list>
                             <ref bean="KS-EnrollmentHome-Setup"/>
@@ -45,7 +50,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Link" p:linkText="Search for Calendar or Term"
-                      p:href="@{#ConfigProperties['application.url']}/kr-krad/calendarSearch?viewId=calendarSearchView&amp;methodToCall=start"/>
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/calendarSearch?viewId=calendarSearchView&amp;methodToCall=start&amp;flow=start"/>
                 <bean parent="Uif-Link" p:linkText="Create New Calendar (Academic Year)"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/academicCalendar?viewId=academicCalendarFlowView&amp;pageId=academicCalendarCopyPage&amp;methodToCall=startNew"/>
                 <bean parent="Uif-Link" p:linkText="Create Holiday Calendar"
@@ -83,7 +88,7 @@
                 <bean parent="Uif-Link" p:linkText="View Rollover Details"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingRollover?viewId=courseOfferingRolloverManagementView&amp;pageId=selectTermForRolloverDetails&amp;methodToCall=start"/>
                 <bean parent="Uif-Link" p:linkText="Create Course Offerings"
-                      p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOffering?methodToCall=start&amp;dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper&amp;hideReturnLink=true"/>
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingCreate?methodToCall=start&amp;dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper&amp;hideReturnLink=true"/>
                 <bean parent="Uif-Link" p:linkText="Manage Course Offerings"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementView&amp;pageId=searchInputPage&amp;methodToCall=start&amp;withinPortal=false"/>
                 <bean parent="Uif-Link" p:linkText="Manage SOC"

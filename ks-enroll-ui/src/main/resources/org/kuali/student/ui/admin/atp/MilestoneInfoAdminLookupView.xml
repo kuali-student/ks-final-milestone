@@ -29,7 +29,7 @@
 	<value>classpath:org/kuali/student/ui/admin/atp/MilestoneInfoAdminLookupView.xml</value>
 	********************************************** -->
 	<!-- LookupView -->
-	<bean id="KS-MilestoneInfo-AdminLookupView" parent="KSLookupView"
+	<bean id="KS-MilestoneInfo-AdminLookupView" parent="KS-Uif-LookupView"
 		p:title="MilestoneInfo Lookup"
 		p:header.headerText="MilestoneInfo Lookup"
 		p:dataObjectClassName="org.kuali.student.r2.core.atp.dto.MilestoneInfo"

@@ -11,9 +11,10 @@
     <context:annotation-config/>
 
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
-    <import resource="classpath:ks-rice-data-dictionary-mock-env.xml" />
-    <import resource="classpath:ks-data-dictionary-services-configuration.xml"/>
-	<import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
+    <import resource="classpath:ks-test-system-property-configurer.xml" />
+    <import resource="classpath:ks-enroll-impl-test-data-dictionary-services-configuration.xml"/>
+	<import resource="classpath:ks-enroll-impl-test-data-dictionary-validator-configuration.xml"/>
+
 	    <!--  Preloaded data -->
     <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
         <property name="jtaTxManager" ref="JtaTxManager"/>
@@ -27,11 +28,6 @@
         </property>
     </bean>
 
-    <bean id="systemPropertyConfigurer"
-        class="org.kuali.student.common.util.SystemPropertyConfigurer" depends-on="fakeEnvResourceLoader">
-        <property name="properties" value="${propertiesPrefix.systemProperties}"/>
-    </bean>
-        
     <bean id="AtomikosTxMgr"
         class="com.atomikos.icatch.jta.UserTransactionManager"
         init-method="init" destroy-method="close" depends-on="systemPropertyConfigurer" autowire-candidate="false" autowire="no">
@@ -59,6 +55,8 @@
             value="${jdbc.xaDataSourceClassName}" />
         <property name="xaProperties" value="${propertiesPrefix.jdbc.xaDataSourceProperties}"/>
         <property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+        <property name="minPoolSize" value="${jdbc.minPoolSize}" />
+        <property name="testQuery" value="${jdbc.testQuery}" />
     </bean>
 
     <bean id="vendorAdapter" class="${jpa.vendorAdapter}" depends-on="propertyConfigurer">
@@ -69,7 +67,7 @@
     </bean>
 
     <bean id="debugMode" class="java.lang.Boolean">
-        <constructor-arg value="true" />
+        <constructor-arg value="false" />
     </bean>
 
     <!-- Default JPA EntityManagerFactory -->
@@ -170,10 +168,11 @@
         <property name="holdService" ref="holdService"/>
     </bean>
 
-    <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler"/>
+    <bean id="acalAssembler" class="org.kuali.student.r2.core.acal.service.assembler.AcademicCalendarAssembler"/>
 
-    <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
+    <bean id="acalService" class="org.kuali.student.r2.core.acal.service.impl.AcademicCalendarServiceImpl">
         <property name="acalAssembler" ref="acalAssembler"/>
+        <property name="stateService" ref="stateService" />
         <property name="atpService" ref="atpService"/>
         <property name="termAssembler" ref="termAssembler"/>
     </bean>
@@ -184,7 +183,7 @@
 
     <bean id="atpServiceMock" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl"/>
 
-    <bean id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"/>
+    <bean id="termAssembler" class="org.kuali.student.r2.core.acal.service.assembler.TermAssembler"/>
 
     <bean id="milestoneByTypeResolver" class="org.kuali.student.r2.core.process.krms.termresolver.MilestoneByTypeResolver">
         <property name="atpService" ref="atpService"/>

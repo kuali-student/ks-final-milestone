@@ -16,11 +16,16 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.TermCodeGenerator;
+import org.kuali.student.r2.core.acal.service.impl.TermCodeGeneratorImpl;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,11 +47,23 @@ public class AcademicTermWrapper {
     private Date endDate;
 
     private String termNameForUI;
+    private String status;
 
     private TypeInfo typeInfo;
 
     private List<KeyDatesGroupWrapper> keyDatesGroupWrappers;
     private List<KeyDateWrapper> keyDatesToDeleteOnSave;
+
+    private String instructionalDayConfig = "cars";
+
+    private boolean makeOfficial;
+
+    private String parentTerm;
+    private TermInfo parentTermInfo;
+    private boolean subTerm = false;
+
+    private boolean hasSubterm = false;
+    private List<AcademicTermWrapper> subterms;
 
     /**
      * This constructor sets all the default values.
@@ -59,6 +76,7 @@ public class AcademicTermWrapper {
         RichTextInfo desc = new RichTextInfo();
         desc.setPlain("Test");
         termInfo.setDescr(desc);
+        subterms = new ArrayList<AcademicTermWrapper>();
     }
 
     /**
@@ -74,6 +92,7 @@ public class AcademicTermWrapper {
         this.termType = termInfo.getTypeKey();
         this.keyDatesGroupWrappers = new ArrayList();
         this.keyDatesToDeleteOnSave = new ArrayList<KeyDateWrapper>();
+        this.subterms = new ArrayList<AcademicTermWrapper>();
 
         if (isCopy){
             setTermInfo(new TermInfo());
@@ -123,6 +142,25 @@ public class AcademicTermWrapper {
      */
     public void setTermType(String termType) {
         this.termType = termType;
+    }
+
+    /**
+     * See <code>setParentTerm()</code>
+     *
+     * @return parentTerm type
+     */
+    public String getParentTerm() {
+        return parentTerm;
+    }
+
+    /**
+     * Sets the parent term type from the drop down list. This is being
+     * used only at the add line which allows user to pick an available term type
+     *
+     * @param parentTerm term type
+     */
+    public void setParentTerm(String parentTerm) {
+        this.parentTerm = parentTerm;
     }
 
     /**
@@ -284,6 +322,22 @@ public class AcademicTermWrapper {
         this.typeInfo = typeInfo;
     }
 
+    public String getStatus() {
+        if(termInfo!=null){
+            if(StringUtils.equals(termInfo.getStateKey(), AcademicCalendarServiceConstants.TERM_OFFICIAL_STATE_KEY)){
+                status="Official";
+            }
+            else{
+                status="Draft";
+            }
+        }
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     /**
      * Returns whether the term is official or not. This is being used at the UI to render fields.
      * There would be no reference for this method in the code as it has it's reference at the
@@ -320,4 +374,122 @@ public class AcademicTermWrapper {
         return false;
     }
 
+    /**
+     * Attempts to retrieve the academic term's term code.  If code is empty attempt to generate it.
+     *
+     * @return - The Term code stored in the term info or one generated using the information in the term already.
+     */
+    public String getTermCode(){
+
+        // Check if term code is present
+        if(termInfo!=null){
+            if(termInfo.getCode()!=null){
+                if(!termInfo.getCode().isEmpty()){
+                    // Return stored term code
+                    return termInfo.getCode();
+                }
+            }
+        }
+
+        // If term code is empty attempt to generate it using the TermCodeGenerator
+
+        //TODO: Change this to get term code generator from the service calls instead of directly (KSENROLL-7233).
+        TermCodeGenerator termCodeGenerator = new TermCodeGeneratorImpl();
+
+        TermInfo tempInfo = new TermInfo();
+        tempInfo.setStartDate(this.getStartDate());
+        tempInfo.setTypeKey(this.getTermType());
+        String tempCode = termCodeGenerator.generateTermCode(tempInfo);
+
+        if(tempCode!=null && !tempCode.isEmpty()){
+            // Return generated term code
+            return tempCode;
+        }
+
+        // If code is not present or can not be filled in with stored information return empty value
+        return CalendarConstants.EMPTY_TERM_CODE;
+    }
+
+    /**
+     * The users might want to know that instructional days only include Mon->Fri since the days are now configurable
+     * via the type service attributes.
+     * @return
+     */
+    public String getInstructionalDayConfig(){
+        instructionalDayConfig = "";
+        if(typeInfo != null &&
+           typeInfo.getAttributes() != null &&
+           !StringUtils.isEmpty(typeInfo.getAttributeValue(TypeServiceConstants.ATP_TERM_INSTRUCTIONAL_DAYS_ATTR)))
+        {
+            instructionalDayConfig += typeInfo.getAttributeValue(TypeServiceConstants.ATP_TERM_INSTRUCTIONAL_DAYS_ATTR);
+        }else {
+            org.kuali.rice.core.api.config.property.Config cfg = ConfigContext.getCurrentContextConfig();
+            // if instructional days are not configured, then it defaults to Mon->Sun.
+            instructionalDayConfig = cfg.getProperty(AcademicCalendarServiceConstants.CONFIG_PARAM_KEY_INSTRUCTIONAL_DAYS_DEFAULT);
+        }
+
+        return _getInstructionalDayMessageTranslation(instructionalDayConfig);
+    }
+
+    public void setInstructionalDayConfig(String instructionalDayConfig) {
+        this.instructionalDayConfig = instructionalDayConfig;
+    }
+
+    /**
+     * This method was created as a place holder in case an implementing institution would like to alter how the Instructional
+     * Days tooltip message is displayed. By default, it's just MTWHFSU, but you could overwrite this method and translate that
+     * to "Mon, Tue, Wed, Thu, Fri, Sat, Sun"
+     * @param dbText
+     * @return
+     */
+    protected String _getInstructionalDayMessageTranslation(String dbText){
+        return dbText;
+    }
+
+    /**
+     * Whether the term should be made official on save.
+     * @return
+     */
+    public boolean isMakeOfficial() {
+        return makeOfficial;
+    }
+
+    public void setMakeOfficial(boolean makeOfficial) {
+        this.makeOfficial = makeOfficial;
+    }
+
+    public TermInfo getParentTermInfo() {
+        return parentTermInfo;
+    }
+
+    public void setParentTermInfo(TermInfo parentTermInfo) {
+        this.parentTermInfo = parentTermInfo;
+    }
+
+    public boolean isSubTerm() {
+        return subTerm;
+    }
+
+    public void setSubTerm(boolean subTerm) {
+        this.subTerm = subTerm;
+    }
+
+    public boolean isHasSubterm() {
+        return hasSubterm;
+    }
+
+    public void setHasSubterm(boolean hasSubterm) {
+        this.hasSubterm = hasSubterm;
+    }
+
+    public List<AcademicTermWrapper> getSubterms() {
+        if (subterms == null) {
+            subterms = new ArrayList<AcademicTermWrapper>();
+        }
+        return subterms;
+    }
+
+    public void setSubterms(List<AcademicTermWrapper> subterms) {
+        this.subterms = subterms;
+    }
 }

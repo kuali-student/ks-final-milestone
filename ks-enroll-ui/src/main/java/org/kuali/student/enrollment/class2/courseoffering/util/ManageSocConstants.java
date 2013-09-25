@@ -70,6 +70,9 @@ public class ManageSocConstants {
         public static final String ERROR_INVALID_STATUS_FOR_FINALEDIT = "error.managesoc.invalid.status.for.finaledit";
         public static final String ERROR_INVALID_STATUS_FOR_PUBLISH = "error.managesoc.invalid.status.for.publish";
         public static final String ERROR_INVALID_STATUS_FOR_CLOSE = "error.managesoc.invalid.status.for.close";
+        public static final String ERROR_CANNOT_ACCESS_COURSE_OFFERING_WHILE_SOC_INVALID_STATE_DEFAULT = "error.courseOffering.blocked.soc.state.invalid.default";
+        public static final String ERROR_CANNOT_ACCESS_COURSE_OFFERING_WHILE_SOC_IS_PUBLISHING = "error.courseOffering.blocked.while.soc.publishing";
+        public static final String ERROR_CANNOT_ACCESS_COURSE_OFFERING_WHILE_SOC_IS_IN_PROGRESS = "error.courseOffering.blocked.while.soc.inProgress";
 
         //Warn keys here
     }

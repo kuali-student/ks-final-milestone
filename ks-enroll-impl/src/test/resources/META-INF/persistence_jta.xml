@@ -51,6 +51,9 @@
         <class>org.kuali.student.r2.core.class1.state.model.StateConstraintEntity</class>
         <class>org.kuali.student.r2.core.class1.state.model.StateConstraintAttributeEntity</class>
 
+        <class>org.kuali.student.r2.core.class1.state.model.StatePropagationEntity</class>
+        <class>org.kuali.student.r2.core.class1.state.model.StatePropagationAttributeEntity</class>
+
         <class>org.kuali.student.enrollment.class1.hold.model.HoldIssueEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.HoldIssueAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.AppliedHoldEntity</class>

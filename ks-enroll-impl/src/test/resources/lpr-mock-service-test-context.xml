@@ -7,7 +7,11 @@
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
     <context:annotation-config />
-
+	<import resource="classpath:META-INF/default-property-config-context-test.xml" />
+	<import resource="classpath:ks-test-system-property-configurer.xml" />
+    <import resource="classpath:ks-enroll-api-data-dictionary-services-configuration.xml" />
+    <import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml" />
+  
     
-    <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceMockImpl" />
+    <bean id="LprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceMockImpl" />
 </beans>

@@ -15,12 +15,12 @@
 package org.kuali.student.enrollment.class2.acal.form;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.common.uif.form.KSUifForm;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,7 +31,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 
-public class HolidayCalendarForm  extends UifFormBase {
+public class HolidayCalendarForm extends KSUifForm {
     private static final long serialVersionUID = 7526472595622776147L;
 
     private HolidayCalendarInfo holidayCalendarInfo;
@@ -58,7 +58,6 @@ public class HolidayCalendarForm  extends UifFormBase {
     }
 
     /**
-     *
      * @return the HolidayCalendarInfo which is currently in use at the view
      */
     public HolidayCalendarInfo getHolidayCalendarInfo() {
@@ -75,7 +74,6 @@ public class HolidayCalendarForm  extends UifFormBase {
     }
 
     /**
-     *
      * @return the list of HolidayWrapper which are currently in use at the holiday view
      */
     public List<HolidayWrapper> getHolidays() {
@@ -120,6 +118,7 @@ public class HolidayCalendarForm  extends UifFormBase {
     public String getAdminOrgName() {
         return adminOrgName;
     }
+
     /**
      * Organization involved with a hcal.
      *
@@ -137,6 +136,7 @@ public class HolidayCalendarForm  extends UifFormBase {
     public String getNewCalendarName() {
         return newCalendarName;
     }
+
     /**
      * New Hcal object
      *
@@ -154,6 +154,7 @@ public class HolidayCalendarForm  extends UifFormBase {
     public Date getNewCalendarStartDate() {
         return newCalendarStartDate;
     }
+
     /**
      * Start date of the new hcal.
      *
@@ -171,6 +172,7 @@ public class HolidayCalendarForm  extends UifFormBase {
     public Date getNewCalendarEndDate() {
         return newCalendarEndDate;
     }
+
     /**
      * End date of the new hcal.
      *
@@ -246,7 +248,7 @@ public class HolidayCalendarForm  extends UifFormBase {
     /**
      * It is an official Calendar or not with a hcal.
      *
-     * @param  officialCalendar
+     * @param officialCalendar
      */
     public void setOfficialCalendar(boolean officialCalendar) {
         this.officialCalendar = officialCalendar;
@@ -257,12 +259,13 @@ public class HolidayCalendarForm  extends UifFormBase {
      *
      * @return
      */
-    public String getUpdateTimeString(){
+    public String getUpdateTimeString() {
         if (getHolidayCalendarInfo() != null &&
-            getHolidayCalendarInfo().getMeta() != null &&
-            getHolidayCalendarInfo().getMeta().getUpdateTime() != null){
+                getHolidayCalendarInfo().getMeta() != null &&
+                getHolidayCalendarInfo().getMeta().getUpdateTime() != null) {
             Date updateTime = getHolidayCalendarInfo().getMeta().getUpdateTime();
-            return "Last saved at "+new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(updateTime);
+
+            return "Last saved at " + DateFormatters.SIMPLE_TIMESTAMP_FORMATTER.format(updateTime);
         } else {
             return StringUtils.EMPTY;
         }
@@ -273,8 +276,8 @@ public class HolidayCalendarForm  extends UifFormBase {
      *
      * @return
      */
-    public boolean isOfficialUI(){
-        if (holidayCalendarInfo != null){
+    public boolean isOfficialUI() {
+        if (holidayCalendarInfo != null) {
             return StringUtils.equals(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY, holidayCalendarInfo.getStateKey());
         }
         return false;

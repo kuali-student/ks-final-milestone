@@ -14,7 +14,7 @@
  */
 package org.kuali.student.enrollment.class2.acal.dto;
 
-import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -16,7 +16,7 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
+import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
@@ -35,8 +35,8 @@ public class KeyDateWrapper extends TimeSetWrapper{
     private TypeInfo typeInfo;
 
     public KeyDateWrapper(){
-        setAllDay(false);
-        setDateRange(true);
+        setAllDay(true);
+        setDateRange(false);
         keyDateInfo = new KeyDateInfo();
         keyDateInfo.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
         RichTextInfo desc = new RichTextInfo();
@@ -46,10 +46,6 @@ public class KeyDateWrapper extends TimeSetWrapper{
 
     public KeyDateWrapper(KeyDateInfo keydate,boolean isCopy){
 
-        this.setStartDate(keydate.getStartDate());
-        this.setEndDate(keydate.getEndDate());
-        this.setAllDay(keydate.getIsAllDay());
-        this.setDateRange(keydate.getIsDateRange());
         this.setKeyDateType(keydate.getTypeKey());
 
         if (isCopy){
@@ -59,10 +55,14 @@ public class KeyDateWrapper extends TimeSetWrapper{
             getKeyDateInfo().setDescr(desc);
             getKeyDateInfo().setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
         }else{
+            this.setStartDate(keydate.getStartDate());
+            this.setEndDate(keydate.getEndDate());
+            this.setAllDay(keydate.getIsAllDay());
+            this.setDateRange(keydate.getIsDateRange());
             this.setKeyDateInfo(keydate);
+            buildDateAndTime();        // don't do this when copying
         }
 
-        buildDateAndTime();
     }
 
     public String getKeyDateType() {
@@ -110,5 +110,4 @@ public class KeyDateWrapper extends TimeSetWrapper{
     public String getEndDateUI(){
         return formatEndDateUI(keyDateInfo.getEndDate());
     }
-
 }

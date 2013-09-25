@@ -2,40 +2,57 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.population.dto.PopulationInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+/**
+ * Main model object in Edit AO view.
+ *
+ * @see ColocatedActivity
+ *
+ */
 public class ActivityOfferingWrapper implements Serializable{
+
+    private String aoClusterName;
+    private String aoClusterID;
 
     private ActivityOfferingInfo aoInfo;
     private FormatOfferingInfo formatOffering;
-    private TermInfo term;
     private List<OfferingInstructorWrapper> instructors;
     private List<ScheduleComponentWrapper> scheduleComponentWrappers;
     private List<SeatPoolWrapper> seatpools;
+    private List<PopulationInfo> populationsForSPValidation;
     private boolean readOnlyView;
     private boolean isChecked;
+    private boolean isCheckedByCluster;
     private String courseOfferingId;
-    // Tanveer 06/13/2012
+    private String populationsJSONString;
+
     private String stateName;
     private String typeName;
     private String typeKey;
 
-    private String termName;
-
     private String formatOfferingName;
 
-    // Tanveer 06/27/2012
+    private Date termRegStartDate;
+
     private String waitListLevelTypeKey;
     private String waitListTypeKey;
     private boolean hasWaitList;
@@ -51,11 +68,9 @@ public class ActivityOfferingWrapper implements Serializable{
 
     private List<ScheduleWrapper> actualScheduleComponents;
     private List<ScheduleWrapper> requestedScheduleComponents;
-    private List<ScheduleWrapper> revisedScheduleRequestComponents;
+    private List<ScheduleWrapper> deletedScheduleComponents;
     private ScheduleWrapper newScheduleRequest;
 
-    private ScheduleRequestInfo scheduleRequestInfo;
-    private ScheduleInfo scheduleInfo;
     private SocInfo socInfo;
 
     private String startTimeDisplay = "";
@@ -64,13 +79,79 @@ public class ActivityOfferingWrapper implements Serializable{
     private String buildingName = "";
     private String roomName = "";
     private String tbaDisplayName = "";
+    private String colocatedAoInfo = "";
 
-    private boolean schedulesRevised;
+    private boolean schedulesModified;
+
+    private String adminOrg;
+
+      //hidden columns for toolbar
+    private boolean enableApproveButton = false;
+    private boolean enableDraftButton = false;
+    private boolean enableSuspendButton = false;
+    private boolean enableCancelButton = false;
+    private boolean enableReinstateButton = false;
+    private boolean enableMoveToButton = false;
+    private boolean enableDeleteButton = false;
+    private boolean enableCopyAOActionLink = false;
+    private boolean enableEditAOActionLink = false;
+
+    //Permission flag for Manage AO Requisite link
+    private boolean requisiteLink = false;
+
+    private boolean colocatedAO;
+    private List<ColocatedActivity> colocatedActivities;
+    private boolean maxEnrollmentShared;
+    private boolean hiddenMaxEnrollmentShared;
+    private int sharedMaxEnrollment;
+    private boolean hasSeatpools;
+
+    private ScheduleRequestSetInfo scheduleRequestSetInfo;
+
+    private EditRenderHelper editRenderHelper;
+    private boolean isPartOfColoSetOnLoadAlready;
+    private boolean isColocatedOnLoadAlready;
+    private boolean isSendRDLsToSchedulerAfterMSE;
+    private boolean isRemovedFromColoSet;
+
+    private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
+
+    //This is needed to display the cross listed courses
+    private CourseInfo course;
+
+    /*
+    * Always carry the parent or the standard term if any -- Is this because
+    * manage COs/AOs only support search on TermCode but not on subterm?
+    */
+    private TermInfo term;
+    //for Term (name) field display of the parent/standard term on Edit AO page
+    private String termName;
+    //for Sub Term (name) field display on Edit AO page
+    private String subTermName = "";
+    //for Start/End field display on Edit AO page, if subTermId is not empty,
+    //display Start/End date info for the subterm
+    private String termDisplayString = "";
+    //for displaying subterm drop-down list when click change link on Edit AO page
+    //and hold the id value for the selected subterm
+    private String subTermId;
+    //use this boolean to decide if "Change" link should be rendered or not
+    private boolean hasSubTerms;
+    //would it be better to define 'TermInfo subTerm' instead of the following three strings
+    private String termStartEndDate = "";
+
+    /*
+    This is a list of subTerm start/end date strings to support javascript update of the
+     displayed start/end when subterm is changed/choremoved
+     */
+    private String subTermDatesJsonString;
 
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
         instructors = new ArrayList<OfferingInstructorWrapper>();
+        OfferingInstructorWrapper instructorWrapper = new OfferingInstructorWrapper();
+        instructors.add(instructorWrapper);
         seatpools = new ArrayList<SeatPoolWrapper>();
+        populationsForSPValidation = new ArrayList<PopulationInfo>();
         aoInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
         aoInfo.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
         formatOffering = new FormatOfferingInfo();
@@ -80,15 +161,119 @@ public class ActivityOfferingWrapper implements Serializable{
         this.setIsChecked(false);
         actualScheduleComponents = new ArrayList<ScheduleWrapper>();
         requestedScheduleComponents = new ArrayList<ScheduleWrapper>();
-        revisedScheduleRequestComponents = new ArrayList<ScheduleWrapper>();
         newScheduleRequest = new ScheduleWrapper();
+        colocatedActivities = new ArrayList<ColocatedActivity>();
+        maxEnrollmentShared = true;
+        editRenderHelper = new EditRenderHelper();
+        deletedScheduleComponents = new ArrayList<ScheduleWrapper>();
     }
 
     public ActivityOfferingWrapper(ActivityOfferingInfo info){
-        super();
+        this();
         aoInfo = info;
         instructors = new ArrayList<OfferingInstructorWrapper>();
+        if(info.getInstructors() == null || info.getInstructors().isEmpty()) {
+            OfferingInstructorWrapper instructorWrapper = new OfferingInstructorWrapper();
+            instructors.add(instructorWrapper);
+        } else if(info.getInstructors().size() > 0) {
+            for(OfferingInstructorInfo instructorInfo : info.getInstructors()) {
+                OfferingInstructorWrapper instructorWrapper = new OfferingInstructorWrapper(instructorInfo);
+                if (instructorInfo.getPercentageEffort() != null) {
+                    instructorWrapper.setsEffort(Integer.toString(instructorInfo.getPercentageEffort().intValue()));
+                }
+                instructors.add(instructorWrapper);
+            }
+        }
         seatpools = new ArrayList<SeatPoolWrapper>();
+        populationsForSPValidation = new ArrayList<PopulationInfo>();
+    }
+
+    public String getAoClusterName() {
+        return aoClusterName;
+    }
+
+    public void setAoClusterName(String aoClusterName) {
+        this.aoClusterName = aoClusterName;
+    }
+
+    public String getAoClusterID() {
+        return aoClusterID;
+    }
+
+    public void setAoClusterID(String aoClusterID) {
+        this.aoClusterID = aoClusterID;
+    }
+
+    public boolean isEnableApproveButton() {
+        return enableApproveButton;
+    }
+
+    public void setEnableApproveButton(boolean enableApproveButton) {
+        this.enableApproveButton = enableApproveButton;
+    }
+
+    public boolean isEnableDraftButton() {
+        return enableDraftButton;
+    }
+
+    public void setEnableDraftButton(boolean enableDraftButton) {
+        this.enableDraftButton = enableDraftButton;
+    }
+
+    public boolean isEnableSuspendButton() {
+        return enableSuspendButton;
+    }
+
+    public void setEnableSuspendButton(boolean enableSuspendButton) {
+        this.enableSuspendButton = enableSuspendButton;
+    }
+
+    public boolean isEnableCancelButton() {
+        return enableCancelButton;
+    }
+
+    public void setEnableCancelButton(boolean enableCancelButton) {
+        this.enableCancelButton = enableCancelButton;
+    }
+
+    public boolean isEnableMoveToButton() {
+        return enableMoveToButton;
+    }
+
+    public void setEnableMoveToButton(boolean enableMoveToButton) {
+        this.enableMoveToButton = enableMoveToButton;
+    }
+
+    public boolean isEnableReinstateButton() {
+        return enableReinstateButton;
+    }
+
+    public void setEnableReinstateButton(boolean enableReinstateButton) {
+        this.enableReinstateButton = enableReinstateButton;
+    }
+
+    public boolean isEnableDeleteButton() {
+        return enableDeleteButton;
+    }
+
+    public void setEnableDeleteButton(boolean enableDeleteButton) {
+        this.enableDeleteButton = enableDeleteButton;
+    }
+
+    public boolean isEnableCopyAOActionLink() {
+        return enableCopyAOActionLink;
+    }
+
+    public void setEnableCopyAOActionLink(boolean enableCopyAOActionLink) {
+        this.enableCopyAOActionLink = enableCopyAOActionLink;
+    }
+
+    public boolean isEnableEditAOActionLink() {
+        return enableEditAOActionLink;
+    }
+
+    public void setEnableEditAOActionLink(boolean enableEditAOActionLink) {
+        this.enableEditAOActionLink = enableEditAOActionLink;
     }
 
     public String getCourseOfferingCode() {
@@ -127,6 +312,24 @@ public class ActivityOfferingWrapper implements Serializable{
         this.activityCode = activityCode;
     }
 
+    /**
+     * This method returns whether editing of the activity code is allowed or not.
+     * This method reads the configuration property <code>kuali.ks.enrollment.options.edit-activity-offering-code-allowed</code>
+     * and returns it's value (true/false). This is to allow the institutional configuration to decide whether the users
+     * should be allowed to edit the activity code.
+     *
+     * The default is to allow the user to edit the activity code.
+     *
+     * @return boolean based on the configured property
+     */
+    public boolean isEditActivityCodeAllowed() {
+        if( "false".equalsIgnoreCase( ConfigContext.getCurrentContextConfig().getProperty( CourseOfferingConstants.CONFIG_PARAM_KEY_EDIT_ACTIVITY_CODE ) ) ) {
+            return false;
+        }
+
+        return true;
+    }
+
     private String abbreviatedCourseType = "";
 
     public String getAbbreviatedCourseType() {
@@ -136,8 +339,6 @@ public class ActivityOfferingWrapper implements Serializable{
     public void setAbbreviatedCourseType(String abbreviatedCourseType) {
         this.abbreviatedCourseType= abbreviatedCourseType;
     }
-
-    private String termDisplayString = "";
 
     public String getTermDisplayString() {
         return termDisplayString;
@@ -217,6 +418,13 @@ public class ActivityOfferingWrapper implements Serializable{
         this.term = term;
     }
 
+    public String getTermId(){
+        if (term != null){
+            return term.getId();
+        }
+        return StringUtils.EMPTY;
+    }
+
     public ActivityOfferingInfo getAoInfo() {
         return aoInfo;
     }
@@ -248,6 +456,15 @@ public class ActivityOfferingWrapper implements Serializable{
     public void setIsChecked(boolean checked) {
         this.isChecked = checked;
     }
+
+    public boolean getIsCheckedByCluster() {
+        return isCheckedByCluster;
+    }
+
+    public void setIsCheckedByCluster(boolean checkedByCluster) {
+        isCheckedByCluster = checkedByCluster;
+    }
+
 
     public String getStateName() {
         return stateName;
@@ -287,6 +504,14 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setSeatpools(List<SeatPoolWrapper> seatpools) {
         this.seatpools = seatpools;
+    }
+
+    public List<PopulationInfo> getPopulationsForSPValidation() {
+        return populationsForSPValidation;
+    }
+
+    public void setPopulationsForSPValidation(List<PopulationInfo> populationsForSPValidation) {
+        this.populationsForSPValidation = populationsForSPValidation;
     }
 
     public String getFirstInstructorDisplayName() {
@@ -344,7 +569,9 @@ public class ActivityOfferingWrapper implements Serializable{
     public boolean isLegalToDelete() {
         if (StringUtils.equals(aoInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY) ||
                 StringUtils.equals(aoInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY) ||
-                StringUtils.equals(aoInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_SUBMITTED_KEY)) {
+                StringUtils.equals(aoInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_SUBMITTED_KEY) ||
+                StringUtils.equals(aoInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY) ||
+                StringUtils.equals(aoInfo.getStateKey(), LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY) ) {
             return true;
         }
         return false;
@@ -531,20 +758,12 @@ public class ActivityOfferingWrapper implements Serializable{
         }
     }
 
-    public ScheduleRequestInfo getScheduleRequestInfo() {
-        return scheduleRequestInfo;
+    public List<ScheduleWrapper> getDeletedScheduleComponents() {
+        return deletedScheduleComponents;
     }
 
-    public void setScheduleRequestInfo(ScheduleRequestInfo scheduleRequestInfo) {
-        this.scheduleRequestInfo = scheduleRequestInfo;
-    }
-
-    public ScheduleInfo getScheduleInfo() {
-        return scheduleInfo;
-    }
-
-    public void setScheduleInfo(ScheduleInfo scheduleInfo) {
-        this.scheduleInfo = scheduleInfo;
+    public void setDeletedScheduleComponents(List<ScheduleWrapper> deletedScheduleComponents) {
+        this.deletedScheduleComponents = deletedScheduleComponents;
     }
 
     public String getTypeKey() {
@@ -555,23 +774,20 @@ public class ActivityOfferingWrapper implements Serializable{
         this.typeKey = typeKey;
     }
 
-    public List<ScheduleWrapper> getRevisedScheduleRequestComponents() {
-        if (revisedScheduleRequestComponents == null){
-            revisedScheduleRequestComponents = new ArrayList<ScheduleWrapper>();
-        }
-        return revisedScheduleRequestComponents;
+    public boolean isSendRDLsToSchedulerAfterMSE() {
+        return isSendRDLsToSchedulerAfterMSE;
     }
 
-    public void setRevisedScheduleRequestComponents(List<ScheduleWrapper> revisedScheduleRequestComponents) {
-        this.revisedScheduleRequestComponents = revisedScheduleRequestComponents;
+    public void setSendRDLsToSchedulerAfterMSE(boolean sendRDLsToSchedulerAfterMSE) {
+        isSendRDLsToSchedulerAfterMSE = sendRDLsToSchedulerAfterMSE;
     }
 
-    public boolean isSchedulesRevised() {
-       return schedulesRevised;
+    public boolean isSchedulesModified() {
+       return schedulesModified;
     }
 
-    public void setSchedulesRevised(boolean schedulesRevised) {
-       this.schedulesRevised = schedulesRevised;
+    public void setSchedulesModified(boolean schedulesModified) {
+       this.schedulesModified = schedulesModified;
     }
 
     public SocInfo getSocInfo() {
@@ -582,4 +798,363 @@ public class ActivityOfferingWrapper implements Serializable{
         this.socInfo = socInfo;
     }
 
+    public String getAdminOrg(){
+        return adminOrg;
+    }
+    public void setAdminOrg(String adminOrg){
+        this.adminOrg=adminOrg;
+    }
+
+    public Date getTermRegStartDate() {
+        return termRegStartDate;
+    }
+
+    public void setTermRegStartDate(Date termRegStartDate) {
+        this.termRegStartDate = termRegStartDate;
+    }
+
+    public CourseInfo getCourse() {
+        return course;
+    }
+
+    public void setCourse(CourseInfo course) {
+        this.course = course;
+    }
+
+    public String getColocatedAoInfo() {
+        return colocatedAoInfo;
+    }
+
+    public void setColocatedAoInfo(String colocatedAoInfo) {
+        this.colocatedAoInfo = colocatedAoInfo;
+    }
+
+    public String getPopulationsJSONString() {
+        return populationsJSONString;
+    }
+
+    public void setPopulationsJSONString(String populationsJSONString) {
+        this.populationsJSONString = populationsJSONString;
+    }
+
+    /**
+     * This method returns a list of comma seperated alternate course codes.
+     * This is used in create and edit course offerings screen.
+     * @return
+     */
+    @SuppressWarnings("unused")
+    public String getCrossListedCourseCodes(){
+        StringBuilder builder = new StringBuilder();
+        if (course != null){
+            for (CourseCrossListing crossListing : course.getCrossListings()){
+                builder.append(crossListing.getCode() + ", ");
+            }
+        }
+        return StringUtils.removeEnd(builder.toString(), ", ");
+    }
+
+    /**
+     * @see #setColocatedAO(boolean)
+     * @return
+     */
+    public boolean isColocatedAO() {
+        return colocatedAO;
+    }
+
+    /**
+     * Whether this AO is part of a colocated set
+     *
+     * @param colocatedAO
+     */
+    public void setColocatedAO(boolean colocatedAO) {
+        this.colocatedAO = colocatedAO;
+    }
+
+    public List<ColocatedActivity> getColocatedActivities() {
+        return colocatedActivities;
+    }
+
+    public void setColocatedActivities(List<ColocatedActivity> colocatedActivities) {
+        this.colocatedActivities = colocatedActivities;
+    }
+
+    public boolean isMaxEnrollmentShared() {
+        return maxEnrollmentShared;
+    }
+
+    public void setMaxEnrollmentShared(boolean maxEnrollmentShared) {
+        this.maxEnrollmentShared = maxEnrollmentShared;
+    }
+
+    public boolean getHiddenMaxEnrollmentShared(){
+        return maxEnrollmentShared;
+    }
+
+    public int getSharedMaxEnrollment() {
+        return sharedMaxEnrollment;
+    }
+
+    public void setSharedMaxEnrollment(int sharedMaxEnrollment) {
+        this.sharedMaxEnrollment = sharedMaxEnrollment;
+    }
+
+    public boolean getHasSeatpools() {
+        return hasSeatpools;
+    }
+
+    public void setHasSeatpools(boolean hasSeatpools) {
+        this.hasSeatpools = hasSeatpools;
+    }
+
+    public ScheduleRequestSetInfo getScheduleRequestSetInfo() {
+        return scheduleRequestSetInfo;
+    }
+
+    public void setScheduleRequestSetInfo(ScheduleRequestSetInfo scheduleRequestSetInfo) {
+        this.scheduleRequestSetInfo = scheduleRequestSetInfo;
+    }
+
+    /**
+     * This method return a colocated AO code for current course. This will
+     * be displayed as the tooltip (if colocated AO exists) at manage and delete AO screen.
+     *
+     * @return
+     */
+    @SuppressWarnings("unused")
+    public String getColocatedAoInfoUI(){
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("This activity is colocated with:<br>");
+        buffer.append(colocatedAoInfo + "<br>");
+
+        return StringUtils.removeEnd(buffer.toString(),"<br>");
+    }
+
+    public boolean isPartOfColoSetOnLoadAlready() {
+        return isPartOfColoSetOnLoadAlready;
+    }
+
+    public void setPartOfColoSetOnLoadAlready(boolean isPartOfColoSetOnLoadAlready) {
+        this.isPartOfColoSetOnLoadAlready = isPartOfColoSetOnLoadAlready;
+    }
+
+    public boolean isColocatedOnLoadAlready() {
+        return isColocatedOnLoadAlready;
+    }
+
+    public void setColocatedOnLoadAlready(boolean colocatedOnLoadAlready) {
+        isColocatedOnLoadAlready = colocatedOnLoadAlready;
+    }
+
+    public boolean isSchedulingCompleted(){
+        if (getSocInfo() != null){
+            if (StringUtils.equals(CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED,getSocInfo().getSchedulingStateKey())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public CourseOfferingContextBar getContextBar() {
+        return contextBar;
+    }
+
+    public void setContextBar(CourseOfferingContextBar contextBar) {
+        this.contextBar = contextBar;
+    }
+
+    /**
+     * Returns the Edit Helper.
+     *
+     * @return
+     */
+    public EditRenderHelper getEditRenderHelper() {
+        return editRenderHelper;
+    }
+
+    /**
+     * Helper to render the colocated activites in Edit AO screen.
+     */
+    public class EditRenderHelper implements Serializable {
+
+        private List<ColocatedActivity> manageSeperateEnrollmentList;
+
+        private boolean scheduleEditInProgress;
+        private boolean isPersistedRDLsExists;
+        private String selectedAO;
+
+        private String prevAOTypeName;
+        private String nextAOTypeName;
+
+        private ActivityOfferingInfo prevAO;
+        private ActivityOfferingInfo nextAO;
+
+        private List<KeyValue> aoCodes;
+
+        public EditRenderHelper(){
+            manageSeperateEnrollmentList = new ArrayList<ColocatedActivity>();
+            aoCodes = new ArrayList<KeyValue>();
+        }
+
+        /**
+         * @see #setManageSeperateEnrollmentList(java.util.List)
+         * @return
+         */
+        public List<ColocatedActivity> getManageSeperateEnrollmentList() {
+            return manageSeperateEnrollmentList;
+        }
+
+        /**
+         * If the user is going to manage the enrollment list seperately for each activity offerings in a
+         * cross listed set, this list is used to display that section at the ui.
+         *
+         * It's just a seperate list but it holds the same reference elements from {@link #setColocatedActivities(java.util.List)} plus
+         * the current AO.
+         *
+         * @param manageSeperateEnrollmentList
+         */
+        @SuppressWarnings("unused")
+        public void setManageSeperateEnrollmentList(List<ColocatedActivity> manageSeperateEnrollmentList) {
+            this.manageSeperateEnrollmentList = manageSeperateEnrollmentList;
+        }
+
+        public boolean isPersistedRDLsExists() {
+            return isPersistedRDLsExists;
+        }
+
+        public void setPersistedRDLsExists(boolean persistedRDLsExists) {
+            isPersistedRDLsExists = persistedRDLsExists;
+        }
+
+        public String getColocatedActivitiesAsString(){
+            StringBuffer s = new StringBuffer();
+            for (ColocatedActivity colo : getColocatedActivities()){
+                s.append(colo.getEditRenderHelper().getCode() + ", ");
+            }
+            return StringUtils.stripEnd(s.toString(),", ");
+        }
+
+        public boolean isScheduleEditInProgress() {
+            return scheduleEditInProgress;
+        }
+
+        public void setScheduleEditInProgress(boolean scheduleEditInProgress) {
+            this.scheduleEditInProgress = scheduleEditInProgress;
+        }
+
+        public String getSelectedAO() {
+            return selectedAO;
+        }
+
+        public void setSelectedAO(String selectedAO) {
+            this.selectedAO = selectedAO;
+        }
+
+
+        public List<KeyValue> getAoCodes() {
+            return aoCodes;
+        }
+
+        public void setAoCodes(List<KeyValue> aoCodes) {
+            this.aoCodes = aoCodes;
+        }
+
+        public ActivityOfferingInfo getPrevAO() {
+            return prevAO;
+        }
+
+        public void setPrevAO(ActivityOfferingInfo prevAO) {
+            this.prevAO = prevAO;
+        }
+
+        public ActivityOfferingInfo getNextAO() {
+            return nextAO;
+        }
+
+        public void setNextAO(ActivityOfferingInfo nextAO) {
+            this.nextAO = nextAO;
+        }
+
+        public String getPrevAOTypeName() {
+            return prevAOTypeName;
+        }
+
+        public void setPrevAOTypeName(String prevAOTypeName) {
+            this.prevAOTypeName = prevAOTypeName;
+        }
+
+        public String getNextAOTypeName() {
+            return nextAOTypeName;
+        }
+
+        public void setNextAOTypeName(String nextAOTypeName) {
+            this.nextAOTypeName = nextAOTypeName;
+        }
+
+    }
+
+    // subterms
+    public String getSubTermName() {
+        return subTermName;
+    }
+
+    public void setSubTermName(String subTermName) {
+        this.subTermName = subTermName;
+    }
+
+    public boolean getHasSubTerms() {
+        return hasSubTerms;
+    }
+
+    public void setHasSubTerms(boolean hasSubTerms) {
+        this.hasSubTerms = hasSubTerms;
+    }
+
+    public String getSubTermId() {
+        return subTermId;
+    }
+
+    public void setSubTermId(String subTermId) {
+        this.subTermId = subTermId;
+    }
+
+    public String getTermStartEndDate() {
+           return termStartEndDate;
+    }
+
+    public void setTermStartEndDate(String termStartEndDate) {
+        this.termStartEndDate = termStartEndDate;
+    }
+
+    public String getSubTermDatesJsonString() {
+        return subTermDatesJsonString;
+    }
+
+    public void setSubTermDatesJsonString(String subTermDatesJsonString) {
+        this.subTermDatesJsonString = subTermDatesJsonString;
+    }
+
+    public boolean isRequisiteLink() {
+        return requisiteLink;
+    }
+
+    public void setRequisiteLink(boolean requisiteLink) {
+        this.requisiteLink = requisiteLink;
+    }
+
+    /**
+     * @see #setRemovedFromColoSet(boolean)
+     * @return true if the user breaks the colo set
+     */
+    public boolean isRemovedFromColoSet() {
+        return isRemovedFromColoSet;
+    }
+
+    /**
+     * This flag will be set when the user breaks the AO from the colo set.
+     *
+     * @param removedFromColoSet
+     */
+    public void setRemovedFromColoSet(boolean removedFromColoSet) {
+        isRemovedFromColoSet = removedFromColoSet;
+    }
 }

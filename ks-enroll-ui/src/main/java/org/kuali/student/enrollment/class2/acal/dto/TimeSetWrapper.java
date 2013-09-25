@@ -16,7 +16,6 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 
 import java.util.Date;
@@ -44,28 +43,23 @@ public class TimeSetWrapper {
         //This is needed to display enddate for readonly view (not needed for edit mode).
         endDateUI = getEndDate();
 
+        // some defaults
+        setStartTimeAmPm("AM");
+        setEndTimeAmPm("AM");
+
         // If not all day, set start/end time in the wrapper
         if (!isAllDay()){
-
-            if (getEndDate() != null){
+            if (getStartDate() != null){
                 setStartTime(DateFormatters.HOUR_MINUTE_TIME_FORMATTER.format(getStartDate()));
-                setEndTime(DateFormatters.HOUR_MINUTE_TIME_FORMATTER.format(getEndDate()));
-
                 setStartTimeAmPm(DateFormatters.AM_PM_TIME_FORMATTER.format(getStartDate()));
-                setEndTimeAmPm(DateFormatters.AM_PM_TIME_FORMATTER.format(getEndDate()));
-
-                String startDate = CommonUtils.formatDate(getStartDate());
-                String endDate = CommonUtils.formatDate(getEndDate());
-
-                if (StringUtils.equals(startDate,endDate)){
-                    setDateRange(false);
-                    setEndDate(null);
-                }else{
-                    setDateRange(true);
-                }
             }
-        }else if (!isDateRange()){
-            setEndDate(null);
+            if (getEndDate() != null){
+                setEndTime(DateFormatters.HOUR_MINUTE_TIME_FORMATTER.format(getEndDate()));
+                setEndTimeAmPm(DateFormatters.AM_PM_TIME_FORMATTER.format(getEndDate()));
+            }
+        } else if (!isDateRange()){
+                setEndDate(null);
+                setEndTime(null);
         }
     }
 

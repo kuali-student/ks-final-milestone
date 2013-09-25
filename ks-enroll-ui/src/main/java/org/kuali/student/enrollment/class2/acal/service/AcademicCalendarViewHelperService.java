@@ -15,14 +15,14 @@
  */
 package org.kuali.student.enrollment.class2.acal.service;
 
-import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
-import org.kuali.student.enrollment.uif.service.KSViewHelperService;
+import org.kuali.student.common.uif.service.KSViewHelperService;
 
 import java.util.List;
 
@@ -33,19 +33,11 @@ public interface AcademicCalendarViewHelperService extends KSViewHelperService {
 
     public void populateAcademicCalendar(String acalId, AcademicCalendarForm acalForm);
 
-    public AcademicCalendarInfo createAcademicCalendar(AcademicCalendarForm acalForm) throws Exception;
-
     public AcademicCalendarInfo getLatestAcademicCalendar() throws Exception;
 
     public void copyToCreateAcademicCalendar(AcademicCalendarForm form);
 
     public List<AcalEventWrapper> populateEventWrappers(String acalId) throws Exception;
-
-    public AcalEventWrapper createEvent(String acalId, AcalEventWrapper event) throws Exception;
-
-    public AcalEventWrapper updateEvent(String eventId, AcalEventWrapper event) throws Exception;
-
-    public void saveTerm(AcademicTermWrapper termWrapper, String acalId,boolean isOfficial,boolean calculateInstrDays) throws Exception;
 
     public void populateInstructionalDays(AcademicTermWrapper termWrapper);
 
@@ -58,5 +50,7 @@ public interface AcademicCalendarViewHelperService extends KSViewHelperService {
     public void populateAcademicCalendarDefaults(AcademicCalendarForm acalForm);
 
     public AcademicTermWrapper populateTermWrapper(TermInfo termInfo, boolean isCopy,boolean calculateInstrDays)throws Exception;
+
+    public void sortTermWrappers(List<AcademicTermWrapper> termWrappers);
 
 }

@@ -16,13 +16,12 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.DiagnoseRolloverViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -33,7 +32,7 @@ import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetS
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.lum.course.service.CourseService;
@@ -141,6 +140,15 @@ public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl
         double diffInSeconds = diff / 1000.0;
         return diffInSeconds;
     }
+    
+    private DefaultOptionKeysService defaultOptionKeysService;
+
+    private DefaultOptionKeysService getDefaultOptionKeysService() {
+        if (defaultOptionKeysService == null) {
+            defaultOptionKeysService = new DefaultOptionKeysServiceImpl();
+        }
+        return this.defaultOptionKeysService;
+    }
 
     @Override
     public Map<String, Object> rolloverCourseOfferingFromSourceTermToTargetTerm(String courseOfferingCode, String sourceTermId, String targetTermId) throws Exception {
@@ -152,8 +160,9 @@ public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl
         ContextInfo contextInfo = new ContextInfo();
         CourseOfferingInfo coInfo = coInfos.get(0); // Just get the first one
         Date start = new Date();
+        List<String> optionKeys = this.getDefaultOptionKeysService().getDefaultOptionKeysForCopySingleCourseOffering();
         SocRolloverResultItemInfo rolloverResultInfo =
-                coService.rolloverCourseOffering(coInfo.getId(), targetTermId, new ArrayList<String>(), contextInfo);
+                coService.rolloverCourseOffering(coInfo.getId(), targetTermId, optionKeys, contextInfo);
         Date end = new Date();
         String targetId = rolloverResultInfo.getTargetCourseOfferingId();
         CourseOfferingInfo targetCo = coService.getCourseOffering(targetId, contextInfo);

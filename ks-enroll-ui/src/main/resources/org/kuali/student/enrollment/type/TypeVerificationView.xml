@@ -18,7 +18,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
-    <bean id="KS-TypeVerification-View" parent="KSFormView" p:applyDirtyCheck="true"
+    <bean id="KS-TypeVerification-View" parent="KS-Uif-FormView" p:applyDirtyCheck="true"
           p:id="typeVerificationView"
           p:headerText="Type Verification"
           p:entryPageId="searchInputPage"
@@ -47,7 +47,7 @@
         </property>
     </bean>
 
-    <bean id="KS-TypeVerificationPage" parent="Uif-Page" p:disclosure.render="false"
+    <bean id="KS-TypeVerificationPage" parent="KS-Uif-Page" p:disclosure.render="false"
           p:id="validateTypeEntryPage">
         <property name="header">
             <bean parent="Uif-HeaderThree" p:headerText="Type Verification" />

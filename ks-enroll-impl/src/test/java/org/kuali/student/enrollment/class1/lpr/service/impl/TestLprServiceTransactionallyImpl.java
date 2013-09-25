@@ -16,50 +16,42 @@
 
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.annotation.Resource;
-import javax.sql.DataSource;
-
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.common.test.util.AttributeTester;
+import org.kuali.student.common.test.util.ListOfStringTester;
+import org.kuali.student.common.test.util.MetaTester;
+import org.kuali.student.common.test.util.RelationshipTester;
 import org.kuali.student.enrollment.class1.lpr.dao.LprDao;
 import org.kuali.student.enrollment.class1.lpr.service.impl.mock.LprTestDataLoader;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
-import org.kuali.student.enrollment.test.util.AttributeTester;
-import org.kuali.student.enrollment.test.util.ListOfStringTester;
-import org.kuali.student.enrollment.test.util.MetaTester;
-import org.kuali.student.enrollment.test.util.RelationshipTester;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
+
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:lpr-test-context.xml" })
@@ -71,7 +63,7 @@ import org.springframework.transaction.support.TransactionTemplate;
  * 
  * We can also go behind and check out the resultant database content for consistency.
  * 
- * @author ocleirig
+ * @author Kuali Student Team
  *
  */
 public class TestLprServiceTransactionallyImpl {
@@ -87,7 +79,7 @@ public class TestLprServiceTransactionallyImpl {
 		this.lprService = lprService;
 	}
 
-	@Resource
+	@Resource(name="LprService")
 	private LprService lprService;
 
 	@Resource

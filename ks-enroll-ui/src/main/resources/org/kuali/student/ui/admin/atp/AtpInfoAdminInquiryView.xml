@@ -26,7 +26,7 @@
 	<value>classpath:org/kuali/student/ui/admin/atp/AtpInfoAdminInquiryView.xml</value>
 	********************************************** -->
 	<!-- InquiryView -->
-	<bean id="KS-AtpInfo-AdminInquiryView" parent="KSInquiryView"
+	<bean id="KS-AtpInfo-AdminInquiryView" parent="KS-Uif-InquiryView"
 		p:title="AtpInfo Inquiry"
 		p:dataObjectClassName="org.kuali.student.r2.core.atp.dto.AtpInfo"
 		p:viewHelperServiceClass="org.kuali.student.ui.admin.atp.AtpInfoAdminInquirableImpl">

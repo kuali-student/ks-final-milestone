@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
     <!--
      Copyright 2007-2012 The Kuali Foundation
 
@@ -22,11 +23,12 @@
     <!--<import resource="classpath:ks-FormatOfferingInfo-dictionary.xml"/>-->
     <!--<import resource="classpath:UifKSDefinitions.xml"/>-->
 
+
     <!-- LookupView -->
-    <bean id="KS-FormatOfferingInfo-LookupView" parent="KSLookupView"
-        p:headerText="Format Offering Info Lookup"
-        p:dataObjectClassName="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo">
-        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.FormatOfferingInfoLookupableImpl"/>
+    <bean id="KS-FormatOfferingInfo-LookupView" parent="KS-Uif-LookupView">
+        <property name="headerText" value="Format Offering Info Lookup " />
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.FormatOfferingInfoLookupableImpl" />
 
         <property name="criteriaFields">
             <list>
@@ -44,8 +46,45 @@
         </property>
     </bean>
 
+    <!-- LookupView By Type -->
+    <bean id="KS-FormatOfferingInfoByType-LookupView" parent="KS-Uif-LookupView">
+        <property name="headerText" value="Format Offering Info Lookup by Type" />
+        <property name="viewName" value="KS-FormatOfferingInfoByType-LookupView"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.FormatOfferingInfoLookupableImpl"/>
+
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey" p:label="Type" p:labelPlacement="LEFT" p:required="true">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatOfferingInfoByTypeKeyValues"  p:addBlankOption="false"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="id" />
+                <bean parent="Uif-DataField" p:propertyName="name" />
+                <bean parent="Uif-DataField" p:propertyName="formatId" />
+                <bean parent="Uif-DataField" p:propertyName="courseOfferingId" />
+                <bean parent="Uif-DataField" p:propertyName="termId" />
+            </list>
+        </property>
+    </bean>
+
     <!-- InquiryView -->
-    <bean id="FormatOfferingInfo-InquiryView" parent="KSInquiryView">
+    <bean id="FormatOfferingInfo-InquiryView" parent="KS-Uif-InquiryView">
         <property name="headerText" value="Format OfferingInfo Inquiry"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.FormatOfferingInfoInquirableImpl" />

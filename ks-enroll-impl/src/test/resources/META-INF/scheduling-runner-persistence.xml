@@ -33,6 +33,8 @@
         <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity</class>
         <class>org.kuali.student.r2.core.class1.state.model.StateEntity</class>
         <class>org.kuali.student.r2.core.class1.state.model.StateAttributeEntity</class>
+        <class>org.kuali.student.r2.core.class1.state.model.StateChangeEntity</class>
+        <class>org.kuali.student.r2.core.class1.state.model.StateChangeAttributeEntity</class>
         <class>org.kuali.student.r2.core.class1.state.model.LifecycleEntity</class>
         <class>org.kuali.student.r2.core.class1.state.model.LifecycleAttributeEntity</class>
         <class>org.kuali.student.r2.common.class1.type.model.TypeEntity</class>
@@ -197,6 +199,7 @@
         <class>org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterEntity</class>
         <class>org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterAttributeEntity</class>
         <class>org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingSetEntity</class>
+        <class>org.kuali.student.enrollment.class2.courseoffering.model.CodeGeneratorLocksEntity</class>
 
         <class>org.kuali.student.r2.core.population.model.PopulationEntity</class>
         <class>org.kuali.student.r2.core.population.model.PopulationRuleEntity</class>
@@ -205,6 +208,8 @@
 
         <class>org.kuali.student.r2.core.scheduling.model.TimeSlotEntity</class>
         <class>org.kuali.student.r2.core.scheduling.model.TimeSlotAttributeEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestSetEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestSetAttributeEntity</class>
         <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestEntity</class>
         <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestAttributeEntity</class>
         <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestComponentEntity</class>

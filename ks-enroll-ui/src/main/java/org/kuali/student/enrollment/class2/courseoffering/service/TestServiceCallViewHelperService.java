@@ -11,5 +11,7 @@ import java.util.List;
  */
 public interface TestServiceCallViewHelperService {
     List<String> getSocIdsByTerm(String termId) throws Exception;
+
+    void verifyPopulations() throws Exception;
 }
 

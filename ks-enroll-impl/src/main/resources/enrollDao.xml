@@ -62,7 +62,11 @@
     
      <bean id="luiDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiDao">
     	<property name="em" ref="enrollEntityManager"/>
-    </bean>   
+    </bean>
+
+    <bean id="luiSetDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiSetDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
 
    <bean id="luiLuiRelationDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao">
     	<property name="em" ref="enrollEntityManager"/>
@@ -199,12 +203,44 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
+    <bean id="scheduleRequestSetDao" class="org.kuali.student.r2.core.scheduling.dao.ScheduleRequestSetDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
     <bean id="scheduleDao" class="org.kuali.student.r2.core.scheduling.dao.ScheduleDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
     <bean id="timeSlotDao" class="org.kuali.student.r2.core.scheduling.dao.TimeSlotDao">
         <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <!-- Room Service -->
+    <bean id="buildingServiceDao" class="org.kuali.student.r2.core.room.dao.BuildingServiceDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="roomServiceDao" class="org.kuali.student.r2.core.room.dao.RoomServiceDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="roomResponsibleOrgDao" class="org.kuali.student.r2.core.room.dao.RoomResponsibleOrgDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="stateChangeDao" class="org.kuali.student.r2.core.class1.state.dao.StateChangeDao">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+
+    <bean id="stateConstraintDao" class="org.kuali.student.r2.core.class1.state.dao.StateConstraintDao">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+
+    <bean id="statePropagationDao" class="org.kuali.student.r2.core.class1.state.dao.StatePropagationDao">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+    <bean id="codeGeneratorLocksDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.CodeGeneratorLocksDao">
+        <property name="em" ref="enrollEntityManager" />
     </bean>
 
 </beans>
