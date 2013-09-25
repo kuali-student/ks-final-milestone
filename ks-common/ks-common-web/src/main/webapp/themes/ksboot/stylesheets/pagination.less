@@ -1,0 +1,165 @@
+@import "variables";
+@import "mixins";
+
+@import url(http://fonts.googleapis.com/css?family=Raleway:300,600);
+
+/*-- Default pagination --*/
+div:not(.pagination-proposed) {
+  .dataTables_paginate {
+    .paginate_disabled_previous,
+    .paginate_enabled_previous,
+    .paginate_disabled_next,
+    .paginate_enabled_next {
+      width:auto;
+      min-width: 40px;
+      text-align: center;
+      height:auto;
+    }
+    /* TWO BUTTON PAGING OPTION */
+    &.paging_two_button {
+      margin-top:0;
+      .paginate_disabled_previous,
+      .paginate_enabled_previous,
+      .paginate_disabled_next,
+      .paginate_enabled_next {
+        margin-left: 0;
+      }
+      a.paginate_disabled_previous,
+      a.paginate_disabled_next {
+        color: #ccc;
+        &:hover {
+          text-decoration: none;
+          cursor:auto;
+        }
+      }
+      .paginate_disabled_next,
+      .paginate_enabled_next {
+        border:1px solid #ccc;
+      }
+    }
+    /* ACTUAL PAGINATION WITH MULTIPLE PAGES */
+    &.paging_full_numbers {
+      & > span,
+      & > span a,
+      & > a.paginate_button {
+        display:block;
+        float:left;
+      }
+      span .paginate_active {
+        color:#888;
+        background-color:#E0E0E0;
+        &:hover {
+          color:#888;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+}/*-- END DEFAULT PAGINATION STYLES --*/
+
+/*-- Custom pagination concept for kitchen sink demo --*/
+.pagination-proposed {
+  .dataTables_paginate {
+    a {
+      color:#08c;
+      display:block;
+      float:left;
+      box-sizing:border-box;
+      border-top:1px solid #ccc;
+      border-right:none;
+      border-bottom:1px solid #ccc;
+      border-left:1px solid #ccc;
+      vertical-align:bottom;
+      text-align:center;
+      font-size:13px;
+      font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight:normal;
+      font-style:normal;
+      line-height:2.5384em;
+      min-width:31px;
+      height:33px;
+      padding:0 5px;
+      margin-left:0;
+      margin-right:0;
+      &:hover {
+        background-color:#eef7ff;
+        color:#005580;
+        cursor:default;
+        text-decoration: none;
+      }
+      /*-- Link states --*/
+      &:focus{
+        outline:none;
+      }
+      &.paginate_button_disabled,
+      &.paginate_disabled_previous,
+      &.paginate_disabled_next {
+        color:#ccc;
+        &:hover {
+          background-color:#fff;
+          color:#ccc;
+          cursor:text;
+        }
+      }
+      i.visually-hidden {
+        position:absolute;
+        text-indent: -999em;
+      }
+      /*Custom font for nav arrows*/
+      &.first,
+      &.previous,
+      &.next,
+      &.last {
+        font-family: 'Raleway', sans-serif;
+        font-weight:300;
+        font-size: 20px;
+        line-height:1.45em;
+      }
+      &.first.paginate_button,
+      &.last.paginate_button {
+        .border-radius-individual(0, 0, 0, 0);
+        position:relative;
+      }
+      &.first.paginate_button:before,
+      &.last.paginate_button:after {
+        content: '|';
+        position:absolute;
+        top:1px;
+        font-weight:600;
+        font-size:10px;
+      }
+      &.first.paginate_button:before {
+        left: 9px;
+      }
+      &.last.paginate_button:after {
+        right:9px;
+      }
+      span a.paginate_active {
+        color:#333;
+        &:hover {
+          cursor:text;
+        }
+      }
+    }
+  } /*-- END .dataTables_paginate--*/
+
+  /*-- Hide all page numbers except the current page --*/
+  &.pagination-show-only-current-page {
+    .dataTables_paginate span a:not(.paginate_active) {
+      display:none;
+    }
+    &.pagination-hide-first-last {
+      .dataTables_paginate span a:not(.paginate_active),
+      .dataTables_paginate a.first,
+      .dataTables_paginate a.last {
+        display:none;
+      }
+      .dataTables_paginate a.next {
+        border-right:1px solid #ccc;
+      }
+    }
+
+  }
+} /*-- END .pagination-proposed--*/
+

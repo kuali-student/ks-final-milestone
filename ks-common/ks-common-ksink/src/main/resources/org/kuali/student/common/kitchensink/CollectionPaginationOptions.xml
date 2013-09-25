@@ -22,7 +22,14 @@
 
     <!--Here is the main page-->
 
-    <bean id="KS-KitchenSink-CollectionPaginationOptions-View-Base" parent="KS-KitchenSink-FormView" />
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-View-Base" parent="KS-KitchenSink-FormView">
+        <property name="additionalCssFiles">
+            <list merge="true">
+                <!--Including for demonstration purposes of new pagination styles in kitchen sink-->
+                <value>themes/ksboot/stylesheets/pagination.css</value>
+            </list>
+        </property>
+    </bean>
 
     <!--Tables to demo pagination-->
 
@@ -112,8 +119,8 @@
                             {
                                 'oPaginate':
                                 {
-                                    'sPrevious' : '&amp;#8249;',
-                                    'sNext' : '&amp;#8250;'
+                                    'sPrevious' : '&amp;#8249; &lt;i class=&#34;visually-hidden&#34;&gt;Previous&lt;/i&gt;',
+                                    'sNext' : '&amp;#8250; &lt;i class=&#34;visually-hidden&#34;&gt;Next&lt;/i&gt;'
                                 }
                             }"
                         />
@@ -146,10 +153,10 @@
                             {
                                 'oPaginate':
                                 {
-                                    'sFirst' : '&amp;#8249;',
-                                    'sPrevious' : '&amp;#8249;',
-                                    'sNext' : '&amp;#8250;',
-                                    'sLast' : '&amp;#8250;'
+                                    'sFirst' : '&amp;#8249; &lt;i class=&#34;visually-hidden&#34;&gt;First&lt;/i&gt;',
+                                    'sPrevious' : '&amp;#8249; &lt;i class=&#34;visually-hidden&#34;&gt;Previous&lt;/i&gt;',
+                                    'sNext' : '&amp;#8250; &lt;i class=&#34;visually-hidden&#34;&gt;Next&lt;/i&gt;',
+                                    'sLast' : '&amp;#8250; &lt;i class=&#34;visually-hidden&#34;&gt;Last&lt;/i&gt;'
                                 }
                             }"
                         />
@@ -183,10 +190,10 @@
                             {
                                 'oPaginate':
                                 {
-                                    'sFirst' : '&amp;#8249;',
-                                    'sPrevious' : '&amp;#8249;',
-                                    'sNext' : '&amp;#8250;',
-                                    'sLast' : '&amp;#8250;'
+                                    'sFirst' : '&amp;#8249; &lt;i class=&#34;visually-hidden&#34;&gt;First&lt;/i&gt;',
+                                    'sPrevious' : '&amp;#8249; &lt;i class=&#34;visually-hidden&#34;&gt;Previous&lt;/i&gt;',
+                                    'sNext' : '&amp;#8250; &lt;i class=&#34;visually-hidden&#34;&gt;Next&lt;/i&gt;',
+                                    'sLast' : '&amp;#8250; &lt;i class=&#34;visually-hidden&#34;&gt;Last&lt;/i&gt;'
                                 }
                             }"
                         />
@@ -221,51 +228,13 @@
                             {
                                 'oPaginate':
                                 {
-                                    'sFirst' : '&amp;#8249;',
-                                    'sPrevious' : '&amp;#8249;',
-                                    'sNext' : '&amp;#8250',
-                                    'sLast' : '&amp;#8250'
+                                    'sFirst' : '&amp;#8249; &lt;i class=&#34;visually-hidden&#34;&gt;First&lt;/i&gt;',
+                                    'sPrevious' : '&amp;#8249; &lt;i class=&#34;visually-hidden&#34;&gt;Previous&lt;/i&gt;',
+                                    'sNext' : '&amp;#8250; &lt;i class=&#34;visually-hidden&#34;&gt;Next&lt;/i&gt;',
+                                    'sLast' : '&amp;#8250; &lt;i class=&#34;visually-hidden&#34;&gt;Last&lt;/i&gt;'
                                 }
                             }"
                         />
-                    </map>
-                </property>
-            </bean>
-        </property>
-    </bean>
-
-    <bean id="KS-KitchenSink-CollectionPaginationOptions-FullNumberImagePaging" parent="KS-KitchenSink-Collection-Base">
-        <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
-        <property name="cssClasses">
-            <list merge="true">
-                <value>pagination-proposed</value>
-                <value>pagination-image-nav</value>
-            </list>
-        </property>
-        <property name="layoutManager.richTable">
-            <!-- see http://datatables.net/ref for all options -->
-            <bean parent="Uif-PagedRichTable">
-                <property name="templateOptions">
-                    <map merge="true">
-                        <entry key="aaSorting" value="[[1,'asc']]"/>
-                        <entry key="bPaginate" value="true"/>
-                        <entry key="sPaginationType" value="full_numbers"/>
-                        <entry key="bFilter" value="false"/>
-                        <!-- bInfo removes "Page x of y" text: -->
-                        <entry key="bInfo" value="false"/>
-                        <!-- bLengthChange removes "Show [10 v] entries" drop-down: -->
-                        <entry key="bLengthChange" value="false"/>
-                        <entry key="oLanguage" value="
-                            {
-                                'oPaginate':
-                                {
-                                    'sFirst' : '&amp;#8249;',
-                                    'sPrevious' : '&amp;#8249;',
-                                    'sNext' : '&amp;#8250;',
-                                    'sLast' : '&amp;#8250;'
-                                }
-                            }"
-                                />
                     </map>
                 </property>
             </bean>
@@ -357,14 +326,6 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="KS-KitchenSink-CollectionPaginationOptions-FullNumberImagePaging-Section">
-                    <property name="items">
-                        <list merge="true">
-                            <bean parent="KS-KitchenSink-MessageField"
-                                  p:messageText="Full Number paging using images for navigation."/>
-                        </list>
-                    </property>
-                </bean>
             </list>
         </property>
     </bean>
@@ -425,14 +386,6 @@
         <property name="items">
             <list>
                 <ref bean="KS-KitchenSink-CollectionPaginationOptions-FullNumberCurrentPageNoFirstLastPaging"/>
-            </list>
-        </property>
-    </bean>
-    <bean id="KS-KitchenSink-CollectionPaginationOptions-FullNumberImagePaging-Section" parent="Uif-VerticalBoxSection"
-          p:headerText="" p:header.render="false">
-        <property name="items">
-            <list>
-                <ref bean="KS-KitchenSink-CollectionPaginationOptions-FullNumberImagePaging"/>
             </list>
         </property>
     </bean>
