@@ -294,6 +294,8 @@ public interface CommentService extends DictionaryService {
      * performed by setting the validationType to the current object.
      *
      * @param validationTypeKey identifier of the extent of validation
+     * @param commentTypeKey    the identifier for the Comment
+     *                          Type to be validated
      * @param commentInfo       comment information to be tested
      * @param contextInfo       Context information containing the principalId and locale
      *                          information about the caller of service operation
@@ -304,6 +306,7 @@ public interface CommentService extends DictionaryService {
      * @throws OperationFailedException  unable to complete request
      */
     public List<ValidationResultInfo> validateComment(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                      @WebParam(name = "commentTypeKey") String commentTypeKey,
                                                       @WebParam(name = "commentInfo") CommentInfo commentInfo,
                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
