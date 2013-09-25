@@ -35,6 +35,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.util.SearchRequestHelper;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -359,7 +360,12 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                         if(!isCrossListed){
                             //Only do this for the root lui to avoid duplication
                             SearchResultCellInfo orgCell = luiIds2OrgCells.get(courseOfferingId);
-                            orgCell.setValue(orgCell.getValue()+","+deploymentOrg);
+                            if (orgCell != null && orgCell.getValue() != null) {
+                                String[] deploymentOrgs = new String[] {orgCell.getValue()};
+                                if (!Arrays.asList(deploymentOrgs).contains(deploymentOrg)) {
+                                    orgCell.setValue(orgCell.getValue()+","+deploymentOrg);
+                                }
+                            }
                             //Skip processing the rest of this record because multiple orgIDs are rolled up in the query
                         }
                     }
