@@ -113,8 +113,15 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
     private String unitsContentOwnerToAdd;
     
     private List<KeyValue> unitsContentOwner;
-    
-    public void setUnitsContentOwnerToAdd(final String KeyValue) {
+	
+	public static final CourseInfoMaintainable getInstance() {
+		if (instance == null) {
+			instance = new CourseInfoMaintainableImpl();
+		}
+		return instance;
+	}
+
+    public void setUnitsContentOwnerToAdd(final String unitsContentOwnerToAdd) {
         this.unitsContentOwnerToAdd = unitsContentOwnerToAdd;
     }
 

@@ -15,7 +15,7 @@
  */
 package org.kuali.student.cm.course.controller;
 
-import static org.kuali.student.logging.FormattedLogger.error;
+import static org.kuali.student.logging.FormattedLogger.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -544,21 +544,30 @@ public class CourseController extends MaintenanceDocumentController {
                                                 final BindingResult result,
                                                 final HttpServletRequest request,
                                                 final HttpServletResponse response) {
+        info("Adding a unitsContentOwner");
         final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
         if (maintainable.getUnitsContentOwnerToAdd() == null) {
+            info("Units Content Owner is null");
             return getUIFModelAndView(form);
         }
 
         final String toAdd = maintainable.getUnitsContentOwnerToAdd();
-        
+        info("Adding ", toAdd);
         maintainable.getUnitsContentOwner().add(getOrganizationBy(maintainable.getCourse().getSubjectArea(), toAdd));
         maintainable.setUnitsContentOwnerToAdd("");
         
         return getUIFModelAndView(form);
     }
 
-    public KeyValue getOrganizationBy(final String code, final String orgId) {
 
+    /**
+     *
+     * @param code
+     * @param orgId
+     * @return KeyValue
+     */
+    protected KeyValue getOrganizationBy(final String code, final String orgId) {
+        debug("Using code: %s and orgId: %s for the search", code, orgId);
         final SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
         searchRequest.addParam("subjectCode.queryParam.code", code);
@@ -567,6 +576,7 @@ public class CourseController extends MaintenanceDocumentController {
         try {
         	for (final SearchResultRowInfo result 
                      : getSubjectCodeService().search(searchRequest, ContextUtils.getContextInfo()).getRows()) {
+
                 String subjectCodeId = "";
                 String subjectCodeShortName = "";
                 String subjectCodeOptionalLongName = "";
@@ -583,12 +593,14 @@ public class CourseController extends MaintenanceDocumentController {
                     	subjectCodeType = resultCell.getValue();
                     }
                 }
-                return new ConcreteKeyValue(subjectCodeId, subjectCodeOptionalLongName);
+                return new ConcreteKeyValue(subjectCodeOptionalLongName, subjectCodeId);
             }
         } catch (Exception e) {
         	error("Error building KeyValues List %s", e);
             throw new RuntimeException(e);
         }
+        
+        info("Returning a null from org search");
         return null;
     }
 

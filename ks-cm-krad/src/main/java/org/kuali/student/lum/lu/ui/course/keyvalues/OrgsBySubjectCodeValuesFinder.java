@@ -15,8 +15,7 @@
 
 package org.kuali.student.lum.lu.ui.course.keyvalues;
 
-import static org.kuali.student.logging.FormattedLogger.error;
-import static org.kuali.student.logging.FormattedLogger.info;
+import static org.kuali.student.logging.FormattedLogger.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +82,7 @@ public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
                 }
                 departments.add(new ConcreteKeyValue(subjectCodeId, subjectCodeOptionalLongName));
             }
-            info("Returning %s", departments);
+            debug("Returning %s", departments);
 
         	return departments;
         } catch (Exception e) {

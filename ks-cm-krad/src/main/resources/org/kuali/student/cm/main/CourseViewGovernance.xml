@@ -62,19 +62,45 @@
                                     <bean parent="Uif-DropdownControl" />
                                 </property>                            
                             </bean>
-                            <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Add" p:methodToCall="addUnitsContentOwner" />
+                            <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Add" p:methodToCall="addUnitsContentOwner" />
                         </list>
                     </property>
                 </bean>
 
-                <bean parent="Uif-ListCollectionGroup">
-                    <property name="headerText" value="Curriculum Oversight" />
-                    <property name="collectionObjectClass" value="org.kuali.rice.core.api.util.KeyValue" />
-                    <property name="propertyName" value="unitsContentOwner" />
-                    <property name="renderLineActions" value="true" />
+                <bean parent="Uif-ListCollectionGroup"
+                      p:propertyName="unitsContentOwner"
+                      p:headerText="Curriculum Oversight"
+                      p:collectionObjectClass="org.kuali.rice.core.api.util.ConcreteKeyValue"
+                      p:instructionalText="This is the organization(s) responsible for the content of the course. This selection will determine the workflow/approval process for this proposal.">
+                    <!--
+                    <property name="addLineItems">
+                        <list>
+                            <bean parent="Uif-InputField-LabelTop" 
+                                  p:propertyName="unitsContentOwnerToAdd">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.OrgsBySubjectCodeValuesFinder"
+                                          p:blankOption="true" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" />
+                                </property>                            
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="addLineActions">
+                        <list>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Add" p:methodToCall="addUnitsContentOwner" />
+                        </list>
+                    </property>
+                    -->
+                    <property name="lineActions">
+                        <list>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="delete"/>
+                        </list>
+                    </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:labelRendered="false" p:propertyName="value"/>
+                            <bean parent="Uif-DataField" p:labelRendered="false" p:propertyName="key"/>
                         </list>
                     </property>
                 </bean>
