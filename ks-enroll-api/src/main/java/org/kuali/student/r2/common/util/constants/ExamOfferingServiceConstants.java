@@ -41,6 +41,10 @@ public class ExamOfferingServiceConstants {
     /////////////////
     // STATES
     /////////////////
+    public static final String EXAM_OFFERING_DRAFT_STATE_KEY = "kuali.lui.exam.offering.state.draft";
+    public static final String EXAM_OFFERING_OFFERED_STATE_KEY = "kuali.lui.exam.offering.state.offered";
+    public static final String EXAM_OFFERING_SUSPENDED_STATE_KEY = "kuali.lui.exam.offering.state.suspended";
+    public static final String EXAM_OFFERING_CANCELED_STATE_KEY = "kuali.lui.exam.offering.state.canceled";
 
     public static final String EXAM_OFFERING_SCHEDULING_EXEMPT_STATE_KEY = "kuali.lui.exam.offering.scheduling.state.exempt";
     public static final String EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY = "kuali.lui.exam.offering.scheduling.state.unscheduled";
