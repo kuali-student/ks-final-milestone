@@ -18,12 +18,10 @@ package org.kuali.student.r2.core.comment.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.util.UUIDHelper;
@@ -248,7 +246,7 @@ public class CommentServiceMapImpl implements MockService, CommentService
 	}
 	
 	@Override
-	public List<ValidationResultInfo> validateComment(String validationTypeKey, CommentInfo commentInfo, ContextInfo contextInfo)
+	public List<ValidationResultInfo> validateComment(String validationTypeKey, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo)
 		throws DoesNotExistException
 		      ,InvalidParameterException
 		      ,MissingParameterException
