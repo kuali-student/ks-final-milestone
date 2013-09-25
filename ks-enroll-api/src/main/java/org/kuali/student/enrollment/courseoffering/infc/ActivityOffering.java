@@ -43,7 +43,6 @@ public interface ActivityOffering extends IdEntity {
      * Format offering Name used to create this activity
      *
      * @name Format Offering Name
-     * @required
      * @readonly
      */
     public String getFormatOfferingName();
@@ -64,7 +63,6 @@ public interface ActivityOffering extends IdEntity {
      * offering.
      * 
      * @name Term Id
-     * @required
      * @readonly
      * @impl map to Lui.getAtpId
      */
@@ -77,7 +75,6 @@ public interface ActivityOffering extends IdEntity {
      * offering.
      *
      * @name Term Code
-     * @required
      * @readonly
      * @impl map to Lui.getAtpCode
      */
@@ -92,13 +89,13 @@ public interface ActivityOffering extends IdEntity {
     public String getActivityCode();
 
     /**
-     * Gets the schedule Id for this activity offering.
+     * Gets the schedule Ids for this activity offering.
      * 
      * No value will exist until the scheduling process has been completed for this activity offering.
      *
-     * @name Schedule Id
+     * @name Schedule Ids
      */
-    public String getScheduleId();
+    public List<String> getScheduleIds();
 
     /**
      * Indicates where this activity offering is in the scheduling process.
@@ -113,7 +110,7 @@ public interface ActivityOffering extends IdEntity {
      * Indicates that the course is an Honors Course.
      *
      * @name Is Honors Offering
-     * @required
+     *
      */
     public Boolean getIsHonorsOffering();
 
@@ -150,7 +147,6 @@ public interface ActivityOffering extends IdEntity {
      * Course Offering code the activity is being offered in.
      *
      * @name Course Offering Code
-     * @required
      * @readonly
      * @impl maps to the containing formatOffering's courseOffering's code
      */
@@ -160,30 +156,10 @@ public interface ActivityOffering extends IdEntity {
      * Course Offering title the activity is being offered in.
      *
      * @name Course Offering Title
-     * @required
      * @readonly
      * @impl maps to the containing formatOffering's courseOffering's title
      */
     public String getCourseOfferingTitle();
-
-    /********************** Final Exam Information ******************/
-    /**
-     * Start time of final exam
-     * @name Final Exam StartTime
-     */
-    public Date getFinalExamStartTime();
-
-    /**
-     * End time of final exam.
-     * @name Final Exam EndTime
-     */
-    public Date getFinalExamEndTime();
-
-    /**
-     * Space code where final exam will be conducted
-     * @name Final Exam Space Code
-     */
-    public String getFinalExamSpaceCode();
 
     /********************* Delivery Logistics **********************/
     /**
@@ -250,54 +226,14 @@ public interface ActivityOffering extends IdEntity {
      * @name Activity Offering URL
      */
     public String getActivityOfferingURL();
-    
-    /**
-     * Indicates whether a RegistrationGroup has a waitlist.
-     *
-     * @name Has Waitlist
-     * @required
-     * @impl maps to Lui.hasWaitlist
-     */
-    public Boolean getHasWaitlist();
 
     /**
-     * Indicates the type of waitlist as it relates to processing
-     * students on and off.
+     * Indicates that the activity offering has one or more shared delivery logistics.
+     * This is a derived flag, managed without persistence
      *
-     * @name Waitlist Type
-     * @impl maps to Lui.waitlistTypeKey
+     * @name Is Colocated
+     * @readOnly
      */
-    public String getWaitlistTypeKey();
-
-    /**
-     * Maximum number of students to be allowed on the wait list.
-     *
-     * @name Waitlist Maximum
-     * @impl maps to Lui.waitlistMaximum
-     */
-    public Integer getWaitlistMaximum();    
-
-    /**
-     * Indicates if the waitlist requires checkin.
-     *
-     * @name Is Waitlist Checkin Required
-     * @required
-     * @impl maps to Lui.isWaitlistCheckinRequired
-     */
-    public Boolean getIsWaitlistCheckinRequired();
-    
-    /**
-     * Frequency for the waitlist checkin.
-     *
-     * @name Waitlist Checkin Frequency 
-     * @impl maps to Lui.waitlistCheckinFrequency
-     */
-    public TimeAmount getWaitlistCheckinFrequency();
-
-    /**
-     * Indicates that the activity offering is part of a ColocatedOfferingSet.
-     * @required
-     */
-    public Boolean getIsPartOfColocatedOfferingSet();
+    public Boolean getIsColocated();
 
 }

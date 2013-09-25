@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.student.api</groupId>
         <artifactId>ks-api</artifactId>
-        <version>2.0.0-KSAP-SNAPSHOT</version>
+        <version>2.0.0-M7</version>
     </parent>
     <artifactId>ks-enroll-api</artifactId>
     <name>KS Enroll API</name>
@@ -228,7 +228,7 @@
                         <id>academicCalendarService-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
-                            <className>org.kuali.student.enrollment.acal.service.AcademicCalendarService</className>
+                            <className>org.kuali.student.r2.core.acal.service.AcademicCalendarService</className>
                             <genWsdl>true</genWsdl>
                             <verbose>true</verbose>
                         </configuration>
@@ -297,10 +297,10 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>courseWaitlistService-wsdl</id>
+                        <id>courseWaitListService-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
-                            <className>org.kuali.student.enrollment.coursewaitlist.service.CourseWaitlistService</className>
+                            <className>org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService</className>
                             <genWsdl>true</genWsdl>
                             <verbose>true</verbose>
                         </configuration>

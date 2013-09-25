@@ -48,5 +48,11 @@ public class AcademicRecordServiceConstants {
     public static final String REF_OBJECT_URI_STUDENT_RANK = NAMESPACE + "/" + StudentRankInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_STUDENT_TEST_SCORE_RECORD = NAMESPACE + "/" + StudentTestScoreRecordInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_STUDENT_TRANSFER_CREDIT_RECORD = NAMESPACE + "/" + StudentTransferCreditRecordInfo.class.getSimpleName();
+
+    /**
+     * Types
+     */
+    public static final String ACADEMIC_RECORD_CALCULATION_GPA_TYPE_KEY = "kuali.academic.record.type.calculation.gpa";
+
 }
 

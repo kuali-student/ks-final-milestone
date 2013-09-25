@@ -30,6 +30,8 @@
 		<!--  this should be the @Autowired bean -->
 	</bean>
 	
+	<bean id="NotAService" class="org.kuali.student.common.spring.NotAService"/>
+	
 	<!-- The course offering service should be the proxy. -->
 	<bean id="TestBean" class="org.kuali.student.common.spring.TestBean" />
 	

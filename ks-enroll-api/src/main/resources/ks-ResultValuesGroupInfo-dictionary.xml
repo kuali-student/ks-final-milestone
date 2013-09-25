@@ -45,6 +45,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="ResultValuesGroupInfo.key" parent="ResultValuesGroupInfo.key-parent"/>
 	<bean id="ResultValuesGroupInfo.key-parent" abstract="true" parent="ResultValuesGroupInfo.key-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
+        <!-- Result value Groups can be long (the db has 255 chars) -->
+        <property name="maxLength" value="255" />
 	</bean>
 
 	<bean id="ResultValuesGroupInfo.typeKey" parent="ResultValuesGroupInfo.typeKey-parent"/>

@@ -48,7 +48,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         </property>
     </bean>
 
-    <import resource="classpath:ks-dictionary-file-locations.xml"/>
+    <import resource="classpath:ks-core-api-dictionary-file-locations.xml"/>
 
     <!--
       RICE Dictionary service

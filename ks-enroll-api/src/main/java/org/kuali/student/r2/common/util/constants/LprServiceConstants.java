@@ -33,6 +33,7 @@ public class LprServiceConstants {
      */
     public static final String LPR_KEY_PREFIX = "kuali.lpr";
     public static final String INSTRUCTOR_MAIN_TYPE_KEY = "kuali.lpr.type.instructor.main";
+    public static final String COURSE_OFFERING_INSTRUCTOR_MAIN_TYPE_KEY = "kuali.lpr.type.courseoffering.instructor.main";
     public static final String INSTRUCTOR_ASSISTANT_TYPE_KEY = "kuali.lpr.type.instructor.assistant";
     public static final String INSTRUCTOR_SUPPORT_TYPE_KEY = "kuali.lpr.type.instructor.support";
     public static final String REGISTRANT_TYPE_KEY = "kuali.lpr.type.registrant";

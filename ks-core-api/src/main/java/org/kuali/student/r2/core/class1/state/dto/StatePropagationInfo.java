@@ -36,7 +36,7 @@ public class StatePropagationInfo extends IdNamelessEntityInfo implements StateP
         super(statePropagation);
         if (statePropagation != null) {
             this.targetStateChangeId = statePropagation.getTargetStateChangeId();
-            this.stateConstraintIds = new ArrayList<String>(stateConstraintIds);
+            this.stateConstraintIds = new ArrayList<String>(statePropagation.getStateConstraintIds());
         }
     }
 
@@ -52,7 +52,7 @@ public class StatePropagationInfo extends IdNamelessEntityInfo implements StateP
     @Override
     public List<String> getStateConstraintIds() {
         if(this.stateConstraintIds == null) {
-            return new ArrayList<String>();
+            stateConstraintIds = new ArrayList<String>();
         }
         return this.stateConstraintIds;
     }

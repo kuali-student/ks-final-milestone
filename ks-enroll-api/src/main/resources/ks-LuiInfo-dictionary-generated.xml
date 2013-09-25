@@ -19,16 +19,16 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
 
 	<!-- ********************************************************
-		                       WARNING 
+		                       WARNING
 		             DO NOT UPDATE THIS FILE MANUALLY
 		This dictionary file was automatically generated
-		The DictionaryGeneratorMojo reads the service contract 
+		The DictionaryGeneratorMojo reads the service contract
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
 		If this file is out of sync with the contract re-run the mojo.
 
 		To add additional constraints or change these default values (perhaps
-		because the generator is not perfect) please update the corresponding 
+		because the generator is not perfect) please update the corresponding
 		ks-XXXX-dictionary.xml instead of this one.
 	************************************************************* -->
 	<!-- ********************************************************************************************************** -->
@@ -65,7 +65,6 @@ Detailed information about a single LUI.
 				<ref bean="LuiInfo.expirationDate"/>
 				<ref bean="LuiInfo.cluId"/>
 				<ref bean="LuiInfo.atpId"/>
-				<ref bean="LuiInfo.scheduleId"/>
 				<ref bean="LuiInfo.maximumEnrollment"/>
 				<ref bean="LuiInfo.minimumEnrollment"/>
 				<ref bean="LuiInfo.referenceURL"/>
@@ -200,9 +199,11 @@ The LUI identifier.
 						<ref bean="LuiInfo.officialIdentifier.code"/>
 						<ref bean="LuiInfo.officialIdentifier.shortName"/>
 						<ref bean="LuiInfo.officialIdentifier.longName"/>
+                        <ref bean="LuiInfo.officialIdentifier.level"/>
 						<ref bean="LuiInfo.officialIdentifier.division"/>
-						<ref bean="LuiInfo.officialIdentifier.suffixCode"/>
 						<ref bean="LuiInfo.officialIdentifier.variation"/>
+                        <ref bean="LuiInfo.officialIdentifier.suffixCode"/>
+                        <ref bean="LuiInfo.officialIdentifier.orgId"/>
 					</list>
 				</property>
 
@@ -238,7 +239,7 @@ The LUI identifier.
 		<property name="summary">
 			<value>
 The composite string that is used to officially reference or
-publish the LUI. 
+publish the LUI.
 			</value>
 		</property>
 		<property name="label" value="Code"/>
@@ -288,13 +289,30 @@ The Long Name of the LUI.
 		<property name="required" value="false"/>
 	</bean>
 
+    <bean id="LuiInfo.officialIdentifier.level-generated" abstract="true" parent="BaseKuali.string">
+        <property name="name" value="level"/>
+        <property name="shortLabel" value="Level"/>
+        <property name="summary">
+            <value>
+                A code that indicates whether this is introductory, advanced, etc.
+            </value>
+        </property>
+        <property name="label" value="Level"/>
+        <property name="description">
+            <value>
+                A code that indicates whether this is introductory, advanced, etc.
+            </value>
+        </property>
+        <property name="required" value="false"/>
+    </bean>
+
 	<bean id="LuiInfo.officialIdentifier.division-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="division"/>
 		<property name="shortLabel" value="Division"/>
 		<property name="summary">
 			<value>
 A code that indicates what school, program, major, subject
-area, etc. 
+area, etc.
 			</value>
 		</property>
 		<property name="label" value="Division"/>
@@ -306,6 +324,27 @@ area, etc. Examples: &quot;Chem&quot;, &quot;18&quot;.
 		</property>
 		<property name="required" value="false"/>
 	</bean>
+
+    <bean id="LuiInfo.officialIdentifier.variation-generated" abstract="true" parent="BaseKuali.string">
+        <property name="name" value="variation"/>
+        <property name="shortLabel" value="Variation"/>
+        <property name="summary">
+            <value>
+                A number that indicates the sequence or order of versions in
+                cases where several different Clus have the same offical
+                Identifier.
+            </value>
+        </property>
+        <property name="label" value="Variation"/>
+        <property name="description">
+            <value>
+                A number that indicates the sequence or order of versions in
+                cases where several different Clus have the same offical
+                Identifier.
+            </value>
+        </property>
+        <property name="required" value="false"/>
+    </bean>
 
 	<bean id="LuiInfo.officialIdentifier.suffixCode-generated" abstract="true" parent="BaseKuali.code">
 		<property name="name" value="suffixCode"/>
@@ -324,22 +363,18 @@ area, etc. Examples: &quot;Chem&quot;, &quot;18&quot;.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="LuiInfo.officialIdentifier.variation-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="variation"/>
-		<property name="shortLabel" value="Variation"/>
+    <bean id="LuiInfo.officialIdentifier.orgId-generated" abstract="true" parent="BaseKuali.orgId">
+        <property name="name" value="orgId"/>
+        <property name="shortLabel" value="Org Id"/>
 		<property name="summary">
 			<value>
-A number that indicates the sequence or order of versions in
-cases where several different Clus have the same offical
-Identifier.
+                ???
 			</value>
 		</property>
-		<property name="label" value="Variation"/>
+        <property name="label" value="Org Id"/>
 		<property name="description">
 			<value>
-A number that indicates the sequence or order of versions in
-cases where several different Clus have the same offical
-Identifier.
+                ???
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -350,7 +385,7 @@ Identifier.
 		<property name="shortLabel" value="Meta"/>
 		<property name="summary">
 			<value>
-Create and last update info for the structure. 
+Create and last update info for the structure.
 			</value>
 		</property>
 		<property name="label" value="Meta"/>
@@ -476,7 +511,7 @@ The unique identifier for the Canonical Learning Unit
 		<property name="summary">
 			<value>
 Any Clu Clu Relation identifiers on which this instance is
-based. 
+based.
 			</value>
 		</property>
 		<property name="label" value="Clu Clu Relation Ids"/>
@@ -517,7 +552,7 @@ for which this instance is offered.
 		<property name="shortLabel" value="Campus Locations"/>
 		<property name="summary">
 			<value>
-Places where this LUI is offered. 
+Places where this LUI is offered.
 			</value>
 		</property>
 		<property name="label" value="Campus Location Keys"/>
@@ -533,29 +568,31 @@ into a list of Campus Ids when we work that out.
 		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
-	<bean id="LuiInfo.scheduleId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="scheduleId"/>
-		<property name="shortLabel" value="Schedule Id"/>
+    <bean id="LuiInfo.scheduleIds-generated" abstract="true" parent="CollectionDefinition">
+        <property name="name" value="scheduleIds"/>
+        <property name="shortLabel" value="Schedule Ids"/>
 		<property name="summary">
 			<value>
-The Schedule Id.
+                The Schedule Ids
 			</value>
 		</property>
-		<property name="label" value="Schedule Id"/>
+        <property name="label" value="Schedule Ids"/>
+        <property name="elementLabel" value="Schedule Id"/>
 		<property name="description">
 			<value>
-The Schedule Id.
+                The Schedule Ids
 			</value>
 		</property>
-		<property name="required" value="false"/>
-	</bean>
+        <property name="minOccurs" value="0"/>
+        <property name="dataObjectClass" value="java.lang.String"/>
+    </bean>
 
 	<bean id="LuiInfo.luiCodes-generated" abstract="true" parent="CollectionDefinition">
 		<property name="name" value="luiCodes"/>
 		<property name="shortLabel" value="Lui Codes"/>
 		<property name="summary">
 			<value>
-List of LU code info structures. 
+List of LU code info structures.
 			</value>
 		</property>
 		<property name="label" value="codes"/>
@@ -672,7 +709,7 @@ associated logistics - of the Lui.
 		<property name="summary">
 			<value>
 The options/scales that indicate the allowable grades that can
-be awarded or credits applied.  
+be awarded or credits applied.
 
 
 			</value>
@@ -682,7 +719,7 @@ be awarded or credits applied.
 		<property name="description">
 			<value>
 The options/scales that indicate the allowable grades that can
-be awarded or credits applied.  
+be awarded or credits applied.
 
 If the value is set here then the Clu must have a
 grading option or credit options set on the canonical activity.
@@ -721,7 +758,7 @@ These are the related lui types which may be related to this lui, e.g., activty
 		<property name="shortLabel" value="Meta"/>
 		<property name="summary">
 			<value>
-Create and last update info for the structure. 
+Create and last update info for the structure.
 			</value>
 		</property>
 		<property name="label" value="Meta"/>

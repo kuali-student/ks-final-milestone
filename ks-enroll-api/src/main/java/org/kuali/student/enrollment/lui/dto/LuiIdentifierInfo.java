@@ -21,28 +21,23 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
-import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
+import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LuiIdentifierInfo", propOrder = { "id", "typeKey", "stateKey",
-        "code", "shortName", "longName", "division", "suffixCode", 
-        "variation", "meta", "attributes", "_futureElements" })
-
+        "code", "shortName", "longName", "level", "division", "variation", "suffixCode",
+        "orgId", "meta", "attributes", "_futureElements" })
 public class LuiIdentifierInfo 
-    extends TypeStateEntityInfo 
+    extends IdNamelessEntityInfo
     implements LuiIdentifier, Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @XmlAttribute
-    private String id;
 
     @XmlElement 
     private String code;
@@ -53,14 +48,20 @@ public class LuiIdentifierInfo
     @XmlElement
     private String longName;
 
+    @XmlElement
+    private String level;
+
     @XmlElement 
     private String division;
+
+    @XmlElement
+    private String variation;
 
     @XmlElement
     private String suffixCode;
 
     @XmlElement
-    private String variation;
+    private String orgId;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -83,23 +84,14 @@ public class LuiIdentifierInfo
         if(null == luiIdentifier) {
             return;
         }
-
-        this.id = luiIdentifier.getId();
         this.code = luiIdentifier.getCode();
         this.shortName = luiIdentifier.getShortName();
         this.longName = luiIdentifier.getLongName();
+        this.level = luiIdentifier.getLevel();
         this.division = luiIdentifier.getDivision();
         this.suffixCode = luiIdentifier.getSuffixCode();
         this.variation = luiIdentifier.getVariation();
-    }
-
-    @Override
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+        this.orgId = luiIdentifier.getOrgId();
     }
 
     @Override
@@ -130,6 +122,15 @@ public class LuiIdentifierInfo
     }
 
     @Override
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    @Override
     public String getDivision() {
         return division;
     }
@@ -154,5 +155,14 @@ public class LuiIdentifierInfo
 
     public void setVariation(String variation) {
         this.variation = variation;
+    }
+
+    @Override
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
     }
 }

@@ -72,8 +72,18 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
+	<bean id="LuiIdentifierInfo.level" parent="LuiIdentifierInfo.level-parent"/>
+	<bean id="LuiIdentifierInfo.level-parent" abstract="true" parent="LuiIdentifierInfo.level-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
 	<bean id="LuiIdentifierInfo.division" parent="LuiIdentifierInfo.division-parent"/>
 	<bean id="LuiIdentifierInfo.division-parent" abstract="true" parent="LuiIdentifierInfo.division-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="LuiIdentifierInfo.variation" parent="LuiIdentifierInfo.variation-parent"/>
+	<bean id="LuiIdentifierInfo.variation-parent" abstract="true" parent="LuiIdentifierInfo.variation-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
@@ -82,8 +92,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="LuiIdentifierInfo.variation" parent="LuiIdentifierInfo.variation-parent"/>
-	<bean id="LuiIdentifierInfo.variation-parent" abstract="true" parent="LuiIdentifierInfo.variation-generated">
+	<bean id="LuiIdentifierInfo.orgId" parent="LuiIdentifierInfo.orgId-parent"/>
+	<bean id="LuiIdentifierInfo.orgId-parent" abstract="true" parent="LuiIdentifierInfo.orgId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 

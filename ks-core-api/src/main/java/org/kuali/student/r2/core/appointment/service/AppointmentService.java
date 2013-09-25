@@ -52,7 +52,7 @@ import java.util.List;
  */
 @WebService(name = "AppointmentService", serviceName = "AppointmentService", portName = "AppointmentService", targetNamespace = AppointmentServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface AppointmentService {
+public interface AppointmentService extends AppointmentServiceBusinessLogic {
 
     /**
      * Retrieves an Appointment
@@ -252,34 +252,7 @@ public interface AppointmentService {
      */
     public AppointmentInfo createAppointment(@WebParam(name = "personId") String personId, @WebParam(name = "appointmentSlotId") String appointmentSlotId, @WebParam(name = "appointmentTypeKey") String appointmentTypeKey, @WebParam(name = "appointmentInfo") AppointmentInfo appointmentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
-    /**
-     * Generate Appointments for an AppointmentWindow.
-     *
-     * @param appointmentWindowId appointment window to which these appointments belong
-     * @param appointmentTypeKey  appointment type
-     * @param contextInfo         Context information containing the principalId
-     *                            and locale information about the caller of
-     *                            service operation
-     * @return status of the operation (success, failed)
-     * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException        appointmentWindowId or appointmentTypeKey
-     *                                      does not exist
-     * @throws InvalidParameterException    invalid appointmentInfo or
-     *                                      contextInfo
-     * @throws MissingParameterException    personId, appointmentWindowId,
-     *                                      appointmentTypeKey or contextInfo is
-     *                                      missing or null
-     * @throws OperationFailedException     unable to complete request
-     * @throws PermissionDeniedException    an authorization failure occurred
-     * @throws ReadOnlyException            an attempt at supplying information
-     *                                      designated as read only
-     * @impl AppointmentSlots are assumed to be already generated for the
-     * AppointmentWindow
-     * @impl Return the number of appointments created as part of StatusInfo
-     * message field
-     */
-    public StatusInfo generateAppointmentsByWindow(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "appointmentTypeKey") String appointmentTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
-
+   
     /**
      * Updates a relationship between a person and their appointment.
      *
@@ -758,30 +731,7 @@ public interface AppointmentService {
      */
     public AppointmentSlotInfo createAppointmentSlot(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "appointmentSlotTypeKey") String appointmentSlotTypeKey, @WebParam(name = "appointmentSlotInfo") AppointmentSlotInfo appointmentSlotInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
-    /**
-     * Generate AppointmentSlots for the AppointmentWindow using its
-     * AppointmentSlotRule information
-     *
-     * @param appointmentWindowId appointment window to which these slots belong
-     * @param contextInfo         context information containing the principalId
-     *                            and locale information about the caller of
-     *                            service operation
-     * @return created AppointmentSlots for the window using its
-     *         AppointmentSlotRule information
-     * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException        appointmentWindowId does not exist
-     * @throws InvalidParameterException    invalid contextInfo
-     * @throws MissingParameterException    appointmentWindowId or contextInfo
-     *                                      is missing or null
-     * @throws OperationFailedException     unable to complete request
-     * @throws PermissionDeniedException    an authorization failure occurred
-     * @throws ReadOnlyException            an attempt at supplying information
-     *                                      designated as read only
-     * @impl Check out blackout milestone type and corresponding milestones
-     * @impl throw OperationFailedException if unable to create needed slots either because  both EndDate and MaxAppointmentsPerSlot were specified and cannot be satisfied or due to some other reason
-     */
-    public List<AppointmentSlotInfo> generateAppointmentSlotsByWindow(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
-
+   
     /**
      * Updates an appointment slot
      *

@@ -109,8 +109,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="ActivityOfferingInfo.scheduleId" parent="ActivityOfferingInfo.scheduleId-parent"/>
-	<bean id="ActivityOfferingInfo.scheduleId-parent" abstract="true" parent="ActivityOfferingInfo.scheduleId-generated">
+	<bean id="ActivityOfferingInfo.scheduleIds" parent="ActivityOfferingInfo.scheduleIds-parent"/>
+	<bean id="ActivityOfferingInfo.scheduleIds-parent" abstract="true" parent="ActivityOfferingInfo.scheduleIds-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
@@ -169,21 +169,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="ActivityOfferingInfo.finalExamStartTime" parent="ActivityOfferingInfo.finalExamStartTime-parent"/>
-	<bean id="ActivityOfferingInfo.finalExamStartTime-parent" abstract="true" parent="ActivityOfferingInfo.finalExamStartTime-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="ActivityOfferingInfo.finalExamEndTime" parent="ActivityOfferingInfo.finalExamEndTime-parent"/>
-	<bean id="ActivityOfferingInfo.finalExamEndTime-parent" abstract="true" parent="ActivityOfferingInfo.finalExamEndTime-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="ActivityOfferingInfo.finalExamSpaceCode" parent="ActivityOfferingInfo.finalExamSpaceCode-parent"/>
-	<bean id="ActivityOfferingInfo.finalExamSpaceCode-parent" abstract="true" parent="ActivityOfferingInfo.finalExamSpaceCode-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
 	<bean id="ActivityOfferingInfo.activityOfferingURL" parent="ActivityOfferingInfo.activityOfferingURL-parent"/>
 	<bean id="ActivityOfferingInfo.activityOfferingURL-parent" abstract="true" parent="ActivityOfferingInfo.activityOfferingURL-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
@@ -204,43 +189,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="ActivityOfferingInfo.hasWaitlist" parent="ActivityOfferingInfo.hasWaitlist-parent"/>
-	<bean id="ActivityOfferingInfo.hasWaitlist-parent" abstract="true" parent="ActivityOfferingInfo.hasWaitlist-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="ActivityOfferingInfo.waitlistTypeKey" parent="ActivityOfferingInfo.waitlistTypeKey-parent"/>
-	<bean id="ActivityOfferingInfo.waitlistTypeKey-parent" abstract="true" parent="ActivityOfferingInfo.waitlistTypeKey-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="ActivityOfferingInfo.waitlistMaximum" parent="ActivityOfferingInfo.waitlistMaximum-parent"/>
-	<bean id="ActivityOfferingInfo.waitlistMaximum-parent" abstract="true" parent="ActivityOfferingInfo.waitlistMaximum-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="ActivityOfferingInfo.isWaitlistCheckinRequired" parent="ActivityOfferingInfo.isWaitlistCheckinRequired-parent"/>
-	<bean id="ActivityOfferingInfo.isWaitlistCheckinRequired-parent" abstract="true" parent="ActivityOfferingInfo.isWaitlistCheckinRequired-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="ActivityOfferingInfo.waitlistCheckinFrequency" parent="ActivityOfferingInfo.waitlistCheckinFrequency-parent"/>
-	<bean id="ActivityOfferingInfo.waitlistCheckinFrequency-parent" abstract="true" parent="ActivityOfferingInfo.waitlistCheckinFrequency-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="ActivityOfferingInfo.waitlistCheckinFrequency.atpDurationTypeKey" parent="ActivityOfferingInfo.waitlistCheckinFrequency.atpDurationTypeKey-parent"/>
-	<bean id="ActivityOfferingInfo.waitlistCheckinFrequency.atpDurationTypeKey-parent" abstract="true" parent="ActivityOfferingInfo.waitlistCheckinFrequency.atpDurationTypeKey-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="ActivityOfferingInfo.waitlistCheckinFrequency.timeQuantity" parent="ActivityOfferingInfo.waitlistCheckinFrequency.timeQuantity-parent"/>
-	<bean id="ActivityOfferingInfo.waitlistCheckinFrequency.timeQuantity-parent" abstract="true" parent="ActivityOfferingInfo.waitlistCheckinFrequency.timeQuantity-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="ActivityOfferingInfo.isPartOfColocatedOfferingSet" parent="ActivityOfferingInfo.isPartOfColocatedOfferingSet-parent"/>
-	<bean id="ActivityOfferingInfo.isPartOfColocatedOfferingSet-parent" abstract="true" parent="ActivityOfferingInfo.isPartOfColocatedOfferingSet-generated">
+	<bean id="ActivityOfferingInfo.isColocated" parent="ActivityOfferingInfo.isColocated-parent"/>
+	<bean id="ActivityOfferingInfo.isColocated-parent" abstract="true" parent="ActivityOfferingInfo.isColocated-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
@@ -274,3 +224,4 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 </beans>
+

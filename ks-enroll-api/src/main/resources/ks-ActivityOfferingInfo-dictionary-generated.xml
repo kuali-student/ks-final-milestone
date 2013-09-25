@@ -68,7 +68,6 @@ system, each with a meeting pattern.
 				<ref bean="ActivityOfferingInfo.termId"/>
 				<ref bean="ActivityOfferingInfo.termCode"/>
 				<ref bean="ActivityOfferingInfo.activityCode"/>
-				<ref bean="ActivityOfferingInfo.scheduleId"/>
 				<ref bean="ActivityOfferingInfo.schedulingStateKey"/>
 				<ref bean="ActivityOfferingInfo.isHonorsOffering"/>
 				<ref bean="ActivityOfferingInfo.weeklyInclassContactHours"/>
@@ -78,25 +77,17 @@ system, each with a meeting pattern.
 				<ref bean="ActivityOfferingInfo.maximumEnrollment"/>
 				<ref bean="ActivityOfferingInfo.minimumEnrollment"/>
 				<ref bean="ActivityOfferingInfo.isMaxEnrollmentEstimate"/>
-				<ref bean="ActivityOfferingInfo.finalExamStartTime"/>
-				<ref bean="ActivityOfferingInfo.finalExamEndTime"/>
-				<ref bean="ActivityOfferingInfo.finalExamSpaceCode"/>
 				<ref bean="ActivityOfferingInfo.activityOfferingURL"/>
 				<ref bean="ActivityOfferingInfo.courseOfferingId"/>
 				<ref bean="ActivityOfferingInfo.courseOfferingTitle"/>
 				<ref bean="ActivityOfferingInfo.courseOfferingCode"/>
-				<ref bean="ActivityOfferingInfo.hasWaitlist"/>
-				<ref bean="ActivityOfferingInfo.waitlistTypeKey"/>
-				<ref bean="ActivityOfferingInfo.waitlistMaximum"/>
-				<ref bean="ActivityOfferingInfo.isWaitlistCheckinRequired"/>
-				<ref bean="ActivityOfferingInfo.isPartOfColocatedOfferingSet"/>
+                <ref bean="ActivityOfferingInfo.isColocated"/>
 			</list>
 		</property>
 
 		<property name="complexAttributes">
 			<list>
 				<ref bean="ActivityOfferingInfo.descr"/>
-				<ref bean="ActivityOfferingInfo.waitlistCheckinFrequency"/>
 				<ref bean="ActivityOfferingInfo.meta"/>
 			</list>
 		</property>
@@ -209,7 +200,7 @@ Format offering Name used to create this activity
 Format offering Name used to create this activity
 			</value>
 		</property>
-		<property name="required" value="true"/>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="ActivityOfferingInfo.activityId-generated" abstract="true" parent="BaseKuali.string">
@@ -248,7 +239,7 @@ Same as course offering term or a nested term of course
 offering.
 			</value>
 		</property>
-		<property name="required" value="true"/>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="ActivityOfferingInfo.termCode-generated" abstract="true" parent="BaseKuali.code">
@@ -270,7 +261,7 @@ Same as course offering term or a nested term of course
 offering.
 			</value>
 		</property>
-		<property name="required" value="true"/>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="ActivityOfferingInfo.activityCode-generated" abstract="true" parent="BaseKuali.code">
@@ -292,25 +283,27 @@ course offering.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.scheduleId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="scheduleId"/>
-		<property name="shortLabel" value="Schedule Id"/>
+	<bean id="ActivityOfferingInfo.scheduleIds-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="scheduleIds"/>
+		<property name="shortLabel" value="Schedule Ids"/>
 		<property name="summary">
 			<value>
-Gets the schedule Id for this activity offering.
+Gets the schedule Ids for this activity offering.
 
 
 			</value>
 		</property>
-		<property name="label" value="Schedule Id"/>
+		<property name="label" value="Schedule Ids"/>
+		<property name="elementLabel" value="Schedule Id"/>
 		<property name="description">
 			<value>
-Gets the schedule Id for this activity offering.
+Gets the schedule Ids for this activity offering.
 
 No value will exist until the scheduling process has been completed for this activity offering.
 			</value>
 		</property>
-		<property name="required" value="false"/>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
 	<bean id="ActivityOfferingInfo.schedulingStateKey-generated" abstract="true" parent="BaseKuali.string">
@@ -344,7 +337,7 @@ Indicates that the course is an Honors Course.
 Indicates that the course is an Honors Course.
 			</value>
 		</property>
-		<property name="required" value="true"/>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="ActivityOfferingInfo.gradingOptionKeys-generated" abstract="true" parent="CollectionDefinition">
@@ -517,57 +510,6 @@ Is maximum enrollment estimate flag
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.finalExamStartTime-generated" abstract="true" parent="BaseKuali.date">
-		<property name="name" value="finalExamStartTime"/>
-		<property name="shortLabel" value="Final Exam Start Time"/>
-		<property name="summary">
-			<value>
-Start time of final exam
-			</value>
-		</property>
-		<property name="label" value="Final Exam StartTime"/>
-		<property name="description">
-			<value>
-Start time of final exam
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="ActivityOfferingInfo.finalExamEndTime-generated" abstract="true" parent="BaseKuali.date">
-		<property name="name" value="finalExamEndTime"/>
-		<property name="shortLabel" value="Final Exam End Time"/>
-		<property name="summary">
-			<value>
-End time of final exam.
-			</value>
-		</property>
-		<property name="label" value="Final Exam EndTime"/>
-		<property name="description">
-			<value>
-End time of final exam.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="ActivityOfferingInfo.finalExamSpaceCode-generated" abstract="true" parent="BaseKuali.code">
-		<property name="name" value="finalExamSpaceCode"/>
-		<property name="shortLabel" value="Final Exam Space Code"/>
-		<property name="summary">
-			<value>
-Space code where final exam will be conducted
-			</value>
-		</property>
-		<property name="label" value="Final Exam Space Code"/>
-		<property name="description">
-			<value>
-Space code where final exam will be conducted
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
 	<bean id="ActivityOfferingInfo.activityOfferingURL-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="activityOfferingURL"/>
 		<property name="shortLabel" value="Activity Offering URL"/>
@@ -616,7 +558,7 @@ Course Offering title the activity is being offered in.
 Course Offering title the activity is being offered in.
 			</value>
 		</property>
-		<property name="required" value="true"/>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="ActivityOfferingInfo.courseOfferingCode-generated" abstract="true" parent="BaseKuali.code">
@@ -633,176 +575,31 @@ Course Offering code the activity is being offered in.
 Course Offering code the activity is being offered in.
 			</value>
 		</property>
-		<property name="required" value="true"/>
-	</bean>
-
-	<bean id="ActivityOfferingInfo.hasWaitlist-generated" abstract="true" parent="BaseKuali.boolean">
-		<property name="name" value="hasWaitlist"/>
-		<property name="shortLabel" value="Has Waitlist"/>
-		<property name="summary">
-			<value>
-Indicates whether a RegistrationGroup has a waitlist.
-			</value>
-		</property>
-		<property name="label" value="Has Waitlist"/>
-		<property name="description">
-			<value>
-Indicates whether a RegistrationGroup has a waitlist.
-			</value>
-		</property>
-		<property name="required" value="true"/>
-	</bean>
-
-	<bean id="ActivityOfferingInfo.waitlistTypeKey-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="waitlistTypeKey"/>
-		<property name="shortLabel" value="Waitlist Type Key"/>
-		<property name="summary">
-			<value>
-Indicates the type of waitlist as it relates to processing
-students on and off.
-			</value>
-		</property>
-		<property name="label" value="Waitlist Type"/>
-		<property name="description">
-			<value>
-Indicates the type of waitlist as it relates to processing
-students on and off.
-			</value>
-		</property>
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.waitlistMaximum-generated" abstract="true" parent="BaseKuali.integer">
-		<property name="name" value="waitlistMaximum"/>
-		<property name="shortLabel" value="Waitlist Maximum"/>
+	<bean id="ActivityOfferingInfo.isColocated-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isColocated"/>
+		<property name="shortLabel" value="Is Colocated"/>
 		<property name="summary">
 			<value>
-Maximum number of students to be allowed on the wait list.
+Indicates that the activity offering has one or more shared delivery logistics.
+
 			</value>
 		</property>
-		<property name="label" value="Waitlist Maximum"/>
+		<property name="label" value="Is Colocated"/>
 		<property name="description">
 			<value>
-Maximum number of students to be allowed on the wait list.
+Indicates that the activity offering has one or more shared delivery logistics.
+This is a derived flag, managed without persistence
 			</value>
 		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
 		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="ActivityOfferingInfo.isWaitlistCheckinRequired-generated" abstract="true" parent="BaseKuali.boolean">
-		<property name="name" value="isWaitlistCheckinRequired"/>
-		<property name="shortLabel" value="Is Waitlist Checkin Required"/>
-		<property name="summary">
-			<value>
-Indicates if the waitlist requires checkin.
-			</value>
-		</property>
-		<property name="label" value="Is Waitlist Checkin Required"/>
-		<property name="description">
-			<value>
-Indicates if the waitlist requires checkin.
-			</value>
-		</property>
-		<property name="required" value="true"/>
-	</bean>
-
-	<bean id="ActivityOfferingInfo.waitlistCheckinFrequency-generated" abstract="true" parent="ComplexAttributeDefinition">
-		<property name="name" value="waitlistCheckinFrequency"/>
-		<property name="shortLabel" value="Waitlist Checkin Frequency"/>
-		<property name="summary">
-			<value>
-Frequency for the waitlist checkin.
-			</value>
-		</property>
-		<property name="label" value="Waitlist Checkin Frequency"/>
-		<property name="description">
-			<value>
-Frequency for the waitlist checkin.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-		<property name="dataObjectEntry">
-			<bean parent="DataObjectEntry">
-				<property name="name" value="waitlistCheckinFrequency"/>
-				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.TimeAmountInfo"/>
-				<property name="objectLabel" value="Waitlist Checkin Frequency"/>
-				<property name="objectDescription">
-					<value>
-Frequency for the waitlist checkin.
-					</value>
-				</property>
-
-				<property name="attributes">
-					<list>
-						<ref bean="ActivityOfferingInfo.waitlistCheckinFrequency.atpDurationTypeKey"/>
-						<ref bean="ActivityOfferingInfo.waitlistCheckinFrequency.timeQuantity"/>
-					</list>
-				</property>
-
-				<property name="complexAttributes">
-					<list>
-					</list>
-				</property>
-
-				<property name="collections">
-					<list>
-					</list>
-				</property>
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="ActivityOfferingInfo.waitlistCheckinFrequency.atpDurationTypeKey-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="atpDurationTypeKey"/>
-		<property name="shortLabel" value="Atp Duration Type Key"/>
-		<property name="summary">
-			<value>
-The kind of units associated with the quantity, such as
-Semesters.
-			</value>
-		</property>
-		<property name="label" value="Academic Time Period Duration Type Key"/>
-		<property name="description">
-			<value>
-The kind of units associated with the quantity, such as
-Semesters.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="ActivityOfferingInfo.waitlistCheckinFrequency.timeQuantity-generated" abstract="true" parent="BaseKuali.integer">
-		<property name="name" value="timeQuantity"/>
-		<property name="shortLabel" value="Time Quantity"/>
-		<property name="summary">
-			<value>
-The amount of time.
-			</value>
-		</property>
-		<property name="label" value="Time Quantity"/>
-		<property name="description">
-			<value>
-The amount of time.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="ActivityOfferingInfo.isPartOfColocatedOfferingSet-generated" abstract="true" parent="BaseKuali.boolean">
-		<property name="name" value="isPartOfColocatedOfferingSet"/>
-		<property name="shortLabel" value="Is Part Of Colocated Offering Set"/>
-		<property name="summary">
-			<value>
-Indicates that the activity offering is part of a ColocatedOfferingSet.
-			</value>
-		</property>
-		<property name="label" value="Is Part Of Colocated Offering Set"/>
-		<property name="description">
-			<value>
-Indicates that the activity offering is part of a ColocatedOfferingSet.
-			</value>
-		</property>
-		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="ActivityOfferingInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">

@@ -39,6 +39,7 @@ import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.dto.StatePropagationInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 
+import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -59,6 +60,7 @@ public class StateServiceMockImpl
 
     private final Map<String, LifecycleInfo> lifecycleMap = new HashMap<String, LifecycleInfo>();
     private final Map<String, Collection<String>> lifeCycleStatesMap = new HashMap<String, Collection<String>>();
+    private final Map<String, Collection<String>> initialStatesMap = new HashMap<String, Collection<String>>();
     private final Map<String, StateInfo> stateMap = new HashMap<String, StateInfo>();
     private Map<String, StateChangeInfo> stateChangeMap = new LinkedHashMap<String, StateChangeInfo>();
     private Map<String, StateConstraintInfo> stateConstraintMap = new LinkedHashMap<String, StateConstraintInfo>();
@@ -69,6 +71,7 @@ public class StateServiceMockImpl
 	public void clear() {
     	this.lifecycleMap.clear();
     	this.lifeCycleStatesMap.clear();
+        this.initialStatesMap.clear();
     	this.stateMap.clear();
         this.stateChangeMap.clear();
         this.stateConstraintMap.clear();
@@ -146,6 +149,7 @@ public class StateServiceMockImpl
         copy.setMeta(newMeta(contextInfo));
         lifecycleMap.put(copy.getKey(), copy);
         this.lifeCycleStatesMap.put(lifecycleKey, new HashSet<String>());
+        this.initialStatesMap.put(lifecycleKey, new HashSet<String>());
 
         return new LifecycleInfo(copy);
     }
@@ -173,12 +177,13 @@ public class StateServiceMockImpl
     public StatusInfo deleteLifecycle(String lifecycleKey, ContextInfo contextInfo) 
         throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         
-        if (this.lifecycleMap.get(lifecycleKey) != null) {
+        if (this.lifecycleMap.get(lifecycleKey) == null) {
             throw new DoesNotExistException(lifecycleKey + " does not exist");
         }
 
         this.lifecycleMap.remove(lifecycleKey);
         this.lifeCycleStatesMap.remove(lifecycleKey);
+        this.initialStatesMap.remove(lifecycleKey);
 
         return newStatus();
     }
@@ -212,11 +217,28 @@ public class StateServiceMockImpl
         throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         Collection<String> stateKeys = this.lifeCycleStatesMap.get(lifecycleKey);
-        if (stateMap == null) {
-            throw new DoesNotExistException(lifecycleKey + " not found");
-        }
 
         return getStatesByKeys(new ArrayList<String>(stateKeys), contextInfo);
+    }
+
+    @Override
+    public List<String> getInitialStatesByLifecycle(String lifecycleKey, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+
+        Collection<String> initialStateKeys = this.initialStatesMap.get(lifecycleKey);
+
+        ArrayList<String> initialStates = new ArrayList<String>();
+
+        if (initialStateKeys != null) {
+            initialStates.addAll(initialStateKeys);
+        }
+
+        return initialStates;
     }
 
     public List<String> searchForStateKeys(QueryByCriteria criteria, ContextInfo contextInfo) 
@@ -267,12 +289,15 @@ public class StateServiceMockImpl
         }
             
         // TODO call validate 
-
+        stateInfo.setMeta(newMeta(contextInfo));
         this.stateMap.put(stateKey, stateInfo);
         this.lifeCycleStatesMap.get(lifecycleKey).add(stateKey);
 
+        if( stateInfo.getIsInitialState() != null && stateInfo.getIsInitialState() ) this.addInitialStateToLifecycle( stateKey, lifecycleKey, contextInfo );
+
         return stateInfo;
     }
+
 
     @Override
     public StateInfo updateState(String stateKey, StateInfo stateInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
@@ -294,8 +319,14 @@ public class StateServiceMockImpl
             throw new DataValidationErrorException("attempt to set a lifecycle in state");
         }
 
-        this.stateMap.put(oldState.getKey(), stateInfo);
-        return stateInfo;
+        StateInfo copy = new StateInfo(stateInfo);
+
+        if (!oldState.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
+            throw new VersionMismatchException(oldState.getMeta().getVersionInd());
+        }
+        copy.setMeta(updateMeta(oldState.getMeta(), contextInfo));
+        this.stateMap.put(stateInfo.getKey(), copy);
+        return new StateInfo(copy);
     }
 
     @Override
@@ -308,6 +339,34 @@ public class StateServiceMockImpl
 
         this.stateMap.remove(stateKey);
         this.lifeCycleStatesMap.get(state.getLifecycleKey()).remove(stateKey);
+
+        return new StatusInfo();
+    }
+
+    @Override
+    public StatusInfo addInitialStateToLifecycle(@WebParam(name = "initialStateKey") String initialStateKey, @WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        StateInfo stateKey = this.stateMap.get(initialStateKey);
+        if (stateKey == null) {
+            throw new DoesNotExistException(initialStateKey + " does not exist");
+        }
+
+        this.initialStatesMap.get(lifecycleKey).add(initialStateKey);
+
+        return new StatusInfo();
+    }
+
+    @Override
+    public StatusInfo removeInitialStateFromLifecycle(@WebParam(name = "initialStateKey") String initialStateKey, @WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        StateInfo stateKey = this.stateMap.get(initialStateKey);
+        if (stateKey == null) {
+            throw new DoesNotExistException(initialStateKey + " does not exist");
+        }
+
+        this.initialStatesMap.remove(lifecycleKey);
 
         return new StatusInfo();
     }

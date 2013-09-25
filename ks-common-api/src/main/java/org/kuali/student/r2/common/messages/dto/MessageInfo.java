@@ -40,7 +40,8 @@ import org.kuali.student.r2.common.messages.infc.Message;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MessageInfo", propOrder = { 
-                "messageKey", "locale", "groupName", "value" , "_futureElements" }) 
+                "messageKey", "locale", "groupName", "value", "_futureElements" })
+
 public class MessageInfo 
     implements Message, Serializable {
 

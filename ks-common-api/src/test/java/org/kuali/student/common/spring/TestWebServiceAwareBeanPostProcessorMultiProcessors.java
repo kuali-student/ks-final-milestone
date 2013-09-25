@@ -78,7 +78,7 @@ public class TestWebServiceAwareBeanPostProcessorMultiProcessors {
 		
 		String messageServiceClassName = bean.getMessageService().getClass().getName();
 		
-		Assert.assertTrue(messageServiceClassName.startsWith("$Proxy"));
+		Assert.assertTrue("class name must contain $Proxy", messageServiceClassName.contains("$Proxy"));
 		
 	}
 }

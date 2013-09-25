@@ -16,17 +16,13 @@
 
 package org.kuali.student.enrollment.lui.infc;
 
-import java.util.List;
-
-import org.kuali.student.r2.common.infc.HasId;
-import org.kuali.student.r2.common.infc.TypeStateEntity;
+import org.kuali.student.r2.common.infc.IdNamelessEntity;
 
 
 /**
  * Detailed information about a LUI Identifier.
  */
-public interface LuiIdentifier 
-    extends HasId, TypeStateEntity {
+public interface LuiIdentifier extends IdNamelessEntity {
 
     /**
      * The composite string that is used to officially reference or
@@ -54,6 +50,13 @@ public interface LuiIdentifier
     public String getLongName();
 
     /**
+     * A code that indicates whether this is introductory, advanced, etc.
+     *
+     * @name Level
+     */
+    public String getLevel();
+
+    /**
      * A code that indicates what school, program, major, subject
      * area, etc. Examples: "Chem", "18".
      *
@@ -77,4 +80,11 @@ public interface LuiIdentifier
      * @name Variation
      */
     public String getVariation();
+
+    /*
+     * The identifier of the organization associated with this luiIdentifier.
+     * @name Org Id
+     * @readOnly
+     */
+    public String getOrgId();
 }

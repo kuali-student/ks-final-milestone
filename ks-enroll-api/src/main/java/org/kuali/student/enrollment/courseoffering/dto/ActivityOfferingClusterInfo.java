@@ -78,11 +78,14 @@ public class ActivityOfferingClusterInfo
             return;      
         }
 
+        // Copy rest of fields--should be a deep copy
+        setPrivateName(template.getPrivateName()); // Strings are immutable, so no need to deep copy.
         this.formatOfferingId = template.getFormatOfferingId();
         if (template.getActivityOfferingSets() != null) {
+            // Note: getActivityOfferingSets() always returns a non-null object (see impl below)
             this.activityOfferingSets = new ArrayList<ActivityOfferingSetInfo>(template.getActivityOfferingSets().size());
-            for (ActivityOfferingSet aotemplate : template.getActivityOfferingSets()) {
-                this.activityOfferingSets.add(new ActivityOfferingSetInfo(aotemplate));
+            for (ActivityOfferingSet aoTemplateSet : template.getActivityOfferingSets()) {
+                this.activityOfferingSets.add(new ActivityOfferingSetInfo(aoTemplateSet));
             }
         }
     }

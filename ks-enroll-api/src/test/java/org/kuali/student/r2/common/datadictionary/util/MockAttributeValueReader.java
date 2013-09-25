@@ -70,7 +70,7 @@ public class MockAttributeValueReader implements AttributeValueReader
 
     @Override
     public String getPath() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return getAttributeName();
     }
 
     @Override

@@ -293,6 +293,22 @@ public interface StateService {
      */
     public List<StateInfo> getStatesByLifecycle(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * This method returns a list of initial valid States that belong to a lifecycle. For e.g
+     * 'kuali.lui.activity.offering.state.draft' is the initial state of Activity Offering
+     *
+     * @param lifecycleKey Key identifying the lifecycle
+     * @param contextInfo  information containing the principalId and locale
+     *                     information about the caller of service operation
+     * @return the list of state keys identifying initial states of the lifecycle
+     * @throws DoesNotExistException     lifecycleKey is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException lifecycleKey is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getInitialStatesByLifecycle(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
     //
     // Search methods for State Key Pattern.
     //
@@ -427,6 +443,65 @@ public interface StateService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public StatusInfo deleteState(@WebParam(name = "stateKey") String stateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Add an initial state to a lifecycle
+     *
+     * @param initialStateKey       unique key of the state
+     * @param lifecycleKey         unique key of the lifecycle to which the
+     *                             initial state is added
+     * @param contextInfo          Context information containing the
+     *                             principalId and locale information about the
+     *                             caller of service operation
+     * @return status              status of the operation (success, failed)
+     * @throws AlreadyExistsException    initialStateKey already related to
+     *                                   activityOfferingId
+     * @throws DoesNotExistException     initialStateKey or lifecycleKey
+     *                                   not found
+     * @throws InvalidParameterException invalid initialStateKey,
+     *                                   lifecycleKey, or contextInfo
+     * @throws MissingParameterException missing initialStateKey,
+     *                                   lifecycleKey, or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo addInitialStateToLifecycle(@WebParam(name = "initialStateKey") String initialStateKey,
+                                                              @WebParam(name = "lifecycleKey") String lifecycleKey,
+                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws AlreadyExistsException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Remove an initial state from a lifecycle.
+     *
+     * @param initialStateKey       unique key of the state
+     * @param lifecycleKey         unique key of the lifecycle to which the
+     *                             initial state is added
+     * @param contextInfo          Context information containing the
+     *                             principalId and locale information about the
+     *                             caller of service operation
+     * @return status
+     * @throws DoesNotExistException     initialStateKey or lifecycleKey
+     *                                   not found
+     * @throws InvalidParameterException invalid initialStateKey,
+     *                                   lifecycleKey, or contextInfo
+     * @throws MissingParameterException missing initialStateKey,
+     *                                   lifecycleKey, or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo removeInitialStateFromLifecycle(@WebParam(name = "initialStateKey") String initialStateKey,
+                                                                   @WebParam(name = "lifecycleKey") String lifecycleKey,
+                                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves the StateChange

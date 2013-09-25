@@ -323,6 +323,19 @@ public class LuiServiceConstants {
     public static final String[] LUI_IDENTIFIER_LIFECYCLE_KEYS = {LUI_IDENTIFIER_ACTIVE_STATE_KEY,
         LUI_IDENTIFIER_INACTIVE_STATE_KEY
     };
+
+    /**
+     * LUI Set types
+     */
+    public static final String LUI_SET_COLOCATED_OFFERING_TYPE_KEY = "kuali.luiset.type.colocated.offering.set";
+
+    /**
+     * LUI Set states
+     */
+    public static final String LUI_SET_LIFECYCLE_KEY = "kuali.luiset.lifecycle";
+    public static final String LUI_SET_ACTIVE_STATE_KEY = "kuali.luiset.state.active";
+    public static final String LUI_SET_INACTIVE_STATE_KEY = "kuali.luiset.state.inactive";
+    public static final String[] LUI_SET_LIFECYCLE_KEYS = { LUI_SET_ACTIVE_STATE_KEY, LUI_SET_INACTIVE_STATE_KEY };
     
     /**
      *  Waitlist types?

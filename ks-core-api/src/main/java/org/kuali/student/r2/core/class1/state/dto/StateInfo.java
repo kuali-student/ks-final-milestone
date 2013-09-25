@@ -34,7 +34,7 @@ import org.kuali.student.r2.core.class1.state.infc.State;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StateInfo", propOrder = {
-                "key", "name", "descr", "lifecycleKey",
+                "key", "name", "descr", "lifecycleKey", "isInitialState",
                 "effectiveDate", "expirationDate", 
                 "meta", "attributes" , "_futureElements" }) 
 
@@ -55,6 +55,9 @@ public class StateInfo
 
     @XmlAttribute
     private String lifecycleKey;
+
+    @XmlElement
+    private Boolean isInitialState;
 
     @XmlElement
     private Date effectiveDate;
@@ -87,6 +90,7 @@ public class StateInfo
             }
 
             this.lifecycleKey = state.getLifecycleKey();
+            this.isInitialState = state.getIsInitialState();
             this.effectiveDate = null != state.getEffectiveDate() ? new Date(state.getEffectiveDate().getTime()) : null;
             this.expirationDate = null != state.getExpirationDate() ? new Date(state.getExpirationDate().getTime()) : null;
         }
@@ -122,6 +126,15 @@ public class StateInfo
     @Override
     public String getLifecycleKey() {
         return lifecycleKey;
+    }
+
+    @Override
+    public Boolean getIsInitialState() {
+        return this.isInitialState;
+    }
+
+    public void setIsInitialState(Boolean initialState) {
+        this.isInitialState = initialState;
     }
 
     public void setLifecycleKey(String lifecycleKey) {

@@ -67,8 +67,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingCrossListingInfo.departmentOrgId" parent="CourseOfferingCrossListingInfo.departmentOrgId-parent"/>
-	<bean id="CourseOfferingCrossListingInfo.departmentOrgId-parent" abstract="true" parent="CourseOfferingCrossListingInfo.departmentOrgId-generated">
+	<bean id="CourseOfferingCrossListingInfo.subjectOrgId" parent="CourseOfferingCrossListingInfo.subjectOrgId-parent"/>
+	<bean id="CourseOfferingCrossListingInfo.subjectOrgId-parent" abstract="true" parent="CourseOfferingCrossListingInfo.subjectOrgId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
