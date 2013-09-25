@@ -554,18 +554,6 @@ public class LuiServiceImpl
 
     @Override
     @Transactional(readOnly = true)
-    public List<String> getLuiLuiRelationsByAttribute(String attributeId,
-                                                      ContextInfo context)
-        throws InvalidParameterException, MissingParameterException,
-               OperationFailedException, PermissionDeniedException {
-
-        List<String> returnVals = new ArrayList<String>();
-        returnVals = luiLuiRelationDao.getLuiLuiRelationsByAttribute(attributeId);
-        return returnVals;
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public List<String> searchForLuiLuiRelationIds(QueryByCriteria criteria, 
                                                    ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 

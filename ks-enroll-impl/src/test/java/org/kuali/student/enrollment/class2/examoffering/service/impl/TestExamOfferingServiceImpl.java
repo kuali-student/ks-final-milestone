@@ -383,15 +383,19 @@ public class TestExamOfferingServiceImpl {
         ExamOfferingRelationInfo eoRelInfo = createExamOfferingRelationInfo();
         try {
             //Create
+            eoRelInfo.setActivityOfferingIds(Arrays.asList("AO-01","AO-02","AO-03","Lui-2"));
             ExamOfferingRelationInfo created = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
                     LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo, callContext);
 
-            List<String> examOfferingRelationIds = examOfferingService.getExamOfferingRelationIdsByActivityOffering("AO-02", callContext);
+            //Retrieve IDs
+            List<String> examOfferingRelationIds = examOfferingService.getExamOfferingRelationIdsByActivityOffering("Lui-2", callContext);
             assertNotNull(examOfferingRelationIds);
+            assertTrue(examOfferingRelationIds.size() > 0);
+            //test for aoId match
             for (String examOfferingRelationId : examOfferingRelationIds) {
                 ExamOfferingRelationInfo retrieved = examOfferingService.getExamOfferingRelation(examOfferingRelationId, callContext);
                 assertNotNull(retrieved);
-                assertTrue(retrieved.getActivityOfferingIds().contains("AO-02"));
+                assertTrue(retrieved.getActivityOfferingIds().contains("Lui-2"));
             }
 
             //Delete

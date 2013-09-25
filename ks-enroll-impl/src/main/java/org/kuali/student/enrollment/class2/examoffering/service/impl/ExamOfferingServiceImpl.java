@@ -483,12 +483,32 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             throw new MissingParameterException("activityOfferingId is null");
         }
 
-        //Retrieve ExamOfferingRelationIDs
+        //TODO - KSENROLL-9395 - resolve with QueryByCriteria
+        //Retrieve ExamOfferingRelationInfos
+        List<ExamOfferingRelationInfo> examOfferingRelationInfos = new ArrayList<ExamOfferingRelationInfo>();
+        List<String> eoRetrnIds = new ArrayList<String>();
+        List<String> formatOfferingIds = new ArrayList<String>();
         try {
-            return getLuiService().getLuiLuiRelationsByAttribute(activityOfferingId, contextInfo);
+            List<LuiLuiRelationInfo>  luiRels = getLuiService().getLuiLuiRelationsByLui(activityOfferingId, contextInfo);
+            for (LuiLuiRelationInfo luiRel : luiRels) {
+                if (luiRel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY) &&  
+                        luiRel.getRelatedLuiId().equals(activityOfferingId) ) { //getLuiLuiRelationsByLui query brings back both luiId and relatedLuiId > select
+                    formatOfferingIds.add(luiRel.getLuiId());
+                }
+            }
+            for (String formatOfferingId : formatOfferingIds) {
+                examOfferingRelationInfos = getExamOfferingRelationsByFormatOffering(formatOfferingId,contextInfo);
+            }
+            for (ExamOfferingRelationInfo examOfferingRelationInfo : examOfferingRelationInfos){
+                if (examOfferingRelationInfo.getActivityOfferingIds().contains(activityOfferingId)){
+                    eoRetrnIds.add(examOfferingRelationInfo.getId());
+                }
+            }
+            
         } catch (Exception ex) {
             throw new OperationFailedException(OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE, ex);
         }
+        return eoRetrnIds;
     }
 
     @Override
