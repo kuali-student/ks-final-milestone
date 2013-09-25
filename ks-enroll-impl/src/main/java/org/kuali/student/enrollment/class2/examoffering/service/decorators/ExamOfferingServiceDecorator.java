@@ -1,6 +1,8 @@
 package org.kuali.student.enrollment.class2.examoffering.service.decorators;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.enrollment.exam.dto.ExamInfo;
+import org.kuali.student.enrollment.exam.service.ExamService;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
 import org.kuali.student.enrollment.examoffering.service.ExamOfferingService;
@@ -45,7 +47,7 @@ public class ExamOfferingServiceDecorator implements ExamOfferingService {
     }
 
     @Override
-    public List<String> getExamOfferingIdsByType( String examTypeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getExamOfferingIdsByType( String examTypeKey,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         return getNextDecorator().getExamOfferingIdsByType(  examTypeKey,   contextInfo);
     }
 

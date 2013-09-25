@@ -229,7 +229,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             ,PermissionDeniedException
     {
         throw new OperationFailedException ("changeExamOfferingState has not been implemented");
-    }
+                }
 
     @Override
     public List<ValidationResultInfo> validateExamOfferingRelation(String formatOfferingId, String examOfferingId, String examOfferingTypeKey, String validationTypeKey, ExamOfferingRelationInfo examOfferingRelationInfo, ContextInfo contextInfo)
@@ -392,7 +392,24 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("getExamOfferingRelationsByIds has not been implemented");
+        //trap null parameter
+        if (examOfferingRelationIds == null || examOfferingRelationIds.isEmpty()){
+            throw new MissingParameterException("examOfferingRelationIds is null");
+        }
+
+        //Retrieve ExamOfferingRelationInfos
+        List<ExamOfferingRelationInfo> eoRels = new ArrayList<ExamOfferingRelationInfo>();
+        try {
+            List<LuiLuiRelationInfo>  luiRels = getLuiService().getLuiLuiRelationsByIds(examOfferingRelationIds, contextInfo);
+            for (LuiLuiRelationInfo luiRel : luiRels) {
+                ExamOfferingRelationInfo examOfferingRelationInfo = new ExamOfferingRelationInfo();
+                getExamOfferingTransformer().transformLuiLuiRel2EORel(luiRel, examOfferingRelationInfo);
+                eoRels.add(examOfferingRelationInfo);
+            }
+        } catch (Exception ex) {
+            throw new OperationFailedException(OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE, ex);
+        }
+        return eoRels;
     }
 
     @Override
