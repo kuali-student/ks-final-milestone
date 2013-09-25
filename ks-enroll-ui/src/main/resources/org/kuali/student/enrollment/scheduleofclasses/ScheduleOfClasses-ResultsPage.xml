@@ -158,7 +158,7 @@
         </property>
     </bean>
 
-    <bean id="SchOfClasses-aoClusterDisplay" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroup" p:render="@{aoDisplayFormat == AoDisplayFormat.CLUSTER}">
+    <bean id="SchOfClasses-aoClusterDisplay" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroup" p:render="@{aoDisplayFormat == AoDisplayFormat.CLUSTER}" p:style="margin-left:36px;width:80%;">
         <property name="headerText" value="Activities"/>
         <property name="propertyName" value="clusterResultList" />
         <property name="disclosure.render" value="false"/>
@@ -291,7 +291,7 @@
     </bean>
 
 
-    <bean id="SchOfClasses-regGroupDisplay" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroup" p:render="@{aoDisplayFormat == AoDisplayFormat.REG_GROUP}">
+    <bean id="SchOfClasses-regGroupDisplay" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroup" p:render="@{aoDisplayFormat == AoDisplayFormat.REG_GROUP}" p:style="margin-left:36px;width:80%;">
         <property name="headerText" value="Activities"/>
         <property name="propertyName" value="clusterResultList" />
         <property name="disclosure.render" value="false"/>
