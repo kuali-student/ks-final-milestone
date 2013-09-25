@@ -44,6 +44,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -68,6 +69,7 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -86,7 +88,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
     private static PermissionService permissionService = getPermissionService();
     private CluService cluService;
     private AtpService atpService;
-    private static String CACHE_NAME = "CourseOfferingMaintainableImplCache";
+    private final static String CACHE_NAME = "CourseOfferingMaintainableImplCache";
     private CacheManager cacheManager;
 
 
@@ -94,8 +96,6 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
      * Sets a default maintenace document description and if term code exists in the request parameter, set it to the wrapper.
      * When 'Create CO' is called from manage co screen, we pass in the term code.
      *
-     * @param document
-     * @param requestParameters
      */
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
@@ -151,7 +151,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
      * @param termId courseing offering created for this term
      * @param courseInfo this is the course info for which this mehtod is going to create course offering
      * @param courseOfferingSuffix the suffix entered by the user
-     * @return
+     * @return created course offering
      * @throws Exception throws any of the services exception from the service call
      */
     protected CourseOfferingInfo createCourseOfferingInfo(String termId, CourseInfo courseInfo, String courseOfferingSuffix,CourseOfferingInfo courseOffering) throws Exception {
@@ -214,8 +214,8 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
 
     /**
      * Services needs to come up with a standard way to represent final exams.
-     * @param courseFinalExamType
-     * @return
+     * @param courseFinalExamType course final exam type
+     * @return CO final exam type
      */
     protected static String convertCourseFinalExamTypeToCourseOfferingFinalExamType(String courseFinalExamType){
         String sRet = null;
@@ -259,7 +259,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
      * This method creates all the Course Offerings for joint courses.
      *
      * @param wrapper CourseOfferingCreateWrapper
-     * @throws
+     * @throws Exception
      */
     protected void createJointCOs(CourseOfferingCreateWrapper wrapper) throws Exception {
         LOG.debug("Creating Offerings for the joint courses.");
@@ -360,8 +360,6 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
 
     /**
      * Adds a format offering. This handles creating format offerings for all the selected joint courses as well.
-     *
-     * @param wrapper
      */
     public void addFormatOffering(CourseOfferingCreateWrapper wrapper){
 
@@ -474,8 +472,8 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
     /**
      * Helper method to display a list of Activity type names at the UI
      *
-     * @param formatInfo
-     * @return
+     * @param formatInfo format
+     * @return activity type names
      */
     private String getActivityTypeNames(FormatInfo formatInfo){
 
@@ -516,11 +514,6 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
     /**
      * This is overridden from KRAD to implement deleting the format from the joint courses. It should not be a problem
      * overriding this method completely as we dont need any validation or pre/post event for this action
-     *
-     * @param view
-     * @param model
-     * @param collectionPath
-     * @param lineIndex
      */
     @Override
     public void processCollectionDeleteLine(View view, Object model, String collectionPath, int lineIndex){
@@ -569,9 +562,6 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
      * This method checks whether any one of the activities in a format matches with the passed in
      * activity by comparing its type.
      *
-     * @param jointCourseFormat
-     * @param activityInfo
-     * @return
      */
     private boolean isMatchingJointActivityFound(FormatInfo jointCourseFormat, ActivityInfo activityInfo){
         for (ActivityInfo activityFromJointCourse : jointCourseFormat.getActivities()){
@@ -598,7 +588,6 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
      * you have already called a search for E. So this uses recursion to build the searches. So, in the average case
      * you will only have to call a db search Once for Every first letter of the course codes.
      *
-     * @param catalogCourseCode
      * @return List of distinct course codes or an empty list
      * @throws InvalidParameterException
      * @throws MissingParameterException
@@ -671,6 +660,8 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         SearchRequestInfo request = new SearchRequestInfo("lu.search.courseCodes");
         request.addParam(CourseInfoByTermLookupableImpl.QueryParamEnum.CODE.getQueryKey(), catalogCourseCode);
         request.addParam("lu.queryParam.luOptionalType", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
+        request.addParam("lu.queryParam.luOptionalState", Arrays.asList(new String[]{
+                DtoConstants.STATE_ACTIVE, DtoConstants.STATE_RETIRED, DtoConstants.STATE_SUPERSEDED}));
         request.addParam(CourseInfoByTermLookupableImpl.QueryParamEnum.TERM_START.getQueryKey(), DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(0).getStartDate()));
         request.addParam(CourseInfoByTermLookupableImpl.QueryParamEnum.TERM_END.getQueryKey(), DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(0).getEndDate()));
         request.setSortColumn("lu.resultColumn.cluOfficialIdentifier.cluCode");
