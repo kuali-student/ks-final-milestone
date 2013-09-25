@@ -47,4 +47,11 @@ public interface ActivityOfferingClusterDaoApi extends EntityDao<String, Activit
      * @return
      */
     List<ActivityOfferingClusterEntity> getByCourseOffering(String courseOfferingId);
+
+    /**
+     * Returns all ActivityOfferingClusterEntities that map back to a single activity offering
+     * @param activityOfferingId
+     * @return
+     */
+    ActivityOfferingClusterEntity getByActivityOffering(String activityOfferingId);
 }

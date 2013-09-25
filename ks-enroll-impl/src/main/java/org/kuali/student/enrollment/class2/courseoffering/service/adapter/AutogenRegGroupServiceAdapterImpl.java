@@ -457,7 +457,8 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
 
             if (rgs != null && !rgs.isEmpty()) {
                 //fetch the associated AOC
-                ActivityOfferingClusterInfo cluster = coService.getActivityOfferingCluster(KSCollectionUtils.getRequiredZeroElement(rgs).getActivityOfferingClusterId(), context);
+                ActivityOfferingClusterInfo cluster = getActivityOfferingClusterDao().getByActivityOffering(activityOfferingInfo.getId()).toDto();
+
 
                 if (cluster != null) {
                     // Make sure FO IDs match up
@@ -1068,6 +1069,10 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         return courseWaitListService;
     }
 
+    public void setCourseWaitListService(CourseWaitListService courseWaitListService) {
+        this.courseWaitListService = courseWaitListService;
+    }
+
     public void setCoService(CourseOfferingService coService) {
         this.coService = coService;
     }
@@ -1081,6 +1086,10 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         return typeService;
     }
 
+    public void setTypeService(TypeService typeService) {
+        this.typeService = typeService;
+    }
+
     public CourseService getCourseService() {
         if (courseService == null) {
             QName qname = new QName(CourseServiceConstants.NAMESPACE,
@@ -1088,6 +1097,10 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
             courseService = GlobalResourceLoader.getService(qname);
         }
         return courseService;
+    }
+
+    public void setCourseService(CourseService courseService) {
+        this.courseService = courseService;
     }
 
     public ActivityOfferingClusterDaoApi getActivityOfferingClusterDao() {

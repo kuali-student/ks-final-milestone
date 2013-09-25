@@ -14,6 +14,14 @@
     <bean id="courseWaitListServiceFacade" class="org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacadeImpl">
         <property name="coService" ref="CourseOfferingService"/>
         <property name="courseWaitListService" ref="courseWaitListService" />
+        <property name="automaticallyProcessed" value="true" />
+
+        <property name="confirmationRequired" value="true" />
+        <property name="allowHoldUntilEntries" value="false" />
+        <property name="checkInRequired" value="false" />
+
+        <!--Default value for COInfo.hasWaitlist -->
+        <property name="hasWaitlist" value="true" />
     </bean>
 
     <bean id="autogenRegistrationGroupAppLayer" class=" org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapterImpl" autowire="autodetect" >

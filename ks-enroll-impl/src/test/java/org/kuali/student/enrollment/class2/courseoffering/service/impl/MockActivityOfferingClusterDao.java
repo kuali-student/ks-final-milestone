@@ -101,4 +101,15 @@ public class MockActivityOfferingClusterDao implements ActivityOfferingClusterDa
     public List<ActivityOfferingClusterEntity> getByCourseOffering(String courseOfferingId){
         return null;
     }
+
+    /**
+     * Returns all ActivityOfferingClusterEntities that map back to a single activity offering
+     *
+     * @param activityOfferingId
+     * @return
+     */
+    @Override
+    public ActivityOfferingClusterEntity getByActivityOffering(String activityOfferingId) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
