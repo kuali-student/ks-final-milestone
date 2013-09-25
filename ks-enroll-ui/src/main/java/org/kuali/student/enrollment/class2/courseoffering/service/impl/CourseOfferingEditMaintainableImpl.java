@@ -30,6 +30,8 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.student.common.uif.util.GrowlIcon;
+import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
@@ -50,6 +52,7 @@ import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetS
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -211,6 +214,12 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
             getCourseOfferingService().updateCourseOffering(coInfo.getId(), coInfo, contextInfo);
 
+            try {
+                CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(coInfo, new ArrayList<String>(), contextInfo);
+            }  catch (Exception e){
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, CourseOfferingConstants.COURSEOFFERING_EXAMPERIOD_MISSING);
+            }
+
             // check for changes to states in CO and related FOs (may happen in the case of deleted FOs)
 //            CourseOfferingViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(coInfo, contextInfo);
 
@@ -298,6 +307,13 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             setUseFinalExamMatrix(coInfo, coCreateWrapper);
 
             CourseOfferingInfo info = getCourseOfferingService().createCourseOffering(coInfo.getCourseId(), coInfo.getTermId(), LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, coInfo, optionKeys, contextInfo);
+
+            try {
+                CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(coInfo, new ArrayList<String>(), contextInfo);
+            }  catch (Exception e){
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, CourseOfferingConstants.COURSEOFFERING_EXAMPERIOD_MISSING);
+            }
+
             return info;
 
         } catch (Exception ex) {

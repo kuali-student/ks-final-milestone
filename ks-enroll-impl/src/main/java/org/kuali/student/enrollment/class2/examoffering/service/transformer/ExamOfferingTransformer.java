@@ -199,6 +199,7 @@ public class ExamOfferingTransformer {
             lui.setOfficialIdentifier(luiIdentifierInfo);
         }
         luiIdentifierInfo.setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);
+        luiIdentifierInfo.setStateKey(LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY);
         luiIdentifierInfo.setShortName(eo.getName());
         lui.setAttributes(eo.getAttributes());
 

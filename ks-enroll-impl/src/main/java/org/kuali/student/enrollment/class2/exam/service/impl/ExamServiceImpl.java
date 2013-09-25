@@ -72,13 +72,8 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public ExamInfo createExam(String examTypeKey, ExamInfo examInfo, ContextInfo contextInfo)
-            throws DataValidationErrorException
-            , DoesNotExistException
-            , InvalidParameterException
-            , MissingParameterException
-            , OperationFailedException
-            , PermissionDeniedException
-            , ReadOnlyException {
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
         CluInfo cluInfo = new CluInfo();
         getExamTransformer().exam2Clu(examInfo, cluInfo, contextInfo);
@@ -91,11 +86,9 @@ public class ExamServiceImpl implements ExamService {
     @Override
     @Transactional(readOnly = true)
     public ExamInfo getExam(String examId, ContextInfo contextInfo)
-            throws DoesNotExistException
-            , InvalidParameterException
-            , MissingParameterException
-            , OperationFailedException
-            , PermissionDeniedException {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
         CluInfo cluInfo = getCluService().getClu(examId, contextInfo);
         ExamInfo examInfo = new ExamInfo();
         getExamTransformer().clu2Exam(cluInfo, examInfo, contextInfo);
@@ -105,14 +98,8 @@ public class ExamServiceImpl implements ExamService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ExamInfo updateExam(String examId, ExamInfo examInfo, ContextInfo contextInfo)
-            throws DataValidationErrorException
-            , DoesNotExistException
-            , InvalidParameterException
-            , MissingParameterException
-            , OperationFailedException
-            , PermissionDeniedException
-            , ReadOnlyException
-            , VersionMismatchException {
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
 
         CluInfo cluToUpdate = getCluService().getClu(examId, contextInfo);
         getExamTransformer().exam2Clu(examInfo, cluToUpdate, contextInfo);
@@ -125,11 +112,8 @@ public class ExamServiceImpl implements ExamService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteExam(String examId, ContextInfo contextInfo)
-            throws DoesNotExistException
-            , InvalidParameterException
-            , MissingParameterException
-            , OperationFailedException
-            , PermissionDeniedException {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
 
         try {
             getCluService().deleteClu(examId, contextInfo);
@@ -147,6 +131,7 @@ public class ExamServiceImpl implements ExamService {
     public List<ExamInfo> getExamsByIds(List<String> examIds, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
+
         List<ExamInfo> exams = new ArrayList<ExamInfo>(examIds.size());
         for (String examID : examIds) {
             exams.add(getExam(examID, contextInfo));
@@ -158,6 +143,7 @@ public class ExamServiceImpl implements ExamService {
     @Transactional(readOnly = true)
     public List<String> getExamIdsByType(String examTypeKey, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
         List<String> ids = null;
         try {
             //Note: CluService does not use stateservice yet, therefore we use DtoContstants.STATE_ACTIVE instead

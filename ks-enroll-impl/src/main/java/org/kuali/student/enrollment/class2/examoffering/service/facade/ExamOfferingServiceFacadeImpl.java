@@ -245,6 +245,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
         ExamOfferingInfo eo = new ExamOfferingInfo();
         eo.setTypeKey(ExamOfferingServiceConstants.EXAM_OFFERING_FINAL_TYPE_KEY);
+        eo.setStateKey(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY);
         eo.setExamId(this.getCanonicalExam(context));
         eo.setExamPeriodId(examPeriodId);
 

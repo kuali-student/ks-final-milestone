@@ -106,6 +106,7 @@ public class CourseOfferingConstants {
     public static final String COURSEOFFERING_CREATE_ERROR_TERM_RESTRICTED = "error.courseOffering.create.term.restricted";
     public static final String COURSEOFFERING_CREATE_ERROR_COURSE_RESTRICTED = "error.courseOffering.create.course.restricted";
     public static final String COURSEOFFERING_FORMAT_REQUIRED = "error.enroll.courseoffering.formatId.required";
+    public static final String COURSEOFFERING_EXAMPERIOD_MISSING = "error.enroll.courseoffering.examperiod.missing";
 
 
     // Display text
