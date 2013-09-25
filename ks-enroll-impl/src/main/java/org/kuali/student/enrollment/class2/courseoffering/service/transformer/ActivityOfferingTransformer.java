@@ -32,10 +32,8 @@ import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * The structure of this class should be re-evaluated after partial-colocation redesign is completed.  Compare design to
@@ -111,7 +109,6 @@ public class ActivityOfferingTransformer {
             aoInfos.add(lui2Activity(luiInfo, luiToInstructorsMap, scheduleIdToScheduleMap, luiToScheduleRequestsMap, schedulingService, context));
         }
 
-
         return aoInfos;
     }
 
@@ -184,7 +181,12 @@ public class ActivityOfferingTransformer {
             ao.setSchedulingStateKey(getSchedulingState(ao, scheduleIdToScheduleMap));
         }
         else {
-            ao.setSchedulingStateKey(getSchedulingStateByScheduleRequest(ao, luiToScheduleRequestsMap.get(ao.getId())));
+            List<String> scheduleIds = ao.getScheduleIds();
+            List<ScheduleRequestInfo> scheduleRequests = new ArrayList<ScheduleRequestInfo>();
+            for(String scheduleId : scheduleIds){
+                scheduleRequests.addAll(luiToScheduleRequestsMap.get(scheduleId));
+            }
+            ao.setSchedulingStateKey(getSchedulingStateByScheduleRequest(ao, scheduleRequests));
         }
 
         return ao;
@@ -411,28 +413,35 @@ public class ActivityOfferingTransformer {
         return LuiServiceConstants.LUI_AO_SCHEDULING_STATE_EXEMPT_KEY;
     }
 
-    /*Bulk load a list a ScheduleRequestInfo objects and return the results set in a Map of ActivityOffering ids to a list of ScheduleRequestInfo objects.*/
+    /**
+     *
+     * @param luiIds
+     * @param schedulingService
+     * @param context
+     * @return returns a Map<ScheduleId, List<ScheduleRequests>>
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws DoesNotExistException
+     */
     private static Map<String, List<ScheduleRequestInfo>> buildLuiToScheduleRequestsMap(List<String> luiIds, SchedulingService schedulingService, ContextInfo context)
             throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         Map<String, List<ScheduleRequestInfo>> luiToScheduleRequestsMap = new HashMap<String, List<ScheduleRequestInfo>>();
 
+
         if(luiIds != null && !luiIds.isEmpty()){
-            for(String luiId: luiIds){
-                List<ScheduleRequestSetInfo> scheduleRequestSets = schedulingService.getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, luiId, context);
-                for(ScheduleRequestSetInfo srs : scheduleRequestSets){
-                    List<ScheduleRequestInfo> scheduleRequestInfos = schedulingService.getScheduleRequestsByScheduleRequestSet(srs.getId(), context);
-                    if(scheduleRequestInfos != null && !scheduleRequestInfos.isEmpty()){
-                        List<ScheduleRequestInfo> scheduleRequestInfoList = luiToScheduleRequestsMap.get(luiId);
-                        if (scheduleRequestInfoList == null) {
-                            scheduleRequestInfoList = new ArrayList<ScheduleRequestInfo>();
-                            luiToScheduleRequestsMap.put(luiId, scheduleRequestInfoList);
-                        }
-                        scheduleRequestInfoList.addAll(scheduleRequestInfos);
-                    }
+            List<ScheduleRequestInfo> scheduleRequestInfos = schedulingService.getScheduleRequestsByRefObjects(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, luiIds, context);
+            for(ScheduleRequestInfo sri : scheduleRequestInfos)   {
+
+                List<ScheduleRequestInfo> scheduleRequestInfoList = luiToScheduleRequestsMap.get(sri.getScheduleId());
+                if (scheduleRequestInfoList == null) {
+                    scheduleRequestInfoList = new ArrayList<ScheduleRequestInfo>();
+                    luiToScheduleRequestsMap.put(sri.getScheduleId(), scheduleRequestInfoList);
                 }
+                scheduleRequestInfoList.add(sri);
             }
         }
-
         return luiToScheduleRequestsMap;
     }
 

@@ -1,9 +1,9 @@
 package org.kuali.student.enrollment.class2.courseoffering.service;
 
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides a way to customize how the ActivityOfferingCode is generated.
@@ -11,6 +11,6 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public interface CourseOfferingCodeGenerator {
-    String generateActivityOfferingCode(String courseOfferingCode, List<ActivityOfferingInfo> existingActivityOfferings);
+    String generateActivityOfferingCode(String courseOfferingCode, Map<String, Object> generationProperties);
     String generateCourseOfferingInternalCode(List<CourseOfferingInfo> existingCourseOfferings);
 }

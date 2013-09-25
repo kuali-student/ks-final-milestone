@@ -20,13 +20,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.student.common.UUIDHelper;
 import org.kuali.student.enrollment.class2.courseoffering.dao.CodeGeneratorLocksDaoApi;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class Generates Coures Offering codes (CO,AO), but is backed by a DB to be thread safe.
@@ -37,20 +37,21 @@ public class CourseOfferingCodeGeneratorDBImpl implements CourseOfferingCodeGene
 
     private CodeGeneratorLocksDaoApi codeGeneratorLocksDao;
 
-    @Override
-    public String generateActivityOfferingCode(String uniqueCourseCode, List<ActivityOfferingInfo> existingActivityOfferings) {
+    /**
+     * In this implementation we're going to pass in a list of existing aoCodes into the map
+     * @param uniqueCourseCode
+     * @param generationProperties    Map<"aoCodes", List<String> aoCodes
+     * @return
+     */
+    public String generateActivityOfferingCode(String uniqueCourseCode, Map<String, Object> generationProperties) {
 
         String nextCode = "";
-        List<String> aoCodes = new ArrayList<String>();
+        List<String> aoCodes = (List<String>)generationProperties.get("aoCodes");
 
         // If this is the first code, send back "A"
-        if (existingActivityOfferings == null || existingActivityOfferings.isEmpty()) {
+        if (aoCodes == null || aoCodes.isEmpty()) {
             nextCode = "A";
         }  else{
-
-            for (ActivityOfferingInfo aoInfo : existingActivityOfferings) {
-                aoCodes.add(aoInfo.getActivityCode());
-            }
             nextCode = calculateNextCode(aoCodes);
         }
 

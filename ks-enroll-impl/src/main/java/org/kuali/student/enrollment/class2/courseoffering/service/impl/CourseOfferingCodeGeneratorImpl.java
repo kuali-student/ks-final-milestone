@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class provides a default implementation of CourseOfferingCodeGenerator
@@ -35,7 +36,9 @@ public class CourseOfferingCodeGeneratorImpl implements CourseOfferingCodeGenera
 
 
     @Override
-    public String generateActivityOfferingCode(String courseOfferingCode, List<ActivityOfferingInfo> existingActivityOfferings) {
+    public String generateActivityOfferingCode(String courseOfferingCode, Map<String, Object> generationProperties) {
+
+        List<String> existingActivityOfferings = (List<String>)generationProperties.get("aoCodes");
 
         // If this is the first code, send back "A"
         if (existingActivityOfferings == null || existingActivityOfferings.isEmpty()) {
@@ -43,8 +46,8 @@ public class CourseOfferingCodeGeneratorImpl implements CourseOfferingCodeGenera
         }
 
         List<String> aoCodes = new ArrayList<String>();
-        for (ActivityOfferingInfo aoInfo : existingActivityOfferings) {
-            aoCodes.add(aoInfo.getActivityCode());
+        for (String aoCode : existingActivityOfferings) {
+            aoCodes.add(aoCode);
         }
 
         return calculateNextCode(aoCodes);
