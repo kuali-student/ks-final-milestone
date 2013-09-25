@@ -22,8 +22,8 @@ import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.GenericStringForCollectionWrapper;
-import org.kuali.student.cm.course.form.LearningObjectiveDialogWrapper;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
+import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.SubjectCodeWrapper;
@@ -56,16 +56,9 @@ public interface CourseInfoMaintainable extends Maintainable {
 	
     List<SubjectCodeWrapper> getSubjectCodesForSuggest(String subjectCode);
 	
-	List<CourseJointInfoWrapper> getJointOfferingCourseNumbersForSuggest(String courseNumber);
+	List<CourseJointInfoWrapper> searchForJointOfferingCourses(String courseNumber);
 	
-	/**
-	 * Returns the CourseJointInfoDisplay object for the specified course code.
-	 * @param courseCode The entire course code should be passed.
-	 * @return Only 1 CourseJointInfoDisplay result is expected and will to be returned.
-	 */
-	CourseJointInfoWrapper getJointOfferingCourse(String courseCode);
-	
-	List<LoCategoryInfoWrapper> getLoCategoriesForSuggest(String categoryName);
+	List<LoCategoryInfoWrapper> searchForLoCategories(String categoryName);
 
     ProposalInfo getProposal();
 
@@ -127,19 +120,6 @@ public interface CourseInfoMaintainable extends Maintainable {
      */
     void setFinalExamRationale(final String argFinalExamRationale);
 
-    /**
-     * Gets the value of loDialogWrapper
-     * 
-     * @return the value of loDialogWrapper
-     */
-    LearningObjectiveDialogWrapper getLoDialogWrapper();
-
-    /**
-     * Sets the value of loDialogWrapper
-     * 
-     * @param argLoDialogWrapper Value to assign to this.loDialogWrapper
-     */
-    void setLoDialogWrapper(final LearningObjectiveDialogWrapper argLoDialogWrapper);
     /**
      * Gets the value of showAll
      * 
@@ -283,7 +263,7 @@ public interface CourseInfoMaintainable extends Maintainable {
     CourseInfo getCourse();
     
     void setCourse(final CourseInfo course);
-
+    
     String getUnitsContentOwnerToAdd();
 
     void setUnitsContentOwnerToAdd(final String unitsContentOwnerToAdd);
@@ -291,4 +271,18 @@ public interface CourseInfoMaintainable extends Maintainable {
     List<KeyValue> getUnitsContentOwner();
 
     void setUnitsContentOwner(final List<KeyValue> unitsContentOwner);
+    
+    /**
+     * Gets the list of Lo Display Infos
+     * 
+     * @return the list of {@link LoDisplayInfoWrapper}
+     */
+    List<LoDisplayInfoWrapper> getLoDisplayInfoWrappers();
+
+    /**
+     * Sets the list of Lo Display Infos
+     * 
+     * @param the list of {@link LoDisplayInfoWrapper}
+     */
+    void setLoDisplayInfoWrappers(List<LoDisplayInfoWrapper> loDisplayInfoWrappers);
 }

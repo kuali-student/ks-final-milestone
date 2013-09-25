@@ -76,7 +76,7 @@ public class CourseJointInfoLookupableImpl extends LookupableImpl {
         
         SearchParamInfo typeParam = new SearchParamInfo();
         typeParam.setKey(LookupableConstants.OPTIONAL_TYPE_PARAM);
-        typeParam.getValues().add(LookupableConstants.CREDITCOURSE_lU);
+        typeParam.getValues().add(LookupableConstants.CREDITCOURSE_LU);
         
         SearchParamInfo stateParam = new SearchParamInfo();
         stateParam.setKey(LookupableConstants.OPTIONAL_STATE_PARAM);
@@ -130,8 +130,6 @@ public class CourseJointInfoLookupableImpl extends LookupableImpl {
                     	courseJointInfoDisplay.setName(cell.getValue());
                     } else if (LookupableConstants.OPTIONALCODE_RESULT.equals(cell.getKey())) {
                     	courseJointInfoDisplay.setCourseCode(cell.getValue());
-                    	//courseJointInfo.setSubjectArea(subjectCode);
-                        //courseJointInfo.setCourseNumberSuffix(subjectCode);
                     }
                     else if (LookupableConstants.DESCR_RESULT.equals(cell.getKey())) {
                     	RichTextInfo descr = new RichTextInfo();

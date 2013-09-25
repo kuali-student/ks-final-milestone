@@ -264,7 +264,7 @@
 										<property name="templateOptions" value="minLength:1,delay:0" />
 										<property name="suggestQuery">
 											<bean parent="Uif-AttributeQueryConfig"
-													p:queryMethodToCall="getJointOfferingCourseNumbersForSuggest" />
+													p:queryMethodToCall="searchForJointOfferingCourses" />
 													<!-- p:queryFieldMapping="#lp.courseCode:courseCode"
 													p:returnFieldMapping="courseId:#lp.courseId,courseCode:#lp.courseCode,subjectArea:#lp.subjectArea,courseNumberSuffix:#lp.courseNumberSuffix" /> -->
 										</property>

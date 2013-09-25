@@ -51,6 +51,7 @@ public class LookupableConstants {
     public static final String CURRENT_QUICK_SEARCH = "lu.search.current.quick";
     public static final String SUBJECTCODE_GENERIC_SEARCH =  "subjectCode.search.subjectCodeGeneric";
     public static final String LOCATEGORY_SEARCH = "lo.search.loCategories";
+    public static final String LO_BY_CATEGORY_CLU_CROSS_SEARCH = "lo.search.loByCategoryCluCrossSearch";
     
     /*
      * Parameters for the search
@@ -62,11 +63,14 @@ public class LookupableConstants {
     public static final String OPTIONAL_STATE_PARAM = "lu.queryParam.luOptionalState";
     public static final String SUBJECTCODE_CODE_PARAM =  "subjectCode.queryParam.code";
     public static final String OPTIONAL_LO_CATEGORY_NAME_PARAM = "lo.queryParam.loOptionalCategoryName";
+    public static final String LO_DESC_PLAIN_PARAM = "lo.queryParam.loDescPlain";
+    public static final String OPTIONAL_LU_OPTIONAL_ADMIN_ORG_IDS_PARAM = "lu.queryParam.luOptionalAdminOrgIds";
+    public static final String OPTIONAL_LU_OPTIONAL_ADMIN_ORG_TYPES_PARAM = "lu.queryParam.luOptionalAdminOrgTypes";
     
     /*
      * Types for lu
      */
-    public static final String CREDITCOURSE_lU ="kuali.lu.type.CreditCourse";
+    public static final String CREDITCOURSE_LU ="kuali.lu.type.CreditCourse";
     
     
     /*
@@ -84,5 +88,10 @@ public class LookupableConstants {
     public static final String LO_CATEGORY_TYPE_NAME_RESULT = "lo.resultColumn.categoryTypeName";
     public static final String LO_CATEGORY_STATE_RESULT = "lo.resultColumn.categoryState";
     public static final String LO_CATEGORY_NAME_AND_TYPE_RESULT = "lo.resultColumn.categoryNameAndType";
+    public static final String LU_CLU_OFFICIAL_IDENTIFIER_CLU_CODE_RESULT = "lu.resultColumn.cluOfficialIdentifier.cluCode";
+    public static final String LO_CLU_CODE_RESULT = "lo.resultColumn.loCluCode";
+    public static final String LO_CLU_TYPE_RESULT = "lo.resultColumn.loCluType";
+    public static final String LO_CLU_STATE_RESULT = "lo.resultColumn.loCluState";
+    public static final String LO_DESC_PLAIN_RESULT = "lo.resultColumn.loDescPlain";
 
 }

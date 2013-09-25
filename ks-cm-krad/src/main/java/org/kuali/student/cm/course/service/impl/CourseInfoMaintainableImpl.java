@@ -29,12 +29,15 @@ import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.GenericStringForCollectionWrapper;
-import org.kuali.student.cm.course.form.LearningObjectiveDialogWrapper;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
+import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.SubjectCodeWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
+import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
+import org.kuali.student.cm.course.service.util.LoCategorySearchUtil;
+import org.kuali.student.cm.course.service.util.OrganizationSearchUtil;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -75,9 +78,7 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
         
 	private transient LearningObjectiveService learningObjectiveService;
 
-	private transient static CourseInfoMaintainable instance;
-
-    private ProposalInfo proposalInfo;
+	private ProposalInfo proposalInfo;
     
     private boolean audit;
     
@@ -95,8 +96,6 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
     
     private List<CommentInfo> commentInfos;
     
-    private LearningObjectiveDialogWrapper loDialogWrapper;
-    
     private Boolean showAll;
     
     private String userId;
@@ -108,18 +107,13 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
     private String lastUpdated;
     
     private List<CollaboratorWrapper> collaboratorWrappers;
-
+    
+    private List<LoDisplayInfoWrapper> loDisplayInfoWrappers;
+    
     private String unitsContentOwnerToAdd;
     
     private List<KeyValue> unitsContentOwner;
-	
-	public static final CourseInfoMaintainable getInstance() {
-		if (instance == null) {
-			instance = new CourseInfoMaintainableImpl();
-		}
-		return instance;
-	}
-
+    
     public void setUnitsContentOwnerToAdd(final String KeyValue) {
         this.unitsContentOwnerToAdd = unitsContentOwnerToAdd;
     }
@@ -139,7 +133,7 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
         return unitsContentOwner;
     }
 
-    /**
+	/**
      * Method called when queryMethodToCall is executed for Administering Organizations in order to suggest back to the user an Administering Organization
      *
      * @param organizationName  
@@ -147,51 +141,7 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
      * @see CourseInfoMaintainable#getOrganizationsForSuggest(String)
      */
 	public List<OrganizationInfoWrapper> getOrganizationsForSuggest(final String organizationName) {
-		final List<OrganizationInfoWrapper> cluOrgInfoDisplays = new ArrayList<OrganizationInfoWrapper>();
-		final List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
-        
-        final SearchParamInfo displayNameParam = new SearchParamInfo();
-        displayNameParam.setKey("org.queryParam.orgOptionalLongName");
-        displayNameParam.getValues().add(organizationName);
-        queryParamValueList.add(displayNameParam);
-
-        final SearchParamInfo orgOptionalTypeParam = new SearchParamInfo();
-        orgOptionalTypeParam.setKey("org.queryParam.orgOptionalType");
-        orgOptionalTypeParam.getValues().add("kuali.org.COC");
-        orgOptionalTypeParam.getValues().add("kuali.org.Department");
-        orgOptionalTypeParam.getValues().add("kuali.org.College");
-        queryParamValueList.add(orgOptionalTypeParam);
-        
-    	final SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey("org.search.generic");
-        searchRequest.setParams(queryParamValueList);
-        searchRequest.setStartAt(0);
-        searchRequest.setNeededTotalResults(false);
-        searchRequest.setSortColumn("org.resultColumn.orgOptionalLongName");
-        
-        SearchResultInfo searchResult = null;
-        try {
-        	searchResult = getOrganizationService().search(searchRequest, ContextUtils.getContextInfo());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-        for (final SearchResultRowInfo result : searchResult.getRows()) {
-            final List<SearchResultCellInfo> cells = result.getCells();
-            final OrganizationInfoWrapper cluOrgInfoDisplay = new OrganizationInfoWrapper();
-            for (final SearchResultCellInfo cell : cells) {
-                
-                if ("org.resultColumn.orgId".equals(cell.getKey())) {
-                    cluOrgInfoDisplay.setId(cell.getValue());
-                } 
-                else if ("org.resultColumn.orgOptionalLongName".equals(cell.getKey())) {
-                    cluOrgInfoDisplay.setOrganizationName(cell.getValue());
-                } 
-            }
-            cluOrgInfoDisplays.add(cluOrgInfoDisplay);
-        }
-        
-		return cluOrgInfoDisplays;
+		return OrganizationSearchUtil.searchForOrganizations(organizationName, getOrganizationService());
 	}
 
     /**
@@ -340,213 +290,16 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
 
         return retrievedCodes;
     }
-	
-	public List<CourseJointInfoWrapper> getJointOfferingCourseNumbersForSuggest(String courseNumber) {
-		List<CourseJointInfoWrapper> courseJoints = new ArrayList<CourseJointInfoWrapper>();
-		
-		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
-		
-		SearchParamInfo codeParam = new SearchParamInfo();
-        codeParam.setKey(LookupableConstants.OPTIONAL_CODE_PARAM);
-        List<String> codeValues = new ArrayList<String>();
-        codeValues.add(courseNumber);
-        codeParam.setValues(codeValues);
-        
-        SearchParamInfo typeParam = new SearchParamInfo();
-        typeParam.setKey(LookupableConstants.OPTIONAL_TYPE_PARAM);
-        List<String> typeValues = new ArrayList<String>();
-        typeValues.add(LookupableConstants.CREDITCOURSE_lU);
-        typeParam.setValues(typeValues);
-        
-        queryParamValueList.add(codeParam);
-        queryParamValueList.add(typeParam);
-        
-        SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey(LookupableConstants.CURRENT_QUICK_SEARCH);
-        searchRequest.setParams(queryParamValueList);
-        searchRequest.setStartAt(0);
-        searchRequest.setSortColumn(LookupableConstants.OPTIONALCODE_RESULT);
-        
-        SearchResultInfo searchResult = null;
-        try {
-        	searchResult = getCluService().search(searchRequest, ContextUtils.getContextInfo());
-        	
-            for (SearchResultRowInfo result : searchResult.getRows()) {
-                List<SearchResultCellInfo> cells = result.getCells();
-                String id = "";
-                String code = "";
-                for (SearchResultCellInfo cell : cells) {
-                	if (LookupableConstants.ID_RESULT.equals(cell.getKey())) {
-                		id = cell.getValue();
-                	} else if (LookupableConstants.OPTIONALCODE_RESULT.equals(cell.getKey())) {
-                		code = cell.getValue();
-                	}
-                }
-                CourseJointInfoWrapper courseJointDisplay = new CourseJointInfoWrapper();
-                courseJointDisplay.setCourseId(id);
-                courseJointDisplay.setCourseCode(code);
-                String subjectArea = code.replaceAll("\\d", "");
-                String numberSuffix = code.replaceAll("\\D", "");
-                courseJointDisplay.setSubjectArea(subjectArea);
-                courseJointDisplay.setCourseNumberSuffix(numberSuffix);
-                courseJoints.add(courseJointDisplay);
-            }
-        } catch (Exception e) {
-            error("An error occurred retrieving the courseJointDisplay: ", e);
-        }
-		
-		return courseJoints;
-	}
-	
-	/**
-	 * Returns the CourseJointInfoDisplay object for the specified course code.
-	 * @param courseCode The entire course code should be passed.
-	 * @return Only 1 CourseJointInfoDisplay result is expected and will to be returned.
-	 */
-	public CourseJointInfoWrapper getJointOfferingCourse(String courseCode) {
-	    CourseJointInfoWrapper courseJointInfo = null;
-		
-		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
-		
-		SearchParamInfo codeParam = new SearchParamInfo();
-        codeParam.setKey(LookupableConstants.OPTIONAL_CODE_PARAM);
-        List<String> codeValues = new ArrayList<String>();
-        codeValues.add(courseCode);
-        codeParam.setValues(codeValues);
-        
-        SearchParamInfo typeParam = new SearchParamInfo();
-        typeParam.setKey(LookupableConstants.OPTIONAL_TYPE_PARAM);
-        List<String> typeValues = new ArrayList<String>();
-        typeValues.add(LookupableConstants.CREDITCOURSE_lU);
-        typeParam.setValues(typeValues);
-        
-        queryParamValueList.add(codeParam);
-        queryParamValueList.add(typeParam);
-        
-        SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey(LookupableConstants.CURRENT_QUICK_SEARCH);
-        searchRequest.setParams(queryParamValueList);
-        
-        SearchResultInfo searchResult = null;
-        try {
-        	searchResult = getCluService().search(searchRequest, ContextUtils.getContextInfo());
-        	//Only 1 item should be retrieved in this search
-        	if (searchResult.getRows().size() == 1) {
-        		SearchResultRowInfo result = searchResult.getRows().get(0);
-        		List<SearchResultCellInfo> cells = result.getCells();
-                String id = "";
-                String code = "";
-                for (SearchResultCellInfo cell : cells) {
-                	if (LookupableConstants.ID_RESULT.equals(cell.getKey())) {
-                		id = cell.getValue();
-                	} else if (LookupableConstants.OPTIONALCODE_RESULT.equals(cell.getKey())) {
-                		code = cell.getValue();
-                	}
-                }
-                courseJointInfo = new CourseJointInfoWrapper();
-                courseJointInfo.setCourseId(id);
-                courseJointInfo.setCourseCode(code);
-                String subjectArea = code.replaceAll("\\d", "");
-                String numberSuffix = code.replaceAll("\\D", "");
-                courseJointInfo.setSubjectArea(subjectArea);
-                courseJointInfo.setCourseNumberSuffix(numberSuffix);
-                
-        	} else {
-        		error("The getJointOfferingCourse method has returned more than 1 result.");
-        	}
-        	
-        } catch (Exception e) {
-        	error("An error occurred in getJointOfferingCourse.", e);
-        }
-		
-		return courseJointInfo;
-	}
-	
-	public List<LoCategoryInfoWrapper> getLoCategoriesForSuggest(String categoryName) {
-        List<LoCategoryInfoWrapper> retrievedCategories = new ArrayList<LoCategoryInfoWrapper>();
-
-        List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
-
-        SearchParamInfo categoryNameParam = new SearchParamInfo();
-        categoryNameParam.setKey(LookupableConstants.OPTIONAL_LO_CATEGORY_NAME_PARAM);
-        List<String> categoryNameValues = new ArrayList<String>();
-        categoryNameValues.add(categoryName);
-        categoryNameParam.setValues(categoryNameValues);
-
-        queryParamValueList.add(categoryNameParam);
-
-        SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey(LookupableConstants.LOCATEGORY_SEARCH);
-        searchRequest.setParams(queryParamValueList);
-        searchRequest.setSortColumn(LookupableConstants.LO_CATEGORY_NAME_AND_TYPE_RESULT);
-
-        try {
-            SearchResultInfo searchResult = getLearningObjectiveService().search(searchRequest,
-                    ContextUtils.getContextInfo());
-            for (SearchResultRowInfo result : searchResult.getRows()) {
-                List<SearchResultCellInfo> cells = result.getCells();
-                LoCategoryInfoWrapper newCat = new LoCategoryInfoWrapper();
-                for (SearchResultCellInfo cell : cells) {
-                    if (LookupableConstants.LO_CATEGORY_ID_RESULT.equals(cell.getKey())) {
-                        newCat.setId(cell.getValue());
-                    } else if (LookupableConstants.LO_CATEGORY_NAME_RESULT.equals(cell.getKey())) {
-                        newCat.setName(cell.getValue());
-                    } else if(LookupableConstants.LO_CATEGORY_TYPE_RESULT.equals(cell.getKey())){
-                        newCat.setTypeKey(cell.getValue());
-                    } else if(LookupableConstants.LO_CATEGORY_TYPE_NAME_RESULT.equals(cell.getKey())){
-                        newCat.setTypeName(cell.getValue());
-                    } else if (LookupableConstants.LO_CATEGORY_NAME_AND_TYPE_RESULT.equals(cell.getKey())) {
-                        newCat.setCatNameAndType(cell.getValue());
-                    } else if(LookupableConstants.LO_CATEGORY_STATE_RESULT.equals(cell.getKey())){
-                        newCat.setStateKey(cell.getValue());
-                    }
-                }
-                retrievedCategories.add(newCat);
-            }
-        } catch (Exception e) {
-            error("An error occurred in getLoCategoriesForSuggest.", e);
-        }
-
-        return retrievedCategories;
+    
+    @Override
+    public List<CourseJointInfoWrapper> searchForJointOfferingCourses(String courseNumber) {
+        return CourseCodeSearchUtil.searchForCourseJointInfos(courseNumber, getCluService());
     }
-	
-	private SearchService getSearchService() {
-		if (searchService == null) {
-			searchService = GlobalResourceLoader.getService(new QName(LookupableConstants.NAMESPACE_PERSONSEACH, LookupableConstants.PERSONSEACH_SERVICE_NAME_LOCAL_PART));
-		}
-		return searchService;
-	}
-	
-	private SubjectCodeService getSubjectCodeService() {
-		if (subjectCodeService == null) {
-			subjectCodeService = GlobalResourceLoader.getService(new QName(LookupableConstants.NAMESPACE_SUBJECTCODE, SubjectCodeService.class.getSimpleName()));
-		}
-		return subjectCodeService;
-	}	
-	
-	private CluService getCluService() {
-		if (cluService == null) {
-			cluService = GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluService.class.getSimpleName()));
-		}
-		return cluService;
-	}	
-	
-	private LearningObjectiveService getLearningObjectiveService() {
-        if (learningObjectiveService == null) {
-            learningObjectiveService = GlobalResourceLoader.getService(new QName(
-                    LearningObjectiveServiceConstants.NAMESPACE, LearningObjectiveService.class.getSimpleName()));
-        }
-        return learningObjectiveService;
+    
+    @Override
+    public List<LoCategoryInfoWrapper> searchForLoCategories(String categoryName) {
+        return LoCategorySearchUtil.searchForLoCategories(categoryName, getLearningObjectiveService());
     }
-	
-	protected OrganizationService getOrganizationService() {
-		if (organizationService == null) {
-	        organizationService = (OrganizationService) GlobalResourceLoader
-                .getService(new QName("http://student.kuali.org/wsdl/organization","OrganizationService"));
-		}
-		return organizationService;
-	}
-
 
     public ProposalInfo getProposal() {
         return proposalInfo;
@@ -635,24 +388,6 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
      */
     public void setFinalExamRationale(final String argFinalExamRationale) {
         this.finalExamRationale = argFinalExamRationale;
-    }
-
-    /**
-     * Gets the value of loDialogWrapper
-     * 
-     * @return the value of loDialogWrapper
-     */
-    public LearningObjectiveDialogWrapper getLoDialogWrapper() {
-        return this.loDialogWrapper;
-    }
-
-    /**
-     * Sets the value of loDialogWrapper
-     * 
-     * @param argLoDialogWrapper Value to assign to this.loDialogWrapper
-     */
-    public void setLoDialogWrapper(final LearningObjectiveDialogWrapper argLoDialogWrapper) {
-        this.loDialogWrapper = argLoDialogWrapper;
     }
 
     /**
@@ -911,5 +646,53 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
        
        return listCollaboratorWrappers;
    }
+
+    public List<LoDisplayInfoWrapper> getLoDisplayInfoWrappers() {
+        if (loDisplayInfoWrappers == null) {
+            loDisplayInfoWrappers = new ArrayList<LoDisplayInfoWrapper>(0);
+        }
+        return loDisplayInfoWrappers;
+    }
+
+    public void setLoDisplayInfoWrappers(List<LoDisplayInfoWrapper> loDisplayInfoWrappers) {
+        this.loDisplayInfoWrappers = loDisplayInfoWrappers;
+    }
+    
+    protected SearchService getSearchService() {
+        if (searchService == null) {
+            searchService = GlobalResourceLoader.getService(new QName(LookupableConstants.NAMESPACE_PERSONSEACH, LookupableConstants.PERSONSEACH_SERVICE_NAME_LOCAL_PART));
+        }
+        return searchService;
+    }
+    
+    protected SubjectCodeService getSubjectCodeService() {
+        if (subjectCodeService == null) {
+            subjectCodeService = GlobalResourceLoader.getService(new QName(LookupableConstants.NAMESPACE_SUBJECTCODE, SubjectCodeService.class.getSimpleName()));
+        }
+        return subjectCodeService;
+    }   
+    
+    protected CluService getCluService() {
+        if (cluService == null) {
+            cluService = GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluService.class.getSimpleName()));
+        }
+        return cluService;
+    }   
+    
+    protected LearningObjectiveService getLearningObjectiveService() {
+        if (learningObjectiveService == null) {
+            learningObjectiveService = GlobalResourceLoader.getService(new QName(
+                    LearningObjectiveServiceConstants.NAMESPACE, LearningObjectiveService.class.getSimpleName()));
+        }
+        return learningObjectiveService;
+    }
+    
+    protected OrganizationService getOrganizationService() {
+        if (organizationService == null) {
+            organizationService = (OrganizationService) GlobalResourceLoader
+                .getService(new QName("http://student.kuali.org/wsdl/organization","OrganizationService"));
+        }
+        return organizationService;
+    }
 
 }

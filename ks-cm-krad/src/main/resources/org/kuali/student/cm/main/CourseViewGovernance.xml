@@ -116,7 +116,7 @@
                             <property name="sourcePropertyName" value="organizationName" />
                             <property name="templateOptions" value="minLength:1,delay:0" />
                             <property name="suggestQuery">
-                                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getOrganizationsForSuggest" />
+                                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="searchForOrganizations" />
                             </property>
                         </bean>
                     </property>

@@ -35,7 +35,7 @@
     </bean>
 
 	<bean id="LearningObjective-CollectionSection" parent="Uif-StackedCollectionSection"
-		p:propertyName="course.courseSpecificLOs" p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.LoDisplayInfo">
+		p:propertyName="loDisplayInfoWrappers" p:collectionObjectClass="org.kuali.student.cm.course.form.LoDisplayInfoWrapper">
         <property name="onDocumentReadyScript" value="setupCharCounters()" />
         <property name="layoutManager">
 			<bean parent="Uif-StackedCollectionLayout-WithBoxItems">
@@ -51,7 +51,10 @@
 		<property name="renderAddBlankLineButton" value="true" />
 		<property name="addBlankLineAction.actionLabel" value="Add Learning Objective" />
         <property name="addLinePlacement" value="BOTTOM" />
-		<!--<property name="collectionLookup.quickfinderAction.render" value="true" /> -->
+        <property name="collectionLookup.render" value="true"/>
+        <property name="collectionLookup.dataObjectClassName" value="org.kuali.student.cm.course.form.LoDisplayInfoWrapper"/>
+        <!-- <property name="collectionLookup.fieldConversions" value="catNameAndType:name"/> -->
+        <!--<property name="collectionLookup.quickfinderAction.render" value="true" /> -->
         <property name="items">
 			<list>
 				<bean id="KS-LoInfo-descr" parent="Uif-InputField"
@@ -96,7 +99,7 @@
 										<property name="templateOptions" value="minLength:1,delay:0" />
 										<property name="suggestQuery">
 											<bean parent="Uif-AttributeQueryConfig"
-												p:queryMethodToCall="getLoCategoriesForSuggest" />
+												p:queryMethodToCall="searchForLoCategories" />
 										</property>
 									</bean>
 								</property>
@@ -135,11 +138,7 @@
 							
 						</list>
 					</property>
-                    <!--<property name="collectionLookup.render" value="true"/>
-                    <property name="collectionLookup.dataObjectClassName" value="org.kuali.student.cm.course.form.LoCategoryInfoWrapper"/>
-                    <property name="collectionLookup.fieldConversions" value="catNameAndType:name"/>
-                    <property name="collectionLookup.autoSearch" value="true" />-->                    
-				</bean>
+                </bean>
 			</list>
 		</property>
 	</bean>

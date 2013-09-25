@@ -47,6 +47,7 @@ import org.kuali.student.cm.course.form.GenericStringForCollectionWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.impl.LookupableConstants;
+import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities.DecisionRationaleDetail;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
@@ -65,9 +66,11 @@ import org.kuali.student.r2.core.constants.CommentServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -95,6 +98,7 @@ public class CourseController extends MaintenanceDocumentController {
     private CommentService commentService;
 	private SubjectCodeService subjectCodeService;    
     private IdentityService identityService;
+    private CluService cluService;
     
     private enum CourseViewPages {
         COURSE_INFO("KS-CourseView-CourseInfoPage"), 
@@ -178,7 +182,7 @@ public class CourseController extends MaintenanceDocumentController {
         //Retrieve the collection display values and get the fully loaded object (containing all the IDs and related IDs)
         if (maintainable.getCourseJointWrappers() != null) {
             for (final CourseJointInfoWrapper jointInfoDisplay : maintainable.getCourseJointWrappers()) {
-                maintainable.getCourse().getJoints().add(maintainable.getJointOfferingCourse(jointInfoDisplay.getCourseCode()));
+                maintainable.getCourse().getJoints().add(CourseCodeSearchUtil.getCourseJointInfoWrapper(jointInfoDisplay.getCourseCode(), getCluService()));
             }
         }
         
@@ -597,6 +601,13 @@ public class CourseController extends MaintenanceDocumentController {
      */
     protected CourseInfoMaintainable getCourseMaintainableFrom(final MaintenanceDocumentForm form) {
         return (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
+    }
+    
+    protected CluService getCluService() {
+          if (cluService == null) {
+              cluService = GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluService.class.getSimpleName()));
+          }
+          return cluService;
     }
     
     protected CourseService getCourseService() {
