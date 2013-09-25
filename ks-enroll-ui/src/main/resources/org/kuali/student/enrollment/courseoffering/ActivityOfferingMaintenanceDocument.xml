@@ -100,10 +100,12 @@
                         <bean parent="Uif-VerticalBoxGroup">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-InputField-LabelRight" p:cssClasses="unprocessed_changes_checkbox" p:render="@{#dp.schedulingCompleted}" p:label="Send revised delivery logistics to the scheduler for processing upon save." p:propertyName="sendRDLsToSchedulerAfterMSE">
+                                    <bean parent="Uif-InputField-LabelRight" p:cssClasses="unprocessed_changes_checkbox" p:render="@{#dp.schedulingCompleted}"
+                                          p:label="@{#dp.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.canceled' ? 'Delivery logistics cannot be sent to the scheduler for this activity offering because it is canceled.' : 'Send revised delivery logistics to the scheduler for processing upon save.'}"
+                                          p:propertyName="sendRDLsToSchedulerAfterMSE">
                                         <property name="control">
                                             <bean parent="Uif-CheckboxControl">
-                                            <property name="disabled" value="@{#dp.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.canceled'}"/>
+                                            <property name="render" value="@{#dp.aoInfo.stateKey ne 'kuali.lui.activity.offering.state.canceled'}"/>
                                             </bean>
                                         </property>
                                     </bean>
