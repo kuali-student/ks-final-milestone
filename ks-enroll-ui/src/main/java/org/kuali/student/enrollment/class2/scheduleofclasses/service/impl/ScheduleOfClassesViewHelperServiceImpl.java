@@ -50,8 +50,10 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.ActivityO
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.ActivityOfferingTypeComparator;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -165,7 +167,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
 
             if (instructors == null || instructors.isEmpty()) {
                 LOG.error("Error: Can't find any instructor for selected instructor in term: " + termId);
-                GlobalVariables.getMessageMap().putError("Term & Instructor", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "instructor", instructorName, termId);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.ERROR_CUSTOM, "Invalid Principal Id/Name.");
                 return;
             } else if (instructors.size() > 1) {
                 LOG.error("Error: There is more than one instructor with the same name in term: " + termId);
@@ -177,8 +179,38 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
         }
 
         if (StringUtils.isNotBlank(instructorId)) {
+
+            ContextInfo context = ContextUtils.createDefaultContextInfo();
+
+            //this is a cross service search between LPR and LUI, so it is inefficient (no join)
+            //First get all the luiIds that the instructor is teaching
+            //Only get active courses
+            List<String> luiIds = getLprService().getLuiIdsByPersonAndTypeAndState(instructorId, LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, LprServiceConstants.ACTIVE_STATE_KEY, context);
+
+            List<String> courseOfferingIds = null;
+
+            if (!luiIds.isEmpty()) {
+                //Now find all the COs with Aos that are attached to that instructor.
+                // Build a query
+                QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+                qbcBuilder.setPredicates(PredicateFactory.and(
+                        PredicateFactory.in("aoid", luiIds.toArray()),
+                        PredicateFactory.equalIgnoreCase("atpId", termId)),
+                        PredicateFactory.equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
+                QueryByCriteria criteria = qbcBuilder.build();
+                courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, context);
+            }
+
+            //If nothing was found then error
+            if (courseOfferingIds.isEmpty()) {
+                LOG.error("Error: Can't find any Course Offering for selected Instructor in term: " + termId);
+                GlobalVariables.getMessageMap().putError("Term & Instructor", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "instructor", instructorId, termId);
+                form.getCoDisplayWrapperList().clear();
+                return;
+            }
+
             Map additionalParams = new HashMap();
-            additionalParams.put(CourseOfferingManagementSearchImpl.SearchParameters.INSTRUCTOR_ID, instructorId);
+            additionalParams.put(CourseOfferingManagementSearchImpl.SearchParameters.CO_IDS, courseOfferingIds);
 
             buildCOResultsDisplay(form, termId, additionalParams);
         }
@@ -234,14 +266,18 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
      * @param searchParameters
      * @throws Exception
      */
-    protected void buildCOResultsDisplay(ScheduleOfClassesSearchForm form, String termId, Map<String, String> searchParameters) throws Exception {
+    protected void buildCOResultsDisplay(ScheduleOfClassesSearchForm form, String termId, Map<String, Object> searchParameters) throws Exception {
 
         form.getCoDisplayWrapperList().clear();
 
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey());
 
-        for (Map.Entry< String, String > entry : searchParameters.entrySet()){
-            searchRequest.addParam(entry.getKey(), entry.getValue());
+        for (Map.Entry< String, Object > entry : searchParameters.entrySet()){
+            if (entry.getValue() instanceof String) {
+                 searchRequest.addParam(entry.getKey(), (String)entry.getValue());
+            } else {
+                searchRequest.addParam(entry.getKey(), (List)entry.getValue());
+            }
         }
 
         List<String> filterCOStates = new ArrayList<String>(1);

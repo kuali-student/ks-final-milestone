@@ -66,7 +66,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         public static final String CROSS_LIST_SEARCH_ENABLED = "crossListSearchEnabled";
         public static final String FILTER_CO_STATES = "filterCoStates";
         public static final String IS_EXACT_MATCH_CO_CODE_SEARCH = "isExactMatchSearch";
-        public static final String INSTRUCTOR_ID = "instructorId";
+        public static final String CO_IDS = "coIds";
         public static final String DEPARTMENT_ID = "departmentId";
         public static final String DESCRIPTION = "description";
         /**
@@ -215,7 +215,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         String searchAtpId = requestHelper.getParamAsString(SearchParameters.ATP_ID);
         boolean isExactMatchSearch = BooleanUtils.toBoolean(requestHelper.getParamAsString(SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH));
         List<String> filterCOStates = requestHelper.getParamAsList(SearchParameters.FILTER_CO_STATES);
-        String instructorId = requestHelper.getParamAsString(SearchParameters.INSTRUCTOR_ID);
+        List<String> coIds = requestHelper.getParamAsList(SearchParameters.CO_IDS);
         String departmentId = requestHelper.getParamAsString(SearchParameters.DEPARTMENT_ID);
         String description = requestHelper.getParamAsString(SearchParameters.DESCRIPTION);
         boolean includePassFailAndAuditRecords = BooleanUtils.toBoolean(requestHelper.getParamAsString(SearchParameters.INCLUDE_PASSFAIL_AUDIT_RESULTS));
@@ -256,13 +256,6 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                 "    IN(lui.resultValuesGroupKeys) lui_rvg2," +
                 "    ResultValuesGroupEntity lrc_rvg2 ";
 
-        /*
-         For instructor search, include the Lpr table and join with lui ids
-         */
-        if (StringUtils.isNotBlank(instructorId)){
-            query = query + ",  LprEntity lpr ";
-        }
-
         query = query +
                 "    WHERE" +
                 "    lui.id = ident.lui.id" +
@@ -283,14 +276,9 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
 
         query = query + getLuiIdentifierSubQuery(searchCourseCode,searchSubjectArea,isExactMatchSearch);
 
-        /*
-        Search for the lpr with main instructor type and active state.
-         */
-        if (StringUtils.isNotBlank(instructorId)){
-            query = query + "   AND lpr.luiId = lui.id " +
-                            "   AND LOWER(lpr.personId) = '" + StringUtils.lowerCase(instructorId) +  "'" +
-                            "   AND lpr.personRelationTypeId = '" + LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY + "'" +
-                            "   AND lpr.personRelationStateId = '" + LprServiceConstants.ACTIVE_STATE_KEY + "'";
+        if (coIds != null && !coIds.isEmpty()){
+            String coIdsAsString = "'" + StringUtils.join(coIds,"','") + "'";
+            query = query + " AND lui.id in (" + coIdsAsString + ") ";
         }
 
         /**
