@@ -1886,10 +1886,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
+        List<LuiInfo> luis = getLuiService().getLuisByIds(registrationGroupsIds, contextInfo);
 
-        for (String registrationGroupId : registrationGroupsIds) {
-
-            regGroups.add(registrationGroupAssembler.assemble(luiService.getLui(registrationGroupId, contextInfo), contextInfo));
+        for (LuiInfo lui : luis) {
+            regGroups.add( registrationGroupTransformer.lui2Rg(lui, contextInfo));
         }
 
         return regGroups;
@@ -1956,10 +1956,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         List<String> rgIds = luiService.getLuiIdsByRelatedLuiAndRelationType(activityOfferingId, LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY, context);
         if (rgIds != null && !rgIds.isEmpty()) {
-            for (String rgId : rgIds) {
-                RegistrationGroupInfo rgInfo = getRegistrationGroup(rgId, context);
-                regGroups.add(rgInfo);
-            }
+            regGroups.addAll(getRegistrationGroupsByIds(rgIds, context));
 
             // Now sort based on reg group code order (alphabetical order works fine)
             // TODO: figure out how to write a compare method that makes sense given different code generators.
