@@ -31,6 +31,7 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.enrollment.examoffering.service.ExamOfferingService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -38,6 +39,7 @@ import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -98,6 +100,7 @@ public class CourseOfferingManagementUtil {
     private static SearchService searchService;
     private static CourseWaitListServiceFacade courseWaitListServiceFacade;
     private static ExamOfferingServiceFacade examOfferingServiceFacade;
+    private static ExamOfferingService examOfferingService;
 
     public static CourseOfferingManagementViewHelperService getViewHelperService(CourseOfferingManagementForm theForm) {
 
@@ -175,6 +178,14 @@ public class CourseOfferingManagementUtil {
         }
         return examOfferingServiceFacade;
     }
+
+    public static ExamOfferingService getExamOfferingService() {
+        if (examOfferingService == null) {
+            examOfferingService = (ExamOfferingService) GlobalResourceLoader.getService(new QName(ExamOfferingServiceConstants.NAMESPACE, ExamOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return examOfferingService;
+    }
+
 
     public static CourseService getCourseService() {
         if(courseService == null) {

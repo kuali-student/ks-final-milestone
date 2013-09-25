@@ -906,11 +906,8 @@ public class CourseOfferingManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=getExamOfferings")
     public ModelAndView getExamOfferings(@ModelAttribute("KualiForm") CourseOfferingManagementForm form) throws Exception {
 
-
-
-        CourseOfferingManagementForm examofferingform =  form;
-
-        examofferingform.setInputCode( form.getInputCode().toUpperCase() );
+        CourseOfferingManagementForm examofferingform = form;
+        examofferingform.setInputCode(form.getInputCode().toUpperCase());
 
         CourseOfferingManagementUtil.getViewHelperService(examofferingform).populateTerm(examofferingform);
 
@@ -927,6 +924,14 @@ public class CourseOfferingManagementController extends UifControllerBase {
             } else { // just one course offering is returned
                 CourseOfferingListSectionWrapper coListWrapper = examofferingform.getCourseOfferingResultList().get(0);
                 CourseOfferingManagementUtil.prepareManageAOsModelAndView(examofferingform, coListWrapper);
+                CourseOfferingWrapper currentCOWrapper = new CourseOfferingWrapper(examofferingform.getCurrentCourseOfferingWrapper().getCourseOfferingInfo());
+                examofferingform.setCurrentCourseOfferingWrapper(currentCOWrapper);
+//                List<ExamOfferingRelationInfo> examOfferingRelationInfos = new ArrayList<ExamOfferingRelationInfo>();
+//
+//                List<FormatOfferingInfo> formatOfferingInfos = new ArrayList<FormatOfferingInfo>();
+//                formatOfferingInfos = CourseOfferingManagementUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(currentCOWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+//                examOfferingRelationInfos = CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingRelationsByFormatOffering(formatOfferingInfos.get(0).getFormatId(), ContextUtils.createDefaultContextInfo());
+
 
             }
         }
