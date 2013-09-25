@@ -240,8 +240,8 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
 
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey());
 
-        for (String key : searchParameters.keySet()){
-            searchRequest.addParam(key, searchParameters.get(key));
+        for (Map.Entry< String, String > entry : searchParameters.entrySet()){
+            searchRequest.addParam(entry.getKey(), entry.getValue());
         }
 
         List<String> filterCOStates = new ArrayList<String>(1);
