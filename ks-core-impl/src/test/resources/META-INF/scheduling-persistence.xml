@@ -11,6 +11,8 @@
         <class>org.kuali.student.r2.core.scheduling.model.TimeSlotEntity</class>
         <class>org.kuali.student.r2.core.scheduling.model.TimeSlotAttributeEntity</class>
 
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestSetEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestSetAttributeEntity</class>
         <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestEntity</class>
         <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestAttributeEntity</class>
         <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestComponentEntity</class>

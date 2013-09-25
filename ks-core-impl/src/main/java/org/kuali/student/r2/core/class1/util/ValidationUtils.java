@@ -22,8 +22,11 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.HasType;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.springframework.util.Log4jConfigurer;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +36,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class ValidationUtils {
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ValidationUtils.class);
 
     public static String TYPE_VALIDATION_TYPE_KEY = "typeValidation";
 
@@ -112,18 +116,33 @@ public class ValidationUtils {
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public static List<ValidationResultInfo> validateTypeKey(String typeKey, TypeService typeService, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public static List<ValidationResultInfo> validateTypeKey(String typeKey, String refObjectUri, TypeService typeService, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ValidationResultInfo> errors = new ArrayList<ValidationResultInfo>();
 
-        try{
-            typeService.getType(typeKey, contextInfo);
-        }catch (DoesNotExistException ex){
+        try {
+//            typeService.getType(typeKey, contextInfo);
+            List<TypeInfo> types = typeService.getTypesByRefObjectUri(refObjectUri, contextInfo);
+            if (types == null) {
+                errors.add(new ValidationResultInfo(String.format("No TypeInfo found for the Ref Object Uri %s", refObjectUri)));
+                log.debug(String.format("No TypeInfo found for the Ref Object Uri %s", refObjectUri));
+            } else {
+                boolean isKeyFound = false;
+                for (TypeInfo info : types) {
+                    if (typeKey.equals(info.getKey())) {
+                        isKeyFound = true;
+                    }
+                }
+                if (!isKeyFound) {
+                    errors.add(new ValidationResultInfo(String.format("No TypeInfo found for the Type Key %s with Ref Object Uri %s", typeKey, refObjectUri)));
+                    log.debug(String.format("No TypeInfo found for the Type Key %s with Ref Object Uri %s", typeKey, refObjectUri));
+                }
+            }
+        } catch (DoesNotExistException ex) {
             ValidationResultInfo validationResult = new ValidationResultInfo();
-            validationResult.setError("Error trying to use Type that is not configured. Make sure the type exists in the database. [" +typeKey+ "] must be configured.");
+            validationResult.setError("Error trying to use Type that is not configured. Make sure the type exists in the database. [" + typeKey + "] must be configured.");
             validationResult.setElement(typeKey);
             errors.add(validationResult);
         }
-
 
         return errors;
     }
@@ -147,6 +166,19 @@ public class ValidationUtils {
 
 
         return errors;
+    }
+
+    public static boolean checkForErrors(List<ValidationResultInfo> errors) {
+
+        if (errors != null && !errors.isEmpty()) {
+            for (ValidationResultInfo error : errors) {
+                if (error.isError()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
 

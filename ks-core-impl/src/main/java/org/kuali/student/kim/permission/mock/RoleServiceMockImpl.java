@@ -248,7 +248,7 @@ public class RoleServiceMockImpl implements RoleService, MockService {
     }
 
     @Override
-    public boolean principalHasRole(@WebParam(name = "principalId") String principalId, @WebParam(name = "roleIds") List<String> roleIds, @WebParam(name = "qualification") @XmlJavaTypeAdapter(value = MapStringStringAdapter.class) Map<String, String> qualification, boolean checkDelegations) throws RiceIllegalArgumentException {
+    public boolean principalHasRole(String principalId, List<String> roleIds, @XmlJavaTypeAdapter(value = MapStringStringAdapter.class) Map<String, String> qualification, boolean checkDelegations) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported Yet");
     }
 
@@ -270,7 +270,7 @@ public class RoleServiceMockImpl implements RoleService, MockService {
     }
 
     @Override
-    public RoleQueryResults findRoles(@WebParam(name = "query") QueryByCriteria queryByCriteria) throws RiceIllegalArgumentException {
+    public RoleQueryResults findRoles(QueryByCriteria queryByCriteria) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported Yet");
     }
 
@@ -366,7 +366,7 @@ public class RoleServiceMockImpl implements RoleService, MockService {
     }
 
     @Override
-    public Set<String> getRoleTypeRoleMemberIds(@WebParam(name = "roleId") String roleId) throws RiceIllegalArgumentException {
+    public Set<String> getRoleTypeRoleMemberIds(String roleId) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported Yet");
     }
 
@@ -434,18 +434,18 @@ public class RoleServiceMockImpl implements RoleService, MockService {
     }
 
     @Override
-    public DelegateType getDelegateTypeByRoleIdAndDelegateTypeCode(@WebParam(name = "roleId") String roleId,
-            @WebParam(name = "delegateType") DelegationType delegateType)  throws RiceIllegalArgumentException{
+    public DelegateType getDelegateTypeByRoleIdAndDelegateTypeCode(String roleId,
+            DelegationType delegateType)  throws RiceIllegalArgumentException{
         throw new UnsupportedOperationException("Not supported Yet");
     }
 
     @Override
-    public DelegateType getDelegateTypeByDelegationId(@WebParam(name = "delegationId") String delegationId) throws RiceIllegalArgumentException {
+    public DelegateType getDelegateTypeByDelegationId(String delegationId) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported Yet");
     }
 
     @Override
-    public DelegateType updateDelegateType(@WebParam(name="delegateType") DelegateType delegateType) throws RiceIllegalArgumentException, RiceIllegalStateException{
+    public DelegateType updateDelegateType(DelegateType delegateType) throws RiceIllegalArgumentException, RiceIllegalStateException{
         throw new UnsupportedOperationException("Not supported Yet");
     }
 
@@ -532,17 +532,17 @@ public class RoleServiceMockImpl implements RoleService, MockService {
     }
 
     @Override
-    public RoleResponsibilityAction createRoleResponsibilityAction(@WebParam(name = "roleResponsibilityAction") RoleResponsibilityAction roleResponsibilityAction) throws RiceIllegalArgumentException {
+    public RoleResponsibilityAction createRoleResponsibilityAction(RoleResponsibilityAction roleResponsibilityAction) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public RoleResponsibilityAction updateRoleResponsibilityAction(@WebParam(name = "roleResponsibilityAction") RoleResponsibilityAction roleResponsibilityAction) throws RiceIllegalArgumentException {
+    public RoleResponsibilityAction updateRoleResponsibilityAction(RoleResponsibilityAction roleResponsibilityAction) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void deleteRoleResponsibilityAction(@WebParam(name = "roleResponsibilityActionId") String s) throws RiceIllegalArgumentException {
+    public void deleteRoleResponsibilityAction(String s) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -597,17 +597,17 @@ public class RoleServiceMockImpl implements RoleService, MockService {
     }
 
     @Override
-    public DelegateMember updateDelegateMember(@WebParam(name = "delegateMember") DelegateMember delegateMember) throws RiceIllegalArgumentException, RiceIllegalStateException {
+    public DelegateMember updateDelegateMember(DelegateMember delegateMember) throws RiceIllegalArgumentException, RiceIllegalStateException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public DelegateMember createDelegateMember(@WebParam(name = "delegateMember") DelegateMember delegateMember) throws RiceIllegalArgumentException, RiceIllegalStateException {
+    public DelegateMember createDelegateMember(DelegateMember delegateMember) throws RiceIllegalArgumentException, RiceIllegalStateException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void removeDelegateMembers(@WebParam(name = "delegateMembers") List<DelegateMember> delegateMembers) throws RiceIllegalArgumentException, RiceIllegalStateException {
+    public void removeDelegateMembers(List<DelegateMember> delegateMembers) throws RiceIllegalArgumentException, RiceIllegalStateException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -660,12 +660,12 @@ public class RoleServiceMockImpl implements RoleService, MockService {
     }
 
     @Override
-    public boolean isDerivedRole(@WebParam(name = "roleId") String s) throws RiceIllegalArgumentException {
+    public boolean isDerivedRole(String s) throws RiceIllegalArgumentException {
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public boolean isDynamicRoleMembership(@WebParam(name = "roleId") String s) throws RiceIllegalArgumentException {
+    public boolean isDynamicRoleMembership(String s) throws RiceIllegalArgumentException {
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

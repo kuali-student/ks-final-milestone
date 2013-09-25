@@ -78,9 +78,7 @@ import java.util.Set;
  *
  */
 public class CriteriaLookupDaoJpaImpl {
-
-    // FIXME: 
-    // @PersistenceContext cannot be injected without unit name, must use subclass or setter
+    @PersistenceContext
     private EntityManager entityManager;
 
     public <T> GenericQueryResults<T> lookup(final Class<T> queryClass, final QueryByCriteria criteria, LookupCustomizer<T> customizer) {

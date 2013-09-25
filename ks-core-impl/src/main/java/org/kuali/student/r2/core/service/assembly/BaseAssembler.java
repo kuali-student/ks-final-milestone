@@ -65,7 +65,7 @@ public class BaseAssembler {
 
         // Find all the old attributes(if the owner is not null)
         for (A attribute : owner.getAttributes()) {
-            currentAttributes.put(attribute.getName(), attribute);
+            currentAttributes.put(attribute.getId(), attribute);
         }
 
         //Clear out the attributes
@@ -78,9 +78,8 @@ public class BaseAssembler {
         //Update anything that exists, or create a new attribute if it doesn't
         for (AttributeInfo attr : attributeList) {
             A attribute;
-
-            if (currentAttributes.containsKey(attr.getKey())) {
-                attribute = currentAttributes.remove(attr.getKey());
+            if (currentAttributes.containsKey(attr.getId())) {
+                attribute = currentAttributes.remove(attr.getId());
             } else {
                 try {
                     attribute = attributeClass.newInstance();
@@ -98,6 +97,7 @@ public class BaseAssembler {
     }
 
     /**
+     * @param <S> Type Class
      * @param typeEntity the typeEntity to copy from
      * @return a new TypeInfo
      */

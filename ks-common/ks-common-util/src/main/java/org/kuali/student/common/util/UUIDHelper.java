@@ -18,10 +18,13 @@ package org.kuali.student.common.util;
 
 import org.apache.log4j.Logger;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class UUIDHelper {
 	
     private static final Logger LOG = Logger.getLogger(UUIDHelper.class);
-	
+	private static final String UUID_PATTERN = "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$";
 	public static String genStringUUID() {
 		return java.util.UUID.randomUUID().toString();
 	}
@@ -37,4 +40,18 @@ public class UUIDHelper {
 		}
 		return genStringUUID();
 	}
+
+    /**
+     * Determines whether str is a UUID string or not (based on an answer in a website I found)
+     * @param str Input string
+     * @return true, if it is a UUID
+     */
+    public static boolean isUUID(String str) {
+        if (str == null) {
+            return false;
+        }
+        Pattern p = Pattern.compile(UUID_PATTERN);
+        Matcher m = p.matcher(str.toLowerCase());
+        return m.matches();
+    }
 }

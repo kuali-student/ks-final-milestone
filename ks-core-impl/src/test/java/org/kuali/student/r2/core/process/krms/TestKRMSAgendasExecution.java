@@ -39,6 +39,15 @@ import java.util.*;
 
 import static junit.framework.Assert.assertNotNull;
 
+/**
+ * This test is used to test the Rice Krms integration for KS.
+ *
+ * This Test class needs a physical database to execute and is therefore @Ignored.
+ * This is only used in development until a proper solution is found to make this
+ * part of the CI environment.
+ *
+ * @Author: SW Genis
+ */
 @Ignore
 public class TestKRMSAgendasExecution extends KSKRMSTestCase {
 
@@ -47,7 +56,8 @@ public class TestKRMSAgendasExecution extends KSKRMSTestCase {
     private List<TermResolver<?>> termResolvers;
 
     private static final Term permissionTerm = new Term("orgPermissionMock");
-    private static final Term numberOfCoursesTerm = new Term("numberOfCoursesMock");
+    private static final Term numberOfCoursesTerm0 = new Term("numberOfCoursesMock0");
+    private static final Term numberOfCoursesTerm2 = new Term("numberOfCoursesMock2");
 
     @Before
     public void setUp() throws Exception {
@@ -56,18 +66,17 @@ public class TestKRMSAgendasExecution extends KSKRMSTestCase {
         evaluator = new KRMSEvaluator() {
         };
 
-        termResolvers = new ArrayList<TermResolver<?>>();
-        termResolvers.add(new TermResolverMock<Boolean>("orgPermissionMock", Boolean.TRUE));
-        termResolvers.add(new TermResolverMock<Integer>("numberOfCoursesMock", 0));
-
-        termResolvers.add(new OrganizationalPermissionTermResolver());
-        termResolvers.add(new NumberOfCoursesInListTermResolver());
-
-        evaluator.setTermResolvers(termResolvers);
     }
 
     @Test
     public void testKRMSEvaluator() {
+
+        termResolvers = new ArrayList<TermResolver<?>>();
+        termResolvers.add(new TermResolverMock<Boolean>("orgPermissionMock", Boolean.TRUE));
+        termResolvers.add(new TermResolverMock<Integer>("numberOfCoursesMock0", 0));
+        termResolvers.add(new TermResolverMock<Integer>("numberOfCoursesMock2", 2));
+
+        evaluator.setTermResolvers(termResolvers);
 
         ComparisonOperator operatorGreaterThan = ComparisonOperator.GREATER_THAN;
         operatorGreaterThan.setComparisonOperatorService(ComparisonOperatorServiceImpl.getInstance());
@@ -75,28 +84,38 @@ public class TestKRMSAgendasExecution extends KSKRMSTestCase {
         ComparisonOperator operatorEquals = ComparisonOperator.EQUALS;
         operatorEquals.setComparisonOperatorService(ComparisonOperatorServiceImpl.getInstance());
 
-        Proposition oneCourseFromList = new ComparableTermBasedProposition(operatorGreaterThan, numberOfCoursesTerm, 1);
+        Proposition oneCourseFromList0 = new ComparableTermBasedProposition(operatorGreaterThan, numberOfCoursesTerm0, 1);
+        Proposition oneCourseFromList2 = new ComparableTermBasedProposition(operatorGreaterThan, numberOfCoursesTerm2, 1);
         Proposition permFromDept = new ComparableTermBasedProposition(ComparisonOperator.EQUALS, permissionTerm, Boolean.TRUE);
 
         ActionMock.resetActionsFired();
 
-        Rule rule1 = new BasicRule("GEOG123 Prerequisites", oneCourseFromList, Collections.<Action>singletonList(new ActionMock("a1")));
-        Rule rule2 = new BasicRule("GEOG123 Corequisites", permFromDept, Collections.<Action>singletonList(new ActionMock("a2")));
+        Rule rule1 = new BasicRule("GEOG123 Prerequisites", oneCourseFromList0, Collections.<Action>singletonList(new ActionMock("a1")));
+        Rule rule2 = new BasicRule("GEOG123 Prerequisites", oneCourseFromList2, Collections.<Action>singletonList(new ActionMock("a2")));
+        Rule rule3 = new BasicRule("GEOG123 Corequisites", permFromDept, Collections.<Action>singletonList(new ActionMock("a3")));
 
         AgendaTreeEntry entry1 = new BasicAgendaTreeEntry(rule1);
         AgendaTreeEntry entry2 = new BasicAgendaTreeEntry(rule2);
-        BasicAgendaTree agendaTree = new BasicAgendaTree(entry1, entry2);
+        AgendaTreeEntry entry3 = new BasicAgendaTreeEntry(rule3);
+        BasicAgendaTree agendaTree = new BasicAgendaTree(entry1, entry2, entry3);
 
         Agenda agenda = new BasicAgenda(Collections.singletonMap(AgendaDefinition.Constants.EVENT, "GEOG123 Course Requirements"), agendaTree);
 
         evaluator.evaluateAgenda(agenda, this.buildExecutionFacts(), Collections.singletonMap(AgendaDefinition.Constants.EVENT, "GEOG123 Course Requirements"));
 
-        Assert.assertTrue(ActionMock.actionFired("a1"));
+        Assert.assertFalse(ActionMock.actionFired("a1"));
         Assert.assertTrue(ActionMock.actionFired("a2"));
+        Assert.assertTrue(ActionMock.actionFired("a3"));
     }
 
     @Test
     public void testKRMSEvaluatorWithAgendaService() {
+
+        termResolvers = new ArrayList<TermResolver<?>>();
+        termResolvers.add(new OrganizationalPermissionTermResolver());
+        termResolvers.add(new NumberOfCoursesInListTermResolver());
+
+        evaluator.setTermResolvers(termResolvers);
 
         AgendaDefinition agendaDefinition = KrmsRepositoryServiceLocator.getAgendaBoService().getAgendaByAgendaId("20000");
         assertNotNull(agendaDefinition);

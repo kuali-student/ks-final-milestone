@@ -164,7 +164,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	
 	@Override
 	public Boolean returnDocumentWithId(String workflowId, String nodeName) throws OperationFailedException {
-		return performWorkflowDocumentAction(WORKFLOW_DOCUMENT_ACTION_RETURN, workflowId, nodeName);
+		return performWorkflowDocumentAction(WORKFLOW_DOCUMENT_ACTION_RETURN, workflowId, null);
 	}
     @Override
     public Boolean cancelDocumentWithId(String workflowId) throws OperationFailedException {

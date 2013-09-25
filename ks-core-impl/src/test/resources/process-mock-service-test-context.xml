@@ -10,7 +10,7 @@
     <context:annotation-config />
 
     <bean id="debugMode" class="java.lang.Boolean">
-        <constructor-arg value="true" />
+        <constructor-arg value="false" />
     </bean>
     
     <bean id="processService" class="org.kuali.student.r2.core.process.impl.ProcessServiceMockImpl" />

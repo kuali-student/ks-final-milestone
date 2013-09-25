@@ -13,15 +13,6 @@
 package org.kuali.student.r2.common.class1.search;
 
 import org.kuali.student.r2.common.dao.GenericEntityDao;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.core.search.service.SearchService;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Abstract class for hard wired impls
@@ -29,7 +20,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public abstract class SearchServiceAbstractHardwiredImpl
-        implements SearchService {
+        extends SearchServiceAbstractHardwiredImplBase {
 
     private GenericEntityDao genericEntityDao;
 
@@ -41,37 +32,4 @@ public abstract class SearchServiceAbstractHardwiredImpl
         this.genericEntityDao = genericEntityDao;
     }
 
-    /**
-     * Get the search type that the sub class implements.
-     */
-    public abstract TypeInfo getSearchType();
-
-    @Override
-    public TypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException {
-        TypeInfo st = this.getSearchType();
-        if (!searchTypeKey.equals(st.getKey())) {
-            throw new DoesNotExistException(searchTypeKey);
-        }
-        return st;
-    }
-
-    @Override
-    public List<TypeInfo> getSearchTypes(ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException {
-        return Arrays.asList(this.getSearchType());
-    }
-
-
-    @Override
-    public abstract SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo)
-            throws
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
 }

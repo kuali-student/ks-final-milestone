@@ -77,7 +77,7 @@ public class RoomServiceMockImpl implements RoomService {
 
 
     @Override
-    public RoomInfo getRoom(@WebParam(name = "roomId") String roomId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public RoomInfo getRoom(String roomId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         for(RoomInfo info : roomList) {
             if(info.getId().equalsIgnoreCase(roomId)) {
                 return info;
@@ -87,7 +87,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public List<RoomInfo> getRoomsByIds(@WebParam(name = "roomIds") List<String> roomIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<RoomInfo> getRoomsByIds(List<String> roomIds,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<RoomInfo> rooms = new ArrayList<RoomInfo>();
         for(String id : roomIds) {
             boolean found = false;
@@ -105,7 +105,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public List<String> getRoomIdsByBuilding(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getRoomIdsByBuilding(String buildingId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String>  roomIdList = new ArrayList<String>();
         boolean found = false;
         for(RoomInfo info : roomList) {
@@ -121,7 +121,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public List<String> getRoomIdsByBuildingAndFloor(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "floor") String floor, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getRoomIdsByBuildingAndFloor( String buildingId, String floor,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String>  roomIdList = new ArrayList<String>();
         boolean found = false;
         for(RoomInfo info : roomList) {
@@ -137,7 +137,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public List<String> getRoomIdsByType(@WebParam(name = "roomTypeKey") String roomTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getRoomIdsByType(String roomTypeKey,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String>  roomIdList = new ArrayList<String>();
         for(RoomInfo info : roomList) {
             if(info.getTypeKey().equalsIgnoreCase(roomTypeKey) ) {
@@ -148,7 +148,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public List<String> getRoomIdsByBuildingAndRoomType(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "roomTypeKey") String roomTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getRoomIdsByBuildingAndRoomType( String buildingId, String roomTypeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String>  roomIdList = new ArrayList<String>();
         boolean found = false;
         for(RoomInfo info : roomList) {
@@ -164,7 +164,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public List<String> getRoomsByBuildingAndRoomUsageTypes(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "roomUsageTypeKeys") List<String> roomUsageTypeKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getRoomsByBuildingAndRoomUsageTypes( String buildingId, List<String> roomUsageTypeKeys,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> roomIdList = new ArrayList<String>();
         boolean found = false;
         for (RoomInfo info : roomList) {
@@ -187,7 +187,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public List<String> getRoomIdsByBuildingAndRoomTypes(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "roomTypeKeys") List<String> roomTypeKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getRoomIdsByBuildingAndRoomTypes( String buildingId, List<String> roomTypeKeys,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> roomIdList = new ArrayList<String>();
         boolean found = false;
         for (RoomInfo info : roomList) {
@@ -207,7 +207,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public List<String> searchForRoomIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForRoomIds(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String>  roomIdList = new ArrayList<String>();
         for(int i=1; i < 5; i++) {
             String id = "searchForRoomIds"+i;
@@ -218,7 +218,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public List<RoomInfo> searchForRooms(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<RoomInfo> searchForRooms(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<RoomInfo> roomList = new ArrayList<RoomInfo>();
         for(int i = 1; i < 3; i++) {
             RoomInfo info = null;
@@ -266,7 +266,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public RoomInfo createRoom(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "roomTypeKey") String roomTypeKey, @WebParam(name = "roomInfo") RoomInfo roomInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public RoomInfo createRoom( String buildingId, String roomTypeKey,  RoomInfo roomInfo,  ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         String typeKey = "kuali.room.type.classroom.general";
         String stateKey = "kuali.room.room.state.active";
         String roomId = roomInfo.getId();
@@ -279,7 +279,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public RoomInfo updateRoom(@WebParam(name = "roomId") String roomId, @WebParam(name = "roomInfo") RoomInfo roomInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+    public RoomInfo updateRoom(String roomId,  RoomInfo roomInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         RoomInfo info = new RoomInfo();
         info.setId(roomId);
         info.setTypeKey(roomInfo.getTypeKey());
@@ -298,7 +298,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public StatusInfo deleteRoom(@WebParam(name = "roomId") String roomId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteRoom(String roomId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         RoomInfo room = getRoom(roomId, contextInfo);
         if(room == null)  {
             throw new DoesNotExistException("Room does not exist for ID: "+roomId);
@@ -311,7 +311,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public BuildingInfo getBuilding(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public BuildingInfo getBuilding(String buildingId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         for(BuildingInfo info : buildingList) {
             if(info.getId().equalsIgnoreCase(buildingId)) {
                 return info;
@@ -322,7 +322,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public List<BuildingInfo> getBuildingsByIds(@WebParam(name = "buildingIds") List<String> buildingIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<BuildingInfo> getBuildingsByIds(List<String> buildingIds,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<BuildingInfo> infoList = new ArrayList<BuildingInfo>();
 
         for(String id : buildingIds)   {
@@ -341,7 +341,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public List<String> getBuildingIdsByCampus(@WebParam(name = "campusKey") String campusKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getBuildingIdsByCampus(String campusKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> idList = new ArrayList<String>();
         boolean found = false;
         for(BuildingInfo info : buildingList) {
@@ -358,7 +358,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public List<String> searchForBuildingIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForBuildingIds(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> idList = new ArrayList<String>();
         idList.add("testSearchBuilding1");
         idList.add("testSearchBuilding2");
@@ -369,7 +369,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public List<BuildingInfo> searchForBuildings(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<BuildingInfo> searchForBuildings(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         BuildingInfo info;
 
         info = createBuildingInfo("searchForBuildings1","testCode1", "testCampus", "testName1", "This is building 1 for method searchForBuildings ");
@@ -379,7 +379,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateBuilding(@WebParam(name = "buildingTypeKey") String buildingTypeKey, @WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "buildingInfo") BuildingInfo buildingInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateBuilding(String buildingTypeKey, String validationTypeKey,BuildingInfo buildingInfo,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ValidationResultInfo> infoList = new ArrayList<ValidationResultInfo>();
         ValidationResultInfo info = new ValidationResultInfo();
         if (buildingInfo.getTypeKey().equals(buildingTypeKey)) {
@@ -405,7 +405,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public BuildingInfo createBuilding(@WebParam(name = "buildingTypeKey") String buildingTypeKey, @WebParam(name = "buildingInfo") BuildingInfo buildingInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public BuildingInfo createBuilding(String buildingTypeKey,  BuildingInfo buildingInfo,  ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         String buildingId = buildingInfo.getId();
         if (StringUtils.isBlank(buildingId)){
             buildingId = "createBuildingID1";
@@ -417,7 +417,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public BuildingInfo updateBuilding(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "buildingInfo") BuildingInfo buildingInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+    public BuildingInfo updateBuilding( String buildingId,  BuildingInfo buildingInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         BuildingInfo  info = new BuildingInfo();
         info.setId(buildingId);
         info.setBuildingCode(buildingInfo.getBuildingCode());
@@ -432,7 +432,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public StatusInfo deleteBuilding(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteBuilding( String buildingId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         StatusInfo info = new StatusInfo();
         BuildingInfo building = getBuilding(buildingId, contextInfo);
         if(building == null)  {
@@ -446,7 +446,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public RoomResponsibleOrgInfo getRoomResponsibleOrg(@WebParam(name = "roomResponsibleOrgId") String roomResponsibleOrgId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public RoomResponsibleOrgInfo getRoomResponsibleOrg(String roomResponsibleOrgId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         for(RoomResponsibleOrgInfo info : responsibleInfoList) {
             if(info.getId().equalsIgnoreCase(roomResponsibleOrgId)) {
                 return info;
@@ -456,7 +456,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public List<RoomResponsibleOrgInfo> getRoomResponsibleOrgsByIds(@WebParam(name = "roomResponsibleOrgIds") List<String> roomResponsibleOrgIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<RoomResponsibleOrgInfo> getRoomResponsibleOrgsByIds(List<String> roomResponsibleOrgIds,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<RoomResponsibleOrgInfo>  infoList = new ArrayList<RoomResponsibleOrgInfo>();
 
         for(String id : roomResponsibleOrgIds)  {
@@ -475,7 +475,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public List<String> getRoomResponsibleOrgIdsByType(@WebParam(name = "roomResponsibleOrgTypeKey") String roomResponsibleOrgTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getRoomResponsibleOrgIdsByType(String roomResponsibleOrgTypeKey,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> orgIdList = new ArrayList<String>();
 
         for(RoomResponsibleOrgInfo info : responsibleInfoList) {
@@ -488,7 +488,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public List<String> getRoomResponsibleOrgIdsByRoom(@WebParam(name = "roomId") String roomId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getRoomResponsibleOrgIdsByRoom(String roomId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> orgIdList = new ArrayList<String>();
         boolean found = false;
         for(RoomResponsibleOrgInfo info : responsibleInfoList) {
@@ -505,7 +505,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public List<String> getRoomResponsibleOrgIdsForBuilding(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getRoomResponsibleOrgIdsForBuilding( String buildingId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> orgIdList = new ArrayList<String>();
         boolean found = false;
         for(RoomResponsibleOrgInfo info : responsibleInfoList) {
@@ -522,7 +522,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public List<String> searchForRoomResponsibleOrgIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForRoomResponsibleOrgIds(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> orgIdList = new ArrayList<String>();
         orgIdList.add("testSearchOrgId1");
         orgIdList.add("testSearchOrgId2");
@@ -531,7 +531,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public List<RoomResponsibleOrgInfo> searchForRoomResponsibleOrgs(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<RoomResponsibleOrgInfo> searchForRoomResponsibleOrgs(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<RoomResponsibleOrgInfo>  infoList = new ArrayList<RoomResponsibleOrgInfo>();
 
         Date effectiveDate = new Date(1344398400000L);
@@ -544,7 +544,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateRoomResponsibleOrg(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "roomId") String roomId, @WebParam(name = "orgId") String orgId, @WebParam(name = "roomResponsibleOrgTypeKey") String roomResponsibleOrgTypeKey, @WebParam(name = "roomResponsibleOrgInfo") RoomResponsibleOrgInfo roomResponsibleOrgInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateRoomResponsibleOrg(String validationTypeKey,  String roomId,  String orgId,  String roomResponsibleOrgTypeKey,  RoomResponsibleOrgInfo roomResponsibleOrgInfo,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ValidationResultInfo> infoList = new ArrayList<ValidationResultInfo>();
         ValidationResultInfo info = new ValidationResultInfo();
         if (roomResponsibleOrgInfo.getTypeKey().equals(validationTypeKey)) {
@@ -590,14 +590,14 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public RoomResponsibleOrgInfo createRoomResponsibleOrg(@WebParam(name = "roomId") String roomId, @WebParam(name = "orgId") String orgId, @WebParam(name = "roomResponsibleOrgTypeKey") String roomResponsibleOrgTypeKey, @WebParam(name = "roomResponsibleOrgInfo") RoomResponsibleOrgInfo roomResponsibleOrgInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public RoomResponsibleOrgInfo createRoomResponsibleOrg( String roomId,  String orgId,  String roomResponsibleOrgTypeKey,  RoomResponsibleOrgInfo roomResponsibleOrgInfo,  ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         Date effectiveDate = new Date(1344398400000L);
         Date expireDate = new Date(1345176000000L);
         return createResponsibleInfo("responseID1", roomId, orgId, effectiveDate, expireDate);
      }
 
     @Override
-    public RoomResponsibleOrgInfo updateRoomResponsibleOrg(@WebParam(name = "roomResponsibleOrgId") String roomResponsibleOrgId, @WebParam(name = "roomResponsibleOrgInfo") RoomResponsibleOrgInfo roomResponsibleOrgInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+    public RoomResponsibleOrgInfo updateRoomResponsibleOrg(String roomResponsibleOrgId,  RoomResponsibleOrgInfo roomResponsibleOrgInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         RoomResponsibleOrgInfo info = new RoomResponsibleOrgInfo();
         info.setOrgId(roomResponsibleOrgId);
         info.setRoomId(roomResponsibleOrgInfo.getRoomId());
@@ -612,7 +612,7 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public StatusInfo deleteRoomResponsibleOrg(@WebParam(name = "roomResponsibleOrgId") String roomResponsibleOrgId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteRoomResponsibleOrg(String roomResponsibleOrgId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         StatusInfo status = new StatusInfo();
         RoomResponsibleOrgInfo info = getRoomResponsibleOrg(roomResponsibleOrgId, contextInfo);
         if(info == null) {
@@ -771,12 +771,12 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public List<BuildingInfo> getBuildingsByBuildingCode(@WebParam(name = "buildingCode") String buildingCode, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<BuildingInfo> getBuildingsByBuildingCode(String buildingCode,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException ("getBuildingsByBuildingCode has not been implemented");
     }
 
     @Override
-    public List<RoomInfo> getRoomsByBuildingAndRoomCode(@WebParam(name = "buildingCode") String buildingCode, @WebParam(name = "roomCode") String roomCode, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<RoomInfo> getRoomsByBuildingAndRoomCode(String buildingCode, String roomCode,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException ("getRoomsByBuildingAndRoomCode has not been implemented");
     }
 

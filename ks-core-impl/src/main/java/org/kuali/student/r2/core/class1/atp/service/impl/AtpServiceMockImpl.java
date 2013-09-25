@@ -17,18 +17,32 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.core.search.service.SearchManager;
-import org.kuali.student.r2.core.search.service.SearchService;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.service.SearchManager;
+import org.kuali.student.r2.core.search.service.SearchService;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * This is a mock memory based implementation for ATP service
@@ -44,7 +58,7 @@ public class AtpServiceMockImpl implements AtpService, MockService {
     private SearchManager searchManager;
     private SearchService searchDispatcher;
 
-    
+
     @Override
 	public void clear() {
 
@@ -88,9 +102,18 @@ public class AtpServiceMockImpl implements AtpService, MockService {
 
         Set<String> keys = atpCache.keySet();
 
+        
         for (String key : keys) {
             AtpInfo atp = atpCache.get(key);
-            if (startDate.before(atp.getStartDate()) && endDate.after(atp.getEndDate())) {
+            
+            Date atpStart = atp.getStartDate();
+            Date atpEnd = atp.getEndDate();
+            
+            /*
+             * match exactly on the boundaries.
+             */
+            if ((startDate.equals(atpStart) || startDate.before(atpStart)) && 
+                    (endDate.equals(atpEnd) ||  endDate.after(atpEnd))) {
                 atpList.add(atp);
             }
         }
@@ -212,15 +235,18 @@ public class AtpServiceMockImpl implements AtpService, MockService {
     }
 
     @Override
+    public List<AtpInfo> getAtpsForMilestone(String milestoneId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("getAtpsForMilestone");
+    }
+
+    @Override
     public List<MilestoneInfo> getMilestonesByDatesForAtp(String atpId, Date startDate, Date endDate,ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null; // To change body of implemented methods use File |
-        // Settings | File Templates.
+        throw new UnsupportedOperationException("getMilestonesByDatesForAtp");
     }
 
     @Override
     public List<MilestoneInfo> getMilestonesByTypeForAtp(String atpId,String milestoneTypeKey,ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null; // To change body of implemented methods use File |
-        // Settings | File Templates.
+        throw new UnsupportedOperationException("getMilestonesByTypeForAtp");
     }
 
     @Override

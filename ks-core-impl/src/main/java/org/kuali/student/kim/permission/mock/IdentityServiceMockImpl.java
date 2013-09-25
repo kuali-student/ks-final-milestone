@@ -4,12 +4,6 @@
  */
 package org.kuali.student.kim.permission.mock;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.jws.WebParam;
-
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.exception.RiceIllegalStateException;
@@ -40,6 +34,11 @@ import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
 import org.kuali.rice.kim.api.identity.visa.EntityVisa;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.util.UUIDHelper;
+
+import javax.jws.WebParam;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -193,7 +192,7 @@ public class IdentityServiceMockImpl implements IdentityService, MockService {
     }
 
     @Override
-    public PrincipalQueryResults findPrincipals(@WebParam(name = "query") QueryByCriteria query) throws RiceIllegalArgumentException {
+    public PrincipalQueryResults findPrincipals(QueryByCriteria query) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -245,7 +244,7 @@ public class IdentityServiceMockImpl implements IdentityService, MockService {
      * @throws IllegalArgumentException if the employeeId is blank
      */
     @Override
-    public Entity getEntityByEmployeeId(@WebParam(name = "employeeId") String employeeId) throws RiceIllegalArgumentException {
+    public Entity getEntityByEmployeeId(String employeeId) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -278,7 +277,7 @@ public class IdentityServiceMockImpl implements IdentityService, MockService {
      * @throws IllegalArgumentException if the employeeId is blank
      */
     @Override
-    public EntityDefault getEntityDefaultByEmployeeId(@WebParam(name = "employeeId") String employeeId) throws RiceIllegalArgumentException {
+    public EntityDefault getEntityDefaultByEmployeeId(String employeeId) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -333,7 +332,7 @@ public class IdentityServiceMockImpl implements IdentityService, MockService {
     }
 
     @Override
-    public List<Principal> getPrincipals(@WebParam(name = "principalIds") List<String> strings) {
+    public List<Principal> getPrincipals(List<String> strings) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -365,7 +364,7 @@ public class IdentityServiceMockImpl implements IdentityService, MockService {
      * @return The default name information for the principal
      */
     @Override
-    public EntityNamePrincipalName getDefaultNamesForPrincipalId(@WebParam(name = "principalId") String principalId) {
+    public EntityNamePrincipalName getDefaultNamesForPrincipalId(String principalId) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -494,14 +493,13 @@ public class IdentityServiceMockImpl implements IdentityService, MockService {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-	@Override
-	public List<Principal> getPrincipalsByEmployeeId(String employeeId) {
+    @Override
+    public List<Principal> getPrincipalsByEmployeeId(@WebParam(name = "employeeId") String employeeId) {
         throw new UnsupportedOperationException("Not supported yet.");
-	}
+    }
 
-	@Override
-	public List<Principal> getPrincipalsByEntityId(String entityId) {
+    @Override
+    public List<Principal> getPrincipalsByEntityId(@WebParam(name = "entityId") String entityId) {
         throw new UnsupportedOperationException("Not supported yet.");
-	}
-
+    }
 }

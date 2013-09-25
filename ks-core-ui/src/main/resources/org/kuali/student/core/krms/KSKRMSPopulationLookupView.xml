@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2007-2013 The Kuali Foundation
+
+Licensed under the Educational Community License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.opensource.org/licenses/ecl2.php
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <!-- Copy from PopulationWraperLookupAndInquiry.xml  -->
+
+    <!-- LookupView -->
+    <bean id="KS-KRMS-Population-LookupView" parent="KS-Uif-LookupView">
+        <property name="headerText" value="Population Lookup" />
+        <property name="viewName" value="krmsPopulationView"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.population.service.impl.PopulationWrapperLookupableImpl" />
+        <property name="maintenanceUrlMapping" value="population"/>
+
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Home"/>
+                    <property name="url.href" value="@{#ConfigProperties['application.url']}/portal.do"/>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Enrollment"/>
+                    <property name="url.viewId" value="enrollmentHomeView"/>
+                </bean>
+            </list>
+        </property>
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:label="Keyword" p:propertyName="keyword" p:fieldLabel.style="width:20%;" p:style="width:auto;"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="populationInfo.stateKey"
+                      p:label="State" p:required="true" p:defaultValue="kuali.population.population.state.active" p:render="@{viewName != null}" p:fieldLabel.style="width:20%;" p:style="width:auto;">
+                    <property name="control">
+                        <bean parent="Uif-HorizontalRadioControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.population.keyvalue.PopulationStateKeyValues" p:addBlankOption="false" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="populationInfo.name" p:label="Name"/>
+                <bean parent="Uif-DataField" p:propertyName="populationInfo.descr.plain" p:label="Description"/>
+                <bean parent="Uif-DataField" p:propertyName="populationRuleTypeKeyName"  p:label="Type"/>
+                <bean parent="Uif-DataField" p:propertyName="populationStateKeyName"  p:label="State"/>
+            </list>
+        </property>
+    </bean>
+</beans>

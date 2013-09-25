@@ -171,6 +171,28 @@
         <class>org.kuali.student.r2.common.class1.type.model.TypeTypeRelationAttributeEntity</class>
         <class>org.kuali.student.r2.common.class1.type.model.TypeTypeRelationEntity</class>
 
+        <!-- Schedule -->
+        <class>org.kuali.student.r2.core.scheduling.model.TimeSlotEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.TimeSlotAttributeEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestSetEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestSetAttributeEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestAttributeEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestComponentEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleAttributeEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleComponentEntity</class>
+
+        <!--class>org.kuali.student.r2.core.population.model.PopulationEntity</class -->
+
+        <!-- RoomService Room and Building entities -->
+        <class>org.kuali.student.r2.core.room.model.RoomEntity</class>
+        <class>org.kuali.student.r2.core.room.model.RoomAttributeEntity</class>
+        <class>org.kuali.student.r2.core.room.model.RoomBuildingEntity</class>
+        <class>org.kuali.student.r2.core.room.model.RoomBuildingAttributeEntity</class>
+        <class>org.kuali.student.r2.core.room.model.RoomResponsibleOrgEntity</class>
+        <class>org.kuali.student.r2.core.room.model.RoomResponsibleOrgAttributeEntity</class>
+
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
     </persistence-unit>
 </persistence>

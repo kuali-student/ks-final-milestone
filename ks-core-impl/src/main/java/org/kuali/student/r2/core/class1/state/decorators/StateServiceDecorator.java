@@ -90,6 +90,11 @@ public class StateServiceDecorator implements StateService {
     }
 
     @Override
+    public List<String> getInitialStatesByLifecycle(String lifecycleKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getInitialStatesByLifecycle(lifecycleKey, contextInfo);
+    }
+
+    @Override
     public List<String> searchForStateKeys(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return nextDecorator.searchForStateKeys(criteria, contextInfo);
     }
@@ -117,6 +122,16 @@ public class StateServiceDecorator implements StateService {
     @Override
     public StatusInfo deleteState(@WebParam(name = "stateKey") String stateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return nextDecorator.deleteState(stateKey, contextInfo);
+    }
+
+    @Override
+    public StatusInfo addInitialStateToLifecycle(String initialStateKey, String lifecycleKey, ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.addInitialStateToLifecycle(initialStateKey, lifecycleKey, contextInfo);
+    }
+
+    @Override
+    public StatusInfo removeInitialStateFromLifecycle(String initialStateKey, String lifecycleKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.removeInitialStateFromLifecycle(initialStateKey, lifecycleKey, contextInfo);
     }
 
     @Override

@@ -16,7 +16,6 @@
 
 package org.kuali.student.r2.common.dao;
 
-import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -25,10 +24,12 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.r2.common.entity.BaseEntity;
 import org.kuali.student.r2.common.entity.PersistableEntity;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 
@@ -42,8 +43,7 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
      */
     protected Class<T> entityClass;
 
-    // FIXME: 
-    // @PersistenceContext cannot be injected without unit name, must use subclass or setter
+    @PersistenceContext
     protected EntityManager em;
 
     public GenericEntityDao() {
@@ -77,7 +77,36 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
 		return resultList;
     }
 
-    private void verifyResults(List<T> resultList, Set<String> primaryKeys) throws DoesNotExistException {
+    /**
+     * Check if an entity exists with the primary key given.
+     * 
+     * @param primaryKey the primary key identifier for the entity that will be checked.
+     * @return true if there is a row/entity with the primary key given in the database; false otherwise.
+     * 
+     */
+    public boolean entityExists (String primaryKey) {
+        
+        // TODO: see if this can be externalized as a named query.
+        Query q = em.createQuery("select id from " + entityClass.getSimpleName() + " where id = :key").setParameter("key", primaryKey);
+    
+        Object result;
+        try {
+            result = q.getSingleResult();
+        }
+        catch (NonUniqueResultException e) {
+            // more than 1 match (should never happen...)
+            return false;
+        } 
+        catch (NoResultException e) {
+            // zero matches
+            return false;
+        }
+
+        // all other cases
+        return true;
+        
+    }
+    protected void verifyResults(List<T> resultList, Set<String> primaryKeys) throws DoesNotExistException {
 
     	 if (resultList.size() == 0)
          	throw new DoesNotExistException("No data was found for : " + StringUtils.join(primaryKeys, ", "));
@@ -168,6 +197,10 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
 
     @Override
     public T merge(T entity) {
+        
+        if (em.contains(entity))
+            em.detach(entity);
+        
         return em.merge(entity);
     }
 

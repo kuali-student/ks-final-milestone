@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.student.core</groupId>
         <artifactId>ks-core</artifactId>
-        <version>2.0.0-KSAP-SNAPSHOT</version>
+        <version>2.0.0-M7</version>
     </parent>
     <artifactId>ks-common</artifactId>
     <name>KS Common</name>
@@ -26,6 +26,8 @@
                 <module>ks-common-test</module>
                 <module>ks-common-impl</module>
                 <module>ks-common-ui</module>
+                <module>ks-common-ksink</module>
+                <module>ks-common-web</module>
             </modules>
         </profile>
         <profile>

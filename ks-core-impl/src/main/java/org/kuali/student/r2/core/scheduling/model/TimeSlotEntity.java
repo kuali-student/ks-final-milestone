@@ -16,10 +16,13 @@
 package org.kuali.student.r2.core.scheduling.model;
 
 import org.kuali.student.r1.common.entity.KSEntityConstants;
+import org.kuali.student.r2.common.assembler.TransformUtility;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
@@ -85,14 +88,39 @@ public class TimeSlotEntity extends MetaEntity implements AttributeOwner<TimeSlo
         super(timeSlot);
         setId(timeSlot.getId());
         setTimeSlotType(timeSlot.getTypeKey());
+        fromDto(timeSlot);
+    }
+
+    public void fromDto(TimeSlot timeSlot) {
         setTimeSlotState(timeSlot.getStateKey());
         setName(timeSlot.getName());
         setWeekdays(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlot.getWeekdays()));
         if(timeSlot.getStartTime() != null) {
-         setStartTimeMillis(timeSlot.getStartTime().getMilliSeconds());
+            setStartTimeMillis(timeSlot.getStartTime().getMilliSeconds());
         }
         if(timeSlot.getEndTime() != null) {
             setEndTimeMillis(timeSlot.getEndTime().getMilliSeconds());
+        }
+
+        if (timeSlot.getDescr() != null) {
+            setDescrFormatted(timeSlot.getDescr().getFormatted());
+            this.setDescrPlain(timeSlot.getDescr().getPlain());
+        } else {
+            this.setDescrFormatted(null);
+            this.setDescrPlain(null);
+        }
+
+        if(this.getAttributes() == null) {
+            this.setAttributes(new HashSet<TimeSlotAttributeEntity>());
+        }
+        else {
+            this.getAttributes().clear();
+        }
+
+        if(timeSlot.getAttributes() != null && !timeSlot.getAttributes().isEmpty()) {
+            for (Attribute att : timeSlot.getAttributes()) {
+                this.getAttributes().add(new TimeSlotAttributeEntity(att, this));
+            }
         }
     }
 
@@ -113,11 +141,10 @@ public class TimeSlotEntity extends MetaEntity implements AttributeOwner<TimeSlo
         info.setEndTime(new TimeOfDayInfo());
         info.getEndTime().setMilliSeconds(getEndTimeMillis());
 
-        info.setDescr(new RichTextInfo());
-        info.getDescr().setFormatted(getDescrFormatted());
-        info.getDescr().setPlain(getDescrPlain());
+        info.setDescr(new RichTextHelper().toRichTextInfo(this.getDescrPlain(), this.getDescrFormatted()));
 
         info.setMeta(super.toDTO());
+        info.setAttributes(TransformUtility.toAttributeInfoList(this));
 
         return info;
     }

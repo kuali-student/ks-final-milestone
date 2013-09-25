@@ -4,9 +4,9 @@
  */
 package org.kuali.student.r2.core.class1.atp.service.impl;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
+
 import java.util.Date;
 
 /**
@@ -17,8 +17,8 @@ import java.util.Date;
  */
 public class DateUtil {
 
-    private static DateFormat JUST_DATE = new SimpleDateFormat("yyyy-MM-dd");
-    private static DateFormat END_OF_DAY = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.S");
+    private static KSDateTimeFormatter JUST_DATE = DateFormatters.DEFAULT_DATE_FORMATTER;
+    private static KSDateTimeFormatter END_OF_DAY = DateFormatters.DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMATTER;
 
     public static Date startOfDay(Date date) {
         if (date == null) {
@@ -28,7 +28,7 @@ public class DateUtil {
         try {
             Date newDate = JUST_DATE.parse(dateStr);
             return newDate;
-        } catch (ParseException ex) {
+        } catch (Exception ex) {
             throw new IllegalArgumentException(dateStr);
         }
     }
@@ -41,7 +41,7 @@ public class DateUtil {
         try {
             Date newDate = END_OF_DAY.parse(dateStr + " 23:59:59.9");
             return newDate;
-        } catch (ParseException ex) {
+        } catch (Exception ex) {
             throw new IllegalArgumentException(dateStr);
         }
     }

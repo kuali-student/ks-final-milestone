@@ -86,7 +86,7 @@ public class Dictionary2BeanComparer
 		   && !fdBean.getName().equals("state")
 		   && !fdBean.getName().equals("type")) {
 	// Debuggin System.out.println("test");
-    discrepancies.add (" Field " + fdBean.getName () + " missing from the dictictionary");
+    discrepancies.add (" Field " + fdBean.getName () + " missing from the dictionary");
     continue;
    }
    }

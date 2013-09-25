@@ -12,6 +12,8 @@ import org.kuali.student.r2.core.atp.infc.Atp;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -22,6 +24,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_ATP")
+@NamedQueries( value={
+        @NamedQuery(name="Atp.findByCode", query="from AtpEntity where atpCode = :code")
+})
 public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttributeEntity> {
 
     @Column(name = "NAME")

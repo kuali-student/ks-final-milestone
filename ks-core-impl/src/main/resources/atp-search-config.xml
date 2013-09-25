@@ -112,6 +112,13 @@
 		<ref bean="atp.fieldDescriptor.id" />
 	</search:queryParam>
 
+    <search:queryParam id="atp.advancedAtpSearchParam.atpYear"
+                       parent="atp.advancedAtpSearchParam.atpYear-parent" />
+    <search:queryParam id="atp.advancedAtpSearchParam.atpYear-parent"
+                       optional="true" abstract="true">
+        <ref bean="atp.fieldDescriptor.year" />
+    </search:queryParam>
+
 	<search:queryParam id="atp.advancedAtpSearchParam.atpStartDate"
 		parent="atp.advancedAtpSearchParam.atpStartDate-parent" />
 	<search:queryParam id="atp.advancedAtpSearchParam.atpStartDate-parent"
@@ -233,6 +240,16 @@
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
 
+    <dict:fieldDescriptor id="atp.fieldDescriptor.year"
+                          parent="atp.fieldDescriptor.year-parent" />
+    <dict:fieldDescriptor id="atp.fieldDescriptor.year-parent"
+                          abstract="true">
+        <dict:name>ATP Year</dict:name>
+        <dict:desc>Four Digit Year String</dict:desc>
+        <dict:dataType>int</dict:dataType>
+        <dict:readOnly>true</dict:readOnly>
+    </dict:fieldDescriptor>
+
 	<dict:fieldDescriptor id="atp.fieldDescriptor.startDate"
 		parent="atp.fieldDescriptor.startDate-parent" />
 	<dict:fieldDescriptor id="atp.fieldDescriptor.startDate-parent"
@@ -309,8 +326,10 @@
 			<ref bean="atp.resultColumn.atpId" />
 			<ref bean="atp.resultColumn.atpShortName" />
 			<ref bean="atp.resultColumn.atpStartDate" />
-			<ref bean="atp.resultColumn.atpTypeName" />
-			<ref bean="atp.resultColumn.atpDescrPlain" />			
+            <ref bean="atp.resultColumn.atpEndDate" />
+            <ref bean="atp.resultColumn.atpTypeName" />
+			<ref bean="atp.resultColumn.atpDescrPlain" />
+            <ref bean="atp.resultColumn.atpState" />
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
@@ -407,6 +426,15 @@
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 
+    <search:resultColumn id="atp.resultColumn.atpState"
+                         parent="atp.resultColumn.atpState-parent" />
+    <search:resultColumn id="atp.resultColumn.atpState-parent"
+                         abstract="true">
+        <search:name>ATP State</search:name>
+        <search:desc>ATP State Key</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
 	<search:resultColumn id="atp.resultColumn.atpStartDate"
 		parent="atp.resultColumn.atpStartDate-parent" />
 	<search:resultColumn id="atp.resultColumn.atpStartDate-parent"
@@ -415,6 +443,15 @@
 		<search:desc>Start Date of the ATP.</search:desc>
 		<search:dataType>date</search:dataType>
 	</search:resultColumn>
+
+    <search:resultColumn id="atp.resultColumn.atpEndDate"
+                         parent="atp.resultColumn.atpEndDate-parent" />
+    <search:resultColumn id="atp.resultColumn.atpEndDate-parent"
+                         abstract="true">
+        <search:name>End Date</search:name>
+        <search:desc>End Date of the ATP.</search:desc>
+        <search:dataType>date</search:dataType>
+    </search:resultColumn>
 
 	<search:resultColumn id="atp.resultColumn.atpByDateDisplay"
 		parent="atp.resultColumn.atpByDateDisplay-parent" />
@@ -448,6 +485,7 @@
 			<ref bean="atp.advancedAtpSearchParam.atpStartDateAtpConstraintIdExclusive" />
 			<ref bean="atp.advancedAtpSearchParam.atpEndDateAtpConstraintIdExclusive" />
 			<ref bean="atp.advancedAtpSearchParam.optionalAtpIds" />
+            <ref bean="atp.advancedAtpSearchParam.atpYear"/>
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -503,7 +541,141 @@
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
-	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+
+    <search:searchType id="milestone.search.milestoneIdsByAtpId"
+                       parent="milestone.search.milestoneIdsByAtpId-parent" />
+    <search:searchType id="milestone.search.milestoneIdsByAtpId-parent" abstract="true">
+        <search:name>Milestone Ids by atp id</search:name>
+        <search:desc>Search for Milestones based on Atp Id and other optional criteria.</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="milestone.result.milestoneIds" />
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <ref bean="milestone.criteria.milestoneByAtpId" />
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchResultTypeInfo id="milestone.result.milestoneIds"
+                                 parent="milestone.result.milestoneIds-parent" />
+    <search:searchResultTypeInfo id="milestone.result.milestoneIds-parent"
+                                 abstract="true">
+        <search:name>Milestone IDs</search:name>
+        <search:desc>Milestone IDs</search:desc>
+        <search:resultColumns>
+            <ref bean="milestone.resultColumn.milestoneId" />
+        </search:resultColumns>
+    </search:searchResultTypeInfo>
+
+    <search:resultColumn id="milestone.resultColumn.milestoneId"
+                         parent="milestone.resultColumn.milestoneId-parent" />
+    <search:resultColumn id="milestone.resultColumn.milestoneId-parent"
+                         abstract="true">
+        <search:name>Milestone ID</search:name>
+        <search:desc>Id of the milestone</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+    <search:searchCriteriaTypeInfo id="milestone.criteria.milestoneByAtpId"
+                                   parent="milestone.criteria.milestoneByAtpId-parent" />
+    <search:searchCriteriaTypeInfo id="milestone.criteria.milestoneByAtpId-parent"
+                                   abstract="true">
+        <search:name>Milestone by Atp ID</search:name>
+        <search:desc>Milestone by Atp ID</search:desc>
+        <search:queryParams>
+            <ref bean="milestone.queryParam.atpId" />
+            <ref bean="milestone.queryParam.milestoneTypes" />
+        </search:queryParams>
+    </search:searchCriteriaTypeInfo>
+
+    <search:queryParam id="milestone.queryParam.atpId" parent="milestone.queryParam.atpId-parent" />
+    <search:queryParam id="milestone.queryParam.atpId-parent"
+                       abstract="true">
+        <dict:fieldDescriptor parent="childFieldDescriptor">
+            <dict:name>ATP Id</dict:name>
+        </dict:fieldDescriptor>
+    </search:queryParam>
+
+    <search:queryParam id="milestone.queryParam.milestoneTypes" parent="milestone.queryParam.milestoneTypes-parent" />
+    <search:queryParam id="milestone.queryParam.milestoneTypes-parent"
+                       abstract="true" optional="true">
+        <dict:fieldDescriptor parent="childFieldDescriptor">
+            <dict:name>Milestone Type Keys</dict:name>
+        </dict:fieldDescriptor>
+    </search:queryParam>
+
+
+    <search:searchType id="atp.search.relatedAtpIdsByAtpId"
+                       parent="atp.search.relatedAtpIdsByAtpId-parent" />
+    <search:searchType id="atp.search.relatedAtpIdsByAtpId-parent" abstract="true">
+        <search:name>Related Atp Ids by owner Atp id</search:name>
+        <search:desc>Search for related atps based on Atp Id and other optional criteria.</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="atp.result.relatedAtpIdsByAtpId" />
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <ref bean="atp.criteria.relatedAtpIdsByAtpId" />
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchResultTypeInfo id="atp.result.relatedAtpIdsByAtpId"
+                                 parent="atp.result.relatedAtpIdsByAtpId-parent" />
+    <search:searchResultTypeInfo id="atp.result.relatedAtpIdsByAtpId-parent"
+                                 abstract="true">
+        <search:name>Parent Atp IDs</search:name>
+        <search:desc>Parent Atp IDs</search:desc>
+        <search:resultColumns>
+            <ref bean="atp.resultColumn.relatedAtpId" />
+        </search:resultColumns>
+    </search:searchResultTypeInfo>
+
+    <search:resultColumn id="atp.resultColumn.relatedAtpId"
+                         parent="atp.resultColumn.relatedAtpId-parent" />
+    <search:resultColumn id="atp.resultColumn.relatedAtpId-parent"
+                         abstract="true">
+        <search:name>Related Atp ID</search:name>
+        <search:desc>Id of the related atp</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+    <search:searchCriteriaTypeInfo id="atp.criteria.relatedAtpIdsByAtpId"
+                                   parent="atp.criteria.relatedAtpIdsByAtpId-parent" />
+    <search:searchCriteriaTypeInfo id="atp.criteria.relatedAtpIdsByAtpId-parent"
+                                   abstract="true">
+        <search:name>Related Atps by Atp ID</search:name>
+        <search:desc>Related Atps by Atp ID</search:desc>
+        <search:queryParams>
+            <ref bean="atp.queryParam.parentAtpId" />
+            <ref bean="atp.queryParam.relationType" />
+            <ref bean="atp.queryParam.relatedAtpTypes" />
+        </search:queryParams>
+    </search:searchCriteriaTypeInfo>
+
+    <search:queryParam id="atp.queryParam.parentAtpId" parent="atp.queryParam.parentAtpId-parent" />
+    <search:queryParam id="atp.queryParam.parentAtpId-parent"
+                       abstract="true">
+        <dict:fieldDescriptor parent="childFieldDescriptor">
+            <dict:name>Parent ATP Id</dict:name>
+        </dict:fieldDescriptor>
+    </search:queryParam>
+
+    <search:queryParam id="atp.queryParam.relationType" parent="atp.queryParam.relationType-parent" />
+    <search:queryParam id="atp.queryParam.relationType-parent"
+                       abstract="true" optional="true">
+        <dict:fieldDescriptor parent="childFieldDescriptor">
+            <dict:name>Atp Relation Type</dict:name>
+        </dict:fieldDescriptor>
+    </search:queryParam>
+
+    <search:queryParam id="atp.queryParam.relatedAtpTypes" parent="atp.queryParam.relatedAtpTypes-parent" />
+    <search:queryParam id="atp.queryParam.relatedAtpTypes-parent"
+                       abstract="true" optional="true">
+        <dict:fieldDescriptor parent="childFieldDescriptor">
+            <dict:name>Related ATP Types</dict:name>
+        </dict:fieldDescriptor>
+    </search:queryParam>
+
+
+    <bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
 				<entry key="atp.search.atpTypes">
@@ -527,8 +699,10 @@
 						atp.id,
 						atp.name,
 						atp.startDate,
+                        atp.endDate,
 						atp.atpType,
-						atp.plain
+						atp.plain,
+                        atp.atpState
                         FROM AtpEntity atp</value>
 				</entry>
 				<entry key="atp.search.atpByDate">
@@ -592,6 +766,30 @@
 				<entry  key="atp.advancedAtpSearchParam.atpEndDateAtpConstraintIdExclusive">
 					<value>(:atp_advancedAtpSearchParam_atpEndDateAtpConstraintIdExclusive IS NULL OR (atp.endDate &lt; (SELECT MAX(endAtp.endDate) FROM Atp endAtp WHERE endAtp.id = :atp_advancedAtpSearchParam_atpEndDateAtpConstraintIdExclusive)))</value>
 				</entry>
+
+                <entry  key="atp.advancedAtpSearchParam.atpYear">
+                    <value>YEAR(atp.startDate) &lt;= :atp_advancedAtpSearchParam_atpYear AND YEAR(atp.endDate) >= :atp_advancedAtpSearchParam_atpYear</value>
+                </entry>
+
+                <entry  key="milestone.search.milestoneIdsByAtpId">
+                    <value>SELECT mrel.milestoneId FROM AtpMilestoneRelationEntity mrel, MilestoneEntity m WHERE m.id = mrel.milestoneId AND mrel.atpId = :milestone_queryParam_atpId</value>
+                </entry>
+
+                <entry  key="milestone.queryParam.milestoneTypes">
+                    <value>m.atpType IN(:milestone_queryParam_milestoneTypes)</value>
+                </entry>
+
+
+                <entry  key="atp.search.relatedAtpIdsByAtpId">
+                    <value>SELECT rel.relatedAtp.id FROM AtpAtpRelationEntity rel WHERE rel.atp.id = :atp_queryParam_parentAtpId</value>
+                </entry>
+                <entry  key="atp.queryParam.relationType">
+                    <value>rel.atpType = :atp_queryParam_relationType</value>
+                </entry>
+                <entry  key="atp.queryParam.relatedAtpTypes">
+                    <value>rel.relatedAtp.atpType IN(:atp_queryParam_relatedAtpTypes)</value>
+                </entry>
+
 			</map>
 		</property>
 	</bean>

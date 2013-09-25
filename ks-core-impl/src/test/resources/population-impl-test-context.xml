@@ -12,8 +12,9 @@
     <context:annotation-config/>
 
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
-    <!--<import resource="classpath:ks-data-dictionary-services-configuration.xml"/>
-    <import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>-->
+    <import resource="classpath:ks-test-system-property-configurer.xml"/>
+    <import resource="classpath:ks-core-impl-test-data-dictionary-services-configuration.xml"/>
+    <import resource="classpath:ks-core-impl-test-data-dictionary-validator-configuration.xml"/>
     <!--  Preloaded data -->
     <!--    <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
         <property name="jtaTxManager" ref="JtaTxManager"/>
@@ -59,6 +60,8 @@
                   value="${jdbc.xaDataSourceClassName}" />
         <property name="xaProperties" value="${propertiesPrefix.jdbc.xaDataSourceProperties}"/>
         <property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+        <property name="minPoolSize" value="${jdbc.minPoolSize}" />
+        <property name="testQuery" value="${jdbc.testQuery}" />
     </bean>
 
     <bean id="vendorAdapter" class="${jpa.vendorAdapter}" depends-on="propertyConfigurer">
@@ -83,6 +86,20 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
+    <alias name="populationService" alias="PopulationService" />
+
+    <bean id="populationService" class="org.kuali.student.r2.core.population.service.decorators.PopulationServiceValidatorDecorator">
+        <property name="nextDecorator" ref="populationServiceImpl" />
+        <property name="validator" ref="validator" />
+        <property name="typeService" ref="typeService" />
+      </bean>
+
+    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl"/>
+
+    <bean id="validator" class="org.kuali.student.r2.common.datadictionary.RiceDataDictionaryValidatorImpl">
+        <property name="riceDataDictionaryService" ref="dataDictionaryServiceForAllUsedByRice" />
+        <property name="riceDictionaryValidationService" ref="riceDictionaryValidationService" />
+    </bean>
 
     <bean id="populationDao" class="org.kuali.student.r2.core.population.dao.PopulationDao"/>
     <bean id="populationRuleDao" class="org.kuali.student.r2.core.population.dao.PopulationRuleDao"/>
@@ -90,7 +107,7 @@
         <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
     </bean>
 
-    <bean id="populationService" class="org.kuali.student.r2.core.population.service.impl.PopulationServiceImpl">
+    <bean id="populationServiceImpl" class="org.kuali.student.r2.core.population.service.impl.PopulationServiceImpl">
         <property name="populationDao" ref="populationDao"/>
         <property name="populationRuleDao" ref="populationRuleDao"/>
         <property name="criteriaLookupService" ref="criteriaLookupService" />
