@@ -77,6 +77,11 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             break;
         }
 
+        // Return if the
+        if(epId == null){
+            throw new DoesNotExistException("Exam Period does not exist for term.");
+        }
+
         if (FinalExam.STANDARD.toString().equals(courseOfferingInfo.getFinalExamType())) {
 
             //Check driver.
@@ -272,6 +277,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         eoRelation.setFormatOfferingId(formatOfferingId);
         eoRelation.setExamOfferingId(examOfferingId);
         eoRelation.setActivityOfferingIds(aoIds);
+        eoRelation.setPopulationIds(new ArrayList<String>());
         eoRelation.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY);
 
         return this.getExamOfferingService().createExamOfferingRelation(formatOfferingId,

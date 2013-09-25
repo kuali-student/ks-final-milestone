@@ -59,7 +59,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 
 public class ExamOfferingServiceImpl implements ExamOfferingService {
@@ -103,6 +102,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> getExamOfferingIdsByType(String examTypeKey, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, DoesNotExistException {
@@ -117,6 +117,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> searchForExamOfferingIds(QueryByCriteria criteria, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -128,6 +129,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ExamOfferingInfo> searchForExamOfferings(QueryByCriteria criteria, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -182,15 +184,9 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ExamOfferingInfo updateExamOffering(String examOfferingId, ExamOfferingInfo examOfferingInfo, ContextInfo contextInfo)
-            throws DataValidationErrorException
-            ,DoesNotExistException
-            ,InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-            ,ReadOnlyException
-            ,VersionMismatchException
-    {
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+
         LuiInfo luiToUpdate = getLuiService().getLui(examOfferingId,contextInfo);
         getExamOfferingTransformer().examOffering2Lui(examOfferingInfo,luiToUpdate,contextInfo);
         getLuiService().updateLui(examOfferingId,luiToUpdate,contextInfo);
@@ -203,12 +199,8 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteExamOffering(String examOfferingId, ContextInfo contextInfo)
-            throws DoesNotExistException
-            ,InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-    {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         try {
             getLuiService().deleteLui(examOfferingId,contextInfo);
         } catch (DependentObjectsExistException e) {
@@ -221,30 +213,30 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo changeExamOfferingState(String examOfferingId, String stateKey, ContextInfo contextInfo)
-            throws DoesNotExistException
-            ,InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-    {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
         throw new OperationFailedException ("changeExamOfferingState has not been implemented");
-                }
+    }
 
     @Override
-    public List<ValidationResultInfo> validateExamOfferingRelation(String formatOfferingId, String examOfferingId, String examOfferingTypeKey, String validationTypeKey, ExamOfferingRelationInfo examOfferingRelationInfo, ContextInfo contextInfo)
-            throws DoesNotExistException
-            ,InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-    {
+    public List<ValidationResultInfo> validateExamOfferingRelation(String formatOfferingId, String examOfferingId, String examOfferingTypeKey,
+                             String validationTypeKey, ExamOfferingRelationInfo examOfferingRelationInfo, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
         // validate
         return new ArrayList<ValidationResultInfo> ();
     }
 
     @Override
-    public List<ExamOfferingInfo> getExamOfferingsByExamPeriod(String examPeriodId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly = true)
+    public List<ExamOfferingInfo> getExamOfferingsByExamPeriod(String examPeriodId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
         //trap null parameters
         if (examPeriodId == null){
             throw new MissingParameterException("Exam Period ID is null");
@@ -263,15 +255,12 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     }
 
     @Override
-    public ExamOfferingRelationInfo createExamOfferingRelation(String formatOfferingId, String examOfferingId, String examOfferingTypeKey, ExamOfferingRelationInfo examOfferingRelationInfo, ContextInfo contextInfo)
-            throws DataValidationErrorException
-            ,DoesNotExistException
-            ,InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-            ,ReadOnlyException
-    {
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public ExamOfferingRelationInfo createExamOfferingRelation(String formatOfferingId, String examOfferingId, String examOfferingTypeKey,
+                               ExamOfferingRelationInfo examOfferingRelationInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException {
+
         //trap null parameters
         if (formatOfferingId == null){
             throw new MissingParameterException("Format offering ID is null");
@@ -302,16 +291,11 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ExamOfferingRelationInfo updateExamOfferingRelation(String examOfferingRelationId, ExamOfferingRelationInfo examOfferingRelationInfo, ContextInfo contextInfo)
-            throws DataValidationErrorException
-            ,DoesNotExistException
-            ,InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-            ,ReadOnlyException
-            ,VersionMismatchException
-    {
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+
         //trap null parameters
         if (examOfferingRelationId == null){
             throw new MissingParameterException("examOfferingRelationId is null");
@@ -339,13 +323,11 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteExamOfferingRelation(String examOfferingRelationId, ContextInfo contextInfo)
-            throws DoesNotExistException
-            ,InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-    {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
         //trap null parameter
         if (examOfferingRelationId == null){
             throw new MissingParameterException("examOfferingRelationId is null");
@@ -358,13 +340,11 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ExamOfferingRelationInfo getExamOfferingRelation(String examOfferingRelationId, ContextInfo contextInfo)
-            throws DoesNotExistException
-            ,InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-    {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
         //trap null parameter
         if (examOfferingRelationId == null){
             throw new MissingParameterException("examOfferingRelationId is null");
@@ -385,13 +365,11 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ExamOfferingRelationInfo> getExamOfferingRelationsByIds(List<String> examOfferingRelationIds, ContextInfo contextInfo)
-            throws DoesNotExistException
-            ,InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-    {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
         //trap null parameter
         if (examOfferingRelationIds == null || examOfferingRelationIds.isEmpty()){
             throw new MissingParameterException("examOfferingRelationIds is null");
@@ -413,12 +391,10 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> getExamOfferingRelationIdsByType(String relationshipTypeKey, ContextInfo contextInfo)
-            throws InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-    {
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
         //trap null parameter
         if (relationshipTypeKey == null){
             throw new MissingParameterException("relationshipTypeKey is null");
@@ -433,6 +409,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ExamOfferingRelationInfo> getExamOfferingRelationsByFormatOffering(String formatOfferingId, ContextInfo contextInfo)
             throws InvalidParameterException
             ,MissingParameterException
@@ -463,6 +440,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ExamOfferingRelationInfo> getExamOfferingRelationsByExamOffering(String examOfferingId, ContextInfo contextInfo)
             throws InvalidParameterException
             ,MissingParameterException
@@ -493,6 +471,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> getExamOfferingRelationIdsByActivityOffering(String activityOfferingId, ContextInfo contextInfo)
             throws InvalidParameterException
             ,MissingParameterException
@@ -513,22 +492,17 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> searchForExamOfferingRelationIds(QueryByCriteria criteria, ContextInfo contextInfo)
-            throws InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-    {
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException ("searchForExamOfferingRelationIds has not been implemented");
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ExamOfferingRelationInfo> searchForExamOfferingRelations(QueryByCriteria criteria, ContextInfo contextInfo)
-            throws InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-    {
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
         //trap null parameter
         if (criteria == null){
             throw new MissingParameterException("criteria is null");

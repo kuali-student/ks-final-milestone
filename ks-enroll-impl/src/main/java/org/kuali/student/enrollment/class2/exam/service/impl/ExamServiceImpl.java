@@ -24,6 +24,7 @@ import org.kuali.student.enrollment.exam.dto.ExamInfo;
 import org.kuali.student.enrollment.exam.service.ExamService;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -144,11 +145,8 @@ public class ExamServiceImpl implements ExamService {
     @Override
     @Transactional(readOnly = true)
     public List<ExamInfo> getExamsByIds(List<String> examIds, ContextInfo contextInfo)
-            throws DoesNotExistException
-            , InvalidParameterException
-            , MissingParameterException
-            , OperationFailedException
-            , PermissionDeniedException {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         List<ExamInfo> exams = new ArrayList<ExamInfo>(examIds.size());
         for (String examID : examIds) {
             exams.add(getExam(examID, contextInfo));
@@ -159,13 +157,12 @@ public class ExamServiceImpl implements ExamService {
     @Override
     @Transactional(readOnly = true)
     public List<String> getExamIdsByType(String examTypeKey, ContextInfo contextInfo)
-            throws InvalidParameterException
-            , MissingParameterException
-            , OperationFailedException
-            , PermissionDeniedException {
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> ids = null;
         try {
-            ids = getCluService().getCluIdsByLuType(examTypeKey, ExamServiceConstants.EXAM_ACTIVE_STATE_KEY, contextInfo);
+            //Note: CluService does not use stateservice yet, therefore we use DtoContstants.STATE_ACTIVE instead
+            // of ExamServiceConstants.EXAM_ACTIVE_STATE_KEY
+            ids = getCluService().getCluIdsByLuType(examTypeKey, DtoConstants.STATE_ACTIVE, contextInfo);
         } catch (DoesNotExistException e) {
             throw new OperationFailedException(e.getMessage());
         }
