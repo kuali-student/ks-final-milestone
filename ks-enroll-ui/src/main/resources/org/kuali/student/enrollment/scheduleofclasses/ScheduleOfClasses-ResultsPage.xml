@@ -208,7 +208,7 @@
              <ref bean="SchOfClasses-aoSearchResults" />
            </list>
         </property>
-        <property name="onDocumentReadyScript" value="jQuery('[id^=ao_cluster_header_line@{#index}] a[data-role=disclosureLink').on('click',
+        <property name="onDocumentReadyScript" value="jQuery('[id^=ao_cluster_header_line@{#index}] a[data-role=disclosureLink]').on('click',
             function(event) {
                 clusterDisclosureClicked(event, 'expand_or_collapse_all_line@{#index}', 'ao_cluster_header_line@{#index}');
             });">
@@ -341,7 +341,7 @@
                 <ref bean="SchOfClasses-RegistrationGroupsPerClusterResults" />
             </list>
         </property>
-        <property name="onDocumentReadyScript" value="jQuery('[id^=reg_group_cluster_header_line@{#index}] a[data-role=disclosureLink').on('click',
+        <property name="onDocumentReadyScript" value="jQuery('[id^=reg_group_cluster_header_line@{#index}] a[data-role=disclosureLink]').on('click',
             function(event) {
                 clusterDisclosureClicked(event, 'reg_group_expand_or_collapse_all_line@{#index}','reg_group_cluster_header_line@{#index}');
             });">
