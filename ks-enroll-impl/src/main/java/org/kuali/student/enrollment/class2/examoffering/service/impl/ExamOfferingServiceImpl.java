@@ -495,7 +495,17 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     @Transactional(readOnly = true)
     public List<String> searchForExamOfferingRelationIds(QueryByCriteria criteria, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException ("searchForExamOfferingRelationIds has not been implemented");
+        //trap null parameter
+        if (criteria == null){
+            throw new MissingParameterException("criteria is null");
+        }
+
+        //Retrieve ExamOfferingRelationIds
+        try {
+            return getLuiService().searchForLuiLuiRelationIds(criteria, contextInfo);
+        } catch (Exception ex) {
+            throw new OperationFailedException(OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE, ex);
+        }
     }
 
     @Override

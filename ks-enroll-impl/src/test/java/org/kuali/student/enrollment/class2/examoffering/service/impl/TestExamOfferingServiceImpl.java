@@ -406,6 +406,44 @@ public class TestExamOfferingServiceImpl {
     }
 
     @Test
+    public void testSearchForExamOfferingRelationIds() throws Exception {
+        ExamOfferingRelationInfo eoRelInfo1 = createExamOfferingRelationInfo();
+        ExamOfferingRelationInfo eoRelInfo2 = createExamOfferingRelationInfo();
+        eoRelInfo2.setExamOfferingId("Lui-10");
+
+        try {
+            //Create
+            ExamOfferingRelationInfo created1 = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
+                    LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo1, callContext);
+            ExamOfferingRelationInfo created2 = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-10",
+                                LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo2, callContext);
+
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(PredicateFactory.and(PredicateFactory.equal("lui.id", "Lui-6")));
+            QueryByCriteria criteria = qbcBuilder.build();
+
+            //Retrieve Ids
+            List<String> relIds = examOfferingService.searchForExamOfferingRelationIds(criteria, callContext);
+
+            //Retrieve ExamOfferingRelationInfos
+            List<ExamOfferingRelationInfo> examOfferingRelationInfos = examOfferingService.getExamOfferingRelationsByFormatOffering("Lui-6", callContext);
+
+            assertNotNull(relIds);
+            for (ExamOfferingRelationInfo examOfferingRelationInfo : examOfferingRelationInfos) {
+                assertTrue(relIds.contains(examOfferingRelationInfo.getId()));
+            }
+
+            //Delete
+            for (ExamOfferingRelationInfo examOfferingRelationInfo : examOfferingRelationInfos) {
+                StatusInfo ret = examOfferingService.deleteExamOfferingRelation(examOfferingRelationInfo.getId(), callContext);
+                assertTrue(ret.getIsSuccess());
+            }
+        } catch (Exception ex) {
+            fail("Exception from service call :" + ex.getMessage());
+        }
+    }
+
+    @Test
     public void testSearchForExamOfferingRelations() throws Exception {
         ExamOfferingRelationInfo eoRelInfo = createExamOfferingRelationInfo();
         ExamOfferingRelationInfo created = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
@@ -418,12 +456,16 @@ public class TestExamOfferingServiceImpl {
                     PredicateFactory.equalIgnoreCase("relatedLui.id", "Lui-9")));
             QueryByCriteria criteria = qbcBuilder.build();
 
-            List<ExamOfferingRelationInfo> rels = examOfferingService.searchForExamOfferingRelations(criteria, callContext);
-            assertNotNull(rels);
-            assertEquals(1, rels.size());
-            ExamOfferingRelationInfo rel = rels.get(0);
-            assertEquals("Lui-6", rel.getFormatOfferingId());
-            assertEquals("Lui-9", rel.getExamOfferingId());
+            List<ExamOfferingRelationInfo> examOfferingRelationInfos = examOfferingService.searchForExamOfferingRelations(criteria, callContext);
+            assertNotNull(examOfferingRelationInfos);
+            assertEquals("Lui-6", examOfferingRelationInfos.get(0).getFormatOfferingId());
+            assertEquals("Lui-9", examOfferingRelationInfos.get(0).getExamOfferingId());
+
+            //Delete
+            for (ExamOfferingRelationInfo examOfferingRelationInfo : examOfferingRelationInfos) {
+                StatusInfo ret = examOfferingService.deleteExamOfferingRelation(examOfferingRelationInfo.getId(), callContext);
+                assertTrue(ret.getIsSuccess());
+            }
         } catch (Exception ex) {
             fail("Exception from service call :" + ex.getMessage());
         }
