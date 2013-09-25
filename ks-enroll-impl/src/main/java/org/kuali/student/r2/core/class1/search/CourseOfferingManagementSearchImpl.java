@@ -220,56 +220,61 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                     "    AND lrc_rvg2 NOT IN ('kuali.resultComponent.grade.audit','kuali.resultComponent.grade.passFail') ";
         }
 
-        query = query +
-                "    AND ident.lui.id IN (SELECT ident_subquery.lui.id FROM LuiIdentifierEntity ident_subquery WHERE ";
+        boolean excludeLuiCodeSearchQuery = false;
 
-        String coCodeSearchString = "";
-        if (StringUtils.isNotBlank(searchCourseCode)){
-            if (isExactMatchSearch){
-                coCodeSearchString = " ident_subquery.code = '" + searchCourseCode + "' ";
-            } else {
-                coCodeSearchString = " ident_subquery.code like '" + searchCourseCode + "%' ";
-            }
+        if (StringUtils.isBlank(searchCourseCode) && StringUtils.isBlank(searchSubjectArea)) {
+            excludeLuiCodeSearchQuery = true;
         }
 
-        if (StringUtils.isNotBlank(searchSubjectArea)){
-            if (StringUtils.isBlank(searchCourseCode)){
-                query = query + " ident_subquery.division = '" + searchSubjectArea + "' ";
-            } else {
-                query = query + " ident_subquery.division = '" + searchSubjectArea + "' AND " + coCodeSearchString;
+        if (!excludeLuiCodeSearchQuery){
+            query = query +
+                    "    AND ident.lui.id IN (SELECT ident_subquery.lui.id FROM LuiIdentifierEntity ident_subquery WHERE ";
+
+            String coCodeSearchString = "";
+            if (StringUtils.isNotBlank(searchCourseCode)){
+                if (isExactMatchSearch){
+                    coCodeSearchString = " ident_subquery.code = '" + searchCourseCode + "' ";
+                } else {
+                    coCodeSearchString = " ident_subquery.code like '" + searchCourseCode + "%' ";
+                }
             }
-        } else {
-            query = query + coCodeSearchString;
+
+            if (StringUtils.isNotBlank(searchSubjectArea)){
+                if (StringUtils.isBlank(searchCourseCode)){
+                    query = query + " ident_subquery.division = '" + searchSubjectArea + "' ";
+                } else {
+                    query = query + " ident_subquery.division = '" + searchSubjectArea + "' AND " + coCodeSearchString;
+                }
+            } else {
+                query = query + coCodeSearchString;
+            }
+
+            query = query + ") ";
+
         }
 
         /*
         Search for the lpr with main instructor type and active state.
          */
         if (StringUtils.isNotBlank(instructorId)){
-            if (!StringUtils.endsWith(query,"WHERE ")){
-                query = query + " AND ";
-            }
-            query = query + "   lpr.luiId = lui.id " +
+            query = query + "   AND lpr.luiId = lui.id " +
                             "   AND lpr.personId = '" + instructorId +  "'" +
                             "   AND lpr.personRelationTypeId = '" + LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY + "'" +
                             "   AND lpr.personRelationStateId = '" + LprServiceConstants.ACTIVE_STATE_KEY + "'";
         }
 
+        /**
+         * Search by department
+         */
         if (StringUtils.isNotBlank(departmentId)){
-            if (!StringUtils.endsWith(query,"WHERE ")){
-                query = query + " AND ";
-            }
-            query = query + "  dept = '" + departmentId + "'  ";
+            query = query + "  AND dept = '" + departmentId + "'  ";
         }
 
         /*
          Search by description
          */
         if (StringUtils.isNotBlank(description)){
-            if (!StringUtils.endsWith(query,"WHERE ")){
-                query = query + " AND ";
-            }
-            query = query + "   lui.plain LIKE '%" + description + "%' OR ident.longName LIKE '%" + description + "%'";
+            query = query + "   AND (lui.plain LIKE '%" + description + "%' OR ident.longName LIKE '%" + description + "%') ";
         }
 
         /**
@@ -280,7 +285,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
             query = query + " AND lui.luiState in (" + filterCOStatesAsString + ") ";
         }
 
-        query = query + ") ORDER BY ident.code";
+        query = query + " ORDER BY ident.code";
 
         /**
          * Search for the course offerings first for a term and subjectarea/coursecode
