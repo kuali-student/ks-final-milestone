@@ -331,7 +331,13 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         }
         ActivityOfferingInfo created = coService.createActivityOffering(aoInfo.getFormatOfferingId(), aoInfo.getActivityId(),
                 aoInfo.getTypeKey(), aoInfo, context);
-        return _addActivityOfferingToClusterCommon(created, cluster, context);
+        ActivityOfferingResult aoResult = _addActivityOfferingToClusterCommon(created, cluster, context);
+        //create and persist a WaitlistInfo for AO
+        CourseWaitListInfo theWaitListInfo = getWaitListServiceFacade().createDefaultCourseWaitlist(aoInfo, context);
+
+        aoResult.setWaitListInfo(theWaitListInfo);
+
+        return aoResult;
 
     }
 
@@ -368,13 +374,6 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
             aoResult.getClusterstatus().setSuccess(Boolean.FALSE);
             aoResult.getClusterstatus().setMessage("Error: empty AO sets exist--can't generate reg groups");
         }
-
-        //create and persist a WaitlistInfo for AO
-        CourseWaitListInfo theWaitListInfo = getWaitListServiceFacade().createDefaultCourseWaitlist(aoInfo, context);
-
-        aoResult.setWaitListInfo(theWaitListInfo);
-
-
         return aoResult;
     }
 
@@ -414,8 +413,9 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         List<CourseWaitListInfo> waitListInfos = getCourseWaitListService().getCourseWaitListsByActivityOffering(origAoId, context);
         CourseWaitListInfo origWaitListInfo, newWaitListInfo;        
         if (!waitListInfos.isEmpty()){
-            //by default, should only return 1 record in waitListInfos
-            origWaitListInfo = KSCollectionUtils.getRequiredZeroElement(waitListInfos);
+            int firstElement = 0;
+            // waitListInfos can return more than two values
+            origWaitListInfo = waitListInfos.get(firstElement);
             newWaitListInfo = new CourseWaitListInfo();
             List<String> aoIds = new ArrayList<String> ();
             aoIds.add(newAOInfo.getId());
