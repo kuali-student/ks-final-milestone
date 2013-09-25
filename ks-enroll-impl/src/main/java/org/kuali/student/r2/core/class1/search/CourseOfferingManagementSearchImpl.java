@@ -194,7 +194,6 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         LOGGER.info("******TIME TAKEN TO SEARCH CO FOR (Subject Area=" + searchSubjectArea + ",Term=" + searchAtpId + ",Course=" + searchCourseCode + ")*************"+(end-start) + " ms");
 
         resultInfo.setStartAt(0);
-
         luiIds2AlternateCodes.clear();
         luiIds2OrgCells.clear();
         luiIds2ResultRow.clear();
@@ -289,7 +288,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
          */
         if (StringUtils.isNotBlank(instructorId)){
             query = query + "   AND lpr.luiId = lui.id " +
-                            "   AND lpr.personId = '" + instructorId +  "'" +
+                            "   AND LOWER(lpr.personId) = '" + StringUtils.lowerCase(instructorId) +  "'" +
                             "   AND lpr.personRelationTypeId = '" + LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY + "'" +
                             "   AND lpr.personRelationStateId = '" + LprServiceConstants.ACTIVE_STATE_KEY + "'";
         }
