@@ -64,6 +64,10 @@ public class KSEventType {
         return Collections.unmodifiableList(optionalAttributeKeys);
     }
 
+    public boolean hasSameEventTypeAs(KSEventType eventType) {
+        return this.equals(eventType);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

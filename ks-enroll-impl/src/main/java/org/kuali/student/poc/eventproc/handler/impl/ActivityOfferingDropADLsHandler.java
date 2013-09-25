@@ -56,7 +56,7 @@ public class ActivityOfferingDropADLsHandler implements KSHandler {
 
     @Override
     public boolean handlesEvent(KSEvent event) {
-        if (!KSEventFactory.AO_STATE_MODIFIED_EVENT_TYPE.equals(event.getEventType())) {
+        if (!KSEventFactory.AO_STATE_MODIFIED_EVENT_TYPE.hasSameEventTypeAs(event.getEventType())) {
             return false;
         }
         // Must be ao state modified event--fetch to state

@@ -19,7 +19,7 @@ import java.util.List;
  */
 public interface KSEventProcessor {
     void registerHandler(KSHandler handler);
-    List<KSEventResult> fireEvent(KSEvent event, ContextInfo context)
+    void fireEvent(KSEvent event, ContextInfo context)
             throws DataValidationErrorException, PermissionDeniedException, OperationFailedException,
             VersionMismatchException, InvalidParameterException, ReadOnlyException, MissingParameterException,
             DoesNotExistException;

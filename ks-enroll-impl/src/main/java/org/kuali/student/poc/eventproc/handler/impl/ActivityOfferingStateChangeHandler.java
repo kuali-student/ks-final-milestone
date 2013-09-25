@@ -56,7 +56,7 @@ public class ActivityOfferingStateChangeHandler implements KSHandler {
 
     @Override
     public boolean handlesEvent(KSEvent event) {
-        return KSEventFactory.AO_CHANGE_STATE_EVENT_TYPE.equals(event.getEventType());
+        return KSEventFactory.AO_CHANGE_STATE_EVENT_TYPE.hasSameEventTypeAs(event.getEventType());
     }
 
     @Override
@@ -88,9 +88,11 @@ public class ActivityOfferingStateChangeHandler implements KSHandler {
                 // Get ready to send AO state modified event
                 KSEvent aoModifiedEvent = KSEventFactory.createActivityOfferingStateModifiedEvent(aoId, newToState);
 
-                List<KSEventResult> downstreamResults = processor.internalFireEvent(aoModifiedEvent, context);
+                processor.internalFireEvent(aoModifiedEvent, context);
+                // Add aoModifiedEvent to event (helps track what happens
+                event.addDownstreamEvent(aoModifiedEvent);
+                // Result
                 KSEventResult result = new KSEventResult(KSEventResult.SUCCESS);
-                result.addDownstreamResultList(downstreamResults);
                 return result;
             } else {
                 // Doesn't satisfy constraint

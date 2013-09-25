@@ -81,7 +81,7 @@ public class KSEventProcessorImpl implements KSEventProcessor, KSInternalEventPr
     }
 
     @Override
-    public List<KSEventResult> fireEvent(KSEvent event, ContextInfo context)
+    public void fireEvent(KSEvent event, ContextInfo context)
             throws DataValidationErrorException, PermissionDeniedException, OperationFailedException,
                    VersionMismatchException, InvalidParameterException, ReadOnlyException,
                    MissingParameterException, DoesNotExistException {
@@ -90,24 +90,22 @@ public class KSEventProcessorImpl implements KSEventProcessor, KSInternalEventPr
         }
         LOGGER.info("========== Received external event: " + event.toString());
         // Create a way to prevent infinite looping (e.g. store set of events
-        List<KSEventResult> results = internalFireEvent(event, context);
+        internalFireEvent(event, context);
         LOGGER.info("========== Finished external event: " + event.toString());
-        return results;
     }
 
     @Override
-    public List<KSEventResult> internalFireEvent(KSEvent event, ContextInfo context)
+    public void internalFireEvent(KSEvent event, ContextInfo context)
             throws DataValidationErrorException, PermissionDeniedException, OperationFailedException,
             VersionMismatchException, InvalidParameterException, ReadOnlyException,
             MissingParameterException, DoesNotExistException {
         LOGGER.info("Internal event: " + event.toString());
-        List<KSEventResult> results = new ArrayList<KSEventResult>();
         List<KSHandler> handlers = eventTypeToHandlers.get(event.getEventType());
         for (KSHandler handler: handlers) {
             KSEventResult handlerResult = handler.processEvent(event, context);
-            results.add(handlerResult);
+            // Helps track which handlers the event has seen and the result of each
+            event.addHandlerAndEventResult(handler, handlerResult);
         }
-        return results;
     }
 
     public void setCoService(CourseOfferingService coService) {

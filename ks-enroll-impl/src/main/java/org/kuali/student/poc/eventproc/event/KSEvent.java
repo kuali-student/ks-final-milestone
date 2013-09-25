@@ -17,9 +17,13 @@
 package org.kuali.student.poc.eventproc.event;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.poc.eventproc.api.KSEventAuditTrail;
+import org.kuali.student.poc.eventproc.api.KSHandler;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,11 +31,16 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class KSEvent {
+public class KSEvent implements KSEventAuditTrail {
     private static final Logger LOGGER = Logger.getLogger(KSEvent.class);
 
     private KSEventType eventType;
     private Map<KSEventAttributeKey, String> eventAttributeKeyValueMap;
+
+    private List<KSHandler> handlersSeen = new ArrayList<KSHandler>();
+    private List<KSEventResult> resultsSeen = new ArrayList<KSEventResult>();
+
+    private List<KSEvent> downstreamEvents = new ArrayList<KSEvent>();
 
     public KSEvent(KSEventType eventType) {
         this.eventType = eventType;
@@ -64,7 +73,7 @@ public class KSEvent {
 
     @Override
     public String toString() {
-        StringBuffer result = new StringBuffer(eventType.getEventName() + ": [");
+        StringBuilder result = new StringBuilder(eventType.getEventName() + ": [");
         boolean isFirst = true;
         for (Map.Entry<KSEventAttributeKey, String> entry: eventAttributeKeyValueMap.entrySet()) {
             if (isFirst) {
@@ -78,5 +87,16 @@ public class KSEvent {
         }
         result.append("]");
         return result.toString();
+    }
+
+    @Override
+    public void addHandlerAndEventResult(KSHandler handler, KSEventResult result) {
+        handlersSeen.add(handler);
+        resultsSeen.add(result);
+    }
+
+    @Override
+    public void addDownstreamEvent(KSEvent event) {
+        downstreamEvents.add(event);
     }
 }

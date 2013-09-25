@@ -41,7 +41,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public interface KSInternalEventProcessor {
-    List<KSEventResult> internalFireEvent(KSEvent event, ContextInfo context)
+    void internalFireEvent(KSEvent event, ContextInfo context)
             throws DataValidationErrorException, PermissionDeniedException, OperationFailedException,
             VersionMismatchException, InvalidParameterException, ReadOnlyException,
             MissingParameterException, DoesNotExistException;

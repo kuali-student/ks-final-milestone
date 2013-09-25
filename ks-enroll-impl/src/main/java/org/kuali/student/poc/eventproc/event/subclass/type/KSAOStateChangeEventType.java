@@ -37,21 +37,4 @@ public class KSAOStateChangeEventType extends KSEventType {
     public KSAOStateChangeEventType() {
         super(KSEventNamespace.NAMESPACE_CHANGE_STATE, KSEventFactory.AO_CHANGE_STATE_EVENT_NAME, REQUIRED_KEYS, null);
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof KSEventType)) {
-            return false;
-        }
-        if (o instanceof KSAOStateChangeEventType) {
-            return true;
-        }
-        if (o instanceof KSEventType) {
-            return super.equals(o);
-        }
-        return false;
-    }
 }

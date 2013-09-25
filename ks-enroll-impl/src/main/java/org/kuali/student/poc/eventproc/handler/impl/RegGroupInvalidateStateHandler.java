@@ -56,7 +56,7 @@ public class RegGroupInvalidateStateHandler implements KSHandler {
 
     @Override
     public boolean handlesEvent(KSEvent event) {
-        return KSEventFactory.RG_INVALIDATE_STATE_EVENT_TYPE.equals(event.getEventType());
+        return KSEventFactory.RG_INVALIDATE_STATE_EVENT_TYPE.hasSameEventTypeAs(event.getEventType());
     }
 
     @Override

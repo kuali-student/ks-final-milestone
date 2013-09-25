@@ -54,8 +54,8 @@ public class FormatOfferingRecomputeStateHandler implements KSHandler {
 
     @Override
     public boolean handlesEvent(KSEvent event) {
-        return KSEventFactory.AO_STATE_MODIFIED_EVENT_TYPE.equals(event.getEventType()) ||
-                KSEventFactory.FO_RECOMPUTE_STATE_EVENT_TYPE.equals(event.getEventType());
+        return KSEventFactory.AO_STATE_MODIFIED_EVENT_TYPE.hasSameEventTypeAs(event.getEventType()) ||
+                KSEventFactory.FO_RECOMPUTE_STATE_EVENT_TYPE.hasSameEventTypeAs(event.getEventType());
     }
 
     @Override
@@ -89,8 +89,8 @@ public class FormatOfferingRecomputeStateHandler implements KSHandler {
         // Fire compute CO event
         KSEventResult eventResult = new KSEventResult(KSEventResult.SUCCESS);
         KSEvent foStateModifiedEvent = KSEventFactory.createFormatOfferingStateModifiedEvent(foId);
-        List<KSEventResult> downstreamResults = processor.internalFireEvent(foStateModifiedEvent, context);
-        eventResult.addDownstreamResultList(downstreamResults);
+        processor.internalFireEvent(foStateModifiedEvent, context);
+        event.addDownstreamEvent(foStateModifiedEvent); // Tracks other events caused by "event"
         return eventResult;
     }
 

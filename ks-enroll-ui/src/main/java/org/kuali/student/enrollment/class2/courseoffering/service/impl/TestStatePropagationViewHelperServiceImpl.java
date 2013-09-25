@@ -485,6 +485,8 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
                 break;
             }
         }
+        ksEventProcessor.getCoService().scheduleActivityOffering(sampleAO.getId(), CONTEXT);
+        sampleAO = ksEventProcessor.getCoService().getActivityOffering(sampleAO.getId(), CONTEXT);
         // Invalidate an RG
         KSEvent invalidateRGState =
                 KSEventFactory.createInvalidateRegGroupStateEvent(rgInfos.get(2).getId());
@@ -495,7 +497,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         ksEventProcessor.fireEvent(validateRGState, CONTEXT);
         KSEvent changeAOState =
                 KSEventFactory.createChangeActivityOfferingStateEvent(sampleAO.getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
-        List<KSEventResult> results = ksEventProcessor.fireEvent(changeAOState, CONTEXT);
+        ksEventProcessor.fireEvent(changeAOState, CONTEXT);
         LOGGER.info("Hi");
     }
 

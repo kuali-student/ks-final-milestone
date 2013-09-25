@@ -54,8 +54,8 @@ public class CourseOfferingRecomputeStateHandler implements KSHandler {
 
     @Override
     public boolean handlesEvent(KSEvent event) {
-        return KSEventFactory.FO_STATE_MODIFIED_EVENT_TYPE.equals(event.getEventType()) ||
-                KSEventFactory.CO_RECOMPUTE_STATE_EVENT_TYPE.equals(event.getEventType());
+        return KSEventFactory.FO_STATE_MODIFIED_EVENT_TYPE.hasSameEventTypeAs(event.getEventType()) ||
+                KSEventFactory.CO_RECOMPUTE_STATE_EVENT_TYPE.hasSameEventTypeAs(event.getEventType());
     }
 
     @Override

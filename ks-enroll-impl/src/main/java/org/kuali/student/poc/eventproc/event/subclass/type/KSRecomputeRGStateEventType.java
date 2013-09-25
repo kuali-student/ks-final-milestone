@@ -39,21 +39,4 @@ public class KSRecomputeRGStateEventType extends KSEventType {
     public KSRecomputeRGStateEventType() {
         super(KSEventNamespace.NAMESPACE_RECOMPUTE_STATE, KSEventFactory.RG_RECOMPUTE_STATE_EVENT_NAME, REQUIRED_KEYS, null);
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof KSEventType)) {
-            return false;
-        }
-        if (o instanceof KSRecomputeRGStateEventType) {
-            return true;
-        }
-        if (o instanceof KSEventType) {
-            return super.equals(o);
-        }
-        return false;
-    }
 }
