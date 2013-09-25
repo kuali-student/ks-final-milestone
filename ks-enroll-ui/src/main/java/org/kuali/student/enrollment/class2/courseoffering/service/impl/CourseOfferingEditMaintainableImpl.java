@@ -309,7 +309,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             CourseOfferingInfo info = getCourseOfferingService().createCourseOffering(coInfo.getCourseId(), coInfo.getTermId(), LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, coInfo, optionKeys, contextInfo);
 
             try {
-                CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(coInfo, new ArrayList<String>(), contextInfo);
+                CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(info, new ArrayList<String>(), contextInfo);
             }  catch (Exception e){
                 KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, CourseOfferingConstants.COURSEOFFERING_EXAMPERIOD_MISSING);
             }

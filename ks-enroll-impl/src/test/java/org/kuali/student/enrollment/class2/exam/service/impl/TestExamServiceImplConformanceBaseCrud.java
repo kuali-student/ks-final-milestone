@@ -27,6 +27,7 @@ import org.kuali.student.common.test.util.IdEntityTester;
 import org.kuali.student.enrollment.exam.dto.ExamInfo;
 import org.kuali.student.enrollment.exam.service.ExamService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
@@ -217,12 +218,12 @@ public abstract class TestExamServiceImplConformanceBaseCrud {
         // -------------------------------------
         ExamInfo infoByType = new ExamInfo();
         testCrudExam_setDTOFieldsForTestCreate(infoByType);
-        infoByType.setStateKey(ExamServiceConstants.EXAM_ACTIVE_STATE_KEY);
+        infoByType.setStateKey(DtoConstants.STATE_ACTIVE);
         infoByType.setTypeKey("firstByType");
         infoByType = testService.createExam( infoByType.getTypeKey(), infoByType, contextInfo);
         ExamInfo infoByType2 = new ExamInfo();
         testCrudExam_setDTOFieldsForTestCreate(infoByType2);
-        infoByType2.setStateKey(ExamServiceConstants.EXAM_ACTIVE_STATE_KEY);
+        infoByType2.setStateKey(DtoConstants.STATE_ACTIVE);
         infoByType2.setTypeKey("otherByType");
         infoByType2 = testService.createExam(infoByType2.getTypeKey(), infoByType2, contextInfo);
 
