@@ -197,18 +197,19 @@
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:label="Status" p:propertyName="stateName"/>
-                <!--<bean parent="Uif-DataField" p:label="Activity Code" p:propertyName="activityCode"/>-->
-                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="Activity Code" >
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-DataField" p:propertyName="activityCode" p:fieldLabel.render="false">
-                                <property name="inquiry">
-                                    <bean parent="KS-Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
+                <bean parent="Uif-DataField" p:label="Activity Code" p:propertyName="activityCode"/>
+            <!--TODO: Will use the inquiry as soon as the correct data is present and dummy data is not needed-->
+                <!--<bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="Activity Code" >-->
+                    <!--<property name="items">-->
+                        <!--<list>-->
+                            <!--<bean parent="Uif-DataField" p:propertyName="activityCode" p:fieldLabel.render="false">-->
+                                <!--<property name="inquiry">-->
+                                    <!--<bean parent="KS-Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrapper" p:inquiryParameters="activityCode" />-->
+                                <!--</property>-->
+                            <!--</bean>-->
+                        <!--</list>-->
+                    <!--</property>-->
+                <!--</bean>-->
                 <bean parent="Uif-DataField" p:label="Activity Type" p:propertyName="typeName"/>
                 <bean parent="Uif-DataField" p:label="Days" p:propertyName="daysDisplayName"/>
                 <bean parent="Uif-DataField" p:label="Start Time" p:propertyName="startTimeDisplay"/>
