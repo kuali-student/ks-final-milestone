@@ -99,12 +99,15 @@ public class KSEventProcessorImpl implements KSEventProcessor, KSInternalEventPr
             throws DataValidationErrorException, PermissionDeniedException, OperationFailedException,
             VersionMismatchException, InvalidParameterException, ReadOnlyException,
             MissingParameterException, DoesNotExistException {
-        LOGGER.info("Internal event: " + event.toString());
+        LOGGER.info("....Internal event: " + event.toString());
         List<KSHandler> handlers = eventTypeToHandlers.get(event.getEventType());
+        int count = 0;
         for (KSHandler handler: handlers) {
+            count++;
+            LOGGER.info("Handler (" + count + " of " + handlers.size() + "), " + handler.getName() + ", processing event: " + event.toString());
             KSEventResult handlerResult = handler.processEvent(event, context);
-            // Helps track which handlers the event has seen and the result of each
-            event.addHandlerAndEventResult(handler, handlerResult);
+            // Helps track results
+            event.addEventResult(handlerResult);
         }
     }
 

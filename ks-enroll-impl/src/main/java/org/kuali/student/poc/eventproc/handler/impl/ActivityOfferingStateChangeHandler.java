@@ -66,7 +66,7 @@ public class ActivityOfferingStateChangeHandler implements KSHandler {
             VersionMismatchException {
         if (!handlesEvent(event)) {
             // Shouldn't happen, but just in case
-            return new KSEventResult(KSEventResult.FAIL_INCORRECT_HANDLER);
+            return new KSEventResult(KSEventResult.FAIL_INCORRECT_HANDLER, ActivityOfferingStateChangeHandler.class);
         }
         String aoId = event.getValueByAttributeKey(KSEventFactory.EVENT_ATTRIBUTE_KEY_AO_ID);
         LuiInfo aoLui = processor.getLuiService().getLui(aoId, context);
@@ -74,7 +74,7 @@ public class ActivityOfferingStateChangeHandler implements KSHandler {
         String fromState = aoLui.getStateKey();
         // Check to see if there is a state change key
         if (fromState.equals(toState)) {
-            return new KSEventResult(KSEventResult.FAIL_STATE_UNCHANGED);
+            return new KSEventResult(KSEventResult.FAIL_STATE_UNCHANGED, ActivityOfferingStateChangeHandler.class);
         } else {
             ActivityOfferingInfo aoInfo = processor.getCoService().getActivityOffering(aoId, context);
             ConstraintResult constraintResult =
@@ -92,11 +92,11 @@ public class ActivityOfferingStateChangeHandler implements KSHandler {
                 // Add aoModifiedEvent to event (helps track what happens
                 event.addDownstreamEvent(aoModifiedEvent);
                 // Result
-                KSEventResult result = new KSEventResult(KSEventResult.SUCCESS);
+                KSEventResult result = new KSEventResult(KSEventResult.SUCCESS, ActivityOfferingStateChangeHandler.class);
                 return result;
             } else {
                 // Doesn't satisfy constraint
-                return new KSEventResult(KSEventResult.FAIL_CONSTRAINT_NOT_SATISFIED);
+                return new KSEventResult(KSEventResult.FAIL_CONSTRAINT_NOT_SATISFIED, ActivityOfferingStateChangeHandler.class);
             }
         }
     }

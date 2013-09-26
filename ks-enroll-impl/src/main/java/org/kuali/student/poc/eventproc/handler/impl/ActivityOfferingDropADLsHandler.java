@@ -71,7 +71,7 @@ public class ActivityOfferingDropADLsHandler implements KSHandler {
     public KSEventResult processEvent(KSEvent event, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         if (!handlesEvent(event)) {
-            return new KSEventResult(KSEventResult.FAIL_INCORRECT_HANDLER);
+            return new KSEventResult(KSEventResult.FAIL_INCORRECT_HANDLER, ActivityOfferingDropADLsHandler.class);
         }
         String aoId = event.getValueByAttributeKey(KSEventFactory.EVENT_ATTRIBUTE_KEY_AO_ID);
         ActivityOfferingInfo aoInfo = processor.getCoService().getActivityOffering(aoId, context);
@@ -110,7 +110,7 @@ public class ActivityOfferingDropADLsHandler implements KSHandler {
                 processor.getSchedulingService().updateScheduleRequest(request.getId(), request, context);
             }
         }
-        return new KSEventResult(KSEventResult.SUCCESS);
+        return new KSEventResult(KSEventResult.SUCCESS, ActivityOfferingDropADLsHandler.class);
     }
 
     @Override

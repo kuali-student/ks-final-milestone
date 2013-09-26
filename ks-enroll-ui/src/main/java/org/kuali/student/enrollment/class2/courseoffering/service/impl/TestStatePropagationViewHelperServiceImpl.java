@@ -487,16 +487,16 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         }
         ksEventProcessor.getCoService().scheduleActivityOffering(sampleAO.getId(), CONTEXT);
         sampleAO = ksEventProcessor.getCoService().getActivityOffering(sampleAO.getId(), CONTEXT);
-        // Invalidate an RG
-        KSEvent invalidateRGState =
-                KSEventFactory.createInvalidateRegGroupStateEvent(rgInfos.get(2).getId());
-        ksEventProcessor.fireEvent(invalidateRGState, CONTEXT);
-        // Validate it
-        KSEvent validateRGState =
-                KSEventFactory.createValidateRegGroupStateEvent(rgInfos.get(2).getId());
-        ksEventProcessor.fireEvent(validateRGState, CONTEXT);
+//        // Invalidate an RG
+//        KSEvent invalidateRGState =
+//                KSEventFactory.createInvalidateRegGroupStateEvent(rgInfos.get(2).getId());
+//        ksEventProcessor.fireEvent(invalidateRGState, CONTEXT);
+//        // Validate it
+//        KSEvent validateRGState =
+//                KSEventFactory.createValidateRegGroupStateEvent(rgInfos.get(2).getId());
+//        ksEventProcessor.fireEvent(validateRGState, CONTEXT);
         KSEvent changeAOState =
-                KSEventFactory.createChangeActivityOfferingStateEvent(sampleAO.getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
+                KSEventFactory.createChangeActivityOfferingStateEvent(sampleAO.getId(), LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY);
         ksEventProcessor.fireEvent(changeAOState, CONTEXT);
         LOGGER.info("Hi");
     }

@@ -26,6 +26,6 @@ import org.kuali.student.poc.eventproc.event.KSEventResult;
  * @author Kuali Student Team
  */
 public interface KSEventAuditTrail {
-    void addHandlerAndEventResult(KSHandler handler, KSEventResult result);
+    void addEventResult(KSEventResult result);
     void addDownstreamEvent(KSEvent event);
 }

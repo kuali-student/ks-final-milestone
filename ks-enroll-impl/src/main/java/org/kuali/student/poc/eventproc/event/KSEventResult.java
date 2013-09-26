@@ -32,13 +32,16 @@ public class KSEventResult {
     public static final String FAIL_INCORRECT_HANDLER = "fail:incorrectHandler";
 
     private String resultCode;
+    private String handlerClassName;
+
     private boolean success = true;
     private List<String> errorMessages = new ArrayList<String>();
     private List<KSEventResult> downstreamResults = new ArrayList<KSEventResult>();
     private String handlerName = null;
 
-    public KSEventResult(String resultCode) {
+    public KSEventResult(String resultCode, Class handlerClass) {
         this.resultCode = resultCode;
+        handlerClassName = handlerClass.getSimpleName();
     }
 
     public String getResultCode() {

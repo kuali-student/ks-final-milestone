@@ -63,7 +63,7 @@ public class FormatOfferingRecomputeStateHandler implements KSHandler {
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         if (!handlesEvent(event)) {
-            return new KSEventResult(KSEventResult.FAIL_INCORRECT_HANDLER);
+            return new KSEventResult(KSEventResult.FAIL_INCORRECT_HANDLER, FormatOfferingRecomputeStateHandler.class);
         }
         String foId = null;
         if (KSEventFactory.AO_STATE_MODIFIED_EVENT_TYPE.equals(event.getEventType())) {
@@ -79,7 +79,8 @@ public class FormatOfferingRecomputeStateHandler implements KSHandler {
         LuiInfo foLui = processor.getLuiService().getLui(foId, context);
         String fromFoState = foLui.getStateKey();
         if (fromFoState.equals(toFoState)) {
-            return new KSEventResult(KSEventResult.FAIL_STATE_UNCHANGED);
+            LOGGER.info("FO state unchanged (fromState = " + fromFoState + ", toState = " + toFoState + ")");
+            return new KSEventResult(KSEventResult.FAIL_STATE_UNCHANGED, FormatOfferingRecomputeStateHandler.class);
         }
         foLui.setStateKey(toFoState);
 
@@ -87,7 +88,7 @@ public class FormatOfferingRecomputeStateHandler implements KSHandler {
         LOGGER.info("Setting FO to state: " + modifiedFoLui.getStateKey());
 
         // Fire compute CO event
-        KSEventResult eventResult = new KSEventResult(KSEventResult.SUCCESS);
+        KSEventResult eventResult = new KSEventResult(KSEventResult.SUCCESS, FormatOfferingRecomputeStateHandler.class);
         KSEvent foStateModifiedEvent = KSEventFactory.createFormatOfferingStateModifiedEvent(foId);
         processor.internalFireEvent(foStateModifiedEvent, context);
         event.addDownstreamEvent(foStateModifiedEvent); // Tracks other events caused by "event"

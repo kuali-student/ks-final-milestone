@@ -69,7 +69,8 @@ public class RegGroupRecomputeStateHandler implements KSHandler {
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException,
             VersionMismatchException {
         if (!handlesEvent(event)) {
-            return new KSEventResult(KSEventResult.FAIL_INCORRECT_HANDLER);
+            LOGGER.info(getName() + " does not accept event: " + event.toString());
+            return new KSEventResult(KSEventResult.FAIL_INCORRECT_HANDLER, RegGroupRecomputeStateHandler.class);
         }
         KSEventResult eventResult = null;
         if (KSEventFactory.AO_STATE_MODIFIED_EVENT_TYPE.equals(event.getEventType())) {
@@ -96,7 +97,7 @@ public class RegGroupRecomputeStateHandler implements KSHandler {
         if (LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY.equals(rgInfo.getStateKey())) {
             // If RG in invalid state, recompute doesn't work
             LOGGER.info("RG state unchanged: RG has invalid state");
-            return new KSEventResult(KSEventResult.FAIL_CONSTRAINT_NOT_SATISFIED);
+            return new KSEventResult(KSEventResult.FAIL_CONSTRAINT_NOT_SATISFIED, RegGroupRecomputeStateHandler.class);
         } else {
             // Validate state is removing the invalidate of RG, then recomputing
             // If we get here, we are not in an invalid state, so it's fine to recompute
@@ -117,24 +118,26 @@ public class RegGroupRecomputeStateHandler implements KSHandler {
         if (fromState.equals(toRgState)) {
             // No state change
             LOGGER.info("RG state unchanged: fromState == toState");
-            return new KSEventResult(KSEventResult.FAIL_STATE_UNCHANGED);
+            return new KSEventResult(KSEventResult.FAIL_STATE_UNCHANGED, RegGroupRecomputeStateHandler.class);
         }
         rgLui.setStateKey(toRgState);
         LuiInfo modifiedRgLui = processor.getLuiService().updateLui(rgLui.getId(), rgLui, context);
         LOGGER.info("RG state change to: " + modifiedRgLui.getStateKey());
-        KSEventResult result = new KSEventResult(KSEventResult.SUCCESS);
+        KSEventResult result = new KSEventResult(KSEventResult.SUCCESS, RegGroupRecomputeStateHandler.class);
         return result;  //To change body of created methods use File | Settings | File Templates.
     }
 
     private KSEventResult _processAoStateModifiedEvent(String aoId, KSEvent event, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException,
             DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
-        KSEventResult result = new KSEventResult(KSEventResult.SUCCESS);
+        KSEventResult result = new KSEventResult(KSEventResult.SUCCESS, RegGroupRecomputeStateHandler.class);
         List<RegistrationGroupInfo> rgInfos =
                 processor.getCoService().getRegistrationGroupsByActivityOffering(aoId, context);
         for (RegistrationGroupInfo rg: rgInfos) {
             KSEvent rgEvent = KSEventFactory.createRecomputeRegGroupStateEvent(rg.getId());
             event.addDownstreamEvent(rgEvent);
+            // Notify RGs that they need to be recomputed
+            processor.internalFireEvent(rgEvent, context);
         }
         return result;
     }

@@ -63,7 +63,7 @@ public class CourseOfferingRecomputeStateHandler implements KSHandler {
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         if (!handlesEvent(event)) {
-            return new KSEventResult(KSEventResult.FAIL_INCORRECT_HANDLER);
+            return new KSEventResult(KSEventResult.FAIL_INCORRECT_HANDLER, CourseOfferingRecomputeStateHandler.class);
         }
         String coId = null;
         if (KSEventFactory.FO_STATE_MODIFIED_EVENT_TYPE.equals(event.getEventType())) {
@@ -82,7 +82,7 @@ public class CourseOfferingRecomputeStateHandler implements KSHandler {
         LOGGER.info("Setting CO to state: " + modifiedCoLui.getStateKey());
 
         // No further propagation
-        KSEventResult eventResult = new KSEventResult(KSEventResult.SUCCESS);
+        KSEventResult eventResult = new KSEventResult(KSEventResult.SUCCESS, CourseOfferingRecomputeStateHandler.class);
         return eventResult;
     }
 

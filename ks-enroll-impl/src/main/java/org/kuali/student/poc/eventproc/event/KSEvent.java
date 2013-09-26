@@ -90,8 +90,7 @@ public class KSEvent implements KSEventAuditTrail {
     }
 
     @Override
-    public void addHandlerAndEventResult(KSHandler handler, KSEventResult result) {
-        handlersSeen.add(handler);
+    public void addEventResult(KSEventResult result) {
         resultsSeen.add(result);
     }
 
