@@ -53,6 +53,11 @@
         <property name="courseWaitListService" ref="courseWaitListService"/>
     </bean>
 
+    <bean id="examOfferingServiceFacade" class="org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacadeImpl">
+        <property name="acalService" ref="acalService" />
+        <property name="courseOfferingService" ref="CourseOfferingServiceAuthorizationDecorator"/>
+    </bean>
+
     <bean id="courseWaitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceMapImpl" />
 
     <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" >

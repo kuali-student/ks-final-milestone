@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
@@ -87,6 +88,17 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
     @Resource
     private CourseWaitListService courseWaitListService;
+
+    @Resource
+    private ExamOfferingServiceFacade examOfferingServiceFacade;
+
+    public ExamOfferingServiceFacade getExamOfferingServiceFacade() {
+        return examOfferingServiceFacade;
+    }
+
+    public void setExamOfferingServiceFacade(ExamOfferingServiceFacade examOfferingServiceFacade) {
+        this.examOfferingServiceFacade = examOfferingServiceFacade;
+    }
 
     public RolloverAssist getRolloverAssist() {
         return rolloverAssist;
@@ -187,6 +199,10 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         if (rolloverAssist == null) {
             // KSENROLL-8062 Rollover with colocation
             rolloverAssist = (RolloverAssist) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/rolloverAssist", "RolloverAssist"));
+        }
+
+        if(examOfferingServiceFacade == null){
+            examOfferingServiceFacade = (ExamOfferingServiceFacade) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/examOfferingServiceFacade","examOfferingServiceFacade"));
         }
     }
 
@@ -726,6 +742,13 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 List<BulkStatusInfo> changes = generateRegistrationGroupsForCluster(cluster.getId(), context);
             }
         }
+        //process final exam offerings for target course offering
+        try{
+            getExamOfferingServiceFacade().generateFinalExamOffering(targetCo,optionKeys,context);
+        }catch(DoesNotExistException e){
+            //TODO KSENROLL-9672 exam periods in ref data.
+        }
+
         SocRolloverResultItemInfo item = new SocRolloverResultItemInfo();
         item.setSourceCourseOfferingId(sourceCoId);
         item.setTypeKey(CourseOfferingSetServiceConstants.CREATE_RESULT_ITEM_TYPE_KEY);

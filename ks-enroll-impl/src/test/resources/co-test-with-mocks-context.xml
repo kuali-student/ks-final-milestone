@@ -110,6 +110,12 @@
         <property name="courseWaitListService" ref="courseWaitListServiceMapImpl"/>
     </bean>
 
+    <bean id="examOfferingServiceFacade" class="org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacadeImpl">
+        <property name="acalService" ref="acalService" />
+        <property name="courseOfferingService" ref="coService"/>
+        <property name="examOfferingService" ref="examOfferingService"/>
+    </bean>
+
     <bean id="courseWaitListServiceMapImpl" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceMapImpl" />
 
     <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />

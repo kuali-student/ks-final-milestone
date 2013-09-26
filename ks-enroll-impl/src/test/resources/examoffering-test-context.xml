@@ -315,6 +315,7 @@
         <property name="acalServiceFacade" ref="acalServiceFacade"/>
         <property name="rolloverAssist" ref="rolloverAssist"/>
         <property name="courseWaitListService" ref="courseWaitListService"/>
+        <property name="examOfferingServiceFacade" ref="examOfferingBusinessLogic"/>
     </bean>
 
     <bean id="regGroupCodeGeneratorFactory"

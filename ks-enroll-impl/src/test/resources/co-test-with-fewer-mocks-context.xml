@@ -185,6 +185,17 @@
         <property name="courseWaitListService" ref="courseWaitListService"/>
     </bean>
 
+    <bean id="examOfferingServiceFacade" class="org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacadeImpl">
+        <property name="acalService" ref="acalService" />
+        <property name="examService" ref="examMockService"/>
+        <property name="courseOfferingService" ref="coService"/>
+        <property name="examOfferingService" ref="examOfferingMockService"/>
+    </bean>
+
+    <bean id="examOfferingMockService" class="org.kuali.student.enrollment.class2.examoffering.service.impl.ExamOfferingServiceMapImpl" />
+
+    <bean id="examMockService" class="org.kuali.student.enrollment.class2.exam.service.impl.ExamServiceMapImpl" />
+
     <bean id="courseWaitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceMapImpl" />
 
     <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
