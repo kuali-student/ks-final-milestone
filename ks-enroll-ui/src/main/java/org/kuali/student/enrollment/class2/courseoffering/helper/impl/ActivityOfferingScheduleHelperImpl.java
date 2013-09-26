@@ -359,7 +359,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                         scheduleWrapper.resetForNewRDL();
                     }
                 }
-            } else if (!wrapper.isPartOfColoSetOnLoadAlready() && wrapper.isColocatedAO()){
+            } else if (wrapper.isColocatedAO()){
 
                 //Just make sure the current ao is added to the sch set.
                 if (!set.getRefObjectIds().contains(wrapper.getId())){
