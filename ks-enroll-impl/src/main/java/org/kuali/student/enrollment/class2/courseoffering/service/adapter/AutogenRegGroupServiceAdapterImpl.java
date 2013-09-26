@@ -536,12 +536,11 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
                             courseWaitListInfoNew.setFormatOfferingIds(new ArrayList<String>());
                             courseWaitListInfoNew.getActivityOfferingIds().add(aoId);
                             courseWaitListInfoNew.getFormatOfferingIds().add(aoIdfoIdMap.get(aoId));
-                            if (courseWaitListInfo.getFormatOfferingIds().contains(aoIdfoIdMap.get(aoId))) {
-                                courseWaitListInfo.getFormatOfferingIds().remove(aoIdfoIdMap.get(aoId));
-                            }
-
                             courseWaitListInfoNew = getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
                                     courseWaitListInfoNew, context);
+                        }
+                        if (courseWaitListInfo.getFormatOfferingIds().contains(aoIdfoIdMap.get(aoId))) {
+                            courseWaitListInfo.getFormatOfferingIds().remove(aoIdfoIdMap.get(aoId));
                         }
                     }
                 }
