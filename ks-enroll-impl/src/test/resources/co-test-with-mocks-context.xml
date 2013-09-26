@@ -50,7 +50,7 @@
         <property name="activityOfferingClusterDao" ref="activityOfferingClusterDao"/>
         <property name="atpService" ref="atpService" />
         <property name="courseWaitListService" ref="courseWaitListService"/>
-
+        <property name="examOfferingService" ref="examOfferingService"/>
 
     </bean>
 
@@ -59,6 +59,10 @@
     </bean>
 
     <bean id="courseWaitListDao" class=" org.kuali.student.enrollment.class2.courseoffering.service.impl.MockCourseWaitLsitDao"/>
+
+    <bean id="examOfferingService" class="org.kuali.student.enrollment.class2.examoffering.service.impl.ExamOfferingServiceImpl">
+        <property name="luiService" ref="luiService"/>
+    </bean>
 
     <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl">
         <property name="atpService" ref="atpService"/>

@@ -373,6 +373,7 @@
         <property name="atpService" ref="AtpService" />
         <property name="roomService" ref="RoomService"/>
         <property name="courseWaitListService" ref="courseWaitListServiceImpl"/>
+        <property name="examOfferingService" ref="examOfferingServiceImpl"/>
   </bean>
 
     <bean id="courseWaitListServiceImpl" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceImpl">
@@ -1041,6 +1042,7 @@
         <property name="courseService" ref="courseServiceImpl" />
         <property name="courseWaitListService" ref="courseWaitListService" />
         <property name="waitListServiceFacade" ref="courseWaitListServiceFacade" />
+        <property name="examOfferingServiceFacade" ref="examOfferingServiceFacade" />
     </bean>
 
     <!-- For now, acal KSENROLL-7384 -->

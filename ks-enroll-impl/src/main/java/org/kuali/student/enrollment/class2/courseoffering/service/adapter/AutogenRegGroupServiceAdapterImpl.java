@@ -30,6 +30,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.InvalidRegGroupSubissue;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.RegGroupNotGeneratedByAocSubissue;
 import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacade;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
@@ -108,6 +109,8 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
     private ActivityOfferingClusterDaoApi activityOfferingClusterDao;
 
     private CourseWaitListServiceFacade waitListServiceFacade;
+
+    private ExamOfferingServiceFacade examOfferingServiceFacade;
     
     /* (non-Javadoc)
      * @see org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter#getDefaultClusterName(int)
@@ -332,6 +335,8 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         }
         ActivityOfferingInfo created = coService.createActivityOffering(aoInfo.getFormatOfferingId(), aoInfo.getActivityId(),
                 aoInfo.getTypeKey(), aoInfo, context);
+        this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(created, new ArrayList<String>(), context);
+
         ActivityOfferingResult aoResult = _addActivityOfferingToClusterCommon(created, cluster, context);
         //create and persist a WaitlistInfo for AO
         CourseWaitListInfo theWaitListInfo = getWaitListServiceFacade().createDefaultCourseWaitlist(aoInfo, context);
@@ -1243,5 +1248,13 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
 
     public void setWaitListServiceFacade(CourseWaitListServiceFacade waitListServiceFacade) {
         this.waitListServiceFacade = waitListServiceFacade;
+    }
+
+    public ExamOfferingServiceFacade getExamOfferingServiceFacade() {
+        return examOfferingServiceFacade;
+    }
+
+    public void setExamOfferingServiceFacade(ExamOfferingServiceFacade examOfferingServiceFacade) {
+        this.examOfferingServiceFacade = examOfferingServiceFacade;
     }
 }

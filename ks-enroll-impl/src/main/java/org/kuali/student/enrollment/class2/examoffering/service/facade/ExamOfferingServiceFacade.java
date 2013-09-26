@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.examoffering.service.facade;
 
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -11,6 +12,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 import java.util.List;
 
@@ -34,8 +36,6 @@ public interface ExamOfferingServiceFacade {
      * @param courseOfferingId
      * @param optionKeys
      * @param context
-     * @throws AlreadyExistsException
-     * @throws DataValidationErrorException
      * @throws DoesNotExistException
      * @throws DataValidationErrorException
      * @throws InvalidParameterException
@@ -45,8 +45,7 @@ public interface ExamOfferingServiceFacade {
      * @throws ReadOnlyException
      */
     void generateFinalExamOffering(String courseOfferingId, List<String> optionKeys, ContextInfo context)
-            throws AlreadyExistsException,
-            DataValidationErrorException, DoesNotExistException, DataValidationErrorException, InvalidParameterException,
+            throws DataValidationErrorException, DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
@@ -58,8 +57,6 @@ public interface ExamOfferingServiceFacade {
      * @param courseOfferingInfo
      * @param optionKeys
      * @param context
-     * @throws AlreadyExistsException
-     * @throws DataValidationErrorException
      * @throws DoesNotExistException
      * @throws DataValidationErrorException
      * @throws InvalidParameterException
@@ -69,9 +66,48 @@ public interface ExamOfferingServiceFacade {
      * @throws ReadOnlyException
      */
     void generateFinalExamOffering(CourseOfferingInfo courseOfferingInfo, List<String> optionKeys, ContextInfo context)
-            throws AlreadyExistsException,
-            DataValidationErrorException, DoesNotExistException, DataValidationErrorException, InvalidParameterException,
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+
+    /**
+     * This method is used to create exam offerings for new activity offerings that are added to the course offering after
+     * the rollover process was completed.
+     *
+     * @param courseOfferingInfo
+     * @param activityOfferingInfo
+     * @param optionKeys
+     * @param context
+     * @throws DoesNotExistException
+     * @throws DataValidationErrorException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws ReadOnlyException
+     */
+    void generateFinalExamOfferingForAO(CourseOfferingInfo courseOfferingInfo, ActivityOfferingInfo activityOfferingInfo,
+                                        List<String> optionKeys, ContextInfo context)
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+
+    /**
+     * This method is used to create exam offerings for new activity offerings that are added to the course offering after
+     * the rollover process was completed.
+     *
+     * @param activityOfferingInfo
+     * @param optionKeys
+     * @param context
+     * @throws DoesNotExistException
+     * @throws DataValidationErrorException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws ReadOnlyException
+     */
+    void generateFinalExamOfferingForAO(ActivityOfferingInfo activityOfferingInfo, List<String> optionKeys, ContextInfo context)
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /**
      * Generates a single Exam Offering per Format Offering.

@@ -39,6 +39,8 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
+import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
+import org.kuali.student.enrollment.examoffering.service.ExamOfferingService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
@@ -129,6 +131,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private AtpService atpService;
     private CourseService courseService;
     private CourseWaitListService courseWaitListService;
+    private ExamOfferingService examOfferingService;
     private CriteriaLookupService criteriaLookupService;
     private LprService lprService;
     private LRCService lrcService;
@@ -190,6 +193,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return formatOfferings;
     }
 
+    private StatusInfo deleteExamOfferingsFromFo(String formatOfferingId, ContextInfo context) throws PermissionDeniedException,
+            MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+        List<ExamOfferingRelationInfo> eoRelations =  this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(formatOfferingId, context);
+        for(ExamOfferingRelationInfo eoRelation : eoRelations){
+            this.getExamOfferingService().deleteExamOfferingRelation(eoRelation.getId(), context);
+            this.getExamOfferingService().deleteExamOffering(eoRelation.getExamOfferingId(), context);
+        }
+        return status;
+    }
+
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteFormatOfferingCascaded(String formatOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -200,6 +215,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
 
         // TODO: Delete dependent RegistrationGroups
+        // Delete the associated exam offerings.
+        deleteExamOfferingsFromFo(formatOfferingId, context);
 
         // Delete the format offering
         try {
@@ -1634,14 +1651,41 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return status;
     }
 
+    private StatusInfo deleteExamOfferingFromAo(String activityOfferingId, ContextInfo context) throws MissingParameterException,
+            InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+        List<String> eoRelationIds =  this.getExamOfferingService().getExamOfferingRelationIdsByActivityOffering(activityOfferingId, context);
+        for(String eoRelationId : eoRelationIds){
+            ExamOfferingRelationInfo eoRelation = this.getExamOfferingService().getExamOfferingRelation(eoRelationId, context);
+            if(eoRelation.getActivityOfferingIds().size()==1){
+                this.getExamOfferingService().deleteExamOfferingRelation(eoRelation.getId(), context);
+                this.getExamOfferingService().deleteExamOffering(eoRelation.getExamOfferingId(), context);
+            } else {
+                eoRelation.getActivityOfferingIds().remove(activityOfferingId);
+                try {
+                    this.getExamOfferingService().updateExamOfferingRelation(eoRelationId, eoRelation, context);
+                } catch (DataValidationErrorException e) {
+                    throw new OperationFailedException("Unable to remove activity offering from exam offering relation", e);
+                } catch (ReadOnlyException e) {
+                    throw new OperationFailedException("Unable to remove activity offering from exam offering relation", e);
+                } catch (VersionMismatchException e) {
+                    throw new OperationFailedException("Unable to remove activity offering from exam offering relation", e);
+                }
+            }
+        }
+        return status;
+    }
+
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteActivityOfferingCascaded(String activityOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<SeatPoolDefinitionInfo> seatPoolsToDelete = getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
-        deleteWaitListFromAo(activityOfferingId,context);
         deleteSeatPoolsFromAo(seatPoolsToDelete, activityOfferingId, context);
+        deleteWaitListFromAo(activityOfferingId,context);
+        deleteExamOfferingFromAo(activityOfferingId, context);
         removeActivityOfferingFromAoCluster(activityOfferingId, context);
 
         return deleteActivityOffering(activityOfferingId, context);
@@ -3683,6 +3727,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     public void setCourseWaitListService(CourseWaitListService courseWaitListService) {
         this.courseWaitListService = courseWaitListService;
+    }
+
+    public ExamOfferingService getExamOfferingService() {
+        return examOfferingService;
+    }
+
+    public void setExamOfferingService(ExamOfferingService examOfferingService) {
+        this.examOfferingService = examOfferingService;
     }
 
     public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {

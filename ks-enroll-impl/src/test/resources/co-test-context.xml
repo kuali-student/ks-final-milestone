@@ -255,12 +255,17 @@
         <property name="searchService" ref="SearchService" />
         <property name="atpService" ref="atpService" />
         <property name="courseWaitListService" ref="courseWaitListService"/>
+        <property name="examOfferingService" ref="examOfferingService"/>
     </bean>
 
     <bean id="courseWaitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceImpl">
         <property name="courseWaitListDao" ref="courseWaitListDao" />
     </bean>
     <bean id="courseWaitListDao" class="org.kuali.student.enrollment.class2.coursewaitlist.dao.CourseWaitListDao"/>
+
+    <bean id="examOfferingService" class="org.kuali.student.enrollment.class2.examoffering.service.impl.ExamOfferingServiceImpl">
+        <property name="luiService" ref="luiService"/>
+    </bean>
 
     <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl">
         <property name="atpService" ref="atpService"/>
