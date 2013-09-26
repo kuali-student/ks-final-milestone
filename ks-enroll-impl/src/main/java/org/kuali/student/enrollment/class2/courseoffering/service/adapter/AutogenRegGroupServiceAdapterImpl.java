@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.adapter;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -404,7 +405,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         }
         return _addActivityOfferingToClusterCommon(copyAoInfo, cluster, context);
     }
-    
+
     private CourseWaitListInfo copyToCreateWL(ActivityOfferingInfo newAOInfo, String origAoId, ContextInfo context)
                         throws InvalidParameterException, MissingParameterException, OperationFailedException,
                                PermissionDeniedException, DoesNotExistException, DataValidationErrorException,
@@ -417,12 +418,8 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
             // waitListInfos can return more than two values
             origWaitListInfo = waitListInfos.get(firstElement);
             newWaitListInfo = new CourseWaitListInfo();
-            List<String> aoIds = new ArrayList<String> ();
-            aoIds.add(newAOInfo.getId());
-            newWaitListInfo.setActivityOfferingIds(aoIds);
-            List<String> foIds = new ArrayList<String> ();
-            foIds.add(newAOInfo.getFormatOfferingId());
-            newWaitListInfo.setFormatOfferingIds(foIds);
+            newWaitListInfo.getActivityOfferingIds().add(newAOInfo.getId());
+            newWaitListInfo.getFormatOfferingIds().add(newAOInfo.getFormatOfferingId());
             newWaitListInfo.setTypeKey(origWaitListInfo.getTypeKey());
             newWaitListInfo.setStateKey(origWaitListInfo.getStateKey());
             newWaitListInfo.setAllowHoldUntilEntries(origWaitListInfo.getAllowHoldUntilEntries());
@@ -445,6 +442,135 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
 
     }
 
+    public CourseWaitListInfo createUncolocatedWaitList(CourseWaitListInfo courseWaitListInfo, String waitlistType, boolean hasWaitlist, boolean limitWaitlistSize, String aoId, String foId, ContextInfo context) {
+
+        setAutoProcConfReq(courseWaitListInfo, waitlistType);
+
+        if(hasWaitlist) {
+            courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY);
+        } else {
+            courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
+        }
+
+        if(!limitWaitlistSize) {
+            courseWaitListInfo.setMaxSize(null);
+        }
+
+        try {
+            if(courseWaitListInfo.getActivityOfferingIds().size() == 1) {   // only current AO - meaning no sharing of WL
+                courseWaitListInfo = getCourseWaitListService().updateCourseWaitList(courseWaitListInfo.getId(), courseWaitListInfo, context);
+            } else {
+                // remove un-colocated AO from shared WL, do NOT want to save new parameters
+                CourseWaitListInfo courseWaitListInfoShared = getCourseWaitListService().getCourseWaitList(courseWaitListInfo.getId(), context);
+                courseWaitListInfoShared.getActivityOfferingIds().remove(aoId);
+                courseWaitListInfoShared.getFormatOfferingIds().remove(foId);
+                getCourseWaitListService().updateCourseWaitList(courseWaitListInfo.getId(), courseWaitListInfoShared, context);
+
+                // create new WL for un-colo AO
+                courseWaitListInfo.setId(null);
+                courseWaitListInfo.setActivityOfferingIds(new ArrayList<String>());
+                courseWaitListInfo.setFormatOfferingIds(new ArrayList<String>());
+                courseWaitListInfo.getActivityOfferingIds().add(aoId);
+                courseWaitListInfo.getFormatOfferingIds().add(foId);
+                courseWaitListInfo = getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
+                        courseWaitListInfo, context);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return courseWaitListInfo;
+    }
+
+    public CourseWaitListInfo createColocatedWaitList(CourseWaitListInfo courseWaitListInfo, String waitlistType, boolean hasWaitlist, boolean limitWaitlistSize, boolean isColocatedAO, boolean isMaxEnrollmentShared,
+                                        HashMap<String, String> aoIdcoIdMap, ContextInfo context) {
+
+        setAutoProcConfReq(courseWaitListInfo, waitlistType);
+
+        if(hasWaitlist) {
+            courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY);
+        } else {
+            courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
+        }
+
+        if(!limitWaitlistSize) {
+            courseWaitListInfo.setMaxSize(null);
+        }
+
+        try {
+            // whether co-locating or already existing colos
+            if (!aoIdcoIdMap.isEmpty() && isColocatedAO) {
+                CourseWaitListInfo courseWaitListInfoShared = new CourseWaitListInfo();
+                if (!isMaxEnrollmentShared){ // want to keep old params for the new WLs for the rest of AOs
+                    courseWaitListInfoShared = getCourseWaitListService().getCourseWaitList(courseWaitListInfo.getId(), context);
+                }
+
+                for (String aoId : aoIdcoIdMap.keySet()){
+                    if (isMaxEnrollmentShared){   // create shared WL
+                        // Put WL logic in. Shared WL ONLY when max enrollement is shared. Adding new aoID and foID(s)
+                        if (!courseWaitListInfo.getActivityOfferingIds().contains(aoId)) {
+                            courseWaitListInfo.getActivityOfferingIds().add(aoId);
+                            // Delete WL for other AO
+                            List<CourseWaitListInfo> courseWaitLists  = getCourseWaitListService().getCourseWaitListsByActivityOffering(aoId, context);
+                            for (CourseWaitListInfo courseWaitlist : courseWaitLists) {
+                                if (!StringUtils.equals(courseWaitlist.getId(), courseWaitListInfo.getId())) {
+                                    getCourseWaitListService().deleteCourseWaitList(courseWaitlist.getId(), context);
+                                }
+                            }
+                        }
+                        List<FormatOfferingInfo> formatOfferings = getCoService().getFormatOfferingsByCourseOffering(aoIdcoIdMap.get(aoId), context);
+                        for (FormatOfferingInfo formatOffering : formatOfferings) {
+                            if (!courseWaitListInfo.getFormatOfferingIds().contains(formatOffering.getId())) {
+                                courseWaitListInfo.getFormatOfferingIds().add(formatOffering.getId());
+                            }
+                        }
+                    } else {  // each AO keeps (or have to split shared) own WL
+                        if (courseWaitListInfo.getActivityOfferingIds().contains(aoId)) {
+                            courseWaitListInfo.getActivityOfferingIds().remove(aoId);
+                            // creating new (non-shared) WL per AO
+                            CourseWaitListInfo courseWaitListInfoNew = new CourseWaitListInfo(courseWaitListInfoShared);
+                            courseWaitListInfoNew.setId(null);
+                            courseWaitListInfoNew.setActivityOfferingIds(new ArrayList<String>());
+                            courseWaitListInfoNew.setFormatOfferingIds(new ArrayList<String>());
+                            courseWaitListInfoNew.getActivityOfferingIds().add(aoId);
+                            List<FormatOfferingInfo> formatOfferings = getCoService().getFormatOfferingsByCourseOffering(aoIdcoIdMap.get(aoId), context);
+                            for (FormatOfferingInfo formatOffering : formatOfferings) {
+                                if (courseWaitListInfo.getFormatOfferingIds().contains(formatOffering.getId())) {
+                                    courseWaitListInfo.getFormatOfferingIds().remove(formatOffering.getId());
+                                }
+                                courseWaitListInfoNew.getFormatOfferingIds().add(formatOffering.getId());
+                            }
+                            courseWaitListInfoNew = getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
+                                    courseWaitListInfoNew, context);
+                        }
+                    }
+                }
+            }
+
+            courseWaitListInfo = getCourseWaitListService().updateCourseWaitList(courseWaitListInfo.getId(), courseWaitListInfo, context);
+        } catch (Exception e) {
+                throw new RuntimeException(e);
+        }
+
+        return courseWaitListInfo;
+    }
+
+    private void setAutoProcConfReq(CourseWaitListInfo courseWaitListInfo, String waitListType){
+
+        if(waitListType.equals(LuiServiceConstants.AUTOMATIC_WAITLIST_TYPE_KEY)) {
+            courseWaitListInfo.setAutomaticallyProcessed(true);
+            courseWaitListInfo.setConfirmationRequired(false);
+        }
+        else if(waitListType.equals(LuiServiceConstants.CONFIRMATION_WAITLIST_TYPE_KEY)){
+            courseWaitListInfo.setAutomaticallyProcessed(true);
+            courseWaitListInfo.setConfirmationRequired(true);
+        }
+
+        else if(waitListType.equals(LuiServiceConstants.MANUAL_WAITLIST_TYPE_KEY)) {
+            courseWaitListInfo.setAutomaticallyProcessed(false);
+            courseWaitListInfo.setConfirmationRequired(false);
+        }
+    }
 
     public  ActivityOfferingResult updateRegistrationGroups(ActivityOfferingInfo activityOfferingInfo, ContextInfo context) throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException, OperationFailedException, MissingParameterException, DoesNotExistException, VersionMismatchException {
         try{

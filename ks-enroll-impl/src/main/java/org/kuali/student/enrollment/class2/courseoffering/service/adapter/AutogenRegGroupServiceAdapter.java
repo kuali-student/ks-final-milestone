@@ -4,6 +4,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -18,6 +19,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -278,6 +280,32 @@ public interface AutogenRegGroupServiceAdapter {
      * @return
      */
     public List<ActivityOfferingClusterInfo> getActivityOfferingClusterByCourseOffering(String courseOfferingId);
-    
-   
+
+    /**
+     * Returns new CourseWaitListInfo after AO had been un-colocated
+     *
+     * @param courseWaitListInfo (original WL)
+     * @param waitlistType
+     * @param hasWaitlist
+     * @param limitWaitlistSize
+     * @param aoId (activity offering ID)
+     * @param foId (format offering ID)
+     * @return
+     */
+    public CourseWaitListInfo createUncolocatedWaitList(CourseWaitListInfo courseWaitListInfo, String waitlistType, boolean hasWaitlist, boolean limitWaitlistSize, String aoId, String foId, ContextInfo context);
+
+    /**
+     * Returns new CourseWaitListInfo after AO had been un-colocated
+     *
+     * @param courseWaitListInfo (original WL)
+     * @param waitlistType
+     * @param hasWaitlist
+     * @param limitWaitlistSize
+     * @param isColocatedAO (activity offering colo or not)
+     * @param isMaxEnrollmentShared (max enrollment shared checked)
+     * @param aoIdcoIdMap (map of ao and co)
+     * @return
+     */
+    public CourseWaitListInfo createColocatedWaitList(CourseWaitListInfo courseWaitListInfo, String waitlistType, boolean hasWaitlist, boolean limitWaitlistSize, boolean isColocatedAO, boolean isMaxEnrollmentShared,
+                                                      HashMap<String, String> aoIdcoIdMap, ContextInfo context);
 }
