@@ -245,27 +245,12 @@ public class RegistrationWindowsController extends UifControllerBase {
         //urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
         String controllerPath = AppointmentConstants.REGISTRATION_WINDOWS_CONTROLLER_PATH;
 
+//        TODO: KSENROLL-9721: Need to create a confirmation dialog in browser as opposed to make a server side round trip
+//        removed the code that causes the light box to show and also stoped the code from redirecting
         try {
-            String dialog = AppointmentConstants.Registration_Windows_ConfirmDelete_Dialog;
-            if (!hasDialogBeenDisplayed(dialog, uifForm)) {
-                AppointmentWindowWrapper window = _getSelectedWindow(uifForm, "Delete a Window");
-                uifForm.setSelectedAppointmentWindow(window);
-
-                //redirect back to client to display lightbox
-                return showDialog(dialog, uifForm, request, response);
-            }
-
-            boolean confirmDelete = getBooleanDialogResponse(dialog, uifForm, request, response);
-            uifForm.getDialogManager().resetDialogStatus(dialog);
-            if (!confirmDelete) {
-                return super.performRedirect(uifForm, controllerPath, urlParameters);
-            }
-        } catch (Exception e) {
-            //TODO: log exception
-            return getUIFModelAndView(uifForm);
-        }
-        try {
-            AppointmentWindowWrapper window = uifForm.getSelectedAppointmentWindow();
+//            AppointmentWindowWrapper window = uifForm.getSelectedAppointmentWindow();
+            AppointmentWindowWrapper window = _getSelectedWindow(uifForm, "Delete a Window");
+            uifForm.setSelectedAppointmentWindow(window);
             if (window != null) {
 
                 if (AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_ASSIGNED_KEY.equals(window.getAppointmentWindowInfo().getStateKey())) {
@@ -278,13 +263,13 @@ public class RegistrationWindowsController extends UifControllerBase {
                         urlParameters.put("growlMessage", AppointmentConstants.APPOINTMENT_MSG_INFO_DELETED);
                         urlParameters.put("windowName", window.getWindowName());
 
-                        return super.performRedirect(uifForm, controllerPath, urlParameters);
+                        return getUIFModelAndView(uifForm, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
                     } else {
                         //There was an error
                         urlParameters.put("growlMessage", AppointmentConstants.APPOINTMENT_MSG_ERROR_BREAK_APPOINTMENTS_FAILURE);
                         urlParameters.put("windowName", status.getMessage());
 
-                        return super.performRedirect(uifForm, controllerPath, urlParameters);
+                        return getUIFModelAndView(uifForm, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
                     }
                 } else {
                     getAppointmentService().deleteAppointmentWindowCascading(window.getId(), new ContextInfo());
@@ -292,15 +277,15 @@ public class RegistrationWindowsController extends UifControllerBase {
                     urlParameters.put("growlMessage", AppointmentConstants.APPOINTMENT_MSG_INFO_DELETED);
                     urlParameters.put("windowName", window.getWindowName());
 
-                    return super.performRedirect(uifForm, controllerPath, urlParameters);
+                    return getUIFModelAndView(uifForm, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
                 }
             } else {
                 //TODO: log window == null message
-                return super.performRedirect(uifForm, controllerPath, urlParameters);
+                return getUIFModelAndView(uifForm, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
             }
         } catch (Exception e) {
             //TODO: log exception
-            return super.performRedirect(uifForm, controllerPath, urlParameters);
+            return getUIFModelAndView(uifForm, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
         }
     }
 

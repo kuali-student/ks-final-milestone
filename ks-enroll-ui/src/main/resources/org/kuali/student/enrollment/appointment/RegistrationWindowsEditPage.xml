@@ -344,11 +344,13 @@
             </list>
         </property>
 
+        <!--KSENROLL-9721: Need to create a confirmation dialog in browser as opposed to make a server side round trip-->
+        <!--added the presubmit call-->
         <property name="lineActions">
             <list>
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="assignStudents" p:actionLabel="Assign Students" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.draft'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="breakAppointments" p:actionLabel="Break Appointments" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
-                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLineThroughDialog" p:actionLabel="X" p:render="@{!#isAddLine}"  p:clearDirtyOnAction="true" />
+                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLineThroughDialog" p:actionLabel="X" p:render="@{!#isAddLine}"  p:clearDirtyOnAction="false" p:preSubmitCall="return kradRequest.confirm('KS-Uif-Confirmation-Dialog');"/>
             </list>
         </property>
 
