@@ -135,6 +135,71 @@ public interface AppliedRateService {
                OperationFailedException, 
                PermissionDeniedException;
 
+    /** 
+     * Retrieves a list of CatalogRateCanonicalRelations for a
+     * CatalogRate.
+     *
+     * @param catalogRateId the Id of the CatalogRate
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of CatalogRateCanonicalRelations
+     * @throws InvalidParameterException contextInfo is invalid
+     * @throws MissingParameterException catalogRateId or contextInfo
+     *         is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<CatalogRateCanonicalRelationInfo> getCatalogRateCanonicalRelationsByCatalogRate(@WebParam(name = "catalogId") String catalogRateId, 
+                                                                                                @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
+
+    /** 
+     * Retrieves a list of CatalogRateCanonicalRelations for a
+     * Course.
+     *
+     * @param courseId the Id of the Course
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of CatalogRateCanonicalRelations
+     * @throws InvalidParameterException contextInfo is invalid
+     * @throws MissingParameterException courseId or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<CatalogRateCanonicalRelationInfo> getCatalogRateCanonicalRelationsByCourse(@WebParam(name = "courseId") String courseId, 
+                                                                                           @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
+
+    /** 
+     * Retrieves a list of CatalogRateCanonicalRelations for a
+     * CatalogRate and Course.
+     *
+     * @param catalogRateId the Id of the CatalogRate
+     * @param courseId the Id of the Course
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of CatalogRateCanonicalRelations
+     * @throws InvalidParameterException contextInfo is invalid
+     * @throws MissingParameterException catalogRateId, courseId, or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<CatalogRateCanonicalRelationInfo> getCatalogRateCanonicalRelationsByCatalogRateAndCourse(@WebParam(name = "catalogRateId") String catalogRateId, 
+                                                                                                         @WebParam(name = "courseId") String courseId, 
+                                                                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
+
     /**
      * Searches for CatalogRateCanonicalRelations based on the
      * criteria and returns a list of CatalogRateCanonicalRelation
@@ -198,20 +263,24 @@ public interface AppliedRateService {
      * can be created.
      *
      * @param validationTypeKey the identifier for the validation Type
+     * @param catalogRateId the Id of the CatalogRate
+     * @param courseId the Id of the Course
      * @param catalogRateCanonicalRelationTypeKey the identifier for
-     * the rate Type
+     *        the rate Type
      * @param catalogRateCanonicalRelationInfo the
      *        CatalogRateCanonicalRelation information to be validated
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return a list of validation results or an empty list if
      *         validation succeeded
-     * @throws DoesNotExistException validationTypeKey or
-     *         catalogRateCanonicalRelationTypeKey is not found
+     * @throws DoesNotExistException validationTypeKey, catalogRateId,
+     *         courseId, or catalogRateCanonicalRelationTypeKey is not
+     *         found
      * @throws InvalidParameterException
      *         catalogRateCanonicalRelationInfo or contextInfo is not
      *         valid
      * @throws MissingParameterException validationTypeKey,
+     *         catalogRateId, courseId,
      *         catalogRateCanonicalRelationTypeKey,
      *         catalogRateCanonicalRelationInfo, or contextInfo is
      *         missing or null
@@ -219,6 +288,8 @@ public interface AppliedRateService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ValidationResultInfo> validateCatalogRateCanonicalRelation(@WebParam(name = "validationTypeKey") String validationTypeKey, 
+                                                                           @WebParam(name = "catalogRateId") String catalogRateId, 
+                                                                           @WebParam(name = "courseId") String courseId, 
                                                                            @WebParam(name = "catalogRateCanonicalRelationTypeKey") String catalogRateCanonicalRelationTypeKey, 
                                                                            @WebParam(name = "catalogRateCanonicalRelationInfo") CatalogRateCanonicalRelationInfo catalogRateCanonicalRelationInfo, 
                                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
@@ -233,6 +304,8 @@ public interface AppliedRateService {
      * CatalogRateCanonicalRelation Id, Type, and Meta information may
      * nogt be set in the supplied data.
      *
+     * @param catalogRateId the Id of the CatalogRate
+     * @param courseId the Id of the Course
      * @param catalogRateCanonicalRelationTypeKey the identifier for
      *        the Type of the new CatalogRateCanonicalRelation
      * @param catalogRateCanonicalRelationInfo the data with which to
@@ -241,13 +314,13 @@ public interface AppliedRateService {
      *        locale information about the caller of service operation
      * @return the new CatalogRateCanonicalRelation 
      * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException
+     * @throws DoesNotExistException catalogRateId, courseId,
      *         catalogRateCanonicalRelationTypeKey does not exist is
      *         not supported
      * @throws InvalidParameterException
      *         catalogRateCanonicalRelationInfo or contextInfo is not
      *         valid
-     * @throws MissingParameterException
+     * @throws MissingParameterException catalogRateId, courseId,
      *         catalogRateCanonicalRelationTypeKey,
      *         catalogRateCanonicalRelationInfo or contextInfo is
      *         missing or null
@@ -256,7 +329,9 @@ public interface AppliedRateService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
-    public CatalogRateCanonicalRelationInfo createCatalogRateCanonicalRelation(@WebParam(name = "catalogRateCanonicalRelationTypeKey") String catalogRateCanonicalRelationTypeKey, 
+    public CatalogRateCanonicalRelationInfo createCatalogRateCanonicalRelation(@WebParam(name = "catalogRateId") String catalogRateId, 
+                                                                               @WebParam(name = "courseId") String courseId, 
+                                                                               @WebParam(name = "catalogRateCanonicalRelationTypeKey") String catalogRateCanonicalRelationTypeKey, 
                                                                                @WebParam(name = "catalogRateCanonicalRelationInfo") CatalogRateCanonicalRelationInfo catalogRateCanonicalRelationInfo, 
                                                                                @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DataValidationErrorException, 
@@ -368,20 +443,20 @@ public interface AppliedRateService {
      * Retrieves a single RateOfferingRelation by
      * RateOfferingRelation Id.
      *
-     * @param RateOfferingRelationId the identifier for the
+     * @param rateOfferingRelationId the identifier for the
      *        rate to be retrieved
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return the RateOfferingRelation requested
-     * @throws DoesNotExistException RateOfferingRelationId not found
+     * @throws DoesNotExistException rateOfferingRelationId not found
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException
-     *         RateOfferingRelationId or contextInfo is
+     *         rateOfferingRelationId or contextInfo is
      *         missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public RateOfferingRelationInfo getRateOfferingRelation(@WebParam(name = "RateOfferingRelationId") String RateOfferingRelationId, 
+    public RateOfferingRelationInfo getRateOfferingRelation(@WebParam(name = "rateOfferingRelationId") String rateOfferingRelationId, 
                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DoesNotExistException, 
                InvalidParameterException, 
@@ -395,22 +470,22 @@ public interface AppliedRateService {
      * and if duplicates Ids are supplied, a unique set may or may not
      * be returned.
      *
-     * @param RateOfferingRelationIds a list of
+     * @param rateOfferingRelationIds a list of
      *        RateOfferingRelation identifiers
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return a list of RateOfferingRelations
-     * @throws DoesNotExistException a RateOfferingRelationId
+     * @throws DoesNotExistException a rateOfferingRelationId
      *         in the list not found
      * @throws InvalidParameterException contextInfo is invalid
      * @throws MissingParameterException
-     *         RateOfferingRelationIds, an Id in
-     *         RateOfferingRelationIds, or contextInfo is
+     *         rateOfferingRelationIds, an Id in
+     *         rateOfferingRelationIds, or contextInfo is
      *         missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<RateOfferingRelationInfo> getRateOfferingRelationsByIds(@WebParam(name = "RateOfferingRelationIds") List<String> RateOfferingRelationIds, 
+    public List<RateOfferingRelationInfo> getRateOfferingRelationsByIds(@WebParam(name = "rateOfferingRelationIds") List<String> rateOfferingRelationIds, 
                                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DoesNotExistException, 
                InvalidParameterException, 
@@ -422,22 +497,85 @@ public interface AppliedRateService {
      * Retrieves a list of RateOfferingRelation Ids by
      * RateOfferingRelation Type.
      *
-     * @param RateOfferingRelationTypeKey an identifier for a
+     * @param rateOfferingRelationTypeKey an identifier for a
      *        RateOfferingRelation Type
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return a list of RateOfferingRelation identifiers
-     *         matching RateOfferingRelationTypeKey or an
+     *         matching rateOfferingRelationTypeKey or an
      *         empty list if none found
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException
-     *         RateOfferingRelationTypeKey or contextInfo is
+     *         rateOfferingRelationTypeKey or contextInfo is
      *         missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getRateOfferingRelationIdsByType(@WebParam(name = "RateOfferingRelationTypeKey") String RateOfferingRelationTypeKey, 
+    public List<String> getRateOfferingRelationIdsByType(@WebParam(name = "rateOfferingRelationTypeKey") String rateOfferingRelationTypeKey, 
                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
+
+    /** 
+     * Retrieves a list of RateOfferingRelations for a Rate.
+     *
+     * @param rateId the Id of the Rate
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of RateOfferingRelations
+     * @throws InvalidParameterException contextInfo is invalid
+     * @throws MissingParameterException rateId or contextInfo
+     *         is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<RateOfferingRelationInfo> getRateOfferingRelationsByRate(@WebParam(name = "catalogId") String rateId, 
+                                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
+
+    /** 
+     * Retrieves a list of RateOfferingRelations for a FormatOffering.
+     *
+     * @param formatOfferingId the Id of the FormatOffering
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of RateOfferingRelations
+     * @throws InvalidParameterException contextInfo is invalid
+     * @throws MissingParameterException formatOfferingId or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<RateOfferingRelationInfo> getRateOfferingRelationsByFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, 
+                                                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
+
+    /** 
+     * Retrieves a list of RateOfferingRelations for a Rate and
+     * FormatOffering.
+     *
+     * @param rateId the Id of the Rate
+     * @param formatOfferingId the Id of the FormatOffering
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of RateOfferingRelations
+     * @throws InvalidParameterException contextInfo is invalid
+     * @throws MissingParameterException rateId, formatOfferingId, or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<RateOfferingRelationInfo> getRateOfferingRelationsByRateAndFormatOffering(@WebParam(name = "rateId") String rateId, 
+                                                                                          @WebParam(name = "formatOfferingId") String formatOfferingId, 
+                                                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws InvalidParameterException, 
                MissingParameterException, 
                OperationFailedException, 
@@ -505,27 +643,33 @@ public interface AppliedRateService {
      * given data can be created.
      *
      * @param validationTypeKey the identifier for the validation Type
-     * @param RateOfferingRelationTypeKey the identifier for the rate
+     * @param rateId the Id of the Rate
+     * @param formatOfferingId the Id of the FormatOffering
+     * @param rateOfferingRelationTypeKey the identifier for the rate
      *        Type
-     * @param RateOfferingRelationInfo the
+     * @param rateOfferingRelationInfo the
      *        RateOfferingRelation information to be validated
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return a list of validation results or an empty list if
      *         validation succeeded
-     * @throws DoesNotExistException validationTypeKey or
-     *         RateOfferingRelationTypeKey is not found
-     * @throws InvalidParameterException RateOfferingRelationInfo or
+     * @throws DoesNotExistException validationTypeKey, rateId,
+     *         formatOfferingId, or rateOfferingRelationTypeKey is not
+     *         found
+     * @throws InvalidParameterException rateOfferingRelationInfo or
      *         contextInfo is not valid
-     * @throws MissingParameterException validationTypeKey,
-     *         RateOfferingRelationTypeKey, RateOfferingRelationInfo,
-     *         or contextInfo is missing or null
+     * @throws MissingParameterException validationTypeKey, rateId,
+     *         formatOfferingId, rateOfferingRelationTypeKey,
+     *         RateOfferingRelationInfo, or contextInfo is missing or
+     *         null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ValidationResultInfo> validateRateOfferingRelation(@WebParam(name = "validationTypeKey") String validationTypeKey, 
-                                                                   @WebParam(name = "RateOfferingRelationTypeKey") String RateOfferingRelationTypeKey, 
-                                                                   @WebParam(name = "RateOfferingRelationInfo") RateOfferingRelationInfo RateOfferingRelationInfo, 
+                                                                   @WebParam(name = "rateId") String rateId, 
+                                                                   @WebParam(name = "formatOfferingId") String formatOfferingId, 
+                                                                   @WebParam(name = "rateOfferingRelationTypeKey") String rateOfferingRelationTypeKey, 
+                                                                   @WebParam(name = "rateOfferingRelationInfo") RateOfferingRelationInfo rateOfferingRelationInfo, 
                                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DoesNotExistException, 
                InvalidParameterException, 
@@ -538,28 +682,33 @@ public interface AppliedRateService {
      * Id, Type, and Meta information may nogt be set in the supplied
      * data.
      *
-     * @param RateOfferingRelationTypeKey the identifier for the Type
+     * @param rateId the Id of the Rate
+     * @param formatOfferingId the Id of the FormatOffering
+     * @param rateOfferingRelationTypeKey the identifier for the Type
      *        of the new RateOfferingRelation
-     * @param RateOfferingRelationInfo the data with which to create
+     * @param rateOfferingRelationInfo the data with which to create
      *        the RateOfferingRelation
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return the new RateOfferingRelation 
      * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException RateOfferingRelationTypeKey does
-     *         not exist is not supported
-     * @throws InvalidParameterException RateOfferingRelationInfo or
+     * @throws DoesNotExistException rateId, formatOfferingId, or
+     *         rateOfferingRelationTypeKey does not exist is not
+     *         supported
+     * @throws InvalidParameterException rateOfferingRelationInfo or
      *         contextInfo is not valid
-     * @throws MissingParameterException RateOfferingRelationTypeKey,
-     *         RateOfferingRelationInfo or contextInfo is missing or
-     *         null
+     * @throws MissingParameterException rateId, formatOfferingId,
+     *         rateOfferingRelationTypeKey, rateOfferingRelationInfo
+     *         or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
-    public RateOfferingRelationInfo createRateOfferingRelation(@WebParam(name = "RateOfferingRelationTypeKey") String RateOfferingRelationTypeKey, 
-                                                               @WebParam(name = "RateOfferingRelationInfo") RateOfferingRelationInfo RateOfferingRelationInfo, 
+    public RateOfferingRelationInfo createRateOfferingRelation(@WebParam(name = "rateId") String rateId, 
+                                                               @WebParam(name = "formatOfferingId") String formatOfferingId, 
+                                                               @WebParam(name = "rateOfferingRelationTypeKey") String rateOfferingRelationTypeKey, 
+                                                               @WebParam(name = "rateOfferingRelationInfo") RateOfferingRelationInfo rateOfferingRelationInfo, 
                                                                @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DataValidationErrorException, 
                InvalidParameterException, 
@@ -573,19 +722,19 @@ public interface AppliedRateService {
      * RateOfferingRelation Id, Type, and Meta information may not be
      * changed.
      *
-     * @param RateOfferingRelationId the identifier for the
+     * @param rateOfferingRelationId the identifier for the
      *        RateOfferingRelation to be updated
-     * @param RateOfferingRelationInfo the new data for the
+     * @param rateOfferingRelationInfo the new data for the
      *        RateOfferingRelation
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return the updated RateOfferingRelation
      * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException RateOfferingRelationId not found
-     * @throws InvalidParameterException RateOfferingRelationInfo or
+     * @throws DoesNotExistException rateOfferingRelationId not found
+     * @throws InvalidParameterException rateOfferingRelationInfo or
      *         contextInfo is not valid
-     * @throws MissingParameterException RateOfferingRelationId,
-     *         RateOfferingRelationInfo, or contextInfo is missing or
+     * @throws MissingParameterException rateOfferingRelationId,
+     *         rateOfferingRelationInfo, or contextInfo is missing or
      *         null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
@@ -594,8 +743,8 @@ public interface AppliedRateService {
      * @throws VersionMismatchException optimistic locking failure or
      *         the action was attempted on an out of date version
      */
-    public RateOfferingRelationInfo updateRateOfferingRelation(@WebParam(name = "RateOfferingRelationId") String RateOfferingRelationId, 
-                                                               @WebParam(name = "RateOfferingRelationInfo") RateOfferingRelationInfo RateOfferingRelationInfo, 
+    public RateOfferingRelationInfo updateRateOfferingRelation(@WebParam(name = "rateOfferingRelationId") String rateOfferingRelationId, 
+                                                               @WebParam(name = "rateOfferingRelationInfo") RateOfferingRelationInfo rateOfferingRelationInfo, 
                                                                @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DataValidationErrorException, 
                DoesNotExistException, 
@@ -609,24 +758,24 @@ public interface AppliedRateService {
     /**
      * Changes the state of a RateOfferingRelation.
      *
-     * @param RateOfferingRelationId the Id of the
+     * @param rateOfferingRelationId the Id of the
      *        RateOfferingRelation
      * @param stateKey the identifier for the new State 
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return the status of the operation. This must always be
      *         true.
-     * @throws DoesNotExistException RateOfferingRelationId
+     * @throws DoesNotExistException rateOfferingRelationId
      *         not found or stateKey not found in
      *         RateOfferingRelation Lifecycle
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException
-     *         RateOfferingRelationId, stateKey, or
+     *         rateOfferingRelationId, stateKey, or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo changeRateOfferingRelationState(@WebParam(name = "RateOfferingRelationId") String RateOfferingRelationId, 
+    public StatusInfo changeRateOfferingRelationState(@WebParam(name = "rateOfferingRelationId") String rateOfferingRelationId, 
                                                       @WebParam(name = "stateKey") String stateKey,
                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DoesNotExistException, 
@@ -638,7 +787,7 @@ public interface AppliedRateService {
     /** 
      * Deletes an existing RateOfferingRelation.
      *
-     * @param RateOfferingRelationId the identifier for the
+     * @param rateOfferingRelationId the identifier for the
      *        RateOfferingRelation to be deleted
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -646,14 +795,14 @@ public interface AppliedRateService {
      *         true.
      * @throws DependentObjectsExistException Rates are attached to
      *         this RateCatalog
-     * @throws DoesNotExistException RateOfferingRelationId not found
+     * @throws DoesNotExistException rateOfferingRelationId not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException RateOfferingRelationId or
+     * @throws MissingParameterException rateOfferingRelationId or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo deleteRateOfferingRelation(@WebParam(name = "RateOfferingRelationId") String RateOfferingRelationId, 
+    public StatusInfo deleteRateOfferingRelation(@WebParam(name = "rateOfferingRelationId") String rateOfferingRelationId, 
                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DependentObjectsExistException,
                DoesNotExistException, 
