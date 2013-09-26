@@ -29,11 +29,14 @@
                 <value>themes/ksboot/stylesheets/link-tabs.css</value>
             </list>
         </property>
+        <!--TODO: KSENROLL-9721: Need to create a confirmation dialog in browser as opposed to make a server side round trip-->
+        <!--We need to remove <value>themes/ksboot/scripts/krad.request.js</value> from the cript files after the rice fix-->
         <property name="scriptFiles">
             <list merge="true">
                 <value>themes/bootstrap/scripts/bootstrap.js</value>
                 <value>themes/ksboot/scripts/enroll.js</value>
                 <value>krad/scripts/ks.krad.override.js</value>
+                <value>themes/ksboot/scripts/krad.request.js</value>
                 <value>krad/scripts/ks.krad.widget.js</value>
             </list>
         </property>
@@ -45,6 +48,13 @@
         <property name="items">
             <list>
             </list>
+        </property>
+    </bean>
+
+    <!--TODO: KSENROLL-9721: Need to create a confirmation dialog in browser as opposed to make a server side round trip-->
+    <bean id="KS-Uif-Confirmation-Dialog" parent="Uif-Yes-No-DialogGroup">
+        <property name="onDialogResponseScript">
+            <null/>
         </property>
     </bean>
 
@@ -60,6 +70,11 @@
             <bean parent="Uif-GlobalApplicationHeader-parentBean"
                   p:template="/ks-common/WEB-INF/ftl/ksApplicationHeader.ftl" p:render="true"
                   p:templateName="ks_applicationHeader"/>
+        </property>
+        <property name="dialogs">
+            <list>
+                <ref bean="KS-Uif-Confirmation-Dialog"/>
+            </list>
         </property>
         <property name="header.cssClasses">
             <list merge="true">
