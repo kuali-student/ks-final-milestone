@@ -14,6 +14,7 @@ import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponent;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -32,8 +33,7 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(name="ScheduleRequest.getScheduleRequestsByRefObjectAndRefObjectType",
                 query="SELECT sr FROM ScheduleRequestEntity sr WHERE sr.scheduleRequestSetId in (SELECT reqSet.id FROM ScheduleRequestSetEntity reqSet WHERE reqSet.refObjectTypeKey = :refObjectTypeKey and :refObjectId in elements(reqSet.refObjectIds))"),
-        @NamedQuery(name="ScheduleRequest.getScheduleRequestsByScheduleRequestSet", query="SELECT sr FROM ScheduleRequestEntity sr WHERE sr.scheduleRequestSetId = :scheduleRequestSetId"),
-        @NamedQuery(name="ScheduleRequest.getScheduleRequestsByLuiIdAndType", query="Select sr from ScheduleRequestEntity sr, ScheduleRequestSetEntity srs, IN (srs.refObjectIds) srsRefIds where srsRefIds in (:refObjectId)and sr.scheduleRequestSetId =srs.id and srs.refObjectTypeKey = :refObjectTypeKey")
+        @NamedQuery(name="ScheduleRequest.getScheduleRequestsByScheduleRequestSet", query="SELECT sr FROM ScheduleRequestEntity sr WHERE sr.scheduleRequestSetId = :scheduleRequestSetId")
 })
 public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<ScheduleRequestAttributeEntity> {
 
