@@ -16,7 +16,6 @@
 package org.kuali.student.cm.course.service.impl;
 
 import static org.kuali.student.logging.FormattedLogger.error;
-import static org.kuali.student.logging.FormattedLogger.info;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +23,11 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
-import org.kuali.student.cm.course.form.GenericStringForCollectionWrapper;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
@@ -56,8 +55,6 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
-
-import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * Base view helper service for both create and edit course info presentations.
@@ -114,13 +111,6 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
     
     private List<KeyValue> unitsContentOwner;
 	
-	public static final CourseInfoMaintainable getInstance() {
-		if (instance == null) {
-			instance = new CourseInfoMaintainableImpl();
-		}
-		return instance;
-	}
-
     public void setUnitsContentOwnerToAdd(final String unitsContentOwnerToAdd) {
         this.unitsContentOwnerToAdd = unitsContentOwnerToAdd;
     }
