@@ -22,10 +22,15 @@ import java.util.Map;
 import org.junit.Test;
 import org.kuali.student.r2.core.search.dto.SearchTypeInfo;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class SearchParseTest {
-private ApplicationContext context = new ClassPathXmlApplicationContext("test-cross-search.xml");
+    private static final ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("test-cross-search.xml");
+
+    static {
+        context.registerShutdownHook();
+    }
 	
 	@Test
 	public void test1(){

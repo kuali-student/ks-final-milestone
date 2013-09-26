@@ -2,6 +2,7 @@ package org.kuali.student.r1.common.dictionary.service.impl;
 
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.*;
@@ -44,12 +45,13 @@ public class DictionaryTesterHelper
 
  public List<String> doTest ()
  {
-  ApplicationContext ac = new ClassPathXmlApplicationContext (
+  ConfigurableApplicationContext ac = new ClassPathXmlApplicationContext (
       "classpath:" + dictFileName);
+  Map<String, ObjectStructureDefinition> beansOfType = ac.
+          getBeansOfType(ObjectStructureDefinition.class);
+  ac.close();
+
   objectStructures = new HashMap ();
-  Map<String, ObjectStructureDefinition> beansOfType =
-                                         (Map<String, ObjectStructureDefinition>) ac.
-      getBeansOfType (ObjectStructureDefinition.class);
   for (ObjectStructureDefinition objStr: beansOfType.values ())
   {
    objectStructures.put (objStr.getName (), objStr);

@@ -108,9 +108,10 @@ public class MetadataServiceImpl {
     private void init(String metadataContext, DictionaryService...dictionaryServices){
         if (metadataContext != null){
         	String[] locations = StringUtils.tokenizeToStringArray(metadataContext, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
-    		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(locations);
-                    
-            Map<String, DataObjectStructure> beansOfType = (Map<String, DataObjectStructure>) context.getBeansOfType(DataObjectStructure.class);
+    		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(locations);
+            Map<String, DataObjectStructure> beansOfType = context.getBeansOfType(DataObjectStructure.class);
+            context.close();
+
             metadataRepository = new HashMap<String, Object>();
             for (DataObjectStructure dataObjStr : beansOfType.values()){
                 metadataRepository.put(dataObjStr.getName(), getProperties(dataObjStr, new RecursionCounter()));

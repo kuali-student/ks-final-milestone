@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
@@ -146,9 +146,11 @@ public abstract class AbstractTransactionalDaoTest {
 			if (f.isAnnotationPresent(Dao.class)) {
 				Dao dao = f.getAnnotation(Dao.class);
 				if (dao.testDataFile().length() > 0) {
-					ApplicationContext ac = new FileSystemXmlApplicationContext(
+					ConfigurableApplicationContext ac = new FileSystemXmlApplicationContext(
 							dao.testDataFile());
-					for (Object o : (List<?>) ac.getBean("persistList")) {
+                    List<?> persistList = (List<?>) ac.getBean("persistList");
+                    ac.close();
+                    for (Object o : persistList) {
 						em.persist(o);
 					}
 					em.flush();

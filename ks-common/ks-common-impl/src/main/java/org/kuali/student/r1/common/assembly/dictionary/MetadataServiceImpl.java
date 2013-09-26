@@ -32,7 +32,7 @@ import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.springframework.beans.BeanUtils;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.ArrayList;
@@ -638,9 +638,10 @@ public class MetadataServiceImpl {
 
     @SuppressWarnings("unchecked")
     private void init() {
-        ApplicationContext ac = new ClassPathXmlApplicationContext(uiLookupContext);
+        ConfigurableApplicationContext ac = new ClassPathXmlApplicationContext(uiLookupContext);
+        Map<String, UILookupConfig> beansOfType = ac.getBeansOfType(UILookupConfig.class);
+        ac.close();
 
-        Map<String, UILookupConfig> beansOfType = (Map<String, UILookupConfig>) ac.getBeansOfType(UILookupConfig.class);
         lookupObjectStructures = new ArrayList<UILookupConfig>();
         for (UILookupConfig objStr : beansOfType.values()) {
             lookupObjectStructures.add(objStr);

@@ -13,7 +13,7 @@ import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
 import org.kuali.student.r1.common.validator.ServerDateParser;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import static org.junit.Assert.*;
 
@@ -55,15 +55,18 @@ public class TestCommentDictionary
     public void testCommentInfoValidation () throws OperationFailedException
     {
         ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
-        ApplicationContext ac = new ClassPathXmlApplicationContext (
-                "classpath:ks-comment-dictionary-context.xml");
         System.out.println ("h2. Validation Test");
         DefaultValidatorImpl val = new DefaultValidatorImpl ();
         val.setDateParser (new ServerDateParser ());
         val.setSearchDispatcher (new MockSearchDispatcher ());
         CommentInfo info = new CommentInfo ();
+
+        ConfigurableApplicationContext ac = new ClassPathXmlApplicationContext (
+                "classpath:ks-comment-dictionary-context.xml");
         ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean (
                 info.getClass ().getName ());
+        ac.close();
+
         List<ValidationResultInfo> validationResults = val.validateObject (info, os, contextInfo);
         System.out.println ("h3. With just a blank");
         for (ValidationResultInfo vr : validationResults)

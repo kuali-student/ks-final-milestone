@@ -8,7 +8,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.StringUtils;
@@ -40,9 +39,10 @@ public class DictionaryServiceImpl implements DictionaryService{
 
 	@SuppressWarnings("unchecked")
 	public synchronized void init() {
-		ApplicationContext ac = new ClassPathXmlApplicationContext(dictionaryContext);
+		ConfigurableApplicationContext ac = new ClassPathXmlApplicationContext(dictionaryContext);
+		Map<String, ObjectStructureDefinition> beansOfType = ac.getBeansOfType(ObjectStructureDefinition.class);
+        ac.close();
 
-		Map<String, ObjectStructureDefinition> beansOfType = (Map<String, ObjectStructureDefinition>) ac.getBeansOfType(ObjectStructureDefinition.class);
 		objectStructures = new HashMap<String, ObjectStructureDefinition>();
 		for (ObjectStructureDefinition objStr : beansOfType.values()){
 			if(objectStructures.containsKey(objStr.getName())){
