@@ -17,17 +17,18 @@
 package org.kuali.student.enrollment.class2.courseoffering.form;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.kuali.student.common.uif.form.KSUifForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopyWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ActivityOfferingDisplayUI;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.CourseOfferingDisplayUI;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.common.uif.form.KSUifForm;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
 import java.util.ArrayList;
@@ -195,6 +196,10 @@ public class CourseOfferingManagementForm extends KSUifForm implements ActivityO
 
     //Requisite link read only flag
     private boolean requisiteLink;
+    /**
+     * This is used to display EOs list under a specified CO in view ExamOfferings
+     */
+    private List<ExamOfferingWrapper> examOfferingWrapperList;
 
     public boolean getHasAOCluster() {
         return hasAOCluster;
@@ -212,7 +217,7 @@ public class CourseOfferingManagementForm extends KSUifForm implements ActivityO
         selectedCoToDeleteList = new ArrayList<CourseOfferingListSectionWrapper>();
         clusterResultList = new ArrayList<ActivityOfferingClusterWrapper>();
         rgResultList = new ArrayList<RegistrationGroupWrapper>();
-
+        examOfferingWrapperList = new ArrayList<ExamOfferingWrapper>();
         setCourseOfferingCopyWrapper(null);
         setFormatOfferingIdForNewAO(null);
     }
@@ -820,6 +825,11 @@ public class CourseOfferingManagementForm extends KSUifForm implements ActivityO
         this.numIneligibleAOsForCSR = numIneligibleAOsForCSR;
     }
 
+    public List<ExamOfferingWrapper> getExamOfferingWrapperList() {
+        return examOfferingWrapperList;
+    }
 
-
+    public void setExamOfferingWrapperList(List<ExamOfferingWrapper> examOfferingWrapperList) {
+        this.examOfferingWrapperList = examOfferingWrapperList;
+    }
 }

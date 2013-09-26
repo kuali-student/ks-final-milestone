@@ -33,6 +33,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWr
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
@@ -42,6 +43,9 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingMan
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
+import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.springframework.stereotype.Controller;
@@ -52,6 +56,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -883,9 +888,9 @@ public class CourseOfferingManagementController extends UifControllerBase {
         CourseOfferingManagementForm examofferingform = (CourseOfferingManagementForm) form;
         Properties urlParameters = new Properties();
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "getExamOfferings");
-        urlParameters.put("coInfo.id",  form.getCurrentCourseOfferingWrapper().getCourseOfferingId());
         urlParameters.put("termCode",  form.getTermCode());
         urlParameters.put("inputCode",  form.getInputCode());
+        urlParameters.put("adminOrg",  form.getCurrentCourseOfferingWrapper().getCourseOfferingId());
         urlParameters.put(UifParameters.VIEW_ID, "examOfferingsView");
         urlParameters.put(UifParameters.PAGE_ID, "examOfferingsViewPage");
         urlParameters.put("withinPortal", BooleanUtils.toStringTrueFalse(examofferingform.isWithinPortal()));
@@ -906,35 +911,45 @@ public class CourseOfferingManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=getExamOfferings")
     public ModelAndView getExamOfferings(@ModelAttribute("KualiForm") CourseOfferingManagementForm form) throws Exception {
 
-        CourseOfferingManagementForm examofferingform = form;
-        examofferingform.setInputCode(form.getInputCode().toUpperCase());
-
-        CourseOfferingManagementUtil.getViewHelperService(examofferingform).populateTerm(examofferingform);
-
-        CourseOfferingManagementUtil.getViewHelperService(examofferingform).loadCourseOfferingsByTermAndCourseCode(examofferingform.getTermInfo().getId(), examofferingform.getInputCode(), examofferingform);
-
-
-        if (!examofferingform.getCourseOfferingResultList().isEmpty()) {
-            if (examofferingform.getCourseOfferingResultList().size() > 1) {
-                examofferingform.setSubjectCode(examofferingform.getCourseOfferingResultList().get(0).getSubjectArea());
-                String longNameDescr = CourseOfferingManagementUtil.getOrgNameDescription(examofferingform.getSubjectCode());
-                examofferingform.setSubjectCodeDescription(longNameDescr);
-
-                CourseOfferingManagementToolbarUtil.processCoToolbarForUser(examofferingform.getCourseOfferingResultList(), examofferingform);
-            } else { // just one course offering is returned
-                CourseOfferingListSectionWrapper coListWrapper = examofferingform.getCourseOfferingResultList().get(0);
-                CourseOfferingManagementUtil.prepareManageAOsModelAndView(examofferingform, coListWrapper);
-                CourseOfferingWrapper currentCOWrapper = new CourseOfferingWrapper(examofferingform.getCurrentCourseOfferingWrapper().getCourseOfferingInfo());
+                 CourseOfferingManagementForm examofferingform = (CourseOfferingManagementForm) form;
+                List<ExamOfferingWrapper>  examOfferingWrapperList =  new ArrayList<ExamOfferingWrapper>();
+                CourseOfferingManagementUtil.getViewHelperService(examofferingform).populateTerm(examofferingform);
+                CourseOfferingInfo courseOfferingInfo = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(examofferingform.getAdminOrg(),ContextUtils.createDefaultContextInfo());
+                CourseOfferingWrapper currentCOWrapper = new CourseOfferingWrapper(courseOfferingInfo);
                 examofferingform.setCurrentCourseOfferingWrapper(currentCOWrapper);
-//                List<ExamOfferingRelationInfo> examOfferingRelationInfos = new ArrayList<ExamOfferingRelationInfo>();
-//
-//                List<FormatOfferingInfo> formatOfferingInfos = new ArrayList<FormatOfferingInfo>();
-//                formatOfferingInfos = CourseOfferingManagementUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(currentCOWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
-//                examOfferingRelationInfos = CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingRelationsByFormatOffering(formatOfferingInfos.get(0).getFormatId(), ContextUtils.createDefaultContextInfo());
+                examofferingform.setInputCode(form.getInputCode().toUpperCase());
+                List<ExamOfferingRelationInfo> examOfferingRelationInfos = new ArrayList<ExamOfferingRelationInfo>();
+                List<ExamOfferingInfo> examOfferingInfos = new ArrayList<ExamOfferingInfo>();
 
+                List<FormatOfferingInfo> formatOfferingInfos = new ArrayList<FormatOfferingInfo>();
+                formatOfferingInfos = CourseOfferingManagementUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(currentCOWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+                examOfferingRelationInfos = CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingRelationsByFormatOffering(formatOfferingInfos.get(0).getId(), ContextUtils.createDefaultContextInfo());
 
-            }
-        }
+                List<String> examOfferingIds= new ArrayList<String>();
+                for (ExamOfferingRelationInfo examOfferingRelationInfo : examOfferingRelationInfos){
+                    examOfferingIds.add(examOfferingRelationInfo.getExamOfferingId());
+                }
+                  examOfferingInfos =   CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingsByIds(examOfferingIds, ContextUtils.createDefaultContextInfo());
+                for (ExamOfferingInfo examOfferingInfo : examOfferingInfos){
+                    examOfferingInfo.getScheduleId();
+                    //Dummy data just to Display the Table on the UI
+                    ExamOfferingWrapper examOfferingWrapper = new ExamOfferingWrapper();
+                    examOfferingWrapper.setBuildingCode("ZHF", false);
+                    examOfferingWrapper.setBuildingName("Tawes Fine Arts Bldg.", false);
+                    examOfferingWrapper.setActivityCode("A");
+                    examOfferingWrapper.setStartTimeDisplay("07:00 AM", false);
+                    examOfferingWrapper.setEndTimeDisplay("12:00 PM", false);
+                    examOfferingWrapper.setRoomName("1100 ", false);
+                    examOfferingWrapper.setStateName("Offered");
+                    examOfferingWrapper.setDaysDisplayName("TH", false);
+                    examOfferingWrapper.setTypeName("Lecture");
+                    examOfferingWrapper.setExamOfferingIds(examOfferingIds);
+                    examOfferingWrapper.setFormatOfferingInfos(formatOfferingInfos);
+                    examOfferingWrapper.setExamOfferingInfos(examOfferingInfos);
+                    examOfferingWrapper.setExamOfferingRelationInfos(examOfferingRelationInfos);
+                    examOfferingWrapperList.add(examOfferingWrapper);
+                }
+              examofferingform.setExamOfferingWrapperList(examOfferingWrapperList);
         return getUIFModelAndView(examofferingform, "examOfferingsViewPage");
 
     }
