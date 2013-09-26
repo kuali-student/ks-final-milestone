@@ -65,12 +65,43 @@
                     <property name="url.viewId" value="courseOfferingManagementView"/>
                     <property name="url.controllerMapping" value="courseOfferingManagement"/>
                 </bean>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="@{#dp.subjectCode}"/>
+                    <property name="url.viewId" value="courseOfferingManagementView"/>
+                    <property name="url.controllerMapping" value="courseOfferingManagement"/>
+                    <property name="url.requestParameters">
+                        <map key-type="java.lang.String" merge="true">
+                            <entry key="methodToCall" value="show"/>
+                            <entry key="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+                            <entry key="hideReturnLink" value="true"/>
+                            <entry key="inputCode" value="@{#dp.subjectCode}"/>
+                            <entry key="formKey" value="@{returnFormKey}"/>
+                            <entry key="pageId" value="manageCourseOfferingsPage"/>
+                            <entry key="viewName" value="@{#dp.subjectCode}"/>
+                        </map>
+                    </property>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="@{#dp.inputCode}"/>
+                    <property name="url.viewId" value="courseOfferingManagementView"/>
+                    <property name="url.controllerMapping" value="courseOfferingManagement"/>
+                    <property name="url.requestParameters">
+                        <map key-type="java.lang.String" merge="true">
+                            <entry key="methodToCall" value="show"/>
+                            <entry key="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+                            <entry key="hideReturnLink" value="true"/>
+                            <entry key="inputCode" value="@{#dp.inputCode}"/>
+                            <entry key="termCode" value="@{#dp.termCode}"/>
+                            <entry key="pageId" value="manageTheCourseOfferingPage"/>
+                        </map>
+                    </property>
+                </bean>
             </list>
         </property>
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
                 <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="@{#dp.inputCode}"/>
+                    <property name="label" value="Exam Offerings"/>
                 </bean>
             </list>
         </property>
@@ -126,11 +157,6 @@
                 <entry key="bPaginate" value="false"/>
                 <entry key="aaSorting" value="[[1,'asc'],[2,'asc']]"/>
                 <entry key="bAutoWidth" value="false"/>
-                <entry key="aoColumns"
-                       value="[ {'bSortable':false, 'sWidth':'55%'},
-                                {'bSortable':false, 'sWidth':'15%'},
-                                {'bSortable':false, 'sWidth':'15%'}
-                            ]"/>
             </map>
         </property>
         <property name="items">
@@ -164,53 +190,20 @@
             <map merge="true">
                 <entry key="sDom" value="rtip"/>
                 <entry key="bPaginate" value="false"/>
-                <entry key="aaSorting" value="[[0,'asc']]"/>
+                <entry key="aaSorting" value="[[1,'asc']]"/>
                 <entry key="bAutoWidth" value="false"/>
-                <entry key="aoColumns"
-                       value="[ {'bSortable':false, 'sWidth':'55%'},
-                                {'bSortable':false, 'sWidth':'15%'},
-                                {'bSortable':false, 'sWidth':'15%'}
-                            ]"/>
             </map>
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="Activity Code" >
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false">
-                                <property name="inquiry">
-                                    <bean parent="KS-Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="Uif-DataField" p:label="Activity Type" p:propertyName="typeName"/>
                 <bean parent="Uif-DataField" p:label="Status" p:propertyName="stateName"/>
+                <bean parent="Uif-DataField" p:label="Activity Code" p:propertyName="aoInfo.activityCode"/>
+                <bean parent="Uif-DataField" p:label="Activity Type" p:propertyName="typeName"/>
                 <bean parent="Uif-DataField" p:label="Days" p:propertyName="daysDisplayName"/>
                 <bean parent="Uif-DataField" p:label="Start Time" p:propertyName="startTimeDisplay"/>
                 <bean parent="Uif-DataField" p:label="End Time" p:propertyName="endTimeDisplay"/>
                 <bean parent="Uif-DataField" p:label="Facility" p:propertyName="buildingName"/>
                 <bean parent="Uif-DataField" p:label="Room" p:propertyName="roomName"/>
-                <!--<bean parent="Uif-DataField"-->
-                      <!--p:label="STATE"-->
-                      <!--p:propertyName="stateName" />-->
-                <!--<bean parent="Uif-MessageField"-->
-                      <!--p:label="DAYS"-->
-                      <!--p:messageText="@{#line.daysDisplayName}" />-->
-                <!--<bean parent="Uif-MessageField"-->
-                      <!--p:label="START TIME"-->
-                      <!--p:messageText="@{#line.startTimeDisplay}" />-->
-                <!--<bean parent="Uif-MessageField"-->
-                      <!--p:label="END TIME"-->
-                      <!--p:messageText="@{#line.endTimeDisplay}" />-->
-                <!--<bean parent="Uif-MessageField"-->
-                      <!--p:label="FACILITY"-->
-                      <!--p:messageText="@{#line.buildingName}" />-->
-                <!--<bean parent="Uif-MessageField"-->
-                      <!--p:label="ROOM"-->
-                      <!--p:messageText="@{#line.roomName}" />-->
 
             </list>
         </property>
