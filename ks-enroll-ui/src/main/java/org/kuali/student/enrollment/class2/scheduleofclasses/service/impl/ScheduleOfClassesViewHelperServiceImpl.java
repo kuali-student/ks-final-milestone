@@ -275,13 +275,16 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
         for (Map.Entry< String, Object > entry : searchParameters.entrySet()){
             if (entry.getValue() instanceof String) {
                  searchRequest.addParam(entry.getKey(), (String)entry.getValue());
-            } else {
+            } else if (entry.getValue() instanceof List) {
                 searchRequest.addParam(entry.getKey(), (List)entry.getValue());
+            } else {
+                throw new RuntimeException("Invalid Search Parameter type. Only String and List are allowed.");
             }
         }
 
         List<String> filterCOStates = new ArrayList<String>(1);
         filterCOStates.add(LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY);
+
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.FILTER_CO_STATES, filterCOStates);
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.ATP_ID, termId);
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.CROSS_LIST_SEARCH_ENABLED, BooleanUtils.toStringTrueFalse(true));
