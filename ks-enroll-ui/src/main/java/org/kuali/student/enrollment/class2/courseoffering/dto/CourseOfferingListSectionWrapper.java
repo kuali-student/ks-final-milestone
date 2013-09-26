@@ -51,6 +51,7 @@ public class CourseOfferingListSectionWrapper implements Serializable{
 
     private boolean studentSelectablePassFail;
     private boolean auditCourse;
+    private boolean honorsCourse;
 
     private List<String> alternateCOCodes;
     private String ownerCode;
@@ -445,6 +446,14 @@ public class CourseOfferingListSectionWrapper implements Serializable{
 
     public void setAuditCourse(boolean auditCourse) {
         this.auditCourse = auditCourse;
+    }
+
+    public boolean isHonorsCourse() {
+        return honorsCourse;
+    }
+
+    public void setHonorsCourse(boolean honorsCourse) {
+        this.honorsCourse = honorsCourse;
     }
 
 }

@@ -1589,6 +1589,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     coListWrapper.setStudentSelectablePassFail(BooleanUtils.toBoolean(value));
                 } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.CAN_AUDIT_COURSE.equals(cellInfo.getKey())) {
                     coListWrapper.setAuditCourse(BooleanUtils.toBoolean(value));
+                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.IS_HONORS_COURSE.equals(cellInfo.getKey())) {
+                    coListWrapper.setHonorsCourse(BooleanUtils.toBoolean(value));
                 }
 
             }

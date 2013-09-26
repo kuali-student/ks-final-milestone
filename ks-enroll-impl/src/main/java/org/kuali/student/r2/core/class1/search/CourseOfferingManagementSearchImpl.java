@@ -73,7 +73,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
          * For Manage co, it's not needed to fetch the pass/fail and audit records. This is
          * needed for schedule of classes search. So, we turn it on in schedule of classses.
          */
-        public static final String INCLUDE_PASSFAIL_AUDIT_RESULTS = "includePassFailAndAuditResults";
+        public static final String INCLUDE_PASSFAIL_AUDIT_HONORS_RESULTS = "includePassFailAuditAndHonorsResults";
     }
 
     public static final class SearchResultColumns {
@@ -95,6 +95,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
 
         public static final String HAS_STUDENT_SELECTABLE_PASSFAIL = "hasStudentSelectablePassFail";
         public static final String CAN_AUDIT_COURSE = "canAuditCourse";
+        public static final String IS_HONORS_COURSE = "isHonorsCourse";
     }
 
     public static final TypeInfo CO_MANAGEMENT_SEARCH;
@@ -153,7 +154,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         String searchSubjectArea = requestHelper.getParamAsString(SearchParameters.SUBJECT_AREA);
         String searchAtpId = requestHelper.getParamAsString(SearchParameters.ATP_ID);
         boolean enableCrossListSearch = BooleanUtils.toBoolean(requestHelper.getParamAsString(SearchParameters.CROSS_LIST_SEARCH_ENABLED));
-        boolean includePassFailAndAuditRecords = BooleanUtils.toBoolean(requestHelper.getParamAsString(SearchParameters.INCLUDE_PASSFAIL_AUDIT_RESULTS));
+        boolean includePassFailAndAuditRecords = BooleanUtils.toBoolean(requestHelper.getParamAsString(SearchParameters.INCLUDE_PASSFAIL_AUDIT_HONORS_RESULTS));
 
         /**
          * Build the search query based on the parameters.
@@ -174,7 +175,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
 
         /**
          * This is used to combine together all the rows returned for a single CO. If includePassFailAndAuditRecords is
-         * enabled, for a CO, duplicate rows are returned one for PassFail and one for Audit. includePassFailAndAuditRecords is
+         * enabled, for a CO, duplicate rows are returned. If includePassFailAndAuditRecords is
          * not enabled, this map never been used as the search returns only unique records.
          */
         Map<String, SearchResultRowInfo> luiIds2ResultRow = new HashMap<String, SearchResultRowInfo>(results.size());
@@ -218,7 +219,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         List<String> coIds = requestHelper.getParamAsList(SearchParameters.CO_IDS);
         String departmentId = requestHelper.getParamAsString(SearchParameters.DEPARTMENT_ID);
         String description = requestHelper.getParamAsString(SearchParameters.DESCRIPTION);
-        boolean includePassFailAndAuditRecords = BooleanUtils.toBoolean(requestHelper.getParamAsString(SearchParameters.INCLUDE_PASSFAIL_AUDIT_RESULTS));
+        boolean includePassFailAuditAndHonorsResults = BooleanUtils.toBoolean(requestHelper.getParamAsString(SearchParameters.INCLUDE_PASSFAIL_AUDIT_HONORS_RESULTS));
 
         if (StringUtils.isBlank(searchAtpId)){
             throw new MissingParameterException("Term code is required to search course offerings");
@@ -236,8 +237,14 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                 "    unitsDeployment.orgId," +
                 "    lrc_rvg1.name," +
                 "    lrc_rvg2.name, " +
-                "    lui.formatted " +
-                "FROM" +
+                "    lui.formatted";
+
+        if (includePassFailAuditAndHonorsResults){
+            query = query + ", luiCodes.type , luiCodes.value ";
+        }
+
+        query = query +
+                "    FROM" +
                 "    LuiIdentifierEntity ident, " +
                 "    LuiEntity lui ";
 
@@ -247,6 +254,11 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         if (StringUtils.isNotBlank(departmentId)){
             query = query +
                     "    JOIN lui.luiContentOwner dept ";
+        }
+
+        if (includePassFailAuditAndHonorsResults){
+            query = query +
+                    "    LEFT JOIN lui.luiCodes luiCodes ";
         }
 
         query = query +
@@ -266,7 +278,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                 "    AND lrc_rvg2.id = lui_rvg2" +
                 "    AND lrc_rvg2.resultScaleId LIKE 'kuali.result.scale.grade.%' ";
 
-        if (!includePassFailAndAuditRecords){
+        if (!includePassFailAuditAndHonorsResults){
             query = query +
                     //Exclude these two types that can cause duplicates.
                     // audit and passfail are moved into different fields, after that there can be only one grading option
@@ -413,45 +425,28 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         String gradingName = (String)result[i++];
         row.addCell(SearchResultColumns.GRADING_OPTION_NAME,gradingName);
 
+        String courseDesc = (String)result[i++];
+
         SearchResultCellInfo defaultPassFailFlag = row.addCell(SearchResultColumns.HAS_STUDENT_SELECTABLE_PASSFAIL, Boolean.FALSE.toString());
         SearchResultCellInfo defaultAuditFlag = row.addCell(SearchResultColumns.CAN_AUDIT_COURSE, Boolean.FALSE.toString());
+        SearchResultCellInfo defaultHonorsFlag = row.addCell(SearchResultColumns.IS_HONORS_COURSE, Boolean.FALSE.toString());
 
         if (includeCurrentRow && includePassFailAndAuditRecords){
-            if(luiIds2ResultRow.containsKey(courseOfferingId)){
-                SearchResultRowInfo resultRow = luiIds2ResultRow.get(courseOfferingId);
 
-                if (StringUtils.equals(graditOption,LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)){
-                    resultRow.getCells().get(10).setValue(Boolean.TRUE.toString());
-                } else if (StringUtils.equals(graditOption,LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)){
-                    resultRow.getCells().get(11).setValue((Boolean.TRUE.toString()));
-                } else {
-                    resultRow.getCells().get(4).setValue(graditOption);
-                }
+            String luCodeType = (String)result[i++];
+            String luCodeValue = (String)result[i++];
 
-                if(luiIds2OrgCells.containsKey(courseOfferingId)){
-                    if(!isCrossListed){
-                        //Only do this for the root lui to avoid duplication
-                        SearchResultCellInfo orgCell = luiIds2OrgCells.get(courseOfferingId);
-                        if (orgCell != null && orgCell.getValue() != null) {
-                            String[] deploymentOrgs = new String[] {orgCell.getValue()};
-                            if (!Arrays.asList(deploymentOrgs).contains(deploymentOrg)) {
-                                orgCell.setValue(orgCell.getValue()+","+deploymentOrg);
-                            }
-                        }
-                        //Skip processing the rest of this record because multiple orgIDs are rolled up in the query
-                    }
-                }
+            boolean continueWithNextRow = processPassFailAndAuditDetails(graditOption,courseOfferingId,
+                                                                         isCrossListed,deploymentOrg,
+                                                                         defaultPassFailFlag,defaultAuditFlag,
+                                                                         luiIds2ResultRow,luiIds2OrgCells,defaultHonorsFlag,luCodeType,luCodeValue);
+
+            if (continueWithNextRow){
                 return;
-            } else {
-                if (StringUtils.equals(graditOption,LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)){
-                    defaultPassFailFlag.setValue(Boolean.TRUE.toString());
-                } else if (StringUtils.equals(graditOption,LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)) {
-                    defaultAuditFlag.setValue(Boolean.TRUE.toString());
-                }
             }
         }
 
-        row.addCell(SearchResultColumns.DESC_FORMATTED,(String)result[i++]);
+        row.addCell(SearchResultColumns.DESC_FORMATTED,courseDesc);
 
         //Rollup all the units deployment as a comma separated string.
         if(includeCurrentRow && luiIds2OrgCells.containsKey(courseOfferingId)){
@@ -480,6 +475,77 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
             }
         }
 
+    }
+
+    /**
+     * Handles processing pass/fail and audit data. As each CO returns one row for passfail and one for audit,
+     * this method maintains a map to combine the passfail/audit information with the corresponding CO data.
+     *
+     * @param graditOption
+     * @param courseOfferingId
+     * @param isCrossListed
+     * @param deploymentOrg
+     * @param defaultPassFailFlag
+     * @param defaultAuditFlag
+     * @param luiIds2ResultRow
+     * @param luiIds2OrgCells
+     *
+     * @return false to skip processing the remaining logic for this particular row.
+     */
+    private boolean processPassFailAndAuditDetails(String graditOption,
+                                                String courseOfferingId,
+                                                boolean isCrossListed,
+                                                String deploymentOrg,
+                                                SearchResultCellInfo defaultPassFailFlag,
+                                                SearchResultCellInfo defaultAuditFlag,
+                                                Map<String, SearchResultRowInfo> luiIds2ResultRow,
+                                                Map<String, SearchResultCellInfo> luiIds2OrgCells,
+                                                SearchResultCellInfo defaultHonorsFlag,
+                                                String luCodeType,String luCodeValue){
+
+        if(luiIds2ResultRow.containsKey(courseOfferingId)){
+            SearchResultRowInfo resultRow = luiIds2ResultRow.get(courseOfferingId);
+
+            if (StringUtils.equals(graditOption,LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)){
+                resultRow.getCells().get(10).setValue(Boolean.TRUE.toString());
+            } else if (StringUtils.equals(graditOption,LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)){
+                resultRow.getCells().get(11).setValue((Boolean.TRUE.toString()));
+            } else {
+                resultRow.getCells().get(4).setValue(graditOption);
+            }
+
+            if (StringUtils.equals(luCodeType,LuiServiceConstants.HONORS_LU_CODE)){
+                if (StringUtils.equalsIgnoreCase(luCodeValue,"true")){
+                    resultRow.getCells().get(12).setValue((Boolean.TRUE.toString()));
+                }
+            }
+
+            if(luiIds2OrgCells.containsKey(courseOfferingId) && !isCrossListed){
+                //Only do this for the root lui to avoid duplication
+                SearchResultCellInfo orgCell = luiIds2OrgCells.get(courseOfferingId);
+                if (orgCell != null && orgCell.getValue() != null) {
+                    String[] deploymentOrgs = new String[] {orgCell.getValue()};
+                    if (!Arrays.asList(deploymentOrgs).contains(deploymentOrg)) {
+                        orgCell.setValue(orgCell.getValue()+","+deploymentOrg);
+                    }
+                }
+                //Skip processing the rest of this record because multiple orgIDs are rolled up in the query
+            }
+            return true;
+        } else {
+            if (StringUtils.equals(graditOption,LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)){
+                defaultPassFailFlag.setValue(Boolean.TRUE.toString());
+            } else if (StringUtils.equals(graditOption,LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)) {
+                defaultAuditFlag.setValue(Boolean.TRUE.toString());
+            }
+            if (StringUtils.equals(luCodeType,LuiServiceConstants.HONORS_LU_CODE)){
+                if (StringUtils.equalsIgnoreCase(luCodeValue,"true")){
+                    defaultHonorsFlag.setValue((Boolean.TRUE.toString()));
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
