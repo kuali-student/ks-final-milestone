@@ -101,7 +101,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ActivityOfferingsPerClusterSubSection" parent="KS-Uif-TableCollectionSubSection-WithActionSeperator"  p:lineActionSeparator="&#160;&#160;|&#160;&#160;"
-          p:OnDocumentReadyScript="resetCheckboxes('activityOfferingsPerCluster');"
+          p:onDocumentReadyScript="resetCheckboxes('activityOfferingsPerCluster');"
           p:renderAddLine="false"  p:renderLineActions="true" p:readOnly="false">
         <property name="id" value="activityOfferingsPerCluster" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
