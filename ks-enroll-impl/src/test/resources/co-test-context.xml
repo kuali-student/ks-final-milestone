@@ -72,6 +72,7 @@
         <property name="luiDao" ref="luiDao" />
         <property name="luiSetDao" ref="luiSetDao"/>
         <property name="luiLuiRelationDao" ref="luiLuiRelationDao" />
+        <property name="criteriaLookupService" ref="defaultCriteriaLookupService"/>
     </bean>
 
     <bean id="luiDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiDao">

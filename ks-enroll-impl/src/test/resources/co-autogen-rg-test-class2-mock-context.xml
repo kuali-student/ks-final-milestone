@@ -27,8 +27,14 @@
     <bean id="waitListServiceFacade" class="org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacadeImpl" autowire="byName"/>
 
     <bean id="examOfferingServiceFacade" class="org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacadeImpl">
+        <property name="examService" ref="examMockService"/>
         <property name="courseOfferingService" ref="coServiceImpl"/>
+        <property name="examOfferingService" ref="examOfferingMockService"/>
     </bean>
+
+    <bean id="examOfferingMockService" class="org.kuali.student.enrollment.class2.examoffering.service.impl.ExamOfferingServiceMapImpl" />
+
+    <bean id="examMockService" class="org.kuali.student.enrollment.class2.exam.service.impl.ExamServiceMapImpl" />
 
     <bean id="autogenRegistrationGroupAppLayer" class=" org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapterImpl" autowire="byName" />
 

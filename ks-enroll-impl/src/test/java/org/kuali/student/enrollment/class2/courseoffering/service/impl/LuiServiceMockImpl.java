@@ -302,7 +302,7 @@ public class LuiServiceMockImpl
 
     @Override
     public List<String> searchForLuiLuiRelationIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new ArrayList<String>();
     }
 
     @Override

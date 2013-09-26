@@ -59,6 +59,8 @@
         <property name="courseWaitListService" ref="courseWaitListService"/>
     </bean>
 
+    <bean id="eoServiceImpl" class="org.kuali.student.enrollment.class2.examoffering.service.impl.ExamOfferingServiceMapImpl" autowire="default" />
+
     <bean id="examOfferingServiceFacade" class="org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacadeImpl">
         <property name="acalService" ref="acalService" />
         <property name="courseOfferingService" ref="coServiceImpl"/>
