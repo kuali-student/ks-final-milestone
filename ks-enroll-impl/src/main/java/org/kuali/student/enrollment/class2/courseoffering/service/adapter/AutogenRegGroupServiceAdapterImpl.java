@@ -422,21 +422,14 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
             int firstElement = 0;
             // waitListInfos can return more than two values
             origWaitListInfo = waitListInfos.get(firstElement);
-            newWaitListInfo = new CourseWaitListInfo();
+            newWaitListInfo = new CourseWaitListInfo(origWaitListInfo);
+            newWaitListInfo.setId(null);
+            newWaitListInfo.setActivityOfferingIds(new ArrayList<String>());
+            newWaitListInfo.setFormatOfferingIds(new ArrayList<String>());
             newWaitListInfo.getActivityOfferingIds().add(newAOInfo.getId());
             newWaitListInfo.getFormatOfferingIds().add(newAOInfo.getFormatOfferingId());
-            newWaitListInfo.setTypeKey(origWaitListInfo.getTypeKey());
-            newWaitListInfo.setStateKey(origWaitListInfo.getStateKey());
-            newWaitListInfo.setAllowHoldUntilEntries(origWaitListInfo.getAllowHoldUntilEntries());
-            newWaitListInfo.setAutomaticallyProcessed(origWaitListInfo.getAutomaticallyProcessed());
-            newWaitListInfo.setConfirmationRequired(origWaitListInfo.getConfirmationRequired());
-            if(origWaitListInfo.getMaxSize() != null){
-                newWaitListInfo.setMaxSize(origWaitListInfo.getMaxSize());
-            }
-            newWaitListInfo.setCheckInRequired(origWaitListInfo.getCheckInRequired());
             newWaitListInfo = getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
                     newWaitListInfo, context);
-
         }
         else{
             // Assume that every AO should have an associated WL. if not, treat it as a reference data problem.
