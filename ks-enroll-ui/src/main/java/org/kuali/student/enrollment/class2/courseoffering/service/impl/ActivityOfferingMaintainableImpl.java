@@ -172,7 +172,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     CourseWaitListInfo courseWaitListInfo =  CourseOfferingManagementUtil.getArgServiceAdapter().createUncolocatedWaitList(activityOfferingWrapper.getCourseWaitListInfo(), activityOfferingWrapper.getWaitListType(), activityOfferingWrapper.isHasWaitlist(), activityOfferingWrapper.isLimitWaitlistSize(), activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo().getFormatOfferingId(), contextInfo);
                     activityOfferingWrapper.setCourseWaitListInfo(courseWaitListInfo);
                 } else {
-                    HashMap<String, String> aoIdcoIdMap = new HashMap<String, String>();
+                    HashMap<String, String> aoIdfoIdMap = new HashMap<String, String>();
                     for (ColocatedActivity activity : activityOfferingWrapper.getColocatedActivities()){
                         //If an activity is newly added in this session for colo, delete it's RDLs and ADLs if exists
                         activity.getActivityOfferingInfo().setIsColocated(activityOfferingWrapper.isColocatedAO());
@@ -198,7 +198,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                         }
 
                         // Needed for WL
-                        aoIdcoIdMap.put(activity.getAoId(), activity.getCoId());
+                        aoIdfoIdMap.put(updatedAO.getId(), updatedAO.getFormatOfferingId());
                         if (activityOfferingWrapper.isHasWaitlistCO() && activityOfferingWrapper.isMaxEnrollmentShared()) {
                             CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(activity.getCoId(), contextInfo);
                             if (!courseOfferingInfo.getHasWaitlist()) {
@@ -209,7 +209,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     }
 
                     // Updating colo WL
-                    CourseWaitListInfo courseWaitListInfo = CourseOfferingManagementUtil.getArgServiceAdapter().createColocatedWaitList(activityOfferingWrapper.getCourseWaitListInfo(), activityOfferingWrapper.getWaitListType(), activityOfferingWrapper.isHasWaitlist(), activityOfferingWrapper.isLimitWaitlistSize(), activityOfferingWrapper.isColocatedAO(), activityOfferingWrapper.isMaxEnrollmentShared(), aoIdcoIdMap, contextInfo);
+                    CourseWaitListInfo courseWaitListInfo = CourseOfferingManagementUtil.getArgServiceAdapter().createColocatedWaitList(activityOfferingWrapper.getCourseWaitListInfo(), activityOfferingWrapper.getWaitListType(), activityOfferingWrapper.isHasWaitlist(), activityOfferingWrapper.isLimitWaitlistSize(), activityOfferingWrapper.isColocatedAO(), activityOfferingWrapper.isMaxEnrollmentShared(), aoIdfoIdMap, contextInfo);
                     activityOfferingWrapper.setCourseWaitListInfo(courseWaitListInfo);
                 }
             } catch (Exception e) {

@@ -488,7 +488,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
     }
 
     public CourseWaitListInfo createColocatedWaitList(CourseWaitListInfo courseWaitListInfo, String waitlistType, boolean hasWaitlist, boolean limitWaitlistSize, boolean isColocatedAO, boolean isMaxEnrollmentShared,
-                                        HashMap<String, String> aoIdcoIdMap, ContextInfo context) {
+                                        HashMap<String, String> aoIdfoIdMap, ContextInfo context) {
 
         setAutoProcConfReq(courseWaitListInfo, waitlistType);
 
@@ -504,13 +504,13 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
 
         try {
             // whether co-locating or already existing colos
-            if (!aoIdcoIdMap.isEmpty() && isColocatedAO) {
+            if (!aoIdfoIdMap.isEmpty() && isColocatedAO) {
                 CourseWaitListInfo courseWaitListInfoShared = new CourseWaitListInfo();
                 if (!isMaxEnrollmentShared){ // want to keep old params for the new WLs for the rest of AOs
                     courseWaitListInfoShared = getCourseWaitListService().getCourseWaitList(courseWaitListInfo.getId(), context);
                 }
 
-                for (String aoId : aoIdcoIdMap.keySet()){
+                for (String aoId : aoIdfoIdMap.keySet()){
                     if (isMaxEnrollmentShared){   // create shared WL
                         // Put WL logic in. Shared WL ONLY when max enrollement is shared. Adding new aoID and foID(s)
                         if (!courseWaitListInfo.getActivityOfferingIds().contains(aoId)) {
@@ -523,11 +523,8 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
                                 }
                             }
                         }
-                        List<FormatOfferingInfo> formatOfferings = getCoService().getFormatOfferingsByCourseOffering(aoIdcoIdMap.get(aoId), context);
-                        for (FormatOfferingInfo formatOffering : formatOfferings) {
-                            if (!courseWaitListInfo.getFormatOfferingIds().contains(formatOffering.getId())) {
-                                courseWaitListInfo.getFormatOfferingIds().add(formatOffering.getId());
-                            }
+                        if (!courseWaitListInfo.getFormatOfferingIds().contains(aoIdfoIdMap.get(aoId))) {
+                            courseWaitListInfo.getFormatOfferingIds().add(aoIdfoIdMap.get(aoId));
                         }
                     } else {  // each AO keeps (or have to split shared) own WL
                         if (courseWaitListInfo.getActivityOfferingIds().contains(aoId)) {
@@ -538,13 +535,11 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
                             courseWaitListInfoNew.setActivityOfferingIds(new ArrayList<String>());
                             courseWaitListInfoNew.setFormatOfferingIds(new ArrayList<String>());
                             courseWaitListInfoNew.getActivityOfferingIds().add(aoId);
-                            List<FormatOfferingInfo> formatOfferings = getCoService().getFormatOfferingsByCourseOffering(aoIdcoIdMap.get(aoId), context);
-                            for (FormatOfferingInfo formatOffering : formatOfferings) {
-                                if (courseWaitListInfo.getFormatOfferingIds().contains(formatOffering.getId())) {
-                                    courseWaitListInfo.getFormatOfferingIds().remove(formatOffering.getId());
-                                }
-                                courseWaitListInfoNew.getFormatOfferingIds().add(formatOffering.getId());
+                            courseWaitListInfoNew.getFormatOfferingIds().add(aoIdfoIdMap.get(aoId));
+                            if (courseWaitListInfo.getFormatOfferingIds().contains(aoIdfoIdMap.get(aoId))) {
+                                courseWaitListInfo.getFormatOfferingIds().remove(aoIdfoIdMap.get(aoId));
                             }
+
                             courseWaitListInfoNew = getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
                                     courseWaitListInfoNew, context);
                         }

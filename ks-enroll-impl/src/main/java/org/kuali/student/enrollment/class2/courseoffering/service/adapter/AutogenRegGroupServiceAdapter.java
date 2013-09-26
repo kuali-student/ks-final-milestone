@@ -303,9 +303,9 @@ public interface AutogenRegGroupServiceAdapter {
      * @param limitWaitlistSize
      * @param isColocatedAO (activity offering colo or not)
      * @param isMaxEnrollmentShared (max enrollment shared checked)
-     * @param aoIdcoIdMap (map of ao and co)
+     * @param aoIdfoIdMap (map of ao and fo IDs)
      * @return
      */
     public CourseWaitListInfo createColocatedWaitList(CourseWaitListInfo courseWaitListInfo, String waitlistType, boolean hasWaitlist, boolean limitWaitlistSize, boolean isColocatedAO, boolean isMaxEnrollmentShared,
-                                                      HashMap<String, String> aoIdcoIdMap, ContextInfo context);
+                                                      HashMap<String, String> aoIdfoIdMap, ContextInfo context);
 }
