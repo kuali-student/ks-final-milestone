@@ -98,33 +98,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     private transient CourseService courseService;
     private transient CourseWaitListService courseWaitListService;
 
-
-    /**
-     *   This method will set automaticallyProcessed and confirmationRequired boolean based on waitListType value
-     *
-     *   automatic -> automaticallyProcessed = true, confirmationRequired = false
-     *   Confirmation(semi-automatic) -> automaticallyProcessed = true, confirmationRequired = true
-     *   manual -> automaticallyProcessed = false, confirmationRequired = false
-     *
-     */
-
-    private void setAutoProcConfReq(CourseWaitListInfo courseWaitListInfo, String waitListType){
-
-        if(waitListType.equals(LuiServiceConstants.AUTOMATIC_WAITLIST_TYPE_KEY)) {
-            courseWaitListInfo.setAutomaticallyProcessed(true);
-            courseWaitListInfo.setConfirmationRequired(false);
-        }
-        else if(waitListType.equals(LuiServiceConstants.CONFIRMATION_WAITLIST_TYPE_KEY)){
-            courseWaitListInfo.setAutomaticallyProcessed(true);
-            courseWaitListInfo.setConfirmationRequired(true);
-        }
-
-        else if(waitListType.equals(LuiServiceConstants.MANUAL_WAITLIST_TYPE_KEY)) {
-            courseWaitListInfo.setAutomaticallyProcessed(false);
-            courseWaitListInfo.setConfirmationRequired(false);
-        }
-    }
-
     @Override
     public void saveDataObject() {
         if (getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
@@ -161,19 +134,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), contextInfo);
                 activityOfferingWrapper.setAoInfo(activityOfferingInfo);
 
-                setAutoProcConfReq(activityOfferingWrapper.getCourseWaitListInfo(),activityOfferingWrapper.getWaitListType());
-
-                if(activityOfferingWrapper.isHasWaitlist())
-                    activityOfferingWrapper.getCourseWaitListInfo().setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY);
-                else
-                    activityOfferingWrapper.getCourseWaitListInfo().setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
-
-                if(!activityOfferingWrapper.isLimitWaitlistSize())
-                    activityOfferingWrapper.getCourseWaitListInfo().setMaxSize(null);
-
-                CourseWaitListInfo courseWaitListInfo = getCourseWaitListService().updateCourseWaitList(activityOfferingWrapper.getCourseWaitListInfo().getId(),activityOfferingWrapper.getCourseWaitListInfo(),contextInfo );
-                activityOfferingWrapper.setCourseWaitListInfo(courseWaitListInfo);
-
             } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);
             }
@@ -201,32 +161,56 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 throw convertServiceExceptionsToUI(e);
             }
 
-            //All the details on the current AO saved successfully.. Now, update the max enrollment on other AOs in the coloset
+            //All the details on the current AO saved successfully.. Now, update the max enrollment on other AOs in the coloset and do WL logic
             try {
-                for(ColocatedActivity activity : activityOfferingWrapper.getColocatedActivities()){
-                    //If an activity is newly added in this session for colo, delete it's RDLs and ADLs if exists
-
-                    activity.getActivityOfferingInfo().setIsColocated(activityOfferingWrapper.isColocatedAO());
-                    if (activityOfferingWrapper.isColocatedAO() && activityOfferingWrapper.isMaxEnrollmentShared()){
-                        activity.getActivityOfferingInfo().setMaximumEnrollment(activityOfferingWrapper.getSharedMaxEnrollment());
+                // check if AO has colos
+                if (activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && !activityOfferingWrapper.isColocatedAO()){ // un-colocating
+                    // create new WL for the un-colocating (edit) AO
+                    if (!activityOfferingWrapper.isHasWaitlistCO()) {
+                        activityOfferingWrapper.setHasWaitlist(false);
                     }
-
-                    boolean deleteSchedule = false;
-                    List<String> deleteScheduleIds = new ArrayList<String>();
-                    if (activityOfferingWrapper.isColocatedAO() && !activity.isAlreadyPersisted()){
-                        if (!activityOfferingWrapper.isSchedulingCompleted()){
-                            deleteScheduleIds.addAll(activity.getActivityOfferingInfo().getScheduleIds());
-                            activity.getActivityOfferingInfo().getScheduleIds().clear();
+                    CourseWaitListInfo courseWaitListInfo =  CourseOfferingManagementUtil.getArgServiceAdapter().createUncolocatedWaitList(activityOfferingWrapper.getCourseWaitListInfo(), activityOfferingWrapper.getWaitListType(), activityOfferingWrapper.isHasWaitlist(), activityOfferingWrapper.isLimitWaitlistSize(), activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo().getFormatOfferingId(), contextInfo);
+                    activityOfferingWrapper.setCourseWaitListInfo(courseWaitListInfo);
+                } else {
+                    HashMap<String, String> aoIdcoIdMap = new HashMap<String, String>();
+                    for (ColocatedActivity activity : activityOfferingWrapper.getColocatedActivities()){
+                        //If an activity is newly added in this session for colo, delete it's RDLs and ADLs if exists
+                        activity.getActivityOfferingInfo().setIsColocated(activityOfferingWrapper.isColocatedAO());
+                        if (activityOfferingWrapper.isColocatedAO() && activityOfferingWrapper.isMaxEnrollmentShared()){
+                            activity.getActivityOfferingInfo().setMaximumEnrollment(activityOfferingWrapper.getSharedMaxEnrollment());
                         }
-                        deleteSchedule = true;
+
+                        boolean deleteSchedule = false;
+                        List<String> deleteScheduleIds = new ArrayList<String>();
+                        if (activityOfferingWrapper.isColocatedAO() && !activity.isAlreadyPersisted()){
+                            if (!activityOfferingWrapper.isSchedulingCompleted()){
+                                deleteScheduleIds.addAll(activity.getActivityOfferingInfo().getScheduleIds());
+                                activity.getActivityOfferingInfo().getScheduleIds().clear();
+                            }
+                            deleteSchedule = true;
+                        }
+
+                        ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(activity.getAoId(), activity.getActivityOfferingInfo(), contextInfo);
+                        activity.setActivityOfferingInfo(updatedAO);
+
+                        if (deleteSchedule){
+                            getScheduleHelper().deleteRequestedAndActualSchedules(activityOfferingWrapper.getScheduleRequestSetInfo(),updatedAO.getId(),deleteScheduleIds,contextInfo);
+                        }
+
+                        // Needed for WL
+                        aoIdcoIdMap.put(activity.getAoId(), activity.getCoId());
+                        if (activityOfferingWrapper.isHasWaitlistCO() && activityOfferingWrapper.isMaxEnrollmentShared()) {
+                            CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(activity.getCoId(), contextInfo);
+                            if (!courseOfferingInfo.getHasWaitlist()) {
+                                activityOfferingWrapper.setHasWaitlistCO(false);
+                                activityOfferingWrapper.setHasWaitlist(false);
+                            }
+                        }
                     }
 
-                    ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(activity.getAoId(), activity.getActivityOfferingInfo(), contextInfo);
-                    activity.setActivityOfferingInfo(updatedAO);
-
-                    if (deleteSchedule){
-                        getScheduleHelper().deleteRequestedAndActualSchedules(activityOfferingWrapper.getScheduleRequestSetInfo(),updatedAO.getId(),deleteScheduleIds,contextInfo);
-                    }
+                    // Updating colo WL
+                    CourseWaitListInfo courseWaitListInfo = CourseOfferingManagementUtil.getArgServiceAdapter().createColocatedWaitList(activityOfferingWrapper.getCourseWaitListInfo(), activityOfferingWrapper.getWaitListType(), activityOfferingWrapper.isHasWaitlist(), activityOfferingWrapper.isLimitWaitlistSize(), activityOfferingWrapper.isColocatedAO(), activityOfferingWrapper.isMaxEnrollmentShared(), aoIdcoIdMap, contextInfo);
+                    activityOfferingWrapper.setCourseWaitListInfo(courseWaitListInfo);
                 }
             } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);
