@@ -40,7 +40,6 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClas
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -135,12 +134,12 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
             displaySelectableAoRenderingWidget = Boolean.valueOf( request.getParameter( "showAoDisplayWidget" ) );
         } else if(request.getParameter("scheduleOfClassesDisplayFormat") != null) {
             String urlSelectedRendering = request.getParameter( "scheduleOfClassesDisplayFormat" );
-            if(ScheduleOfClassesSearchForm.AoDisplayFormat.FLAT.getText().equals(urlSelectedRendering)) {
-                form.setAoDisplayFormat(ScheduleOfClassesSearchForm.AoDisplayFormat.FLAT);
+            if(ScheduleOfClassesSearchForm.AoDisplayFormat.REG_GROUP.getText().equals(urlSelectedRendering)) {
+                form.setAoDisplayFormat(ScheduleOfClassesSearchForm.AoDisplayFormat.REG_GROUP);
             } else if(ScheduleOfClassesSearchForm.AoDisplayFormat.CLUSTER.getText().equals(urlSelectedRendering)) {
                 form.setAoDisplayFormat(ScheduleOfClassesSearchForm.AoDisplayFormat.CLUSTER);
             } else {
-                form.setAoDisplayFormat(ScheduleOfClassesSearchForm.AoDisplayFormat.REG_GROUP);
+                form.setAoDisplayFormat(ScheduleOfClassesSearchForm.AoDisplayFormat.FLAT);
             }
         }
         // Setting in kuali config file is applied if URL-parameter was not supplied
