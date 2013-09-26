@@ -21,25 +21,28 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Holds information about what happened to an event.
+ * Holds information about what happened to an event after being processed by a handler.
  *
  * @author Kuali Student Team
  */
-public class KSEventResult {
+public class KSHandlerResult {
     public static final String SUCCESS = "success";
     public static final String FAIL_CONSTRAINT_NOT_SATISFIED = "fail:constraintNotSatisified";
     public static final String FAIL_STATE_UNCHANGED = "fail:stateUnchanged";
-    public static final String FAIL_INCORRECT_HANDLER = "fail:incorrectHandler";
+    public static final String FAIL_HANDLER_WONT_PROCESS = "fail:handlerWontProcess";
 
     private String resultCode;
     private String handlerClassName;
 
     private boolean success = true;
     private List<String> errorMessages = new ArrayList<String>();
-    private List<KSEventResult> downstreamResults = new ArrayList<KSEventResult>();
-    private String handlerName = null;
+    private List<KSHandlerResult> downstreamResults = new ArrayList<KSHandlerResult>();
 
-    public KSEventResult(String resultCode, Class handlerClass) {
+    /**
+     * @param resultCode Uses code in static strings above
+     * @param handlerClass The handler class that produced this result
+     */
+    public KSHandlerResult(String resultCode, Class handlerClass) {
         this.resultCode = resultCode;
         handlerClassName = handlerClass.getSimpleName();
     }
@@ -65,23 +68,19 @@ public class KSEventResult {
         return Collections.unmodifiableList(errorMessages);
     }
 
-    public void addDownstreamResult(KSEventResult downstreamResult) {
+    public void addDownstreamResult(KSHandlerResult downstreamResult) {
         this.downstreamResults.add(downstreamResult);
     }
 
-    public void addDownstreamResultList(List<KSEventResult> downstreamResultList) {
+    public void addDownstreamResultList(List<KSHandlerResult> downstreamResultList) {
         this.downstreamResults.addAll(downstreamResultList);
     }
 
-    public List<KSEventResult> getDownstreamResults() {
+    public List<KSHandlerResult> getDownstreamResults() {
         return Collections.unmodifiableList(downstreamResults);
     }
 
-    public String getHandlerName() {
-        return handlerName;
-    }
-
-    public void setHandlerName(String handlerName){
-        this.handlerName = handlerName;
+    public String getHandlerClassName() {
+        return handlerClassName;
     }
 }

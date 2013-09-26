@@ -18,7 +18,6 @@ package org.kuali.student.poc.eventproc.event;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.poc.eventproc.api.KSEventAuditTrail;
-import org.kuali.student.poc.eventproc.api.KSHandler;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 import java.util.ArrayList;
@@ -37,8 +36,7 @@ public class KSEvent implements KSEventAuditTrail {
     private KSEventType eventType;
     private Map<KSEventAttributeKey, String> eventAttributeKeyValueMap;
 
-    private List<KSHandler> handlersSeen = new ArrayList<KSHandler>();
-    private List<KSEventResult> resultsSeen = new ArrayList<KSEventResult>();
+    private List<KSHandlerResult> handlerResults = new ArrayList<KSHandlerResult>();
 
     private List<KSEvent> downstreamEvents = new ArrayList<KSEvent>();
 
@@ -90,8 +88,8 @@ public class KSEvent implements KSEventAuditTrail {
     }
 
     @Override
-    public void addEventResult(KSEventResult result) {
-        resultsSeen.add(result);
+    public void addHandlerResult(KSHandlerResult result) {
+        handlerResults.add(result);
     }
 
     @Override

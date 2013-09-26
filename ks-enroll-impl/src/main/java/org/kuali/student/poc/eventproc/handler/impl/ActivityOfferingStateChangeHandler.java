@@ -19,13 +19,12 @@ package org.kuali.student.poc.eventproc.handler.impl;
 import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
-import org.kuali.student.poc.eventproc.KSEventProcessorImpl;
 import org.kuali.student.poc.eventproc.api.KSInternalEventProcessor;
 import org.kuali.student.poc.eventproc.event.KSEvent;
 import org.kuali.student.poc.eventproc.event.KSEventFactory;
 import org.kuali.student.poc.eventproc.api.KSHandler;
 import org.kuali.student.poc.eventproc.event.KSEventType;
-import org.kuali.student.poc.eventproc.event.KSEventResult;
+import org.kuali.student.poc.eventproc.event.KSHandlerResult;
 import org.kuali.student.poc.eventproc.handler.constraint.ActivityOfferingStateChangeConstraintUtil;
 import org.kuali.student.poc.eventproc.handler.constraint.ConstraintResult;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -60,13 +59,13 @@ public class ActivityOfferingStateChangeHandler implements KSHandler {
     }
 
     @Override
-    public KSEventResult processEvent(KSEvent event, ContextInfo context)
+    public KSHandlerResult processEvent(KSEvent event, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException,
             VersionMismatchException {
         if (!handlesEvent(event)) {
             // Shouldn't happen, but just in case
-            return new KSEventResult(KSEventResult.FAIL_INCORRECT_HANDLER, ActivityOfferingStateChangeHandler.class);
+            return new KSHandlerResult(KSHandlerResult.FAIL_HANDLER_WONT_PROCESS, ActivityOfferingStateChangeHandler.class);
         }
         String aoId = event.getValueByAttributeKey(KSEventFactory.EVENT_ATTRIBUTE_KEY_AO_ID);
         LuiInfo aoLui = processor.getLuiService().getLui(aoId, context);
@@ -74,7 +73,7 @@ public class ActivityOfferingStateChangeHandler implements KSHandler {
         String fromState = aoLui.getStateKey();
         // Check to see if there is a state change key
         if (fromState.equals(toState)) {
-            return new KSEventResult(KSEventResult.FAIL_STATE_UNCHANGED, ActivityOfferingStateChangeHandler.class);
+            return new KSHandlerResult(KSHandlerResult.FAIL_STATE_UNCHANGED, ActivityOfferingStateChangeHandler.class);
         } else {
             ActivityOfferingInfo aoInfo = processor.getCoService().getActivityOffering(aoId, context);
             ConstraintResult constraintResult =
@@ -92,11 +91,11 @@ public class ActivityOfferingStateChangeHandler implements KSHandler {
                 // Add aoModifiedEvent to event (helps track what happens
                 event.addDownstreamEvent(aoModifiedEvent);
                 // Result
-                KSEventResult result = new KSEventResult(KSEventResult.SUCCESS, ActivityOfferingStateChangeHandler.class);
+                KSHandlerResult result = new KSHandlerResult(KSHandlerResult.SUCCESS, ActivityOfferingStateChangeHandler.class);
                 return result;
             } else {
                 // Doesn't satisfy constraint
-                return new KSEventResult(KSEventResult.FAIL_CONSTRAINT_NOT_SATISFIED, ActivityOfferingStateChangeHandler.class);
+                return new KSHandlerResult(KSHandlerResult.FAIL_CONSTRAINT_NOT_SATISFIED, ActivityOfferingStateChangeHandler.class);
             }
         }
     }

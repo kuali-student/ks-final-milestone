@@ -23,7 +23,7 @@ import org.kuali.student.poc.eventproc.api.KSInternalEventProcessor;
 import org.kuali.student.poc.eventproc.event.KSEvent;
 import org.kuali.student.poc.eventproc.api.KSHandler;
 import org.kuali.student.poc.eventproc.event.KSEventFactory;
-import org.kuali.student.poc.eventproc.event.KSEventResult;
+import org.kuali.student.poc.eventproc.event.KSHandlerResult;
 import org.kuali.student.poc.eventproc.event.KSEventType;
 import org.kuali.student.poc.eventproc.handler.impl.helper.FoCoRgComputeStateUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -59,11 +59,11 @@ public class FormatOfferingRecomputeStateHandler implements KSHandler {
     }
 
     @Override
-    public KSEventResult processEvent(KSEvent event, ContextInfo context)
+    public KSHandlerResult processEvent(KSEvent event, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         if (!handlesEvent(event)) {
-            return new KSEventResult(KSEventResult.FAIL_INCORRECT_HANDLER, FormatOfferingRecomputeStateHandler.class);
+            return new KSHandlerResult(KSHandlerResult.FAIL_HANDLER_WONT_PROCESS, FormatOfferingRecomputeStateHandler.class);
         }
         String foId = null;
         if (KSEventFactory.AO_STATE_MODIFIED_EVENT_TYPE.equals(event.getEventType())) {
@@ -80,7 +80,7 @@ public class FormatOfferingRecomputeStateHandler implements KSHandler {
         String fromFoState = foLui.getStateKey();
         if (fromFoState.equals(toFoState)) {
             LOGGER.info("FO state unchanged (fromState = " + fromFoState + ", toState = " + toFoState + ")");
-            return new KSEventResult(KSEventResult.FAIL_STATE_UNCHANGED, FormatOfferingRecomputeStateHandler.class);
+            return new KSHandlerResult(KSHandlerResult.FAIL_STATE_UNCHANGED, FormatOfferingRecomputeStateHandler.class);
         }
         foLui.setStateKey(toFoState);
 
@@ -88,7 +88,7 @@ public class FormatOfferingRecomputeStateHandler implements KSHandler {
         LOGGER.info("Setting FO to state: " + modifiedFoLui.getStateKey());
 
         // Fire compute CO event
-        KSEventResult eventResult = new KSEventResult(KSEventResult.SUCCESS, FormatOfferingRecomputeStateHandler.class);
+        KSHandlerResult eventResult = new KSHandlerResult(KSHandlerResult.SUCCESS, FormatOfferingRecomputeStateHandler.class);
         KSEvent foStateModifiedEvent = KSEventFactory.createFormatOfferingStateModifiedEvent(foId);
         processor.internalFireEvent(foStateModifiedEvent, context);
         event.addDownstreamEvent(foStateModifiedEvent); // Tracks other events caused by "event"

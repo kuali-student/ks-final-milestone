@@ -25,7 +25,7 @@ import org.kuali.student.poc.eventproc.api.KSEventProcessor;
 import org.kuali.student.poc.eventproc.api.KSInternalEventProcessor;
 import org.kuali.student.poc.eventproc.event.KSEvent;
 import org.kuali.student.poc.eventproc.api.KSHandler;
-import org.kuali.student.poc.eventproc.event.KSEventResult;
+import org.kuali.student.poc.eventproc.event.KSHandlerResult;
 import org.kuali.student.poc.eventproc.event.KSEventType;
 import org.kuali.student.poc.eventproc.handler.impl.helper.KSHandlerLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -105,9 +105,9 @@ public class KSEventProcessorImpl implements KSEventProcessor, KSInternalEventPr
         for (KSHandler handler: handlers) {
             count++;
             LOGGER.info("Handler (" + count + " of " + handlers.size() + "), " + handler.getName() + ", processing event: " + event.toString());
-            KSEventResult handlerResult = handler.processEvent(event, context);
+            KSHandlerResult handlerResult = handler.processEvent(event, context);
             // Helps track results
-            event.addEventResult(handlerResult);
+            event.addHandlerResult(handlerResult);
         }
     }
 

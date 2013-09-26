@@ -17,7 +17,7 @@
 package org.kuali.student.poc.eventproc.api;
 
 import org.kuali.student.poc.eventproc.event.KSEvent;
-import org.kuali.student.poc.eventproc.event.KSEventResult;
+import org.kuali.student.poc.eventproc.event.KSHandlerResult;
 
 /**
  * By storing the chain of calls, one can debug an event by seeing which handlers
@@ -26,6 +26,6 @@ import org.kuali.student.poc.eventproc.event.KSEventResult;
  * @author Kuali Student Team
  */
 public interface KSEventAuditTrail {
-    void addEventResult(KSEventResult result);
+    void addHandlerResult(KSHandlerResult result);
     void addDownstreamEvent(KSEvent event);
 }

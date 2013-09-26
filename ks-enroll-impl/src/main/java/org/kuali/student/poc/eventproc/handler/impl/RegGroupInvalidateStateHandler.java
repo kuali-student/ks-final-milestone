@@ -17,16 +17,13 @@
 package org.kuali.student.poc.eventproc.handler.impl;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.poc.eventproc.api.KSHandler;
 import org.kuali.student.poc.eventproc.api.KSInternalEventProcessor;
 import org.kuali.student.poc.eventproc.event.KSEvent;
 import org.kuali.student.poc.eventproc.event.KSEventFactory;
-import org.kuali.student.poc.eventproc.event.KSEventResult;
+import org.kuali.student.poc.eventproc.event.KSHandlerResult;
 import org.kuali.student.poc.eventproc.event.KSEventType;
-import org.kuali.student.poc.eventproc.handler.impl.helper.FoCoRgComputeStateUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -60,26 +57,26 @@ public class RegGroupInvalidateStateHandler implements KSHandler {
     }
 
     @Override
-    public KSEventResult processEvent(KSEvent event, ContextInfo context)
+    public KSHandlerResult processEvent(KSEvent event, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException,
             VersionMismatchException {
         if (!handlesEvent(event)) {
-            return new KSEventResult(KSEventResult.FAIL_INCORRECT_HANDLER, RegGroupInvalidateStateHandler.class);
+            return new KSHandlerResult(KSHandlerResult.FAIL_HANDLER_WONT_PROCESS, RegGroupInvalidateStateHandler.class);
         }
         LOGGER.info(">>> " + getName() + " handling " + event.toString());
         String rgId = event.getValueByAttributeKey(KSEventFactory.EVENT_ATTRIBUTE_KEY_RG_ID);
         LuiInfo rgLui = processor.getLuiService().getLui(rgId, context);
         if (rgLui.getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY)) {
             // RG is already invalid
-            return new KSEventResult(KSEventResult.FAIL_STATE_UNCHANGED, RegGroupInvalidateStateHandler.class);
+            return new KSHandlerResult(KSHandlerResult.FAIL_STATE_UNCHANGED, RegGroupInvalidateStateHandler.class);
         }
         rgLui.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY);
         LuiInfo modifiedRgLui =
                 processor.getLuiService().updateLui(rgLui.getId(), rgLui, context);
         LOGGER.info("RG state change to: " + modifiedRgLui.getStateKey());
         // RG doesn't fire an event, but one could add a RG modified state event
-        KSEventResult eventResult = new KSEventResult(KSEventResult.SUCCESS, RegGroupInvalidateStateHandler.class);
+        KSHandlerResult eventResult = new KSHandlerResult(KSHandlerResult.SUCCESS, RegGroupInvalidateStateHandler.class);
         return eventResult;
     }
 

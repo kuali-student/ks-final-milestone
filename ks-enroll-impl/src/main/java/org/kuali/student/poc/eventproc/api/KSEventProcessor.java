@@ -1,7 +1,6 @@
 package org.kuali.student.poc.eventproc.api;
 
 import org.kuali.student.poc.eventproc.event.KSEvent;
-import org.kuali.student.poc.eventproc.event.KSEventResult;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -11,8 +10,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-
-import java.util.List;
 
 /**
  * Interface for external use of event processor

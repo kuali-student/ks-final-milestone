@@ -22,7 +22,7 @@ import org.kuali.student.poc.eventproc.api.KSHandler;
 import org.kuali.student.poc.eventproc.api.KSInternalEventProcessor;
 import org.kuali.student.poc.eventproc.event.KSEvent;
 import org.kuali.student.poc.eventproc.event.KSEventFactory;
-import org.kuali.student.poc.eventproc.event.KSEventResult;
+import org.kuali.student.poc.eventproc.event.KSHandlerResult;
 import org.kuali.student.poc.eventproc.event.KSEventType;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -68,10 +68,10 @@ public class ActivityOfferingDropADLsHandler implements KSHandler {
     }
 
     @Override
-    public KSEventResult processEvent(KSEvent event, ContextInfo context)
+    public KSHandlerResult processEvent(KSEvent event, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         if (!handlesEvent(event)) {
-            return new KSEventResult(KSEventResult.FAIL_INCORRECT_HANDLER, ActivityOfferingDropADLsHandler.class);
+            return new KSHandlerResult(KSHandlerResult.FAIL_HANDLER_WONT_PROCESS, ActivityOfferingDropADLsHandler.class);
         }
         String aoId = event.getValueByAttributeKey(KSEventFactory.EVENT_ATTRIBUTE_KEY_AO_ID);
         ActivityOfferingInfo aoInfo = processor.getCoService().getActivityOffering(aoId, context);
@@ -110,7 +110,7 @@ public class ActivityOfferingDropADLsHandler implements KSHandler {
                 processor.getSchedulingService().updateScheduleRequest(request.getId(), request, context);
             }
         }
-        return new KSEventResult(KSEventResult.SUCCESS, ActivityOfferingDropADLsHandler.class);
+        return new KSHandlerResult(KSHandlerResult.SUCCESS, ActivityOfferingDropADLsHandler.class);
     }
 
     @Override

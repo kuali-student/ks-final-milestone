@@ -17,8 +17,7 @@
 package org.kuali.student.poc.eventproc.api;
 
 import org.kuali.student.poc.eventproc.event.KSEvent;
-import org.kuali.student.poc.eventproc.KSEventProcessorImpl;
-import org.kuali.student.poc.eventproc.event.KSEventResult;
+import org.kuali.student.poc.eventproc.event.KSHandlerResult;
 import org.kuali.student.poc.eventproc.event.KSEventType;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -50,7 +49,7 @@ public interface KSHandler {
      * @param event The event to be processed
      * @return  response An object that will handle the response to the event (e.g., success/fail)
      */
-    KSEventResult processEvent(KSEvent event, ContextInfo context)
+    KSHandlerResult processEvent(KSEvent event, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException;
 

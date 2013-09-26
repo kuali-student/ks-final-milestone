@@ -20,7 +20,6 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.poc.eventproc.event.KSEvent;
-import org.kuali.student.poc.eventproc.event.KSEventResult;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -32,8 +31,6 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
-
-import java.util.List;
 
 /**
  * Internal view of event processor (used for successive event firing and implementation of handlers)

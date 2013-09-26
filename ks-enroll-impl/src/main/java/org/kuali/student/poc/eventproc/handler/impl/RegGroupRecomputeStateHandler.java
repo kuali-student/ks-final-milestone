@@ -20,12 +20,11 @@ import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
-import org.kuali.student.poc.eventproc.KSEventProcessorImpl;
 import org.kuali.student.poc.eventproc.api.KSHandler;
 import org.kuali.student.poc.eventproc.api.KSInternalEventProcessor;
 import org.kuali.student.poc.eventproc.event.KSEvent;
 import org.kuali.student.poc.eventproc.event.KSEventFactory;
-import org.kuali.student.poc.eventproc.event.KSEventResult;
+import org.kuali.student.poc.eventproc.event.KSHandlerResult;
 import org.kuali.student.poc.eventproc.event.KSEventType;
 import org.kuali.student.poc.eventproc.handler.impl.helper.FoCoRgComputeStateUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -64,15 +63,15 @@ public class RegGroupRecomputeStateHandler implements KSHandler {
     }
 
     @Override
-    public KSEventResult processEvent(KSEvent event, ContextInfo context)
+    public KSHandlerResult processEvent(KSEvent event, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException,
             VersionMismatchException {
         if (!handlesEvent(event)) {
             LOGGER.info(getName() + " does not accept event: " + event.toString());
-            return new KSEventResult(KSEventResult.FAIL_INCORRECT_HANDLER, RegGroupRecomputeStateHandler.class);
+            return new KSHandlerResult(KSHandlerResult.FAIL_HANDLER_WONT_PROCESS, RegGroupRecomputeStateHandler.class);
         }
-        KSEventResult eventResult = null;
+        KSHandlerResult eventResult = null;
         if (KSEventFactory.AO_STATE_MODIFIED_EVENT_TYPE.equals(event.getEventType())) {
             String aoId = event.getValueByAttributeKey(KSEventFactory.EVENT_ATTRIBUTE_KEY_AO_ID);
             eventResult = _processAoStateModifiedEvent(aoId, event, context);
@@ -88,7 +87,7 @@ public class RegGroupRecomputeStateHandler implements KSHandler {
 
     }
 
-    private KSEventResult _processRecomputeRgStateEvent(String rgId, KSEvent event, ContextInfo context)
+    private KSHandlerResult _processRecomputeRgStateEvent(String rgId, KSEvent event, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException,
             VersionMismatchException {
@@ -97,7 +96,7 @@ public class RegGroupRecomputeStateHandler implements KSHandler {
         if (LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY.equals(rgInfo.getStateKey())) {
             // If RG in invalid state, recompute doesn't work
             LOGGER.info("RG state unchanged: RG has invalid state");
-            return new KSEventResult(KSEventResult.FAIL_CONSTRAINT_NOT_SATISFIED, RegGroupRecomputeStateHandler.class);
+            return new KSHandlerResult(KSHandlerResult.FAIL_CONSTRAINT_NOT_SATISFIED, RegGroupRecomputeStateHandler.class);
         } else {
             // Validate state is removing the invalidate of RG, then recomputing
             // If we get here, we are not in an invalid state, so it's fine to recompute
@@ -105,7 +104,7 @@ public class RegGroupRecomputeStateHandler implements KSHandler {
         }
     }
 
-    private KSEventResult _processValidateRgStateEvent(String rgId, KSEvent event, ContextInfo context)
+    private KSHandlerResult _processValidateRgStateEvent(String rgId, KSEvent event, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException,
             VersionMismatchException {
@@ -118,19 +117,19 @@ public class RegGroupRecomputeStateHandler implements KSHandler {
         if (fromState.equals(toRgState)) {
             // No state change
             LOGGER.info("RG state unchanged: fromState == toState");
-            return new KSEventResult(KSEventResult.FAIL_STATE_UNCHANGED, RegGroupRecomputeStateHandler.class);
+            return new KSHandlerResult(KSHandlerResult.FAIL_STATE_UNCHANGED, RegGroupRecomputeStateHandler.class);
         }
         rgLui.setStateKey(toRgState);
         LuiInfo modifiedRgLui = processor.getLuiService().updateLui(rgLui.getId(), rgLui, context);
         LOGGER.info("RG state change to: " + modifiedRgLui.getStateKey());
-        KSEventResult result = new KSEventResult(KSEventResult.SUCCESS, RegGroupRecomputeStateHandler.class);
+        KSHandlerResult result = new KSHandlerResult(KSHandlerResult.SUCCESS, RegGroupRecomputeStateHandler.class);
         return result;  //To change body of created methods use File | Settings | File Templates.
     }
 
-    private KSEventResult _processAoStateModifiedEvent(String aoId, KSEvent event, ContextInfo context)
+    private KSHandlerResult _processAoStateModifiedEvent(String aoId, KSEvent event, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException,
             DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
-        KSEventResult result = new KSEventResult(KSEventResult.SUCCESS, RegGroupRecomputeStateHandler.class);
+        KSHandlerResult result = new KSHandlerResult(KSHandlerResult.SUCCESS, RegGroupRecomputeStateHandler.class);
         List<RegistrationGroupInfo> rgInfos =
                 processor.getCoService().getRegistrationGroupsByActivityOffering(aoId, context);
         for (RegistrationGroupInfo rg: rgInfos) {

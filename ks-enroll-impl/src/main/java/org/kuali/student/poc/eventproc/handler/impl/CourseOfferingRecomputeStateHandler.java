@@ -23,7 +23,7 @@ import org.kuali.student.poc.eventproc.api.KSHandler;
 import org.kuali.student.poc.eventproc.api.KSInternalEventProcessor;
 import org.kuali.student.poc.eventproc.event.KSEvent;
 import org.kuali.student.poc.eventproc.event.KSEventFactory;
-import org.kuali.student.poc.eventproc.event.KSEventResult;
+import org.kuali.student.poc.eventproc.event.KSHandlerResult;
 import org.kuali.student.poc.eventproc.event.KSEventType;
 import org.kuali.student.poc.eventproc.handler.impl.helper.FoCoRgComputeStateUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -59,11 +59,11 @@ public class CourseOfferingRecomputeStateHandler implements KSHandler {
     }
 
     @Override
-    public KSEventResult processEvent(KSEvent event, ContextInfo context)
+    public KSHandlerResult processEvent(KSEvent event, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         if (!handlesEvent(event)) {
-            return new KSEventResult(KSEventResult.FAIL_INCORRECT_HANDLER, CourseOfferingRecomputeStateHandler.class);
+            return new KSHandlerResult(KSHandlerResult.FAIL_HANDLER_WONT_PROCESS, CourseOfferingRecomputeStateHandler.class);
         }
         String coId = null;
         if (KSEventFactory.FO_STATE_MODIFIED_EVENT_TYPE.equals(event.getEventType())) {
@@ -82,7 +82,7 @@ public class CourseOfferingRecomputeStateHandler implements KSHandler {
         LOGGER.info("Setting CO to state: " + modifiedCoLui.getStateKey());
 
         // No further propagation
-        KSEventResult eventResult = new KSEventResult(KSEventResult.SUCCESS, CourseOfferingRecomputeStateHandler.class);
+        KSHandlerResult eventResult = new KSHandlerResult(KSHandlerResult.SUCCESS, CourseOfferingRecomputeStateHandler.class);
         return eventResult;
     }
 

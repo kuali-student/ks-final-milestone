@@ -48,8 +48,6 @@ import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.poc.eventproc.KSEventProcessorImpl;
 import org.kuali.student.poc.eventproc.event.KSEvent;
 import org.kuali.student.poc.eventproc.event.KSEventFactory;
-import org.kuali.student.poc.eventproc.event.KSEventResult;
-import org.kuali.student.poc.eventproc.handler.impl.helper.KSHandlerLoader;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
