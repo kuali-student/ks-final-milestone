@@ -21,7 +21,14 @@ import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
@@ -312,6 +319,15 @@ public class SchedulingServiceValidationDecorator extends SchedulingServiceDecor
             throw new OperationFailedException("Error validating", ex);
         }
         return getNextDecorator().updateTimeSlot(timeSlotId, timeSlotInfo, contextInfo);
+    }
+
+    @Override
+    public Boolean canUpdateTimeSlot(String timeSlotId, ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        return getNextDecorator().canUpdateTimeSlot(timeSlotId, contextInfo);
     }
 
     public DataDictionaryValidator getValidator() {

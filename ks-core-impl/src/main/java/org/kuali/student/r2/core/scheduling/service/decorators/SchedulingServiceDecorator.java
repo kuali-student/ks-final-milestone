@@ -249,6 +249,11 @@ public class SchedulingServiceDecorator implements SchedulingService {
     }
 
     @Override
+    public Boolean canUpdateTimeSlot(String timeSlotId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().canUpdateTimeSlot(timeSlotId, contextInfo);
+    }
+
+    @Override
     public StatusInfo submitScheduleBatch(@WebParam(name = "scheduleBatchId") String scheduleBatchId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().submitScheduleBatch(scheduleBatchId, contextInfo);
     }

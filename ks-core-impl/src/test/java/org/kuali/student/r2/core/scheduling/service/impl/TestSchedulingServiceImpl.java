@@ -304,6 +304,45 @@ public class TestSchedulingServiceImpl {
     }
 
     @Test
+    public void testCanUpdateTimeSlotRDL() throws Exception {
+
+        //// RDL Test
+        scheduleRequestInfoId = "testCanUpdateTimeSlot-Id1";
+        String scheduleRequestSetInfoId = "testCanUpdateTimeSlot-scheduleRequestInfoId";
+        String scheduleRequestComponentInfoId = "testCanUpdateTimeSlot-ComponentInfoId";
+        String scheduleRequestInfoName = "testCanUpdateTimeSlot";
+        ScheduleRequestInfo scheduleRequestInfo = SchedulingServiceDataLoader.setupScheduleRequestInfo(scheduleRequestInfoId,
+                scheduleRequestComponentInfoId, null, scheduleRequestSetInfoId, scheduleRequestInfoName);
+        String timeSlotId = scheduleRequestInfo.getScheduleRequestComponents().get(0).getTimeSlotIds().get(0);
+
+        ScheduleRequestInfo returnInfo  = schedulingService.createScheduleRequest(
+                requestType,
+                scheduleRequestInfo, contextInfo);
+        assertNotNull(returnInfo);
+
+        assertFalse(schedulingService.canUpdateTimeSlot(timeSlotId, contextInfo));
+        assertTrue(schedulingService.canUpdateTimeSlot("nonexistentRdltimeslotid", contextInfo));
+    }
+
+    @Test
+    public void testCanUpdateTimeSlotADL() throws Exception {
+        //// ADL Test
+        String scheduleId = "testCanUpdateTimeSlot-Id1";
+        String atpId = SchedulingServiceDataLoader.ATP_ID;
+        String roomId = "testCanUpdateTimeSlot-room1";
+
+        ScheduleInfo scheduleInfo = SchedulingServiceDataLoader.setupScheduleInfo(scheduleId,atpId, false, roomId);
+
+        ScheduleInfo returnedInfo = schedulingService.createSchedule(scheduleInfo.getTypeKey(), scheduleInfo, contextInfo);
+        assertNotNull(returnedInfo);
+
+        String timeSlotId = scheduleInfo.getScheduleComponents().get(0).getTimeSlotIds().get(0);
+        assertFalse(schedulingService.canUpdateTimeSlot(timeSlotId, contextInfo));
+        assertTrue(schedulingService.canUpdateTimeSlot("nonexistentAdltimeslotid", contextInfo));
+
+    }
+
+    @Test
     public void testgetTimeSlotIdsByType() throws Exception {
         List<String> l_actoff = schedulingService.getTimeSlotIdsByType(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, contextInfo);
         assertEquals(18, l_actoff.size());

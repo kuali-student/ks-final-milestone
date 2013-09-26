@@ -628,6 +628,17 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
+    public Boolean canUpdateTimeSlot(@WebParam(name = "timeSlotId") String timeSlotId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        if(scheduleRequestDao.isExistsTimeSlot(timeSlotId) || scheduleDao.isExistsTimeSlot(timeSlotId)) {
+            return Boolean.FALSE;
+        }
+        else {
+            return Boolean.TRUE;
+        }
+    }
+
+    @Override
     public List<Integer> getValidDaysOfWeekByTimeSlotType(String timeSlotTypeKey,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if(timeSlotTypeKey.equals(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD)) {
             return SchedulingServiceConstants.TIME_SLOT_DAYS_OF_WEEK_ACTIVITY_OFFERING_TYPE;

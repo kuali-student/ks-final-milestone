@@ -836,6 +836,33 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
     }
 
     @Override
+    public Boolean canUpdateTimeSlot(String timeSlotId, ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+
+        for(ScheduleRequestInfo scheduleRequestInfo : scheduleRequestMap.values()) {
+            for (ScheduleRequestComponentInfo scheduleRequestComponentInfo : scheduleRequestInfo.getScheduleRequestComponents()) {
+                if(scheduleRequestComponentInfo.getTimeSlotIds().contains(timeSlotId)) {
+                    return Boolean.FALSE;
+                }
+            }
+        }
+
+        for(ScheduleInfo scheduleInfo : scheduleMap.values()) {
+            for(ScheduleComponentInfo scheduleComponentInfo : scheduleInfo.getScheduleComponents()) {
+                if(scheduleComponentInfo.getTimeSlotIds().contains(timeSlotId)) {
+                    return Boolean.FALSE;
+                }
+            }
+        }
+
+        return Boolean.TRUE;
+    }
+
+
+    @Override
     public StatusInfo submitScheduleBatch(String scheduleBatchId, ContextInfo contextInfo)
             throws DoesNotExistException
             ,InvalidParameterException

@@ -19,8 +19,6 @@ import org.kuali.student.r2.common.dao.GenericEntityDao;
 import org.kuali.student.r2.core.scheduling.model.ScheduleRequestEntity;
 
 import javax.persistence.Query;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -85,6 +83,20 @@ public class ScheduleRequestDao extends GenericEntityDao<ScheduleRequestEntity> 
                 .setParameter("scheduleRequestSetId", scheduleRequestSetId)
                 .getResultList();
         return results;
+    }
+
+    public Boolean isExistsTimeSlot(String timeSlotid) {
+
+        Query query = em.createQuery("select ts from ScheduleRequestEntity sr, IN(sr.scheduleRequestComponents) src, IN(src.timeSlotIds) ts where ts = :tsId");
+        query.setParameter("tsId", timeSlotid);
+        query.setMaxResults(1);
+        List results = query.getResultList();
+        if ((results == null) || results.isEmpty()) {
+            return Boolean.FALSE;
+        }
+        else {
+            return Boolean.TRUE;
+        }
     }
 }
 
