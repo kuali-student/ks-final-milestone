@@ -113,10 +113,20 @@ public interface BundledOffering
      */
     public String getAdminOrgId();
 
+    /**
+     * The identifiers for the FormatOfferings to be included in this
+     * bundled offering. These determine the valid RegistrationGroups
+     * and may be specified earlier in the offering process.
+     *
+     * @return the Ids of the format offerings
+     * @name Format Offering Ids
+     */
+    public List<String> getFormatOfferingIds();
 
     /**
      * The identifiers for the RegistrationGroups included in this
-     * bundled offering.
+     * bundled offering. The RegistrationGroups are constrained by the
+     * FormatOfferings.
      *
      * @return the Ids of the registration groups
      * @name Registration Group Ids

@@ -36,7 +36,7 @@ import org.w3c.dom.Element;
         "id", "typeKey", "stateKey", "name", "descr",
         "courseBundleId", "termId",
         "bundledOfferingCode", "subjectAreaOrgId", "bundledOfferingCodeSuffix",
-        "adminOrgId", "registrationGroupIds",
+        "adminOrgId", "formatOfferingIds", "registrationGroupIds",
         "meta", "attributes", "_futureElements" })
 
 public class BundledOfferingInfo
@@ -62,6 +62,9 @@ public class BundledOfferingInfo
 
     @XmlElement
     private String adminOrgId;
+
+    @XmlAnyElement
+    private List<String> formatOfferingIds;
 
     @XmlAnyElement
     private List<String> registrationGroupIds;
@@ -92,6 +95,10 @@ public class BundledOfferingInfo
             this.subjectAreaOrgId = offering.getSubjectAreaOrgId();
             this.bundledOfferingCodeSuffix = offering.getBundledOfferingCodeSuffix();
             this.adminOrgId = offering.getAdminOrgId();
+
+            if (offering.getFormatOfferingIds() != null) {
+                this.formatOfferingIds = new ArrayList(offering.getFormatOfferingIds());
+            }
 
             if (offering.getRegistrationGroupIds() != null) {
                 this.registrationGroupIds = new ArrayList(offering.getRegistrationGroupIds());
@@ -152,6 +159,19 @@ public class BundledOfferingInfo
 
     public void setAdminOrgId(String adminOrgId) {
         this.adminOrgId = adminOrgId;
+    }
+
+    @Override
+    public List<String> getFormatOfferingIds() {
+        if (this.formatOfferingIds == null) {
+            this.formatOfferingIds = new ArrayList<String>(0);
+        }
+
+        return (this.formatOfferingIds);
+    }
+
+    public void setFormatOfferingIds(List<String> formatOfferingIds) {
+        this.formatOfferingIds = formatOfferingIds;
     }
 
     @Override
