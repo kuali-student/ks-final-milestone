@@ -15,6 +15,7 @@
 package org.kuali.student.lum.ui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +26,7 @@ import org.kuali.student.r1.common.assembly.data.LookupResultMetadata;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenNameSearchTypeCreator;
 import org.kuali.student.r2.core.search.dto.*;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class MetadataServiceDictionaryValidator {
@@ -44,18 +45,22 @@ public class MetadataServiceDictionaryValidator {
 			return this.searchInfoTypeMap;
 		}
 		String[] searchConfigFiles = { "lu", "lo", "lrc", "proposal", "organization", "atp", "em" };
-		
-		for (int i = 0; i < searchConfigFiles.length; i++) {
-			System.out.println("loading search configurations for "
-					+ searchConfigFiles[i]);
-			ApplicationContext ac = new ClassPathXmlApplicationContext("classpath:" + searchConfigFiles[i] + "-search-config.xml");
-			if (searchInfoTypeMap == null) {
-				searchInfoTypeMap = ac.getBeansOfType(SearchTypeInfo.class);
-			} else {
-				searchInfoTypeMap.putAll(ac.getBeansOfType(SearchTypeInfo.class));
-			}
-		}
-		
+
+        List<String> configFilesWithCompleteClasspath = new ArrayList<String>(searchConfigFiles.length);
+        for (String searchConfigFile : Arrays.asList(searchConfigFiles)) {
+            configFilesWithCompleteClasspath.add("classpath:" + searchConfigFile + "-search-config.xml");
+        }
+
+        ConfigurableApplicationContext ac = new ClassPathXmlApplicationContext(
+                configFilesWithCompleteClasspath.toArray(new String[configFilesWithCompleteClasspath.size()]));
+
+        if (searchInfoTypeMap == null) {
+            searchInfoTypeMap = ac.getBeansOfType(SearchTypeInfo.class);
+        } else {
+            searchInfoTypeMap.putAll(ac.getBeansOfType(SearchTypeInfo.class));
+        }
+        ac.close();
+
 		SearchTypeInfo personSearchType = new QuickViewByGivenNameSearchTypeCreator().get();
 		searchInfoTypeMap.put(personSearchType.getKey(), personSearchType);
 

@@ -4,6 +4,7 @@ import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.impl.ComplexSubstructuresHelper;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.*;
@@ -57,9 +58,10 @@ public class DictionaryDiscrepencyTesterHelper {
     private transient Map<String, ObjectStructureDefinition> objectStructures;
 
     public List<String> doTest() {
-        ApplicationContext ac = new ClassPathXmlApplicationContext("classpath:" + dictFileName);
+        ConfigurableApplicationContext ac = new ClassPathXmlApplicationContext("classpath:" + dictFileName);
         objectStructures = new HashMap();
         Map<String, ObjectStructureDefinition> beansOfType = (Map<String, ObjectStructureDefinition>) ac.getBeansOfType(ObjectStructureDefinition.class);
+        ac.close();
         for (ObjectStructureDefinition objStr : beansOfType.values()) {
             objectStructures.put(objStr.getName(), objStr);
             System.out.println("Loading object structure: " + objStr.getName());
