@@ -22,6 +22,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -39,7 +40,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class TestWebServiceAwareBeanPostProcessorSinglePostProcessor  {
 
 	private static final Logger log = LoggerFactory.getLogger(TestWebServiceAwareBeanPostProcessorSinglePostProcessor.class);
-	private ClassPathXmlApplicationContext context;
+	private ConfigurableApplicationContext context;
 	
 	/**
 	 * 

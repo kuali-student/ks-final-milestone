@@ -44,7 +44,7 @@ import org.kuali.rice.krad.messages.MessageServiceImpl;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.impl.KualiModuleServiceImpl;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import static org.junit.Assert.assertEquals;
@@ -89,10 +89,11 @@ public class TestBaseValidCharsDictionary {
 
         System.out.println("testing base dictionary");
         String contextFile = "ks-base-dictionary-validchars.xml";
-        ApplicationContext ac = new ClassPathXmlApplicationContext("classpath:"
+        ConfigurableApplicationContext ac = new ClassPathXmlApplicationContext("classpath:"
                 + contextFile);
         Map<String, ValidCharactersConstraint> vccs = (Map<String, ValidCharactersConstraint>) ac.getBeansOfType(
                 ValidCharactersConstraint.class);
+        ac.close();
         for (String id : vccs.keySet()) {
             ValidCharactersConstraint vcc = vccs.get(id);
             System.out.println("valid chars constraint: " + id + " "

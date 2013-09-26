@@ -35,7 +35,7 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.ArrayList;
@@ -83,10 +83,11 @@ public class TestServiceDictionaries {
         // must include base dictionary files
         inputFiles.add("ks-base-dictionary.xml");
 
-        ApplicationContext ac = new ClassPathXmlApplicationContext(
+        ConfigurableApplicationContext ac = new ClassPathXmlApplicationContext(
                 inputFiles.toArray(new String[inputFiles.size()]));
-
         Map<String, DataObjectEntry> dataObjectEntries = ac.getBeansOfType(DataObjectEntry.class);
+        ac.close();
+
         for (DataObjectEntry entry : dataObjectEntries.values()) {
             entry.completeValidation();
         }
