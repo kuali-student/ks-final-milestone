@@ -20,7 +20,6 @@ import org.kuali.student.core.appliedrate.infc.CatalogRateCanonicalRelation;
 
 import org.kuali.student.r2.common.dto.RelationshipInfo;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,13 +33,13 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CatalogRateCanonicalRelationInfo", propOrder = {
-        "id", "typeKey", "stateKey", "name", "descr",
+        "id", "typeKey", "stateKey",
         "catalogRateId", "formatId", "activityIds",
         "meta", "attributes", "_futureElements" })
 
 public class CatalogRateCanonicalRelationInfo
     extends RelationshipInfo 
-    implements CatalogRateCanonicalRelation, Serializable {
+    implements CatalogRateCanonicalRelation {
 
     private static final long serialVersionUID = 1L;
 

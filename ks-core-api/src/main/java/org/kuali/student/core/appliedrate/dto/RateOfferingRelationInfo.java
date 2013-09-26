@@ -20,7 +20,6 @@ import org.kuali.student.core.appliedrate.infc.RateOfferingRelation;
 
 import org.kuali.student.r2.common.dto.RelationshipInfo;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,13 +33,13 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RateOfferingRelationInfo", propOrder = {
-        "id", "typeKey", "stateKey", "name", "descr",
-        "rateId", "formatOfferingId", "activityOfferingOfferingIds",
+        "id", "typeKey", "stateKey",
+        "rateId", "formatOfferingId", "activityOfferingIds",
         "meta", "attributes", "_futureElements" })
 
 public class RateOfferingRelationInfo
     extends RelationshipInfo 
-    implements RateOfferingRelation, Serializable {
+    implements RateOfferingRelation {
 
     private static final long serialVersionUID = 1L;
 
