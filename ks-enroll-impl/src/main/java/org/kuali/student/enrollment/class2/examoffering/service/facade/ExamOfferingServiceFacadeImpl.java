@@ -79,7 +79,11 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             String epId = getExamPeriodId(courseOfferingInfo, context);
             generateFinalExamOfferingsPerFO(courseOfferingInfo.getId(), epId, optionKeys, context);
         } else if (driver.equals(Driver.NONE)){
-            removeFinalExamOfferingsFromCO(courseOfferingInfo.getId(), context);
+            if(optionKeys.contains(ExamOfferingServiceFacade.CANCEL_EXISTING_OPTION_KEY)) {
+                changeFinalExamOfferingsState(courseOfferingInfo.getId(), ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY, context);
+            } else {
+                removeFinalExamOfferingsFromCO(courseOfferingInfo.getId(), context);
+            }
         }
 
     }
@@ -299,6 +303,25 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         }
     }
 
+    @Override
+    public void changeFinalExamOfferingsState(String courseOfferingId, String stateKey, ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException {
+
+        //Retrieve all format offerings linked to the course offering.
+        List<FormatOfferingInfo> foInfos = this.getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId,
+                context);
+
+        for (FormatOfferingInfo foInfo : foInfos) {
+            //Retrieve all exam offerings linked to the format offering.
+            List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
+                    foInfo.getId(), context);
+            for (ExamOfferingRelationInfo eoRelation : eoRelations) {
+                this.getExamOfferingService().changeExamOfferingState(eoRelation.getExamOfferingId(), stateKey, context);
+            }
+        }
+    }
+
     /**
      * Create a new Exam Offering.
      *
@@ -319,7 +342,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
         ExamOfferingInfo eo = new ExamOfferingInfo();
         eo.setTypeKey(ExamOfferingServiceConstants.EXAM_OFFERING_FINAL_TYPE_KEY);
-        eo.setStateKey(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY);
+        eo.setStateKey(ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY);
         eo.setExamId(this.getCanonicalExam(context));
         eo.setExamPeriodId(examPeriodId);
 

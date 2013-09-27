@@ -82,8 +82,10 @@
                       <!--p:progressiveRender="currentCourseOfferingWrapper.finalExamDriverUI eq 'Course Offering'">-->
                     <property name="items">
                         <list>
-                            <ref bean="KSEO-RDLTable"/>
-                            <ref bean="KSEO-RDLTable-AO" />
+                            <ref bean="KS-CourseOfferingManagement-ExamOfferingByCOTableSection"/>
+                            <ref bean="KS-CourseOfferingManagement-ExamOfferingByAOTableSection" />
+                            <bean parent="KS-CourseOfferingManagement-ExamOfferingTableSection"
+                                  p:render="@{currentCourseOfferingWrapper.finalExamDriverUI ne 'Activity Offering' and currentCourseOfferingWrapper.finalExamDriverUI ne 'Course Offering'}"/>
                         </list>
                     </property>
                 </bean>
@@ -91,12 +93,12 @@
         </property>
     </bean>
 
-    <bean id="KSEO-RDLTable" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false"
-          p:readOnly="true" p:width="75%"  p:render="@{currentCourseOfferingWrapper.finalExamDriverUI eq 'Course Offering'}">
+    <bean id="KS-CourseOfferingManagement-ExamOfferingTableSection" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false"
+          p:readOnly="true" p:width="75%">
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrapper"/>
         <property name="propertyName" value="examOfferingWrapperList"/>
-        <property name="headerText" value="Requested Exam Offering Delivery Logistics by Course Offering"/>
+        <property name="headerText" value="Requested Exam Offering Delivery Logistics"/>
         <property name="collectionLookup">
             <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false"/>
         </property>
@@ -126,29 +128,14 @@
         </property>
     </bean>
 
-    <bean id="KSEO-RDLTable-AO" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false"
-          p:readOnly="true" p:width="75%" p:render="@{currentCourseOfferingWrapper.finalExamDriverUI eq 'Activity Offering'}">
-        <property name="collectionObjectClass"
-                  value="org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrapper"/>
-        <property name="propertyName" value="examOfferingWrapperList"/>
+    <bean id="KS-CourseOfferingManagement-ExamOfferingByCOTableSection" parent="KS-CourseOfferingManagement-ExamOfferingTableSection"
+          p:render="@{currentCourseOfferingWrapper.finalExamDriverUI eq 'Course Offering'}">
+        <property name="headerText" value="Requested Exam Offering Delivery Logistics by Course Offering"/>
+    </bean>
+
+    <bean id="KS-CourseOfferingManagement-ExamOfferingByAOTableSection" parent="KS-CourseOfferingManagement-ExamOfferingTableSection"
+          p:render="@{currentCourseOfferingWrapper.finalExamDriverUI eq 'Activity Offering'}">
         <property name="headerText" value="Request Exam Offering Delivery Logistics by Activity Offering"/>
-        <property name="collectionLookup">
-            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false"/>
-        </property>
-        <property name="layoutManager.renderSequenceField" value="false"/>
-        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
-        <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
-        <property name="layoutManager.richTable">
-            <bean parent="KS-Uif-RichTable"/>
-        </property>
-        <property name="layoutManager.richTable.templateOptions">
-            <map merge="true">
-                <entry key="sDom" value="rtip"/>
-                <entry key="bPaginate" value="false"/>
-                <entry key="aaSorting" value="[[1,'asc']]"/>
-                <entry key="bAutoWidth" value="false"/>
-            </map>
-        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:label="Status" p:propertyName="stateName"/>

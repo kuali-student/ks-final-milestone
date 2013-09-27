@@ -902,6 +902,8 @@ public class CourseOfferingManagementController extends UifControllerBase {
             populateExamOfferingsByFo(theForm);
         } else if (LuServiceConstants.LU_EXAM_DRIVER_AO_KEY.equals(theForm.getCurrentCourseOfferingWrapper().getFinalExamDriver())){
             populateExamOfferingsByAo(theForm);
+        } else {
+            populateExamOfferingsByFo(theForm);
         }
 
         return getUIFModelAndView(theForm, "viewExamOfferingsPage");

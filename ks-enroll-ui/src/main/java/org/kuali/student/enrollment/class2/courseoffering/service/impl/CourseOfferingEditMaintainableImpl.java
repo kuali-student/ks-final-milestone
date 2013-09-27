@@ -41,6 +41,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingC
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
@@ -215,7 +216,9 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             getCourseOfferingService().updateCourseOffering(coInfo.getId(), coInfo, contextInfo);
 
             try {
-                CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(coInfo, new ArrayList<String>(), contextInfo);
+                List<String> eoOptions = new ArrayList<String>();
+                eoOptions.add(ExamOfferingServiceFacade.CANCEL_EXISTING_OPTION_KEY);
+                CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(coInfo, eoOptions, contextInfo);
             }  catch (Exception e){
                 KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, CourseOfferingConstants.COURSEOFFERING_EXAMPERIOD_MISSING);
             }

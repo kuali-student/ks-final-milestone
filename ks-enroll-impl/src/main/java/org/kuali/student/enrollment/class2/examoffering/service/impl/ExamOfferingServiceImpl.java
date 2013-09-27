@@ -60,6 +60,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 public class ExamOfferingServiceImpl implements ExamOfferingService {
@@ -219,7 +220,21 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        throw new OperationFailedException ("changeExamOfferingState has not been implemented");
+        if(StringUtils.isBlank(stateKey)) {
+            throw new OperationFailedException("The next state key is empty");
+        }
+
+        LuiInfo lui = luiService.getLui(examOfferingId, contextInfo);
+
+        if (!StringUtils.equals(lui.getStateKey(), stateKey)){
+            lui.setStateKey(stateKey);
+            try{
+                luiService.updateLui(lui.getId(), lui, contextInfo);
+            }catch(Exception e){
+                throw new OperationFailedException("Failed to update State", e);
+            }
+        }
+        return new StatusInfo();
     }
 
     @Override

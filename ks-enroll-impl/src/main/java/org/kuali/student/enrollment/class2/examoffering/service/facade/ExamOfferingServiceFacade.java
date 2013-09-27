@@ -26,6 +26,7 @@ import java.util.List;
 public interface ExamOfferingServiceFacade {
 
     public static final String RECREATE_OPTION_KEY = "kuali.option.key.exam.offering.recreate";
+    public static final String CANCEL_EXISTING_OPTION_KEY = "kuali.option.key.exam.offering.cancel";
 
     /**
      * This method generates new Exam Offerings for the Course Offering for the given Course Offering Id based on
@@ -159,4 +160,20 @@ public interface ExamOfferingServiceFacade {
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException;
 
+    /**
+     * This method change all the states of the exam offerings associated with the given courseOfferingId to
+     * the given stateKey.
+     *
+     * @param courseOfferingId
+     * @param stateKey
+     * @param context
+     * @throws PermissionDeniedException
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws DoesNotExistException
+     */
+    void changeFinalExamOfferingsState(String courseOfferingId, String stateKey, ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException;
 }
