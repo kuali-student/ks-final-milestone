@@ -75,6 +75,7 @@
                 <value>${krad.js.scriptfiles}</value>
                 <value>classpath:UifKRADOverrideDefinitions.xml</value>
                 <value>classpath:UifKradExtensionDefinitions.xml</value>
+                <value>classpath:org/kuali/student/rice/kim/KSPersonnelLookupView.xml</value>
 				<value>classpath:UifKSDefinitions.xml</value>
                 <value>classpath:UifUtils.xml</value>
                 <value>classpath:ks-base-dictionary.xml</value>
@@ -178,6 +179,7 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ManageTheCourseOfferingPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagementView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-DeleteClusterConfirmPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ViewExamOfferingsPage.xml</value>
 
                 <!-- East Coast Sandbox (rollover) -->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/DiagnoseRolloverView.xml</value>
@@ -230,6 +232,8 @@
                 <value>classpath:org/kuali/student/lum/lu/ui/krms/LUCustomComponents.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/CORuleMaintenance.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/AORuleMaintenance.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/FERuleMaintenance.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/FinalExamMatrixManagementView.xml</value>
 
                 <!-- Type -->
                 <value>classpath:org/kuali/student/enrollment/type/TypeVerificationView.xml</value>
