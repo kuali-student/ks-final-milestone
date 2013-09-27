@@ -45,26 +45,15 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
     private String buildingCode = "";
     private String bldgCodeSimple = "";
     private String roomName = "";
-    private String tbaDisplayName = "";
-    private String colocatedAoInfo = "";
     private ExamOfferingInfo eoInfo;
     private List<String> startTime;
     private List<String> endTime;
     private List<String> weekDays;
-    private String examDriver;
-    private List<ExamOfferingRelationInfo> examOfferingRelationInfos;
-    private List<ExamOfferingInfo> examOfferingInfos;
-    private List<FormatOfferingInfo> formatOfferingInfos;
-    private List<String> examOfferingIds;
 
     public ExamOfferingWrapper(){
         startTime = new ArrayList<String>();
         endTime = new ArrayList<String>();
         weekDays = new ArrayList<String>();
-        examOfferingRelationInfos = new ArrayList<ExamOfferingRelationInfo>();
-        examOfferingInfos = new ArrayList<ExamOfferingInfo>();
-        formatOfferingInfos = new ArrayList<FormatOfferingInfo>();
-        examOfferingIds = new ArrayList<String>();
     }
 
     public ExamOfferingWrapper(ExamOfferingInfo info){
@@ -95,24 +84,6 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
     public void setActivityCode(String activityCode) {
         this.activityCode = activityCode;
     }
-
-
-
-    public String getTbaDisplayName() {
-        return tbaDisplayName;
-    }
-
-    public void setTbaDisplayName(boolean tba,boolean appendForDisplay) {
-        if (appendForDisplay){
-            tbaDisplayName =  tbaDisplayName + "<br>" + (tba ? "TBA" : StringUtils.EMPTY);
-        } else {
-            tbaDisplayName = StringUtils.EMPTY;
-            if (tba){
-                tbaDisplayName =  "TBA";
-            }
-        }
-    }
-
 
     public String getStateName() {
         return stateName;
@@ -333,14 +304,6 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
         this.typeKey = typeKey;
     }
 
-    public String getColocatedAoInfo() {
-        return colocatedAoInfo;
-    }
-
-    public void setColocatedAoInfo(String colocatedAoInfo) {
-        this.colocatedAoInfo = colocatedAoInfo;
-    }
-
     public ExamOfferingInfo getEoInfo() {
         return eoInfo;
     }
@@ -349,43 +312,4 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
         this.eoInfo = eoInfo;
     }
 
-    public List<ExamOfferingRelationInfo> getExamOfferingRelationInfos() {
-        return examOfferingRelationInfos;
-    }
-
-    public void setExamOfferingRelationInfos(List<ExamOfferingRelationInfo> examOfferingRelationInfos) {
-        this.examOfferingRelationInfos = examOfferingRelationInfos;
-    }
-
-    public List<ExamOfferingInfo> getExamOfferingInfos() {
-        return examOfferingInfos;
-    }
-
-    public void setExamOfferingInfos(List<ExamOfferingInfo> examOfferingInfos) {
-        this.examOfferingInfos = examOfferingInfos;
-    }
-
-    public List<FormatOfferingInfo> getFormatOfferingInfos() {
-        return formatOfferingInfos;
-    }
-
-    public void setFormatOfferingInfos(List<FormatOfferingInfo> formatOfferingInfos) {
-        this.formatOfferingInfos = formatOfferingInfos;
-    }
-
-    public List<String> getExamOfferingIds() {
-        return examOfferingIds;
-    }
-
-    public void setExamOfferingIds(List<String> examOfferingIds) {
-        this.examOfferingIds = examOfferingIds;
-    }
-
-    public String getExamDriver() {
-        return examDriver;
-    }
-
-    public void setExamDriver(String examDriver) {
-        this.examDriver = examDriver;
-    }
 }

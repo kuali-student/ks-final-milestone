@@ -91,21 +91,8 @@ public class CourseOfferingWrapper implements Serializable{
         this.courseOfferingInfo = courseOfferingInfo;
         this.alternateCOCodes = new ArrayList<String>();
         this.ownerAliases = new ArrayList<String>();
-        // set Final Exam Driver
-        if(!courseOfferingInfo.getAttributes().isEmpty()){
-            for(AttributeInfo attrInfo: courseOfferingInfo.getAttributes()){
-                if(StringUtils.equals(attrInfo.getKey(), CourseOfferingServiceConstants.FINAL_EXAM_DRIVER_ATTR)){
-                    this.finalExamDriver = attrInfo.getValue();
-                    if (StringUtils.equals(attrInfo.getValue(), LuServiceConstants.LU_EXAM_DRIVER_CO_KEY)) {
-                        this.finalExamDriverUI = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_DRIVER_CO_UI;
-                    } else if (StringUtils.equals(attrInfo.getValue(), LuServiceConstants.LU_EXAM_DRIVER_AO_KEY)) {
-                        this.finalExamDriverUI = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_DRIVER_AO_UI;
-                    }
-                } else if(StringUtils.equals(attrInfo.getKey(), CourseOfferingServiceConstants.FINAL_EXAM_USE_MATRIX)) {
-                    this.useFinalExamMatrix = Boolean.valueOf(attrInfo.getValue());
-                }
-            }
-        }
+        this.setAttributeFields(courseOfferingInfo);
+
     }
 
     /**
@@ -163,6 +150,7 @@ public class CourseOfferingWrapper implements Serializable{
 
     public void setCourseOfferingInfo(CourseOfferingInfo coInfo) {
         this.courseOfferingInfo = coInfo;
+        this.setAttributeFields(coInfo);
     }
 
     public TermInfo getTerm() {
@@ -409,6 +397,24 @@ public class CourseOfferingWrapper implements Serializable{
 
     public void setContextBar(CourseOfferingContextBar contextBar) {
         this.contextBar = contextBar;
+    }
+
+    private void setAttributeFields(CourseOfferingInfo courseOfferingInfo) {
+        // set Final Exam Driver
+        if(!courseOfferingInfo.getAttributes().isEmpty()){
+            for(AttributeInfo attrInfo: courseOfferingInfo.getAttributes()){
+                if(StringUtils.equals(attrInfo.getKey(), CourseOfferingServiceConstants.FINAL_EXAM_DRIVER_ATTR)){
+                    this.finalExamDriver = attrInfo.getValue();
+                    if (StringUtils.equals(attrInfo.getValue(), LuServiceConstants.LU_EXAM_DRIVER_CO_KEY)) {
+                        this.finalExamDriverUI = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_DRIVER_CO_UI;
+                    } else if (StringUtils.equals(attrInfo.getValue(), LuServiceConstants.LU_EXAM_DRIVER_AO_KEY)) {
+                        this.finalExamDriverUI = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_DRIVER_AO_UI;
+                    }
+                } else if(StringUtils.equals(attrInfo.getKey(), CourseOfferingServiceConstants.FINAL_EXAM_USE_MATRIX)) {
+                    this.useFinalExamMatrix = Boolean.valueOf(attrInfo.getValue());
+                }
+            }
+        }
     }
 
     public String getFinalExamDriverUI() {

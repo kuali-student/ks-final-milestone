@@ -81,6 +81,7 @@
                 <ref bean="KS-CourseOfferingManagement-SelectedAOCSRConfirmationPage"/>
                 <ref bean="KS-CourseOfferingManagement-SelectedAoDeleteConfirmationPage"/>
                 <ref bean="KS-CourseOfferingManagement-ClusterDeleteConfirmationPage"/>
+                <ref bean="KS-CourseOfferingManagement-ExamOfferingPage"/>
             </list>
         </property>
         <property name="dialogs">

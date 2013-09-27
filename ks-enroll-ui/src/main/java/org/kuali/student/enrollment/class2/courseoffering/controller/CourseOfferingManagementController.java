@@ -28,6 +28,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
+import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
@@ -46,8 +47,17 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -57,7 +67,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -872,90 +884,104 @@ public class CourseOfferingManagementController extends UifControllerBase {
         return super.performRedirect(form, "courseOfferingRules", urlParameters);
     }
 
-
     /**
-     * Redirect to exam Offerings View
+     * Show the exam offerings.
      *
-     * @param form model
-     * @return ModelAndView
+     * @param theForm
+     * @param result
+     * @param request
+     * @param response
+     * @return
      * @throws Exception
      */
     @RequestMapping(params = "methodToCall=viewExamOfferings")
-    public ModelAndView viewExamOfferings(@ModelAttribute("KualiForm") CourseOfferingManagementForm form) throws Exception {
+    public ModelAndView viewExamOfferings(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+                                     @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-
-
-        CourseOfferingManagementForm examofferingform = (CourseOfferingManagementForm) form;
-        Properties urlParameters = new Properties();
-        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "getExamOfferings");
-        urlParameters.put("termCode",  form.getTermCode());
-        urlParameters.put("inputCode",  form.getInputCode());
-        urlParameters.put("adminOrg",  form.getCurrentCourseOfferingWrapper().getCourseOfferingId());
-        urlParameters.put(UifParameters.VIEW_ID, "examOfferingsView");
-        urlParameters.put(UifParameters.PAGE_ID, "examOfferingsViewPage");
-        urlParameters.put("withinPortal", BooleanUtils.toStringTrueFalse(examofferingform.isWithinPortal()));
-
-        return super.performRedirect(form, "courseOfferingManagement", urlParameters);
-
-
-    }
-
-
-
-    /**
-     *
-     * @param form model
-     * @return ModelAndView
-     * @throws Exception
-     */
-    @RequestMapping(params = "methodToCall=getExamOfferings")
-    public ModelAndView getExamOfferings(@ModelAttribute("KualiForm") CourseOfferingManagementForm form) throws Exception {
-
-        CourseOfferingManagementForm examofferingform = (CourseOfferingManagementForm) form;
-        List<ExamOfferingWrapper> examOfferingWrapperList = new ArrayList<ExamOfferingWrapper>();
-        CourseOfferingManagementUtil.getViewHelperService(examofferingform).populateTerm(examofferingform);
-        CourseOfferingInfo courseOfferingInfo = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(examofferingform.getAdminOrg(), ContextUtils.createDefaultContextInfo());
-        CourseOfferingWrapper currentCOWrapper = new CourseOfferingWrapper(courseOfferingInfo);
-        examofferingform.setCurrentCourseOfferingWrapper(currentCOWrapper);
-        examofferingform.setInputCode(form.getInputCode().toUpperCase());
-        List<ExamOfferingRelationInfo> examOfferingRelationInfos = new ArrayList<ExamOfferingRelationInfo>();
-        List<ExamOfferingRelationInfo> examOfferingRelationsInfolist = new ArrayList<ExamOfferingRelationInfo>();
-        List<ExamOfferingInfo> examOfferingInfos = new ArrayList<ExamOfferingInfo>();
-
-        List<FormatOfferingInfo> formatOfferingInfos = new ArrayList<FormatOfferingInfo>();
-        formatOfferingInfos = CourseOfferingManagementUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(currentCOWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
-        for (FormatOfferingInfo formatOfferingInfo : formatOfferingInfos) {
-            examOfferingRelationInfos = CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingRelationsByFormatOffering(formatOfferingInfo.getId(), ContextUtils.createDefaultContextInfo());
-            examOfferingRelationsInfolist.addAll(examOfferingRelationInfos);
+        if(LuServiceConstants.LU_EXAM_DRIVER_CO_KEY.equals(theForm.getCurrentCourseOfferingWrapper().getFinalExamDriver())){
+            populateExamOfferingsByFo(theForm);
+        } else if (LuServiceConstants.LU_EXAM_DRIVER_AO_KEY.equals(theForm.getCurrentCourseOfferingWrapper().getFinalExamDriver())){
+            populateExamOfferingsByAo(theForm);
         }
 
+        return getUIFModelAndView(theForm, "viewExamOfferingsPage");
+    }
+
+    private void populateExamOfferingsByFo(CourseOfferingManagementForm theForm) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
         List<String> examOfferingIds = new ArrayList<String>();
-        for (ExamOfferingRelationInfo examOfferingRelationInfo : examOfferingRelationsInfolist) {
-            examOfferingIds.add(examOfferingRelationInfo.getExamOfferingId());
+        for (String foId : theForm.getFoId2aoTypeMap().keySet()) {
+            List<ExamOfferingRelationInfo> examOfferingRelationInfos = CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
+                    foId, ContextUtils.createDefaultContextInfo());
+            for (ExamOfferingRelationInfo examOfferingRelationInfo : examOfferingRelationInfos) {
+                examOfferingIds.add(examOfferingRelationInfo.getExamOfferingId());
+            }
         }
-        examOfferingInfos = CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingsByIds(examOfferingIds, ContextUtils.createDefaultContextInfo());
+
+        List<ExamOfferingInfo> examOfferingInfos = CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingsByIds(
+                examOfferingIds, ContextUtils.createDefaultContextInfo());
+
+        List<ExamOfferingWrapper> examOfferingWrapperList = new ArrayList<ExamOfferingWrapper>();
         for (ExamOfferingInfo examOfferingInfo : examOfferingInfos) {
-            examOfferingInfo.getScheduleId();
-            //Dummy data just to Display the Table on the UI
-            ExamOfferingWrapper examOfferingWrapper = new ExamOfferingWrapper();
-            examOfferingWrapper.setBuildingCode("ZHF", false);
-            examOfferingWrapper.setBuildingName("Tawes Fine Arts Bldg.", false);
-            examOfferingWrapper.setActivityCode("A");
-            examOfferingWrapper.setStartTimeDisplay("07:00 AM", false);
-            examOfferingWrapper.setEndTimeDisplay("12:00 PM", false);
-            examOfferingWrapper.setRoomName("1100 ", false);
-            examOfferingWrapper.setStateName("Offered");
-            examOfferingWrapper.setDaysDisplayName("TH", false);
-            examOfferingWrapper.setTypeName("Lecture");
-            examOfferingWrapper.setExamOfferingIds(examOfferingIds);
-            examOfferingWrapper.setFormatOfferingInfos(formatOfferingInfos);
-            examOfferingWrapper.setExamOfferingInfos(examOfferingInfos);
-            examOfferingWrapper.setExamOfferingRelationInfos(examOfferingRelationInfos);
+            examOfferingWrapperList.add(createWrapperFromExamOffering(examOfferingInfo));
+        }
+        theForm.setExamOfferingWrapperList(examOfferingWrapperList);
+    }
+
+    private void populateExamOfferingsByAo(CourseOfferingManagementForm theForm) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+
+        Map<String, ExamOfferingRelationInfo> eoToRln = new HashMap<String, ExamOfferingRelationInfo>();
+        List<String> examOfferingIds = new ArrayList<String>();
+        for (String foId : theForm.getFoId2aoTypeMap().keySet()) {
+            List<ExamOfferingRelationInfo> examOfferingRelationInfos = CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
+                    foId, ContextUtils.createDefaultContextInfo());
+            for (ExamOfferingRelationInfo examOfferingRelationInfo : examOfferingRelationInfos) {
+                examOfferingIds.add(examOfferingRelationInfo.getExamOfferingId());
+                eoToRln.put(examOfferingRelationInfo.getExamOfferingId(), examOfferingRelationInfo);
+            }
+        }
+
+        List<ExamOfferingInfo> examOfferingInfos = CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingsByIds(
+                examOfferingIds, ContextUtils.createDefaultContextInfo());
+
+        List<ExamOfferingWrapper> examOfferingWrapperList = new ArrayList<ExamOfferingWrapper>();
+        for (ExamOfferingInfo examOfferingInfo : examOfferingInfos) {
+            ExamOfferingWrapper examOfferingWrapper = createWrapperFromExamOffering(examOfferingInfo);
+
+            ExamOfferingRelationInfo eoRln = eoToRln.get(examOfferingInfo.getId());
+            examOfferingWrapper.setActivityCode(getActivityOfferingCode(theForm.getActivityWrapperList(), eoRln));
+            FormatOfferingInfo fo = theForm.getFoId2aoTypeMap().get(eoRln.getFormatOfferingId());
+
+            TypeInfo type = CourseOfferingManagementUtil.getTypeService().getType(fo.getFinalExamLevelTypeKey(), ContextUtils.createDefaultContextInfo());
+            examOfferingWrapper.setTypeName(type.getName());
             examOfferingWrapperList.add(examOfferingWrapper);
         }
-        examofferingform.setExamOfferingWrapperList(examOfferingWrapperList);
-        return getUIFModelAndView(examofferingform, "examOfferingsViewPage");
-
+        theForm.setExamOfferingWrapperList(examOfferingWrapperList);
     }
+
+    private String getActivityOfferingCode(List<ActivityOfferingWrapper> wrappers, ExamOfferingRelationInfo eoRln) {
+        for(String aoId : eoRln.getActivityOfferingIds()){
+            for(ActivityOfferingWrapper wrapper : wrappers){
+                if (wrapper.getId().equals(aoId)){
+                    return wrapper.getActivityCode();
+                }
+            }
+        }
+        return StringUtils.EMPTY;
+    }
+
+    private ExamOfferingWrapper createWrapperFromExamOffering(ExamOfferingInfo examOfferingInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        ExamOfferingWrapper examOfferingWrapper = new ExamOfferingWrapper();
+
+        StateInfo state = CourseOfferingManagementUtil.getStateService().getState(examOfferingInfo.getStateKey(), ContextUtils.createDefaultContextInfo());
+        examOfferingWrapper.setStateName(state.getName());
+
+        if(examOfferingInfo.getScheduleId()!=null){
+            // Set the scheduling information.
+        }
+        return examOfferingWrapper;
+    }
+
 }
