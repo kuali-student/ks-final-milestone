@@ -70,7 +70,7 @@
                                             <property name="items">
                                                 <list>
                                                     <bean parent="KS-Lozenge-Grey-Uif-DataField" p:id="rollover-status" p:label="Status" p:fieldLabel.renderColon="false" p:propertyName="statusField" />
-                                                    <bean parent="Uif-ActionLink" p:performClientSideValidation="true" p:actionLabel="Refresh" p:methodToCall="showRolloverResults" p:valign="bottom" p:onClickScript="writeHiddenToForm(&quot;rolloverTargetTermCode&quot;, &quot;@{rolloverTargetTermCode}&quot;);"/>
+                                                    <bean parent="Uif-ActionLink" p:performClientSideValidation="true" p:actionLabel="Refresh" p:methodToCall="showRolloverResults" p:valign="middle" p:align="left" p:onClickScript="writeHiddenToForm(&quot;rolloverTargetTermCode&quot;, &quot;@{rolloverTargetTermCode}&quot;);"/>
                                                 </list>
                                             </property>
                                         </bean>
