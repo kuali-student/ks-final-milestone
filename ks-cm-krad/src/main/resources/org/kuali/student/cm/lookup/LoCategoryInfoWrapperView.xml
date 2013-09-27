@@ -24,7 +24,6 @@
         <property name="dataObjectClass" value="org.kuali.student.cm.course.form.LoCategoryInfoWrapper" />
         <property name="attributes">
             <list>
-                <!-- <ref bean="LoCategoryInfoWrapper.selected" /> -->
                 <ref bean="LoCategoryInfoWrapper.name" />
                 <ref bean="LoCategoryInfoWrapper.typeName" />
                 <ref bean="LoCategoryInfoWrapper.typeKey" />
@@ -59,6 +58,12 @@
             value="org.kuali.student.cm.course.service.impl.LoCategoryInfoLookupableImpl" />
         <property name="multipleValuesSelect" value="true" />    
         <property name="criteriaGroup.render" value="false" />
+        <property name="resultsGroup.layoutManager.richTable.showSearchAndExportOptions" value="true" />
+        <property name="resultsGroup.layoutManager.richTable.templateOptions">
+            <map>
+                 <entry key="sDom" value="frtip"/>
+           </map>
+        </property>
         <!-- Must define the criteriaFields even though it's not being rendered, because of framework restriction. -->
         <property name="criteriaFields">
             <list>

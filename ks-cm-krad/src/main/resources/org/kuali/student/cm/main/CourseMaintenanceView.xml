@@ -266,7 +266,7 @@
                 <bean id="KS-CourseViewCourseLogistics-ActionLink" parent="Uif-NavigationActionLink"
                       p:navigateToPageId="KS-CourseView-CourseLogisticsPage" p:actionLabel="Course Logistics" />
                 <bean id="KS-CourseViewLearningObjectives-ActionLink" parent="Uif-NavigationActionLink"
-                      p:navigateToPageId="KS-CourseView-LearningObjectivesPage" p:actionLabel="Learning Objectives" p:disabled="true" />
+                      p:navigateToPageId="KS-CourseView-LearningObjectivesPage" p:actionLabel="Learning Objectives" />
                 <bean id="KS-CourseViewCourseRequisites-ActionLink" parent="Uif-NavigationActionLink"
                       p:navigateToPageId="KS-CourseView-CourseRequisitesPage" p:actionLabel="Course Requisites" p:disabled="true" />
                 <bean id="KS-CourseViewActiveDates-ActionLink" parent="Uif-NavigationActionLink"

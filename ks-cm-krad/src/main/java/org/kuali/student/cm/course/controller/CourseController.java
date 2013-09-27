@@ -104,7 +104,7 @@ public class CourseController extends MaintenanceDocumentController {
         COURSE_INFO("KS-CourseView-CourseInfoPage"), 
         GOVERNANCE("KS-CourseView-GovernancePage"), 
         COURSE_LOGISTICS("KS-CourseView-CourseLogisticsPage"), 
-        //LEARNING_OBJECTIVES("KS-CourseView-LearningObjectivesPage"), 
+        LEARNING_OBJECTIVES("KS-CourseView-LearningObjectivesPage"), 
         //COURSE_REQUISITES("KS-CourseView-CourseRequisitesPage"), 
         ACTIVE_DATES("KS-CourseView-ActiveDatesPage"), 
         //FINANCIALS("KS-CourseView-FinancialsPage"),
