@@ -17,6 +17,7 @@
 package org.kuali.student.lum.coursebundle.infc;
 
 import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.HasEffectiveDates;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ import java.util.List;
  */
 
 public interface CourseBundle
-    extends IdEntity {
+    extends IdEntity, HasEffectiveDates {
 
     /**
      * Identifies the number of a course bundled as reflected in the
@@ -53,12 +54,31 @@ public interface CourseBundle
     public String getCourseBundleCode();
 
     /**
+     * The first academic time period that this CourseBundle would be
+     * effective.
+     *
+     * @return the start term Id
+     * @name Start Term Id
+     */
+    public String getStartTermId();
+
+    /**
+     * The last academic time period that this CourseBundle would be
+     * effective.
+     *
+     * @return the end term Id
+     * @name End Term
+     */
+    public String getEndTermId();
+
+    /**
      * Identifies the department and/subject code of the course bundle
      * as reflected in the course catalog. Initially copied from the
      * course catalog but then, depending on the configuration it may
      * be updatable. In most configurations this should not be
      * updatable. Often used in the calculation of the courseCode.
      * 
+     * @return the org Id
      * @name Subject Area Org Id
      */
     public String getSubjectAreaOrgId();
@@ -73,6 +93,7 @@ public interface CourseBundle
      * differentiate multiple course offerings for the same
      * course. Often used in the calculation of the course code.
      * 
+     * @return the code suffix
      * @name Course Bundle Code Suffix
      */
     public String getCourseBundleCodeSuffix();

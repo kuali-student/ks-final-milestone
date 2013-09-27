@@ -21,6 +21,7 @@ import org.kuali.student.lum.coursebundle.infc.CourseBundle;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -34,7 +35,9 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseBundleInfo", propOrder = {
         "id", "typeKey", "stateKey", "name", "descr",
-        "courseBundleCode", "subjectAreaOrgId", "courseBundleCodeSuffix",
+        "effectiveDate", "expirationDate",
+        "courseBundleCode", "startTermId", "endTermId",
+        "subjectAreaOrgId", "courseBundleCodeSuffix",
         "adminOrgId", "courseIds",
         "meta", "attributes", "_futureElements" })
 
@@ -45,7 +48,19 @@ public class CourseBundleInfo
     private static final long serialVersionUID = 1L;
 
     @XmlElement
+    private Date effectiveDate;
+
+    @XmlElement
+    private Date expirationDate;
+
+    @XmlElement
     private String courseBundleCode;
+
+    @XmlElement
+    private String startTermId;
+
+    @XmlElement
+    private String endTermId;
 
     @XmlElement
     private String subjectAreaOrgId;
@@ -79,7 +94,18 @@ public class CourseBundleInfo
         super(bundle);
 
         if (bundle != null) {
+
+            if (bundle.getEffectiveDate() != null) {
+                this.effectiveDate = new Date(bundle.getEffectiveDate().getTime());
+            }
+
+            if (bundle.getExpirationDate() != null) {
+                this.expirationDate = new Date(bundle.getExpirationDate().getTime());
+            }
+
             this.courseBundleCode = bundle.getCourseBundleCode();
+            this.startTermId = bundle.getStartTermId();
+            this.endTermId = bundle.getEndTermId();
             this.subjectAreaOrgId = bundle.getSubjectAreaOrgId();
             this.courseBundleCodeSuffix = bundle.getCourseBundleCodeSuffix();
             this.adminOrgId = bundle.getAdminOrgId();
@@ -92,12 +118,48 @@ public class CourseBundleInfo
 
     
     @Override
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
+    @Override
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    @Override
     public String getCourseBundleCode() {
         return (this.courseBundleCode);
     }
 
     public void setCourseBundleCode(String courseBundleCode) {
         this.courseBundleCode = courseBundleCode;
+    }
+
+    @Override
+    public String getStartTermId() {
+        return startTermId;
+    }
+
+    public void setStartTermId(String startTermId) {
+        this.startTermId = startTermId;
+    }
+
+    @Override
+    public String getEndTermId() {
+        return endTermId;
+    }
+
+    public void setEndTermId(String endTermId) {
+        this.endTermId = endTermId;
     }
 
     @Override
