@@ -26,7 +26,7 @@ import java.util.Set;
 
 public class ScheduleRequestDao extends GenericEntityDao<ScheduleRequestEntity> {
     public List<ScheduleRequestEntity> getScheduleRequestsByRefObject(String refObjectType, String refObjectId ){
-        List<ScheduleRequestEntity> results = em.createNamedQuery("ScheduleRequest.getScheduleRequestsByRefObjectAndRefObjectType")
+        List<ScheduleRequestEntity> results = em.createNamedQuery("ScheduleRequest.getScheduleRequestsByLuiIdAndType")
                 .setParameter("refObjectTypeKey", refObjectType)
                 .setParameter("refObjectId", refObjectId)
                 .getResultList();
@@ -34,41 +34,11 @@ public class ScheduleRequestDao extends GenericEntityDao<ScheduleRequestEntity> 
     }
 
     public List<ScheduleRequestEntity> getScheduleRequestsByRefObjects(String refObjectType, List<String> refObjectIds ) {
-        List<ScheduleRequestEntity> result = null;
-        if(refObjectIds.size() > 0) {
-            Set<String> refObjectIdSet = new HashSet<String>(refObjectIds.size());
-            // remove duplicates from the key list
-            refObjectIdSet.addAll(refObjectIds);
-
-            StringBuilder builder = new StringBuilder("SELECT sr" +
-                                " FROM ScheduleRequestEntity sr" +
-                                " WHERE sr.scheduleRequestSetId in (SELECT reqSet.id" +
-                                                                  " FROM ScheduleRequestSetEntity reqSet where reqSet.refObjectTypeKey = :refObjectTypeKey and (");
-
-
-            Iterator<String> iter = refObjectIdSet.iterator();
-            int i = 0;
-            while(iter.hasNext()) {
-                iter.next();
-                builder.append(" :refObjectId").append(i++).append(" in elements(reqSet.refObjectIds)");
-                if(iter.hasNext()) {
-                    builder.append(" or");
-                }
-            }
-            builder.append("))");
-
-            System.out.println(builder.toString());
-
-            Query query = em.createQuery(builder.toString());
-            query.setParameter("refObjectTypeKey", refObjectType);
-
-            i = 0;
-            for(String id : refObjectIdSet) {
-                query.setParameter("refObjectId" + i++, id);
-            }
-            result = query.getResultList();
-        }
-        return result;
+        List<ScheduleRequestEntity> results = em.createNamedQuery("ScheduleRequest.getScheduleRequestsByLuiIdAndType")
+                .setParameter("refObjectTypeKey", refObjectType)
+                .setParameter("refObjectId", refObjectIds)
+                .getResultList();
+        return results;
     }
 
     public List<ScheduleRequestEntity> getScheduleRequestsByType(String scheduleRequestTypeKey){
