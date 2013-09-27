@@ -23,7 +23,6 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
 import javax.xml.namespace.QName;
@@ -262,19 +261,16 @@ public class ExamOfferingTransformer {
             throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         Map<String, List<ScheduleRequestInfo>> luiToScheduleRequestsMap = new HashMap<String, List<ScheduleRequestInfo>>();
 
-        if (luiIds != null && !luiIds.isEmpty()) {
-            for (String luiId : luiIds) {
-                List<ScheduleRequestSetInfo> scheduleRequestSets = schedulingService.getScheduleRequestSetsByRefObject(ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING, luiId, context);
-                for (ScheduleRequestSetInfo srs : scheduleRequestSets) {
-                    List<ScheduleRequestInfo> scheduleRequestInfos = schedulingService.getScheduleRequestsByScheduleRequestSet(srs.getId(), context);
-                    if (scheduleRequestInfos != null && !scheduleRequestInfos.isEmpty()) {
-                        List<ScheduleRequestInfo> scheduleRequestInfoList = luiToScheduleRequestsMap.get(luiId);
-                        if (scheduleRequestInfoList == null) {
-                            scheduleRequestInfoList = new ArrayList<ScheduleRequestInfo>();
-                            luiToScheduleRequestsMap.put(luiId, scheduleRequestInfoList);
-                        }
-                        scheduleRequestInfoList.addAll(scheduleRequestInfos);
+        if(luiIds != null && !luiIds.isEmpty()){
+            for(String luiId: luiIds){
+                List<ScheduleRequestInfo> scheduleRequestInfos = schedulingService.getScheduleRequestsByRefObject(ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING, luiId, context);
+                if(scheduleRequestInfos != null && !scheduleRequestInfos.isEmpty()){
+                    List<ScheduleRequestInfo> scheduleRequestInfoList = luiToScheduleRequestsMap.get(luiId);
+                    if (scheduleRequestInfoList == null) {
+                        scheduleRequestInfoList = new ArrayList<ScheduleRequestInfo>();
+                        luiToScheduleRequestsMap.put(luiId, scheduleRequestInfoList);
                     }
+                    scheduleRequestInfoList.addAll(scheduleRequestInfos);
                 }
             }
         }
