@@ -104,7 +104,7 @@ public class CommentServiceDecorator implements CommentService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateComment(String validationTypeKey, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().validateComment(validationTypeKey, commentTypeKey, commentInfo, contextInfo);
+    public List<ValidationResultInfo> validateComment(String validationTypeKey, String referenceId, String referenceTypeKey, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().validateComment(validationTypeKey, referenceId, referenceTypeKey, commentTypeKey, commentInfo, contextInfo);
     }
 }
