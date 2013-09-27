@@ -335,11 +335,10 @@ public class CommentServiceImpl implements CommentService {
 		this.searchManager = searchManager;
 	}
 
-	@Override
 	public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
 		return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
 	}
-	@Override
+
 	public List<String> getObjectTypes() {
 		return dictionaryServiceDelegate.getObjectTypes();
 	}

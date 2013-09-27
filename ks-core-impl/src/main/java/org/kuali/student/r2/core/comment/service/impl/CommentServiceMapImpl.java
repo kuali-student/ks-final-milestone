@@ -25,7 +25,6 @@ import java.util.Map;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -254,20 +253,6 @@ public class CommentServiceMapImpl implements MockService, CommentService
 	{
 		// VALIDATE
 		return new ArrayList<ValidationResultInfo> ();
-	}
-	
-	@Override
-	public ObjectStructureDefinition getObjectStructure(String objectTypeKey)
-	{
-		// UNKNOWN
-		throw new UnsupportedOperationException("getObjectStructure has not been implemented");
-	}
-	
-	@Override
-	public List<String> getObjectTypes()
-	{
-		// UNKNOWN
-		throw new UnsupportedOperationException("getObjectTypes has not been implemented");
 	}
 	
 	private StatusInfo newStatus() {
