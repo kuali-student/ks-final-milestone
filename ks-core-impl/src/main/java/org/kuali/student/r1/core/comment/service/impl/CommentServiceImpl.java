@@ -71,7 +71,7 @@ public class CommentServiceImpl implements CommentService {
         // Validate Comment
         List<ValidationResultInfo> validationResults = null;
         try {
-            validationResults = validateComment("OBJECT", commentInfo.getTypeKey(), commentInfo, contextInfo);
+            validationResults = validateComment("OBJECT", referenceId, referenceTypeKey, commentTypeKey, commentInfo, contextInfo);
         } catch (DoesNotExistException e1) {
             throw new OperationFailedException("Validation call failed." + e1.getMessage());
         }
@@ -209,7 +209,8 @@ public class CommentServiceImpl implements CommentService {
             VersionMismatchException {
 
         // Validate Comment
-        List<ValidationResultInfo> validationResults = validateComment("OBJECT", commentInfo.getTypeKey(), commentInfo, contextInfo);
+        List<ValidationResultInfo> validationResults = validateComment("OBJECT", commentInfo.getReferenceId(), commentInfo.getReferenceTypeKey(),
+                commentInfo.getTypeKey(), commentInfo, contextInfo);
         if (null != validationResults && validationResults.size() > 0) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
@@ -226,6 +227,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<ValidationResultInfo> validateComment(String validationType,
+                                                      String referenceId,
+                                                      String referenceTypeKey,
                                                       String commentTypeKey,
                                                       CommentInfo commentInfo,
                                                       ContextInfo contextInfo)

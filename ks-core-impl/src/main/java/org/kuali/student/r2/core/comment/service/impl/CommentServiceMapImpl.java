@@ -245,7 +245,8 @@ public class CommentServiceMapImpl implements MockService, CommentService
 	}
 	
 	@Override
-	public List<ValidationResultInfo> validateComment(String validationTypeKey, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo)
+	public List<ValidationResultInfo> validateComment(String validationTypeKey, String referenceId,
+                                                      String referenceTypeKey, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo)
 		throws DoesNotExistException
 		      ,InvalidParameterException
 		      ,MissingParameterException
