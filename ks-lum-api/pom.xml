@@ -44,7 +44,7 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>lu-wsdl</id>
+                        <id>clu-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
                             <className>org.kuali.student.r2.lum.clu.service.CluService</className>
