@@ -8,7 +8,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.enrollment.acal.infc.Term;
+import org.kuali.student.r2.core.acal.infc.Term;
 
 /**
  * Assembles a list of published terms.

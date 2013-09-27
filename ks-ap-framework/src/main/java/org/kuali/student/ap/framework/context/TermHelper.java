@@ -2,7 +2,7 @@ package org.kuali.student.ap.framework.context;
 
 import java.util.List;
 
-import org.kuali.student.enrollment.acal.infc.Term;
+import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.lum.course.infc.Course;
 
 /**

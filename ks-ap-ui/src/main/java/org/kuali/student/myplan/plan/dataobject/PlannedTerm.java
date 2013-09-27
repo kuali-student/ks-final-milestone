@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
-import org.kuali.student.enrollment.acal.infc.Term;
+import org.kuali.student.r2.core.acal.infc.Term;
 
 /**
  * Created by IntelliJ IDEA. User: hemanthg Date: 4/2/12 Time: 3:17 PM To change

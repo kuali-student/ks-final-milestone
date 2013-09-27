@@ -20,7 +20,6 @@ import org.kuali.rice.krad.datadictionary.InactivationBlockingMetadata;
 import org.kuali.rice.krad.datadictionary.MaintenanceDocumentEntry;
 import org.kuali.rice.krad.datadictionary.TransactionalDocumentEntry;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.beans.factory.support.KualiDefaultListableBeanFactory;
 
 /**
  * Encapsulates a set of statically generated (typically during startup)

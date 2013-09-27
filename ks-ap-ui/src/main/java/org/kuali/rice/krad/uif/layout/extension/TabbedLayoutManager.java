@@ -36,7 +36,7 @@ public class TabbedLayoutManager extends StackedLayoutManager {
 	 * @return String header text for line
 	 */
 	@Override
-	protected String buildLineHeaderText(View view, Object line, Group lineGroup) {
+	protected String buildLineHeaderText(Object line, Group lineGroup) {
 		// check for expression on summary title
 		// TODO: KSAP-34 Rice 2.3 no longer includes expressionEvaluatorService
 		// if
