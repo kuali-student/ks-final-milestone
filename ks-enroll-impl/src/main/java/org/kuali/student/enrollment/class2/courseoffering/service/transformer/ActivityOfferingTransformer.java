@@ -416,9 +416,7 @@ public class ActivityOfferingTransformer {
 
         if(luiIds != null && !luiIds.isEmpty()){
             for(String luiId: luiIds){
-                List<ScheduleRequestSetInfo> scheduleRequestSets = schedulingService.getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, luiId, context);
-                for(ScheduleRequestSetInfo srs : scheduleRequestSets){
-                    List<ScheduleRequestInfo> scheduleRequestInfos = schedulingService.getScheduleRequestsByScheduleRequestSet(srs.getId(), context);
+                List<ScheduleRequestInfo> scheduleRequestInfos = schedulingService.getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, luiId, context);
                     if(scheduleRequestInfos != null && !scheduleRequestInfos.isEmpty()){
                         List<ScheduleRequestInfo> scheduleRequestInfoList = luiToScheduleRequestsMap.get(luiId);
                         if (scheduleRequestInfoList == null) {
@@ -427,7 +425,7 @@ public class ActivityOfferingTransformer {
                         }
                         scheduleRequestInfoList.addAll(scheduleRequestInfos);
                     }
-                }
+
             }
         }
 

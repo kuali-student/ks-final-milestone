@@ -1409,14 +1409,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     private void cAoSetActivityCodeForAO(ActivityOfferingInfo aoInfo, CourseOfferingInfo co, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ActivityOfferingInfo> existingAoInfos = getActivityOfferingsByCourseOffering(co.getId(), context);
+        // pull the current list of Ao's from the DB.
+        Map<String,String> aoMap =  _getActivityOfferingCodesByCourseOffering(co.getId(), context);
+        List<String> aoCodeList = null;
+        Collection<String>  coll = aoMap.values();
+
+        if (coll instanceof List)
+            aoCodeList = (List)coll;
+        else
+            aoCodeList = new ArrayList(coll);
 
         if (aoInfo.getActivityCode() == null) {
             //If there is no activity code, create a new one
-            aoInfo.setActivityCode(getNextActivityOfferingCode(co,existingAoInfos,context));
+            aoInfo.setActivityCode(getNextActivityOfferingCode(co, aoCodeList,context));
         } else {
-            for (ActivityOfferingInfo existingAoInfo : existingAoInfos) {
-                if (aoInfo.getActivityCode().equals(existingAoInfo.getActivityCode())) {
+            for (String existingAoCode : aoCodeList) {
+                if (aoInfo.getActivityCode().equals(existingAoCode)) {
                     throw new InvalidParameterException("Activity Offering Code '" + aoInfo.getActivityCode() + "' already exists for course code " + co.getCourseOfferingCode() + " term Id '" + co.getTermId() + "'");
                 }
             }
@@ -1430,7 +1438,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
      * there is a duplicate, try again recursivly.
      *
      * @param coInfo
-     * @param existingAoInfos
      * @param context
      * @return
      * @throws DoesNotExistException
@@ -1439,23 +1446,66 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    private String getNextActivityOfferingCode(CourseOfferingInfo coInfo, List<ActivityOfferingInfo> existingAoInfos, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    protected String getNextActivityOfferingCode(CourseOfferingInfo coInfo, List<String> existingAoCodes,  ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         String activityCode = "";
 
+        Map<String, Object> generatorProperties = new HashMap<String, Object>();
+
+        generatorProperties.put(CourseOfferingCodeGenerator.COURSE_OFFERING_CODE_KEY, coInfo.getId());
+        generatorProperties.put(CourseOfferingCodeGenerator.ACTIVITY_OFFERING_CODE_LIST_KEY, existingAoCodes);
+
         // get the next activity code based off the current list of activities
-        activityCode = offeringCodeGenerator.generateActivityOfferingCode(coInfo.getId(),existingAoInfos);
-
-        // pull the current list of Ao's from the DB.
-        List<ActivityOfferingInfo> newAoList = getActivityOfferingsByCourseOffering(coInfo.getId(), context);  // I would love to back this is a FAST custom search.
-
-        // if the current list of Ao's contains the activityCode we just generated, try to get another one.
-        for(ActivityOfferingInfo aoInfo : newAoList){
-            if(aoInfo.getActivityCode().equals(activityCode)){
-                return getNextActivityOfferingCode(coInfo, newAoList, context);
-            }
-        }
+        activityCode = offeringCodeGenerator.generateActivityOfferingCode(generatorProperties);
 
         return activityCode;
+    }
+
+
+    /**
+     *
+     * This method calls the search service to pull a list of AO Codes for a given CO. This is MUCH faster than
+     * our old way of pulling the FULL ao objects, when we just need the code.
+     *
+     * @param courseOfferingId
+     * @param context
+     * @return
+     * @throws OperationFailedException
+     */
+    private Map<String, String> _getActivityOfferingCodesByCourseOffering(String courseOfferingId, ContextInfo context) throws OperationFailedException {
+
+        Map<String, String> activityCodes = new HashMap<String, String>();
+
+        // Query for AO id and codes, and build a Map.
+        SearchRequestInfo request = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AO_CODES_BY_CO_ID_SEARCH_KEY);
+        request.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, courseOfferingId);
+
+        SearchResultInfo result = null;
+        try{
+            result = getSearchService().search(request, context);
+        }catch (Exception ex){
+            throw new OperationFailedException("Unable to search for AO Codes by CO ID", ex);
+        }
+        List<SearchResultRowInfo> rows = result.getRows();
+        //  If there are no rows assume the operation is an add and skip the check.
+        if ( ! rows.isEmpty()) {
+
+            for (SearchResultRowInfo row: rows) {
+                List<SearchResultCellInfo> cells = row.getCells();
+                String key = null;
+                String code = null;
+                for (SearchResultCellInfo cell: cells) {
+                    if (cell.getKey().equals(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ID)) {
+                        key = cell.getValue();
+                    } else if (cell.getKey().equals(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_CODE)) {
+                        code = cell.getValue();
+                    } else {
+                        throw new OperationFailedException("Query for AO id and code was missing a column.");
+                    }
+                }
+                activityCodes.put(key, code);
+            }
+        }
+        return  activityCodes;
     }
 
     private LuiLuiRelationInfo cAoBuildLuiLuiRelation(ActivityOfferingInfo aoInfo,
