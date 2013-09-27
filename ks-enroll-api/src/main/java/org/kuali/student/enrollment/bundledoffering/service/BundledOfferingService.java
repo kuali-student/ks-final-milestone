@@ -98,7 +98,7 @@ public interface BundledOfferingService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<BundledOfferingInfo> getBundledOfferingsByIds(@WebParam(name = "bundledOfferingIds") List<String> bundledOfferingIds, 
-                                        @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DoesNotExistException, 
                InvalidParameterException, 
                MissingParameterException, 
@@ -122,27 +122,6 @@ public interface BundledOfferingService {
      */
     public List<String> getBundledOfferingIdsByType(@WebParam(name = "bundledOfferingTypeKey") String bundledOfferingTypeKey, 
                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo) 
-        throws InvalidParameterException, 
-               MissingParameterException, 
-               OperationFailedException, 
-               PermissionDeniedException;
-
-    /** 
-     * Retrieves a list of BundledOfferings by code.
-     *
-     * @param code a BundledOffering code.
-     * @param contextInfo information containing the principalId and
-     *        locale information about the caller of service operation
-     * @return a list of BundledOfferings for the given code empty
-     *         list is none found
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException code or contextInfo is
-     *         missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<BundledOfferingInfo> getBundledOfferingsByCode(@WebParam(name = "code") String code, 
-                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws InvalidParameterException, 
                MissingParameterException, 
                OperationFailedException, 
@@ -232,8 +211,54 @@ public interface BundledOfferingService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<BundledOfferingInfo> getBundledOfferingsByregistrationGroup(@WebParam(name = "regsitrationGroupId") String registrationGroupId, 
+    public List<BundledOfferingInfo> getBundledOfferingsByRegistrationGroup(@WebParam(name = "regsitrationGroupId") String registrationGroupId, 
                                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
+
+    /** 
+     * Retrieves a list of BundledOfferings by Term and code.
+     *
+     * @param termId a Term Id
+     * @param code a BundledOffering code
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of BundledOfferings for the given code empty
+     *         list is none found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException termId, code or contextInfo
+     *         is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<BundledOfferingInfo> getBundledOfferingsByTermAndCode(@WebParam(name = "termId") String termId, 
+                                                                      @WebParam(name = "code") String code, 
+                                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
+
+    /** 
+     * Retrieves a list of BundledOfferings by subject area and code.
+     *
+     * @param subjectAreaOrgIdId a subject area Org Id
+     * @param code a BundledOffering code
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of BundledOfferings for the given code empty
+     *         list is none found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException subjectAreaOrgId, code or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<BundledOfferingInfo> getBundledOfferingsBySubjectAreaOrgAndCode(@WebParam(name = "subjectAreaOrgId") String subjectAreaOrgId, 
+                                                                                @WebParam(name = "code") String code, 
+                                                                                @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws InvalidParameterException, 
                MissingParameterException, 
                OperationFailedException, 
