@@ -244,20 +244,20 @@ public interface BundledOfferingService {
     /** 
      * Retrieves a list of BundledOfferings by subject area and code.
      *
+     * @param term a Term Id
      * @param subjectAreaOrgIdId a subject area Org Id
-     * @param code a BundledOffering code
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return a list of BundledOfferings for the given code empty
-     *         list is none found
+     * @return a list of BundledOfferings for the given term and
+     *         subject area or an empty list is none found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException subjectAreaOrgId, code or
+     * @throws MissingParameterException termId, subjectAreaOrgId, or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<BundledOfferingInfo> getBundledOfferingsBySubjectAreaOrgAndCode(@WebParam(name = "subjectAreaOrgId") String subjectAreaOrgId, 
-                                                                                @WebParam(name = "code") String code, 
+    public List<BundledOfferingInfo> getBundledOfferingsByTermAndSubjectAreaOrg(@WebParam(name = "termId") String termId, 
+                                                                                @WebParam(name = "subjectAreaOrgId") String subjectAreaOrgId, 
                                                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws InvalidParameterException, 
                MissingParameterException, 

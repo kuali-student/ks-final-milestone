@@ -97,11 +97,11 @@ public class BundledOfferingInfo
             this.adminOrgId = offering.getAdminOrgId();
 
             if (offering.getFormatOfferingIds() != null) {
-                this.formatOfferingIds = new ArrayList(offering.getFormatOfferingIds());
+                this.formatOfferingIds = new ArrayList<String>(offering.getFormatOfferingIds());
             }
 
             if (offering.getRegistrationGroupIds() != null) {
-                this.registrationGroupIds = new ArrayList(offering.getRegistrationGroupIds());
+                this.registrationGroupIds = new ArrayList<String>(offering.getRegistrationGroupIds());
             }
         }
     }
