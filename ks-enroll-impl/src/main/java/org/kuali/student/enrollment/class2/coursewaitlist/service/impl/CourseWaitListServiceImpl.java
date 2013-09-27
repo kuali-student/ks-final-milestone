@@ -76,7 +76,7 @@ public class CourseWaitListServiceImpl implements CourseWaitListService {
             if (null != courseWaitListEntity) {
                 courseWaitListEntity.fromDto(courseWaitListInfo);
                 courseWaitListEntity.setEntityUpdated(contextInfo);
-                courseWaitListDao.merge(courseWaitListEntity);
+                courseWaitListEntity = courseWaitListDao.merge(courseWaitListEntity);
                 return courseWaitListEntity.toDto();
             } else {
                 throw new DoesNotExistException(courseWaitListId);
@@ -402,10 +402,6 @@ public class CourseWaitListServiceImpl implements CourseWaitListService {
             OperationFailedException,
             PermissionDeniedException{
         throw new OperationFailedException("not implemented");
-    }
-
-    public CourseWaitListDaoApi getCourseWaitListDao() {
-        return courseWaitListDao;
     }
 
     public void setCourseWaitListDao(CourseWaitListDaoApi courseWaitListDao) {

@@ -7,31 +7,51 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
-import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
-import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
-import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
-import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
-import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupCodeGeneratorFactory;
-import org.kuali.student.enrollment.courseoffering.dto.*;
+import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
-import org.kuali.student.r2.common.dto.*;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
+import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.BulkStatusInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.r2.common.permutation.PermutationCounter;
-import org.kuali.student.r2.core.acal.service.facade.AcademicCalendarServiceFacade;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.acal.service.facade.AcademicCalendarServiceFacade;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.RoomServiceConstants;
 import org.kuali.student.r2.core.room.service.RoomService;
@@ -47,7 +67,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.xml.namespace.QName;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author nwright
@@ -55,6 +82,8 @@ import java.util.*;
 public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingServiceBusinessLogic {
 
     private static final Logger LOGGER = Logger.getLogger(CourseOfferingServiceBusinessLogicImpl.class);
+
+    public static final String FIRST_REG_GROUP_CODE = "firstRegGroupCode";
 
     @Resource
     private CourseService courseService;
@@ -100,10 +129,6 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         this.examOfferingServiceFacade = examOfferingServiceFacade;
     }
 
-    public RolloverAssist getRolloverAssist() {
-        return rolloverAssist;
-    }
-
     public void setRolloverAssist(RolloverAssist rolloverAssist) {
         this.rolloverAssist = rolloverAssist;
     }
@@ -120,10 +145,6 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         this.acalServiceFacade = acalServiceFacade;
     }
 
-    public AcademicCalendarServiceFacade getAcalServiceFacade() {
-        return acalServiceFacade;
-    }
-
     public AcademicCalendarService getAcalService() {
         return acalService;
     }
@@ -134,10 +155,6 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
     public CourseService getCourseService() {
         return courseService;
-    }
-
-    public RegistrationGroupCodeGeneratorFactory getRegistrationCodeGeneratorFactory() {
-        return registrationCodeGeneratorFactory;
     }
 
     public void setRegistrationCodeGeneratorFactory(RegistrationGroupCodeGeneratorFactory registrationCodeGeneratorFactory) {
@@ -152,16 +169,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         this.roomService = roomService;
     }
 
-    public CourseOfferingTransformer getCourseOfferingTransformer() {
-        return courseOfferingTransformer;
-    }
-
     public void setCourseOfferingTransformer(CourseOfferingTransformer courseOfferingTransformer) {
         this.courseOfferingTransformer = courseOfferingTransformer;
-    }
-
-    public CourseWaitListService getCourseWaitListService() {
-        return courseWaitListService;
     }
 
     public void setCourseWaitListService(CourseWaitListService courseWaitListService) {
@@ -227,7 +236,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         targetAo.setTermCode(termInfo.getCode());
         targetAo.setMeta(null);
         targetAo.setActivityCode(sourceAo.getActivityCode());
-        targetAo.setScheduleIds( Collections.EMPTY_LIST );  // target should have no ADLs
+        targetAo.setScheduleIds( Collections.<String>emptyList() );  // target should have no ADLs
 
         if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY)) {
             targetAo.getInstructors().clear();
@@ -394,8 +403,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             aoIds.add(targetAo.getId());
             // Save co-located info
             try {
-                ScheduleRequestSetInfo result =
-                    schedulingService.updateScheduleRequestSet(targetSet.getId(), targetSet, context);
+                schedulingService.updateScheduleRequestSet(targetSet.getId(), targetSet, context);
             } catch (VersionMismatchException e) {
                 // Re-wrap exception
                 throw new OperationFailedException(e.getMessage());
@@ -484,7 +492,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         return targetFo;
     }
 
-    private Map<String, List<ActivityOfferingInfo>> _prefetchAOs(List<FormatOfferingInfo> fos, CourseOfferingInfo sourceCo,
+    private Map<String, List<ActivityOfferingInfo>> _prefetchAOs(List<FormatOfferingInfo> fos,
                                                                  ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
                    OperationFailedException, DoesNotExistException {
@@ -504,7 +512,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
      * @param targetTermId The target tern ID of the rollover
      * @param sourceTermIdToTargetTermId Assumes an empty Map<String, String> object.  Filled in as part of
      *               the method from sourceTerm ID to targetTerm Id.
-     * @param contextInfo
+     * @param contextInfo context of call
      * @return true, if the target term has the required subterms
      */
     private boolean
@@ -633,7 +641,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         // KSENROLL-7795: Prefetch AOs.  Needs to do this because we have to check AO term IDs to find
         // its term type and see if there is a corresponding subterm of the same type in the target term.
         // If not, then, no CO/FO/AO, etc. are rolled over.
-        Map<String, List<ActivityOfferingInfo>> foIdsToAOList = _prefetchAOs(foInfos, sourceCo, context);
+        Map<String, List<ActivityOfferingInfo>> foIdsToAOList = _prefetchAOs(foInfos, context);
         // KSENROLL-7795 Verify whether target terms have correct subterms
         Map<String, String> sourceTermIdToTargetTermId = new HashMap<String, String>();
         if (!_createSourceTermIdToTargetTermIdMapping(foIdsToAOList, sourceCo.getTermId(), targetTermId, sourceTermIdToTargetTermId, context)) {
@@ -675,7 +683,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                     targetTermIdCustom = sourceTermIdToTargetTermId.get(sourceAo.getTermId());
                 }
 
-                ActivityOfferingInfo targetAo = new ActivityOfferingInfo();
+                ActivityOfferingInfo targetAo;
                 if (sourceTermSameAsTarget) {
                     // KSENROLL-8064: Make behavior of copying an AO the same (other than the option
                     // keys in the if statement above
@@ -739,7 +747,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             List<ActivityOfferingClusterInfo> targetClusters =
                     _RCO_rolloverActivityOfferingClusters(sourceFo, targetFo, context, sourceAoIdToTargetAoId);
             for (ActivityOfferingClusterInfo cluster: targetClusters) {
-                List<BulkStatusInfo> changes = generateRegistrationGroupsForCluster(cluster.getId(), context);
+                generateRegistrationGroupsForCluster(cluster.getId(), context);
             }
         }
         //process final exam offerings for target course offering
@@ -977,7 +985,6 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         _initServices();
 
         // verify we are allowed to do this.
-        boolean generated = false;
         List<String> aocIdList = coService.getActivityOfferingClustersIdsByFormatOffering(formatOfferingId, contextInfo);
 
         if (aocIdList.isEmpty()) {
@@ -997,21 +1004,6 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
        
         return rgChanges;
     }
-
-    private void _gRGFC_basicValidate(String activityOfferingClusterId, ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-                   PermissionDeniedException, DataValidationErrorException {
-
-        AOClusterVerifyResultsInfo result =
-                coService.verifyActivityOfferingClusterForGeneration(activityOfferingClusterId, contextInfo);
-        List<ValidationResultInfo> resultInfos = result.getValidationResults();
-        for (ValidationResultInfo vri: resultInfos) {
-            if (vri.isWarn()) {
-                throw new DataValidationErrorException("One or more AOsets in the cluster is empty--can't generate reg groups");
-            }
-        }
-    }
-
 
     /**
      * Note: The Registration Group Code is what the administrators want to see the reg groups on a per course offering basis.
@@ -1057,13 +1049,12 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     }
 
 
-    private boolean _isValidActivityOfferingPermutation(List<String> activityOfferingPermutation) {
+    protected boolean _isValidActivityOfferingPermutation(List<String> activityOfferingPermutation) {
         // TODO: In M6 determine if we always make an RG or not, in particular, for AOs that are
         // in the suspended or canceled state.
         return true;
     }
 
-    public static final String FIRST_REG_GROUP_CODE = "firstRegGroupCode";
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<BulkStatusInfo> generateRegistrationGroupsForCluster(String activityOfferingClusterId, ContextInfo contextInfo)
@@ -1177,8 +1168,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 for (ActivityOfferingInfo aoInfo2 : o2) { //build o2 code
                     sb2.append(aoInfo2.getActivityCode());
                 }
-                if (sb1 != null && sb2 != null
-                        && !sb1.toString().equals("") && !sb2.toString().equals("")){
+                if (!sb1.toString().equals("") && !sb2.toString().equals("")){
                     return sb1.toString().compareTo(sb2.toString());
                 } else {
                     return -1;
@@ -1241,34 +1231,6 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         return false;
     }
 
-    private Map<String, List<String>> _extractActivityOfferingMap(List<ActivityOfferingSetInfo> activityOfferingSets) {
-        Map<String, List<String>> aoTypeToListMap = new LinkedHashMap<String, List<String>>();
-
-        for (ActivityOfferingSetInfo aoSet : activityOfferingSets) {
-            for (String aoId : aoSet.getActivityOfferingIds()) {
-                List<String> aoIdList = aoTypeToListMap.get(aoSet.getActivityOfferingType());
-
-                if (aoIdList == null) {
-                    aoIdList = new ArrayList<String>();
-                    aoTypeToListMap.put(aoSet.getActivityOfferingType(), aoIdList);
-                }
-
-                aoIdList.add(aoId);
-            }
-        }
-        return aoTypeToListMap;
-    }
-
-    private List<String> extractTypes(List<ActivityOfferingSetInfo> activityOfferingSets) {
-        List<String> typeList = new ArrayList<String>();
-
-        for (ActivityOfferingSetInfo activityOfferingSetInfo : activityOfferingSets) {
-
-            typeList.add(activityOfferingSetInfo.getActivityOfferingType());
-        }
-        return typeList;
-    }
-
     private void _gRGFC_changeClusterRegistrationGroupState(RegistrationGroupInfo regGroupInfo, ContextInfo context) {
         try {
             if (!regGroupInfo.getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY)) {
@@ -1288,7 +1250,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                     }
                 }
                 if(!regGroupInfo.getStateKey().equals(regGroupStateKey)) {
-                    StatusInfo statusInfo = coService.changeRegistrationGroupState(regGroupInfo.getId(), regGroupStateKey, context);
+                    coService.changeRegistrationGroupState(regGroupInfo.getId(), regGroupStateKey, context);
                 }
             }
         } catch (Exception e) {

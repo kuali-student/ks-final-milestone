@@ -57,7 +57,7 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
      * </p>
      *
      * @param coId input Course Offering id
-     * @Param context
+     * @param context context of the call
      */
     public void activateActivityOfferingWaitlistsByCourseOffering(String coId, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         List<ActivityOfferingInfo> aoInfos = getCoService().getActivityOfferingsByCourseOffering(coId, context) ;
@@ -92,7 +92,7 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
      * </p>
      *
      * @param coId input Course Offering id
-     * @Param context
+     * @param context context of the call
      */
 
     public void deactivateActivityOfferingWaitlistsByCourseOffering(String coId, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
@@ -232,32 +232,15 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
         return courseWaitListService;
     }
 
-    public boolean isAllowHoldUntilEntries() {
-        return allowHoldUntilEntries;
-    }
-
     public void setAllowHoldUntilEntries(boolean allowHoldUntilEntries) {
         this.allowHoldUntilEntries = allowHoldUntilEntries;
-    }
-
-    public boolean isAutomaticallyProcessed() {
-        return automaticallyProcessed;
     }
 
     public void setAutomaticallyProcessed(boolean automaticallyProcessed) {
         this.automaticallyProcessed = automaticallyProcessed;
     }
-
-    public boolean isCheckInRequired() {
-        return checkInRequired;
-    }
-
     public void setCheckInRequired(boolean checkInRequired) {
         this.checkInRequired = checkInRequired;
-    }
-
-    public boolean isConfirmationRequired() {
-        return confirmationRequired;
     }
 
     public void setConfirmationRequired(boolean confirmationRequired) {
