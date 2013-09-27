@@ -746,7 +746,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         try{
             getExamOfferingServiceFacade().generateFinalExamOffering(targetCo,optionKeys,context);
         }catch(DoesNotExistException e){
-            //TODO KSENROLL-9672 exam periods in ref data.
+            //TODO KSENROLL-9453 Handling of the error reporting when an exam period does not exist for the target term.
         }
 
         SocRolloverResultItemInfo item = new SocRolloverResultItemInfo();
