@@ -10,7 +10,7 @@
     <parent>
         <groupId>org.kuali.student.ap</groupId>
         <artifactId>ks-ap-deployments</artifactId>
-        <version>0.6.0-iu-m9</version>
+        <version>0.8.0-KSAP-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -81,13 +81,13 @@
                 <dependencies>
                     <dependency>
                         <groupId>com.oracle</groupId>
-                        <artifactId>ojdbc14</artifactId>
-                        <version>${oracle.ojdbc.version}</version>
+                        <artifactId>${oracle.artifactId}</artifactId>
+                        <version>${oracle.version}</version>
                     </dependency>
                     <dependency>
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
-                        <version>${mysql.connector.version}</version>
+                        <version>${mysql.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -103,13 +103,13 @@
                 <dependencies>
                     <dependency>
                         <groupId>com.oracle</groupId>
-                        <artifactId>ojdbc14</artifactId>
-                        <version>${oracle.ojdbc.version}</version>
+                        <artifactId>${oracle.artifactId}</artifactId>
+                        <version>${oracle.version}</version>
                     </dependency>
                     <dependency>
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
-                        <version>${mysql.connector.version}</version>
+                        <version>${mysql.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -171,7 +171,7 @@
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-development-tools</artifactId>
+            <artifactId>rice-krad-development-tools</artifactId>
         </dependency>
         <!-- TODO: RICE-M7 UPGRADE -fix ks-admin
        <dependency>
