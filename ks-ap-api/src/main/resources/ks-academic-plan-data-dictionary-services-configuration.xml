@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <import resource="classpath:ks-academic-plan-dictionary-file-locations.xml"/>
+
+    <!-- Academic Plan Service -->
+    <bean id="dataDictionaryServiceForAcademicPlanService"
+          class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
+        <property name="serviceNamespaceSuffix" value="AcademicPlanService" />
+        <property name="dictionaryLocations" ref="academicPlanServiceDictionaryLocations" />
+    </bean>
+</beans>

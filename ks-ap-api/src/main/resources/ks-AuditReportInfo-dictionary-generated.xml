@@ -1,0 +1,194 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated on Tue Jan 31 11:06:06 PST 2012
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- AuditReportInfo-->
+	<bean id="AuditReportInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="AuditReportInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.myplan.audit.dto.AuditReportInfo"/>
+		<property name="objectLabel" value="Audit Degree"/>
+		<property name="objectDescription">
+			<value>
+AuditReport message structure
+			</value>
+		</property>
+		<property name="primaryKeys">
+			<list>
+				<value>auditId</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="AuditReportInfo.auditId"/>
+				<ref bean="AuditReportInfo.reportType"/>
+				<ref bean="AuditReportInfo.reportContentTypeKey"/>
+				<ref bean="AuditReportInfo.requirementsSatisfied"/>
+                <ref bean="AuditReportInfo.studentId"/>
+                <ref bean="AuditReportInfo.programId"/>
+                <ref bean="AuditReportInfo.runDate"/>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list/>
+		</property>
+	</bean>
+
+      <bean id="AuditReportInfo.auditId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="auditId"/>
+		<property name="shortLabel" value="Audit Id"/>
+		<property name="summary">
+			<value>
+Audit Id
+			</value>
+		</property>
+		<property name="label" value="Audit Id"/>
+		<property name="description">
+			<value>
+Audit Id
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+      <bean id="AuditReportInfo.reportType-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="reportType"/>
+		<property name="shortLabel" value="Report Type"/>
+		<property name="summary">
+			<value>
+Report Type
+			</value>
+		</property>
+		<property name="label" value="Report Type"/>
+		<property name="description">
+			<value>
+Report Type
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+      <bean id="AuditReportInfo.reportContentTypeKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="reportContentTypeKey"/>
+		<property name="shortLabel" value="Report Content Type Key"/>
+		<property name="summary">
+			<value>
+Report Content Type Key
+			</value>
+		</property>
+		<property name="label" value="Report Content Type Key"/>
+		<property name="description">
+			<value>
+Report Content Type Key
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+     <bean id="AuditReportInfo.requirementsSatisfied-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="requirementsSatisfied"/>
+		<property name="shortLabel" value="Requirements Satisfied"/>
+		<property name="summary">
+			<value>
+Requirements Satisfied
+			</value>
+		</property>
+		<property name="label" value="Requirements Satisfied"/>
+		<property name="description">
+			<value>
+Requirements Satisfied
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+     <bean id="AuditReportInfo.studentId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="studentId"/>
+		<property name="shortLabel" value="Student Id"/>
+		<property name="summary">
+			<value>
+Student ID
+			</value>
+		</property>
+		<property name="label" value="Student Id"/>
+		<property name="description">
+			<value>
+Student ID
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+    <bean id="AuditReportInfo.programId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="programId"/>
+		<property name="shortLabel" value="Program Id"/>
+		<property name="summary">
+			<value>
+Program ID
+			</value>
+		</property>
+		<property name="label" value="Program Id"/>
+		<property name="description">
+			<value>
+Program ID
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+
+	<bean id="AuditReportInfo.runDate-generated" abstract="true" parent="BaseKuali.dateTime">
+		<property name="name" value="runDate"/>
+		<property name="shortLabel" value="Prepared"/>
+		<property name="summary">
+			<value>
+Run Date
+			</value>
+		</property>
+		<property name="label" value="Prepared"/>
+		<property name="description">
+			<value>
+Run Date
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+</beans>
