@@ -49,7 +49,6 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -209,7 +208,13 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     }
 
                     // Updating colo WL
-                    CourseWaitListInfo courseWaitListInfo = CourseOfferingManagementUtil.getArgServiceAdapter().createColocatedWaitList(activityOfferingWrapper.getCourseWaitListInfo(), activityOfferingWrapper.getWaitListType(), activityOfferingWrapper.isHasWaitlist(), activityOfferingWrapper.isLimitWaitlistSize(), activityOfferingWrapper.isColocatedAO(), activityOfferingWrapper.isMaxEnrollmentShared(), aoIdfoIdMap, contextInfo);
+                    CourseWaitListInfo courseWaitListInfo = null;
+                    if(activityOfferingWrapper.getCourseWaitListInfo() != null && activityOfferingWrapper.getCourseWaitListInfo().getActivityOfferingIds().size() > 0)  {
+                        courseWaitListInfo =
+                             CourseOfferingManagementUtil.getArgServiceAdapter().createColocatedWaitList(activityOfferingWrapper.getCourseWaitListInfo(),
+                                    activityOfferingWrapper.getWaitListType(), activityOfferingWrapper.isHasWaitlist(), activityOfferingWrapper.isLimitWaitlistSize(),
+                                    activityOfferingWrapper.isColocatedAO(), activityOfferingWrapper.isMaxEnrollmentShared(), aoIdfoIdMap, contextInfo);
+                    }
                     activityOfferingWrapper.setCourseWaitListInfo(courseWaitListInfo);
                 }
             } catch (Exception e) {

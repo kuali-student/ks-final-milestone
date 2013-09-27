@@ -483,7 +483,9 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
     public CourseWaitListInfo createColocatedWaitList(CourseWaitListInfo courseWaitListInfo, String waitlistType, boolean hasWaitlist, boolean limitWaitlistSize, boolean isColocatedAO, boolean isMaxEnrollmentShared,
                                         HashMap<String, String> aoIdfoIdMap, ContextInfo context) {
 
-        setAutoProcConfReq(courseWaitListInfo, waitlistType);
+        if(waitlistType != null) {
+            setAutoProcConfReq(courseWaitListInfo, waitlistType);
+        }
 
         if(hasWaitlist) {
             courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY);
