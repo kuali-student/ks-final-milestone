@@ -258,7 +258,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
 
         if (includePassFailAuditAndHonorsResults){
             query = query +
-                    "    LEFT JOIN lui.luiCodes luiCodes ";
+                    "    LEFT JOIN lui.luiCodes luiCodes with luiCodes.type = 'kuali.lu.code.honorsOffering'  ";
         }
 
         query = query +
@@ -514,10 +514,9 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                 resultRow.getCells().get(4).setValue(graditOption);
             }
 
-            if (StringUtils.equals(luCodeType,LuiServiceConstants.HONORS_LU_CODE)){
-                if (StringUtils.equalsIgnoreCase(luCodeValue,"true")){
-                    resultRow.getCells().get(12).setValue((Boolean.TRUE.toString()));
-                }
+            if (StringUtils.equals(luCodeType,LuiServiceConstants.HONORS_LU_CODE) &&
+                StringUtils.equalsIgnoreCase(luCodeValue,"true")){
+                resultRow.getCells().get(12).setValue((Boolean.TRUE.toString()));
             }
 
             if(luiIds2OrgCells.containsKey(courseOfferingId) && !isCrossListed){
@@ -538,10 +537,10 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
             } else if (StringUtils.equals(graditOption,LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)) {
                 defaultAuditFlag.setValue(Boolean.TRUE.toString());
             }
-            if (StringUtils.equals(luCodeType,LuiServiceConstants.HONORS_LU_CODE)){
-                if (StringUtils.equalsIgnoreCase(luCodeValue,"true")){
-                    defaultHonorsFlag.setValue((Boolean.TRUE.toString()));
-                }
+
+            if (StringUtils.equals(luCodeType,LuiServiceConstants.HONORS_LU_CODE) &&
+                StringUtils.equalsIgnoreCase(luCodeValue,"true")){
+                defaultHonorsFlag.setValue((Boolean.TRUE.toString()));
             }
         }
 
