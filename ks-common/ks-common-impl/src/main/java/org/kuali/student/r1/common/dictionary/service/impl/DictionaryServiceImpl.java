@@ -24,8 +24,7 @@ public class DictionaryServiceImpl implements DictionaryService{
 
 	public DictionaryServiceImpl(String dictionaryContext) {
 		super();
-		String[] locations = StringUtils.tokenizeToStringArray(dictionaryContext, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
-		this.dictionaryContext = locations;
+        this.dictionaryContext = StringUtils.tokenizeToStringArray(dictionaryContext, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
 		init();
 	}
 	
@@ -46,7 +45,7 @@ public class DictionaryServiceImpl implements DictionaryService{
 		objectStructures = new HashMap<String, ObjectStructureDefinition>();
 		for (ObjectStructureDefinition objStr : beansOfType.values()){
 			if(objectStructures.containsKey(objStr.getName())){
-				LOG.warn("There is already a dictionary structure with the name '"+objStr+"'.");
+				LOG.warn("Repeated dictionary structure with the name '"+objStr.getName()+"'.");
 			}
 			objectStructures.put(objStr.getName(), objStr);
 		}
