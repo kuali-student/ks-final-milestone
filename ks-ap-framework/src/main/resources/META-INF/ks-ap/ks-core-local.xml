@@ -46,7 +46,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
         <property name="properties" value="#{coreConfig.getProperties()}" />
     </bean>
 
-	<import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
+    <import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml" />
 
     <import resource="classpath:ksb/ks-core-no-tx-context.xml"/>
 

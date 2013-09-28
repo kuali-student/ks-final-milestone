@@ -34,7 +34,7 @@
         <property name="properties" value="#{coreConfig.getProperties()}" />
     </bean>
 
-	<import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
+    <import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml" />
 	
 	<bean id="coreDataSource" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.PrimaryDataSourceFactoryBean" lazy-init="true">
 		<property name="preferredDataSourceParams">
