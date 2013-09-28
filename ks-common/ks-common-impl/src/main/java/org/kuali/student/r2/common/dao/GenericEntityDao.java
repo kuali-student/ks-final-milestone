@@ -43,7 +43,7 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
      */
     protected Class<T> entityClass;
 
-    @PersistenceContext
+    //@PersistenceContext
     protected EntityManager em;
 
     public GenericEntityDao() {

@@ -78,7 +78,8 @@ import java.util.Set;
  *
  */
 public class CriteriaLookupDaoJpaImpl {
-    @PersistenceContext
+    //Multple settings for this value
+    //@PersistenceContext
     private EntityManager entityManager;
 
     public <T> GenericQueryResults<T> lookup(final Class<T> queryClass, final QueryByCriteria criteria, LookupCustomizer<T> customizer) {
