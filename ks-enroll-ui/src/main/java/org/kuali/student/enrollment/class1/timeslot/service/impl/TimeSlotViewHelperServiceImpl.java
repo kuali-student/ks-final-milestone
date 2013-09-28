@@ -4,7 +4,9 @@ import edu.emory.mathcs.backport.java.util.Arrays;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper;
 import org.kuali.student.enrollment.class1.timeslot.service.TimeSlotViewHelperService;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import java.util.ArrayList;
@@ -15,6 +17,8 @@ import java.util.List;
  */
 public class TimeSlotViewHelperServiceImpl
         extends KSViewHelperServiceImpl implements TimeSlotViewHelperService {
+
+    private ContextInfo contextInfo;
 
     @Override
     public List<TimeSlotWrapper> findTimeSlots(List<String> timeSlotTypes) {
@@ -38,5 +42,12 @@ public class TimeSlotViewHelperServiceImpl
         timeSlotWrappers.add(wrapper);
 
         return timeSlotWrappers;
+    }
+
+    private ContextInfo getContextInfo() {
+        if (contextInfo == null) {
+            contextInfo = ContextUtils.createDefaultContextInfo();
+        }
+        return contextInfo;
     }
 }

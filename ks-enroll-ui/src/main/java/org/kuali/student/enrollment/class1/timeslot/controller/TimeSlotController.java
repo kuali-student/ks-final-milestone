@@ -54,14 +54,13 @@ public class TimeSlotController extends UifControllerBase {
     }
 
     /**
-     * Method used to
-     * Search for course offerings based on search parameters: term and courseCode/Title&Desc/Instructor/Department
+     * Search for TimeSlots by type.
      */
     @RequestMapping(params = "methodToCall=show")
-    public ModelAndView show(@ModelAttribute( MODEL_ATTRIBUTE_FORM ) TimeSlotForm theForm)
+    public ModelAndView show(@ModelAttribute( MODEL_ATTRIBUTE_FORM ) TimeSlotForm form)
             throws Exception, DoesNotExistException, PermissionDeniedException, OperationFailedException {
 
-        return getUIFModelAndView(theForm, TimeSlotConstants.TIME_SLOT_PAGE);
+        return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);
     }
 
     private TimeSlotViewHelperService getViewHelperService(UifFormBase form) {
