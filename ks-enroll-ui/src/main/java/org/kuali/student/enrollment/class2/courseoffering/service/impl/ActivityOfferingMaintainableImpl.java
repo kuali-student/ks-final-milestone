@@ -208,13 +208,9 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     }
 
                     // Updating colo WL
-                    CourseWaitListInfo courseWaitListInfo = null;
-                    if(activityOfferingWrapper.getCourseWaitListInfo() != null && activityOfferingWrapper.getCourseWaitListInfo().getActivityOfferingIds().size() > 0)  {
-                        courseWaitListInfo =
-                             CourseOfferingManagementUtil.getCourseOfferingServiceFacade().createColocatedWaitList(activityOfferingWrapper.getCourseWaitListInfo(),
+                    CourseWaitListInfo courseWaitListInfo = CourseOfferingManagementUtil.getCourseOfferingServiceFacade().createColocatedWaitList(activityOfferingWrapper.getCourseWaitListInfo(),
                                     activityOfferingWrapper.getWaitListType(), activityOfferingWrapper.isHasWaitlist(), activityOfferingWrapper.isLimitWaitlistSize(),
                                     activityOfferingWrapper.isColocatedAO(), activityOfferingWrapper.isMaxEnrollmentShared(), aoIdfoIdMap, contextInfo);
-                    }
                     activityOfferingWrapper.setCourseWaitListInfo(courseWaitListInfo);
                 }
             } catch (Exception e) {
