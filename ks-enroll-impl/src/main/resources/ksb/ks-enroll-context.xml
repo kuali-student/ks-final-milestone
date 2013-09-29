@@ -1035,7 +1035,8 @@
     <!-- autoGen -->
     <bean id="AutogenCountSearchServiceImpl" class="org.kuali.student.enrollment.class2.courseoffering.service.search.CourseOfferingServiceAutogenCountSearchServiceImpl" autowire="autodetect">
     </bean>
-    <bean id="autogenRegistrationGroupAppLayer" class="org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapterImpl">
+    <!-- KSENROLL-9244 Create Course Offering Service Facade -->
+    <bean id="courseOfferingServiceFacade" class="org.kuali.student.enrollment.class2.courseoffering.service.facade.CourseOfferingServiceFacadeImpl">
         <property name="coService" ref="CourseOfferingService" />
         <property name="activityOfferingClusterDao" ref="activityOfferingClusterDao" />
         <property name="typeService" ref="typeService" />
@@ -1043,6 +1044,18 @@
         <property name="courseWaitListService" ref="courseWaitListService" />
         <property name="waitListServiceFacade" ref="courseWaitListServiceFacade" />
         <property name="examOfferingServiceFacade" ref="examOfferingServiceFacade" />
+    </bean>
+    <!-- Export facade to bus -->
+    <bean id="ks.exp.courseOfferingServiceFacade" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
+                <property name="service" ref="courseOfferingServiceFacade" /> <!-- refers to bean id-->
+                <property name="serviceInterface" value="org.kuali.student.enrollment.class2.courseoffering.service.facade.CourseOfferingServiceFacade" />
+                <property name="localServiceName" value="CourseOfferingServiceFacade" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseOfferingServiceFacade" />
+                <property name="busSecurity" value="${ks.enroll.bus.security}" />
+            </bean>
+        </property>
     </bean>
 
     <!-- For now, acal KSENROLL-7384 -->
@@ -1148,17 +1161,7 @@
             </list>
         </property>                
     </bean>
-    <bean id="ks.exp.autogenRegistrationGroupAppLayer" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
-                <property name="service" ref="autogenRegistrationGroupAppLayer" />
-                <property name="serviceInterface" value="org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter" />
-                <property name="localServiceName" value="AutogenRegGroupServiceAdapter" />
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/autogenRegistrationGroupAppLayer" />
-                <property name="busSecurity" value="${ks.enroll.bus.security}" />
-            </bean>
-        </property>
-    </bean>
+
 
     <bean id="ks.exp.searchService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
     <property name="serviceDefinition">
