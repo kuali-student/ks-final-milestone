@@ -339,7 +339,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
 
         ActivityOfferingResult aoResult = _addActivityOfferingToClusterCommon(created, cluster, context);
         //create and persist a WaitlistInfo for AO
-        CourseWaitListInfo theWaitListInfo = getWaitListServiceFacade().createDefaultCourseWaitlist(aoInfo, context);
+        CourseWaitListInfo theWaitListInfo = getWaitListServiceFacade().createDefaultCourseWaitlist(created, context);
 
         aoResult.setWaitListInfo(theWaitListInfo);
 
@@ -442,7 +442,9 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
 
     public CourseWaitListInfo createUncolocatedWaitList(CourseWaitListInfo courseWaitListInfo, String waitlistType, boolean hasWaitlist, boolean limitWaitlistSize, String aoId, String foId, ContextInfo context) {
 
-        setAutoProcConfReq(courseWaitListInfo, waitlistType);
+        if(waitlistType != null) {
+            setAutoProcConfReq(courseWaitListInfo, waitlistType);
+        }
 
         if(hasWaitlist) {
             courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY);
