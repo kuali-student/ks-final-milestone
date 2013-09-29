@@ -18,7 +18,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -27,12 +26,8 @@ import javax.persistence.EntityManager;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.kuali.student.common.test.util.AttributeTester;
-import org.kuali.student.common.test.util.ListOfStringTester;
-import org.kuali.student.common.test.util.MetaTester;
-import org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenCount;
-import org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter;
+import org.kuali.student.enrollment.class2.courseoffering.service.facade.AutogenCount;
+import org.kuali.student.enrollment.class2.courseoffering.service.facade.CourseOfferingServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -43,14 +38,10 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,16 +58,16 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration(locations = {"classpath:co-autogen-rg-test-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
-public class TestAutoGenServiceAdapterSearchService extends
+public class TestCourseOfferingServiceFacadeSearchService extends
         TestCourseOfferingServiceImplM4 {
     private static final Logger log = LoggerFactory
-            .getLogger(TestAutoGenServiceAdapterSearchService.class);
+            .getLogger(TestCourseOfferingServiceFacadeSearchService.class);
 
     @Resource (name="SearchService")
     private SearchService searchService;
     
     @Resource
-    private AutogenRegGroupServiceAdapter serviceAdapter;
+    private CourseOfferingServiceFacade courseOfferingServiceFacade;
     
     @Resource
     private EntityManager entityManager;
@@ -84,12 +75,12 @@ public class TestAutoGenServiceAdapterSearchService extends
     /**
      * 
      */
-    public TestAutoGenServiceAdapterSearchService() {
+    public TestCourseOfferingServiceFacadeSearchService() {
         // TODO Auto-generated constructor stub
     }
     
     @Test
-    public void testAutogenSearchService() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
+    public void testSearchService() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
         
         before();
 
@@ -110,21 +101,21 @@ public class TestAutoGenServiceAdapterSearchService extends
         
         AutogenCount counts = null;
         
-        counts = serviceAdapter.getAutogenCountByCourseOffering("Lui-1", contextInfo);
+        counts = courseOfferingServiceFacade.getAutogenCountByCourseOffering("Lui-1", contextInfo);
         
         Assert.assertEquals(1, counts.getNumberOfActivityOfferingClusters().intValue());
         Assert.assertEquals(3, counts.getNumberOfActivityOfferings().intValue());
         Assert.assertEquals(2, counts.getNumberOfRegistrationGroups().intValue());
         Assert.assertEquals(0, counts.getNumberOfInvalidRegistrationGroups().intValue());
         
-        counts = serviceAdapter.getAutogenCountByFormatOffering("Lui-6", contextInfo);
+        counts = courseOfferingServiceFacade.getAutogenCountByFormatOffering("Lui-6", contextInfo);
         
         Assert.assertEquals(1, counts.getNumberOfActivityOfferingClusters().intValue());
         Assert.assertEquals(3, counts.getNumberOfActivityOfferings().intValue());
         Assert.assertEquals(2, counts.getNumberOfRegistrationGroups().intValue());
         Assert.assertEquals(0, counts.getNumberOfInvalidRegistrationGroups().intValue());
         
-        counts = serviceAdapter.getAutogenCountByActivtyOfferingCluster(actual.getId(), contextInfo);
+        counts = courseOfferingServiceFacade.getAutogenCountByActivtyOfferingCluster(actual.getId(), contextInfo);
         
         Assert.assertEquals(1, counts.getNumberOfActivityOfferingClusters().intValue());
         Assert.assertEquals(3, counts.getNumberOfActivityOfferings().intValue());

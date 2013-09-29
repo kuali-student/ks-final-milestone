@@ -44,7 +44,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleCalcContai
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleRequestCalcContainer;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
-import org.kuali.student.enrollment.class2.courseoffering.service.adapter.ActivityOfferingResult;
+import org.kuali.student.enrollment.class2.courseoffering.service.facade.ActivityOfferingResult;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementToolbarUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
@@ -1047,7 +1047,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     protected void processAosData(String coId, Map<String, ActivityOfferingClusterWrapper> clusterMap)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
 
-        List<ActivityOfferingClusterInfo> aoClusters = CourseOfferingManagementUtil.getArgServiceAdapter().getActivityOfferingClusterByCourseOffering(coId);
+        List<ActivityOfferingClusterInfo> aoClusters = CourseOfferingManagementUtil.getCourseOfferingServiceFacade().getActivityOfferingClusterByCourseOffering(coId);
 
         //A fix for KSENROLL-8097: clusterMap was populated in processAoClusterData method.
         //However if one cluster does not have an AO, that cluster sometimes won't be added to clusterMap, which causes NPE error later.
@@ -1704,7 +1704,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         try {
             clusters = getCourseOfferingService().getActivityOfferingClustersByFormatOffering(formatOfferingId, contextInfo);
             if (clusters == null || clusters.size() <= 0) {
-                defaultCluster = CourseOfferingManagementUtil.getArgServiceAdapter().createDefaultCluster(formatOfferingId, contextInfo);
+                defaultCluster = CourseOfferingManagementUtil.getCourseOfferingServiceFacade().createDefaultCluster(formatOfferingId, contextInfo);
                 if (defaultCluster != null) {
                     clusterId = defaultCluster.getId();
                 }
@@ -1780,7 +1780,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
                 // This is the "business" type call that will create the AO and link the appropiate objects.
                 // This will also create + add any needed Waitlists
-                ActivityOfferingResult aoResult = CourseOfferingManagementUtil.getArgServiceAdapter().createActivityOffering(aoInfo, clusterId, contextInfo);
+                ActivityOfferingResult aoResult = CourseOfferingManagementUtil.getCourseOfferingServiceFacade().createActivityOffering(aoInfo, clusterId, contextInfo);
                 activityOfferingInfo   = aoResult.getCreatedActivityOffering();
                 theWaitListInfo = aoResult.getWaitListInfo();
 

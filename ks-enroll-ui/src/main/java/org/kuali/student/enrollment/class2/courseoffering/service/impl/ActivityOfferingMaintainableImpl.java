@@ -155,7 +155,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
              * Now that the Ao & the schedule has been updated, we need to update the registration groups
              */
             try {
-                CourseOfferingManagementUtil.getArgServiceAdapter().updateRegistrationGroups(activityOfferingInfo, contextInfo);
+                CourseOfferingManagementUtil.getCourseOfferingServiceFacade().updateRegistrationGroups(activityOfferingInfo, contextInfo);
             } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);
             }
@@ -168,7 +168,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     if (!activityOfferingWrapper.isHasWaitlistCO()) {
                         activityOfferingWrapper.setHasWaitlist(false);
                     }
-                    CourseWaitListInfo courseWaitListInfo =  CourseOfferingManagementUtil.getArgServiceAdapter().createUncolocatedWaitList(activityOfferingWrapper.getCourseWaitListInfo(), activityOfferingWrapper.getWaitListType(), activityOfferingWrapper.isHasWaitlist(), activityOfferingWrapper.isLimitWaitlistSize(), activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo().getFormatOfferingId(), contextInfo);
+                    CourseWaitListInfo courseWaitListInfo =  CourseOfferingManagementUtil.getCourseOfferingServiceFacade().createUncolocatedWaitList(activityOfferingWrapper.getCourseWaitListInfo(), activityOfferingWrapper.getWaitListType(), activityOfferingWrapper.isHasWaitlist(), activityOfferingWrapper.isLimitWaitlistSize(), activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo().getFormatOfferingId(), contextInfo);
                     activityOfferingWrapper.setCourseWaitListInfo(courseWaitListInfo);
                 } else {
                     HashMap<String, String> aoIdfoIdMap = new HashMap<String, String>();
@@ -211,7 +211,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     CourseWaitListInfo courseWaitListInfo = null;
                     if(activityOfferingWrapper.getCourseWaitListInfo() != null && activityOfferingWrapper.getCourseWaitListInfo().getActivityOfferingIds().size() > 0)  {
                         courseWaitListInfo =
-                             CourseOfferingManagementUtil.getArgServiceAdapter().createColocatedWaitList(activityOfferingWrapper.getCourseWaitListInfo(),
+                             CourseOfferingManagementUtil.getCourseOfferingServiceFacade().createColocatedWaitList(activityOfferingWrapper.getCourseWaitListInfo(),
                                     activityOfferingWrapper.getWaitListType(), activityOfferingWrapper.isHasWaitlist(), activityOfferingWrapper.isLimitWaitlistSize(),
                                     activityOfferingWrapper.isColocatedAO(), activityOfferingWrapper.isMaxEnrollmentShared(), aoIdfoIdMap, contextInfo);
                     }

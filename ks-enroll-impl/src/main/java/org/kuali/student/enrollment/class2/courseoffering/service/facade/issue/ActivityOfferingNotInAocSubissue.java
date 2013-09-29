@@ -14,7 +14,7 @@
  *
  * Created by Charles on 2/21/13
  */
-package org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue;
+package org.kuali.student.enrollment.class2.courseoffering.service.facade.issue;
 
 import java.util.HashSet;
 import java.util.Set;

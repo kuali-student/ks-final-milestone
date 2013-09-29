@@ -36,7 +36,7 @@
 
     <bean id="examMockService" class="org.kuali.student.enrollment.class2.exam.service.impl.ExamServiceMapImpl" />
 
-    <bean id="autogenRegistrationGroupAppLayer" class=" org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapterImpl" autowire="byName" />
+    <bean id="courseOfferingServiceFacade" class=" org.kuali.student.enrollment.class2.courseoffering.service.facade.CourseOfferingServiceFacadeImpl" autowire="byName" />
 
 </beans>
 

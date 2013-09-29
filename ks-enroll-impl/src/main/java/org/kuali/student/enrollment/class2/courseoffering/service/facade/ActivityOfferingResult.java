@@ -14,7 +14,7 @@
  *
  * Created by Charles on 2/20/13
  */
-package org.kuali.student.enrollment.class2.courseoffering.service.adapter;
+package org.kuali.student.enrollment.class2.courseoffering.service.facade;
 
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
@@ -23,7 +23,7 @@ import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import java.util.List;
 
 /**
- * Used by the AutogenRegGroupServiceAdapter
+ * Used by the CourseOfferingServiceFacade
  *
  * @author Kuali Student Team
  */

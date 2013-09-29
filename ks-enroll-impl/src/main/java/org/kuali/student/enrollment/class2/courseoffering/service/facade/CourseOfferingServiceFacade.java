@@ -1,6 +1,6 @@
-package org.kuali.student.enrollment.class2.courseoffering.service.adapter;
+package org.kuali.student.enrollment.class2.courseoffering.service.facade;
 
-import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.CourseOfferingAutogenIssue;
+import org.kuali.student.enrollment.class2.courseoffering.service.facade.issue.CourseOfferingAutogenIssue;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -30,7 +30,7 @@ import java.util.List;
  *    AOC: activity offering cluster
  *    RG: registration group
  */
-public interface AutogenRegGroupServiceAdapter {
+public interface CourseOfferingServiceFacade {
     
     /**
      * Useful for when a cluster is created to create the naming.

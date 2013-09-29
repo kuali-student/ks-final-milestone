@@ -14,7 +14,7 @@
  *
  * Created by Charles on 2/5/13
  */
-package org.kuali.student.enrollment.class2.courseoffering.service.adapter;
+package org.kuali.student.enrollment.class2.courseoffering.service.facade;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -24,11 +24,11 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDaoApi;
 import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterEntity;
-import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.ActivityOfferingNotInAocSubissue;
-import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.CourseOfferingAutogenIssue;
-import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.FormatOfferingAutogenIssue;
-import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.InvalidRegGroupSubissue;
-import org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue.RegGroupNotGeneratedByAocSubissue;
+import org.kuali.student.enrollment.class2.courseoffering.service.facade.issue.ActivityOfferingNotInAocSubissue;
+import org.kuali.student.enrollment.class2.courseoffering.service.facade.issue.CourseOfferingAutogenIssue;
+import org.kuali.student.enrollment.class2.courseoffering.service.facade.issue.FormatOfferingAutogenIssue;
+import org.kuali.student.enrollment.class2.courseoffering.service.facade.issue.InvalidRegGroupSubissue;
+import org.kuali.student.enrollment.class2.courseoffering.service.facade.issue.RegGroupNotGeneratedByAocSubissue;
 import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacade;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
@@ -86,13 +86,13 @@ import java.util.Set;
 
 /**
  * Implementation of the Application Service Layer to provide the functionally specified functionality
- * using several service calls.
+ * using several service calls. (Used to be AutogenRegGroupServiceAdapterImpl)
  *
  *
  * @author Kuali Student Team
  */
-public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupServiceAdapter {
-    private static final Logger LOGGER = Logger.getLogger(AutogenRegGroupServiceAdapterImpl.class);
+public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFacade {
+    private static final Logger LOGGER = Logger.getLogger(CourseOfferingServiceFacadeImpl.class);
 
     @Resource (name="CourseOfferingService")
     private CourseOfferingService coService;
@@ -113,7 +113,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
     private ExamOfferingServiceFacade examOfferingServiceFacade;
     
     /* (non-Javadoc)
-     * @see org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter#getDefaultClusterName(int)
+     * @see org.kuali.student.enrollment.class2.courseoffering.service.adapter.CourseOfferingServiceFacade#getDefaultClusterName(int)
      */
     @Override
     public String getDefaultClusterName(int numberOfExistingClusters) {
@@ -773,7 +773,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
     }
 
     /* (non-Javadoc)
-     * @see org.kuali.student.enrollment.class2.courseoffering.service.applayer.AutogenRegGroupServiceAdapter#getMaxEnrollmentByCourseOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+     * @see org.kuali.student.enrollment.class2.courseoffering.service.applayer.CourseOfferingServiceFacade#getMaxEnrollmentByCourseOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
     public Integer getSeatCountByCourseOffering(String courseOfferingId,
@@ -807,7 +807,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
     
    
     /* (non-Javadoc)
-     * @see org.kuali.student.enrollment.class2.courseoffering.service.applayer.AutogenRegGroupServiceAdapter#getMaxEnrollmentByActivityOfferingCluster(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+     * @see org.kuali.student.enrollment.class2.courseoffering.service.applayer.CourseOfferingServiceFacade#getMaxEnrollmentByActivityOfferingCluster(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
     public Integer getSeatCountByActivityOfferingCluster(String aocId,
@@ -913,7 +913,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
 
     }
     /* (non-Javadoc)
-     * @see org.kuali.student.enrollment.class2.courseoffering.service.applayer.AutogenRegGroupServiceAdapter#getMaxEnrollmentByRegistrationGroup(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+     * @see org.kuali.student.enrollment.class2.courseoffering.service.applayer.CourseOfferingServiceFacade#getMaxEnrollmentByRegistrationGroup(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
     public Integer getSeatCountByRegistrationGroup(
@@ -1061,7 +1061,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
     }
 
     /* (non-Javadoc)
-     * @see org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter#getAutogenCountByCourseOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+     * @see org.kuali.student.enrollment.class2.courseoffering.service.adapter.CourseOfferingServiceFacade#getAutogenCountByCourseOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
     public AutogenCount getAutogenCountByCourseOffering(
@@ -1125,7 +1125,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
         return count;
     }
     /* (non-Javadoc)
-     * @see org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter#getAutogenCountByFormatOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+     * @see org.kuali.student.enrollment.class2.courseoffering.service.adapter.CourseOfferingServiceFacade#getAutogenCountByFormatOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
     public AutogenCount getAutogenCountByFormatOffering(
@@ -1139,7 +1139,7 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
     }
 
     /* (non-Javadoc)
-     * @see org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter#getAutogenCountByActivtyOfferingCluster(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+     * @see org.kuali.student.enrollment.class2.courseoffering.service.adapter.CourseOfferingServiceFacade#getAutogenCountByActivtyOfferingCluster(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
     public AutogenCount getAutogenCountByActivtyOfferingCluster(

@@ -86,7 +86,7 @@ public class ActivityOfferingClusterHandler {
         try {
             String aoIdToCopy = selectedAO.getAoInfo().getId(); // Create a copy of this AO
             String clusterId = selectedAO.getAoClusterID();
-            CourseOfferingManagementUtil.getArgServiceAdapter().copyActivityOfferingToCluster(aoIdToCopy, clusterId, ContextBuilder.loadContextInfo());
+            CourseOfferingManagementUtil.getCourseOfferingServiceFacade().copyActivityOfferingToCluster(aoIdToCopy, clusterId, ContextBuilder.loadContextInfo());
 
             // reload AOs including the new one just created
             CourseOfferingManagementUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(form);
@@ -195,7 +195,7 @@ public class ActivityOfferingClusterHandler {
         try {
             for (ActivityOfferingWrapper ao : selectedAolist) {
                 // The adapter does not technically need an AOC ID, so I'm setting it to null
-                CourseOfferingManagementUtil.getArgServiceAdapter().deleteActivityOfferingCascaded(ao.getAoInfo().getId(), null, ContextBuilder.loadContextInfo());
+                CourseOfferingManagementUtil.getCourseOfferingServiceFacade().deleteActivityOfferingCascaded(ao.getAoInfo().getId(), null, ContextBuilder.loadContextInfo());
             }
 
             // check for changes to states in CO and related FOs
@@ -453,7 +453,7 @@ public class ActivityOfferingClusterHandler {
                     aocId = theForm.getClusterResultList().get(theForm.getClusterResultList().size() - 1).getActivityOfferingClusterId();
 
                 }
-                CourseOfferingManagementUtil.getArgServiceAdapter().moveActivityOffering(aoWrapper.getAoInfo().getId(), aoWrapper.getAoClusterID(), aocId, context);
+                CourseOfferingManagementUtil.getCourseOfferingServiceFacade().moveActivityOffering(aoWrapper.getAoInfo().getId(), aoWrapper.getAoClusterID(), aocId, context);
                 aoChecked = true;
             }
         }
@@ -495,7 +495,7 @@ public class ActivityOfferingClusterHandler {
 
     public static void deleteClusterCascaded(CourseOfferingManagementForm theForm) throws Exception {
         ActivityOfferingClusterWrapper aoWrapper = theForm.getSelectedCluster();
-        CourseOfferingManagementUtil.getArgServiceAdapter().deleteActivityOfferingCluster(aoWrapper.getActivityOfferingClusterId(), ContextBuilder.loadContextInfo());
+        CourseOfferingManagementUtil.getCourseOfferingServiceFacade().deleteActivityOfferingCluster(aoWrapper.getActivityOfferingClusterId(), ContextBuilder.loadContextInfo());
         CourseOfferingViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo(), ContextBuilder.loadContextInfo());
         CourseOfferingManagementUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
     }

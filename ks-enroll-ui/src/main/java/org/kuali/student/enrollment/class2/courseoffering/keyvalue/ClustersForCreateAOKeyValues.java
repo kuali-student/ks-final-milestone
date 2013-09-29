@@ -73,7 +73,7 @@ public class ClustersForCreateAOKeyValues extends UifKeyValuesFinderBase impleme
                         coForm.setHasAOCluster(true);
                     }
                 } else {
-                    keyValues.add(new ConcreteKeyValue("", CourseOfferingManagementUtil.getArgServiceAdapter().getDefaultClusterNamePerCO(coForm.getCurrentCourseOfferingWrapper().getCourseOfferingId(), ContextUtils.getContextInfo())));
+                    keyValues.add(new ConcreteKeyValue("", CourseOfferingManagementUtil.getCourseOfferingServiceFacade().getDefaultClusterNamePerCO(coForm.getCurrentCourseOfferingWrapper().getCourseOfferingId(), ContextUtils.getContextInfo())));
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);

@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue;
+package org.kuali.student.enrollment.class2.courseoffering.service.facade.issue;
 
 /**
  * Created with IntelliJ IDEA.

@@ -12,32 +12,32 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by Charles on 3/5/13
+ * Created by Charles on 2/21/13
  */
-package org.kuali.student.enrollment.class2.courseoffering.service.adapter.issue;
+package org.kuali.student.enrollment.class2.courseoffering.service.facade.issue;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class describes a problem with auto-generating a FormatOffering
+ * This class describes a problem with auto-generating a Course Offering
  *
  * @author Kuali Student Team
  */
-public class FormatOfferingAutogenIssue {
-    private String formatOfferingId;
-    private List<FormatOfferingAutogenSubIssue> subIssues;
+public class CourseOfferingAutogenIssue {
+    private String courseOfferingId;
+    private List<FormatOfferingAutogenIssue> foIssues;
 
-    public FormatOfferingAutogenIssue(String formatOfferingId) {
-        this.formatOfferingId = formatOfferingId;
-        subIssues = new ArrayList<FormatOfferingAutogenSubIssue>();
+    public CourseOfferingAutogenIssue(String courseOfferingId) {
+        this.courseOfferingId = courseOfferingId;
+        foIssues = new ArrayList<FormatOfferingAutogenIssue>();
     }
 
-    public String getFormatOfferingId() {
-        return formatOfferingId;
+    public String getCourseOfferingId() {
+        return courseOfferingId;
     }
 
-    public List<FormatOfferingAutogenSubIssue> getSubIssues() {
-        return subIssues;
+    public List<FormatOfferingAutogenIssue> getFormatOfferingIssues() {
+        return foIssues;
     }
 }

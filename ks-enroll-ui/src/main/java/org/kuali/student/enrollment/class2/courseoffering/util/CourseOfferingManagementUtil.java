@@ -19,7 +19,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrap
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
-import org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter;
+import org.kuali.student.enrollment.class2.courseoffering.service.facade.CourseOfferingServiceFacade;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.CSRServiceFacade;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseInfoByTermLookupableImpl;
 import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacade;
@@ -89,7 +89,7 @@ public class CourseOfferingManagementUtil {
     private static LRCService lrcService;
     private static TypeService typeService;
     private static AcademicCalendarService academicCalendarService;
-    private static AutogenRegGroupServiceAdapter argServiceAdapter;
+    private static CourseOfferingServiceFacade courseOfferingServiceFacade;
     private static CSRServiceFacade csrServiceFacade;
     private static CourseService courseService;
     private static CourseOfferingSetService socService;
@@ -151,11 +151,11 @@ public class CourseOfferingManagementUtil {
         return academicCalendarService;
     }
 
-    public static AutogenRegGroupServiceAdapter getArgServiceAdapter() {
-        if (argServiceAdapter == null) {
-            argServiceAdapter = (AutogenRegGroupServiceAdapter) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/autogenRegistrationGroupAppLayer", "AutogenRegGroupServiceAdapter"));
+    public static CourseOfferingServiceFacade getCourseOfferingServiceFacade() {
+        if (courseOfferingServiceFacade == null) {
+            courseOfferingServiceFacade = (CourseOfferingServiceFacade) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseOfferingServiceFacade", "CourseOfferingServiceFacade"));
         }
-        return argServiceAdapter;
+        return courseOfferingServiceFacade;
     }
 
     public static CSRServiceFacade getCsrServiceFacade() {

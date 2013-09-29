@@ -30,8 +30,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.test.spring.log4j.KSLog4JConfigurer;
 import org.kuali.student.enrollment.class2.acal.util.MockAcalTestDataLoader;
-import org.kuali.student.enrollment.class2.courseoffering.service.adapter.ActivityOfferingResult;
-import org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter;
+import org.kuali.student.enrollment.class2.courseoffering.service.facade.ActivityOfferingResult;
+import org.kuali.student.enrollment.class2.courseoffering.service.facade.CourseOfferingServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -78,16 +78,16 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 /**
- * A test case for the autogen rg app layer helper.
+ * A test case for the course offering service facade impl.
  * 
  * @author Kuali Student Team 
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:co-autogen-rg-test-class2-mock-context.xml"})
-public class TestAutogenRegGroupServiceAdapterImpl {
+public class TestCourseOfferingServiceFacadeImpl {
     private static final Logger log = KSLog4JConfigurer
-            .getLogger(TestAutogenRegGroupServiceAdapterImpl.class);
+            .getLogger(TestCourseOfferingServiceFacadeImpl.class);
 
     @Resource (name="CourseOfferingService")
     protected CourseOfferingService coService;
@@ -108,14 +108,14 @@ public class TestAutogenRegGroupServiceAdapterImpl {
     protected AtpService atpService;
     
     @Resource
-    private AutogenRegGroupServiceAdapter serviceAdapter;
+    private CourseOfferingServiceFacade coServiceFacade;
 
     private ContextInfo contextInfo;
     
     /**
      * 
      */
-    public TestAutogenRegGroupServiceAdapterImpl() {
+    public TestCourseOfferingServiceFacadeImpl() {
     }
     
     @Before
@@ -156,7 +156,7 @@ public class TestAutogenRegGroupServiceAdapterImpl {
         assertEquals(2, rgInfos.size());
         // App layer call
         ActivityOfferingResult aoResult =
-                serviceAdapter.createActivityOffering(aoInfo, aocId, contextInfo);
+                coServiceFacade.createActivityOffering(aoInfo, aocId, contextInfo);
         List<RegistrationGroupInfo> rgInfosByAo = coService.getRegistrationGroupsByActivityOffering(aoResult.getCreatedActivityOffering().getId(), contextInfo);
         assertEquals(1, rgInfosByAo.size());
         rgInfos = coService.getRegistrationGroupsByFormatOffering(foId, contextInfo);
@@ -195,7 +195,7 @@ public class TestAutogenRegGroupServiceAdapterImpl {
         String aoIdFirst = aoInfos.get(0).getId();
         String aoIdSecond = aoInfos.get(1).getId();
         // App layer call
-        serviceAdapter.deleteActivityOfferingCascaded(aoIdFirst, aocId, contextInfo);
+        coServiceFacade.deleteActivityOfferingCascaded(aoIdFirst, aocId, contextInfo);
         List<ActivityOfferingClusterInfo> retrieved =
                 coService.getActivityOfferingClustersByFormatOffering(foId, contextInfo);
         // Fetch the AOs again--should only be 1
@@ -232,7 +232,7 @@ public class TestAutogenRegGroupServiceAdapterImpl {
         assertEquals(2, rgsByFo.size());
         // App layer call
         // Now zap the AOC
-        serviceAdapter.deleteActivityOfferingCluster(aocId, contextInfo);
+        coServiceFacade.deleteActivityOfferingCluster(aocId, contextInfo);
         try {
             coService.getActivityOfferingCluster(aocId, contextInfo);
             assert(false); // Shouldn't get here
@@ -282,7 +282,7 @@ public class TestAutogenRegGroupServiceAdapterImpl {
                 coService.createActivityOfferingCluster(foId, aocSecondTypeKey, aocSecond, contextInfo);
         // And move the AO from original AOC to this newly created AOC
         List<BulkStatusInfo> bulkStatuses =
-                serviceAdapter.moveActivityOffering(aoIdSecond, aocId, aocSecondCreated.getId(), contextInfo);
+                coServiceFacade.moveActivityOffering(aoIdSecond, aocId, aocSecondCreated.getId(), contextInfo);
         assertEquals(1, bulkStatuses.size());
         String newRgId = bulkStatuses.get(0).getId();
         RegistrationGroupInfo newRg = coService.getRegistrationGroup(newRgId, contextInfo);
@@ -350,7 +350,7 @@ public class TestAutogenRegGroupServiceAdapterImpl {
         
         ActivityOfferingInfo aoInfo = CourseOfferingServiceTestDataUtils.createActivityOffering(term.getId(), co, fo.getId(), null, "test", "Lecture Add", "AC", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
         
-        ActivityOfferingResult results = serviceAdapter.createActivityOffering(aoInfo, aoc.getId(), contextInfo);
+        ActivityOfferingResult results = coServiceFacade.createActivityOffering(aoInfo, aoc.getId(), contextInfo);
       
         Assert.assertNotNull(results);
         
@@ -403,14 +403,14 @@ public class TestAutogenRegGroupServiceAdapterImpl {
         
         ActivityOfferingInfo aoInfo = CourseOfferingServiceTestDataUtils.createActivityOffering(term.getId(), co, fo.getId(), null, "test", "Lecture Add", "AC", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
         
-        ActivityOfferingResult results = serviceAdapter.createActivityOffering(aoInfo, aoc.getId(), contextInfo);
+        ActivityOfferingResult results = coServiceFacade.createActivityOffering(aoInfo, aoc.getId(), contextInfo);
       
         Assert.assertNotNull(results);
         
         Assert.assertTrue(results.getGeneratedRegistrationGroups().size() > 0);
         
         
-        Integer aocSeatCount = serviceAdapter.getSeatCountByActivityOfferingCluster(aoc.getId(), contextInfo);
+        Integer aocSeatCount = coServiceFacade.getSeatCountByActivityOfferingCluster(aoc.getId(), contextInfo);
         
         Assert.assertNotNull(aocSeatCount);
         
@@ -464,7 +464,7 @@ public class TestAutogenRegGroupServiceAdapterImpl {
         assertEquals("2012FA", targetTerm.getCode());
 
         // App layer call
-        CourseOfferingInfo coResult = serviceAdapter.copyCourseOfferingToTargetTerm(co, targetTerm, null, contextInfo);
+        CourseOfferingInfo coResult = coServiceFacade.copyCourseOfferingToTargetTerm(co, targetTerm, null, contextInfo);
         assertEquals(co.getCourseCode(), coResult.getCourseCode());
         assertEquals(targetTerm.getId(), coResult.getTermId());
         assertEquals(co.getCourseId(), coResult.getCourseId());
