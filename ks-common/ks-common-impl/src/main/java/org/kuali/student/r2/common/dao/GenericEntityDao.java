@@ -16,22 +16,14 @@
 
 package org.kuali.student.r2.common.dao;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.r2.common.entity.PersistableEntity;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+
+import javax.persistence.*;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.*;
 
 /**
  * @author Kuali Student Team
@@ -46,8 +38,58 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
     @PersistenceContext
     protected EntityManager em;
 
+    protected Boolean enableMaxIdFetch;
+    protected Integer maxInClauseElements;
+
+    /*
+    //JIRA KSENROLL-7492 :
+    //Commented below code as the logic to set/inject values to enableMaxIdFetch & maxInClauseElements is not yet finalized.
+
+    //ks-enroll/ks-enroll-impl/src/main/resources/META-INF/ks-enroll-config.xml
+    //<param name="param.enable.max.id.fetch">true</param>
+    //<param name="param.max.in.clause.elements">1000</param>
+
+    private static Boolean enableMaxIdFetch;
+    private static Integer maxInClauseElements;
+
+    static {
+
+        try {
+
+            //Values of properties param."enable.max.id.fetch" & "param.max.in.clause.elements" are maintained in
+            //ks-enroll/ks-enroll-impl/src/main/resources/META-INF/ks-enroll-config.xml
+            Config cfg = ConfigContext.getCurrentContextConfig();
+            String strEnableMaxIdFetch = cfg.getProperty("param.enable.max.id.fetch");
+            String strMaxInClauseElements = cfg.getProperty("param.max.in.clause.elements");
+
+            enableMaxIdFetch = (strEnableMaxIdFetch!=null && "true".equalsIgnoreCase(strEnableMaxIdFetch.trim()))? Boolean.TRUE:Boolean.FALSE;
+            maxInClauseElements = (strMaxInClauseElements!=null && StringUtils.isNumeric(strMaxInClauseElements.trim()))? new Integer(strMaxInClauseElements.trim()): 1000;
+
+        } catch(Exception ex) {
+
+            ex.printStackTrace();
+            enableMaxIdFetch = Boolean.FALSE;
+            maxInClauseElements=1000;
+
+        }
+
+    }
+
+    public static Boolean getEnableMaxIdFetch() {
+        return enableMaxIdFetch;
+    }
+
+    public static Integer getMaxInClauseElements() {
+        return maxInClauseElements;
+    }
+    */
+
     public GenericEntityDao() {
         entityClass = getEntityClass();
+
+        //TODO: Need to make the below two data members configurable (Reference JIRA no. KSENROLL-7492)
+        enableMaxIdFetch = Boolean.TRUE;
+        maxInClauseElements=1000;
     }
 
     @Override
@@ -57,24 +99,65 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
 
     @Override
     public List<T> findByIds(String primaryKeyMemberName, List<String> primaryKeys) throws DoesNotExistException {
-    	
-		// fix for jira KSENROLL-2949
-		if (primaryKeys.isEmpty())
-			return new ArrayList<T>();
-		
-		Set<String>primaryKeySet = new HashSet<String>(primaryKeys.size());
-		// remove duplicates from the key list
-		primaryKeySet.addAll(primaryKeys);
 
-		String queryString = "from " + entityClass.getSimpleName() + " where "
-				+ primaryKeyMemberName + " in (:ids)";
-		
-		List<T> resultList = em.createQuery(queryString)
-				.setParameter("ids", primaryKeySet).getResultList();
+        // fix for jira KSENROLL-2949
+        if (primaryKeys.isEmpty())
+            return new ArrayList<T>();
 
-		verifyResults(resultList, primaryKeySet);
+        Set<String>primaryKeySet = new HashSet<String>(primaryKeys.size());
+        // remove duplicates from the key list
+        primaryKeySet.addAll(primaryKeys);
 
-		return resultList;
+        Query query = null;
+        String queryString = null;
+
+        //Fix for JIRA KSENROLL-7492 - START
+
+        if(!enableMaxIdFetch || primaryKeySet.size()<=maxInClauseElements) {
+
+            queryString = "from " + entityClass.getSimpleName() + " where " + primaryKeyMemberName + " in (:ids)";
+            query = em.createQuery(queryString).setParameter("ids", primaryKeySet);
+
+        } else {
+
+            List<List<String>> brokenLists = new ArrayList<List<String>>();
+            List<String> lst = null;
+
+            queryString = "from " + entityClass.getSimpleName();
+
+            Iterator<String> itr = primaryKeySet.iterator();
+            for(int index=0; itr.hasNext() ; index++) {
+
+                if(index%maxInClauseElements==0) {
+
+                    lst = new ArrayList<String>();
+                    brokenLists.add(lst);
+
+                    if(brokenLists.size()==1) {
+                        queryString+=" where " + primaryKeyMemberName + " in (:ids1)";
+                    } else {
+                        queryString+=" or " + primaryKeyMemberName + " in (:ids"+brokenLists.size()+")";
+                    }
+
+                }
+                lst.add(itr.next());
+            }
+
+            query = em.createQuery(queryString);
+
+            for(int i=1 ; i<=brokenLists.size() ; i++) {
+                query.setParameter("ids" + i, brokenLists.get(i - 1));
+            }
+
+        }
+
+        List<T> resultList = query.getResultList();
+
+        //Fix for JIRA KSENROLL-7492 - END
+
+        verifyResults(resultList, primaryKeySet);
+
+        return resultList;
     }
 
     /**
@@ -116,7 +199,7 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
          	Set<String> unmatchedKeySet = new HashSet<String> ();
          
          	unmatchedKeySet.addAll(primaryKeys);
-         	
+
          	for (T t : resultList) {
  				
          		unmatchedKeySet.remove(t.getId());
@@ -130,11 +213,8 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
 	@Override
     public List<T> findByIds(List<String> primaryKeys) throws DoesNotExistException {
 
-        if(primaryKeys.size() >= 1000){
-            return this.findByIdsMaxKeys(primaryKeys);
-        } else {
-            return this.findByIds("id", primaryKeys); // faster but has a limit of 1000 in oracle 10g
-        }
+        return this.findByIds("id", primaryKeys);
+
     }
 
     /**
