@@ -9,9 +9,11 @@ public class TimeSlotConstants {
 
     //  Time Slot Type drop-down list items
     public static class TypeSlotTypeDropDown {
+/*
         public static final String LINE_KEY = "line";
         public static final String LINE_TEXT = "----------------";
         public static final String ALL_TERMS_KEY = "all";
         public static final String ALL_TERMS_TEXT = "ALL TERMS";
+*/
     }
 }

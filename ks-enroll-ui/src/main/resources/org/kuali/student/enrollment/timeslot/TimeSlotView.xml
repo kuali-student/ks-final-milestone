@@ -151,7 +151,7 @@
                     p:propertyName="timeSlotInfo.name"/>
                 <bean parent="KS-Uif-DataField-Simple"
                     p:label="Term Type"
-                    p:propertyName="timeSlotInfo.typeKey"/>
+                    p:propertyName="typeName"/>
                 <bean parent="KS-Uif-DataField-Simple"
                     p:label="Days"
                     p:propertyName="daysDisplayName"/>

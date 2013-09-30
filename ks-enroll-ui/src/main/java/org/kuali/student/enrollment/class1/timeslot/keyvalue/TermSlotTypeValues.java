@@ -20,7 +20,6 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.student.enrollment.class1.timeslot.util.TimeSlotConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -63,8 +62,8 @@ public class TermSlotTypeValues extends KeyValuesBase implements Serializable {
             keyValuePairs.add(new ConcreteKeyValue("one", "One"));
             keyValuePairs.add(new ConcreteKeyValue("two", "Two"));
             keyValuePairs.add(new ConcreteKeyValue("three", "Three"));
-            keyValuePairs.add(new ConcreteKeyValue(TimeSlotConstants.TypeSlotTypeDropDown.LINE_KEY, TimeSlotConstants.TypeSlotTypeDropDown.LINE_TEXT));
-            keyValuePairs.add(new ConcreteKeyValue(TimeSlotConstants.TypeSlotTypeDropDown.ALL_TERMS_KEY, TimeSlotConstants.TypeSlotTypeDropDown.ALL_TERMS_TEXT));
+//            keyValuePairs.add(new ConcreteKeyValue(TimeSlotConstants.TimeSlotTypeSelectorWidget.LINE_KEY, TimeSlotConstants.TimeSlotTypeSelectorWidget.LINE_TEXT));
+//           keyValuePairs.add(new ConcreteKeyValue(TimeSlotConstants.TypeSlotTypeDropDown.ALL_TERMS_KEY, TimeSlotConstants.TypeSlotTypeDropDown.ALL_TERMS_TEXT));
         }
         return keyValuePairs;
     }

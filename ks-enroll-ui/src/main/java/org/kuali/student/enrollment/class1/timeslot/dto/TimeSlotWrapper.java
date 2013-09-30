@@ -13,6 +13,9 @@ public class TimeSlotWrapper {
 
     private boolean isChecked;
 
+    private String typeName;
+    private String typeKey;
+
     private String startTimeDisplay = "";
     private String endTimeDisplay = "";
     private String daysDisplayName = "";
@@ -71,5 +74,21 @@ public class TimeSlotWrapper {
 
     public void setDaysDisplayName(String daysDisplayName) {
         this.daysDisplayName = daysDisplayName;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    public String getTypeKey() {
+        return typeKey;
+    }
+
+    public void setTypeKey(String typeKey) {
+        this.typeKey = typeKey;
     }
 }

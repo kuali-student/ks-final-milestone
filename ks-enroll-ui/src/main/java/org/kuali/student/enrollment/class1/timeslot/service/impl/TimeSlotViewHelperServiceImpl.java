@@ -59,6 +59,8 @@ public class TimeSlotViewHelperServiceImpl
 
                 String daysUI = buildDaysForUI(timeSlotInfo.getWeekdays());
                 tsWrapper.setDaysDisplayName(daysUI);
+                tsWrapper.setTypeKey(timeSlotInfo.getTypeKey());
+                // convert typeKey to displayable typeName
 
                 timeSlotWrappers.add(tsWrapper);
             }
@@ -91,7 +93,8 @@ public class TimeSlotViewHelperServiceImpl
 
         String daysUI = buildDaysForUI(timeSlotInfo.getWeekdays());
         wrapper.setDaysDisplayName(daysUI);
-
+        wrapper.setTypeKey(timeSlotInfo.getTypeKey());
+        wrapper.setTypeName(timeSlotInfo.getTypeKey());
         timeSlotWrappers.add(wrapper);
 
         return timeSlotWrappers;
