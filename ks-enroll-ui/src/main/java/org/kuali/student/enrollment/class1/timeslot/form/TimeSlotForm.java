@@ -1,9 +1,9 @@
 package org.kuali.student.enrollment.class1.timeslot.form;
 
-import edu.emory.mathcs.backport.java.util.Collections;
 import org.kuali.student.common.uif.form.KSUifForm;
 import org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,10 +12,15 @@ import java.util.List;
 public class TimeSlotForm extends KSUifForm {
 
     //  Term type multi-select drop-down selections.
-    private List<String> termTypeSelections = Collections.emptyList();
+    private List<String> termTypeSelections;
 
     //  Storage for Time Slot search results.
-    private List<TimeSlotWrapper> timeSlotResults =  Collections.emptyList();
+    private List<TimeSlotWrapper> timeSlotResults;
+
+    public TimeSlotForm() {
+        termTypeSelections = new ArrayList<String>();
+        timeSlotResults = new ArrayList<TimeSlotWrapper>();
+    }
 
     public List<TimeSlotWrapper> getTimeSlotResults() {
         return timeSlotResults;
