@@ -38,7 +38,7 @@
                         <list>
                             <bean id="KS-CourseOfferingManagement-ToolBar-Add-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Add-parent" p:actionLabel="Add Activity"  p:disabled="@{!enableAddButton}"
                                   p:performClientSideValidation="true" p:methodToCall="addActivityOfferings"
-                                  p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddActivityOfferingPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-AddActivityOfferingPopupForm').find('input[type=text],select').val('');}});"/>
+                                  p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddActivityOfferingPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-AddActivityOfferingPopupForm').find('input[type=text],select').val('1');}});"/>
                             <bean id="KS-CourseOfferingManagement-ToolBar-Approve-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Approve-parent" p:methodToCall="approveAOs" p:render="@{hasAO}"/>
                             <bean id="KS-CourseOfferingManagement-ToolBar-Draft-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Draft-parent" p:methodToCall="draftAOs" p:render="@{hasAO}"/>
                          </list>
@@ -185,9 +185,7 @@
                 <bean parent="Uif-InputField" p:propertyName="noOfActivityOfferings" p:label="Quantity" p:labelPlacement="TOP" p:required="true" p:exclusiveMin="0" p:id="addActivityOfferingQuantity">
                     <property name="readOnly" value="false"/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="3" p:disabled="@{!#root.editAuthz}">
-                            <property name="watermarkText" value="1"/>
-                        </bean>
+                        <bean parent="Uif-TextControl" p:size="3" p:disabled="@{!#root.editAuthz}" />
                     </property>
                     <property name="validCharactersConstraint">
                       <bean parent="NumericPatternConstraint"/>
