@@ -1,29 +1,12 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.ComparatorModel;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
-import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
-import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
-import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.population.dto.PopulationInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -49,11 +32,13 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
     private List<String> startTime;
     private List<String> endTime;
     private List<String> weekDays;
+    private ActivityOfferingInfo aoInfo;
 
     public ExamOfferingWrapper(){
         startTime = new ArrayList<String>();
         endTime = new ArrayList<String>();
         weekDays = new ArrayList<String>();
+        aoInfo = new ActivityOfferingInfo();
     }
 
     public ExamOfferingWrapper(ExamOfferingInfo info){
@@ -312,4 +297,11 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
         this.eoInfo = eoInfo;
     }
 
+    public ActivityOfferingInfo getAoInfo() {
+        return aoInfo;
+    }
+
+    public void setAoInfo(ActivityOfferingInfo aoInfo) {
+        this.aoInfo = aoInfo;
+    }
 }
