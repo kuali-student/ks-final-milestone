@@ -1,0 +1,2 @@
+INSERT INTO KSEN_TYPE (CREATEID,CREATETIME,DESCR_FORMATTED,DESCR_PLAIN,NAME,REF_OBJECT_URI,SERVICE_URI,TYPE_KEY,VER_NBR) VALUES ('SYSTEMLOADER',TO_DATE( '20130929000000', 'YYYYMMDDHH24MISS' ),'Type specifies which types can go together','Type specifies which types can go together','Allowed Type Type Relation for ATP to TimeSlots','http://student.kuali.org/wsdl/type/TypeTypeRelationInfo','http://student.kuali.org/wsdl/type/TypeService','kuali.type.type.relation.type.allowed.atp2timeslot',0)
+/
