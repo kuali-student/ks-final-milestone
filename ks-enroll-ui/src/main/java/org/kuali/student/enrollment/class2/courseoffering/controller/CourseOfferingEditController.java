@@ -98,7 +98,14 @@ public class CourseOfferingEditController extends CourseOfferingBaseController {
 
         // create a Growl-message
         CourseOfferingEditWrapper dataObject = (CourseOfferingEditWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
-        urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_EDIT_SUCCESS);
+
+        if (StringUtils.equals(dataObject.getCourseOfferingInfo().getFinalExamType(), CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)
+                && StringUtils.isEmpty(dataObject.getExamPeriodId())) {
+            urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_EDIT_SUCCESS_WITH_MISSING_EXAMPERIOD);
+        } else {
+            urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_EDIT_SUCCESS);
+        }
+
         urlParameters.put(EnrollConstants.GROWL_MESSAGE_PARAMS, dataObject.getCourseOfferingCode());
 
         // determine which url to redirect to
@@ -118,6 +125,9 @@ public class CourseOfferingEditController extends CourseOfferingBaseController {
         else {
             urlToRedirectTo = returnLocationFromForm;
         }
+
+        //remove growl message param from request url
+        urlToRedirectTo = urlToRedirectTo.replaceAll("growl.[^&]+&","");
 
         // special handling if navigating to a specific CO
         String loadNewCO = form.getActionParameters().get( "coId" );

@@ -35,6 +35,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -131,7 +132,13 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
 
         CourseOfferingEditWrapper dataObject = (CourseOfferingEditWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
 
-        urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS);
+        //if there is no exam period attached to the term and the final exam type is standard, display the exam period missiong growl message
+        if (StringUtils.equals(dataObject.getCourseOfferingInfo().getFinalExamType(), CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)
+                && StringUtils.isEmpty(dataObject.getExamPeriodId())) {
+            urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS_WITH_MISSING_EXAMPERIOD);
+        } else {
+            urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS);
+        }
         urlParameters.put(EnrollConstants.GROWL_MESSAGE_PARAMS, dataObject.getCourseOfferingCode());
 
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "show");
@@ -371,6 +378,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
 
         CourseOfferingCreateWrapper createWrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         CourseOfferingInfo existingCO = null;
+        String examPeriodId = null;
 
         //the first CO that is selected or if there is only one, grab that one
         for(CourseOfferingEditWrapper eco : createWrapper.getExistingTermOfferings()){
@@ -394,16 +402,32 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                 contextInfo);
         CourseOfferingInfo courseOfferingInfo = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(item.getTargetCourseOfferingId(), contextInfo);
 
+        // retrieve the exam period id
+        try {
+            examPeriodId = CourseOfferingManagementUtil.getExamOfferingServiceFacade().getExamPeriodId(courseOfferingInfo, contextInfo);
+        } catch (DoesNotExistException e) {
+            LOG.warn("The Term " + courseOfferingInfo.getTermId() + " that the course offering " + courseOfferingInfo.getCourseOfferingCode() + " is attached to doesn't have an exam period to create exam offerings.");
+        }
+
         Properties urlParameters;
         urlParameters = new Properties();
+
+        //if there is no exam period attached to the term and the final exam type is standard, display the exam period missiong growl message
+        if (StringUtils.equals(courseOfferingInfo.getFinalExamType(), CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)
+                && StringUtils.isEmpty(examPeriodId)) {
+            urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS_WITH_MISSING_EXAMPERIOD);
+        } else {
+            urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS);
+        }
+        urlParameters.put(EnrollConstants.GROWL_MESSAGE_PARAMS, courseOfferingInfo.getCourseOfferingCode());
+
+
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "show");
         urlParameters.put("termCode",createWrapper.getTargetTermCode());
         urlParameters.put("inputCode",courseOfferingInfo.getCourseOfferingCode());
         urlParameters.put("viewId",CourseOfferingConstants.MANAGE_CO_VIEW_ID);
         urlParameters.put("pageId",CourseOfferingConstants.MANAGE_THE_CO_PAGE);
         urlParameters.put("withinPortal","false");
-        urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS);
-        urlParameters.put(EnrollConstants.GROWL_MESSAGE_PARAMS, courseOfferingInfo.getCourseOfferingCode());
 
         return super.performRedirect(form, CourseOfferingConstants.MANAGE_CO_CONTROLLER_PATH, urlParameters);
     }

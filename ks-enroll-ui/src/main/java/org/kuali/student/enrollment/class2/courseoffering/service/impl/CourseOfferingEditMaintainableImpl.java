@@ -41,7 +41,6 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingC
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
-import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
@@ -215,12 +214,9 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
             getCourseOfferingService().updateCourseOffering(coInfo.getId(), coInfo, contextInfo);
 
-            try {
-                List<String> eoOptions = new ArrayList<String>();
-                eoOptions.add(ExamOfferingServiceFacade.CANCEL_EXISTING_OPTION_KEY);
-                CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(coInfo, eoOptions, contextInfo);
-            }  catch (Exception e){
-                KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, CourseOfferingConstants.COURSEOFFERING_EXAMPERIOD_MISSING);
+            // generate exam offerings if exam period exists
+            if (!StringUtils.isEmpty(coEditWrapper.getExamPeriodId())) {
+                CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(coInfo, coEditWrapper.getExamPeriodId(), new ArrayList<String>(), contextInfo);
             }
 
             // check for changes to states in CO and related FOs (may happen in the case of deleted FOs)
@@ -311,10 +307,10 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
             CourseOfferingInfo info = getCourseOfferingService().createCourseOffering(coInfo.getCourseId(), coInfo.getTermId(), LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, coInfo, optionKeys, contextInfo);
 
-            try {
-                CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(info, new ArrayList<String>(), contextInfo);
-            }  catch (Exception e){
-                KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, CourseOfferingConstants.COURSEOFFERING_EXAMPERIOD_MISSING);
+
+            // generate exam offerings if exam period exists
+            if (!StringUtils.isEmpty(coCreateWrapper.getExamPeriodId())) {
+                CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(info, coCreateWrapper.getExamPeriodId(), new ArrayList<String>(), contextInfo);
             }
 
             return info;
@@ -785,6 +781,16 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                     formObject.setUseFinalExamMatrixUI(CourseOfferingConstants.COURSEOFFERING_TEXT_USE_FINAL_EXAM_MATRIX);
                 } else {
                     formObject.setUseFinalExamMatrixUI(CourseOfferingConstants.COURSEOFFERING_TEXT_NOT_USE_FINAL_EXAM_MATRIX);
+                }
+
+                // retrieve the exam period id
+                try {
+                    String examPeriodId = CourseOfferingManagementUtil.getExamOfferingServiceFacade().getExamPeriodId(coInfo, contextInfo);
+                    if (!StringUtils.isEmpty(examPeriodId)) {
+                        formObject.setExamPeriodId(examPeriodId);
+                    }
+                } catch (DoesNotExistException e) {
+                    LOG.warn("The Term " + formObject.getTermName() + " that the course offering " + formObject.getCourseOfferingCode() + " is attached to doesn't have an exam period to create exam offerings.");
                 }
 
                 return formObject;

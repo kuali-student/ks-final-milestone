@@ -191,7 +191,9 @@ public class CourseOfferingConstants {
     public static final String COLOCATION_MAX_ENR_SEPARATED="info.enroll.courseoffering.colocation.enr.separated";
 
     public static final String COURSE_OFFERING_EDIT_SUCCESS = "info.enroll.courseoffering.edit.success";
+    public static final String COURSE_OFFERING_EDIT_SUCCESS_WITH_MISSING_EXAMPERIOD = "info.enroll.courseoffering.edit.success.with.missing.examperiod";
     public static final String COURSE_OFFERING_CREATE_SUCCESS = "info.enroll.courseoffering.create.success";
+    public static final String COURSE_OFFERING_CREATE_SUCCESS_WITH_MISSING_EXAMPERIOD = "info.enroll.courseoffering.create.success.with.missing.examperiod";
 
     /**
          * These are the confirm dialog bean ids used in Manage CO/AO view.

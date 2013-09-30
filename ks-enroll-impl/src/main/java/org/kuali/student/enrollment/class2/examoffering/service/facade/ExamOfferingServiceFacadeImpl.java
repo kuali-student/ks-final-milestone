@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.examoffering.service.facade;
 
 import org.apache.log4j.Logger;
+import org.hsqldb.lib.StringUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FinalExam;
@@ -89,6 +90,29 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
     }
 
     @Override
+    public void generateFinalExamOffering(CourseOfferingInfo courseOfferingInfo, String examPeriodId, List<String> optionKeys,
+                                          ContextInfo context)
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        if (StringUtil.isEmpty(examPeriodId)) {
+            throw new MissingParameterException("Exam Period id is not provided.");
+        }
+
+        Driver driver = calculateEODriver(courseOfferingInfo);
+        if (driver.equals(Driver.PER_AO)){
+            generateFinalExamOfferingsPerAO(courseOfferingInfo.getId(), examPeriodId, optionKeys, context);
+        } else if (driver.equals(Driver.PER_CO)) {
+            generateFinalExamOfferingsPerFO(courseOfferingInfo.getId(), examPeriodId, optionKeys, context);
+        } else if (driver.equals(Driver.NONE)){
+            if(optionKeys.contains(ExamOfferingServiceFacade.CANCEL_EXISTING_OPTION_KEY)) {
+                changeFinalExamOfferingsState(courseOfferingInfo.getId(), ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY, context);
+            } else {
+                removeFinalExamOfferingsFromCO(courseOfferingInfo.getId(), context);
+            }
+        }
+    }
+
+    @Override
     public void generateFinalExamOfferingForAO(ActivityOfferingInfo activityOfferingInfo, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
@@ -127,7 +151,8 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
     }
 
-    private String getExamPeriodId(CourseOfferingInfo courseOfferingInfo, ContextInfo context)
+    @Override
+    public String getExamPeriodId(CourseOfferingInfo courseOfferingInfo, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 

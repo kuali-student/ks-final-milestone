@@ -56,6 +56,29 @@ public interface ExamOfferingServiceFacade {
      * If the Final Exam Status is not STANDARD, then all Exam Offerings linked to the Course Offering will be deleted.
      *
      * @param courseOfferingInfo
+     * @param examPeriodId
+     * @param optionKeys
+     * @param context
+     * @throws DoesNotExistException
+     * @throws DataValidationErrorException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws ReadOnlyException
+     */
+    void generateFinalExamOffering(CourseOfferingInfo courseOfferingInfo, String examPeriodId, List<String> optionKeys,
+                                          ContextInfo context)
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException;
+
+    /**
+     * This method generates new Exam Offerings for the Course Offering for the given Course Offering Id based on
+     * the exam drivers.
+     *
+     * If the Final Exam Status is not STANDARD, then all Exam Offerings linked to the Course Offering will be deleted.
+     *
+     * @param courseOfferingInfo
      * @param optionKeys
      * @param context
      * @throws DoesNotExistException
@@ -176,4 +199,21 @@ public interface ExamOfferingServiceFacade {
     void changeFinalExamOfferingsState(String courseOfferingId, String stateKey, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException;
+
+    /**
+     * This method retrieves the exam period id for the term that the given course offering is attached to.
+     *
+     * @param courseOfferingInfo
+     * @param context
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     *
+     */
+    public String getExamPeriodId(CourseOfferingInfo courseOfferingInfo, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
+
 }

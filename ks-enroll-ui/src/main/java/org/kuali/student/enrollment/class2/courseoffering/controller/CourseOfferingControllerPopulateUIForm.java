@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -37,6 +38,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
@@ -68,6 +70,7 @@ import java.util.Set;
  * @author Kuali Student Team
  */
 public class CourseOfferingControllerPopulateUIForm {
+    private final static Logger LOG = Logger.getLogger(CourseOfferingControllerPopulateUIForm.class);
 
     protected static void populateCreateCourseOfferingForm(MaintenanceDocumentForm form, HttpServletRequest request) {
         int firstValue = 0;
@@ -184,6 +187,18 @@ public class CourseOfferingControllerPopulateUIForm {
                 }
             }
             formObject.setOrganizationNames(orgList);
+
+            //retrieve exam period id for the term that the CO is attached to
+            try {
+                String examPeriodId = CourseOfferingManagementUtil.getExamOfferingServiceFacade().getExamPeriodId(formObject.getCourseOfferingInfo(), ContextUtils.createDefaultContextInfo());
+                if (!StringUtils.isEmpty(examPeriodId)) {
+                    formObject.setExamPeriodId(examPeriodId);
+                }
+            } catch (DoesNotExistException e) {
+                LOG.warn("The Term " + formObject.getCourseOfferingInfo().getTermId() + " that the course offering " + formObject.getCourseOfferingCode() + " is attached to doesn't have an exam period to create exam offerings.");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
 
             // adding SOC
             SocInfo socInfo = CourseOfferingManagementUtil.getCourseOfferingSetService().getSoc(request.getParameter(CourseOfferingConstants.SOC_ID), contextInfo);
