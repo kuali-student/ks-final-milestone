@@ -507,7 +507,9 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
                     courseWaitListInfoShared = getCourseWaitListService().getCourseWaitList(courseWaitListInfo.getId(), context);
                 }
 
-                for (String aoId : aoIdfoIdMap.keySet()){
+                for (Map.Entry<String, String> entry : aoIdfoIdMap.entrySet()){
+                    String aoId = entry.getKey();
+                    String foId = entry.getValue();
                     if (isMaxEnrollmentShared){   // create shared WL
                         // Put WL logic in. Shared WL ONLY when max enrollement is shared. Adding new aoID and foID(s)
                         if (!courseWaitListInfo.getActivityOfferingIds().contains(aoId)) {
@@ -520,8 +522,8 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
                                 }
                             }
                         }
-                        if (!courseWaitListInfo.getFormatOfferingIds().contains(aoIdfoIdMap.get(aoId))) {
-                            courseWaitListInfo.getFormatOfferingIds().add(aoIdfoIdMap.get(aoId));
+                        if (!courseWaitListInfo.getFormatOfferingIds().contains(foId)) {
+                            courseWaitListInfo.getFormatOfferingIds().add(foId);
                         }
                     } else {  // each AO keeps (or have to split shared) own WL
                         if (courseWaitListInfo.getActivityOfferingIds().contains(aoId)) {
@@ -532,12 +534,12 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
                             courseWaitListInfoNew.setActivityOfferingIds(new ArrayList<String>());
                             courseWaitListInfoNew.setFormatOfferingIds(new ArrayList<String>());
                             courseWaitListInfoNew.getActivityOfferingIds().add(aoId);
-                            courseWaitListInfoNew.getFormatOfferingIds().add(aoIdfoIdMap.get(aoId));
+                            courseWaitListInfoNew.getFormatOfferingIds().add(foId);
                             courseWaitListInfoNew = getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
                                     courseWaitListInfoNew, context);
                         }
-                        if (courseWaitListInfo.getFormatOfferingIds().contains(aoIdfoIdMap.get(aoId))) {
-                            courseWaitListInfo.getFormatOfferingIds().remove(aoIdfoIdMap.get(aoId));
+                        if (courseWaitListInfo.getFormatOfferingIds().contains(foId)) {
+                            courseWaitListInfo.getFormatOfferingIds().remove(foId);
                         }
                     }
                 }
