@@ -7,6 +7,7 @@ package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao;
@@ -326,7 +327,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
     @Override
     public Integer deleteCourseOfferingsBySoc(String socId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
+            PermissionDeniedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException {
         // TODO: add bulk ops to CourseOfferingService so this can call them 
         // to delete all for a term or delete all for a subject area intead of doing it one by one
         List<String> ids = this.getCourseOfferingIdsBySoc(socId, context);
