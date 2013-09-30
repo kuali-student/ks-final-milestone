@@ -41,6 +41,7 @@ public class TypeServiceConstants {
      * Type type relationship types
      */
     public static final String TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY = "kuali.type.type.relation.type.allowed";
+    public static final String TYPE_TYPE_RELATION_ATP2TIMESLOT_TYPE_KEY = "kuali.type.type.relation.type.allowed.atp2timeslot";
     public static final String TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY = "kuali.type.type.relation.type.contains";
     public static final String TYPE_TYPE_RELATION_GROUP_TYPE_KEY = "kuali.type.type.relation.type.group";
     /**
