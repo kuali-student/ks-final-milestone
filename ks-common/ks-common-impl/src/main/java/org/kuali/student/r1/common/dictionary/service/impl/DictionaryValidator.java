@@ -11,7 +11,6 @@ import java.util.regex.PatternSyntaxException;
 import org.kuali.student.r1.common.dictionary.dto.CaseConstraint;
 import org.kuali.student.r1.common.dictionary.dto.DataType;
 import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
-import org.kuali.student.r1.common.dictionary.dto.LookupConstraint;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.dto.ValidCharsConstraint;
 import org.kuali.student.r1.common.dictionary.dto.WhenConstraint;
@@ -38,10 +37,10 @@ public class DictionaryValidator
 
  public List<String> validate ()
  {
-  List<String> errors = new ArrayList ();
+  List<String> errors = new ArrayList<String>();
   if (os.getName () == null)
   {
-   errors.add ("The name cannbe be left null");
+   errors.add ("The name cannot be left null");
   }
   if (os.getBusinessObjectClass () != null)
   {
@@ -55,7 +54,7 @@ public class DictionaryValidator
 
   if (os.getAttributes () == null)
   {
-   errors.add ("getAttribues () is null -- null for field defintion");
+   errors.add ("getAttributes () is null -- null for field definition");
    return errors;
   }
   if (os.getAttributes ().size () == 0)
@@ -63,7 +62,7 @@ public class DictionaryValidator
    errors.add ("No fields defined for complex object structure");
    return errors;
   }
-  Set<String> fieldNames = new HashSet ();
+  Set<String> fieldNames = new HashSet<String>();
   for (FieldDefinition fd : os.getAttributes ())
   {
    if (fd.getName () != null)
@@ -73,7 +72,11 @@ public class DictionaryValidator
      errors.add (fd.getName () + " is defined more than once");
     }
    }
-   errors.addAll (validateField (fd));
+      List<String> fieldErrors = validateField(fd);
+      if (!fieldErrors.isEmpty()) {
+          errors.add("Errors validating object structure: " + os.getName());
+      }
+      errors.addAll (fieldErrors);
   }
   return errors;
  }
@@ -92,7 +95,7 @@ public class DictionaryValidator
 
  private List<String> validateField (FieldDefinition fd)
  {
-  List<String> errors = new ArrayList ();
+  List<String> errors = new ArrayList<String>();
   if (fd.getName () == null)
   {
    errors.add ("name cannot be null");
@@ -113,7 +116,7 @@ public class DictionaryValidator
    {
     errors.add (
       "field " + fd.getName ()
-      + " does not have an object structure definition but it required on a complex type");
+      + " does not have a data object structure definition but it is required on a complex type");
    }
    else
    {
@@ -148,15 +151,15 @@ public class DictionaryValidator
 
   if (fd.getLookupDefinition () != null)
   {
-   errors.addAll (validateLookup (fd, fd.getLookupDefinition ()));
+   errors.addAll (validateLookup (fd));
   }
   if (fd.getCaseConstraint () != null)
   {
-   errors.addAll (validateCase (fd, fd.getCaseConstraint ()));
+   errors.addAll (validateCase (fd));
   }
   if (fd.getValidChars () != null)
   {
-   errors.addAll (validateValidChars (fd, fd.getValidChars ()));
+   errors.addAll (validateValidChars (fd));
   }
   return errors;
  }
@@ -239,7 +242,7 @@ public class DictionaryValidator
    case BOOLEAN:
     if (value instanceof Boolean)
     {
-     return ((Boolean) value).booleanValue ();
+     return value;
     }
     if (value instanceof String)
     {
@@ -261,7 +264,7 @@ public class DictionaryValidator
    case TRUNCATED_DATE:
     if (value instanceof Date)
     {
-     return (Date) value;
+     return value;
     }
     try
     {
@@ -285,11 +288,10 @@ public class DictionaryValidator
   }
  }
 
- private List<String> validateValidChars (FieldDefinition fd,
-                                          ValidCharsConstraint vc)
+ private List<String> validateValidChars (FieldDefinition fd)
  {
-  List<String> errors = new ArrayList ();
-  String validChars = vc.getValue ();
+  List<String> errors = new ArrayList<String>();
+  String validChars = fd.getValidChars().getValue ();
   int typIdx = validChars.indexOf (":");
   String processorType = "regex";
   if (-1 == typIdx)
@@ -310,7 +312,7 @@ public class DictionaryValidator
   }
   try
   {
-   Pattern pattern = Pattern.compile (validChars);
+      Pattern.compile(validChars);
   }
   catch (PatternSyntaxException ex)
   {
@@ -321,10 +323,10 @@ public class DictionaryValidator
   return errors;
  }
 
- private List<String> validateLookup (FieldDefinition fd, LookupConstraint lc)
+ private List<String> validateLookup(FieldDefinition fd)
  {
-  List<String> errors = new ArrayList ();
-  if (lc.getParams () == null)
+  List<String> errors = new ArrayList<String>();
+  if (fd.getLookupDefinition().getParams() == null)
   {
    errors.add ("field " + fd.getName () + " has a lookup with null parameters");
   }
@@ -342,9 +344,10 @@ public class DictionaryValidator
   NOT_EQUAL, EQUALS, GREATER_THAN_EQUAL, LESS_THAN_EQUAL, GREATER_THAN, LESS_THAN
  };
 
- private List<String> validateCase (FieldDefinition fd, CaseConstraint cc)
+ private List<String> validateCase (FieldDefinition fd)
  {
-  List<String> errors = new ArrayList ();
+  CaseConstraint cc = fd.getCaseConstraint();
+  List<String> errors = new ArrayList<String>();
   if (cc.getOperator () == null)
   {
    errors.add ("field " + fd.getName ()
@@ -353,14 +356,12 @@ public class DictionaryValidator
   else
   {
    boolean found = false;
-   for (int i = 0; i < VALID_OPERATORS.length; i ++)
-   {
-    if (VALID_OPERATORS[i].equalsIgnoreCase (cc.getOperator ()))
-    {
-     found = true;
-     break;
-    }
-   }
+      for (String VALID_OPERATOR : VALID_OPERATORS) {
+          if (VALID_OPERATOR.equalsIgnoreCase(cc.getOperator())) {
+              found = true;
+              break;
+          }
+      }
    if ( ! found)
    {
     errors.add ("field " + fd.getName ()

@@ -29,7 +29,7 @@ public class Dictionary2BeanComparer
   {
    return Arrays.asList (osDict.getName () + " does not have a corresponding java class");
   }
-  Class<?> clazz = null;
+  Class<?> clazz;
   try
   {
    clazz = Class.forName (className);
@@ -46,7 +46,7 @@ public class Dictionary2BeanComparer
  private List<String> compare (ObjectStructureDefinition osDict,
                                ObjectStructureDefinition osBean)
  {
-  List<String> discrepancies = new ArrayList ();
+  List<String> discrepancies = new ArrayList<String>();
   if (osDict == null && osBean != null) {
 	discrepancies.add("osDict is null " + osBean.getName());
 }
@@ -86,8 +86,7 @@ public class Dictionary2BeanComparer
 		   && !fdBean.getName().equals("state")
 		   && !fdBean.getName().equals("type")) {
 	// Debuggin System.out.println("test");
-    discrepancies.add (" Field " + fdBean.getName () + " missing from the dictionary");
-    continue;
+    discrepancies.add ("Field " + fdBean.getName () + " missing from the dictionary");
    }
    }
   }
