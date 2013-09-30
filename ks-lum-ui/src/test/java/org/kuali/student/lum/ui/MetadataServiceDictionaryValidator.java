@@ -109,7 +109,7 @@ public class MetadataServiceDictionaryValidator {
 			String type, String lookupType) {
 		System.out.println("Validating lookup " + name + "(" + type + ") "
 				+ lookupType);
-		List<String> errors = new ArrayList();
+		List<String> errors = new ArrayList<String>();
 		// Check excluded searchTypeIDs - these id's are not errors, but they don't line up with the DTO's
 		if (ignoreExcludedSearchIDs(lookup.getSearchTypeId())) {
 			return errors;			
@@ -188,8 +188,7 @@ public class MetadataServiceDictionaryValidator {
 						+ " who's datatype does not match the underlying parameter "
 						+ qp.getFieldDescriptor().getDataType()
 						+ " vs. " + param.getDataType());
-				continue;
-			}
+            }
 		}
 		// check results
 		for (LookupResultMetadata result : lookup.getResults()) {
@@ -209,8 +208,7 @@ public class MetadataServiceDictionaryValidator {
 								+ " who's datatype does not match the underlying result column "
 								+ rc.getDataType() + " vs. "
 								+ result.getDataType());
-				continue;
-			}
+            }
 		}
 		return errors;
 	}
@@ -224,41 +222,20 @@ public class MetadataServiceDictionaryValidator {
 		}
 		switch (dt) {
 		case STRING:
-			if (qp.equalsIgnoreCase("string")) {
-				return true;
-			}
-			if (qp == null) {
-				return true;
-			}
-			return false;
-		case INTEGER:
-			if (qp.equalsIgnoreCase("int")) {
-				return true;
-			}
-			return false;
-		case LONG:
+            return qp.equalsIgnoreCase("string");
+        case INTEGER:
+            return qp.equalsIgnoreCase("int");
+        case LONG:
 		case FLOAT:
 		case DOUBLE:
 		case BOOLEAN:
-			if (qp.equalsIgnoreCase("boolean")) {
-				return true;
-			}
-			return false;
-		case DATE:
+            return qp.equalsIgnoreCase("boolean");
+        case DATE:
 		case TRUNCATED_DATE:
-			if (qp.equalsIgnoreCase("date")) {
-				return true;
-			}
-			if (qp.equalsIgnoreCase("dateTime")) {
-				return true;
-			}
-			return false;
-		case DATA:
-			if (qp.equalsIgnoreCase("complex")) {
-				return true;
-			}
-			return false;
-		case LIST:
+            return qp.equalsIgnoreCase("date") || qp.equalsIgnoreCase("dateTime");
+        case DATA:
+            return qp.equalsIgnoreCase("complex");
+        case LIST:
 			return true;
 		}
 		return true;
@@ -341,12 +318,11 @@ public class MetadataServiceDictionaryValidator {
 	}
 
 	private boolean ignoreExcludedSearchIDs(String searchID) {
-		for (int i = 0; i < excludingSearchTypeIDs.length; i++) {
-			String item = excludingSearchTypeIDs[i];
-			if (item.equals(searchID)) {
-				return true;
-			}
-		}
+        for (String item : excludingSearchTypeIDs) {
+            if (item.equals(searchID)) {
+                return true;
+            }
+        }
 		return false;
 		
 	}
