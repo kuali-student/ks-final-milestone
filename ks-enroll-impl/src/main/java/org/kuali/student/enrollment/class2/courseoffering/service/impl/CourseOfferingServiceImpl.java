@@ -155,7 +155,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo deleteCourseOfferingCascaded(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteCourseOfferingCascaded(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException, DataValidationErrorException {
 
         // Cascade delete to the formats
         List<FormatOfferingInfo> fos = getFormatOfferingsByCourseOffering(courseOfferingId, context);
@@ -207,11 +207,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo deleteFormatOfferingCascaded(String formatOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteFormatOfferingCascaded(String formatOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException, DataValidationErrorException {
         // Delete dependent activity offerings
         List<ActivityOfferingInfo> aos = getActivityOfferingsByFormatOffering(formatOfferingId, context);
         for (ActivityOfferingInfo ao : aos) {
-            deleteActivityOfferingCascaded(ao.getId(), context);
+            deleteActivityOfferingCascaded(ao.getId(), formatOfferingId, context);
         }
 
         // TODO: Delete dependent RegistrationGroups
@@ -1485,6 +1485,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }catch (Exception ex){
             throw new OperationFailedException("Unable to search for AO Codes by CO ID", ex);
         }
+
         List<SearchResultRowInfo> rows = result.getRows();
         //  If there are no rows assume the operation is an add and skip the check.
         if ( ! rows.isEmpty()) {
@@ -1690,13 +1691,20 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
     }
 
-    private StatusInfo deleteWaitListFromAo(String activityOfferingId,ContextInfo context) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    private StatusInfo deleteWaitListFromAo(String activityOfferingId, String formatOfferingId, ContextInfo context) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, ReadOnlyException, VersionMismatchException, DataValidationErrorException {
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         // it is assumed that the list will contain only zero/one element in it.
-        List<CourseWaitListInfo> courseWaitListInfos = courseWaitListService.getCourseWaitListsByActivityOffering(activityOfferingId,context);
+        List<CourseWaitListInfo> courseWaitListInfos = courseWaitListService.getCourseWaitListsByActivityOffering(activityOfferingId, context);
         for(CourseWaitListInfo courseWaitListInfo : courseWaitListInfos){
-            courseWaitListService.deleteCourseWaitList(courseWaitListInfo.getId(),context);
+            if (courseWaitListInfo.getActivityOfferingIds().size() == 1) {
+                courseWaitListService.deleteCourseWaitList(courseWaitListInfo.getId(), context);
+            } else {
+                // remove deleted AO from shared WL
+                courseWaitListInfo.getActivityOfferingIds().remove(activityOfferingId);
+                courseWaitListInfo.getFormatOfferingIds().remove(formatOfferingId);
+                getCourseWaitListService().updateCourseWaitList(courseWaitListInfo.getId(), courseWaitListInfo, context);
+            }
         }
         return status;
     }
@@ -1729,12 +1737,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo deleteActivityOfferingCascaded(String activityOfferingId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteActivityOfferingCascaded(String activityOfferingId, String formatOfferingId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
+                     ReadOnlyException, VersionMismatchException, DataValidationErrorException {
 
         List<SeatPoolDefinitionInfo> seatPoolsToDelete = getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
         deleteSeatPoolsFromAo(seatPoolsToDelete, activityOfferingId, context);
-        deleteWaitListFromAo(activityOfferingId,context);
+        deleteWaitListFromAo(activityOfferingId, formatOfferingId, context);
         deleteExamOfferingFromAo(activityOfferingId, context);
         removeActivityOfferingFromAoCluster(activityOfferingId, context);
 
