@@ -47,13 +47,6 @@
     </bean>
     <bean id="org.kuali.student.r2.lum.clu.dto.CluInfo" parent="org.kuali.student.r2.lum.clu.dto.CluInfo-parent"/>
 
-    <bean id="cluInfo.academicSubjectOrgs-parent" abstract="true" parent="baseComplexRepeating">
-        <property name="name" value="academicSubjectOrgs"/>
-        <property name="dataObjectStructure"
-                  ref="org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo"/>
-    </bean>
-    <bean id="cluInfo.academicSubjectOrgs" parent="cluInfo.academicSubjectOrgs-parent"/>
-
     <bean id="cluInfo.accountingInfo-parent" abstract="true" parent="baseComplex">
         <property name="name" value="accountingInfo"/>
         <property name="dataObjectStructure"
@@ -285,25 +278,6 @@
         <property name="name" value="typeKey"/>
     </bean>
     <bean id="cluInfo.typeKey" parent="cluInfo.typeKey-parent"/>
-
-    <!-- AcademicSubjectOrgInfo-->
-    <bean id="org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo-parent"
-          abstract="true" parent="objectStructureDefinition">
-        <property name="name"
-                  value="org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo"/>
-        <property name="attributes">
-            <list>
-                <ref bean="academicSubjectOrgInfo.orgId"/>
-            </list>
-        </property>
-    </bean>
-    <bean id="org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo"
-          parent="org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo-parent"/>
-
-    <bean id="academicSubjectOrgInfo.orgId-parent" abstract="true" parent="baseKualiOrgIdRequired">
-        <property name="name" value="orgId"/>
-    </bean>
-    <bean id="academicSubjectOrgInfo.orgId" parent="academicSubjectOrgInfo.orgId-parent"/>
 
     <!-- CluFeeInfo-->
     <bean id="org.kuali.student.r2.lum.clu.dto.CluFeeInfo-parent"
