@@ -57,8 +57,7 @@ public class ComplexSubstructuresHelper {
             // https://forums.oracle.com/forums/thread.jspa?threadID=1158697
             // http://bugs.sun.com/view_bug.do?bug_id=6794807
 			if (propertyField1 != null) {
-				Class<?> subClassField =  propertyField1.getType();
-				subClass = subClassField;
+                subClass = propertyField1.getType();
 			}
 			//
 			if (List.class.equals(subClass)) {
@@ -102,9 +101,7 @@ public class ComplexSubstructuresHelper {
 	
 	
 	public ArrayList<Field> getAllFields(ArrayList<Field> fields, Class<?> type) {
-	    for (Field field: type.getDeclaredFields()) {
-	        fields.add(field);
-	    }
+        Collections.addAll(fields, type.getDeclaredFields());
 
 	    if (type.getSuperclass() != null) {
 	        fields = getAllFields(fields, type.getSuperclass());
