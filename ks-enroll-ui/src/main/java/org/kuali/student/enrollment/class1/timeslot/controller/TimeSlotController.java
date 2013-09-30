@@ -72,6 +72,16 @@ public class TimeSlotController extends UifControllerBase {
         return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);
     }
 
+
+    @RequestMapping(params = "methodToCall=addTimeSlot")
+    public ModelAndView addTimeSlot(@ModelAttribute(MODEL_ATTRIBUTE_FORM) TimeSlotForm form)
+           throws Exception, PermissionDeniedException, OperationFailedException {
+
+
+
+        return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);
+    }
+
     private TimeSlotViewHelperService getViewHelperService(UifFormBase form) {
         if (viewHelperService == null) {
             if (form.getView().getViewHelperService() != null) {

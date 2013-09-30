@@ -19,7 +19,9 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.student.enrollment.class1.timeslot.form.TimeSlotForm;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -28,13 +30,12 @@ import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Provides a list keys and values for Time Slot types.
  */
-public class TermSlotTypeValues extends KeyValuesBase implements Serializable {
+public class TermSlotTypeValues extends UifKeyValuesFinderBase implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(TermSlotTypeValues.class);
 
@@ -42,14 +43,14 @@ public class TermSlotTypeValues extends KeyValuesBase implements Serializable {
 
     private ContextInfo contextInfo;
 
-    private List<KeyValue> keyValuePairs;
-
     @Override
-    public List<KeyValue> getKeyValues() {
-        //  Since type data is static while the app is running, only rebuild the list of it doesn't already exist.
-        if (keyValuePairs == null) {
-            keyValuePairs = new ArrayList<KeyValue>();
+    public List<KeyValue> getKeyValues(ViewModel model) {
 
+        TimeSlotForm form = (TimeSlotForm)model;
+        List<KeyValue> keyValuePairs = form.getTimeslotKeyValues();
+
+        //  Since type data is static while the app is running, only rebuild the list of it doesn't already exist.
+        if (form.getTimeslotKeyValues().isEmpty()) {
             List<TypeInfo> typeInfos = null;
             try {
                 typeInfos = getTypeService().getTypesForGroupType("SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING", getContextInfo());
