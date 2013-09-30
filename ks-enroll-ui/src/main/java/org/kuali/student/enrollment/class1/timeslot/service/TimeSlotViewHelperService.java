@@ -2,6 +2,11 @@ package org.kuali.student.enrollment.class1.timeslot.service;
 
 import org.kuali.student.common.uif.service.KSViewHelperService;
 import org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 
 import java.util.List;
 
@@ -14,5 +19,5 @@ public interface TimeSlotViewHelperService extends KSViewHelperService {
      * @param timeSlotTypes A list of TimeSlot type keys.
      * @return A list of TimeSlotWrapper objects.
      */
-    public abstract List<TimeSlotWrapper> findTimeSlots(List<String> timeSlotTypes);
+    public abstract List<TimeSlotWrapper> findTimeSlots(List<String> timeSlotTypes) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
 }

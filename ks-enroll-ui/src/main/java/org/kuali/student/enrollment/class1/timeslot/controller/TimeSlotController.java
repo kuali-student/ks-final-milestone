@@ -47,9 +47,6 @@ public class TimeSlotController extends UifControllerBase {
 
         TimeSlotViewHelperService viewHelperService = getViewHelperService(form);
 
-        List<String> timeSlotTypes = Collections.emptyList();
-        ((TimeSlotForm) form).setTimeSlotResults(viewHelperService.findTimeSlots(timeSlotTypes));
-
         return super.start(form, result, request, response);
     }
 
@@ -58,7 +55,10 @@ public class TimeSlotController extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=show")
     public ModelAndView show(@ModelAttribute( MODEL_ATTRIBUTE_FORM ) TimeSlotForm form)
-            throws Exception, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+            throws Exception, PermissionDeniedException, OperationFailedException {
+
+        List<String> timeSlotTypes = Collections.emptyList();
+        form.setTimeSlotResults(viewHelperService.findTimeSlots(timeSlotTypes));
 
         return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);
     }
