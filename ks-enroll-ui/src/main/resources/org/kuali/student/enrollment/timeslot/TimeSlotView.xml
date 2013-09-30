@@ -122,7 +122,7 @@
         </property>
     </bean>
 
-    <bean id="TimeSlotSearchResults-TableCollectionSection" parent="KS-Uif-TableCollectionSection-WithActionSeperator" >
+    <bean id="TimeSlotSearchResults-TableCollectionSection" parent="KS-Uif-TableCollectionSection-WithActionSeperator" p:renderAddLine="false" >
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper" />
         <property name="propertyName" value="timeSlotResults" />
         <property name="collectionLookup">
