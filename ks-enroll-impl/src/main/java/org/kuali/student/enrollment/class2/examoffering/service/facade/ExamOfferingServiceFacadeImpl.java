@@ -376,7 +376,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         eoRelation.setExamOfferingId(examOfferingId);
         eoRelation.setActivityOfferingIds(aoIds);
         eoRelation.setPopulationIds(new ArrayList<String>());
-        eoRelation.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY);
+        eoRelation.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY);
 
         return this.getExamOfferingService().createExamOfferingRelation(formatOfferingId,
                 examOfferingId, eoRelation.getTypeKey(), eoRelation, context);

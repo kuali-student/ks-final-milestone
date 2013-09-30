@@ -127,7 +127,7 @@ public class TestExamOfferingServiceImpl {
         try {
             //Create
             ExamOfferingRelationInfo created = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
-                    LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo, callContext);
+                    LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo, callContext);
 
             String examOfferingRelationId = created.getId();
             assertNotNull(created);
@@ -190,11 +190,11 @@ public class TestExamOfferingServiceImpl {
         try {
             //Create
             ExamOfferingRelationInfo created1 = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
-                    LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo1, callContext);
+                    LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo1, callContext);
             ExamOfferingRelationInfo created2 = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-10",
-                                LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo2, callContext);
+                                LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo2, callContext);
             
-            examOfferingRelationIds = examOfferingService.getExamOfferingRelationIdsByType(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY, callContext);
+            examOfferingRelationIds = examOfferingService.getExamOfferingRelationIdsByType(LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, callContext);
 
             assertNotNull(examOfferingRelationIds);
             assertEquals(2, examOfferingRelationIds.size());
@@ -223,9 +223,9 @@ public class TestExamOfferingServiceImpl {
         try {
             //Create
             ExamOfferingRelationInfo created1 = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
-                    LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo1, callContext);
+                    LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo1, callContext);
             ExamOfferingRelationInfo created2 = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-10",
-                                LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo2, callContext);
+                                LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo2, callContext);
 
             List<ExamOfferingRelationInfo> examOfferingRelationInfos = examOfferingService.getExamOfferingRelationsByFormatOffering("Lui-6", callContext);
 
@@ -258,9 +258,9 @@ public class TestExamOfferingServiceImpl {
         try {
             //Create
             ExamOfferingRelationInfo created1 = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
-                    LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo1, callContext);
+                    LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo1, callContext);
             ExamOfferingRelationInfo created2 = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-10",
-                    LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo2, callContext);
+                    LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo2, callContext);
 
             List<String> examOfferingRelationIds = new ArrayList<String>();
             examOfferingRelationIds.add(created1.getId());
@@ -299,9 +299,9 @@ public class TestExamOfferingServiceImpl {
 
             //Create
             ExamOfferingRelationInfo created1 = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
-                    LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo1, callContext);
+                    LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo1, callContext);
             ExamOfferingRelationInfo created2 = examOfferingService.createExamOfferingRelation("Lui-7", "Lui-9",
-                                LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo2, callContext);
+                                LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo2, callContext);
 
             List<ExamOfferingRelationInfo> examOfferingRelationInfos = examOfferingService.getExamOfferingRelationsByExamOffering("Lui-9", callContext);
 
@@ -385,7 +385,7 @@ public class TestExamOfferingServiceImpl {
             //Create
             eoRelInfo.setActivityOfferingIds(Arrays.asList("AO-01","AO-02","AO-03","Lui-2"));
             ExamOfferingRelationInfo created = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
-                    LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo, callContext);
+                    LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo, callContext);
 
             //Retrieve IDs
             List<String> examOfferingRelationIds = examOfferingService.getExamOfferingRelationIdsByActivityOffering("Lui-2", callContext);
@@ -418,9 +418,9 @@ public class TestExamOfferingServiceImpl {
         try {
             //Create
             ExamOfferingRelationInfo created1 = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
-                    LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo1, callContext);
+                    LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo1, callContext);
             ExamOfferingRelationInfo created2 = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-10",
-                                LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo2, callContext);
+                                LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo2, callContext);
 
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
             qbcBuilder.setPredicates(PredicateFactory.and(PredicateFactory.equal("lui.id", "Lui-6")));
@@ -451,7 +451,7 @@ public class TestExamOfferingServiceImpl {
     public void testSearchForExamOfferingRelations() throws Exception {
         ExamOfferingRelationInfo eoRelInfo = createExamOfferingRelationInfo();
         ExamOfferingRelationInfo created = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
-                LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo, callContext);
+                LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo, callContext);
 
         try {
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();

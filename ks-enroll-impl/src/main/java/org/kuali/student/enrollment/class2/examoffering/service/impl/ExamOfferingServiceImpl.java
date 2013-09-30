@@ -442,7 +442,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
         try {
             List<LuiLuiRelationInfo>  luiRels = getLuiService().getLuiLuiRelationsByLui(formatOfferingId, contextInfo);
             for (LuiLuiRelationInfo luiRel : luiRels) {
-                if (luiRel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY) &&
+                if (luiRel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY) &&
                         luiRel.getLuiId().equals(formatOfferingId)) { //getLuiLuiRelationsByLui query brings back both luiId and relatedLuiId > select
                     ExamOfferingRelationInfo examOfferingRelationInfo = new ExamOfferingRelationInfo();
                     getExamOfferingTransformer().transformLuiLuiRel2EORel(luiRel, examOfferingRelationInfo);
@@ -499,7 +499,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
         //Retrieve ExamOfferingRelationInfos
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.and(
-                PredicateFactory.equal("luiLuiRelationType", LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_FO_TO_EO_TYPE_KEY),
+                PredicateFactory.equal("luiLuiRelationType", LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY),
                 PredicateFactory.like("attributes[AO%]", activityOfferingId)));
 
         QueryByCriteria criteria = qbcBuilder.build();
