@@ -13,6 +13,7 @@ public class TimeSlotForm extends KSUifForm {
 
     //  Term type multi-select drop-down selections.
     private List<String> termTypeSelections;
+    private boolean timeSlotsLoaded = false;
 
     //  Storage for Time Slot search results.
     private List<TimeSlotWrapper> timeSlotResults;
@@ -36,5 +37,13 @@ public class TimeSlotForm extends KSUifForm {
 
     public void setTermTypeSelections(List<String> termTypeSelections) {
         this.termTypeSelections = termTypeSelections;
+    }
+
+    public boolean isTimeSlotsLoaded() {
+        return timeSlotsLoaded;
+    }
+
+    public void setTimeSlotsLoaded(boolean timeSlotsLoaded) {
+        this.timeSlotsLoaded = timeSlotsLoaded;
     }
 }

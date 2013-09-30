@@ -1,12 +1,11 @@
 package org.kuali.student.enrollment.class1.timeslot.controller;
 
-import edu.emory.mathcs.backport.java.util.Collections;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper;
 import org.kuali.student.enrollment.class1.timeslot.form.TimeSlotForm;
 import org.kuali.student.enrollment.class1.timeslot.service.TimeSlotViewHelperService;
 import org.kuali.student.enrollment.class1.timeslot.util.TimeSlotConstants;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.springframework.stereotype.Controller;
@@ -47,18 +46,28 @@ public class TimeSlotController extends UifControllerBase {
 
         TimeSlotViewHelperService viewHelperService = getViewHelperService(form);
 
-        return super.start(form, result, request, response);
+        return super.start(form, result, request, response);    
     }
 
     /**
-     * Search for TimeSlots by type.
-     */
+      * Search for TimeSlots by type.
+      */
     @RequestMapping(params = "methodToCall=show")
-    public ModelAndView show(@ModelAttribute( MODEL_ATTRIBUTE_FORM ) TimeSlotForm form)
+    public ModelAndView show(@ModelAttribute(MODEL_ATTRIBUTE_FORM) TimeSlotForm form)
             throws Exception, PermissionDeniedException, OperationFailedException {
 
-        List<String> timeSlotTypes = Collections.emptyList();
-        form.setTimeSlotResults(viewHelperService.findTimeSlots(timeSlotTypes));
+        List<String> timeSlotTypes = form.getTermTypeSelections();
+
+        if (form.getTermTypeSelections().size() > 0) {
+            form.setTimeSlotsLoaded(true);
+        }
+        form.getTimeSlotResults().clear();
+        TimeSlotViewHelperService viewHelperService = getViewHelperService(form);
+
+        List<TimeSlotWrapper> timeSlotWrapperList = viewHelperService.findTimeSlots(timeSlotTypes);
+        for (TimeSlotWrapper wrapper : timeSlotWrapperList) {
+            form.getTimeSlotResults().add(wrapper);
+        }
 
         return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);
     }

@@ -13,13 +13,21 @@ public class TimeSlotWrapper {
 
     private boolean isChecked;
 
-    public TimeSlotInfo getTimeSlotInfo() {
-        return timeSlotInfo;
+    private String startTimeDisplay = "";
+    private String endTimeDisplay = "";
+    private String daysDisplayName = "";
+
+    public TimeSlotWrapper() {
+        timeSlotInfo = new TimeSlotInfo();
     }
 
+    public TimeSlotInfo getTimeSlotInfo() {
+             return timeSlotInfo;
+         }
+
     public boolean getIsChecked() {
-        return isChecked;
-    }
+             return isChecked;
+         }
 
     public void setIsChecked(boolean checked) {
         this.isChecked = checked;
@@ -39,5 +47,29 @@ public class TimeSlotWrapper {
 
     public String getEndTime() {
         return timeSlotInfo.getEndTime().toString();
+    }
+
+    public String getStartTimeDisplay() {
+        return startTimeDisplay;
+    }
+
+    public void setStartTimeDisplay(String startTimeDisplay) {
+        this.startTimeDisplay = startTimeDisplay;
+    }
+
+    public String getEndTimeDisplay() {
+        return endTimeDisplay;
+    }
+
+    public void setEndTimeDisplay(String endTimeDisplay) {
+        this.endTimeDisplay = endTimeDisplay;
+    }
+
+    public String getDaysDisplayName() {
+        return daysDisplayName;
+    }
+
+    public void setDaysDisplayName(String daysDisplayName) {
+        this.daysDisplayName = daysDisplayName;
     }
 }

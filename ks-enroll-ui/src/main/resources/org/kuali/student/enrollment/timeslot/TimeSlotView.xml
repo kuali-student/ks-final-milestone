@@ -116,7 +116,7 @@
     <bean id="TimeSlotSearchResults-Section" parent="Uif-VerticalBoxSection" >
         <property name="items">
             <list>
-               <bean parent="Uif-Message" p:messageText="Time Slots For: Some type, Some other type." />
+               <bean parent="Uif-Message" p:messageText="Time Slots For: @{termTypeSelections}" />
                <ref bean="TimeSlotSearchResults-TableCollectionSection" />
             </list>
         </property>
@@ -154,16 +154,13 @@
                     p:propertyName="timeSlotInfo.typeKey"/>
                 <bean parent="KS-Uif-DataField-Simple"
                     p:label="Days"
-                    p:propertyName="daysPattern"/>
+                    p:propertyName="daysDisplayName"/>
                 <bean parent="KS-Uif-DataField-Simple"
                     p:label="Start Time"
-                    p:propertyName="timeSlotInfo.typeKey"/>
+                    p:propertyName="startTimeDisplay"/>
                 <bean parent="KS-Uif-DataField-Simple"
                     p:label="End Time"
-                    p:propertyName="timeSlotInfo.typeKey"/>
-                <bean parent="KS-Uif-DataField-Simple"
-                    p:label="End Time"
-                    p:propertyName="timeSlotInfo.typeKey"/>
+                    p:propertyName="endTimeDisplay"/>
             </list>
         </property>
 
