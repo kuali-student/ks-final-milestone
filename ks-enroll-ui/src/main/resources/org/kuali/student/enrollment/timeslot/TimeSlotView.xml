@@ -131,7 +131,15 @@
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-         <property name="items">
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
+                <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
+            </map>
+        </property>
+        <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:onChangeScript="someScrtip">
                     <property name="control">
