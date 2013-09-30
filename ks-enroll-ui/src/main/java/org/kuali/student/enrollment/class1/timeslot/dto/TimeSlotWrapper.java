@@ -20,6 +20,9 @@ public class TimeSlotWrapper {
     private String endTimeDisplay = "";
     private String daysDisplayName = "";
 
+    //hidden columns for toolbar
+    private boolean enableDeleteButton = true;
+
     public TimeSlotWrapper() {
         timeSlotInfo = new TimeSlotInfo();
     }
@@ -90,5 +93,13 @@ public class TimeSlotWrapper {
 
     public void setTypeKey(String typeKey) {
         this.typeKey = typeKey;
+    }
+
+    public boolean isEnableDeleteButton() {
+        return enableDeleteButton;
+    }
+
+    public void setEnableDeleteButton(boolean enableDeleteButton) {
+        this.enableDeleteButton = enableDeleteButton;
     }
 }

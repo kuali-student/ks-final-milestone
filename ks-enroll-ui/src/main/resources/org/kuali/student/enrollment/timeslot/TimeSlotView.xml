@@ -81,7 +81,7 @@
                             <bean parent="Uif-InputField" p:propertyName="termTypeSelections"  p:width="auto"
                                   p:label="Select Term Type(s) To Edit" p:labelPlacement="TOP">
                                 <property name="control">
-                                    <bean parent="Uif-MultiSelectControl" p:size="4" p:width="10em"/>
+                                    <bean parent="Uif-MultiSelectControl" p:size="3" p:width="17em"/>
                                 </property>
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.enrollment.class1.timeslot.keyvalue.TermSlotTypeValues" />
@@ -122,7 +122,9 @@
         </property>
     </bean>
 
-    <bean id="TimeSlotSearchResults-TableCollectionSection" parent="KS-Uif-TableCollectionSection-WithActionSeperator" p:renderAddLine="false" >
+    <bean id="TimeSlotSearchResults-TableCollectionSection" parent="KS-Uif-TableCollectionSection-WithActionSeperator" p:renderAddLine="false"
+        p:onDocumentReadyScript="resetCheckboxes('TimeSlotSearchResultsDisplayCheckBoxes');">
+        <property name="id" value="TimeSlotSearchResultsDisplayCheckBoxes" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper" />
         <property name="propertyName" value="timeSlotResults" />
         <property name="collectionLookup">
@@ -141,14 +143,15 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:onChangeScript="someScrtip">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:disabled="false"/>
-                    </property>
+                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:hidden="@{!#line.isEnableDeleteButton()}"
+                      p:onChangeScript="handleToolbar('TimeSlotSearchResultsDisplayCheckBoxes',['enableDeleteButton'], ['TimeSlot-ToolBar-Delete-TimeSlot']);">
+                      <property name="control">
+                            <bean parent="Uif-CheckboxControl" p:disabled="false"/>
+                      </property>
                 </bean>
                 <bean parent="KS-Uif-DataField-Simple"
-                    p:label="Code"
-                    p:propertyName="timeSlotInfo.name"/>
+                                     p:label="Code"
+                                     p:propertyName="timeSlotInfo.name"/>
                 <bean parent="KS-Uif-DataField-Simple"
                     p:label="Term Type"
                     p:propertyName="typeName"/>
@@ -161,7 +164,13 @@
                 <bean parent="KS-Uif-DataField-Simple"
                     p:label="End Time"
                     p:propertyName="endTimeDisplay"/>
+                <bean name="enableDeleteButton" parent="KS-Uif-DataField-Simple" p:label="enableDeleteButton"  p:propertyName="enableDeleteButton"/>
             </list>
+        </property>
+        <property name="layoutManager.richTable.hiddenColumns">
+            <set>
+                <value>enableDeleteButton</value>
+            </set>
         </property>
 
         <property name="layoutManager.actionFieldPrototype">

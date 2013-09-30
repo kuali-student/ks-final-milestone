@@ -68,8 +68,8 @@ public class TimeSlotViewHelperServiceImpl
         // add some test data
         TimeSlotInfo timeSlotInfo = new TimeSlotInfo();
         timeSlotInfo.setName("A");
-        timeSlotInfo.setTypeKey("type1");
-        Integer[] days = {0, 1, 2};
+        timeSlotInfo.setTypeKey("SummerFull");
+        Integer[] days = {1, 3, 5};
         timeSlotInfo.setWeekdays(Arrays.asList(days));
         TimeOfDayInfo timeOfDayInfo1 = new TimeOfDayInfo();
         timeOfDayInfo1.setMilliSeconds(1000L);
