@@ -111,7 +111,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
     private CourseWaitListServiceFacade waitListServiceFacade;
 
     private ExamOfferingServiceFacade examOfferingServiceFacade;
-    
+
     /* (non-Javadoc)
      * @see org.kuali.student.enrollment.class2.courseoffering.service.adapter.CourseOfferingServiceFacade#getDefaultClusterName(int)
      */
@@ -677,10 +677,11 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
     @Override
     public void deleteActivityOfferingCascaded(String aoId,
                                                String aocId,
+                                               String foId,
                                                ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
-                   OperationFailedException, DoesNotExistException {
-        coService.deleteActivityOfferingCascaded(aoId, context);
+            OperationFailedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException, VersionMismatchException {
+        coService.deleteActivityOfferingCascaded(aoId, foId, context);
     }
 
     @Override

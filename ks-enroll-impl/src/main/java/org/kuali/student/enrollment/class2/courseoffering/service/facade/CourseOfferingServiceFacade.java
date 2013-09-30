@@ -125,12 +125,13 @@ public interface CourseOfferingServiceFacade {
      *               an AO from an AOC
      * A pass-through to the deleteActivityOfferingCascaded.
      * @param aocId
+     * @param foId
      * @param context
      * Doesn't return anything for now.  If we need something, can always modify the return type
      */
-    void deleteActivityOfferingCascaded(String aoId, String aocId, ContextInfo context)
+    void deleteActivityOfferingCascaded(String aoId, String aocId, String foId, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
-                   OperationFailedException, DoesNotExistException;
+            OperationFailedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException, VersionMismatchException;
 
     /**
      * User Story 6: As a user, I need the system to automatically create/delete all associated registration
