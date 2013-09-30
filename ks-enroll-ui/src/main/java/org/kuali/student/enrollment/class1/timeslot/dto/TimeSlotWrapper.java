@@ -11,8 +11,18 @@ import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 public class TimeSlotWrapper {
     private TimeSlotInfo timeSlotInfo;
 
+    private boolean isChecked;
+
     public TimeSlotInfo getTimeSlotInfo() {
         return timeSlotInfo;
+    }
+
+    public boolean getIsChecked() {
+        return isChecked;
+    }
+
+    public void setIsChecked(boolean checked) {
+        this.isChecked = checked;
     }
 
     public void setTimeSlotInfo(TimeSlotInfo timeSlotInfo) {

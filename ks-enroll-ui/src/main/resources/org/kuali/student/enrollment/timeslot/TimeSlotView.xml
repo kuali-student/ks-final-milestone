@@ -121,7 +121,7 @@
         </property>
     </bean>
 
-    <bean id="TimeSlotSearchResults-TableCollectionSection" parent="KS-Uif-TableCollectionSection-WithActionSeperator" p:renderAddLine="false" p:render="true">
+    <bean id="TimeSlotSearchResults-TableCollectionSection" parent="KS-Uif-TableCollectionSection-WithActionSeperator" >
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper" />
         <property name="propertyName" value="timeSlotResults" />
         <property name="collectionLookup">
@@ -140,32 +140,29 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false"
-                    p:onChangeScript="someScrtip"
-                    p:hidden="@{#lp.crossListed or !#line.isEnableDeleteButton()}">
+                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:onChangeScript="someScrtip">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>
                 </bean>
-
                 <bean parent="KS-Uif-DataField-Simple"
                     p:label="Code"
-                    p:propertyName="timeSlot.name"/>
+                    p:propertyName="timeSlotInfo.name"/>
                 <bean parent="KS-Uif-DataField-Simple"
                     p:label="Term Type"
-                    p:propertyName="timeSlot.typeKey"/>
+                    p:propertyName="timeSlotInfo.typeKey"/>
                 <bean parent="KS-Uif-DataField-Simple"
                     p:label="Days"
-                    p:propertyName="timeSlot.daysPatterm"/>
+                    p:propertyName="daysPattern"/>
                 <bean parent="KS-Uif-DataField-Simple"
                     p:label="Start Time"
-                    p:propertyName="timeSlot.typeKey"/>
+                    p:propertyName="timeSlotInfo.typeKey"/>
                 <bean parent="KS-Uif-DataField-Simple"
                     p:label="End Time"
-                    p:propertyName="timeSlot.typeKey"/>
+                    p:propertyName="timeSlotInfo.typeKey"/>
                 <bean parent="KS-Uif-DataField-Simple"
                     p:label="End Time"
-                    p:propertyName="timeSlot.typeKey"/>
+                    p:propertyName="timeSlotInfo.typeKey"/>
             </list>
         </property>
 
