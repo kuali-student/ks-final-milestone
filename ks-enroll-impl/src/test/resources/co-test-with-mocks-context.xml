@@ -13,6 +13,7 @@
     <import resource="classpath:ks-test-system-property-configurer.xml" />
     <import resource="classpath:ks-enroll-api-data-dictionary-services-configuration.xml" />
     <import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml" />
+    <import resource="classpath:co-test-base-entityManager-context.xml" />
 
     <bean id="acalService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.AcademicCalendarServiceMockImpl">
     </bean>
@@ -51,6 +52,7 @@
         <property name="atpService" ref="atpService" />
         <property name="courseWaitListService" ref="courseWaitListService"/>
         <property name="examOfferingService" ref="examOfferingService"/>
+        <property name="searchService" ref="searchService" />
 
     </bean>
 
@@ -145,6 +147,17 @@
         <property name="atpService" ref="atpService" />
         <property name="roomService" ref="roomService" />
 
+    </bean>
+
+    <bean id="ActivityOfferingSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl"  />
+
+    <bean id="searchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
+        <property name="searchServices">
+            <list>
+
+                <ref bean="ActivityOfferingSearchServiceImpl"/>
+            </list>
+        </property>
     </bean>
 
 </beans>
