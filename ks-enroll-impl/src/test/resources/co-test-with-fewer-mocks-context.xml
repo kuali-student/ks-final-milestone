@@ -14,7 +14,6 @@
     <import resource="classpath:ks-enroll-api-data-dictionary-services-configuration.xml" />
     <import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml" />
     <import resource="classpath:co-test-base-entityManager-context.xml" />
-    <import resource="classpath:en-course-test-context.xml" />
     <import resource="classpath:search-test-context.xml"/>
 
 <!--  STILL USING THESE MOCKS-->
@@ -96,7 +95,7 @@
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer"/>
         <property name="schedulingService" ref="schedulingService"/>
         <property name="atpService" ref="atpService"/>
-        <!-- <property name="searchService" ref="searchService" /> -->
+        <property name="searchService" ref="searchService" />
     </bean>
 
     <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl">
