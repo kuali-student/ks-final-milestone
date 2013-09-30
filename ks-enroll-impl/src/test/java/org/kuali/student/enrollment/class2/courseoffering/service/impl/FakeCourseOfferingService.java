@@ -390,7 +390,7 @@ class FakeCourseOfferingService implements CourseOfferingService {
     }
 
     @Override
-    public StatusInfo deleteActivityOfferingCascaded(String activityOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteActivityOfferingCascaded(String activityOfferingId, String formatOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new RuntimeException("Not implemented");
     }
 

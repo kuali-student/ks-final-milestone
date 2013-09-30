@@ -171,7 +171,7 @@ public class TestCourseOfferingServiceFacadeImpl {
     @Test
     public void testDeleteActivityOffering()
             throws PermissionDeniedException, MissingParameterException,
-                   InvalidParameterException, OperationFailedException, DoesNotExistException {
+            InvalidParameterException, OperationFailedException, DoesNotExistException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
         // This FO has only 2 AOs in it
         String foId = "CO-2:LEC-ONLY";
         FormatOfferingInfo foInfo = coService.getFormatOffering(foId, contextInfo);
@@ -195,7 +195,7 @@ public class TestCourseOfferingServiceFacadeImpl {
         String aoIdFirst = aoInfos.get(0).getId();
         String aoIdSecond = aoInfos.get(1).getId();
         // App layer call
-        coServiceFacade.deleteActivityOfferingCascaded(aoIdFirst, aocId, contextInfo);
+        coServiceFacade.deleteActivityOfferingCascaded(aoIdFirst, aocId, foId, contextInfo);
         List<ActivityOfferingClusterInfo> retrieved =
                 coService.getActivityOfferingClustersByFormatOffering(foId, contextInfo);
         // Fetch the AOs again--should only be 1

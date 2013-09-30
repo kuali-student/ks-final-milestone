@@ -251,7 +251,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
         for (ActivityOfferingInfo activityOfferingInfo : aos) {
 
-            deleteActivityOfferingCascaded(activityOfferingInfo.getId(), context);
+            deleteActivityOfferingCascaded(activityOfferingInfo.getId(), formatOfferingId, context);
         }
 
 
@@ -892,7 +892,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
 
     @Override
-    public StatusInfo deleteActivityOfferingCascaded(String activityOfferingId,
+    public StatusInfo deleteActivityOfferingCascaded(String activityOfferingId, String formatOfferingId,
                                                      ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {

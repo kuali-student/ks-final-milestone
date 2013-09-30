@@ -693,7 +693,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
     @Test
     // TODO fix KSENROLL-2671, add back validation decorator and this will work again
-    public void testDeleteFormatOffering() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException, DoesNotExistException {
+    public void testDeleteFormatOffering() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException, DoesNotExistException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
 
         boolean exception = false;
 
@@ -728,7 +728,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
 
     @Test
-    public void testDeleteActivityOffering() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, AlreadyExistsException, DoesNotExistException {
+    public void testDeleteActivityOffering() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, AlreadyExistsException, DoesNotExistException, VersionMismatchException {
 
         SeatPoolDefinitionInfo seatPoolDefinitionInfo = CourseOfferingServiceTestDataUtils.createSeatPoolDefinition("POP1", "Test Seat Pool", "expiration milestone", false, 12, 5);
 
@@ -748,7 +748,8 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
         // now cascade the delete
 
-        StatusInfo status = coService.deleteActivityOfferingCascaded(activityOfferingId, callContext);
+        String formatOfferingId = "CO-1:LEC-ONLY";
+        StatusInfo status = coService.deleteActivityOfferingCascaded(activityOfferingId, formatOfferingId, callContext);
 
         assertTrue(status.getIsSuccess());
 
@@ -833,7 +834,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
     @Test
     //@Ignore //KSENROLL-3482// TODO: update cascade to deal with AOC's instead of Reg Groups.
-    public void testDeleteCourseOfferingCascaded() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
+    public void testDeleteCourseOfferingCascaded() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
 
         boolean dependantObjects = false;
 
