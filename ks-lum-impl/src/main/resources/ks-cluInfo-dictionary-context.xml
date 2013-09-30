@@ -1445,15 +1445,9 @@
 
  <bean id="membershipQueryInfo.queryParamValues-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="queryParamValues"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.r1.common.search.dto.SearchParam"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.core.search.dto.SearchParamInfo"/>
  </bean>
  <bean id="membershipQueryInfo.queryParamValues" parent="membershipQueryInfo.queryParamValues-parent"/>
-
-<bean id="membershipQueryInfo.queryParamValueList-parent" abstract="true" parent="baseComplexRepeating">
-  <property name="name" value="queryParamValueList"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.r1.common.search.dto.SearchParam"/>
- </bean>
- <bean id="membershipQueryInfo.queryParamValueList" parent="membershipQueryInfo.queryParamValueList-parent"/>
 
  <bean id="membershipQueryInfo.searchTypeKey-parent" abstract="true" parent="baseKualiType">
   <property name="name" value="searchTypeKey"/>
