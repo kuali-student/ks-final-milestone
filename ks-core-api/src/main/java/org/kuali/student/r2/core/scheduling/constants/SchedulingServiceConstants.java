@@ -68,6 +68,7 @@ public class SchedulingServiceConstants {
     // time slot types
     // See https://wiki.kuali.org/display/STUDENT/Time+Slot+Types
 
+    public static final String TIME_SLOT_TYPE_GROUPING = "kuali.scheduling.type.grouping.timeslots";
     public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_ADHOC = "kuali.scheduling.time.slot.type.activityoffering.adhoc";
     public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD = "kuali.scheduling.time.slot.type.activityoffering.standard";
     public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA = "kuali.scheduling.time.slot.type.activityoffering.tba";
