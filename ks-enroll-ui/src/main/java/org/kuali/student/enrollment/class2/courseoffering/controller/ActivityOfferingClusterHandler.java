@@ -195,7 +195,7 @@ public class ActivityOfferingClusterHandler {
         try {
             for (ActivityOfferingWrapper ao : selectedAolist) {
                 // The adapter does not technically need an AOC ID, so I'm setting it to null
-                CourseOfferingManagementUtil.getCourseOfferingServiceFacade().deleteActivityOfferingCascaded(ao.getAoInfo().getId(), null, ContextBuilder.loadContextInfo());
+                CourseOfferingManagementUtil.getCourseOfferingServiceFacade().deleteActivityOfferingCascaded(ao.getAoInfo().getId(), null, ao.getAoInfo().getFormatOfferingId(), ContextBuilder.loadContextInfo());
             }
 
             // check for changes to states in CO and related FOs
