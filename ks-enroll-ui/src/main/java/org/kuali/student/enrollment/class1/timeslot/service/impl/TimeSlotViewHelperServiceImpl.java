@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.class1.timeslot.service.impl;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper;
 import org.kuali.student.enrollment.class1.timeslot.form.TimeSlotForm;
@@ -16,13 +15,13 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -63,6 +62,11 @@ public class TimeSlotViewHelperServiceImpl
                      String daysUI = WeekDaysDtoAndUIConversions.buildDaysForUI(timeSlotInfo.getWeekdays());
                      tsWrapper.setDaysDisplayName(daysUI);
                      tsWrapper.setTypeKey(timeSlotInfo.getTypeKey());
+                     if(timeSlotInfo.getTypeKey() != null) {
+                        TypeInfo typeInfo = getTypeService().getType(timeSlotInfo.getTypeKey(), contextInfo);
+                         tsWrapper.setTypeName(typeInfo.getName());
+                     }
+
                      // convert typeKey to displayable typeName
 
                      timeSlotWrappers.add(tsWrapper);

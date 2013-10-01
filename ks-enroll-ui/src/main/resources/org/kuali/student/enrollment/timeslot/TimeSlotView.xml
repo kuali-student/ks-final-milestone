@@ -117,7 +117,7 @@
     <bean id="TimeSlotSearchResults-Section" parent="Uif-VerticalBoxSection" >
         <property name="items">
             <list>
-               <bean parent="Uif-Message" p:messageText="Time Slots For: @{termTypeSelections}" p:style="font-weight:bold;"/>
+               <bean parent="Uif-Message" p:messageText="Time Slots For: @{typeNameSelections}" p:style="font-weight:bold;"/>
                <ref bean="TimeSlotSearchResults-TableCollectionSection" />
             </list>
         </property>

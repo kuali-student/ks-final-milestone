@@ -19,6 +19,7 @@ import java.util.List;
 
      //  Term type multi-select drop-down selections.
      private List<String> termTypeSelections;
+     private List<String> typeNameSelections;
      private boolean timeSlotsLoaded = false;
      private boolean enableAddButton = false;
 
@@ -39,6 +40,7 @@ import java.util.List;
          termTypeSelections = new ArrayList<String>();
          timeSlotResults = new ArrayList<TimeSlotWrapper>();
          timeslotKeyValues = new ArrayList<KeyValue>();
+         typeNameSelections = new ArrayList<String>();
      }
 
      public List<TimeSlotWrapper> getTimeSlotResults() {
@@ -128,4 +130,12 @@ import java.util.List;
      public void setTimeslotKeyValues(List<KeyValue> timeslotKeyValues) {
          this.timeslotKeyValues = timeslotKeyValues;
      }
- }
+
+    public List<String> getTypeNameSelections() {
+        return typeNameSelections;
+    }
+
+    public void setTypeNameSelections(List<String> typeNameSelections) {
+        this.typeNameSelections = typeNameSelections;
+    }
+}

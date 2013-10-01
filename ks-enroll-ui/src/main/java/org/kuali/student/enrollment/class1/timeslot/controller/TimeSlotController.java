@@ -6,8 +6,10 @@ import org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper;
 import org.kuali.student.enrollment.class1.timeslot.form.TimeSlotForm;
 import org.kuali.student.enrollment.class1.timeslot.service.TimeSlotViewHelperService;
 import org.kuali.student.enrollment.class1.timeslot.util.TimeSlotConstants;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,6 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+
+import static org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil.getTypeService;
 
 /**
  * Controller for Manage Time Slots.
@@ -31,6 +35,8 @@ public class TimeSlotController extends UifControllerBase {
     private static final String MODEL_ATTRIBUTE_FORM = "KualiForm";
 
     private TimeSlotViewHelperService viewHelperService;
+
+    private ContextInfo contextInfo;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -57,7 +63,16 @@ public class TimeSlotController extends UifControllerBase {
             throws Exception, PermissionDeniedException, OperationFailedException {
 
         List<String> timeSlotTypes = form.getTermTypeSelections();
-
+        form.getTypeNameSelections().clear();
+        if(timeSlotTypes.size() > 0) {
+            // convert to type name for display
+            for(String slotType : timeSlotTypes) {
+                if(slotType != null) {
+                    TypeInfo typeInfo = getTypeService().getType(slotType, contextInfo);
+                    form.getTypeNameSelections().add(typeInfo.getName());
+                }
+            }
+        }
         form.getTimeSlotResults().clear();
         TimeSlotViewHelperService viewHelperService = getViewHelperService(form);
 
