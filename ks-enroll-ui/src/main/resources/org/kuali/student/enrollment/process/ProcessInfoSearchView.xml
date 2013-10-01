@@ -149,11 +149,16 @@
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-        <property name="layoutManager.richTable.templateOptions">
-            <map>
-                <entry key="sDom" value="rtip"/>
-                <entry key="aaSorting" value="[[ 4, 'asc' ]]"/>
-            </map>
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="KS-Uif-PagedRichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="sDom" value="rtip"/>
+                        <entry key="aaSorting" value="[[ 4, 'asc' ]]"/>
+                    </map>
+                </property>
+            </bean>
         </property>
         <property name="items">
             <list>

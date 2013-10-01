@@ -176,14 +176,12 @@
             <bean parent="KS-Uif-RichTable">
                 <property name="templateOptions">
                     <map merge="true">
-                        <entry key="bPaginate" value="false"/>
                         <entry key="sDom" value="fTrt"/>
                         <entry key="aoColumnDefs" value="[{&quot;sWidth&quot; : &quot;20px&quot;, &quot;aTargets&quot; : [0]}]"/>
                     </map>
                 </property>
             </bean>
         </property>
-
         <property name="layoutManager.rowDetailsGroup">
             <bean parent="Uif-VerticalBoxGroup" >
                 <property name="items">

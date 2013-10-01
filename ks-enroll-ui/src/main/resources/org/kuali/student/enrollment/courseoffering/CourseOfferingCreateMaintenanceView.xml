@@ -618,13 +618,18 @@
 		<property name="propertyName" value="existingTermOfferings" />
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-        <property name="layoutManager.richTable.templateOptions">
-            <map merge="true">
-                <entry key="sDom" value="rtip"/>
-                <entry key="bPaginate" value="@{document.newMaintainableObject.dataObject.existingTermOfferings.size()>1}"/>
-            </map>
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="KS-Uif-PagedRichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="sDom" value="rtip"/>
+                        <entry key="bPaginate" value="@{document.newMaintainableObject.dataObject.existingTermOfferings.size()>1}"/>
+                    </map>
+                </property>
+            </bean>
         </property>
-		<property name="items">
+        <property name="items">
            <list>
                <bean parent="Uif-InputField" p:propertyName="isChecked" p:label="" p:onDocumentReadyScript="replaceCheckBoxWithRadio('KS-ExistingOffering-ListCOs');"
                      p:render="@{document.newMaintainableObject.dataObject.existingTermOfferings.size()>1}">

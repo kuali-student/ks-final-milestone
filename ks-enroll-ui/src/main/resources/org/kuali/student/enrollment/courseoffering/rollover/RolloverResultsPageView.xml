@@ -155,12 +155,16 @@
                                 <property name="layoutManager.renderSequenceField" value="false" />
                                 <property name="layoutManager.applyDefaultCellWidths" value="true" />
                                 <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-                                <property name="layoutManager.richTable.templateOptions">
-                                    <map merge="true">
-                                        <entry key="iDisplayLength" value="20"/>
-                                        <entry key="bAutoWidth" value="false"/>
-                                        <entry key="sPaginationType" value="full_numbers" />
-                                    </map>
+                                <property name="layoutManager.richTable">
+                                    <!-- see http://datatables.net/ref for all options -->
+                                    <bean parent="KS-Uif-PagedRichTable">
+                                        <property name="templateOptions">
+                                            <map merge="true">
+                                                <entry key="iDisplayLength" value="20"/>
+                                                <entry key="bAutoWidth" value="false"/>
+                                            </map>
+                                        </property>
+                                    </bean>
                                 </property>
                                 <property name="items">
                                     <list>

@@ -314,11 +314,9 @@
                     <property name="layoutManager.richTable">
                         <!-- see http://datatables.net/ref for all options -->
                         <bean parent="KS-Uif-RichTable">
-                            <property name="render" value="true"/>
                             <property name="templateOptions">
                                 <map merge="true">
                                     <entry key="aaSorting" value="[[1,'desc']]"/>
-                                    <entry key="bPaginate" value="false"/>
                                 </map>
                             </property>
                         </bean>

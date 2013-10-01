@@ -399,7 +399,7 @@ limitations under the License.
         <property name="renderAlternatingHeaderColumns" value="false"/>
         <property name="generateAutoSequence" value ="true"/>
         <property name="richTable">
-            <bean parent="Uif-PagedRichTable">
+            <bean parent="KS-Uif-PagedRichTable">
                 <property name="render" value="false"/>
             </bean>
         </property>

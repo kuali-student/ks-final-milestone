@@ -679,7 +679,6 @@
                             <property name="templateOptions">
                                 <map merge="true">
                                     <entry key="aaSorting" value="[[1,'desc']]"/>
-                                    <entry key="bPaginate" value="false"/>
                                 </map>
                             </property>
                         </bean>
