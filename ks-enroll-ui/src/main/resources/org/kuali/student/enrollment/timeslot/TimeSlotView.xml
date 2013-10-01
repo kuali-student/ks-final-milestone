@@ -124,8 +124,8 @@
     </bean>
 
     <bean id="TimeSlotSearchResults-TableCollectionSection" parent="KS-Uif-TableCollectionSection-WithActionSeperator" p:renderAddLine="false"
-        p:onDocumentReadyScript="resetCheckboxes('TimeSlotSearchResultsDisplayCheckBoxes');">
-        <property name="id" value="TimeSlotSearchResultsDisplayCheckBoxes" />
+        p:onDocumentReadyScript="resetCheckboxes('TimeSlotSearchResultsDisplayTable');">
+        <property name="id" value="TimeSlotSearchResultsDisplayTable" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper" />
         <property name="propertyName" value="timeSlotResults" />
         <property name="collectionLookup">
@@ -147,7 +147,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:hidden="@{!#line.isEnableDeleteButton()}"
-                      p:onChangeScript="handleToolbar('TimeSlotSearchResultsDisplayCheckBoxes',['enableDeleteButton'], ['TimeSlot-ToolBar-Delete-TimeSlot']);">
+                      p:onChangeScript="handleToolbar('TimeSlotSearchResultsDisplayTable',['enableDeleteButton'], ['TimeSlot-ToolBar-Delete-TimeSlot']);">
                       <property name="control">
                             <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                       </property>
