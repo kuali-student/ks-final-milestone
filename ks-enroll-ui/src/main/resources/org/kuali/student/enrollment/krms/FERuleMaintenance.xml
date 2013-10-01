@@ -275,9 +275,9 @@ limitations under the License.
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
-                            <bean parent="KRMS-RuleEditorView-CopyButton"/>
-                            <bean parent="KRMS-RuleEditorView-CutButton"/>
-                            <bean parent="KRMS-RuleEditorView-PasteButton"/>
+                            <bean parent="KRMS-RuleEditorView-CopyButton" p:hidden="true"/>
+                            <bean parent="KRMS-RuleEditorView-CutButton" p:hidden="true"/>
+                            <bean parent="KRMS-RuleEditorView-PasteButton" p:hidden="true"/>
                             <bean parent="KRMS-RuleEditorView-DeleteButton"/>
                         </list>
                     </property>
