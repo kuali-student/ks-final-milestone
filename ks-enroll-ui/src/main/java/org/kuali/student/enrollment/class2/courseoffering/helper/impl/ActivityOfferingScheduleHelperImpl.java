@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.enrollment.class1.util.WeekDaysDtoAndUIConversions;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
@@ -51,13 +52,17 @@ import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.*;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -433,7 +438,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         TimeSlotInfo timeSlot = new TimeSlotInfo();
         timeSlot.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD);
         timeSlot.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_ACTIVE);
-        List<Integer> days = buildDaysForDTO(scheduleWrapper.getDays());
+        List<Integer> days = WeekDaysDtoAndUIConversions.buildDaysForDTO(scheduleWrapper.getDays());
         timeSlot.setWeekdays(days);
 
         if (StringUtils.isNotEmpty(scheduleWrapper.getStartTime())) {
@@ -458,78 +463,6 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         }
 
         return componentInfo;
-    }
-
-    private List<Integer> buildDaysForDTO(String days){
-
-        List<Integer> weekdays  = new ArrayList<Integer>();
-
-        if(days != null) {
-
-            if (StringUtils.containsIgnoreCase(days,"M")){
-                weekdays.add(Calendar.MONDAY);
-            }
-
-            if (StringUtils.containsIgnoreCase(days,"T")){
-                weekdays.add(Calendar.TUESDAY);
-            }
-
-            if (StringUtils.containsIgnoreCase(days,"W")){
-                weekdays.add(Calendar.WEDNESDAY);
-            }
-
-            if (StringUtils.containsIgnoreCase(days,"H")){
-                weekdays.add(Calendar.THURSDAY);
-            }
-
-            if (StringUtils.containsIgnoreCase(days,"F")){
-                weekdays.add(Calendar.FRIDAY);
-            }
-
-            if (StringUtils.containsIgnoreCase(days,"S")){
-                weekdays.add(Calendar.SATURDAY);
-            }
-
-            if (StringUtils.containsIgnoreCase(days,"U")){
-                weekdays.add(Calendar.SUNDAY);
-            }
-
-        }
-
-        return weekdays;
-    }
-
-    private String buildDaysForUI(List<Integer> days){
-
-        StringBuilder returnValue = new StringBuilder();
-
-        for (Integer day : days) {
-            switch (day){
-                case Calendar.MONDAY:
-                   returnValue.append("M ");
-                   break;
-                case Calendar.TUESDAY:
-                    returnValue.append("T ");
-                   break;
-                case Calendar.WEDNESDAY:
-                    returnValue.append("W ");
-                   break;
-                case Calendar.THURSDAY:
-                    returnValue.append("H ");
-                   break;
-                case Calendar.FRIDAY:
-                    returnValue.append("F ");
-                   break;
-                case Calendar.SATURDAY:
-                    returnValue.append("S ");
-                   break;
-                case Calendar.SUNDAY:
-                    returnValue.append("U ");
-                   break;
-            }
-        }
-
-        return StringUtils.removeEnd(returnValue.toString(), " ");
     }
 
     /**
@@ -602,7 +535,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                     scheduleWrapper.setEndTimeAMPM(StringUtils.substringAfter(formattedTime," "));
                 }
 
-                String daysUI = buildDaysForUI(scheduleWrapper.getTimeSlot().getWeekdays());
+                String daysUI = WeekDaysDtoAndUIConversions.buildDaysForUI(scheduleWrapper.getTimeSlot().getWeekdays());
                 scheduleWrapper.setDaysUI(daysUI);
                 scheduleWrapper.setDays(StringUtils.remove(daysUI, " "));
             }
@@ -681,7 +614,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                                 scheduleWrapper.setEndTimeUI(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
                             }
 
-                            scheduleWrapper.setDaysUI(buildDaysForUI(scheduleWrapper.getTimeSlot().getWeekdays()));
+                            scheduleWrapper.setDaysUI(WeekDaysDtoAndUIConversions.buildDaysForUI(scheduleWrapper.getTimeSlot().getWeekdays()));
                         }
 
 

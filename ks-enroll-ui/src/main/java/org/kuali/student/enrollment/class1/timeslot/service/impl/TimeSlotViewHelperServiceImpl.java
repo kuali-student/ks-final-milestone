@@ -5,6 +5,7 @@ import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper;
 import org.kuali.student.enrollment.class1.timeslot.form.TimeSlotForm;
 import org.kuali.student.enrollment.class1.timeslot.service.TimeSlotViewHelperService;
+import org.kuali.student.enrollment.class1.util.WeekDaysDtoAndUIConversions;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
@@ -59,7 +60,7 @@ public class TimeSlotViewHelperServiceImpl
                          tsWrapper.setEndTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
                      }
 
-                     String daysUI = buildDaysForUI(timeSlotInfo.getWeekdays());
+                     String daysUI = WeekDaysDtoAndUIConversions.buildDaysForUI(timeSlotInfo.getWeekdays());
                      tsWrapper.setDaysDisplayName(daysUI);
                      tsWrapper.setTypeKey(timeSlotInfo.getTypeKey());
                      // convert typeKey to displayable typeName
@@ -93,46 +94,13 @@ public class TimeSlotViewHelperServiceImpl
                  wrapper.setEndTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
              }
 
-             String daysUI = buildDaysForUI(timeSlotInfo.getWeekdays());
+             String daysUI = WeekDaysDtoAndUIConversions.buildDaysForUI(timeSlotInfo.getWeekdays());
              wrapper.setDaysDisplayName(daysUI);
              wrapper.setTypeKey(timeSlotInfo.getTypeKey());
              wrapper.setTypeName(timeSlotInfo.getTypeKey());
              timeSlotWrappers.add(wrapper);
 
              return timeSlotWrappers;
-         }
-
-    private String buildDaysForUI(List<Integer> days){
-
-             StringBuilder returnValue = new StringBuilder();
-
-             for (Integer day : days) {
-                 switch (day){
-                     case Calendar.MONDAY:
-                         returnValue.append("M ");
-                         break;
-                     case Calendar.TUESDAY:
-                         returnValue.append("T ");
-                         break;
-                     case Calendar.WEDNESDAY:
-                         returnValue.append("W ");
-                         break;
-                     case Calendar.THURSDAY:
-                         returnValue.append("H ");
-                         break;
-                     case Calendar.FRIDAY:
-                         returnValue.append("F ");
-                         break;
-                     case Calendar.SATURDAY:
-                         returnValue.append("S ");
-                         break;
-                     case Calendar.SUNDAY:
-                         returnValue.append("U ");
-                         break;
-                 }
-             }
-
-             return StringUtils.removeEnd(returnValue.toString(), " ");
          }
 
     public void createTimeSlot(TimeSlotForm form) throws Exception {
@@ -142,7 +110,7 @@ public class TimeSlotViewHelperServiceImpl
         TimeSlotInfo newTSInfo = new TimeSlotInfo();
         newTSInfo.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD);
         newTSInfo.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_ACTIVE);
-        List<Integer> days = buildDaysForDTO(form.getAddOrEditDays());
+        List<Integer> days = WeekDaysDtoAndUIConversions.buildDaysForDTO(form.getAddOrEditDays());
         newTSInfo.setWeekdays(days);
 
         long time = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(form.getAddOrEditStartTime() + " " + form.getAddOrEditStartTimeAmPm()).getTime();
@@ -171,45 +139,6 @@ public class TimeSlotViewHelperServiceImpl
         form.setAddOrEditStartTimeAmPm("");
         form.setAddOrEditTermKey("");
 
-    }
-
-    private List<Integer> buildDaysForDTO(String days){
-
-        List<Integer> weekdays  = new ArrayList<Integer>();
-
-        if(days != null) {
-
-            if (StringUtils.containsIgnoreCase(days,"M")){
-                weekdays.add(Calendar.MONDAY);
-            }
-
-            if (StringUtils.containsIgnoreCase(days,"T")){
-                weekdays.add(Calendar.TUESDAY);
-            }
-
-            if (StringUtils.containsIgnoreCase(days,"W")){
-                weekdays.add(Calendar.WEDNESDAY);
-            }
-
-            if (StringUtils.containsIgnoreCase(days,"H")){
-                weekdays.add(Calendar.THURSDAY);
-            }
-
-            if (StringUtils.containsIgnoreCase(days,"F")){
-                weekdays.add(Calendar.FRIDAY);
-            }
-
-            if (StringUtils.containsIgnoreCase(days,"S")){
-                weekdays.add(Calendar.SATURDAY);
-            }
-
-            if (StringUtils.containsIgnoreCase(days,"U")){
-                weekdays.add(Calendar.SUNDAY);
-            }
-
-        }
-
-        return weekdays;
     }
 
     private ContextInfo getContextInfo() {

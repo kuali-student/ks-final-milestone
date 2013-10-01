@@ -117,7 +117,7 @@
     <bean id="TimeSlotSearchResults-Section" parent="Uif-VerticalBoxSection" >
         <property name="items">
             <list>
-               <bean parent="Uif-Message" p:messageText="Time Slots For: @{termTypeSelections}" />
+               <bean parent="Uif-Message" p:messageText="Time Slots For: @{termTypeSelections}" p:style="font-weight:bold;"/>
                <ref bean="TimeSlotSearchResults-TableCollectionSection" />
             </list>
         </property>
@@ -134,6 +134,8 @@
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.emptyTableMessage" value="[No Term Types Have Been Selected]"/>
+        <property name="layoutManager.richTable.render" value="true" />
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="sDom" value="rtip"/>
@@ -192,12 +194,12 @@
         Toolbar buttons
     -->
     <bean id="TimeSlot-ToolBar-Add-Button-parent" parent="KS-Uif-ToolBar-Button">
-        <property name="actionLabel" value="Add Time Slot"/>
-        <property name="actionScript" value="openPopupContent(e,'KS-TimeSlot-AddTimeSlotPopupForm');"/>
-        <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#parent.disabled ? #ConfigProperties['ks.externalizable.images.url']+'/toolbar/add_disabled.png' : #ConfigProperties['ks.externalizable.images.url']+'/toolbar/add_enabled.png'}"/>
-        </property>
-    </bean>
+             <property name="actionLabel" value="Add Time Slot"/>
+             <property name="actionScript" value="openPopupContent(e,'KS-TimeSlot-AddTimeSlotPopupForm');"/>
+             <property name="actionImage">
+                 <bean parent="Uif-Image" p:source="@{#parent.disabled ? #ConfigProperties['ks.externalizable.images.url']+'/toolbar/add_disabled.png' : #ConfigProperties['ks.externalizable.images.url']+'/toolbar/add_enabled.png'}"/>
+             </property>
+         </bean>
 
     <bean id="TimeSlot-ToolBar-Delete-Button-parent" parent="KS-Uif-ToolBar-Button">
         <property name="actionLabel" value="Delete"/>
