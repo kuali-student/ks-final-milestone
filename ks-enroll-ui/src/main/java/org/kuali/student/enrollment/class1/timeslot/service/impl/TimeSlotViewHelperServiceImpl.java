@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class1.timeslot.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper;
+import org.kuali.student.enrollment.class1.timeslot.form.TimeSlotForm;
 import org.kuali.student.enrollment.class1.timeslot.service.TimeSlotViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -14,6 +15,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
@@ -131,6 +133,83 @@ public class TimeSlotViewHelperServiceImpl
         }
 
         return StringUtils.removeEnd(returnValue.toString(), " ");
+    }
+
+    public void createTimeSlot(TimeSlotForm form) throws Exception {
+
+        TimeSlotWrapper newTSWrapper = new TimeSlotWrapper();
+
+        TimeSlotInfo newTSInfo = new TimeSlotInfo();
+        newTSInfo.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD);
+        newTSInfo.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_ACTIVE);
+        List<Integer> days = buildDaysForDTO(form.getAddOrEditDays());
+        newTSInfo.setWeekdays(days);
+
+        long time = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(form.getAddOrEditStartTime() + " " + form.getAddOrEditStartTimeAmPm()).getTime();
+        TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
+        timeOfDayInfo.setMilliSeconds(time);
+        newTSInfo.setStartTime(timeOfDayInfo);
+
+        time = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(form.getAddOrEditEndTime() + " " + form.getAddOrEditEndTimeAmPm()).getTime();
+        timeOfDayInfo = new TimeOfDayInfo();
+        timeOfDayInfo.setMilliSeconds(time);
+        newTSInfo.setStartTime(timeOfDayInfo);
+
+        TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD,newTSInfo, createContextInfo());
+        newTSWrapper.setTimeSlotInfo(createdTimeSlot);
+        newTSWrapper.setDaysDisplayName(form.getAddOrEditDays());
+        newTSWrapper.setEnableDeleteButton(true);
+        newTSWrapper.setStartTimeDisplay(form.getAddOrEditStartTime() + " " + form.getAddOrEditStartTimeAmPm());
+        newTSWrapper.setEndTimeDisplay(form.getAddOrEditEndTime() + " " + form.getAddOrEditEndTimeAmPm());
+        newTSWrapper.setTypeName(form.getAddOrEditTermKey());//Get the name
+        form.getTimeSlotResults().add(0, newTSWrapper);
+
+        form.setAddOrEditDays("");
+        form.setAddOrEditEndTime("");
+        form.setAddOrEditEndTimeAmPm("");
+        form.setAddOrEditStartTime("");
+        form.setAddOrEditStartTimeAmPm("");
+        form.setAddOrEditTermKey("");
+
+    }
+
+    private List<Integer> buildDaysForDTO(String days){
+
+        List<Integer> weekdays  = new ArrayList<Integer>();
+
+        if(days != null) {
+
+            if (StringUtils.containsIgnoreCase(days,"M")){
+                weekdays.add(Calendar.MONDAY);
+            }
+
+            if (StringUtils.containsIgnoreCase(days,"T")){
+                weekdays.add(Calendar.TUESDAY);
+            }
+
+            if (StringUtils.containsIgnoreCase(days,"W")){
+                weekdays.add(Calendar.WEDNESDAY);
+            }
+
+            if (StringUtils.containsIgnoreCase(days,"H")){
+                weekdays.add(Calendar.THURSDAY);
+            }
+
+            if (StringUtils.containsIgnoreCase(days,"F")){
+                weekdays.add(Calendar.FRIDAY);
+            }
+
+            if (StringUtils.containsIgnoreCase(days,"S")){
+                weekdays.add(Calendar.SATURDAY);
+            }
+
+            if (StringUtils.containsIgnoreCase(days,"U")){
+                weekdays.add(Calendar.SUNDAY);
+            }
+
+        }
+
+        return weekdays;
     }
 
     private ContextInfo getContextInfo() {

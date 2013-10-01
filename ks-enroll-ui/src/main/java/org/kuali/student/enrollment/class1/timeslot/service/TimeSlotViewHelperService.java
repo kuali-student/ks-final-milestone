@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class1.timeslot.service;
 
 import org.kuali.student.common.uif.service.KSViewHelperService;
 import org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper;
+import org.kuali.student.enrollment.class1.timeslot.form.TimeSlotForm;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -20,4 +21,7 @@ public interface TimeSlotViewHelperService extends KSViewHelperService {
      * @return A list of TimeSlotWrapper objects.
      */
     public abstract List<TimeSlotWrapper> findTimeSlots(List<String> timeSlotTypes) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
+
+
+    public void createTimeSlot(TimeSlotForm form) throws Exception;
 }

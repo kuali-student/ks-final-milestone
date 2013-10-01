@@ -48,7 +48,6 @@ public class TermSlotTypeValues extends UifKeyValuesFinderBase implements Serial
 
         TimeSlotForm form = (TimeSlotForm)model;
         List<KeyValue> keyValuePairs = form.getTimeslotKeyValues();
-
         //  Since type data is static while the app is running, only rebuild the list of it doesn't already exist.
         if (form.getTimeslotKeyValues().isEmpty()) {
             List<TypeInfo> typeInfos = null;
