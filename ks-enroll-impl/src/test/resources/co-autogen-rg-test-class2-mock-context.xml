@@ -30,6 +30,7 @@
         <property name="examService" ref="examMockService"/>
         <property name="courseOfferingService" ref="coServiceImpl"/>
         <property name="examOfferingService" ref="examOfferingMockService"/>
+        <property name="acalService" ref="acalService"/>
     </bean>
 
     <bean id="examOfferingMockService" class="org.kuali.student.enrollment.class2.examoffering.service.impl.ExamOfferingServiceMapImpl" />

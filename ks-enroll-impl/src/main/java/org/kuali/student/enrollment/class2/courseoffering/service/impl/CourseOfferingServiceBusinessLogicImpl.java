@@ -751,10 +751,17 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             }
         }
         //process final exam offerings for target course offering
+        String examPeriodID = null;
+
         try{
-            getExamOfferingServiceFacade().generateFinalExamOffering(targetCo,optionKeys,context);
-        }catch(DoesNotExistException e){
-            //TODO KSENROLL-9453 Handling of the error reporting when an exam period does not exist for the target term.
+            examPeriodID = getExamOfferingServiceFacade().getExamPeriodId(targetCo, context);
+        } catch (DoesNotExistException e) {
+            if (!optionKeys.contains(CourseOfferingSetServiceConstants.CONTINUE_WITHOUT_EXAM_OFFERINGS_OPTION_KEY)) {
+                throw e;
+            }
+        }
+        if (examPeriodID != null) {
+            getExamOfferingServiceFacade().generateFinalExamOffering(targetCo, examPeriodID, optionKeys, context);
         }
 
         SocRolloverResultItemInfo item = new SocRolloverResultItemInfo();

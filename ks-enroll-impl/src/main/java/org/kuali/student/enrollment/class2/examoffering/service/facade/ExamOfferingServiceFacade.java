@@ -45,8 +45,8 @@ public interface ExamOfferingServiceFacade {
      * @throws PermissionDeniedException
      * @throws ReadOnlyException
      */
-    void generateFinalExamOffering(String courseOfferingId, List<String> optionKeys, ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException, DataValidationErrorException, InvalidParameterException,
+    void generateFinalExamOffering(String courseOfferingId, String examPeriodId, List<String> optionKeys, ContextInfo context)
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
@@ -72,26 +72,6 @@ public interface ExamOfferingServiceFacade {
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
-    /**
-     * This method generates new Exam Offerings for the Course Offering for the given Course Offering Id based on
-     * the exam drivers.
-     *
-     * If the Final Exam Status is not STANDARD, then all Exam Offerings linked to the Course Offering will be deleted.
-     *
-     * @param courseOfferingInfo
-     * @param optionKeys
-     * @param context
-     * @throws DoesNotExistException
-     * @throws DataValidationErrorException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     * @throws ReadOnlyException
-     */
-    void generateFinalExamOffering(CourseOfferingInfo courseOfferingInfo, List<String> optionKeys, ContextInfo context)
-            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * This method is used to create exam offerings for new activity offerings that are added to the course offering after

@@ -115,7 +115,8 @@ public class TestExamOfferingServiceFacadeImpl {
         co = this.getCourseOfferingService().updateCourseOffering(co.getId(), co, contextInfo);
 
         List<String> optionKeys = new ArrayList<String>();
-        this.getExamOfferingBusinessLogic().generateFinalExamOffering(coId, optionKeys, contextInfo);
+        String ePID = this.getExamOfferingBusinessLogic().getExamPeriodId(co,contextInfo);
+        this.getExamOfferingBusinessLogic().generateFinalExamOffering(coId, ePID, optionKeys, contextInfo);
 
         List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                 CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);
@@ -127,7 +128,7 @@ public class TestExamOfferingServiceFacadeImpl {
         co.getAttributes().get(0).setValue(LuServiceConstants.LU_EXAM_DRIVER_CO_KEY);
         this.getCourseOfferingService().updateCourseOffering(co.getId(), co, contextInfo);
 
-        this.getExamOfferingBusinessLogic().generateFinalExamOffering(coId, optionKeys, contextInfo);
+        this.getExamOfferingBusinessLogic().generateFinalExamOffering(coId, ePID, optionKeys, contextInfo);
 
         eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                 CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);

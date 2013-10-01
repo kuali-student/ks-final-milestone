@@ -65,42 +65,17 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
     private enum Driver {PER_CO, PER_FO, PER_AO, NONE}
 
     @Override
-    public void generateFinalExamOffering(String courseOfferingId, List<String> optionKeys,
+    public void generateFinalExamOffering(String courseOfferingId, String examPeriodId, List<String> optionKeys,
                                           ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
         //Retrieve the course offering to create the exam offerings for.
         CourseOfferingInfo courseOfferingInfo = this.getCourseOfferingService().getCourseOffering(courseOfferingId, context);
-        this.generateFinalExamOffering(courseOfferingInfo, optionKeys, context);
+        this.generateFinalExamOffering(courseOfferingInfo, examPeriodId, optionKeys, context);
 
     }
 
-    @Override
-    public void generateFinalExamOffering(CourseOfferingInfo courseOfferingInfo, List<String> optionKeys,
-                                          ContextInfo context)
-            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException, ReadOnlyException {
-
-        Driver driver = calculateEODriver(courseOfferingInfo);
-        if (driver.equals(Driver.PER_AO)) {
-            String epId = getExamPeriodId(courseOfferingInfo, context);
-            generateFinalExamOfferingsPerAO(courseOfferingInfo.getId(), epId, optionKeys, context);
-        } else if (driver.equals(Driver.PER_FO)) {
-            String epId = getExamPeriodId(courseOfferingInfo, context);
-            generateFinalExamOfferingsPerFO(courseOfferingInfo.getId(), epId, optionKeys, context);
-        } else if (driver.equals(Driver.PER_CO)) {
-            String epId = getExamPeriodId(courseOfferingInfo, context);
-            generateFinalExamOfferingsPerCO(courseOfferingInfo.getId(), epId, optionKeys, context);
-        } else if (driver.equals(Driver.NONE)) {
-            if (optionKeys.contains(ExamOfferingServiceFacade.CANCEL_EXISTING_OPTION_KEY)) {
-                changeFinalExamOfferingsState(courseOfferingInfo.getId(), ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY, context);
-            } else {
-                removeFinalExamOfferingsFromCO(courseOfferingInfo.getId(), context);
-            }
-        }
-
-    }
 
     @Override
     public void generateFinalExamOffering(CourseOfferingInfo courseOfferingInfo, String examPeriodId, List<String> optionKeys,
@@ -182,9 +157,9 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             break;
         }
 
-        // Return if the
+        // Check that an exam period was created for the target term
         if (epId == null) {
-            throw new DoesNotExistException("Exam Period does not exist for term.");
+            throw new DoesNotExistException("Generate final exam offerings skipped because an exam period does not exist for the target term.");
         }
         return epId;
     }

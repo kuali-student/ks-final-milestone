@@ -59,6 +59,7 @@ import org.kuali.student.r2.common.util.TimeOfDayAmPmEnum;
 import org.kuali.student.r2.common.util.TimeOfDayFormattingEnum;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -464,7 +465,9 @@ public class TestCourseOfferingServiceFacadeImpl {
         assertEquals("2012FA", targetTerm.getCode());
 
         // App layer call
-        CourseOfferingInfo coResult = coServiceFacade.copyCourseOfferingToTargetTerm(co, targetTerm, null, contextInfo);
+        List<String> optionKeys = new ArrayList<String>();
+        optionKeys.add(CourseOfferingSetServiceConstants.CONTINUE_WITHOUT_EXAM_OFFERINGS_OPTION_KEY);
+        CourseOfferingInfo coResult = coServiceFacade.copyCourseOfferingToTargetTerm(co, targetTerm, optionKeys, contextInfo);
         assertEquals(co.getCourseCode(), coResult.getCourseCode());
         assertEquals(targetTerm.getId(), coResult.getTermId());
         assertEquals(co.getCourseId(), coResult.getCourseId());
