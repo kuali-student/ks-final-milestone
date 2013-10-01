@@ -423,11 +423,24 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
             // waitListInfos can return more than two values
             origWaitListInfo = waitListInfos.get(firstElement);
             newWaitListInfo = new CourseWaitListInfo(origWaitListInfo);
+            if(origWaitListInfo.getActivityOfferingIds().size()>1){
+                origWaitListInfo.getActivityOfferingIds().add(newAOInfo.getId());
+                newWaitListInfo.setId(null);
+                newWaitListInfo.setActivityOfferingIds(new ArrayList<String>());
+                for(String aoId:origWaitListInfo.getActivityOfferingIds()){
+                    newWaitListInfo.getActivityOfferingIds().add(aoId);
+                }
+                newWaitListInfo.setFormatOfferingIds(new ArrayList<String>());
+                newWaitListInfo.getFormatOfferingIds().add(newAOInfo.getFormatOfferingId());
+
+            } else {
             newWaitListInfo.setId(null);
             newWaitListInfo.setActivityOfferingIds(new ArrayList<String>());
             newWaitListInfo.setFormatOfferingIds(new ArrayList<String>());
             newWaitListInfo.getActivityOfferingIds().add(newAOInfo.getId());
             newWaitListInfo.getFormatOfferingIds().add(newAOInfo.getFormatOfferingId());
+
+            }
             newWaitListInfo = getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
                     newWaitListInfo, context);
         }
