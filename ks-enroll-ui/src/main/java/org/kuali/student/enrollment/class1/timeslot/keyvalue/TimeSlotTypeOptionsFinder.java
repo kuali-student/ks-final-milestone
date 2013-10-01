@@ -12,7 +12,6 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by venkat on 9/30/13
  */
 package org.kuali.student.enrollment.class1.timeslot.keyvalue;
 
@@ -27,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class is to get a list of user selected Timeslot types to be displayed at add/edit screens
  *
  * @author Kuali Student Team
  */
