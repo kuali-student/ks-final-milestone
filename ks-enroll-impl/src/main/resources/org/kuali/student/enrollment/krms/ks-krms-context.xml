@@ -25,7 +25,10 @@
         <property name="templatesMap" ref="templatesMap"/>
     </bean>
 
-    <bean id="agendaTypeService" class="org.kuali.rice.krms.impl.type.AgendaTypeServiceImpl">
+    <bean id="agendaTypeService" class="org.kuali.student.krms.service.impl.KSAgendaTypeServiceImpl">
+    </bean>
+
+    <bean id="termresolverTypeService" class="org.kuali.student.krms.service.impl.KSTermResolverTypeService">
     </bean>
 
     <bean id="propositionTemplater"
