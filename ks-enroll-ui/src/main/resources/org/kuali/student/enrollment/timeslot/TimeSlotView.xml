@@ -75,7 +75,7 @@
     <bean id="TimeSlotTypeSelect-Section" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <!-- The multi-select drop-down -->
+                <!-- The multi-select for time slot types -->
                 <bean parent="Uif-VerticalBoxGroup">
                     <property name="items">
                         <list>
@@ -85,7 +85,7 @@
                                     <bean parent="Uif-MultiSelectControl" p:size="3" p:style="width:17em;"/>
                                 </property>
                                 <property name="optionsFinder">
-                                    <bean class="org.kuali.student.enrollment.class1.timeslot.keyvalue.TermSlotTypeValues" p:addBlankOption="false"/>
+                                    <bean class="org.kuali.student.enrollment.class1.timeslot.keyvalue.TimeSlotTypeOptionsFinder" p:addBlankOption="false"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-Message" p:messageText="Use 'ctrl' or 'shift' to select multiple" />
@@ -224,7 +224,7 @@
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class1.timeslot.keyvalue.TimeSlotTypeOptionsFinder" p:addBlankOption="false" />
+                        <bean class="org.kuali.student.enrollment.class1.timeslot.keyvalue.SelectedTimeSlotTypesOptionsFinder" p:addBlankOption="false" />
                     </property>
                 </bean>
                 <bean parent="Uif-InputField-LabelTop"  p:propertyName="addOrEditDays" p:label="Days" p:required="true">

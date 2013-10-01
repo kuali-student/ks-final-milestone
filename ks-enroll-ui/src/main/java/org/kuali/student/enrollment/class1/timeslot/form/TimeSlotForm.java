@@ -13,13 +13,14 @@ import java.util.List;
  public class TimeSlotForm extends KSUifForm {
 
      /*
-      A list of Timeslot KeyValues which is displayed at the list.
+      * A list of Type Slot type KeyValues.
       */
-     private List<KeyValue> timeslotKeyValues;
+     private List<KeyValue> timeSlotTypeKeyValues;
 
-     //  Term type multi-select drop-down selections.
+     //  Term type multi-select list selections.
      private List<String> termTypeSelections;
      private List<String> typeNameSelections;
+
      private boolean timeSlotsLoaded = false;
      private boolean enableAddButton = false;
 
@@ -39,7 +40,6 @@ import java.util.List;
      public TimeSlotForm() {
          termTypeSelections = new ArrayList<String>();
          timeSlotResults = new ArrayList<TimeSlotWrapper>();
-         timeslotKeyValues = new ArrayList<KeyValue>();
          typeNameSelections = new ArrayList<String>();
      }
 
@@ -123,12 +123,12 @@ import java.util.List;
          this.enableAddButton = enableAddButton;
      }
 
-     public List<KeyValue> getTimeslotKeyValues() {
-         return timeslotKeyValues;
+     public List<KeyValue> getTimeSlotTypeKeyValues() {
+         return timeSlotTypeKeyValues;
      }
 
-     public void setTimeslotKeyValues(List<KeyValue> timeslotKeyValues) {
-         this.timeslotKeyValues = timeslotKeyValues;
+     public void setTimeSlotTypeKeyValues(List<KeyValue> timeslotKeyValues) {
+         this.timeSlotTypeKeyValues = timeslotKeyValues;
      }
 
     public List<String> getTypeNameSelections() {

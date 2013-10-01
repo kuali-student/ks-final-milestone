@@ -28,12 +28,12 @@ public class TimeSlotWrapper {
     }
 
     public TimeSlotInfo getTimeSlotInfo() {
-             return timeSlotInfo;
-         }
+        return timeSlotInfo;
+    }
 
     public boolean getIsChecked() {
-             return isChecked;
-         }
+        return isChecked;
+    }
 
     public void setIsChecked(boolean checked) {
         this.isChecked = checked;
