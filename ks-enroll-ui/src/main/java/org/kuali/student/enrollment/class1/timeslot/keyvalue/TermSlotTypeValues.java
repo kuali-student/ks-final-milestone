@@ -15,6 +15,7 @@
 package org.kuali.student.enrollment.class1.timeslot.keyvalue;
 
 import edu.emory.mathcs.backport.java.util.Collections;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -27,6 +28,7 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
@@ -52,18 +54,18 @@ public class TermSlotTypeValues extends UifKeyValuesFinderBase implements Serial
         if (form.getTimeslotKeyValues().isEmpty()) {
             List<TypeInfo> typeInfos = null;
             try {
-                typeInfos = getTypeService().getTypesForGroupType("SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING", getContextInfo());
+                typeInfos = getTypeService().getTypesForGroupType(SchedulingServiceConstants.TIME_SLOT_TYPE_GROUPING, getContextInfo());
             } catch (Exception e) {
                 //  Log and return an empty list if the service call to get the TimeSlot types blows up.
                 LOGGER.error("Unable to build a list of time slot types.", e);
                 return Collections.emptyList();
             }
-
-            keyValuePairs.add(new ConcreteKeyValue("one", "One"));
-            keyValuePairs.add(new ConcreteKeyValue("two", "Two"));
-            keyValuePairs.add(new ConcreteKeyValue("three", "Three"));
-//            keyValuePairs.add(new ConcreteKeyValue(TimeSlotConstants.TimeSlotTypeSelectorWidget.LINE_KEY, TimeSlotConstants.TimeSlotTypeSelectorWidget.LINE_TEXT));
-//           keyValuePairs.add(new ConcreteKeyValue(TimeSlotConstants.TypeSlotTypeDropDown.ALL_TERMS_KEY, TimeSlotConstants.TypeSlotTypeDropDown.ALL_TERMS_TEXT));
+            for (TypeInfo typeInfo : typeInfos) {
+                //  Add each time slot type to the list, except ad-hoc.
+                if (! StringUtils.equals(typeInfo.getKey(), SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_ADHOC)) {
+                    keyValuePairs.add(new ConcreteKeyValue(typeInfo.getKey(), typeInfo.getName()));
+                }
+            }
         }
         return keyValuePairs;
     }
