@@ -50,23 +50,24 @@ public class TimeSlotController extends UifControllerBase {
     }
 
     /**
-      * Search for TimeSlots by type.
-      */
+           * Search for TimeSlots by type.
+           */
     @RequestMapping(params = "methodToCall=show")
     public ModelAndView show(@ModelAttribute(MODEL_ATTRIBUTE_FORM) TimeSlotForm form)
             throws Exception, PermissionDeniedException, OperationFailedException {
 
         List<String> timeSlotTypes = form.getTermTypeSelections();
 
-        if (form.getTermTypeSelections().size() > 0) {
-            form.setTimeSlotsLoaded(true);
-        }
         form.getTimeSlotResults().clear();
         TimeSlotViewHelperService viewHelperService = getViewHelperService(form);
 
         List<TimeSlotWrapper> timeSlotWrapperList = viewHelperService.findTimeSlots(timeSlotTypes);
         for (TimeSlotWrapper wrapper : timeSlotWrapperList) {
             form.getTimeSlotResults().add(wrapper);
+        }
+        if (timeSlotWrapperList.size() > 0) {
+            form.setTimeSlotsLoaded(true);
+            form.setEnableAddButton(true);
         }
 
         return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);

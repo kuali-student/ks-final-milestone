@@ -35,105 +35,105 @@ public class TimeSlotViewHelperServiceImpl
     private transient SchedulingService schedulingService;
 
     @Override
-    public List<TimeSlotWrapper> findTimeSlots(List<String> timeSlotTypes)
-            throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+         public List<TimeSlotWrapper> findTimeSlots(List<String> timeSlotTypes)
+                 throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
-        List<TimeSlotWrapper> timeSlotWrappers = new ArrayList<TimeSlotWrapper>();
+             List<TimeSlotWrapper> timeSlotWrappers = new ArrayList<TimeSlotWrapper>();
 
-        for (String tsTypeKey : timeSlotTypes) {
-            Date timeForDisplay;
+             for (String tsTypeKey : timeSlotTypes) {
+                 Date timeForDisplay;
 
-            List<String> timeSlotIds = getSchedulingService().getTimeSlotIdsByType(tsTypeKey, getContextInfo());
-            List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByIds(timeSlotIds, getContextInfo());
+                 List<String> timeSlotIds = getSchedulingService().getTimeSlotIdsByType(tsTypeKey, getContextInfo());
+                 List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByIds(timeSlotIds, getContextInfo());
 
-            for (TimeSlotInfo timeSlotInfo : timeSlotInfos) {
-                TimeSlotWrapper tsWrapper = new TimeSlotWrapper();
-                tsWrapper.setTimeSlotInfo(timeSlotInfo);
-                if (timeSlotInfo.getStartTime().getMilliSeconds() != null) {
-                    timeForDisplay = new Date(timeSlotInfo.getStartTime().getMilliSeconds());
-                    tsWrapper.setStartTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
-                }
+                 for (TimeSlotInfo timeSlotInfo : timeSlotInfos) {
+                     TimeSlotWrapper tsWrapper = new TimeSlotWrapper();
+                     tsWrapper.setTimeSlotInfo(timeSlotInfo);
+                     if (timeSlotInfo.getStartTime().getMilliSeconds() != null) {
+                         timeForDisplay = new Date(timeSlotInfo.getStartTime().getMilliSeconds());
+                         tsWrapper.setStartTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
+                     }
 
-                if (timeSlotInfo.getEndTime().getMilliSeconds() != null) {
-                    timeForDisplay = new Date(timeSlotInfo.getEndTime().getMilliSeconds());
-                    tsWrapper.setEndTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
-                }
+                     if (timeSlotInfo.getEndTime().getMilliSeconds() != null) {
+                         timeForDisplay = new Date(timeSlotInfo.getEndTime().getMilliSeconds());
+                         tsWrapper.setEndTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
+                     }
 
-                String daysUI = buildDaysForUI(timeSlotInfo.getWeekdays());
-                tsWrapper.setDaysDisplayName(daysUI);
-                tsWrapper.setTypeKey(timeSlotInfo.getTypeKey());
-                // convert typeKey to displayable typeName
+                     String daysUI = buildDaysForUI(timeSlotInfo.getWeekdays());
+                     tsWrapper.setDaysDisplayName(daysUI);
+                     tsWrapper.setTypeKey(timeSlotInfo.getTypeKey());
+                     // convert typeKey to displayable typeName
 
-                timeSlotWrappers.add(tsWrapper);
-            }
-        }
-        // add some test data
-        TimeSlotInfo timeSlotInfo = new TimeSlotInfo();
-        timeSlotInfo.setName("A");
-        timeSlotInfo.setTypeKey("SummerFull");
-        Integer[] days = {1, 3, 5};
-        timeSlotInfo.setWeekdays(Arrays.asList(days));
-        TimeOfDayInfo timeOfDayInfo1 = new TimeOfDayInfo();
-        timeOfDayInfo1.setMilliSeconds(1000L);
-        timeSlotInfo.setStartTime(timeOfDayInfo1);
-        TimeOfDayInfo timeOfDayInfo2 = new TimeOfDayInfo();
-        timeOfDayInfo2.setMilliSeconds(8925000L);
-        timeSlotInfo.setEndTime(timeOfDayInfo2);
+                     timeSlotWrappers.add(tsWrapper);
+                 }
+             }
+             // add some test data
+             TimeSlotInfo timeSlotInfo = new TimeSlotInfo();
+             timeSlotInfo.setName("A");
+             timeSlotInfo.setTypeKey("SummerFull");
+             Integer[] days = {2, 4, 6};
+             timeSlotInfo.setWeekdays(Arrays.asList(days));
+             TimeOfDayInfo timeOfDayInfo1 = new TimeOfDayInfo();
+             timeOfDayInfo1.setMilliSeconds(1000L);
+             timeSlotInfo.setStartTime(timeOfDayInfo1);
+             TimeOfDayInfo timeOfDayInfo2 = new TimeOfDayInfo();
+             timeOfDayInfo2.setMilliSeconds(8925000L);
+             timeSlotInfo.setEndTime(timeOfDayInfo2);
 
-        TimeSlotWrapper wrapper = new TimeSlotWrapper();
-        wrapper.setTimeSlotInfo(timeSlotInfo);
-        Date timeForDisplay;
-        if (timeSlotInfo.getStartTime().getMilliSeconds() != null) {
-            timeForDisplay = new Date(timeSlotInfo.getStartTime().getMilliSeconds());
-            wrapper.setStartTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
-        }
+             TimeSlotWrapper wrapper = new TimeSlotWrapper();
+             wrapper.setTimeSlotInfo(timeSlotInfo);
+             Date timeForDisplay;
+             if (timeSlotInfo.getStartTime().getMilliSeconds() != null) {
+                 timeForDisplay = new Date(timeSlotInfo.getStartTime().getMilliSeconds());
+                 wrapper.setStartTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
+             }
 
-        if (timeSlotInfo.getEndTime().getMilliSeconds() != null) {
-            timeForDisplay = new Date(timeSlotInfo.getEndTime().getMilliSeconds());
-            wrapper.setEndTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
-        }
+             if (timeSlotInfo.getEndTime().getMilliSeconds() != null) {
+                 timeForDisplay = new Date(timeSlotInfo.getEndTime().getMilliSeconds());
+                 wrapper.setEndTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
+             }
 
-        String daysUI = buildDaysForUI(timeSlotInfo.getWeekdays());
-        wrapper.setDaysDisplayName(daysUI);
-        wrapper.setTypeKey(timeSlotInfo.getTypeKey());
-        wrapper.setTypeName(timeSlotInfo.getTypeKey());
-        timeSlotWrappers.add(wrapper);
+             String daysUI = buildDaysForUI(timeSlotInfo.getWeekdays());
+             wrapper.setDaysDisplayName(daysUI);
+             wrapper.setTypeKey(timeSlotInfo.getTypeKey());
+             wrapper.setTypeName(timeSlotInfo.getTypeKey());
+             timeSlotWrappers.add(wrapper);
 
-        return timeSlotWrappers;
-    }
+             return timeSlotWrappers;
+         }
 
     private String buildDaysForUI(List<Integer> days){
 
-        StringBuilder returnValue = new StringBuilder();
+             StringBuilder returnValue = new StringBuilder();
 
-        for (Integer day : days) {
-            switch (day){
-                case Calendar.MONDAY:
-                    returnValue.append("M ");
-                    break;
-                case Calendar.TUESDAY:
-                    returnValue.append("T ");
-                    break;
-                case Calendar.WEDNESDAY:
-                    returnValue.append("W ");
-                    break;
-                case Calendar.THURSDAY:
-                    returnValue.append("H ");
-                    break;
-                case Calendar.FRIDAY:
-                    returnValue.append("F ");
-                    break;
-                case Calendar.SATURDAY:
-                    returnValue.append("S ");
-                    break;
-                case Calendar.SUNDAY:
-                    returnValue.append("U ");
-                    break;
-            }
-        }
+             for (Integer day : days) {
+                 switch (day){
+                     case Calendar.MONDAY:
+                         returnValue.append("M ");
+                         break;
+                     case Calendar.TUESDAY:
+                         returnValue.append("T ");
+                         break;
+                     case Calendar.WEDNESDAY:
+                         returnValue.append("W ");
+                         break;
+                     case Calendar.THURSDAY:
+                         returnValue.append("H ");
+                         break;
+                     case Calendar.FRIDAY:
+                         returnValue.append("F ");
+                         break;
+                     case Calendar.SATURDAY:
+                         returnValue.append("S ");
+                         break;
+                     case Calendar.SUNDAY:
+                         returnValue.append("U ");
+                         break;
+                 }
+             }
 
-        return StringUtils.removeEnd(returnValue.toString(), " ");
-    }
+             return StringUtils.removeEnd(returnValue.toString(), " ");
+         }
 
     public void createTimeSlot(TimeSlotForm form) throws Exception {
 
