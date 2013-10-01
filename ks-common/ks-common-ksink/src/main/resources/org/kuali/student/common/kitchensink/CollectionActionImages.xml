@@ -39,6 +39,10 @@
 
     <bean id="KS-KitchenSink-CollectionActionImages" parent="KS-KitchenSink-Collection-Base">
         <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="KS-Uif-PagedRichTable" />
+        </property>
         <property name="lineActions">
             <list>
                 <bean parent="Uif-KsKrad-Button-ImageOnly">

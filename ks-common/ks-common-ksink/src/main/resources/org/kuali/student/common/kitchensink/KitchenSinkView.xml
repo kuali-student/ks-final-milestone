@@ -106,6 +106,10 @@
                 </bean>
             </list>
         </property>
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="KS-Uif-PagedRichTable" />
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-DataField">

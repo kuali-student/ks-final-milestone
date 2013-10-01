@@ -38,7 +38,7 @@
         <!-- define column sorting using the richTable options: -->
         <property name="layoutManager.richTable">
             <!-- see http://datatables.net/ref for all options -->
-            <bean parent="Uif-PagedRichTable">
+            <bean parent="KS-Uif-PagedRichTable">
                 <property name="templateOptions">
                     <map merge="true">
                         <!--

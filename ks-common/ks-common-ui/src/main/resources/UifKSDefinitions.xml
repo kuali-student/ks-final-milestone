@@ -681,4 +681,36 @@
         </property>
          <property name="showExportOption" value="false"/>
     </bean>
+
+    <bean id="KS-Uif-PagedRichTable" parent="KS-Uif-PagedRichTable-parent"/>
+    <bean id="KS-Uif-PagedRichTable-parent" parent="Uif-PagedRichTable-parentBean" abstract="true" scope="prototype">
+        <property name="templateOptions">
+            <map merge="true">
+                <!--<entry key="aaSorting" value="[[1,'asc']]"/>-->
+                <entry key="bPaginate" value="true"/>
+                <entry key="sPaginationType" value="full_numbers"/>
+                <!-- bFilter removes "Search" field: -->
+                <entry key="bFilter" value="false"/>
+                <!-- bInfo removes "Page x of y" text: -->
+                <entry key="bInfo" value="false"/>
+                <!-- bLengthChange removes "Show [10 v] entries" drop-down: -->
+                <entry key="bLengthChange" value="false"/>
+                <entry key="oLanguage" value="
+                            {
+                                'oPaginate':
+                                {
+                                    'sFirst' : '&amp;#8249; &lt;i class=&#34;visually-hidden&#34;&gt;First&lt;/i&gt;',
+                                    'sPrevious' : '&amp;#8249; &lt;i class=&#34;visually-hidden&#34;&gt;Previous&lt;/i&gt;',
+                                    'sNext' : '&amp;#8250; &lt;i class=&#34;visually-hidden&#34;&gt;Next&lt;/i&gt;',
+                                    'sLast' : '&amp;#8250; &lt;i class=&#34;visually-hidden&#34;&gt;Last&lt;/i&gt;'
+                                }
+                            }"
+                        />
+            </map>
+        </property>
+        <property name="showExportOption" value="false"/>
+    </bean>
+
+
+
 </beans>
