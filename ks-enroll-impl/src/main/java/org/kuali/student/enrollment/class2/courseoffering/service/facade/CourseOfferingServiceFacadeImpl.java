@@ -455,19 +455,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
 
     public CourseWaitListInfo createUncolocatedWaitList(CourseWaitListInfo courseWaitListInfo, String waitlistType, boolean hasWaitlist, boolean limitWaitlistSize, String aoId, String foId, ContextInfo context) {
 
-        if(waitlistType != null) {
-            setAutoProcConfReq(courseWaitListInfo, waitlistType);
-        }
-
-        if(hasWaitlist) {
-            courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY);
-        } else {
-            courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
-        }
-
-        if(!limitWaitlistSize) {
-            courseWaitListInfo.setMaxSize(null);
-        }
+        setAutoProcConfReq(courseWaitListInfo, waitlistType, hasWaitlist, limitWaitlistSize);
 
         try {
             if(courseWaitListInfo.getActivityOfferingIds().size() == 1) {   // only current AO - meaning no sharing of WL
@@ -498,19 +486,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
     public CourseWaitListInfo createColocatedWaitList(CourseWaitListInfo courseWaitListInfo, String waitlistType, boolean hasWaitlist, boolean limitWaitlistSize, boolean isColocatedAO, boolean isMaxEnrollmentShared,
                                         HashMap<String, String> aoIdfoIdMap, ContextInfo context) {
 
-        if(waitlistType != null) {
-            setAutoProcConfReq(courseWaitListInfo, waitlistType);
-        }
-
-        if(hasWaitlist) {
-            courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY);
-        } else {
-            courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
-        }
-
-        if(!limitWaitlistSize) {
-            courseWaitListInfo.setMaxSize(null);
-        }
+        setAutoProcConfReq(courseWaitListInfo, waitlistType, hasWaitlist, limitWaitlistSize);
 
         try {
             // whether co-locating or already existing colos
@@ -566,20 +542,29 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         return courseWaitListInfo;
     }
 
-    private void setAutoProcConfReq(CourseWaitListInfo courseWaitListInfo, String waitListType){
+    private void setAutoProcConfReq(CourseWaitListInfo courseWaitListInfo, String waitlistType, boolean hasWaitlist, boolean limitWaitlistSize){
 
-        if(waitListType.equals(LuiServiceConstants.AUTOMATIC_WAITLIST_TYPE_KEY)) {
-            courseWaitListInfo.setAutomaticallyProcessed(true);
-            courseWaitListInfo.setConfirmationRequired(false);
-        }
-        else if(waitListType.equals(LuiServiceConstants.CONFIRMATION_WAITLIST_TYPE_KEY)){
-            courseWaitListInfo.setAutomaticallyProcessed(true);
-            courseWaitListInfo.setConfirmationRequired(true);
+        if(waitlistType != null) {
+            if(waitlistType.equals(LuiServiceConstants.AUTOMATIC_WAITLIST_TYPE_KEY)) {
+                courseWaitListInfo.setAutomaticallyProcessed(true);
+                courseWaitListInfo.setConfirmationRequired(false);
+            } else if(waitlistType.equals(LuiServiceConstants.CONFIRMATION_WAITLIST_TYPE_KEY)){
+                courseWaitListInfo.setAutomaticallyProcessed(true);
+                courseWaitListInfo.setConfirmationRequired(true);
+            } else if(waitlistType.equals(LuiServiceConstants.MANUAL_WAITLIST_TYPE_KEY)) {
+                courseWaitListInfo.setAutomaticallyProcessed(false);
+                courseWaitListInfo.setConfirmationRequired(false);
+            }
         }
 
-        else if(waitListType.equals(LuiServiceConstants.MANUAL_WAITLIST_TYPE_KEY)) {
-            courseWaitListInfo.setAutomaticallyProcessed(false);
-            courseWaitListInfo.setConfirmationRequired(false);
+        if(hasWaitlist) {
+            courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY);
+        } else {
+            courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
+        }
+
+        if(!limitWaitlistSize) {
+            courseWaitListInfo.setMaxSize(null);
         }
     }
 
