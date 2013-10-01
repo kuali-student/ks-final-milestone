@@ -259,18 +259,22 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         return targetAo;
     }
 
-    private ScheduleRequestSetInfo _RCO_createScheduleRequestSet(String targetAoId, ContextInfo context)
+    private ScheduleRequestSetInfo _RCO_createScheduleRequestSet(String targetAoId, ScheduleRequestSetInfo sourceSRSet, ContextInfo context)
             throws DoesNotExistException, PermissionDeniedException, OperationFailedException,
             InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException {
-        ScheduleRequestSetInfo requestSetToSchedule = new ScheduleRequestSetInfo();
-        requestSetToSchedule.setTypeKey( SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET );
+        ScheduleRequestSetInfo requestSetToSchedule = new ScheduleRequestSetInfo(sourceSRSet); // copy all fields
+        // Adjust the ID, state, and ref object IDs
+        requestSetToSchedule.setId(null); // Null out IDs
         requestSetToSchedule.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
-        requestSetToSchedule.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+        // Shouldn't have to set type, but ref data currently has wrong type
+        requestSetToSchedule.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
+        if (requestSetToSchedule.getIsMaxEnrollmentShared() == null) {
+            requestSetToSchedule.setMaxEnrollmentShared(false); // set this value, if null, to false
+        }
         // Create a list containing one AO ID
-        List<String> targetAoIds = new ArrayList<String>();
-        targetAoIds.add(targetAoId);
-        // Then add it to the SRS
-        requestSetToSchedule.setRefObjectIds(targetAoIds);
+        requestSetToSchedule.setRefObjectIds(new ArrayList<String>()); // Set to empty
+        requestSetToSchedule.getRefObjectIds().add(targetAoId); // Add target
+
         requestSetToSchedule =
                 schedulingService.createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
                         CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,
@@ -372,7 +376,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 }
             } else {
                 ScheduleRequestSetInfo targetScheduleRequestSet =
-                        _RCO_createScheduleRequestSet(targetAo.getId(), context);
+                        _RCO_createScheduleRequestSet(targetAo.getId(), sourceSRSet, context);
                 // Use rollover assist to set the mapping between the source
                 if (doColocate) {
                     rolloverAssist.mapSourceSRSIdToTargetSRSId(rolloverId, sourceSRSet.getId(), targetScheduleRequestSet.getId());
@@ -444,7 +448,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                         schedulingService.getScheduleRequestsByScheduleRequestSet(sourceSRSet.getId(), context);
 
                 ScheduleRequestSetInfo targetScheduleRequestSet =
-                        _RCO_createScheduleRequestSet(targetAo.getId(), context);
+                        _RCO_createScheduleRequestSet(targetAo.getId(), sourceSRSet, context);
                 // Use rollover assist to set the mapping between the source
                 if (doColocate) {
                     rolloverAssist.mapSourceSRSIdToTargetSRSId(rolloverId, sourceSRSet.getId(), targetScheduleRequestSet.getId());
@@ -583,17 +587,22 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
         _initServices();
-        // Need to detect
+        // Alas, rollover and copy CO use this code, and they behave differently
         TermInfo targetTerm = acalService.getTerm(targetTermId, context);
-        boolean sourceTermSameAsTarget, isPartOfRolloverSoc = false;
+        boolean sourceTermSameAsTarget;
+        boolean isTrueRollover = false; // true, if this is really part of rollover
+        boolean isCopyCourseOffering = false; //  true, if used in copy CO (negation of isTrueRollover)
 
         String rolloverId = context.getAttributeValue(CourseOfferingSetServiceConstants.ROLLOVER_ASSIST_ID_DYNATTR_KEY);
         if (rolloverId == null) {
             // Happens if we aren't doing a rolloverSoc
             rolloverId = rolloverAssist.getRolloverId(); // Create one just for this CO rollover
+            isCopyCourseOffering = true;
+            isTrueRollover = false;
         } else {
             // Assume we are doing rollover if this ID is being passed.
-            isPartOfRolloverSoc = true;
+            isTrueRollover = true;
+            isCopyCourseOffering = false;
         }
         CourseOfferingInfo sourceCo = coService.getCourseOffering(sourceCoId, context);
         // Determine if source/target term is same
@@ -695,7 +704,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                     sourceAoIdToTargetAoId.put(sourceAo.getId(), targetAo.getId());
                 } else {
                     // Different term, so either rollover or copy CO from different term
-                    boolean doColocate = isPartOfRolloverSoc; // Try to colocate, if possible (if false, break colocation)
+                    boolean doColocate = isTrueRollover; // Try to colocate, if possible (if false, break colocation)
                     sourceAo.setCourseOfferingCode(sourceCo.getCourseOfferingCode());        // courseOfferingCOde is required, but it doesn't seem to get populated by the service call above.
 
                     targetAo = _RCO_createTargetActivityOffering(sourceAo, targetFo, targetTermIdCustom, optionKeys, context);
@@ -715,33 +724,11 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
                 // Waitlist copy/rollover
                 List<CourseWaitListInfo> waitListInfos = courseWaitListService.getCourseWaitListsByActivityOffering(sourceAo.getId(), context);
-                if (waitListInfos.size() == 0) {
-                    //create a new waitListInfo with default setting
-                    CourseWaitListInfo theWaitListInfo = new CourseWaitListInfo();
-                    theWaitListInfo.getActivityOfferingIds().add(targetAo.getId());
-                    theWaitListInfo.getFormatOfferingIds().add(targetFo.getId());
-
-                    if (targetCo.getHasWaitlist()) {
-                        theWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY);
-                        //default setting is semi-automatic
-                        theWaitListInfo.setAutomaticallyProcessed(true);
-                        theWaitListInfo.setConfirmationRequired(true);
-                    } else {
-                        theWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
-                    }
-
-                    courseWaitListService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, theWaitListInfo,context);
+                if (isCopyCourseOffering) {
+                    _RCO_copyWaitlistForTargetAO_CopyCO(sourceTermSameAsTarget, rolloverId, waitListInfos, targetAo, targetFo, targetCo, context);
                 } else {
-                    for (CourseWaitListInfo waitListInfo : waitListInfos){
-                        waitListInfo.setId(null);
-                        waitListInfo.setActivityOfferingIds(new ArrayList<String>());
-                        waitListInfo.setFormatOfferingIds(new ArrayList<String>());
-                        waitListInfo.getActivityOfferingIds().add(targetAo.getId());
-                        waitListInfo.getFormatOfferingIds().add(targetFo.getId());
-                        courseWaitListService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, waitListInfo, context);
-                    }
+                    _RCO_rolloverWaitlistForTargetAo(waitListInfos, rolloverId, targetAo, targetFo, targetCo, context);
                 }
-
                 aoCount++;
             }
             List<ActivityOfferingClusterInfo> targetClusters =
@@ -776,18 +763,176 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         return item;
     }
 
+
+    private void _RCO_createDefaultWaitlistForTargetAo(ActivityOfferingInfo targetAo,
+                                                       FormatOfferingInfo targetFo,
+                                                       CourseOfferingInfo targetCo, ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        // This is an exceptional case where the source AO lacks a waitlist.  All AOs should have waitlists in
+        // the ref data
+        CourseWaitListInfo theWaitListInfo = new CourseWaitListInfo();
+        theWaitListInfo.getActivityOfferingIds().add(targetAo.getId());
+        theWaitListInfo.getFormatOfferingIds().add(targetFo.getId());
+
+        if (targetCo.getHasWaitlist()) {
+            theWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY);
+            // default setting is semi-automatic
+            theWaitListInfo.setAutomaticallyProcessed(true);
+            theWaitListInfo.setConfirmationRequired(true);
+        } else {
+            theWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
+        }
+
+        courseWaitListService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, theWaitListInfo,context);
+    }
+
+    private void _RCO_copyWaitlistForTargetAO_CopyCO(boolean sourceTermSameAsTarget,
+                                                     String rolloverId,
+                                                     List<CourseWaitListInfo> waitListInfos,
+                                                     ActivityOfferingInfo targetAo,
+                                                     FormatOfferingInfo targetFo,
+                                                     CourseOfferingInfo targetCo,
+                                                     ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        if (waitListInfos.isEmpty()) {
+            _RCO_createDefaultWaitlistForTargetAo(targetAo, targetFo, targetCo, context);
+        } else {
+            if (waitListInfos.size() > 1) {
+                LOGGER.warn("Not expecting multiple waitlists attached to the AO");
+                throw new OperationFailedException("Not expecting multiple waitlists attached to the AO");
+            }
+            // Should only be one waitlist
+            if (sourceTermSameAsTarget) {
+                // Same term, so attempt to share waitlists
+                for (CourseWaitListInfo waitListInfo : waitListInfos){
+                    _RCO_copyWaitlistPossiblySharedForTargetAO(waitListInfo, rolloverId, targetAo, targetFo, context);
+                }
+            } else {
+                // different term so just create one waitlist per AO (splitting shared waitlists)
+                for (CourseWaitListInfo waitListInfo : waitListInfos){
+                    _RCO_copyNonsharedWaitlist(waitListInfo, targetAo, targetFo, context);
+                }
+            }
+        }
+    }
+
+    private void _RCO_copySharedWaitlist(CourseWaitListInfo waitListInfo,
+                                         String rolloverId,
+                                         ActivityOfferingInfo targetAo,
+                                         FormatOfferingInfo targetFo,
+                                         ContextInfo context)
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+
+        String waitlistId = waitListInfo.getId();
+        String targetWaitlistId = rolloverAssist.getTargetSharedWaitlistId(rolloverId, waitlistId);
+        if (targetWaitlistId == null) {
+            CourseWaitListInfo createdTargetWaitlist = _RCO_copyNonsharedWaitlist(waitListInfo, targetAo, targetFo, context);
+            // Store information that the waitlist is shared
+            rolloverAssist.mapSourceSharedWaitlistIdToTargetSharedWaitlistId(rolloverId, waitlistId, createdTargetWaitlist.getId());
+        } else {
+            // Have already created a target waitlist corresponding to the source, so reused and update
+            CourseWaitListInfo targetWaitlist = courseWaitListService.getCourseWaitList(targetWaitlistId, context);
+            if (targetWaitlist.getActivityOfferingIds().contains(targetAo.getId())) {
+                // Really shouldn't happen
+                throw new OperationFailedException("Target waitlist already contains targetAO: " + targetAo.getId());
+            } else {
+                targetWaitlist.getActivityOfferingIds().add(targetAo.getId());
+                if (!targetWaitlist.getFormatOfferingIds().contains(targetFo.getId())) {
+                    // Co-location may occur with two AOs belonging to two different COs, thus having
+                    // two different FOs
+                    targetWaitlist.getFormatOfferingIds().add(targetFo.getId());
+                }
+                // Update to the database
+                try {
+                    courseWaitListService.updateCourseWaitList(targetWaitlist.getId(), targetWaitlist, context);
+                } catch (VersionMismatchException e) {
+                    throw new OperationFailedException("Version mismatch" + e.getMessage(), e);
+                }
+            }
+        }
+    }
+
+    private CourseWaitListInfo _RCO_copyNonsharedWaitlist(CourseWaitListInfo waitListInfo,
+                                            ActivityOfferingInfo targetAo,
+                                            FormatOfferingInfo targetFo,
+                                            ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, ReadOnlyException {
+        waitListInfo.setId(null);
+        waitListInfo.setActivityOfferingIds(new ArrayList<String>());
+        waitListInfo.setFormatOfferingIds(new ArrayList<String>());
+        waitListInfo.getActivityOfferingIds().add(targetAo.getId());
+        waitListInfo.getFormatOfferingIds().add(targetFo.getId());
+        CourseWaitListInfo waitlist = courseWaitListService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, waitListInfo, context);
+        return waitlist;
+    }
+
+
+    private void _RCO_rolloverWaitlistForTargetAo(List<CourseWaitListInfo> waitListInfos,
+                                                  String rolloverId,
+                                                  ActivityOfferingInfo targetAo,
+                                                  FormatOfferingInfo targetFo,
+                                                  CourseOfferingInfo targetCo,
+                                                  ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        if (waitListInfos.isEmpty()) {
+            _RCO_createDefaultWaitlistForTargetAo(targetAo, targetFo, targetCo, context);
+        } else {
+            if (waitListInfos.size() > 1) {
+                LOGGER.warn("Not expecting multiple waitlists attached to the AO");
+                throw new OperationFailedException("Not expecting multiple waitlists attached to the AO");
+            }
+            // different term so just copy the waitlist across
+            for (CourseWaitListInfo waitListInfo : waitListInfos){
+                _RCO_copyWaitlistPossiblySharedForTargetAO(waitListInfo, rolloverId, targetAo, targetFo, context);
+            }
+        }
+    }
+
+    /**
+     * Copy a waitlist which may or may not be shared for a target AO (can be from rollover or from Copy CO
+     * in the same term as the CO).
+     */
+    private void _RCO_copyWaitlistPossiblySharedForTargetAO(CourseWaitListInfo waitListInfo,
+                                                            String rolloverId,
+                                                            ActivityOfferingInfo targetAo,
+                                                            FormatOfferingInfo targetFo,
+                                                            ContextInfo context)
+            throws OperationFailedException, DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException, PermissionDeniedException, ReadOnlyException {
+
+        if (waitListInfo.getActivityOfferingIds() == null || waitListInfo.getActivityOfferingIds().isEmpty()) {
+            throw new OperationFailedException("No AO ids in this waitlist");
+        }
+        // Must be at least one AO ID
+        if (waitListInfo.getActivityOfferingIds().size() == 1) {
+            // Non-shared case
+            _RCO_copyNonsharedWaitlist(waitListInfo, targetAo, targetFo, context);
+        } else {
+            _RCO_copySharedWaitlist(waitListInfo, rolloverId, targetAo, targetFo, context);
+        }
+    }
+
     private boolean _hasADLs(ActivityOfferingInfo ao) {
         if (ao.getScheduleIds() == null || ao.getScheduleIds().isEmpty()) {
             return false;
         }
         String firstId = ao.getScheduleIds().get(0);
-        if(StringUtils.isBlank( firstId )) {
-            return false;
-        }
-        return true;
+        boolean result = !StringUtils.isBlank(firstId);
+        return result;
     }
 
-    private CourseOfferingInfo _RCO_createTargetCourseOffering(CourseOfferingInfo sourceCo, String targetTermId, CourseInfo targetCourse, List<String> optionKeys, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException {
+    private CourseOfferingInfo _RCO_createTargetCourseOffering(CourseOfferingInfo sourceCo,
+                                                               String targetTermId,
+                                                               CourseInfo targetCourse,
+                                                               List<String> optionKeys,
+                                                               ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, PermissionDeniedException,
+            OperationFailedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException {
         CourseOfferingInfo targetCo = new CourseOfferingInfo(sourceCo);
         targetCo.setId(null);
         // clear out the ids on the internal sub-objects too

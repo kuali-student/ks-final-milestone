@@ -31,6 +31,7 @@ import java.util.Map;
  */
 public class RolloverAssistImpl implements RolloverAssist {
     private Map<String, Map<String, String>> idToSRSSourceIdToSRSTargId = new HashMap<String, Map<String, String>>();
+    private Map<String, Map<String, String>> idToSourceWaitlistIdToTargetWaitlistId = new HashMap<String, Map<String, String>>();
 
     @Override
     public String getRolloverId() {
@@ -38,22 +39,28 @@ public class RolloverAssistImpl implements RolloverAssist {
         Long millis = date.getTime();
         String millisStr = millis.toString();
         idToSRSSourceIdToSRSTargId.put(millisStr, new HashMap<String, String>());
+        idToSourceWaitlistIdToTargetWaitlistId.put(millisStr, new HashMap<String, String>());
         return millisStr;
     }
 
     @Override
     public boolean deleteRolloverId(String rolloverId) {
+        int count = 0;
         if (idToSRSSourceIdToSRSTargId.containsKey(rolloverId)) {
             idToSRSSourceIdToSRSTargId.remove(rolloverId);
-            return true;
+            count++;
         }
-        return false;
+        if (idToSourceWaitlistIdToTargetWaitlistId.containsKey(rolloverId)) {
+            idToSourceWaitlistIdToTargetWaitlistId.remove(rolloverId);
+            count++;
+        }
+        return count == 2;
     }
 
     @Override
     public boolean mapSourceSRSIdToTargetSRSId(String rolloverId, String sourceSRSId, String targetSRSId) throws OperationFailedException {
         if (sourceSRSId == null || targetSRSId == null) {
-            throw new OperationFailedException("source or target ID is null");
+            throw new OperationFailedException("source or target SRS ID is null");
         }
         if (!idToSRSSourceIdToSRSTargId.containsKey(rolloverId)) {
             return false;
@@ -67,5 +74,26 @@ public class RolloverAssistImpl implements RolloverAssist {
             throw new DoesNotExistException("rolloverId=" + rolloverId + "does not exist");
         }
         return idToSRSSourceIdToSRSTargId.get(rolloverId).get(sourceSRSId);
+    }
+
+    @Override
+    public boolean mapSourceSharedWaitlistIdToTargetSharedWaitlistId(String rolloverId, String sourceWaitlistId, String targetWaitlistId)
+            throws OperationFailedException {
+        if (sourceWaitlistId == null || targetWaitlistId == null) {
+            throw new OperationFailedException("source or target waitlist ID is null");
+        }
+        if (!idToSourceWaitlistIdToTargetWaitlistId.containsKey(rolloverId)) {
+            return false;
+        }
+        idToSourceWaitlistIdToTargetWaitlistId.get(rolloverId).put(sourceWaitlistId, targetWaitlistId);
+        return true;
+    }
+
+    @Override
+    public String getTargetSharedWaitlistId(String rolloverId, String sourceWaitlistId) throws DoesNotExistException {
+        if (!idToSourceWaitlistIdToTargetWaitlistId.containsKey(rolloverId)) {
+            throw new DoesNotExistException("rolloverId=" + rolloverId + "does not exist");
+        }
+        return idToSourceWaitlistIdToTargetWaitlistId.get(rolloverId).get(sourceWaitlistId);
     }
 }
