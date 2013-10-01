@@ -67,9 +67,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 /**
  * This is the controller class what handles all the requests (actions) from the <i>'Manage Course Offering'</i> ui.
@@ -895,46 +897,17 @@ public class CourseOfferingManagementController extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=viewExamOfferings")
     public ModelAndView viewExamOfferings(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
-                                     @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+                                          @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-        if(LuServiceConstants.LU_EXAM_DRIVER_CO_KEY.equals(theForm.getCurrentCourseOfferingWrapper().getFinalExamDriver())){
-            populateExamOfferingsByFo(theForm);
-        } else if (LuServiceConstants.LU_EXAM_DRIVER_AO_KEY.equals(theForm.getCurrentCourseOfferingWrapper().getFinalExamDriver())){
-            populateExamOfferingsByAo(theForm);
-        } else {
-            populateExamOfferingsByFo(theForm);
-        }
-
+        populateExamOfferings(theForm);
         return getUIFModelAndView(theForm, "viewExamOfferingsPage");
     }
 
-    private void populateExamOfferingsByFo(CourseOfferingManagementForm theForm) throws InvalidParameterException,
+    private void populateExamOfferings(CourseOfferingManagementForm theForm) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
-        List<String> examOfferingIds = new ArrayList<String>();
-        for (String foId : theForm.getFoId2aoTypeMap().keySet()) {
-            List<ExamOfferingRelationInfo> examOfferingRelationInfos = CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
-                    foId, ContextUtils.createDefaultContextInfo());
-            for (ExamOfferingRelationInfo examOfferingRelationInfo : examOfferingRelationInfos) {
-                examOfferingIds.add(examOfferingRelationInfo.getExamOfferingId());
-            }
-        }
-
-        List<ExamOfferingInfo> examOfferingInfos = CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingsByIds(
-                examOfferingIds, ContextUtils.createDefaultContextInfo());
-
-        List<ExamOfferingWrapper> examOfferingWrapperList = new ArrayList<ExamOfferingWrapper>();
-        for (ExamOfferingInfo examOfferingInfo : examOfferingInfos) {
-            examOfferingWrapperList.add(createWrapperFromExamOffering(examOfferingInfo));
-        }
-        theForm.setExamOfferingWrapperList(examOfferingWrapperList);
-    }
-
-    private void populateExamOfferingsByAo(CourseOfferingManagementForm theForm) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-
+        Set<String> examOfferingIds = new HashSet<String>();
         Map<String, ExamOfferingRelationInfo> eoToRln = new HashMap<String, ExamOfferingRelationInfo>();
-        List<String> examOfferingIds = new ArrayList<String>();
         for (String foId : theForm.getFoId2aoTypeMap().keySet()) {
             List<ExamOfferingRelationInfo> examOfferingRelationInfos = CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                     foId, ContextUtils.createDefaultContextInfo());
@@ -945,19 +918,21 @@ public class CourseOfferingManagementController extends UifControllerBase {
         }
 
         List<ExamOfferingInfo> examOfferingInfos = CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingsByIds(
-                examOfferingIds, ContextUtils.createDefaultContextInfo());
+                new ArrayList<String>(examOfferingIds), ContextUtils.createDefaultContextInfo());
 
         List<ExamOfferingWrapper> examOfferingWrapperList = new ArrayList<ExamOfferingWrapper>();
         for (ExamOfferingInfo examOfferingInfo : examOfferingInfos) {
             ExamOfferingWrapper examOfferingWrapper = createWrapperFromExamOffering(examOfferingInfo);
 
-            ExamOfferingRelationInfo eoRln = eoToRln.get(examOfferingInfo.getId());
-            examOfferingWrapper.setAoInfo(getActivityOfferingCode(theForm.getActivityWrapperList(), eoRln));
-            examOfferingWrapper.setActivityCode(examOfferingWrapper.getAoInfo().getActivityCode());
-            FormatOfferingInfo fo = theForm.getFoId2aoTypeMap().get(eoRln.getFormatOfferingId());
+            if (LuServiceConstants.LU_EXAM_DRIVER_AO_KEY.equals(theForm.getCurrentCourseOfferingWrapper().getFinalExamDriver())){
+                ExamOfferingRelationInfo eoRln = eoToRln.get(examOfferingInfo.getId());
+                examOfferingWrapper.setAoInfo(getActivityOfferingCode(theForm.getActivityWrapperList(), eoRln));
+                examOfferingWrapper.setActivityCode(examOfferingWrapper.getAoInfo().getActivityCode());
 
-            TypeInfo type = CourseOfferingManagementUtil.getTypeService().getType(fo.getFinalExamLevelTypeKey(), ContextUtils.createDefaultContextInfo());
-            examOfferingWrapper.setTypeName(type.getName());
+                FormatOfferingInfo fo = theForm.getFoId2aoTypeMap().get(eoRln.getFormatOfferingId());
+                TypeInfo type = CourseOfferingManagementUtil.getTypeService().getType(fo.getFinalExamLevelTypeKey(), ContextUtils.createDefaultContextInfo());
+                examOfferingWrapper.setTypeName(type.getName());
+            }
             examOfferingWrapperList.add(examOfferingWrapper);
         }
         theForm.setExamOfferingWrapperList(examOfferingWrapperList);
@@ -980,7 +955,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
         StateInfo state = CourseOfferingManagementUtil.getStateService().getState(examOfferingInfo.getStateKey(), ContextUtils.createDefaultContextInfo());
         examOfferingWrapper.setStateName(state.getName());
 
-        if(examOfferingInfo.getScheduleId()!=null){
+        if (examOfferingInfo.getScheduleId() != null) {
             // Set the scheduling information.
         }
         return examOfferingWrapper;

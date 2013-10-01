@@ -216,4 +216,9 @@ public interface ExamOfferingServiceFacade {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException;
 
+
+    void generateFinalExamOfferingsPerCO(String courseOfferingId, String examPeriodId, List<String> optionKeys,
+                                         ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException;
 }
