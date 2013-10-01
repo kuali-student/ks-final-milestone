@@ -52,6 +52,13 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-common-impl</artifactId>
+            <version>${project.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>ks-common-test</artifactId>
             <version>${project.version}</version>

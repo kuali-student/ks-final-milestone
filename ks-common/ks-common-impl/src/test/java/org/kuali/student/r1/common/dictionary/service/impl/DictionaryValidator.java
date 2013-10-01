@@ -12,7 +12,6 @@ import org.kuali.student.r1.common.dictionary.dto.CaseConstraint;
 import org.kuali.student.r1.common.dictionary.dto.DataType;
 import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.r1.common.dictionary.dto.ValidCharsConstraint;
 import org.kuali.student.r1.common.dictionary.dto.WhenConstraint;
 import org.kuali.student.r1.common.validator.ServerDateParser;
 import org.kuali.student.r1.common.validator.ValidatorUtils;
