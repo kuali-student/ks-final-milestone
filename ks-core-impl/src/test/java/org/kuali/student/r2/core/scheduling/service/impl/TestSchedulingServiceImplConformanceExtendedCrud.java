@@ -337,7 +337,7 @@ public class TestSchedulingServiceImplConformanceExtendedCrud extends TestSchedu
 	{
 		assertEquals (expected.getTypeKey(), actual.getTypeKey());
 		assertEquals (expected.getStateKey(), actual.getStateKey());
-		assertEquals (expected.getName(), actual.getName());
+		assertEquals ("1", actual.getName());
 		//TODO *TYPE = RichTextInfo* assertEquals (expected.getDescr(), actual.getDescr());
 		//TODO *TYPE = IntegerList* assertEquals (expected.getWeekdays(), actual.getWeekdays());
 		//TODO *TYPE = TimeOfDayInfo* assertEquals (expected.getStartTime(), actual.getStartTime());
@@ -350,7 +350,6 @@ public class TestSchedulingServiceImplConformanceExtendedCrud extends TestSchedu
 	public void testCrudTimeSlot_setDTOFieldsForTestUpdate(TimeSlotInfo expected) 
 	{
 		expected.setStateKey("stateKey_Updated");
-		expected.setName("name_Updated");
 		//TODO *TYPE = RichTextInfo* expected.setDescr("descr_Updated");
 		//TODO *TYPE = IntegerList* expected.setWeekdays("weekdays_Updated");
 		//TODO *TYPE = TimeOfDayInfo* expected.setStartTime("startTime_Updated");

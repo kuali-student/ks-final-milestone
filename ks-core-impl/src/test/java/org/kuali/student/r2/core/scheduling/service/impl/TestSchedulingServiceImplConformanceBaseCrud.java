@@ -16,24 +16,17 @@
 package org.kuali.student.r2.core.scheduling.service.impl;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.Resource;
-
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.test.util.AttributeTester;
 import org.kuali.student.common.test.util.IdEntityTester;
-import org.kuali.student.common.test.util.KeyEntityTester;
 import org.kuali.student.common.test.util.MetaTester;
+import org.kuali.student.common.test.util.RichTextTester;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -43,7 +36,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
@@ -51,15 +43,14 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleTransactionInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -761,7 +752,10 @@ public abstract class TestSchedulingServiceImplConformanceBaseCrud {
 			TimeSlotInfo actual = testService.createTimeSlot ( expected.getTypeKey(), expected, contextInfo);
 			
 			assertNotNull(actual.getId());
-			new IdEntityTester().check(expected, actual);
+            assertEquals(expected.getTypeKey(), actual.getTypeKey());
+            assertEquals(expected.getStateKey(), actual.getStateKey());
+            assertEquals("1", actual.getName());
+            new RichTextTester().check(expected.getDescr(), actual.getDescr());
 			
 			// METHOD TO TEST DTO FIELDS HERE FOR TEST CREATE
 			testCrudTimeSlot_testDTOFieldsForTestCreateUpdate (expected, actual);
