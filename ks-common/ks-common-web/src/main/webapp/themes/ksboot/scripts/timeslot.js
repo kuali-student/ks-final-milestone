@@ -24,7 +24,7 @@ function reInitializePopupModel(event, addOrEditAction, editLineIndex)
         var endTime = split[0];
         var endTimeAmPm = split[1].trim();
 
-        var spaceStrippedDays = days.trim().replace(" ","");
+        var spaceStrippedDays = days.trim().replace(/ /g,"");
         jQuery('#addOrEditDays_control').val(spaceStrippedDays);
 
         jQuery('#addOrEditTermKey_control').val(termType);
