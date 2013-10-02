@@ -31,6 +31,7 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.enrollment.examoffering.service.ExamOfferingService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -49,8 +50,11 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.core.population.service.PopulationService;
+import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -101,6 +105,9 @@ public class CourseOfferingManagementUtil {
     private static CourseWaitListServiceFacade courseWaitListServiceFacade;
     private static ExamOfferingServiceFacade examOfferingServiceFacade;
     private static ExamOfferingService examOfferingService;
+    private static SchedulingService schedulingService;
+    private static PopulationService populationService;
+    private static CourseWaitListService courseWaitListService;
 
     public static CourseOfferingManagementViewHelperService getViewHelperService(CourseOfferingManagementForm theForm) {
 
@@ -234,6 +241,27 @@ public class CourseOfferingManagementUtil {
             searchService = (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "search", SearchService.class.getSimpleName()));
         }
         return searchService;
+    }
+
+    public static SchedulingService getSchedulingService() {
+        if(schedulingService == null) {
+            schedulingService = CourseOfferingResourceLoader.loadSchedulingService();
+        }
+        return schedulingService;
+    }
+
+    public static PopulationService getPopulationService() {
+        if(populationService == null) {
+            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, PopulationServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return populationService;
+    }
+
+    public static CourseWaitListService getCourseWaitListService() {
+        if(courseWaitListService == null) {
+            courseWaitListService = CourseOfferingResourceLoader.loadCourseWaitlistService();
+        }
+        return courseWaitListService;
     }
 
     public static boolean checkEditViewAuthz(CourseOfferingManagementForm theForm) {
