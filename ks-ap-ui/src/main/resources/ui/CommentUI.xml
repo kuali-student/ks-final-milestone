@@ -453,7 +453,11 @@
 
         <!-- Not Displaying any criteria -->
         <property name="criteriaGroup">
-            <bean parent="Uif-VerticalBoxGroup"/>
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="footer">
+                    <bean parent="Uif-FooterBase"/>
+                </property>
+            </bean>
         </property>
         <property name="resultsGroup">
             <bean id="messages_summary" parent="messages_summary_list"/>

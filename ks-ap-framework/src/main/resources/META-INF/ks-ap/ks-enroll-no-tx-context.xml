@@ -454,9 +454,11 @@
 		</property>
 	</bean>
 
-	<bean id="typeServiceCacheDecorator"
+    <bean id="ksCacheManager" class="net.sf.ehcache.CacheManager" factory-method="getInstance"/>
+    <bean id="typeServiceCacheDecorator"
 		class="org.kuali.student.r2.common.class1.type.decorators.TypeServiceCacheDecorator">
 		<property name="nextDecorator" ref="typeService" />
+        <property name="cacheManager" ref="ksCacheManager"/>
 	</bean>
 
 

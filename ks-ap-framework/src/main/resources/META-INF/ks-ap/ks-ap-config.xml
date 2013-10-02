@@ -17,6 +17,7 @@
 
 <config>
     <param name="module.name">ks-ap</param>
+    <param name="ksap.version">0.8.0-m0</param>
 
     <param name="db.vendor">oracle</param>
     <param name="jpa.vendor">hibernate</param>

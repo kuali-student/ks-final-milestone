@@ -517,6 +517,7 @@
 	</bean>
 
 	<!-- Trending search components -->
+<!--
 	<bean id="Trending-LookupView" parent="MyPlanBaseLookupView">
 		<property name="headerText" value="Trending Searches" />
 		<property name="page.header.render" value="false" />
@@ -539,9 +540,13 @@
 			<list />
 		</property>
 
-		<!-- Not Displaying any criteria -->
+		&lt;!&ndash; Not Displaying any criteria &ndash;&gt;
 		<property name="criteriaGroup">
-			<bean parent="Uif-VerticalBoxGroup" p:validationMessages.render="false" />
+			<bean parent="Uif-VerticalBoxGroup" p:validationMessages.render="false">
+                <property name="footer">
+                    <bean parent="Uif-FooterBase"/>
+                </property>
+			</bean>
 		</property>
 		<property name="resultsGroup">
 			<bean id="trending_summary" parent="trending_summary_list" />
@@ -601,5 +606,6 @@
 			</list>
 		</property>
 	</bean>
+-->
 
 </beans>

@@ -46,6 +46,9 @@
         <property name="criteriaGroup">
             <bean parent="Uif-VerticalBoxGroup">
                 <property name="validationMessages.render" value="false"/>
+                <property name="footer">
+                    <bean parent="Uif-FooterBase"/>
+                </property>
             </bean>
         </property>
         <property name="resultsGroup">
