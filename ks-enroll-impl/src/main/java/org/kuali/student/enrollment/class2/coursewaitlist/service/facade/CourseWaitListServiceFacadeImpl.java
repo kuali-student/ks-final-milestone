@@ -1,5 +1,7 @@
 package org.kuali.student.enrollment.class2.coursewaitlist.service.facade;
 
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -24,7 +26,7 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFacade{
+public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFacade {
     @Resource
     private CourseOfferingService coService;
     
@@ -59,7 +61,7 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
      * @param coId input Course Offering id
      * @param context context of the call
      */
-    public void activateActivityOfferingWaitlistsByCourseOffering(String coId, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
+    public void activateActivityOfferingWaitlistsByCourseOffering(String coId, String termId, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         List<ActivityOfferingInfo> aoInfos = getCoService().getActivityOfferingsByCourseOffering(coId, context) ;
         if (null == aoInfos || aoInfos.isEmpty()){
             return;
@@ -77,8 +79,32 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
             }
             else{
                 for (CourseWaitListInfo waitListInfo : waitListInfos){
-                    waitListInfo = setCourseWaitListWithDefaultValues(waitListInfo);
-                    getCourseWaitListService().updateCourseWaitList(waitListInfo.getId(), waitListInfo, context);
+                    // check if any co-located AOs have inactive CO-level WL
+                    boolean hasWaitlistCO = true;
+                    if(waitListInfo.getActivityOfferingIds().size() > 1) {
+                        for (String activityOfferingId : waitListInfo.getActivityOfferingIds()) {
+                            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+                            qbcBuilder.setPredicates(PredicateFactory.and(
+                                    PredicateFactory.like("aoid", activityOfferingId),
+                                    PredicateFactory.equalIgnoreCase("atpId", termId)));
+                            QueryByCriteria criteria = qbcBuilder.build();
+                            List<String> courseOfferingIds = getCoService().searchForCourseOfferingIds(criteria, context);
+                            for (String courseOfferingId : courseOfferingIds) {
+                                CourseOfferingInfo coloCourseOfferingInfo = getCoService().getCourseOffering(courseOfferingId, context);
+                                if (!coloCourseOfferingInfo.getHasWaitlist()) {
+                                    hasWaitlistCO = false;
+                                }
+                            }
+                            if (!hasWaitlistCO) {
+                                break;
+                            }
+                        }
+                    }
+
+                    if (hasWaitlistCO) {
+                        waitListInfo = setCourseWaitListWithDefaultValues(waitListInfo);
+                        getCourseWaitListService().updateCourseWaitList(waitListInfo.getId(), waitListInfo, context);
+                    }
                 }
             }
         }
