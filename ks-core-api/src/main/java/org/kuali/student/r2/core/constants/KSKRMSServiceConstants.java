@@ -231,11 +231,11 @@ public class KSKRMSServiceConstants {
     public static final String TERM_RESOLVER_NUMBEROFCREDITSFROMORGANIZATION = "NumberOfCreditsFromOrganization";
     public static final String TERM_RESOLVER_NUMBEROFCREDITSFROMCOMPLETEDCOURSES = "NumberOfCreditsFromCompletedCourses";
     public static final String TERM_RESOLVER_NUMBEROFCREDITSEARNED = "NumberOfCreditsEarned";
-    public static final String TERM_RESOLVER_ADMINORGANIZATIONPERMISSIONREQUIRED = "AdminOrganizationPermissionRequired";
-    public static final String TERM_RESOLVER_SCOREONTEST = "ScoreOnTest";
+    public static final String TERM_RESOLVER_ADMINORGANIZATIONPERMISSIONREQUIRED = "AdminOrgPermission";
+    public static final String TERM_RESOLVER_SCOREONTEST = "Score";
     public static final String TERM_RESOLVER_FREEFORMTEXT = "FreeFormText";
     public static final String TERM_RESOLVER_ADMITTEDTOPROGRAMLIMITCOURSESINORGFORDURATION = "AdmittedToProgramLimitCoursesInOrgForDuration";
-    public static final String TERM_RESOLVER_ADMITTEDTOPROGRAM = "AdmittedToProgram";
+    public static final String TERM_RESOLVER_ADMITTEDTOPROGRAM = "AdmittedProgram";
     public static final String TERM_RESOLVER_ADMITTEDTOPROGRAMATCOURSECAMPUS = "AdmittedToProgramAtCourseCampus";
     public static final String TERM_RESOLVER_ADMITTEDTOPROGRAMWITHCLASSSTANDING = "AdmittedToProgramWithClassStanding";
     public static final String TERM_RESOLVER_COMPLETEDCOURSEFORTERM = "CompletedCourseForTerm";
