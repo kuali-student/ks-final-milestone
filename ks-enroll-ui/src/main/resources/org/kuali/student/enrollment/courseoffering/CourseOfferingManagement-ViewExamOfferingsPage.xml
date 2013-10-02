@@ -79,11 +79,10 @@
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxSection">
-                      <!--p:progressiveRender="currentCourseOfferingWrapper.finalExamDriverUI eq 'Course Offering'">-->
                     <property name="items">
                         <list>
                             <ref bean="KS-CourseOfferingManagement-ExamOfferingByCOTableSection"/>
-                            <ref bean="KS-CourseOfferingManagement-ExamOfferingByAOTableSection" />
+                            <ref bean="KS-CourseOfferingManagement-ExamOfferingByAOClustersSection" />
                             <bean parent="KS-CourseOfferingManagement-ExamOfferingTableSection"
                                   p:render="@{currentCourseOfferingWrapper.finalExamDriverUI ne 'Activity Offering' and currentCourseOfferingWrapper.finalExamDriverUI ne 'Course Offering'}"/>
                         </list>
@@ -136,6 +135,7 @@
     <bean id="KS-CourseOfferingManagement-ExamOfferingByAOTableSection" parent="KS-CourseOfferingManagement-ExamOfferingTableSection"
           p:render="@{currentCourseOfferingWrapper.finalExamDriverUI eq 'Activity Offering'}">
         <property name="headerText" value="Request Exam Offering Delivery Logistics by Activity Offering"/>
+        <property name="propertyName" value="eoWrapperList"/>
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:label="Status" p:propertyName="stateName"/>
@@ -161,4 +161,38 @@
         </property>
     </bean>
 
+    <bean id="KS-CourseOfferingManagement-ExamOfferingByAOClustersSection" parent="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup" p:renderAddLine="false"  p:renderLineActions="false"
+          p:render="@{currentCourseOfferingWrapper.finalExamDriverUI eq 'Activity Offering'}"  p:width="100%">
+        <property name="disclosure.render" value="false" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper" />
+        <property name="propertyName" value="clusterResultList" />
+        <property name="cssClasses" value="aoc_disclosure"/>
+        <property name="headerText" value=""/>
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+        </property>
+        <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
+        <property name="layoutManager.addLineGroup.header.render" value="false"/>
+        <property name="items">
+            <list>
+                <ref bean="KS-CourseOfferingManagement-EOClusterHeaderText" />
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="KS-CourseOfferingManagement-ExamOfferingByAOTableSection" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseOfferingManagement-EOClusterHeaderText" parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Label" p:labelText="@{#line.clusterNameForDisplay}" p:renderColon="false" />
+                <bean parent="Uif-Label" p:labelText="&#160;&#160;|&#160;&#160;" p:renderColon="false" />
+                <bean parent="Uif-Label" p:labelText="@{#line.formatNameForDisplay}"  p:renderColon="false" />
+            </list>
+        </property>
+
+    </bean>
 </beans>

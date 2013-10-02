@@ -1,8 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
-import org.apache.cxf.common.util.StringUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,6 +21,8 @@ public class ActivityOfferingClusterWrapper implements Serializable {
     private String formatNameForDisplay ="";
 
     private String formatOfferingId;
+
+    private List<ExamOfferingWrapper> eoWrapperList;
 
     // notes by Bonnie
     // TODO: the following boolean should be removed after migrate to ARG
@@ -45,6 +45,7 @@ public class ActivityOfferingClusterWrapper implements Serializable {
         rgStatus = "No Registration Groups Generated";
         rgMessageStyle = RG_MESSAGE_NONE;
         clusterNameForDisplay = "";
+        eoWrapperList = new ArrayList<ExamOfferingWrapper>();
     }
     
     public ActivityOfferingClusterWrapper(String activityOfferingClusterId, List<RegistrationGroupWrapper> rgWrapperList){
@@ -151,5 +152,13 @@ public class ActivityOfferingClusterWrapper implements Serializable {
 
     public void setFormatOfferingId(String formatOfferingId) {
         this.formatOfferingId = formatOfferingId;
+    }
+
+    public List<ExamOfferingWrapper> getEoWrapperList() {
+        return eoWrapperList;
+    }
+
+    public void setEoWrapperList(List<ExamOfferingWrapper> eoWrapperList) {
+        this.eoWrapperList = eoWrapperList;
     }
 }

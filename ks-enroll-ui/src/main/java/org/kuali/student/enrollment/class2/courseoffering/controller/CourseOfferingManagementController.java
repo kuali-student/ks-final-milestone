@@ -924,7 +924,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
         for (ExamOfferingInfo examOfferingInfo : examOfferingInfos) {
             ExamOfferingWrapper examOfferingWrapper = createWrapperFromExamOffering(examOfferingInfo);
 
-            if (LuServiceConstants.LU_EXAM_DRIVER_AO_KEY.equals(theForm.getCurrentCourseOfferingWrapper().getFinalExamDriver())){
+            if (LuServiceConstants.LU_EXAM_DRIVER_AO_KEY.equals(theForm.getCurrentCourseOfferingWrapper().getFinalExamDriver())) {
                 ExamOfferingRelationInfo eoRln = eoToRln.get(examOfferingInfo.getId());
                 examOfferingWrapper.setAoInfo(getActivityOfferingCode(theForm.getActivityWrapperList(), eoRln));
                 examOfferingWrapper.setActivityCode(examOfferingWrapper.getAoInfo().getActivityCode());
@@ -936,6 +936,9 @@ public class CourseOfferingManagementController extends UifControllerBase {
             examOfferingWrapperList.add(examOfferingWrapper);
         }
         theForm.setExamOfferingWrapperList(examOfferingWrapperList);
+        if (LuServiceConstants.LU_EXAM_DRIVER_AO_KEY.equals(theForm.getCurrentCourseOfferingWrapper().getFinalExamDriver())) {
+            populateEOClusterSubCollection(theForm);
+        }
     }
 
     private ActivityOfferingInfo getActivityOfferingCode(List<ActivityOfferingWrapper> wrappers, ExamOfferingRelationInfo eoRln) {
@@ -959,6 +962,26 @@ public class CourseOfferingManagementController extends UifControllerBase {
             // Set the scheduling information.
         }
         return examOfferingWrapper;
+    }
+
+
+    private void populateEOClusterSubCollection(CourseOfferingManagementForm theForm) {
+        List<ExamOfferingWrapper> eoClusterList;
+        List<ActivityOfferingClusterWrapper> clusterResultList = new ArrayList<ActivityOfferingClusterWrapper>();
+        for (ActivityOfferingClusterWrapper aoClusterWrapper : theForm.getClusterResultList()) {
+            eoClusterList = new ArrayList<ExamOfferingWrapper>();
+            for (ActivityOfferingWrapper wrapper : aoClusterWrapper.getAoWrapperList()) {
+                for (ExamOfferingWrapper examWrapper : theForm.getExamOfferingWrapperList()) {
+                    if (examWrapper.getAoInfo().getId().equals(wrapper.getId())) {
+                        eoClusterList.add(examWrapper);
+                    }
+                }
+                aoClusterWrapper.setEoWrapperList(eoClusterList);
+            }
+            clusterResultList.add(aoClusterWrapper);
+        }
+        theForm.setClusterResultList(clusterResultList);
+
     }
 
 }
