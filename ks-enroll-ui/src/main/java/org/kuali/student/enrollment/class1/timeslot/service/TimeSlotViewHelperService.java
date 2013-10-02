@@ -16,12 +16,15 @@ import java.util.List;
  */
 public interface TimeSlotViewHelperService extends KSViewHelperService {
     /**
-     * Build a list of {@link TimeSlotWrapper} objects for the given time slot types.
-     * @param timeSlotTypes A list of TimeSlot type keys.
-     * @return A list of TimeSlotWrapper objects.
-     */
-    public abstract List<TimeSlotWrapper> findTimeSlots(List<String> timeSlotTypes) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
+          * Build a list of {@link TimeSlotWrapper} objects for the given time slot types.
+          * @param timeSlotTypes A list of TimeSlot type keys.
+          * @return A list of TimeSlotWrapper objects.
+          */
+         public abstract List<TimeSlotWrapper> findTimeSlots(List<String> timeSlotTypes) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
 
 
     public void createTimeSlot(TimeSlotForm form) throws Exception;
+    public void deleteTimeSlots(TimeSlotForm form) throws Exception;
+
+
 }

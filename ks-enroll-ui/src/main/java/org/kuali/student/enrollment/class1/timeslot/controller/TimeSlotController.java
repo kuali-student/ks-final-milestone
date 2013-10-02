@@ -107,4 +107,24 @@ public class TimeSlotController extends UifControllerBase {
         }
         return viewHelperService;
     }
+
+    @RequestMapping(params = "methodToCall=deleteTimeSlots")
+    public ModelAndView deleteTimeSlots(@ModelAttribute(MODEL_ATTRIBUTE_FORM) TimeSlotForm form, @SuppressWarnings("unused") BindingResult result,
+                                        @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception{
+        String dialogName = TimeSlotConstants.ConfirmDialogs.DELETE_TIMESLOTS;
+
+        if (!hasDialogBeenAnswered(dialogName, form)) {
+            return showDialog(dialogName, form, request, response);
+        }
+
+        boolean dialogAnswer = getBooleanDialogResponse(dialogName, form, request, response);
+        form.getDialogManager().resetDialogStatus(dialogName);
+
+        if (dialogAnswer) {
+            // delete the timeslots
+            getViewHelperService(form).deleteTimeSlots(form);
+        }
+
+        return show(form);
+    }
 }

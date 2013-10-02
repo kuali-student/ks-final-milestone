@@ -27,7 +27,9 @@ import java.util.List;
      //  Storage for Time Slot search results.
      private List<TimeSlotWrapper> timeSlotResults;
 
-     /*
+    //  Selected Time Slot for deletion.
+    private List<TimeSlotWrapper> selectedTimeSlots;
+    /*
      These are the properties used at the Add/Edit popup.
       */
      private String addOrEditTermKey;
@@ -41,6 +43,7 @@ import java.util.List;
          termTypeSelections = new ArrayList<String>();
          timeSlotResults = new ArrayList<TimeSlotWrapper>();
          typeNameSelections = new ArrayList<String>();
+         selectedTimeSlots = new  ArrayList<TimeSlotWrapper>();
      }
 
      public List<TimeSlotWrapper> getTimeSlotResults() {
@@ -137,5 +140,13 @@ import java.util.List;
 
     public void setTypeNameSelections(List<String> typeNameSelections) {
         this.typeNameSelections = typeNameSelections;
+    }
+
+    public List<TimeSlotWrapper> getSelectedTimeSlots() {
+        return selectedTimeSlots;
+    }
+
+    public void setSelectedTimeSlots(List<TimeSlotWrapper> selectedTimeSlots) {
+        this.selectedTimeSlots = selectedTimeSlots;
     }
 }

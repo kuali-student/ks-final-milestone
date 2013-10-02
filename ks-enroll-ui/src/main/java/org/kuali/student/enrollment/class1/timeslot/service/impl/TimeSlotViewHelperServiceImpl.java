@@ -145,6 +145,11 @@ public class TimeSlotViewHelperServiceImpl
 
     }
 
+    @Override
+    public void deleteTimeSlots(TimeSlotForm form) throws Exception {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     private ContextInfo getContextInfo() {
         if (contextInfo == null) {
             contextInfo = ContextUtils.createDefaultContextInfo();
