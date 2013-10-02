@@ -34,6 +34,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingCon
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacade;
+import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacadeConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
@@ -245,8 +246,9 @@ public class CourseOfferingControllerPopulateUIForm {
     }
 
     protected static CourseWaitListServiceFacade getCourseWaitListServiceFacade() {
-        CourseWaitListServiceFacade courseWaitListServiceFacade = (CourseWaitListServiceFacade) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseWaitListServiceFacade", "courseWaitListServiceFacade"));
-        return  courseWaitListServiceFacade;
+        CourseWaitListServiceFacade courseWaitListServiceFacade =
+                (CourseWaitListServiceFacade) GlobalResourceLoader.getService(CourseWaitListServiceFacadeConstants.getQName());
+        return courseWaitListServiceFacade;
 
     }
 

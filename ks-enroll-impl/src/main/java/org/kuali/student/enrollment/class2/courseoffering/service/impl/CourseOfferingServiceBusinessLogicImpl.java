@@ -13,6 +13,8 @@ import org.kuali.student.enrollment.class2.courseoffering.service.transformer.Ac
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupCodeGeneratorFactory;
 import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
+import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacade;
+import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacadeConstants;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -84,40 +86,101 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     private static final Logger LOGGER = Logger.getLogger(CourseOfferingServiceBusinessLogicImpl.class);
 
     public static final String FIRST_REG_GROUP_CODE = "firstRegGroupCode";
-
+    // ----------------------------------------------------------------
     @Resource
     private CourseService courseService;
 
+    public void setCourseService(CourseService courseService) {
+        this.courseService = courseService;
+    }
+
+    public CourseService getCourseService() {
+        return courseService;
+    }
+    // ----------------------------------------------------------------
     @Resource
     private AcademicCalendarService acalService;
 
+    public AcademicCalendarService getAcalService() {
+        return acalService;
+    }
+
+    public void setAcalService(AcademicCalendarService acalService) {
+        this.acalService = acalService;
+    }
+    // ----------------------------------------------------------------
     @Resource
     private CourseOfferingService coService;
 
+    public void setCoService(CourseOfferingService coService) {
+        this.coService = coService;
+    }
+
+    public CourseOfferingService getCoService() {
+        return coService;
+    }
+    // ----------------------------------------------------------------
     @Resource
     private RegistrationGroupCodeGeneratorFactory registrationCodeGeneratorFactory;
 
+    public void setRegistrationCodeGeneratorFactory(RegistrationGroupCodeGeneratorFactory registrationCodeGeneratorFactory) {
+        this.registrationCodeGeneratorFactory = registrationCodeGeneratorFactory;
+    }
+    // ----------------------------------------------------------------
     @Resource
     private SchedulingService schedulingService;
 
+    public void setSchedulingService(SchedulingService schedulingService) {
+        this.schedulingService = schedulingService;
+    }
+    // ----------------------------------------------------------------
     @Resource
     private RoomService roomService;
 
+    public void setRoomService(RoomService roomService) {
+        this.roomService = roomService;
+    }
+    // ----------------------------------------------------------------
     @Resource
     private CourseOfferingTransformer courseOfferingTransformer;
 
+    public void setCourseOfferingTransformer(CourseOfferingTransformer courseOfferingTransformer) {
+        this.courseOfferingTransformer = courseOfferingTransformer;
+    }
+    // ----------------------------------------------------------------
     @Resource
     private ActivityOfferingTransformer activityOfferingTransformer;
 
+
+    public ActivityOfferingTransformer getActivityOfferingTransformer() {
+        return activityOfferingTransformer;
+    }
+
+    public void setActivityOfferingTransformer(ActivityOfferingTransformer activityOfferingTransformer) {
+        this.activityOfferingTransformer = activityOfferingTransformer;
+    }
+    // ----------------------------------------------------------------
     @Resource
     private AcademicCalendarServiceFacade acalServiceFacade;
 
+    public void setAcalServiceFacade(AcademicCalendarServiceFacade acalServiceFacade) {
+        this.acalServiceFacade = acalServiceFacade;
+    }
+    // ----------------------------------------------------------------
     @Resource
     private RolloverAssist rolloverAssist;
 
+    public void setRolloverAssist(RolloverAssist rolloverAssist) {
+        this.rolloverAssist = rolloverAssist;
+    }
+    // ----------------------------------------------------------------
     @Resource
     private CourseWaitListService courseWaitListService;
 
+    public void setCourseWaitListService(CourseWaitListService courseWaitListService) {
+        this.courseWaitListService = courseWaitListService;
+    }
+    // ----------------------------------------------------------------
     @Resource
     private ExamOfferingServiceFacade examOfferingServiceFacade;
 
@@ -128,54 +191,18 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     public void setExamOfferingServiceFacade(ExamOfferingServiceFacade examOfferingServiceFacade) {
         this.examOfferingServiceFacade = examOfferingServiceFacade;
     }
+    // ----------------------------------------------------------------
+    @Resource
+    private CourseWaitListServiceFacade courseWaitListServiceFacade;
 
-    public void setRolloverAssist(RolloverAssist rolloverAssist) {
-        this.rolloverAssist = rolloverAssist;
+    public CourseWaitListServiceFacade getCourseWaitListServiceFacade() {
+        return courseWaitListServiceFacade;
     }
 
-    public CourseOfferingService getCoService() {
-        return coService;
+    public void setCourseWaitListServiceFacade(CourseWaitListServiceFacade courseWaitListServiceFacade) {
+        this.courseWaitListServiceFacade = courseWaitListServiceFacade;
     }
-
-    public void setCoService(CourseOfferingService coService) {
-        this.coService = coService;
-    }
-
-    public void setAcalServiceFacade(AcademicCalendarServiceFacade acalServiceFacade) {
-        this.acalServiceFacade = acalServiceFacade;
-    }
-
-    public AcademicCalendarService getAcalService() {
-        return acalService;
-    }
-
-    public void setAcalService(AcademicCalendarService acalService) {
-        this.acalService = acalService;
-    }
-
-    public CourseService getCourseService() {
-        return courseService;
-    }
-
-    public void setRegistrationCodeGeneratorFactory(RegistrationGroupCodeGeneratorFactory registrationCodeGeneratorFactory) {
-        this.registrationCodeGeneratorFactory = registrationCodeGeneratorFactory;
-    }
-
-    public void setCourseService(CourseService courseService) {
-        this.courseService = courseService;
-    }
-
-    public void setRoomService(RoomService roomService) {
-        this.roomService = roomService;
-    }
-
-    public void setCourseOfferingTransformer(CourseOfferingTransformer courseOfferingTransformer) {
-        this.courseOfferingTransformer = courseOfferingTransformer;
-    }
-
-    public void setCourseWaitListService(CourseWaitListService courseWaitListService) {
-        this.courseWaitListService = courseWaitListService;
-    }
+    // ----------------------------------------------------------------
 
     /**
      * Initializes services, if needed
@@ -210,8 +237,12 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             rolloverAssist = (RolloverAssist) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/rolloverAssist", "RolloverAssist"));
         }
 
-        if(examOfferingServiceFacade == null){
+        if (examOfferingServiceFacade == null){
             examOfferingServiceFacade = (ExamOfferingServiceFacade) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/examOfferingServiceFacade","examOfferingServiceFacade"));
+        }
+
+        if (courseWaitListServiceFacade == null){
+            courseWaitListServiceFacade = (CourseWaitListServiceFacade) GlobalResourceLoader.getService(CourseWaitListServiceFacadeConstants.getQName());
         }
     }
 
@@ -773,20 +804,11 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         // This is an exceptional case where the source AO lacks a waitlist.  All AOs should have waitlists in
         // the ref data
-        CourseWaitListInfo theWaitListInfo = new CourseWaitListInfo();
-        theWaitListInfo.getActivityOfferingIds().add(targetAo.getId());
-        theWaitListInfo.getFormatOfferingIds().add(targetFo.getId());
+        CourseWaitListInfo theWaitListInfo =
+                getCourseWaitListServiceFacade().createDefaultCourseWaitlist(targetFo.getId(),
+                        targetAo.getId(), targetCo.getHasWaitlist(), context);
 
-        if (targetCo.getHasWaitlist()) {
-            theWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY);
-            // default setting is semi-automatic
-            theWaitListInfo.setAutomaticallyProcessed(true);
-            theWaitListInfo.setConfirmationRequired(true);
-        } else {
-            theWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
-        }
-
-        courseWaitListService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, theWaitListInfo,context);
+        courseWaitListService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, theWaitListInfo, context);
     }
 
     private void _RCO_copyWaitlistForTargetAO_CopyCO(boolean sourceTermSameAsTarget,
@@ -1410,13 +1432,5 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public ActivityOfferingTransformer getActivityOfferingTransformer() {
-        return activityOfferingTransformer;
-    }
-
-    public void setActivityOfferingTransformer(ActivityOfferingTransformer activityOfferingTransformer) {
-        this.activityOfferingTransformer = activityOfferingTransformer;
     }
 }

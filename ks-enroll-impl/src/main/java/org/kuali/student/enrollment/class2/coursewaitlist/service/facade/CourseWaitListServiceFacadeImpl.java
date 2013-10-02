@@ -50,7 +50,6 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
     private boolean hasWaitlist;
 
 
-
     /**
      *
      * This method creates/updates new waitListInfo with inactive state for AO from CO.
@@ -73,7 +72,7 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
                 CourseWaitListInfo theWaitListInfo = new CourseWaitListInfo();
                 theWaitListInfo.getActivityOfferingIds().add(aoInfo.getId());
                 theWaitListInfo.getFormatOfferingIds().add(aoInfo.getFormatOfferingId());
-                theWaitListInfo = setCourseWaitListWithDefaultValues(theWaitListInfo);
+                theWaitListInfo = _setCourseWaitListWithDefaultValues(theWaitListInfo);
                 getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
                         theWaitListInfo, context);
             }
@@ -102,7 +101,7 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
                     }
 
                     if (hasWaitlistCO) {
-                        waitListInfo = setCourseWaitListWithDefaultValues(waitListInfo);
+                        waitListInfo = _setCourseWaitListWithDefaultValues(waitListInfo);
                         getCourseWaitListService().updateCourseWaitList(waitListInfo.getId(), waitListInfo, context);
                     }
                 }
@@ -171,58 +170,46 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
 
     }
 
-    /* Create a new CourseWaitListInfo (CWLI) for a specified AO and persist it in DB
-
-        If possible, use this method. The other Method is MUCH less efficient.
-
-       1)set AOInfo.id to courseWaitListInfo.activityOfferingIds
-       2)set AOInfo.formatOfferingId to courseWaitListInfo.formatOfferingIds
-       3)if COInfo.hasWaitList = true, set courseWaitListInfo.stateKey to active and set automaticallyProcessed,
-            confirmationRequired, checkInRequired, and allowHoldUntilEntries in courseWaitListInfo to true
-       4)if COInfo.hasWaitList = false, set courseWaitListInfo.stateKey to inactive and set automaticallyProcessed,
-            confirmationRequired, checkInRequired, and allowHoldUntilEntries in courseWaitListInfo to false
-    */
+    /**
+     *  Create a new CourseWaitListInfo (CWLI) for a specified AO and persist it in DB
+     *
+     *  If possible, use this method. The other Method is MUCH less efficient.
+     *
+     * 1) Set AOInfo.id to courseWaitListInfo.activityOfferingIds
+     * 2) Set AOInfo.formatOfferingId to courseWaitListInfo.formatOfferingIds
+     * 3) Set automaticallyProcessed, confirmationRequired, checkInRequired, and allowHoldUntilEntries to values
+     *    injected in by spring into this facade (see instance variables by the same name.
+     * 4) If COInfo.hasWaitList = true, set courseWaitListInfo.stateKey to active
+     * 5) If COInfo.hasWaitList = false, set courseWaitListInfo.stateKey to inactive
+     */
     public CourseWaitListInfo createDefaultCourseWaitlist(String foId, String aoId, boolean coHasWaitlist, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException {
         CourseWaitListInfo courseWaitListInfo = new CourseWaitListInfo();
-        List<String> aoIds = new ArrayList<String>();
-        aoIds.add(aoId);
-        courseWaitListInfo.setActivityOfferingIds(aoIds);
-        List<String> foIds = new ArrayList<String> ();
-        foIds.add(foId);
-        courseWaitListInfo.setFormatOfferingIds(foIds);
-        courseWaitListInfo.setTypeKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY);
 
-        //need to get the value of coInfo.hasWaitList to set stateKey and other default values
-
-        if (coHasWaitlist){
+        // Need to get the value of coInfo.hasWaitList to set stateKey and other default values
+        _setCourseWaitListWithDefaultValues(courseWaitListInfo);
+        if (coHasWaitlist) {
             courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY);
-            //default setting is semi-automatic
-            courseWaitListInfo = setCourseWaitListWithDefaultValues(courseWaitListInfo);
-        }
-        else{
+        } else {
             courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
-            courseWaitListInfo.setAllowHoldUntilEntries(false);
-            courseWaitListInfo.setAutomaticallyProcessed(false);
-            courseWaitListInfo.setConfirmationRequired(false);
-            courseWaitListInfo.setCheckInRequired(false);
         }
+        courseWaitListInfo.getActivityOfferingIds().add(aoId);
+        courseWaitListInfo.getFormatOfferingIds().add(foId);
+        // Create the wait list
         courseWaitListInfo = courseWaitListService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
                 courseWaitListInfo, context);
         return courseWaitListInfo;
     }
-
-
 
     /*
      * automatic -> automaticallyProcessed = true, confirmationRequired = false
      * semi-automatic -> automaticallyProcessed = true, confirmationRequired = true
      * manual -> automaticallyProcessed = false, confirmationRequired = false 
      */
-    private CourseWaitListInfo setCourseWaitListWithDefaultValues(CourseWaitListInfo courseWaitListInfo) {
+    private CourseWaitListInfo _setCourseWaitListWithDefaultValues(CourseWaitListInfo courseWaitListInfo) {
         courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY);
-        //default setting is semi-automatic
+        // default setting is semi-automatic
         courseWaitListInfo.setAutomaticallyProcessed(automaticallyProcessed);
         courseWaitListInfo.setConfirmationRequired(confirmationRequired);
 

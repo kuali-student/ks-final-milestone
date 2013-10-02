@@ -245,7 +245,7 @@
         <property name="stateService" ref="stateService" />
         <property name="lprService" ref="lprService" />
         <property name="criteriaLookupService" ref="coCriteriaLookupService"/>
-        <property name="businessLogic" ref="businessLogic" />
+        <property name="businessLogic" ref="coBusinessLogic" />
         <property name="typeService" ref="typeService"/>
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer"/>
@@ -305,7 +305,9 @@
     <bean id="rolloverAssist" class="org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssistImpl">
     </bean>
 
-    <bean id="businessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
+    <bean id="courseWaitListServiceFacade" class="org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacadeImpl"/>
+
+    <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
         <property name="courseService" ref="courseService" />
         <property name="acalService" ref="acalService" />
         <property name="coService" ref="coService" />
@@ -315,6 +317,7 @@
         <property name="acalServiceFacade" ref="acalServiceFacade" />
         <property name="rolloverAssist" ref="rolloverAssist"/>
         <property name="courseWaitListService" ref="courseWaitListService"/>
+        <property name="courseWaitListServiceFacade" ref="courseWaitListServiceFacade"/>
     </bean>
 
     <bean id="examOfferingServiceFacade" class="org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacadeImpl">

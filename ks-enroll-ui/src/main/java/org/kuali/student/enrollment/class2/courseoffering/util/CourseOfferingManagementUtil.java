@@ -23,6 +23,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.facade.CourseO
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.CSRServiceFacade;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseInfoByTermLookupableImpl;
 import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacade;
+import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacadeConstants;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
@@ -174,7 +175,7 @@ public class CourseOfferingManagementUtil {
 
     public static CourseWaitListServiceFacade getCourseWaitListServiceFacade() {
         if (courseWaitListServiceFacade == null) {
-            courseWaitListServiceFacade = (CourseWaitListServiceFacade) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseWaitListServiceFacade", "courseWaitListServiceFacade"));
+            courseWaitListServiceFacade = (CourseWaitListServiceFacade) GlobalResourceLoader.getService(CourseWaitListServiceFacadeConstants.getQName());
         }
         return courseWaitListServiceFacade;
     }
