@@ -25,10 +25,23 @@
         <property name="templatesMap" ref="templatesMap"/>
     </bean>
 
+    <bean id="ruleTypeService" class="org.kuali.rice.krms.impl.type.RuleTypeServiceBase"/>
+
     <bean id="agendaTypeService" class="org.kuali.student.krms.service.impl.KSAgendaTypeServiceImpl">
     </bean>
 
     <bean id="termresolverTypeService" class="org.kuali.student.krms.service.impl.KSTermResolverTypeService">
+        <property name="acadRecordService" ref="academicRecordClient"/>
+        <property name="courseRegistrationService" ref="courseRegistrationClient"/>
+        <property name="organizationService" ref="orgClient"/>
+        <property name="atpService" ref="atpClient"/>
+        <property name="courseOfferingService" ref="courseOfferingClient"/>
+        <property name="lrcService" ref="lrcClient"/>
+        <property name="schedulingService" ref="schedulingClient"/>
+    </bean>
+
+    <bean id="actionTypeService" class="org.kuali.student.krms.service.impl.KSActionTypeServiceImpl">
+        <property name="schedulingService" ref="schedulingClient"/>
     </bean>
 
     <bean id="propositionTemplater"
@@ -37,10 +50,29 @@
         <property name="translationContextRegistry" ref="translationContextRegistry"/>
     </bean>
 
+    <bean id="atpClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.core.atp.service.AtpService"/>
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/atp}AtpService"/>
+    </bean>
+
+    <bean id="academicRecordClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.enrollment.academicrecord.service.AcademicRecordService"/>
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/academicrecord}AcademicRecordService"/>
+    </bean>
 
     <bean id="courseClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.r2.lum.course.service.CourseService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/course}CourseService"/>
+    </bean>
+
+    <bean id="courseOfferingClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.enrollment.courseoffering.service.CourseOfferingService"/>
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/courseOffering}CourseOfferingService"/>
+    </bean>
+
+    <bean id="schedulingClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.core.scheduling.service.SchedulingService"/>
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/scheduling}SchedulingService"/>
     </bean>
 
     <bean id="programClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
@@ -67,6 +99,16 @@
     <bean id="acalClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.r2.core.acal.service.AcademicCalendarService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/acal}AcademicCalendarService"/>
+    </bean>
+
+    <bean id="lrcClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.lum.lrc.service.LRCService"/>
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/lrc}LearningResultService"/>
+    </bean>
+
+    <bean id="courseRegistrationClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService"/>
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/courseRegistrationService}CourseRegistrationService"/>
     </bean>
 
     <bean id="basicContext" class="org.kuali.student.krms.naturallanguage.config.context.BasicContextImpl">

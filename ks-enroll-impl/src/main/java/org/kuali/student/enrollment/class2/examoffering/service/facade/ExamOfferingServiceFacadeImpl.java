@@ -338,6 +338,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
         //Create a new Exam Offering
         ExamOfferingInfo eo = createExamOffering(examPeriodId, context);
+        executeRuleForAOScheduling(aoId, context);
 
         //Create new Exam Offering Relationship
         List<String> aoIds = new ArrayList<String>();
@@ -439,11 +440,8 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         eo.setExamId(this.getCanonicalExam(context));
         eo.setExamPeriodId(examPeriodId);
 
-        ExamOfferingInfo examOfferingInfo = this.getExamOfferingService().createExamOffering(eo.getExamPeriodId(),
+        return this.getExamOfferingService().createExamOffering(eo.getExamPeriodId(),
                 eo.getExamId(), eo.getTypeKey(), eo, context);
-
-        //executeRuleForScheduling(context);
-        return examOfferingInfo;
     }
 
     /**
@@ -496,19 +494,19 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         return null;
     }
 
-    private void executeRuleForScheduling(ContextInfo context) {
+    private void executeRuleForAOScheduling(String aoId, ContextInfo context) {
         Engine engine = KrmsApiServiceLocator.getEngine();
 
         Map<String, String> contextQualifiers = new HashMap<String, String>();
         contextQualifiers.put("namespaceCode", PermissionServiceConstants.KS_SYS_NAMESPACE);
         contextQualifiers.put("name", "Final Exam Matrix Rules");
         Map<String, String> agendaQualifiers = new HashMap<String, String>();
-        contextQualifiers.put("id", "KS-KRMS-REF-OBJ-KRMS-OBJ-11914");
+        agendaQualifiers.put("id", "KS-KRMS-AGENDA-11923");
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(new DateTime(), contextQualifiers, agendaQualifiers);
 
         Map<String, Object> executionFacts = new HashMap<String, Object>();
         executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO, context);
-        executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_AO_ID, "AO1");
+        executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_AO_ID, aoId);
 
         ExecutionOptions executionOptions = new ExecutionOptions();
         executionOptions.setFlag(ExecutionFlag.LOG_EXECUTION, true);

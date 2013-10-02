@@ -51,7 +51,7 @@ public class NumberOfCoursesWithGradeTermResolver implements TermResolver<Intege
 
     @Override
     public String getOutput() {
-        return KSKRMSServiceConstants.TERM_RESOLVER_GRADETYPEFORCOURSES;
+        return KSKRMSServiceConstants.TERM_RESOLVER_NUMBEROFCOURSESWITHGRADE;
     }
 
     @Override

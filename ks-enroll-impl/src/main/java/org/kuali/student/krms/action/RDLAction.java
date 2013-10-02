@@ -18,12 +18,16 @@ package org.kuali.student.krms.action;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.framework.engine.Action;
+import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
@@ -49,7 +53,37 @@ public class RDLAction implements Action {
     @Override
     public void execute(ExecutionEnvironment environment) {
         ContextInfo context = (ContextInfo) environment.getFacts().get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-        //schedulingService.createScheduleRequest("scheduleRequestTypeKey", scheduleRequest, context);
+        ActivityOffering ao = (ActivityOffering) environment.getFacts().get(KSKRMSServiceConstants.TERM_PREREQUISITE_AO);
+        String eoId = (String) environment.getFacts().get(KSKRMSServiceConstants.TERM_PREREQUISITE_EO_ID);
+
+        //Create new sch set for this ao.
+        ScheduleRequestSetInfo requestSet = new ScheduleRequestSetInfo();
+        requestSet.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+        requestSet.setName("Schedule request set for " + ao.getCourseOfferingCode() + " - " + ao.getActivityCode());
+        requestSet.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_STATE_CREATED);
+        requestSet.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
+        requestSet.getRefObjectIds().add(eoId);
+        try {
+            requestSet = getSchedulingService().createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
+                    CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, requestSet, context);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        ScheduleRequestInfo scheduleRequest = new ScheduleRequestInfo();
+        scheduleRequest.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
+        scheduleRequest.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
+        scheduleRequest.setScheduleRequestSetId(requestSet.getId());
+
+        try {
+            ScheduleRequestComponentInfo componentInfo = buildScheduleComponentRequest(context);
+            scheduleRequest.getScheduleRequestComponents().add(componentInfo);
+
+            this.getSchedulingService().createScheduleRequest(
+                    SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST, scheduleRequest, context);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -83,7 +117,8 @@ public class RDLAction implements Action {
         timeSlot.setEndTime(endTimeOfDayInfo);
 
         try {
-            TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, timeSlot, defaultContextInfo);
+            TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(
+                    SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, timeSlot, defaultContextInfo);
             componentInfo.getTimeSlotIds().add(createdTimeSlot.getId());
         } catch (Exception e) {
             throw new Exception("Error creating timeslot: " + timeSlot, e);
