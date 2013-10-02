@@ -360,10 +360,18 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-NoWaitlist" parent="Uif-VerticalBoxSection" p:headerText="Waitlist" p:render="@{!#dp.hasWaitlistCO}">
+    <bean id="ActivityOfferingEdit-NoWaitlist" parent="Uif-VerticalBoxSection" p:headerText="Waitlist" p:render="@{!#dp.hasWaitlistCO and !#dp.colocatedAO}">
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="Waitlists are deactivated for the Course Offering"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ActivityOfferingEdit-NoWaitlistColo" parent="Uif-VerticalBoxSection" p:headerText="Waitlist" p:render="@{!#dp.hasWaitlistCO and #dp.colocatedAO}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="Waitlists are deactivated for at least one Course Offering associated with this co-located activity"/>
             </list>
         </property>
     </bean>

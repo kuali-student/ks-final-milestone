@@ -141,6 +141,7 @@
 
                 <ref bean="ActivityOfferingEdit-PersonnelSection"/>
                 <ref bean="ActivityOfferingEdit-NoWaitlist"/>
+                <ref bean="ActivityOfferingEdit-NoWaitlistColo"/>
                 <ref bean="ActivityOfferingEdit-Waitlist"/>
                 <ref bean="ActivityOfferingView-Waitlist"/>
                 <ref bean="ActivityOfferingEdit-SeatPool"/>
