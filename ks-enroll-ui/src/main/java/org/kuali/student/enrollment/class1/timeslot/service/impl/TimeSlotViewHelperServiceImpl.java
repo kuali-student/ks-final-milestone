@@ -112,7 +112,6 @@ public class TimeSlotViewHelperServiceImpl
         TimeSlotWrapper newTSWrapper = new TimeSlotWrapper();
 
         TimeSlotInfo newTSInfo = new TimeSlotInfo();
-        newTSInfo.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD);
         newTSInfo.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_ACTIVE);
         List<Integer> days = WeekDaysDtoAndUIConversions.buildDaysForDTO(form.getAddOrEditDays());
         newTSInfo.setWeekdays(days);
@@ -125,15 +124,17 @@ public class TimeSlotViewHelperServiceImpl
         time = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(form.getAddOrEditEndTime() + " " + form.getAddOrEditEndTimeAmPm()).getTime();
         timeOfDayInfo = new TimeOfDayInfo();
         timeOfDayInfo.setMilliSeconds(time);
-        newTSInfo.setStartTime(timeOfDayInfo);
+        newTSInfo.setEndTime(timeOfDayInfo);
+        newTSInfo.setTypeKey(form.getAddOrEditTermKey());
 
-        TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD,newTSInfo, createContextInfo());
+        TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(form.getAddOrEditTermKey(),newTSInfo, createContextInfo());
         newTSWrapper.setTimeSlotInfo(createdTimeSlot);
         newTSWrapper.setDaysDisplayName(form.getAddOrEditDays());
         newTSWrapper.setEnableDeleteButton(true);
         newTSWrapper.setStartTimeDisplay(form.getAddOrEditStartTime() + " " + form.getAddOrEditStartTimeAmPm());
         newTSWrapper.setEndTimeDisplay(form.getAddOrEditEndTime() + " " + form.getAddOrEditEndTimeAmPm());
-        newTSWrapper.setTypeName(form.getAddOrEditTermKey());//Get the name
+        TypeInfo type = getTypeInfo(form.getAddOrEditTermKey());
+        newTSWrapper.setTypeName(type.getName());
         form.getTimeSlotResults().add(0, newTSWrapper);
 
         form.setAddOrEditDays("");

@@ -89,7 +89,7 @@ public class TimeSlotController extends UifControllerBase {
     }
 
 
-    @RequestMapping(params = "methodToCall=addTimeSlot")
+    @RequestMapping(params = "methodToCall=createTimeSlot")
     public ModelAndView createTimeSlot(@ModelAttribute(MODEL_ATTRIBUTE_FORM) TimeSlotForm form) throws Exception{
 
         getViewHelperService(form).createTimeSlot(form);
