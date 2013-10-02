@@ -291,19 +291,6 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>3</load-on-startup>
     </servlet>
-    <filter>
-        <filter-name>DefaultContext</filter-name>
-        <filter-class>org.kuali.student.ap.framework.context.support.DefaultKsapContext$Filter</filter-class>
-    </filter>
-    <filter>
-        <filter-name>ArmKsapFilter</filter-name>
-        <filter-class>org.kuali.student.myplan.utils.ArmKsapFilter</filter-class>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>DefaultContext</filter-name>
-        <servlet-name>myplan</servlet-name>
-    </filter-mapping>
     <!-- Adds filter for user logins for use when myplan-servlet used-->
     <filter-mapping>
         <filter-name>UserLoginFilter</filter-name>
@@ -316,11 +303,6 @@
         <url-pattern>/myplan/*</url-pattern>
     </servlet-mapping>
 
-    <!-- Filter on myplan servlet -->
-    <filter-mapping>
-        <filter-name>ArmKsapFilter</filter-name>
-        <servlet-name>myplan</servlet-name>
-    </filter-mapping>
 
 	<servlet-mapping>
 		<servlet-name>remoting</servlet-name>
