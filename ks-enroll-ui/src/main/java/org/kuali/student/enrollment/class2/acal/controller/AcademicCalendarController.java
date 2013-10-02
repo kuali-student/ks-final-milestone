@@ -38,6 +38,7 @@ import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelp
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
 import org.kuali.student.enrollment.common.util.EnrollConstants;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -1384,6 +1385,8 @@ public class AcademicCalendarController extends UifControllerBase {
         examPeriodInfo.setEndDate(examPeriodWrapper.getEndDate());
         examPeriodInfo.setStartDate(examPeriodWrapper.getStartDate());
         examPeriodInfo.setStateKey(term.getTermInfo().getStateKey()); //the state of the exam period is the same as the term state
+        setExamPeriodAttr(examPeriodInfo, AcademicCalendarServiceConstants.EXAM_PERIOD_EXCLUDE_SATURDAY_ATTR, String.valueOf(examPeriodWrapper.isExcludeSaturday()));
+        setExamPeriodAttr(examPeriodInfo, AcademicCalendarServiceConstants.EXAM_PERIOD_EXCLUDE_SUNDAY_ATTR, String.valueOf(examPeriodWrapper.isExcludeSunday()));
 
         RichTextInfo rti = new RichTextInfo();
         rti.setPlain(examPeriodName);
@@ -1697,5 +1700,26 @@ public class AcademicCalendarController extends UifControllerBase {
         ((AcademicCalendarForm)uifForm).setFieldsToSave(processDirtyFields((AcademicCalendarForm)uifForm));
         return super.addLine(uifForm,result,request,response);
     }
+
+    private void setExamPeriodAttr(ExamPeriodInfo examPeriodInfo, String attrKey, String attrValue) {
+        AttributeInfo attributeInfo = getExamPeriodAttrForKey(examPeriodInfo, attrKey);
+        if (attributeInfo != null) {
+            attributeInfo.setValue(attrValue);
+        } else {
+            attributeInfo = AcalCommonUtils.createAttribute(attrKey, attrValue);
+            examPeriodInfo.getAttributes().add(attributeInfo);
+        }
+    }
+
+    private AttributeInfo getExamPeriodAttrForKey(ExamPeriodInfo examPeriodInfo, String key) {
+        for (AttributeInfo info : examPeriodInfo.getAttributes()) {
+            if (info.getKey().equals(key)) {
+                return info;
+            }
+        }
+        return null;
+    }
+
+
 
 }

@@ -313,6 +313,8 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         if (examPeriodInfos != null && examPeriodInfos.size() > 0) {  //only one or none
             for (ExamPeriodInfo examPeriodInfo : examPeriodInfos) {
                 ExamPeriodWrapper examPeriodWrapper = new ExamPeriodWrapper(examPeriodInfo, isCopy);
+                examPeriodWrapper.setExcludeSaturday(Boolean.parseBoolean(examPeriodInfo.getAttributeValue(AcademicCalendarServiceConstants.EXAM_PERIOD_EXCLUDE_SATURDAY_ATTR)));
+                examPeriodWrapper.setExcludeSunday(Boolean.parseBoolean(examPeriodInfo.getAttributeValue(AcademicCalendarServiceConstants.EXAM_PERIOD_EXCLUDE_SUNDAY_ATTR)));
                 termWrapper.getExamdates().add(examPeriodWrapper);
             }
         }

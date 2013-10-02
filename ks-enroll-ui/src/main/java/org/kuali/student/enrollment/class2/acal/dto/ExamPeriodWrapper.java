@@ -37,6 +37,8 @@ public class ExamPeriodWrapper {
     private String examPeriodNameUI;
     private Date startDate;
     private Date endDate;
+    private boolean excludeSaturday;
+    private boolean excludeSunday;
 
     private ExamPeriodInfo examPeriodInfo;
     private TypeInfo typeInfo;
@@ -138,6 +140,22 @@ public class ExamPeriodWrapper {
     //This is for UI display purpose
     public String getEndDateUI(){
         return formatStartEndDateUI(examPeriodInfo.getEndDate());
+    }
+
+    public boolean isExcludeSaturday() {
+        return excludeSaturday;
+    }
+
+    public void setExcludeSaturday(boolean excludeSaturday) {
+        this.excludeSaturday = excludeSaturday;
+    }
+
+    public boolean isExcludeSunday() {
+        return excludeSunday;
+    }
+
+    public void setExcludeSunday(boolean excludeSunday) {
+        this.excludeSunday = excludeSunday;
     }
 
     //This is for UI display purpose

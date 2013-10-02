@@ -19,7 +19,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.MutableDateTime;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -126,5 +128,12 @@ public class AcalCommonUtils {
         if (logger.isDebugEnabled()){
             logger.debug(message);
         }
+    }
+
+    public static AttributeInfo createAttribute(String key, String value) {
+        AttributeInfo newAttr = new AttributeInfo();
+        newAttr.setKey(key);
+        newAttr.setValue(value);
+        return newAttr;
     }
 }
