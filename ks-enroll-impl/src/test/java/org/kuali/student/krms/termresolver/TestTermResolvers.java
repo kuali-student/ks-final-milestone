@@ -468,7 +468,7 @@ public class TestTermResolvers {
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSServiceConstants.TERM_RESOLVER_COURSESWITHGRADE);
+                KSKRMSServiceConstants.TERM_RESOLVER_COURSEWITHGRADE);
 
         //Evaluate term Resolver
         Boolean courseWithGrade = termResolver.resolve(resolvedPrereqs, parameters);
