@@ -493,6 +493,11 @@
    <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorDBImpl">
        <property name="codeGeneratorLocksDao" ref="codeGeneratorLocksDao" />
    </bean>
+
+  <bean id="timeSlotCodeGenerator" class="org.kuali.student.r2.core.scheduling.util.impl.TimeSlotCodeGeneratorImpl">
+      <property name="timeSlotDao" ref="timeSlotDao" />
+      <property name="initialCode" value="1"/>
+  </bean>
    
    <bean id="krmsRuleManagementCopyMethods" class="org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethodsImpl">
 <!--       If I uncomment this next one it fails because ruleManagementService is not defined but if I have it commented out 
@@ -1251,6 +1256,7 @@
         <property name="timeSlotDao" ref="timeSlotDao"/>
         <property name="scheduleDao" ref="scheduleDao"/>
         <property name="criteriaLookupService" ref="defaultCriteriaLookupService" />
+        <property name="timeSlotCodeGenerator" ref="timeSlotCodeGenerator" />
     </bean>
 
     <bean id="schedulingServiceValidationDecorator" class="org.kuali.student.r2.core.scheduling.service.decorators.SchedulingServiceValidationDecorator">
