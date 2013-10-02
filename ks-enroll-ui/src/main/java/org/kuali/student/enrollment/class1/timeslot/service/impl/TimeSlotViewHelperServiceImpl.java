@@ -75,7 +75,7 @@ public class TimeSlotViewHelperServiceImpl
              // add some test data
              TimeSlotInfo timeSlotInfo = new TimeSlotInfo();
              timeSlotInfo.setName("A");
-             timeSlotInfo.setTypeKey("SummerFull");
+             timeSlotInfo.setTypeKey("kuali.scheduling.time.slot.type.activityoffering.standard.fullterm.spring");
              Integer[] days = {2, 4, 6};
              timeSlotInfo.setWeekdays(Arrays.asList(days));
              TimeOfDayInfo timeOfDayInfo1 = new TimeOfDayInfo();
@@ -101,7 +101,7 @@ public class TimeSlotViewHelperServiceImpl
              String daysUI = WeekDaysDtoAndUIConversions.buildDaysForUI(timeSlotInfo.getWeekdays());
              wrapper.setDaysDisplayName(daysUI);
              wrapper.setTypeKey(timeSlotInfo.getTypeKey());
-             wrapper.setTypeName(timeSlotInfo.getTypeKey());
+             wrapper.setTypeName("SummerFull");
              timeSlotWrappers.add(wrapper);
 
              return timeSlotWrappers;

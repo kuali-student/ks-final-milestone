@@ -34,6 +34,7 @@
              <property name="additionalScriptFiles">
                  <list merge="true">
                      <value>themes/ksboot/scripts/toolbar.js</value>
+                     <value>themes/ksboot/scripts/timeslot.js</value>
                  </list>
              </property>
 
@@ -105,7 +106,7 @@
                 <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup" p:noLeftBorder="true">
                     <property name="items">
                         <list>
-                            <bean id="TimeSlot-ToolBar-Add-TimeSlot" parent="TimeSlot-ToolBar-Add-Button-parent" p:disabled="@{!enableAddButton}"/>
+                            <bean id="TimeSlot-ToolBar-Add-TimeSlot" parent="TimeSlot-ToolBar-Add-Button-parent" p:disabled="@{!timeSlotsLoaded}"/>
                             <bean id="TimeSlot-ToolBar-Delete-TimeSlot" parent="TimeSlot-ToolBar-Delete-Button-parent"  p:methodToCall="deleteTimeSlots" />
                         </list>
                     </property>
@@ -146,25 +147,25 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:hidden="@{!#line.isEnableDeleteButton()}"
+                <bean id="is_checked" parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:hidden="@{!#line.isEnableDeleteButton()}"
                       p:onChangeScript="handleToolbar('TimeSlotSearchResultsDisplayTable',['enableDeleteButton'], ['TimeSlot-ToolBar-Delete-TimeSlot']);">
                       <property name="control">
                             <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                       </property>
                 </bean>
-                <bean parent="KS-Uif-DataField-Simple"
+                <bean id="timeSlotCode" parent="KS-Uif-DataField-Simple"
                                      p:label="Code"
                                      p:propertyName="timeSlotInfo.name"/>
-                <bean parent="KS-Uif-DataField-Simple"
+                <bean id="termType" parent="KS-Uif-DataField-Simple"
                     p:label="Term Type"
-                    p:propertyName="typeName"/>
-                <bean parent="KS-Uif-DataField-Simple"
+                    p:propertyName="typeName" p:additionalHiddenPropertyNames="typeKey"/>
+                <bean id="days" parent="KS-Uif-DataField-Simple"
                     p:label="Days"
                     p:propertyName="daysDisplayName"/>
-                <bean parent="KS-Uif-DataField-Simple"
+                <bean id="startTime" parent="KS-Uif-DataField-Simple"
                     p:label="Start Time"
                     p:propertyName="startTimeDisplay"/>
-                <bean parent="KS-Uif-DataField-Simple"
+                <bean id="endTime" parent="KS-Uif-DataField-Simple"
                     p:label="End Time"
                     p:propertyName="endTimeDisplay"/>
                 <bean name="enableDeleteButton" parent="KS-Uif-DataField-Simple" p:label="enableDeleteButton"  p:propertyName="enableDeleteButton"/>
@@ -185,6 +186,7 @@
                     p:methodToCall="edit"
                     p:actionLabel="Edit"
                     p:actionEvent="editCOonManageCOsPage">
+                    <property name="actionScript" value="reInitializePopupModel(e,'EDIT',@{#index}); openPopupContent(e,'KS-TimeSlot-AddTimeSlotPopupForm');"/>
                 </bean>
             </list>
         </property>
@@ -194,12 +196,12 @@
         Toolbar buttons
     -->
     <bean id="TimeSlot-ToolBar-Add-Button-parent" parent="KS-Uif-ToolBar-Button">
-             <property name="actionLabel" value="Add Time Slot"/>
-             <property name="actionScript" value="openPopupContent(e,'KS-TimeSlot-AddTimeSlotPopupForm');"/>
-             <property name="actionImage">
-                 <bean parent="Uif-Image" p:source="@{#parent.disabled ? #ConfigProperties['ks.externalizable.images.url']+'/toolbar/add_disabled.png' : #ConfigProperties['ks.externalizable.images.url']+'/toolbar/add_enabled.png'}"/>
-             </property>
-         </bean>
+        <property name="actionLabel" value="Add Time Slot"/>
+        <property name="actionScript" value="reInitializePopupModel(e,'ADD'); openPopupContent(e,'KS-TimeSlot-AddTimeSlotPopupForm');"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#parent.disabled ? #ConfigProperties['ks.externalizable.images.url']+'/toolbar/add_disabled.png' : #ConfigProperties['ks.externalizable.images.url']+'/toolbar/add_enabled.png'}"/>
+        </property>
+    </bean>
 
     <bean id="TimeSlot-ToolBar-Delete-Button-parent" parent="KS-Uif-ToolBar-Button">
         <property name="actionLabel" value="Delete"/>
@@ -219,7 +221,7 @@
         <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="addOrEditTermKey" p:label="Term Type" p:required="true" >
+                <bean id="addOrEditTermKey" parent="Uif-InputField-LabelTop" p:propertyName="addOrEditTermKey" p:label="Term Type" p:required="true" >
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -227,12 +229,13 @@
                         <bean class="org.kuali.student.enrollment.class1.timeslot.keyvalue.SelectedTimeSlotTypesOptionsFinder" p:addBlankOption="false" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop"  p:propertyName="addOrEditDays" p:label="Days" p:required="true">
+                <bean id="addOrEditDays" parent="Uif-InputField-LabelTop"  p:propertyName="addOrEditDays" p:label="Days" p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10"  p:maxLength="7"/>
                     </property>
+                    <property name="constraintText" value="MTWHFSU"/>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop"  p:propertyName="addOrEditStartTime" p:label="Start Time">
+                <bean id="addOrEditStartTime" parent="Uif-InputField-LabelTop"  p:propertyName="addOrEditStartTime" p:label="Start Time">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5"/>
                     </property>
@@ -241,13 +244,13 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="addOrEditStartTimeAmPm" p:required="true">
+                <bean id="addOrEditStartTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="addOrEditStartTimeAmPm" p:required="true">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_rdl_components"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop"  p:propertyName="addOrEditEndTime" p:label="End Time">
+                <bean id="addOrEditEndTime" parent="Uif-InputField-LabelTop"  p:propertyName="addOrEditEndTime" p:label="End Time">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5"/>
                     </property>
@@ -256,14 +259,14 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="addOrEditEndTimeAmPm" p:required="true">
+                <bean id="addOrEditEndTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="addOrEditEndTimeAmPm" p:required="true">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_rdl_components"/>
                     </property>
                 </bean>
 
-                <bean parent="Uif-SecondaryActionButton-Small" >
+                <bean id="addOrEdit_action" parent="Uif-SecondaryActionButton-Small" >
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ks_toolbar_popup_action_button</value>
