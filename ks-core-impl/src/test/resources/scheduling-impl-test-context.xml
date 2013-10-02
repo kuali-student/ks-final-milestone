@@ -87,6 +87,13 @@
         <property name="scheduleDao" ref="scheduleDao"/>
         <property name="typeService" ref="typeServiceImpl"/>
         <property name="criteriaLookupService" ref="criteriaLookupService"/>
+        <property name="timeSlotCodeGenerator" ref="timeSlotCodeGenerator"/>
+    </bean>
+
+
+    <bean id="timeSlotCodeGenerator" class="org.kuali.student.r2.core.scheduling.util.impl.TimeSlotCodeGeneratorImpl">
+          <property name="timeSlotDao" ref="timeSlotDao" />
+          <property name="initialCode" value="1"/>
     </bean>
 
     <bean id="mockRoomService" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImpl">
