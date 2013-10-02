@@ -186,7 +186,7 @@ limitations under the License.
 
                 <entry key="kuali.krms.proposition.type.credits.earned.min">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="NumberOfCredits"
+                          p:termSpecName="NumberOfCreditsEarned"
                           p:operator="&gt;=" p:value="n">
                         <property name="componentId" value="KRMS-Credits-ConstantValue"/>
                     </bean>
@@ -194,7 +194,7 @@ limitations under the License.
 
                 <entry key="kuali.krms.proposition.type.course.credits.repeat.max">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="NumberOfCredits"
+                          p:termSpecName="NumberOfCreditsEarned"
                           p:operator="&lt;=" p:value="n">
                         <property name="componentId" value="KRMS-Credits-ConstantValue"/>
                     </bean>
@@ -221,20 +221,20 @@ limitations under the License.
 
                 <entry key="kuali.krms.proposition.type.admitted.to.program.campus">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="HasProgramCourseCampus"
+                          p:termSpecName="AdmittedToProgramAtCourseCampus"
                           p:value="true"/>
                 </entry>
 
                 <entry key="kuali.krms.proposition.type.permission.instructor.required">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="InstructorPermissionRequired"
+                          p:termSpecName="InstructorPermission"
                           p:value="true">
                     </bean>
                 </entry>
 
                 <entry key="kuali.krms.proposition.type.admitted.to.program">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="AdmittedToProgram"
+                          p:termSpecName="AdmittedProgram"
                           p:value="true">
                         <property name="componentId" value="KRMS-Program-Section"/>
                         <property name="componentBuilderClass"
@@ -254,7 +254,7 @@ limitations under the License.
 
                 <entry key="kuali.krms.proposition.type.notadmitted.to.program">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="AdmittedToProgram"
+                          p:termSpecName="AdmittedProgram"
                           p:value="false">
                         <property name="componentId" value="KRMS-Program-Section"/>
                         <property name="componentBuilderClass"
@@ -421,7 +421,7 @@ limitations under the License.
 
                 <entry key="kuali.krms.proposition.type.admitted.to.program.org">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="AdminOrganizationPermissionRequired" p:value="true">
+                          p:termSpecName="AdminOrgPermission" p:value="true">
                         <property name="componentId" value="KRMS-Department-Field"/>
                         <property name="componentBuilderClass"
                                   value="org.kuali.student.core.krms.builder.OrganizationComponentBuilder"/>
@@ -480,7 +480,7 @@ limitations under the License.
 
                 <entry key="kuali.krms.proposition.type.no.repeat.course.nof">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="NumberOfEnrollmentsForCourse" p:value="n">
+                          p:termSpecName="NumberOfEnrollments" p:value="n">
                         <property name="componentId" value="KRMS-CourseAndRepeat-Group"/>
                         <property name="componentBuilderClass"
                                   value="org.kuali.student.enrollment.class1.krms.builder.EnrolCourseComponentBuilder"/>
@@ -489,7 +489,7 @@ limitations under the License.
 
                 <entry key="kuali.krms.proposition.type.permission.admin.org">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="AdminOrganizationPermissionRequired" p:value="true">
+                          p:termSpecName="AdminOrgPermission" p:value="true">
                         <property name="componentId" value="KRMS-Administering-Org-Field"/>
                         <property name="componentBuilderClass"
                                   value="org.kuali.student.core.krms.builder.AdministeringOrgComponentBuilder"/>
@@ -505,7 +505,7 @@ limitations under the License.
                 </entry>
                 <entry key="kuali.krms.proposition.type.final.exam.timeslot">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="Population" p:value="true">
+                          p:termSpecName="MatchingTimeSlot" p:value="true">
                         <property name="componentId" value="KSFE-FinalExam-DeliveryLogistic-Group"/>
                         <property name="componentBuilderClass"
                                   value="org.kuali.student.enrollment.class1.krms.builder.TimeSlotsComponentBuilder"/>

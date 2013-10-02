@@ -49,7 +49,7 @@ public class CompletedCourseTermResolver implements TermResolver<Boolean> {
 
     @Override
     public String getOutput() {
-        return KSKRMSServiceConstants.TERM_RESOLVER_COMPLETEDCOURSES;
+        return KSKRMSServiceConstants.TERM_RESOLVER_COMPLETEDCOURSE;
     }
 
     @Override

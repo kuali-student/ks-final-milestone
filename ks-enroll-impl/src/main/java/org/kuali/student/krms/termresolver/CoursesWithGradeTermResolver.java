@@ -54,7 +54,7 @@ public class CoursesWithGradeTermResolver implements TermResolver<Boolean> {
 
     @Override
     public String getOutput() {
-        return KSKRMSServiceConstants.TERM_RESOLVER_COURSEWITHGRADE;
+        return KSKRMSServiceConstants.TERM_RESOLVER_COURSESWITHGRADE;
     }
 
     @Override

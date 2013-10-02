@@ -39,7 +39,7 @@ public class CompletedCoursePriorToTermTermResolver implements TermResolver<Bool
 
     @Override
     public String getOutput() {
-        return KSKRMSServiceConstants.TERM_RESOLVER_COMPLETEDCOURSEFORTERM;
+        return KSKRMSServiceConstants.TERM_RESOLVER_COMPLETEDCOURSEPRIORTOTERM;
     }
 
     @Override
