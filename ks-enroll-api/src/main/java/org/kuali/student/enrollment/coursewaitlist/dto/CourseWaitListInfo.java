@@ -76,13 +76,17 @@ public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWa
     public CourseWaitListInfo(CourseWaitList waitList) {
         super(waitList);
 
-        if(waitList != null) {
-            if(waitList.getActivityOfferingIds() != null) {
+        if (waitList != null) {
+            if (waitList.getActivityOfferingIds() != null) {
                 setActivityOfferingIds(new ArrayList<String>(waitList.getActivityOfferingIds()));
+            } else {
+                setActivityOfferingIds(new ArrayList<String>());
             }
 
-            if(waitList.getFormatOfferingIds() != null) {
+            if (waitList.getFormatOfferingIds() != null) {
                 setFormatOfferingIds(new ArrayList<String>(waitList.getFormatOfferingIds()));
+            } else {
+                setFormatOfferingIds(new ArrayList<String>());
             }
 
             setRegisterInFirstAvailableActivityOffering(waitList.getRegisterInFirstAvailableActivityOffering());
