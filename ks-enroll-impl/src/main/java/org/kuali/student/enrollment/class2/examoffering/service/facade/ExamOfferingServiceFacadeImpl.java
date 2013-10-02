@@ -338,7 +338,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
         //Create a new Exam Offering
         ExamOfferingInfo eo = createExamOffering(examPeriodId, context);
-        executeRuleForAOScheduling(aoId, context);
+        //executeRuleForAOScheduling(aoId, context);
 
         //Create new Exam Offering Relationship
         List<String> aoIds = new ArrayList<String>();
