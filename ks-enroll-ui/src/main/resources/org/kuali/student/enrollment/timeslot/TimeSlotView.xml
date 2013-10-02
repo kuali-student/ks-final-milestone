@@ -119,7 +119,7 @@
                 <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup" p:noLeftBorder="true">
                     <property name="items">
                         <list>
-                            <bean id="TimeSlot-ToolBar-Add-TimeSlot" parent="TimeSlot-ToolBar-Add-Button-parent" p:disabled="@{!timeSlotsLoaded}"/>
+                            <bean id="TimeSlot-ToolBar-Add-TimeSlot" parent="TimeSlot-ToolBar-Add-Button-parent" p:disabled="@{!enableAddButton}"/>
                             <bean id="TimeSlot-ToolBar-Delete-TimeSlot" parent="TimeSlot-ToolBar-Delete-Button-parent"  p:methodToCall="deleteTimeSlots" />
                         </list>
                     </property>

@@ -68,6 +68,9 @@ public class TimeSlotController extends UifControllerBase {
         form.getTypeNameSelections().clear();
         String namesUI = "";
 
+
+        form.setEnableAddButton(!timeSlotTypes.isEmpty());
+
         if(timeSlotTypes.size() > 0) {
             // convert to type name for display
             int i = 0;
