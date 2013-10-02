@@ -176,10 +176,8 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             // Waitlist
                 if(coInfo.getHasWaitlist()) {
                     //activate the waitlist
-                    CourseOfferingManagementUtil.getCourseWaitListServiceFacade().activateActivityOfferingWaitlistsByCourseOffering(coInfo.getId(), contextInfo);
-
-                }
-                else if (!coInfo.getHasWaitlist()) {
+                    CourseOfferingManagementUtil.getCourseWaitListServiceFacade().activateActivityOfferingWaitlistsByCourseOffering(coInfo.getId(), coInfo.getTermId(), contextInfo);
+                } else if (!coInfo.getHasWaitlist()) {
                     //deactivate the waitlist
                     CourseOfferingManagementUtil.getCourseWaitListServiceFacade().deactivateActivityOfferingWaitlistsByCourseOffering(coInfo.getId(), contextInfo);
                 }
