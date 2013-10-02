@@ -74,7 +74,7 @@ public class PlanConstants extends AcademicPlanServiceConstants {
 	/* Query keys for getting the termInfos from the academic calender */
 	public static final String PLANNING = "%kuali.atp.state.Planning%";
 	public static final String INPROGRESS = "%kuali.atp.state.Inprogress%";
-	public static final String PUBLISHED = "%kuali.atp.state.Published%";
+	public static final String PUBLISHED = "kuali.atp.state.Official";
 
 	public static final String WITHDRAWN_GRADE = "W";
 

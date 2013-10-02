@@ -299,6 +299,110 @@ public final class KsapFrameworkServiceLocator {
         return getInstance().planHelper;
     }
 
+    public void setKsCoreAtpService(AtpService ksCoreAtpService) {
+        getInstance().ksCoreAtpService = ksCoreAtpService;
+    }
+
+    public void setKsCoreTypeService(TypeService ksCoreTypeService) {
+        getInstance().ksCoreTypeService = ksCoreTypeService;
+    }
+
+    public void setKsCoreMessageService(MessageService ksCoreMessageService) {
+        getInstance().ksCoreMessageService = ksCoreMessageService;
+    }
+
+    public void setKsCoreOrganizationService(OrganizationService ksCoreOrganizationService) {
+        getInstance().ksCoreOrganizationService = ksCoreOrganizationService;
+    }
+
+    public void setKsCoreEnumerationManagementService(EnumerationManagementService ksCoreEnumerationManagementService) {
+        getInstance().ksCoreEnumerationManagementService = ksCoreEnumerationManagementService;
+    }
+
+    public void setKsCoreCommentService(CommentService ksCoreCommentService) {
+        getInstance().ksCoreCommentService = ksCoreCommentService;
+    }
+
+    public void setKsEnrollLuiService(LuiService ksEnrollLuiService) {
+        getInstance().ksEnrollLuiService = ksEnrollLuiService;
+    }
+
+    public void setKsEnrollCourseOfferingService(CourseOfferingService ksEnrollCourseOfferingService) {
+        getInstance().ksEnrollCourseOfferingService = ksEnrollCourseOfferingService;
+    }
+
+    public void setKsEnrollAcalService(AcademicCalendarService ksEnrollAcalService) {
+        getInstance().ksEnrollAcalService = ksEnrollAcalService;
+    }
+
+    public void setKsEnrollAcademicRecordService(AcademicRecordService ksEnrollAcademicRecordService) {
+        getInstance().ksEnrollAcademicRecordService = ksEnrollAcademicRecordService;
+    }
+
+    public void setKsLumCourseService(CourseService ksLumCourseService) {
+        getInstance().ksLumCourseService = ksLumCourseService;
+    }
+
+    public void setKsLumProgramService(ProgramService ksLumProgramService) {
+        getInstance().ksLumProgramService = ksLumProgramService;
+    }
+
+    public void setKsLumCluService(CluService ksLumCluService) {
+        getInstance().ksLumCluService = ksLumCluService;
+    }
+
+    public void setKsLumLrcService(LRCService ksLumLrcService) {
+        getInstance().ksLumLrcService = ksLumLrcService;
+    }
+
+    public void setKsapContext(KsapContext ksapContext) {
+        getInstance().ksapContext = ksapContext;
+    }
+
+    public void setKsapUserSessionHelper(UserSessionHelper ksapUserSessionHelper) {
+        getInstance().ksapUserSessionHelper = ksapUserSessionHelper;
+    }
+
+    public void setKsapTermHelper(TermHelper ksapTermHelper) {
+        getInstance().ksapTermHelper = ksapTermHelper;
+    }
+
+    public void setKsapEnumerationHelper(EnumerationHelper ksapEnumerationHelper) {
+        getInstance().ksapEnumerationHelper = ksapEnumerationHelper;
+    }
+
+    public void setKsapOrgHelper(OrgHelper ksapOrgHelper) {
+        getInstance().ksapOrgHelper = ksapOrgHelper;
+    }
+
+    public void setKsapCourseHelper(CourseHelper ksapCourseHelper) {
+        getInstance().ksapCourseHelper = ksapCourseHelper;
+    }
+
+    public void setKsapTextHelper(TextHelper ksapTextHelper) {
+        getInstance().ksapTextHelper = ksapTextHelper;
+    }
+
+    public void setAcademicPlanService(AcademicPlanService academicPlanService) {
+        getInstance().academicPlanService = academicPlanService;
+    }
+
+    public void setEnrollmentStatusHelper(EnrollmentStatusHelper enrollmentStatusHelper) {
+        getInstance().enrollmentStatusHelper = enrollmentStatusHelper;
+    }
+
+    public void setShoppingCartHelper(ShoppingCartHelper shoppingCartHelper) {
+        getInstance().shoppingCartHelper = shoppingCartHelper;
+    }
+
+    public void setPlanHelper(PlanHelper planHelper) {
+        getInstance().planHelper = planHelper;
+    }
+
+    public void setCourseSearchStrategy(CourseSearchStrategy courseSearchStrategy) {
+        getInstance().courseSearchStrategy = courseSearchStrategy;
+    }
+
 	@EJB
 	private transient AtpService ksCoreAtpService;
 	@EJB
