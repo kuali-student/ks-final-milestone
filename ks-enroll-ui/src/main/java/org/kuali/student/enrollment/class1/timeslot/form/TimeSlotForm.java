@@ -20,6 +20,7 @@ import java.util.List;
      //  Term type multi-select list selections.
      private List<String> termTypeSelections;
      private List<String> typeNameSelections;
+     private String typeNamesUI;
 
      private boolean timeSlotsLoaded = false;
      private boolean enableAddButton = false;
@@ -148,5 +149,13 @@ import java.util.List;
 
     public void setSelectedTimeSlots(List<TimeSlotWrapper> selectedTimeSlots) {
         this.selectedTimeSlots = selectedTimeSlots;
+    }
+
+    public String getTypeNamesUI() {
+        return typeNamesUI;
+    }
+
+    public void setTypeNamesUI(String typeNamesUI) {
+        this.typeNamesUI = typeNamesUI;
     }
 }

@@ -2,6 +2,8 @@ package org.kuali.student.enrollment.class1.timeslot.controller;
 
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.uif.util.GrowlIcon;
+import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper;
 import org.kuali.student.enrollment.class1.timeslot.form.TimeSlotForm;
 import org.kuali.student.enrollment.class1.timeslot.service.TimeSlotViewHelperService;
@@ -64,14 +66,23 @@ public class TimeSlotController extends UifControllerBase {
 
         List<String> timeSlotTypes = form.getTermTypeSelections();
         form.getTypeNameSelections().clear();
+        String namesUI = "";
+
         if(timeSlotTypes.size() > 0) {
             // convert to type name for display
+            int i = 0;
             for(String slotType : timeSlotTypes) {
                 if(slotType != null) {
                     TypeInfo typeInfo = getTypeService().getType(slotType, contextInfo);
                     form.getTypeNameSelections().add(typeInfo.getName());
+                    if(i > 0 && i < timeSlotTypes.size()) {
+                        namesUI = namesUI + " ,  ";
+                    }
+                    namesUI = namesUI + typeInfo.getName();
+                    i++;
                 }
             }
+            form.setTypeNamesUI(namesUI);
         }
         form.getTimeSlotResults().clear();
         TimeSlotViewHelperService viewHelperService = getViewHelperService(form);
@@ -123,8 +134,18 @@ public class TimeSlotController extends UifControllerBase {
         if (dialogAnswer) {
             // delete the timeslots
             getViewHelperService(form).deleteTimeSlots(form);
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, TimeSlotConstants.TIMESLOT_TOOLBAR_DELETE);
+        }
+        List<String> timeSlotTypes = form.getTermTypeSelections();
+        List<TimeSlotWrapper> timeSlotWrapperList = viewHelperService.findTimeSlots(timeSlotTypes);
+        for (TimeSlotWrapper wrapper : timeSlotWrapperList) {
+            form.getTimeSlotResults().add(wrapper);
+        }
+        if (timeSlotWrapperList.size() > 0) {
+            form.setTimeSlotsLoaded(true);
+            form.setEnableAddButton(true);
         }
 
-        return show(form);
+        return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);
     }
 }

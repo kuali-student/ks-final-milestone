@@ -14,4 +14,6 @@ public class TimeSlotConstants {
         public static final String DELETE_TIMESLOTS = "deleteTimeSlotsConfirmationDialog";
     }
 
+    //toolbar matrix -- result/warning messages
+    public static final String TIMESLOT_TOOLBAR_DELETE="The selected time slots have been successfully deleted.";
 }
