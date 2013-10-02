@@ -705,6 +705,33 @@ function initPreviewTree(componentId) {
 
 }
 
+/* Custom function (asc) for time sorting on Final Exam Matrix */
+jQuery.fn.dataTableExt.oSort['time-sort-asc']  = function(x,y) {
 
+    //Parse html content into date format
+    var dateX = parseTime(x);
+    var dateY = parseTime(y);
 
+    x = dateX.getTime();
+    y = dateY.getTime();
 
+    //Compare time of columns for sorting
+    return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+};
+
+/*Parse html content retrieved into date format */
+function parseTime(timeDiv) {
+
+    //Retrieve only the time
+    var t = jq(timeDiv).find('span').text();
+    t = t.substring(0, t.search(/m/i)+1);
+    t = t.replace(/ /g, '');
+    var d1 = new Date();
+    //Create array of hour, minutes and 12 hour format
+    var time = t.match(/(\d+)(?::(\d\d))(P|p?)/);
+    d1.setHours( parseInt(time[1]) + (time[3] ? 12 : 0) );
+    d1.setMinutes( parseInt(time[2]) || 0 );
+
+    //Return date with set time for comparison
+    return d1;
+}
