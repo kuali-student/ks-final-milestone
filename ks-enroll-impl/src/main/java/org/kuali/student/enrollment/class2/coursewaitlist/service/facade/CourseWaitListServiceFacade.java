@@ -17,7 +17,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
  * @author Kuali Student Team
  */
 public interface CourseWaitListServiceFacade {
-    public void activateActivityOfferingWaitlistsByCourseOffering(String coId, ContextInfo context) throws Exception;
+    public void activateActivityOfferingWaitlistsByCourseOffering(String coId, String termId, ContextInfo context) throws Exception;
     public void deactivateActivityOfferingWaitlistsByCourseOffering(String coId, ContextInfo context) throws Exception;
 
     /* Create a new CourseWaitListInfo (CWLI) for a specified AO and persist it in DB
