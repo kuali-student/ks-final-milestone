@@ -137,7 +137,7 @@ public class TestTermResolvers {
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSServiceConstants.TERM_RESOLVER_COMPLETEDCOURSES);
+                KSKRMSServiceConstants.TERM_RESOLVER_COMPLETEDCOURSE);
 
         //Evaluate term Resolver
         Boolean isCompleted = termResolver.resolve(resolvedPrereqs, parameters);
@@ -440,7 +440,7 @@ public class TestTermResolvers {
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSServiceConstants.TERM_RESOLVER_COURSESWITHGRADE);
+                KSKRMSServiceConstants.TERM_RESOLVER_COURSEWITHGRADE);
 
         //Evaluate term Resolver
         Boolean courseWithGrade = termResolver.resolve(resolvedPrereqs, parameters);
@@ -468,7 +468,7 @@ public class TestTermResolvers {
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSServiceConstants.TERM_RESOLVER_COURSEWITHGRADE);
+                KSKRMSServiceConstants.TERM_RESOLVER_COURSESWITHGRADE);
 
         //Evaluate term Resolver
         Boolean courseWithGrade = termResolver.resolve(resolvedPrereqs, parameters);
@@ -781,7 +781,7 @@ public class TestTermResolvers {
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSServiceConstants.TERM_RESOLVER_COMPLETEDCOURSEFORTERM);
+                KSKRMSServiceConstants.TERM_RESOLVER_COMPLETEDCOURSEPRIORTOTERM);
 
         //Evaluate term Resolver
         Boolean completed = termResolver.resolve(resolvedPrereqs, parameters);
