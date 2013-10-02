@@ -175,7 +175,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
             DoesNotExistException,
             ReadOnlyException,
             DataValidationErrorException {
-        // TODO: Would prefer a count method here
+        // TODO: KSENROLL-9931 Would prefer a count method here
         List<ActivityOfferingClusterInfo> clusters =
                 coService.getActivityOfferingClustersByFormatOffering(foId, context);
         if (clusters != null && !clusters.isEmpty()) {
@@ -191,7 +191,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
             LOGGER.warn("VersionMismatchException thrown in createDefaultCluster, part 1");
             throw new OperationFailedException(e.getMessage());
         }
-        // TODO: Would prefer a count method here
+        // TODO: KSENROLL-9932 Would prefer a count method here
         List<ActivityOfferingInfo> aoInfos =
                 coService.getActivityOfferingsByFormatOffering(foId, context);
         if (aoInfos != null && !aoInfos.isEmpty()) {
@@ -629,8 +629,8 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
                     rgStatusInfo.setSuccess(true);
 
                     //Canceled state handling is out of scope. We ignore the state for now
-                    // TODO: this checking will be removed when canceled state handling is available.
-                    if(!rgInfo.getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY)){
+                    // TODO: KSENROLL-9934 this checking will be removed when canceled state handling is available.
+                    if (!rgInfo.getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY)) {
                         if (_isRegistrationGroupValid (rgInfo.getId(), context)) {
                             // We don't know what the next state should be for this registration group, but the state
                             // service kinda knows. So, try to send it to the highest state, offered.
