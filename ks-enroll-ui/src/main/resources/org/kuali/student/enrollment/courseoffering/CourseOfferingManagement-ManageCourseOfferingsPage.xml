@@ -31,7 +31,8 @@
         <!-- This was originally put in as a work-around for a KRAD unified header bug where view headers weren't being updated
              when pages where refreshed. I investigated and partially implemented handing view title text overrides in the controller
              code, but concluded that this is a much cleaner solution. -->
-        <property name="onDocumentReadyScript" value="updateViewHeaderText( '@{subjectCode}: @{subjectCodeDescription}' ); resetHeaderPosition('KS-CourseOffering-View-ContextBar-PlaceHolder');" />
+         <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
+        <property name="onDocumentReadyScript" value="updateContextBar( 'KS-CourseOffering-ContextBar', 'KS-CourseOffering-View-ContextBar-PlaceHolder', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' ); updateViewHeaderText( '@{subjectCode}: @{subjectCodeDescription}' ); resetHeaderPosition('KS-CourseOffering-View-ContextBar-PlaceHolder');" />
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
@@ -55,6 +56,8 @@
                 <ref bean="KS-SourceFile-Comment-Group"/>
                 <ref bean="KS-CourseOfferingManagement-CriteriaSection"/>
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingResultSection"/>
+                 <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
+                <ref bean="KS-CourseOffering-ContextBar"/>
             </list>
         </property>
     </bean>

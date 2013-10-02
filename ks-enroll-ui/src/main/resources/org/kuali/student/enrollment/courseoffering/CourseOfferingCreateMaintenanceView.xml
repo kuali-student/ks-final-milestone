@@ -53,20 +53,6 @@
         <property name="singlePageView" value="false"/>
         <property name="entryPageId" value="courseOfferingCreatePage"/>
 
-        <property name="topGroup">
-            <bean parent="KS-CourseOffering-View-ContextBar-PlaceHolder">
-                <property name="items">
-                    <list>
-                        <bean parent="KS-CourseOffering-ContextBar">
-                            <property name="items">
-                                <list/>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
-        </property>
-
         <property name="headerText" value="@{document.newMaintainableObject.dataObject.catalogCourseCode ne null ? document.newMaintainableObject.dataObject.catalogCourseCode : 'Create Course Offering'}"/>   <!-- This gets updated dynamically by JS via 'viewHeaderUpdater'-div -->
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
@@ -525,15 +511,18 @@
 
     <bean id="KS-CourseOffering-CopyPage" parent="KS-Uif-Page" p:disclosure.render="false" p:readOnly="@{#view.readOnly}">
         <property name="id" value="courseOfferingCopyPage"/>
+         <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
+        <property name="onDocumentReadyScript" value="updateContextBar( 'KS-CourseOffering-ContextBar', 'KS-CourseOffering-View-ContextBar-PlaceHolder', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' );" />
         <property name="headerText" value="Copy Course Offering"/>
         <property name="pageSourceFile" value="CourseOfferingCreateMaintenanceView.xml" />
-        <property name="onDocumentReadyScript" value="updateViewHeaderText( '@{document.newMaintainableObject.dataObject.catalogCourseCode}' );" />
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
         </property>
 
         <property name="items">
             <list>
+                 <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
+                <ref bean="KS-CourseOffering-ContextBar"/>
                 <ref bean="KS-CreateFromExistingOffering"/>
             </list>
         </property>

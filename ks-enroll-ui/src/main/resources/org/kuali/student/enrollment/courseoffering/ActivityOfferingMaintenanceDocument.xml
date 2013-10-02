@@ -51,6 +51,8 @@
 
     <bean id="ActivityOffering-MaintenanceView" parent="KS-CourseOffering-MaintenanceViewWithTermContextBarPlaceholder"
           p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView or !#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
+         <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
+        <property name="onDocumentReadyScript" value="updateContextBar( 'KS-CourseOffering-ContextBar', 'KS-CourseOffering-View-ContextBar-PlaceHolder', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' );"/>
 
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
@@ -129,6 +131,8 @@
         </property>
         <property name="page.items">
             <list>
+                 <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
+                <ref bean="KS-CourseOffering-ContextBar"/>
                 <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{#dp.crossListedCourseCodes}" p:render="@{#dp.crossListedCourseCodes != ''}" p:style="font-weight:bold; margin-bottom:8px;"/>
 
                 <ref bean="ActivityOfferingEdit-section1"/>

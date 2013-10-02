@@ -56,6 +56,8 @@
                 <ref bean="KS-CourseOfferingManagement-AddActivityOfferingPopupForm"/>
                 <ref bean="KS-CourseOfferingManagement-AddAOCPopupForm"/>
                 <ref bean="KS-CourseOfferingManagement-MoveAOCPopupContainer"/>
+                 <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
+                <ref bean="KS-CourseOffering-ContextBar"/>
             </list>
         </property>
     </bean>
