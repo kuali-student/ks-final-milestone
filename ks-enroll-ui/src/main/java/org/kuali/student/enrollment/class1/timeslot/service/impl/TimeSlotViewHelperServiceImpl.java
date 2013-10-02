@@ -21,7 +21,6 @@ import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -72,37 +71,6 @@ public class TimeSlotViewHelperServiceImpl
                      timeSlotWrappers.add(tsWrapper);
                  }
              }
-             // add some test data
-             TimeSlotInfo timeSlotInfo = new TimeSlotInfo();
-             timeSlotInfo.setName("A");
-             timeSlotInfo.setTypeKey("kuali.scheduling.time.slot.type.activityoffering.standard.fullterm.spring");
-             Integer[] days = {2, 4, 6};
-             timeSlotInfo.setWeekdays(Arrays.asList(days));
-             TimeOfDayInfo timeOfDayInfo1 = new TimeOfDayInfo();
-             timeOfDayInfo1.setMilliSeconds(1000L);
-             timeSlotInfo.setStartTime(timeOfDayInfo1);
-             TimeOfDayInfo timeOfDayInfo2 = new TimeOfDayInfo();
-             timeOfDayInfo2.setMilliSeconds(8925000L);
-             timeSlotInfo.setEndTime(timeOfDayInfo2);
-
-             TimeSlotWrapper wrapper = new TimeSlotWrapper();
-             wrapper.setTimeSlotInfo(timeSlotInfo);
-             Date timeForDisplay;
-             if (timeSlotInfo.getStartTime().getMilliSeconds() != null) {
-                 timeForDisplay = new Date(timeSlotInfo.getStartTime().getMilliSeconds());
-                 wrapper.setStartTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
-             }
-
-             if (timeSlotInfo.getEndTime().getMilliSeconds() != null) {
-                 timeForDisplay = new Date(timeSlotInfo.getEndTime().getMilliSeconds());
-                 wrapper.setEndTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
-             }
-
-             String daysUI = WeekDaysDtoAndUIConversions.buildDaysForUI(timeSlotInfo.getWeekdays());
-             wrapper.setDaysDisplayName(daysUI);
-             wrapper.setTypeKey(timeSlotInfo.getTypeKey());
-             wrapper.setTypeName("SummerFull");
-             timeSlotWrappers.add(wrapper);
 
              return timeSlotWrappers;
          }
