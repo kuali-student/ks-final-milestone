@@ -279,32 +279,56 @@ function highlightElements(validationJSONString, isValid, url) {
  Since Upgrade  2.3 the context bar is replaced on page_load, however on get the context bar is remained the same
  So on page load we are loading the component that krad is replacing the context bar with instead of the place holder.
  */
+// KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show
+function updateContextBar(srcId, contextBarId, dayOfYear, baseUrl) {
 
-function updateContextBar(srcId, contextBarId) {
+    if (dayOfYear > 0) {
+        if (jQuery("#" + srcId).length == 0)return;
+        if (jQuery("#" + contextBarId).length == 0)return;
 
-    if (jQuery("#" + srcId).length == 0)return;
-    if (jQuery("#" + contextBarId).length == 0)return;
+        var src = jQuery("#" + srcId);
 
-    var src = jQuery("#" + srcId);
+        if (!initialViewLoad) {
+            var topGroupUpdate = jQuery("#" + kradVariables.TOP_GROUP_UPDATE).find("> div");  //grab the top group !initialViewLoad
+            if (topGroupUpdate.length > 0) {
+                jQuery(topGroupUpdate).empty();
+                jQuery(topGroupUpdate).append(src);
+                src.show();
+            }
+//            when redrawing the context bar move the breadcrumbs below the context bar
+            var bc = jQuery("#Uif-BreadcrumbWrapper");
+            var tg = jQuery("#Uif-TopGroupWrapper");
+            var vh = jQuery(".uif-viewHeader-contentWrapper");
 
-    var topGroupUpdate = jQuery("#" + kradVariables.TOP_GROUP_UPDATE);  //grab the top group
-    if (topGroupUpdate.length > 0) {
-        jQuery(topGroupUpdate ).empty();
-        jQuery(topGroupUpdate).append(src);
-        src.show();
-    }
-
-    // on page load this is replaced. so there is no problem with showing this component.
-    var contextBar = jQuery("#" + contextBarId);    // grab the placeholder
-    if (contextBar.length > 0) {
-        jQuery(contextBar).empty();
-        if (jQuery(contextBar).is(":hidden")) {
-            contextBar.show();
+            if (jQuery(vh).length && jQuery(bc.length)) {
+                var bcBottom = tg.offset().top + topGroupUpdate.height() + bc.height();
+                if(console){
+                    console.log("comp | TOP | HEIGHT");
+                    console.log("tg   | " + tg.offset().top + " | " + topGroupUpdate.height());
+                    console.log("bc   | " + bc.offset().top + " | " + bc.height());
+                    console.log("vh   | " + vh.offset().top + " | " + vh.height());
+                    console.log("bcBottom: " + bcBottom);
+                }
+                vh.offset({top: bcBottom});
+                vh.data("offset", vh.offset());
+            }
+        } else {
+            // on page load this is replaced. so there is no problem with showing this component.
+            var contextBar = jQuery("#" + contextBarId);    // grab the placeholder
+            if (contextBar.length > 0) {
+                jQuery(contextBar).empty();
+                if (jQuery(contextBar).is(":hidden")) {
+                    contextBar.show();
+                }
+                jQuery(contextBar).append(src);         // add it to the context bar placeholder
+                src.show();
+            }
         }
-        jQuery(contextBar).append(src);         // add it to the context bar placeholder
-        src.show();
-    }
 
+        setSeasonalColor(srcId, dayOfYear, baseUrl);
+    } else {
+        removeEmptyContextBar(contextBarId);
+    }
 }
 
 /*
@@ -386,25 +410,30 @@ function updateViewHeader(newHeaderTextSource){
  The default gradient goes : ice blue(winter), green(spring),yellow(summer), brown(fall), ice blue(winter).
  two winters because winter starts at the end of the year and goes through February.
  */
-function setSeasonalColor(objectToColor, dayOfYear, baseUrl) {
-    var image = jQuery('<img src="' + baseUrl + '/themes/ksboot/images/season_gradient.png"/>');
-    var objToColor = jQuery('#' + objectToColor);
-    var percentage = dayOfYear / 365;
+function setSeasonalColor(elementToColor, dayOfYear, baseUrl) {
+    if(console){
+        console.log("Called setSeasonalColor()");
+    }
+    if (dayOfYear > 0) {
+        var image = jQuery('<img src="' + baseUrl + '/themes/ksboot/images/season_gradient.png"/>');
+        var elemToColor = jQuery('#' + elementToColor);
+        var percentage = dayOfYear / 365;
 
-    image.load(function (){
-        var canvas = document.createElement('canvas');
-        var tw = this.width;
-        var th = this.height;
-        canvas.width = this.width;
-        canvas.height = this.height;
-        canvas.getContext('2d').drawImage(this, 0, 0, tw, th);
-        var x = 10;
-        var y = th * percentage;
-        var p = canvas.getContext('2d').getImageData(x, y, 1, 1).data;
-        var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
+        image.load(function () {
+            var canvas = document.createElement('canvas');
+            var tw = this.width;
+            var th = this.height;
+            canvas.width = this.width;
+            canvas.height = this.height;
+            canvas.getContext('2d').drawImage(this, 0, 0, tw, th);
+            var x = 10;
+            var y = th * percentage;
+            var p = canvas.getContext('2d').getImageData(x, y, 1, 1).data;
+            var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
 
-        objToColor.css("border-left", '8px solid ' + hex);
-    });
+            elemToColor.css("border-left", '8px solid ' + hex);
+        });
+    }
 }
 
 function rgbToHex(r, g, b) {
