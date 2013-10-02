@@ -26,6 +26,10 @@
   <ul class="chan">
     <li><a href="${ConfigProperties.application.url}/kr-krad/launch?viewId=enrollmentHomeView&methodToCall=start">Enrollment Home</a></li>
   </ul>
+    <ul class="chan">
+        <li><a href="${ConfigProperties.application.url}/myplan/course?methodToCall=start&amp;viewId=CourseSearch-FormView">KSAP Course Search</a></li>
+        <li><a href="${ConfigProperties.application.url}/myplan/plan?methodToCall=start&amp;viewId=PlannedCourses-FormView">KSAP Planner</a></li>
+    </ul>
 
 </div>
 <channel:portalChannelBottom />

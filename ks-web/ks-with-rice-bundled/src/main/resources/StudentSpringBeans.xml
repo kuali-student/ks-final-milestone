@@ -275,6 +275,27 @@
                 <value>classpath:org/kuali/student/common/kitchensink/UnifiedPageHeader.xml</value>
                 <value>classpath:org/kuali/student/common/kitchensink/UnifiedPageHeader_M7.xml</value>
                 <value>classpath:org/kuali/student/common/kitchensink/ContextBar.xml</value>
+
+                <!-- KSAP Application Bean Files-->
+                <value>classpath:org/kuali/rice/student/bo</value>
+                <value>classpath:ks-AuditReportInfo-dictionary.xml</value>
+
+                <value>classpath:ui/UifMyPlanDefinitions.xml</value>
+                <value>classpath:ui/UifExtensionDefinitions.xml</value>
+                <value>classpath:ui/HelpDefinitions.xml</value>
+                <value>classpath:ui/MyPlanDataObjects.xml</value>
+                <value>classpath:ui/HelpDefinitions.xml</value>
+                <value>classpath:ui/CourseSearchUI.xml</value>
+                <value>classpath:ui/CourseDetailsUI.xml</value>
+                <value>classpath:ui/PlanItemsUI.xml</value>
+                <value>classpath:ui/DegreeAuditUI.xml</value>
+                <value>classpath:ui/DegreeAuditDetailsUI.xml</value>
+                <value>classpath:ui/CommentUI.xml</value>
+                <value>classpath:ui/CourseSectionsUI.xml</value>
+                <value>classpath:ui/DialogDefinitions.xml</value>
+                <value>classpath:ui/FullPlanCoursesUI.xml</value>
+                <value>classpath:ui/SavedCoursesUI.xml</value>
+                <value>classpath:ui/SingleQuarterUI.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">
