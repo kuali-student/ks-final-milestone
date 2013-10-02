@@ -41,6 +41,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingC
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
@@ -216,7 +217,9 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
             // generate exam offerings if exam period exists
             if (!StringUtils.isEmpty(coEditWrapper.getExamPeriodId())) {
-                CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(coInfo, coEditWrapper.getExamPeriodId(), new ArrayList<String>(), contextInfo);
+                List<String> eoOptions = new ArrayList<String>();
+                eoOptions.add(ExamOfferingServiceFacade.CANCEL_EXISTING_OPTION_KEY);
+                CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(coInfo, coEditWrapper.getExamPeriodId(), eoOptions, contextInfo);
             }
 
             // check for changes to states in CO and related FOs (may happen in the case of deleted FOs)
