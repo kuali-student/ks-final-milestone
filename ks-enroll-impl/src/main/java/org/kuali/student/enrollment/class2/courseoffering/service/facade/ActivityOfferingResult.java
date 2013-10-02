@@ -19,6 +19,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.facade;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 
 import java.util.List;
 
@@ -32,10 +33,14 @@ public class ActivityOfferingResult {
     private List<BulkStatusInfo> generatedRegistrationGroups;
     private BulkStatusInfo clusterstatus;
     private CourseWaitListInfo waitListInfo;
+    private BulkStatusInfo examOfferingsGenerated;
 
     public ActivityOfferingResult() {
         clusterstatus = new BulkStatusInfo();
         clusterstatus.setSuccess(Boolean.TRUE); // By default, set it true
+
+        examOfferingsGenerated = new BulkStatusInfo();
+        examOfferingsGenerated.setSuccess(Boolean.TRUE); // By default, set it true
     }
 
     public ActivityOfferingInfo getCreatedActivityOffering() {
@@ -68,5 +73,13 @@ public class ActivityOfferingResult {
 
     public void setWaitListInfo(CourseWaitListInfo waitListInfo) {
         this.waitListInfo = waitListInfo;
+    }
+
+    public BulkStatusInfo getExamOfferingsGenerated() {
+        return examOfferingsGenerated;
+    }
+
+    public void setExamOfferingsGenerated(BulkStatusInfo examOfferingsGenerated) {
+        this.examOfferingsGenerated = examOfferingsGenerated;
     }
 }

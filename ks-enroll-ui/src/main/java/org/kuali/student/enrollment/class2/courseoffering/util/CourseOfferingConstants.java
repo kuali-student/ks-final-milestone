@@ -159,6 +159,7 @@ public class CourseOfferingConstants {
     public static final String ACTIVITYOFFERING_TOOLBAR_REINSTATE_N_SUCCESS="info.enroll.activityoffering.toolbar.reinstate.n.success";
     public static final String COURSEOFFERING_TOOLBAR_DELETE_N_SUCCESS="info.enroll.courseoffering.toolbar.delete.n.success";
     public static final String COURSEOFFERING_TOOLBAR_APPROVED_N_SUCCESS="info.enroll.courseoffering.toolbar.approved.n.success";
+    public static final String ACTIVITYOFFERING_CREATE_WITH_MISSING_EXAMPERIOD="info.enroll.activityoffering.create.with.missing.examperiod";
 
     public static final String ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS="info.enroll.activityoffering.toolbar.add.1.success";
     public static final String ACTIVITYOFFERING_TOOLBAR_DELETE_1_SUCCESS="info.enroll.activityoffering.toolbar.delete.1.success";

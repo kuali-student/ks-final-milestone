@@ -90,7 +90,7 @@ public interface ExamOfferingServiceFacade {
      * @throws ReadOnlyException
      */
     void generateFinalExamOfferingForAO(CourseOfferingInfo courseOfferingInfo, ActivityOfferingInfo activityOfferingInfo,
-                                        List<String> optionKeys, ContextInfo context)
+                                        String examPeriodID, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
@@ -109,7 +109,7 @@ public interface ExamOfferingServiceFacade {
      * @throws PermissionDeniedException
      * @throws ReadOnlyException
      */
-    void generateFinalExamOfferingForAO(ActivityOfferingInfo activityOfferingInfo, List<String> optionKeys, ContextInfo context)
+    void generateFinalExamOfferingForAO(ActivityOfferingInfo activityOfferingInfo, String examPeriodID, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
@@ -183,7 +183,7 @@ public interface ExamOfferingServiceFacade {
     /**
      * This method retrieves the exam period id for the term that the given course offering is attached to.
      *
-     * @param courseOfferingInfo
+     * @param termID
      * @param context
      * @throws DoesNotExistException
      * @throws InvalidParameterException
@@ -192,7 +192,7 @@ public interface ExamOfferingServiceFacade {
      * @throws PermissionDeniedException
      *
      */
-    public String getExamPeriodId(CourseOfferingInfo courseOfferingInfo, ContextInfo context)
+    public String getExamPeriodId(String termID, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException;
 

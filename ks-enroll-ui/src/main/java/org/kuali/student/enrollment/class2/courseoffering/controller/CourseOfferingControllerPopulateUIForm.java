@@ -190,7 +190,7 @@ public class CourseOfferingControllerPopulateUIForm {
 
             //retrieve exam period id for the term that the CO is attached to
             try {
-                String examPeriodId = CourseOfferingManagementUtil.getExamOfferingServiceFacade().getExamPeriodId(formObject.getCourseOfferingInfo(), ContextUtils.createDefaultContextInfo());
+                String examPeriodId = CourseOfferingManagementUtil.getExamOfferingServiceFacade().getExamPeriodId(formObject.getCourseOfferingInfo().getTermId(), ContextUtils.createDefaultContextInfo());
                 if (!StringUtils.isEmpty(examPeriodId)) {
                     formObject.setExamPeriodId(examPeriodId);
                 }

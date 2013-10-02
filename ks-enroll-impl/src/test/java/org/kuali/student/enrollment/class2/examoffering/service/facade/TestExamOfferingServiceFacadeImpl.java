@@ -115,7 +115,7 @@ public class TestExamOfferingServiceFacadeImpl {
         co = this.getCourseOfferingService().updateCourseOffering(co.getId(), co, contextInfo);
 
         List<String> optionKeys = new ArrayList<String>();
-        String ePID = this.getExamOfferingBusinessLogic().getExamPeriodId(co,contextInfo);
+        String ePID = this.getExamOfferingBusinessLogic().getExamPeriodId(co.getTermId(),contextInfo);
         this.getExamOfferingBusinessLogic().generateFinalExamOffering(coId, ePID, optionKeys, contextInfo);
 
         List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(

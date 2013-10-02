@@ -335,9 +335,23 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         }
         ActivityOfferingInfo created = coService.createActivityOffering(aoInfo.getFormatOfferingId(), aoInfo.getActivityId(),
                 aoInfo.getTypeKey(), aoInfo, context);
-        this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(created, new ArrayList<String>(), context);
 
         ActivityOfferingResult aoResult = _addActivityOfferingToClusterCommon(created, cluster, context);
+
+        //generate final exam offerings if the exam period exists
+        String examPeriodID = null;
+        try {
+            examPeriodID = this.getExamOfferingServiceFacade().getExamPeriodId(aoInfo.getTermId(), context);
+        } catch (DoesNotExistException e) {
+
+        }
+        if (examPeriodID != null) {
+            this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(created, examPeriodID, new ArrayList<String>(), context);
+        }else{
+            aoResult.getExamOfferingsGenerated().setSuccess(Boolean.FALSE);
+        }
+
+
         //create and persist a WaitlistInfo for AO
         CourseWaitListInfo theWaitListInfo = getWaitListServiceFacade().createDefaultCourseWaitlist(created, context);
 

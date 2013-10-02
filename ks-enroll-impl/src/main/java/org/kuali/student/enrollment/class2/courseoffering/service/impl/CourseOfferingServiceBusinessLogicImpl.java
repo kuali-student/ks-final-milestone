@@ -741,7 +741,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         String examPeriodID = null;
 
         try{
-            examPeriodID = getExamOfferingServiceFacade().getExamPeriodId(targetCo, context);
+            examPeriodID = getExamOfferingServiceFacade().getExamPeriodId(targetCo.getTermId(), context);
         } catch (DoesNotExistException e) {
             if (!optionKeys.contains(CourseOfferingSetServiceConstants.CONTINUE_WITHOUT_EXAM_OFFERINGS_OPTION_KEY)) {
                 throw e;

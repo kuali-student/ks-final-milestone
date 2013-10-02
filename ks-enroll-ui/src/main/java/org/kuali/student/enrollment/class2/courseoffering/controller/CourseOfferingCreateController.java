@@ -405,7 +405,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
 
         // retrieve the exam period id
         try {
-            examPeriodId = CourseOfferingManagementUtil.getExamOfferingServiceFacade().getExamPeriodId(courseOfferingInfo, contextInfo);
+            examPeriodId = CourseOfferingManagementUtil.getExamOfferingServiceFacade().getExamPeriodId(courseOfferingInfo.getTermId(), contextInfo);
         } catch (DoesNotExistException e) {
             LOG.warn("The Term " + courseOfferingInfo.getTermId() + " that the course offering " + courseOfferingInfo.getCourseOfferingCode() + " is attached to doesn't have an exam period to create exam offerings.");
         }

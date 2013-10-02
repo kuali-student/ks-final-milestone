@@ -103,35 +103,32 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
     }
 
     @Override
-    public void generateFinalExamOfferingForAO(ActivityOfferingInfo activityOfferingInfo, List<String> optionKeys, ContextInfo context)
+    public void generateFinalExamOfferingForAO(ActivityOfferingInfo activityOfferingInfo, String examPeriodID, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
 
         FormatOfferingInfo fo = this.getCourseOfferingService().getFormatOffering(activityOfferingInfo.getFormatOfferingId(), context);
         CourseOfferingInfo co = this.getCourseOfferingService().getCourseOffering(fo.getCourseOfferingId(), context);
-        this.generateFinalExamOfferingForAO(co, activityOfferingInfo, optionKeys, context);
+        this.generateFinalExamOfferingForAO(co, activityOfferingInfo, examPeriodID, optionKeys, context);
     }
 
     @Override
     public void generateFinalExamOfferingForAO(CourseOfferingInfo courseOfferingInfo, ActivityOfferingInfo activityOfferingInfo,
-                                               List<String> optionKeys, ContextInfo context)
+                                               String examPeriodID, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
 
         Driver driver = calculateEODriver(courseOfferingInfo);
         if (driver.equals(Driver.PER_AO)) {
-            String epId = getExamPeriodId(courseOfferingInfo, context);
-            createFinalExamOfferingPerAO(activityOfferingInfo.getFormatOfferingId(), activityOfferingInfo.getId(), epId, context);
+            createFinalExamOfferingPerAO(activityOfferingInfo.getFormatOfferingId(), activityOfferingInfo.getId(), examPeriodID, context);
         } else if (driver.equals(Driver.PER_CO)) {
             List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                     activityOfferingInfo.getFormatOfferingId(), context);
 
             //Create a new exam offering if this is the first AO linked to the CO.
             if (eoRelations.size() == 0) {
-                String epId = getExamPeriodId(courseOfferingInfo, context);
-
                 //Create new Exam Offering and Relationship
-                createFinalExamOfferingPerAO(activityOfferingInfo.getFormatOfferingId(), activityOfferingInfo.getId(), epId, context);
+                createFinalExamOfferingPerAO(activityOfferingInfo.getFormatOfferingId(), activityOfferingInfo.getId(), examPeriodID, context);
 
             } else {
                 for (ExamOfferingRelationInfo eoRelation : eoRelations) {
@@ -145,13 +142,13 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
     }
 
     @Override
-    public String getExamPeriodId(CourseOfferingInfo courseOfferingInfo, ContextInfo context)
+    public String getExamPeriodId(String termID, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
         //Get the Exam Period Id for the term.
         String epId = null;
-        List<ExamPeriodInfo> epInfos = this.getAcalService().getExamPeriodsForTerm(courseOfferingInfo.getTermId(), context);
+        List<ExamPeriodInfo> epInfos = this.getAcalService().getExamPeriodsForTerm(termID, context);
         for (ExamPeriodInfo epInfo : epInfos) {
             epId = epInfo.getId();
             break;

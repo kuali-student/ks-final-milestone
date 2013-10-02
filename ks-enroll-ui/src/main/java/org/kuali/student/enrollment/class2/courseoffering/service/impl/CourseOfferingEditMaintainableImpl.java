@@ -786,7 +786,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
                 // retrieve the exam period id
                 try {
-                    String examPeriodId = CourseOfferingManagementUtil.getExamOfferingServiceFacade().getExamPeriodId(coInfo, contextInfo);
+                    String examPeriodId = CourseOfferingManagementUtil.getExamOfferingServiceFacade().getExamPeriodId(coInfo.getTermId(), contextInfo);
                     if (!StringUtils.isEmpty(examPeriodId)) {
                         formObject.setExamPeriodId(examPeriodId);
                     }
