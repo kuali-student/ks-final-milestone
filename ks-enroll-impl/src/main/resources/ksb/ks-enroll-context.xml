@@ -720,8 +720,8 @@
     <property name="nextDecorator" ref="courseRegistrationImpl" />
   </bean>
 
-  <bean id="courseRegistrationImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
-    <property name="lprService" ref="LprService" />
+  <bean id="courseRegistrationImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceMockImpl">
+    <!--<property name="lprService" ref="LprService" />-->
     <property name="courseOfferingService" ref="CourseOfferingService" />
   </bean>
 
@@ -1037,7 +1037,7 @@
 
     <bean id="orgSearchManager"
           class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
-        <constructor-arg index="0" value="classpath:organization-search-config.xml" />
+        <constructor-arg index="0" value="classpath:myplan-orgsearch-config.xml" />
         <property name="dao" ref="enrollSearchableDao"/>
     </bean>
 
