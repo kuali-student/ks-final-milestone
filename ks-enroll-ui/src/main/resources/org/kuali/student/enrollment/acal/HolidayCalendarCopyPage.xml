@@ -117,66 +117,24 @@
             <list>
                 <bean parent="Uif-VerticalBoxGroup"
                       p:render="@{holidayCalendarInfo != null}">
-                    <!--<property name="align" value="CENTER"/>-->
+                    <property name="align" value="CENTER"/>
                     <property name="items">
                         <list>
-                            <!--<bean parent="Uif-SpaceField"/>-->
+                            <bean parent="Uif-SpaceField"/>
                             <bean parent="Uif-DataField"
                                   p:propertyName="holidayCalendarInfo.name"
                                   p:showLabel="false"
-                                  p:style="font-size:125%;">
-                            <property name="align" value="center;"/>
-                            </bean>
-                            <bean parent="Uif-HorizontalFieldGroup">
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ks-calendar-copy-content</value>
-                                    </list>
-                                </property>
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-VerticalBoxGroup">
-                                            <property name="items">
-                                                <list>
-                                                    <bean parent="Uif-Message">
-                                                        <property name="style" value="font-weight: bold;"/>
-                                                        <property name="messageText" value='Start Date'/>
-                                                        <property name="align" value="right"/>
-                                                        <property name="valign" value="bottom"/>
-                                                    </bean>
-                                                    <bean parent="Uif-Message">
-                                                        <property name="style" value="font-weight: bold;"/>
-                                                        <property name="messageText" value='End Date'/>
-                                                        <property name="align" value="right"/>
-                                                        <property name="valign" value="bottom"/>
-                                                    </bean>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                        <bean parent="Uif-VerticalBoxGroup">
-                                            <property name="items">
-                                                <list>
-                                                    <bean parent="Uif-DataField"
-                                                          p:propertyName="holidayCalendarInfo.startDate">
-                                                        <property name="labelRendered" value="true"/>
-                                                        <property name="align" value="right"/>
-                                                        <property name="valign" value="bottom"/>
-                                                    </bean>
-                                                    <bean parent="Uif-DataField"
-                                                          p:propertyName="holidayCalendarInfo.endDate">
-                                                        <property name="labelRendered" value="true"/>
-                                                        <property name="align" value="right"/>
-                                                        <property name="valign" value="bottom"/>
-                                                    </bean>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>
-                            <!--<bean parent="Uif-GridGroup"
+                                  p:style="font-size:125%;"/>
+                            <bean parent="Uif-GridGroup"
                                   p:layoutManager.numberOfColumns="2"
                                   p:layoutManager.applyDefaultCellWidths="false">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ks-krad-tab-gridgroup-fix</value>
+                                        <value>ks-gray-background</value>
+                                        <value>ks-hcal-margins</value>
+                                    </list>
+                                </property>
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-DataField"
@@ -192,7 +150,7 @@
                                     </list>
                                 </property>
                                 <property name="align"  value="CENTER"/>
-                            </bean>-->
+                            </bean>
                             <bean parent="Uif-Message"
                                   p:messageText="A recent holiday calendar could not be found."
                                   p:render="@{holidayCalendarInfo == null}"
@@ -241,7 +199,7 @@
                                     <bean parent="Uif-TextControl"
                                           p:size="40"
                                           p:watermarkText="New calendar name"
-                                          />
+                                            />
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField"
