@@ -99,24 +99,24 @@
                 <bean parent="KS-KitchenSink-CollectionPaginationOptions-NoPaging-Section">
                     <property name="items">
                         <list merge="true">
-                            <bean parent="KS-KitchenSink-MessageField"
-                                  p:messageText="No paging."/>
+                            <!--<bean parent="KS-KitchenSink-MessageField"-->
+                                  <!--p:messageText="No paging."/>-->
                         </list>
                     </property>
                 </bean>
                 <bean parent="KS-KitchenSink-CollectionPaginationOptions-FullNumberCurrentPagePaging-Section">
                     <property name="items">
                         <list merge="true">
-                            <bean parent="KS-KitchenSink-MessageField"
-                                  p:messageText="Full Number paging."/>
+                            <!--<bean parent="KS-KitchenSink-MessageField"-->
+                                  <!--p:messageText="Full Number paging."/>-->
                         </list>
                     </property>
                 </bean>
                 <bean parent="KS-KitchenSink-CollectionPaginationOptions-FullNumberCurrentPageNoFirstLastPaging-Section">
                     <property name="items">
                         <list merge="true">
-                            <bean parent="KS-KitchenSink-MessageField"
-                                  p:messageText="Full Number paging with no first/last buttons."/>
+                            <!--<bean parent="KS-KitchenSink-MessageField"-->
+                                  <!--p:messageText="Full Number paging with no first/last buttons."/>-->
                         </list>
                     </property>
                 </bean>
@@ -127,7 +127,7 @@
     <!--Descriptive content for each table-->
 
     <bean id="KS-KitchenSink-CollectionPaginationOptions-NoPaging-Section" parent="Uif-VerticalBoxSection"
-          p:headerText="" p:header.render="false">
+          p:headerText="No Paging." p:header.render="true">
         <property name="items">
             <list>
                 <ref bean="KS-KitchenSink-CollectionPaginationOptions-NoPaging"/>
@@ -135,7 +135,7 @@
         </property>
     </bean>
     <bean id="KS-KitchenSink-CollectionPaginationOptions-FullNumberCurrentPagePaging-Section" parent="Uif-VerticalBoxSection"
-          p:headerText="" p:header.render="false">
+          p:headerText="Full Number paging" p:header.render="true">
         <property name="items">
             <list>
                 <ref bean="KS-KitchenSink-CollectionPaginationOptions-FullNumberCurrentPagePaging"/>
@@ -143,7 +143,7 @@
         </property>
     </bean>
     <bean id="KS-KitchenSink-CollectionPaginationOptions-FullNumberCurrentPageNoFirstLastPaging-Section" parent="Uif-VerticalBoxSection"
-          p:headerText="" p:header.render="false">
+          p:headerText="Full Number paging with no first/last buttons" p:header.render="true">
         <property name="items">
             <list>
                 <ref bean="KS-KitchenSink-CollectionPaginationOptions-FullNumberCurrentPageNoFirstLastPaging"/>
