@@ -911,10 +911,13 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		for (Hit hit : hits) {
 			courseIDs.add(hit.courseID);
 		}
-		List<CourseSearchItemImpl> courses = getCoursesInfo(courseIDs);
-		loadScheduledTerms(courses);
-		loadTermsOffered(courses, courseIDs);
-		loadGenEduReqs(courses, courseIDs);
+        List<CourseSearchItemImpl> courses = new ArrayList<CourseSearchItemImpl>();
+        if(!courseIDs.isEmpty()){
+            courses = getCoursesInfo(courseIDs);
+            loadScheduledTerms(courses);
+            loadTermsOffered(courses, courseIDs);
+            loadGenEduReqs(courses, courseIDs);
+        }
 		for (CourseSearchItemImpl course : courses) {
 			if (isCourseOffered(form, course)) {
 				// loadScheduledTerms(course);
