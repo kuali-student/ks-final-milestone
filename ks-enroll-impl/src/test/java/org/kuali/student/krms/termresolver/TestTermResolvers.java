@@ -603,6 +603,9 @@ public class TestTermResolvers {
         //Setup the term resolver
         FreeFormTextTermResolver termResolver = new FreeFormTextTermResolver();
 
+        //Setup data
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_FREE_TEXT_KEY, "1");
+
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
                 KSKRMSServiceConstants.TERM_RESOLVER_FREEFORMTEXT);
@@ -880,7 +883,7 @@ public class TestTermResolvers {
         //Check if prerequisites are listed
         validateAttributeSet("Prerequisites list does not contain ", prereqs.keySet(), termResolver.getPrerequisites());
 
-        //Check if paramteters are listed
+        //Check if parameters are listed
         validateAttributeSet("Parameters list does not contain ", parameters.keySet(), termResolver.getParameterNames());
     }
 
