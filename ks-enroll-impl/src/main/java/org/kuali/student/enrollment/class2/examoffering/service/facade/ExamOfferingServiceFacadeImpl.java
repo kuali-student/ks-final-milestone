@@ -195,9 +195,9 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             removeFinalExamOfferingsFromCO(foToEoRelations, context);
         } else if (eoIds.size() == 1) {
             String eoId = eoIds.iterator().next();
-            for (String foId : foToEoRelations.keySet()) {
-                if (foToEoRelations.get(foId).size() == 0) {
-                    createExamOfferingRelationPerFO(foId, eoId, context);
+            for (Map.Entry<String, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
+                if (foEntry.getValue().size() == 0) {
+                    createExamOfferingRelationPerFO(foEntry.getKey(), eoId, context);
                 }
             }
             return;
@@ -207,8 +207,8 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         ExamOfferingInfo eo = createExamOffering(examPeriodId, context);
         //executeRuleForCOScheduling(courseOfferingId, context);
 
-        for (String foId : foToEoRelations.keySet()) {
-            createExamOfferingRelationPerFO(foId, eo.getId(), context);
+        for (Map.Entry<String, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
+            createExamOfferingRelationPerFO(foEntry.getKey(), eo.getId(), context);
         }
 
     }
@@ -226,10 +226,10 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             removeFinalExamOfferingsFromCO(foToEoRelations, context);
         }
 
-        for (String foId : foToEoRelations.keySet()) {
+        for (Map.Entry<String, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
 
             //Check for existing relationships.
-            List<ExamOfferingRelationInfo> eoRelations = foToEoRelations.get(foId);
+            List<ExamOfferingRelationInfo> eoRelations = foEntry.getValue();
             if (eoRelations.size() > 1) {
                 removeFinalExamOfferings(eoRelations, context);
             } else if (eoRelations.size() == 1) {
@@ -240,7 +240,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             ExamOfferingInfo eo = createExamOffering(examPeriodId, context);
 
             //Create new Exam Offering Relationship
-            createExamOfferingRelationPerFO(foId, eo.getId(), context);
+            createExamOfferingRelationPerFO(foEntry.getKey(), eo.getId(), context);
         }
     }
 
@@ -265,8 +265,8 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             //If relations does not match exam offerings, delete all and start over.
             removeFinalExamOfferingsFromCO(foToEoRelations, context);
         } else {
-            foloop: for (String foId : foToEoRelations.keySet()) {
-                for (ExamOfferingRelationInfo eoRelation : foToEoRelations.get(foId)) {
+            foloop: for (Map.Entry<String, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
+                for (ExamOfferingRelationInfo eoRelation : foEntry.getValue()) {
                     if (eoRelation.getActivityOfferingIds().size() > 1) {
                         //If any relationship is linked to more than one AO, delete all and start over.
                         removeFinalExamOfferingsFromCO(foToEoRelations, context);
@@ -277,18 +277,17 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         }
 
         //Create new exam offerings per AO.
-        for (String foId : foToEoRelations.keySet()) {
+        for (Map.Entry<String, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
             List<ActivityOfferingInfo> aoInfos = this.getCourseOfferingService().getActivityOfferingsByFormatOffering(
-                    foId, context);
-            List<ExamOfferingRelationInfo> eoRelations = foToEoRelations.get(foId);
+                    foEntry.getKey(), context);
             aoloop:
             for (ActivityOfferingInfo aoInfo : aoInfos) {
-                for (ExamOfferingRelationInfo eoRelation : eoRelations) {
+                for (ExamOfferingRelationInfo eoRelation : foEntry.getValue()) {
                     if (eoRelation.getActivityOfferingIds().contains(aoInfo.getId())) {
                         continue aoloop;
                     }
                 }
-                createFinalExamOfferingPerAO(foId, aoInfo.getId(), examPeriodId, context);
+                createFinalExamOfferingPerAO(foEntry.getKey(), aoInfo.getId(), examPeriodId, context);
             }
         }
 
@@ -309,8 +308,8 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
     private Set<String> getUniqueExamOfferingIds(Map<String, List<ExamOfferingRelationInfo>> foToEoRelations) {
         Set<String> eoIds = new HashSet<String>();
-        for (String foId : foToEoRelations.keySet()) {
-            for (ExamOfferingRelationInfo eoRelation : foToEoRelations.get(foId)) {
+        for (Map.Entry<String, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
+            for (ExamOfferingRelationInfo eoRelation : foEntry.getValue()) {
                 eoIds.add(eoRelation.getExamOfferingId());
             }
         }
@@ -360,13 +359,13 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             DoesNotExistException {
 
         Set<String> eoIds = new HashSet<String>();
-        for (String foId : foToEoRelations.keySet()) {
+        for (Map.Entry<String, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
             //Remove the relationships.
-            for (ExamOfferingRelationInfo eoRelation : foToEoRelations.get(foId)) {
+            for (ExamOfferingRelationInfo eoRelation : foEntry.getValue()) {
                 this.getExamOfferingService().deleteExamOfferingRelation(eoRelation.getId(), context);
                 eoIds.add(eoRelation.getExamOfferingId());
             }
-            foToEoRelations.put(foId, new ArrayList());
+            foToEoRelations.put(foEntry.getKey(), new ArrayList());
         }
 
         //Delete orphaned exam offerings.
