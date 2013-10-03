@@ -936,6 +936,7 @@ public class TestSchedulingServiceMockImpl {
         // ----------------
         TimeSlotInfo expected = new TimeSlotInfo() ;
         crudInfoTester.initializeInfoForTestCreate(expected, SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        expected.setName("1"); //Timeslot Code.
         expected.setWeekdays(DOW_M_W_F);
         TimeOfDayInfo startTime = new TimeOfDayInfo();
         startTime.setMilliSeconds(START_TIME_MILLIS_8_00_AM);
