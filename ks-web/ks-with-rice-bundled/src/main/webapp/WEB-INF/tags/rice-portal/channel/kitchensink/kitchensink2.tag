@@ -61,6 +61,8 @@
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionRowSelectionHighlight-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection table options"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionOptions-View&methodToCall=collection" /></li>
+        <li><portal:portalLink displayTitle="true" title="Collection table pagination options"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionPaginationOptions-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection Group Table Layout"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionsTL-View&methodToCall=start" /></li>
         <%-- replaced by CollectionStacked.xml

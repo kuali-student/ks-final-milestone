@@ -21,6 +21,7 @@
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Manage Course Offering Agendas" url="${ConfigProperties.application.url}/kr-krad/courseOfferingRules?viewTypeName=MAINTENANCE&methodToCall=maintenanceEdit&dataObjectClassName=org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper&viewName=COAgendaManagementView&overrideKeys=refObjectId&refObjectId=0f074dc5-91ec-4a9d-9f27-decbdbb79e8e"/></li>
         <li><portal:portalLink displayTitle="true" title="Manage Activity Offering Agendas" url="${ConfigProperties.application.url}/kr-krad/activityOfferingRules?viewTypeName=MAINTENANCE&methodToCall=maintenanceEdit&dataObjectClassName=org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper&viewName=AOAgendaManagementView&overrideKeys=refObjectId&refObjectId=e8639267-ae0c-40b8-ac3e-a1cc83fddec9"/></li>
+        <li><portal:portalLink displayTitle="true" title="Final Exam Scheduling Matrix" url="${ConfigProperties.application.url}/kr-krad/finalExamRules?viewTypeName=MAINTENANCE&methodToCall=maintenanceEdit&dataObjectClassName=org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper&viewName=FEAgendaManagementView&overrideKeys=refObjectId&refObjectId=kuali.atp.type.Fall"/></li>
     </ul>
 </div>
 <channel:portalChannelBottom />
