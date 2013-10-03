@@ -618,20 +618,7 @@
                 <ref bean="backupCollection"/>
             </list>
         </property>
-        <property name="propertyReplacers">
-            <list>
-                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="subCollections"
-                      p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isAdviser()">
-                    <property name="replacement">
-                        <list>
-                            <ref bean="advisorAcademicRecordCollection"/>
-                            <ref bean="advisorPlannedCollection"/>
-                            <ref bean="advisorBackupCollection"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
+
         <property name="onDocumentReadyScript" value="
             truncateField('planned_courses_detail_list', true);
             jQuery('#planned_courses_detail_list').on('PLAN_ITEM_ADDED', function(event, data) {
@@ -656,7 +643,6 @@
     <bean id="academicRecordCollection" parent="academicRecordCollection-parent"/>
     <bean id="academicRecordCollection-parent" abstract="true" parent="Uif-StackedCollectionGroup"
           p:headerText="@{#parentLine.completedTerm ? 'Completed': (#parentLine.academicRecord.size() gt 0 or !#parentLine.openForPlanning)? 'Registered' : ''}">
-        <property name="render" value="@{#line.completedTerm or #line.academicRecord.size() gt 0 or !#line.openForPlanning}"/>
         <property name="validationMessages.render" value="false"/>
         <property name="header">
             <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
