@@ -169,6 +169,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_PARAMETER_TYPE_TERMCODE_KEY = "kuali.term.parameter.type.TermCode";
     public static final String TERM_PARAMETER_TYPE_TERMCODE2_KEY = "kuali.term.parameter.type.TermCode2";
     public static final String TERM_PARAMETER_TYPE_POPULATION_KEY = "kuali.term.parameter.type.population";
+    public static final String TERM_PARAMETER_TYPE_FREE_TEXT_KEY = "kuali.term.parameter.type.free.text";
 
     public static final String TERM_PARAMETER_TYPE_TIMESLOT_WEEKDAY_STRING = "kuali.term.parameter.type.timeslot.weekday.string";
     public static final String TERM_PARAMETER_TYPE_TIMESLOT_START = "kuali.term.parameter.type.timeslot.start";
