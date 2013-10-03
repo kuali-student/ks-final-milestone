@@ -205,6 +205,8 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
         //Create a new Exam Offering
         ExamOfferingInfo eo = createExamOffering(examPeriodId, context);
+        //executeRuleForCOScheduling(courseOfferingId, context);
+
         for (String foId : foToEoRelations.keySet()) {
             createExamOfferingRelationPerFO(foId, eo.getId(), context);
         }
@@ -505,11 +507,31 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO, context);
         executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_AO_ID, aoId);
 
+        engine.execute(selectionCriteria, executionFacts, getDefaultExecutionOptions());
+    }
+
+    private void executeRuleForCOScheduling(String coId, ContextInfo context) {
+        Engine engine = KrmsApiServiceLocator.getEngine();
+
+        Map<String, String> contextQualifiers = new HashMap<String, String>();
+        contextQualifiers.put("namespaceCode", PermissionServiceConstants.KS_SYS_NAMESPACE);
+        contextQualifiers.put("name", "Final Exam Matrix Rules");
+        Map<String, String> agendaQualifiers = new HashMap<String, String>();
+        agendaQualifiers.put("id", "KS-KRMS-AGENDA-11924");
+        SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(new DateTime(), contextQualifiers, agendaQualifiers);
+
+        Map<String, Object> executionFacts = new HashMap<String, Object>();
+        executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO, context);
+        executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CO_ID, coId);
+
+        engine.execute(selectionCriteria, executionFacts, getDefaultExecutionOptions());
+    }
+
+    private ExecutionOptions getDefaultExecutionOptions() {
         ExecutionOptions executionOptions = new ExecutionOptions();
         executionOptions.setFlag(ExecutionFlag.LOG_EXECUTION, true);
         executionOptions.setFlag(ExecutionFlag.EVALUATE_ALL_PROPOSITIONS, true);
-
-        engine.execute(selectionCriteria, executionFacts, executionOptions);
+        return executionOptions;
     }
 
     public AcademicCalendarService getAcalService() {

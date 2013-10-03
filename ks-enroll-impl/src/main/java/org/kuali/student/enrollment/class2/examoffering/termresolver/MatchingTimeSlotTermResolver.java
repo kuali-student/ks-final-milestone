@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.krms.termresolver;
+package org.kuali.student.enrollment.class2.examoffering.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
@@ -56,7 +56,7 @@ public class MatchingTimeSlotTermResolver implements TermResolver<Boolean> {
     @Override
     public Set<String> getPrerequisites() {
         Set<String> prereqs = new HashSet<String>(2);
-        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_AO);
+        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_AO_ID);
         prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
         return Collections.unmodifiableSet(prereqs);
     }

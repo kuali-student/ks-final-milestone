@@ -4,9 +4,10 @@ import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.framework.type.TermResolverTypeService;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.enrollment.class2.examoffering.termresolver.MatchingCourseSetTermResolver;
+import org.kuali.student.enrollment.class2.examoffering.termresolver.MatchingCourseTermResolver;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.krms.proposition.CompletedCourseBetweenTermsProposition;
 import org.kuali.student.krms.termresolver.AdminOrgPermissionTermResolver;
 import org.kuali.student.krms.termresolver.AdmittedProgramAtCourseCampusTermResolver;
 import org.kuali.student.krms.termresolver.AdmittedProgramTermResolver;
@@ -27,7 +28,7 @@ import org.kuali.student.krms.termresolver.FreeFormTextTermResolver;
 import org.kuali.student.krms.termresolver.GPAForCoursesTermResolver;
 import org.kuali.student.krms.termresolver.GPAForDurationTermResolver;
 import org.kuali.student.krms.termresolver.InstructorPermissionTermResolver;
-import org.kuali.student.krms.termresolver.MatchingTimeSlotTermResolver;
+import org.kuali.student.enrollment.class2.examoffering.termresolver.MatchingTimeSlotTermResolver;
 import org.kuali.student.krms.termresolver.NumberOfCompletedCoursesTermResolver;
 import org.kuali.student.krms.termresolver.CompletedCourseTermResolver;
 import org.kuali.student.krms.termresolver.GPATermResolver;
@@ -36,10 +37,13 @@ import org.kuali.student.krms.termresolver.NumberOfEnrolledCoursesTermResolver;
 import org.kuali.student.krms.termresolver.PopulationTermResolver;
 import org.kuali.student.krms.termresolver.ProgramCoursesOrgDurationTermResolver;
 import org.kuali.student.krms.termresolver.ScoreTermResolver;
+import org.kuali.student.krms.termresolver.util.CluIdsInCluSetTermResolver;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 public class KSTermResolverTypeService implements TermResolverTypeService {
@@ -51,6 +55,8 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
     private CourseOfferingService courseOfferingService;
     private LRCService lrcService;
     private SchedulingService schedulingService;
+    private CluService cluService;
+    private CourseService courseService;
 	
 	@Override
 	public TermResolver<?> loadTermResolver(
@@ -108,7 +114,7 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
             resolver.setCluIdsInCluSetTermResolver(null);
             resolver.setCourseWithGradeTermResolver(null);
             return resolver;
-        } else if (KSKRMSServiceConstants.TERM_SPEC_COURSEWITHGRADE.equals(termResolverDefinition.getName())){
+        } else if (KSKRMSServiceConstants.TERM_RESOLVER_COURSEWITHGRADE.equals(termResolverDefinition.getName())){
             CourseWithGradeTermResolver resolver = new CourseWithGradeTermResolver();
             resolver.setLrcService(lrcService);
             resolver.setCourseRecordsForCourseIdTermResolver(null);
@@ -149,11 +155,6 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
         } else if (KSKRMSServiceConstants.TERM_RESOLVER_INSTRUCTORPERMISSION.equals(termResolverDefinition.getName())){
             InstructorPermissionTermResolver resolver = new InstructorPermissionTermResolver();
             return resolver;
-        } else if (KSKRMSServiceConstants.TERM_RESOLVER_MATCHINGTIMESLOT.equals(termResolverDefinition.getName())){
-            MatchingTimeSlotTermResolver resolver = new MatchingTimeSlotTermResolver();
-            resolver.setCourseOfferingService(courseOfferingService);
-            resolver.setSchedulingService(schedulingService);
-            return resolver;
         } else if (KSKRMSServiceConstants.TERM_RESOLVER_NUMBEROFCOMPLETEDCOURSES.equals(termResolverDefinition.getName())){
             NumberOfCompletedCoursesTermResolver resolver = new NumberOfCompletedCoursesTermResolver();
             resolver.setCluIdsInCluSetTermResolver(null);
@@ -178,12 +179,34 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
             ScoreTermResolver resolver = new ScoreTermResolver();
 			resolver.setAcademicRecordService(acadRecordService);
 			return resolver;
-		}
+		} else if (KSKRMSServiceConstants.TERM_RESOLVER_MATCHINGTIMESLOT.equals(termResolverDefinition.getName())){
+            MatchingTimeSlotTermResolver resolver = new MatchingTimeSlotTermResolver();
+            resolver.setCourseOfferingService(courseOfferingService);
+            resolver.setSchedulingService(schedulingService);
+            return resolver;
+        } else if (KSKRMSServiceConstants.TERM_RESOLVER_MATCHINGCOURSE.equals(termResolverDefinition.getName())){
+            MatchingCourseTermResolver resolver = new MatchingCourseTermResolver();
+            resolver.setCourseOfferingService(courseOfferingService);
+            resolver.setCourseService(courseService);
+            return resolver;
+        } else if (KSKRMSServiceConstants.TERM_RESOLVER_MATCHINGCOURSESET.equals(termResolverDefinition.getName())){
+            MatchingCourseSetTermResolver resolver = new MatchingCourseSetTermResolver();
+            resolver.setCourseOfferingService(courseOfferingService);
+            resolver.setCourseService(courseService);
+            resolver.setCluIdsInCluSetTermResolver(getCluIdsInCluSetTermResolver());
+            return resolver;
+        }
 
-		return null;
+        return null;
 	}
-	
-	public AcademicRecordService getAcadRecordService() {
+
+    private CluIdsInCluSetTermResolver getCluIdsInCluSetTermResolver() {
+        CluIdsInCluSetTermResolver cluIdsInCluSetResolver = new CluIdsInCluSetTermResolver();
+        cluIdsInCluSetResolver.setCluService(cluService);
+        return cluIdsInCluSetResolver;
+    }
+
+    public AcademicRecordService getAcadRecordService() {
 		return acadRecordService;
 	}
 
@@ -237,5 +260,21 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
 
     public void setSchedulingService(SchedulingService schedulingService) {
         this.schedulingService = schedulingService;
+    }
+
+    public CluService getCluService() {
+        return cluService;
+    }
+
+    public void setCluService(CluService cluService) {
+        this.cluService = cluService;
+    }
+
+    public CourseService getCourseService() {
+        return courseService;
+    }
+
+    public void setCourseService(CourseService courseService) {
+        this.courseService = courseService;
     }
 }

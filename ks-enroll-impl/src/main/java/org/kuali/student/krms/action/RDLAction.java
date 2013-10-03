@@ -19,9 +19,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.framework.engine.Action;
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
@@ -53,13 +55,19 @@ public class RDLAction implements Action {
     @Override
     public void execute(ExecutionEnvironment environment) {
         ContextInfo context = (ContextInfo) environment.getFacts().get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-        ActivityOffering ao = (ActivityOffering) environment.getFacts().get(KSKRMSServiceConstants.TERM_PREREQUISITE_AO);
         String eoId = (String) environment.getFacts().get(KSKRMSServiceConstants.TERM_PREREQUISITE_EO_ID);
 
         //Create new sch set for this ao.
         ScheduleRequestSetInfo requestSet = new ScheduleRequestSetInfo();
-        requestSet.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
-        requestSet.setName("Schedule request set for " + ao.getCourseOfferingCode() + " - " + ao.getActivityCode());
+        requestSet.setRefObjectTypeKey(ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING);
+
+        ActivityOffering ao = (ActivityOffering) environment.getFacts().get(KSKRMSServiceConstants.TERM_PREREQUISITE_AO);
+        if(ao!=null){
+            requestSet.setName("Exam Schedule request set for " + ao.getCourseOfferingCode() + " - " + ao.getActivityCode());
+        } else {
+            CourseOffering co = (CourseOffering) environment.getFacts().get(KSKRMSServiceConstants.TERM_PREREQUISITE_CO);
+            requestSet.setName("Exam Schedule request set for " + co.getCourseOfferingCode());
+        }
         requestSet.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_STATE_CREATED);
         requestSet.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
         requestSet.getRefObjectIds().add(eoId);

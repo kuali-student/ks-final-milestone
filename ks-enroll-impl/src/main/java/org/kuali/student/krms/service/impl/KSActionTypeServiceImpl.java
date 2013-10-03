@@ -18,11 +18,9 @@ public class KSActionTypeServiceImpl extends ActionTypeServiceBase implements Ac
 
     private SchedulingService schedulingService;
 
-    private static final String NAME_ATTRIBUTE = "name";
-
     @Override
     public Action loadAction(ActionDefinition actionDefinition) {
-        if(actionDefinition.getName().equals("createRDL")) {
+        if(actionDefinition.getTypeId().equals("KS-KRMS-TYP-55674")) {
             return buildRDLAction(actionDefinition);
         }
         return null;

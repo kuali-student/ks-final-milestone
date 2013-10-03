@@ -38,6 +38,8 @@
         <property name="courseOfferingService" ref="courseOfferingClient"/>
         <property name="lrcService" ref="lrcClient"/>
         <property name="schedulingService" ref="schedulingClient"/>
+        <property name="cluService" ref="cluClient"/>
+        <property name="courseService" ref="courseClient"/>
     </bean>
 
     <bean id="actionTypeService" class="org.kuali.student.krms.service.impl.KSActionTypeServiceImpl">
