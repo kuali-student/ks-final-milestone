@@ -232,6 +232,7 @@
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10"  p:maxLength="7"/>
                     </property>
+                    <property name="uppercaseValue" value="true"/>
                     <property name="constraintText" value="MTWHFSU"/>
                 </bean>
                 <bean id="addOrEditStartTime" parent="Uif-InputField-LabelTop"  p:propertyName="addOrEditStartTime" p:label="Start Time">

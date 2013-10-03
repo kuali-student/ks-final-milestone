@@ -98,7 +98,6 @@ public class TimeSlotController extends UifControllerBase {
         }
         if (timeSlotWrapperList.size() > 0) {
             form.setTimeSlotsLoaded(true);
-            form.setEnableAddButton(true);
         }
 
         return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);

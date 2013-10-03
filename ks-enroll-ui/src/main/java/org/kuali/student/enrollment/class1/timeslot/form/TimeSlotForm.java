@@ -51,7 +51,7 @@ import java.util.List;
          return timeSlotResults;
      }
 
-     public void setTimeSlotResults(List<TimeSlotWrapper> timsSlotResults) {
+     public void setTimeSlotResults(List<TimeSlotWrapper> timeSlotResults) {
          this.timeSlotResults = timeSlotResults;
      }
 
