@@ -1,14 +1,67 @@
 //
-// Variables
+// Variables.LESS
 // KSBOOT-CUSTOMIZED
 // --------------------------------------------------
 @import "../../kboot/stylesheets/variables.less";
 
+
+/*------------------- BEGIN KBOOT COLOR OVERRIDES ---------------------------*/
+// Text
+@textColor: #000;
+@selectedText: @textColor;
+
 // Links
-// -------------------------
 @linkColor:             #08c;
+@linkColorHover:        darken(@linkColor, 15%);
 
 // Buttons
-// -------------------------
 @btnPrimaryBackground:              @linkColor;
 @btnPrimaryBackgroundHighlight:     spin(@btnPrimaryBackground, 20%);
+
+// System Messages
+@successText:             #468847;
+@successBackground:       #dff0d8;
+@successBorder:           #D6E9C6;
+
+@infoText:                #3A87AD;
+@infoBackground:          #D9EDF7;
+@infoBorder:              #BCE8F1;
+
+@warningText:             #83652E;
+@warningBackground:       #FCF8E3;
+@warningBorder:           #FBEED5;
+
+@errorText:               #A3403C;
+@errorBackground:         #F2DEDE;
+@errorBorder:             #EFD3D7;
+
+// Buttons
+@btnBackground:                     @white;
+@btnBackgroundHighlight:            #E6E6E6;
+@btnBorder:                         #CCC;
+
+// Tables
+@tableSelectedBackground: #EFF7FD;
+@tableRowHoverBackground: #FAFAFA;
+/*------------------- END KBOOT COLOR OVERRIDES -----------------------------*/
+
+
+/*------------------- BEGIN KS NEW COLOR DEFINITIONS ------------------------*/
+// Seasonal Colors
+@fallColor: #8B4600;
+@winterColor: #23FAFA;
+@springColor: #94EC0F;
+@summerColor: #FEF200;
+
+// States
+@stateText: @white;
+@draftStateBackground: @grayLight;
+@readyStateBackground: #3A87AD;
+@completedStateBackground: #468847;
+@canceledStateBackground: #B94A48;
+@suspendedStateBackground: #F89406;
+
+// Panels and Forms
+@inactiveTabBackground: #EDEDED;
+@addedStateBackground: #FFF9DC;
+/*------------------- END KS NEW COLOR DEFINITIONS --------------------------*/
