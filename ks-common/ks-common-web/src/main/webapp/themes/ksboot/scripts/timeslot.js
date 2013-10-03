@@ -37,3 +37,8 @@ function reInitializePopupModel(event, addOrEditAction, editLineIndex)
         jQuery('#addOrEdit_action').text('Add Slot');
     }
 }
+
+function showDeleteDialog() {
+    var overrideOptions = { autoDimensions:false, width:500 };
+    showLightboxComponent('deleteTimeSlotsConfirmationDialog-lightbox', overrideOptions);
+}
