@@ -123,8 +123,9 @@
         </property>
     </bean>
 
-    <bean id="TimeSlotSearchResults-TableCollectionSection" parent="KS-Uif-TableCollectionSection-WithActionSeperator" p:renderAddLine="false"
-        p:onDocumentReadyScript="resetCheckboxes('TimeSlotSearchResultsDisplayTable');">
+    <bean id="TimeSlotSearchResults-TableCollectionSection" parent="KS-Uif-TableCollectionSection-WithActionSeperator" p:renderAddLine="false" p:lineActionSeparator="&#160;&#160;|&#160;&#160;"
+        p:onDocumentReadyScript="removeCheckboxColumns(1, 'TimeSlotSearchResultsDisplayTable',&quot;handleToolbar('TimeSlotSearchResultsDisplayTable',['enableDeleteButton'], ['TimeSlot-ToolBar-Delete-TimeSlot'])&quot;), addActionColumn(@{#parent.readOnly}, 'TimeSlotSearchResultsDisplayTable');">
+
         <property name="id" value="TimeSlotSearchResultsDisplayTable" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper" />
         <property name="propertyName" value="timeSlotResults" />
