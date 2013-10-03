@@ -40,7 +40,7 @@ public class FreeFormTextTermResolver implements TermResolver<Boolean> {
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.EMPTY_SET;
+        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_FREE_TEXT_KEY);
     }
 
     @Override

@@ -61,19 +61,13 @@ public class RDLAction implements Action {
         ScheduleRequestSetInfo requestSet = new ScheduleRequestSetInfo();
         requestSet.setRefObjectTypeKey(ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING);
 
-        ActivityOffering ao = (ActivityOffering) environment.getFacts().get(KSKRMSServiceConstants.TERM_PREREQUISITE_AO);
-        if(ao!=null){
-            requestSet.setName("Exam Schedule request set for " + ao.getCourseOfferingCode() + " - " + ao.getActivityCode());
-        } else {
-            CourseOffering co = (CourseOffering) environment.getFacts().get(KSKRMSServiceConstants.TERM_PREREQUISITE_CO);
-            requestSet.setName("Exam Schedule request set for " + co.getCourseOfferingCode());
-        }
+        requestSet.setName("Exam Schedule request set");
         requestSet.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_STATE_CREATED);
         requestSet.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
         requestSet.getRefObjectIds().add(eoId);
         try {
             requestSet = getSchedulingService().createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
-                    CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, requestSet, context);
+                    ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING, requestSet, context);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
