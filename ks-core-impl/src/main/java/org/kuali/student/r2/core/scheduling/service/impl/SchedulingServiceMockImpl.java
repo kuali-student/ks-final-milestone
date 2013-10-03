@@ -791,6 +791,7 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
         if (copy.getId() == null) {
             copy.setId(UUIDHelper.genStringUUID());
         }
+        copy.setName("1");//Default code. (implementation uses TimeSlotCodeGenerator to generate one)
         copy.setMeta(newMeta(contextInfo));
         timeSlotMap.put(copy.getId(), copy);
         return new TimeSlotInfo(copy);
