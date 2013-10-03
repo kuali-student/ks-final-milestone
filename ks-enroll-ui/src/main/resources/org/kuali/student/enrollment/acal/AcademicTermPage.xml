@@ -507,12 +507,12 @@
                 </bean>
                 <bean parent="Uif-DataField" p:propertyName="endDateUI" p:render="@{#view.readOnly}" p:label="End Date"/>
 
-                <bean parent="Uif-InputField" p:id="exclude_Saturday" p:label="Exclude Saturday" p:propertyName="excludeSaturday" p:labelPlacement="RIGHT">
+                <bean parent="Uif-InputField" p:id="exclude_Saturday" p:label="Exclude Saturday" p:propertyName="excludeSaturday" p:labelPlacement="RIGHT" p:defaultValue="true">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
+                        <bean parent="Uif-CheckboxControl" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:id="exclude_Sunday" p:label="Exclude Sunday" p:propertyName="excludeSunday" p:labelPlacement="RIGHT">
+                <bean parent="Uif-InputField" p:id="exclude_Sunday" p:label="Exclude Sunday" p:propertyName="excludeSunday" p:labelPlacement="RIGHT" p:defaultValue="true">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
