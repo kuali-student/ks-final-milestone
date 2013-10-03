@@ -618,7 +618,20 @@
                 <ref bean="backupCollection"/>
             </list>
         </property>
-
+        <property name="propertyReplacers">
+            <list>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="subCollections"
+                      p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isAdviser()">
+                    <property name="replacement">
+                        <list>
+                            <ref bean="advisorAcademicRecordCollection"/>
+                            <ref bean="advisorPlannedCollection"/>
+                            <ref bean="advisorBackupCollection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
         <property name="onDocumentReadyScript" value="
             truncateField('planned_courses_detail_list', true);
             jQuery('#planned_courses_detail_list').on('PLAN_ITEM_ADDED', function(event, data) {
