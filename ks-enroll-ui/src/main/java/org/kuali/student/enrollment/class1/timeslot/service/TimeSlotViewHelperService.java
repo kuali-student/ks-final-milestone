@@ -26,5 +26,7 @@ public interface TimeSlotViewHelperService extends KSViewHelperService {
     public void createTimeSlot(TimeSlotForm form) throws Exception;
     public void deleteTimeSlots(TimeSlotForm form) throws Exception;
 
+    public boolean isUniqueTimeSlot(TimeSlotForm form) throws Exception;
+
 
 }

@@ -223,7 +223,7 @@
             <list>
                 <bean id="addOrEditTermKey" parent="Uif-InputField-LabelTop" p:propertyName="addOrEditTermKey" p:label="Term Type" p:required="true" >
                     <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
+                        <bean parent="Uif-DropdownControl" p:cssClasses="new_ts"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class1.timeslot.keyvalue.SelectedTimeSlotTypesOptionsFinder" p:addBlankOption="false" />
@@ -231,14 +231,17 @@
                 </bean>
                 <bean id="addOrEditDays" parent="Uif-InputField-LabelTop"  p:propertyName="addOrEditDays" p:label="Days" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10"  p:maxLength="7"/>
+                        <bean parent="Uif-TextControl" p:size="10"  p:maxLength="7" p:cssClasses="new_ts"/>
                     </property>
                     <property name="uppercaseValue" value="true"/>
                     <property name="constraintText" value="MTWHFSU"/>
+                    <property name="validCharactersConstraint">
+                        <bean parent="CharsetPatternConstraint" p:validChars="MTWHFSUmtwhfsu" />
+                    </property>
                 </bean>
-                <bean id="addOrEditStartTime" parent="Uif-InputField-LabelTop"  p:propertyName="addOrEditStartTime" p:label="Start Time">
+                <bean id="addOrEditStartTime" parent="Uif-InputField-LabelTop"  p:propertyName="addOrEditStartTime" p:label="Start Time" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5"/>
+                        <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5" p:cssClasses="new_ts"/>
                     </property>
                     <property name="constraintText" value="HH:MM"/>
                     <property name="validCharactersConstraint">
@@ -248,12 +251,12 @@
                 <bean id="addOrEditStartTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="addOrEditStartTimeAmPm" p:required="true">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_rdl_components"/>
+                        <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_ts"/>
                     </property>
                 </bean>
-                <bean id="addOrEditEndTime" parent="Uif-InputField-LabelTop"  p:propertyName="addOrEditEndTime" p:label="End Time">
+                <bean id="addOrEditEndTime" parent="Uif-InputField-LabelTop"  p:propertyName="addOrEditEndTime" p:label="End Time" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5"/>
+                        <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5" p:cssClasses="new_ts"/>
                     </property>
                     <property name="constraintText" value="HH:MM"/>
                     <property name="validCharactersConstraint">
@@ -263,7 +266,7 @@
                 <bean id="addOrEditEndTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="addOrEditEndTimeAmPm" p:required="true">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_rdl_components"/>
+                        <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_ts"/>
                     </property>
                 </bean>
 
@@ -274,6 +277,7 @@
                         </list>
                     </property>
                     <property name="actionLabel" value="Add Slot"/>
+                    <property name="preSubmitCall" value="return validateTimeSlot();"/>
                     <property name="successCallback" value="jQuery('div[id=KS-TimeSlot-AddTimeSlotPopupForm]:gt(0)').detach();"/>
                     <property name="errorCallback" value="jQuery('div[id=KS-TimeSlot-AddTimeSlotPopupForm]:gt(0)').detach();"/>
                     <property name="methodToCall" value="createTimeSlot"/>

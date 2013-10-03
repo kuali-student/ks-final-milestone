@@ -87,6 +87,22 @@ public class TimeSlotViewHelperServiceImpl
         return timeSlotWrappers;
     }
 
+    public boolean isUniqueTimeSlot(TimeSlotForm form) throws Exception {
+
+        List<Integer> days = WeekDaysDtoAndUIConversions.buildDaysForDTO(form.getAddOrEditDays());
+        long startTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(form.getAddOrEditStartTime() + " " + form.getAddOrEditStartTimeAmPm()).getTime();
+        TimeOfDayInfo startTimeOfDayInfo = new TimeOfDayInfo();
+        startTimeOfDayInfo.setMilliSeconds(startTime);
+
+        long endTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(form.getAddOrEditEndTime() + " " + form.getAddOrEditEndTimeAmPm()).getTime();
+        TimeOfDayInfo endTimeOfDayInfo = new TimeOfDayInfo();
+        endTimeOfDayInfo.setMilliSeconds(endTime);
+
+        List<TimeSlotInfo> ts = getSchedulingService().getTimeSlotsByDaysAndStartTimeAndEndTime(form.getAddOrEditTermKey(),days,startTimeOfDayInfo,endTimeOfDayInfo,createContextInfo());
+
+        return ts.isEmpty();
+    }
+
     public void createTimeSlot(TimeSlotForm form) throws Exception {
 
         TimeSlotWrapper newTSWrapper = new TimeSlotWrapper();

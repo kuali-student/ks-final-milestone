@@ -1,5 +1,8 @@
 package org.kuali.student.enrollment.class1.timeslot.controller;
 
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.GrowlIcon;
@@ -106,6 +109,17 @@ public class TimeSlotController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=createTimeSlot")
     public ModelAndView createTimeSlot(@ModelAttribute(MODEL_ATTRIBUTE_FORM) TimeSlotForm form) throws Exception{
+
+        boolean isUnique = getViewHelperService(form).isUniqueTimeSlot(form);
+        if (!isUnique){
+            String startTime = form.getAddOrEditStartTime() + " " + form.getAddOrEditStartTimeAmPm();
+            String endTime = form.getAddOrEditEndTime() + " " + form.getAddOrEditEndTimeAmPm();
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Timeslot already exists for " +
+                                                     form.getAddOrEditDays() +
+                                                     " from " + startTime +
+                                                     " to " + endTime);
+            return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);
+        }
 
         getViewHelperService(form).createTimeSlot(form);
 
