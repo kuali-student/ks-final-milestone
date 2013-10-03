@@ -570,13 +570,6 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="excludeCancelledActivityOfferings" p:fieldLabel.renderColon="false">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl">
-                            <property name="checkboxLabel" value="Exclude cancelled Activity Offerings"/>
-                        </bean>
-                    </property>
-                </bean>
                 <bean parent="Uif-InputField" p:propertyName="excludeSchedulingInformation" p:fieldLabel.renderColon="false">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
