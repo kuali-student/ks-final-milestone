@@ -35,6 +35,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingList
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
@@ -53,10 +54,14 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -899,89 +904,8 @@ public class CourseOfferingManagementController extends UifControllerBase {
     public ModelAndView viewExamOfferings(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                           @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-        populateExamOfferings(theForm);
+        CourseOfferingManagementUtil.getViewHelperService(theForm).loadExamOfferings(theForm);
         return getUIFModelAndView(theForm, "viewExamOfferingsPage");
-    }
-
-    private void populateExamOfferings(CourseOfferingManagementForm theForm) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-
-        Set<String> examOfferingIds = new HashSet<String>();
-        Map<String, ExamOfferingRelationInfo> eoToRln = new HashMap<String, ExamOfferingRelationInfo>();
-        for (String foId : theForm.getFoId2aoTypeMap().keySet()) {
-            List<ExamOfferingRelationInfo> examOfferingRelationInfos = CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
-                    foId, ContextUtils.createDefaultContextInfo());
-            for (ExamOfferingRelationInfo examOfferingRelationInfo : examOfferingRelationInfos) {
-                examOfferingIds.add(examOfferingRelationInfo.getExamOfferingId());
-                eoToRln.put(examOfferingRelationInfo.getExamOfferingId(), examOfferingRelationInfo);
-            }
-        }
-
-        List<ExamOfferingInfo> examOfferingInfos = CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingsByIds(
-                new ArrayList<String>(examOfferingIds), ContextUtils.createDefaultContextInfo());
-
-        List<ExamOfferingWrapper> examOfferingWrapperList = new ArrayList<ExamOfferingWrapper>();
-        for (ExamOfferingInfo examOfferingInfo : examOfferingInfos) {
-            ExamOfferingWrapper examOfferingWrapper = createWrapperFromExamOffering(examOfferingInfo);
-
-            if (LuServiceConstants.LU_EXAM_DRIVER_AO_KEY.equals(theForm.getCurrentCourseOfferingWrapper().getFinalExamDriver())) {
-                ExamOfferingRelationInfo eoRln = eoToRln.get(examOfferingInfo.getId());
-                examOfferingWrapper.setAoInfo(getActivityOfferingCode(theForm.getActivityWrapperList(), eoRln));
-                examOfferingWrapper.setActivityCode(examOfferingWrapper.getAoInfo().getActivityCode());
-
-                FormatOfferingInfo fo = theForm.getFoId2aoTypeMap().get(eoRln.getFormatOfferingId());
-                TypeInfo type = CourseOfferingManagementUtil.getTypeService().getType(fo.getFinalExamLevelTypeKey(), ContextUtils.createDefaultContextInfo());
-                examOfferingWrapper.setTypeName(type.getName());
-            }
-            examOfferingWrapperList.add(examOfferingWrapper);
-        }
-        theForm.setExamOfferingWrapperList(examOfferingWrapperList);
-        if (LuServiceConstants.LU_EXAM_DRIVER_AO_KEY.equals(theForm.getCurrentCourseOfferingWrapper().getFinalExamDriver())) {
-            populateEOClusterSubCollection(theForm);
-        }
-    }
-
-    private ActivityOfferingInfo getActivityOfferingCode(List<ActivityOfferingWrapper> wrappers, ExamOfferingRelationInfo eoRln) {
-        for(String aoId : eoRln.getActivityOfferingIds()){
-            for(ActivityOfferingWrapper wrapper : wrappers){
-                if (wrapper.getId().equals(aoId)){
-                    return wrapper.getAoInfo();
-                }
-            }
-        }
-        return new ActivityOfferingInfo();
-    }
-
-    private ExamOfferingWrapper createWrapperFromExamOffering(ExamOfferingInfo examOfferingInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        ExamOfferingWrapper examOfferingWrapper = new ExamOfferingWrapper();
-
-        StateInfo state = CourseOfferingManagementUtil.getStateService().getState(examOfferingInfo.getStateKey(), ContextUtils.createDefaultContextInfo());
-        examOfferingWrapper.setStateName(state.getName());
-
-        if (examOfferingInfo.getScheduleId() != null) {
-            // Set the scheduling information.
-        }
-        return examOfferingWrapper;
-    }
-
-
-    private void populateEOClusterSubCollection(CourseOfferingManagementForm theForm) {
-        List<ExamOfferingWrapper> eoClusterList;
-        List<ActivityOfferingClusterWrapper> clusterResultList = new ArrayList<ActivityOfferingClusterWrapper>();
-        for (ActivityOfferingClusterWrapper aoClusterWrapper : theForm.getClusterResultList()) {
-            eoClusterList = new ArrayList<ExamOfferingWrapper>();
-            for (ActivityOfferingWrapper wrapper : aoClusterWrapper.getAoWrapperList()) {
-                for (ExamOfferingWrapper examWrapper : theForm.getExamOfferingWrapperList()) {
-                    if (examWrapper.getAoInfo().getId().equals(wrapper.getId())) {
-                        eoClusterList.add(examWrapper);
-                    }
-                }
-                aoClusterWrapper.setEoWrapperList(eoClusterList);
-            }
-            clusterResultList.add(aoClusterWrapper);
-        }
-        theForm.setClusterResultList(clusterResultList);
-
     }
 
 }

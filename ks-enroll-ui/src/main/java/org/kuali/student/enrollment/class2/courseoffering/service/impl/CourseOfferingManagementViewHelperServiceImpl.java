@@ -34,14 +34,17 @@ import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleCalcContainer;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleRequestCalcContainer;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.ActivityOfferingResult;
@@ -70,6 +73,8 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
+import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
+import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
@@ -89,7 +94,9 @@ import org.kuali.student.r2.common.permutation.PermutationUtils;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
@@ -111,6 +118,7 @@ import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
@@ -134,6 +142,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -2227,6 +2236,125 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         }
             i++;
         }
+    }
+
+    public void loadExamOfferings(CourseOfferingManagementForm theForm) throws Exception {
+
+        Set<String> examOfferingIds = new HashSet<String>();
+        Map<String, ExamOfferingRelationInfo> eoToRln = new HashMap<String, ExamOfferingRelationInfo>();
+        for (String foId : theForm.getFoId2aoTypeMap().keySet()) {
+            List<ExamOfferingRelationInfo> examOfferingRelationInfos = CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
+                    foId, ContextUtils.createDefaultContextInfo());
+            for (ExamOfferingRelationInfo examOfferingRelationInfo : examOfferingRelationInfos) {
+                examOfferingIds.add(examOfferingRelationInfo.getExamOfferingId());
+                eoToRln.put(examOfferingRelationInfo.getExamOfferingId(), examOfferingRelationInfo);
+            }
+        }
+
+        List<ExamOfferingInfo> examOfferingInfos = CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingsByIds(
+                new ArrayList<String>(examOfferingIds), ContextUtils.createDefaultContextInfo());
+
+        List<ExamOfferingWrapper> examOfferingWrapperList = new ArrayList<ExamOfferingWrapper>();
+        for (ExamOfferingInfo examOfferingInfo : examOfferingInfos) {
+            ExamOfferingWrapper examOfferingWrapper = createWrapperFromExamOffering(examOfferingInfo);
+
+            if (LuServiceConstants.LU_EXAM_DRIVER_AO_KEY.equals(theForm.getCurrentCourseOfferingWrapper().getFinalExamDriver())) {
+                ExamOfferingRelationInfo eoRln = eoToRln.get(examOfferingInfo.getId());
+                examOfferingWrapper.setAoInfo(getActivityOfferingCode(theForm.getActivityWrapperList(), eoRln));
+                examOfferingWrapper.setActivityCode(examOfferingWrapper.getAoInfo().getActivityCode());
+
+                FormatOfferingInfo fo = theForm.getFoId2aoTypeMap().get(eoRln.getFormatOfferingId());
+                TypeInfo type = CourseOfferingManagementUtil.getTypeService().getType(fo.getFinalExamLevelTypeKey(), ContextUtils.createDefaultContextInfo());
+                examOfferingWrapper.setTypeName(type.getName());
+            }
+            examOfferingWrapperList.add(examOfferingWrapper);
+        }
+        theForm.setExamOfferingWrapperList(examOfferingWrapperList);
+        if (LuServiceConstants.LU_EXAM_DRIVER_AO_KEY.equals(theForm.getCurrentCourseOfferingWrapper().getFinalExamDriver())) {
+            populateEOClusterSubCollection(theForm);
+        }
+    }
+
+    private ActivityOfferingInfo getActivityOfferingCode(List<ActivityOfferingWrapper> wrappers, ExamOfferingRelationInfo eoRln) {
+        for(String aoId : eoRln.getActivityOfferingIds()){
+            for(ActivityOfferingWrapper wrapper : wrappers){
+                if (wrapper.getId().equals(aoId)){
+                    return wrapper.getAoInfo();
+                }
+            }
+        }
+        return new ActivityOfferingInfo();
+    }
+
+    private ExamOfferingWrapper createWrapperFromExamOffering(ExamOfferingInfo examOfferingInfo) throws Exception {
+        ExamOfferingWrapper eoWrapper = new ExamOfferingWrapper();
+
+        StateInfo state = CourseOfferingManagementUtil.getStateService().getState(examOfferingInfo.getStateKey(),
+                ContextUtils.createDefaultContextInfo());
+        eoWrapper.setStateName(state.getName());
+
+        List<ScheduleRequestInfo> scheduleRequestInfos = getSchedulingService().getScheduleRequestsByRefObject(
+                ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING, examOfferingInfo.getId(), ContextUtils.createDefaultContextInfo());
+
+        for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos){
+            for (ScheduleRequestComponentInfo componentInfo : scheduleRequestInfo.getScheduleRequestComponents()) {
+
+                String timeSlotId = KSCollectionUtils.getOptionalZeroElement(componentInfo.getTimeSlotIds());
+                TimeSlotInfo timeSlot =  getSchedulingService().getTimeSlot(timeSlotId, ContextUtils.createDefaultContextInfo());
+                if (timeSlot != null) {
+
+                    TimeOfDayInfo startTime = timeSlot.getStartTime();
+                    TimeOfDayInfo endTime = timeSlot.getEndTime();
+                    List<Integer> days = timeSlot.getWeekdays();
+
+                    Calendar calendar = new GregorianCalendar();
+                    if (startTime != null && startTime.getMilliSeconds() != null) {
+                        calendar.setTimeInMillis(startTime.getMilliSeconds());
+                        eoWrapper.setStartTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(calendar.getTime()));
+                    }
+
+                    if (endTime != null && endTime.getMilliSeconds() != null) {
+                        calendar.setTimeInMillis(endTime.getMilliSeconds());
+                        eoWrapper.setEndTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(calendar.getTime()));
+                    }
+
+                    if (days != null && days.size() > 0) {
+                        eoWrapper.setDaysDisplayName(getDays(days));
+                    }
+                }
+
+                String roomId = KSCollectionUtils.getOptionalZeroElement(componentInfo.getRoomIds());
+                if (StringUtils.isNotBlank(roomId)){
+                    RoomInfo roomInfo = getRoomService().getRoom(roomId, ContextUtils.createDefaultContextInfo());
+                    BuildingInfo buildingInfo = getRoomService().getBuilding(roomInfo.getBuildingId(),
+                            ContextUtils.createDefaultContextInfo());
+                    eoWrapper.setBuildingName(buildingInfo.getName());
+                    eoWrapper.setRoomName(roomInfo.getRoomCode());
+                }
+            }
+        }
+
+        return eoWrapper;
+    }
+
+
+    private void populateEOClusterSubCollection(CourseOfferingManagementForm theForm) {
+        List<ExamOfferingWrapper> eoClusterList;
+        List<ActivityOfferingClusterWrapper> clusterResultList = new ArrayList<ActivityOfferingClusterWrapper>();
+        for (ActivityOfferingClusterWrapper aoClusterWrapper : theForm.getClusterResultList()) {
+            eoClusterList = new ArrayList<ExamOfferingWrapper>();
+            for (ActivityOfferingWrapper wrapper : aoClusterWrapper.getAoWrapperList()) {
+                for (ExamOfferingWrapper examWrapper : theForm.getExamOfferingWrapperList()) {
+                    if (examWrapper.getAoInfo().getId().equals(wrapper.getId())) {
+                        eoClusterList.add(examWrapper);
+                    }
+                }
+                aoClusterWrapper.setEoWrapperList(eoClusterList);
+            }
+            clusterResultList.add(aoClusterWrapper);
+        }
+        theForm.setClusterResultList(clusterResultList);
+
     }
 
     private CourseOfferingService _getCourseOfferingService() {

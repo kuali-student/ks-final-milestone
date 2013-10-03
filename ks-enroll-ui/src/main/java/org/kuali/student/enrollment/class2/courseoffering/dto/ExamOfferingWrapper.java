@@ -90,83 +90,24 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
         return startTimeDisplay;
     }
 
-    public void setStartTimeDisplay(String startTimeDisplay,boolean appendForDisplay) {
-        if (appendForDisplay){
-            this.startTimeDisplay = this.startTimeDisplay + "<br>" + StringUtils.defaultString(startTimeDisplay);
-        }else{
-            this.startTimeDisplay = StringUtils.defaultString(startTimeDisplay);
-        }
-
+    public void setStartTimeDisplay(String startTimeDisplay) {
+       this.startTimeDisplay = StringUtils.defaultString(startTimeDisplay);
     }
-
-    public void setStartTimeDisplay(String startTimeDisplay, boolean appendForDisplay, String dlTypeClass) {
-        String cssClass = "";
-        if(!StringUtils.isEmpty(dlTypeClass)){
-            cssClass = "class=\"" + dlTypeClass + "\"";
-        }
-        if(StringUtils.isEmpty(this.startTimeDisplay)){
-            appendForDisplay = false;
-        }
-        if (appendForDisplay){
-            this.startTimeDisplay = this.startTimeDisplay + "<br><span " + cssClass + " >" + startTimeDisplay + "</span>";
-        }else{
-            this.startTimeDisplay = "<span " + cssClass + " >" + startTimeDisplay + "</span>";
-        }
-    }
-
 
     public String getEndTimeDisplay() {
         return endTimeDisplay;
     }
 
-    public void setEndTimeDisplay(String endTimeDisplay,boolean appendForDisplay) {
-        if (appendForDisplay){
-            this.endTimeDisplay = this.endTimeDisplay + "<br>" + StringUtils.defaultString(endTimeDisplay);
-        }else{
-            this.endTimeDisplay = StringUtils.defaultString(endTimeDisplay);
-        }
-    }
-
-    public void setEndTimeDisplay(String endTimeDisplay,boolean appendForDisplay, String dlTypeClass) {
-        String cssClass = "";
-        if(!StringUtils.isEmpty(dlTypeClass)){
-            cssClass = "class=\"" + dlTypeClass + "\"";
-        }
-        if(StringUtils.isEmpty(this.endTimeDisplay)){
-            appendForDisplay = false;
-        }
-        if (appendForDisplay){
-            this.endTimeDisplay = this.endTimeDisplay + "<br><span " + cssClass + " >" + endTimeDisplay + "</span>";
-        }else{
-            this.endTimeDisplay = "<span " + cssClass + " >" + endTimeDisplay + "</span>";
-        }
+    public void setEndTimeDisplay(String endTimeDisplay) {
+        this.endTimeDisplay = StringUtils.defaultString(endTimeDisplay);
     }
 
     public String getDaysDisplayName() {
         return daysDisplayName;
     }
 
-    public void setDaysDisplayName(String daysDisplayName,boolean appendForDisplay) {
-        if (appendForDisplay){
-            this.daysDisplayName = this.daysDisplayName + "<br>" + StringUtils.defaultString(daysDisplayName);
-        }else{
-            this.daysDisplayName = StringUtils.defaultString(daysDisplayName);
-        }
-    }
-
-    public void setDaysDisplayName(String daysDisplayName,boolean appendForDisplay, String dlTypeClass) {
-        String cssClass = "";
-        if(!StringUtils.isEmpty(dlTypeClass)){
-            cssClass = "class=\"" + dlTypeClass + "\"";
-        }
-        if(StringUtils.isEmpty(this.daysDisplayName)){
-            appendForDisplay = false;
-        }
-        if (appendForDisplay){
-            this.daysDisplayName = this.daysDisplayName + "<br><span " + cssClass + " >" + daysDisplayName + "</span>";
-        }else{
-            this.daysDisplayName = "<span " + cssClass + " >" + daysDisplayName + "</span>";
-        }
+    public void setDaysDisplayName(String daysDisplayName) {
+        this.daysDisplayName = StringUtils.defaultString(daysDisplayName);
     }
 
     public List<String> getStartTime() {
@@ -197,26 +138,8 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
         return buildingName;
     }
 
-    public void setBuildingName(String buildingName,boolean appendForDisplay) {
-        if (appendForDisplay){
-            this.buildingName = this.buildingName + "<br>" + StringUtils.defaultString(buildingName);
-        }else{
-            this.buildingName = StringUtils.defaultString(buildingName);
-        }
-    }
-    public void setBuildingName(String buildingName,boolean appendForDisplay, String dlTypeClass) {
-        String cssClass = "";
-        if(!StringUtils.isEmpty(dlTypeClass)){
-            cssClass = "class=\"" + dlTypeClass + "\"";
-        }
-        if(StringUtils.isEmpty(this.buildingName)){
-            appendForDisplay = false;
-        }
-        if (appendForDisplay){
-            this.buildingName = this.buildingName + "<br><span " + cssClass + " >" + buildingName + "</span>";
-        }else{
-            this.buildingName = "<span " + cssClass + " >" + buildingName + "</span>";
-        }
+    public void setBuildingName(String buildingName) {
+        this.buildingName = this.buildingName + "<br>" + StringUtils.defaultString(buildingName);
     }
 
     public String getBldgCodeSimple() {
@@ -231,54 +154,17 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
         return buildingCode;
     }
 
-    public void setBuildingCode(String buildingCode, boolean appendForDisplay) {
+    public void setBuildingCode(String buildingCode) {
         String cssClass = "style=\"border-bottom: 1px dotted;\"";
-        if (appendForDisplay){
-            this.buildingCode = this.buildingCode + "<br><span " + cssClass + " >" + StringUtils.defaultString(buildingCode) + "</span>";
-        }else{
-            this.buildingCode = "<span " + cssClass + " >" + StringUtils.defaultString(buildingCode) + "</span>";
-        }
-    }
-
-    public void setBuildingCode(String buildingCode, boolean appendForDisplay, String dlTypeClass) {
-        String cssClass = "";
-        if(!StringUtils.isEmpty(dlTypeClass)){
-            cssClass = "style=\"border-bottom: 1px dotted;\"";
-        }
-        if(StringUtils.isEmpty(this.buildingCode)){
-            appendForDisplay = false;
-        }
-        if (appendForDisplay){
-            this.buildingCode = this.buildingCode + "<br><span " + cssClass + " >" + buildingCode + "</span>";
-        }else{
-            this.buildingCode = "<span " + cssClass + " >" + buildingCode + "</span>";
-        }
+        this.buildingCode = "<span " + cssClass + " >" + StringUtils.defaultString(buildingCode) + "</span>";
     }
 
     public String getRoomName() {
         return roomName;
     }
 
-    public void setRoomName(String roomName,boolean appendForDisplay) {
-        if (appendForDisplay){
-            this.roomName = this.roomName + "<br>" + StringUtils.defaultString(roomName);
-        }else{
-            this.roomName = StringUtils.defaultString(roomName);
-        }
-    }
-    public void setRoomName(String roomName,boolean appendForDisplay, String dlTypeClass) {
-        String cssClass = "";
-        if(!StringUtils.isEmpty(dlTypeClass)){
-            cssClass = "class=\"" + dlTypeClass + "\"";
-        }
-        if(StringUtils.isEmpty(this.roomName)){
-            appendForDisplay = false;
-        }
-        if (appendForDisplay){
-            this.roomName = this.roomName + "<br><span " + cssClass + " >" + roomName + "</span>";
-        }else{
-            this.roomName = "<span " + cssClass + " >" + roomName + "</span>";
-        }
+    public void setRoomName(String roomName) {
+        this.roomName = StringUtils.defaultString(roomName);
     }
 
     public String getTypeKey() {
