@@ -68,8 +68,7 @@
 	</bean>
 
 	<!-- Layout for Course Search Result Page -->
-	<bean id="course_search_result_section" parent="Uif-VerticalBoxSubSection"
-		p:style="width: 710px; margin-right: 10px;">
+	<bean id="course_search_result_section" parent="Uif-VerticalBoxSubSection">
 		<property name="items">
 			<list>
 				<ref bean="course_search_panel" />

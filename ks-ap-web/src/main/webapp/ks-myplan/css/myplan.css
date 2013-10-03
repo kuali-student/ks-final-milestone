@@ -2672,3 +2672,7 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
 #popupForm .jquerybubblepopup{
     display:none;
 }
+#course_search_result_section{
+    width: 700px;
+    margin-right: 10px;
+}
