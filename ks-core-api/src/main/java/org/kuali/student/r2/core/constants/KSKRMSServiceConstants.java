@@ -214,6 +214,8 @@ public class KSKRMSServiceConstants {
     public static final String TERM_SPEC_POPULATION= "Population";
     public static final String TERM_SPEC_INSTRUCTORPERMISSION = "InstructorPermission";
     public static final String TERM_SPEC_MATCHINGTIMESLOT = "MatchingTimeSlot";
+    public static final String TERM_SPEC_MATCHINGCOURSE = "MatchingCourse";
+    public static final String TERM_SPEC_MATCHINGCOURSESET = "MatchingCourseSet";
 
     // term resolvers
     public static final String TERM_RESOLVER_COMPLETEDCOURSE = "CompletedCourse";
@@ -244,6 +246,8 @@ public class KSKRMSServiceConstants {
     public static final String TERM_RESOLVER_POPULATION= "Population";
     public static final String TERM_RESOLVER_INSTRUCTORPERMISSION = "InstructorPermission";
     public static final String TERM_RESOLVER_MATCHINGTIMESLOT = "MatchingTimeSlot";
+    public static final String TERM_RESOLVER_MATCHINGCOURSE = "MatchingCourse";
+    public static final String TERM_RESOLVER_MATCHINGCOURSESET = "MatchingCourseSet";
 
     // natural language usage keys
     public static final String KRMS_NL_RULE_EDIT = "kuali.krms.edit";
@@ -258,6 +262,8 @@ public class KSKRMSServiceConstants {
     public static final String TERM_PREREQUISITE_CONTEXTINFO = "contextInfo";
     public static final String TERM_PREREQUISITE_PERSON_ID = "personId";
     public static final String TERM_PREREQUISITE_CLU_ID = "cluId";
+    public static final String TERM_PREREQUISITE_CO_ID = "coId";
+    public static final String TERM_PREREQUISITE_CO = "co";
     public static final String TERM_PREREQUISITE_AO_ID = "aoId";
     public static final String TERM_PREREQUISITE_AO = "ao";
     public static final String TERM_PREREQUISITE_EO_ID = "eoId";
