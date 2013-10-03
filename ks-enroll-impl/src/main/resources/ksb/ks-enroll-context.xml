@@ -496,7 +496,6 @@
 
   <bean id="timeSlotCodeGenerator" class="org.kuali.student.r2.core.scheduling.util.impl.TimeSlotCodeGeneratorImpl">
       <property name="timeSlotDao" ref="timeSlotDao" />
-      <property name="initialCode" value="1"/>
   </bean>
    
    <bean id="krmsRuleManagementCopyMethods" class="org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethodsImpl">
