@@ -543,15 +543,6 @@ public class SchedulingServiceImpl implements SchedulingService {
 
     @Override
     public List<TimeSlotInfo> getTimeSlotsByDaysAndStartTimeAndEndTime( String timeSlotTypeKey,  List<Integer> daysOfWeek,  TimeOfDayInfo startTime,  TimeOfDayInfo endTime,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // Check that no invalid days of week are passed in
-        List<Integer> temp = new ArrayList<Integer>(daysOfWeek);
-
-        temp.removeAll(getValidDaysOfWeekByTimeSlotType(timeSlotTypeKey, contextInfo));
-
-        // if there are any integers left after removing all the valid ones for the type, then there are invalid entries
-        if(!temp.isEmpty()) {
-            throw new InvalidParameterException("Invalid entries found in daysOfWeek parameter for type " + timeSlotTypeKey + " - " + temp.toString());
-        }
 
         // Build the string version of the days
         String weekdays = SchedulingServiceUtil.weekdaysList2WeekdaysString(daysOfWeek);

@@ -19,7 +19,7 @@ function reInitializePopupModel(event, addOrEditAction, editLineIndex)
         var split = startTimeWithAmPm.split(" ");
         var startTime = split[0];
         var startTimeAmPm = split[1].trim();
-        var endTimeWithAmPm = jQuery('#startTime_line' + editLineIndex + '_control').text().trim();
+        var endTimeWithAmPm = jQuery('#endTime_line' + editLineIndex + '_control').text().trim();
         var split = endTimeWithAmPm.split(" ");
         var endTime = split[0];
         var endTimeAmPm = split[1].trim();
@@ -41,4 +41,9 @@ function reInitializePopupModel(event, addOrEditAction, editLineIndex)
 function showDeleteDialog() {
     var overrideOptions = { autoDimensions:false, width:500 };
     showLightboxComponent('deleteTimeSlotsConfirmationDialog-lightbox', overrideOptions);
+}
+
+function validateTimeSlot(){
+    var addEditTSComponents = jQuery('.new_ts');
+    return validateLineFields(addEditTSComponents);
 }
