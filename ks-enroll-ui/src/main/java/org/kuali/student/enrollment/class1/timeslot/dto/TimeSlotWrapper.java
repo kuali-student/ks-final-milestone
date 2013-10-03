@@ -2,13 +2,15 @@ package org.kuali.student.enrollment.class1.timeslot.dto;
 
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
+import java.io.Serializable;
+
 /**
  * Wrapper class for managing {@link TimeSlotInfo}s.
  *
  * NOTICE: Look at the Edit AO / Edit Delivery logistics code for how to deal with the display fields.
  *
  */
-public class TimeSlotWrapper {
+public class TimeSlotWrapper implements Serializable {
     private TimeSlotInfo timeSlotInfo;
 
     private boolean isChecked;

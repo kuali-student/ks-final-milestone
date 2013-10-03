@@ -78,10 +78,12 @@ public class TimeSlotController extends UifControllerBase {
                 if(slotType != null) {
                     TypeInfo typeInfo = getTypeService().getType(slotType, contextInfo);
                     form.getTypeNameSelections().add(typeInfo.getName());
+                    StringBuilder sb = new StringBuilder(namesUI);
                     if(i > 0 && i < timeSlotTypes.size()) {
-                        namesUI = namesUI + " ,  ";
+                        sb = sb.append(" ,  ");
                     }
-                    namesUI = namesUI + typeInfo.getName();
+                    sb = sb.append(typeInfo.getName());
+                    namesUI = sb.toString();
                     i++;
                 }
             }
@@ -124,23 +126,14 @@ public class TimeSlotController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=deleteTimeSlots")
     public ModelAndView deleteTimeSlots(@ModelAttribute(MODEL_ATTRIBUTE_FORM) TimeSlotForm form, @SuppressWarnings("unused") BindingResult result,
-                                        @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception{
-        String dialogName = TimeSlotConstants.ConfirmDialogs.DELETE_TIMESLOTS;
+                                        @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+        // delete the timeslots
+        getViewHelperService(form).deleteTimeSlots(form);
+        KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, TimeSlotConstants.TIMESLOT_TOOLBAR_DELETE);
 
-        if (!hasDialogBeenAnswered(dialogName, form)) {
-            return showDialog(dialogName, form, request, response);
-        }
-
-        boolean dialogAnswer = getBooleanDialogResponse(dialogName, form, request, response);
-        form.getDialogManager().resetDialogStatus(dialogName);
-
-        if (dialogAnswer) {
-            // delete the timeslots
-            getViewHelperService(form).deleteTimeSlots(form);
-            KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, TimeSlotConstants.TIMESLOT_TOOLBAR_DELETE);
-        }
         List<String> timeSlotTypes = form.getTermTypeSelections();
         List<TimeSlotWrapper> timeSlotWrapperList = viewHelperService.findTimeSlots(timeSlotTypes);
+        form.getTimeSlotResults().clear();
         for (TimeSlotWrapper wrapper : timeSlotWrapperList) {
             form.getTimeSlotResults().add(wrapper);
         }

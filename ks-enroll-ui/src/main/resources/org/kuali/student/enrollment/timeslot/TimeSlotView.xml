@@ -51,22 +51,6 @@
                 <ref bean="TimeSlot-Page" />
             </list>
         </property>
-        <property name="dialogs">
-            <list>
-                <ref bean="deleteTimeSlotsConfirmationDialog"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="deleteTimeSlotsConfirmationDialog" parent="Uif-OK-Cancel-DialogGroup"
-          p:promptText="Selected time slot(s) that have not been used for scheduling will be deleted and no longer available for future scheduling." >
-        <property name="headerText" value="Confirm Delete"/>
-        <property name="availableResponses">
-            <list>
-                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Delete Time Slots"/>
-                <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
-            </list>
-        </property>
     </bean>
 
     <bean id="TimeSlot-Page" parent="KS-Uif-Page" p:disclosure.render="false" p:id="timeSlotPage">
@@ -79,6 +63,7 @@
                             <ref bean="TimeSlotToolBar-Section" />
                             <ref bean="TimeSlotSearchResults-Section"  />
                             <ref bean="KS-TimeSlot-AddTimeSlotPopupForm"/>
+                            <ref bean="deleteTimeSlotsConfirmationDialog-lightbox"/>
                         </list>
                     </property>
                 </bean>
@@ -120,7 +105,8 @@
                     <property name="items">
                         <list>
                             <bean id="TimeSlot-ToolBar-Add-TimeSlot" parent="TimeSlot-ToolBar-Add-Button-parent" p:disabled="@{!enableAddButton}"/>
-                            <bean id="TimeSlot-ToolBar-Delete-TimeSlot" parent="TimeSlot-ToolBar-Delete-Button-parent"  p:methodToCall="deleteTimeSlots" />
+                            <bean id="TimeSlot-ToolBar-Delete-TimeSlot" parent="TimeSlot-ToolBar-Delete-Button-parent"
+                                  p:onClickScript="showDeleteDialog()"/>
                         </list>
                     </property>
                 </bean>
@@ -294,4 +280,26 @@
         </property>
     </bean>
 
+    <bean id="deleteTimeSlotsConfirmationDialog-lightbox" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="Confirm Delete"/>
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="Selected time slot(s) that have not been used for scheduling will be deleted
+                                                          and no longer available for future scheduling.[br]
+                                                          " p:style="margin-top:10px;margin-bottom-10px;"/>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean id="timeslot_delete_confirm" parent="Uif-PrimaryActionButton" p:preSubmitCall="closeLightbox(); return true;"
+                                  p:methodToCall="deleteTimeSlots" p:actionLabel="Delete Time Slots"/>
+                            <bean id="button_close" parent="Uif-ActionLink" p:actionLabel="Cancel"   p:methodToCall="deleteTimeSlots"
+                                  p:preSubmitCall="closeLightbox(); return false;"/>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
 </beans>
