@@ -433,30 +433,29 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         List<CourseWaitListInfo> waitListInfos = getCourseWaitListService().getCourseWaitListsByActivityOffering(origAoId, context);
         CourseWaitListInfo origWaitListInfo, newWaitListInfo;        
         if (!waitListInfos.isEmpty()){
-            int firstElement = 0;
+
             // waitListInfos can return more than two values
-            origWaitListInfo = waitListInfos.get(firstElement);
+            origWaitListInfo = KSCollectionUtils.getRequiredZeroElement(waitListInfos);
             newWaitListInfo = new CourseWaitListInfo(origWaitListInfo);
             if(origWaitListInfo.getActivityOfferingIds().size()>1){
                 origWaitListInfo.getActivityOfferingIds().add(newAOInfo.getId());
-                newWaitListInfo.setId(null);
-                newWaitListInfo.setActivityOfferingIds(new ArrayList<String>());
-                for(String aoId:origWaitListInfo.getActivityOfferingIds()){
-                    newWaitListInfo.getActivityOfferingIds().add(aoId);
+                try {
+                    origWaitListInfo=getCourseWaitListService().updateCourseWaitList(origWaitListInfo.getId(), origWaitListInfo, context);
+                } catch (VersionMismatchException e) {
+                    throw new OperationFailedException(e);
                 }
-                newWaitListInfo.setFormatOfferingIds(new ArrayList<String>());
-                newWaitListInfo.getFormatOfferingIds().add(newAOInfo.getFormatOfferingId());
+                return origWaitListInfo;
 
             } else {
-            newWaitListInfo.setId(null);
-            newWaitListInfo.setActivityOfferingIds(new ArrayList<String>());
-            newWaitListInfo.setFormatOfferingIds(new ArrayList<String>());
-            newWaitListInfo.getActivityOfferingIds().add(newAOInfo.getId());
-            newWaitListInfo.getFormatOfferingIds().add(newAOInfo.getFormatOfferingId());
-
+                newWaitListInfo.setId(null);
+                newWaitListInfo.setActivityOfferingIds(new ArrayList<String>());
+                newWaitListInfo.setFormatOfferingIds(new ArrayList<String>());
+                newWaitListInfo.getActivityOfferingIds().add(newAOInfo.getId());
+                newWaitListInfo.getFormatOfferingIds().add(newAOInfo.getFormatOfferingId());
+                newWaitListInfo = getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
+                        newWaitListInfo, context);
             }
-            newWaitListInfo = getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
-                    newWaitListInfo, context);
+
         }
         else{
             // Assume that every AO should have an associated WL. if not, treat it as a reference data problem.
