@@ -32,7 +32,7 @@
         <property name="footer">
             <bean parent="KS-CourseView-Footer"/>
         </property>
-        <property name="onDocumentReadyScript" value="setupCharCounters(),'tabToNextInput()'" />
+        <property name="onDocumentReadyScript" value="setupCharCounters()" />
     </bean>
     
     <bean id="KS-CourseView-CourseInfoPage-Widgets" parent="Uif-VerticalBoxSection">
