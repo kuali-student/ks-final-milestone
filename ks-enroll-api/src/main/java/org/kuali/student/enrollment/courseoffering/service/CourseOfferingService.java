@@ -30,6 +30,7 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemI
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -1302,7 +1303,34 @@ public interface CourseOfferingService
             OperationFailedException,
             PermissionDeniedException;
 
-
+    /**
+     * Retrieves a list of allowed time slots for given days, startTime
+     * and for an activity offering
+     *
+     * @param activityOfferingId identifier for an activity offering
+     * @param daysOfWeek      days of the week of interest
+     * @param startTime       start time of interest
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return a list of TimeSlots allowed for activityOfferingId, days,
+     *                        startTime or an empty list if none found
+     * @throws DoesNotExistException     activityOfferingId does not exist
+     * @throws InvalidParameterException invalid daysOfWeek, startTime or contextInfo
+     * @throws MissingParameterException activityOfferingId, daysOfWeek, startTime or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<TimeSlotInfo> getAllowedTimeSlotsByDaysAndStartTimeForActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId,
+                                                                                       @WebParam(name = "daysOfWeek") List<Integer> daysOfWeek,
+                                                                                       @WebParam(name = "startTime") TimeOfDayInfo startTime,
+                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Searches for ActivityOfferings that meet the given search criteria.
