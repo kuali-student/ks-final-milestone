@@ -15,7 +15,7 @@ function reInitializePopupModel(event, addOrEditAction, editLineIndex)
         jQuery('#addOrEdit_action').data("submit_data", {methodToCall:"editTimeSlot","actionParameters[selectedCollectionPath]":"timeSlotResults","actionParameters[actionEvent]":"editCOonManageCOsPage","actionParameters[selectedLineIndex]":editLineIndex});
         jQuery('#addOrEdit_action').text('Save');
         var termTypeId = 'timeSlotResults[' + editLineIndex + '].typeKey';
-        var termType = jQuery(name=termTypeId).text().trim();
+        var termType = jQuery('#termType_line' + editLineIndex + '_h0').val();
         var days = jQuery('#days_line' + editLineIndex + '_control').text();
         var startTimeWithAmPm = jQuery('#startTime_line' + editLineIndex + '_control').text().trim();
         var split = startTimeWithAmPm.split(" ");
@@ -29,7 +29,6 @@ function reInitializePopupModel(event, addOrEditAction, editLineIndex)
         var spaceStrippedDays = days.trim().replace(/ /g,"");
         jQuery('#addOrEditDays_control').val(spaceStrippedDays);
 
-        jQuery('#addOrEditTermKey_control').val(termType);
         jQuery('#addOrEditStartTime_control').val(startTime);
         jQuery('#addOrEditStartTimeAmPm_control').val(startTimeAmPm);
         jQuery('#addOrEditEndTime_control').val(endTime);
@@ -37,11 +36,11 @@ function reInitializePopupModel(event, addOrEditAction, editLineIndex)
 
         var $options = jQuery("#timeSlotTypeSelection_control > option").clone();
         jQuery("#addOrEditTermKey_control").append($options);
+        jQuery('#addOrEditTermKey_control').val(termType);
 
     } else {
         jQuery('#addOrEdit_action').data("submit_data", {methodToCall:"createTimeSlot"});
         jQuery('#addOrEdit_action').text('Add Slot');
-
         var $options = jQuery("#timeSlotTypeSelection_control option:selected").clone();
         jQuery("#addOrEditTermKey_control").append($options);
     }
