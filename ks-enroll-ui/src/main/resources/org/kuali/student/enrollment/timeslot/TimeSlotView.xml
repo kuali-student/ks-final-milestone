@@ -94,7 +94,7 @@
                 <bean parent="Uif-VerticalBoxGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="termTypeSelections"  p:width="auto"
+                            <bean id="timeSlotTypeSelection" parent="Uif-InputField" p:propertyName="termTypeSelections"  p:width="auto"
                                   p:label="Select Term Type(s) To Edit" p:labelPlacement="TOP">
                                 <property name="control">
                                     <bean parent="Uif-MultiSelectControl" p:size="3" p:style="width:17em;"/>
@@ -198,7 +198,10 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-NavigationActionLink">
+                <bean parent="Uif-NavigationActionLink"
+                    p:methodToCall="edit"
+                    p:actionLabel="Edit"
+                    p:actionEvent="editCOonManageCOsPage">
                     <property name="actionScript" value="reInitializePopupModel(e,'EDIT',@{#index}); openPopupContent(e,'KS-TimeSlot-AddTimeSlotPopupForm');"/>
                 </bean>
             </list>

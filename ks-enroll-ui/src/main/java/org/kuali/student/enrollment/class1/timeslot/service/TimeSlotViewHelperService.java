@@ -8,6 +8,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import java.util.List;
 
@@ -27,6 +28,8 @@ public interface TimeSlotViewHelperService extends KSViewHelperService {
     public void deleteTimeSlots(TimeSlotForm form) throws Exception;
 
     public boolean isUniqueTimeSlot(TimeSlotForm form) throws Exception;
+
+    public boolean isUniqueTimeSlot(TimeSlotForm form,TimeSlotInfo skipTS) throws Exception;
 
     public void updateTimeSlot(TimeSlotForm form,TimeSlotWrapper tsWrapper) throws Exception;
 

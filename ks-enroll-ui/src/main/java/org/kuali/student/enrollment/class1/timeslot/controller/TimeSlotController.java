@@ -133,8 +133,9 @@ public class TimeSlotController extends UifControllerBase {
     public ModelAndView editTimeSlot(@ModelAttribute(MODEL_ATTRIBUTE_FORM) TimeSlotForm form) throws Exception{
 
         String selectedPathIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        TimeSlotWrapper tsWrapper = form.getTimeSlotResults().get(NumberUtils.toInt(selectedPathIndex));
 
-        boolean isUnique = getViewHelperService(form).isUniqueTimeSlot(form);
+        boolean isUnique = getViewHelperService(form).isUniqueTimeSlot(form,tsWrapper.getTimeSlotInfo());
 
         if (!isUnique){
             String startTime = form.getAddOrEditStartTime() + " " + form.getAddOrEditStartTimeAmPm();
@@ -146,7 +147,6 @@ public class TimeSlotController extends UifControllerBase {
             return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);
         }
 
-        TimeSlotWrapper tsWrapper = form.getTimeSlotResults().get(NumberUtils.toInt(selectedPathIndex));
         getViewHelperService(form).updateTimeSlot(form,tsWrapper);
 
         return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);
