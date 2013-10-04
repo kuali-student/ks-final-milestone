@@ -2263,8 +2263,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 examOfferingWrapper.setAoInfo(getActivityOfferingCode(theForm.getActivityWrapperList(), eoRln));
                 examOfferingWrapper.setActivityCode(examOfferingWrapper.getAoInfo().getActivityCode());
 
-                FormatOfferingInfo fo = theForm.getFoId2aoTypeMap().get(eoRln.getFormatOfferingId());
-                TypeInfo type = CourseOfferingManagementUtil.getTypeService().getType(fo.getFinalExamLevelTypeKey(), ContextUtils.createDefaultContextInfo());
+                TypeInfo type = CourseOfferingManagementUtil.getTypeService().getType(examOfferingWrapper.getAoInfo().getTypeKey(), ContextUtils.createDefaultContextInfo());
                 examOfferingWrapper.setTypeName(type.getName());
             }
             examOfferingWrapperList.add(examOfferingWrapper);
