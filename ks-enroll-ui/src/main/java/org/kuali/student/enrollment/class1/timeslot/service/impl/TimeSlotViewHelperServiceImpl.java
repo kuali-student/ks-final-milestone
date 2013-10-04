@@ -108,30 +108,44 @@ public class TimeSlotViewHelperServiceImpl
         TimeSlotWrapper newTSWrapper = new TimeSlotWrapper();
 
         TimeSlotInfo newTSInfo = new TimeSlotInfo();
-        newTSInfo.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_ACTIVE);
+
+        buildTimeSlotInfo(form,newTSInfo);
+
+        TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(form.getAddOrEditTermKey(),newTSInfo, createContextInfo());
+
+        newTSWrapper.setTimeSlotInfo(createdTimeSlot);
+        initializeTimeSlotWrapper(form,newTSWrapper);
+
+    }
+
+    protected void buildTimeSlotInfo(TimeSlotForm form,TimeSlotInfo tsInfo){
+
+        tsInfo.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_ACTIVE);
         List<Integer> days = WeekDaysDtoAndUIConversions.buildDaysForDTO(form.getAddOrEditDays());
-        newTSInfo.setWeekdays(days);
+        tsInfo.setWeekdays(days);
 
         long time = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(form.getAddOrEditStartTime() + " " + form.getAddOrEditStartTimeAmPm()).getTime();
         TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
         timeOfDayInfo.setMilliSeconds(time);
-        newTSInfo.setStartTime(timeOfDayInfo);
+        tsInfo.setStartTime(timeOfDayInfo);
 
         time = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(form.getAddOrEditEndTime() + " " + form.getAddOrEditEndTimeAmPm()).getTime();
         timeOfDayInfo = new TimeOfDayInfo();
         timeOfDayInfo.setMilliSeconds(time);
-        newTSInfo.setEndTime(timeOfDayInfo);
-        newTSInfo.setTypeKey(form.getAddOrEditTermKey());
+        tsInfo.setEndTime(timeOfDayInfo);
+        tsInfo.setTypeKey(form.getAddOrEditTermKey());
 
-        TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(form.getAddOrEditTermKey(),newTSInfo, createContextInfo());
-        newTSWrapper.setTimeSlotInfo(createdTimeSlot);
-        newTSWrapper.setDaysDisplayName(StringUtils.upperCase(form.getAddOrEditDays()));
-        newTSWrapper.setEnableDeleteButton(true);
-        newTSWrapper.setStartTimeDisplay(form.getAddOrEditStartTime() + " " + form.getAddOrEditStartTimeAmPm());
-        newTSWrapper.setEndTimeDisplay(form.getAddOrEditEndTime() + " " + form.getAddOrEditEndTimeAmPm());
+    }
+
+    protected void initializeTimeSlotWrapper(TimeSlotForm form,TimeSlotWrapper tsWrapper){
+
+        tsWrapper.setDaysDisplayName(StringUtils.upperCase(form.getAddOrEditDays()));
+        tsWrapper.setEnableDeleteButton(true);
+        tsWrapper.setStartTimeDisplay(form.getAddOrEditStartTime() + " " + form.getAddOrEditStartTimeAmPm());
+        tsWrapper.setEndTimeDisplay(form.getAddOrEditEndTime() + " " + form.getAddOrEditEndTimeAmPm());
         TypeInfo type = getTypeInfo(form.getAddOrEditTermKey());
-        newTSWrapper.setTypeName(type.getName());
-        form.getTimeSlotResults().add(newTSWrapper);
+        tsWrapper.setTypeName(type.getName());
+        form.getTimeSlotResults().add(tsWrapper);
 
         form.setAddOrEditDays("");
         form.setAddOrEditEndTime("");
@@ -139,6 +153,16 @@ public class TimeSlotViewHelperServiceImpl
         form.setAddOrEditStartTime("");
         form.setAddOrEditStartTimeAmPm("");
         form.setAddOrEditTermKey("");
+    }
+
+
+    public void updateTimeSlot(TimeSlotForm form,TimeSlotWrapper tsWrapper) throws Exception {
+
+        buildTimeSlotInfo(form,tsWrapper.getTimeSlotInfo());
+
+        TimeSlotInfo updatedTimeSlot = getSchedulingService().updateTimeSlot(tsWrapper.getTimeSlotInfo().getId(),tsWrapper.getTimeSlotInfo(),createContextInfo());
+        tsWrapper.setTimeSlotInfo(updatedTimeSlot);
+        initializeTimeSlotWrapper(form,tsWrapper);
 
     }
 

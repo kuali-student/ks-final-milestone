@@ -198,10 +198,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-NavigationActionLink"
-                    p:methodToCall="edit"
-                    p:actionLabel="Edit"
-                    p:actionEvent="editCOonManageCOsPage">
+                <bean parent="Uif-NavigationActionLink">
                     <property name="actionScript" value="reInitializePopupModel(e,'EDIT',@{#index}); openPopupContent(e,'KS-TimeSlot-AddTimeSlotPopupForm');"/>
                 </bean>
             </list>
