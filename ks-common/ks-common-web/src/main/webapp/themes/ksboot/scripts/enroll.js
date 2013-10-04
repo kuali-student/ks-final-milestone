@@ -682,3 +682,11 @@ function resetCheckboxes(containerId) {
         });
     });
 }
+
+/*
+ Capture checkbox input check/uncheck to add a class for styling selected
+ rows in datatables
+ */
+jQuery(document).on("click", ".dataTable input[type=checkbox]", function() {
+    jQuery(this).closest('tr').toggleClass('selected-row');
+});

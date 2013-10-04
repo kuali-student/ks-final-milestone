@@ -1045,4 +1045,15 @@ div.jGrowl div.WARNING div.jGrowl-message {
 
 /************************************** END Schedule of Classes ******************/
 
+/*
+Styles for highlighting selected rows in a data table
+*/
+.dataTable td {
+  background-color: @bodyBackground;
+}
+.dataTable .selected-row td, .dataTable .selected-row:hover td {
+  background-color: @tableSelectedBackground;
+}
+
+
 @import "pagination";
