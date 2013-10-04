@@ -187,7 +187,7 @@
                                   p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2"
                                   p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip == '' and !currentCourseOfferingWrapper.colocatedAoToCSR }" />
                             <bean parent="Uif-Message"
-                                  p:messageText="You are about to reinstate the following activity offering(s). The selected activity offering(s) will reinstate to the status listed in the &quot;Reinstated Status&quot; column below."
+                                  p:messageText="You are about to reinstate the following activity offering(s). The selected activity offering(s) will be changed to the &quot;New Status&quot; listed in the table below."
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2"
                                   p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip == '' and !currentCourseOfferingWrapper.colocatedAoToCSR }" />
 
@@ -379,7 +379,7 @@
                                   p:label="STATUS"
                                   p:propertyName="stateName"/>
                             <bean parent="Uif-DataField"
-                                  p:label="Reinstated Status"
+                                  p:label="New Status"
                                   p:propertyName="reinstateStateName"/>
 
                             <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
