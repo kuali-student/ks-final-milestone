@@ -19,7 +19,7 @@ package org.kuali.student.lum.kim;
 import org.kuali.rice.core.api.util.RiceConstants;
 
 /**
- * This class //TODO ...
+ * This class provides constants related to the connectivity for the KimIdentityService
  *
  * @author Kuali Student Team
  */

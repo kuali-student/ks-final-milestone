@@ -27,7 +27,7 @@ import org.kuali.student.r2.lum.course.service.utils.ExpenditurePercentValidator
 import org.kuali.student.r2.lum.course.service.utils.RevenuePercentValidator;
 import org.kuali.student.r2.lum.course.service.utils.SubjectAreaUnitOwnerValidator;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.ArrayList;
@@ -77,7 +77,6 @@ public class TestCourseInfoDictionary {
 
 	@Test
 	public void testCourseInfoValidation() throws OperationFailedException {
-		ApplicationContext ac = new ClassPathXmlApplicationContext("classpath:ks-courseInfo-dictionary-context.xml");
 		System.out.println("h1. Test Validation");
 		DefaultValidatorImpl val = new DefaultValidatorImpl();
 		ValidatorFactory vf = new ValidatorFactory();
@@ -99,7 +98,11 @@ public class TestCourseInfoDictionary {
 		val.setSearchDispatcher(new MockSearchDispatcher());
 		// TODO KSCM Do we need a mock for COurseInfo?
 		CourseInfo info = new CourseInfo();
+
+        ConfigurableApplicationContext ac = new ClassPathXmlApplicationContext("classpath:ks-courseInfo-dictionary-context.xml");
 		ObjectStructureDefinition os =(ObjectStructureDefinition) ac.getBean(info.getClass().getName());
+        ac.close();
+
 		List<ValidationResultInfo> validationResults =  val.validateObject(info,	os, contextInfo);
 		System.out.println("h3. With just a blank Course");
 		for (ValidationResultInfo vr : validationResults) {

@@ -39,13 +39,11 @@ public class TestCluDTOEqualXMLBeanDefinition {
 	public void testCluDTOsAgainstDataDictionary() {
 		  System.out.println("testing statement dictionary");
 		  Set<String> startingClasses = new LinkedHashSet();
-		  startingClasses.add(AcademicSubjectOrgInfo.class.getName());
 		  startingClasses.add(AccreditationInfo.class.getName());
 		  startingClasses.add(AdminOrgInfo.class.getName());
 		  startingClasses.add(AffiliatedOrgInfo.class.getName());
 		  startingClasses.add(CluAccountingInfo.class.getName());
 		  startingClasses.add(CluCluRelationInfo.class.getName());
-		  startingClasses.add(CluCreditInfo.class.getName());
 		  startingClasses.add(CluFeeInfo.class.getName());
 		  startingClasses.add(CluFeeRecordInfo.class.getName()); 
 		  startingClasses.add(CluIdentifierInfo.class.getName());
@@ -60,7 +58,7 @@ public class TestCluDTOEqualXMLBeanDefinition {
 		  startingClasses.add(FeeInfo.class.getName());
 		  startingClasses.add(FieldInfo.class.getName());
 		  startingClasses.add(LuCodeInfo.class.getName());
-		  startingClasses.add(LuDocRelationInfo.class.getName());
+		  // startingClasses.add(LuDocRelationInfo.class.getName());
 		  startingClasses.add(MembershipQueryInfo.class.getName());
 		  startingClasses.add(ResultOptionInfo.class.getName());
 		  startingClasses.add(RevenueInfo.class.getName());

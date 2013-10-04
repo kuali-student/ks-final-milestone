@@ -20,7 +20,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CurriculumHome-View" parent="KSFormView" class="">
+    <bean id="KS-CurriculumHome-View" parent="KS-Uif-FormView">
         <property name="id" value="curriculumHomeView"/>
         <property name="headerText" value="Curriculum"/>
         <property name="formClass" value="org.kuali.student.cm.main.form.LaunchForm"/>

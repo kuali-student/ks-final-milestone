@@ -14,7 +14,7 @@ import org.kuali.student.r2.common.class1.search.SearchConfigValidator;
 import org.kuali.student.r2.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchTypeInfo;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class SearchConfigTesterHelper
@@ -53,12 +53,13 @@ public class SearchConfigTesterHelper
 
  public void doTest ()
  {
-  ApplicationContext ac = new ClassPathXmlApplicationContext (
+  ConfigurableApplicationContext ac = new ClassPathXmlApplicationContext (
     "classpath:" + searchConfigFileName);
   searchInfoTypeMap = ac.getBeansOfType (SearchTypeInfo.class);
   searchCriteriaTypeMap = ac.getBeansOfType (SearchCriteriaTypeInfo.class);
   searchResultTypeInfoMap = ac.getBeansOfType (SearchResultTypeInfo.class);
   queryMap = (Map<String, String>) ac.getBean ("queryMap");
+  ac.close();
 
   out.println ("(!) This page was automatically generated on " + new Date ());
   out.println ("DO NOT UPDATE MANUALLY!");

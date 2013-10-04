@@ -4,6 +4,12 @@
  */
 package org.kuali.student.r2.lum.lu.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.kuali.student.r1.common.entity.Amount;
 import org.kuali.student.r1.common.entity.CurrencyAmount;
 import org.kuali.student.r1.common.entity.TimeAmount;
@@ -14,20 +20,61 @@ import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.infc.SearchParam;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.service.assembly.BaseAssembler;
-import org.kuali.student.r2.lum.clu.dto.*;
+import org.kuali.student.r2.lum.clu.dto.AccreditationInfo;
+import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
+import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
+import org.kuali.student.r2.lum.clu.dto.CluAccountingInfo;
+import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluFeeInfo;
+import org.kuali.student.r2.lum.clu.dto.CluFeeRecordInfo;
+import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
+import org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluPublicationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
+import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
+import org.kuali.student.r2.lum.clu.dto.FieldInfo;
+import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
+import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
+import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
 import org.kuali.student.r2.lum.lu.dao.LuDao;
-import org.kuali.student.r2.lum.lu.entity.*;
+import org.kuali.student.r2.lum.lu.entity.AffiliatedOrg;
+import org.kuali.student.r2.lum.lu.entity.Clu;
+import org.kuali.student.r2.lum.lu.entity.CluAccounting;
+import org.kuali.student.r2.lum.lu.entity.CluAccreditation;
+import org.kuali.student.r2.lum.lu.entity.CluAdminOrg;
+import org.kuali.student.r2.lum.lu.entity.CluAtpTypeKey;
+import org.kuali.student.r2.lum.lu.entity.CluCampusLocation;
+import org.kuali.student.r2.lum.lu.entity.CluCluRelation;
+import org.kuali.student.r2.lum.lu.entity.CluCredit;
+import org.kuali.student.r2.lum.lu.entity.CluFee;
+import org.kuali.student.r2.lum.lu.entity.CluFeeAmount;
+import org.kuali.student.r2.lum.lu.entity.CluFeeAttribute;
+import org.kuali.student.r2.lum.lu.entity.CluFeeRecord;
+import org.kuali.student.r2.lum.lu.entity.CluFeeRecordAttribute;
+import org.kuali.student.r2.lum.lu.entity.CluIdentifier;
+import org.kuali.student.r2.lum.lu.entity.CluIdentifierAttribute;
+import org.kuali.student.r2.lum.lu.entity.CluInstructor;
+import org.kuali.student.r2.lum.lu.entity.CluLoRelation;
+import org.kuali.student.r2.lum.lu.entity.CluPublication;
+import org.kuali.student.r2.lum.lu.entity.CluPublicationVariant;
+import org.kuali.student.r2.lum.lu.entity.CluResult;
+import org.kuali.student.r2.lum.lu.entity.CluSet;
+import org.kuali.student.r2.lum.lu.entity.CluSetAttribute;
+import org.kuali.student.r2.lum.lu.entity.CluSetJoinVersionIndClu;
+import org.kuali.student.r2.lum.lu.entity.LuCode;
+import org.kuali.student.r2.lum.lu.entity.LuLuRelationType;
+import org.kuali.student.r2.lum.lu.entity.LuRichText;
+import org.kuali.student.r2.lum.lu.entity.MembershipQuery;
+import org.kuali.student.r2.lum.lu.entity.ResultOption;
+import org.kuali.student.r2.lum.lu.entity.SearchParameter;
+import org.kuali.student.r2.lum.lu.entity.SearchParameterValue;
 import org.springframework.beans.BeanUtils;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 public class CluServiceAssembler extends BaseAssembler {
 
@@ -498,24 +545,6 @@ public class CluServiceAssembler extends BaseAssembler {
         return dto;
     }
 
-    public static CluCreditInfo toCluCreditInfos(CluCredit entity) {
-        if (entity == null) {
-            return null;
-        }
-        CluCreditInfo dto = new CluCreditInfo();
-
-        BeanUtils.copyProperties(entity, dto, new String[]{"id",
-                "repeatTime", "minTimeToComplete", "maxTimeToComplete",
-                "maxAllowableInactivity", "maxTimeResultsRecognized"});
-        dto.setRepeatTime(toTimeAmountInfo(entity.getRepeatTime()));
-        dto.setMinTimeToComplete(toTimeAmountInfo(entity.getMinTimeToComplete()));
-        dto.setMaxTimeToComplete(toTimeAmountInfo(entity.getMaxTimeToComplete()));
-        dto.setMaxAllowableInactivity(toTimeAmountInfo(entity.getMaxAllowableInactivity()));
-        dto.setMaxTimeResultsRecognized(toTimeAmountInfo(entity.getMaxTimeResultsRecognized()));
-
-        return dto;
-    }
-
     public static List<TypeInfo> toResultComponentTypeInfo(
             List<String> componentIds) {
         List<TypeInfo> dtos = new ArrayList<TypeInfo>();
@@ -642,63 +671,6 @@ public class CluServiceAssembler extends BaseAssembler {
         TimeAmount timeAmount = new TimeAmount();
         BeanUtils.copyProperties(timeAmountInfo, timeAmount);
         return timeAmount;
-    }
-
-    public static CluCredit toCluCredit(CluCreditInfo cluCreditInfo) {
-        if (cluCreditInfo == null) {
-            return null;
-        }
-        CluCredit cluCredit = new CluCredit();
-
-        cluCredit.setMaxAllowableInactivity(CluServiceAssembler.toTimeAmount(cluCreditInfo.getMaxAllowableInactivity()));
-        cluCredit.setMaxTimeResultsRecognized(CluServiceAssembler.toTimeAmount(cluCreditInfo.getMaxTimeResultsRecognized()));
-        cluCredit.setMaxTimeToComplete(CluServiceAssembler.toTimeAmount(cluCreditInfo.getMaxTimeToComplete()));
-        cluCredit.setMinTimeToComplete(CluServiceAssembler.toTimeAmount(cluCreditInfo.getMinTimeToComplete()));
-        cluCredit.setRepeatTime(CluServiceAssembler.toTimeAmount(cluCreditInfo.getRepeatTime()));
-
-        BeanUtils.copyProperties(cluCreditInfo, cluCredit, new String[]{
-                "repeatTime", "minTimeToComplete", "maxTimeToComplete",
-                "maxAllowableInactivity", "maxTimeResultsRecognized"});
-
-        return cluCredit;
-    }
-
-    public static void copyCluCredit(CluCreditInfo cluCreditInfo,
-                                     CluCredit entity) {
-        if (entity == null) {
-            return;
-        }
-        if (entity.getMaxAllowableInactivity() == null) {
-            entity.setMaxAllowableInactivity(new TimeAmount());
-        }
-        BeanUtils.copyProperties(cluCreditInfo.getMaxAllowableInactivity(),
-                entity.getMaxAllowableInactivity());
-
-        if (entity.getMaxTimeResultsRecognized() == null) {
-            entity.setMaxTimeResultsRecognized(new TimeAmount());
-        }
-        BeanUtils.copyProperties(cluCreditInfo.getMaxTimeResultsRecognized(),
-                entity.getMaxTimeResultsRecognized());
-
-        if (entity.getMaxTimeToComplete() == null) {
-            entity.setMaxTimeToComplete(new TimeAmount());
-        }
-        BeanUtils.copyProperties(cluCreditInfo.getMaxTimeToComplete(), entity.getMaxTimeToComplete());
-
-        if (entity.getMinTimeToComplete() == null) {
-            entity.setMinTimeToComplete(new TimeAmount());
-        }
-        BeanUtils.copyProperties(cluCreditInfo.getMinTimeToComplete(), entity.getMinTimeToComplete());
-
-        if (entity.getRepeatTime() == null) {
-            entity.setRepeatTime(new TimeAmount());
-        }
-        BeanUtils.copyProperties(cluCreditInfo.getRepeatTime(), entity.getRepeatTime());
-
-        BeanUtils.copyProperties(cluCreditInfo, entity, new String[]{
-                "repeatTime", "minTimeToComplete", "maxTimeToComplete",
-                "maxAllowableInactivity", "maxTimeResultsRecognized"});
-
     }
 
     public static List<AccreditationInfo> toAccreditationInfos(

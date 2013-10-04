@@ -22,11 +22,11 @@
     <!-- Controller Class: CourseController.java View Helper Class: CourseViewHelperServiceImpl.java UX : http://ux.ks.kuali.org.s3.amazonaws.com/wireframes/ENR/Scheduling_Interface/v3/start.html 
         This view has couple of pages (edit and copy) with all the beans defined at 1. CourseViewCourseInfoPage.xml -->
 
-    <bean id="KS-CourseView" parent="KSMaintenanceView">
+    <bean id="KS-CourseView" parent="KS-Uif-MaintenanceView">
         <property name="theme">
             <bean parent="KSTheme"/>
         </property>
-        <!--
+
         <property name="stickyTopGroup" value="false"/>
         <property name="stickyBreadcrumbs" value="false"/>
         <property name="stickyApplicationHeader" value="false"/>
@@ -42,8 +42,6 @@
                 <value>ks-unified-header</value>
             </list>
         </property>
-        -->
-
 
         <property name="defaultBindingObjectPath" value="document.newMaintainableObject" />
         <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
