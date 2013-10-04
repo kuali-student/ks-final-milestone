@@ -72,6 +72,7 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<modules>
+                <module>ks-ap-sql</module>
 				<module>ks-ap-deployments</module>
 				<module>ks-ap-framework</module>
 				<module>ks-ap-impl</module>
@@ -79,6 +80,12 @@
 				<module>ks-ap-web</module>
 			</modules>
 		</profile>
+        <profile>
+            <id>sql-only</id>
+            <modules>
+                <module>ks-ap-sql</module>
+            </modules>
+        </profile>
 		<profile>
 			<id>skip-deployment-wars</id>
 			<modules>
