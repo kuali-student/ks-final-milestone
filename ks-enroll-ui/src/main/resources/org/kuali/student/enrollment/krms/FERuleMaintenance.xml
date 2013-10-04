@@ -411,7 +411,9 @@ limitations under the License.
                         <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_rdl_components"/>
                     </property>
                 </bean>
-                <bean id="FinalExam_building" parent="Uif-InputField-LabelTop" p:label="Facility" p:propertyName="ruleEditor.building.buildingCode" p:uppercaseValue="true">
+                <bean id="FinalExam_building" parent="Uif-InputField-LabelTop" p:label="Facility"
+                      p:render="@{#dp.ruleEditor.ruleTypeInfo.type ne 'kuali.krms.rule.type.final.exam.standard'}"
+                      p:propertyName="ruleEditor.building.buildingCode" p:uppercaseValue="true">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
@@ -427,7 +429,9 @@ limitations under the License.
                         </bean>
                     </property>
                 </bean>
-                <bean id="FinalExam_room" parent="Uif-InputField-LabelTop" p:label="Room" p:propertyName="ruleEditor.room.roomCode">
+                <bean id="FinalExam_room" parent="Uif-InputField-LabelTop" p:label="Room"
+                      p:render="@{#dp.ruleEditor.ruleTypeInfo.type ne 'kuali.krms.rule.type.final.exam.standard'}"
+                      p:propertyName="ruleEditor.room.roomCode">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
                     </property>

@@ -18,7 +18,6 @@ package org.kuali.student.enrollment.class1.krms.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
@@ -28,15 +27,13 @@ import org.kuali.rice.krms.dto.PropositionParameterEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.TermEditor;
 import org.kuali.rice.krms.dto.TermParameterEditor;
-import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
-import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
-import org.kuali.student.core.krms.tree.KSRuleCompareTreeBuilder;
+import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.FEPropositionEditor;
-import org.kuali.student.enrollment.class1.krms.tree.CORuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.lum.lu.ui.krms.service.impl.LURuleViewHelperServiceImpl;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
+import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
 
 import java.util.HashMap;
@@ -137,6 +134,20 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
 
         List<BuildingInfo> b = getRoomService().searchForBuildings(criteria, createContextInfo());
         return b;
+    }
+
+    public List<RoomInfo> retrieveRoomInfo(String roomCode, String buildingCode,boolean strictMatch) throws Exception{
+
+        int firstBuilding = 0;
+        List<BuildingInfo> buildings = getRoomService().getBuildingsByBuildingCode(buildingCode, ContextBuilder.loadContextInfo());
+
+        if (StringUtils.isBlank(roomCode)){
+            List<String> roomIds = getRoomService().getRoomIdsByBuilding(buildings.get(firstBuilding).getId(), ContextBuilder.loadContextInfo());
+            return getRoomService().getRoomsByIds(roomIds,ContextBuilder.loadContextInfo());
+        } else {
+            return getRoomService().getRoomsByBuildingAndRoomCode(buildings.get(firstBuilding).getBuildingCode(),roomCode ,ContextBuilder.loadContextInfo());
+        }
+
     }
 
     public RoomService getRoomService(){

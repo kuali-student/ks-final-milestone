@@ -16,11 +16,15 @@ import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
+import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class1.krms.dto.FEAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleEditor;
+import org.kuali.student.enrollment.class1.krms.service.impl.FERuleViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.core.room.dto.BuildingInfo;
+import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -190,26 +194,44 @@ public class FERuleEditorController extends EnrolRuleEditorController {
                 for (ActionEditor action : actions) {
                     Map<String, String> attributes = action.getAttributes();
                     Map<String, String> newAttributes = new HashMap<String, String>();
-                    if (attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY)) {
+                    if (ruleEditor.getDay() != null) {
                         newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY, ruleEditor.getDay());
                     }
-                    if (attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME)) {
+                    if (ruleEditor.getStartTime() != null) {
                         String startTimeAMPM = new StringBuilder(ruleEditor.getStartTime()).append(" ").append(ruleEditor.getStartTimeAMPM()).toString();
                         long startTimeMillis = this.parseTimeToMillis(startTimeAMPM);
                         String startTime = String.valueOf(startTimeMillis);
                         newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, startTime);
                     }
-                    if (attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME)) {
+                    if (ruleEditor.getEndTime() != null) {
                         String endTimeAMPM = new StringBuilder(ruleEditor.getEndTime()).append(" ").append(ruleEditor.getEndTimeAMPM()).toString();
                         long endTimeMillis = this.parseTimeToMillis(endTimeAMPM);
                         String endTime = String.valueOf(endTimeMillis);
                         newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME, endTime);
                     }
-                    if (attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY)) {
-                        newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY, ruleEditor.getBuilding().getId());
+
+                    if (ruleEditor.getBuilding().getBuildingCode() != null && !ruleEditor.getBuilding().getBuildingCode().isEmpty()) {
+                        List<BuildingInfo> buildingInfos = new ArrayList<BuildingInfo>();
+                        buildingInfos = this.getViewHelper(form).retrieveBuildingInfo(ruleEditor.getBuilding().getBuildingCode(), true);
+                        for (BuildingInfo buildingInfo : buildingInfos) {
+                            if (buildingInfo.getBuildingCode().equals(ruleEditor.getBuilding().getBuildingCode())) {
+                                newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY, buildingInfo.getId());
+                                break;
+                            }
+                        }
+
                     }
-                    if (attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM)) {
-                        newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM, ruleEditor.getRoom().getId());
+                    if (ruleEditor.getRoom().getRoomCode() != null && !ruleEditor.getRoom().getRoomCode().isEmpty()) {
+
+                        List<RoomInfo> roomInfos = new ArrayList<RoomInfo>();
+                        roomInfos = this.getViewHelper(form).retrieveRoomInfo(ruleEditor.getRoom().getRoomCode(), ruleEditor.getBuilding().getBuildingCode(), true);
+                        for (RoomInfo roomInfo : roomInfos) {
+                            if (roomInfo.getRoomCode().equals(ruleEditor.getRoom().getRoomCode())) {
+                                newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM, roomInfo.getId());
+                                break;
+                            }
+                        }
+
                     }
                     action.setAttributes(newAttributes);
                     action.setDescription(ruleEditor.getDescription());
@@ -314,4 +336,13 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(time).getTime();
     }
 
+    /**
+     *
+     * @param form
+     * @return
+     */
+    @Override
+    protected FERuleViewHelperServiceImpl getViewHelper(UifFormBase form) {
+        return (FERuleViewHelperServiceImpl) KSControllerHelper.getViewHelperService(form);
+    }
 }

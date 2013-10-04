@@ -26,6 +26,7 @@ import org.kuali.rice.krms.dto.ActionEditor;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.AgendaTypeInfo;
 import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.rice.krms.service.impl.RuleEditorMaintainableImpl;
 import org.kuali.student.enrollment.class1.krms.dto.FEAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleEditor;
@@ -146,6 +147,22 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             LOG.info("Retrieved agenda item for id: " + agenda.getFirstItemId());
             FEAgendaEditor feAgenda = (FEAgendaEditor) agenda;
             feAgenda.setRules(getRuleEditorsFromTree(firstItem, true));
+
+            List<RuleEditor> rules = new ArrayList<RuleEditor>();
+            for (RuleTypeInfo ruleType : agenda.getAgendaTypeInfo().getRuleTypes()) {
+                RuleEditor ruleEditor = null;
+                    if (feAgenda.getRules() != null) {
+                        for (RuleEditor rule : feAgenda.getRules()) {
+                           if (rule.getTypeId().equals(ruleType.getId())){
+                            ruleEditor = rule;
+                            ruleEditor.setRuleTypeInfo(ruleType);
+                            rules.add(ruleEditor);
+                           }
+                        }
+                        feAgenda.setRules(rules);
+                    }
+
+            }
         }
 
         return null;
@@ -214,8 +231,9 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             rules.add(ruleEditor);
         }
 
-        if (agendaItem.getWhenTrue() != null) {
-            rules.addAll(getRuleEditorsFromTree(agendaItem.getWhenTrue(), initProps));
+        if (agendaItem.getWhenFalse() != null) {
+
+            rules.addAll(getRuleEditorsFromTree(agendaItem.getWhenFalse(), initProps));
         }
 
         return rules;
@@ -237,14 +255,14 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         AgendaItemDefinition.Builder firstItemBuilder = AgendaItemDefinition.Builder.create(agenda.getFirstItemId(), agenda.getId());
         firstItemBuilder.setRule(null);
         firstItemBuilder.setRuleId(null);
-        firstItemBuilder.setWhenTrue(null);
-        firstItemBuilder.setWhenTrueId(null);
+        firstItemBuilder.setWhenFalse(null);
+        firstItemBuilder.setWhenFalseId(null);
         firstItemBuilder.setVersionNumber(firstItem.getVersionNumber());
         this.getRuleManagementService().updateAgendaItem(firstItemBuilder.build());
 
         //Delete current agenda items to rebuild the tree.
-        if (firstItem.getWhenTrue() != null) {
-            this.deleteAgendaItems(firstItem.getWhenTrue());
+        if (firstItem.getWhenFalse() != null) {
+            this.deleteAgendaItems(firstItem.getWhenFalse());
         }
 
         //Delete rules
@@ -259,8 +277,8 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             itemBuilder.setRule(this.finRule(rules.poll(), namePrefix, nameSpace));
             itemBuilder.setRuleId(itemBuilder.getRule().getId());
             if (rules.peek() != null) {
-                itemBuilder.setWhenTrue(AgendaItemDefinition.Builder.create(null, agenda.getId()));
-                itemBuilder = itemBuilder.getWhenTrue();
+                itemBuilder.setWhenFalse(AgendaItemDefinition.Builder.create(null, agenda.getId()));
+                itemBuilder = itemBuilder.getWhenFalse();
             }
         }
         //Update the root item.
@@ -280,7 +298,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         if (rule.getNamespace() == null) {
             rule.setNamespace(namespace);
         }
-        if (rule.getRuleTypeInfo() != null) {
+        if (rule.getName() == null && rule.getName().isEmpty()) {
             rule.setName(rulePrefix + rule.getRuleTypeInfo().getId() + ":1");
         }
 
