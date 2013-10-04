@@ -61,6 +61,7 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
@@ -346,7 +347,13 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
 
         }
         if (examPeriodID != null) {
-            this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(created, examPeriodID, new ArrayList<String>(), context);
+            //create if Final Exam Driver has been selected for the FO
+            TypeInfo typeAO = getTypeService().getType(created.getTypeKey(), context);
+            FormatOfferingInfo fo = getCoService().getFormatOffering(aoInfo.getFormatOfferingId(), context);
+            TypeInfo typeFEO = getTypeService().getType(fo.getFinalExamLevelTypeKey(), context);
+            if (typeAO.getName().equals(typeFEO.getName())){
+                this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(created, examPeriodID, new ArrayList<String>(), context);
+            }
         }else{
             aoResult.getExamOfferingsGenerated().setSuccess(Boolean.FALSE);
         }
