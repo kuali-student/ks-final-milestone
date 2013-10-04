@@ -421,7 +421,7 @@
                             <bean parent="Uif-VerticalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-MessageField" p:label="Waitlist Options" p:fieldLabel.renderColon="false"/>
+                                        <bean  parent="Uif-MessageField"  p:label="Waitlist Options" p:fieldLabel.renderColon="false"/>
                                         <bean parent="Uif-HorizontalBoxSection">
                                             <property name="items">
                                                 <list>
@@ -430,7 +430,7 @@
                                                             <bean parent="Uif-CheckboxControl" />
                                                         </property>
                                                     </bean>
-                                                    <bean parent="Uif-InputField" p:required="true" p:inclusiveMax="999" p:exclusiveMin="0" p:dataType="INTEGER" p:propertyName="courseWaitListInfo.maxSize" p:refreshWhenChangedPropertyNames="@{#dp.limitWaitlistSize}">
+                                                    <bean  id="limit_waitlist_size_text" parent="Uif-InputField" p:required="true" p:inclusiveMax="999" p:exclusiveMin="0" p:dataType="INTEGER" p:propertyName="courseWaitListInfo.maxSize" p:refreshWhenChangedPropertyNames="@{#dp.limitWaitlistSize}">
                                                         <property name="control">
                                                             <bean parent="Uif-TextControl" p:disabled="@{!#dp.limitWaitlistSize}" />
                                                         </property>
