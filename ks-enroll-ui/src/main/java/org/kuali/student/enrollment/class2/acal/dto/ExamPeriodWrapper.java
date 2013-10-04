@@ -37,8 +37,8 @@ public class ExamPeriodWrapper {
     private String examPeriodNameUI;
     private Date startDate;
     private Date endDate;
-    private boolean excludeSaturday;
-    private boolean excludeSunday;
+    private boolean excludeSaturday = true;
+    private boolean excludeSunday = true;
 
     private ExamPeriodInfo examPeriodInfo;
     private TypeInfo typeInfo;
