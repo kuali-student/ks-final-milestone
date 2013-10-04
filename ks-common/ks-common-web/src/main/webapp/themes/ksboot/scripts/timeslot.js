@@ -11,6 +11,7 @@ function reInitializePopupModel(event, addOrEditAction, editLineIndex)
     jQuery('#addOrEditEndTimeAmPm_control').val('');
 
     if (addOrEditAction == 'EDIT'){
+        jQuery('#addOrEdit_action').data("submit_data", {methodToCall:"editTimeSlot","actionParameters[selectedCollectionPath]":"timeSlotResults","actionParameters[actionEvent]":"editCOonManageCOsPage","actionParameters[selectedLineIndex]":editLineIndex});
         jQuery('#addOrEdit_action').text('Save');
         var termTypeId = 'timeSlotResults[' + editLineIndex + '].typeKey';
         var termType = jQuery(name=termTypeId).text().trim();
@@ -34,6 +35,7 @@ function reInitializePopupModel(event, addOrEditAction, editLineIndex)
         jQuery('#addOrEditEndTimeAmPm_control').val(endTimeAmPm);
 
     } else {
+        jQuery('#addOrEdit_action').data("submit_data", {methodToCall:"createTimeSlot"});
         jQuery('#addOrEdit_action').text('Add Slot');
     }
 }

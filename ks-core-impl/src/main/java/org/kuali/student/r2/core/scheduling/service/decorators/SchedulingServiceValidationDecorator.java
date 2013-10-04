@@ -311,7 +311,7 @@ public class SchedulingServiceValidationDecorator extends SchedulingServiceDecor
         // update
         try {
             List<ValidationResultInfo> errors =
-                    this.validateTimeSlot(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), timeSlotId, timeSlotInfo, contextInfo);
+                    this.validateTimeSlot(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), timeSlotInfo.getTypeKey(), timeSlotInfo, contextInfo);
             if (!errors.isEmpty()) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
