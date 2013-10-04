@@ -949,18 +949,6 @@ div#Uif-ApplicationHeader-Wrapper{
 }
 
 /*
-    Fade out of Highlighting
-*/
-.highlight_fadeout{
-  -webkit-transition: background 3s linear;
-  -moz-transition: background 3s linear;
-  -o-transition: background 3s linear;
-  -ms-transition: background 3s linear;
-  transition: background 3s linear;
-  background-color: #ffffcc; background-color: #ffffff;
-}
-
-/*
     Instructional text for radio button
 */
 .it_radiobutton {
@@ -1055,5 +1043,41 @@ Styles for highlighting selected rows in a data table
   background-color: @tableSelectedBackground;
 }
 
+/*
+  Override krad new/delete item highlighting in data tables
+*/
+
+table.dataTable tr.uif-newCollectionItem {
+  background-color: @addedStateBackground;
+}
+table.dataTable tr.uif-newCollectionItem td.sorting_1 {
+  background-color: @addedStateBackground;
+}
+
+/*
+    Fade out of Highlighting
+*/
+.highlight_fadeout{
+  -webkit-transition: background 3s linear;
+  -moz-transition: background 3s linear;
+  -o-transition: background 3s linear;
+  -ms-transition: background 3s linear;
+  transition: background 3s linear;
+  background-color: @addedStateBackground; background-color: @bodyBackground;
+}
+
+/*
+  jQuery UI Tab Overrides
+*/
+.ui-tabs .ui-tabs-nav {
+  background:none;
+}
+.ui-tabs .ui-tabs-nav .ui-state-default .ui-tabs-anchor {
+  background-color: @inactiveTabBackground;
+  .border-radius-individual(5px, 5px, 0, 0);
+}
+.ui-tabs .ui-tabs-nav .ui-tabs-active .ui-tabs-anchor {
+  background-color: @bodyBackground;
+}
 
 @import "pagination";
