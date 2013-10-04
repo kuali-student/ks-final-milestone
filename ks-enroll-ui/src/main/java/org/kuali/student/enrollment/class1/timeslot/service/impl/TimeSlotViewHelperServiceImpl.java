@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.class1.timeslot.service.impl;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper;
 import org.kuali.student.enrollment.class1.timeslot.form.TimeSlotForm;
@@ -138,12 +137,15 @@ public class TimeSlotViewHelperServiceImpl
     }
 
     protected void initializeTimeSlotWrapper(TimeSlotForm form,TimeSlotWrapper tsWrapper){
+        Date timeForDisplay;
 
         String daysUI = WeekDaysDtoAndUIConversions.buildDaysForUI(tsWrapper.getTimeSlotInfo().getWeekdays());
         tsWrapper.setDaysDisplayName(daysUI);
         tsWrapper.setEnableDeleteButton(true);
-        tsWrapper.setStartTimeDisplay(form.getAddOrEditStartTime() + " " + form.getAddOrEditStartTimeAmPm());
-        tsWrapper.setEndTimeDisplay(form.getAddOrEditEndTime() + " " + form.getAddOrEditEndTimeAmPm());
+        timeForDisplay = new Date(tsWrapper.getTimeSlotInfo().getStartTime().getMilliSeconds());
+        tsWrapper.setStartTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
+        timeForDisplay = new Date(tsWrapper.getTimeSlotInfo().getEndTime().getMilliSeconds());
+        tsWrapper.setEndTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
         TypeInfo type = getTypeInfo(form.getAddOrEditTermKey());
         tsWrapper.setTypeName(type.getName());
         form.getTimeSlotResults().add(tsWrapper);
