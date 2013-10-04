@@ -57,7 +57,8 @@ public class TimeSlotController extends UifControllerBase {
 
         TimeSlotViewHelperService viewHelperService = getViewHelperService(form);
 
-        return super.start(form, result, request, response);    
+        super.start(form, result, request, response);
+        return  getUIFModelAndView(form);
     }
 
     /**
@@ -83,7 +84,7 @@ public class TimeSlotController extends UifControllerBase {
                     form.getTypeNameSelections().add(typeInfo.getName());
                     StringBuilder sb = new StringBuilder(namesUI);
                     if(i > 0 && i < timeSlotTypes.size()) {
-                        sb = sb.append(" ,  ");
+                        sb = sb.append(",  ");
                     }
                     sb = sb.append(typeInfo.getName());
                     namesUI = sb.toString();
@@ -140,21 +141,34 @@ public class TimeSlotController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=deleteTimeSlots")
     public ModelAndView deleteTimeSlots(@ModelAttribute(MODEL_ATTRIBUTE_FORM) TimeSlotForm form, @SuppressWarnings("unused") BindingResult result,
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        // delete the timeslots
-        getViewHelperService(form).deleteTimeSlots(form);
-        KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, TimeSlotConstants.TIMESLOT_TOOLBAR_DELETE);
+        String dialogName = TimeSlotConstants.ConfirmDialogs.DELETE_TIMESLOTS;
 
-        List<String> timeSlotTypes = form.getTermTypeSelections();
-        List<TimeSlotWrapper> timeSlotWrapperList = viewHelperService.findTimeSlots(timeSlotTypes);
-        form.getTimeSlotResults().clear();
-        for (TimeSlotWrapper wrapper : timeSlotWrapperList) {
-            form.getTimeSlotResults().add(wrapper);
-        }
-        if (timeSlotWrapperList.size() > 0) {
-            form.setTimeSlotsLoaded(true);
-            form.setEnableAddButton(true);
+        if (!hasDialogBeenAnswered(dialogName, form)) {
+            return showDialog(dialogName, form, request, response);
         }
 
-        return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);
+        boolean dialogAnswer = getBooleanDialogResponse(dialogName, form, request, response);
+        form.getDialogManager().resetDialogStatus(dialogName);
+
+        if (dialogAnswer) {
+
+
+            // delete the timeslots
+            getViewHelperService(form).deleteTimeSlots(form);
+
+            List<String> timeSlotTypes = form.getTermTypeSelections();
+            List<TimeSlotWrapper> timeSlotWrapperList = viewHelperService.findTimeSlots(timeSlotTypes);
+            form.getTimeSlotResults().clear();
+            for (TimeSlotWrapper wrapper : timeSlotWrapperList) {
+                form.getTimeSlotResults().add(wrapper);
+            }
+            if (timeSlotWrapperList.size() > 0) {
+                form.setTimeSlotsLoaded(true);
+                form.setEnableAddButton(true);
+            }
+
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, TimeSlotConstants.TIMESLOT_TOOLBAR_DELETE);
+        }
+        return getUIFModelAndView(form);
     }
 }
