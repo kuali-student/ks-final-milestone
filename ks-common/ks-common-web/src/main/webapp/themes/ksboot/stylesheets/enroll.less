@@ -762,8 +762,8 @@ textarea,
 /************************************** LOZENGES **********************
    This is designed to work with the Uif-DataField. We will need to make it more default later */
 .text-lozenge-orange > span:first-child {
-  color: white;
-  background-color: #F89406;
+  color: @stateText;
+  background-color: @suspendedStateBackground;
   font-size: 11px;
   padding: 2px 8px;
   .border-radius(6px);
@@ -774,8 +774,8 @@ textarea,
 }
 
 .text-lozenge-grey > span:first-child {
-  color: white;
-  background-color: #999999;
+  color: @stateText;
+  background-color: @draftStateBackground:;
   font-size: 11px;
   padding: 2px 8px;
   .border-radius(6px);
@@ -787,8 +787,8 @@ textarea,
 
 /* Uif-Message */
 .text-lozenge-grey-msg {
-  color: white;
-  background-color: #999999;
+  color: @stateText;
+  background-color: @draftStateBackground:;
   font-size: 11px;
   padding: 2px 8px;
   .border-radius(6px);
@@ -798,8 +798,8 @@ textarea,
 }
 
 .text-lozenge-green-msg {
-  color: white;
-  background-color: #468847;
+  color: @stateText;
+  background-color: @completedStateBackground;
   font-size: 11px;
   padding: 2px 8px;
   .border-radius(6px);
@@ -809,8 +809,8 @@ textarea,
 }
 
 .text-lozenge-orange-msg {
-  color: white;
-  background-color: #F89406;
+  color: @stateText;
+  background-color: @suspendedStateBackground;
   font-size: 11px;
   padding: 2px 8px;
   .border-radius(6px);
