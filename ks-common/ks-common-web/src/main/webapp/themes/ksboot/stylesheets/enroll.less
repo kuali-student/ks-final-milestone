@@ -532,6 +532,70 @@ cursor:auto;
 
 
 
+/************************************** LOZENGES **********************
+   This is designed to work with the Uif-DataField. We will need to make it more default later */
+.text-lozenge-orange > span:first-child {
+  color: @stateText;
+  background-color: @suspendedStateBackground;
+  font-size: 11px;
+  padding: 2px 8px;
+  .border-radius(6px);
+  margin-left: 1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+.text-lozenge-grey > span:first-child {
+  color: @stateText;
+  background-color: @draftStateBackground;
+  font-size: 11px;
+  padding: 2px 8px;
+  .border-radius(6px);
+  margin-left: 1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+/* Uif-Message */
+.text-lozenge-grey-msg {
+  color: @stateText;
+  background-color: @draftStateBackground;
+  font-size: 11px;
+  padding: 2px 8px;
+  .border-radius(6px);
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+.text-lozenge-green-msg {
+  color: @stateText;
+  background-color: @completedStateBackground;
+  font-size: 11px;
+  padding: 2px 8px;
+  .border-radius(6px);
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+.text-lozenge-orange-msg {
+  color: @stateText;
+  background-color: @suspendedStateBackground;
+  font-size: 11px;
+  padding: 2px 8px;
+  .border-radius(6px);
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-weight: bold;
+}
+/************************************** END LOZENGES **********************/
+
+
+
+
 /************************************** CONTEXT BAR ***********************/
 /* Attributes of the Context Bar */
 .ks-topGroup {
@@ -755,70 +819,6 @@ textarea,
 }
 
 /************************************** END ROLLOVER **************************************/
-
-
-
-
-/************************************** LOZENGES **********************
-   This is designed to work with the Uif-DataField. We will need to make it more default later */
-.text-lozenge-orange > span:first-child {
-  color: @stateText;
-  background-color: @suspendedStateBackground;
-  font-size: 11px;
-  padding: 2px 8px;
-  .border-radius(6px);
-  margin-left: 1em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  font-weight: bold;
-}
-
-.text-lozenge-grey > span:first-child {
-  color: @stateText;
-  background-color: @draftStateBackground;
-  font-size: 11px;
-  padding: 2px 8px;
-  .border-radius(6px);
-  margin-left: 1em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  font-weight: bold;
-}
-
-/* Uif-Message */
-.text-lozenge-grey-msg {
-  color: @stateText;
-  background-color: @draftStateBackground;
-  font-size: 11px;
-  padding: 2px 8px;
-  .border-radius(6px);
-  text-transform: uppercase;
-  white-space: nowrap;
-  font-weight: bold;
-}
-
-.text-lozenge-green-msg {
-  color: @stateText;
-  background-color: @completedStateBackground;
-  font-size: 11px;
-  padding: 2px 8px;
-  .border-radius(6px);
-  text-transform: uppercase;
-  white-space: nowrap;
-  font-weight: bold;
-}
-
-.text-lozenge-orange-msg {
-  color: @stateText;
-  background-color: @suspendedStateBackground;
-  font-size: 11px;
-  padding: 2px 8px;
-  .border-radius(6px);
-  text-transform: uppercase;
-  white-space: nowrap;
-  font-weight: bold;
-}
-/************************************** END LOZENGES **********************/
 
 
 
