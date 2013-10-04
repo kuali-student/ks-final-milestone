@@ -17,11 +17,11 @@ package org.kuali.student.cm.course.service;
 
 import java.util.List;
 
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.maintenance.Maintainable;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
-import org.kuali.student.cm.course.form.GenericStringForCollectionWrapper;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
@@ -31,8 +31,6 @@ import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
-
-import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * {@link CourseInfo} Maintainable interface
@@ -285,4 +283,15 @@ public interface CourseInfoMaintainable extends Maintainable {
      * @param the list of {@link LoDisplayInfoWrapper}
      */
     void setLoDisplayInfoWrappers(List<LoDisplayInfoWrapper> loDisplayInfoWrappers);
+    
+    /**
+     * 
+     * This method is used to check for DisclosureSection 
+     * of Cross List, Offer Jointly and Version Codes
+     * 
+     * @return
+     */
+    String getCrossListingDisclosureSection();
+    
+    void setCrossListingDisclosureSection(final String argCrossListingDisclosureSection);
 }

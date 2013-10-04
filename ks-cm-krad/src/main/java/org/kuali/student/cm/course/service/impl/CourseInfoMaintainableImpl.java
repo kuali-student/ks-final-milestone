@@ -15,7 +15,7 @@
  */
 package org.kuali.student.cm.course.service.impl;
 
-import static org.kuali.student.logging.FormattedLogger.*;
+import static org.kuali.student.logging.FormattedLogger.error;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,6 +113,8 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
     private List<KeyValue> unitsContentOwner;
 
     private List<SupportingDocumentInfoWrapper> supportingDocuments;
+    
+    private String crossListingDisclosureSection;
 	
     public void setUnitsContentOwnerToAdd(final String unitsContentOwnerToAdd) {
         this.unitsContentOwnerToAdd = unitsContentOwnerToAdd;
@@ -718,5 +720,27 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
         }
         return organizationService;
     }
+    
+    /**
+     * Method is overridden to change default property
+     * 
+     * checks if one of the sections stackCollection 
+     * is used and then changes the property value
+     * 
+     */
+    @Override
+    public String getCrossListingDisclosureSection() {
+        this.crossListingDisclosureSection = "true";
+        
+        if(getCourse().getCrossListings().isEmpty() && getCourseJointWrappers().isEmpty() && getCourse().getVariations().isEmpty()){
+            this.crossListingDisclosureSection = "false";
+        }
+        return this.crossListingDisclosureSection;
+    }
 
+    @Override
+    public void setCrossListingDisclosureSection(String argCrossListingDisclosureSection) {
+        this.crossListingDisclosureSection = argCrossListingDisclosureSection;
+    }
+    
 }

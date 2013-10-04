@@ -32,7 +32,7 @@
         <property name="footer">
             <bean parent="KS-CourseView-Footer"/>
         </property>
-        <property name="onDocumentReadyScript" value="setupCharCounters()" />
+        <property name="onDocumentReadyScript" value="setupCharCounters(),'tabToNextInput()'" />
     </bean>
     
     <bean id="KS-CourseView-CourseInfoPage-Widgets" parent="Uif-VerticalBoxSection">
@@ -217,8 +217,8 @@
 		</property>
 	</bean>
 
-	<bean id="KS-CrossListingEtcDisclosure-Section" parent="Uif-Disclosure-VerticalBoxSubSection"
-		p:disclosure.defaultOpen="false">
+	<bean id="KS-CrossListingEtcDisclosure-Section" parent="Uif-Disclosure-VerticalBoxSubSection">
+        <property name="disclosure.defaultOpen" value="@{document.newMaintainableObject.crossListingDisclosureSection}"/>
 		<property name="headerText" value="Cross List, Offer Jointly, Add Version Codes" />
 		<property name="cssClasses">
          	<list merge="true">
