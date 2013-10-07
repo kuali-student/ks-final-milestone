@@ -303,6 +303,15 @@
         <url-pattern>/myplan/*</url-pattern>
     </servlet-mapping>
 
+    <filter>
+        <filter-name>DefaultContext</filter-name>
+        <filter-class>org.kuali.student.ap.framework.context.support.DefaultKsapContext$Filter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>DefaultContext</filter-name>
+        <servlet-name>myplan</servlet-name>
+    </filter-mapping>
 
 	<servlet-mapping>
 		<servlet-name>remoting</servlet-name>
