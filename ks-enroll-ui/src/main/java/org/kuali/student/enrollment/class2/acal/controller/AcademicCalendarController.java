@@ -19,8 +19,13 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.component.Component;
+import org.kuali.rice.krad.uif.control.SelectControl;
+import org.kuali.rice.krad.uif.util.ComponentFactory;
+import org.kuali.rice.krad.uif.util.UifKeyValue;
 import org.kuali.rice.krad.uif.view.DialogManager;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -1419,8 +1424,14 @@ public class AcademicCalendarController extends UifControllerBase {
             }
             //calculate the valid days of exam period, if
             String finalExamSectionName="acal-term-examdates_line"+termIndex;
-            if (getAcademicCalendarServiceFacade().getDaysForExamPeriod(examPeriodWrapper.getExamPeriodInfo().getId(), holidayInfos, helperService.createContextInfo()) < 6) {
-                GlobalVariables.getMessageMap().putWarningForSectionId(finalExamSectionName, CalendarConstants.MessageKeys.ERROR_EXAM_PERIOD_DAYS_VALIDATION,term.getTermCode());
+            SelectControl select = (SelectControl) ComponentFactory.getNewComponentInstance("KSFE-FinalExam-ExamDaysDropdown");
+            int maxday = 0;
+            for(KeyValue value : select.getOptions()){
+                maxday = Math.max(Integer.valueOf(value.getKey()), maxday);
+            }
+            if (getAcademicCalendarServiceFacade().getDaysForExamPeriod(examPeriodWrapper.getExamPeriodInfo().getId(), holidayInfos, helperService.createContextInfo()) < maxday) {
+                GlobalVariables.getMessageMap().putWarningForSectionId(finalExamSectionName, CalendarConstants.MessageKeys.ERROR_EXAM_PERIOD_DAYS_VALIDATION,
+                        String.valueOf(maxday), term.getTermCode());
             }
         } catch (OperationFailedException oe){
             LOG.error("Save exam period has failed",oe);
