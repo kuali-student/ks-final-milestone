@@ -1,14 +1,18 @@
+
+var selectedTimeSlotOptions;
+
 /**
- *
+ *  This method initializes the popup for both edit and add action. As we're using the same
+ *  popup for both add and edit, it's necessary to tweak the html dom.
  */
 function reInitializePopupModel(event, addOrEditAction, editLineIndex)
 {
     jQuery('#addOrEditDays_control').val('');
     jQuery('#addOrEditTermKey_control').val('');
     jQuery('#addOrEditStartTime_control').val('');
-    jQuery('#addOrEditStartTimeAmPm_control').val('');
+    jQuery('#addOrEditStartTimeAmPm_control_0').attr('checked',true);
     jQuery('#addOrEditEndTime_control').val('');
-    jQuery('#addOrEditEndTimeAmPm_control').val('');
+    jQuery('#addOrEditEndTimeAmPm_control_0').attr('checked',true);
     jQuery('#addOrEditTermKey_control').empty();
 
     if (addOrEditAction == 'EDIT'){
@@ -30,9 +34,19 @@ function reInitializePopupModel(event, addOrEditAction, editLineIndex)
         jQuery('#addOrEditDays_control').val(spaceStrippedDays);
 
         jQuery('#addOrEditStartTime_control').val(startTime);
-        jQuery('#addOrEditStartTimeAmPm_control').val(startTimeAmPm);
+        if (startTimeAmPm == 'AM'){
+            jQuery('#addOrEditStartTimeAmPm_control_0').attr('checked',true);
+        } else {
+            jQuery('#addOrEditStartTimeAmPm_control_1').attr('checked',true);
+        }
+
         jQuery('#addOrEditEndTime_control').val(endTime);
-        jQuery('#addOrEditEndTimeAmPm_control').val(endTimeAmPm);
+
+        if (endTimeAmPm == 'AM'){
+            jQuery('#addOrEditEndTimeAmPm_control_0').attr('checked',true);
+        } else {
+            jQuery('#addOrEditEndTimeAmPm_control_1').attr('checked',true);
+        }
 
         var $options = jQuery("#timeSlotTypeSelection_control > option").clone();
         jQuery("#addOrEditTermKey_control").append($options);
@@ -41,8 +55,7 @@ function reInitializePopupModel(event, addOrEditAction, editLineIndex)
     } else {
         jQuery('#addOrEdit_action').data("submit_data", {methodToCall:"createTimeSlot"});
         jQuery('#addOrEdit_action').text('Add Slot');
-        var $options = jQuery("#timeSlotTypeSelection_control option:selected").clone();
-        jQuery("#addOrEditTermKey_control").append($options);
+        jQuery("#addOrEditTermKey_control").append(selectedTimeSlotOptions);
     }
 }
 
@@ -53,5 +66,20 @@ function showDeleteDialog() {
 
 function validateTimeSlot(){
     var addEditTSComponents = jQuery('.new_ts');
-    return validateLineFields(addEditTSComponents);
+    result = validateLineFields(addEditTSComponents);
+    if (!result){
+        showGrowl('The form contains errors. Please correct these errors and try again.', 'Javascript Error', 'errorGrowl');
+    }
+    return result;
+}
+
+/**
+ * This method marks all the selected option with data attribute selected=true sothat the same
+ * options will be used for Add timeslot. This is a workaround when user
+ * initially selected types and clicked on show timeslot and then
+ * the user selects different type. Relaying on selected types on the
+ * list doesnt work in this situation
+ */
+function setupTimeSlotTypeDropdown(){
+    selectedTimeSlotOptions = jQuery("#timeSlotTypeSelection_control option:selected").clone();
 }

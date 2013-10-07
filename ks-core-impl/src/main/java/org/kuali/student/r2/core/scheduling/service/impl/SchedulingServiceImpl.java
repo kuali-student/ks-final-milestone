@@ -579,7 +579,7 @@ public class SchedulingServiceImpl implements SchedulingService {
         TimeSlotEntity entity = new TimeSlotEntity(timeSlotInfo);
 
         if (timeSlotCodeGenerator != null){
-            String tsCode = timeSlotCodeGenerator.generateTimeSlotCode(entity.getTimeSlotType());
+            String tsCode = timeSlotCodeGenerator.generateTimeSlotCode();
             entity.setName(tsCode);
         }
 

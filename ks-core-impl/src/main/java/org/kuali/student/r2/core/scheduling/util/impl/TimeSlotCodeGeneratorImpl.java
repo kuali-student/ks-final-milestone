@@ -34,14 +34,13 @@ public class TimeSlotCodeGeneratorImpl implements TimeSlotCodeGenerator {
     private String initialCode;
 
     /**
-     * This method generates the code for a timeslot.
+     * This method generates the code for a timeslot type.
      *
-     * @param timeSlotType
      * @return
      */
-    public String generateTimeSlotCode(String timeSlotType) throws OperationFailedException{
+    public String generateTimeSlotCode() throws OperationFailedException{
 
-        String currentCode = timeSlotDao.getCurrentMaxTimeSlotCode(timeSlotType);
+        String currentCode = timeSlotDao.getCurrentMaxTimeSlotCode();
 
         if (StringUtils.isBlank(currentCode)){
             if (!StringUtils.isBlank(getInitialCode())){

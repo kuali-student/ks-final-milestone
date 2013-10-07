@@ -53,9 +53,8 @@ public class TimeSlotDao extends GenericEntityDao<TimeSlotEntity> {
         return query.getResultList();
     }
 
-    public String getCurrentMaxTimeSlotCode(String timeSlotType){
+    public String getCurrentMaxTimeSlotCode(){
         Query query = em.createNamedQuery("TimeSlotEntity.getCurrentMaxTimeSlotCode");
-        query.setParameter("timeSlotType", timeSlotType);
 
         String maxCode = (String) query.getSingleResult();
 

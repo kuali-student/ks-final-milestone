@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 public interface TimeSlotCodeGenerator {
 
-    public String generateTimeSlotCode(String timeSlotType) throws OperationFailedException;
+    public String generateTimeSlotCode() throws OperationFailedException;
 
     public String getInitialCode() ;
 
