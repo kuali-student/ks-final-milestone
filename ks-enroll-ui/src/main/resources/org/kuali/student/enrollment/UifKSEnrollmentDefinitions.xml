@@ -64,8 +64,7 @@
     <!-- Also note: Uif-HorizontalBoxGroup is inheriting from KRAD a margin-bottom:10px which on CreateCO and ManageSoc views is causing
                     the breadcrumb-bar to be pushed down and look horrible (the bar remains where it is but the text gets pushed down) -->
      <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
-    <bean id="KS-CourseOffering-ContextBar" parent="Uif-HorizontalBoxGroup"
-          p:onDocumentReadyScript="updateContextBar( 'KS-CourseOffering-ContextBar', 'KS-CourseOffering-View-ContextBar-PlaceHolder', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' );" >
+    <bean id="KS-CourseOffering-ContextBar" parent="Uif-HorizontalBoxGroup" p:style="display:none">
         <property name="cssClasses">
             <list merge="true">
                 <value>ks-topGroup</value>
