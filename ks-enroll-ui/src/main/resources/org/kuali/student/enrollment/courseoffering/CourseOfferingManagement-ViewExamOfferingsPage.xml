@@ -82,9 +82,22 @@
                     <property name="items">
                         <list>
                             <ref bean="KS-CourseOfferingManagement-ExamOfferingByCOTableSection"/>
+                            <bean parent="KS-CourseOfferingManagement-ExamOfferingTableSection" p:render="@{!#dp.examOfferingCancelledList.isEmpty()}">
+                                <property name="propertyName" value="examOfferingCancelledList"/>
+                                <property name="headerText" value="Cancelled Exam Offering Delivery Logistics by Course Offering"/>
+                            </bean>
                             <ref bean="KS-CourseOfferingManagement-ExamOfferingByAOClustersSection" />
-                            <bean parent="KS-CourseOfferingManagement-ExamOfferingTableSection"
-                                  p:render="@{currentCourseOfferingWrapper.finalExamDriverUI ne 'Activity Offering' and currentCourseOfferingWrapper.finalExamDriverUI ne 'Course Offering'}"/>
+                            <bean parent="KS-CourseOfferingManagement-ExamOfferingByAOClustersSection" p:render="true">
+                                <property name="headerText" value="Cancelled Exam Offering Delivery Logistics by Activity Offering"/>
+                                <property name="subCollections">
+                                    <list>
+                                        <bean parent="KS-CourseOfferingManagement-ExamOfferingByAOTableSection" p:render="true">
+                                            <property name="headerText" value="Cancelled Exam Offering Delivery Logistics by Activity Offering"/>
+                                            <property name="propertyName" value="eoCancelledList"/>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>

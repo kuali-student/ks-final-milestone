@@ -23,6 +23,7 @@ public class ActivityOfferingClusterWrapper implements Serializable {
     private String formatOfferingId;
 
     private List<ExamOfferingWrapper> eoWrapperList;
+    private List<ExamOfferingWrapper> eoCancelledList;
 
     // notes by Bonnie
     // TODO: the following boolean should be removed after migrate to ARG
@@ -46,6 +47,7 @@ public class ActivityOfferingClusterWrapper implements Serializable {
         rgMessageStyle = RG_MESSAGE_NONE;
         clusterNameForDisplay = "";
         eoWrapperList = new ArrayList<ExamOfferingWrapper>();
+        eoCancelledList = new ArrayList<ExamOfferingWrapper>();
     }
     
     public ActivityOfferingClusterWrapper(String activityOfferingClusterId, List<RegistrationGroupWrapper> rgWrapperList){
@@ -160,5 +162,13 @@ public class ActivityOfferingClusterWrapper implements Serializable {
 
     public void setEoWrapperList(List<ExamOfferingWrapper> eoWrapperList) {
         this.eoWrapperList = eoWrapperList;
+    }
+
+    public List<ExamOfferingWrapper> getEoCancelledList() {
+        return eoCancelledList;
+    }
+
+    public void setEoCancelledList(List<ExamOfferingWrapper> eoCancelledList) {
+        this.eoCancelledList = eoCancelledList;
     }
 }

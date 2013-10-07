@@ -40,6 +40,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
@@ -132,11 +133,17 @@ public class TestExamOfferingServiceFacadeImpl {
 
         eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                 CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);
-        assertEquals(1, eoRelations.size());
+        assertEquals(6, eoRelations.size());
+        int counter = 0;
         for(ExamOfferingRelationInfo eoRelation : eoRelations){
-            assertEquals(5, eoRelation.getActivityOfferingIds().size());
+            ExamOffering eo = this.getExamOfferingService().getExamOffering(eoRelation.getExamOfferingId(), contextInfo);
+            if(!ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY.equals(eo.getStateKey())){
+                assertEquals(5, eoRelation.getActivityOfferingIds().size());
+            } else {
+                counter++;
+            }
         }
-
+        assertEquals(5, counter);
     }
 
     @Test

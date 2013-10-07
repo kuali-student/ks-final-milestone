@@ -212,9 +212,8 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
             // generate exam offerings if exam period exists
             if (!StringUtils.isEmpty(coEditWrapper.getExamPeriodId())) {
-                List<String> eoOptions = new ArrayList<String>();
-                eoOptions.add(ExamOfferingServiceFacade.CANCEL_EXISTING_OPTION_KEY);
-                CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(coInfo, coEditWrapper.getExamPeriodId(), eoOptions, contextInfo);
+                CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(coInfo,
+                        coEditWrapper.getExamPeriodId(), new ArrayList<String>(), contextInfo);
             }
 
             // check for changes to states in CO and related FOs (may happen in the case of deleted FOs)

@@ -200,6 +200,7 @@ public class CourseOfferingManagementForm extends KSUifForm implements ActivityO
      * This is used to display EOs list under a specified CO in view ExamOfferings
      */
     private List<ExamOfferingWrapper> examOfferingWrapperList;
+    private List<ExamOfferingWrapper> examOfferingCancelledList;
 
     public boolean getHasAOCluster() {
         return hasAOCluster;
@@ -218,6 +219,7 @@ public class CourseOfferingManagementForm extends KSUifForm implements ActivityO
         clusterResultList = new ArrayList<ActivityOfferingClusterWrapper>();
         rgResultList = new ArrayList<RegistrationGroupWrapper>();
         examOfferingWrapperList = new ArrayList<ExamOfferingWrapper>();
+        examOfferingCancelledList = new ArrayList<ExamOfferingWrapper>();
         setCourseOfferingCopyWrapper(null);
         setFormatOfferingIdForNewAO(null);
     }
@@ -831,5 +833,13 @@ public class CourseOfferingManagementForm extends KSUifForm implements ActivityO
 
     public void setExamOfferingWrapperList(List<ExamOfferingWrapper> examOfferingWrapperList) {
         this.examOfferingWrapperList = examOfferingWrapperList;
+    }
+
+    public List<ExamOfferingWrapper> getExamOfferingCancelledList() {
+        return examOfferingCancelledList;
+    }
+
+    public void setExamOfferingCancelledList(List<ExamOfferingWrapper> examOfferingCancelledList) {
+        this.examOfferingCancelledList = examOfferingCancelledList;
     }
 }

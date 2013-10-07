@@ -17,22 +17,22 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: SW Genis
- * Date: 2013/09/17
- * Time: 1:28 PM
- * To change this template use File | Settings | File Templates.
+ * Used to support service calls related to exam offerings. *
+ *
+ * @author Kuali Student Team
  */
 public interface ExamOfferingServiceFacade {
 
     public static final String RECREATE_OPTION_KEY = "kuali.option.key.exam.offering.recreate";
-    public static final String CANCEL_EXISTING_OPTION_KEY = "kuali.option.key.exam.offering.cancel";
 
     /**
      * This method generates new Exam Offerings for the Course Offering for the given Course Offering Id based on
      * the exam drivers.
      *
-     * If the Final Exam Status is not STANDARD, then all Exam Offerings linked to the Course Offering will be deleted.
+     * If the Final Exam Status is not STANDARD, then all Exam Offerings will be cancelled
+     *
+     * If the Final Exam Driver changes, the existing offerings will be cancelled and new offerings created based on
+     * new driver, or cancelled exam offerings for the current driver will be reinstated if they do exist.
      *
      * @param courseOfferingId
      * @param optionKeys
@@ -53,7 +53,10 @@ public interface ExamOfferingServiceFacade {
      * This method generates new Exam Offerings for the Course Offering for the given Course Offering Id based on
      * the exam drivers.
      *
-     * If the Final Exam Status is not STANDARD, then all Exam Offerings linked to the Course Offering will be deleted.
+     * If the Final Exam Status is not STANDARD, then all Exam Offerings will be cancelled
+     *
+     * If the Final Exam Driver changes, the existing offerings will be cancelled and new offerings created based on
+     * new driver, or cancelled exam offerings for the current driver will be reinstated if they do exist.
      *
      * @param courseOfferingInfo
      * @param examPeriodId
@@ -77,6 +80,9 @@ public interface ExamOfferingServiceFacade {
      * This method is used to create exam offerings for new activity offerings that are added to the course offering after
      * the rollover process was completed.
      *
+     * If the Final Exam Driver changes, the existing offerings will be cancelled and new offerings created based on
+     * new driver, or cancelled exam offerings for the current driver will be reinstated if they do exist.
+     *
      * @param courseOfferingInfo
      * @param activityOfferingInfo
      * @param optionKeys
@@ -98,6 +104,9 @@ public interface ExamOfferingServiceFacade {
      * This method is used to create exam offerings for new activity offerings that are added to the course offering after
      * the rollover process was completed.
      *
+     * If the Final Exam Driver changes, the existing offerings will be cancelled and new offerings created based on
+     * new driver, or cancelled exam offerings for the current driver will be reinstated if they do exist.
+     *
      * @param activityOfferingInfo
      * @param optionKeys
      * @param context
@@ -116,6 +125,9 @@ public interface ExamOfferingServiceFacade {
     /**
      * Generates a single Exam Offering per Format Offering.
      *
+     * If the Final Exam Driver changes, the existing offerings will be cancelled and new offerings created based on
+     * new driver, or cancelled exam offerings for the current driver will be reinstated if they do exist.
+     *
      * @param courseOfferingId
      * @param examPeriodId
      * @param context
@@ -132,6 +144,9 @@ public interface ExamOfferingServiceFacade {
 
     /**
      * Generates an Exam Offering for each Activity Offering.
+     *
+     * If the Final Exam Driver changes, the existing offerings will be cancelled and new offerings created based on
+     * new driver, or cancelled exam offerings for the current driver will be reinstated if they do exist.
      *
      * @param courseOfferingId
      * @param examPeriodId
@@ -197,8 +212,23 @@ public interface ExamOfferingServiceFacade {
             PermissionDeniedException;
 
 
+    /**
+     *
+     * @param courseOfferingId
+     * @param examPeriodId
+     * @param optionKeys
+     * @param context
+     * @throws PermissionDeniedException
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws DoesNotExistException
+     * @throws ReadOnlyException
+     * @throws DataValidationErrorException
+     */
     void generateFinalExamOfferingsPerCO(String courseOfferingId, String examPeriodId, List<String> optionKeys,
                                          ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException;
+
 }

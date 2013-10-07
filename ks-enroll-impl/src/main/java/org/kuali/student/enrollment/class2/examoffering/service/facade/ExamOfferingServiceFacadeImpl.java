@@ -47,11 +47,11 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created with IntelliJ IDEA.
- * User: SW Genis
- * Date: 2013/09/17
- * Time: 1:49 PM
- * To change this template use File | Settings | File Templates.
+ * Implementation of the Application Service Layer to provide the functionally specified functionality
+ * using several service calls.
+ *
+ *
+ * @author Kuali Student Team
  */
 public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade {
 
@@ -76,7 +76,6 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
     }
 
-
     @Override
     public void generateFinalExamOffering(CourseOfferingInfo courseOfferingInfo, String examPeriodId, List<String> optionKeys,
                                           ContextInfo context)
@@ -94,8 +93,8 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         } else if (driver.equals(Driver.PER_CO)) {
             generateFinalExamOfferingsPerCO(courseOfferingInfo.getId(), examPeriodId, optionKeys, context);
         } else if (driver.equals(Driver.NONE)) {
-            if (optionKeys.contains(ExamOfferingServiceFacade.CANCEL_EXISTING_OPTION_KEY)) {
-                changeFinalExamOfferingsState(courseOfferingInfo.getId(), ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY, context);
+            if (!optionKeys.contains(ExamOfferingServiceFacade.RECREATE_OPTION_KEY)) {
+                cancelFinalExamOfferings(courseOfferingInfo.getId(), context);
             } else {
                 removeFinalExamOfferingsFromCO(courseOfferingInfo.getId(), context);
             }
@@ -185,30 +184,36 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
 
-        Map<String, List<ExamOfferingRelationInfo>> foToEoRelations = getExamOfferingRelationships(courseOfferingId, context);
+        Map<String, List<ExamOfferingRelationInfo>> foToEoRelations = loadExamOfferingRelationships(courseOfferingId, context);
         if (optionKeys.contains(ExamOfferingServiceFacade.RECREATE_OPTION_KEY)) {
             removeFinalExamOfferingsFromCO(foToEoRelations, context);
         }
 
-        Set<String> eoIds = getUniqueExamOfferingIds(foToEoRelations);
-        if (eoIds.size() > 1) {
-            removeFinalExamOfferingsFromCO(foToEoRelations, context);
-        } else if (eoIds.size() == 1) {
-            String eoId = eoIds.iterator().next();
-            for (Map.Entry<String, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
-                if (foEntry.getValue().size() == 0) {
-                    createExamOfferingRelationPerFO(foEntry.getKey(), eoId, context);
+        Map<String, ExamOfferingInfo> eos = loadExamOfferings(foToEoRelations, context);
+        for (Map.Entry<String, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
+
+            //Set existing eos to cancel.
+            List<ExamOfferingRelationInfo> eors = getExamOfferingsPerDriver(eos, foEntry.getValue(), Driver.PER_CO.name(), context);
+
+            //Create new exam offerings per CO
+            ExamOfferingInfo eo = null;
+            for (ExamOfferingRelationInfo eoRelation : eors) {
+                eo = eos.get(eoRelation.getExamOfferingId());
+                if (eo.getStateKey().equals(ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY)) {
+                    this.getExamOfferingService().changeExamOfferingState(eoRelation.getExamOfferingId(),
+                            ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY, context);
                 }
             }
-            return;
-        }
 
-        //Create a new Exam Offering
-        ExamOfferingInfo eo = createExamOffering(examPeriodId, context);
-        //executeRuleForCOScheduling(courseOfferingId, context);
+            if (eo == null) {
+                //Create a new Exam Offering
+                eo = createExamOffering(examPeriodId, Driver.PER_CO.name(), context);
+                //executeRuleForCOScheduling(courseOfferingId, context);
+            }
 
-        for (Map.Entry<String, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
+            //Create new Exam Offering Relationship
             createExamOfferingRelationPerFO(foEntry.getKey(), eo.getId(), context);
+
         }
 
     }
@@ -221,26 +226,36 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
 
         //Retrieve all format offerings linked to the course offering.
-        Map<String, List<ExamOfferingRelationInfo>> foToEoRelations = getExamOfferingRelationships(courseOfferingId, context);
+        Map<String, List<ExamOfferingRelationInfo>> foToEoRelations = loadExamOfferingRelationships(courseOfferingId, context);
         if (optionKeys.contains(ExamOfferingServiceFacade.RECREATE_OPTION_KEY)) {
             removeFinalExamOfferingsFromCO(foToEoRelations, context);
         }
 
+        Map<String, ExamOfferingInfo> eos = loadExamOfferings(foToEoRelations, context);
         for (Map.Entry<String, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
 
-            //Check for existing relationships.
-            List<ExamOfferingRelationInfo> eoRelations = foEntry.getValue();
-            if (eoRelations.size() > 1) {
-                removeFinalExamOfferings(eoRelations, context);
-            } else if (eoRelations.size() == 1) {
-                return;
+            //Set existing eos to cancel.
+            List<ExamOfferingRelationInfo> eors = getExamOfferingsPerDriver(eos, foEntry.getValue(), Driver.PER_FO.name(), context);
+
+            //Create new exam offerings per FO
+            boolean hasEo = false;
+            for (ExamOfferingRelationInfo eoRelation : eors) {
+                ExamOfferingInfo eo = eos.get(eoRelation.getExamOfferingId());
+                if (eo.getStateKey().equals(ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY)) {
+                    this.getExamOfferingService().changeExamOfferingState(eoRelation.getExamOfferingId(),
+                            ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY, context);
+                    break;
+                }
             }
 
-            //Create a new Exam Offering
-            ExamOfferingInfo eo = createExamOffering(examPeriodId, context);
+            if (!hasEo) {
+                //Create a new Exam Offering
+                ExamOfferingInfo eo = createExamOffering(examPeriodId, Driver.PER_FO.name(), context);
 
-            //Create new Exam Offering Relationship
-            createExamOfferingRelationPerFO(foEntry.getKey(), eo.getId(), context);
+                //Create new Exam Offering Relationship
+                createExamOfferingRelationPerFO(foEntry.getKey(), eo.getId(), context);
+            }
+
         }
     }
 
@@ -251,49 +266,66 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
 
         //Retrieve all format offerings linked to the course offering.
-        Map<String, List<ExamOfferingRelationInfo>> foToEoRelations = getExamOfferingRelationships(courseOfferingId, context);
+        Map<String, List<ExamOfferingRelationInfo>> foToEoRelations = loadExamOfferingRelationships(courseOfferingId, context);
         if (optionKeys.contains(ExamOfferingServiceFacade.RECREATE_OPTION_KEY)) {
             removeFinalExamOfferingsFromCO(foToEoRelations, context);
         }
 
-        int nrOfEORelations = 0;
-        for (String foId : foToEoRelations.keySet()) {
-            nrOfEORelations += foToEoRelations.get(foId).size();
-        }
-
-        if (nrOfEORelations != getUniqueExamOfferingIds(foToEoRelations).size()) {
-            //If relations does not match exam offerings, delete all and start over.
-            removeFinalExamOfferingsFromCO(foToEoRelations, context);
-        } else {
-            foloop: for (Map.Entry<String, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
-                for (ExamOfferingRelationInfo eoRelation : foEntry.getValue()) {
-                    if (eoRelation.getActivityOfferingIds().size() > 1) {
-                        //If any relationship is linked to more than one AO, delete all and start over.
-                        removeFinalExamOfferingsFromCO(foToEoRelations, context);
-                        break foloop;
-                    }
-                }
-            }
-        }
-
-        //Create new exam offerings per AO.
+        Map<String, ExamOfferingInfo> eos = loadExamOfferings(foToEoRelations, context);
         for (Map.Entry<String, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
+
+            //Set existing eos to cancel.
+            List<ExamOfferingRelationInfo> eors = getExamOfferingsPerDriver(eos, foEntry.getValue(), Driver.PER_AO.name(), context);
+
+            //Create new exam offerings per AO
             List<ActivityOfferingInfo> aoInfos = this.getCourseOfferingService().getActivityOfferingsByFormatOffering(
                     foEntry.getKey(), context);
-            aoloop:
             for (ActivityOfferingInfo aoInfo : aoInfos) {
-                for (ExamOfferingRelationInfo eoRelation : foEntry.getValue()) {
+                boolean hasEo = false;
+                for (ExamOfferingRelationInfo eoRelation : eors) {
                     if (eoRelation.getActivityOfferingIds().contains(aoInfo.getId())) {
-                        continue aoloop;
+                        ExamOfferingInfo eo = eos.get(eoRelation.getExamOfferingId());
+                        if (eo.getStateKey().equals(ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY)) {
+                            this.getExamOfferingService().changeExamOfferingState(eoRelation.getExamOfferingId(),
+                                    ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY, context);
+                            hasEo = true;
+                        }
                     }
                 }
-                createFinalExamOfferingPerAO(foEntry.getKey(), aoInfo.getId(), examPeriodId, context);
+
+                if (!hasEo) {
+                    createFinalExamOfferingPerAO(foEntry.getKey(), aoInfo.getId(), examPeriodId, context);
+                }
             }
         }
 
     }
 
-    private Map<String, List<ExamOfferingRelationInfo>> getExamOfferingRelationships(String courseOfferingId, ContextInfo context)
+    private List<ExamOfferingRelationInfo> getExamOfferingsPerDriver(Map<String, ExamOfferingInfo> eos,
+                        List<ExamOfferingRelationInfo> eors, String driver, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
+        List<ExamOfferingRelationInfo> eorsForDriver = new ArrayList<ExamOfferingRelationInfo>();
+        for (ExamOfferingRelationInfo eoRelation : eors) {
+            ExamOfferingInfo eo = eos.get(eoRelation.getExamOfferingId());
+            for (AttributeInfo attribute : eo.getAttributes()) {
+                if (attribute.getKey().equals(ExamOfferingServiceConstants.FINAL_EXAM_DRIVER_ATTR)) {
+                    if (attribute.getValue().equals(driver)) {
+                        eorsForDriver.add(eoRelation);
+                    } else {
+                        if (!eo.getStateKey().equals(ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY)) {
+                            this.getExamOfferingService().changeExamOfferingState(eoRelation.getExamOfferingId(),
+                                    ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY, context);
+                        }
+                    }
+                }
+            }
+        }
+        return eorsForDriver;
+    }
+
+    private Map<String, List<ExamOfferingRelationInfo>> loadExamOfferingRelationships(String courseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         //Retrieve all format offerings linked to the course offering.
         List<FormatOfferingInfo> foInfos = this.getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId, context);
@@ -306,14 +338,19 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         return foToEoRelations;
     }
 
-    private Set<String> getUniqueExamOfferingIds(Map<String, List<ExamOfferingRelationInfo>> foToEoRelations) {
-        Set<String> eoIds = new HashSet<String>();
+    private Map<String, ExamOfferingInfo> loadExamOfferings(Map<String, List<ExamOfferingRelationInfo>> foToEoRelations, ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        Map<String, ExamOfferingInfo> eos = new HashMap<String, ExamOfferingInfo>();
         for (Map.Entry<String, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
             for (ExamOfferingRelationInfo eoRelation : foEntry.getValue()) {
-                eoIds.add(eoRelation.getExamOfferingId());
+                ExamOfferingInfo eo = eos.get(eoRelation.getExamOfferingId());
+                if (eo == null) {
+                    eo = this.getExamOfferingService().getExamOffering(eoRelation.getExamOfferingId(), context);
+                    eos.put(eo.getId(), eo);
+                }
             }
         }
-        return eoIds;
+        return eos;
     }
 
     private void createExamOfferingRelationPerFO(String foId, String eoId, ContextInfo context)
@@ -335,7 +372,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             DoesNotExistException, DataValidationErrorException, ReadOnlyException {
 
         //Create a new Exam Offering
-        ExamOfferingInfo eo = createExamOffering(examPeriodId, context);
+        ExamOfferingInfo eo = createExamOffering(examPeriodId, Driver.PER_AO.name(), context);
         //executeRuleForAOScheduling(aoId, context);
 
         //Create new Exam Offering Relationship
@@ -349,7 +386,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException {
 
-        Map<String, List<ExamOfferingRelationInfo>> foToEoRelations = this.getExamOfferingRelationships(courseOfferingId, context);
+        Map<String, List<ExamOfferingRelationInfo>> foToEoRelations = this.loadExamOfferingRelationships(courseOfferingId, context);
         removeFinalExamOfferingsFromCO(foToEoRelations, context);
 
     }
@@ -395,6 +432,13 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         }
     }
 
+    public void cancelFinalExamOfferings(String courseOfferingId, ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException {
+
+        changeFinalExamOfferingsState(courseOfferingId, ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY, context);
+    }
+
     @Override
     public void changeFinalExamOfferingsState(String courseOfferingId, String stateKey, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
@@ -428,7 +472,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
      * @throws DataValidationErrorException
      * @throws ReadOnlyException
      */
-    private ExamOfferingInfo createExamOffering(String examPeriodId, ContextInfo context) throws MissingParameterException,
+    private ExamOfferingInfo createExamOffering(String examPeriodId, String driver, ContextInfo context) throws MissingParameterException,
             InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException,
             DataValidationErrorException, ReadOnlyException {
 
@@ -437,6 +481,10 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         eo.setStateKey(ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY);
         eo.setExamId(this.getCanonicalExam(context));
         eo.setExamPeriodId(examPeriodId);
+        AttributeInfo attribute = new AttributeInfo();
+        attribute.setKey(ExamOfferingServiceConstants.FINAL_EXAM_DRIVER_ATTR);
+        attribute.setValue(driver);
+        eo.getAttributes().add(attribute);
 
         return this.getExamOfferingService().createExamOffering(eo.getExamPeriodId(),
                 eo.getExamId(), eo.getTypeKey(), eo, context);
