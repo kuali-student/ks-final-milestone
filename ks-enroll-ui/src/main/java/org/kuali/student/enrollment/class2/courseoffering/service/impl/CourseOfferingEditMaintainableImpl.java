@@ -30,8 +30,6 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.student.common.uif.util.GrowlIcon;
-import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
@@ -124,7 +122,6 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             CourseOfferingEditWrapper coCreateWrapper = (CourseOfferingEditWrapper) getDataObject();
             CourseOfferingInfo createdCOInfo = createCourseOfferingInfo(coCreateWrapper);
             coCreateWrapper.setCourseOfferingInfo(createdCOInfo);
-            updateFormatOfferings(coCreateWrapper);
         } else { //for copy action, report error
             LOG.error(">>>Do not support!");
         }
@@ -308,7 +305,9 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
             CourseOfferingInfo info = getCourseOfferingService().createCourseOffering(coInfo.getCourseId(), coInfo.getTermId(), LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, coInfo, optionKeys, contextInfo);
 
+            coCreateWrapper.setCourseOfferingInfo(info);
 
+            this.updateFormatOfferings(coCreateWrapper);
             // generate exam offerings if exam period exists
             if (!StringUtils.isEmpty(coCreateWrapper.getExamPeriodId())) {
                 CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(info, coCreateWrapper.getExamPeriodId(), new ArrayList<String>(), contextInfo);
