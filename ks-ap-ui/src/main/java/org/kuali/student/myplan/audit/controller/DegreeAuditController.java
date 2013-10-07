@@ -106,7 +106,6 @@ public class DegreeAuditController extends UifControllerBase {
 
 	public OrganizationService getOrganizationService() {
 		if (this.organizationService == null) {
-			// TODO: Use constants for namespace.
 			this.organizationService = KsapFrameworkServiceLocator
 					.getOrganizationService();
 		}
@@ -124,12 +123,9 @@ public class DegreeAuditController extends UifControllerBase {
 			HttpServletResponse response) {
 		boolean systemKeyExists = true;
 		try {
-			// TODO: determine factory for context? /mwfyffe
-			ContextInfo context = new ContextInfo();
-			populateFormMessageMap(form, context);
+
+			ContextInfo context = KsapFrameworkServiceLocator.getContext().getContextInfo();
 			Map<String, String> campusMap = populateCampusMap(context);
-			boolean isAuditServiceUp = Boolean.valueOf(request.getAttribute(
-					DegreeAuditConstants.IS_AUDIT_SERVICE_UP).toString());
 
 			Person user = GlobalVariables.getUserSession().getPerson();
 			// String systemKey =
@@ -407,105 +403,6 @@ public class DegreeAuditController extends UifControllerBase {
 
 		}
 		return orgCampusTypes;
-	}
-
-	public void populateFormMessageMap(DegreeAuditForm form, ContextInfo context) {
-		// Map <String, MessageInfo> mapMessageInfo = new HashMap <String,
-		// MessageInfo> ();
-		List<MessageInfo> listOfMessageInfo = new ArrayList<MessageInfo>();
-		LocaleInfo localInfo = context.getLocale();
-		localInfo
-				.setLocaleLanguage(DegreeAuditServiceConstants.DEGREE_AUDIT_EN_US_LOCALE);
-		localInfo
-				.setLocaleRegion(DegreeAuditServiceConstants.DEGREE_AUDIT_EN_US_LOCALE);
-		localInfo
-				.setLocaleScript(DegreeAuditServiceConstants.DEGREE_AUDIT_EN_US_LOCALE);
-		localInfo
-				.setLocaleVariant(DegreeAuditServiceConstants.DEGREE_AUDIT_EN_US_LOCALE);
-		// MessageService messageService = new MessageServiceDecorator();
-		MessageService messageService = KsapFrameworkServiceLocator
-				.getMessageService();
-		try {
-			listOfMessageInfo = messageService
-					.getMessagesByGroup(
-							localInfo,
-							DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_GROUP_NAME,
-							context);
-			if ((listOfMessageInfo != null) && (!listOfMessageInfo.isEmpty())) {
-				Iterator<MessageInfo> iterator = listOfMessageInfo.iterator();
-				while (iterator.hasNext()) {
-					MessageInfo messageInfo = (MessageInfo) iterator.next();
-					if (messageInfo
-							.getMessageKey()
-							.contains(
-									DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_MESSAGE_SELECT_A_PROGRAM_FROM)) {
-						form.setSelectAProgramFrom(messageInfo.getValue());
-					} else if (messageInfo
-							.getMessageKey()
-							.contains(
-									DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_MESSAGE_HOW_TO_USE_DEGREE_AUDIT)) {
-						form.setHowToUseDegreeAudit(messageInfo.getValue());
-					} else if (messageInfo
-							.getMessageKey()
-							.contains(
-									DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_MESSAGE_THE_AUDIT_FEATURE_DISABLED)) {
-						form.setTheAuditFeatureDisabled(messageInfo.getValue());
-					} else if (messageInfo
-							.getMessageKey()
-							.contains(
-									DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_MESSAGE_TRACK_YOUR_PROGRESS)) {
-						form.setTrackYourProgress(messageInfo.getValue());
-					} else if (messageInfo
-							.getMessageKey()
-							.contains(
-									DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_MESSAGE_STAY_ON_TOP_OF_YOUR_REQUIRED)) {
-						form.setStayOnTopOfUrRequired(messageInfo.getValue());
-					} else if (messageInfo
-							.getMessageKey()
-							.contains(
-									DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_MESSAGE_SELECT_YOUR_PROGRAM)) {
-						form.setSelectYourProgram(messageInfo.getValue());
-					} else if (messageInfo
-							.getMessageKey()
-							.contains(
-									DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_MESSAGE_EXPLORE_PROGRAMS_AND_MINORS)) {
-						form.setExploreProgramsAndMinors(messageInfo.getValue());
-					} else if (messageInfo
-							.getMessageKey()
-							.contains(
-									DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_MESSAGE_STILL_DECIDING)) {
-						form.setStillDeciding(messageInfo.getValue());
-					} else if (messageInfo
-							.getMessageKey()
-							.contains(
-									DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_MESSAGE_SELECT_YOUR_CAMPUS)) {
-						form.setSelectYourCampus(messageInfo.getValue());
-					} else if (messageInfo
-							.getMessageKey()
-							.contains(
-									DegreeAuditServiceConstants.DEGREE_AUDIT_HOME_PAGE_MESSAGE_SOME_PROGRAMS_NOT_INCLUDED)) {
-						form.setSomeProgramsNotIncluded(messageInfo.getValue());
-					}
-				}
-
-			}
-
-		} catch (DoesNotExistException e) {
-			e.printStackTrace(); // To change body of catch statement use File |
-									// Settings | File Templates.
-		} catch (InvalidParameterException e) {
-			e.printStackTrace(); // To change body of catch statement use File |
-									// Settings | File Templates.
-		} catch (MissingParameterException e) {
-			e.printStackTrace(); // To change body of catch statement use File |
-									// Settings | File Templates.
-		} catch (OperationFailedException e) {
-			e.printStackTrace(); // To change body of catch statement use File |
-									// Settings | File Templates.
-		} catch (PermissionDeniedException e) {
-			e.printStackTrace(); // To change body of catch statement use File |
-									// Settings | File Templates.
-		}
 	}
 
 	public String getCellValue(SearchResultRow row, String key) {

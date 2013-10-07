@@ -1,6 +1,7 @@
 package org.kuali.student.ap.framework.context.support;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Date;
 
 import javax.servlet.FilterChain;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.ap.framework.context.KsapContext;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 
 /**
  * Provides minimal context support for interaction with KS services.
@@ -49,11 +51,15 @@ public class DefaultKsapContext implements KsapContext {
 		public void doFilter(ServletRequest req, ServletResponse resp,
 				FilterChain fc) throws IOException, ServletException {
 			try {
-				before(KimApiServiceLocator
-						.getIdentityService()
-						.getPrincipalByPrincipalName(
-								((HttpServletRequest) req).getRemoteUser())
-						.getPrincipalId());
+                Principal principal = ((HttpServletRequest) req).getUserPrincipal();
+                if(principal!=null){
+                    String principalName = principal.getName();
+                    String principalId=KimApiServiceLocator
+                            .getIdentityService()
+                            .getPrincipalByPrincipalName(principalName)
+                            .getPrincipalId();
+                    before(principalId);
+                }
 				fc.doFilter(req, resp);
 			} finally {
 				after();
@@ -78,7 +84,9 @@ public class DefaultKsapContext implements KsapContext {
 	@Override
 	public ContextInfo getContextInfo() {
 		ContextInfo rv = TL_CTX.get();
-		assert rv != null : "Filter is not active";
+        if(rv==null){
+            rv= ContextUtils.createDefaultContextInfo();
+        }
 		return rv;
 	}
 
