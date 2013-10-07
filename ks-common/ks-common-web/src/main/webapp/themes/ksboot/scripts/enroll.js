@@ -281,54 +281,83 @@ function highlightElements(validationJSONString, isValid, url) {
  */
 // KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show
 function updateContextBar(srcId, contextBarId, dayOfYear, baseUrl) {
+    if (dayOfYear < 1) {
+        return;
+    }
+    var topGroupWrapper = jQuery("#Uif-TopGroupWrapper");
+    var topGroupWrapperPlaceHolder = jQuery("#Uif-TopGroupWrapper > #" + contextBarId);
+    var topGroupWrapperContent = jQuery("#Uif-TopGroupWrapper > #" + contextBarId + " > #" + srcId);
+    var topGroupUpdate = jQuery("#" + kradVariables.TOP_GROUP_UPDATE);
+    var topGroupUpdatePlaceHolder = jQuery("#" + kradVariables.TOP_GROUP_UPDATE + " > #" + contextBarId);
+    var topGroupUpdateContent = jQuery("#" + kradVariables.TOP_GROUP_UPDATE + " > #" + contextBarId + " > #" + srcId);
+    var contextBarContent = jQuery("#" + srcId);
+    var contextBarContentStandAlone = jQuery("#" + srcId).not("#" + contextBarId + " > #" + srcId);
+    var bc = jQuery("#Uif-BreadcrumbWrapper");
+    var vh = jQuery(".uif-viewHeader-contentWrapper.uif-sticky");
+    var contextBarHeight = 0;
 
-    if (dayOfYear > 0) {
-        if (jQuery("#" + srcId).length == 0)return;
-        if (jQuery("#" + contextBarId).length == 0)return;
-
-        var src = jQuery("#" + srcId);
-
-        if (!initialViewLoad) {
-            var topGroupUpdate = jQuery("#" + kradVariables.TOP_GROUP_UPDATE).find("> div");  //grab the top group !initialViewLoad
-            if (topGroupUpdate.length > 0) {
-                jQuery(topGroupUpdate).empty();
-                jQuery(topGroupUpdate).append(src);
-                src.show();
-            }
-//            when redrawing the context bar move the breadcrumbs below the context bar
-            var bc = jQuery("#Uif-BreadcrumbWrapper");
-            var tg = jQuery("#Uif-TopGroupWrapper");
-            var vh = jQuery(".uif-viewHeader-contentWrapper");
-
-            if (jQuery(vh).length && jQuery(bc.length)) {
-                var bcBottom = tg.offset().top + topGroupUpdate.height() + bc.height();
-                if(console){
-                    console.log("comp | TOP | HEIGHT");
-                    console.log("tg   | " + tg.offset().top + " | " + topGroupUpdate.height());
-                    console.log("bc   | " + bc.offset().top + " | " + bc.height());
-                    console.log("vh   | " + vh.offset().top + " | " + vh.height());
-                    console.log("bcBottom: " + bcBottom);
-                }
-                vh.offset({top: bcBottom});
-                vh.data("offset", vh.offset());
-            }
-        } else {
-            // on page load this is replaced. so there is no problem with showing this component.
-            var contextBar = jQuery("#" + contextBarId);    // grab the placeholder
-            if (contextBar.length > 0) {
-                jQuery(contextBar).empty();
-                if (jQuery(contextBar).is(":hidden")) {
-                    contextBar.show();
-                }
-                jQuery(contextBar).append(src);         // add it to the context bar placeholder
-                src.show();
+    if (!initialViewLoad) {
+        if (jQuery(contextBarContentStandAlone).length && (jQuery(topGroupUpdateContent).length)) {
+            jQuery(topGroupUpdateContent).replaceWith(contextBarContentStandAlone);
+        } else if (jQuery(topGroupUpdateContent).length) {
+            jQuery.extend(topGroupUpdateContent, contextBarContent);
+            jQuery(contextBarContent).show();
+        } else if (jQuery(topGroupUpdatePlaceHolder).length) {
+            if (jQuery(contextBarContent).length) {
+                jQuery(contextBarContent).appendTo(topGroupUpdatePlaceHolder);
+                jQuery(contextBarContent).show();
+            } else if (jQuery(topGroupWrapperContent).length) {
+                jQuery.extend(topGroupUpdatePlaceHolder, topGroupWrapperContent);
             }
         }
-
-        setSeasonalColor(srcId, dayOfYear, baseUrl);
+        contextBarHeight = topGroupUpdate.outerHeight(true);
     } else {
-        removeEmptyContextBar(contextBarId);
+        if (topGroupUpdatePlaceHolder.length) {
+            if (jQuery(contextBarContent).length) {
+                jQuery(contextBarContent).appendTo(topGroupUpdatePlaceHolder);
+                topGroupUpdate = jQuery("#" + kradVariables.TOP_GROUP_UPDATE).find("> div").detach();
+                if (topGroupUpdate.length) {
+                    jQuery("#Uif-TopGroupWrapper > div").replaceWith(topGroupUpdate);
+                }
+                jQuery(contextBarContent).show();
+            }
+        }
+        contextBarHeight = contextBarContent.outerHeight(true);
     }
+    if (jQuery(vh).length && jQuery(bc.length) && contextBarHeight > 0) {
+        var vhBottom = bc.offset().top + bc.outerHeight(true) + vh.outerHeight(true);
+        var cw = jQuery("#Uif-ViewContentWrapper");
+        var cwTop = cw.offset().top;
+        var vhTop = vhBottom - vh.outerHeight(true);
+        if (bc.offset().top < topGroupWrapper.offset().top + contextBarHeight) {
+            var bcDiff = topGroupWrapper.offset().top + contextBarHeight - bc.offset().top;
+            if(console){
+                console.log("The Bread Crumb is off by : " + bcDiff);
+            }
+            vhTop = vhTop + bcDiff;
+            vhBottom = vhBottom + bcDiff;
+        }
+        if (vhBottom > cwTop) {
+            var diff = vhBottom - cw.offset().top;
+//                vhTop = vhTop - diff;
+            cwTop = cwTop + diff + 15;
+        }
+        vh.offset({top: vhTop});
+        vh.data("offset", vh.offset());
+        cw.offset({top: cwTop});
+        cw.data("offset", cw.offset());
+        if (console) {
+            console.log("comp | TOP | HEIGHT");
+            console.log("tg   | " + topGroupWrapper.offset().top + "  |  " + contextBarHeight);
+            console.log("bc   | " + bc.offset().top + "  |  " + bc.outerHeight(true));
+            console.log("vh   | " + vh.offset().top + "  |  " + vh.outerHeight(true));
+            console.log("content Wrapper TOP : " + cwTop);
+            console.log("vhBottom = bc.offset().top + bc.outerHeight(true) + vh.outerHeight(true) =>" + vhBottom);
+            console.log("Sticky Header TOP : " + vhTop);
+            console.log("View TOP : " + cwTop);
+        }
+    }
+    setSeasonalColor(srcId, dayOfYear, baseUrl);
 }
 
 /*

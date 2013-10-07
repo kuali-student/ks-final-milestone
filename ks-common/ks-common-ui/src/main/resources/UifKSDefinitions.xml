@@ -88,11 +88,12 @@
 
 
     <bean id="KS-Uif-HorizontalBoxGroup-TopGroup" abstract="true" parent="Uif-HorizontalBoxGroup">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-topGroup</value>
-            </list>
-        </property>
+        <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
+        <!--<property name="cssClasses">-->
+            <!--<list merge="true">-->
+                <!--<value>ks-topGroup</value>-->
+            <!--</list>-->
+        <!--</property>-->
     </bean>
 
     <bean id="KS-Uif-VerticalBoxGroup-TopGroup" abstract="true" parent="Uif-VerticalBoxGroup">
