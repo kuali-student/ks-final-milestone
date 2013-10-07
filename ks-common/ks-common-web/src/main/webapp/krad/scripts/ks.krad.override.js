@@ -23,67 +23,6 @@ function openDataTablePage(tableId, pageNumber) {
 }
 
 /**
- * Remove once Rice bug has been fixed and KS updated to correct Rice Version (see https://jira.kuali.org/browse/KSENROLL-9716)
- */
-function generateSummaries(id, messageMap, sections, order, newList) {
-    var data = getValidationData(jQuery("#" + id), true);
-    //if no nested sections just output the fieldLinks
-    if (sections.length == 0 || data.isTableCollection == "true") {
-        for (var key in messageMap) {
-            var link = generateFieldLink(messageMap[key], key, data.collapseFieldMessages, data.displayLabel);
-            newList = writeMessageItemToList(link, newList);
-        }
-    }
-    else {
-        var currentFields = [];
-        var currentSectionId;
-
-        //if sections are present iterate over the fields and sections in order by collecting fields that are considered
-        //"direct" descendants of this section - contained in a group (not a section) or just on the section itself.
-        //when the iterator hits a section generate a summary sublist which describes the fields that occur before
-        //that section (or field group) and add it to the list - then generate the summary link for that section (or
-        //or field group).  Add both to the list be generated.
-
-        jQuery.each(order, function (index, value) {
-            //if it doesn't start with an s$ its not a section or f$ its not a field group
-            if (!(value.indexOf("s$") == 0) && !(value.indexOf("f$") == 0)) {
-                currentFields.push(value);
-            }
-            else if (value.indexOf("c$") == 0) {
-                var collectionId = value.substring(2);
-                var collectionData = getValidationData(jquery("#" + collectionId), true);
-                for (var key in collectionData.messageMap) {
-                    var link = generateFieldLink(collectionData.messageMap[key],
-                        key, collectionData.collapseFieldMessages, collectionData.displayLabel);
-                    newList = writeMessageItemToList(link, newList);
-                }
-            }
-            else {
-                var sectionId = value.substring(2);
-                if (jQuery("#" + sectionId).data("role") && jQuery("#" + sectionId).data("role") == "placeholder") {
-                    //do nothing this is a blank/non-visible section
-                }
-                else {
-                    currentSectionId = sectionId;
-                    var sublist = generateFieldLinkSublist(data, currentFields, messageMap, currentSectionId, true);
-                    newList = writeMessageItemToList(sublist, newList);
-                    var summaryLink = generateSummaryLink(currentSectionId);
-                    newList = writeMessageItemToList(summaryLink, newList);
-                    currentFields = [];
-                }
-            }
-        });
-
-        //if there are more fields which occur after the final section - generate a sublist summary of those fields
-        if (currentFields.length > 0) {
-            var sublist = generateFieldLinkSublist(data, currentFields, messageMap, currentSectionId, false);
-            newList = writeMessageItemToList(sublist, newList);
-        }
-    }
-    return newList;
-}
-
-/**
  *  Fix for KSENROLL 4390 and 4675. Adds a null check for sectionTitle that is missing from krad.validate.js, similar to above method.
  */
 function generateFieldLinkSublist(parentSectionData, currentFields, messageMap, sectionId, before) {
