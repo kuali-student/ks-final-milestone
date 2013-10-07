@@ -81,6 +81,7 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
+                            <ref bean="KS-CourseOffering-ContextBar"/>
                             <ref bean="KS-CourseOfferingManagement-ExamOfferingByCOTableSection"/>
                             <bean parent="KS-CourseOfferingManagement-ExamOfferingTableSection" p:render="@{!#dp.examOfferingCancelledList.isEmpty()}">
                                 <property name="propertyName" value="examOfferingCancelledList"/>
