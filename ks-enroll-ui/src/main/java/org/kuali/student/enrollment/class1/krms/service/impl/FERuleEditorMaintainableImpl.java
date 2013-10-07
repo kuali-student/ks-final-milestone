@@ -298,7 +298,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         if (rule.getNamespace() == null) {
             rule.setNamespace(namespace);
         }
-        if (rule.getName() == null && rule.getName().isEmpty()) {
+        if (rule.getName() == null || rule.getName().isEmpty()) {
             rule.setName(rulePrefix + rule.getRuleTypeInfo().getId() + ":1");
         }
 
