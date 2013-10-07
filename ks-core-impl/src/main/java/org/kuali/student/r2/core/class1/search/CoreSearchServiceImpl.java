@@ -43,15 +43,20 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
     public static final TypeInfo SCH_AND_ROOM_SEARH_BY_ID_SEARCH_TYPE;
     public static final TypeInfo SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_TYPE;
     public static final TypeInfo ACAL_GET_HOLIDAYS_BY_TERM_SEARCH_TYPE;
+    public static final TypeInfo SCH_IDS_WITH_TBA_BY_SCH_IDS_SEARCH_TYPE;
+    public static final TypeInfo SCH_REQ_REF_IDS_WITH_NON_TBA_BY_SCH_REQ_REF_IDS_SEARCH_TYPE;
 
     public static final String SCH_AND_ROOM_SEARH_BY_ID_SEARCH_KEY = "kuali.search.type.core.searchForScheduleAndRoomById";
     public static final String SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_KEY = "kuali.search.type.core.searchForScheduleRequestByRefIdAndType";
     public static final String ACAL_GET_HOLIDAYS_BY_TERM_SEARCH_KEY = "kuali.search.type.core.searchForHolidaysByTermId";
+    public static final String SCH_IDS_WITH_NON_TBA_BY_SCH_IDS_SEARCH_KEY = "kuali.search.type.scheduling.searchForScheduleIdsWithNonTBAByScheduleIds";
+    public static final String SCH_REQ_REF_IDS_WITH_NON_TBA_BY_SCH_REQ_REF_IDS_SEARCH_KEY = "kuali.search.type.scheduling.searchForScheduleReqRefIdsWithNonTBAByScheduleReqRefIds";
 
     public static final class SearchParameters {
         public static final String SCHEDULE_IDS = "scheduleIds";
         public static final String REF_IDS = "refIds";
         public static final String REF_TYPE = "refType";
+        public static final String SCH_REQ_SET_TYPE = "schedReqSetType";
         public static final String TERM_ID = "termId";
         public static final String ROOM_IDS = "roomIds";
     }
@@ -69,6 +74,8 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
         public static final String BLDG_NAME = "name";
         public static final String BLDG_CODE = "bldgCode";
         public static final String TBA_IND = "tbaInd";
+        public static final String REF_ID = "refId";
+        public static final String MIN_TBA = "minTBA";
 
         public static final String MSTONE_ID = "id";
         public static final String MSTONE_NAME = "name";
@@ -115,6 +122,28 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
             throw new RuntimeException("bad code", ex);
         }
         ACAL_GET_HOLIDAYS_BY_TERM_SEARCH_TYPE = info;
+
+        info = new TypeInfo();
+        info.setKey(SCH_IDS_WITH_NON_TBA_BY_SCH_IDS_SEARCH_KEY);
+        info.setName("Schedules with TBA Search");
+        info.setDescr(new RichTextHelper().fromPlain("Return Schedule Ids that have schedule components with TBA"));
+        try {
+            info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2012"));
+        } catch ( IllegalArgumentException ex) {
+            throw new RuntimeException("bad code", ex);
+        }
+        SCH_IDS_WITH_TBA_BY_SCH_IDS_SEARCH_TYPE = info;
+
+        info = new TypeInfo();
+        info.setKey(SCH_REQ_REF_IDS_WITH_NON_TBA_BY_SCH_REQ_REF_IDS_SEARCH_KEY);
+        info.setName("Schedule Request Reference Ids with TBA Search");
+        info.setDescr(new RichTextHelper().fromPlain("Return Schedule Request Reference Ids that have components with TBA"));
+        try {
+            info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2012"));
+        } catch ( IllegalArgumentException ex) {
+            throw new RuntimeException("bad code", ex);
+        }
+        SCH_REQ_REF_IDS_WITH_NON_TBA_BY_SCH_REQ_REF_IDS_SEARCH_TYPE = info;
     }
 
 
@@ -138,7 +167,12 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
         if (ACAL_GET_HOLIDAYS_BY_TERM_SEARCH_TYPE.getKey().equals(searchTypeKey)) {
             return ACAL_GET_HOLIDAYS_BY_TERM_SEARCH_TYPE;
         }
-
+        if (SCH_IDS_WITH_TBA_BY_SCH_IDS_SEARCH_TYPE.getKey().equals(searchTypeKey)) {
+            return SCH_IDS_WITH_TBA_BY_SCH_IDS_SEARCH_TYPE;
+        }
+        if (SCH_REQ_REF_IDS_WITH_NON_TBA_BY_SCH_REQ_REF_IDS_SEARCH_TYPE.getKey().equals(searchTypeKey)) {
+            return SCH_REQ_REF_IDS_WITH_NON_TBA_BY_SCH_REQ_REF_IDS_SEARCH_TYPE;
+        }
         throw new DoesNotExistException("No Search Type Found for key:"+searchTypeKey);
     }
 
@@ -147,7 +181,7 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException {
-        return Arrays.asList(SCH_AND_ROOM_SEARH_BY_ID_SEARCH_TYPE, SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_TYPE, ACAL_GET_HOLIDAYS_BY_TERM_SEARCH_TYPE);
+        return Arrays.asList(SCH_AND_ROOM_SEARH_BY_ID_SEARCH_TYPE, SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_TYPE, ACAL_GET_HOLIDAYS_BY_TERM_SEARCH_TYPE, SCH_IDS_WITH_TBA_BY_SCH_IDS_SEARCH_TYPE, SCH_REQ_REF_IDS_WITH_NON_TBA_BY_SCH_REQ_REF_IDS_SEARCH_TYPE);
     }
 
 
@@ -162,9 +196,52 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
             return searchForScheduleRequestsByRefIdAndType(searchRequestInfo, contextInfo);
         } else if (StringUtils.equals(searchRequestInfo.getSearchKey(), ACAL_GET_HOLIDAYS_BY_TERM_SEARCH_TYPE.getKey())) {
             return searchForHolidaysByTermId(searchRequestInfo, contextInfo);
+        } else if (SCH_IDS_WITH_NON_TBA_BY_SCH_IDS_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())) {
+            return searchForScheduleIdsWithTBAByScheduleIds(searchRequestInfo);
+        } else if (SCH_REQ_REF_IDS_WITH_NON_TBA_BY_SCH_REQ_REF_IDS_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())) {
+            return searchForScheduleReqRefIdsWithNonTBAByScheduleReqRefIds(searchRequestInfo);
         } else{
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
+    }
+
+    /**
+     * Searches for schedule requests ids for reference objects to find if at least one of the scheduled requests is not TBA
+     * @param searchRequestInfo a list of ref ids (and types)
+     * @return list of ref object ids and the minumum TBA indicator on the request components for each ref object
+     */
+    private SearchResultInfo searchForScheduleReqRefIdsWithNonTBAByScheduleReqRefIds(SearchRequestInfo searchRequestInfo) {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        List<String> refIds = requestHelper.getParamAsList(SearchParameters.REF_IDS);
+        List<String> refType = requestHelper.getParamAsList(SearchParameters.REF_TYPE);
+        List<String> schedReqSetType = requestHelper.getParamAsList(SearchParameters.SCH_REQ_SET_TYPE);
+
+        String queryStr =
+                "SELECT roIds, MIN(src.isTBA)" +
+                        "  FROM ScheduleRequestSetEntity srs, IN(srs.refObjectIds) roIds, ScheduleRequestComponentEntity src" +
+                        " WHERE roIds IN (:refIds)" +
+                        "   AND src.scheduleRequest.scheduleRequestSetId = srs.id" +
+                        "   AND srs.schedReqSetType = :schedReqSetType" +
+                        "   AND srs.refObjectTypeKey = :refType" +
+                        " GROUP BY roIds";
+
+        Query query = entityManager.createQuery(queryStr);
+        query.setParameter(SearchParameters.REF_IDS, refIds);
+        query.setParameter(SearchParameters.REF_TYPE, refType);
+        query.setParameter(SearchParameters.SCH_REQ_SET_TYPE, schedReqSetType);
+
+        List<Object[]> results = query.getResultList();
+
+        for (Object[] result : results) {
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.REF_ID, result[0].toString());
+            row.addCell(SearchResultColumns.MIN_TBA, result[1].toString());
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
     }
 
     /**
@@ -177,8 +254,8 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
      * the old, broken query and the two query approach was only around 10ms for 201208/ENGL101.
      *
      * @param searchRequestInfo Provides a list of schedule Ids.
-     * @param contextInfo
-     * @return
+     * @param contextInfo context of the call
+     * @return scheduling info
      * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
      * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
@@ -293,9 +370,9 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
 
     /**
      *
-     * @param searchRequestInfo   Contains an Activity Offering ID that we will use to find the scheduleId
-     * @param contextInfo
-     * @return
+     * @param searchRequestInfo Contains an Activity Offering ID that we will use to find the scheduleId
+     * @param contextInfo context of the call
+     * @return schedule requests
      * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
      * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
@@ -346,10 +423,6 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
         Query query = entityManager.createQuery(queryStr);
         query.setParameter(SearchParameters.REF_TYPE, refType);
 
-        try{
-            String querySt = query.unwrap(org.hibernate.Query.class).getQueryString();
-        } catch (Exception ex){}
-
         List<Object[]> results = query.getResultList();
 
         SearchResultInfo resultInfo = new SearchResultInfo();
@@ -389,8 +462,8 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
      *
      * @param searchRequestInfo this should contain the termId (atpId) of the term that you want to find corresponding
      *                          holidays.
-     * @param contextInfo
-     * @return
+     * @param contextInfo context of the call
+     * @return holidays associated with a term
      */
     protected SearchResultInfo searchForHolidaysByTermId(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo){
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
@@ -458,13 +531,43 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
             i++;
             row.addCell(SearchResultColumns.MSTONE_END_DT,((result[i] != null ? DateFormatters.DEFAULT_TIMESTAMP_FORMATTER.format((java.util.Date)result[i]) : "")));
             i++;
-            row.addCell(SearchResultColumns.MSTONE_ALL_DAY,(result[i] != null ? ((Boolean)result[i]).toString() : "false"));
+            row.addCell(SearchResultColumns.MSTONE_ALL_DAY,(result[i] != null ? (result[i]).toString() : "false"));
             i++;
-            row.addCell(SearchResultColumns.MSTONE_INSTR_DAY,(result[i] != null ? ((Boolean)result[i]).toString() : "false"));
+            row.addCell(SearchResultColumns.MSTONE_INSTR_DAY,(result[i] != null ? (result[i]).toString() : "false"));
             i++;
-            row.addCell(SearchResultColumns.MSTONE_DT_RANGE,(result[i] != null ? ((Boolean)result[i]).toString() : "false"));
-            i++;
+            row.addCell(SearchResultColumns.MSTONE_DT_RANGE,(result[i] != null ? (result[i]).toString() : "false"));
 
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
+    }
+
+    /**
+     * Method is used to determine AO state. A list of schedule ids is passed in and only those with a component that is not TBA
+     * are returned.
+     * @param searchRequestInfo a list of schedule ids
+     * @return list of the passed in ids that have a tba indicator set to true
+     */
+    private SearchResultInfo searchForScheduleIdsWithTBAByScheduleIds(SearchRequestInfo searchRequestInfo) {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        List<String> scheduleIds = requestHelper.getParamAsList(SearchParameters.SCHEDULE_IDS);
+
+        String queryStr =
+                "SELECT DISTINCT se.id" +
+                        "  FROM ScheduleEntity se, IN(se.scheduleComponents) sc" +
+                        " WHERE sc.isTBA = FALSE" +
+                        "   AND se.id IN (:scheduleIds)";
+
+        Query query = entityManager.createQuery(queryStr);
+        query.setParameter(SearchParameters.SCHEDULE_IDS, scheduleIds);
+        List<String> results = query.getResultList();
+
+        for (String id : results) {
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.SCH_ID, id);
             resultInfo.getRows().add(row);
         }
 
