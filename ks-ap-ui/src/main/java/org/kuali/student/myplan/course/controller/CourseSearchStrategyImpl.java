@@ -914,7 +914,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         List<CourseSearchItemImpl> courses = new ArrayList<CourseSearchItemImpl>();
         if(!courseIDs.isEmpty()){
             courses = getCoursesInfo(courseIDs);
-            loadScheduledTerms(courses);
+            //loadScheduledTerms(courses);
             loadTermsOffered(courses, courseIDs);
             loadGenEduReqs(courses, courseIDs);
         }
@@ -934,9 +934,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 			}
 		}
 		populateFacets(form, courseList);
-		LOG.error(String.format("SEARCH: %s  : %s CAMPUS : %s : %s",
-				form.getSearchQuery(), form.getSearchTerm(),
-				form.getCampusSelect(), String.valueOf(hits.size())));
+
 		return courseList;
 	}
 
@@ -1210,7 +1208,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
 		LOG.info("Start of method addCampusParams of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
-		addCampusParams(requests, form);
+		//addCampusParams(requests, form);
 		LOG.info("Start of method addCampusParams of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
 
@@ -1254,7 +1252,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 						SearchRequestInfo request0 = new SearchRequestInfo(
 								"myplan.lu.search.title");
 						request0.addParam("queryText", queryText.trim());
-						addCampusParam(request0, form);
+						//addCampusParam(request0, form);
 						requests.add(request0);
 						if (!this.getHashMap().containsKey(
 								CourseSearchConstants.SUBJECT_AREA)) {
@@ -1289,13 +1287,13 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 							SearchRequestInfo request1 = new SearchRequestInfo(
 									"myplan.lu.search.additionalDivision");
 							request1.addParam("divisions", div.trim());
-							addCampusParam(request1, form);
+							//addCampusParam(request1, form);
 							requests.add(request1);
 						}
 						SearchRequestInfo request2 = new SearchRequestInfo(
 								"myplan.lu.search.description");
 						request2.addParam("queryText", queryText.trim());
-						addCampusParam(request2, form);
+						//addCampusParam(request2, form);
 						requests.add(request2);
 
 					}
@@ -1349,12 +1347,12 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 								SearchRequestInfo request1 = new SearchRequestInfo(
 										"myplan.lu.search.title");
 								request1.addParam("queryText", key.trim());
-								addCampusParam(request1, form);
+								//addCampusParam(request1, form);
 								requests.add(request1);
 								SearchRequestInfo request2 = new SearchRequestInfo(
 										"myplan.lu.search.description");
 								request2.addParam("queryText", key.trim());
-								addCampusParam(request2, form);
+								//addCampusParam(request2, form);
 								requests.add(request2);
 							} else {
 								requests.get(i).setSearchKey(
@@ -1362,7 +1360,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 								SearchRequestInfo request2 = new SearchRequestInfo(
 										"myplan.lu.search.description");
 								request2.addParam("queryText", key.trim());
-								addCampusParam(request2, form);
+								//addCampusParam(request2, form);
 								requests.add(request2);
 							}
 						}

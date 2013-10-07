@@ -355,7 +355,7 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="myplan.course.getCampusLocations">
+    <!--<search:searchType id="myplan.course.getCampusLocations">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
@@ -369,7 +369,7 @@
             <search:queryParams>
             </search:queryParams>
         </search:searchCriteriaTypeInfo>
-    </search:searchType>
+    </search:searchType>-->
 
     <bean id="queryMap" parent="queryMap-parent">
         <property name="sourceMap">
@@ -400,10 +400,10 @@
                         (
                         UPPER( ' ' || ident.longName || ' ' ) LIKE '% '||:queryText||'%'
                         )
-                        AND
+                       <!-- AND
                         attr.name = 'course.campus'
                         AND
-                        attr.value IN ( :campus1, :campus2, :campus3 )
+                        attr.value IN ( :campus1, :campus2, :campus3 )-->
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
                         ORDER BY ident.code
@@ -425,10 +425,10 @@
                         (
                         UPPER( ' ' || cludesc.plain || ' ' ) LIKE '% '||:queryText||'%'
                         )
-                        AND
+                       <!-- AND
                         attr.name = 'course.campus'
                         AND
-                        attr.value IN ( :campus1, :campus2, :campus3 )
+                        attr.value IN ( :campus1, :campus2, :campus3 )-->
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
                         ORDER BY ident.code
@@ -453,10 +453,10 @@
                         OR
                         UPPER( ' ' || cludesc.plain || ' ' ) LIKE '% '||:queryText||'%'
                         )
-                        AND
+                        <!--AND
                         attr.name = 'course.campus'
                         AND
-                        attr.value IN ( :campus1, :campus2, :campus3 )
+                        attr.value IN ( :campus1, :campus2, :campus3 )-->
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
                     </value>
@@ -477,10 +477,10 @@
                         ident.division = :division
                         AND
                         ident.suffixCode = :code
-                        AND
+                       <!-- AND
                         attr.name = 'course.campus'
                         AND
-                        attr.value IN ( :campus1, :campus2, :campus3 )
+                        attr.value IN ( :campus1, :campus2, :campus3 )-->
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
                         ORDER BY ident.suffixCode
@@ -502,10 +502,10 @@
                         ident.division = :division
                         AND
                         ident.level = :level
-                        AND
+                       <!-- AND
                         attr.name = 'course.campus'
                         AND
-                        attr.value IN ( :campus1, :campus2, :campus3 )
+                        attr.value IN ( :campus1, :campus2, :campus3 )-->
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
                         ORDER BY ident.suffixCode
@@ -524,10 +524,10 @@
                         AND clu.lastAtp &gt;= :lastScheduledTerm
                         AND
                         ident.division IN (:divisions)
-                        AND
+                        <!--AND
                         attr.name = 'course.campus'
                         AND
-                        attr.value IN ( :campus1, :campus2, :campus3 )
+                        attr.value IN ( :campus1, :campus2, :campus3 )-->
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
                         ORDER BY ident.suffixCode
@@ -546,10 +546,10 @@
                         AND clu.lastAtp &gt;= :lastScheduledTerm
                         AND
                         ident.division = :division
-                        AND
+                        <!--AND
                         attr.name = 'course.campus'
                         AND
-                        attr.value IN ( :campus1, :campus2, :campus3 )
+                        attr.value IN ( :campus1, :campus2, :campus3 )-->
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
                         ORDER BY ident.suffixCode
@@ -716,7 +716,7 @@
                     </value>
                 </entry>
 
-                <entry key="myplan.course.getCampusLocations">
+                <!--<entry key="myplan.course.getCampusLocations">
                     <value>
                         SELECT
                         attr.value
@@ -725,7 +725,7 @@
                         JOIN clu.officialIdentifier ident
                         WHERE
                         clu.expectedFirstAtp &lt;= :lastScheduledTerm
-                        <!--AND clu.lastAtp &gt;= :currentTerm-->
+                        &lt;!&ndash;AND clu.lastAtp &gt;= :currentTerm&ndash;&gt;
                         AND clu.lastAtp &gt;= :lastScheduledTerm
                         AND
                         clu.id = :cluId
@@ -736,7 +736,7 @@
                         and att.value='Y')
                         ORDER BY ident.suffixCode
                     </value>
-                </entry>
+                </entry>-->
 
                 <!--Quick search queries-->
                 <entry key="myplan.clu.division">
@@ -752,8 +752,8 @@
                         AND clu.lastAtp &gt;= :lastScheduledTerm
                         AND
                         ident.division LIKE :division||'%'
-                        AND
-                        attr.name = 'course.campus'
+                       <!-- AND
+                        attr.name = 'course.campus'-->
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
                         ORDER BY ident.division, ident.suffixCode
@@ -775,8 +775,8 @@
                         ident.division LIKE :division||'%'
                         AND
                         ident.suffixCode LIKE :code||'%'
-                        AND
-                        attr.name = 'course.campus'
+                        <!--AND
+                        attr.name = 'course.campus'-->
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
                         ORDER BY ident.division, ident.suffixCode

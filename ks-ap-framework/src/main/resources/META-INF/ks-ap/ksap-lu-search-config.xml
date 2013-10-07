@@ -375,7 +375,7 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="myplan.course.getCampusLocations">
+    <!--<search:searchType id="myplan.course.getCampusLocations">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
@@ -389,7 +389,7 @@
             <search:queryParams>
             </search:queryParams>
         </search:searchCriteriaTypeInfo>
-    </search:searchType>
+    </search:searchType>-->
 
     <bean id="queryMap" parent="queryMap-parent">
         <property name="sourceMap">
@@ -416,13 +416,13 @@
                         (
                         UPPER( ' ' || ident.longName || ' ' ) LIKE '% '||:queryText||'%'
                         )
-                        AND
+                       <!-- AND
                         attr.name = 'course.campus'
                         AND
-                        attr.value IN :campuses
+                        attr.value IN :campuses-->
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
-                        AND clu.expectedFirstAtp = (select min(c.expectedFirstAtp) FROM Clu c where c.version.versionIndId = clu.version.versionIndId and c.lastAtp &gt;= :lastScheduledTerm group by c.version.versionIndId )
+                        AND clu.expectedFirstAtp = (select min(c.expectedFirstAtp) FROM Clu c where c.version.versionIndId = clu.version.versionIndId and c.lastAtp &lt;= :lastScheduledTerm group by c.version.versionIndId )
                         ORDER BY ident.code
                     </value>
                 </entry>
@@ -438,13 +438,13 @@
                         (
                         UPPER( ' ' || cludesc.plain || ' ' ) LIKE '% '||:queryText||'%'
                         )
-                        AND
-                        attr.name = 'course.campus'
-                        AND
-                        attr.value IN :campuses
+                        <!--AND-->
+                        <!--attr.name = 'course.campus'-->
+                        <!--AND-->
+                        <!--attr.value IN :campuses-->
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
-                        AND clu.expectedFirstAtp = (select min(c.expectedFirstAtp) FROM Clu c where c.version.versionIndId = clu.version.versionIndId and c.lastAtp &gt;= :lastScheduledTerm group by c.version.versionIndId )
+                        AND clu.expectedFirstAtp = (select min(c.expectedFirstAtp) FROM Clu c where c.version.versionIndId = clu.version.versionIndId and c.lastAtp &lt;= :lastScheduledTerm group by c.version.versionIndId )
                         ORDER BY ident.code
                     </value>
                 </entry>
@@ -463,13 +463,13 @@
                         OR
                         UPPER( ' ' || cludesc.plain || ' ' ) LIKE '% '||:queryText||'%'
                         )
-                        AND
-                        attr.name = 'course.campus'
-                        AND
-                        attr.value IN :campuses
+                        <!--AND-->
+                        <!--attr.name = 'course.campus'-->
+                        <!--AND-->
+                        <!--attr.value IN :campuses-->
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
-                        AND clu.expectedFirstAtp = (select min(c.expectedFirstAtp) FROM Clu c where c.version.versionIndId = clu.version.versionIndId and c.lastAtp &gt;= :lastScheduledTerm group by c.version.versionIndId )
+                        AND clu.expectedFirstAtp = (select min(c.expectedFirstAtp) FROM Clu c where c.version.versionIndId = clu.version.versionIndId and c.lastAtp &lt;= :lastScheduledTerm group by c.version.versionIndId )
                     </value>
                 </entry>
 
@@ -484,13 +484,13 @@
                         ident.division = :division
                         AND
                         ident.suffixCode = :code
-                        AND
-                        attr.name = 'course.campus'
-                        AND
-                        attr.value IN :campuses
+                        <!--AND-->
+                        <!--attr.name = 'course.campus'-->
+                        <!--AND-->
+                        <!--attr.value IN :campuses-->
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
-                        AND clu.expectedFirstAtp = (select min(c.expectedFirstAtp) FROM Clu c where c.version.versionIndId = clu.version.versionIndId and c.lastAtp &gt;= :lastScheduledTerm group by c.version.versionIndId )
+                        AND clu.expectedFirstAtp = (select min(c.expectedFirstAtp) FROM Clu c where c.version.versionIndId = clu.version.versionIndId and c.lastAtp &lt;= :lastScheduledTerm group by c.version.versionIndId )
                         ORDER BY ident.suffixCode
                     </value>
                 </entry>
@@ -506,13 +506,13 @@
                         ident.division = :division
                         AND
                         ident.level = :level
-                        AND
-                        attr.name = 'course.campus'
-                        AND
-                        attr.value IN :campuses
+                        <!--AND-->
+                        <!--attr.name = 'course.campus'-->
+                        <!--AND-->
+                        <!--attr.value IN :campuses-->
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
-                        AND clu.expectedFirstAtp = (select min(c.expectedFirstAtp) FROM Clu c where c.version.versionIndId = clu.version.versionIndId and c.lastAtp &gt;= :lastScheduledTerm group by c.version.versionIndId )
+                        AND clu.expectedFirstAtp = (select min(c.expectedFirstAtp) FROM Clu c where c.version.versionIndId = clu.version.versionIndId and c.lastAtp &lt;= :lastScheduledTerm group by c.version.versionIndId )
                         ORDER BY ident.suffixCode
                     </value>
                 </entry>
@@ -525,13 +525,13 @@
                         JOIN clu.officialIdentifier ident
                         WHERE
                         ident.division IN (:divisions)
-                        AND
-                        attr.name = 'course.campus'
-                        AND
-                        attr.value IN :campuses
+                        <!--AND-->
+                        <!--attr.name = 'course.campus'-->
+                        <!--AND-->
+                        <!--attr.value IN :campuses-->
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
-                        AND clu.expectedFirstAtp = (select min(c.expectedFirstAtp) FROM Clu c where c.version.versionIndId = clu.version.versionIndId and c.lastAtp &gt;= :lastScheduledTerm group by c.version.versionIndId )
+                        AND clu.expectedFirstAtp = (select min(c.expectedFirstAtp) FROM Clu c where c.version.versionIndId = clu.version.versionIndId and c.lastAtp &lt;= :lastScheduledTerm group by c.version.versionIndId )
                         ORDER BY ident.suffixCode
                     </value>
                 </entry>
@@ -544,13 +544,13 @@
                         JOIN clu.officialIdentifier ident
                         WHERE
                         ident.division = :division
-                        AND
-                        attr.name = 'course.campus'
-                        AND
-                        attr.value IN :campuses
+                        <!--AND-->
+                        <!--attr.name = 'course.campus'-->
+                        <!--AND-->
+                        <!--attr.value IN :campuses-->
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
-                        AND clu.expectedFirstAtp = (select min(c.expectedFirstAtp) FROM Clu c where c.version.versionIndId = clu.version.versionIndId and c.lastAtp &gt;= :lastScheduledTerm group by c.version.versionIndId )
+                        AND clu.expectedFirstAtp = (select min(c.expectedFirstAtp) FROM Clu c where c.version.versionIndId = clu.version.versionIndId and c.lastAtp &lt;= :lastScheduledTerm group by c.version.versionIndId )
                         ORDER BY ident.suffixCode
                     </value>
                 </entry>
@@ -756,24 +756,24 @@
                     </value>
                 </entry>
 
-                <entry key="myplan.course.getCampusLocations">
-                    <value>
-                        SELECT
-                        attr.value
-                        FROM CluAttribute attr
-                        JOIN attr.owner clu
-                        JOIN clu.officialIdentifier ident
-                        WHERE
-                        clu.id = :cluId
-                        AND
-                        attr.name = 'course.campus'
-                        AND
-                        clu.id NOT IN (SELECT att.owner FROM CluAttribute att where att.name='course.catalogOmit_ind'
-                        and att.value='Y')
-                        AND clu.expectedFirstAtp = (select min(c.expectedFirstAtp) FROM Clu c where c.version.versionIndId = clu.version.versionIndId and c.lastAtp &gt;= :lastScheduledTerm group by c.version.versionIndId )
-                        ORDER BY ident.suffixCode
-                    </value>
-                </entry>
+                <!--<entry key="myplan.course.getCampusLocations">-->
+                    <!--<value>-->
+                        <!--SELECT-->
+                        <!--attr.value-->
+                        <!--FROM CluAttribute attr-->
+                        <!--JOIN attr.owner clu-->
+                        <!--JOIN clu.officialIdentifier ident-->
+                        <!--WHERE-->
+                        <!--clu.id = :cluId-->
+                        <!--AND-->
+                        <!--attr.name = 'course.campus'-->
+                        <!--AND-->
+                        <!--clu.id NOT IN (SELECT att.owner FROM CluAttribute att where att.name='course.catalogOmit_ind'-->
+                        <!--and att.value='Y')-->
+                        <!--AND clu.expectedFirstAtp = (select min(c.expectedFirstAtp) FROM Clu c where c.version.versionIndId = clu.version.versionIndId and c.lastAtp &gt;= :lastScheduledTerm group by c.version.versionIndId )-->
+                        <!--ORDER BY ident.suffixCode-->
+                    <!--</value>-->
+                <!--</entry>-->
 
                 <!--Quick search queries-->
                 <entry key="myplan.clu.division">
@@ -785,11 +785,11 @@
                         JOIN clu.officialIdentifier ident
                         WHERE
                         ident.division LIKE :division||'%'
-                        AND
-                        attr.name = 'course.campus'
+                        <!--AND-->
+                        <!--attr.name = 'course.campus'-->
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
-                        AND clu.expectedFirstAtp = (select min(c.expectedFirstAtp) FROM Clu c where c.version.versionIndId = clu.version.versionIndId and c.lastAtp &gt;= :lastScheduledTerm group by c.version.versionIndId )
+                        AND clu.expectedFirstAtp = (select min(c.expectedFirstAtp) FROM Clu c where c.version.versionIndId = clu.version.versionIndId and c.lastAtp &lt;= :lastScheduledTerm group by c.version.versionIndId )
                         ORDER BY ident.division, ident.suffixCode
                     </value>
                 </entry>
@@ -805,11 +805,11 @@
                         ident.division LIKE :division||'%'
                         AND
                         ident.suffixCode LIKE :code||'%'
-                        AND
-                        attr.name = 'course.campus'
+                        <!--AND-->
+                        <!--attr.name = 'course.campus'-->
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
-                        AND clu.expectedFirstAtp = (select min(c.expectedFirstAtp) FROM Clu c where c.version.versionIndId = clu.version.versionIndId and c.lastAtp &gt;= :lastScheduledTerm group by c.version.versionIndId )
+                        AND clu.expectedFirstAtp = (select min(c.expectedFirstAtp) FROM Clu c where c.version.versionIndId = clu.version.versionIndId and c.lastAtp &lt;= :lastScheduledTerm group by c.version.versionIndId )
                         ORDER BY ident.division, ident.suffixCode
                     </value>
                 </entry>
