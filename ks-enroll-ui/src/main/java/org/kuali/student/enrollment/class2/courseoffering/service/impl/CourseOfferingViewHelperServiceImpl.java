@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm;
@@ -130,6 +131,20 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
                     }
                     return false;
                 }
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean termHasExamPeriod(String termId) {
+        AcademicCalendarService acalService = _getAcalService();
+        try {
+            List<ExamPeriodInfo> epInfos = acalService.getExamPeriodsForTerm(termId, new ContextInfo());
+            if (epInfos == null || epInfos.isEmpty()) {
+                return false;
             }
             return true;
         } catch (Exception e) {
