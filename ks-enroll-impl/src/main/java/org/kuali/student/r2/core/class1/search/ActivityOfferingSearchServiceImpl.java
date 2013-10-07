@@ -46,13 +46,12 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final TypeInfo AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE;
     public static final TypeInfo AO_CODES_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo TERM_ID_BY_OFFERING_ID_SEARCH_TYPE;
-
-
-    public static final String SCH_IDS_BY_AO_SEARCH_KEY = "kuali.search.type.lui.searchForScheduleIdsByAoId";
+    public static final TypeInfo TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_TYPE;
     public static final TypeInfo COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE;
     public static final TypeInfo FO_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE;
 
+    public static final String SCH_IDS_BY_AO_SEARCH_KEY = "kuali.search.type.lui.searchForScheduleIdsByAoId";
     public static final String AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAOsAndClustersByCoId";
     public static final String REG_GROUPS_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForRegGroupsByCoId";
     public static final String AOS_WO_CLUSTER_BY_FO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAOsWithoutClusterByFormatId";
@@ -61,7 +60,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final String RELATED_AO_TYPES_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForRelatedAoTypesByCoId";
     public static final String AO_CODES_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAoCodesByCoId";
     public static final String TERM_ID_BY_OFFERING_ID_SEARCH_KEY = "kuali.search.type.lui.searchForTermIdByOfferingId";
-    
+    public static final String TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_KEY = "kuali.search.type.lui.searchForTotalMaxSeatsByAOIds";
+
     public static final String DEFAULT_EFFECTIVE_DATE = "01/01/2012";
 
 
@@ -93,11 +93,11 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         public static final String AO_CODE = "aoCode";
         public static final String CO_CODE = "coCode";
         public static final String CO_ID = "coId";
-        public static final String LUI_SET_ID = "luiSetId";
         public static final String RG_NAME = "rgId";
         public static final String RG_ID = "rgName";
         public static final String RG_STATE = "rgState";
         public static final String ATP_ID = "atpId";
+        public static final String TOTAL_MAX_SEATS = "totalMaxSeats";
     }
 
     static {
@@ -172,6 +172,14 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
         TERM_ID_BY_OFFERING_ID_SEARCH_TYPE = info;
+
+        info = new TypeInfo();
+        info.setKey(TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_KEY);
+        info.setName("Total Max seats for AO Set id");
+        info.setDescr(new RichTextHelper().fromPlain("Returns Total Max seats for AO Set id"));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
+
+        TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_TYPE = info;
     }
 
     @Override
@@ -212,6 +220,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         if (TERM_ID_BY_OFFERING_ID_SEARCH_KEY.equals(searchTypeKey)) {
             return AO_CODES_BY_CO_ID_SEARCH_TYPE;
         }
+        if (TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_KEY.equals(searchTypeKey)) {
+            return TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_TYPE;
+        }
         throw new DoesNotExistException("No Search Type Found for key:"+searchTypeKey);
     }
 
@@ -222,7 +233,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             OperationFailedException {
         return Arrays.asList(SCH_IDS_BY_AO_SEARCH_TYPE, AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE,
                 REG_GROUPS_BY_CO_ID_SEARCH_TYPE, AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE, COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE, FO_BY_CO_ID_SEARCH_TYPE,
-                RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE, AO_CODES_BY_CO_ID_SEARCH_TYPE, TERM_ID_BY_OFFERING_ID_SEARCH_TYPE);
+                RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE, AO_CODES_BY_CO_ID_SEARCH_TYPE, TERM_ID_BY_OFFERING_ID_SEARCH_TYPE, TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_TYPE);
     }
 
     @Override
@@ -256,9 +267,36 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         else if (TERM_ID_BY_OFFERING_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForTermIdByOfferingId(searchRequestInfo);
         }
+        else if (TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
+            return searchForTotalMaxSeatsByAOIds(searchRequestInfo);
+        }
         else{
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
+    }
+
+    private SearchResultInfo searchForTotalMaxSeatsByAOIds(SearchRequestInfo searchRequestInfo) {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        List<String> aoIds = requestHelper.getParamAsList(SearchParameters.AO_IDS);
+
+        String queryStr =
+                "SELECT SUM(ao.maxSeats)" +
+                        "FROM LuiEntity ao " +
+                        "WHERE ao.id IN (:aoIds)";
+
+        Query query = entityManager.createQuery(queryStr);
+        query.setParameter(SearchParameters.AO_IDS, aoIds);       // After updating an oracle driver the List binding is causing massive problems
+        List<Long> results = query.getResultList();
+
+        for(Long result : results){
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.TOTAL_MAX_SEATS, result.toString());
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
     }
 
     private SearchResultInfo searchForRelatedAoTypesByCoId(SearchRequestInfo searchRequestInfo) {

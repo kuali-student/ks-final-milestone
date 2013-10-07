@@ -7,7 +7,6 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
-import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDaoApi;
 import org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDaoApi;
 import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterAttributeEntity;
@@ -38,6 +37,7 @@ import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
+import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
 import org.kuali.student.enrollment.examoffering.service.ExamOfferingService;
@@ -1108,7 +1108,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         LuiInfo lui = luiService.getLui(activityOfferingId, context);
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
-        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, luiService, context);
+        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, searchService, context);
 
         LuiInfo foLui = this.findFormatOfferingLui(ao.getId(), context);
         LuiInfo coLui = this.findCourseOfferingLui(foLui.getId(), context);
@@ -1192,20 +1192,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         if (luiIds != null && !luiIds.isEmpty()) {
             List<LuiInfo> luiInfos = getLuiService().getLuisByIds(luiIds, contextInfo);
-
-            for (LuiInfo lui : luiInfos) {
-
-                ActivityOfferingInfo ao = new ActivityOfferingInfo();
-                ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, luiService, contextInfo);
-
-                LuiInfo foLui = this.findFormatOfferingLui(lui.getId(), contextInfo);
-                LuiInfo coLui = this.findCourseOfferingLui(foLui.getId(), contextInfo);
-
-                populateActivityOfferingRelationships(ao, coLui, foLui, contextInfo);
-
-                results.add(ao);
-            }
-
+            results = ActivityOfferingTransformer.luis2AOs(luiInfos, lprService, schedulingService, searchService, contextInfo);
         }
 
         return results;
@@ -1235,7 +1222,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         // Find all related luis to the course Offering
         List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(formatOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY, contextInfo);
-        activityOfferings = ActivityOfferingTransformer.luis2AOs(luis, lprService, schedulingService, luiService, contextInfo);
+        activityOfferings = ActivityOfferingTransformer.luis2AOs(luis, lprService, schedulingService, searchService, contextInfo);
 
         Iterator<ActivityOfferingInfo> iter = activityOfferings.iterator();
 
@@ -1315,7 +1302,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     private ActivityOfferingInfo cAoInitActivityOffering(CourseOfferingInfo co, FormatOfferingInfo fo, LuiInfo lui, LuiLuiRelationInfo luiRel, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
-        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, luiService, context);
+        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, searchService, context);
         ao.setFormatOfferingId(luiRel.getLuiId());
         ao.setCourseOfferingId(co.getId());
         ao.setFormatOfferingName(fo.getShortName());
@@ -1637,7 +1624,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         // rebuild activity to return it
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
-        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, luiService, context);
+        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, searchService, context);
         FormatOfferingInfo foInfo = this.getFormatOffering(activityOfferingInfo.getFormatOfferingId(), context);
         CourseOfferingInfo coInfo = this.getCourseOffering(foInfo.getCourseOfferingId(), context);
         ao.setFormatOfferingId(foInfo.getId());
@@ -2696,50 +2683,33 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         List<ValidationResultInfo> validationResultInfos = new ArrayList<ValidationResultInfo>();
         ValidationResultInfo validationResultInfo = new ValidationResultInfo();
-        int aoSetMaxEnrollNumber = 0;
-        int currentAoSetMaxEnrollNumber = 0;
-        int listIndex = 0;
 
-        try {
-            //retrieve the list of aoSetInfos associated with the given AOC
-            List<ActivityOfferingSetInfo> aoSetInfos = new ArrayList<ActivityOfferingSetInfo>();
-            if (activityOfferingClusterInfo.getId() != null) {
-                ActivityOfferingClusterInfo aoCInfo = getActivityOfferingCluster(activityOfferingClusterInfo.getId(), contextInfo);
-                aoSetInfos = aoCInfo.getActivityOfferingSets();
-            } else {
-                aoSetInfos = activityOfferingClusterInfo.getActivityOfferingSets();
-            }
+        Set<String> totals = new HashSet<String>();
+        for(ActivityOfferingSetInfo activityOfferingSet : activityOfferingClusterInfo.getActivityOfferingSets()){
+            try {
+                //Perform a search that returns each AOSet and the total max enrollment for each
+                SearchRequestInfo searchRequest = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_KEY);
+                searchRequest.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_IDS, activityOfferingSet.getActivityOfferingIds());
+                SearchResultInfo searchResult = searchService.search(searchRequest, contextInfo);
+                for (SearchResultRowInfo row : searchResult.getRows()) {
+                    for (SearchResultCellInfo cell : row.getCells()) {
+                        if (ActivityOfferingSearchServiceImpl.SearchResultColumns.TOTAL_MAX_SEATS.equals(cell.getKey())) {
+                            String totalMaxSeatsStr = cell.getValue();
+                            if (totals.contains(totalMaxSeatsStr)) {
+                                validationResultInfo.setLevel(ValidationResult.ErrorLevel.WARN);
+                                validationResultInfo.setMessage("Sum of enrollment for each AO type is not equal");
+                                validationResultInfos.add(validationResultInfo);
 
-
-            //To check if the max enrollment number of each aoSet of the given AOC is equal
-
-            for (ActivityOfferingSetInfo aoSetInfo : aoSetInfos ){
-                //Store the max enrollment number of the currently iterated aoSet into variable aoSetMaxEnrollNumber
-                for (String aoId : aoSetInfo.getActivityOfferingIds()) {
-                    ActivityOfferingInfo aoInfo = getActivityOffering(aoId, contextInfo);
-                    if (aoInfo != null &&  aoInfo.getMaximumEnrollment() != null) {
-                        aoSetMaxEnrollNumber += aoInfo.getMaximumEnrollment();
+                                return validationResultInfos;
+                            }
+                            totals.add(totalMaxSeatsStr);
+                        }
                     }
                 }
-
-                //check if the max enrollment number of the currently iterated aoSet equals stored currentAoSetMaxEnrollNumber
-                //If no equal, valication fails and return validationResultInfos
-                if (listIndex == 0) {
-                    currentAoSetMaxEnrollNumber = aoSetMaxEnrollNumber;
-                } else {
-                    if (aoSetMaxEnrollNumber != currentAoSetMaxEnrollNumber) {
-                        validationResultInfo.setLevel(ValidationResult.ErrorLevel.WARN);
-                        validationResultInfo.setMessage("Sum of enrollment for each AO type is not equal");
-                        validationResultInfos.add(validationResultInfo);
-
-                        return validationResultInfos;
-                    }
-                }
-                aoSetMaxEnrollNumber = 0;
-                listIndex++;
+            } catch (Exception ex) {
+                throw new OperationFailedException(OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE, ex);
             }
-        } catch (Exception ex) {
-            throw new OperationFailedException(OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE, ex);
+
         }
 
         //The max enrollment numbers of all the aoSets in the given AOC are the same. The validation passes.
@@ -2747,7 +2717,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         validationResultInfo.setMessage("Sum of enrollment for each AO type is equal");
         validationResultInfos.add(validationResultInfo);
         return validationResultInfos;
-
 
     }
 

@@ -285,7 +285,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 targetAo.getTypeKey(), targetAo, tempContext);
 
         // have to copy rules AFTER AO is created because the link is by the AO id
-        getActivityOfferingTransformer().copyRulesFromExistingActivityOffering(sourceAo, targetAo, optionKeys, context);
+        getActivityOfferingTransformer().copyRulesFromExistingActivityOffering(sourceAo, targetAo, optionKeys);
 
         return targetAo;
     }

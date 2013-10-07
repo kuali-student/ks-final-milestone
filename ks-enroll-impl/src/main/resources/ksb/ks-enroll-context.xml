@@ -912,7 +912,7 @@
   </bean>
 
   <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" >
-    <property name="krmsRuleManagementCopyMethods" ref="krmsRuleManagementCopyMethods" />
+      <property name="krmsRuleManagementCopyMethods" ref="krmsRuleManagementCopyMethods" />
   </bean>
 
   <!-- Process Service -->
