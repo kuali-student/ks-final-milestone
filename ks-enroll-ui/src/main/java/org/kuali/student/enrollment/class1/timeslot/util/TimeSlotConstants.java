@@ -14,6 +14,12 @@ public class TimeSlotConstants {
         public static final String DELETE_TIMESLOTS = "deleteTimeSlotsConfirmationDialog";
     }
 
-    //toolbar matrix -- result/warning messages
-    public static final String TIMESLOT_TOOLBAR_DELETE="The selected time slots have been successfully deleted.";
+
+    public static class ApplicationResouceKeys{
+        //toolbar matrix -- result/warning messages
+        public static final String TIMESLOT_TOOLBAR_DELETE="The selected time slots have been successfully deleted.";
+        public static final String TIMESLOT_ADD_SUCCESS = "info.timeslot.add.success";
+        public static final String TIMESLOT_EDIT_SUCCESS = "info.timeslot.edit.success";
+        public static final String TIMESLOT_DUPLICATE_ERROR = "error.timeslot.duplicate";
+    }
 }

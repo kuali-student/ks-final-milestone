@@ -126,6 +126,8 @@ public class TimeSlotController extends UifControllerBase {
 
         getViewHelperService(form).createTimeSlot(form);
 
+        KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS,TimeSlotConstants.ApplicationResouceKeys.TIMESLOT_ADD_SUCCESS);
+
         return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);
     }
 
@@ -140,14 +142,22 @@ public class TimeSlotController extends UifControllerBase {
         if (!isUnique){
             String startTime = form.getAddOrEditStartTime() + " " + form.getAddOrEditStartTimeAmPm();
             String endTime = form.getAddOrEditEndTime() + " " + form.getAddOrEditEndTimeAmPm();
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Timeslot already exists for " +
-                                                     form.getAddOrEditDays() +
-                                                     " from " + startTime +
-                                                     " to " + endTime);
+            String timeSlotTypeName = getTypeService().getType(form.getAddOrEditTermKey(),contextInfo).getName();
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, TimeSlotConstants.ApplicationResouceKeys.TIMESLOT_DUPLICATE_ERROR,timeSlotTypeName,form.getAddOrEditDays(),startTime,endTime);
+            return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);
+        }
+
+        boolean isInUse = getViewHelperService(form).isTimeSlotInUse(tsWrapper.getTimeSlotInfo());
+
+        if (isInUse){
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,
+                    "Time slot " + tsWrapper.getTimeSlotInfo().getName() + " is already associated with delivery logistics, so cannot be changed.");
             return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);
         }
 
         getViewHelperService(form).updateTimeSlot(form,tsWrapper);
+
+        KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS,TimeSlotConstants.ApplicationResouceKeys.TIMESLOT_EDIT_SUCCESS);
 
         return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);
     }
@@ -177,23 +187,11 @@ public class TimeSlotController extends UifControllerBase {
 
         if (dialogAnswer) {
 
-
             // delete the timeslots
             getViewHelperService(form).deleteTimeSlots(form);
 
-            List<String> timeSlotTypes = form.getTermTypeSelections();
-            List<TimeSlotWrapper> timeSlotWrapperList = viewHelperService.findTimeSlots(timeSlotTypes);
-            form.getTimeSlotResults().clear();
-            for (TimeSlotWrapper wrapper : timeSlotWrapperList) {
-                form.getTimeSlotResults().add(wrapper);
-            }
-            if (timeSlotWrapperList.size() > 0) {
-                form.setTimeSlotsLoaded(true);
-                form.setEnableAddButton(true);
-            }
-
-            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, TimeSlotConstants.TIMESLOT_TOOLBAR_DELETE);
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, TimeSlotConstants.ApplicationResouceKeys.TIMESLOT_TOOLBAR_DELETE);
         }
-        return getUIFModelAndView(form);
+        return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);
     }
 }

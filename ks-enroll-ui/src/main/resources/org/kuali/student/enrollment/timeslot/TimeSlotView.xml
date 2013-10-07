@@ -109,7 +109,7 @@
                 </bean>
                 <!--The submit button -->
                 <bean parent="Uif-PrimaryActionButton"
-                    p:performClientSideValidation="false" p:actionLabel="Show Time Slots" p:methodToCall="show" p:style="margin-top:20px;"/>
+                    p:performClientSideValidation="false" p:actionLabel="Show Time Slots" p:methodToCall="show" p:style="margin-top:20px;" p:successCallback="setupTimeSlotTypeDropdown();"/>
             </list>
         </property>
     </bean>
@@ -267,7 +267,7 @@
                 <bean id="addOrEditStartTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="addOrEditStartTimeAmPm" p:required="true">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_ts"/>
+                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options" p:cssClasses="new_ts"/>
                     </property>
                 </bean>
                 <bean id="addOrEditEndTime" parent="Uif-InputField-LabelTop"  p:propertyName="addOrEditEndTime" p:label="End Time" p:required="true">
@@ -282,7 +282,7 @@
                 <bean id="addOrEditEndTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="addOrEditEndTimeAmPm" p:required="true">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_ts"/>
+                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options" p:cssClasses="new_ts"/>
                     </property>
                 </bean>
 

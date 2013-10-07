@@ -1,6 +1,9 @@
 package org.kuali.student.enrollment.class1.timeslot.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper;
@@ -116,14 +119,23 @@ public class TimeSlotViewHelperServiceImpl
         List<TimeSlotWrapper> selectedTimeSlots = form.getSelectedTimeSlots();
 
         selectedTimeSlots.clear();
+        List<TimeSlotWrapper> timeSlotsToDelete = new ArrayList<TimeSlotWrapper>();
 
         for(TimeSlotWrapper tsWrapper : timeSlotWrappers) {
             if(tsWrapper.isEnableDeleteButton() && tsWrapper.getIsChecked()) {
-                selectedTimeSlots.add(tsWrapper);
-                StatusInfo statusInfo = getSchedulingService().deleteTimeSlot(tsWrapper.getTimeSlotInfo().getId(), contextInfo);
-
+                boolean isInUse = isTimeSlotInUse(tsWrapper.getTimeSlotInfo());
+                if (isInUse){
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,
+                                        "Time slot " + tsWrapper.getTimeSlotInfo().getName() + " is already associated with delivery logistics, so cannot be deleted.");
+                } else {
+                    selectedTimeSlots.add(tsWrapper);
+                    StatusInfo statusInfo = getSchedulingService().deleteTimeSlot(tsWrapper.getTimeSlotInfo().getId(), contextInfo);
+                    timeSlotsToDelete.add(tsWrapper);
+                }
+                tsWrapper.setIsChecked(false);
             }
         }
+        form.getTimeSlotResults().removeAll(timeSlotsToDelete);
     }
 
     public boolean isUniqueTimeSlot(TimeSlotForm form) throws Exception {
@@ -154,6 +166,10 @@ public class TimeSlotViewHelperServiceImpl
             return exisitingTS.isEmpty();
         }
 
+    }
+
+    public boolean isTimeSlotInUse(TimeSlotInfo ts) throws Exception {
+        return !getSchedulingService().canUpdateTimeSlot(ts.getId(),createContextInfo());
     }
 
     protected void buildTimeSlotInfo(TimeSlotForm form,TimeSlotInfo tsInfo){

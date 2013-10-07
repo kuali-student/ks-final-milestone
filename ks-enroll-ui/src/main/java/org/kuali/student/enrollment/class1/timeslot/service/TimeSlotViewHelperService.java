@@ -33,5 +33,6 @@ public interface TimeSlotViewHelperService extends KSViewHelperService {
 
     public void updateTimeSlot(TimeSlotForm form,TimeSlotWrapper tsWrapper) throws Exception;
 
+    public boolean isTimeSlotInUse(TimeSlotInfo ts) throws Exception;
 
 }
