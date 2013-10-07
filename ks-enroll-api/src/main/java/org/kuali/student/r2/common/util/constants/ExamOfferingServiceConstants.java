@@ -50,4 +50,6 @@ public class ExamOfferingServiceConstants {
     public static final String EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY = "kuali.lui.exam.offering.scheduling.state.unscheduled";
     public static final String EXAM_OFFERING_SCHEDULING_MATRIX_ERROR_STATE_KEY = "kuali.lui.exam.offering.scheduling.state.matrix.error";
 
+    public static final String FINAL_EXAM_DRIVER_ATTR = "kuali.attribute.final.exam.driver";
+
 }
