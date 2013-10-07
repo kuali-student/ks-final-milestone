@@ -23,7 +23,7 @@ import org.kuali.rice.krms.framework.type.AgendaTypeService;
 import org.kuali.rice.krms.impl.provider.repository.LazyAgendaTree;
 import org.kuali.rice.krms.impl.provider.repository.RepositoryToEngineTranslator;
 import org.kuali.rice.krms.impl.type.AgendaTypeServiceBase;
-import org.kuali.rice.krms.impl.util.KRMSServiceLocatorInternal;
+import org.kuali.rice.krms.impl.util.KrmsServiceLocatorInternal;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,6 +59,6 @@ public class KSAgendaTypeServiceImpl extends AgendaTypeServiceBase {
 
     // Lazy initialization holder class, see Effective Java item #71
     private static class RepositoryToEngineTranslatorHolder {
-        static final RepositoryToEngineTranslator instance = KRMSServiceLocatorInternal.getRepositoryToEngineTranslator();
+        static final RepositoryToEngineTranslator instance = KrmsServiceLocatorInternal.getRepositoryToEngineTranslator();
     }
 }
