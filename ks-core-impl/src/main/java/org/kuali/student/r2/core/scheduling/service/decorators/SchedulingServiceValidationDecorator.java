@@ -16,10 +16,12 @@
  */
 package org.kuali.student.r2.core.scheduling.service.decorators;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -38,6 +40,7 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
+import javax.jws.WebParam;
 import javax.xml.namespace.QName;
 import java.util.List;
 
@@ -294,6 +297,9 @@ public class SchedulingServiceValidationDecorator extends SchedulingServiceDecor
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("Error validating", ex);
         }
+
+        validateAOTimeSlotCreateAndUpdate(timeSlotInfo);
+
         return getNextDecorator().createTimeSlot(timeSlotTypeKey, timeSlotInfo, contextInfo);
     }
 
@@ -318,7 +324,32 @@ public class SchedulingServiceValidationDecorator extends SchedulingServiceDecor
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("Error validating", ex);
         }
+
+        validateAOTimeSlotCreateAndUpdate(timeSlotInfo);
+
+        boolean canUpdate = canUpdateTimeSlot(timeSlotId,contextInfo);
+
+        if (!canUpdate){
+            throw new OperationFailedException("Time slot " + timeSlotInfo.getName() + " is already associated with delivery logistics, so cannot be changed.");
+        }
+
         return getNextDecorator().updateTimeSlot(timeSlotId, timeSlotInfo, contextInfo);
+    }
+
+    @Override
+    public StatusInfo deleteTimeSlot(String timeSlotId, ContextInfo contextInfo) throws DoesNotExistException,
+                                                                                        InvalidParameterException,
+                                                                                        MissingParameterException,
+                                                                                        OperationFailedException,
+                                                                                        PermissionDeniedException {
+
+        boolean canDelete = canUpdateTimeSlot(timeSlotId,contextInfo);
+
+        if (!canDelete){
+            throw new OperationFailedException("The time slot(s) you are attempting to delete are already associated with delivery logistics, so cannot be changed.");
+        }
+
+        return getNextDecorator().deleteTimeSlot(timeSlotId, contextInfo);
     }
 
     @Override
@@ -328,6 +359,48 @@ public class SchedulingServiceValidationDecorator extends SchedulingServiceDecor
             OperationFailedException,
             PermissionDeniedException {
         return getNextDecorator().canUpdateTimeSlot(timeSlotId, contextInfo);
+    }
+
+    /**
+     * Validate the start and end time for standard Activity TimeSlots
+     *
+     * @param timeSlotInfo timeslot to validate
+     * @throws DataValidationErrorException
+     */
+    protected void validateAOTimeSlotCreateAndUpdate(TimeSlotInfo timeSlotInfo) throws DataValidationErrorException{
+
+        if (StringUtils.startsWith(timeSlotInfo.getTypeKey(),SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD) ||
+            StringUtils.equals(timeSlotInfo.getTypeKey(), SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_ADHOC)){
+
+            if (timeSlotInfo.getStartTime() == null || timeSlotInfo.getStartTime().getMilliSeconds() == null){
+                throw new DataValidationErrorException("Start Time should not be empty for standard and Adhoc timeslots");
+            }
+
+            if (timeSlotInfo.getEndTime() == null || timeSlotInfo.getEndTime().getMilliSeconds() == null){
+                throw new DataValidationErrorException("End Time should not be empty for standard timeslots");
+            }
+
+            if (timeSlotInfo.getEndTime() == null || timeSlotInfo.getEndTime().getMilliSeconds() == null){
+                throw new DataValidationErrorException("End Time should not be empty for standard timeslots");
+            }
+
+            if (timeSlotInfo.getStartTime().getMilliSeconds() > timeSlotInfo.getEndTime().getMilliSeconds()){
+                throw new DataValidationErrorException("Start time should be less than End time");
+            }
+
+            if (timeSlotInfo.getWeekdays() == null || timeSlotInfo.getWeekdays().isEmpty()){
+                throw new DataValidationErrorException("Days should not be empty for standard and Adhoc timeslots");
+            }
+        } else if (StringUtils.equals(timeSlotInfo.getTypeKey(), SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA)){
+            /**
+             * Make sure at least one field (days/starttime/endtime is empty)
+              */
+            if (timeSlotInfo.getStartTime() != null && timeSlotInfo.getStartTime().getMilliSeconds() != null &&
+                timeSlotInfo.getEndTime() != null && timeSlotInfo.getEndTime().getMilliSeconds() != null &&
+                timeSlotInfo.getWeekdays() != null && !timeSlotInfo.getWeekdays().isEmpty()){
+                throw new DataValidationErrorException("For TBA timeslot, all the fields are not required.");
+            }
+        }
     }
 
     public DataDictionaryValidator getValidator() {

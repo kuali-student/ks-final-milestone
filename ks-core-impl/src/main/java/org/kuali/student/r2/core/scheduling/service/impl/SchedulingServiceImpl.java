@@ -578,8 +578,10 @@ public class SchedulingServiceImpl implements SchedulingService {
     public TimeSlotInfo createTimeSlot(String timeSlotTypeKey,  TimeSlotInfo timeSlotInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         TimeSlotEntity entity = new TimeSlotEntity(timeSlotInfo);
 
-        String tsCode = timeSlotCodeGenerator.generateTimeSlotCode(entity.getTimeSlotType());
-        entity.setName(tsCode);
+        if (timeSlotCodeGenerator != null){
+            String tsCode = timeSlotCodeGenerator.generateTimeSlotCode(entity.getTimeSlotType());
+            entity.setName(tsCode);
+        }
 
         entity.setTimeSlotType(timeSlotTypeKey);
         entity.setEntityCreated(contextInfo);
