@@ -384,9 +384,8 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
         while (currentDateExamPeriod.compareTo(endDateExamPeriod) <= 0) {
             // if it is Saturday or Sunday and the exam period set exclude Saturday or Sunday attr
             // do not count that day
-            if(((currentDateExamPeriod.getDayOfWeek() == DateTimeConstants.SATURDAY) && excludeSaturday)
-                    || ((currentDateExamPeriod.getDayOfWeek() == DateTimeConstants.SUNDAY) && excludeSunday)){
-            } else {
+            if(!(((currentDateExamPeriod.getDayOfWeek() == DateTimeConstants.SATURDAY) && excludeSaturday)
+                    || ((currentDateExamPeriod.getDayOfWeek() == DateTimeConstants.SUNDAY) && excludeSunday))){
                 ++examPeriodDays;
             }
 
@@ -416,9 +415,8 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
                         if (doDatesOverlap(examPeriodAtp.getStartDate(), examPeriodAtp.getEndDate(), currentDate.toDate(), currentDate.toDate())) {
                             //if holiday is on Saturday or Sunday and excludeSaturday/excludeSunday is set,
                             //the holiday doesn't need to be subtracted again because the Saturday/Sunday has already been excluded
-                            if(((currentDate.getDayOfWeek() == DateTimeConstants.SATURDAY) && excludeSaturday)
-                                    || ((currentDate.getDayOfWeek() == DateTimeConstants.SUNDAY) && excludeSunday)){
-                            } else {
+                            if(!(((currentDate.getDayOfWeek() == DateTimeConstants.SATURDAY) && excludeSaturday)
+                                    || ((currentDate.getDayOfWeek() == DateTimeConstants.SUNDAY) && excludeSunday))){
                                 if (!holidayDatesToSubtract.contains(currentDate)) {
                                     holidayDatesToSubtract.add(currentDate);
                                     --examPeriodDays;
