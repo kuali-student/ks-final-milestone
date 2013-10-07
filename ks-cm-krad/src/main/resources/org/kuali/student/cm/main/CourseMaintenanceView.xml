@@ -238,7 +238,7 @@
                       p:methodToCall="acknowledge" 
                       p:actionLabel="Acknowledge"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE]}"/>
-                <bean parent="Uif-CloseAction" 
+                <bean parent="Uif-BackAction" 
                       p:ajaxSubmit="false" 
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
                 <bean parent="Uif-CancelAction" 

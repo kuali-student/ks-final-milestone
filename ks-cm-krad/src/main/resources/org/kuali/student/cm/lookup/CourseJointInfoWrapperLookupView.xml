@@ -25,7 +25,7 @@
 			value="org.kuali.student.cm.course.form.CourseJointInfoWrapper" />
 	</bean>
 
-	<bean id="KS-CourseJointInfoWrapper-LookupView" parent="KSLookupView">
+	<bean id="KS-CourseJointInfoWrapper-LookupView" parent="KS-Uif-LookupView">
 		<property name="id" value="CourseJointInfoWrapperLookupView" />
 		<property name="headerText" value="Advanced Search: Courses and Proposals" />
 		<property name="dataObjectClassName"

@@ -49,7 +49,7 @@
 		<property name="label" value="Type Name"/>
     </bean>
                            
-    <bean id="KS-LoCategoryInfoWrapper-View" parent="KSLookupView">
+    <bean id="KS-LoCategoryInfoWrapper-View" parent="KS-Uif-LookupView">
         <property name="id" value="LoCategoryInfoWrapperView" />
         <property name="headerText" value="Select Categories" />
         <property name="dataObjectClassName"

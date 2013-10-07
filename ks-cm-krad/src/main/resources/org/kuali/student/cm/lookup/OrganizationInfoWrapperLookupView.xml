@@ -62,7 +62,7 @@
 		</property>
 	</bean>
 
-	<bean id="KS-OrganizationInfoWrapper-LookupView" parent="KSLookupView">
+	<bean id="KS-OrganizationInfoWrapper-LookupView" parent="KS-Uif-LookupView">
 		<property name="id" value="OrganizationInfoWrapperLookupView" />
 		<property name="headerText" value="Advanced Search: Organization" />
 		<property name="dataObjectClassName"

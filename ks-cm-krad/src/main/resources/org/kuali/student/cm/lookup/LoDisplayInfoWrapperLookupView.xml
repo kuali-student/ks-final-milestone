@@ -25,7 +25,7 @@
             value="org.kuali.student.cm.course.form.LoDisplayInfoWrapper" />
     </bean>
     
-    <bean id="KS-LoDisplayInfoWrapper-LookupView" parent="KSLookupView">
+    <bean id="KS-LoDisplayInfoWrapper-LookupView" parent="KS-Uif-LookupView">
         <property name="id" value="LoDisplayInfoWrapperLookupView" />
         <property name="headerText" value="Learning Objective" />
         <property name="dataObjectClassName"
