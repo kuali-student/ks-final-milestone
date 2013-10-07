@@ -26,6 +26,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
+import org.kuali.student.r2.core.acal.dto.HolidayInfo;
 
 import java.util.List;
 
@@ -136,6 +137,19 @@ public interface AcademicCalendarServiceFacade {
      */
     public ExamPeriodInfo addExamPeriod (String examPeriodTypeKey, List<String> termTypeKeyList, ExamPeriodInfo examPeriodInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
-
-
+    /**
+     * Calculate and returns the valid number of final exam period days based on the excludeSaturday/excludeSunday setting.
+     * Also, overlapping non-instructional holidays will be subtracted as well.
+     * @param examPeriodId the exam period id
+     * @param holidayInfos holidayinfos of the academic calendar
+     * @param contextInfo call context
+     * @return the ExamPeriodInfo that has been created
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    public int getDaysForExamPeriod(String examPeriodId, List<HolidayInfo> holidayInfos, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
 }

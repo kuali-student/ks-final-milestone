@@ -17,6 +17,8 @@
 package org.kuali.student.r2.core.acal.service.facade;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateMidnight;
+import org.joda.time.DateTimeConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -28,12 +30,15 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
+import org.kuali.student.r2.core.acal.dto.HolidayInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -44,6 +49,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -357,6 +363,90 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
 
         return acalService.createExamPeriod(examPeriodTypeKey, examPeriodInfo, context);
     }
+
+    @Override
+    public int getDaysForExamPeriod(String examPeriodId, List<HolidayInfo> holidayInfos, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        //trap null parameters
+        if (examPeriodId == null){
+            throw new MissingParameterException("Exam Period ID is null");
+        }
+
+        int examPeriodDays = 0;
+        AtpInfo examPeriodAtp = atpService.getAtp(examPeriodId, contextInfo);
+        boolean excludeSaturday = Boolean.parseBoolean(examPeriodAtp.getAttributeValue(AcademicCalendarServiceConstants.EXAM_PERIOD_EXCLUDE_SATURDAY_ATTR));
+        boolean excludeSunday = Boolean.parseBoolean(examPeriodAtp.getAttributeValue(AcademicCalendarServiceConstants.EXAM_PERIOD_EXCLUDE_SUNDAY_ATTR));
+
+        DateMidnight currentDateExamPeriod = new DateMidnight(examPeriodAtp.getStartDate().getTime());
+        DateMidnight endDateExamPeriod = new DateMidnight(examPeriodAtp.getEndDate().getTime());
+
+        // go from start to end and count exam period days
+        while (currentDateExamPeriod.compareTo(endDateExamPeriod) <= 0) {
+            // if it is Saturday or Sunday and the exam period set exclude Saturday or Sunday attr
+            // do not count that day
+            if(((currentDateExamPeriod.getDayOfWeek() == DateTimeConstants.SATURDAY) && excludeSaturday)
+                    || ((currentDateExamPeriod.getDayOfWeek() == DateTimeConstants.SUNDAY) && excludeSunday)){
+            } else {
+                ++examPeriodDays;
+            }
+
+            currentDateExamPeriod = currentDateExamPeriod.plusDays(1);
+        }
+
+        //if there is a holiday calendar for the academic calendar where the exam period is in,
+        //check if there are holidays overlapping with the exam period
+        if (holidayInfos != null && !holidayInfos.isEmpty()) {
+            List<DateMidnight> holidayDatesToSubtract = new ArrayList<DateMidnight>();
+            for (HolidayInfo holidayInfo : holidayInfos) {
+                Boolean isInstDay = holidayInfo.getIsInstructionalDay();
+                Boolean isDateRange = holidayInfo.getIsDateRange();
+                Date holStartDate = holidayInfo.getStartDate();
+                Date holEndDate = holidayInfo.getEndDate();
+
+                // If's it's not a range then the start and end dates are the same
+                if(!isDateRange){
+                    holEndDate = holStartDate;
+                }
+
+                // if holiday is an instructional day, it doesn't need to be subtracted from the exam period
+                if(!isInstDay) {
+                    DateMidnight currentDate = new DateMidnight(holStartDate.getTime());
+                    DateMidnight stopDate = new DateMidnight(holEndDate.getTime());
+                    while (currentDate.compareTo(stopDate) <= 0) {
+                        if (doDatesOverlap(examPeriodAtp.getStartDate(), examPeriodAtp.getEndDate(), currentDate.toDate(), currentDate.toDate())) {
+                            //if holiday is on Saturday or Sunday and excludeSaturday/excludeSunday is set,
+                            //the holiday doesn't need to be subtracted again because the Saturday/Sunday has already been excluded
+                            if(((currentDate.getDayOfWeek() == DateTimeConstants.SATURDAY) && excludeSaturday)
+                                    || ((currentDate.getDayOfWeek() == DateTimeConstants.SUNDAY) && excludeSunday)){
+                            } else {
+                                if (!holidayDatesToSubtract.contains(currentDate)) {
+                                    holidayDatesToSubtract.add(currentDate);
+                                    --examPeriodDays;
+                                }
+                            }
+                        }
+                        currentDate = currentDate.plusDays(1);
+                    }
+                }
+            }
+        }
+
+        return examPeriodDays;
+    }
+
+    private boolean doDatesOverlap(Date periodStartDate, Date periodEndDate, Date subStart, Date subEnd){
+        boolean bRet = false;
+
+        int compStart = subStart.compareTo(periodEndDate);
+        int compEnd = subEnd.compareTo(periodStartDate);
+        if (compStart <= 0 && compEnd >= 0) {
+            bRet = true;
+        }
+
+        return bRet;
+    }
+
+
 
     // validate if the given examPeriod type is kuali.atp.type.ExamPeriod
     // also validate if the given examPeriod type is allowed by the given term type
