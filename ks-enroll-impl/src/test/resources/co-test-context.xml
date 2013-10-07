@@ -230,10 +230,12 @@
             <list>
                 <ref bean="AutogenCountSearchServiceImpl"/>
                 <ref bean="ActivityOfferingSearchServiceImpl"/>
+                <bean id="CoreSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.CoreSearchServiceImpl">
+                    <property name="entityManager" ref="entityManager"/>
+                </bean>
             </list>
         </property>
     </bean>
-
 
   <alias alias="CourseOfferingService" name="coService" />
 
