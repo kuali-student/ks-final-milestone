@@ -17,13 +17,6 @@
   <!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
 
 
-  <!-- <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> <property name="properties"
-    value="#{bootstrapConfig.getProperties()}" /> </bean> <bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
-    <property name="configLocations"> <list> <value>classpath:org/kuali/rice/standalone/config/standalone-config.xml</value>
-    </list> </property> </bean> <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"> <property name="staticMethod"
-    value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" /> <property name="arguments"> <list><ref bean="bootstrapConfig"/></list>
-    </property> </bean> <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer"> <property
-    name="localServiceName" value="KSLumContext"/> </bean> -->
   <import resource="classpath:ks-core-api-data-dictionary-services-configuration.xml" />
   <import resource="classpath:ks-core-api-data-dictionary-validator-configuration.xml" />
   <import resource="classpath:ks-enroll-api-data-dictionary-services-configuration.xml" />
