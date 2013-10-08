@@ -83,16 +83,16 @@
                         <list>
                             <ref bean="KS-CourseOffering-ContextBar"/>
                             <ref bean="KS-CourseOfferingManagement-ExamOfferingByCOTableSection"/>
+                            <ref bean="KS-CourseOfferingManagement-ExamOfferingByAOClustersSection" />
                             <bean parent="KS-CourseOfferingManagement-ExamOfferingTableSection" p:render="@{!#dp.examOfferingCancelledList.isEmpty()}">
                                 <property name="propertyName" value="examOfferingCancelledList"/>
                                 <property name="headerText" value="Cancelled Exam Offering Delivery Logistics by Course Offering"/>
                             </bean>
-                            <ref bean="KS-CourseOfferingManagement-ExamOfferingByAOClustersSection" />
-                            <bean parent="KS-CourseOfferingManagement-ExamOfferingByAOClustersSection" p:render="true">
+                            <bean parent="KS-CourseOfferingManagement-ExamOfferingByAOClustersSection" p:render="@{#eoCancelledList ne null}" >
                                 <property name="headerText" value="Cancelled Exam Offering Delivery Logistics by Activity Offering"/>
                                 <property name="subCollections">
                                     <list>
-                                        <bean parent="KS-CourseOfferingManagement-ExamOfferingByAOTableSection" p:render="true">
+                                        <bean parent="KS-CourseOfferingManagement-ExamOfferingByAOTableSection">
                                             <property name="headerText" value="Cancelled Exam Offering Delivery Logistics by Activity Offering"/>
                                             <property name="propertyName" value="eoCancelledList"/>
                                         </bean>
