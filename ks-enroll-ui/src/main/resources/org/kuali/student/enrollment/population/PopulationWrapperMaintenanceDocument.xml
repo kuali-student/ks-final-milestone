@@ -156,9 +156,9 @@
                 <bean parent="Uif-HorizontalBoxSection" >
                     <property name="items">
                         <list>
-                            <bean parent="Uif-ImageField" p:source="../themes/ksboot/images/Union.PNG" p:style="margin-left: 1em;"/>
-                            <bean parent="Uif-ImageField" p:source="../themes/ksboot/images/Intersection.PNG" p:style="margin-left: 1em;"/>
-                            <bean parent="Uif-ImageField" p:source="../themes/ksboot/images/Exclusion.PNG" p:style="margin-left: 3em;"/>
+                            <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/Union.PNG" p:style="margin-left: 1em;"/>
+                            <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/Intersection.PNG" p:style="margin-left: 1em;"/>
+                            <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/Exclusion.PNG" p:style="margin-left: 3em;"/>
                         </list>
                     </property>
                 </bean>
