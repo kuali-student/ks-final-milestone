@@ -257,17 +257,17 @@
         <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
         <property name="items">
             <list>
-                <bean id="addOrEditTermKey" parent="Uif-InputField-LabelTop" p:propertyName="addOrEditTermKey" p:label="Term Type" p:required="true" >
+                <bean id="addOrEditTermKey" parent="Uif-InputField-LabelTop" p:propertyName="addOrEditTermKey" p:cssClasses="new_ts" p:label="Term Type" p:required="true" >
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:cssClasses="new_ts"/>
+                        <bean parent="Uif-DropdownControl" p:cssClasses="new_ts_control"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class1.timeslot.keyvalue.SelectedTimeSlotTypesOptionsFinder" p:addBlankOption="false" />
                     </property>
                 </bean>
-                <bean id="addOrEditDays" parent="Uif-InputField-LabelTop"  p:propertyName="addOrEditDays" p:label="Days" p:required="true">
+                <bean id="addOrEditDays" parent="Uif-InputField-LabelTop"  p:propertyName="addOrEditDays" p:cssClasses="new_ts" p:label="Days" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10"  p:maxLength="7" p:cssClasses="new_ts"/>
+                        <bean parent="Uif-TextControl" p:size="10"  p:maxLength="7" p:cssClasses="new_ts_control"/>
                     </property>
                     <property name="uppercaseValue" value="true"/>
                     <property name="constraintText" value="MTWHFSU"/>
@@ -275,34 +275,34 @@
                         <bean parent="CharsetPatternConstraint" p:validChars="MTWHFSUmtwhfsu" />
                     </property>
                 </bean>
-                <bean id="addOrEditStartTime" parent="Uif-InputField-LabelTop"  p:propertyName="addOrEditStartTime" p:label="Start Time" p:required="true">
+                <bean id="addOrEditStartTime" parent="Uif-InputField-LabelTop"  p:propertyName="addOrEditStartTime" p:cssClasses="new_ts" p:label="Start Time" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5" p:cssClasses="new_ts"/>
+                        <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5" p:cssClasses="new_ts_control"/>
                     </property>
                     <property name="constraintText" value="HH:MM"/>
                     <property name="validCharactersConstraint">
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean id="addOrEditStartTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="addOrEditStartTimeAmPm" p:required="true">
+                <bean id="addOrEditStartTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="addOrEditStartTimeAmPm" p:cssClasses="new_ts" p:required="true">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
-                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options" p:cssClasses="new_ts"/>
+                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options" p:cssClasses="new_ts_control"/>
                     </property>
                 </bean>
-                <bean id="addOrEditEndTime" parent="Uif-InputField-LabelTop"  p:propertyName="addOrEditEndTime" p:label="End Time" p:required="true">
+                <bean id="addOrEditEndTime" parent="Uif-InputField-LabelTop"  p:propertyName="addOrEditEndTime" p:label="End Time" p:cssClasses="new_ts" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5" p:cssClasses="new_ts"/>
+                        <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5" p:cssClasses="new_ts_control"/>
                     </property>
                     <property name="constraintText" value="HH:MM"/>
                     <property name="validCharactersConstraint">
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean id="addOrEditEndTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="addOrEditEndTimeAmPm" p:required="true">
+                <bean id="addOrEditEndTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="addOrEditEndTimeAmPm" p:cssClasses="new_ts" p:required="true">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
-                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options" p:cssClasses="new_ts"/>
+                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options" p:cssClasses="new_ts_control"/>
                     </property>
                 </bean>
 
@@ -314,8 +314,8 @@
                     </property>
                     <property name="actionLabel" value="Add Slot"/>
                     <property name="preSubmitCall" value="return validateTimeSlot();"/>
-                    <property name="successCallback" value="jQuery('div[id=KS-TimeSlot-AddTimeSlotPopupForm]:gt(0)').detach();"/>
-                    <property name="errorCallback" value="jQuery('div[id=KS-TimeSlot-AddTimeSlotPopupForm]:gt(0)').detach();"/>
+                    <property name="successCallback" value="jQuery('div[id=KS-TimeSlot-AddTimeSlotPopupForm]').detach();"/>
+                    <property name="errorCallback" value="jQuery('div[id=KS-TimeSlot-AddTimeSlotPopupForm]').detach();"/>
                     <property name="methodToCall" value="createTimeSlot"/>
                 </bean>
             </list>
