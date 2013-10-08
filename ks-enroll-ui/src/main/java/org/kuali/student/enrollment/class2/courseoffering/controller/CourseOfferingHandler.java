@@ -59,7 +59,7 @@ public class CourseOfferingHandler {
         }
         return defaultOptionKeysService;
     }
-    
+
     public static void copyCourseOfferingCreateCopy(CourseOfferingManagementForm theForm) throws Exception {
 
         CourseOfferingCopyWrapper copyWrapper = theForm.getCourseOfferingCopyWrapper();
@@ -280,7 +280,7 @@ public class CourseOfferingHandler {
         }
 
         if (checked > 0) {
-            KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_DELETE);
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_DELETE_N_SUCCESS);
         } else {
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_DELETE_N_SUCCESS);
         }
