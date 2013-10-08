@@ -639,7 +639,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             PermissionDeniedException {
 
         // check for a valid term
-        TermInfo childTerm = getTerm(childTermId, context);
+        // we're calling the atp service here because it's much faster than calling the term service.
+        AtpInfo childTerm = getAtpService().getAtp(childTermId, context);
 
         List<AtpAtpRelationInfo> results = atpService.getAtpAtpRelationsByAtp(childTerm.getId(), context);
 
