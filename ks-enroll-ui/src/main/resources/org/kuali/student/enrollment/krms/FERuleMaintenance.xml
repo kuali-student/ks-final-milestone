@@ -244,8 +244,6 @@ limitations under the License.
                 <ref bean="KSFE-EditRule-ToolbarSection"/>
                 <ref bean="KRMS-RuleEditor-TreeExpandCollapse"/>
                 <ref bean="KRMS-RuleEditor-TreeGroup"/>
-
-
             </list>
         </property>
     </bean>
@@ -421,10 +419,11 @@ limitations under the License.
                         <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
                     </property>
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:lightBoxLookup.lookupReturnByScript="true">
+                        <bean parent="Uif-QuickFinder">
                             <property name="dataObjectClassName" value="org.kuali.student.r2.core.room.dto.BuildingInfo"/>
                             <property name="fieldConversions">
                                 <map>
+                                    <entry key="id" value="ruleEditor.building.id"/>
                                     <entry key="buildingCode" value="ruleEditor.building.buildingCode"/>
                                 </map>
                             </property>
@@ -438,11 +437,12 @@ limitations under the License.
                         <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
                     </property>
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:lightBoxLookup.lookupReturnByScript="true">
+                        <bean parent="Uif-QuickFinder">
                             <property name="dataObjectClassName" value="org.kuali.student.r2.core.room.dto.RoomInfo"/>
                             <property name="autoSearch" value="true"/>
                             <property name="fieldConversions">
                                 <map>
+                                    <entry key="id" value="ruleEditor.room.id"/>
                                     <entry key="roomCode" value="ruleEditor.room.roomCode"/>
                                 </map>
                             </property>
