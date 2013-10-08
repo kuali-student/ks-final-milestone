@@ -10152,6 +10152,261 @@
             <column>ORG_TYPE_ID</column>
         </index>
     </table>
+    <table name="KSPL_LRNG_PI_RICH_TEXT">
+        <column name="FORMATTED" type="STRING">
+            <size value="2000"/>
+        </column>
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="OBJ_ID" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="PLAIN" type="STRING">
+            <size value="2000"/>
+        </column>
+        <column name="VER_NBR" type="FLOAT">
+            <size value="19"/>
+        </column>
+    </table>
+    <table name="KSPL_LRNG_PLAN">
+        <column name="CREATEID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="CREATETIME" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="OBJ_ID" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="RT_DESCR_ID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="SHARED" nullable="false" type="FLOAT">
+            <defaultValue>1 </defaultValue>
+            <size value="1"/>
+        </column>
+        <column name="STATE" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="STUDENT_ID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="TYPE_ID" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="UPDATEID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="UPDATETIME" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="VER_NBR" type="FLOAT">
+            <size value="19"/>
+        </column>
+    </table>
+    <table name="KSPL_LRNG_PLAN_ATTR">
+        <column name="ATTR_KEY" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="ATTR_VALUE" type="STRING">
+            <size value="2000"/>
+        </column>
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="OBJ_ID" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="OWNER_ID" type="STRING">
+            <size value="255"/>
+        </column>
+    </table>
+    <table name="KSPL_LRNG_PLAN_ITEM">
+        <column name="CREATEID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="CREATETIME" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="CREDIT" type="FLOAT">
+            <size scale="2" scaleSet="true" value="5"/>
+        </column>
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="OBJ_ID" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="PLAN_ID" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="REF_OBJ_ID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="REF_OBJ_TYPE_KEY" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="RT_DESCR_ID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="STATE" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="TYPE_ID" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="UPDATEID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="UPDATETIME" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="VER_NBR" nullable="false" type="FLOAT">
+            <size value="19"/>
+        </column>
+        <index name="KSPL_LRNG_PLAN_ITEM_I1">
+            <column>TYPE_ID</column>
+        </index>
+    </table>
+    <table name="KSPL_LRNG_PLAN_ITEM_ATP_ID">
+        <column name="ATP_ID" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="PLAN_ITEM_ID" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <uniqueConstraint name="KSPL_LRNG_PLAN_ITEM_ATP_ID_UQ">
+            <column>PLAN_ITEM_ID</column>
+            <column>ATP_ID</column>
+        </uniqueConstraint>
+    </table>
+    <table name="KSPL_LRNG_PLAN_ITEM_ATTR">
+        <column name="ATTR_KEY" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="ATTR_VALUE" type="STRING">
+            <size value="2000"/>
+        </column>
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="OBJ_ID" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="OWNER_ID" type="STRING">
+            <size value="255"/>
+        </column>
+        <index name="KSPL_LRNG_PLAN_ITEM_ATTR_I1">
+            <column>OWNER_ID</column>
+        </index>
+    </table>
+    <table name="KSPL_LRNG_PLAN_ITEM_TYPE">
+        <column name="EFF_DT" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="EXPIR_DT" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="NAME" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="OBJ_ID" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="REF_OBJECT_URI" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="TYPE_DESC" type="STRING">
+            <size value="2000"/>
+        </column>
+        <column name="TYPE_KEY" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="VER_NBR" type="FLOAT">
+            <size value="19"/>
+        </column>
+    </table>
+    <table name="KSPL_LRNG_PLAN_ITEM_TYPE_ATTR">
+        <column name="ATTR_KEY" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="ATTR_VALUE" type="STRING">
+            <size value="2000"/>
+        </column>
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="OBJ_ID" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="OWNER_ID" type="STRING">
+            <size value="255"/>
+        </column>
+    </table>
+    <table name="KSPL_LRNG_PLAN_RICH_TEXT">
+        <column name="FORMATTED" type="STRING">
+            <size value="2000"/>
+        </column>
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="OBJ_ID" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="PLAIN" type="STRING">
+            <size value="2000"/>
+        </column>
+        <column name="VER_NBR" type="FLOAT">
+            <size value="19"/>
+        </column>
+    </table>
+    <table name="KSPL_LRNG_PLAN_TYPE">
+        <column name="EFF_DT" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="EXPIR_DT" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="NAME" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="OBJ_ID" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="REF_OBJECT_URI" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="TYPE_DESC" type="STRING">
+            <size value="2000"/>
+        </column>
+        <column name="TYPE_KEY" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="VER_NBR" type="FLOAT">
+            <size value="19"/>
+        </column>
+    </table>
+    <table name="KSPL_LRNG_PLAN_TYPE_ATTR">
+        <column name="ATTR_KEY" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="ATTR_VALUE" type="STRING">
+            <size value="2000"/>
+        </column>
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="OBJ_ID" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="OWNER_ID" type="STRING">
+            <size value="255"/>
+        </column>
+    </table>
     <table name="KSPR_PROPOSAL">
         <column name="CREATEID" type="STRING">
             <size value="255"/>
