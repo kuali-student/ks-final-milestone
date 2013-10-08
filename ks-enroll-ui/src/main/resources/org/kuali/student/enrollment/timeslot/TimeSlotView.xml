@@ -140,7 +140,8 @@
     </bean>
 
     <bean id="TimeSlotSearchResults-TableCollectionSection" parent="KS-Uif-TableCollectionSection-WithActionSeperator" p:renderAddLine="false" p:lineActionSeparator="&#160;&#160;|&#160;&#160;"
-        p:onDocumentReadyScript="removeCheckboxColumns(1, 'TimeSlotSearchResultsDisplayTable',&quot;handleToolbar('TimeSlotSearchResultsDisplayTable',['enableDeleteButton'], ['TimeSlot-ToolBar-Delete-TimeSlot'])&quot;), addActionColumn(@{#parent.readOnly}, 'TimeSlotSearchResultsDisplayTable');">
+        p:onDocumentReadyScript="removeCheckboxColumns(1, 'TimeSlotSearchResultsDisplayTable',&quot;handleToolbar('TimeSlotSearchResultsDisplayTable',['enableDeleteButton'], ['TimeSlot-ToolBar-Delete-TimeSlot'])&quot;), addActionColumn(@{#parent.readOnly}, 'TimeSlotSearchResultsDisplayTable');"
+            p:style="width:50%">
 
         <property name="id" value="TimeSlotSearchResultsDisplayTable" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper" />
@@ -164,27 +165,41 @@
         <property name="items">
             <list>
                 <bean id="is_checked" parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:hidden="@{!#line.isEnableDeleteButton()}"
-                      p:onChangeScript="handleToolbar('TimeSlotSearchResultsDisplayTable',['enableDeleteButton'], ['TimeSlot-ToolBar-Delete-TimeSlot']);">
-                      <property name="control">
-                            <bean parent="Uif-CheckboxControl" p:disabled="false"/>
-                      </property>
+                      p:onChangeScript="handleToolbar('TimeSlotSearchResultsDisplayTable',['enableDeleteButton'], ['TimeSlot-ToolBar-Delete-TimeSlot']);"
+                      p:cssClasses="fixedCol_1">
+
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:disabled="false"/>
+                    </property>
                 </bean>
+
                 <bean id="timeSlotCode" parent="KS-Uif-DataField-Simple"
-                                     p:label="Code"
-                                     p:propertyName="timeSlotInfo.name"/>
+                      p:label="Code"
+                      p:propertyName="timeSlotInfo.name"
+                      p:cssClasses="fixedCol_5"/>
+
                 <bean id="termType" parent="KS-Uif-DataField-Simple"
-                    p:label="Term Type"
-                    p:propertyName="typeName" p:additionalHiddenPropertyNames="typeKey"/>
+                      p:label="Term Type"
+                      p:propertyName="typeName" p:additionalHiddenPropertyNames="typeKey"
+                      p:cssClasses="fixedCol_11"/>
+
                 <bean id="days" parent="KS-Uif-DataField-Simple"
-                    p:label="Days"
-                    p:propertyName="daysDisplayName"/>
+                      p:label="Days"
+                      p:propertyName="daysDisplayName"
+                      p:cssClasses="fixedCol_7"/>
+
                 <bean id="startTime" parent="KS-Uif-DataField-Simple"
-                    p:label="Start Time"
-                    p:propertyName="startTimeDisplay"/>
+                      p:label="Start Time"
+                      p:propertyName="startTimeDisplay" p:cssClasses="fixedCol_6"/>
+
                 <bean id="endTime" parent="KS-Uif-DataField-Simple"
-                    p:label="End Time"
-                    p:propertyName="endTimeDisplay"/>
-                <bean name="enableDeleteButton" parent="KS-Uif-DataField-Simple" p:label="enableDeleteButton"  p:propertyName="enableDeleteButton"/>
+                      p:label="End Time"
+                      p:propertyName="endTimeDisplay"
+                      p:cssClasses="fixedCol_6"/>
+                <bean name="enableDeleteButton" parent="KS-Uif-DataField-Simple"
+                      p:label="enableDeleteButton"
+                      p:propertyName="enableDeleteButton"/>
+
             </list>
         </property>
         <property name="layoutManager.richTable.hiddenColumns">
@@ -194,7 +209,12 @@
         </property>
 
         <property name="layoutManager.actionFieldPrototype">
-            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="Actions"/>
+            <bean parent="Uif-HorizontalFieldGroup"
+                  p:align="left"
+                  p:required="false"
+                  p:label="Actions"
+                  p:cssClasses="fixedCol_3"/>
+
         </property>
         <property name="lineActions">
             <list>
