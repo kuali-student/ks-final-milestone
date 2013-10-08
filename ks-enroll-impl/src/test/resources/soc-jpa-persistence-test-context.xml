@@ -83,7 +83,7 @@
         <property name="em" ref="entityManager" />
     </bean>
 
-    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceMockImpl"/>
+    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.mock.StateServiceMockImpl"/>
 
     <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 
