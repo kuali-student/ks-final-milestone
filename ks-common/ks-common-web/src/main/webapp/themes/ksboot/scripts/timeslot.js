@@ -7,6 +7,7 @@ var selectedTimeSlotOptions;
  */
 function reInitializePopupModel(event, addOrEditAction, editLineIndex)
 {
+
     jQuery('#addOrEditDays_control').val('');
     jQuery('#addOrEditTermKey_control').val('');
     jQuery('#addOrEditStartTime_control').val('');
@@ -14,6 +15,32 @@ function reInitializePopupModel(event, addOrEditAction, editLineIndex)
     jQuery('#addOrEditEndTime_control').val('');
     jQuery('#addOrEditEndTimeAmPm_control_0').attr('checked',true);
     jQuery('#addOrEditTermKey_control').empty();
+    jQuery('#addOrEditDays_control').val('');
+
+    if (jQuery("#addOrEditDays_errors").length) {
+        jQuery("#addOrEditDays_errors").empty();
+    }
+    if (jQuery("#addOrEditTermKey_errors").length) {
+        jQuery("#addOrEditTermKey_errors").empty();
+    }
+    if (jQuery("#addOrEditStartTime_errors").length) {
+        jQuery("#addOrEditStartTime_errors").empty();
+    }
+    if (jQuery("#addOrEditStartTimeAmPm_errors").length) {
+        jQuery("#addOrEditStartTimeAmPm_errors").empty();
+    }
+    if (jQuery("#addOrEditEndTime_errors").length) {
+        jQuery("#addOrEditEndTime_errors").empty();
+    }
+    if (jQuery("#addOrEditEndTimeAmPm_errors").length) {
+        jQuery("#addOrEditEndTimeAmPm_errors").empty();
+    }
+    if (jQuery("#addOrEditTermKey_errors").length) {
+        jQuery("#addOrEditTermKey_errors").empty();
+    }
+
+    jQuery(".new_ts").removeClass("uif-hasError");
+    jQuery(".new_ts_control").removeClass("error");
 
     if (addOrEditAction == 'EDIT'){
         jQuery('#addOrEdit_action').data("submit_data", {methodToCall:"editTimeSlot","actionParameters[selectedCollectionPath]":"timeSlotResults","actionParameters[actionEvent]":"editCOonManageCOsPage","actionParameters[selectedLineIndex]":editLineIndex});
@@ -65,10 +92,10 @@ function showDeleteDialog() {
 }
 
 function validateTimeSlot(){
-    var addEditTSComponents = jQuery('.new_ts');
+    var addEditTSComponents = jQuery('.new_ts_control');
     result = validateLineFields(addEditTSComponents);
     if (!result){
-        showGrowl('The form contains errors. Please correct these errors and try again.', 'Javascript Error', 'errorGrowl');
+        showClientSideErrorNotification();
     }
     return result;
 }
