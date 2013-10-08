@@ -49,7 +49,7 @@
                     </property>
                     <property name="suggest">
                         <bean parent="Uif-Suggest">
-                            <property name="sourcePropertyName" value="name" />
+                            <!-- <property name="valuePropertyName" value="name" /> -->
                             <property name="templateOptions" value="minLength:1,delay:0" />
                             <property name="suggestQuery">
                                 <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="searchForLoCategories" />
@@ -63,7 +63,7 @@
                     </property>
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:render="true">
-                            <property name="sourcePropertyName" value="courseCode"/>
+                            <!-- <property name="valuePropertyName" value="courseCode"/> -->
                             <property name="templateOptions" value="minLength:1,delay:0" />
                             <property name="suggestQuery">
                                 <bean parent="Uif-AttributeQueryConfig"
@@ -83,7 +83,7 @@
                     </property>
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:render="true">
-                            <property name="sourcePropertyName" value="organizationName" />
+                            <!-- <property name="valuePropertyName" value="organizationName" /> -->
                             <property name="templateOptions" value="minLength:1,delay:0" />
                             <property name="suggestQuery">
                                 <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="searchForOrganizations" />

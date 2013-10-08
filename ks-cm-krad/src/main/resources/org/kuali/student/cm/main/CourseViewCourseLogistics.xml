@@ -162,7 +162,9 @@
 		parent="Uif-StackedCollectionSection" p:headerText="Outcome"
 		p:propertyName="creditOptionWrappers"
 		p:collectionObjectClass="org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper">
-		<property name="addBlankLineAction.actionLabel" value="Add Outcome" />
+        <property name="addBlankLineAction">
+            <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add Outcome"/>
+        </property>
 		<property name="layoutManager.lineGroupPrototype.header.headerText"
 			value="Outcome @{(#index + 1)}" />
 		<property name="renderAddBlankLineButton" value="true" />
@@ -247,7 +249,9 @@
 		</property>
 		<property name="addLinePlacement" value="BOTTOM" />
 		<property name="renderAddBlankLineButton" value="true" />
-		<property name="addBlankLineAction.actionLabel" value="Add Additional Format" />
+        <property name="addBlankLineAction">
+            <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add Additional Format"/>
+        </property>
 		<property name="addLineLabel.labelText" value=" " />
 		<property name="layoutManager.lineGroupPrototype.header.headerText"
 			value="Format @{(#index + 1)}" />
@@ -258,7 +262,9 @@
 					p:propertyName="activities">
 					<property name="addLinePlacement" value="BOTTOM" />
 					<property name="renderAddBlankLineButton" value="true" />
-					<property name="addBlankLineAction.actionLabel" value="Add Activity" />
+                    <property name="addBlankLineAction">
+                        <bean parent="Uif-AddBlankLineAction" p:actionLabel="Activity"/>
+                    </property>
 					<property name="addLineLabel.labelText" value="Activity " />
 					<property name="layoutManager.lineGroupPrototype.header.headerText"
 						value="Activity @{(#index + 1)}" />

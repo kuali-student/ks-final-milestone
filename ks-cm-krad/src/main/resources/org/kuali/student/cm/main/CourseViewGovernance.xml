@@ -115,8 +115,8 @@
         <property name="addLineLabel.labelText" value="Add an Organization" />
         <property name="layoutManager.lineGroupPrototype.header.headerText"
                   value="Organization @{(#index + 1)}" />
-        <property name="collectionLookup.quickfinderAction.render"
-                  value="false" />
+        <!-- <property name="collectionLookup.quickfinderAction.render"
+                  value="false" /> -->
         <property name="help">
             <bean parent="Uif-Help"
                   p:tooltipHelpContent="This is not a restrictive list - organizations here are additional organizations that can administer this course." />
@@ -139,7 +139,7 @@
                     </property>
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:render="true">
-                            <property name="sourcePropertyName" value="organizationName" />
+                            <!-- <property name="valuePropertyName" value="organizationName" /> -->
                             <property name="templateOptions" value="minLength:1,delay:0" />
                             <property name="suggestQuery">
                                 <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="searchForOrganizations" />

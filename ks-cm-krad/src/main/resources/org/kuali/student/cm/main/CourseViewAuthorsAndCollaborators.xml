@@ -30,7 +30,7 @@
                     <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.CollaboratorWrapper" />
                     <property name="propertyName" value="collaboratorWrappers" />
                     <property name="layoutManager.separateAddLine" value="true" />
-                    <property name="collectionLookup.quickfinderAction.render" value="false" />
+                    <!-- <property name="collectionLookup.quickfinderAction.render" value="false" /> -->
                     <property name="addLineLabel">
                         <bean parent="Uif-Label">
                             <property name="labelText" value=" " />
@@ -53,7 +53,7 @@
                                 </property>
                                 <property name="suggest">
                                     <bean parent="Uif-Suggest" p:render="true">
-                                        <property name="sourcePropertyName" value="displayName" />
+                                        <!-- <property name="valuePropertyName" value="displayName" /> -->
                                         <property name="templateOptions" value="minLength:1,delay:0" />
                                         <property name="suggestQuery">
                                             <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getCollaboratorWrappersSuggest" />

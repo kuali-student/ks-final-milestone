@@ -23,6 +23,7 @@
         This view has couple of pages (edit and copy) with all the beans defined at 1. CourseViewCourseInfoPage.xml -->
 
     <bean id="KS-CourseView" parent="KS-Uif-MaintenanceView">
+        <property name="id" value="courseMaintenanceView"/>
         <property name="theme">
             <bean parent="KSTheme"/>
         </property>
