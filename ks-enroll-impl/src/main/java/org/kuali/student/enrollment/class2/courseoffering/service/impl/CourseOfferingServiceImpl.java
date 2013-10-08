@@ -2882,7 +2882,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         if (StringUtils.isNotBlank(activityOfferingId)) {
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
             qbcBuilder.setPredicates(
-                    PredicateFactory.equalIgnoreCase("activityOfferingId", activityOfferingId));
+                    PredicateFactory.equal("activityOfferingId", activityOfferingId));
             QueryByCriteria criteria = qbcBuilder.build();
 
             //Do search. In ideal case, returns one element, which is the desired SeatPool.
