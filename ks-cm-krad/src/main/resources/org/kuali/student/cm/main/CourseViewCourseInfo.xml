@@ -121,7 +121,7 @@
 				<bean id="KS-Instructors-Section" parent="Uif-StackedCollectionSection"
 					p:headerText="Instructor(s)" p:propertyName="instructorWrappers"
 					p:collectionObjectClass="org.kuali.student.cm.course.form.CluInstructorInfoWrapper">
-					<property name="addLineLabel.labelText" value="Add An Instructor" />
+					<property name="addLineLabel.messageText" value="Add An Instructor" />
 					<property name="layoutManager.lineGroupPrototype.header.headerText"
 						value="Instructor @{(#index + 1)}" />
 					<!-- <property name="collectionLookup.quickfinderAction.render"

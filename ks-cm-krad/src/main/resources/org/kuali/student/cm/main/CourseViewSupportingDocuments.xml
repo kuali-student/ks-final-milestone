@@ -45,7 +45,7 @@
 	<bean id="KS-SupportingDocuments-Section" parent="Uif-StackedCollectionSection"
 		  p:headerText="Supporting Document(s)" p:propertyName="supportingDocuments"
 		  p:collectionObjectClass="org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper">
-		<property name="addLineLabel.labelText" value="Include More Files" />
+		<property name="addLineLabel.messageText" value="Include More Files" />
 		<property name="layoutManager.lineGroupPrototype.header.headerText"
 				  value="File @{(#index + 1)}" />
 		<!-- <property name="collectionLookup.quickfinderAction.render"

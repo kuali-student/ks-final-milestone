@@ -112,7 +112,7 @@
     <bean id="KS-AdministeringOrganization-Section" parent="Uif-StackedCollectionSection"
           p:headerText="Organization(s)" p:propertyName="administeringOrganizations"
           p:collectionObjectClass="org.kuali.student.cm.course.form.OrganizationInfoWrapper">
-        <property name="addLineLabel.labelText" value="Add an Organization" />
+        <property name="addLineLabel.messageText" value="Add an Organization" />
         <property name="layoutManager.lineGroupPrototype.header.headerText"
                   value="Organization @{(#index + 1)}" />
         <!-- <property name="collectionLookup.quickfinderAction.render"

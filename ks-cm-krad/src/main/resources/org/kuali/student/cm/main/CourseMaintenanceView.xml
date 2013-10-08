@@ -302,11 +302,7 @@
                     
                     <property name="propertyName" value="commentInfos" />
                     <property name="layoutManager.separateAddLine" value="true" />
-                    <property name="addLineLabel">
-                        <bean parent="Uif-Label">
-                            <property name="labelText" value=" " />
-                        </bean>
-                    </property>
+                    <property name="addLineLabel.messageText" value=" " />
                     <property name="layoutManager.renderSequenceField" value="false" />
                     <property name="layoutManager.richTable.render" value="true" />
                     <property name="items">

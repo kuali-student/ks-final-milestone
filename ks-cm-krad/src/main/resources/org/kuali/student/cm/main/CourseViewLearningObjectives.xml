@@ -53,8 +53,8 @@
             <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add Learning Objective"/>
         </property>
 		<property name="addLinePlacement" value="BOTTOM" />
-        <property name="collectionLookup.render" value="true"/>
-        <property name="collectionLookup.dataObjectClassName" value="org.kuali.student.cm.course.form.LoDisplayInfoWrapper"/>
+        <!-- <property name="collectionLookup.render" value="true"/> -->
+        <!-- <property name="collectionLookup.dataObjectClassName" value="org.kuali.student.cm.course.form.LoDisplayInfoWrapper"/> -->
         <!-- <property name="collectionLookup.fieldConversions" value="catNameAndType:name"/> -->
         <!--<property name="collectionLookup.quickfinderAction.render" value="true" /> -->
         <property name="items">
