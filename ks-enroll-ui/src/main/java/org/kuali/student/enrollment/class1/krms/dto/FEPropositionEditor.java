@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.class1.krms.dto;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
@@ -83,6 +84,18 @@ public class FEPropositionEditor extends LUPropositionEditor {
 
     public void setEndTimeAMPM(String endTimeAMPM) {
         this.endTimeAMPM = endTimeAMPM;
+    }
+
+    public String getTimePeriodToDisplay() {
+        String timeString = StringUtils.EMPTY;
+        if(this.getStartTime() != null){
+            timeString = this.getStartTime() + " " + this.getStartTimeAMPM();
+        }
+        if(this.getEndTime() != null){
+            timeString += "-" + this.getEndTime() + " " + this.getEndTimeAMPM();
+        }
+
+        return timeString;
     }
 
     @Override

@@ -7,7 +7,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.rice.krms.dto.ActionEditor;
 import org.kuali.rice.krms.dto.AgendaTypeInfo;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
@@ -21,10 +20,7 @@ import org.kuali.student.enrollment.class1.krms.dto.FEAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleEditor;
 import org.kuali.student.enrollment.class1.krms.service.impl.FERuleViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSConstants;
-import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
-import org.kuali.student.r2.core.room.dto.BuildingInfo;
-import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,10 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -75,6 +68,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
             rule.setRuleTypeInfo(ruleType);
             break;
         }
+        rule.setDummy(Boolean.TRUE);
         ruleWrapper.setRuleEditor(rule);
         this.getViewHelper(form).refreshInitTrees(ruleWrapper.getRuleEditor());
 
@@ -174,6 +168,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
                                    HttpServletRequest request, HttpServletResponse response) {
 
         FERuleEditor ruleEditor = (FERuleEditor) getRuleEditor(form);
+        RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper((MaintenanceDocumentForm) form);
 
         //Return with error message if user is currently editing a proposition.
         PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
@@ -182,80 +177,32 @@ public class FERuleEditorController extends EnrolRuleEditorController {
             return getUIFModelAndView(form);
         }
 
-        if (!(ruleEditor.getProposition() == null && ruleEditor.getPropId() == null)) {
+        if(ruleEditor.isDummy()) {
+            ruleEditor.setDummy(Boolean.FALSE);
+            ruleEditor.setName(ruleWrapper.getRefObjectId() + ":" + ruleEditor.getTypeId() + ":" + (((FEAgendaEditor)ruleWrapper.getAgendaEditor()).getRules().size() + 1));
             PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor.getPropositionEditor());
-            ruleEditor.setDummy(false);
             PropositionTreeUtil.resetNewProp(ruleEditor.getPropositionEditor());
             ruleEditor.setDescription(ruleEditor.getPropositionEditor().getNaturalLanguage().get(KSKRMSServiceConstants.KRMS_NL_RULE_EDIT));
-            try {
+            ((FEAgendaEditor) ruleWrapper.getAgendaEditor()).getRules().add(ruleEditor);
+        } else {
+            if (!(ruleEditor.getProposition() == null && ruleEditor.getPropId() == null)) {
+                PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor.getPropositionEditor());
+                ruleEditor.setDummy(Boolean.FALSE);
+                PropositionTreeUtil.resetNewProp(ruleEditor.getPropositionEditor());
+                ruleEditor.setDescription(ruleEditor.getPropositionEditor().getNaturalLanguage().get(KSKRMSServiceConstants.KRMS_NL_RULE_EDIT));
+                this.getViewHelper(form).rebuildActions(ruleEditor);
+            }
 
-                ArrayList<ActionEditor> newActions = new ArrayList<ActionEditor>();
-                ArrayList<ActionEditor> actions = (ArrayList<ActionEditor>) ruleEditor.getActions();
-                for (ActionEditor action : actions) {
-                    Map<String, String> attributes = action.getAttributes();
-                    Map<String, String> newAttributes = new HashMap<String, String>();
-                    if (ruleEditor.getDay() != null) {
-                        newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY, ruleEditor.getDay());
-                    }
-                    if (ruleEditor.getStartTime() != null) {
-                        String startTimeAMPM = new StringBuilder(ruleEditor.getStartTime()).append(" ").append(ruleEditor.getStartTimeAMPM()).toString();
-                        long startTimeMillis = this.parseTimeToMillis(startTimeAMPM);
-                        String startTime = String.valueOf(startTimeMillis);
-                        newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, startTime);
-                    }
-                    if (ruleEditor.getEndTime() != null) {
-                        String endTimeAMPM = new StringBuilder(ruleEditor.getEndTime()).append(" ").append(ruleEditor.getEndTimeAMPM()).toString();
-                        long endTimeMillis = this.parseTimeToMillis(endTimeAMPM);
-                        String endTime = String.valueOf(endTimeMillis);
-                        newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME, endTime);
-                    }
-
-                    if (ruleEditor.getBuilding().getBuildingCode() != null && !ruleEditor.getBuilding().getBuildingCode().isEmpty()) {
-                        List<BuildingInfo> buildingInfos = new ArrayList<BuildingInfo>();
-                        buildingInfos = this.getViewHelper(form).retrieveBuildingInfo(ruleEditor.getBuilding().getBuildingCode(), true);
-                        for (BuildingInfo buildingInfo : buildingInfos) {
-                            if (buildingInfo.getBuildingCode().equals(ruleEditor.getBuilding().getBuildingCode())) {
-                                newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY, buildingInfo.getId());
-                                break;
-                            }
-                        }
-
-                    }
-                    if (ruleEditor.getRoom().getRoomCode() != null && !ruleEditor.getRoom().getRoomCode().isEmpty()) {
-
-                        List<RoomInfo> roomInfos = new ArrayList<RoomInfo>();
-                        roomInfos = this.getViewHelper(form).retrieveRoomInfo(ruleEditor.getRoom().getRoomCode(), ruleEditor.getBuilding().getBuildingCode(), true);
-                        for (RoomInfo roomInfo : roomInfos) {
-                            if (roomInfo.getRoomCode().equals(ruleEditor.getRoom().getRoomCode())) {
-                                newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM, roomInfo.getId());
-                                break;
-                            }
-                        }
-
-                    }
-                    action.setAttributes(newAttributes);
-                    action.setDescription(ruleEditor.getDescription());
-                    newActions.add(action);
+            //Replace edited rule with existing rule.
+            List<RuleEditor> rules = ((FEAgendaEditor) ruleWrapper.getAgendaEditor()).getRules();
+            int index = 0;
+            for (RuleEditor existingRule : rules) {
+                if (existingRule.getId().equals(ruleEditor.getId())) {
+                    index = rules.indexOf(existingRule);
                 }
-                ((ArrayList<ActionEditor>) ruleEditor.getActions()).clear();
-                ((ArrayList<ActionEditor>) ruleEditor.getActions()).addAll(newActions);
-                ((FERuleEditor) ruleEditor).getTimePeriodToDisplay();
-
-            } catch (Exception e) {
-                throw new RuntimeException(e);
             }
+            rules.set(index, ruleEditor);
         }
-
-        //Replace edited rule with existing rule.
-        RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper((MaintenanceDocumentForm) form);
-        List<RuleEditor> rules = ((FEAgendaEditor) ruleWrapper.getAgendaEditor()).getRules();
-        int index = 0;
-        for (RuleEditor existingRule : rules) {
-            if (existingRule.getId().equals(ruleEditor.getId())) {
-                index = rules.indexOf(existingRule);
-            }
-        }
-        rules.set(index, ruleEditor);
 
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_AGENDA_FE_MAINTENANCE_PAGE_ID);
         return super.navigate(form, result, request, response);
@@ -330,10 +277,6 @@ public class FERuleEditorController extends EnrolRuleEditorController {
     protected void compareRulePropositions(MaintenanceDocumentForm form, RuleEditor ruleEditor) {
         //We don't do comparisons on Final Exam.
         return;
-    }
-
-    private long parseTimeToMillis(final String time) throws ParseException {
-        return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(time).getTime();
     }
 
     /**

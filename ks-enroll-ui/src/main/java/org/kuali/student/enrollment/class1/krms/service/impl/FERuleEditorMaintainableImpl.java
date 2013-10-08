@@ -17,7 +17,9 @@ package org.kuali.student.enrollment.class1.krms.service.impl;
 
 //import org.apache.commons.lang.StringUtils;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krms.api.repository.action.ActionDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
@@ -42,6 +44,7 @@ import org.kuali.student.r2.core.room.service.RoomService;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -270,11 +273,16 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             this.getRuleManagementService().deleteRule(deletedRule.getId());
         }
 
+        List<FERuleEditor> newRules = new ArrayList<FERuleEditor>();
         AgendaItemDefinition rootItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
         AgendaItemDefinition.Builder rootItemBuilder = AgendaItemDefinition.Builder.create(rootItem);
         AgendaItemDefinition.Builder itemBuilder = rootItemBuilder;
         while (rules.peek() != null) {
-            itemBuilder.setRule(this.finRule(rules.poll(), namePrefix, nameSpace));
+            RuleEditor ruleEditor = rules.poll();
+            itemBuilder.setRule(this.finRule(ruleEditor, namePrefix, nameSpace));
+            if(itemBuilder.getRule().getId() == null) {
+                newRules.add((FERuleEditor) ruleEditor);
+            }
             itemBuilder.setRuleId(itemBuilder.getRule().getId());
             if (rules.peek() != null) {
                 itemBuilder.setWhenFalse(AgendaItemDefinition.Builder.create(null, agenda.getId()));
@@ -284,6 +292,23 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         //Update the root item.
         AgendaItemDefinition updateItem = rootItemBuilder.build();
         this.getRuleManagementService().updateAgendaItem(updateItem);
+
+
+        //For each new rule created
+        for(FERuleEditor feRuleEditor : newRules) {
+            //Retrieve saved rule to get the id needed for rule actions
+            RuleEditor ruleEditor = new RuleEditor(this.getRuleManagementService().getRuleByNameAndNamespace(feRuleEditor.getName(), nameSpace));
+            //If rule actions empty, build actions from rule fields and add to empty actions list
+            if(ruleEditor.getActions().isEmpty()) {
+                ActionDefinition actionDefinition = finActions(feRuleEditor, ruleEditor.getId());
+                ArrayList<ActionDefinition> actions = (ArrayList<ActionDefinition>) ruleEditor.getActions();
+                actions.add(actionDefinition);
+            }
+            //Build new rule definition of updated rule with actions
+            RuleDefinition.Builder ruleBuilder = RuleDefinition.Builder.create(ruleEditor);
+            //Save updated rule
+            this.getRuleManagementService().updateRule(ruleBuilder.build());
+        }
 
         return updateItem;
     }
@@ -298,11 +323,68 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         if (rule.getNamespace() == null) {
             rule.setNamespace(namespace);
         }
-        if (rule.getName() == null || rule.getName().isEmpty()) {
-            rule.setName(rulePrefix + rule.getRuleTypeInfo().getId() + ":1");
+
+        if (rule.getName() == null && rule.getName().isEmpty()) {
+            rule.setName(rulePrefix + rule.getRuleTypeInfo().getId() + ":na");
         }
 
         return RuleDefinition.Builder.create(rule);
+    }
+
+    /**
+     * Method that populates rule actions from rule parameters
+     *
+     * @param feRuleEditor
+     * @param ruleId
+     * @return new action definition with populated parameters
+     */
+    public ActionDefinition finActions(FERuleEditor feRuleEditor, String ruleId) {
+
+        ActionEditor actionEditor = new ActionEditor();
+
+        //Set actionEditor required fiels from rule
+        actionEditor.setRuleId(ruleId);
+        actionEditor.setDescription("Day " + feRuleEditor.getDay());
+        actionEditor.setNamespace(StudentIdentityConstants.KS_NAMESPACE_CD);
+        actionEditor.setName("day" + feRuleEditor.getDay() + feRuleEditor.getTimePeriodToDisplay());
+        actionEditor.setTypeId(getActionTypeId());
+        actionEditor.setSequenceNumber(1);
+
+        //Populate dynamic attributes
+        Map<String, String> attributes = new HashMap<String, String>();
+        attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, parseTime(feRuleEditor.getStartTime(), feRuleEditor.getStartTimeAMPM()));
+        attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY, feRuleEditor.getDay());
+        attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME, parseTime(feRuleEditor.getEndTime(), feRuleEditor.getEndTimeAMPM()));
+        if(feRuleEditor.getBuilding().getId() != null) {
+            attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY, feRuleEditor.getBuilding().getId());
+        }
+        if(feRuleEditor.getRoom().getId() != null) {
+            attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM, feRuleEditor.getRoom().getId());
+        }
+
+        actionEditor.setAttributes(attributes);
+
+        ActionDefinition.Builder actionBuilder = ActionDefinition.Builder.create(actionEditor);
+
+        return actionBuilder.build();
+    }
+
+    /**
+     * Parses Date into Long
+     *
+     * @param time
+     * @param format
+     * @return date in long value
+     */
+    protected String parseTime(String time, String format) {
+        Date d = new Date();
+        d.setHours(Integer.parseInt(StringUtils.substring(time, 0, 2)) + (format.equals("PM") ? 12 : 0));
+        d.setMinutes(Integer.parseInt(StringUtils.substring(time, 3, 5)));
+        d.setSeconds(0);
+
+        long parsedTime = d.getTime();
+
+        return Long.toString(parsedTime);
     }
 
     protected String getActionTypeId() {

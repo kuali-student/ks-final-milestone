@@ -22,6 +22,7 @@ import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.builder.ComponentBuilder;
+import org.kuali.rice.krms.dto.ActionEditor;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.PropositionParameterEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
@@ -30,12 +31,17 @@ import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.FEPropositionEditor;
+import org.kuali.student.enrollment.class1.krms.dto.FERuleEditor;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.lum.lu.ui.krms.service.impl.LURuleViewHelperServiceImpl;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
 
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -148,6 +154,69 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
             return getRoomService().getRoomsByBuildingAndRoomCode(buildings.get(firstBuilding).getBuildingCode(),roomCode ,ContextBuilder.loadContextInfo());
         }
 
+    }
+
+    public void rebuildActions(FERuleEditor ruleEditor) {
+        try {
+            ArrayList<ActionEditor> newActions = new ArrayList<ActionEditor>();
+            ArrayList<ActionEditor> actions = (ArrayList<ActionEditor>) ruleEditor.getActions();
+            for (ActionEditor action : actions) {
+                Map<String, String> attributes = action.getAttributes();
+                Map<String, String> newAttributes = new HashMap<String, String>();
+                if (ruleEditor.getDay() != null) {
+                    newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY, ruleEditor.getDay());
+                }
+                if (ruleEditor.getStartTime() != null) {
+                    String startTimeAMPM = new StringBuilder(ruleEditor.getStartTime()).append(" ").append(ruleEditor.getStartTimeAMPM()).toString();
+                    long startTimeMillis = this.parseTimeToMillis(startTimeAMPM);
+                    String startTime = String.valueOf(startTimeMillis);
+                    newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, startTime);
+                }
+                if (ruleEditor.getEndTime() != null) {
+                    String endTimeAMPM = new StringBuilder(ruleEditor.getEndTime()).append(" ").append(ruleEditor.getEndTimeAMPM()).toString();
+                    long endTimeMillis = this.parseTimeToMillis(endTimeAMPM);
+                    String endTime = String.valueOf(endTimeMillis);
+                    newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME, endTime);
+                }
+
+                if (ruleEditor.getBuilding().getBuildingCode() != null && !ruleEditor.getBuilding().getBuildingCode().isEmpty()) {
+                    List<BuildingInfo> buildingInfos = new ArrayList<BuildingInfo>();
+                    buildingInfos = retrieveBuildingInfo(ruleEditor.getBuilding().getBuildingCode(), true);
+                    for (BuildingInfo buildingInfo : buildingInfos) {
+                        if (buildingInfo.getBuildingCode().equals(ruleEditor.getBuilding().getBuildingCode())) {
+                            newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY, buildingInfo.getId());
+                            break;
+                        }
+                    }
+
+                }
+                if (ruleEditor.getRoom().getRoomCode() != null && !ruleEditor.getRoom().getRoomCode().isEmpty()) {
+
+                    List<RoomInfo> roomInfos = new ArrayList<RoomInfo>();
+                    roomInfos = retrieveRoomInfo(ruleEditor.getRoom().getRoomCode(), ruleEditor.getBuilding().getBuildingCode(), true);
+                    for (RoomInfo roomInfo : roomInfos) {
+                        if (roomInfo.getRoomCode().equals(ruleEditor.getRoom().getRoomCode())) {
+                            newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM, roomInfo.getId());
+                            break;
+                        }
+                    }
+
+                }
+                action.setAttributes(newAttributes);
+                action.setDescription(ruleEditor.getDescription());
+                newActions.add(action);
+            }
+            ((ArrayList<ActionEditor>) ruleEditor.getActions()).clear();
+            ((ArrayList<ActionEditor>) ruleEditor.getActions()).addAll(newActions);
+            ((FERuleEditor) ruleEditor).getTimePeriodToDisplay();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    protected long parseTimeToMillis(final String time) throws ParseException {
+        return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(time).getTime();
     }
 
     public RoomService getRoomService(){

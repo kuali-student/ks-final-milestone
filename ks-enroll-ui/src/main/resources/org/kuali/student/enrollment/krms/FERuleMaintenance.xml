@@ -350,19 +350,6 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KSFE-FinalExam-ExamDaysDropdown" parent="Uif-DropdownControl" p:cssClasses="new_rdl_components" >
-        <property name="options">
-            <list>
-                <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Day 1" />
-                <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Day 2" />
-                <bean parent="Uif-KeyLabelPair" p:key="3" p:value="Day 3" />
-                <bean parent="Uif-KeyLabelPair" p:key="4" p:value="Day 4" />
-                <bean parent="Uif-KeyLabelPair" p:key="5" p:value="Day 5" />
-                <bean parent="Uif-KeyLabelPair" p:key="6" p:value="Day 6" />
-            </list>
-        </property>
-    </bean>
-
     <bean id="FinalExam-DeliveryLogistic-New-Section" parent="Uif-HorizontalBoxSubSection">
         <property name="items">
             <list>
@@ -373,7 +360,18 @@ limitations under the License.
                 </bean>
                 <bean id="FinalExam_days" parent="Uif-InputField-LabelTop" p:label="Days" p:propertyName="ruleEditor.day">
                     <property name="control">
-                        <ref bean="KSFE-FinalExam-ExamDaysDropdown"/>
+                        <bean parent="Uif-DropdownControl" p:cssClasses="new_rdl_components" >
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Day 1" />
+                                    <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Day 2" />
+                                    <bean parent="Uif-KeyLabelPair" p:key="3" p:value="Day 3" />
+                                    <bean parent="Uif-KeyLabelPair" p:key="4" p:value="Day 4" />
+                                    <bean parent="Uif-KeyLabelPair" p:key="5" p:value="Day 5" />
+                                    <bean parent="Uif-KeyLabelPair" p:key="6" p:value="Day 6" />
+                                </list>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
                 <bean id="FinalExam_starttime" parent="Uif-InputField-LabelTop" p:label="Start Time" p:propertyName="ruleEditor.startTime" p:required="true">
@@ -426,6 +424,7 @@ limitations under the License.
                             <property name="fieldConversions">
                                 <map>
                                     <entry key="buildingCode" value="ruleEditor.building.buildingCode"/>
+                                    <entry key="id" value="ruleEditor.building.id"/>
                                 </map>
                             </property>
                         </bean>
@@ -444,6 +443,7 @@ limitations under the License.
                             <property name="fieldConversions">
                                 <map>
                                     <entry key="roomCode" value="ruleEditor.room.roomCode"/>
+                                    <entry key="id" value="ruleEditor.room.id"/>
                                 </map>
                             </property>
                             <property name="lookupParameters">
