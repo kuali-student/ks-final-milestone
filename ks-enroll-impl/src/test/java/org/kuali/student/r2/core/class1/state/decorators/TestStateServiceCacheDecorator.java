@@ -11,7 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.core.class1.state.mock.StateServiceMockDataImpl;
+import org.kuali.student.r2.core.class1.state.service.impl.StateServiceMockDataImpl;
 
 import static org.junit.Assert.assertEquals;
 
