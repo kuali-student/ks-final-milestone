@@ -81,8 +81,9 @@ CREATE TABLE KSPL_LRNG_PLAN_ITEM
   ENABLE 
 )
 /
-CREATE INDEX KSPL_LRNG_PLAN_ITEM_I1 ON KSPL_LRNG_PLAN_ITEM (TYPE_ID ASC);
-/begin execute immediate 'drop table KSPL_LRNG_PLAN_ITEM_ATP_ID'; exception when others then null; end;
+CREATE INDEX KSPL_LRNG_PLAN_ITEM_I1 ON KSPL_LRNG_PLAN_ITEM (TYPE_ID ASC)
+/
+begin execute immediate 'drop table KSPL_LRNG_PLAN_ITEM_ATP_ID'; exception when others then null; end;
 /
 
 CREATE TABLE KSPL_LRNG_PLAN_ITEM_ATP_ID
@@ -119,7 +120,8 @@ CREATE TABLE KSPL_LRNG_PLAN_ITEM_ATTR
 /
 begin execute immediate 'drop index KSPL_LRNG_PLAN_ITEM_ATTR_I1'; exception when others then null; end;
 /
-CREATE INDEX KSPL_LRNG_PLAN_ITEM_ATTR_I1 ON KSPL_LRNG_PLAN_ITEM_ATTR (OWNER_ID ASC);
+CREATE INDEX KSPL_LRNG_PLAN_ITEM_ATTR_I1 ON KSPL_LRNG_PLAN_ITEM_ATTR (OWNER_ID ASC)
+/
 
 begin execute immediate 'drop table KSPL_LRNG_PLAN_ITEM_TYPE'; exception when others then null; end;
 /
