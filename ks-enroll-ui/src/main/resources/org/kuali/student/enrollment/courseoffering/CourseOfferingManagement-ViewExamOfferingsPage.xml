@@ -88,11 +88,11 @@
                                 <property name="propertyName" value="examOfferingCancelledList"/>
                                 <property name="headerText" value="Cancelled Exam Offering Delivery Logistics by Course Offering"/>
                             </bean>
-                            <bean parent="KS-CourseOfferingManagement-ExamOfferingByAOClustersSection" p:render="@{#eoCancelledList ne null}" >
+                            <bean parent="KS-CourseOfferingManagement-ExamOfferingByAOClustersSection" p:render="true"  >
                                 <property name="headerText" value="Cancelled Exam Offering Delivery Logistics by Activity Offering"/>
                                 <property name="subCollections">
                                     <list>
-                                        <bean parent="KS-CourseOfferingManagement-ExamOfferingByAOTableSection">
+                                        <bean parent="KS-CourseOfferingManagement-ExamOfferingByAOTableSection" p:render="true">
                                             <property name="headerText" value="Cancelled Exam Offering Delivery Logistics by Activity Offering"/>
                                             <property name="propertyName" value="eoCancelledList"/>
                                         </bean>
