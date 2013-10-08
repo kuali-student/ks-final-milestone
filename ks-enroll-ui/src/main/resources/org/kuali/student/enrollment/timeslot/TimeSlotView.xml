@@ -202,7 +202,7 @@
                     p:methodToCall="edit"
                     p:actionLabel="Edit"
                     p:actionEvent="editCOonManageCOsPage">
-                    <property name="actionScript" value="reInitializePopupModel(e,'EDIT',@{#index}); openPopupContent(e,'KS-TimeSlot-AddTimeSlotPopupForm');"/>
+                    <property name="actionScript" value="reInitializePopupModel(e,'EDIT',@{#index}); openPopupContent(e,'KS-TimeSlot-AddTimeSlotPopupForm',{position: 'left',   align: 'top',tail:{align:'top'}});"/>
                 </bean>
             </list>
         </property>
