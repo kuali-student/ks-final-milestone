@@ -72,32 +72,34 @@ public class ActivityOfferingStateChangeHandler implements KSHandler {
         String toState = event.getValueByAttributeKey(KSEventFactory.EVENT_ATTRIBUTE_KEY_AO_TO_STATE);
         String fromState = aoLui.getStateKey();
         // Check to see if there is a state change key
-        if (fromState.equals(toState)) {
+        ActivityOfferingInfo aoInfo = processor.getCoService().getActivityOffering(aoId, context);
+        ConstraintResult constraintResult =
+            ActivityOfferingStateChangeConstraintUtil.checkConstraint(aoInfo, toState, processor, context);
+        if (constraintResult.satisfiesConstraint()) {
+            // If so, update the state
+            aoLui.setStateKey(toState);
+            LuiInfo modifiedAoLui = processor.getLuiService().updateLui(aoLui.getId(), aoLui, context);
+            String newToState = modifiedAoLui.getStateKey();
+            LOGGER.info("Setting AO to state: " + newToState);
+            // Get ready to send AO state modified event
+            KSEvent aoModifiedEvent = KSEventFactory.createActivityOfferingStateModifiedEvent(aoId, newToState);
+
+            processor.internalFireEvent(aoModifiedEvent, context);
+            // Add aoModifiedEvent to event (helps track what happens
+            event.addDownstreamEvent(aoModifiedEvent);
+            // Result
+            KSHandlerResult result = new KSHandlerResult(KSHandlerResult.SUCCESS, ActivityOfferingStateChangeHandler.class);
+            return result;
+        } else if (constraintResult.isNoStateChange()) {
+            // Didn't pass, but no state change is special case
+            LOGGER.info("AO state unchanged (fromState = " + fromState + ", toState = " + toState + ")");
             return new KSHandlerResult(KSHandlerResult.FAIL_STATE_UNCHANGED, ActivityOfferingStateChangeHandler.class);
         } else {
-            ActivityOfferingInfo aoInfo = processor.getCoService().getActivityOffering(aoId, context);
-            ConstraintResult constraintResult =
-                ActivityOfferingStateChangeConstraintUtil.checkConstraint(aoInfo, toState, processor, context);
-            if (constraintResult.satisfiesConstraint()) {
-                // If so, update the state
-                aoLui.setStateKey(toState);
-                LuiInfo modifiedAoLui = processor.getLuiService().updateLui(aoLui.getId(), aoLui, context);
-                String newToState = modifiedAoLui.getStateKey();
-                LOGGER.info("Setting AO to state: " + newToState);
-                // Get ready to send AO state modified event
-                KSEvent aoModifiedEvent = KSEventFactory.createActivityOfferingStateModifiedEvent(aoId, newToState);
-
-                processor.internalFireEvent(aoModifiedEvent, context);
-                // Add aoModifiedEvent to event (helps track what happens
-                event.addDownstreamEvent(aoModifiedEvent);
-                // Result
-                KSHandlerResult result = new KSHandlerResult(KSHandlerResult.SUCCESS, ActivityOfferingStateChangeHandler.class);
-                return result;
-            } else {
-                // Doesn't satisfy constraint
-                return new KSHandlerResult(KSHandlerResult.FAIL_CONSTRAINT_NOT_SATISFIED, ActivityOfferingStateChangeHandler.class);
-            }
+            // Doesn't satisfy constraint
+            LOGGER.info("AO state unchanged--doesn't satisfy constraint");
+            return new KSHandlerResult(KSHandlerResult.FAIL_CONSTRAINT_NOT_SATISFIED, ActivityOfferingStateChangeHandler.class);
         }
+
     }
 
     @Override

@@ -27,6 +27,7 @@ import java.util.List;
  */
 public class ConstraintResult {
     private boolean satisfiesConstraint = true;
+    boolean noStateChange = false;
     private List<String> errors = new ArrayList<String>();
 
     public void setSatisfiesConstraint(boolean isSatisfied) {
@@ -40,6 +41,14 @@ public class ConstraintResult {
     public void addError(String errorMessage) {
         satisfiesConstraint = false;
         errors.add(errorMessage);
+    }
+
+    public void setNoStateChange(boolean noStateChange) {
+        this.noStateChange = noStateChange;
+    }
+
+    public boolean isNoStateChange() {
+        return noStateChange;
     }
 
     public List<String> getErrors() {
