@@ -5,7 +5,6 @@
     <name>KSAP with Rice Bundled</name>
     <groupId>org.kuali.student.ap</groupId>
     <artifactId>ks-ap-with-rice-bundled</artifactId>
-    <version>${ks.ap.version}</version>
     <packaging>war</packaging>
     <parent>
         <groupId>org.kuali.student.ap</groupId>
