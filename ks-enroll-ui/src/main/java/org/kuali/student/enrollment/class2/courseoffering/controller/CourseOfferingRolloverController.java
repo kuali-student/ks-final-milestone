@@ -393,6 +393,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     public ModelAndView performRollover(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         if (!validateSourceTargetTerms(form)) {
+            form.getDialogManager().removeDialog(CourseOfferingSetServiceConstants.NO_EXAM_PERIOD_WARNING_DIALOG);
             return getUIFModelAndView(form);
         }
 
@@ -405,20 +406,21 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         form.setStatusField("");
         String sourceTermId = form.getSourceTerm().getId();
         String targetTermId = form.getTargetTerm().getId();
-//
-//        if (!helper.termHasExamPeriod(targetTermId)) {
-//            if (!hasDialogBeenAnswered("warningMessageNoExamPeriod", form)) {
-//                //display dialog
-//                return showDialog("warningMessageNoExamPeriod", form, request, response);
-//            } else {
-//                boolean continueWithoutExams = getBooleanDialogResponse("warningMessageNoExamPeriod", form, request, response);
-//                form.getDialogManager().resetDialogStatus("warningMessageNoExamPeriod");
-//                if (!continueWithoutExams) {
-//                    return getUIFModelAndView(form);
-//                }
-//            }
-//        }
 
+        if (!helper.termHasExamPeriod(targetTermId)) {
+            if (!hasDialogBeenAnswered(CourseOfferingSetServiceConstants.NO_EXAM_PERIOD_WARNING_DIALOG, form)) {
+                //display dialog
+                form.setLightboxScript("openLightboxOnLoad('" + CourseOfferingSetServiceConstants.NO_EXAM_PERIOD_WARNING_DIALOG + "');");
+                form.getDialogManager().addDialog(CourseOfferingSetServiceConstants.NO_EXAM_PERIOD_WARNING_DIALOG, form.getMethodToCall());
+                return getUIFModelAndView(form);
+            } else {
+                boolean continueWithoutExams = getBooleanDialogResponse(CourseOfferingSetServiceConstants.NO_EXAM_PERIOD_WARNING_DIALOG, form, request, response);
+                form.getDialogManager().removeDialog(CourseOfferingSetServiceConstants.NO_EXAM_PERIOD_WARNING_DIALOG);
+                if (!continueWithoutExams) {
+                    return getUIFModelAndView(form);
+                }
+            }
+        }
 
         boolean success = helper.performRollover(sourceTermId, targetTermId, form);
         if (success) {
