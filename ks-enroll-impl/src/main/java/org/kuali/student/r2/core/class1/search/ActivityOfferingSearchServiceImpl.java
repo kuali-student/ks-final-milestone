@@ -242,7 +242,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
         if (SCH_IDS_BY_AO_SEARCH_TYPE.getKey().equals(searchRequestInfo.getSearchKey())) {
             return searchForScheduleIdsByAoId(searchRequestInfo, contextInfo);
-        } 
+        }
         else if (AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForAOsAndClustersByCoId(searchRequestInfo);
         }
@@ -279,7 +279,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         SearchResultInfo resultInfo = new SearchResultInfo();
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-        List<String> aoIds = requestHelper.getParamAsList(SearchParameters.AO_IDS);
+        List<String> aoIdsList = requestHelper.getParamAsList(SearchParameters.AO_IDS);
+        String aoIds = commaString(aoIdsList);
 
         String queryStr =
                 "SELECT SUM(ao.maxSeats)" +
@@ -292,7 +293,11 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
         for(Long result : results){
             SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(SearchResultColumns.TOTAL_MAX_SEATS, result.toString());
+            if (result == null || result.equals("")) {
+                row.addCell(SearchResultColumns.TOTAL_MAX_SEATS, "0");
+            } else {
+                row.addCell(SearchResultColumns.TOTAL_MAX_SEATS, result.toString());
+            }
             resultInfo.getRows().add(row);
         }
 
