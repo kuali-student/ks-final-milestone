@@ -352,7 +352,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
             FormatOfferingInfo fo = getCoService().getFormatOffering(aoInfo.getFormatOfferingId(), context);
             TypeInfo typeFEO = getTypeService().getType(fo.getFinalExamLevelTypeKey(), context);
             if (typeAO.getName().equals(typeFEO.getName())){
-                this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(created, examPeriodID, new ArrayList<String>(), context);
+                this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(created, aoInfo.getTermId(), examPeriodID, new ArrayList<String>(), context);
             }
         }else{
             aoResult.getExamOfferingsGenerated().setSuccess(Boolean.FALSE);

@@ -611,6 +611,7 @@
         <property name="examService" ref="ExamService"/>
         <property name="courseOfferingService" ref="CourseOfferingService"/>
         <property name="examOfferingService" ref="ExamOfferingService"/>
+        <property name="socService" ref="CourseOfferingSetService" />
     </bean>
 
     <!-- Put facade on the bus -->

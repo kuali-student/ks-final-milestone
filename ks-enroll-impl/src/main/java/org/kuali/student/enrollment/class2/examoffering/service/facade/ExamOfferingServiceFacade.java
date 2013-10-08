@@ -35,6 +35,7 @@ public interface ExamOfferingServiceFacade {
      * new driver, or cancelled exam offerings for the current driver will be reinstated if they do exist.
      *
      * @param courseOfferingId
+     * @param termId
      * @param optionKeys
      * @param context
      * @throws DoesNotExistException
@@ -45,7 +46,7 @@ public interface ExamOfferingServiceFacade {
      * @throws PermissionDeniedException
      * @throws ReadOnlyException
      */
-    void generateFinalExamOffering(String courseOfferingId, String examPeriodId, List<String> optionKeys, ContextInfo context)
+    void generateFinalExamOffering(String courseOfferingId, String termId, String examPeriodId, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
@@ -59,6 +60,7 @@ public interface ExamOfferingServiceFacade {
      * new driver, or cancelled exam offerings for the current driver will be reinstated if they do exist.
      *
      * @param courseOfferingInfo
+     * @param termId
      * @param examPeriodId
      * @param optionKeys
      * @param context
@@ -70,7 +72,7 @@ public interface ExamOfferingServiceFacade {
      * @throws PermissionDeniedException
      * @throws ReadOnlyException
      */
-    void generateFinalExamOffering(CourseOfferingInfo courseOfferingInfo, String examPeriodId, List<String> optionKeys,
+    void generateFinalExamOffering(CourseOfferingInfo courseOfferingInfo, String termId, String examPeriodId, List<String> optionKeys,
                                           ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException;
@@ -85,6 +87,7 @@ public interface ExamOfferingServiceFacade {
      *
      * @param courseOfferingInfo
      * @param activityOfferingInfo
+     * @param termId
      * @param optionKeys
      * @param context
      * @throws DoesNotExistException
@@ -96,7 +99,7 @@ public interface ExamOfferingServiceFacade {
      * @throws ReadOnlyException
      */
     void generateFinalExamOfferingForAO(CourseOfferingInfo courseOfferingInfo, ActivityOfferingInfo activityOfferingInfo,
-                                        String examPeriodID, List<String> optionKeys, ContextInfo context)
+                                        String termId, String examPeriodID, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
@@ -108,6 +111,7 @@ public interface ExamOfferingServiceFacade {
      * new driver, or cancelled exam offerings for the current driver will be reinstated if they do exist.
      *
      * @param activityOfferingInfo
+     * @param termId
      * @param optionKeys
      * @param context
      * @throws DoesNotExistException
@@ -118,7 +122,7 @@ public interface ExamOfferingServiceFacade {
      * @throws PermissionDeniedException
      * @throws ReadOnlyException
      */
-    void generateFinalExamOfferingForAO(ActivityOfferingInfo activityOfferingInfo, String examPeriodID, List<String> optionKeys, ContextInfo context)
+    void generateFinalExamOfferingForAO(ActivityOfferingInfo activityOfferingInfo, String termId, String examPeriodID, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
@@ -129,6 +133,7 @@ public interface ExamOfferingServiceFacade {
      * new driver, or cancelled exam offerings for the current driver will be reinstated if they do exist.
      *
      * @param courseOfferingId
+     * @param termId
      * @param examPeriodId
      * @param context
      * @throws PermissionDeniedException
@@ -137,7 +142,7 @@ public interface ExamOfferingServiceFacade {
      * @throws OperationFailedException
      * @throws DoesNotExistException
      */
-    void generateFinalExamOfferingsPerFO(String courseOfferingId, String examPeriodId, List<String> optionKeys,
+    void generateFinalExamOfferingsPerFO(String courseOfferingId, String termId, String examPeriodId, List<String> optionKeys,
                                          ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException;
@@ -149,6 +154,7 @@ public interface ExamOfferingServiceFacade {
      * new driver, or cancelled exam offerings for the current driver will be reinstated if they do exist.
      *
      * @param courseOfferingId
+     * @param termId
      * @param examPeriodId
      * @param context
      * @throws PermissionDeniedException
@@ -157,7 +163,7 @@ public interface ExamOfferingServiceFacade {
      * @throws OperationFailedException
      * @throws DoesNotExistException
      */
-    void generateFinalExamOfferingsPerAO(String courseOfferingId, String examPeriodId, List<String> optionKeys, ContextInfo context)
+    void generateFinalExamOfferingsPerAO(String courseOfferingId, String termId, String examPeriodId, List<String> optionKeys, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException;
 
@@ -215,6 +221,7 @@ public interface ExamOfferingServiceFacade {
     /**
      *
      * @param courseOfferingId
+     * @param termId
      * @param examPeriodId
      * @param optionKeys
      * @param context
@@ -226,7 +233,7 @@ public interface ExamOfferingServiceFacade {
      * @throws ReadOnlyException
      * @throws DataValidationErrorException
      */
-    void generateFinalExamOfferingsPerCO(String courseOfferingId, String examPeriodId, List<String> optionKeys,
+    void generateFinalExamOfferingsPerCO(String courseOfferingId, String termId, String examPeriodId, List<String> optionKeys,
                                          ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException;

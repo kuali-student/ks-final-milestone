@@ -17,6 +17,9 @@ package org.kuali.student.enrollment.class2.examoffering.service.impl;
 
 import org.kuali.student.common.test.mock.data.AbstractMockServicesAwareDataLoader;
 import org.kuali.student.common.test.spring.log4j.KSLog4JConfigurer;
+import org.kuali.student.common.test.util.AttributeTester;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -27,6 +30,8 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
@@ -51,6 +56,8 @@ public class ExamOfferingServiceTestDataLoader extends AbstractMockServicesAware
 
     private AcademicCalendarService acalService;
 
+    private CourseOfferingSetService socService;
+
     public static final String TERM_ONE_ID = "term1";
     public static final String PERIOD_ONE_ID = "period1";
 
@@ -72,6 +79,24 @@ public class ExamOfferingServiceTestDataLoader extends AbstractMockServicesAware
     @Override
     protected void initializeData() throws Exception {
         createExamPeriodData();
+        createSOCs();
+    }
+
+    private void createSOCs() throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException,
+            ReadOnlyException, OperationFailedException, MissingParameterException, DoesNotExistException {
+
+        SocInfo socInfo = new SocInfo();
+        socInfo.setName("test name");
+        socInfo.setDescr(new RichTextHelper().toRichTextInfo("description plain 1", "description formatted 1"));
+        socInfo.setTypeKey(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY);
+        socInfo.setStateKey(CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY);
+        socInfo.setTermId(TERM_ONE_ID);
+        socInfo.setSubjectArea("ENG");
+        socInfo.setUnitsContentOwnerId("myUnitId");
+        socInfo.getAttributes().add(new AttributeTester().toAttribute("key1", "value1"));
+        socInfo.getAttributes().add(new AttributeTester().toAttribute("key2", "value2"));
+
+        this.getSocService().createSoc(TERM_ONE_ID, CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY, socInfo, context);
     }
 
     private void createExamPeriodData() throws DataValidationErrorException, DoesNotExistException,
@@ -136,4 +161,11 @@ public class ExamOfferingServiceTestDataLoader extends AbstractMockServicesAware
         this.acalService = acalService;
     }
 
+    public CourseOfferingSetService getSocService() {
+        return socService;
+    }
+
+    public void setSocService(CourseOfferingSetService socService) {
+        this.socService = socService;
+    }
 }

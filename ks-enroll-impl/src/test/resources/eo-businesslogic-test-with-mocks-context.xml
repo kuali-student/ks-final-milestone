@@ -80,6 +80,18 @@
     <bean id="courseCodeGenerator"
           class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
 
+    <bean id="socService" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceMockImpl" >
+        <property name="businessLogic" ref="socBusinessLogic" />
+    </bean>
+
+    <bean id="socBusinessLogic" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceBusinessLogicImpl">
+        <property name="courseService" ref="courseService" />
+        <property name="acalService" ref="acalService" />
+        <property name="coService" ref="courseOfferingService" />
+        <property name="socService" ref="socService" />
+        <property name="rolloverAssist" ref="rolloverAssist"/>
+    </bean>
+
     <bean id="examService"
           class="org.kuali.student.enrollment.class2.exam.service.impl.ExamServiceMapImpl">
     </bean>
@@ -94,13 +106,17 @@
         <property name="examService" ref="examService"/>
         <property name="examOfferingService" ref="examOfferingService"/>
         <property name="courseOfferingService" ref="courseOfferingService"/>
+        <property name="socService" ref="socService"/>
     </bean>
 
     <bean id="examOfferingDataLoader"
           class="org.kuali.student.enrollment.class2.examoffering.service.impl.ExamOfferingServiceTestDataLoader"
           autowire="default">
         <property name="acalService" ref="acalService"/>
+        <property name="socService" ref="socService"/>
     </bean>
+
+
 
 </beans>
 

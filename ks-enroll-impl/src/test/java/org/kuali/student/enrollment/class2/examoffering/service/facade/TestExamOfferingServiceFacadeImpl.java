@@ -117,7 +117,7 @@ public class TestExamOfferingServiceFacadeImpl {
 
         List<String> optionKeys = new ArrayList<String>();
         String ePID = this.getExamOfferingBusinessLogic().getExamPeriodId(co.getTermId(),contextInfo);
-        this.getExamOfferingBusinessLogic().generateFinalExamOffering(coId, ePID, optionKeys, contextInfo);
+        this.getExamOfferingBusinessLogic().generateFinalExamOffering(coId, co.getTermId(), ePID, optionKeys, contextInfo);
 
         List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                 CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);
@@ -129,7 +129,7 @@ public class TestExamOfferingServiceFacadeImpl {
         co.getAttributes().get(0).setValue(LuServiceConstants.LU_EXAM_DRIVER_CO_KEY);
         this.getCourseOfferingService().updateCourseOffering(co.getId(), co, contextInfo);
 
-        this.getExamOfferingBusinessLogic().generateFinalExamOffering(coId, ePID, optionKeys, contextInfo);
+        this.getExamOfferingBusinessLogic().generateFinalExamOffering(coId, co.getTermId(), ePID, optionKeys, contextInfo);
 
         eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                 CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);
@@ -152,7 +152,7 @@ public class TestExamOfferingServiceFacadeImpl {
 
         List<String> optionKeys = new ArrayList<String>();
         this.getExamOfferingBusinessLogic().generateFinalExamOfferingsPerFO(CourseOfferingServiceTestDataLoader.CHEM123_COURSE_OFFERING_ID,
-                ExamOfferingServiceTestDataLoader.PERIOD_ONE_ID, optionKeys, contextInfo);
+                ExamOfferingServiceTestDataLoader.TERM_ONE_ID, ExamOfferingServiceTestDataLoader.PERIOD_ONE_ID, optionKeys, contextInfo);
 
         List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                 CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);
@@ -190,7 +190,7 @@ public class TestExamOfferingServiceFacadeImpl {
 
         List<String> optionKeys = new ArrayList<String>();
         this.getExamOfferingBusinessLogic().generateFinalExamOfferingsPerAO(CourseOfferingServiceTestDataLoader.CHEM123_COURSE_OFFERING_ID,
-                ExamOfferingServiceTestDataLoader.PERIOD_ONE_ID, optionKeys, contextInfo);
+                ExamOfferingServiceTestDataLoader.TERM_ONE_ID, ExamOfferingServiceTestDataLoader.PERIOD_ONE_ID, optionKeys, contextInfo);
 
         List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                 CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);

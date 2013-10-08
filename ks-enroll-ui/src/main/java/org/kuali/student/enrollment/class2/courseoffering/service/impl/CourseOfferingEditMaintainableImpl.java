@@ -213,7 +213,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             // generate exam offerings if exam period exists
             if (!StringUtils.isEmpty(coEditWrapper.getExamPeriodId())) {
                 CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(coInfo,
-                        coEditWrapper.getExamPeriodId(), new ArrayList<String>(), contextInfo);
+                        coInfo.getTermId(), coEditWrapper.getExamPeriodId(), new ArrayList<String>(), contextInfo);
             }
 
             // check for changes to states in CO and related FOs (may happen in the case of deleted FOs)
@@ -309,7 +309,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             this.updateFormatOfferings(coCreateWrapper);
             // generate exam offerings if exam period exists
             if (!StringUtils.isEmpty(coCreateWrapper.getExamPeriodId())) {
-                CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(info, coCreateWrapper.getExamPeriodId(), new ArrayList<String>(), contextInfo);
+                CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(info, info.getTermId(), coCreateWrapper.getExamPeriodId(), new ArrayList<String>(), contextInfo);
             }
 
             return info;

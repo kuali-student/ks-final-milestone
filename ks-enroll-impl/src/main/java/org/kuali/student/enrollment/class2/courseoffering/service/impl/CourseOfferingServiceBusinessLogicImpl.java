@@ -781,7 +781,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             }
         }
         if (examPeriodID != null) {
-            getExamOfferingServiceFacade().generateFinalExamOffering(targetCo, examPeriodID, optionKeys, context);
+            getExamOfferingServiceFacade().generateFinalExamOffering(targetCo, targetCo.getTermId(), examPeriodID, optionKeys, context);
         }
 
         SocRolloverResultItemInfo item = new SocRolloverResultItemInfo();

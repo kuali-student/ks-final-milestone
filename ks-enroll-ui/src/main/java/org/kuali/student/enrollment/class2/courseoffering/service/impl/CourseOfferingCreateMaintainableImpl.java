@@ -205,7 +205,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
 
         try {
             String examPeriodID = CourseOfferingManagementUtil.getExamOfferingServiceFacade().getExamPeriodId(info.getTermId(), ContextUtils.createDefaultContextInfo());
-            CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(info, examPeriodID, new ArrayList<String>(), ContextUtils.createDefaultContextInfo());
+            CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(info, info.getTermId(), examPeriodID, new ArrayList<String>(), ContextUtils.createDefaultContextInfo());
         }  catch (Exception e){
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, CourseOfferingConstants.COURSEOFFERING_EXAMPERIOD_MISSING);
         }
