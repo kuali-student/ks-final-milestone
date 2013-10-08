@@ -1157,6 +1157,9 @@
         <column name="DELIV_TYP" nullable="false" type="STRING">
             <size value="3"/>
         </column>
+        <column name="DOC_TYP_NM" type="STRING">
+            <size value="64"/>
+        </column>
         <column name="LOCKD_DTTM" type="TIMESTAMP">
             <size value="7"/>
         </column>
@@ -6091,7 +6094,7 @@
             <size value="2"/>
         </column>
         <column name="POSTAL_CNTRY_NM" type="STRING">
-            <size value="40"/>
+            <size value="255"/>
         </column>
         <column name="PSTL_CNTRY_RSTRC_IND" nullable="false" type="STRING">
             <size value="1"/>
