@@ -136,6 +136,9 @@ public class RuleManagementWrapper extends UifFormBase {
     }
 
     public String getLogicArea() {
+        if(this.getRuleEditor() == null) {
+            return StringUtils.EMPTY;
+        }
         return this.getRuleEditor().getLogicArea();
     }
 
