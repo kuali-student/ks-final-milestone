@@ -443,7 +443,7 @@ function setSeasonalColor(elementToColor, dayOfYear, baseUrl) {
     if(console){
         console.log("Called setSeasonalColor()");
     }
-    if (dayOfYear > 0) {
+    if (dayOfYear > 0 && dayOfYear <= 365) {
         var image = jQuery('<img src="' + baseUrl + '/themes/ksboot/images/season_gradient.png"/>');
         var elemToColor = jQuery('#' + elementToColor);
         var percentage = dayOfYear / 365;
