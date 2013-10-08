@@ -6,6 +6,7 @@ import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDaoApi;
 import org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDaoApi;
@@ -1343,8 +1344,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 if (parentTerms == null || parentTerms.size() != 1) {
                     throw new InvalidParameterException("In createActivityOffering, can only have one parent term for a subterm");
                 }
-                int firstTermInfo = 0;
-                String parentTermId = parentTerms.get(firstTermInfo).getId();
+                String parentTermId = KSCollectionUtils.getRequiredZeroElement(parentTerms).getId();
                 if (!parentTermId.equals(fo.getTermId())) {
                     // KSENROLL-7795 Throw exception if the parent term ID of the AO term does not match FO's term ID
                     throw new InvalidParameterException(aoInfo.getTermId() + " term in the activity offering is not subterm of format offering term (" + fo.getTermId() + ")");
@@ -2035,11 +2035,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-        int firstActivityOfferingId = 0;
         List<RegistrationGroupInfo> regGroupList = new ArrayList<RegistrationGroupInfo>();
         Set aoIdSet = new HashSet(activityOfferingIds);
         if (activityOfferingIds != null && !activityOfferingIds.isEmpty()) {
-            String firstAoId = activityOfferingIds.get(firstActivityOfferingId);
+            String firstAoId = KSCollectionUtils.getRequiredZeroElement(activityOfferingIds);
             // Pick an ID to search RGs by
             List<RegistrationGroupInfo> regGroups = getRegistrationGroupsByActivityOffering(firstAoId, context);
             if (regGroups != null) {
