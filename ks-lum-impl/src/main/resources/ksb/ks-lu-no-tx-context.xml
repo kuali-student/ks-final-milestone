@@ -34,31 +34,6 @@
     <import resource="classpath:statement-context.xml"/>
     <import resource="classpath:program-context.xml"/>
 
-<!-- 
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="properties" value="#{bootstrapConfig.getProperties()}" />
-	</bean>
-
-	<bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
-		<property name="configLocations">
-			<list>
-				<value>classpath:org/kuali/rice/standalone/config/standalone-config.xml</value>
-			</list>
-		</property>
-	</bean>
-	
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod" value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" />
-		<property name="arguments">
-			<list><ref bean="bootstrapConfig"/></list>
-		</property>
-	</bean>
-
-    <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
-        <property name="localServiceName" value="KSLumContext"/>
-    </bean>
--->    
-
     <bean id="ks.messageServiceMock"
           class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
         <property name="messageFiles">
