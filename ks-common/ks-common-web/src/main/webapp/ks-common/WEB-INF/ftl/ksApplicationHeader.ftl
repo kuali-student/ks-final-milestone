@@ -13,7 +13,7 @@
 
     <div class="header-right-group">
         <ul class="ks-header-list nav pull-right">
-            <li class="ks-header-action-list"><a href="${ConfigProperties['kew.url']}/ActionList.do">Action List</a>
+            <li class="ks-header-action-list"><a href="${ConfigProperties['ks.rice.actionList.serviceAddress']}">Action List</a>
             </li>
 
             <li class="dropdown">
