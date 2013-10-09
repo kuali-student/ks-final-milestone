@@ -103,14 +103,6 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
     private static final long serialVersionUID = 1L;
     private final static Logger LOG = Logger.getLogger(CourseOfferingEditMaintainableImpl.class);
 
-    private transient OrganizationService organizationService;
-    private transient LRCService lrcService;
-    private transient AcademicCalendarService acalService;
-    private transient CourseOfferingSetService courseOfferingSetService;
-    private transient TypeService typeService;
-    private transient StateService stateService;
-    private transient SearchService searchService;
-
     //TODO : implement the functionality for Personnel section and its been delayed now since the backend implementation is not yet ready (06/06/2012). KSENROLL-1375
 
     @Override
@@ -147,17 +139,17 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             // Credit Options (also creates extra-line)
             if (coEditWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED) &&
                     !coEditWrapper.getCreditOption().getFixedCredit().isEmpty()) {
-                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateFixedCreditResultValuesGroup(coEditWrapper.getCreditOption().getFixedCredit(),
+                ResultValuesGroupInfo rvgInfo = CourseOfferingManagementUtil.getLrcService().getCreateFixedCreditResultValuesGroup(coEditWrapper.getCreditOption().getFixedCredit(),
                         LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, contextInfo);
                 coInfo.setCreditOptionId(rvgInfo.getKey());
             } else if (coEditWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE) &&
                     !coEditWrapper.getCreditOption().getMinCredits().isEmpty() && !coEditWrapper.getCreditOption().getMaxCredits().isEmpty()) {
-                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateRangeCreditResultValuesGroup(coEditWrapper.getCreditOption().getMinCredits(),
+                ResultValuesGroupInfo rvgInfo = CourseOfferingManagementUtil.getLrcService().getCreateRangeCreditResultValuesGroup(coEditWrapper.getCreditOption().getMinCredits(),
                         coEditWrapper.getCreditOption().getMaxCredits(), calculateIncrement(coEditWrapper.getCreditOption().getAllowedCredits()), LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, contextInfo);
                 coInfo.setCreditOptionId(rvgInfo.getKey());
             } else if (coEditWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE) &&
                     !coEditWrapper.getCreditOption().getCredits().isEmpty()) {
-                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateMultipleCreditResultValuesGroup(coEditWrapper.getCreditOption().getCredits(),
+                ResultValuesGroupInfo rvgInfo = CourseOfferingManagementUtil.getLrcService().getCreateMultipleCreditResultValuesGroup(coEditWrapper.getCreditOption().getCredits(),
                         LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, contextInfo);
                 coInfo.setCreditOptionId(rvgInfo.getKey());
             }
@@ -242,23 +234,23 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             // Credit Options (also creates extra-line)
             if (coCreateWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED) &&
                     !coCreateWrapper.getCreditOption().getFixedCredit().isEmpty()) {
-                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateFixedCreditResultValuesGroup(coCreateWrapper.getCreditOption().getFixedCredit(),
+                ResultValuesGroupInfo rvgInfo = CourseOfferingManagementUtil.getLrcService().getCreateFixedCreditResultValuesGroup(coCreateWrapper.getCreditOption().getFixedCredit(),
                         LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, contextInfo);
                 coInfo.setCreditOptionId(rvgInfo.getKey());
             } else if (coCreateWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE) &&
                     !coCreateWrapper.getCreditOption().getMinCredits().isEmpty() && !coCreateWrapper.getCreditOption().getMaxCredits().isEmpty()) {
-                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateRangeCreditResultValuesGroup(coCreateWrapper.getCreditOption().getMinCredits(),
+                ResultValuesGroupInfo rvgInfo = CourseOfferingManagementUtil.getLrcService().getCreateRangeCreditResultValuesGroup(coCreateWrapper.getCreditOption().getMinCredits(),
                         coCreateWrapper.getCreditOption().getMaxCredits(), calculateIncrement(coCreateWrapper.getCreditOption().getAllowedCredits()), LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, contextInfo);
                 coInfo.setCreditOptionId(rvgInfo.getKey());
             } else if (coCreateWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE) &&
                     !coCreateWrapper.getCreditOption().getCredits().isEmpty()) {
-                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateMultipleCreditResultValuesGroup(coCreateWrapper.getCreditOption().getCredits(),
+                ResultValuesGroupInfo rvgInfo = CourseOfferingManagementUtil.getLrcService().getCreateMultipleCreditResultValuesGroup(coCreateWrapper.getCreditOption().getCredits(),
                         LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, contextInfo);
                 coInfo.setCreditOptionId(rvgInfo.getKey());
             }
 
             // CO code
-            List<String> optionKeys = getDefaultOptionKeysService().getDefaultOptionKeysForCreateCourseOfferingFromCanonical();
+            List<String> optionKeys = CourseOfferingManagementUtil.getDefaultOptionKeysService().getDefaultOptionKeysForCreateCourseOfferingFromCanonical();
             String courseOfferingCode = coCreateWrapper.getCourse().getCode();
             coInfo.setCourseNumberSuffix(StringUtils.upperCase(coInfo.getCourseNumberSuffix()));
             if (!StringUtils.isEmpty(coInfo.getCourseNumberSuffix())) {
@@ -486,7 +478,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 String activityName = "";
                 try {
                     if (!activityTypeKey.isEmpty()) {
-                        activityName = typeService.getType(activityTypeKey, ContextUtils.createDefaultContextInfo()).getName();
+                        activityName = CourseOfferingManagementUtil.getTypeService().getType(activityTypeKey, ContextUtils.createDefaultContextInfo()).getName();
                     }
                 } catch (Exception e) {
                     throw new RuntimeException(e);
@@ -645,7 +637,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                     //Check for fixed
                     if (resultValuesGroupInfo.getTypeKey().equalsIgnoreCase(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
                         if (!resultValuesGroupInfo.getResultValueKeys().isEmpty()) {
-                            creditOption.setCourseFixedCredits(getLrcService().getResultValue(resultValuesGroupInfo.getResultValueKeys().get(firstValue), contextInfo).getValue());
+                            creditOption.setCourseFixedCredits(CourseOfferingManagementUtil.getLrcService().getResultValue(resultValuesGroupInfo.getResultValueKeys().get(firstValue), contextInfo).getValue());
                         }
                         //Set the flag
                         creditOptionFixed = true;
@@ -658,7 +650,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                         //This is either range or multiple
 
                         //Copy all the allowed credits and sort so that the multiple checkboxes can be properly displayed
-                        List<ResultValueInfo> resultValueInfos = getLrcService().getResultValuesForResultValuesGroup(resultValuesGroupInfo.getKey(), contextInfo);
+                        List<ResultValueInfo> resultValueInfos = CourseOfferingManagementUtil.getLrcService().getResultValuesForResultValuesGroup(resultValuesGroupInfo.getKey(), contextInfo);
                         for (ResultValueInfo rVI : resultValueInfos) {
                             creditOption.getAllowedCredits().add(rVI.getValue());
                         }
@@ -683,11 +675,11 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 //Lookup the selected credit option and set from persisted values
                 if (creditOptionId != null) {
                     //Lookup the resultValueGroup Information
-                    ResultValuesGroupInfo resultValuesGroupInfo = getLrcService().getResultValuesGroup(creditOptionId, contextInfo);
+                    ResultValuesGroupInfo resultValuesGroupInfo = CourseOfferingManagementUtil.getLrcService().getResultValuesGroup(creditOptionId, contextInfo);
                     String typeKey = resultValuesGroupInfo.getTypeKey();
 
                     //Get the actual values
-                    List<ResultValueInfo> resultValueInfos = getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
+                    List<ResultValueInfo> resultValueInfos = CourseOfferingManagementUtil.getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
 
                     if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
                         creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
@@ -719,15 +711,15 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
                 if (coInfo.getUnitsDeploymentOrgIds() != null) {
                     for (String orgId : coInfo.getUnitsDeploymentOrgIds()) {
-                        OrgInfo orgInfo = getOrganizationService().getOrg(orgId, contextInfo);
+                        OrgInfo orgInfo = CourseOfferingManagementUtil.getOrganizationService().getOrg(orgId, contextInfo);
                         orgList.add(new OrganizationInfoWrapper(orgInfo));
                     }
                 }
                 formObject.setOrganizationNames(orgList);
 
-                List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(coInfo.getTermId(), ContextUtils.createDefaultContextInfo());
+                List<String> socIds = CourseOfferingManagementUtil.getCourseOfferingSetService().getSocIdsByTerm(coInfo.getTermId(), ContextUtils.createDefaultContextInfo());
                 if (socIds != null && !socIds.isEmpty()) {
-                    List<SocInfo> targetSocs = getCourseOfferingSetService().getSocsByIds(socIds, ContextUtils.createDefaultContextInfo());
+                    List<SocInfo> targetSocs = CourseOfferingManagementUtil.getCourseOfferingSetService().getSocsByIds(socIds, ContextUtils.createDefaultContextInfo());
                     for (SocInfo soc : targetSocs) {
                         if (soc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
                             formObject.setSocInfo(soc);
@@ -737,7 +729,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
                 setTermPropertiesOnFormObject(formObject, coInfo, contextInfo);
                 formObject.setContextBar(CourseOfferingContextBar.NEW_INSTANCE(formObject.getTerm(), formObject.getSocInfo(),
-                        getStateService(), getAcalService(), contextInfo));
+                        getStateService(), CourseOfferingManagementUtil.getAcademicCalendarService(), contextInfo));
 
                 document.getNewMaintainableObject().setDataObject(formObject);
                 document.getOldMaintainableObject().setDataObject(formObject);
@@ -829,7 +821,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey());
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.SUBJECT_AREA, wrapper.getCourse().getSubjectArea());
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.ATP_ID, wrapper.getTerm().getId());
-        List<CourseOfferingInfo> relatedCOs = CourseOfferingViewHelperUtil.loadCourseOfferings(getSearchService(), searchRequest);
+        List<CourseOfferingInfo> relatedCOs = CourseOfferingViewHelperUtil.loadCourseOfferings(CourseOfferingManagementUtil.getSearchService(), searchRequest);
         if (relatedCOs != null) result.addAll(relatedCOs);
 
         return result;
@@ -873,7 +865,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
     private void setTermPropertiesOnFormObject(CourseOfferingEditWrapper formObject, CourseOfferingInfo coInfo, ContextInfo contextInfo) throws Exception {
 
-        TermInfo termInfo = getAcalService().getTerm(coInfo.getTermId(), contextInfo);
+        TermInfo termInfo = CourseOfferingManagementUtil.getAcademicCalendarService().getTerm(coInfo.getTermId(), contextInfo);
         formObject.setTerm(termInfo);
         formObject.setTermName(termInfo.getName());
 
@@ -946,63 +938,5 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
         newAttr.setKey(key);
         newAttr.setValue(value);
         return newAttr;
-    }
-
-    private OrganizationService getOrganizationService() {
-        if (organizationService == null) {
-            organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "organization", "OrganizationService"));
-        }
-        return organizationService;
-    }
-
-    protected LRCService getLrcService() {
-        if (lrcService == null) {
-            lrcService = (LRCService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/lrc", "LrcService"));
-        }
-        return this.lrcService;
-    }
-
-    protected AcademicCalendarService getAcalService() {
-        if (acalService == null) {
-            acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/acal", "AcademicCalendarService"));
-        }
-        return this.acalService;
-    }
-
-    protected TypeService getTypeService() {
-        if (typeService == null) {
-            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return this.typeService;
-    }
-
-    protected CourseOfferingSetService getCourseOfferingSetService() {
-        if (courseOfferingSetService == null) {
-            courseOfferingSetService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return courseOfferingSetService;
-    }
-
-    protected StateService getStateService() {
-        if (stateService == null) {
-            stateService = (StateService) GlobalResourceLoader.getService(new QName(StateServiceConstants.NAMESPACE, StateServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return stateService;
-    }
-
-    public SearchService getSearchService() {
-        if (searchService == null) {
-            searchService = (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "search", SearchService.class.getSimpleName()));
-        }
-        return searchService;
-    }
-
-    private DefaultOptionKeysService defaultOptionKeysService;
-
-    private DefaultOptionKeysService getDefaultOptionKeysService() {
-        if (defaultOptionKeysService == null) {
-            defaultOptionKeysService = new DefaultOptionKeysServiceImpl();
-        }
-        return this.defaultOptionKeysService;
     }
 }

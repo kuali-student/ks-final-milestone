@@ -22,6 +22,8 @@ import org.kuali.student.enrollment.class2.courseoffering.service.CourseOffering
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.CourseOfferingServiceFacade;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.CSRServiceFacade;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseInfoByTermLookupableImpl;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOptionKeysService;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOptionKeysServiceImpl;
 import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacade;
 import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacadeConstants;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
@@ -109,6 +111,7 @@ public class CourseOfferingManagementUtil {
     private static SchedulingService schedulingService;
     private static PopulationService populationService;
     private static CourseWaitListService courseWaitListService;
+    private static DefaultOptionKeysService defaultOptionKeysService;
 
     public static CourseOfferingManagementViewHelperService getViewHelperService(CourseOfferingManagementForm theForm) {
 
@@ -263,6 +266,13 @@ public class CourseOfferingManagementUtil {
             courseWaitListService = CourseOfferingResourceLoader.loadCourseWaitlistService();
         }
         return courseWaitListService;
+    }
+
+    public static DefaultOptionKeysService getDefaultOptionKeysService() {
+        if (defaultOptionKeysService == null) {
+            defaultOptionKeysService = new DefaultOptionKeysServiceImpl();
+        }
+        return defaultOptionKeysService;
     }
 
     public static boolean checkEditViewAuthz(CourseOfferingManagementForm theForm) {
