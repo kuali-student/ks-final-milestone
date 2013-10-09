@@ -146,7 +146,7 @@
                                         <bean parent="Uif-ActionLink" p:actionLabel=" | View All Registration Groups (@{rgResultList.size()})"
                                               p:actionScript = "showLightboxComponent('KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering', '@{#ConfigProperties['application.url']}');"/>
                                         <bean parent="Uif-NavigationActionLink" p:actionLabel="| Course Offering Requisites " p:methodToCall="manageCORequisites"/>
-                                        <bean parent="Uif-NavigationActionLink" p:actionLabel="| View Exam Offerings" p:methodToCall="viewExamOfferings"/>
+                                        <bean id="view_eo" parent="Uif-ActionLink" p:methodToCall="viewExamOfferings" p:actionLabel=" | View Exam Offerings"/>
                                     </list>
                                 </property>
                             </bean>
