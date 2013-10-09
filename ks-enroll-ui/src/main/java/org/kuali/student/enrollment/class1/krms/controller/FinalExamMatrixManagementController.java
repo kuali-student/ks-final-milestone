@@ -55,6 +55,8 @@ public class FinalExamMatrixManagementController extends UifControllerBase {
             throw new RuntimeException("Form object passed into start method was not of expected type FERuleManagementWrapper form. Got " + uifForm.getClass().getSimpleName());
         }
 
+        checkViewAuthorization(uifForm, request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER));
+
         FERuleManagementWrapper form = (FERuleManagementWrapper) uifForm;
 
         return getUIFModelAndView(form);

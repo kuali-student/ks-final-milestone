@@ -44,6 +44,9 @@ limitations under the License.
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.enrollment.class1.krms.service.impl.FERuleViewHelperServiceImpl"/>
         <property name="headerText" value="Final Exam Matrix"/>
+        <property name="authorizer">
+            <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
+        </property>
         <property name="items">
             <list>
                 <bean id="KSFE-AgendaMaintenance-Page" parent="KSFE-AgendaMaintenance-Page-parent"/>
@@ -125,7 +128,8 @@ limitations under the License.
             <list>
                 <bean parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route"
                       p:actionLabel="Submit" p:performClientSideValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"
+                      p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
                 <bean parent="KS-Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
             </list>
@@ -145,7 +149,7 @@ limitations under the License.
                     <bean parent="Uif-ActionsGroup">
                         <property name="items">
                             <list>
-                                <bean parent="Uif-NavigationActionLink" p:methodToCall="addRule" p:actionLabel="Add"/>
+                                <bean parent="Uif-NavigationActionLink" p:methodToCall="addRule" p:actionLabel="Add" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
                             </list>
                         </property>
                     </bean>
@@ -185,8 +189,8 @@ limitations under the License.
 
         <property name="lineActions">
             <list>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="goToRuleView" p:actionLabel="Edit"/>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="deleteRule" p:actionLabel="Delete"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="goToRuleView" p:actionLabel="Edit" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="deleteRule" p:actionLabel="Delete" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
             </list>
         </property>
     </bean>
