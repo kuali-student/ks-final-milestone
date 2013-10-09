@@ -99,11 +99,14 @@ public class CourseOfferingEditController extends CourseOfferingBaseController {
         // create a Growl-message
         CourseOfferingEditWrapper dataObject = (CourseOfferingEditWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
 
-        if (StringUtils.equals(dataObject.getCourseOfferingInfo().getFinalExamType(), CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)
-                && StringUtils.isEmpty(dataObject.getExamPeriodId())) {
+        //display the correct growl message based on the availability of exam period and final exam type
+        if (StringUtils.isEmpty(dataObject.getExamPeriodId())) {
             urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_EDIT_SUCCESS_WITH_MISSING_EXAMPERIOD);
-        } else {
+        } else if (!StringUtils.equals(dataObject.getCourseOfferingInfo().getFinalExamType(), CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)) {
             urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_EDIT_SUCCESS);
+        }
+        else {
+            urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_EDIT_SUCCESS_WITH_EXAMOFFERING_GENERATED);
         }
 
         urlParameters.put(EnrollConstants.GROWL_MESSAGE_PARAMS, dataObject.getCourseOfferingCode());

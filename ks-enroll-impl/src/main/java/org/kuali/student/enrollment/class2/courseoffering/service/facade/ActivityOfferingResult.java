@@ -33,7 +33,8 @@ public class ActivityOfferingResult {
     private List<BulkStatusInfo> generatedRegistrationGroups;
     private BulkStatusInfo clusterstatus;
     private CourseWaitListInfo waitListInfo;
-    private BulkStatusInfo examOfferingsGenerated;
+    private BulkStatusInfo examOfferingsGenerated; //status for whether or not exam offerings are generated
+    private BulkStatusInfo examPeriodStatus; //status for whether or not exam period exists
 
     public ActivityOfferingResult() {
         clusterstatus = new BulkStatusInfo();
@@ -41,6 +42,8 @@ public class ActivityOfferingResult {
 
         examOfferingsGenerated = new BulkStatusInfo();
         examOfferingsGenerated.setSuccess(Boolean.TRUE); // By default, set it true
+        examPeriodStatus = new BulkStatusInfo();
+        examPeriodStatus.setSuccess(Boolean.TRUE);
     }
 
     public ActivityOfferingInfo getCreatedActivityOffering() {
@@ -81,5 +84,13 @@ public class ActivityOfferingResult {
 
     public void setExamOfferingsGenerated(BulkStatusInfo examOfferingsGenerated) {
         this.examOfferingsGenerated = examOfferingsGenerated;
+    }
+
+    public BulkStatusInfo getExamPeriodStatus() {
+        return examPeriodStatus;
+    }
+
+    public void setExamPeriodStatus(BulkStatusInfo examPeriodStatus) {
+        this.examPeriodStatus = examPeriodStatus;
     }
 }

@@ -29,6 +29,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingCl
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.service.facade.ActivityOfferingResult;
 import org.kuali.student.enrollment.class2.courseoffering.util.*;
 import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
@@ -86,10 +87,20 @@ public class ActivityOfferingClusterHandler {
         try {
             String aoIdToCopy = selectedAO.getAoInfo().getId(); // Create a copy of this AO
             String clusterId = selectedAO.getAoClusterID();
-            CourseOfferingManagementUtil.getCourseOfferingServiceFacade().copyActivityOfferingToCluster(aoIdToCopy, clusterId, ContextBuilder.loadContextInfo());
+            ActivityOfferingResult aoResult = CourseOfferingManagementUtil.getCourseOfferingServiceFacade().copyActivityOfferingToCluster(aoIdToCopy, clusterId, ContextBuilder.loadContextInfo());
 
             // reload AOs including the new one just created
             CourseOfferingManagementUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(form);
+
+            //determine which growl message to display
+            if (!aoResult.getExamPeriodStatus().getIsSuccess()) {
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS_WITH_MISSING_EXAMPERIOD);
+            } else if (!aoResult.getExamOfferingsGenerated().getIsSuccess()) {
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS);
+            } else {
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS_WITH_EXAMOFFERING_GENERATED);
+            }
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

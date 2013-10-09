@@ -45,6 +45,7 @@ import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -379,12 +380,19 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
             //create if Final Exam Driver has been selected for the FO
             TypeInfo typeAO = getTypeService().getType(created.getTypeKey(), context);
             FormatOfferingInfo fo = getCoService().getFormatOffering(aoInfo.getFormatOfferingId(), context);
-            TypeInfo typeFEO = getTypeService().getType(fo.getFinalExamLevelTypeKey(), context);
-            if (typeAO.getName().equals(typeFEO.getName())){
-                this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(created, aoInfo.getTermId(), examPeriodID, new ArrayList<String>(), context);
+            if (fo.getFinalExamLevelTypeKey() != null) {
+                TypeInfo typeFEO = getTypeService().getType(fo.getFinalExamLevelTypeKey(), context);
+                if (typeAO.getName().equals(typeFEO.getName())){
+                    StatusInfo statusInfo = this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(created, aoInfo.getTermId(), examPeriodID, new ArrayList<String>(), context);
+                    aoResult.getExamOfferingsGenerated().setSuccess(statusInfo.getIsSuccess());
+                } else {
+                    aoResult.getExamOfferingsGenerated().setSuccess(Boolean.FALSE);
+                }
+            } else {
+                aoResult.getExamOfferingsGenerated().setSuccess(Boolean.FALSE);
             }
-        }else{
-            aoResult.getExamOfferingsGenerated().setSuccess(Boolean.FALSE);
+        } else{
+            aoResult.getExamPeriodStatus().setSuccess(Boolean.FALSE);
         }
 
 
@@ -472,12 +480,19 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
             //create if Final Exam Driver has been selected for the FO
             TypeInfo typeAO = getTypeService().getType(copyAoInfo.getTypeKey(), context);
             FormatOfferingInfo fo = getCoService().getFormatOffering(copyAoInfo.getFormatOfferingId(), context);
-            TypeInfo typeFEO = getTypeService().getType(fo.getFinalExamLevelTypeKey(), context);
-            if (typeAO.getName().equals(typeFEO.getName())){
-                this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(copyAoInfo, copyAoInfo.getTermId(), examPeriodID, new ArrayList<String>(), context);
+            if (fo.getFinalExamLevelTypeKey() != null) {
+                TypeInfo typeFEO = getTypeService().getType(fo.getFinalExamLevelTypeKey(), context);
+                if (typeAO.getName().equals(typeFEO.getName())){
+                    StatusInfo statusInfo = this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(copyAoInfo, copyAoInfo.getTermId(), examPeriodID, new ArrayList<String>(), context);
+                    aoResult.getExamOfferingsGenerated().setSuccess(statusInfo.getIsSuccess());
+                } else {
+                    aoResult.getExamOfferingsGenerated().setSuccess(Boolean.FALSE);
+                }
+            } else {
+                aoResult.getExamOfferingsGenerated().setSuccess(Boolean.FALSE);
             }
-        }else{
-            aoResult.getExamOfferingsGenerated().setSuccess(Boolean.FALSE);
+        } else{
+            aoResult.getExamPeriodStatus().setSuccess(Boolean.FALSE);
         }
 
         return aoResult;

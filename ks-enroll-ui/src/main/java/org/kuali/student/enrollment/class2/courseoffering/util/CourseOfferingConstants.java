@@ -151,6 +151,9 @@ public class CourseOfferingConstants {
     public static final String COURSEOFFERING_TOOLBAR_ADD="info.enroll.courseoffering.toolbar.add.success";
 
     public static final String ACTIVITYOFFERING_TOOLBAR_ADD_N_SUCCESS="info.enroll.activityoffering.toolbar.add.success";
+    public static final String ACTIVITYOFFERING_TOOLBAR_ADD_N_SUCCESS_WITH_EXAMOFFERING_GENERATED="info.enroll.activityoffering.toolbar.add.success.with.examoffering.generated";
+    public static final String ACTIVITYOFFERING_TOOLBAR_ADD_N_SUCCESS_WITH_MISSING_EXAMPERIOD="info.enroll.activityoffering.toolbar.add.success.with.missing.examperiod";
+
     public static final String ACTIVITYOFFERING_TOOLBAR_DELETE_N_SUCCESS="info.enroll.activityoffering.toolbar.delete.n.success";
     public static final String ACTIVITYOFFERING_TOOLBAR_DRAFT_N_SUCCESS="info.enroll.activityoffering.toolbar.draft.n.success";
     public static final String ACTIVITYOFFERING_TOOLBAR_APPROVED_N_SUCCESS="info.enroll.activityoffering.toolbar.approved.n.success";
@@ -162,6 +165,9 @@ public class CourseOfferingConstants {
     public static final String ACTIVITYOFFERING_CREATE_WITH_MISSING_EXAMPERIOD="info.enroll.activityoffering.create.with.missing.examperiod";
 
     public static final String ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS="info.enroll.activityoffering.toolbar.add.1.success";
+    public static final String ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS_WITH_EXAMOFFERING_GENERATED="info.enroll.activityoffering.toolbar.add.1.success.with.examoffering.generated";
+    public static final String ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS_WITH_MISSING_EXAMPERIOD="info.enroll.activityoffering.toolbar.add.1.success.with.missing.examperiod";
+
     public static final String ACTIVITYOFFERING_TOOLBAR_DELETE_1_SUCCESS="info.enroll.activityoffering.toolbar.delete.1.success";
     public static final String ACTIVITYOFFERING_TOOLBAR_DRAFT_1_SUCCESS="info.enroll.activityoffering.toolbar.draft.1.success";
     public static final String ACTIVITYOFFERING_TOOLBAR_APPROVED_1_SUCCESS="info.enroll.activityoffering.toolbar.approved.1.success";
@@ -192,8 +198,10 @@ public class CourseOfferingConstants {
     public static final String COLOCATION_MAX_ENR_SEPARATED="info.enroll.courseoffering.colocation.enr.separated";
 
     public static final String COURSE_OFFERING_EDIT_SUCCESS = "info.enroll.courseoffering.edit.success";
+    public static final String COURSE_OFFERING_EDIT_SUCCESS_WITH_EXAMOFFERING_GENERATED = "info.enroll.courseoffering.edit.success.with.examoffering.generated";
     public static final String COURSE_OFFERING_EDIT_SUCCESS_WITH_MISSING_EXAMPERIOD = "info.enroll.courseoffering.edit.success.with.missing.examperiod";
     public static final String COURSE_OFFERING_CREATE_SUCCESS = "info.enroll.courseoffering.create.success";
+    public static final String COURSE_OFFERING_CREATE_SUCCESS_WITH_EXAMOFFERING_GENERATED = "info.enroll.courseoffering.create.success.with.examoffering.generated";
     public static final String COURSE_OFFERING_CREATE_SUCCESS_WITH_MISSING_EXAMPERIOD = "info.enroll.courseoffering.create.success.with.missing.examperiod";
 
     /**

@@ -1766,6 +1766,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         }
 
         BulkStatusInfo examsGenerated = null;
+        BulkStatusInfo examPeriodStatus = null;
         //create and persist AO
         for (int i = 0; i < noOfActivityOfferings; i++) {
             ActivityOfferingInfo aoInfo = new ActivityOfferingInfo();
@@ -1793,6 +1794,9 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 if (examsGenerated == null) {//the exam period either exists or not, first result is all we need
                     examsGenerated = aoResult.getExamOfferingsGenerated();
                 }
+                if (examPeriodStatus == null) {
+                    examPeriodStatus = aoResult.getExamPeriodStatus();
+                }
 
                 ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(activityOfferingInfo);
                 StateInfo state = getStateService().getState(wrapper.getAoInfo().getStateKey(), contextInfo);
@@ -1809,13 +1813,23 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
         CourseOfferingManagementToolbarUtil.processAoToolbarForUser(form.getActivityWrapperList(), form);
         if (noOfActivityOfferings == 1) {
-            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS);
+            //determine which growl message to display
+            if (!examPeriodStatus.getIsSuccess()) {
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS_WITH_MISSING_EXAMPERIOD);
+            } else if (!examsGenerated.getIsSuccess()) {
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS);
+            } else {
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS_WITH_EXAMOFFERING_GENERATED);
+            }
         } else {
-            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_N_SUCCESS);
-        }
-
-        if (!examsGenerated.getIsSuccess()) {
-            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_CREATE_WITH_MISSING_EXAMPERIOD);
+            //determine which growl message to display
+            if (!examPeriodStatus.getIsSuccess()) {
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_N_SUCCESS_WITH_MISSING_EXAMPERIOD);
+            } else if (!examsGenerated.getIsSuccess()) {
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_N_SUCCESS);
+            } else {
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_N_SUCCESS_WITH_EXAMOFFERING_GENERATED);
+            }
         }
     }
 

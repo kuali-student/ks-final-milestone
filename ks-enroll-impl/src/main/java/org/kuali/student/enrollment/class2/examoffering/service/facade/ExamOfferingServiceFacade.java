@@ -4,6 +4,7 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -36,6 +37,7 @@ public interface ExamOfferingServiceFacade {
      *
      * @param courseOfferingId
      * @param termId
+     * @param examPeriodId
      * @param optionKeys
      * @param context
      * @throws DoesNotExistException
@@ -46,7 +48,7 @@ public interface ExamOfferingServiceFacade {
      * @throws PermissionDeniedException
      * @throws ReadOnlyException
      */
-    void generateFinalExamOffering(String courseOfferingId, String termId, String examPeriodId, List<String> optionKeys, ContextInfo context)
+    StatusInfo generateFinalExamOffering(String courseOfferingId, String termId, String examPeriodId, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
@@ -72,7 +74,7 @@ public interface ExamOfferingServiceFacade {
      * @throws PermissionDeniedException
      * @throws ReadOnlyException
      */
-    void generateFinalExamOffering(CourseOfferingInfo courseOfferingInfo, String termId, String examPeriodId, List<String> optionKeys,
+    StatusInfo generateFinalExamOffering(CourseOfferingInfo courseOfferingInfo, String termId, String examPeriodId, List<String> optionKeys,
                                           ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException;
@@ -98,7 +100,7 @@ public interface ExamOfferingServiceFacade {
      * @throws PermissionDeniedException
      * @throws ReadOnlyException
      */
-    void generateFinalExamOfferingForAO(CourseOfferingInfo courseOfferingInfo, ActivityOfferingInfo activityOfferingInfo,
+    StatusInfo generateFinalExamOfferingForAO(CourseOfferingInfo courseOfferingInfo, ActivityOfferingInfo activityOfferingInfo,
                                         String termId, String examPeriodID, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
@@ -122,7 +124,7 @@ public interface ExamOfferingServiceFacade {
      * @throws PermissionDeniedException
      * @throws ReadOnlyException
      */
-    void generateFinalExamOfferingForAO(ActivityOfferingInfo activityOfferingInfo, String termId, String examPeriodID, List<String> optionKeys, ContextInfo context)
+    StatusInfo generateFinalExamOfferingForAO(ActivityOfferingInfo activityOfferingInfo, String termId, String examPeriodID, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
