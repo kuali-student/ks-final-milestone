@@ -128,8 +128,7 @@ public class TimeSlotViewHelperServiceImpl
             if(tsWrapper.isEnableDeleteButton() && tsWrapper.getIsChecked()) {
                 boolean isInUse = isTimeSlotInUse(tsWrapper.getTimeSlotInfo());
                 if (isInUse){
-                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,
-                                        "Time slot " + tsWrapper.getTimeSlotInfo().getName() + " is already associated with delivery logistics, so cannot be deleted.");
+                    KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, TimeSlotConstants.ApplicationResouceKeys.TIMESLOT_IN_USE,tsWrapper.getTimeSlotInfo().getName());
                 } else {
                     selectedTimeSlots.add(tsWrapper);
                     StatusInfo statusInfo = getSchedulingService().deleteTimeSlot(tsWrapper.getTimeSlotInfo().getId(), contextInfo);

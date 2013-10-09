@@ -20,5 +20,6 @@ public class TimeSlotConstants {
         public static final String TIMESLOT_ADD_SUCCESS = "info.timeslot.add.success";
         public static final String TIMESLOT_EDIT_SUCCESS = "info.timeslot.edit.success";
         public static final String TIMESLOT_DUPLICATE_ERROR = "error.timeslot.duplicate";
+        public static final String TIMESLOT_IN_USE = "error.timeslot.inuse";
     }
 }
