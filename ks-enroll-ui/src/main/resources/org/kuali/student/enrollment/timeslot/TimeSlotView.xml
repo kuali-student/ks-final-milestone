@@ -314,8 +314,8 @@
                     </property>
                     <property name="actionLabel" value="Add Slot"/>
                     <property name="preSubmitCall" value="return validateTimeSlot();"/>
-                    <property name="successCallback" value="jQuery('div[id=KS-TimeSlot-AddTimeSlotPopupForm]').detach();"/>
-                    <property name="errorCallback" value="jQuery('div[id=KS-TimeSlot-AddTimeSlotPopupForm]').detach();"/>
+                    <property name="successCallback" value="jQuery('div[id=KS-TimeSlot-AddTimeSlotPopupForm]:gt(0)').detach();"/>
+                    <property name="errorCallback" value="jQuery('div[id=KS-TimeSlot-AddTimeSlotPopupForm]:gt(0)').detach();"/>
                     <property name="methodToCall" value="createTimeSlot"/>
                 </bean>
             </list>
