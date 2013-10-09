@@ -93,7 +93,6 @@ public class HolidayCalendarController extends UifControllerBase {
         if(newCollectionLines != null && !newCollectionLines.isEmpty()){
             for (Map.Entry<String, Object> entry : newCollectionLines.entrySet()){
                 HolidayWrapper newHoliday = (HolidayWrapper)entry.getValue();
-                if(checkHoliday(newHoliday)){
                     if(holidays != null && !holidays.isEmpty()){
                         for(HolidayWrapper holiday : holidays){
                             boolean duplicated = isDuplicateHoliday(newHoliday, holiday);
@@ -102,57 +101,11 @@ public class HolidayCalendarController extends UifControllerBase {
                                 return getUIFModelAndView(form);
                             }
                         }
-                    }
-                }
-                else {
-                    GlobalVariables.getMessageMap().putError("newCollectionLines['holidays'].typeKey", CalendarConstants.MessageKeys.ERROR_EMPTY_HOLIDAY_TYPE);
-                    return getUIFModelAndView(form);
                 }
             }
         }
 
         return super.addLine(form, result, request, response);
-    }
-
-    private boolean checkHoliday(HolidayWrapper holiday) {
-        boolean valid = true;
-//        Date startDate = holiday.getStartDate();
-//        Date endDate = holiday.getEndDate();
-//        String startTime = holiday.getStartTime();
-//        String endTime = holiday.getEndTime();
-//        HolidayInfo holidayInfo = holiday.getHolidayInfo();
-//
-//        if (endDate == null)  {
-//            holidayInfo.setIsDateRange(false);
-//
-//            if(StringUtils.isBlank(startTime)){
-//                holidayInfo.setIsAllDay(true);
-//            }
-//        }
-//        else {
-//            int timeDiff = startDate.compareTo(endDate);
-//            if(timeDiff > 0) {
-//                //TODO:change to  putError, when error reload fixed
-//                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: The adding holiday start date should not be later than the end date.");
-//                return false;
-//            }else if (timeDiff == 0 ) {
-//                holidayInfo.setIsDateRange(false);
-//            }else {
-//                holidayInfo.setIsDateRange(true);
-//            }
-//
-//            if (StringUtils.isBlank(startTime) & StringUtils.isBlank(endTime)) {
-//                holidayInfo.setIsAllDay(true);
-//            }else if(StringUtils.isNotEmpty(startTime)){
-//                holidayInfo.setIsAllDay(false);
-//            }
-//        }
-
-        if(holiday.getTypeKey()==null || holiday.getTypeKey().isEmpty()){
-            valid = false;
-        }
-
-        return valid;
     }
 
     private boolean isDuplicateHoliday(HolidayWrapper newHoliday, HolidayWrapper sourceHoliday){
