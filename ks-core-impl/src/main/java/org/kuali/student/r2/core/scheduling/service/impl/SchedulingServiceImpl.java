@@ -560,12 +560,20 @@ public class SchedulingServiceImpl implements SchedulingService {
 
     @Override
     public List<String> searchForTimeSlotIds(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        GenericQueryResults<String> results = criteriaLookupService.lookupIds(TimeSlotEntity.class, criteria);
+        return results.getResults();
     }
 
     @Override
     public List<TimeSlotInfo> searchForTimeSlots(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        List<TimeSlotInfo> timeSlotsInfos = new ArrayList<TimeSlotInfo>();
+
+        GenericQueryResults<TimeSlotEntity> results = criteriaLookupService.lookup(TimeSlotEntity.class, criteria);
+        for (TimeSlotEntity ts : results.getResults()) {
+            timeSlotsInfos.add(ts.toDto());
+        }
+
+        return timeSlotsInfos;
     }
 
     @Override
