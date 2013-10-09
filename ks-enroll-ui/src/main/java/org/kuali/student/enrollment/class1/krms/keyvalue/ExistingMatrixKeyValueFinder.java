@@ -23,6 +23,7 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
+import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
@@ -38,6 +39,7 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -64,7 +66,7 @@ public class ExistingMatrixKeyValueFinder extends UifKeyValuesFinderBase impleme
         MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
         Object dataObject = maintenanceForm.getDocument().getNewMaintainableObject().getDataObject();
         if (dataObject instanceof FERuleManagementWrapper) {
-            typeKey = ((FERuleManagementWrapper)dataObject).getType().getKey();
+            typeKey = ((FERuleManagementWrapper) dataObject).getType().getKey();
         }
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
@@ -75,13 +77,10 @@ public class ExistingMatrixKeyValueFinder extends UifKeyValuesFinderBase impleme
             for (TypeInfo type : getAcalTermTypes()) {
 
                 //Ignore current type key.
-                if(type.getKey().equals(typeKey)){
+                if (type.getKey().equals(typeKey)) {
                     continue;
                 }
-
-                //Only add term types that already has a matrix.
-                List<ReferenceObjectBinding> refObjects = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(TypeServiceConstants.REF_OBJECT_URI_TYPE, type.getKey());
-                if (refObjects.size() > 0) {
+                if (ownsAgenda(type)) {
                     ConcreteKeyValue keyValue = new ConcreteKeyValue();
                     keyValue.setKey(type.getKey());
                     keyValue.setValue(type.getName());
@@ -94,6 +93,25 @@ public class ExistingMatrixKeyValueFinder extends UifKeyValuesFinderBase impleme
         }
 
         return keyValues;
+    }
+
+    private boolean ownsAgenda(TypeInfo type) {
+        //Only add term types that already has a matrix.
+        List<ReferenceObjectBinding> refObjects = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(TypeServiceConstants.REF_OBJECT_URI_TYPE, type.getKey());
+        if (refObjects.size() > 0) {
+            for (ReferenceObjectBinding refObject : refObjects) {
+                AgendaDefinition agenda = this.getRuleManagementService().getAgenda(refObject.getKrmsObjectId());
+                if (agenda.getAttributes().containsKey(KSKRMSServiceConstants.AGENDA_ATTRIBUTE_FINAL_EXAM_OWNER_TERM_TYPE)) {
+                    String ownerTermType = agenda.getAttributes().get(KSKRMSServiceConstants.AGENDA_ATTRIBUTE_FINAL_EXAM_OWNER_TERM_TYPE);
+                    if (type.getKey().equals(ownerTermType)) {
+                        return true;
+                    }
+                }
+            }
+
+        }
+
+        return false;
     }
 
     private List<TypeInfo> getAcalTermTypes() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
