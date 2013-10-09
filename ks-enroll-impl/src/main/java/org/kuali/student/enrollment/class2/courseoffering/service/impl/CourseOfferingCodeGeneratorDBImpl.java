@@ -41,12 +41,12 @@ public class CourseOfferingCodeGeneratorDBImpl implements CourseOfferingCodeGene
      * In this implementation we're going to pass in a list of existing aoCodes into the map
      *
      * @param generatorPropertiesMap A map containing the properties needed to generate the codes
-     * @return
+     * @return The next available activity offering code
      */
     @Override
     public String generateActivityOfferingCode(Map<String, Object> generatorPropertiesMap) {
 
-        String nextCode = "";
+        String nextCode;
         String uniqueCourseCode = (String)generatorPropertiesMap.get(CourseOfferingCodeGenerator.COURSE_OFFERING_CODE_KEY);
         List<String> aoCodes = (List<String>)generatorPropertiesMap.get(CourseOfferingCodeGenerator.ACTIVITY_OFFERING_CODE_LIST_KEY);
 
@@ -64,7 +64,7 @@ public class CourseOfferingCodeGeneratorDBImpl implements CourseOfferingCodeGene
         //System.out.println("Create Pending: " + namespace + " " + pendingKey + " " + uuid);
         getCodeGeneratorLocksDao().createLock(uuid, pendingKey, namespace);
         while(!isCodeValid(nextCode, uniqueCourseCode, namespace)){
-            aoCodes.add(new String(nextCode));
+            aoCodes.add(nextCode);
             nextCode = calculateNextCode(aoCodes);
         }
 
@@ -79,7 +79,7 @@ public class CourseOfferingCodeGeneratorDBImpl implements CourseOfferingCodeGene
     public String generateCourseOfferingInternalCode(List<CourseOfferingInfo> existingCourseOfferings) {
 
         String courseOfferingCode = "";
-        String nextCode = "";
+        String nextCode;
         List<String> coCodes = new ArrayList<String>();
 
         //If this is the first code, send back "A"
@@ -104,7 +104,7 @@ public class CourseOfferingCodeGeneratorDBImpl implements CourseOfferingCodeGene
         nextCode = calculateNextCode(internalCodes);
 
         if ( courseOfferingCode != null && !courseOfferingCode.equals("") &&
-                nextCode != null && !nextCode.equals("") && namespace != null && !namespace.equals("") ) {
+                nextCode != null && !nextCode.equals("") ) {
             while(!isCodeValid(nextCode, courseOfferingCode, namespace)){
                 coCodes.add(new String(nextCode));
                 nextCode = calculateNextCode(coCodes);
