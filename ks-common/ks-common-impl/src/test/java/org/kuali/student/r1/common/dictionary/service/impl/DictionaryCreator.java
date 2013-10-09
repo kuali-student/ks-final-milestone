@@ -1,5 +1,9 @@
 package org.kuali.student.r1.common.dictionary.service.impl;
 
+import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.r1.common.dto.Idable;
+import org.kuali.student.r2.common.dto.MetaInfo;
+
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -14,10 +18,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
-import org.kuali.student.r1.common.dto.Idable;
-import org.kuali.student.r2.common.dto.MetaInfo;
 
 @Deprecated
 public class DictionaryCreator
@@ -72,7 +72,7 @@ public class DictionaryCreator
   {
    throw new IllegalArgumentException (ex);
   }
-  StringBuffer s = new StringBuffer ();
+  StringBuilder s = new StringBuilder ();
   addSpringHeaderOpen (s);
 
 //Debuggin System.out.println (clazz.getName ());
@@ -89,7 +89,7 @@ public class DictionaryCreator
   }
  }
 
- private void addObjectStructure (Class<?> clazz, StringBuffer s,
+ private void addObjectStructure (Class<?> clazz, StringBuilder s,
                                   Set<Class<?>> processed)
  {
   //Don't process if processed
@@ -159,7 +159,7 @@ public class DictionaryCreator
  }
 
  private Set<Class<?>> addField (Class<?> clazz, PropertyDescriptor pd,
-                                 StringBuffer s, Set<Class<?>> processed)
+                                 StringBuilder s, Set<Class<?>> processed)
  {
   Set<Class<?>> dependantStructures = new HashSet<Class<?>> ();
 
@@ -297,25 +297,25 @@ public class DictionaryCreator
  }
 
  private void addProperty (String propertyName, String propertyValue,
-                           StringBuffer s)
+                           StringBuilder s)
  {
   s.append ("\n<property name=\"" + propertyName + "\" value=\"" + propertyValue
             + "\"/>");
  }
 
  private static void addPropertyRef (String propertyName, String propertyValue,
-                                     StringBuffer s)
+                                     StringBuilder s)
  {
   s.append ("\n<property name=\"" + propertyName + "\" ref=\"" + propertyValue
             + "\"/>");
  }
 
- private void addSpringHeaderClose (StringBuffer s)
+ private void addSpringHeaderClose (StringBuilder s)
  {
   s.append ("\n</beans>");
  }
 
- public void addSpringHeaderOpen (StringBuffer s)
+ public void addSpringHeaderOpen (StringBuilder s)
  {
   s.append ("<beans xmlns=\"http://www.springframework.org/schema/beans\""
             + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""

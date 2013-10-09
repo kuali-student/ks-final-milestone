@@ -15,15 +15,14 @@
 
 package org.kuali.student.core.statement.ui.client.widgets.rules;
 
+import com.google.gwt.core.client.GWT;
+import org.kuali.student.core.statement.ui.client.widgets.table.Node;
+import org.kuali.student.r1.core.statement.dto.StatementInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
-
-import org.kuali.student.r1.core.statement.dto.StatementInfo;
-import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.core.statement.ui.client.widgets.table.Node;
-
-import com.google.gwt.core.client.GWT;
 
 public class RuleExpressionParser {
     
@@ -468,16 +467,16 @@ public class RuleExpressionParser {
     private List<String> getTokenValue(String expression) {
         expression = expression.toLowerCase();
         List<String> tokenValueList = new ArrayList<String>();
-        StringBuffer tokenValue = new StringBuffer();
+        StringBuilder tokenValue = new StringBuilder();
         for (int i = 0; i < expression.length(); i++) {
 
             char ch = expression.charAt(i);
             if (ch == ' ') {
                 tokenValueList.add(tokenValue.toString());
-                tokenValue = new StringBuffer();
+                tokenValue = new StringBuilder();
             } else if (ch == '(' || ch == ')') {
                 tokenValueList.add(tokenValue.toString());
-                tokenValue = new StringBuffer();
+                tokenValue = new StringBuilder();
                 tokenValueList.add(String.valueOf(ch));
             } else {
                 tokenValue.append(ch);
