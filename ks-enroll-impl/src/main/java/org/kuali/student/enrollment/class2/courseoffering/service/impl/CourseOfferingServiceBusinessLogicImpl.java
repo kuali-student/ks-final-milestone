@@ -774,11 +774,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         try{
             examPeriodID = getExamOfferingServiceFacade().getExamPeriodId(targetCo.getTermId(), context);
         } catch (DoesNotExistException e) {
-            // TODO: KSENROLL-9929 Might want to remove this logger message once 9929 is resolved
-            LOGGER.info("Continuing on without exam offerings option key");
-            if (!optionKeys.contains(CourseOfferingSetServiceConstants.CONTINUE_WITHOUT_EXAM_OFFERINGS_OPTION_KEY)) {
-                throw e;
-            }
+
         }
         if (examPeriodID != null) {
             getExamOfferingServiceFacade().generateFinalExamOffering(targetCo, targetCo.getTermId(), examPeriodID, optionKeys, context);

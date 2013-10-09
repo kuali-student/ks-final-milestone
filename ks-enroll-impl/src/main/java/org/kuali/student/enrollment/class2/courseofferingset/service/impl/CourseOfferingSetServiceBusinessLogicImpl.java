@@ -232,9 +232,6 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         result.setStateKey(CourseOfferingSetServiceConstants.SUBMITTED_RESULT_STATE_KEY);
         result.setSourceSocId(sourceSocId);
         result.setTargetTermId(targetTermId);
-        // TODO: KSENROLL-9929 Remove the following line once SA has figured out a solution to rolling over in
-        // TODO: KSENROLL-9929 terms without exam periods.
-        optionKeys.add(CourseOfferingSetServiceConstants.CONTINUE_WITHOUT_EXAM_OFFERINGS_OPTION_KEY);
         result.setOptionKeys(optionKeys);
         result.setTargetSocId(targetSoc.getId());
         Date now = new Date();
