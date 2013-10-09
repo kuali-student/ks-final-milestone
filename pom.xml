@@ -66,7 +66,6 @@
 			</activation>
 			<modules>
                 <module>ks-ap-sql</module>
-				<module>ks-ap-deployments</module>
 				<module>ks-ap-framework</module>
 				<module>ks-ap-impl</module>
 				<module>ks-ap-ui</module>
