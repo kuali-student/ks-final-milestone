@@ -494,7 +494,9 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
         }  else if (addLine instanceof HolidayWrapper){
             HolidayWrapper holiday = (HolidayWrapper)addLine;
             try {
-                holiday.setTypeName(getHolidayTypeName(holiday.getTypeKey()));
+                if (holiday.getTypeKey() != null && !StringUtils.isBlank(holiday.getTypeKey())) {
+                    holiday.setTypeName(getHolidayTypeName(holiday.getTypeKey()));
+                }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
