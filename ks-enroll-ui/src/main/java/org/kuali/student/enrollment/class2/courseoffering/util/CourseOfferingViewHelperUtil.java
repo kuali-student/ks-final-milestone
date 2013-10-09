@@ -41,13 +41,11 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
@@ -62,7 +60,6 @@ import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -400,7 +397,7 @@ public class CourseOfferingViewHelperUtil {
     /**
      * Returns the day-of-the-year represented by the supplied term.
      *
-     * @param termInfo
+     * @param termInfo  we will pull the term start and end dates from this. Both are required.
      * @param academicCalendarService
      * @param contextInfo
      * @return int of the day-of-the-year that represents the term
@@ -415,20 +412,16 @@ public class CourseOfferingViewHelperUtil {
 
         int termDayOfYear = 0; // default to 1st day of the year
 
-        List<KeyDateInfo> keyDateInfoList = academicCalendarService.getKeyDatesForTerm( termInfo.getId(), contextInfo );
-        for(KeyDateInfo keyDateInfo : keyDateInfoList ) {
-            if( keyDateInfo.getTypeKey().equalsIgnoreCase(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY)
-                    && keyDateInfo.getStartDate() != null
-                    && keyDateInfo.getEndDate() != null )
-            {
-                Date termClassStartDate = keyDateInfo.getStartDate();
-                Date termClassEndDate = keyDateInfo.getEndDate();
-                Date avgDate = new Date( termClassStartDate.getTime() + ( (termClassEndDate.getTime() - termClassStartDate.getTime()) /2 ) );
-                Calendar cal = Calendar.getInstance();
-                cal.setTime( avgDate) ;
-                termDayOfYear = cal.get( Calendar.DAY_OF_YEAR );
-                break;
-            }
+        // Use the term start and end dates since they are required.
+        if(termInfo.getStartDate() != null
+           && termInfo.getEndDate() != null )
+        {
+            Date termClassStartDate = termInfo.getStartDate();
+            Date termClassEndDate = termInfo.getEndDate();
+            Date avgDate = new Date( termClassStartDate.getTime() + ( (termClassEndDate.getTime() - termClassStartDate.getTime()) /2 ) );
+            Calendar cal = Calendar.getInstance();
+            cal.setTime( avgDate) ;
+            termDayOfYear = cal.get( Calendar.DAY_OF_YEAR );
         }
 
         return termDayOfYear;
