@@ -46,6 +46,8 @@ public class KSKRMSServiceConstants {
     public static final String AGENDA_TYPE_FINAL_EXAM_STANDARD = "kuali.krms.agenda.type.final.exam.standard";
     public static final String AGENDA_TYPE_FINAL_EXAM_COMMON = "kuali.krms.agenda.type.final.exam.common";
 
+    public static final String AGENDA_ATTRIBUTE_FINAL_EXAM_OWNER_TERM_TYPE = "kuali.krms.agenda.attribute.owner.term.type";
+
     //Rule Discriminator Types
     public static final String RULE_DISCR_TYPE_CREDIT = "kuali.lu.type.CreditCourse";
     public static final String RULE_DISCR_TYPE_COURSE_OFFERING = "kuali.lui.type.course.offering";
