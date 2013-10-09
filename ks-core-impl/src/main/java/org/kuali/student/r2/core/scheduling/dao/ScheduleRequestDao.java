@@ -26,7 +26,7 @@ import java.util.Set;
 
 public class ScheduleRequestDao extends GenericEntityDao<ScheduleRequestEntity> {
     public List<ScheduleRequestEntity> getScheduleRequestsByRefObject(String refObjectType, String refObjectId ){
-        List<ScheduleRequestEntity> results = em.createNamedQuery("ScheduleRequest.getScheduleRequestsByLuiIdAndType")
+        List<ScheduleRequestEntity> results = em.createNamedQuery("ScheduleRequest.getScheduleRequestsByRefIdAndType")
                 .setParameter("refObjectTypeKey", refObjectType)
                 .setParameter("refObjectId", refObjectId)
                 .getResultList();
@@ -34,7 +34,7 @@ public class ScheduleRequestDao extends GenericEntityDao<ScheduleRequestEntity> 
     }
 
     public List<ScheduleRequestEntity> getScheduleRequestsByRefObjects(String refObjectType, List<String> refObjectIds ) {
-        List<ScheduleRequestEntity> results = em.createNamedQuery("ScheduleRequest.getScheduleRequestsByLuiIdAndType")
+        List<ScheduleRequestEntity> results = em.createNamedQuery("ScheduleRequest.getScheduleRequestsByRefIdAndType")
                 .setParameter("refObjectTypeKey", refObjectType)
                 .setParameter("refObjectId", refObjectIds)
                 .getResultList();
