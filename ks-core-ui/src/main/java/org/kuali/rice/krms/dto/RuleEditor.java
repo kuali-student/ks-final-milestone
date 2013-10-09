@@ -289,6 +289,13 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
         return actions;
     }
 
+    public List<ActionEditor> getActionEditors() {
+        if(this.actions==null){
+            this.actions = new ArrayList<ActionEditor>();
+        }
+        return actions;
+    }
+
     @Override
     public Map<String, String> getAttributes() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
