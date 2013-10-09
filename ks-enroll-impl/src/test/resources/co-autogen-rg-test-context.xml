@@ -26,6 +26,7 @@
 
     <bean id="courseOfferingServiceFacade" class=" org.kuali.student.enrollment.class2.courseoffering.service.facade.CourseOfferingServiceFacadeImpl" autowire="autodetect" >
         <property name="waitListServiceFacade" ref="courseWaitListServiceFacade" />
+        <property name="searchService" ref="SearchService" />
     </bean>
 
 </beans>
