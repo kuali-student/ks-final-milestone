@@ -24,7 +24,7 @@ public class LumCssImpl implements LumCss{
 
 	@Override
 	public String getCssString() {
-       StringBuffer injectString = new StringBuffer("");
+       StringBuilder injectString = new StringBuilder("");
         for(ResourcePrototype r: LumClientBundle.INSTANCE.getResources()){
             if(r instanceof CssResource){
                 if(((CssResource)r).getText() != null){

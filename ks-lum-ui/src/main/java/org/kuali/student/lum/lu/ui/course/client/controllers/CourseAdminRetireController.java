@@ -111,7 +111,7 @@ public class CourseAdminRetireController extends CourseAdminWithoutVersionContro
      */
 	@Override
 	protected void setHeaderTitle(){
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		sb.append(cluProposalModel.get(cfg.getCourseTitlePath()));
 		sb.append(" (Retirement)");
 				
