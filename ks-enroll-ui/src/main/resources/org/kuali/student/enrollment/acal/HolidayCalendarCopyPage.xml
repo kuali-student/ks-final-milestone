@@ -125,31 +125,57 @@
                                   p:propertyName="holidayCalendarInfo.name"
                                   p:showLabel="false"
                                   p:style="font-size:125%;"/>
-                            <bean parent="Uif-GridGroup"
-                                  p:layoutManager.numberOfColumns="2"
-                                  p:layoutManager.applyDefaultCellWidths="false">
+                            <bean parent="Uif-HorizontalFieldGroup">
+                                <property name="align" value="center;"/>
                                 <property name="cssClasses">
                                     <list merge="true">
-                                        <value>ks-krad-tab-gridgroup-fix</value>
-                                        <value>ks-gray-background</value>
                                         <value>ks-hcal-margins</value>
+                                        <value>ks-calendar-copy-content</value>
                                     </list>
                                 </property>
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-DataField"
-                                              p:propertyName="holidayCalendarInfo.startDate"
-                                              p:label="Start Date"
-                                              p:required="false"
-                                              p:fieldLabel.renderColon="false"/>
-                                        <bean parent="Uif-DataField"
-                                              p:propertyName="holidayCalendarInfo.endDate"
-                                              p:label="End Date"
-                                              p:required="false"
-                                              p:fieldLabel.renderColon="false"/>
+                                        <bean parent="Uif-VerticalBoxGroup" p:style="margin-bottom: 10px;text-align:center;">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-Message">
+                                                        <property name="style" value="font-weight: bold;"/>
+                                                        <property name="messageText" value='Start Date'/>
+                                                        <property name="align" value="right"/>
+                                                        <property name="valign" value="bottom"/>
+                                                    </bean>
+                                                    <bean parent="Uif-Message">
+                                                        <property name="style" value="font-weight: bold; margin-top:10px;"/>
+                                                        <property name="messageText" value='End Date'/>
+                                                        <property name="align" value="right"/>
+                                                        <property name="valign" value="bottom"/>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                            <property name="align"  value="CENTER"/>
+                                        </bean>
+                                        <bean parent="Uif-VerticalBoxGroup" p:style="text-align:center;">
+                                            <property name="align" value="CENTER"/>
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-DataField"
+                                                          p:propertyName="holidayCalendarInfo.startDate">
+                                                        <property name="labelRendered" value="true"/>
+                                                        <property name="align" value="right"/>
+                                                        <property name="valign" value="bottom"/>
+                                                    </bean>
+                                                    <bean parent="Uif-DataField"
+                                                          p:propertyName="holidayCalendarInfo.endDate"
+                                                           p:style="margin-top:10px;">
+                                                        <property name="labelRendered" value="true"/>
+                                                        <property name="align" value="right"/>
+                                                        <property name="valign" value="bottom"/>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
                                     </list>
                                 </property>
-                                <property name="align"  value="CENTER"/>
                             </bean>
                             <bean parent="Uif-Message"
                                   p:messageText="A recent holiday calendar could not be found."
@@ -184,6 +210,7 @@
                         <list>
                             <bean parent="Uif-InputField"
                                   p:propertyName="newCalendarName" p:id="newCalendarName"
+                                  p:style="line-height: 27px;"
                                   p:label="Name"
                                   p:labelPlacement="TOP"
                                   p:required="true"
