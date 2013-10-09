@@ -141,7 +141,7 @@
 
     <bean id="TimeSlotSearchResults-TableCollectionSection" parent="KS-Uif-TableCollectionSection-WithActionSeperator" p:renderAddLine="false" p:lineActionSeparator="&#160;&#160;|&#160;&#160;"
         p:onDocumentReadyScript="removeCheckboxColumns(1, 'TimeSlotSearchResultsDisplayTable',&quot;handleToolbar('TimeSlotSearchResultsDisplayTable',['enableDeleteButton'], ['TimeSlot-ToolBar-Delete-TimeSlot'])&quot;), addActionColumn(@{#parent.readOnly}, 'TimeSlotSearchResultsDisplayTable');"
-            p:style="width:50%">
+            p:style="width:800px;">
 
         <property name="id" value="TimeSlotSearchResultsDisplayTable" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper" />
@@ -190,7 +190,8 @@
 
                 <bean id="startTime" parent="KS-Uif-DataField-Simple"
                       p:label="Start Time"
-                      p:propertyName="startTimeDisplay" p:cssClasses="fixedCol_6"/>
+                      p:propertyName="startTimeDisplay"
+                      p:cssClasses="fixedCol_7"/>
 
                 <bean id="endTime" parent="KS-Uif-DataField-Simple"
                       p:label="End Time"
