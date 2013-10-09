@@ -252,7 +252,7 @@
         <property name="hidden" value="true"/>
         <property name="header.id" value="timeSlotLightBoxHeader"/>
         <property name="headerText" value="Add Timeslot"/>
-        <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;width=700;"/>
+        <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;width:500px;"/>
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxSection">
@@ -309,7 +309,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-HorizontalBoxSection">
+                <bean parent="Uif-HorizontalBoxSection" p:style="position:fixed;margin-top:65px;">
                     <property name="items">
                         <list>
                             <bean id="addOrEdit_action" parent="KS-Uif-PrimaryActionButton" >
