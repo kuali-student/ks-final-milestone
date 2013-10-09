@@ -86,14 +86,14 @@
                             <ref bean="KS-CourseOfferingManagement-ExamOfferingByAOClustersSection" />
                             <bean parent="KS-CourseOfferingManagement-ExamOfferingTableSection" p:render="@{!#dp.examOfferingCancelledList.isEmpty()}">
                                 <property name="propertyName" value="examOfferingCancelledList"/>
-                                <property name="headerText" value="Cancelled Exam Offering Delivery Logistics by Course Offering"/>
+                                <property name="headerText" value="Cancelled Exam Offering for Course Offering"/>
                             </bean>
                             <bean parent="KS-CourseOfferingManagement-ExamOfferingByAOClustersSection" p:render="true"  >
-                                <property name="headerText" value="Cancelled Exam Offering Delivery Logistics by Activity Offering"/>
+                                <property name="headerText" value="Cancelled Exam Offerings for Activity Offerings"/>
                                 <property name="subCollections">
                                     <list>
                                         <bean parent="KS-CourseOfferingManagement-ExamOfferingByAOTableSection" p:render="true">
-                                            <property name="headerText" value="Cancelled Exam Offering Delivery Logistics by Activity Offering"/>
+                                            <property name="headerText" value="Cancelled Exam Offerings for Activity Offerings"/>
                                             <property name="propertyName" value="eoCancelledList"/>
                                         </bean>
                                     </list>
@@ -111,7 +111,7 @@
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrapper"/>
         <property name="propertyName" value="examOfferingWrapperList"/>
-        <property name="headerText" value="Requested Exam Offering Delivery Logistics"/>
+        <property name="headerText" value="Exam Offering"/>
         <property name="collectionLookup">
             <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false"/>
         </property>
@@ -143,12 +143,12 @@
 
     <bean id="KS-CourseOfferingManagement-ExamOfferingByCOTableSection" parent="KS-CourseOfferingManagement-ExamOfferingTableSection"
           p:render="@{currentCourseOfferingWrapper.finalExamDriverUI eq 'Course Offering'}">
-        <property name="headerText" value="Requested Exam Offering Delivery Logistics by Course Offering"/>
+        <property name="headerText" value="Exam Offering for Course Offering"/>
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ExamOfferingByAOTableSection" parent="KS-CourseOfferingManagement-ExamOfferingTableSection"
           p:render="@{currentCourseOfferingWrapper.finalExamDriverUI eq 'Activity Offering'}">
-        <property name="headerText" value="Request Exam Offering Delivery Logistics by Activity Offering"/>
+        <property name="headerText" value="Exam Offerings for Activity Offerings"/>
         <property name="propertyName" value="eoWrapperList"/>
         <property name="items">
             <list>
