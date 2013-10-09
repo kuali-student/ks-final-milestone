@@ -63,7 +63,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
     private transient TypeService typeService;
 
     private String usageId;
-    private String actionTypeId;
+    private String rdlActionTypeId;
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
@@ -187,7 +187,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
             //Build the ruleEditor
             FERuleEditor ruleEditor = new FERuleEditor(agendaItem.getRule());
-            ActionEditor action = ruleEditor.getActionForType(this.getActionTypeId());
+            ActionEditor action = ruleEditor.getActionForType(this.getRdlActionTypeId());
             Map<String, String> attributes = action.getAttributes();
             if (attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY)) {
                 ruleEditor.setDay(attributes.get(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY));
@@ -243,18 +243,18 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
     }
 
 
-    @Override
     public AgendaItemDefinition maintainAgendaItems(AgendaEditor agenda, String namePrefix, String nameSpace) {
 
         Queue<RuleEditor> rules = new LinkedList<RuleEditor>();
-        FEAgendaEditor feAgendaEditor = (FEAgendaEditor) agenda;
-        for (RuleEditor rule : feAgendaEditor.getRules())
+        FEAgendaEditor feAgenda = (FEAgendaEditor) agenda;
+        for (RuleEditor rule : feAgenda.getRules()) {
             if (!rule.isDummy()) {
                 rules.add(rule);
             }
+        }
+
         // Clear the first item and update.
         AgendaItemDefinition firstItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
-
         AgendaItemDefinition.Builder firstItemBuilder = AgendaItemDefinition.Builder.create(agenda.getFirstItemId(), agenda.getId());
         firstItemBuilder.setRule(null);
         firstItemBuilder.setRuleId(null);
@@ -273,42 +273,21 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             this.getRuleManagementService().deleteRule(deletedRule.getId());
         }
 
-        List<FERuleEditor> newRules = new ArrayList<FERuleEditor>();
         AgendaItemDefinition rootItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
         AgendaItemDefinition.Builder rootItemBuilder = AgendaItemDefinition.Builder.create(rootItem);
         AgendaItemDefinition.Builder itemBuilder = rootItemBuilder;
-        while (rules.peek() != null) {
-            RuleEditor ruleEditor = rules.poll();
-            itemBuilder.setRule(this.finRule(ruleEditor, namePrefix, nameSpace));
-            if(itemBuilder.getRule().getId() == null) {
-                newRules.add((FERuleEditor) ruleEditor);
-            }
+        while (rules.peek()!=null) {
+            itemBuilder.setRule(this.finRule(rules.poll(), namePrefix, nameSpace));
             itemBuilder.setRuleId(itemBuilder.getRule().getId());
-            if (rules.peek() != null) {
+            if (rules.peek()!=null) {
                 itemBuilder.setWhenFalse(AgendaItemDefinition.Builder.create(null, agenda.getId()));
                 itemBuilder = itemBuilder.getWhenFalse();
             }
         }
+
         //Update the root item.
         AgendaItemDefinition updateItem = rootItemBuilder.build();
         this.getRuleManagementService().updateAgendaItem(updateItem);
-
-
-        //For each new rule created
-        for(FERuleEditor feRuleEditor : newRules) {
-            //Retrieve saved rule to get the id needed for rule actions
-            RuleEditor ruleEditor = new RuleEditor(this.getRuleManagementService().getRuleByNameAndNamespace(feRuleEditor.getName(), nameSpace));
-            //If rule actions empty, build actions from rule fields and add to empty actions list
-            if(ruleEditor.getActions().isEmpty()) {
-                ActionDefinition actionDefinition = finActions(feRuleEditor, ruleEditor.getId());
-                ArrayList<ActionDefinition> actions = (ArrayList<ActionDefinition>) ruleEditor.getActions();
-                actions.add(actionDefinition);
-            }
-            //Build new rule definition of updated rule with actions
-            RuleDefinition.Builder ruleBuilder = RuleDefinition.Builder.create(ruleEditor);
-            //Save updated rule
-            this.getRuleManagementService().updateRule(ruleBuilder.build());
-        }
 
         return updateItem;
     }
@@ -328,27 +307,41 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             rule.setName(rulePrefix + rule.getRuleTypeInfo().getId() + ":na");
         }
 
+        //Setup the actions
+        finActions(rule);
+
         return RuleDefinition.Builder.create(rule);
     }
 
     /**
      * Method that populates rule actions from rule parameters
      *
-     * @param feRuleEditor
-     * @param ruleId
+     * @param rule
      * @return new action definition with populated parameters
      */
-    public ActionDefinition finActions(FERuleEditor feRuleEditor, String ruleId) {
+    public void finActions(RuleEditor rule) {
 
-        ActionEditor actionEditor = new ActionEditor();
+        FERuleEditor feRuleEditor = (FERuleEditor) rule;
+
+        ActionEditor actionEditor = null;
+        for(ActionEditor action : feRuleEditor.getActionEditors()){
+            if(action.getTypeId().equals(this.getRdlActionTypeId())){
+                actionEditor = action;
+            }
+        }
+
+        if(actionEditor==null){
+            actionEditor = new ActionEditor();
+            actionEditor.setRuleId(feRuleEditor.getId());
+            actionEditor.setNamespace(StudentIdentityConstants.KS_NAMESPACE_CD);
+            actionEditor.setTypeId(getRdlActionTypeId());
+            actionEditor.setSequenceNumber(1);
+            feRuleEditor.getActionEditors().add(actionEditor);
+        }
 
         //Set actionEditor required fiels from rule
-        actionEditor.setRuleId(ruleId);
         actionEditor.setDescription("Day " + feRuleEditor.getDay());
-        actionEditor.setNamespace(StudentIdentityConstants.KS_NAMESPACE_CD);
         actionEditor.setName("day" + feRuleEditor.getDay() + feRuleEditor.getTimePeriodToDisplay());
-        actionEditor.setTypeId(getActionTypeId());
-        actionEditor.setSequenceNumber(1);
 
         //Populate dynamic attributes
         Map<String, String> attributes = new HashMap<String, String>();
@@ -361,12 +354,8 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         if(feRuleEditor.getRoom().getId() != null) {
             attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM, feRuleEditor.getRoom().getId());
         }
-
         actionEditor.setAttributes(attributes);
 
-        ActionDefinition.Builder actionBuilder = ActionDefinition.Builder.create(actionEditor);
-
-        return actionBuilder.build();
     }
 
     /**
@@ -387,11 +376,11 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         return Long.toString(parsedTime);
     }
 
-    protected String getActionTypeId() {
-        if (actionTypeId == null) {
-            actionTypeId = this.getKrmsTypeRepositoryService().getTypeByName(StudentIdentityConstants.KS_NAMESPACE_CD, KSKRMSServiceConstants.ACTION_TYPE_REQUESTED_DELIVERY_LOGISTIC).getId();
+    protected String getRdlActionTypeId() {
+        if (rdlActionTypeId == null) {
+            rdlActionTypeId = this.getKrmsTypeRepositoryService().getTypeByName(StudentIdentityConstants.KS_NAMESPACE_CD, KSKRMSServiceConstants.ACTION_TYPE_REQUESTED_DELIVERY_LOGISTIC).getId();
         }
-        return actionTypeId;
+        return rdlActionTypeId;
     }
 
     protected String getUsageId() {

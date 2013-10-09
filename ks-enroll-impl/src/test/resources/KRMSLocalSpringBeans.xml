@@ -43,7 +43,7 @@
     <property name="businessObjectService" ref="businessObjectService"/>
   </bean>
 
-  <bean id="ruleBoService" class="org.kuali.rice.krms.impl.repository.RuleBoServiceImpl">
+  <bean id="ruleBoService" class="org.kuali.rice.krms.impl.repository.KSRuleBoServiceImpl">
     <property name="businessObjectService" ref="businessObjectService"/>
   </bean>
 
