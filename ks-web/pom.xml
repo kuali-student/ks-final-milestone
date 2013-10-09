@@ -77,9 +77,6 @@
             </modules>
         </profile>
     </profiles>
-    <properties>
-        <derby.version>10.4.2.0</derby.version>
-    </properties>
     <repositories>
         <repository>
             <id>kuali.nexus</id>
