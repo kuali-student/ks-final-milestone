@@ -379,7 +379,8 @@ public class ActivityOfferingTransformer {
 
     private static String getSchedulingState(ActivityOfferingInfo ao, SearchService searchService, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-        if(getScheduleIdsWithNonTBAComponents(ao.getScheduleIds(), searchService, context).isEmpty()){
+        if (!getScheduleIdsWithNonTBAComponents(ao.getScheduleIds(), searchService, context).isEmpty()) {
+            // If there is at least one non-TBA schedule component, then this must be scheduled
             return LuiServiceConstants.LUI_AO_SCHEDULING_STATE_SCHEDULED_KEY;
         }
 
