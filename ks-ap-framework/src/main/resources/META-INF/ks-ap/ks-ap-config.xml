@@ -75,4 +75,6 @@
     <param name="resourceBundleNames" override="true">${rice.struts.message.resources},org.kuali.student.myplan.KSMyPlan-ApplicationResources</param>
     
     <param name="ks.ap.MAX_FUTURE_YEARS">6</param>
+
+    <param name="ks.myplan.externalizable.images.url">../ks-myplan/images/</param>
 </config>
