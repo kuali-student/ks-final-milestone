@@ -44,7 +44,6 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrappe
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleCalcContainer;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleRequestCalcContainer;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.ActivityOfferingResult;
@@ -97,7 +96,6 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
@@ -119,7 +117,6 @@ import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
@@ -1707,13 +1704,12 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         CourseInfo course;
         String clusterId = form.getClusterIdForNewAO();
         ContextInfo contextInfo = createContextInfo();
-        List<ActivityOfferingClusterInfo> clusters;
         ActivityOfferingClusterInfo defaultCluster;
 
         //create default cluster if there is no cluster for the FO yet
         try {
-            clusters = getCourseOfferingService().getActivityOfferingClustersByFormatOffering(formatOfferingId, contextInfo);
-            if (clusters == null || clusters.size() <= 0) {
+            int clusterCount = CourseOfferingManagementUtil.getCourseOfferingServiceFacade().getAoClusterCountByFoId(formatOfferingId, contextInfo);
+            if (clusterCount == 0) {
                 defaultCluster = CourseOfferingManagementUtil.getCourseOfferingServiceFacade().createDefaultCluster(formatOfferingId, contextInfo);
                 if (defaultCluster != null) {
                     clusterId = defaultCluster.getId();

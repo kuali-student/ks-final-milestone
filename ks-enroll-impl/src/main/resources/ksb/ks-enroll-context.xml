@@ -1042,6 +1042,7 @@
         <property name="courseWaitListService" ref="courseWaitListService" />
         <property name="waitListServiceFacade" ref="courseWaitListServiceFacade" />
         <property name="examOfferingServiceFacade" ref="examOfferingServiceFacade" />
+        <property name="searchService" ref="searchService" />
     </bean>
     <!-- Export facade to bus -->
     <bean id="ks.exp.courseOfferingServiceFacade" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

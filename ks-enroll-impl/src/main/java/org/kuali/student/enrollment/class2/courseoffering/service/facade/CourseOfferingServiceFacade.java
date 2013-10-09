@@ -309,4 +309,22 @@ public interface CourseOfferingServiceFacade {
      */
     public CourseWaitListInfo createColocatedWaitList(CourseWaitListInfo courseWaitListInfo, String waitlistType, boolean hasWaitlist, boolean limitWaitlistSize, boolean isColocatedAO, boolean isMaxEnrollmentShared,
                                                       HashMap<String, String> aoIdfoIdMap, ContextInfo context);
+
+
+    /**
+     *
+     * Returns the number of AO Clusters for a particular FO. If there are no clusters, the count will be 0
+     *
+     * @param foId    Format Offering Id
+     * @param contextInfo Context Info
+     * @return Returns the number of AO Clusters for a particular FO. If there are no clusters, the count will be 0
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public int getAoClusterCountByFoId(String foId, ContextInfo contextInfo) throws MissingParameterException,
+            InvalidParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 }

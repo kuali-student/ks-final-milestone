@@ -50,6 +50,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final TypeInfo COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE;
     public static final TypeInfo FO_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE;
+    public static final TypeInfo AO_CLUSTER_COUNT_BY_FO_TYPE;
 
     public static final String SCH_IDS_BY_AO_SEARCH_KEY = "kuali.search.type.lui.searchForScheduleIdsByAoId";
     public static final String AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAOsAndClustersByCoId";
@@ -61,6 +62,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final String AO_CODES_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAoCodesByCoId";
     public static final String TERM_ID_BY_OFFERING_ID_SEARCH_KEY = "kuali.search.type.lui.searchForTermIdByOfferingId";
     public static final String TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_KEY = "kuali.search.type.lui.searchForTotalMaxSeatsByAOIds";
+    public static final String AO_CLUSTER_COUNT_BY_FO_SEARCH_KEY = "kuali.search.type.lui.getCountOfAOClustersByFO";
 
     public static final String DEFAULT_EFFECTIVE_DATE = "01/01/2012";
 
@@ -98,6 +100,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         public static final String RG_STATE = "rgState";
         public static final String ATP_ID = "atpId";
         public static final String TOTAL_MAX_SEATS = "totalMaxSeats";
+        public static final String AO_CLUSTER_COUNT = "aoClusterCount";
     }
 
     static {
@@ -180,6 +183,14 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
         TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_TYPE = info;
+
+        info = new TypeInfo();
+        info.setKey(AO_CLUSTER_COUNT_BY_FO_SEARCH_KEY);
+        info.setName("get AO cluster count by Format offering");
+        info.setDescr(new RichTextHelper().fromPlain("Returns the number of AO clusters for a particular Format Offering"));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
+
+        AO_CLUSTER_COUNT_BY_FO_TYPE = info;
     }
 
     @Override
@@ -223,6 +234,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         if (TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_KEY.equals(searchTypeKey)) {
             return TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_TYPE;
         }
+        if (AO_CLUSTER_COUNT_BY_FO_SEARCH_KEY.equals(searchTypeKey)) {
+            return AO_CLUSTER_COUNT_BY_FO_TYPE;
+        }
         throw new DoesNotExistException("No Search Type Found for key:"+searchTypeKey);
     }
 
@@ -233,7 +247,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             OperationFailedException {
         return Arrays.asList(SCH_IDS_BY_AO_SEARCH_TYPE, AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE,
                 REG_GROUPS_BY_CO_ID_SEARCH_TYPE, AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE, COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE, FO_BY_CO_ID_SEARCH_TYPE,
-                RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE, AO_CODES_BY_CO_ID_SEARCH_TYPE, TERM_ID_BY_OFFERING_ID_SEARCH_TYPE, TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_TYPE);
+                RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE, AO_CODES_BY_CO_ID_SEARCH_TYPE, TERM_ID_BY_OFFERING_ID_SEARCH_TYPE, TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_TYPE, AO_CLUSTER_COUNT_BY_FO_TYPE);
     }
 
     @Override
@@ -269,6 +283,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         }
         else if (TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForTotalMaxSeatsByAOIds(searchRequestInfo);
+        }
+        else if (AO_CLUSTER_COUNT_BY_FO_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
+            return searchForAOClusterCountByFO(searchRequestInfo);
         }
         else{
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
@@ -709,6 +726,38 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         SearchResultRowInfo row = new SearchResultRowInfo();
         row.addCell(SearchResultColumns.ATP_ID, termId);
         resultInfo.getRows().add(row);
+
+        return resultInfo;
+    }
+
+    /**
+     * This method will return a AO cluster count based on the FO Id passed in.
+     *
+     * This was made as a performance improvement.
+     *
+     * @param searchRequestInfo
+     * @return
+     */
+    private SearchResultInfo searchForAOClusterCountByFO(SearchRequestInfo searchRequestInfo) {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        String formatOfferingId = requestHelper.getParamAsString(SearchParameters.FO_ID);
+
+        String queryStr =
+                "select count(a.formatOfferingId) " +
+                        "from ActivityOfferingClusterEntity a " +
+                        "where a.formatOfferingId=:" + SearchParameters.FO_ID;
+
+        Query query = entityManager.createQuery(queryStr);
+        query.setParameter(SearchParameters.FO_ID, formatOfferingId);
+        List<Long> results = query.getResultList();
+
+        for(Long result : results){
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.AO_CLUSTER_COUNT, result.toString());
+            resultInfo.getRows().add(row);
+        }
 
         return resultInfo;
     }
