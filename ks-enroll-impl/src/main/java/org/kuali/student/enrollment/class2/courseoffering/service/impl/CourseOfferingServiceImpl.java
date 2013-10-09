@@ -1470,9 +1470,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
      * This method calls the search service to pull a list of AO Codes for a given CO. This is MUCH faster than
      * our old way of pulling the FULL ao objects, when we just need the code.
      *
-     * @param courseOfferingId
-     * @param context
-     * @return
+     * @param courseOfferingId  The CourseOffering ID of the Course Offering that you want to return all AO codes for.
+     * @param context  application contextInfo object
+     * @return returns a Map<AO_ID, AO_CODE>
      * @throws OperationFailedException
      */
     private Map<String, String> _getActivityOfferingCodesByCourseOffering(String courseOfferingId, ContextInfo context) throws OperationFailedException {
