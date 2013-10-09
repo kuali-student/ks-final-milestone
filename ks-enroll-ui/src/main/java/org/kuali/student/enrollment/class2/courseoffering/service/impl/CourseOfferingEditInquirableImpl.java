@@ -16,11 +16,13 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
@@ -111,6 +113,15 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
             for (FormatOfferingInfo fo : formatOfferingInfos){
                 FormatOfferingWrapper wrapper = new FormatOfferingWrapper();
                 wrapper.setFormatOfferingInfo(fo);
+                wrapper.setCourseOfferingWrapper(formObject);
+
+                //set the reader friendly Final Exam Driver Activity
+                if (!StringUtils.isEmpty(fo.getFinalExamLevelTypeKey()) && StringUtils.equals(formObject.getFinalExamDriver(), LuServiceConstants.LU_EXAM_DRIVER_AO_KEY)) {
+                    wrapper.setFinalExamUI(getTypeService().getType(fo.getFinalExamLevelTypeKey(), contextInfo).getName());
+                } else {
+                    wrapper.setFinalExamUI(" ");
+                }
+
                 foList.add(wrapper);
             }
             formObject.setFormatOfferingList(foList);
@@ -199,6 +210,13 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
              */
             for (CourseOfferingCrossListingInfo crossListingInfo : coInfo.getCrossListings()){
                 formObject.getAlternateCOCodes().add(crossListingInfo.getCode());
+            }
+
+            // set use final exam matrix toggle UI
+            if (formObject.isUseFinalExamMatrix()) {
+                formObject.setUseFinalExamMatrixUI(CourseOfferingConstants.COURSEOFFERING_TEXT_USE_FINAL_EXAM_MATRIX);
+            } else {
+                formObject.setUseFinalExamMatrixUI(CourseOfferingConstants.COURSEOFFERING_TEXT_NOT_USE_FINAL_EXAM_MATRIX);
             }
 
             //load related AOs
