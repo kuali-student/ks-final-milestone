@@ -19,7 +19,6 @@ package org.kuali.student.enrollment.class1.krms.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krms.api.repository.action.ActionDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
@@ -303,7 +302,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             rule.setNamespace(namespace);
         }
 
-        if (rule.getName() == null && rule.getName().isEmpty()) {
+        if (rule.getName() == null || rule.getName().isEmpty()) {
             rule.setName(rulePrefix + rule.getRuleTypeInfo().getId() + ":na");
         }
 
@@ -339,7 +338,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             feRuleEditor.getActionEditors().add(actionEditor);
         }
 
-        //Set actionEditor required fiels from rule
+        //Set actionEditor required fields from rule
         actionEditor.setDescription("Day " + feRuleEditor.getDay());
         actionEditor.setName("day" + feRuleEditor.getDay() + feRuleEditor.getTimePeriodToDisplay());
 
