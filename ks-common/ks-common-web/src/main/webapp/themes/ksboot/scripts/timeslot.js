@@ -5,7 +5,7 @@ var selectedTimeSlotOptions;
  *  This method initializes the popup for both edit and add action. As we're using the same
  *  popup for both add and edit, it's necessary to tweak the html dom.
  */
-function reInitializePopupModel(event, addOrEditAction, editLineIndex)
+function showTimeSlotLightBox(event, addOrEditAction, editLineIndex)
 {
 
     jQuery('#addOrEditDays_control').val('');
@@ -17,7 +17,7 @@ function reInitializePopupModel(event, addOrEditAction, editLineIndex)
     jQuery('#addOrEditTermKey_control').empty();
     jQuery('#addOrEditDays_control').val('');
 
-    if (jQuery("#addOrEditDays_errors").length) {
+   if (jQuery("#addOrEditDays_errors").length) {
         jQuery("#addOrEditDays_errors").empty();
     }
     if (jQuery("#addOrEditTermKey_errors").length) {
@@ -78,12 +78,26 @@ function reInitializePopupModel(event, addOrEditAction, editLineIndex)
         var $options = jQuery("#timeSlotTypeSelection_control > option").clone();
         jQuery("#addOrEditTermKey_control").append($options);
         jQuery('#addOrEditTermKey_control').val(termType);
+        var timeSlotCode = jQuery('#timeSlotCode_line' + editLineIndex + '_control').text().trim();
+        jQuery('#KS-TimeSlot-AddTimeSlotPopupForm .uif-headerText-span').text("Edit Time Slot " + timeSlotCode);
 
     } else {
         jQuery('#addOrEdit_action').data("submit_data", {methodToCall:"createTimeSlot"});
         jQuery('#addOrEdit_action').text('Add Slot');
         jQuery("#addOrEditTermKey_control").append(selectedTimeSlotOptions);
+        jQuery('#KS-TimeSlot-AddTimeSlotPopupForm .uif-headerText-span').text("Add TimeSlot");
     }
+          //hideBubblePopups()
+    var overrideOptions = { autoDimensions:true, beforeClose:function () {
+        removeMessageTooltip("addOrEditDays");
+                removeMessageTooltip("addOrEditTermKey");
+                removeMessageTooltip("addOrEditStartTime");
+                removeMessageTooltip("addOrEditStartTimeAmPm");
+                removeMessageTooltip("addOrEditEndTime");
+                removeMessageTooltip("addOrEditEndTimeAmPm");
+            removeMessageTooltip("addOrEditTermKey");
+    }};
+    showLightboxComponent('KS-TimeSlot-AddTimeSlotPopupForm',overrideOptions);
 }
 
 function showDeleteDialog() {
@@ -96,6 +110,8 @@ function validateTimeSlot(){
     result = validateLineFields(addEditTSComponents);
     if (!result){
         showClientSideErrorNotification();
+    } else {
+        closeLightbox();
     }
     return result;
 }
@@ -109,4 +125,30 @@ function validateTimeSlot(){
  */
 function setupTimeSlotTypeDropdown(){
     selectedTimeSlotOptions = jQuery("#timeSlotTypeSelection_control option:selected").clone();
+}
+
+function removeMessageTooltip(fieldId) {
+    var elementInfo = getHoverElement(fieldId);
+    var element = elementInfo.element;
+    if (elementInfo.type == "fieldset") {
+        //for checkbox/radio fieldsets we put the tooltip on the label of the first input
+        element = jQuery(element).filter(".uif-tooltip");
+    }
+
+    var data = getValidationData(jQuery("#" + fieldId));
+    if (data && data.showTimer) {
+        clearTimeout(data.showTimer);
+    }
+
+    var tooltipId = jQuery(element).GetBubblePopupID();
+
+    if (tooltipId) {
+        //this causes the tooltip to be IMMEDIATELY hidden, rather than wait for animation
+        jQuery("#" + tooltipId).css("opacity", 0);
+        jQuery("#" + tooltipId).hide();
+        jQuery(element).RemoveBubblePopup();
+    }
+    else {
+        jQuery(element).RemoveBubblePopup();
+    }
 }
