@@ -1249,7 +1249,19 @@
         <property name="scheduleRequestDao" ref="scheduleRequestDao"/>
         <property name="timeSlotDao" ref="timeSlotDao"/>
         <property name="scheduleDao" ref="scheduleDao"/>
-        <property name="criteriaLookupService" ref="defaultCriteriaLookupService" />
+        <property name="criteriaLookupService">
+            <bean parent="defaultCriteriaLookupService">
+                <property name="predicateTransforms">
+                    <list merge="false">
+                        <!-- Don't include the keyword2like transformer -->
+                        <ref bean="descrTransform"/>
+                        <ref bean="metaTransform"/>
+                        <ref bean="attributeTransform"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+
         <property name="timeSlotCodeGenerator" ref="timeSlotCodeGenerator" />
     </bean>
 
