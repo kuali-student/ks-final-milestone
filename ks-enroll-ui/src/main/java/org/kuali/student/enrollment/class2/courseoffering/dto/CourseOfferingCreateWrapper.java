@@ -86,6 +86,7 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         copyFromFormats = new ArrayList<FormatOfferingWrapper>();
         showCreateFormatSection = true;
         dialogFormatOfferingWrapperList = new ArrayList<FormatOfferingWrapper>();
+        createFromCatalog = true;
     }
 
     public String getTargetTermCode() {
