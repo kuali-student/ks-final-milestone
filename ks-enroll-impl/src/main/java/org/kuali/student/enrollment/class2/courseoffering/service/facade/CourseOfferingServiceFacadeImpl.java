@@ -566,7 +566,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
                             courseWaitListInfoNew.setFormatOfferingIds(new ArrayList<String>());
                             courseWaitListInfoNew.getActivityOfferingIds().add(aoId);
                             courseWaitListInfoNew.getFormatOfferingIds().add(foId);
-                            courseWaitListInfoNew = getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
+                            getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
                                     courseWaitListInfoNew, context);
                         }
                         if (courseWaitListInfo.getFormatOfferingIds().contains(foId)) {

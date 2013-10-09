@@ -17,6 +17,7 @@ import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
@@ -97,7 +98,7 @@ public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
         if (keyDates != null) {
 
             //Get the valid period types
-            List<TypeTypeRelationInfo> milestoneTypeRelations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.appt.regperiods", "kuali.type.type.relation.type.group", new ContextInfo());
+            List<TypeTypeRelationInfo> milestoneTypeRelations = getTypeService().getTypeTypeRelationsByOwnerAndType(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_GROUP_TYPE_KEY, "kuali.type.type.relation.type.group", new ContextInfo());
             List<String> validMilestoneTypes = new ArrayList<String>();
             for (TypeTypeRelationInfo milestoneTypeRelation : milestoneTypeRelations) {
                 validMilestoneTypes.add(milestoneTypeRelation.getRelatedTypeKey());
