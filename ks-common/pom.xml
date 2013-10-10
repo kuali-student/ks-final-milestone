@@ -67,9 +67,16 @@
                     <name>skip.core.tests</name>
                 </property>
             </activation>
-            <properties>
-                <skipTests/>
-            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
             <!-- include all the modules from the default profile (except ksink, web and POM-only modules) -->
             <modules>
                 <module>ks-common-util</module>
