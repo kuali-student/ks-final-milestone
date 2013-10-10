@@ -38,7 +38,7 @@ import org.w3c.dom.Element;
         "effectiveDate", "expirationDate",
         "courseBundleCode", "startTermId", "endTermId",
         "subjectAreaOrgId", "courseBundleCodeSuffix",
-        "adminOrgId", "courseIds",
+        "adminOrgIds", "courseIds",
         "meta", "attributes", "_futureElements" })
 
 public class CourseBundleInfo
@@ -69,7 +69,7 @@ public class CourseBundleInfo
     private String courseBundleCodeSuffix;
 
     @XmlElement
-    private String adminOrgId;
+    private List<String> adminOrgIds;
 
     @XmlAnyElement
     private List<String> courseIds;
@@ -108,7 +108,10 @@ public class CourseBundleInfo
             this.endTermId = bundle.getEndTermId();
             this.subjectAreaOrgId = bundle.getSubjectAreaOrgId();
             this.courseBundleCodeSuffix = bundle.getCourseBundleCodeSuffix();
-            this.adminOrgId = bundle.getAdminOrgId();
+
+            if (bundle.getAdminOrgIds() != null) {
+                this.adminOrgIds = new ArrayList<String>(bundle.getAdminOrgIds());
+            }
 
             if (bundle.getCourseIds() != null) {
                 this.courseIds = new ArrayList<String>(bundle.getCourseIds());
@@ -181,12 +184,16 @@ public class CourseBundleInfo
     }
 
     @Override
-    public String getAdminOrgId() {
-        return (this.adminOrgId);
+    public List<String> getAdminOrgIds() {
+        if (this.adminOrgIds == null) {
+            this.adminOrgIds = new ArrayList<String>(0);
+        }
+
+        return (this.adminOrgIds);
     }
 
-    public void setAdminOrgId(String adminOrgId) {
-        this.adminOrgId = adminOrgId;
+    public void setAdminOrgIds(List<String> adminOrgIds) {
+        this.adminOrgIds = adminOrgIds;
     }
 
     @Override

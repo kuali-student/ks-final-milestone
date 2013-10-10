@@ -80,8 +80,8 @@ public interface BundledOffering
      * updatable. Often used in the calculation of the courseCode.
      * 
      * @name Subject Area Org Id
-     * @impl initially copied from the canonical course but then stored in the
-     *       Lui as lui.officialIdentifier.division
+     * @impl initially copied from the canonical course bundle but
+     *       then stored in the Lui as lui.officialIdentifier.division
      */
     public String getSubjectAreaOrgId();
 
@@ -96,22 +96,24 @@ public interface BundledOffering
      * course. Often used in the calculation of the courseCode.
      * 
      * @name Bundled Offering Code Suffix
-     * @impl initially copied from the canonical course but then stored in the
-     *       Lui as lui.officialIdentifier.suffixCode
+     * @impl initially copied from the canonical course bundle but
+     *       then stored in the Lui as
+     *       lui.officialIdentifier.suffixCode
      */
     public String getBundledOfferingCodeSuffix();
-    
 
     /**
-     * The identifier of the administrative organization for the
+     * The identifiers of the administrative organizations for the
      * bundled offering. This organization is typically the units
      * deployment organization as the content is managed within the
      * individual course offerings.
      *
      * @return the Id of the administrative organization
-     * @name Admin Org Id
+     * @name Admin Org Ids
+     * @impl initalized from canonical course bundle units deployment
+     *       but then stored in lui.unitsDeployment
      */
-    public String getAdminOrgId();
+    public List<String> getAdminOrgIds();
 
     /**
      * The identifiers for the FormatOfferings to be included in this
@@ -120,6 +122,7 @@ public interface BundledOffering
      *
      * @return the Ids of the format offerings
      * @name Format Offering Ids
+     * @impl stored as LuiLuiRelations
      */
     public List<String> getFormatOfferingIds();
 
@@ -130,6 +133,7 @@ public interface BundledOffering
      *
      * @return the Ids of the registration groups
      * @name Registration Group Ids
+     * @impl stored as LuiLuiRelations
      */
     public List<String> getRegistrationGroupIds();
 }

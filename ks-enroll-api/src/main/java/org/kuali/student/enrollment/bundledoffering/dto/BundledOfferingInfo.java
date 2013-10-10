@@ -36,7 +36,7 @@ import org.w3c.dom.Element;
         "id", "typeKey", "stateKey", "name", "descr",
         "courseBundleId", "termId",
         "bundledOfferingCode", "subjectAreaOrgId", "bundledOfferingCodeSuffix",
-        "adminOrgId", "formatOfferingIds", "registrationGroupIds",
+        "adminOrgIds", "formatOfferingIds", "registrationGroupIds",
         "meta", "attributes", "_futureElements" })
 
 public class BundledOfferingInfo
@@ -61,7 +61,7 @@ public class BundledOfferingInfo
     private String bundledOfferingCodeSuffix;
 
     @XmlElement
-    private String adminOrgId;
+    private List<String> adminOrgIds;
 
     @XmlAnyElement
     private List<String> formatOfferingIds;
@@ -94,7 +94,10 @@ public class BundledOfferingInfo
             this.bundledOfferingCode = offering.getBundledOfferingCode();
             this.subjectAreaOrgId = offering.getSubjectAreaOrgId();
             this.bundledOfferingCodeSuffix = offering.getBundledOfferingCodeSuffix();
-            this.adminOrgId = offering.getAdminOrgId();
+
+            if (offering.getAdminOrgIds() != null) {
+                this.adminOrgIds = new ArrayList<String>(offering.getAdminOrgIds());
+            }
 
             if (offering.getFormatOfferingIds() != null) {
                 this.formatOfferingIds = new ArrayList<String>(offering.getFormatOfferingIds());
@@ -153,12 +156,16 @@ public class BundledOfferingInfo
     }
 
     @Override
-    public String getAdminOrgId() {
-        return (this.adminOrgId);
+    public List<String> getAdminOrgIds() {
+        if (this.adminOrgIds == null) {
+            this.adminOrgIds = new ArrayList<String>(0);
+        }
+
+        return (this.adminOrgIds);
     }
 
-    public void setAdminOrgId(String adminOrgId) {
-        this.adminOrgId = adminOrgId;
+    public void setAdminOrgIds(List<String> adminOrgIds) {
+        this.adminOrgIds = adminOrgIds;
     }
 
     @Override

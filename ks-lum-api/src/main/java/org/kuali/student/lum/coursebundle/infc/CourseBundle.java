@@ -50,6 +50,7 @@ public interface CourseBundle
      * and Suffix = "101" then code = "ENG101"
      *
      * @name Course Bundle Code
+     * @impl clu.officialIdentifier.code
      */
     public String getCourseBundleCode();
 
@@ -65,6 +66,7 @@ public interface CourseBundle
      * 
      * @return the code suffix
      * @name Course Bundle Code Suffix
+     * @impl clu.officialIdentifier.suffixCode
      */
     public String getCourseBundleCodeSuffix();
 
@@ -74,6 +76,7 @@ public interface CourseBundle
      *
      * @return the start term Id
      * @name Start Term Id
+     * @name clu.expectedFirstAtp
      */
     public String getStartTermId();
 
@@ -83,6 +86,7 @@ public interface CourseBundle
      *
      * @return the end term Id
      * @name End Term
+     * @name clu.LastAtp
      */
     public String getEndTermId();
 
@@ -95,6 +99,7 @@ public interface CourseBundle
      * 
      * @return the org Id
      * @name Subject Area Org Id
+     * @impl clu.studySubjectSrea
      */
     public String getSubjectAreaOrgId();
     
@@ -104,10 +109,11 @@ public interface CourseBundle
      * deployment organization as the content is managed within the
      * individual course offerings.
      *
-     * @return the Id of the administrative organization
-     * @name Admin Org Id
+     * @return the Ids of the administrative organizations
+     * @name Admin Org Ids
+     * @impl clu.adminOrgs
      */
-    public String getAdminOrgId();
+    public List<String> getAdminOrgIds();
 
     /**
      * The identifiers for the Courses to be included in this course
@@ -115,6 +121,7 @@ public interface CourseBundle
      *
      * @return the Ids of the Courses
      * @name Course Ids
+     * @impl stored as CluCluRelations
      */
     public List<String> getCourseIds();
 }
