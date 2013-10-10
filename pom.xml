@@ -42,5 +42,49 @@
                 <module>ks-web</module>
             </modules>
         </profile>
+        <profile>
+            <id>skip-surefire-tests-api</id>
+            <activation>
+                <property>
+                    <name>skip.api.tests</name>
+                </property>
+            </activation>
+            <properties>
+                <skipTests/>
+            </properties>
+        </profile>
+        <profile>
+            <id>skip-surefire-tests-core</id>
+            <activation>
+                <property>
+                    <name>skip.core.tests</name>
+                </property>
+            </activation>
+            <properties>
+                <skipTests/>
+            </properties>
+        </profile>
+        <profile>
+            <id>skip-surefire-tests-lum</id>
+            <activation>
+                <property>
+                    <name>skip.lum.tests</name>
+                </property>
+            </activation>
+            <properties>
+                <skipTests/>
+            </properties>
+        </profile>
+        <profile>
+            <id>skip-surefire-tests-enroll</id>
+            <activation>
+                <property>
+                    <name>skip.enroll.tests</name>
+                </property>
+            </activation>
+            <properties>
+                <skipTests/>
+            </properties>
+        </profile>
     </profiles>
 </project>
