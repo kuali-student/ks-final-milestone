@@ -69,8 +69,9 @@ public class TimeSlotTypeOptionsFinder extends UifKeyValuesFinderBase implements
                 return Collections.emptyList();
             }
             for (TypeInfo typeInfo : typeInfos) {
-                //  Add each time slot type to the list, except ad-hoc.
-                if (! StringUtils.equals(typeInfo.getKey(), SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_ADHOC)) {
+                //  Add each time slot type to the list, except ad-hoc and TBAs.
+                if (! (StringUtils.equals(typeInfo.getKey(), SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_ADHOC)
+                        || StringUtils.equals(typeInfo.getKey(), SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA))) {
                     keyValuePairs.add(new ConcreteKeyValue(typeInfo.getKey(), typeInfo.getName()));
                 }
             }
