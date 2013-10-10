@@ -17,6 +17,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -93,10 +94,15 @@ public class TimeSlotViewHelperServiceImpl
 
         buildTimeSlotInfo(form,newTSInfo);
 
-        TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(form.getAddOrEditTermKey(),newTSInfo, createContextInfo());
+        try{
+            TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(form.getAddOrEditTermKey(),newTSInfo, createContextInfo());
+            newTSWrapper.setTimeSlotInfo(createdTimeSlot);
+        } catch (DataValidationErrorException e){
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
+            return;
+        }
 
         form.getTimeSlotResults().add(newTSWrapper);
-        newTSWrapper.setTimeSlotInfo(createdTimeSlot);
         initializeTimeSlotWrapper(form,newTSWrapper);
 
     }
@@ -105,13 +111,20 @@ public class TimeSlotViewHelperServiceImpl
 
         buildTimeSlotInfo(form,tsWrapper.getTimeSlotInfo());
 
-        TimeSlotInfo updatedTimeSlot = getSchedulingService().updateTimeSlot(tsWrapper.getTimeSlotInfo().getId(),tsWrapper.getTimeSlotInfo(),createContextInfo());
+        try {
 
-        if (form.getTermTypeSelections().contains(updatedTimeSlot.getTypeKey())){
-            tsWrapper.setTimeSlotInfo(updatedTimeSlot);
-            initializeTimeSlotWrapper(form,tsWrapper);
-        } else {
-            form.getTimeSlotResults().remove(tsWrapper);
+            TimeSlotInfo updatedTimeSlot = getSchedulingService().updateTimeSlot(tsWrapper.getTimeSlotInfo().getId(),tsWrapper.getTimeSlotInfo(),createContextInfo());
+
+            if (form.getTermTypeSelections().contains(updatedTimeSlot.getTypeKey())){
+                tsWrapper.setTimeSlotInfo(updatedTimeSlot);
+                initializeTimeSlotWrapper(form,tsWrapper);
+            } else {
+                form.getTimeSlotResults().remove(tsWrapper);
+            }
+
+        } catch (DataValidationErrorException e){
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
+            return;
         }
 
     }
@@ -127,9 +140,7 @@ public class TimeSlotViewHelperServiceImpl
         for(TimeSlotWrapper tsWrapper : timeSlotWrappers) {
             if(tsWrapper.isEnableDeleteButton() && tsWrapper.getIsChecked()) {
                 boolean isInUse = isTimeSlotInUse(tsWrapper.getTimeSlotInfo());
-                if (isInUse){
-                    KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, TimeSlotConstants.ApplicationResouceKeys.TIMESLOT_IN_USE,tsWrapper.getTimeSlotInfo().getName());
-                } else {
+                if (!isInUse){
                     selectedTimeSlots.add(tsWrapper);
                     StatusInfo statusInfo = getSchedulingService().deleteTimeSlot(tsWrapper.getTimeSlotInfo().getId(), contextInfo);
                     if (timeSlotsToDelete.isEmpty()){

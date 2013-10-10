@@ -109,6 +109,7 @@ public class TimeSlotController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=createTimeSlot")
     public ModelAndView createTimeSlot(@ModelAttribute(MODEL_ATTRIBUTE_FORM) TimeSlotForm form) throws Exception{
 
+        form.setEditInProcess(false);
         boolean isUnique = getViewHelperService(form).isUniqueTimeSlot(form);
 
         if (!isUnique){
@@ -121,7 +122,9 @@ public class TimeSlotController extends UifControllerBase {
 
         getViewHelperService(form).createTimeSlot(form);
 
-        KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS,TimeSlotConstants.ApplicationResouceKeys.TIMESLOT_ADD_SUCCESS);
+        if (!GlobalVariables.getMessageMap().hasErrors()){
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS,TimeSlotConstants.ApplicationResouceKeys.TIMESLOT_ADD_SUCCESS);
+        }
 
         return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);
     }
@@ -132,6 +135,7 @@ public class TimeSlotController extends UifControllerBase {
         String selectedPathIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         TimeSlotWrapper tsWrapper = form.getTimeSlotResults().get(NumberUtils.toInt(selectedPathIndex));
 
+        form.setEditInProcess(true);
         boolean isUnique = getViewHelperService(form).isUniqueTimeSlot(form,tsWrapper.getTimeSlotInfo());
 
         if (!isUnique){
@@ -151,8 +155,11 @@ public class TimeSlotController extends UifControllerBase {
 
         getViewHelperService(form).updateTimeSlot(form,tsWrapper);
 
-        KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS,TimeSlotConstants.ApplicationResouceKeys.TIMESLOT_EDIT_SUCCESS);
+        if (!GlobalVariables.getMessageMap().hasErrors()){
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS,TimeSlotConstants.ApplicationResouceKeys.TIMESLOT_EDIT_SUCCESS);
+        }
 
+        form.setEditInProcess(false);
         return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);
     }
 

@@ -33,12 +33,21 @@ import java.util.List;
     /*
      These are the properties used at the Add/Edit popup.
       */
-     private String addOrEditTermKey;
-     private String addOrEditDays;
-     private String addOrEditStartTime;
-     private String addOrEditStartTimeAmPm;
-     private String addOrEditEndTime;
-     private String addOrEditEndTimeAmPm;
+     private String editTermKey;
+     private String editDays;
+     private String editStartTime;
+     private String editStartTimeAmPm;
+     private String editEndTime;
+     private String editEndTimeAmPm;
+
+     private String addTermKey;
+     private String addDays;
+     private String addStartTime;
+     private String addStartTimeAmPm;
+     private String addEndTime;
+     private String addEndTimeAmPm;
+
+     private boolean editInProcess;
 
      public TimeSlotForm() {
          termTypeSelections = new ArrayList<String>();
@@ -72,51 +81,99 @@ import java.util.List;
      }
 
      public String getAddOrEditTermKey() {
-         return addOrEditTermKey;
-     }
-
-     public void setAddOrEditTermKey(String addOrEditTermKey) {
-         this.addOrEditTermKey = addOrEditTermKey;
+         if (isEditInProcess()){
+            return getEditTermKey();
+         } else {
+            return getAddTermKey();
+         }
      }
 
      public String getAddOrEditDays() {
-         return addOrEditDays;
-     }
-
-     public void setAddOrEditDays(String addOrEditDays) {
-         this.addOrEditDays = addOrEditDays;
+         if (isEditInProcess()){
+            return getEditDays();
+          } else {
+            return getAddDays();
+          }
      }
 
      public String getAddOrEditStartTime() {
-         return addOrEditStartTime;
-     }
-
-     public void setAddOrEditStartTime(String addOrEditStartTime) {
-         this.addOrEditStartTime = addOrEditStartTime;
+         if (isEditInProcess()){
+            return getEditStartTime();
+          } else {
+             return getAddStartTime();
+          }
      }
 
      public String getAddOrEditStartTimeAmPm() {
-         return addOrEditStartTimeAmPm;
-     }
-
-     public void setAddOrEditStartTimeAmPm(String addOrEditStartTimeAmPm) {
-         this.addOrEditStartTimeAmPm = addOrEditStartTimeAmPm;
+         if (isEditInProcess()){
+            return getEditStartTimeAmPm();
+          } else {
+            return getAddStartTimeAmPm();
+          }
      }
 
      public String getAddOrEditEndTime() {
-         return addOrEditEndTime;
-     }
-
-     public void setAddOrEditEndTime(String addOrEditEndTime) {
-         this.addOrEditEndTime = addOrEditEndTime;
+         if (isEditInProcess()){
+            return getEditEndTime();
+          } else {
+            return getAddEndTime();
+          }
      }
 
      public String getAddOrEditEndTimeAmPm() {
-         return addOrEditEndTimeAmPm;
+         if (isEditInProcess()){
+            return getEditEndTimeAmPm();
+          } else {
+            return getAddEndTimeAmPm();
+          }
      }
 
-     public void setAddOrEditEndTimeAmPm(String addOrEditEndTimeAmPm) {
-         this.addOrEditEndTimeAmPm = addOrEditEndTimeAmPm;
+    public void setAddOrEditTermKey(String termKey) {
+         if (isEditInProcess()){
+            setEditTermKey(termKey);
+         } else {
+            setAddTermKey(termKey);
+         }
+     }
+
+     public void setAddOrEditDays(String days) {
+         if (isEditInProcess()){
+            setEditDays(days);
+          } else {
+            setAddDays(days);
+          }
+     }
+
+     public void setAddOrEditStartTime(String startTime) {
+         if (isEditInProcess()){
+            setEditStartTime(startTime);
+          } else {
+             setAddStartTime(startTime);
+          }
+     }
+
+     public void setAddOrEditStartTimeAmPm(String startTimeAmPm) {
+         if (isEditInProcess()){
+            setEditStartTimeAmPm(startTimeAmPm);
+          } else {
+            setAddStartTimeAmPm(startTimeAmPm);
+          }
+     }
+
+     public void setAddOrEditEndTime(String endTime) {
+         if (isEditInProcess()){
+            setEditEndTime(endTime);
+          } else {
+            setAddEndTime(endTime);
+          }
+     }
+
+     public void setAddOrEditEndTimeAmPm(String endTimeAmPm) {
+         if (isEditInProcess()){
+            setEditEndTimeAmPm(endTimeAmPm);
+          } else {
+            setAddEndTimeAmPm(endTimeAmPm);
+          }
      }
 
      public boolean isEnableAddButton() {
@@ -157,5 +214,109 @@ import java.util.List;
 
     public void setTypeNamesUI(String typeNamesUI) {
         this.typeNamesUI = typeNamesUI;
+    }
+
+    public String getEditTermKey() {
+        return editTermKey;
+    }
+
+    public void setEditTermKey(String editTermKey) {
+        this.editTermKey = editTermKey;
+    }
+
+    public String getEditDays() {
+        return editDays;
+    }
+
+    public void setEditDays(String editDays) {
+        this.editDays = editDays;
+    }
+
+    public String getEditStartTime() {
+        return editStartTime;
+    }
+
+    public void setEditStartTime(String editStartTime) {
+        this.editStartTime = editStartTime;
+    }
+
+    public String getEditStartTimeAmPm() {
+        return editStartTimeAmPm;
+    }
+
+    public void setEditStartTimeAmPm(String editStartTimeAmPm) {
+        this.editStartTimeAmPm = editStartTimeAmPm;
+    }
+
+    public String getEditEndTime() {
+        return editEndTime;
+    }
+
+    public void setEditEndTime(String editEndTime) {
+        this.editEndTime = editEndTime;
+    }
+
+    public String getEditEndTimeAmPm() {
+        return editEndTimeAmPm;
+    }
+
+    public void setEditEndTimeAmPm(String editEndTimeAmPm) {
+        this.editEndTimeAmPm = editEndTimeAmPm;
+    }
+
+    public String getAddTermKey() {
+        return addTermKey;
+    }
+
+    public void setAddTermKey(String addTermKey) {
+        this.addTermKey = addTermKey;
+    }
+
+    public String getAddDays() {
+        return addDays;
+    }
+
+    public void setAddDays(String addDays) {
+        this.addDays = addDays;
+    }
+
+    public String getAddStartTime() {
+        return addStartTime;
+    }
+
+    public void setAddStartTime(String addStartTime) {
+        this.addStartTime = addStartTime;
+    }
+
+    public String getAddStartTimeAmPm() {
+        return addStartTimeAmPm;
+    }
+
+    public void setAddStartTimeAmPm(String addStartTimeAmPm) {
+        this.addStartTimeAmPm = addStartTimeAmPm;
+    }
+
+    public String getAddEndTime() {
+        return addEndTime;
+    }
+
+    public void setAddEndTime(String addEndTime) {
+        this.addEndTime = addEndTime;
+    }
+
+    public String getAddEndTimeAmPm() {
+        return addEndTimeAmPm;
+    }
+
+    public void setAddEndTimeAmPm(String addEndTimeAmPm) {
+        this.addEndTimeAmPm = addEndTimeAmPm;
+    }
+
+    public boolean isEditInProcess() {
+        return editInProcess;
+    }
+
+    public void setEditInProcess(boolean editInProcess) {
+        this.editInProcess = editInProcess;
     }
 }
