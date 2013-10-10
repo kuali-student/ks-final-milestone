@@ -719,3 +719,13 @@ function resetCheckboxes(containerId) {
 jQuery(document).on("click", ".dataTable input[type=checkbox]", function() {
     jQuery(this).closest('tr').toggleClass('selected-row');
 });
+
+/*
+ Due to conflicts with jQueryUI, we need to cleverly manipulate the icons used
+ for the datepicker trigger (the little calendar icon)
+ */
+
+/* Set custom font icons for calendar datepickers */
+jQuery('.uif-inputField:has(input.uif-dateControl)').on('DOMNodeInserted', 'button.ui-datepicker-trigger', function() {
+    jQuery('button.ui-datepicker-trigger').empty().addClass('icon halflings calendar').attr('alt', 'Date picker').attr('value', 'Date picker');
+});

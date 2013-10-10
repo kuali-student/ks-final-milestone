@@ -1147,4 +1147,31 @@ table.dataTable tr.uif-newCollectionItem td.sorting_1 {
   background-color: @bodyBackground;
 }
 
+
 @import "pagination";
+
+/*
+  Glyphicons Halflings Web font styles
+*/
+
+@import "halflings";
+
+.halflings {
+  background:none;
+  border:none;
+  outline:none;
+  margin-left: 5px;
+}
+.halflings::-moz-focus-inner {border:none;}
+.halflings:before {
+  color: @iconColor;
+  font-size: 12px;
+  line-height: 12px;
+  position: absolute;
+  top:0;
+  left:0;
+}
+button.halflings:before {
+  top:-6px;
+}
+.icon.halflings:hover:before {color: @iconHoverColor;}
