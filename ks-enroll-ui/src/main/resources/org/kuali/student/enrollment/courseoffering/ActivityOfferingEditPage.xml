@@ -162,7 +162,7 @@
     </bean>
 
     <bean id="ActivityOfferingEdit-CoLocatedActivities" parent="Uif-TableCollectionSection" p:layoutManager.style="width:150px;">
-        <property name="header.render" value="false"/>
+        <property name="headerText" value=" "/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity" />
         <property name="propertyName" value="colocatedActivities"/>
         <property name="layoutManager.richTable.render" value="false"/>
