@@ -54,7 +54,6 @@
         <cxf.javadoc.version>latest-2.3.x</cxf.javadoc.version>
         <derby.version>10.10.1.1</derby.version>
         <dozer.version>5.3.2</dozer.version>
-        <easymock.version>2.4</easymock.version>
         <eclipselink.version>1.0</eclipselink.version>
         <ehcache.version>2.5.0</ehcache.version>
         <google.gwtx.version>1.5.3</google.gwtx.version>
@@ -64,7 +63,7 @@
         <hibernate.jpa.version>1.0.1.Final</hibernate.jpa.version>
         <hibernate.version>3.6.9.Final</hibernate.version>
         <jaxb.api.version>2.1</jaxb.api.version>
-        <jaxws.spring.version>1.8</jaxws.spring.version>
+        <jaxws.spring.version>1.9</jaxws.spring.version>
         <jetty.plugin.version>7.3.1.v20110307</jetty.plugin.version>
         <jetty.version>6.1.6</jetty.version>
         <jsr107cache.version>1.0</jsr107cache.version>
@@ -96,7 +95,6 @@
         <spring.security.javadoc.version>3.1.x</spring.security.javadoc.version>
         <spring.security-cas.version>3.1.0.RELEASE</spring.security-cas.version>
         <spring.version>3.2.3.RELEASE</spring.version>
-        <stax-ex.version>1.2</stax-ex.version>
         <tomcat.plugin.version>1.1</tomcat.plugin.version>
         <velocity.version>1.6.4</velocity.version>
         <velocity.tools.version>2.0</velocity.tools.version>
@@ -1127,14 +1125,6 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            <!-- stax-ex 1.0 POM is a v3 POM with no version inside it so
-        it is causing maven-site-plugin failures, therefore we are
-        trying with a higher version here -->
-            <dependency>
-                <groupId>org.jvnet.staxex</groupId>
-                <artifactId>stax-ex</artifactId>
-                <version>${stax-ex.version}</version>
-            </dependency>
             <!-- GWT Dependencies -->
             <dependency>
                 <groupId>javax.xml.bind</groupId>
@@ -1259,12 +1249,6 @@
                         <artifactId>commons-beanutils</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.easymock</groupId>
-                <artifactId>easymock</artifactId>
-                <version>${easymock.version}</version>
-                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
