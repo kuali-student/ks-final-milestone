@@ -471,9 +471,8 @@
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper" />
         <property name="headerText" value="Final Exam Period" />
         <property name="disclosure.render" value="false"/>
-        <property name="layoutManager.style" value="width:40%;"/>
+        <property name="layoutManager.style" value="width:60%;"/>
         <property name="layoutManager.addLineGroup.layoutManager.applyDefaultCellWidths" value="false"/>
-
         <property name="addBlankLineAction.actionLabel" value="Add Final Exam Period"/>
         <property name="addBlankLineAction.onDocumentReadyScript" value="hideAddExamPeriodButton('@{#collectionGroup.id}', 'exam_date_type', 'acal-term-examdates-add');"/>
         <property name="addBlankLineAction.id" value="acal-term-examdates-add"/>
@@ -521,7 +520,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean id="exam_period_delete_link" parent="Uif-ActionLink"  p:methodToCall="markExamPeriodtoDelete" p:actionLabel="delete" p:render="@{!#view.readOnly}"/>
+                <bean id="exam_period_delete_link" parent="Uif-ActionLink"  p:methodToCall="markExamPeriodtoDelete" p:actionLabel="Delete" p:render="@{!#view.readOnly}"/>
             </list>
         </property>
     </bean>
