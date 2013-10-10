@@ -42,5 +42,16 @@
                 <module>ks-enroll-rice</module>
             </modules>
         </profile>
+        <profile>
+            <id>skip-surefire-tests</id>
+            <activation>
+                <property>
+                    <name>skip.enroll.tests</name>
+                </property>
+            </activation>
+            <properties>
+                <skipTests/>
+            </properties>
+        </profile>
     </profiles>
 </project>
