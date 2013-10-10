@@ -1193,7 +1193,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         if (luiIds != null && !luiIds.isEmpty()) {
             List<LuiInfo> luiInfos = getLuiService().getLuisByIds(luiIds, contextInfo);
-            results = ActivityOfferingTransformer.luis2AOs(luiInfos, lprService, schedulingService, searchService, contextInfo);
+            for (LuiInfo lui : luiInfos) {
+
+                ActivityOfferingInfo ao = new ActivityOfferingInfo();
+                ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, searchService, contextInfo);
+
+                LuiInfo foLui = this.findFormatOfferingLui(lui.getId(), contextInfo);
+                LuiInfo coLui = this.findCourseOfferingLui(foLui.getId(), contextInfo);
+
+                populateActivityOfferingRelationships(ao, coLui, foLui, contextInfo);
+
+                results.add(ao);
+            }
         }
 
         return results;
