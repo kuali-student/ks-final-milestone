@@ -99,7 +99,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         } else if (driver.equals(Driver.PER_CO)) {
             generateFinalExamOfferingsPerCO(courseOfferingInfo.getId(), termId, examPeriodId, optionKeys, context);
         } else if (driver.equals(Driver.NONE)) {
-            if (!optionKeys.contains(ExamOfferingServiceFacade.RECREATE_OPTION_KEY)) {
+            if ((!optionKeys.contains(ExamOfferingServiceFacade.RECREATE_OPTION_KEY)) && (isSocPublished(termId, context))) {
                 cancelFinalExamOfferings(courseOfferingInfo.getId(), context);
             } else {
                 removeFinalExamOfferingsFromCO(courseOfferingInfo.getId(), context);
