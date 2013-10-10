@@ -24,7 +24,7 @@
                 <module>ks-enroll-ui</module>
                 <module>ks-enroll-web</module>
                 <module>ks-enroll-rice</module>
-                <module>ks-enroll-deployment</module>
+                <module>ks-enroll-deployment-resources</module>
             </modules>
         </profile>
         <profile>
