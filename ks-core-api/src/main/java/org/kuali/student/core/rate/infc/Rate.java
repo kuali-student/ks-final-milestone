@@ -159,7 +159,7 @@ public interface Rate
     public Integer getMaximumLimitUnits();
 
     /**
-     * Gets the amount for the limit when the number of units fallse
+     * Gets the amount for the limit when the number of units false
      * in between the minimum and maximum limit range inclusive.
      *
      * @return the limit amount
