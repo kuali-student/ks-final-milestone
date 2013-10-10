@@ -154,7 +154,7 @@ public interface Rate
      * rate. This field is only applicable if isLimitRate() is true.
      *
      * @return the low end of the limit units range
-     * @name Miaximum Limit Units
+     * @name Maximum Limit Units
      */
     public Integer getMaximumLimitUnits();
 
