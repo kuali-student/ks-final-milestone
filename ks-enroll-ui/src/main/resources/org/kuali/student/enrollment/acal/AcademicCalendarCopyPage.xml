@@ -126,7 +126,7 @@ limitations under the License.
                                             <property name="items">
                                                 <list>
                                                     <bean parent="Uif-Message">
-                                                        <property name="style" value="font-weight: bold;"/>
+                                                        <property name="style" value="font-weight: bold; margin-bottom: 10px; margin-top: 5px"/>
                                                         <property name="messageText" value='Start Date'/>
                                                         <property name="align" value="right"/>
                                                         <property name="valign" value="bottom"/>
@@ -140,11 +140,11 @@ limitations under the License.
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-VerticalBoxGroup">
+                                        <bean parent="Uif-VerticalBoxGroup" p:style="text-align:center;">
                                             <property name="items">
                                                 <list>
                                                     <bean parent="Uif-DataField"
-                                                          p:propertyName="copyFromAcal.startDate">
+                                                          p:propertyName="copyFromAcal.startDate" p:style="margin-bottom: 10px; margin-top: 5px">
                                                         <property name="labelRendered" value="true"/>
                                                         <property name="align" value="right"/>
                                                         <property name="valign" value="bottom"/>
@@ -171,7 +171,7 @@ limitations under the License.
                     </property>
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>ks-calendar-copy-from</value>
+                            <value>ks-holiday-calendar-copy-from</value>
                         </list>
                     </property>
                 </bean>
