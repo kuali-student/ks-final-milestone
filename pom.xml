@@ -52,6 +52,13 @@
             <properties>
                 <skipTests/>
             </properties>
+            <!-- include all the modules from the default profile (except SQL and Web modules) -->
+            <modules>
+                <module>ks-enroll-impl</module>
+                <module>ks-enroll-ui</module>
+                <module>ks-enroll-rice</module>
+                <module>ks-enroll-deployment-resources</module>
+            </modules>
         </profile>
     </profiles>
 </project>
