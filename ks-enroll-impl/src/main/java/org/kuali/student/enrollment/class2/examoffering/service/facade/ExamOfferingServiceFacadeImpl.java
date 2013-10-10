@@ -344,8 +344,8 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                         if (eo.getStateKey().equals(ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY)) {
                             this.getExamOfferingService().changeExamOfferingState(eoRelation.getExamOfferingId(),
                                     ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY, context);
-                            hasEo = true;
                         }
+                        hasEo = true;
                     }
                 }
 
