@@ -1560,18 +1560,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
             for (SearchResultRowInfo row: rows) {
                 List<SearchResultCellInfo> cells = row.getCells();
-                String key = null;
-                String code = null;
+                String aoId = null;
+                String aoCode = null;
                 for (SearchResultCellInfo cell: cells) {
                     if (cell.getKey().equals(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ID)) {
-                        key = cell.getValue();
+                        aoId = cell.getValue();
                     } else if (cell.getKey().equals(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_CODE)) {
-                        code = cell.getValue();
+                        aoCode = cell.getValue();
                     } else {
-                        throw new OperationFailedException("Query for AO id and code was missing a column.");
+                        throw new OperationFailedException("Query for AO id and code returned too many columns.");
                     }
                 }
-                activityCodes.put(key, code);
+                activityCodes.put(aoId, aoCode);
             }
         }
         return  activityCodes;
