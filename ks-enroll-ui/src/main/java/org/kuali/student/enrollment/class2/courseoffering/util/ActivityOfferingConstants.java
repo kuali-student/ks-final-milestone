@@ -41,7 +41,14 @@ public class ActivityOfferingConstants {
     public static final String MSG_ERROR_INSTRUCTOR_DUPLICATE = "error.enroll.ao.instructor.duplicate";
     public static final String MSG_ERROR_SEATPOOL_DUPLICATE = "error.enroll.ao.seatpool.duplicate";
     public static final String MSG_ERROR_INVALID_START_TIME = "error.enroll.ao.starttime.invalid";
-    public static final String MSG_ERROR_ORGANIZATION_ID_REQUIRED = "error.enroll.ao.organization.id.required" ;
+    public static final String MSG_ERROR_ORGANIZATION_ID_REQUIRED = "error.enroll.ao.organization.id.required";
+    public static final String MSG_ERROR_AO_PART_COLOCATE = "error.enroll.ao.part.colocate";
+    public static final String MSG_ERROR_AO_CURRENT_COLOCATE = "error.enroll.ao.current.colocate";
+    public static final String MSG_ERROR_AO_CANCEL_STATE_COLOCATE = "error.enroll.ao.cancel.state.colocate";
+    public static final String MSG_ERROR_AO_DUPLICATE_COLOCATE = "error.enroll.ao.duplicate.colocate";
+    public static final String MSG_ERROR_AO_INVALID_CO_CODE_COLOCATE = "error.enroll.ao.invalid.co.code.colocate";
+    public static final String MSG_ERROR_AO_MULTIPLE_CO_COLOCATE = "error.enroll.ao.multiple.co.colocate";
+    public static final String MSG_ERROR_AO_NOT_EXIST_CO_COLOCATE = "error.enroll.ao.not.exist.co.colocate";
 
     public static final String ACTIVITYOFFERING_ACTION_APPROVE = "approveAO";
     public static final String ACTIVITYOFFERING_ACTION_ADD = "addAO";
