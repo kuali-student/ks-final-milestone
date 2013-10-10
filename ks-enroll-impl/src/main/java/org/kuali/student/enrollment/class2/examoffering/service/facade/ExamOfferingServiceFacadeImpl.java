@@ -39,6 +39,8 @@ import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
 import java.util.ArrayList;
@@ -63,6 +65,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
     private CourseOfferingService courseOfferingService;
     private ExamOfferingService examOfferingService;
     private CourseOfferingSetService socService;
+    private TypeService typeService;
 
     private enum Driver {PER_CO, PER_FO, PER_AO, NONE}
 
@@ -207,19 +210,19 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             throw new MissingParameterException("Exam Period id is not provided.");
         }
 
-        Map<String, List<ExamOfferingRelationInfo>> foToEoRelations = loadExamOfferingRelationships(courseOfferingId, context);
+        Map<FormatOfferingInfo, List<ExamOfferingRelationInfo>> foToEoRelations = loadExamOfferingRelationships(courseOfferingId, context);
         if (optionKeys.contains(ExamOfferingServiceFacade.RECREATE_OPTION_KEY)) {
             removeFinalExamOfferingsFromCO(foToEoRelations, context);
         }
 
+        ExamOfferingInfo eo = null;
         Map<String, ExamOfferingInfo> eos = loadExamOfferings(foToEoRelations, context);
-        for (Map.Entry<String, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
+        for (Map.Entry<FormatOfferingInfo, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
 
             //Get all existing eo as per co driver, and remove them from the map.
             List<ExamOfferingRelationInfo> eors = getExistingExamOfferingsPerDriver(eos, foEntry.getValue(), Driver.PER_CO.name());
 
             //Create new exam offerings per CO
-            ExamOfferingInfo eo = null;
             for (ExamOfferingRelationInfo eoRelation : eors) {
                 eo = eos.get(eoRelation.getExamOfferingId());
                 if (eo.getStateKey().equals(ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY)) {
@@ -235,7 +238,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             }
 
             //Create new Exam Offering Relationship
-            createExamOfferingRelationPerFO(foEntry.getKey(), eo.getId(), context);
+            createExamOfferingRelationPerFO(foEntry.getKey().getId(), eo.getId(), context);
 
         }
 
@@ -257,13 +260,13 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         }
 
         //Retrieve all format offerings linked to the course offering.
-        Map<String, List<ExamOfferingRelationInfo>> foToEoRelations = loadExamOfferingRelationships(courseOfferingId, context);
+        Map<FormatOfferingInfo, List<ExamOfferingRelationInfo>> foToEoRelations = loadExamOfferingRelationships(courseOfferingId, context);
         if (optionKeys.contains(ExamOfferingServiceFacade.RECREATE_OPTION_KEY)) {
             removeFinalExamOfferingsFromCO(foToEoRelations, context);
         }
 
         Map<String, ExamOfferingInfo> eos = loadExamOfferings(foToEoRelations, context);
-        for (Map.Entry<String, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
+        for (Map.Entry<FormatOfferingInfo, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
 
             //Get all existing eo as per fo driver, and remove them from the map.
             List<ExamOfferingRelationInfo> eors = getExistingExamOfferingsPerDriver(eos, foEntry.getValue(), Driver.PER_FO.name());
@@ -284,7 +287,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                 ExamOfferingInfo eo = createExamOffering(examPeriodId, Driver.PER_FO.name(), context);
 
                 //Create new Exam Offering Relationship
-                createExamOfferingRelationPerFO(foEntry.getKey(), eo.getId(), context);
+                createExamOfferingRelationPerFO(foEntry.getKey().getId(), eo.getId(), context);
             }
 
         }
@@ -306,21 +309,34 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         }
 
         //Retrieve all format offerings linked to the course offering.
-        Map<String, List<ExamOfferingRelationInfo>> foToEoRelations = loadExamOfferingRelationships(courseOfferingId, context);
+        Map<FormatOfferingInfo, List<ExamOfferingRelationInfo>> foToEoRelations = loadExamOfferingRelationships(courseOfferingId, context);
         if (optionKeys.contains(ExamOfferingServiceFacade.RECREATE_OPTION_KEY)) {
             removeFinalExamOfferingsFromCO(foToEoRelations, context);
         }
 
         Map<String, ExamOfferingInfo> eos = loadExamOfferings(foToEoRelations, context);
-        for (Map.Entry<String, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
+        for (Map.Entry<FormatOfferingInfo, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
 
             //Get all existing eo as per ao driver, and remove them from the map.
             List<ExamOfferingRelationInfo> eors = getExistingExamOfferingsPerDriver(eos, foEntry.getValue(), Driver.PER_AO.name());
 
+            TypeInfo finalExamLevelType = null;
+            if (foEntry.getKey().getFinalExamLevelTypeKey() != null) {
+                finalExamLevelType = this.getTypeService().getType(foEntry.getKey().getFinalExamLevelTypeKey(), context);
+            }
+
             //Create new exam offerings per AO
             List<ActivityOfferingInfo> aoInfos = this.getCourseOfferingService().getActivityOfferingsByFormatOffering(
-                    foEntry.getKey(), context);
+                    foEntry.getKey().getId(), context);
             for (ActivityOfferingInfo aoInfo : aoInfos) {
+
+                if(finalExamLevelType!=null) {
+                    TypeInfo activityType = this.getTypeService().getType(aoInfo.getTypeKey(), context);
+                    if (!activityType.getName().equals(finalExamLevelType.getName())){
+                        continue;
+                    }
+                }
+
                 boolean hasEo = false;
                 for (ExamOfferingRelationInfo eoRelation : eors) {
                     if (eoRelation.getActivityOfferingIds().contains(aoInfo.getId())) {
@@ -334,7 +350,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                 }
 
                 if (!hasEo) {
-                    createFinalExamOfferingPerAO(foEntry.getKey(), aoInfo.getId(), examPeriodId, context);
+                    createFinalExamOfferingPerAO(foEntry.getKey().getId(), aoInfo.getId(), examPeriodId, context);
                 }
             }
         }
@@ -389,23 +405,23 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         return false;
     }
 
-    private Map<String, List<ExamOfferingRelationInfo>> loadExamOfferingRelationships(String courseOfferingId, ContextInfo context)
+    private Map<FormatOfferingInfo, List<ExamOfferingRelationInfo>> loadExamOfferingRelationships(String courseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         //Retrieve all format offerings linked to the course offering.
         List<FormatOfferingInfo> foInfos = this.getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId, context);
-        Map<String, List<ExamOfferingRelationInfo>> foToEoRelations = new HashMap<String, List<ExamOfferingRelationInfo>>();
+        Map<FormatOfferingInfo, List<ExamOfferingRelationInfo>> foToEoRelations = new HashMap<FormatOfferingInfo, List<ExamOfferingRelationInfo>>();
         for (FormatOfferingInfo foInfo : foInfos) {
             List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                     foInfo.getId(), context);
-            foToEoRelations.put(foInfo.getId(), eoRelations);
+            foToEoRelations.put(foInfo, eoRelations);
         }
         return foToEoRelations;
     }
 
-    private Map<String, ExamOfferingInfo> loadExamOfferings(Map<String, List<ExamOfferingRelationInfo>> foToEoRelations, ContextInfo context)
+    private Map<String, ExamOfferingInfo> loadExamOfferings(Map<FormatOfferingInfo, List<ExamOfferingRelationInfo>> foToEoRelations, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
         Map<String, ExamOfferingInfo> eos = new HashMap<String, ExamOfferingInfo>();
-        for (Map.Entry<String, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
+        for (Map.Entry<FormatOfferingInfo, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
             for (ExamOfferingRelationInfo eoRelation : foEntry.getValue()) {
                 ExamOfferingInfo eo = eos.get(eoRelation.getExamOfferingId());
                 if (eo == null) {
@@ -450,17 +466,17 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException {
 
-        Map<String, List<ExamOfferingRelationInfo>> foToEoRelations = this.loadExamOfferingRelationships(courseOfferingId, context);
+        Map<FormatOfferingInfo, List<ExamOfferingRelationInfo>> foToEoRelations = this.loadExamOfferingRelationships(courseOfferingId, context);
         removeFinalExamOfferingsFromCO(foToEoRelations, context);
 
     }
 
-    private void removeFinalExamOfferingsFromCO(Map<String, List<ExamOfferingRelationInfo>> foToEoRelations, ContextInfo context) throws
+    private void removeFinalExamOfferingsFromCO(Map<FormatOfferingInfo, List<ExamOfferingRelationInfo>> foToEoRelations, ContextInfo context) throws
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
             DoesNotExistException {
 
         Set<String> eoIds = new HashSet<String>();
-        for (Map.Entry<String, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
+        for (Map.Entry<FormatOfferingInfo, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
             //Remove the relationships.
             for (ExamOfferingRelationInfo eoRelation : foEntry.getValue()) {
                 this.getExamOfferingService().deleteExamOfferingRelation(eoRelation.getId(), context);
@@ -475,9 +491,9 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         }
     }
 
-    private void cancelFinalExamOfferings(Map<String, List<ExamOfferingRelationInfo>> foToEoRelations, Map<String, ExamOfferingInfo> eos, ContextInfo context)
+    private void cancelFinalExamOfferings(Map<FormatOfferingInfo, List<ExamOfferingRelationInfo>> foToEoRelations, Map<String, ExamOfferingInfo> eos, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        for (Map.Entry<String, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
+        for (Map.Entry<FormatOfferingInfo, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
             for (ExamOfferingRelationInfo eoRelation : foEntry.getValue()) {
                 ExamOfferingInfo eo = eos.get(eoRelation.getExamOfferingId());
                 if (!eo.getStateKey().equals(ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY)) {
@@ -691,5 +707,13 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
     public void setSocService(CourseOfferingSetService socService) {
         this.socService = socService;
+    }
+
+    public TypeService getTypeService() {
+        return typeService;
+    }
+
+    public void setTypeService(TypeService typeService) {
+        this.typeService = typeService;
     }
 }

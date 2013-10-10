@@ -121,7 +121,7 @@ public class TestExamOfferingServiceFacadeImpl {
 
         List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                 CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);
-        assertEquals(5, eoRelations.size());
+        assertEquals(2, eoRelations.size());
         for(ExamOfferingRelationInfo eoRelation : eoRelations){
             assertEquals(1, eoRelation.getActivityOfferingIds().size());
         }
@@ -133,7 +133,7 @@ public class TestExamOfferingServiceFacadeImpl {
 
         eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                 CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);
-        assertEquals(6, eoRelations.size());
+        assertEquals(3, eoRelations.size());
         int counter = 0;
         for(ExamOfferingRelationInfo eoRelation : eoRelations){
             ExamOffering eo = this.getExamOfferingService().getExamOffering(eoRelation.getExamOfferingId(), contextInfo);
@@ -143,7 +143,7 @@ public class TestExamOfferingServiceFacadeImpl {
                 counter++;
             }
         }
-        assertEquals(5, counter);
+        assertEquals(2, counter);
     }
 
     @Test
@@ -194,7 +194,7 @@ public class TestExamOfferingServiceFacadeImpl {
 
         List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                 CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);
-        assertEquals(5, eoRelations.size());
+        assertEquals(2, eoRelations.size());
         for(ExamOfferingRelationInfo eoRelation : eoRelations){
             assertEquals(1, eoRelation.getActivityOfferingIds().size());
             assertNotNull(eoRelation.getFormatOfferingId());
