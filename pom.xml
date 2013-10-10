@@ -35,6 +35,14 @@
             <properties>
                 <skipTests/>
             </properties>
+            <!-- include all the modules from the default profile -->
+            <modules>
+                <module>ks-common-ws</module>
+                <module>ks-common-api</module>
+                <module>ks-core-api</module>
+                <module>ks-lum-api</module>
+                <module>ks-enroll-api</module>
+            </modules>
         </profile>
     </profiles>
 </project>
