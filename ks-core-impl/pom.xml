@@ -82,17 +82,14 @@
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-it-internal-tools</artifactId>
-            <version>${kuali.rice.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-impl</artifactId>
-            <version>${kuali.rice.version}</version>
         </dependency>
         <dependency>
             <artifactId>rice-it-krms</artifactId>
             <groupId>org.kuali.rice</groupId>
-            <version>${kuali.rice.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.openjpa</groupId>
@@ -102,14 +99,12 @@
         <dependency>
             <groupId>antlr</groupId>
             <artifactId>antlr</artifactId>
-            <version>${antlr.legacy.version}</version>
             <scope>test</scope>
         </dependency>
         <!-- TODO: remove this, only used for the rice integration test for now -->
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>${oracle.artifactId}</artifactId>
-            <version>${oracle.version}</version>
             <scope>test</scope>
         </dependency>
         <!-- end -->

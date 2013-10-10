@@ -78,7 +78,6 @@
         <dependency>
             <groupId>antlr</groupId>
             <artifactId>antlr</artifactId>
-            <version>${antlr.legacy.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

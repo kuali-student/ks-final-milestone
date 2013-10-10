@@ -93,7 +93,6 @@
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>${oracle.artifactId}</artifactId>
-            <version>${oracle.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
