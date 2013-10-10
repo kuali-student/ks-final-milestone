@@ -134,7 +134,7 @@
         </dependency>
         <dependency>
             <groupId>org.kuali.student.enroll</groupId>
-            <artifactId>ks-enroll-deployment</artifactId>
+            <artifactId>ks-enroll-deployment-resources</artifactId>
             <version>${ks.enroll.version}</version>
         </dependency>
         <dependency>
