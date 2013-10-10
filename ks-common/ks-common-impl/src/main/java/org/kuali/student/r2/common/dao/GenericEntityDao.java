@@ -109,21 +109,21 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
         primaryKeySet.addAll(primaryKeys);
 
         Query query = null;
-        String queryString = null;
+        StringBuilder queryString = new StringBuilder();
 
         //Fix for JIRA KSENROLL-7492 - START
 
         if(!enableMaxIdFetch || primaryKeySet.size()<=maxInClauseElements) {
 
-            queryString = "from " + entityClass.getSimpleName() + " where " + primaryKeyMemberName + " in (:ids)";
-            query = em.createQuery(queryString).setParameter("ids", primaryKeySet);
+            queryString.append("from ").append(entityClass.getSimpleName()).append(" where ").append(primaryKeyMemberName).append(" in (:ids)");
+            query = em.createQuery(queryString.toString()).setParameter("ids", primaryKeySet);
 
         } else {
 
             List<List<String>> brokenLists = new ArrayList<List<String>>();
             List<String> lst = null;
 
-            queryString = "from " + entityClass.getSimpleName();
+            queryString.append("from ").append(entityClass.getSimpleName());
 
             Iterator<String> itr = primaryKeySet.iterator();
             for(int index=0; itr.hasNext() ; index++) {
@@ -134,16 +134,16 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
                     brokenLists.add(lst);
 
                     if(brokenLists.size()==1) {
-                        queryString+=" where " + primaryKeyMemberName + " in (:ids1)";
+                        queryString.append(" where ").append(primaryKeyMemberName).append(" in (:ids1)");
                     } else {
-                        queryString+=" or " + primaryKeyMemberName + " in (:ids"+brokenLists.size()+")";
+                        queryString.append(" or ").append(primaryKeyMemberName).append(" in (:ids").append(brokenLists.size()).append(")");
                     }
 
                 }
                 lst.add(itr.next());
             }
 
-            query = em.createQuery(queryString);
+            query = em.createQuery(queryString.toString());
 
             for(int i=1 ; i<=brokenLists.size() ; i++) {
                 query.setParameter("ids" + i, brokenLists.get(i - 1));
@@ -222,7 +222,7 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
      *
      * @param primaryKeys
      * @return
-     * @throws DoesNotExistException
+     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
      */
     protected List<T> findByIdsMaxKeys(List<String> primaryKeys) throws DoesNotExistException {
         List<T> resultList = new ArrayList<T>();
