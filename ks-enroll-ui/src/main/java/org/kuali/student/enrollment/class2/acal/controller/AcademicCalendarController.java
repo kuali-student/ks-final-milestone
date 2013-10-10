@@ -1430,8 +1430,7 @@ public class AcademicCalendarController extends UifControllerBase {
                 maxday = Math.max(Integer.valueOf(value.getKey()), maxday);
             }
             if (getAcademicCalendarServiceFacade().getDaysForExamPeriod(examPeriodWrapper.getExamPeriodInfo().getId(), holidayInfos, helperService.createContextInfo()) < maxday) {
-                GlobalVariables.getMessageMap().putWarningForSectionId(finalExamSectionName, CalendarConstants.MessageKeys.ERROR_EXAM_PERIOD_DAYS_VALIDATION,
-                        String.valueOf(maxday), term.getTermCode());
+                GlobalVariables.getMessageMap().putWarningForSectionId(finalExamSectionName, CalendarConstants.MessageKeys.ERROR_EXAM_PERIOD_DAYS_VALIDATION);
             }
         } catch (OperationFailedException oe){
             LOG.error("Save exam period has failed",oe);
