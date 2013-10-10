@@ -93,7 +93,6 @@
                                 <property name="subCollections">
                                     <list>
                                         <bean parent="KS-CourseOfferingManagement-ExamOfferingByAOTableSection" p:render="true">
-                                            <property name="headerText" value="Cancelled Exam Offerings for Activity Offerings"/>
                                             <property name="propertyName" value="eoCancelledList"/>
                                         </bean>
                                     </list>
@@ -111,7 +110,6 @@
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrapper"/>
         <property name="propertyName" value="examOfferingWrapperList"/>
-        <property name="headerText" value="Exam Offering"/>
         <property name="collectionLookup">
             <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false"/>
         </property>
@@ -148,7 +146,6 @@
 
     <bean id="KS-CourseOfferingManagement-ExamOfferingByAOTableSection" parent="KS-CourseOfferingManagement-ExamOfferingTableSection"
           p:render="@{currentCourseOfferingWrapper.finalExamDriverUI eq 'Activity Offering'}">
-        <property name="headerText" value="Exam Offerings for Activity Offerings"/>
         <property name="propertyName" value="eoWrapperList"/>
         <property name="items">
             <list>
