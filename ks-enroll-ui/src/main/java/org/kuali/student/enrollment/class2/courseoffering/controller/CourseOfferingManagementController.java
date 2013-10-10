@@ -535,14 +535,14 @@ public class CourseOfferingManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=addActivityOfferings")
     public ModelAndView addActivityOfferings(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
         String quantity = theForm.getNoOfActivityOfferings();
-        if(StringUtils.isEmpty(quantity)){
-            quantity="1";
+        // KSENROLL-6893 - Added code to default the value "1" for number of activity offering to add in the pop-over
+        if (StringUtils.isEmpty(quantity)) {
+            quantity = "1";
             theForm.setNoOfActivityOfferings(quantity);
         }
-        if(!StringUtils.isEmpty(quantity) && StringUtils.isNumeric(quantity)){
-           ActivityOfferingClusterHandler.addActivityOfferings(theForm);
-        }
-        else{
+        if (StringUtils.isNumeric(quantity)) {
+            ActivityOfferingClusterHandler.addActivityOfferings(theForm);
+        } else {
             GlobalVariables.getMessageMap().putError("addActivityOfferingQuantity", CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_INVALID_ERROR);
         }
 
