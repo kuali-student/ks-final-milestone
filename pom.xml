@@ -52,5 +52,16 @@
                 <module>ks-lum-rice</module>
             </modules>
         </profile>
+        <profile>
+            <id>skip-surefire-tests</id>
+            <activation>
+                <property>
+                    <name>skip.lum.tests</name>
+                </property>
+            </activation>
+            <properties>
+                <skipTests/>
+            </properties>
+        </profile>
     </profiles>
 </project>
