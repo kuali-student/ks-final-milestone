@@ -54,6 +54,21 @@ public interface CourseBundle
     public String getCourseBundleCode();
 
     /**
+     * A suffix of the course number as reflected in the course
+     * catalog. This is the "number" portion of the course
+     * code. Initially copied from the course catalog but then,
+     * depending on the configuration it may be updatable. This field
+     * is often configured to be updatable but the updates typically
+     * simply append something like an "O" for on-line to it to
+     * differentiate multiple course offerings for the same
+     * course. Often used in the calculation of the course code.
+     * 
+     * @return the code suffix
+     * @name Course Bundle Code Suffix
+     */
+    public String getCourseBundleCodeSuffix();
+
+    /**
      * The first academic time period that this CourseBundle would be
      * effective.
      *
@@ -82,21 +97,6 @@ public interface CourseBundle
      * @name Subject Area Org Id
      */
     public String getSubjectAreaOrgId();
-
-    /**
-     * A suffix of the course number as reflected in the course
-     * catalog. This is the "number" portion of the course
-     * code. Initially copied from the course catalog but then,
-     * depending on the configuration it may be updatable. This field
-     * is often configured to be updatable but the updates typically
-     * simply append something like an "O" for on-line to it to
-     * differentiate multiple course offerings for the same
-     * course. Often used in the calculation of the course code.
-     * 
-     * @return the code suffix
-     * @name Course Bundle Code Suffix
-     */
-    public String getCourseBundleCodeSuffix();
     
     /**
      * The identifier of the administrative organization for the
