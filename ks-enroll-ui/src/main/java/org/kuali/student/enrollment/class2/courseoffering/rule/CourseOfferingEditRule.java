@@ -37,6 +37,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,12 +83,29 @@ public class CourseOfferingEditRule extends KsMaintenanceDocumentRuleBase {
                     valid = validatePersonnel(newCOWrapper);
                 }
             }
+
+            // valid the final exam driver: if final exam type is STANDARD, a final exam driver should be selected
+            if (valid) {
+                valid = validFinalExamDriver(newCOWrapper);
+            }
         }
 
         return valid;
     }
 
+    protected boolean validFinalExamDriver (CourseOfferingEditWrapper coWrapper) {
+        if (StringUtils.equals(coWrapper.getCourseOfferingInfo().getFinalExamType(), CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)
+                && (!StringUtils.equals(coWrapper.getFinalExamDriver(), LuServiceConstants.LU_EXAM_DRIVER_AO_KEY) && !StringUtils.equals(coWrapper.getFinalExamDriver(), LuServiceConstants.LU_EXAM_DRIVER_CO_KEY))) {
+            GlobalVariables.getMessageMap().putError(
+                    "document.newMaintainableObject.dataObject.finalExamDriver",
+                    CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_PARAMETER_IS_REQUIRED, "Final Exam Driver");
 
+            return false;
+        }
+
+        return true;
+
+    }
     protected boolean validateDuplicateSuffix(CourseOfferingEditWrapper coWrapper){
         // Catalog course code is case INSENSITIVE, but the suffix is case SENSITIVE
         String courseCode = coWrapper.getCourse().getCode().toUpperCase();
