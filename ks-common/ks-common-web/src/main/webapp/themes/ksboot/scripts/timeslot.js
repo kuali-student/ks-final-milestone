@@ -8,96 +8,118 @@ var selectedTimeSlotOptions;
 function showTimeSlotLightBox(event, addOrEditAction, editLineIndex)
 {
 
-    jQuery('#addOrEditDays_control').val('');
-    jQuery('#addOrEditTermKey_control').val('');
-    jQuery('#addOrEditStartTime_control').val('');
-    jQuery('#addOrEditStartTimeAmPm_control_0').attr('checked',true);
-    jQuery('#addOrEditEndTime_control').val('');
-    jQuery('#addOrEditEndTimeAmPm_control_0').attr('checked',true);
-    jQuery('#addOrEditTermKey_control').empty();
-    jQuery('#addOrEditDays_control').val('');
-
-   if (jQuery("#addOrEditDays_errors").length) {
-        jQuery("#addOrEditDays_errors").empty();
-    }
-    if (jQuery("#addOrEditTermKey_errors").length) {
-        jQuery("#addOrEditTermKey_errors").empty();
-    }
-    if (jQuery("#addOrEditStartTime_errors").length) {
-        jQuery("#addOrEditStartTime_errors").empty();
-    }
-    if (jQuery("#addOrEditStartTimeAmPm_errors").length) {
-        jQuery("#addOrEditStartTimeAmPm_errors").empty();
-    }
-    if (jQuery("#addOrEditEndTime_errors").length) {
-        jQuery("#addOrEditEndTime_errors").empty();
-    }
-    if (jQuery("#addOrEditEndTimeAmPm_errors").length) {
-        jQuery("#addOrEditEndTimeAmPm_errors").empty();
-    }
-    if (jQuery("#addOrEditTermKey_errors").length) {
-        jQuery("#addOrEditTermKey_errors").empty();
+    var parentSection;
+    if (addOrEditAction == 'EDIT'){
+        parentSection = "#KS-TimeSlot-EditTimeSlotPopupForm ";
+    } else {
+        parentSection = "#KS-TimeSlot-AddTimeSlotPopupForm ";
     }
 
-    jQuery(".new_ts").removeClass("uif-hasError");
-    jQuery(".new_ts_control").removeClass("error");
+    jQuery(parentSection + '#addOrEditDays_control').val('');
+    jQuery(parentSection + '#addOrEditTermKey_control').val('');
+    jQuery(parentSection + '#addOrEditStartTime_control').val('');
+    jQuery(parentSection + '#addOrEditStartTimeAmPm_control_0').attr('checked',true);
+    jQuery(parentSection + '#addOrEditEndTime_control').val('');
+    jQuery(parentSection + '#addOrEditEndTimeAmPm_control_0').attr('checked',true);
+    jQuery(parentSection + '#addOrEditTermKey_control').empty();
+    jQuery(parentSection + '#addOrEditDays_control').val('');
+
+   if (jQuery(parentSection + "#addOrEditDays_errors").length) {
+        jQuery(parentSection + "#addOrEditDays_errors").empty();
+    }
+    if (jQuery(parentSection + "#addOrEditTermKey_errors").length) {
+        jQuery(parentSection + "#addOrEditTermKey_errors").empty();
+    }
+    if (jQuery(parentSection + "#addOrEditStartTime_errors").length) {
+        jQuery(parentSection + "#addOrEditStartTime_errors").empty();
+    }
+    if (jQuery(parentSection + "#addOrEditStartTimeAmPm_errors").length) {
+        jQuery(parentSection + "#addOrEditStartTimeAmPm_errors").empty();
+    }
+    if (jQuery(parentSection + "#addOrEditEndTime_errors").length) {
+        jQuery(parentSection + "#addOrEditEndTime_errors").empty();
+    }
+    if (jQuery(parentSection + "#addOrEditEndTimeAmPm_errors").length) {
+        jQuery(parentSection + "#addOrEditEndTimeAmPm_errors").empty();
+    }
+    if (jQuery(parentSection + "#addOrEditTermKey_errors").length) {
+        jQuery(parentSection + "#addOrEditTermKey_errors").empty();
+    }
 
     if (addOrEditAction == 'EDIT'){
-        jQuery('#addOrEdit_action').data("submit_data", {methodToCall:"editTimeSlot","actionParameters[selectedCollectionPath]":"timeSlotResults","actionParameters[actionEvent]":"editCOonManageCOsPage","actionParameters[selectedLineIndex]":editLineIndex});
-        jQuery('#addOrEdit_action').text('Save');
-        var termTypeId = 'timeSlotResults[' + editLineIndex + '].typeKey';
+
+        jQuery(parentSection + '#addOrEdit_action').data("submit_data", {methodToCall:"editTimeSlot","actionParameters[selectedCollectionPath]":"timeSlotResults","actionParameters[actionEvent]":"editCOonManageCOsPage","actionParameters[selectedLineIndex]":editLineIndex});
+//        jQuery(parentSection + '#addOrEdit_action').text('Save');
+//        jQuery(parentSection + '#addOrEdit_cancel').show();
+
         var termType = jQuery('#termType_line' + editLineIndex + '_h0').val();
         var days = jQuery('#days_line' + editLineIndex + '_control').text();
         var startTimeWithAmPm = jQuery('#startTime_line' + editLineIndex + '_control').text().trim();
+
         var split = startTimeWithAmPm.split(" ");
         var startTime = split[0];
         var startTimeAmPm = split[1].trim();
+
         var endTimeWithAmPm = jQuery('#endTime_line' + editLineIndex + '_control').text().trim();
+
         var split = endTimeWithAmPm.split(" ");
         var endTime = split[0];
         var endTimeAmPm = split[1].trim();
-
         var spaceStrippedDays = days.trim().replace(/ /g,"");
-        jQuery('#addOrEditDays_control').val(spaceStrippedDays);
 
-        jQuery('#addOrEditStartTime_control').val(startTime);
+        jQuery(parentSection + '#addOrEditDays_control').val(spaceStrippedDays);
+
+        jQuery(parentSection + '#addOrEditStartTime_control').val(startTime);
         if (startTimeAmPm == 'AM'){
-            jQuery('#addOrEditStartTimeAmPm_control_0').attr('checked',true);
+            jQuery(parentSection + '#addOrEditStartTimeAmPm_control_0').attr('checked',true);
         } else {
-            jQuery('#addOrEditStartTimeAmPm_control_1').attr('checked',true);
+            jQuery(parentSection + '#addOrEditStartTimeAmPm_control_1').attr('checked',true);
         }
 
-        jQuery('#addOrEditEndTime_control').val(endTime);
+        jQuery(parentSection + '#addOrEditEndTime_control').val(endTime);
 
         if (endTimeAmPm == 'AM'){
-            jQuery('#addOrEditEndTimeAmPm_control_0').attr('checked',true);
+            jQuery(parentSection + '#addOrEditEndTimeAmPm_control_0').attr('checked',true);
         } else {
-            jQuery('#addOrEditEndTimeAmPm_control_1').attr('checked',true);
+            jQuery(parentSection + '#addOrEditEndTimeAmPm_control_1').attr('checked',true);
         }
 
         var $options = jQuery("#timeSlotTypeSelection_control > option").clone();
-        jQuery("#addOrEditTermKey_control").append($options);
-        jQuery('#addOrEditTermKey_control').val(termType);
+        jQuery(parentSection + "#addOrEditTermKey_control").append($options);
+        jQuery(parentSection + '#addOrEditTermKey_control').val(termType);
         var timeSlotCode = jQuery('#timeSlotCode_line' + editLineIndex + '_control').text().trim();
-        jQuery('#KS-TimeSlot-AddTimeSlotPopupForm .uif-headerText-span').text("Edit Time Slot " + timeSlotCode);
+        jQuery(parentSection + ' .uif-headerText-span').text("Edit Time Slot " + timeSlotCode);
+
+        jQuery(parentSection + ".edit_ts_control").removeClass("error");
+        jQuery(parentSection + ".edit_ts").removeClass("uif-hasError");
+
+        var overrideOptions = { autoDimensions:true, afterShow:function () {
+            jQuery(parentSection + '#addOrEditTermKey_control').focus();
+//            initBubblePopups();
+        }};
+
+        showLightboxComponent('KS-TimeSlot-EditTimeSlotPopupForm',overrideOptions);
 
     } else {
-        jQuery('#addOrEdit_action').data("submit_data", {methodToCall:"createTimeSlot"});
-        jQuery('#addOrEdit_action').text('Add Slot');
-        jQuery("#addOrEditTermKey_control").append(selectedTimeSlotOptions);
-        jQuery('#KS-TimeSlot-AddTimeSlotPopupForm .uif-headerText-span').text("Add TimeSlot");
+//        jQuery(parentSection + '#addOrEdit_action').data("submit_data", {methodToCall:"createTimeSlot"});
+//        jQuery(parentSection + '#addOrEdit_action').text('Add Slot');
+        jQuery(parentSection + ".new_ts_control").removeClass("error");
+        jQuery(parentSection + ".new_ts").removeClass("uif-hasError");
+
+        jQuery("#timeSlotTypeSelection_control option").each(function (){
+            if (jQuery(this).data("selected") == "true"){
+                jQuery(parentSection + "#addOrEditTermKey_control").append(jQuery(this).clone());
+            }
+        });
+
+        jQuery(parentSection + "#addOrEditTermKey_control").append(selectedTimeSlotOptions);
+
+        var overrideOptions = { autoDimensions:true, afterShown:function () {
+            jQuery(parentSection + '#addOrEditTermKey_control').focus();
+        }};
+        openPopupContent(event,'KS-TimeSlot-AddTimeSlotPopupForm',overrideOptions);
     }
-          //hideBubblePopups()
-    var overrideOptions = { autoDimensions:true, beforeClose:function () {
-        removeMessageTooltip("addOrEditDays");
-                removeMessageTooltip("addOrEditTermKey");
-                removeMessageTooltip("addOrEditStartTime");
-                removeMessageTooltip("addOrEditStartTimeAmPm");
-                removeMessageTooltip("addOrEditEndTime");
-                removeMessageTooltip("addOrEditEndTimeAmPm");
-            removeMessageTooltip("addOrEditTermKey");
-    }};
-    showLightboxComponent('KS-TimeSlot-AddTimeSlotPopupForm',overrideOptions);
+
 }
 
 function showDeleteDialog() {
@@ -105,9 +127,10 @@ function showDeleteDialog() {
     showLightboxComponent('deleteTimeSlotsConfirmationDialog-lightbox', overrideOptions);
 }
 
-function validateTimeSlot(){
-    var addEditTSComponents = jQuery('.new_ts_control');
-    result = validateLineFields(addEditTSComponents);
+function validateTimeSlot(cssSelector){
+    var addEditTSComponents = jQuery('.' + cssSelector);
+//    var values = jQuery('.new_ts_control').val();
+    var result = validateLineFields(addEditTSComponents);
     if (!result){
         showClientSideErrorNotification();
     } else {
@@ -124,7 +147,8 @@ function validateTimeSlot(){
  * list doesnt work in this situation
  */
 function setupTimeSlotTypeDropdown(){
-    selectedTimeSlotOptions = jQuery("#timeSlotTypeSelection_control option:selected").clone();
+//    selectedTimeSlotOptions = jQuery("#timeSlotTypeSelection_control option:selected").clone();
+    jQuery("#timeSlotTypeSelection_control option:selected").data("selected", "true");
 }
 
 function removeMessageTooltip(fieldId) {
