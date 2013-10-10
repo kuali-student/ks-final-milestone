@@ -2294,11 +2294,10 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             DoesNotExistException {
 
         FormatOfferingInfo fo = theForm.getFoId2aoTypeMap().get(eoRelation.getFormatOfferingId());
-        if(fo.getFinalExamLevelTypeKey() == null){
-            return;
+        if(fo.getFinalExamLevelTypeKey() != null){
+            TypeInfo type = CourseOfferingManagementUtil.getTypeService().getType(fo.getFinalExamLevelTypeKey(), ContextUtils.createDefaultContextInfo());
+            examOfferingWrapper.setTypeName(type.getName());
         }
-        TypeInfo type = CourseOfferingManagementUtil.getTypeService().getType(fo.getFinalExamLevelTypeKey(), ContextUtils.createDefaultContextInfo());
-        examOfferingWrapper.setTypeName(type.getName());
 
         for (ActivityOfferingClusterWrapper aoClusterWrapper : theForm.getClusterResultList()) {
             for (ActivityOfferingWrapper wrapper : aoClusterWrapper.getAoWrapperList()) {
