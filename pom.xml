@@ -57,5 +57,16 @@
                 <module>ks-core-krms</module>
             </modules>
         </profile>
+        <profile>
+            <id>skip-surefire-tests</id>
+            <activation>
+                <property>
+                    <name>skip.core.tests</name>
+                </property>
+            </activation>
+            <properties>
+                <skipTests/>
+            </properties>
+        </profile>
     </profiles>
 </project>
