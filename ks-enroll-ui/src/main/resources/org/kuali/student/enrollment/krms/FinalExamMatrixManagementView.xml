@@ -140,7 +140,7 @@
                                     <bean class="org.kuali.student.enrollment.class1.krms.keyvalue.TermKeyValueFinder"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Show" p:methodToCall="show"/>
+                            <bean parent="KS-Uif-PrimaryActionButton" p:performClientSideValidation="true" p:actionLabel="Show" p:methodToCall="show"/>
                         </list>
                     </property>
                 </bean>
