@@ -90,7 +90,7 @@
 								</property>
 								<property name="suggest">
 									<bean parent="Uif-Suggest" p:render="true">
-										<!-- <property name="valuePropertyName" value="code"/> -->
+										<property name="valuePropertyName" value="code"/>
 										<property name="templateOptions" value="minLength:1,delay:0" />
 										<property name="suggestQuery">
 											<bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getSubjectCodesForSuggest" />
@@ -148,7 +148,7 @@
 								</property>
 								<property name="suggest">
 									<bean parent="Uif-Suggest" p:render="true">
-										<!-- <property name="valuePropertyName" value="displayName" /> -->
+										<property name="valuePropertyName" value="displayName" />
 										<property name="templateOptions" value="minLength:1,delay:0" />
 										<property name="suggestQuery">
 											<bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getInstructorsForSuggest" />
@@ -264,7 +264,7 @@
 								<property name="suggest">
 <!-- 									<bean parent="Uif-Suggest" p:render="true" p:sourceQueryMethodResults="true"> -->
 									<bean parent="Uif-Suggest" p:render="true">
-										<!-- <property name="valuePropertyName" value="courseCode"/> -->
+										<property name="valuePropertyName" value="courseCode"/>
 										<property name="templateOptions" value="minLength:1,delay:0" />
 										<property name="suggestQuery">
 											<bean parent="Uif-AttributeQueryConfig"

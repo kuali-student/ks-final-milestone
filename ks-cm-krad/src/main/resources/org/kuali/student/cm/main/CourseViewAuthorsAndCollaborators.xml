@@ -49,7 +49,7 @@
                                 </property>
                                 <property name="suggest">
                                     <bean parent="Uif-Suggest" p:render="true">
-                                        <!-- <property name="valuePropertyName" value="displayName" /> -->
+                                        <property name="valuePropertyName" value="displayName" />
                                         <property name="templateOptions" value="minLength:1,delay:0" />
                                         <property name="suggestQuery">
                                             <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getCollaboratorWrappersSuggest" />
