@@ -117,29 +117,27 @@
             <list>
                 <bean parent="Uif-VerticalBoxGroup"
                       p:render="@{holidayCalendarInfo != null}">
-                    <property name="align" value="CENTER"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-SpaceField"/>
                             <bean parent="Uif-DataField"
                                   p:propertyName="holidayCalendarInfo.name"
                                   p:showLabel="false"
-                                  p:style="font-size:125%;"/>
+                                  p:style="font-size:125%; text-align:center"/>
                             <bean parent="Uif-HorizontalFieldGroup">
                                 <property name="align" value="center;"/>
                                 <property name="cssClasses">
                                     <list merge="true">
-                                        <value>ks-hcal-margins</value>
                                         <value>ks-calendar-copy-content</value>
                                     </list>
                                 </property>
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-VerticalBoxGroup" p:style="margin-bottom: 10px;text-align:center;">
+                                        <bean parent="Uif-VerticalBoxGroup">
                                             <property name="items">
                                                 <list>
                                                     <bean parent="Uif-Message">
-                                                        <property name="style" value="font-weight: bold;"/>
+                                                        <property name="style" value="font-weight: bold; margin-bottom: 10px; margin-top: 5px"/>
                                                         <property name="messageText" value='Start Date'/>
                                                         <property name="align" value="right"/>
                                                         <property name="valign" value="bottom"/>
@@ -152,14 +150,13 @@
                                                     </bean>
                                                 </list>
                                             </property>
-                                            <property name="align"  value="CENTER"/>
                                         </bean>
                                         <bean parent="Uif-VerticalBoxGroup" p:style="text-align:center;">
                                             <property name="align" value="CENTER"/>
                                             <property name="items">
                                                 <list>
                                                     <bean parent="Uif-DataField"
-                                                          p:propertyName="holidayCalendarInfo.startDate">
+                                                          p:propertyName="holidayCalendarInfo.startDate" p:style="margin-bottom: 10px; margin-top: 5px;">
                                                         <property name="labelRendered" value="true"/>
                                                         <property name="align" value="right"/>
                                                         <property name="valign" value="bottom"/>
@@ -264,6 +261,7 @@
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ks-calendar-copy-to</value>
+                            <value>ks-holiday-calendar-copy-to-width</value>
                         </list>
                     </property>
                 </bean>
