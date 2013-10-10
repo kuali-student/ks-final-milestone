@@ -49,9 +49,16 @@
                     <name>skip.enroll.tests</name>
                 </property>
             </activation>
-            <properties>
-                <skipTests/>
-            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
             <!-- include all the modules from the default profile (except SQL and Web modules) -->
             <modules>
                 <module>ks-enroll-impl</module>
