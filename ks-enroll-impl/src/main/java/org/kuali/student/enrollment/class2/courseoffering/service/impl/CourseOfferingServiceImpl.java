@@ -1330,6 +1330,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<TypeTypeRelationInfo> ttRelations =
             typeService.getTypeTypeRelationsByOwnerAndType(atpTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_ATP2TIMESLOT_TYPE_KEY, contextInfo);
 
+        if (ttRelations.isEmpty()) {
+            throw new OperationFailedException(String.format("Unable to find time slots because no time slot types are associated with ATP type %s.", atpTypeKey));
+        }
+
         String[] timeSlotTypeKeys = new String[ttRelations.size()];
         short i = 0;
         for (TypeTypeRelationInfo ttRelation : ttRelations) {
