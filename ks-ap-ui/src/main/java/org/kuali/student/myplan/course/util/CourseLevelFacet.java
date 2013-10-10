@@ -37,8 +37,7 @@ public class CourseLevelFacet extends AbstractFacet {
 
 		for (Integer credit : list) {
 			String display = credit.toString();
-			String key = FACET_KEY_DELIMITER + display + FACET_KEY_DELIMITER;
-			facetItems.add(new FacetItem(key, display));
+			facetItems.add(new FacetItem(display, display));
 		}
 
 		return facetItems;
@@ -60,7 +59,7 @@ public class CourseLevelFacet extends AbstractFacet {
 		}
 		courseFacetSet.add(level);
 
-		key = FACET_KEY_DELIMITER + level + FACET_KEY_DELIMITER;
+		key = String.valueOf(level);
 
 		// Code the item with the facet key.
 		Set<String> keys = new HashSet<String>();

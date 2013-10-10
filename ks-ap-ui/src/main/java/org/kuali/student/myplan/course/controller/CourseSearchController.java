@@ -685,9 +685,7 @@ public class CourseSearchController extends UifControllerBase {
 								for (Entry<String, KeyValue> fe : group
 										.getValue().entrySet()) {
 									KeyValue fv = fe.getValue();
-									assert fv.getKey().startsWith(";")
-											&& fv.getKey().endsWith(";")
-											&& fv.getKey().length() >= 3 : fv
+									assert fv.getKey().length() >= 1 : fv
 											.getKey();
 									String facetKey = fe.getKey();
 									FacetState fs = fm.get(facetKey);
@@ -733,10 +731,7 @@ public class CourseSearchController extends UifControllerBase {
 						for (String k : sk) {
 							assert k != null : fk;
 							String fvk = fm.get(k).value.getKey();
-							assert fvk.length() >= 3 && fvk.charAt(0) == ';'
-									&& fvk.charAt(fvk.length() - 1) == ';' : fk
-									+ " " + fvk;
-							fvk = fvk.substring(1, fvk.length() - 1);
+							assert fvk.length() >= 1 : fk + " " + fvk;
 							List<String> l = vtk.get(fvk);
 							if (l == null)
 								vtk.put(fvk,

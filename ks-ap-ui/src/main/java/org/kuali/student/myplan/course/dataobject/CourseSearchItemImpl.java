@@ -522,7 +522,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 
 				@Override
 				public String getValue() {
-					return fk;
+                    return fk;
 				}
 			});
 		rv.put("", Collections.synchronizedMap(Collections.unmodifiableMap(ug)));
@@ -552,10 +552,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 			m.put("facet_credits", facetString(getCreditsFacetKeys()));
 			m.put("facet_level", facetString(getCourseLevelFacetKeys()));
 			m.put("facet_curriculum", facetString(getCurriculumFacetKeys()));
-			Set<String> kwf = new java.util.LinkedHashSet<String>();
-			for (String kw : getKeywords())
-				kwf.add(';' + kw + ';');
-			m.put("facet_keywords", facetString(kwf));
+			m.put("facet_keywords", facetString(getKeywords()));
 			facetColumns = m.build();
 		}
 		return facetColumns;

@@ -9,8 +9,6 @@ import org.kuali.student.myplan.course.dataobject.FacetItem;
 
 public abstract class AbstractFacet {
 
-    protected static final String FACET_KEY_DELIMITER = ";";
-
     protected List<FacetItem> facetItems;
 
     protected String unknownFacetKey = "None";
@@ -28,8 +26,7 @@ public abstract class AbstractFacet {
         Collections.sort(facetItems);
 
         if (showUnknownKey && facetItems.size() > 0) {
-            String key = FACET_KEY_DELIMITER + unknownFacetKey + FACET_KEY_DELIMITER;
-            facetItems.add(new FacetItem(key, unknownFacetDisplayName));
+            facetItems.add(new FacetItem(unknownFacetKey, unknownFacetDisplayName));
         }
 
         return facetItems;

@@ -58,8 +58,7 @@ public class CurriculumFacet extends AbstractFacet {
 		for (String display : list) {
 			FacetItem item = new FacetItem();
 
-			String key = FACET_KEY_DELIMITER + display + FACET_KEY_DELIMITER;
-			item.setKey(key);
+			item.setKey(display);
 			item.setDisplayName(display);
 			String title = this.getTitle(display);
 			if (title != null || title != "") {
@@ -105,11 +104,9 @@ public class CurriculumFacet extends AbstractFacet {
 
 		curriculumFacetSet.add(subject);
 
-		String key = FACET_KEY_DELIMITER + subject + FACET_KEY_DELIMITER;
-
 		// Code the item with the facet key.
 		Set<String> keys = new HashSet<String>();
-		keys.add(key);
+		keys.add(subject);
 		((CourseSearchItemImpl) course).setCurriculumFacetKeys(keys);
 	}
 

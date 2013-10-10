@@ -44,8 +44,7 @@ public class GenEduReqFacet extends AbstractFacet {
 		if (genEdString == null
 				|| genEdString.equals(CourseSearchItem.EMPTY_RESULT_VALUE_KEY)
 				|| genEdString.equals("")) {
-			facetKeys.add(FACET_KEY_DELIMITER + getUnknownFacetKey()
-					+ FACET_KEY_DELIMITER);
+			facetKeys.add(getUnknownFacetKey());
 		} else {
 			// TODO: UW SPECIFIC
 			// Remove white space before tokenizing.
@@ -61,8 +60,7 @@ public class GenEduReqFacet extends AbstractFacet {
 				if (key.contains("&amp;")) {
 					key = key.replace("&amp;", "&");
 				}
-				if (isNewFacetKey(FACET_KEY_DELIMITER + key
-						+ FACET_KEY_DELIMITER)) {
+				if (isNewFacetKey(key)) {
 					EnumeratedValueInfo e = KsapFrameworkServiceLocator
 							.getEnumerationHelper().getGenEdReqEnumInfo(
 									KsapFrameworkServiceLocator
@@ -75,13 +73,12 @@ public class GenEduReqFacet extends AbstractFacet {
 					String title = e.getValue();
 					if (!StringUtils.isEmpty(title)) {
 						itemFacet.setTitle(title);
-						itemFacet.setKey(FACET_KEY_DELIMITER + key
-								+ FACET_KEY_DELIMITER);
+						itemFacet.setKey(key);
 						itemFacet.setDisplayName(key);
 						facetItems.add(itemFacet);
 					}
 				}
-				facetKeys.add(FACET_KEY_DELIMITER + key + FACET_KEY_DELIMITER);
+				facetKeys.add(key);
 			}
 		}
 		((CourseSearchItemImpl) item).setGenEduReqFacetKeys(facetKeys);

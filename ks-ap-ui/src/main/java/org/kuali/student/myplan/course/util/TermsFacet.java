@@ -72,22 +72,19 @@ public class TermsFacet extends AbstractFacet {
 				} catch (PermissionDeniedException e) {
 					throw new IllegalStateException("Type lookup error", e);
 				}
-				String key = FACET_KEY_DELIMITER + termName + FACET_KEY_DELIMITER;
-
 				// If an FacetItem doesn't exist for this key then create one
 				// and add it to the Facet.
-				if (isNewFacetKey(key)) {
-					facetItems.add(new FacetItem(key, termName));
+				if (isNewFacetKey(termName)) {
+					facetItems.add(new FacetItem(termName, termName));
 				}
 
-				facetKeys.add(key);
+				facetKeys.add(termName);
 			}
 		}
 
 		// Scheduled terms.
 		if (null == course.getScheduledTermsList() || 0 == course.getScheduledTermsList().size()) {
-			String key = FACET_KEY_DELIMITER + getUnknownFacetKey() + FACET_KEY_DELIMITER;
-			facetKeys.add(key);
+			facetKeys.add(getUnknownFacetKey());
 		} else {
 			for (String t : course.getScheduledTermsList()) {
 				String termFacetKey = KsapFrameworkServiceLocator.getTermHelper().getTerm(t).getName();
@@ -98,11 +95,10 @@ public class TermsFacet extends AbstractFacet {
 					termFacetKey = m.group(1).substring(0, 2).toUpperCase() + " " + m.group(2);
 				}
 
-				String key = FACET_KEY_DELIMITER + termFacetKey + FACET_KEY_DELIMITER;
-				if (isNewFacetKey(key)) {
-					facetItems.add(new FacetItem(key, termFacetKey));
+				if (isNewFacetKey(termFacetKey)) {
+					facetItems.add(new FacetItem(termFacetKey, termFacetKey));
 				}
-				facetKeys.add(key);
+				facetKeys.add(termFacetKey);
 			}
 		}
 
@@ -118,25 +114,25 @@ public class TermsFacet extends AbstractFacet {
 		@Override
 		public int compare(FacetItem fi1, FacetItem fi2) {
 			// Unknown is always last.
-			if (fi1.getKey().equals(FACET_KEY_DELIMITER + TermsFacet.this.unknownFacetKey + FACET_KEY_DELIMITER)) {
+			if (fi1.getKey().equals(TermsFacet.this.unknownFacetKey)) {
 				return 1;
 			}
 
-			if (fi2.getKey().equals(FACET_KEY_DELIMITER + TermsFacet.this.unknownFacetKey + FACET_KEY_DELIMITER)) {
+			if (fi2.getKey().equals(TermsFacet.this.unknownFacetKey)) {
 				return -1;
 			}
 
 			// If the facet items that end with a year are scheduled terms and
 			// should precede terms.
-			boolean isYear1 = fi1.getKey().matches(".*\\d{2}" + FACET_KEY_DELIMITER + "$");
-			boolean isYear2 = fi2.getKey().matches(".*\\d{2}" + FACET_KEY_DELIMITER + "$");
+			boolean isYear1 = fi1.getKey().matches(".*\\d{2}$");
+			boolean isYear2 = fi2.getKey().matches(".*\\d{2}$");
 
 			// Two scheduled terms.
 			if (isYear1 && isYear2) {
 				// TODO: For now just ignore the year and projected keywords
-				String termKey1 = fi1.getKey().replaceAll(FACET_KEY_DELIMITER, "").toUpperCase();
+				String termKey1 = fi1.getKey().toUpperCase();
 				termKey1 = termKey1.replaceAll(" \\d{2}", "");
-				String termKey2 = fi2.getKey().replaceAll(FACET_KEY_DELIMITER, "").toUpperCase();
+				String termKey2 = fi2.getKey().toUpperCase();
 				termKey2 = termKey2.replaceAll(" \\d{2}", "");
 
 				return TermsFacet.TermOrder.valueOf(termKey1).compareTo(TermsFacet.TermOrder.valueOf(termKey2));
@@ -152,10 +148,8 @@ public class TermsFacet extends AbstractFacet {
 
 			// Two terms.
 			if (!isYear1 && !isYear2) {
-				String termKey1 = fi1.getKey().replaceAll(FACET_KEY_DELIMITER, "")
-						.replaceAll(PROJECTED_TERM_PREFIX, "").toUpperCase();
-				String termKey2 = fi2.getKey().replaceAll(FACET_KEY_DELIMITER, "")
-						.replaceAll(PROJECTED_TERM_PREFIX, "").toUpperCase();
+				String termKey1 = fi1.getKey().replaceAll(PROJECTED_TERM_PREFIX, "").toUpperCase();
+				String termKey2 = fi2.getKey().replaceAll(PROJECTED_TERM_PREFIX, "").toUpperCase();
 				return TermsFacet.TermOrder.valueOf(termKey1).compareTo(TermsFacet.TermOrder.valueOf(termKey2));
 			}
 			return 0;

@@ -37,8 +37,7 @@ public class CreditsFacet extends AbstractFacet {
 
 		for (Integer credit : list) {
 			String display = credit.toString();
-			String key = FACET_KEY_DELIMITER + display + FACET_KEY_DELIMITER;
-			facetItems.add(new FacetItem(key, display));
+			facetItems.add(new FacetItem(display, display));
 		}
 
 		return facetItems;
@@ -79,12 +78,10 @@ public class CreditsFacet extends AbstractFacet {
 
 		Set<String> facetKeys = new java.util.LinkedHashSet<String>();
 		for (Integer credit : list)
-			facetKeys.add(FACET_KEY_DELIMITER + credit.toString()
-					+ FACET_KEY_DELIMITER);
+			facetKeys.add(credit.toString());
 		if (CreditType.range.equals(course.getCreditType())
 				&& max > DISPLAY_MAX)
-			facetKeys.add(FACET_KEY_DELIMITER + "> " + DISPLAY_MAX
-					+ FACET_KEY_DELIMITER);
+			facetKeys.add("> " + DISPLAY_MAX);
 		((CourseSearchItemImpl) course).setCreditsFacetKeys(facetKeys);
 	}
 }
