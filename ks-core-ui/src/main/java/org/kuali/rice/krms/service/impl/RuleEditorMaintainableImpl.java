@@ -373,7 +373,13 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
                 //Set the id and versionnumber for a possible update.
                 agenda.setId(agendaDfn.getId());
                 agenda.setVersionNumber(agendaDfn.getVersionNumber());
-                agenda.setFirstItemId(agendaDfn.getFirstItemId());
+
+                AgendaItemDefinition.Builder itemBldr = AgendaItemDefinition.Builder.create(null, agendaDfn.getId());
+                AgendaItemDefinition item = this.getRuleManagementService().createAgendaItem(itemBldr.build());
+                agenda.setFirstItemId(item.getId());
+
+                agendaBldr = AgendaDefinition.Builder.create(agenda);
+                this.getRuleManagementService().updateAgenda(agendaBldr.build());
 
                 //Create the reference object binding only on create agenda, no need to update.
                 ReferenceObjectBinding.Builder refBuilder = ReferenceObjectBinding.Builder.create("Agenda",
