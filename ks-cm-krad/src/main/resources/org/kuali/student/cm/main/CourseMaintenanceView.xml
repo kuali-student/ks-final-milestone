@@ -25,6 +25,7 @@
     <bean id="KS-CourseView" parent="KS-Uif-MaintenanceView">
         <property name="defaultBindingObjectPath" value="document.newMaintainableObject" />
         <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+        <property name="headerText" value="" />
         <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
         <property name="entryPageId" value="KS-CourseView-CourseInfoPage" />
         <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl" />
