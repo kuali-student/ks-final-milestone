@@ -369,7 +369,7 @@ public class SchedulingServiceValidationDecorator extends SchedulingServiceDecor
      */
     protected void validateAOTimeSlotCreateAndUpdate(TimeSlotInfo timeSlotInfo) throws DataValidationErrorException{
 
-        if (StringUtils.startsWith(timeSlotInfo.getTypeKey(),SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD) ||
+        if (SchedulingServiceConstants.TIME_SLOT_ACTIVITY_OFFERING_STANDARD_TYPES.contains(timeSlotInfo.getTypeKey()) ||
             StringUtils.equals(timeSlotInfo.getTypeKey(), SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_ADHOC)){
 
             if (timeSlotInfo.getStartTime() == null || timeSlotInfo.getStartTime().getMilliSeconds() == null){
@@ -398,7 +398,7 @@ public class SchedulingServiceValidationDecorator extends SchedulingServiceDecor
             if (timeSlotInfo.getStartTime() != null && timeSlotInfo.getStartTime().getMilliSeconds() != null &&
                 timeSlotInfo.getEndTime() != null && timeSlotInfo.getEndTime().getMilliSeconds() != null &&
                 timeSlotInfo.getWeekdays() != null && !timeSlotInfo.getWeekdays().isEmpty()){
-                throw new DataValidationErrorException("For TBA timeslot, all the fields are not required.");
+                throw new DataValidationErrorException("For the TBA Timeslot, at least one of the required fields is left unspecified.");
             }
         }
     }
