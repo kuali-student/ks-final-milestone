@@ -111,11 +111,6 @@
             <version>${ks.lum.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.easymock</groupId>
-            <artifactId>easymock</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-standard-sec</artifactId>
             <version>${ks.core.version}</version>
