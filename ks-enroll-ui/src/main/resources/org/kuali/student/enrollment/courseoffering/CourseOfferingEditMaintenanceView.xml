@@ -504,7 +504,7 @@
                     <property name="refreshWhenChangedPropertyNames" value="#dp.courseOfferingInfo.finalExamType"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-HorizontalBoxGroup">
+                            <bean parent="Uif-VerticalBoxGroup">
                                 <property name="hidden" value="@{#dp.courseOfferingInfo.finalExamType != 'STANDARD'}"/>
                                 <property name="items">
                                     <list>
