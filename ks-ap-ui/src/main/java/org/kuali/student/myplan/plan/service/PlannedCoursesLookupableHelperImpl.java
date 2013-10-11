@@ -148,4 +148,86 @@ public class PlannedCoursesLookupableHelperImpl extends PlanItemLookupableHelper
 						studentCourseRecordInfos, cartCoursesList, termNoteList, focusAtpId, false);
 		return perfectPlannedTerms;
 	}
+    public List<PlannedTerm> getPlannedTerms(String focusAtpId, String studentId){
+
+        /**** academic record SWS call to get the studentCourseRecordInfo list *****/
+        List<StudentCourseRecordInfo> studentCourseRecordInfos = new ArrayList<StudentCourseRecordInfo>();
+        try {
+            studentCourseRecordInfos = getAcademicRecordService().getCompletedCourseRecords(studentId,
+                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("AR lookup failure", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("AR lookup failure", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("AR lookup failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("AR lookup failure", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalStateException("AR lookup failure", e);
+        }
+
+        String firstAtpId = null;
+        if (studentCourseRecordInfos != null)
+            for (StudentCourseRecordInfo item : studentCourseRecordInfos)
+                if (item.getTermName() != null)
+                    firstAtpId = item.getTermName();
+        KsapFrameworkServiceLocator.getTermHelper().frontLoadForPlanner(firstAtpId);
+
+        /************* PlannedCourseList **************/
+        List<PlannedCourseDataObject> plannedCoursesList = new ArrayList<PlannedCourseDataObject>();
+        try {
+            plannedCoursesList = getPlanItems(PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED, studentId);
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("LP lookup failure", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("LP lookup failure", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("LP lookup failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("LP lookup failure", e);
+        }
+
+        /************* BackupCourseList **************/
+        List<PlannedCourseDataObject> backupCoursesList = new ArrayList<PlannedCourseDataObject>();
+        try {
+            backupCoursesList = getPlanItems(PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP, studentId);
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("LP lookup failure", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("LP lookup failure", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("LP lookup failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("LP lookup failure", e);
+        }
+
+        /************* Cart List **************/
+        List<PlannedCourseDataObject> cartCoursesList = new ArrayList<PlannedCourseDataObject>();
+        try {
+            cartCoursesList = getPlanItems(PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART, studentId);
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("LP lookup failure", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("LP lookup failure", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("LP lookup failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("LP lookup failure", e);
+        }
+
+        /************* Cart List **************/
+        List<TermNoteDataObject> termNoteList = new ArrayList<TermNoteDataObject>();
+        try {
+            termNoteList = getTermNotes(studentId);
+        } catch (Exception e) {
+            LOG.error("Could not load term note list", e);
+
+        }
+
+        List<PlannedTerm> perfectPlannedTerms = PlannedTermsHelperBase
+                .populatePlannedTerms(plannedCoursesList, backupCoursesList,
+                        studentCourseRecordInfos, cartCoursesList, termNoteList, focusAtpId, false);
+        return perfectPlannedTerms;
+    }
 }

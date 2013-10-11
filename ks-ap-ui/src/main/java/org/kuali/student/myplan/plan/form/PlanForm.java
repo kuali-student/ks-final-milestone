@@ -28,6 +28,7 @@ import org.kuali.student.myplan.course.dataobject.ActivityOfferingItem;
 import org.kuali.student.myplan.course.dataobject.CourseDetails;
 import org.kuali.student.myplan.course.dataobject.CourseSummaryDetails;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseSummary;
+import org.kuali.student.myplan.plan.dataobject.PlannedTerm;
 import org.kuali.student.r2.common.dto.StatusInfo;
 
 /**
@@ -126,6 +127,16 @@ public class PlanForm extends UifFormBase {
 
     // Stored term note
     private String termNote;
+
+    private List<PlannedTerm> plannedTerms;
+
+    private List<PlannedTerm> termsToDisplay;
+
+    private int startIndex;
+
+    private String displayStartAtp;
+    private String displayEndAtp;
+    private boolean loadCalendar;
 
     public int getBookmarkedCount() {
         return bookmarkedCount;
@@ -446,4 +457,52 @@ public class PlanForm extends UifFormBase {
     }
 
     public void setFakeBackup(boolean fakeBackup) {}
+
+    public List<PlannedTerm> getPlannedTerms() {
+        return plannedTerms;
+    }
+
+    public void setPlannedTerms(List<PlannedTerm> plannedTerms) {
+        this.plannedTerms = plannedTerms;
+    }
+
+    public List<PlannedTerm> getTermsToDisplay() {
+        return termsToDisplay;
+    }
+
+    public void setTermsToDisplay(List<PlannedTerm> termsToDisplay) {
+        this.termsToDisplay = termsToDisplay;
+    }
+
+    public int getStartIndex() {
+        return startIndex;
+    }
+
+    public void setStartIndex(int startIndex) {
+        this.startIndex = startIndex;
+    }
+
+    public String getDisplayStartAtp() {
+        return displayStartAtp;
+    }
+
+    public void setDisplayStartAtp(String displayStartAtp) {
+        this.displayStartAtp = displayStartAtp;
+    }
+
+    public String getDisplayEndAtp() {
+        return displayEndAtp;
+    }
+
+    public void setDisplayEndAtp(String displayEndAtp) {
+        this.displayEndAtp = displayEndAtp;
+    }
+
+    public boolean getLoadCalendar() {
+        return loadCalendar;
+    }
+
+    public void setLoadCalendar(boolean loadCalendar) {
+        this.loadCalendar = loadCalendar;
+    }
 }

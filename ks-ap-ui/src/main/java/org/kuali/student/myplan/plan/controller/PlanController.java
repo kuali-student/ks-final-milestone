@@ -19,6 +19,7 @@ import static org.springframework.util.StringUtils.hasText;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +31,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -44,6 +46,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.datadictionary.exception.DuplicateEntryException;
+import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.view.DialogManager;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -55,6 +59,8 @@ import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.myplan.plan.dataobject.PlannedTerm;
+import org.kuali.student.myplan.plan.service.PlannedCoursesLookupableHelperImpl;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.myplan.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.myplan.academicplan.dto.PlanItemInfo;
@@ -174,17 +180,101 @@ public class PlanController extends UifControllerBase {
 	}
 
 	@RequestMapping(params = "methodToCall=start")
-	public ModelAndView get(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+	public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) {
 		super.start(form, result, request, response);
 
 		PlanForm planForm = (PlanForm) form;
-
+        if(request.getParameter("loadCalendar")==null){
+            PlannedCoursesLookupableHelperImpl lookup = new PlannedCoursesLookupableHelperImpl();
+            String focusAtpId = request.getParameter(PlanConstants.FOCUS_ATP_ID_KEY);
+            String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
+            List<PlannedTerm> terms = lookup.getPlannedTerms(focusAtpId,studentId);
+            planForm.setPlannedTerms(terms);
+            List<PlannedTerm> termsToDisplay = new ArrayList<PlannedTerm>();
+            for(int i=0;i<5;i++){
+                termsToDisplay.add(terms.get(i));
+            }
+            planForm.setDisplayStartAtp(termsToDisplay.get(0).getQtrYear());
+            planForm.setDisplayEndAtp(termsToDisplay.get(termsToDisplay.size()-1).getQtrYear());
+            planForm.setTermsToDisplay(termsToDisplay);
+            planForm.setStartIndex(0);
+        }
 		planForm.setNewUser(isNewUser());
 		return getUIFModelAndView(planForm);
 	}
 
-	@RequestMapping(params = "methodToCall=startAddPlannedCourseForm")
+    @RequestMapping(params = "methodToCall=loadCalendar")
+    public ModelAndView loadCalendar(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                              HttpServletRequest request, HttpServletResponse response) {
+
+        PlanForm planForm = (PlanForm) form;
+
+        PlannedCoursesLookupableHelperImpl lookup = new PlannedCoursesLookupableHelperImpl();
+        String focusAtpId = request.getParameter(PlanConstants.FOCUS_ATP_ID_KEY);
+        String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
+        List<PlannedTerm> terms = lookup.getPlannedTerms(focusAtpId,studentId);
+        planForm.setPlannedTerms(terms);
+        List<PlannedTerm> termsToDisplay = new ArrayList<PlannedTerm>();
+        for(int i=0;i<5;i++){
+            termsToDisplay.add(terms.get(i));
+        }
+        planForm.setLoadCalendar(false);
+        planForm.setDisplayStartAtp(termsToDisplay.get(0).getQtrYear());
+        planForm.setDisplayEndAtp(termsToDisplay.get(termsToDisplay.size()-1).getQtrYear());
+        planForm.setTermsToDisplay(termsToDisplay);
+        planForm.setStartIndex(0);
+        planForm.setNewUser(isNewUser());
+        return getUIFModelAndView(planForm);
+    }
+
+    @RequestMapping(params = "methodToCall=next")
+    public ModelAndView next(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                              HttpServletRequest request, HttpServletResponse response) {
+        PlanForm planForm = (PlanForm) form;
+
+        List<PlannedTerm> terms = planForm.getPlannedTerms();
+        List<PlannedTerm> termsToDisplay = new ArrayList<PlannedTerm>();
+        int startIndex =planForm.getStartIndex()+5;
+        int endIndex=startIndex+5;
+        if(endIndex>planForm.getPlannedTerms().size()){
+            endIndex=planForm.getPlannedTerms().size();
+            startIndex=endIndex-5;
+        }
+
+        for(int i= startIndex;i<endIndex;i++){
+            termsToDisplay.add(terms.get(i));
+        }
+        planForm.setStartIndex(startIndex);
+        planForm.setTermsToDisplay(termsToDisplay);
+        planForm.setDisplayStartAtp(termsToDisplay.get(0).getQtrYear());
+        planForm.setDisplayEndAtp(termsToDisplay.get(termsToDisplay.size()-1).getQtrYear());
+        planForm.setNewUser(isNewUser());
+        return getUIFModelAndView(planForm);
+    }
+    @RequestMapping(params = "methodToCall=previous")
+    public ModelAndView previous(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) {
+        PlanForm planForm = (PlanForm) form;
+
+        List<PlannedTerm> terms = planForm.getPlannedTerms();
+        List<PlannedTerm> termsToDisplay = new ArrayList<PlannedTerm>();
+        int startIndex =  planForm.getStartIndex()-5;
+        if(startIndex<0) startIndex=0;
+
+        for(int i=startIndex;i<startIndex+5;i++){
+            termsToDisplay.add(terms.get(i));
+        }
+
+        planForm.setStartIndex(startIndex);
+        planForm.setTermsToDisplay(termsToDisplay);
+        planForm.setDisplayStartAtp(termsToDisplay.get(0).getQtrYear());
+        planForm.setDisplayEndAtp(termsToDisplay.get(termsToDisplay.size()-1).getQtrYear());
+        planForm.setNewUser(isNewUser());
+        return getUIFModelAndView(planForm);
+    }
+
+    @RequestMapping(params = "methodToCall=startAddPlannedCourseForm")
 	public ModelAndView startAddPlannedCourseForm(@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		super.start(form, result, request, response);
@@ -3594,4 +3684,127 @@ public class PlanController extends UifControllerBase {
 
         return text;
     }
+
+
+    @RequestMapping(params = "methodToCall=deleteDialogPOC")
+    public ModelAndView deleteDialogPOC(@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
+                                     HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        form.setPlanItemId("06d455d1-04b0-4469-bec8-008316d51c13");
+        String dialog ="plan_item_delete_dialogPOC";
+        if (!hasDialogBeenDisplayed(dialog, form)) {
+            PlanItemInfo planItem;
+            try {
+                planItem = getPlanItemFromPlanItemId(form.getPlanItemId());
+            }catch(RuntimeException e){
+                LOG.warn("Unable to Retrieve Plan Item");
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unable to retrieve plan item");
+                return getUIFModelAndView(form);
+            }
+
+            if (hasText(planItem.getRefObjectId())) {
+                form.setCourseSummaryDetails(getCourseDetailsInquiryService().retrieveCourseSummaryById(planItem.getRefObjectId()));
+            }else {
+                LOG.warn("Missing course ID for summary " + form.getPageId());
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+                        "Missing course ID for summary " + form.getPageId());
+                return getUIFModelAndView(form);
+            }
+            //redirect back to client to display lightbox
+            return showDialog(dialog, form, request, response);
+        }else{
+            if(hasDialogBeenAnswered(dialog,form)){
+                boolean confirmDelete = getBooleanDialogResponse(dialog, form, request, response);
+                form.getDialogManager().resetDialogStatus(dialog);
+                if(!confirmDelete){
+                    return getUIFModelAndView(form);
+                }
+            } else {
+                PlanItemInfo planItem;
+                try {
+                    planItem = getPlanItemFromPlanItemId(form.getPlanItemId());
+                }catch(RuntimeException e){
+                    LOG.warn("Unable to Retrieve Plan Item");
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unable to retrieve plan item");
+                    return getUIFModelAndView(form);
+                }
+
+                if (hasText(planItem.getRefObjectId())) {
+                    form.setCourseSummaryDetails(getCourseDetailsInquiryService().retrieveCourseSummaryById(planItem.getRefObjectId()));
+                }else {
+                    LOG.warn("Missing course ID for summary " + form.getPageId());
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+                            "Missing course ID for summary " + form.getPageId());
+                    return getUIFModelAndView(form);
+                }
+                //redirect back to client to display lightbox
+                return showDialog(dialog, form, request, response);
+            }
+        }
+        form.getTermsToDisplay().get(0).getPlannedList().remove(0);
+        return getUIFModelAndView(form);
+    }
+
+    /**
+     * Override of the Krad lightbox return function to allow for returning to the controller without a redirect.
+     * Redirect causes a page refresh.
+     */
+    @Override
+    @RequestMapping(params = "methodToCall=returnFromLightbox")
+    public ModelAndView returnFromLightbox(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                           HttpServletRequest request, HttpServletResponse response) {
+
+        String newMethodToCall;
+
+        // Save user responses from dialog
+        DialogManager dm = form.getDialogManager();
+        String dialogId = dm.getCurrentDialogId();
+        if (dialogId == null) {
+            newMethodToCall = "start";
+        } else {
+            dm.setDialogAnswer(dialogId, form.getDialogResponse());
+            dm.setDialogExplanation(dialogId, form.getDialogExplanation());
+            newMethodToCall = dm.getDialogReturnMethod(dialogId);
+            dm.setCurrentDialogId(null);
+        }
+
+        // KSENROLL Code Start
+        form.setMethodToCall(newMethodToCall);
+
+        // Attempt to return to the controller method directly using reflection (look for the matching methodToCall)
+        for (Method m : this.getClass().getMethods()) {
+            RequestMapping a = m.getAnnotation(RequestMapping.class);
+            if (a != null) {
+                String[] annotationsParams = a.params();
+                for (String param : annotationsParams) {
+                    if (param.contains("methodToCall=" + newMethodToCall)) {
+                        try {
+                            return (ModelAndView) m.invoke(this, form, result, request, response);
+                        } catch (IllegalAccessException iae) {
+                            LOG.error("Reflection Invocation failed", iae);
+                            throw new RuntimeException("Error using reflection in returnFromLightbox", iae);
+                        } catch (InvocationTargetException ite) {
+                            LOG.error("Reflection Invocation failed", ite);
+                            throw new RuntimeException("Error using reflection in returnFromLightbox", ite);
+                        } catch (IllegalArgumentException iae) {
+                            LOG.error("Reflection Invocation failed", iae);
+                            throw new RuntimeException("Error using reflection in returnFromLightbox", iae);
+                        }
+                    }
+                }
+
+            }
+        }
+        // KSENROLL Code End
+
+        // call intended controller method
+        Properties props = new Properties();
+        props.put(UifParameters.METHOD_TO_CALL, newMethodToCall);
+        props.put(UifParameters.VIEW_ID, form.getViewId());
+        props.put(UifParameters.FORM_KEY, form.getFormKey());
+        props.put(UifParameters.AJAX_REQUEST, "false");
+
+        return performRedirect(form, form.getFormPostUrl(), props);
+    }
+
+
 }
