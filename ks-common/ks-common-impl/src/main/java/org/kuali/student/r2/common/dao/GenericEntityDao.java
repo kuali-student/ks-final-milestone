@@ -38,58 +38,11 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
     @PersistenceContext
     protected EntityManager em;
 
-    protected Boolean enableMaxIdFetch;
-    protected Integer maxInClauseElements;
-
-    /*
-    //JIRA KSENROLL-7492 :
-    //Commented below code as the logic to set/inject values to enableMaxIdFetch & maxInClauseElements is not yet finalized.
-
-    //ks-enroll/ks-enroll-impl/src/main/resources/META-INF/ks-enroll-config.xml
-    //<param name="param.enable.max.id.fetch">true</param>
-    //<param name="param.max.in.clause.elements">1000</param>
-
-    private static Boolean enableMaxIdFetch;
-    private static Integer maxInClauseElements;
-
-    static {
-
-        try {
-
-            //Values of properties param."enable.max.id.fetch" & "param.max.in.clause.elements" are maintained in
-            //ks-enroll/ks-enroll-impl/src/main/resources/META-INF/ks-enroll-config.xml
-            Config cfg = ConfigContext.getCurrentContextConfig();
-            String strEnableMaxIdFetch = cfg.getProperty("param.enable.max.id.fetch");
-            String strMaxInClauseElements = cfg.getProperty("param.max.in.clause.elements");
-
-            enableMaxIdFetch = (strEnableMaxIdFetch!=null && "true".equalsIgnoreCase(strEnableMaxIdFetch.trim()))? Boolean.TRUE:Boolean.FALSE;
-            maxInClauseElements = (strMaxInClauseElements!=null && StringUtils.isNumeric(strMaxInClauseElements.trim()))? new Integer(strMaxInClauseElements.trim()): 1000;
-
-        } catch(Exception ex) {
-
-            ex.printStackTrace();
-            enableMaxIdFetch = Boolean.FALSE;
-            maxInClauseElements=1000;
-
-        }
-
-    }
-
-    public static Boolean getEnableMaxIdFetch() {
-        return enableMaxIdFetch;
-    }
-
-    public static Integer getMaxInClauseElements() {
-        return maxInClauseElements;
-    }
-    */
+    protected Boolean enableMaxIdFetch = Boolean.TRUE;
+    protected Integer maxInClauseElements = 1000;
 
     public GenericEntityDao() {
         entityClass = getEntityClass();
-
-        //TODO: Need to make the below two data members configurable (Reference JIRA no. KSENROLL-7492)
-        enableMaxIdFetch = Boolean.TRUE;
-        maxInClauseElements=1000;
     }
 
     @Override
@@ -108,7 +61,7 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
         // remove duplicates from the key list
         primaryKeySet.addAll(primaryKeys);
 
-        Query query = null;
+        Query query;
         StringBuilder queryString = new StringBuilder();
 
         //Fix for JIRA KSENROLL-7492 - START
@@ -172,9 +125,8 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
         // TODO: see if this can be externalized as a named query.
         Query q = em.createQuery("select id from " + entityClass.getSimpleName() + " where id = :key").setParameter("key", primaryKey);
     
-        Object result;
         try {
-            result = q.getSingleResult();
+            q.getSingleResult();
         }
         catch (NonUniqueResultException e) {
             // more than 1 match (should never happen...)
@@ -313,5 +265,12 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
         return em;
     }
 
+    public void setEnableMaxIdFetch(Boolean enableMaxIdFetch) {
+        this.enableMaxIdFetch = enableMaxIdFetch;
+    }
+
+    public void setMaxInClauseElements(Integer maxInClauseElements) {
+        this.maxInClauseElements = maxInClauseElements;
+    }
 
 }
