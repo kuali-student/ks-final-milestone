@@ -90,7 +90,7 @@
 								</property>
 								<property name="suggest">
 									<bean parent="Uif-Suggest" p:render="true">
-										<property name="sourcePropertyName" value="code"/>
+										<property name="valuePropertyName" value="code"/>
 										<property name="templateOptions" value="minLength:1,delay:0" />
 										<property name="suggestQuery">
 											<bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getSubjectCodesForSuggest" />
@@ -121,11 +121,11 @@
 				<bean id="KS-Instructors-Section" parent="Uif-StackedCollectionSection"
 					p:headerText="Instructor(s)" p:propertyName="instructorWrappers"
 					p:collectionObjectClass="org.kuali.student.cm.course.form.CluInstructorInfoWrapper">
-					<property name="addLineLabel.labelText" value="Add An Instructor" />
+					<property name="addLineLabel.messageText" value="Add An Instructor" />
 					<property name="layoutManager.lineGroupPrototype.header.headerText"
 						value="Instructor @{(#index + 1)}" />
-					<property name="collectionLookup.quickfinderAction.render"
-						value="false" />
+					<!-- <property name="collectionLookup.quickfinderAction.render"
+						value="false" /> -->
 					<property name="help">
 						<bean parent="Uif-Help"
 							p:tooltipHelpContent="This is not a restrictive list - names here will not determine who will eventually teach this course." />
@@ -148,7 +148,7 @@
 								</property>
 								<property name="suggest">
 									<bean parent="Uif-Suggest" p:render="true">
-										<property name="sourcePropertyName" value="displayName" />
+										<property name="valuePropertyName" value="displayName" />
 										<property name="templateOptions" value="minLength:1,delay:0" />
 										<property name="suggestQuery">
 											<bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getInstructorsForSuggest" />
@@ -233,7 +233,9 @@
 					<property name="layoutManager.lineGroupPrototype.header.headerText" value="Course Listing @{(#index + 1)}" />
 					<property name="renderAddBlankLineButton" value="true" />
 					<property name="addLinePlacement" value="BOTTOM" />
-					<property name="addBlankLineAction.actionLabel" value="Add Another Cross Listing" />
+                    <property name="addBlankLineAction">
+                        <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add Another Cross Listing" />
+                    </property>
 					<property name="items">
 						<list>
 							<bean id="KS-CrossList-SubjectArea-Field" parent="KS-SubjectArea-Field" p:propertyName="subjectArea" />
@@ -247,8 +249,10 @@
 					<property name="layoutManager.lineGroupPrototype.header.headerText" value="Joint Offering @{(#index + 1)}" />
 					<property name="renderAddBlankLineButton" value="true" />
 					<property name="addLinePlacement" value="BOTTOM" />
-					<property name="addBlankLineAction.actionLabel" value="Add Another Course" />
-					<property name="collectionLookup.quickfinderAction.render" value="false" />
+                    <property name="addBlankLineAction">
+                        <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add Another Course" />
+                    </property>
+					<!-- <property name="collectionLookup.quickfinderAction.render" value="false" /> -->
 					<property name="items">
 						<list>
 							<bean parent="Uif-InputField-LabelTop" p:label="Course Number or Title"
@@ -260,7 +264,7 @@
 								<property name="suggest">
 <!-- 									<bean parent="Uif-Suggest" p:render="true" p:sourceQueryMethodResults="true"> -->
 									<bean parent="Uif-Suggest" p:render="true">
-										<property name="sourcePropertyName" value="courseCode"/>
+										<property name="valuePropertyName" value="courseCode"/>
 										<property name="templateOptions" value="minLength:1,delay:0" />
 										<property name="suggestQuery">
 											<bean parent="Uif-AttributeQueryConfig"
@@ -308,7 +312,9 @@
 					<property name="layoutManager.lineGroupPrototype.header.headerText" value="Version Code @{(#index + 1)}" />
 					<property name="renderAddBlankLineButton" value="true" />
 					<property name="addLinePlacement" value="BOTTOM" />
-					<property name="addBlankLineAction.actionLabel" value="Add a Version Code" />
+                    <property name="addBlankLineAction">
+                        <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add a Version Code" />
+                    </property>
 					<property name="items">
 						<list>
 							<bean parent="Uif-InputField-LabelTop" p:label="Version Code"

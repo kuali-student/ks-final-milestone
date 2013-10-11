@@ -49,12 +49,14 @@
 			<ref bean="LearningObjectives-ToolBarSection" />
 		</property>
 		<property name="renderAddBlankLineButton" value="true" />
-		<property name="addBlankLineAction.actionLabel" value="Add Learning Objective" />
-        <property name="addLinePlacement" value="BOTTOM" />
-        <property name="collectionLookup.render" value="true"/>
-        <property name="collectionLookup.dataObjectClassName" value="org.kuali.student.cm.course.form.LoDisplayInfoWrapper"/>
+        <property name="addBlankLineAction">
+            <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add Learning Objective"/>
+        </property>
+		<property name="addLinePlacement" value="BOTTOM" />
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:render="true" p:dataObjectClassName="org.kuali.student.cm.course.form.LoDisplayInfoWrapper" /> 
+        </property>
         <!-- <property name="collectionLookup.fieldConversions" value="catNameAndType:name"/> -->
-        <!--<property name="collectionLookup.quickfinderAction.render" value="true" /> -->
         <property name="items">
 			<list>
 				<bean id="KS-LoInfo-descr" parent="Uif-InputField"
@@ -95,7 +97,7 @@
 								</property>
 								<property name="suggest">
 									<bean parent="Uif-Suggest">
-										<property name="sourcePropertyName" value="name" />
+										<property name="valuePropertyName" value="catNameAndType" />
 										<property name="templateOptions" value="minLength:1,delay:0" />
 										<property name="suggestQuery">
 											<bean parent="Uif-AttributeQueryConfig"

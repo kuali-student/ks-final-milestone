@@ -16,6 +16,7 @@
 package org.kuali.student.r2.lum.lu.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -44,6 +45,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
@@ -55,10 +57,13 @@ import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo;
 import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 public class CluServiceMockImpl implements CluService {
     // cache variable 
     // The LinkedHashMap is just so the values come back in a predictable order
+
+    private SearchService searchService;
 
     private Map<String, TypeInfo> typeMap = new LinkedHashMap<String, TypeInfo>();
     private Map<String, CluInfo> cluMap = new LinkedHashMap<String, CluInfo>();
@@ -299,7 +304,7 @@ public class CluServiceMockImpl implements CluService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // GET_BY_ID
         if (!this.cluMap.containsKey(cluId)) {
-            throw new OperationFailedException(cluId);
+            throw new DoesNotExistException(cluId);
         }
         return new CluInfo(this.cluMap.get(cluId));
     }
@@ -577,7 +582,7 @@ public class CluServiceMockImpl implements CluService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // GET_BY_ID
         if (!this.cluSetMap.containsKey(cluSetId)) {
-            throw new OperationFailedException(cluSetId);
+            throw new DoesNotExistException(cluSetId);
         }
         return new CluSetInfo(this.cluSetMap.get(cluSetId));
     }
@@ -641,8 +646,8 @@ public class CluServiceMockImpl implements CluService {
     @Override
     public List<String> getAllCluIdsInCluSet(String cluSetId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // UNKNOWN
-        throw new OperationFailedException("getAllCluIdsInCluSet has not been implemented");
+        CluSetInfo cluSetInfo = cluSetMap.get(cluSetId);
+        return cluSetInfo.getCluIds();
     }
 
     @Override
@@ -1107,8 +1112,19 @@ public class CluServiceMockImpl implements CluService {
     }
 
     @Override
-    public List<VersionDisplayInfo> getVersions(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<VersionDisplayInfo> getVersions(String refObjectTypeURI, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<VersionDisplayInfo> versionInfos = new ArrayList<VersionDisplayInfo>();
+        if (CluServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)) {
+            for (CluInfo cluInfo : cluMap.values()) {
+                VersionInfo version = cluInfo.getVersion();
+                if (version.getVersionIndId().equals(refObjectId)) {
+                    versionInfos.add(new VersionDisplayInfo(cluInfo.getId(), version.getVersionIndId(), version.getSequenceNumber(), version.getCurrentVersionStart(), version.getCurrentVersionEnd(), version.getVersionComment(), version.getVersionedFromId()));
+                }
+            }
+        } else {
+            throw new UnsupportedOperationException("This method does not know how to handle object type:" + refObjectTypeURI);
+        }
+        return versionInfos;
     }
 
     @Override
@@ -1153,11 +1169,8 @@ public class CluServiceMockImpl implements CluService {
 
     @Override
     public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return getSearchService().search(searchRequestInfo, contextInfo);
     }
-
-    
-    
     
     private StatusInfo newStatus() {
         StatusInfo status = new StatusInfo();
@@ -1181,5 +1194,13 @@ public class CluServiceMockImpl implements CluService {
         meta.setUpdateTime(new Date());
         meta.setVersionInd((Integer.parseInt(meta.getVersionInd()) + 1) + "");
         return meta;
+    }
+
+    public void setSearchService(SearchService searchService) {
+        this.searchService = searchService;
+    }
+
+    public SearchService getSearchService() {
+        return this.searchService;
     }
 }

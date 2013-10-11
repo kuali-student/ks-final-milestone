@@ -20,7 +20,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CurriculumHome-View" parent="KSFormView" class="">
+    <bean id="KS-CurriculumHome-View" parent="KS-Uif-FormView">
         <property name="id" value="curriculumHomeView"/>
         <property name="headerText" value="Curriculum"/>
         <property name="formClass" value="org.kuali.student.cm.main.form.LaunchForm"/>
@@ -36,34 +36,17 @@
         <!-- CSS Styling -->
         <property name="additionalCssFiles">
             <list merge="true">
-              <!--
-                <value>themes/kboot/stylesheets/bootstrap.css</value>
-                <value>themes/kboot/stylesheets/kboot.css</value>
-                -->
                 <value>ks-cm-krad/css/cm.css</value>
             </list>
         </property>
         <!-- Custom JavaScript -->
         <property name="additionalScriptFiles">
             <list merge="true">
-              <!--
-                <value>themes/kboot/scripts/kboot.2.0.1-cm-krad-SNAPSHOT.js</value>
-                <value>krad/scripts/krad.dirty.js</value>
-                <value>krad/scripts/krad.validate.js</value>
-                <value>krad/scripts/krad.url.js</value>
-                -->
                 <value>ks-cm-krad/scripts/jquery.jqEasyCharCounter.custom.js</value>
                 <value>ks-cm-krad/scripts/common.js</value>
             </list>
         </property>
 
-        <!--
-        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
-            <list>
-                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
-            </list>
-        </property>
-        -->
         <property name="items">
             <list>
                 <bean parent="Uif-Page" p:disclosure.render="false">

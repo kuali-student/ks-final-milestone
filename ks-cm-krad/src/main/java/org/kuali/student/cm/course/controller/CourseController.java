@@ -48,6 +48,7 @@ import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.impl.LookupableConstants;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
+import org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities.DecisionRationaleDetail;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;

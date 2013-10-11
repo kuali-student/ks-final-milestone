@@ -213,7 +213,7 @@
  </bean>
  <bean id="freestanding.cluset.clusetRange.key" parent="freestanding.cluset.clusetRange.key-parent" />
 
- <bean id="freestanding.cluset.clusetRange.value-parent" abstract="true" parent="searchParam.value-parent">
+ <bean id="freestanding.cluset.clusetRange.value-parent" abstract="true" parent="searchParam.values-parent">
   <property name="name" value="value" />
   <property name="maxOccurs" value="1" />
  </bean>

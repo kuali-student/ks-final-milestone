@@ -94,7 +94,7 @@
 		</property>
 	</bean>
 
-	<bean id="KS-CluInstructorInfoWrapper-LookupView" parent="KSLookupView">
+	<bean id="KS-CluInstructorInfoWrapper-LookupView" parent="KS-Uif-LookupView">
 		<property name="id" value="CluInstructorInfoWrapperLookupView" />
 		<property name="headerText" value="Advanced Search: Person" />
 		<property name="dataObjectClassName"
