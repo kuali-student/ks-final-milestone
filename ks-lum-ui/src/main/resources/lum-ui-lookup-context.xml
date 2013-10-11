@@ -6512,6 +6512,7 @@
      <property name="writeAccess" value="NEVER" />
      <property name="defaultValueList">
       <list>
+       <value>Draft</value>
        <value>draft</value>
        <value>Submitted</value>
       </list>
