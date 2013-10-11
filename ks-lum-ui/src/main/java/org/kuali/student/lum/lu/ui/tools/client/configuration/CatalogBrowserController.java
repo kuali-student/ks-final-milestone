@@ -15,8 +15,6 @@
 
 package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
-import org.kuali.student.r1.common.assembly.data.Data;
-import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabMenuController;
@@ -35,6 +33,9 @@ import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImp
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.lum.common.client.lu.LUUIPermissions;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r2.lum.clu.CLUConstants;
 
 import com.google.gwt.core.client.GWT;
 
@@ -57,7 +58,8 @@ public class CatalogBrowserController extends TabMenuController implements Requi
 		super(CatalogBrowserController.class.getName());
 		this.controller = controller;
 		//sets the name of the page to be used in breadcrumbs
-		super.setName("Course Catalog");
+        super.setName(Application.getApplicationContext().getMessage(CLUConstants.COURSE_GROUP_NAME,
+                CatalogBrowserConstants.COURSE_CATALOG_BREADCRUMB));
 		//sets enum
 		setViewEnum(CatalogBrowserViews.COURSE_CATALOG);
 		initialize();

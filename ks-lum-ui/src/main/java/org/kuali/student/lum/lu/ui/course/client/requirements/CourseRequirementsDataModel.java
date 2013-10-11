@@ -14,23 +14,32 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.requirements;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
-import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
-import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
+import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcServiceAsync;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -177,7 +186,10 @@ public class CourseRequirementsDataModel {
     public void updateCourseRequisites(final String courseId, final String courseState, final Callback<List<StatementTreeViewInfo>> callback) {
         //course proposal has to be in the database before we can save rules
         if (courseId == null) {
-            final ConfirmationDialog dialog = new ConfirmationDialog("Submit Course Title", "Before saving rules please submit course proposal title");
+            final ConfirmationDialog dialog = new ConfirmationDialog(Application.getApplicationContext().getUILabel(
+                    LUUIConstants.COURSE_GROUP_NAME, "submitCourseRequisitesDialogTitle"), Application
+                    .getApplicationContext().getUILabel(LUUIConstants.COURSE_GROUP_NAME,
+                    "submitCourseRequisitesDialogMsg"));
             dialog.getConfirmButton().addClickHandler(new ClickHandler(){
                 @Override
                 public void onClick(ClickEvent event) {

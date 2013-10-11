@@ -329,5 +329,11 @@ public class LUUIConstants {
     public static final String PROPOSED_LAST_COURSE_CATALOG_YEAR_LABEL_KEY = "courseProposedLastCatalogYear";
     public static final String PROPOSED_RETIRE_INFORMATION_LABEL_KEY = "courseProposedRetireInformation";
 
+    //Version 
+    public static final String VERSION_BACK_BUTTON_LABEL_KEY = "versionBackButtonLabel";
+    //Browse
+    public static final String BROWSE_COURSE_CATALOG_LABEL_KEY = "browseCourseCatalogLabel";
+    public static final String BROWSE_COURSE_CATALOG_BY_TAB_LABEL_KEY = "browseCourseCatalogueByTabLabel";
+
 }
 

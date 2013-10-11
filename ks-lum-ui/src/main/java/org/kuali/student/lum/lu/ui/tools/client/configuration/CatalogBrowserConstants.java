@@ -39,5 +39,8 @@ public class CatalogBrowserConstants
 	public static final String BROWSE_BY_SUBJECT_AREA_INFO =		"Subject Area Information";
 	public static final String BROWSE_BY_SCHOOL = 					"Browse Catalog by School";
 	public static final String BROWSE_BY_SCHOOL_INFO = 				"School Information";
+
+    // Message keys for breadcrumb label lookup
+    public static final String COURSE_CATALOG_BREADCRUMB = "courseCatalogBreadcrumb";
 }
 
