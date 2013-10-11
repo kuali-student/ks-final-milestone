@@ -111,6 +111,11 @@
                 <!--The submit button -->
                 <bean parent="Uif-PrimaryActionButton"
                     p:performClientSideValidation="false" p:actionLabel="Show Time Slots" p:methodToCall="show" p:style="margin-top:20px;" p:successCallback="setupTimeSlotTypeDropdown();"/>
+                <bean id="poc_timeWithAMPM" parent="Uif-InputField-LabelTop"  p:propertyName="pocTimeWithAMPM" p:label="POC Time with AMPM" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="8"  p:maxLength="8" p:cssClasses="validTimeAMPMPattern"/>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
