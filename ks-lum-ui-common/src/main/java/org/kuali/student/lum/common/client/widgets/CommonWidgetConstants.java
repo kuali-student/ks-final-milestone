@@ -28,6 +28,8 @@ public class CommonWidgetConstants {
     public static final String CLU_SET_MANAGEMENT_COURSE_INSTRUCTIONS = "cluSetManagementCourse-instruct";
     public static final String CLU_SET_APPROVED_COURSE = "cluSetApprovedCourse";
     public static final String CLU_SET_PROPOSED_COURSE = "cluSetProposedCourse";
+    public static final String CLU_SET_ADD_PROGRAM_LABEL = "cluSetAddProgramLabel";    
+    public static final String CLU_SET_MANAGEMENT_PROGRAM_INSTRUCTIONS = "cluSetManagementProgram-instruct";
     
     // Field Keys
     public static final String SEARCH_CLU_SET = "cluset/clusets";

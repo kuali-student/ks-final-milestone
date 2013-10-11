@@ -293,9 +293,10 @@ public class CluSetEditorWidget extends VerticalSectionView {
         final VerticalSection choosingSection = new VerticalSection();
         HTML prompt;
         if(cluSetType.equals("kuali.cluSet.type.Program")){
-            choosingSection.addWidget(new HTML("<b>Add a program or program set</b>"));
-            prompt = new HTML("Add program or program sets. You may  <br/>"
-                    + "add any combination of programs or program sets.");
+            choosingSection.addWidget(new HTML(Application
+                    .getApplicationContext().getMessage(CommonWidgetConstants.CLU_SET_ADD_PROGRAM_LABEL)));
+            prompt = new HTML(Application
+                    .getApplicationContext().getMessage(CommonWidgetConstants.CLU_SET_MANAGEMENT_PROGRAM_INSTRUCTIONS));
         }
         else{
             choosingSection.addWidget(new HTML(Application
