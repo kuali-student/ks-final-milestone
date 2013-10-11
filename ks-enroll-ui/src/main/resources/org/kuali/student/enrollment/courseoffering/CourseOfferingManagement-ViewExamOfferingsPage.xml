@@ -147,6 +147,26 @@
     <bean id="KS-CourseOfferingManagement-ExamOfferingByAOTableSection" parent="KS-CourseOfferingManagement-ExamOfferingTableSection"
           p:render="@{currentCourseOfferingWrapper.finalExamDriverUI eq 'Activity Offering'}">
         <property name="propertyName" value="eoWrapperList"/>
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="true" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
+                <entry key="aoColumns"
+                       value="[ {'bSortable':false, 'sWidth':'10%'},
+                                {'bSortable':true, 'sWidth':'10%'},
+                                {'bSortable':true, 'sWidth':'10%'},
+                                {'bSortable':false, 'sWidth':'10%'},
+                                {'bSortable':false, 'sWidth':'15%'},
+                                {'bSortable':false, 'sWidth':'15%'},
+                                {'bSortable':false, 'sWidth':'15%'},
+                                {'bSortable':false, 'sWidth':'15%'}
+                           ]"/>
+            </map>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:label="Status" p:propertyName="stateName"/>
