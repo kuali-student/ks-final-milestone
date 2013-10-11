@@ -43,11 +43,11 @@ public class CourseWorkflowActionList extends StylishDropDown {
 	private static final BlockingTask processingTask = new BlockingTask("Processing State Change....");
 	protected static final CourseRpcServiceAsync courseServiceAsync = GWT.create(CourseRpcService.class);    
 
-    private KSMenuItemData modifyCourseActionItem;
+    protected KSMenuItemData modifyCourseActionItem;
 	private KSMenuItemData activateCourseActionItem;
 	private KSMenuItemData inactivateCourseActionItem;
-	private KSMenuItemData retireCourseActionItem;
-	private KSMenuItemData copyCourseActionItem;
+    protected KSMenuItemData retireCourseActionItem;
+    protected KSMenuItemData copyCourseActionItem;
 	// private KSMenuItemData retireProposalCourseActionItem;
 	
 	private final KSLightBox activateDialog = new KSLightBox();
@@ -55,13 +55,13 @@ public class CourseWorkflowActionList extends StylishDropDown {
     
     private boolean isCurrentVersion;
     private Boolean isInitialized = false;
-    private String courseId;
+    protected String courseId;
     
     private boolean hasAdminAccess = false;
        
     
     // Storing this list at multiple layers: here and in StylishDropDown.menu.items.  We need it here to test for empty
-    private final List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
+    protected final List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
     
     public CourseWorkflowActionList() {
     	super();
@@ -535,7 +535,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 		}
     }
     
-	private void doUpdateCourseActionItems(DataModel cluModel) {
+    protected void doUpdateCourseActionItems(DataModel cluModel) {
 		
     	final String cluState = cluModel.get("stateKey");
     	courseId = cluModel.get(CreditCourseConstants.ID);
@@ -564,7 +564,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 				});		
 	}
 	
-	private List<KSMenuItemData> getNonAdminItems(String cluState){
+    protected List<KSMenuItemData> getNonAdminItems(String cluState) {
 	    if (cluState.equals(DtoConstants.STATE_APPROVED)) {   // this state is no longer used
             items.add(modifyCourseActionItem);
             items.add(activateCourseActionItem);
@@ -592,7 +592,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
         return items;
     }
 	
-	private List<KSMenuItemData> getAdminItems(String cluState){
+    protected List<KSMenuItemData> getAdminItems(String cluState) {
 	    if (cluState.equals(DtoConstants.STATE_APPROVED)) {    // this state is no longer used
             items.add(modifyCourseActionItem);
             items.add(activateCourseActionItem);

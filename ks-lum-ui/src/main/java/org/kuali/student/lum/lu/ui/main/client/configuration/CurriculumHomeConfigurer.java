@@ -168,7 +168,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         return layout;
     }
 
-	private Widget getViewCredentialProgramWidget() {
+    protected Widget getViewCredentialProgramWidget() {
         final Widget searchWidget;
         if (searchMetadata != null) {
             Metadata metadata = searchMetadata.getProperties().get("findCredentialProgram");
@@ -204,7 +204,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         return searchWidget;
 	}
 
-    private Widget getViewCoreProgramWidget() {
+    protected Widget getViewCoreProgramWidget() {
         final Widget searchWidget;
         if (searchMetadata != null) {
             Metadata metadata = searchMetadata.getProperties().get("findCoreProgram");
@@ -594,7 +594,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         return widget;
     }
 
-    private String getMessage(String key) {
+    protected String getMessage(String key) {
         return Application.getApplicationContext().getMessage(key);
     }
 
