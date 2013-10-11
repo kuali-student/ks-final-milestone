@@ -41,7 +41,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
     private static final String MSG_GROUP = "course";
     
 	private static final BlockingTask processingTask = new BlockingTask("Processing State Change....");
-	private static final CourseRpcServiceAsync courseServiceAsync = GWT.create(CourseRpcService.class);    
+	protected static final CourseRpcServiceAsync courseServiceAsync = GWT.create(CourseRpcService.class);    
 
     private KSMenuItemData modifyCourseActionItem;
 	private KSMenuItemData activateCourseActionItem;
@@ -63,6 +63,10 @@ public class CourseWorkflowActionList extends StylishDropDown {
     // Storing this list at multiple layers: here and in StylishDropDown.menu.items.  We need it here to test for empty
     private final List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
     
+    public CourseWorkflowActionList() {
+    	super();
+    }
+    
     public CourseWorkflowActionList(String label) {
     	super(label);
     	
@@ -79,6 +83,23 @@ public class CourseWorkflowActionList extends StylishDropDown {
         
         init(viewContext, modifyPath, model, stateChangeCallback);
 	}
+	
+	public void initialise(String label) {
+	    super.initialise(label);
+	    	
+	    this.setVisible(false);
+	    this.addStyleName("KS-Workflow-DropDown");
+	}
+	
+	public void initialise(String label, final ViewContext viewContext, final String modifyPath, DataModel model, final Callback<String> stateChangeCallback) {
+        super.initialise(label);
+        
+        this.setVisible(false);
+        this.addStyleName("KS-Workflow-DropDown");
+        
+        init(viewContext, modifyPath, model, stateChangeCallback);
+	}
+	
 	
 	public void init (final ViewContext viewContext, final String modifyPath, final DataModel model, final Callback<String> stateChangeCallback) {
 
@@ -157,7 +178,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 		HistoryManager.navigate(modifyPath, viewContext);
     }
     
-    private void doRetireActionItem(ViewContext viewContext, String retirePath, DataModel model){
+    protected void doRetireActionItem(ViewContext viewContext, String retirePath, DataModel model){
         if(hasCourseId(viewContext)){
             viewContext.setId((String)model.get(CreditCourseConstants.ID));
             viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
@@ -421,7 +442,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
      * @param model
      *
      */
-    private void checkOnlyOneRetireProposalInWorkflow(final ViewContext viewContext, final String retirePath, final DataModel model){
+    protected void checkOnlyOneRetireProposalInWorkflow(final ViewContext viewContext, final String retirePath, final DataModel model){
         
         // Get the course clu ID from the model
         String courseId = getCourseCluIdFromModel(model);
@@ -634,7 +655,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
      * @param courseModel
      * @return the cluId from the model
      */
-    private String getCourseCluIdFromModel(DataModel courseModel){
+    protected String getCourseCluIdFromModel(DataModel courseModel){
         return (String)courseModel.get(CreditCourseConstants.ID);    
     }
     
