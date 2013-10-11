@@ -2307,6 +2307,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     examOfferingWrapper.setActivityCode(wrapper.getActivityCode());
 
                     if (ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY.equals(examOfferingWrapper.getEoInfo().getStateKey())) {
+                        TypeInfo activityType = this.getTypeService().getType(wrapper.getAoInfo().getTypeKey(), ContextUtils.createDefaultContextInfo());
+                        examOfferingWrapper.setTypeName(activityType.getName());
                         aoClusterWrapper.getEoCancelledList().add(examOfferingWrapper);
                     } else {
                         aoClusterWrapper.getEoWrapperList().add(examOfferingWrapper);

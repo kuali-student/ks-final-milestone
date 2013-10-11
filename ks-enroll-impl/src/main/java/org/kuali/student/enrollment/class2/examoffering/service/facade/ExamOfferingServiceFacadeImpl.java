@@ -329,11 +329,19 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             List<ActivityOfferingInfo> aoInfos = this.getCourseOfferingService().getActivityOfferingsByFormatOffering(
                     foEntry.getKey().getId(), context);
             for (ActivityOfferingInfo aoInfo : aoInfos) {
-
+                //Update EO type according to allowed FO
                 if(finalExamLevelType!=null) {
                     TypeInfo activityType = this.getTypeService().getType(aoInfo.getTypeKey(), context);
+                    //cancel if eo exits but not in sync with allowed FO
                     if (!activityType.getName().equals(finalExamLevelType.getName())){
-                        continue;
+                        for (ExamOfferingRelationInfo eoRelation : eors) {
+                            if (eoRelation.getActivityOfferingIds().contains(aoInfo.getId())) {
+                                this.getExamOfferingService().changeExamOfferingState(eoRelation.getExamOfferingId(),
+                                             ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY, context);
+                                break;
+                            }
+                        }
+                        continue;   //next aoInfo
                     }
                 }
 
