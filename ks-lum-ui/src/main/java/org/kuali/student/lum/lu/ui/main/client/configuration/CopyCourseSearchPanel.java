@@ -8,6 +8,7 @@ import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.r1.common.assembly.data.Data.Value;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Composite;
@@ -65,7 +66,8 @@ public class CopyCourseSearchPanel extends Composite {
         pickers = new KSPicker[searchIds.length];
         for(int i=0;i<searchIds.length;i++){
         	Metadata metadata = searchMetadata.getProperties().get(searchIds[i]);
-        	KSPicker picker = new KSPicker(metadata.getInitialLookup(), null);
+            KSPicker picker = GWT.create(KSPicker.class);
+            picker.init(metadata.getInitialLookup(), null);
         	picker.addValueChangeCallback(new Callback<Value>(){
     			public void exec(Value result) {
     				currentSelection = null;

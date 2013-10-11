@@ -501,7 +501,7 @@ public class CluSetsConfigurer {
         private List<LookupMetadata> additionalLookupMetadata;
 
         public Picker(LookupMetadata inLookupMetadata, List<LookupMetadata> additionalLookupMetadata) {
-            super(inLookupMetadata, additionalLookupMetadata);
+            super.init(inLookupMetadata, additionalLookupMetadata);
             this.initLookupMetadata = inLookupMetadata;
             this.additionalLookupMetadata = additionalLookupMetadata;
         }

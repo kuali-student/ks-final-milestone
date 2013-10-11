@@ -97,7 +97,8 @@ public class LOBuilder extends VerticalSection implements HasValue<List<OutlineN
         startOfPath = queryPathStart;       
 
         if (metadata.getInitialLookup() != null) {
-            searchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+            searchWindow = GWT.create(KSPicker.class);
+            searchWindow.init(metadata.getInitialLookup(), metadata.getAdditionalLookups());
             searchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>() {
                 public void onValueChange(ValueChangeEvent<List<String>> event) {
                     List<String> selection = event.getValue();

@@ -172,7 +172,8 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         final Widget searchWidget;
         if (searchMetadata != null) {
             Metadata metadata = searchMetadata.getProperties().get("findCredentialProgram");
-            searchWidget = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+            searchWidget = GWT.create(KSPicker.class);
+            ((KSPicker) searchWidget).init(metadata.getInitialLookup(), metadata.getAdditionalLookups());
             SearchPanel panel = ((KSPicker) searchWidget).getSearchPanel();
             if (panel != null) {
                 panel.setMutipleSelect(false);
@@ -207,7 +208,8 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         final Widget searchWidget;
         if (searchMetadata != null) {
             Metadata metadata = searchMetadata.getProperties().get("findCoreProgram");
-            searchWidget = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+            searchWidget = GWT.create(KSPicker.class);
+            ((KSPicker) searchWidget).init(metadata.getInitialLookup(), metadata.getAdditionalLookups());
             SearchPanel panel = ((KSPicker) searchWidget).getSearchPanel();
             if (panel != null) {
                 panel.setMutipleSelect(false);
@@ -290,7 +292,8 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
             // 
             Metadata metadata = searchMetadata.getProperties().get(searchMetadataPropName);
           
-            searchWidget = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+            searchWidget = GWT.create(KSPicker.class);
+            ((KSPicker) searchWidget).init(metadata.getInitialLookup(), metadata.getAdditionalLookups());
             SearchPanel panel = ((KSPicker) searchWidget).getSearchPanel();
             if (panel != null) {
                 panel.setMutipleSelect(false);
@@ -332,7 +335,8 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         Widget searchWidget;
         if (searchMetadata != null) {
             Metadata metadata = searchMetadata.getProperties().get("findCourse");
-            searchWidget = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+            searchWidget = GWT.create(KSPicker.class);
+            ((KSPicker) searchWidget).init(metadata.getInitialLookup(), metadata.getAdditionalLookups());
             SearchPanel panel = ((KSPicker) searchWidget).getSearchPanel();
             if (panel != null) {
                 panel.setMutipleSelect(false);
@@ -531,7 +535,8 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         final Widget searchWidget;
         if (searchMetadata != null) {
             Metadata metadata = searchMetadata.getProperties().get("findMajor");
-            searchWidget = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+            searchWidget = GWT.create(KSPicker.class);
+            ((KSPicker) searchWidget).init(metadata.getInitialLookup(), metadata.getAdditionalLookups());
             SearchPanel panel = ((KSPicker) searchWidget).getSearchPanel();
             if (panel != null) {
                 panel.setMutipleSelect(false);
