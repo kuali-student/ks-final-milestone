@@ -106,10 +106,8 @@ function showTimeSlotLightBox(event, addOrEditAction, editLineIndex)
         jQuery(parentSection + ".new_ts_control").removeClass("error");
         jQuery(parentSection + ".new_ts").removeClass("uif-hasError");
 
-        jQuery("#timeSlotTypeSelection_control option").each(function (){
-            if (jQuery(this).data("selected") == "true"){
-                jQuery(parentSection + "#addOrEditTermKey_control").append(jQuery(this).clone());
-            }
+        jQuery("#timeSlotTypeSelection_control option:selected").each(function () {
+            jQuery(parentSection + "#addOrEditTermKey_control").append(jQuery(this).clone());
         });
 
         jQuery(parentSection + "#addOrEditTermKey_control").append(selectedTimeSlotOptions);
