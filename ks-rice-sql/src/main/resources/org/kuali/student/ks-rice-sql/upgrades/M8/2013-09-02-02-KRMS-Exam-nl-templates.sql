@@ -28,13 +28,13 @@ Insert into KRMS_NL_TMPL_T (VER_NBR,LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TYP_ID,TMPL)
 
 --Propositions
 Insert into KRMS_NL_TMPL_T (VER_NBR,LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TYP_ID,TMPL)
-  values (0,'en',CONCAT('KS-KRMS-NL-TMPL-', KS_RICE_ID_S.NEXTVAL),(SELECT NL_USAGE_ID FROM KRMS_NL_USAGE_T where NM like 'kuali.krms.edit'),(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.proposition.type.final.exam.timeslot'),'$weekdays at $startTime')
+  values (0,'en',CONCAT('KS-KRMS-NL-TMPL-', KS_RICE_ID_S.NEXTVAL),(SELECT NL_USAGE_ID FROM KRMS_NL_USAGE_T where NM like 'kuali.krms.edit'),(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.proposition.type.final.exam.timeslot'),'$weekdays at $startTime - $endTime')
 /
 Insert into KRMS_NL_TMPL_T (VER_NBR,LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TYP_ID,TMPL)
   values (0,'en',CONCAT('KS-KRMS-NL-TMPL-', KS_RICE_ID_S.NEXTVAL),(SELECT NL_USAGE_ID FROM KRMS_NL_USAGE_T where NM like 'kuali.krms.type.description'),(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.proposition.type.final.exam.timeslot'),'If Course meets on <timeslot>')
 /
 Insert into KRMS_NL_TMPL_T (VER_NBR,LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TYP_ID,TMPL)
-  values (0,'en',CONCAT('KS-KRMS-NL-TMPL-', KS_RICE_ID_S.NEXTVAL),(SELECT NL_USAGE_ID FROM KRMS_NL_USAGE_T where NM like 'kuali.krms.catalog'),(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.proposition.type.final.exam.timeslot'),'$weekdays at $startTime')
+  values (0,'en',CONCAT('KS-KRMS-NL-TMPL-', KS_RICE_ID_S.NEXTVAL),(SELECT NL_USAGE_ID FROM KRMS_NL_USAGE_T where NM like 'kuali.krms.catalog'),(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.proposition.type.final.exam.timeslot'),'$weekdays at $startTime - $endTime')
 /
 Insert into KRMS_NL_TMPL_T (VER_NBR,LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TYP_ID,TMPL)
   values (0,'en',CONCAT('KS-KRMS-NL-TMPL-', KS_RICE_ID_S.NEXTVAL),(SELECT NL_USAGE_ID FROM KRMS_NL_USAGE_T where NM like 'kuali.krms.edit'),(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.proposition.type.final.exam.course'),'$courseClu.getOfficialIdentifier().getCode()')
