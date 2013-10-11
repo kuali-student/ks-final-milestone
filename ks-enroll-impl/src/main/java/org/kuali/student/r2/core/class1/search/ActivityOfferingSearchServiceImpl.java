@@ -2,11 +2,6 @@ package org.kuali.student.r2.core.class1.search;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
-import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.lpr.service.LprService;
-import org.kuali.student.enrollment.lui.dto.LuiInfo;
-import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.class1.search.SearchServiceAbstractHardwiredImplBase;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -15,14 +10,11 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
-import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.core.search.util.SearchRequestHelper;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,11 +40,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     @Resource
     private EntityManager entityManager;
 
-    private LuiService luiService;
-    private LprService lprService;
-    private SchedulingService schedulingService;
-    private SearchService searchService;
-
     public static final TypeInfo SCH_IDS_BY_AO_SEARCH_TYPE;
     public static final TypeInfo AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo REG_GROUPS_BY_CO_ID_SEARCH_TYPE;
@@ -64,7 +51,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final TypeInfo FO_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo AO_CLUSTER_COUNT_BY_FO_TYPE;
-    public static final TypeInfo SIMPLE_AO_BY_FO_TYPE;
 
     public static final String SCH_IDS_BY_AO_SEARCH_KEY = "kuali.search.type.lui.searchForScheduleIdsByAoId";
     public static final String AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAOsAndClustersByCoId";
@@ -77,7 +63,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final String TERM_ID_BY_OFFERING_ID_SEARCH_KEY = "kuali.search.type.lui.searchForTermIdByOfferingId";
     public static final String TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_KEY = "kuali.search.type.lui.searchForTotalMaxSeatsByAOIds";
     public static final String AO_CLUSTER_COUNT_BY_FO_SEARCH_KEY = "kuali.search.type.lui.getCountOfAOClustersByFO";
-    public static final String SIMPLE_AO_BY_FO_SEARCH_KEY = "kuali.search.type.lui.getActivityOfferingsByFormatOffering";
 
     public static final String DEFAULT_EFFECTIVE_DATE = "01/01/2012";
 
@@ -206,16 +191,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
         AO_CLUSTER_COUNT_BY_FO_TYPE = info;
-
-
-        info = new TypeInfo();
-        info.setKey(SIMPLE_AO_BY_FO_SEARCH_KEY);
-        info.setName("get Activity Offerings by Format Offering");
-        info.setDescr(new RichTextHelper().fromPlain("Returns list of AO for a particular Format Offering"));
-        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
-
-        SIMPLE_AO_BY_FO_TYPE = info;
-
     }
 
     @Override
@@ -262,9 +237,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         if (AO_CLUSTER_COUNT_BY_FO_SEARCH_KEY.equals(searchTypeKey)) {
             return AO_CLUSTER_COUNT_BY_FO_TYPE;
         }
-        if (SIMPLE_AO_BY_FO_SEARCH_KEY.equals(searchTypeKey)) {
-            return SIMPLE_AO_BY_FO_TYPE;
-        }
         throw new DoesNotExistException("No Search Type Found for key:"+searchTypeKey);
     }
 
@@ -275,7 +247,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             OperationFailedException {
         return Arrays.asList(SCH_IDS_BY_AO_SEARCH_TYPE, AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE,
                 REG_GROUPS_BY_CO_ID_SEARCH_TYPE, AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE, COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE, FO_BY_CO_ID_SEARCH_TYPE,
-                RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE, AO_CODES_BY_CO_ID_SEARCH_TYPE, TERM_ID_BY_OFFERING_ID_SEARCH_TYPE, TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_TYPE, AO_CLUSTER_COUNT_BY_FO_TYPE, SIMPLE_AO_BY_FO_TYPE);
+                RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE, AO_CODES_BY_CO_ID_SEARCH_TYPE, TERM_ID_BY_OFFERING_ID_SEARCH_TYPE, TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_TYPE, AO_CLUSTER_COUNT_BY_FO_TYPE);
     }
 
     @Override
@@ -314,9 +286,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         }
         else if (AO_CLUSTER_COUNT_BY_FO_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForAOClusterCountByFO(searchRequestInfo);
-        }
-        else if (SIMPLE_AO_BY_FO_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
-            return searchForActivityOfferingsByFormatOffering(searchRequestInfo,contextInfo);
         }
         else{
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
@@ -793,53 +762,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         return resultInfo;
     }
 
-    /**
-     * This method will return list of AO based on the FO Id passed in.
-     *
-     * This was made as a performance improvement.
-     *
-     * @param searchRequestInfo
-     * @return
-     */
-    public SearchResultInfo searchForActivityOfferingsByFormatOffering(SearchRequestInfo searchRequestInfo,ContextInfo contextInfo)
-            throws MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        try {
-
-            SearchResultInfo resultInfo = new SearchResultInfo();
-
-            SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-            String formatOfferingId = requestHelper.getParamAsString(SearchParameters.FO_ID);
-
-            List<ActivityOfferingInfo> activityOfferings = new ArrayList<ActivityOfferingInfo>();
-
-            // Find all related luis to the course Offering
-            List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(formatOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY,contextInfo);
-            activityOfferings = ActivityOfferingTransformer.luis2AOs(luis, lprService, schedulingService, searchService, contextInfo);
-
-            for(ActivityOfferingInfo aoInfo : activityOfferings) {
-                SearchResultRowInfo row = new SearchResultRowInfo();
-                row.addCell(SearchResultColumns.AO_ID,aoInfo.getId());
-                row.addCell(SearchResultColumns.AO_TYPE,aoInfo.getTypeKey());
-                resultInfo.getRows().add(row);
-            }
-
-            return  resultInfo;
-
-        } catch(InvalidParameterException e) {
-            throw new OperationFailedException("Search operation failed : " + e.getMessage());
-        } catch(DoesNotExistException e) {
-            throw new OperationFailedException("Search operation failed : " + e.getMessage());
-        } catch(MissingParameterException e) {
-            throw e;
-        } catch(OperationFailedException e) {
-            throw e;
-        } catch(PermissionDeniedException e) {
-            throw e;
-        }
-
-    }
-
 
     private static String commaString(List<String> items){
 
@@ -853,37 +775,5 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
-    }
-
-    public LprService getLprService() {
-        return lprService;
-    }
-
-    public void setLprService(LprService lprService) {
-        this.lprService = lprService;
-    }
-
-    public SearchService getSearchService() {
-        return searchService;
-    }
-
-    public void setSearchService(SearchService searchService) {
-        this.searchService = searchService;
-    }
-
-    public SchedulingService getSchedulingService() {
-        return schedulingService;
-    }
-
-    public void setSchedulingService(SchedulingService schedulingService) {
-        this.schedulingService = schedulingService;
-    }
-
-    public LuiService getLuiService() {
-        return luiService;
-    }
-
-    public void setLuiService(LuiService luiService) {
-        this.luiService = luiService;
     }
 }

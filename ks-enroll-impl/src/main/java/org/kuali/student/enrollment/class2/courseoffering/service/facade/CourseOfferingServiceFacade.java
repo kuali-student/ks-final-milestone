@@ -327,22 +327,4 @@ public interface CourseOfferingServiceFacade {
             InvalidParameterException,
             OperationFailedException,
             PermissionDeniedException;
-
-    /**
-     *
-     * Returns list of Simple AO (ID & TypeKey) for a particular FO.
-     *
-     * @param foId    Format Offering Id
-     * @param contextInfo Context Info
-     * @return Returns list of Simple AO (ID & TypeKey) for a particular FO.
-     * @throws MissingParameterException
-     * @throws InvalidParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-
-    public List<ActivityOfferingInfo> getSimpleActivityOfferingsByFormatOffering(String foId, ContextInfo contextInfo) throws MissingParameterException,
-            InvalidParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
 }
