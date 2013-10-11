@@ -6,6 +6,8 @@
 
     <bean id="genericEntityDao" class="org.kuali.student.r2.common.dao.GenericEntityDao" abstract="true">
         <property name="em" ref="enrollEntityManager"/>
+        <property name="enableMaxIdFetch" value="${ks.enroll.dao.enableMaxIdFetch.defaultvalue}"/>
+        <property name="maxInClauseElements" value="${ks.enroll.dao.maxInClauseElements.defaultvalue}"/>
     </bean>
 
     <bean id="stateDao" class="org.kuali.student.r2.core.class1.state.dao.StateDao" parent="genericEntityDao"/>
@@ -56,7 +58,9 @@
 
     <!-- Search Dao needs an implementation at some point -->
     <bean id="searchDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentDao" parent="genericEntityDao"/>
-    <bean id="enrollSearchableDao" class="org.kuali.student.r2.common.dao.impl.SearchableCrudDaoImpl" parent="genericEntityDao"/>
+    <bean id="enrollSearchableDao" class="org.kuali.student.r2.common.dao.impl.SearchableCrudDaoImpl">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
 
     <!-- Enumeration Dao -->
     <bean id="enumDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumerationDao" parent="genericEntityDao"/>
@@ -64,7 +68,9 @@
     <bean id="enumContextValueDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumContextValueDao" parent="genericEntityDao"/>
 
     <!-- Organization Service -->
-    <bean id="orgDao" class="org.kuali.student.r1.core.organization.dao.impl.OrganizationDaoImpl" parent="genericEntityDao"/>
+    <bean id="orgDao" class="org.kuali.student.r1.core.organization.dao.impl.OrganizationDaoImpl">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
     <bean id="extendedOrgDao" class="org.kuali.student.r2.core.class1.organization.dao.ExtendedOrgDao" parent="genericEntityDao"/>
     <bean id="activityOfferingClusterDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDao"  parent="genericEntityDao"/>
     <bean id="seatPoolDefinitionDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao" parent="genericEntityDao"/>

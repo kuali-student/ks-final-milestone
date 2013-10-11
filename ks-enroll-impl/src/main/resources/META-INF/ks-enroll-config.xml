@@ -88,4 +88,8 @@
     <param name="ks.enroll.coursewaitlist.checkInRequired.defaultvalue">false</param>
     <!--Default value for COInfo.hasWaitlist -->
     <param name="ks.enroll.coursewaitlist.forCourseOffering.hasWaitlist.defaultvalue">true</param>
+
+    <param name="ks.enroll.dao.enableMaxIdFetch.defaultvalue">true</param>
+    <param name="ks.enroll.dao.maxInClauseElements.defaultvalue">1000</param>
+
 </config>
