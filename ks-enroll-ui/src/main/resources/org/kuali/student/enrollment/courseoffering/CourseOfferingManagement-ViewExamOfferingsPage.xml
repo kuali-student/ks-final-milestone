@@ -161,7 +161,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:label="Activity Type" p:propertyName="typeName"/>
+                <bean parent="Uif-DataField" p:label="Final Exam Driver Activity" p:propertyName="typeName"/>
                 <bean parent="Uif-DataField" p:label="Days" p:propertyName="daysDisplayName"/>
                 <bean parent="Uif-DataField" p:label="Start Time" p:propertyName="startTimeDisplay"/>
                 <bean parent="Uif-DataField" p:label="End Time" p:propertyName="endTimeDisplay"/>
