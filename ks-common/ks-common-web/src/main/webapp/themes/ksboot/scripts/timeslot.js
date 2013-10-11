@@ -128,7 +128,7 @@ function showTimeSlotLightBox(event, addOrEditAction, editLineIndex)
 
 }
 
-function showDeleteDialog() {
+function showTimeSlotDeleteConfirmation() {
     var overrideOptions = { autoDimensions:false, width:500 };
     showLightboxComponent('deleteTimeSlotsConfirmationDialog-lightbox', overrideOptions);
 }
