@@ -2,6 +2,14 @@
 var selectedTimeSlotOptions;
 
 /**
+ * POC to merge both time and am/pm in a single field. This is a validation to make sure
+ * the user enters in the correct format
+ */
+jQuery.validator.addMethod("validTimeAMPMPattern",
+    function(value, element) {
+        return this.optional(element) || /^(0?[1-9]|1[012])(:[0-5]\d) [APap][mM]$/.test(value);}, "Valid time format hh:mm am")
+
+/**
  *  This method initializes the popup for both edit and add action. As we're using the same
  *  popup for both add and edit, it's necessary to tweak the html dom.
  */
