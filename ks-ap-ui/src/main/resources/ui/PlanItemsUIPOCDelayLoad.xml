@@ -148,7 +148,12 @@
             		jQuery(this).append(jQuickAdd.hide());
             	}
             });
+            var dialogResponses = jQuery('input.uif-dialogButtons');
+            for(i =0; i &lt; dialogResponses.length; i++){
+                dialogResponses[i].checked=false;
+            }
             @{loadCalendar ? 'retrieveComponent(&quot;planned_courses_detail-POC-delay-load&quot;,&quot;loadCalendar&quot;);':''}
+
         "/>
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">

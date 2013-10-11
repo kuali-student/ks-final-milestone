@@ -148,6 +148,10 @@
             		jQuery(this).append(jQuickAdd.hide());
             	}
             });
+            var dialogResponses = jQuery('input.uif-dialogButtons');
+            for(i =0; i &lt; dialogResponses.length; i++){
+                dialogResponses[i].checked=false;
+            }
         "/>
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
