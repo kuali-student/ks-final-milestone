@@ -29,6 +29,11 @@
     <ul class="chan">
         <li><a href="${ConfigProperties.application.url}/myplan/course?methodToCall=start&amp;viewId=CourseSearch-FormView">KSAP Course Search</a></li>
         <li><a href="${ConfigProperties.application.url}/myplan/plan?methodToCall=start&amp;viewId=PlannedCourses-FormView">KSAP Planner</a></li>
+        <li><a href="${ConfigProperties.application.url}/myplan/plan?methodToCall=start&amp;viewId=PlannedCourses-FormView-POC-Same-View">KSAP Planner - No Page Embedded</a></li>
+        <li><a href="${ConfigProperties.application.url}/myplan/plan?methodToCall=start&amp;viewId=PlannedCourses-FormView-POC-Single-Year">KSAP Planner - Single Year</a></li>
+        <li><a href="${ConfigProperties.application.url}/myplan/plan?methodToCall=start&amp;viewId=PlannedCourses-FormView-POC-Dialog">KSAP Planner - Krad Dialog</a></li>
+        <li><a href="${ConfigProperties.application.url}/myplan/plan?methodToCall=start&amp;viewId=PlannedCourses-FormView-POC-delay-load&amp;loadCalendar=true">KSAP Planner - Delayed Calendar Load</a></li>
+
     </ul>
 
 </div>

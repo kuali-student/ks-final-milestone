@@ -296,6 +296,12 @@
                 <value>classpath:ui/FullPlanCoursesUI.xml</value>
                 <value>classpath:ui/SavedCoursesUI.xml</value>
                 <value>classpath:ui/SingleQuarterUI.xml</value>
+
+                <!-- POC -->
+                <value>classpath:ui/PlanItemsUIPOCNoIframe.xml</value>
+                <value>classpath:ui/PlanItemsUIPOCSingleYear.xml</value>
+                <value>classpath:ui/PlanItemsUIPOCDeleteDialog.xml</value>
+                <value>classpath:ui/PlanItemsUIPOCDelayLoad.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">
