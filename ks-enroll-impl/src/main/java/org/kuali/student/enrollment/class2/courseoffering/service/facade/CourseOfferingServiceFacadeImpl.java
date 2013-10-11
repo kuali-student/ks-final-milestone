@@ -199,6 +199,36 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
     }
 
     @Override
+    public List<ActivityOfferingInfo> getSimpleActivityOfferingsByFormatOffering(String foId, ContextInfo contextInfo) throws MissingParameterException,
+            InvalidParameterException,
+            OperationFailedException,
+            PermissionDeniedException{
+
+        SearchRequestInfo request = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.SIMPLE_AO_BY_FO_SEARCH_KEY);
+
+        request.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.FO_ID, foId);
+
+        SearchResultInfo searchResult = getSearchService().search(request, contextInfo);
+
+        List<ActivityOfferingInfo> activityOfferings = new ArrayList<ActivityOfferingInfo>(searchResult.getRows().size());
+
+        for (SearchResultRowInfo row : searchResult.getRows()) {
+            ActivityOfferingInfo aoInfo = new ActivityOfferingInfo();
+            for (SearchResultCellInfo cell : row.getCells()) {
+                if (ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ID.equals(cell.getKey())) {
+                    aoInfo.setId(cell.getValue());
+                } else if(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_TYPE.equals(cell.getKey())) {
+                    aoInfo.setTypeKey(cell.getValue());
+                }
+            }
+            activityOfferings.add(aoInfo);
+        }
+
+        return activityOfferings;
+
+    }
+
+    @Override
     public ActivityOfferingClusterInfo createDefaultCluster(String foId, ContextInfo context)
             throws PermissionDeniedException,
             MissingParameterException,
@@ -222,9 +252,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
             LOGGER.warn("VersionMismatchException thrown in createDefaultCluster, part 1");
             throw new OperationFailedException(e.getMessage());
         }
-        // TODO: KSENROLL-9932 Would prefer a count method here
-        List<ActivityOfferingInfo> aoInfos =
-                coService.getActivityOfferingsByFormatOffering(foId, context);
+        List<ActivityOfferingInfo> aoInfos = getSimpleActivityOfferingsByFormatOffering(foId, context);
         if (aoInfos != null && !aoInfos.isEmpty()) {
             LOGGER.warn("There are AOs without an AOC for this format (" + foId + ").  Indicates bad ref data.");
         }

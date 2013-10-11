@@ -1136,6 +1136,10 @@
 
     <bean id="ActivityOfferingSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl">
         <property name="entityManager" ref="enrollEntityManager"/>
+        <property name="luiService" ref="luiServiceValidationDecorator" />
+        <property name="lprService" ref="lprPersistenceService" />
+        <property name="schedulingService" ref="SchedulingService"/>
+        <property name="searchService" ref="searchService" />
     </bean>
     <bean id="InstructorSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.InstructorSearchServiceImpl">
         <property name="entityManager" ref="enrollEntityManager"/>
