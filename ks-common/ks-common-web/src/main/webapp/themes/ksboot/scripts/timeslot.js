@@ -1,5 +1,6 @@
 
 var selectedTimeSlotOptions;
+var availableTimeSlotTypes;
 
 /**
  * POC to merge both time and am/pm in a single field. This is a validation to make sure
@@ -114,10 +115,6 @@ function showTimeSlotLightBox(event, addOrEditAction, editLineIndex)
         jQuery(parentSection + ".new_ts_control").removeClass("error");
         jQuery(parentSection + ".new_ts").removeClass("uif-hasError");
 
-        jQuery("#timeSlotTypeSelection_control option:selected").each(function () {
-            jQuery(parentSection + "#addOrEditTermKey_control").append(jQuery(this).clone());
-        });
-
         jQuery(parentSection + "#addOrEditTermKey_control").append(selectedTimeSlotOptions);
 
         var overrideOptions = { autoDimensions:true, afterShown:function () {
@@ -128,6 +125,9 @@ function showTimeSlotLightBox(event, addOrEditAction, editLineIndex)
 
 }
 
+/**
+ * Displays the delete confirmation dialog
+ */
 function showTimeSlotDeleteConfirmation() {
     var overrideOptions = { autoDimensions:false, width:500 };
     showLightboxComponent('deleteTimeSlotsConfirmationDialog-lightbox', overrideOptions);
@@ -153,32 +153,12 @@ function validateTimeSlot(cssSelector){
  * list doesnt work in this situation
  */
 function setupTimeSlotTypeDropdown(){
-//    selectedTimeSlotOptions = jQuery("#timeSlotTypeSelection_control option:selected").clone();
-    jQuery("#timeSlotTypeSelection_control option:selected").data("selected", "true");
+    selectedTimeSlotOptions = jQuery("#timeSlotTypeSelection_control option:selected").clone();
+    availableTimeSlotTypes = jQuery("#timeSlotTypeSelection_control option").clone();
 }
 
-function removeMessageTooltip(fieldId) {
-    var elementInfo = getHoverElement(fieldId);
-    var element = elementInfo.element;
-    if (elementInfo.type == "fieldset") {
-        //for checkbox/radio fieldsets we put the tooltip on the label of the first input
-        element = jQuery(element).filter(".uif-tooltip");
-    }
-
-    var data = getValidationData(jQuery("#" + fieldId));
-    if (data && data.showTimer) {
-        clearTimeout(data.showTimer);
-    }
-
-    var tooltipId = jQuery(element).GetBubblePopupID();
-
-    if (tooltipId) {
-        //this causes the tooltip to be IMMEDIATELY hidden, rather than wait for animation
-        jQuery("#" + tooltipId).css("opacity", 0);
-        jQuery("#" + tooltipId).hide();
-        jQuery(element).RemoveBubblePopup();
-    }
-    else {
-        jQuery(element).RemoveBubblePopup();
-    }
+function resetTSValidSelection(){
+    jQuery("#timeSlotTypeSelection_control").find('option').remove();
+    jQuery("#timeSlotTypeSelection_control").append(availableTimeSlotTypes);
 }
+
