@@ -127,6 +127,7 @@
                         <configuration>
                             <supportFiles>
 +                           	
+                                
                                 <!-- needed to validate the dictionary files -->
 +                            	<supportFile>classpath:ks-base-dictionary.xml</supportFile>
 +                            </supportFiles>
