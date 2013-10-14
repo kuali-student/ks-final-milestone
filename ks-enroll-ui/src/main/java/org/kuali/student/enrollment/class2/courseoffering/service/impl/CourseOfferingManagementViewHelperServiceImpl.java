@@ -2299,41 +2299,46 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             TypeInfo type = CourseOfferingManagementUtil.getTypeService().getType(fo.getFinalExamLevelTypeKey(), ContextUtils.createDefaultContextInfo());
             examOfferingWrapper.setTypeName(type.getName());
         }
-        ExamOfferingClusterWrapper eoClusterWrapper = null;
+
         for (ActivityOfferingClusterWrapper aoClusterWrapper : theForm.getClusterResultList()) {
-            for(ExamOfferingClusterWrapper eoClusterWrap : theForm.getEoClusterResultList()){
-                if(eoClusterWrap.getActivityOfferingClusterId().equals(aoClusterWrapper.getActivityOfferingClusterId())){
-                    eoClusterWrapper = eoClusterWrap;
-                }
-
-            }
-
-            if(eoClusterWrapper == null){
-                eoClusterWrapper = new ExamOfferingClusterWrapper();
-                eoClusterWrapper.setActivityOfferingClusterId(aoClusterWrapper.getActivityOfferingClusterId());
-                eoClusterWrapper.setFormatNameForDisplay(aoClusterWrapper.getFormatNameForDisplay());
-                eoClusterWrapper.setClusterNameForDisplay(aoClusterWrapper.getClusterNameForDisplay());
-                theForm.getEoClusterResultList().add(eoClusterWrapper);
-            }
             for (ActivityOfferingWrapper wrapper : aoClusterWrapper.getAoWrapperList()) {
-
                 if (eoRelation.getActivityOfferingIds().contains(wrapper.getId())) {
+
+                    ExamOfferingClusterWrapper eoClusterWrapper = null;
+                    if (ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY.equals(examOfferingWrapper.getEoInfo().getStateKey())) {
+                        eoClusterWrapper = getExamOfferingClusterWrapper(aoClusterWrapper, theForm.getEoCancelClusterList());
+                    } else {
+                        eoClusterWrapper = getExamOfferingClusterWrapper(aoClusterWrapper, theForm.getEoClusterResultList());
+                    }
+
                     examOfferingWrapper.setAoInfo(wrapper.getAoInfo());
                     examOfferingWrapper.setActivityCode(wrapper.getActivityCode());
-                    if (ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY.equals(examOfferingWrapper.getEoInfo().getStateKey())) {
-                        TypeInfo activityType = this.getTypeService().getType(wrapper.getAoInfo().getTypeKey(), ContextUtils.createDefaultContextInfo());
-                        examOfferingWrapper.setTypeName(activityType.getName());
-                        eoClusterWrapper.getEoCancelledList().add(examOfferingWrapper);
-                    } else {
-                        eoClusterWrapper.getEoWrapperList().add(examOfferingWrapper);
-
-                    }
+                    eoClusterWrapper.getEoWrapperList().add(examOfferingWrapper);
 
                     return;
                 }
             }
+
         }
     }
+
+    private ExamOfferingClusterWrapper getExamOfferingClusterWrapper(ActivityOfferingClusterWrapper aoClusterWrapper, List<ExamOfferingClusterWrapper> wrapperList) {
+
+        for (ExamOfferingClusterWrapper eoClusterWrap : wrapperList) {
+            if (eoClusterWrap.getActivityOfferingClusterId().equals(aoClusterWrapper.getActivityOfferingClusterId())) {
+                return eoClusterWrap;
+            }
+        }
+
+        ExamOfferingClusterWrapper eoClusterWrapper = new ExamOfferingClusterWrapper();
+        eoClusterWrapper.setActivityOfferingClusterId(aoClusterWrapper.getActivityOfferingClusterId());
+        eoClusterWrapper.setFormatNameForDisplay(aoClusterWrapper.getFormatNameForDisplay());
+        eoClusterWrapper.setClusterNameForDisplay(aoClusterWrapper.getClusterNameForDisplay());
+        wrapperList.add(eoClusterWrapper);
+
+        return eoClusterWrapper;
+    }
+
 
     private ExamOfferingWrapper createWrapperFromExamOffering(ExamOfferingInfo examOfferingInfo) throws Exception {
         ExamOfferingWrapper eoWrapper = new ExamOfferingWrapper();

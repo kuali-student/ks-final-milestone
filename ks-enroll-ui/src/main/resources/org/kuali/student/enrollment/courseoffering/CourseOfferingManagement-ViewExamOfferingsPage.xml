@@ -89,13 +89,12 @@
                                 <property name="headerText" value="Cancelled Exam Offering for Course Offering"/>
                             </bean>
                             <bean parent="KS-CourseOfferingManagement-ExamOfferingByAOClustersSection"
-                                        p:render="@{!#dp.eoClusterResultList.isEmpty()}" >
+                                        p:render="@{!#dp.eoCancelClusterList.isEmpty()}" >
                                 <property name="headerText" value="Cancelled Exam Offerings for Activity Offerings"/>
+                                <property name="propertyName" value="eoCancelClusterList" />
                                 <property name="subCollections">
                                     <list>
-                                        <bean parent="KS-CourseOfferingManagement-ExamOfferingByAOTableSection" p:render="true">
-                                            <property name="propertyName" value="eoCancelledList"/>
-                                        </bean>
+                                        <bean parent="KS-CourseOfferingManagement-ExamOfferingByAOTableSection" p:render="true"/>
                                     </list>
                                 </property>
                             </bean>
@@ -107,10 +106,9 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ExamOfferingTableSection" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false"
-          p:readOnly="true" p:width="75%">
+          p:readOnly="true" p:width="75%" abstract="true">
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrapper"/>
-        <property name="propertyName" value="examOfferingWrapperList"/>
         <property name="collectionLookup">
             <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false"/>
         </property>
@@ -141,12 +139,12 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ExamOfferingByCOTableSection" parent="KS-CourseOfferingManagement-ExamOfferingTableSection"
-          p:render="@{currentCourseOfferingWrapper.finalExamDriverUI eq 'Course Offering'}">
+          p:render="@{!#dp.examOfferingWrapperList.isEmpty()}">
         <property name="headerText" value="Exam Offering for Course Offering"/>
+        <property name="propertyName" value="examOfferingWrapperList"/>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-ExamOfferingByAOTableSection" parent="KS-CourseOfferingManagement-ExamOfferingTableSection"
-          p:render="@{currentCourseOfferingWrapper.finalExamDriverUI eq 'Activity Offering'}">
+    <bean id="KS-CourseOfferingManagement-ExamOfferingByAOTableSection" parent="KS-CourseOfferingManagement-ExamOfferingTableSection">
         <property name="propertyName" value="eoWrapperList"/>
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
@@ -194,12 +192,12 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ExamOfferingByAOClustersSection" parent="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup" p:renderAddLine="false"  p:renderLineActions="false"
-          p:render="@{currentCourseOfferingWrapper.finalExamDriverUI eq 'Activity Offering'}"  p:width="100%">
+          p:render="@{!#dp.eoClusterResultList.isEmpty()}"  p:width="100%">
         <property name="disclosure.render" value="false" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingClusterWrapper" />
         <property name="propertyName" value="eoClusterResultList" />
         <property name="cssClasses" value="aoc_disclosure"/>
-        <property name="headerText" value=""/>
+        <property name="headerText" value="Exam Offerings for Activity Offerings"/>
         <property name="collectionLookup">
             <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
         </property>

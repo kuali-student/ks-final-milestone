@@ -12,13 +12,11 @@ public class ExamOfferingClusterWrapper implements Serializable {
     private String formatNameForDisplay ="";
     private String formatOfferingId;
     private List<ExamOfferingWrapper> eoWrapperList;
-    private List<ExamOfferingWrapper> eoCancelledList;
 
 
     public ExamOfferingClusterWrapper() {
         clusterNameForDisplay = "";
         eoWrapperList = new ArrayList<ExamOfferingWrapper>();
-        eoCancelledList = new ArrayList<ExamOfferingWrapper>();
     }
 
     public ExamOfferingClusterWrapper(String activityOfferingClusterId, List<RegistrationGroupWrapper> rgWrapperList){
@@ -63,14 +61,6 @@ public class ExamOfferingClusterWrapper implements Serializable {
 
     public void setEoWrapperList(List<ExamOfferingWrapper> eoWrapperList) {
         this.eoWrapperList = eoWrapperList;
-    }
-
-    public List<ExamOfferingWrapper> getEoCancelledList() {
-        return eoCancelledList;
-    }
-
-    public void setEoCancelledList(List<ExamOfferingWrapper> eoCancelledList) {
-        this.eoCancelledList = eoCancelledList;
     }
 
 }
