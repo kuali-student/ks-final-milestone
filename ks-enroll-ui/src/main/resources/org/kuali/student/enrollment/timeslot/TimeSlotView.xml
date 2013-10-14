@@ -94,11 +94,38 @@
                 <!--The submit button -->
                 <bean parent="Uif-PrimaryActionButton"
                     p:performClientSideValidation="false" p:actionLabel="Show Time Slots" p:methodToCall="show" p:style="margin-top:20px;" p:successCallback="setupTimeSlotTypeDropdown();"/>
-                <bean id="poc_timeWithAMPM" parent="Uif-InputField-LabelTop"  p:propertyName="pocTimeWithAMPM" p:label="POC Time with AMPM" p:required="true">
+
+                <!-- REMOVE ME: This is for a PoC for "intelligent" time entry
+                <bean id="daysPatternTextField" parent="Uif-InputField-LabelTop"  p:propertyName="pocTimeWithAMPM" p:label="PoC Days" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10"  p:maxLength="7" p:cssClasses="edit_ts_control">
+                            <property name="onKeyPressScript">
+                                <value>jQuery("#startTimeTextField_control").val(""); jQuery("#endTimeTextField_control").val("");</value>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="uppercaseValue" value="true"/>
+                    <property name="constraintText" value="MTWHFSU"/>
+                    <property name="validCharactersConstraint">
+                        <bean parent="CharsetPatternConstraint" p:validChars="MTWHFSUmtwhfsu" />
+                    </property>
+                </bean>
+                <bean id="startTimeTextField" parent="Uif-InputField-LabelTop"  p:propertyName="pocTimeWithAMPM" p:label="PoC Start Time" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="8"  p:maxLength="8" p:cssClasses="validTimeAMPMPattern">
+                           <property name="onBlurScript">
+                               <value>parseAndReplaceTimeClause(jQuery(this), jQuery("#endTimeTextField_control"), jQuery("#daysPatternTextField_control"), "tsType");</value>
+                           </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="endTimeTextField" parent="Uif-InputField-LabelTop"  p:propertyName="pocTimeWithAMPM" p:label="PoC End Time" p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="8"  p:maxLength="8" p:cssClasses="validTimeAMPMPattern"/>
                     </property>
                 </bean>
+                 -->
+
             </list>
         </property>
     </bean>
@@ -185,10 +212,10 @@
                       p:label="End Time"
                       p:propertyName="endTimeDisplay"
                       p:cssClasses="fixedCol_6"/>
+
                 <bean name="enableDeleteButton" parent="KS-Uif-DataField-Simple"
                       p:label="enableDeleteButton"
                       p:propertyName="enableDeleteButton"/>
-
             </list>
         </property>
         <property name="layoutManager.richTable.hiddenColumns">
@@ -203,7 +230,6 @@
                   p:required="false"
                   p:label="Actions"
                   p:cssClasses="fixedCol_3"/>
-
         </property>
         <property name="lineActions">
             <list>
@@ -235,7 +261,6 @@
             <bean parent="Uif-Image" p:source="@{#parent.disabled ? #ConfigProperties['ks.externalizable.images.url']+'/toolbar/delete_disabled.png' : #ConfigProperties['ks.externalizable.images.url']+'/toolbar/delete_enabled.png'}"/>
         </property>
     </bean>
-
 
     <bean id="KS-TimeSlot-EditTimeSlotPopupForm" parent="Uif-VerticalBoxSection">
         <property name="hidden" value="true"/>
