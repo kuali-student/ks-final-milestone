@@ -45,8 +45,8 @@
 						<bean parent="Uif-VerticalCheckboxesControl" />
 					</property>
 					<property name="optionsFinder">
-						<bean
-							class="org.kuali.student.lum.lu.ui.course.keyvalues.TermsKeyValueFinder"
+						<bean 
+							class="org.kuali.student.r2.core.constants.AtpServiceConstants"
 							p:addBlankOption="false" />
 					</property>
 				</bean>
