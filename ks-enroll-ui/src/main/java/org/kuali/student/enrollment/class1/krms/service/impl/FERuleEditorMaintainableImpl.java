@@ -322,27 +322,14 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         }
 
         // Clear the first item and update.
-        AgendaItemDefinition firstItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
-        AgendaItemDefinition.Builder firstItemBuilder = AgendaItemDefinition.Builder.create(agenda.getFirstItemId(), agenda.getId());
-        firstItemBuilder.setRule(null);
-        firstItemBuilder.setRuleId(null);
-        firstItemBuilder.setWhenFalse(null);
-        firstItemBuilder.setWhenFalseId(null);
-        firstItemBuilder.setVersionNumber(firstItem.getVersionNumber());
-        this.getRuleManagementService().updateAgendaItem(firstItemBuilder.build());
-
-        //Delete current agenda items to rebuild the tree.
-        if (firstItem.getWhenFalse() != null) {
-            this.deleteAgendaItems(firstItem.getWhenFalse());
-        }
+        AgendaItemDefinition firstItem = manageFirstItem(agenda);
 
         //Delete rules
         for (RuleEditor deletedRule : agenda.getDeletedRules()) {
             this.getRuleManagementService().deleteRule(deletedRule.getId());
         }
 
-        AgendaItemDefinition rootItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
-        AgendaItemDefinition.Builder rootItemBuilder = AgendaItemDefinition.Builder.create(rootItem);
+        AgendaItemDefinition.Builder rootItemBuilder = AgendaItemDefinition.Builder.create(firstItem);
         AgendaItemDefinition.Builder itemBuilder = rootItemBuilder;
         while (rules.peek()!=null) {
             itemBuilder.setRule(this.finRule(rules.poll(), namePrefix, nameSpace));
