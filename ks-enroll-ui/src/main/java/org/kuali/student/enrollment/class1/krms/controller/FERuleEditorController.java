@@ -172,6 +172,10 @@ public class FERuleEditorController extends EnrolRuleEditorController {
 
         //Return with error message if user is currently editing a proposition.
         PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
+        if (proposition == null) {
+            GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_RULE_TREE_GROUP_ID, KRMSConstants.KRMS_MSG_ERROR_RULE_UPDATE);
+            return getUIFModelAndView(form);
+        }
         if ((proposition != null) && (proposition.isEditMode())) {
             GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID, KRMSConstants.KRMS_MSG_ERROR_RULE_PREVIEW);
             return getUIFModelAndView(form);
