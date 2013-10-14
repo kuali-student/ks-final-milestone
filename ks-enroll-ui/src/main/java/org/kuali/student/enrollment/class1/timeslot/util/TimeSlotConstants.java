@@ -15,7 +15,7 @@ public class TimeSlotConstants {
     }
 
 
-    public static class ApplicationResouceKeys{
+    public static class ApplicationResouceKeys {
         public static final String TIMESLOT_TOOLBAR_DELETE = "info.timeslot.delete.success";
         public static final String TIMESLOT_ADD_SUCCESS = "info.timeslot.add.success";
         public static final String TIMESLOT_EDIT_SUCCESS = "info.timeslot.edit.success";
