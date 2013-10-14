@@ -88,7 +88,8 @@
                                 <property name="propertyName" value="examOfferingCancelledList"/>
                                 <property name="headerText" value="Cancelled Exam Offering for Course Offering"/>
                             </bean>
-                            <bean parent="KS-CourseOfferingManagement-ExamOfferingByAOClustersSection" p:render="true"  >
+                            <bean parent="KS-CourseOfferingManagement-ExamOfferingByAOClustersSection"
+                                        p:render="@{!#dp.eoClusterResultList.isEmpty()}" >
                                 <property name="headerText" value="Cancelled Exam Offerings for Activity Offerings"/>
                                 <property name="subCollections">
                                     <list>
@@ -195,8 +196,8 @@
     <bean id="KS-CourseOfferingManagement-ExamOfferingByAOClustersSection" parent="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup" p:renderAddLine="false"  p:renderLineActions="false"
           p:render="@{currentCourseOfferingWrapper.finalExamDriverUI eq 'Activity Offering'}"  p:width="100%">
         <property name="disclosure.render" value="false" />
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper" />
-        <property name="propertyName" value="clusterResultList" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingClusterWrapper" />
+        <property name="propertyName" value="eoClusterResultList" />
         <property name="cssClasses" value="aoc_disclosure"/>
         <property name="headerText" value=""/>
         <property name="collectionLookup">

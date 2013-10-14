@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.courseoffering.form;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.kuali.student.common.uif.form.KSUifForm;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
@@ -202,6 +203,10 @@ public class CourseOfferingManagementForm extends KSUifForm implements ActivityO
     private List<ExamOfferingWrapper> examOfferingWrapperList;
     private List<ExamOfferingWrapper> examOfferingCancelledList;
 
+    private List<ExamOfferingClusterWrapper> eoClusterResultList;
+    private List<ExamOfferingClusterWrapper> eoCancelClusterList;
+
+
     public boolean getHasAOCluster() {
         return hasAOCluster;
     }
@@ -220,6 +225,8 @@ public class CourseOfferingManagementForm extends KSUifForm implements ActivityO
         rgResultList = new ArrayList<RegistrationGroupWrapper>();
         examOfferingWrapperList = new ArrayList<ExamOfferingWrapper>();
         examOfferingCancelledList = new ArrayList<ExamOfferingWrapper>();
+        eoClusterResultList = new ArrayList<ExamOfferingClusterWrapper>();
+        eoCancelClusterList = new ArrayList<ExamOfferingClusterWrapper>();
         setCourseOfferingCopyWrapper(null);
         setFormatOfferingIdForNewAO(null);
     }
@@ -841,5 +848,21 @@ public class CourseOfferingManagementForm extends KSUifForm implements ActivityO
 
     public void setExamOfferingCancelledList(List<ExamOfferingWrapper> examOfferingCancelledList) {
         this.examOfferingCancelledList = examOfferingCancelledList;
+    }
+
+    public List<ExamOfferingClusterWrapper> getEoClusterResultList() {
+        return eoClusterResultList;
+    }
+
+    public void setEoClusterResultList(List<ExamOfferingClusterWrapper> eoClusterResultList) {
+        this.eoClusterResultList = eoClusterResultList;
+    }
+
+    public List<ExamOfferingClusterWrapper> getEoCancelClusterList() {
+        return eoCancelClusterList;
+    }
+
+    public void setEoCancelClusterList(List<ExamOfferingClusterWrapper> eoCancelClusterList) {
+        this.eoCancelClusterList = eoCancelClusterList;
     }
 }

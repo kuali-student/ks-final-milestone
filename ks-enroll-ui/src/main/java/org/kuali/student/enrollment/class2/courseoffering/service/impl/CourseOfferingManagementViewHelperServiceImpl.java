@@ -35,6 +35,7 @@ import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.common.util.KSCollectionUtils;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
@@ -2294,24 +2295,38 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             DoesNotExistException {
 
         FormatOfferingInfo fo = theForm.getFoId2aoTypeMap().get(eoRelation.getFormatOfferingId());
-        if(fo.getFinalExamLevelTypeKey() != null){
+        if (fo.getFinalExamLevelTypeKey() != null) {
             TypeInfo type = CourseOfferingManagementUtil.getTypeService().getType(fo.getFinalExamLevelTypeKey(), ContextUtils.createDefaultContextInfo());
             examOfferingWrapper.setTypeName(type.getName());
         }
-
+        ExamOfferingClusterWrapper eoClusterWrapper = null;
         for (ActivityOfferingClusterWrapper aoClusterWrapper : theForm.getClusterResultList()) {
-            for (ActivityOfferingWrapper wrapper : aoClusterWrapper.getAoWrapperList()) {
-                if(eoRelation.getActivityOfferingIds().contains(wrapper.getId())){
+            for(ExamOfferingClusterWrapper eoClusterWrap : theForm.getEoClusterResultList()){
+                if(eoClusterWrap.getActivityOfferingClusterId().equals(aoClusterWrapper.getActivityOfferingClusterId())){
+                    eoClusterWrapper = eoClusterWrap;
+                }
 
+            }
+
+            if(eoClusterWrapper == null){
+                eoClusterWrapper = new ExamOfferingClusterWrapper();
+                eoClusterWrapper.setActivityOfferingClusterId(aoClusterWrapper.getActivityOfferingClusterId());
+                eoClusterWrapper.setFormatNameForDisplay(aoClusterWrapper.getFormatNameForDisplay());
+                eoClusterWrapper.setClusterNameForDisplay(aoClusterWrapper.getClusterNameForDisplay());
+                theForm.getEoClusterResultList().add(eoClusterWrapper);
+            }
+            for (ActivityOfferingWrapper wrapper : aoClusterWrapper.getAoWrapperList()) {
+
+                if (eoRelation.getActivityOfferingIds().contains(wrapper.getId())) {
                     examOfferingWrapper.setAoInfo(wrapper.getAoInfo());
                     examOfferingWrapper.setActivityCode(wrapper.getActivityCode());
-
                     if (ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY.equals(examOfferingWrapper.getEoInfo().getStateKey())) {
                         TypeInfo activityType = this.getTypeService().getType(wrapper.getAoInfo().getTypeKey(), ContextUtils.createDefaultContextInfo());
                         examOfferingWrapper.setTypeName(activityType.getName());
-                        aoClusterWrapper.getEoCancelledList().add(examOfferingWrapper);
+                        eoClusterWrapper.getEoCancelledList().add(examOfferingWrapper);
                     } else {
-                        aoClusterWrapper.getEoWrapperList().add(examOfferingWrapper);
+                        eoClusterWrapper.getEoWrapperList().add(examOfferingWrapper);
+
                     }
 
                     return;
