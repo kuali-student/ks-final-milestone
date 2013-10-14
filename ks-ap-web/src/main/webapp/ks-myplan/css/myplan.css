@@ -1412,7 +1412,7 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
 
 /* Styles for course search results ########################################################################### */
 .myplan-course-search-results .dataTables_wrapper {
-    width: 550px;
+    width: 76%;
     float: left;
     clear: none;
     margin: 0;
@@ -1437,7 +1437,6 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     -moz-border-radius: 5px 5px 0 0;
     border-radius: 5px 5px 0 0;
     margin: 0;
-    width: 538px;
     clear: both;
     font-family: Helvetica, Arial, Verdana, sans-serif;
 }
@@ -1580,7 +1579,7 @@ table.myplan-course-search-results-datatable .blockUI {
 }
 
 .dataTables_wrapper .dataTables_paginate.paging_full_numbers {
-    width: 528px;
+    width: 96%;
     clear: both;
     background-image: -ms-linear-gradient(top, #F6F6F6 0%, #EBEBEB 100%);
     background-image: -moz-linear-gradient(top, #F6F6F6 0%, #EBEBEB 100%);

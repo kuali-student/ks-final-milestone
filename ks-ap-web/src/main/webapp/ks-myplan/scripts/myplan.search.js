@@ -4,7 +4,7 @@ var oFacets = new Object();
 
 // Override to redefine course search table width
 function ksapCourseSearchTableWidth() {
-	return 548;
+
 }
 
 /**
