@@ -32,6 +32,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.TermHelper;
+import org.kuali.student.ap.framework.context.support.DefaultTermHelper;
 import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
@@ -771,7 +772,8 @@ public class QuickAddController extends UifControllerBase {
 				double academicTotalMax = 0;
 				if (studentCourseRecordInfos.size() > 0) {
 					for (StudentCourseRecordInfo ar : studentCourseRecordInfos) {
-						if (ar.getTermName().equalsIgnoreCase(termId)) {
+                        String stuRecTermId = DefaultTermHelper.findTermIdByNameAndContainingDates(ar.getCourseBeginDate(), ar.getCourseEndDate(), ar.getTermName());
+                        if (stuRecTermId.equalsIgnoreCase(termId)) {
 							if (ar.getCreditsEarned() != null
 									|| !ar.getCreditsEarned().isEmpty()
 									&& !ar.getCreditsEarned().contains(".")) {

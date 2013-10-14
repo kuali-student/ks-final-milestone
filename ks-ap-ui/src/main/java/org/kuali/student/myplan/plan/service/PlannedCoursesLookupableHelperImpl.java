@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
+import org.kuali.student.ap.framework.context.support.DefaultTermHelper;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
@@ -86,10 +87,10 @@ public class PlannedCoursesLookupableHelperImpl extends PlanItemLookupableHelper
 		}
 
 		String firstAtpId = null;
-		if (studentCourseRecordInfos != null)
-			for (StudentCourseRecordInfo item : studentCourseRecordInfos)
-				if (item.getTermName() != null)
-					firstAtpId = item.getTermName();
+		if (studentCourseRecordInfos != null)  {
+            StudentCourseRecordInfo rec0=studentCourseRecordInfos.get(0);
+            firstAtpId= DefaultTermHelper.findTermIdByNameAndContainingDates(rec0.getCourseBeginDate(), rec0.getCourseEndDate(), rec0.getTermName());
+        }
 		KsapFrameworkServiceLocator.getTermHelper().frontLoadForPlanner(firstAtpId);
 
 		/************* PlannedCourseList **************/
@@ -168,10 +169,10 @@ public class PlannedCoursesLookupableHelperImpl extends PlanItemLookupableHelper
         }
 
         String firstAtpId = null;
-        if (studentCourseRecordInfos != null)
-            for (StudentCourseRecordInfo item : studentCourseRecordInfos)
-                if (item.getTermName() != null)
-                    firstAtpId = item.getTermName();
+        if (studentCourseRecordInfos != null)  {
+            StudentCourseRecordInfo rec0=studentCourseRecordInfos.get(0);
+            firstAtpId= DefaultTermHelper.findTermIdByNameAndContainingDates(rec0.getCourseBeginDate(), rec0.getCourseEndDate(), rec0.getTermName());
+        }
         KsapFrameworkServiceLocator.getTermHelper().frontLoadForPlanner(firstAtpId);
 
         /************* PlannedCourseList **************/

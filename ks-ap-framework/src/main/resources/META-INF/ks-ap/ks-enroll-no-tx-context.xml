@@ -25,7 +25,9 @@
 	<bean id="gradeRosterEntryAssembler"
 		class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterEntryAssembler"></bean>
 
-	<bean id="gradingService"
+    <bean id="lprRosterService" class="org.kuali.student.enrollment.class1.roster.service.impl.LprRosterServiceMapImpl" />
+
+    <bean id="gradingService"
 		class="org.kuali.student.enrollment.class2.grading.service.impl.GradingServiceImpl"
 		scope="singleton">
 		<property name="lprService" ref="lprServiceValidation" />
@@ -36,6 +38,7 @@
 		<property name="gradeValuesGroupAssembler" ref="gradeValuesGroupAssembler" />
 		<property name="lrcService" ref="lrcServiceCache" />
 		<property name="courseRegistrationService" ref="courseRegistrationService" />
+        <property name="lprRosterService" ref="lprRosterService"/>
 	</bean>
 
 	<bean id="ks.exp.gradingService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -934,7 +937,16 @@
 
 	<bean id="courseRegistrationImpl"
 		class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceMockImpl">
-		<!--<property name="lprService" ref="lprServiceValidation" /> -->
+        <!-- setup fake registration records until better reference data is available -->
+        <property name="fakeRegistrations">
+            <list>
+                <value type="java.lang.String[]">admin,kuali.atp.2012Spring,BSCI441</value>
+                <value type="java.lang.String[]">admin,kuali.atp.2012Fall,ENGL201</value>
+                <value type="java.lang.String[]">admin,kuali.atp.2012Fall,HIST137</value>
+                <value type="java.lang.String[]">admin,kuali.atp.2012Fall,PHYS404</value>
+                <value type="java.lang.String[]">janeDoe,kuali.atp.2011Fall,ENGL101</value>
+            </list>
+        </property>
 		<property name="courseOfferingService" ref="coServiceValidation" />
 	</bean>
 
@@ -972,9 +984,13 @@
 		</property>
 	</bean>
 
-
-	<bean id="courseRecordAssembler"
-		class="org.kuali.student.enrollment.class2.academicrecord.service.assembler.StudentCourseRecordAssembler" />
+    <bean id="courseRecordAssembler"
+		class="org.kuali.student.enrollment.class2.academicrecord.service.assembler.StudentCourseRecordAssemblerMocalAllGradeA" >
+        <property name="luiService" ref="LuiService" />
+        <property name="atpService" ref="atpEnrService" />
+        <property name="gradingService" ref="gradingService" />
+        <property name="lrcService" ref="lrcServiceCache" />
+    </bean>
 	<bean id="academicRecordService"
 		class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceImpl">
 		<property name="courseRegService" ref="courseRegistrationService" />

@@ -56,6 +56,7 @@ import org.kuali.student.ap.framework.context.EnrollmentStatusHelper;
 import org.kuali.student.ap.framework.context.EnrollmentStatusHelper.CourseCode;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.TermHelper;
+import org.kuali.student.ap.framework.context.support.DefaultTermHelper;
 import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
@@ -3138,7 +3139,8 @@ public class PlanController extends UifControllerBase {
 				double academicTotalMax = 0;
 				if (studentCourseRecordInfos.size() > 0) {
 					for (StudentCourseRecordInfo ar : studentCourseRecordInfos) {
-						if (ar.getTermName().equalsIgnoreCase(termId)) {
+                        String atpId = DefaultTermHelper.findTermIdByNameAndContainingDates(ar.getCourseBeginDate(), ar.getCourseEndDate(), ar.getTermName());
+                        if (atpId.equalsIgnoreCase(termId)) {
 							if (ar.getCreditsEarned() != null || !ar.getCreditsEarned().isEmpty()
 									&& !ar.getCreditsEarned().contains(".")) {
 								String[] str = ar.getCreditsEarned().split("\\D");

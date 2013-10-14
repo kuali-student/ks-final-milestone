@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.context.YearTerm;
+import org.kuali.student.ap.framework.context.support.DefaultTermHelper;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject;
@@ -52,7 +53,9 @@ public class PlannedTermsHelperBase {
 	                }catch(Exception e2){
 	                    try{
 	                        LOG.warn("Could not find future planned term, using last term", e2);
-	                        focusQuarterYear = th.getYearTerm(studentCourseRecordInfos.get(studentCourseRecordInfos.size()-1).getTermName());
+                            StudentCourseRecordInfo studentInfo = studentCourseRecordInfos.get(studentCourseRecordInfos.size() - 1);
+                            String termId = DefaultTermHelper.findTermIdByNameAndContainingDates(studentInfo.getCourseBeginDate(), studentInfo.getCourseEndDate(), studentInfo.getTermName());
+                            focusQuarterYear = th.getYearTerm(termId);
 	                    }catch(Exception e3){
 	                        LOG.error("Could not find last term, using first term");
 	                        focusQuarterYear = th.getYearTerm(planningTerms.get(0));
@@ -95,19 +98,19 @@ public class PlannedTermsHelperBase {
 
 		if (studentCourseRecordInfos.size() > 0) {
 			for (StudentCourseRecordInfo studentInfo : studentCourseRecordInfos) {
-				String atp = studentInfo.getTermName();
-				PlannedTerm pt = termsList.get(atp);
+				String termId = DefaultTermHelper.findTermIdByNameAndContainingDates(studentInfo.getCourseBeginDate(), studentInfo.getCourseEndDate(), studentInfo.getTermName());
+				PlannedTerm pt = termsList.get(termId);
 				if (pt == null) {
-					Term t = KsapFrameworkServiceLocator.getTermHelper().getTerm(atp);
+					Term t = KsapFrameworkServiceLocator.getTermHelper().getTerm(termId);
 					PlannedTerm term = new PlannedTerm();
 					term.setAtpId(t.getId());
 					term.setQtrYear(t.getName());
-					termsList.put(atp, term);
+					termsList.put(termId, term);
 					pt = term;
 				}
 
 				AcademicRecordDataObject academicRecordDataObject = new AcademicRecordDataObject();
-				academicRecordDataObject.setAtpId(atp);
+				academicRecordDataObject.setAtpId(termId);
 				academicRecordDataObject.setPersonId(studentInfo.getPersonId());
 				academicRecordDataObject.setCourseCode(studentInfo.getCourseCode());
 				/*
@@ -120,10 +123,10 @@ public class PlannedTermsHelperBase {
 				if (!"X".equalsIgnoreCase(studentInfo.getCalculatedGradeValue())) {
 					academicRecordDataObject.setGrade(studentInfo.getCalculatedGradeValue());
 				} else if ("X".equalsIgnoreCase(studentInfo.getCalculatedGradeValue())
-						&& KsapFrameworkServiceLocator.getTermHelper().isCompleted(studentInfo.getTermName())) {
+						&& KsapFrameworkServiceLocator.getTermHelper().isCompleted(termId)) {
 					academicRecordDataObject.setGrade(studentInfo.getCalculatedGradeValue());
 				}
-				academicRecordDataObject.setRepeated(studentInfo.getIsRepeated());
+				academicRecordDataObject.setRepeated(studentInfo.getIsRepeated()!=null ? studentInfo.getIsRepeated():false);
 				pt.getAcademicRecord().add(academicRecordDataObject);
 			}
 		}

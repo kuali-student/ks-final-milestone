@@ -18,6 +18,7 @@ import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.context.YearTerm;
+import org.kuali.student.ap.framework.context.support.DefaultTermHelper;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
@@ -332,7 +333,11 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 							KsapFrameworkServiceLocator.getContext().getContextInfo());
 			for (StudentCourseRecordInfo studentInfo : studentCourseRecordInfos) {
 				AcademicRecordDataObject acadrec = new AcademicRecordDataObject();
-				acadrec.setAtpId(studentInfo.getTermName());
+
+                //TODO KSAP-147: drop the following call when termId is added to StudentCourseRecordInfo
+                //Find associated termId by termName and containing the course begin/end dates
+                String termId = DefaultTermHelper.findTermIdByNameAndContainingDates(studentInfo.getCourseBeginDate(), studentInfo.getCourseEndDate(), studentInfo.getTermName());
+				acadrec.setAtpId(termId);
 				acadrec.setPersonId(studentInfo.getPersonId());
 				acadrec.setCourseCode(studentInfo.getCourseCode());
 				acadrec.setCourseTitle(studentInfo.getCourseTitle());
@@ -345,7 +350,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 				if (course.getId().equalsIgnoreCase(studentInfo.getId())) {
 					plannedCourseSummary.getAcadRecList().add(acadrec);
 
-					YearTerm str = KsapFrameworkServiceLocator.getTermHelper().getYearTerm(studentInfo.getTermName());
+					YearTerm str = KsapFrameworkServiceLocator.getTermHelper().getYearTerm(termId);
 					plannedCourseSummary.getAcademicTerms().add(str.getTermName());
 				}
 			}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.support.DefaultTermHelper;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.myplan.course.dataobject.ActivityOfferingItem;
 import org.kuali.student.myplan.course.service.CourseDetailsInquiryHelperImpl;
@@ -65,11 +66,12 @@ public class SingleQuarterHelperBase {
 		 ******************/
 		if (studentCourseRecordInfos.size() > 0) {
 			for (StudentCourseRecordInfo studentInfo : studentCourseRecordInfos) {
-				if (termAtp.equalsIgnoreCase(studentInfo.getTermName())) {
+                String termId = DefaultTermHelper.findTermIdByNameAndContainingDates(studentInfo.getCourseBeginDate(), studentInfo.getCourseEndDate(), studentInfo.getTermName());
+				if (termAtp.equalsIgnoreCase(termId)) {
 					CourseDetailsInquiryHelperImpl courseDetailsService = new CourseDetailsInquiryHelperImpl();
 					AcademicRecordDataObject academicRecordDataObject = new AcademicRecordDataObject();
 					academicRecordDataObject
-							.setAtpId(studentInfo.getTermName());
+							.setAtpId(termId);
 					academicRecordDataObject.setPersonId(studentInfo
 							.getPersonId());
 					academicRecordDataObject.setCourseCode(studentInfo
@@ -91,12 +93,12 @@ public class SingleQuarterHelperBase {
 					} else if ("X".equalsIgnoreCase(studentInfo
 							.getCalculatedGradeValue())
 							&& KsapFrameworkServiceLocator.getTermHelper()
-									.isCompleted(studentInfo.getTermName())) {
+									.isCompleted(termId)) {
 						academicRecordDataObject.setGrade(studentInfo
 								.getCalculatedGradeValue());
 					}
 					if (!KsapFrameworkServiceLocator.getTermHelper()
-							.isCompleted(studentInfo.getTermName())) {
+							.isCompleted(termId)) {
 						academicRecordDataObject.setActivityCode(studentInfo
 								.getActivityCode());
 					}

@@ -20,6 +20,7 @@ import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.context.YearTerm;
+import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
@@ -66,7 +67,38 @@ public class DefaultTermHelper implements TermHelper {
 
 	private static final MarkerKey MARKER_KEY = new MarkerKey();
 
-	private static class MarkerKey {
+    /**
+     * Find TermId by termName and that contains the specified begin/end dates
+     * @param termBeginDate begin date
+     * @param termEndDate end date
+     * @param termName term name
+     * @return termId
+     */
+    public static String findTermIdByNameAndContainingDates
+            (Date termBeginDate, Date termEndDate, String termName) {
+        String matchTermId = null;
+        try {
+            QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(equal("atpStatus", PlanConstants.PUBLISHED),
+                    or(getTermPredicates()), lessThanOrEqual("startDate",termBeginDate),greaterThanOrEqual("endDate",termEndDate),
+                    equal("name",termName));
+            List<TermInfo> terms = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForTerms(query,
+                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+            for (TermInfo term : terms) {
+                if (term.getName().equals(termName)) {
+                    if (matchTermId != null)
+                        throw new RuntimeException("multiple terms found with name=" + termName+" and start/end="+termBeginDate+"/"+termEndDate);
+                    matchTermId = term.getId();
+                }
+            }
+        } catch (Exception e) {
+            String errMsg = "exception retrieving termId by dates/type for termName=" + termName +
+                    " and start/end="+termBeginDate+"/"+termEndDate+"; exception: " + e.getMessage();
+            throw new RuntimeException(errMsg, e);
+        }
+        return matchTermId;
+    }
+
+    private static class MarkerKey {
 		@Override
 		public int hashCode() {
 			return MarkerKey.class.hashCode();
@@ -189,7 +221,7 @@ public class DefaultTermHelper implements TermHelper {
 		if (rv == null) {
 			try {
 				tm.cache(rv = KsapFrameworkServiceLocator.getAcademicCalendarService().getTerm(atpId,
-						KsapFrameworkServiceLocator.getContext().getContextInfo()));
+                        KsapFrameworkServiceLocator.getContext().getContextInfo()));
 			} catch (DoesNotExistException e) {
 				throw new IllegalArgumentException("Acal lookup failure", e);
 			} catch (InvalidParameterException e) {
@@ -432,7 +464,7 @@ public class DefaultTermHelper implements TermHelper {
 		c.setTime(term.getStartDate());
 		return new DefaultYearTerm(term.getId(), term.getTypeKey(), c.get(Calendar.YEAR));
 	}
-    private Predicate[] getTermPredicates(){
+    private static Predicate[] getTermPredicates(){
         Predicate predicates[] = new Predicate[AtpServiceConstants.ATP_TERM_GROUPING.length];
         for(int i=0;i<AtpServiceConstants.ATP_TERM_GROUPING.length;i++){
             predicates[i]=equal("typeKey", AtpServiceConstants.ATP_TERM_GROUPING[i]);

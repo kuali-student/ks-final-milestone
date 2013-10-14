@@ -147,13 +147,13 @@ public class PlannedTerm {
 			if (getAcademicRecord().size() > 0) {
 
 				for (AcademicRecordDataObject ar : getAcademicRecord()) {
-					if (ar.getCredit() != null || !ar.getCredit().isEmpty() && !ar.getCredit().contains(".")) {
+					if (ar.getCredit() != null && !ar.getCredit().isEmpty() && !ar.getCredit().contains(".")) {
 						String[] str = ar.getCredit().split("\\D");
 						double min = Double.parseDouble(str[0]);
 						academicTotalMin += min;
 						double max = Double.parseDouble(str[str.length - 1]);
 						academicTotalMax += max;
-					} else if (ar.getCredit() != null || !ar.getCredit().isEmpty() && ar.getCredit().contains(".")) {
+					} else if (ar.getCredit() != null && !ar.getCredit().isEmpty() && ar.getCredit().contains(".")) {
 						academicTotalMin += Double.parseDouble(ar.getCredit());
 						academicTotalMax += Double.parseDouble(ar.getCredit());
 					}
