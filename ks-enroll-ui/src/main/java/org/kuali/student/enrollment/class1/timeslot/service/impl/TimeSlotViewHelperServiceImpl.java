@@ -137,16 +137,18 @@ public class TimeSlotViewHelperServiceImpl
         selectedTimeSlots.clear();
         List<TimeSlotWrapper> timeSlotsToDelete = new ArrayList<TimeSlotWrapper>();
 
+        boolean deleteInfoAdded = false;
         for(TimeSlotWrapper tsWrapper : timeSlotWrappers) {
             if(tsWrapper.isEnableDeleteButton() && tsWrapper.getIsChecked()) {
                 boolean isInUse = isTimeSlotInUse(tsWrapper.getTimeSlotInfo());
                 if (!isInUse){
                     selectedTimeSlots.add(tsWrapper);
                     StatusInfo statusInfo = getSchedulingService().deleteTimeSlot(tsWrapper.getTimeSlotInfo().getId(), contextInfo);
-                    if (timeSlotsToDelete.isEmpty()){
-                        KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, TimeSlotConstants.ApplicationResouceKeys.TIMESLOT_TOOLBAR_DELETE);
-                    }
                     timeSlotsToDelete.add(tsWrapper);
+                }
+                if (!deleteInfoAdded){
+                    KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, TimeSlotConstants.ApplicationResouceKeys.TIMESLOT_TOOLBAR_DELETE);
+                    deleteInfoAdded = true;
                 }
                 tsWrapper.setIsChecked(false);
             }

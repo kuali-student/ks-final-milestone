@@ -286,18 +286,18 @@
                                 </property>
                                 <property name="uppercaseValue" value="true"/>
                                 <property name="constraintText" value="MTWHFSU"/>
-                                <property name="validCharactersConstraint">
+                                <!--<property name="validCharactersConstraint">
                                     <bean parent="CharsetPatternConstraint" p:validChars="MTWHFSUmtwhfsu" />
-                                </property>
+                                </property>-->
                             </bean>
                             <bean id="addOrEditStartTime" parent="Uif-InputField-LabelTop"  p:propertyName="editStartTime" p:cssClasses="edit_ts" p:label="Start Time" >
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5" p:cssClasses="edit_ts_control"/>
                                 </property>
                                 <property name="constraintText" value="HH:MM"/>
-                                <property name="validCharactersConstraint">
+                                <!--<property name="validCharactersConstraint">
                                     <bean parent="TimePatternConstraint" />
-                                </property>
+                                </property>-->
                             </bean>
                             <bean id="addOrEditStartTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="editStartTimeAmPm" p:cssClasses="edit_ts" >
                                 <property name="fieldLabel.requiredMessage.messageText" value=""/>
@@ -310,9 +310,9 @@
                                     <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5" p:cssClasses="edit_ts_control"/>
                                 </property>
                                 <property name="constraintText" value="HH:MM"/>
-                                <property name="validCharactersConstraint">
+                                <!--<property name="validCharactersConstraint">
                                     <bean parent="TimePatternConstraint" />
-                                </property>
+                                </property>-->
                             </bean>
                             <bean id="addOrEditEndTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="editEndTimeAmPm" p:cssClasses="edit_ts" >
                                 <property name="fieldLabel.requiredMessage.messageText" value=""/>
@@ -360,18 +360,18 @@
                     </property>
                     <property name="uppercaseValue" value="true"/>
                     <property name="constraintText" value="MTWHFSU"/>
-                    <property name="validCharactersConstraint">
+                    <!--<property name="validCharactersConstraint">
                         <bean parent="CharsetPatternConstraint" p:validChars="MTWHFSUmtwhfsu" />
-                    </property>
+                    </property>-->
                 </bean>
                 <bean id="addOrEditStartTime" parent="Uif-InputField-LabelTop"  p:propertyName="addStartTime" p:cssClasses="new_ts" p:label="Start Time" >
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5" p:cssClasses="new_ts_control"/>
                     </property>
                     <property name="constraintText" value="HH:MM"/>
-                    <property name="validCharactersConstraint">
+                    <!--<property name="validCharactersConstraint">
                         <bean parent="TimePatternConstraint" />
-                    </property>
+                    </property>-->
                 </bean>
                 <bean id="addOrEditStartTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="addStartTimeAmPm" p:cssClasses="new_ts" >
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
@@ -384,9 +384,9 @@
                         <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5" p:cssClasses="new_ts_control"/>
                     </property>
                     <property name="constraintText" value="HH:MM"/>
-                    <property name="validCharactersConstraint">
+                    <!--<property name="validCharactersConstraint">
                         <bean parent="TimePatternConstraint" />
-                    </property>
+                    </property>-->
                 </bean>
                 <bean id="addOrEditEndTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="addEndTimeAmPm" p:cssClasses="new_ts" >
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>

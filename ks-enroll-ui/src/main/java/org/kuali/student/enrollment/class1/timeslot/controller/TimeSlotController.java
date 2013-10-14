@@ -13,9 +13,11 @@ import org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper;
 import org.kuali.student.enrollment.class1.timeslot.form.TimeSlotForm;
 import org.kuali.student.enrollment.class1.timeslot.service.TimeSlotViewHelperService;
 import org.kuali.student.enrollment.class1.timeslot.util.TimeSlotConstants;
+import org.kuali.student.enrollment.class1.util.WeekDaysDtoAndUIConversions;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -110,6 +112,12 @@ public class TimeSlotController extends UifControllerBase {
     public ModelAndView createTimeSlot(@ModelAttribute(MODEL_ATTRIBUTE_FORM) TimeSlotForm form) throws Exception{
 
         form.setEditInProcess(false);
+
+        validateTimeSlot(form);
+        if (GlobalVariables.getMessageMap().hasErrors()){
+            return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);
+        }
+
         boolean isUnique = getViewHelperService(form).isUniqueTimeSlot(form);
 
         if (!isUnique){
@@ -132,10 +140,16 @@ public class TimeSlotController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=editTimeSlot")
     public ModelAndView editTimeSlot(@ModelAttribute(MODEL_ATTRIBUTE_FORM) TimeSlotForm form) throws Exception{
 
+        form.setEditInProcess(true);
+
         String selectedPathIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         TimeSlotWrapper tsWrapper = form.getTimeSlotResults().get(NumberUtils.toInt(selectedPathIndex));
 
-        form.setEditInProcess(true);
+        validateTimeSlot(form);
+        if (GlobalVariables.getMessageMap().hasErrors()){
+            return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);
+        }
+
         boolean isUnique = getViewHelperService(form).isUniqueTimeSlot(form,tsWrapper.getTimeSlotInfo());
 
         if (!isUnique){
@@ -149,7 +163,7 @@ public class TimeSlotController extends UifControllerBase {
         boolean isInUse = getViewHelperService(form).isTimeSlotInUse(tsWrapper.getTimeSlotInfo());
 
         if (isInUse){
-            KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, TimeSlotConstants.ApplicationResouceKeys.TIMESLOT_IN_USE,tsWrapper.getTimeSlotInfo().getName());
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, TimeSlotConstants.ApplicationResouceKeys.TIMESLOT_IN_USE, tsWrapper.getTimeSlotInfo().getName());
             return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);
         }
 
@@ -161,6 +175,32 @@ public class TimeSlotController extends UifControllerBase {
 
         form.setEditInProcess(false);
         return getUIFModelAndView(form, TimeSlotConstants.TIME_SLOT_PAGE);
+    }
+
+    private void validateTimeSlot(TimeSlotForm form){
+
+        if (!WeekDaysDtoAndUIConversions.isValidDays(form.getAddOrEditDays())){
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid days");
+        }
+
+        long startTime = 0;
+        try{
+            startTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(form.getAddOrEditStartTime() + " " + form.getAddOrEditStartTimeAmPm()).getTime();
+        } catch (Exception e) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid Start time");
+        }
+
+        long endTime = 0;
+        try{
+            endTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(form.getAddOrEditEndTime() + " " + form.getAddOrEditEndTimeAmPm()).getTime();
+        } catch (Exception e) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid End time");
+        }
+
+        if ((startTime != 0 && endTime != 0) && startTime > endTime){
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Start time should be less than end time");
+        }
+
     }
 
     private TimeSlotViewHelperService getViewHelperService(UifFormBase form) {

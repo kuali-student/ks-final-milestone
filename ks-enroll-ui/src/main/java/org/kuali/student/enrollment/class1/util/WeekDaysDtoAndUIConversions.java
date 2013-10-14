@@ -100,4 +100,13 @@ import java.util.List;
 
          return weekdays;
      }
+
+    public static boolean isValidDays(String days){
+        if (StringUtils.isNotBlank(days)){
+            days = StringUtils.upperCase(days);
+            String validDays = "MTWHFSU";
+            return StringUtils.containsOnly(days,validDays);
+        }
+        return false;
+    }
  }
