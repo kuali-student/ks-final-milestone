@@ -4,6 +4,7 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.ComparatorModel;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -161,6 +162,45 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
     private boolean hasWaitlistCO;
     //hold the checkbox value for Limit Waitlist Size
     private boolean limitWaitlistSize;
+
+    /**
+     * Valid modes for creating ad-hoc timeslots
+     *
+     * The application supports three ad-hoc timeslot creation modes
+     * 1. Allows the user to create ad-hoc timeslots
+     * 2. Disallows the user to create ad-hoc timeslots
+     * 3. Allows the user to create ad-hoc timeslots but only with prior approval
+     *
+     * By default, ad-hoc timeslot creating is allowed only with prior approval.  This can be configured via property
+     * kuali.ks.enrollment.timeslots.adhoc_creation_mode
+     */
+    public static enum AdhocTimeslotCreationMode {
+
+        ALLOWED,
+        NOT_ALLOWED,
+        NEEDS_APPROVAL;
+
+        private AdhocTimeslotCreationMode() { }
+
+        /**
+         * Returns a value based on the string provided.  If the provided string is null or a match cannot be found,
+         * will return {@link AdhocTimeslotCreationMode#NEEDS_APPROVAL}
+         *
+         * @param text
+         * @return {@link AdhocTimeslotCreationMode}
+         */
+        public static AdhocTimeslotCreationMode fromString( String text ) {
+            if( text != null ) {
+                for( AdhocTimeslotCreationMode m : AdhocTimeslotCreationMode.values() ) {
+                    if( text.equalsIgnoreCase( m.name() ) ) {
+                        return m;
+                    }
+                }
+            }
+            return AdhocTimeslotCreationMode.NEEDS_APPROVAL;
+        }
+
+    }
 
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
@@ -355,6 +395,21 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         }
 
         return true;
+    }
+
+    /**
+     * This method returns the allowed creation-mode of ad-hoc time-slots.
+     * This method read the configuration property <code>kuali.ks.enrollment.timeslots.adhoc_creation_mode</code> and
+     * returns it's value (ALLOWED, NOT_ALLOWED, NEEDS_APPROVAL).  This is to allow the institutional configuration to
+     * decide whether or not users should be allowed to create ad-hoc time-slots.
+     *
+     * The default is to allow the user to create ad-hoc time-slots, but only with prior approval.
+     *
+     * @return {@link AdhocTimeslotCreationMode}
+     */
+    public AdhocTimeslotCreationMode getAdhocTimeslotCreationMode() {
+        String contextConfigProp = ConfigContext.getCurrentContextConfig().getProperty(ActivityOfferingConstants.ConfigProperties.ADHOC_TIMESLOT_CREATION_MODE );
+        return AdhocTimeslotCreationMode.fromString( contextConfigProp );
     }
 
     private String abbreviatedCourseType = "";

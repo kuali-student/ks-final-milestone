@@ -23,6 +23,7 @@ import org.kuali.rice.krad.util.ErrorMessage;
  * @author Kuali Student Team
  */
 public class ActivityOfferingConstants {
+
     public final static String ACTIVITYOFFERING_ID = "id";
     public final static String ACTIVITYOFFERING_TERM_ID = "termId";
     public final static String ACTIVITYOFFERING_TERM_CODE = "termCode";
@@ -62,5 +63,14 @@ public class ActivityOfferingConstants {
     public static final String ACTIVITYOFFERINGS_ACTION_CANCEL = "cancelAOs";
     public static final String ACTIVITYOFFERINGS_ACTION_SUSPEND = "suspendAOs";
     public static final String ACTIVITYOFFERINGS_ACTION_REINSTATE = "reinstateAOs";
+
+    public static class ConfigProperties {
+        public static final String ADHOC_TIMESLOT_CREATION_MODE = "kuali.ks.enrollment.timeslots.adhoc_creation_mode";
+    }
+
+
+    private ActivityOfferingConstants() {
+        /* Sonar-fix: "Utility classes should not have a public or default constructor" */
+    }
 
 }
