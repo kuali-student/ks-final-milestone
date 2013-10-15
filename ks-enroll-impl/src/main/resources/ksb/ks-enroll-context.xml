@@ -424,6 +424,7 @@
          <entry key="kuali.lui.registration.group" value-ref="rgStateHelperImpl"/>
          <entry key="kuali.soc" value-ref="socStateHelper"/>
          <entry key="kuali.soc.scheduling" value-ref="socSchedStateHelper"/>
+         <entry key="kuali.lui.exam.offering" value-ref="eoStateHelper"/>
      </util:map>
 
      <util:map id="relatedObjectHelperMap" map-class="java.util.HashMap">
@@ -436,6 +437,8 @@
          <entry key="kuali.lui.activity.offering:kuali.lui.activity.offering.scheduling" value-ref="aoToAoSchedRelatedObjHelper"/>
          <entry key="kuali.soc:kuali.lui.activity.offering" value-ref="socToAORelatedObjHelper"/>
          <entry key="kuali.lui.activity.offering:kuali.soc" value-ref="aotoSOCRelatedObjHelper"/>
+         <entry key="kuali.lui.activity.offering:kuali.lui.exam.offering" value-ref="aoToEoRelatedObjHelper"/>
+         <entry key="kuali.lui.format.offering:kuali.lui.exam.offering" value-ref="foToEoRelatedObjHelper"/>
      </util:map>
 
     <bean id="aoStateHelper" class="org.kuali.student.enrollment.class1.state.impl.AOStateHelperImpl"/>
@@ -443,6 +446,8 @@
     <bean id="foStateHelper" class="org.kuali.student.enrollment.class1.state.impl.FOStateHelperImpl"/>
 
     <bean id="coStateHelper" class="org.kuali.student.enrollment.class1.state.impl.COStateHelperImpl" />
+
+    <bean id="eoStateHelper" class="org.kuali.student.enrollment.class1.state.impl.EOStateHelperImpl" />
 
     <bean id="rgStateHelperImpl" class="org.kuali.student.enrollment.class1.state.impl.RGStateHelperImpl" />
 
@@ -461,6 +466,10 @@
     <bean id="aoToRgRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoRGImpl"/>
 
     <bean id="rgToAoRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperRGtoAOImpl"/>
+
+    <bean id="aoToEoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoEOImpl"/>
+
+    <bean id="foToEoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperFOtoEOImpl"/>
 
     <bean id="aoToAoSchedRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoAOSchedImpl"/>
 
