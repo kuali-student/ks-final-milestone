@@ -269,6 +269,7 @@
                       p:messageText="@{#line.instructorDisplayNames}" p:style="width:200px;"/>
                 <bean parent="Uif-DataField" p:label="SEATS" p:propertyName="aoInfo.maximumEnrollment" p:style="text-align:right;width:44px;"/>
                 <bean parent="Uif-MessageField" p:label="ADDITIONAL INFO" p:messageText="@{#line.schOfClassesRenderHelper.information}" p:style="width:111px;"/>
+                <bean parent="Uif-MessageField" p:label="REQUISITE" p:messageText="@{#line.requisite}"/>
             </list>
         </property>
     </bean>

@@ -36,6 +36,7 @@ import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.student.common.UUIDHelper;
 import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl;
@@ -49,6 +50,7 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.sort.KSComparatorCh
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.ActivityOfferingCodeComparator;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.ActivityOfferingTypeComparator;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
+import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesRequisites;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -61,14 +63,12 @@ import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImp
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
-import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
@@ -348,20 +348,39 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
      * @param courseOfferingId
      * @return Map of course offering requisites
      */
-    public String retrieveRequisites(String courseOfferingId) {
+    public ScheduleOfClassesRequisites retrieveRequisites(String courseOfferingId, List<ActivityOfferingWrapper> activityOfferingWrapperList) {
 
-        String catalogUsageId = getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_CATALOG, PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
+        ScheduleOfClassesRequisites reqBuilder = new ScheduleOfClassesRequisites();
+
+        reqBuilder.setCatalogUsageId(getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_CATALOG, PermissionServiceConstants.KS_SYS_NAMESPACE).getId());
 
         //Retrieve reference object bindings for course offering
-        List<ReferenceObjectBinding> refObjectsBindings = ruleManagementService.findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING, courseOfferingId);
+        reqBuilder.setCoRefObjectsBindingList(ruleManagementService.findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING, courseOfferingId));
 
-        //Retrieve agenda's for course offering
-        StringBuilder requisites = new StringBuilder();
-        for (ReferenceObjectBinding referenceObjectBinding : refObjectsBindings) {
-            requisites.append(ruleManagementService.translateNaturalLanguageForObject(catalogUsageId, "agenda", referenceObjectBinding.getKrmsObjectId(), "en"));
+        //Retrieve reference object bindings for activity offering's
+        for(ActivityOfferingWrapper activityOfferingWrapper : activityOfferingWrapperList) {
+            List<ReferenceObjectBinding> aoRefObjectBindingList = ruleManagementService.findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, activityOfferingWrapper.getAoInfo().getId());
+            if(aoRefObjectBindingList != null && !aoRefObjectBindingList.isEmpty()) {
+                reqBuilder.getAoRefObjectsBindingMap().put(activityOfferingWrapper.getActivityCode(), aoRefObjectBindingList);
+            }
         }
 
-        return requisites.toString();
+        //Retrieve agenda's for course offering
+        for(ReferenceObjectBinding coReferenceObjectBinding : reqBuilder.getCoRefObjectsBindingList()) {
+            String coReq = ruleManagementService.translateNaturalLanguageForObject(reqBuilder.getCatalogUsageId(), "agenda", coReferenceObjectBinding.getKrmsObjectId(), "en");
+            reqBuilder.getCoRequisite().append(coReq);
+        }
+
+        //Retrieve agenda's for activity offering
+        for(Map.Entry<String, List<ReferenceObjectBinding>> aoEntry : reqBuilder.getAoRefObjectsBindingMap().entrySet()) {
+            for(ReferenceObjectBinding aoReferenceObjectBinding : aoEntry.getValue()) {
+                String aoReq = ruleManagementService.translateNaturalLanguageForObject(reqBuilder.getCatalogUsageId(), "agenda", aoReferenceObjectBinding.getKrmsObjectId(), "en");
+                reqBuilder.getAoRequisite().append(aoReq);
+            }
+            reqBuilder.getAoRequisiteMap().put(aoEntry.getKey(), reqBuilder.getAoRequisite().toString());
+        }
+
+        return reqBuilder;
     }
 
     public String getTermStartEndDate(TermInfo term) {

@@ -163,6 +163,7 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
     //hold the checkbox value for Limit Waitlist Size
     private boolean limitWaitlistSize;
 
+    private String requisite;
     /**
      * Valid modes for creating ad-hoc timeslots
      *
@@ -1361,6 +1362,14 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
 
     public void setWaitListTypeUI(String waitListTypeUI) {
         this.waitListTypeUI = waitListTypeUI;
+    }
+
+    public String getRequisite() {
+        return requisite;
+    }
+
+    public void setRequisite(String requisite) {
+        this.requisite = requisite;
     }
 
     /**

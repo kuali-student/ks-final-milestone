@@ -36,6 +36,7 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingD
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
 import org.kuali.student.enrollment.class2.scheduleofclasses.service.ScheduleOfClassesViewHelperService;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
+import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesRequisites;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesUtil;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -248,8 +249,8 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         coDisplayWrapper.getActivityWrapperList().clear();
         coDisplayWrapper.getActivityWrapperList().addAll(theForm.getActivityWrapperList());
 
-        String requisites =  getViewHelperService(theForm).retrieveRequisites(coDisplayWrapper.getCourseOfferingId());
-        coDisplayWrapper.setRequisites(requisites);
+        ScheduleOfClassesRequisites requisites =  getViewHelperService(theForm).retrieveRequisites(coDisplayWrapper.getCourseOfferingId(), coDisplayWrapper.getActivityWrapperList());
+        coDisplayWrapper.setRequisites(requisites.getCoRequisite().toString());
 
         getViewHelperService(theForm).sortActivityOfferings(theForm,coDisplayWrapper);
 
@@ -258,6 +259,9 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         for (ActivityOfferingWrapper aoWrapper : coDisplayWrapper.getActivityWrapperList()){
+            //Adding Requisites
+            aoWrapper.setRequisite(requisites.getAoRequisiteMap().get(aoWrapper.getActivityCode()));
+
             // Adding Information (icons)
             StringBuilder information = new StringBuilder();
             if (aoWrapper.getAoInfo().getIsHonorsOffering() != null && aoWrapper.getAoInfo().getIsHonorsOffering()) {
@@ -309,8 +313,8 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         CourseOfferingDisplayWrapper coDisplayWrapper = (CourseOfferingDisplayWrapper)KSControllerHelper.getSelectedCollectionItem(theForm);
         theForm.setCourseOfferingId(coDisplayWrapper.getCourseOfferingId());
 
-        String requisites =  getViewHelperService(theForm).retrieveRequisites(coDisplayWrapper.getCourseOfferingId());
-        coDisplayWrapper.setRequisites(requisites);
+        ScheduleOfClassesRequisites requisites =  getViewHelperService(theForm).retrieveRequisites(coDisplayWrapper.getCourseOfferingId(), coDisplayWrapper.getActivityWrapperList());
+        coDisplayWrapper.setRequisites(requisites.getCoRequisite().toString());
 
         List<String> regGroupStates = getViewHelperService(theForm).getRegGroupStateFilter();
         searchRequestInfo.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.REGGROUP_STATES, regGroupStates);
