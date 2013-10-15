@@ -50,14 +50,14 @@ public class ExamPeriodWrapper {
         desc.setPlain("test");
         examPeriodInfo.setDescr(desc);
         setExamPeriodType(AtpServiceConstants.ATP_EXAM_PERIOD_TYPE_KEY);
-        setExamPeriodNameUI("Final Examination Period");
+        setExamPeriodNameUI("Final Exam Period");
     }
 
     public ExamPeriodWrapper(ExamPeriodInfo examPeriodInfo, boolean isCopy){
         this.startDate = examPeriodInfo.getStartDate();
         this.endDate = examPeriodInfo.getEndDate();
         setExamPeriodType(examPeriodInfo.getTypeKey());
-        setExamPeriodNameUI("Final Examination Period");
+        setExamPeriodNameUI("Final Exam Period");
 
         if (isCopy){
             setExamPeriodInfo(new ExamPeriodInfo());
@@ -90,7 +90,7 @@ public class ExamPeriodWrapper {
 
     public void setExamPeriodNameUI(String examPeriodNameUI) {
         if (examPeriodNameUI == null || examPeriodNameUI.equals("")) {
-            this.examPeriodNameUI = "Final Examination Period";
+            this.examPeriodNameUI = "Final Exam Period";
         } else {
             this.examPeriodNameUI = examPeriodNameUI;
         }
