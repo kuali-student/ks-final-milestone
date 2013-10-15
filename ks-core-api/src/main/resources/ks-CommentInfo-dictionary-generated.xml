@@ -45,7 +45,7 @@ plus any of its dependencies -->
 		<property name="objectLabel" value="Comment"/>
 		<property name="objectDescription">
 			<value>
-Refer to interface javadoc
+Information about a comment applied to another object in the system.
 			</value>
 		</property>
 		<property name="titleAttribute" value="id"/>
