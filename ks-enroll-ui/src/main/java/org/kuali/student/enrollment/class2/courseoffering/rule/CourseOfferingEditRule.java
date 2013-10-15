@@ -96,10 +96,9 @@ public class CourseOfferingEditRule extends KsMaintenanceDocumentRuleBase {
     protected boolean validFinalExamDriver (CourseOfferingEditWrapper coWrapper) {
         if (StringUtils.equals(coWrapper.getCourseOfferingInfo().getFinalExamType(), CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)
                 && (!StringUtils.equals(coWrapper.getFinalExamDriver(), LuServiceConstants.LU_EXAM_DRIVER_AO_KEY) && !StringUtils.equals(coWrapper.getFinalExamDriver(), LuServiceConstants.LU_EXAM_DRIVER_CO_KEY))) {
-            GlobalVariables.getMessageMap().putError(
-                    "document.newMaintainableObject.dataObject.finalExamDriver",
+            GlobalVariables.getMessageMap().putErrorForSectionId(
+                    "delivery_and_assessment",
                     CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_PARAMETER_IS_REQUIRED, "Final Exam Driver");
-
             return false;
         }
 
