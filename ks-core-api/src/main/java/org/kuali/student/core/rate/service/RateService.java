@@ -445,6 +445,30 @@ public interface RateService {
                OperationFailedException, 
                PermissionDeniedException;
 
+    /** 
+     * Retrieves a list of Rates by the reference object.
+     *
+     * @param refObjectURI the URI identifying the namespace of the
+     *        reference Id
+     * @param refObjectId the Id of the reference
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of Rates for the reference object or an empty
+     *         list is none found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException refObjectURI, refObjectId, or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<RateInfo> getRatesByReference(@WebParam(name = "refObjectURI") String refObjectURI, 
+                                              @WebParam(name = "refObjectId") String refObjectId, 
+                                              @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
+
     /**
      * Searches for Rates based on the criteria and returns a list of
      * Rate identifiers which match the search criteria.

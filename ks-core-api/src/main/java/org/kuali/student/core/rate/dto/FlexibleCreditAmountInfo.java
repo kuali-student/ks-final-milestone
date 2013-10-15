@@ -16,7 +16,7 @@
 
 package org.kuali.student.core.rate.dto;
 
-import org.kuali.student.core.rate.infc.FlexibleUnitAmount;
+import org.kuali.student.core.rate.infc.FlexibleCreditAmount;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
 
 import java.io.Serializable;
@@ -31,16 +31,16 @@ import javax.xml.bind.annotation.XmlType;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "FlexibleUnitAmountInfo", propOrder = {
-        "units", "amount", "_futureElements" })
+@XmlType(name = "FlexibleCreditAmountInfo", propOrder = {
+        "credits", "amount", "_futureElements" })
 
-public class FlexibleUnitAmountInfo
-    implements FlexibleUnitAmount {
+public class FlexibleCreditAmountInfo
+    implements FlexibleCreditAmount {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String units;
+    private String credits;
 
     @XmlElement
     private CurrencyAmountInfo amount;
@@ -50,31 +50,31 @@ public class FlexibleUnitAmountInfo
 
 
     /**
-     * Constructs a new FlexibleUnitAmountInfo.
+     * Constructs a new FlexibleCreditAmountInfo.
      */
-    public FlexibleUnitAmountInfo() {
+    public FlexibleCreditAmountInfo() {
     }
 
     /**
-     * Constructs a new FlexibleUnitAmountInfo from another
-     * FlexibleUnitAmount.
+     * Constructs a new FlexibleCreditAmountInfo from another
+     * FlexibleCreditAmount.
      *
-     * @param flexibleUnitAmount the FlexibleUnitAmount to copy
+     * @param flexibleCreditAmount the FlexibleCreditAmount to copy
      */
-    public FlexibleUnitAmountInfo(FlexibleUnitAmount flexibleUnitAmount) {
-        if (flexibleUnitAmount != null) {
-            this.units = flexibleUnitAmount.getUnits();
-            this.amount = new CurrencyAmountInfo(flexibleUnitAmount.getAmount());
+    public FlexibleCreditAmountInfo(FlexibleCreditAmount flexibleCreditAmount) {
+        if (flexibleCreditAmount != null) {
+            this.credits = flexibleCreditAmount.getCredits();
+            this.amount = new CurrencyAmountInfo(flexibleCreditAmount.getAmount());
         }
     }
 
     @Override
-    public String getUnits() {
-        return (this.units);
+    public String getCredits() {
+        return (this.credits);
     }
 
-    public void setUnits(String units) {
-        this.units = units;
+    public void setCredits(String credits) {
+        this.credits = credits;
     }
 
     @Override

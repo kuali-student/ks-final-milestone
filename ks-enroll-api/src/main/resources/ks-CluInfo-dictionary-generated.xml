@@ -31,13 +31,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 		because the generator is not perfect) please update the corresponding 
 		ks-XXXX-dictionary.xml instead of this one.
 	************************************************************* -->
-	<!-- ********************************************************************************************************** -->
-	<!-- The following file is required for this file to load:
- ks-base-dictionary.xml
-plus any of its dependencies -->
-	<!-- ********************************************************************************************************** -->
-	<import resource="classpath:ks-base-dictionary.xml"/>
-
 	<!-- CluInfo-->
 	<bean id="CluInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="cluInfo"/>
@@ -1537,7 +1530,7 @@ Version independent Id that remains the same across all versions
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="CluInfo.version.sequenceNumber-generated" abstract="true" parent="BaseKuali.long">
+	<bean id="CluInfo.version.sequenceNumber-generated" abstract="true" parent="BaseKuali.long.positive">
 		<property name="name" value="sequenceNumber"/>
 		<property name="shortLabel" value="Sequence Number"/>
 		<property name="summary">

@@ -33,17 +33,17 @@ import java.util.List;
  *                  specifies a minimum and maxmimum amount to
  *                  constrain the Rate.</dd>
  *  
- *    <dt>Fixed Unit</dt> <dd>A rate per unit where the total amount
- *                          is the rate multiplied by the units
- *                          determined by what this Rate applies
- *                          to. The Catalog Rate specifies a minimum
- *                          and axmimum amount for the rate per
- *                          unit.</dd>
+ *    <dt>Fixed Credit</dt> <dd>A rate per credit where the total
+ *                          amount is the rate multiplied by the
+ *                          credits (or units) determined by what this
+ *                          Rate applies to. The Catalog Rate
+ *                          specifies a minimum and axmimum amount for
+ *                          the rate per credit hour.</dd>
  * 
- *    <dt>Flexible Unit</dt> <dd>A specific rate for each unit
+ *    <dt>Flexible Credit</dt> <dd>A specific rate for each credit
  *                             value. The Catalog Rate specifies the
  *                             list of acceptable valued (amount and
- *                             number of units allowed in a
+ *                             number of credits allowed in a
  *                             Rate.</dd> </dl> 1. Flat - A rate that
  *                             doesn't vary. The Catalog Rate
  *                             specifies a minimum and maxmimum amount
@@ -76,8 +76,8 @@ public interface CatalogRate
     public List<String> getApplicableAtpIds();
 
     /**
-     * The minimum amount for a flat or fixed unit Rate. This field
-     * is not applicable for flexible unit rates.
+     * The minimum amount for a flat or fixed credit Rate. This field
+     * is not applicable for flexible credit rates.
      * 
      * @return the minimum amount
      * @name Minimum Amount
@@ -85,8 +85,8 @@ public interface CatalogRate
     public CurrencyAmount getMinimumAmount();
 
     /**
-     * The maximum amount for a flat or fixed unit Rate. This field
-     * is not applicable for flexible unit rates.
+     * The maximum amount for a flat or fixed credit Rate. This field
+     * is not applicable for flexible credit rates.
      * 
      * @return the maximum amount
      * @name Maximum Amount
@@ -94,23 +94,43 @@ public interface CatalogRate
     public CurrencyAmount getMaximumAmount();
 
     /**
-     * The allowed list of flexible unit amounts in flexible unit
+     * Tests if a fixed amount is capped. This is only applicable to
+     * fixed rates.
+     *
+     * @return true if the fixed amount is capped, false otherwise
+     * @name Is Fixed Credit Amount Capped
+     */
+    public Boolean getIsFixedCreditAmountCapped();
+
+    /**
+     * The maximum amount for a fixed credit Rate. For a fixed credit
+     * rate, getMinimumAmount() and getMaxmimumAmount() describe the
+     * acceptable range of amounts per credit. This field specifies
+     * the cap on the amount multiplied by the number of credits.
+     *
+     * @return the capped fixed credit amount
+     * @name Capped Fixed Credit Amount
+     */
+    public CurrencyAmount getCappedFixedCreditAmount();
+
+    /**
+     * The allowed list of flexible credit amounts in flexible credit
      * Rates.
      *
-     * @return a list of flexible unit amounts
-     * @name Flexible unit Amounts
+     * @return a list of flexible credit amounts
+     * @name Flexible Credit Amounts
      */
-    public List<? extends FlexibleUnitAmount> getFlexibleUnitAmounts();
+    public List<? extends FlexibleCreditAmount> getFlexibleCreditAmounts();
 
     /**
      * Tests if a Rate can override the transaction code in this
      * catalog.
      *
-     * @return true if the transaction code cannot be changed, false
-     *         if the Rate can override this code
-     * @name Is Transaction Code Final
+     * @return true if the transaction code can be changed, false
+     *         otherwise
+     * @name Can Override Transaction Code
      */
-    public Boolean getIsTransactionCodeFinal();
+    public Boolean getCanOverrideTransactionCode();
 
     /**
      * The transaction code to use in the Rates.
@@ -124,11 +144,11 @@ public interface CatalogRate
      * Tests if a Rate can override the transaction date type in this
      * catalog.
      *
-     * @return true if the transaction date type cannot be changed,
-     *         false if the Rate can override this type
-     * @name Is Transaction Date Final
+     * @return true if the transaction date type can be changed, false
+     *         otherwise
+     * @name Can Override Transaction Date Type
      */
-    public Boolean getIsTransactionDateTypeFinal();
+    public Boolean getCanOverrideTransactionDateType();
 
     /**
      * The transaction date type key to use in the Rates.
@@ -137,71 +157,4 @@ public interface CatalogRate
      * @name Transaction Date Type Key
      */
     public String getTransactionDateTypeKey();
-
-    /**
-     * Tests if a Recognition Date may be specified in a Rate.
-     *
-     * @return true if a recognition date can be specified in a Rate,
-     *         false if a recognition date cannot be specified in a
-     *         Rate
-     * @name Is Recognition Date Definable
-     */
-    public Boolean getIsRecognitionDateDefinable();
-
-    /**
-     * Tests if a Rate can override the limit rate parameters in this
-     * catalog.
-     *
-     * @return true if the limit data cannot be changed,
-     *         false if the Rate can override this limit data
-     * @name Is Limit Rate Final
-     */
-    public Boolean getIsLimitRateFinal();
-
-    /**
-     * Tests if this is a "limit" rate. A limit rate has a minimum and
-     * maximum limit unit range at which the rate is the limitAmount.
-     *
-     * @return true if this is a limit rate, false otherwise
-     * @name Is Limit Rate
-     */
-    public Boolean getIsLimitRate();
-
-    /**
-     * Gets the minimum, or low end of the unit range, for a limit
-     * rate. This field is only applicable if isLimitRate() is true.
-     *
-     * @return the low end of the limit units range
-     * @name Minimum Limit Units
-     */
-    public Integer getMinimumLimitUnits();
-
-    /**
-     * Gets the maximum, or high end of the unit range, for a limit
-     * rate. This field is only applicable if isLimitRate() is true.
-     *
-     * @return the low end of the limit units range
-     * @name Maximum Limit Units
-     */
-    public Integer getMaximumLimitUnits();
-
-    /**
-     * Gets the minimum amount for the limit. This sets the lower
-     * bound for the Limit Amount in the Rate. This field is only
-     * applicable if isLimitRate() is true.
-     *
-     * @return the minimum limit amount
-     * @name Minimum Limit Amount
-     */
-    public CurrencyAmount getMinimumLimitAmount();
-
-    /**
-     * Gets the maximum amount for the limit. This sets the upper
-     * bound for the Limit Amount in the Rate. This field is only
-     * applicable if isLimitRate() is true.
-     *
-     * @return the maximum limit amount
-     * @name Maximum Limit Amount
-     */
-    public CurrencyAmount getMaximumLimitAmount();
 }

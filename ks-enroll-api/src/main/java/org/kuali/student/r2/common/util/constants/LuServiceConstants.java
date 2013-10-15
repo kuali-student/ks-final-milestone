@@ -34,4 +34,9 @@ public class LuServiceConstants {
     public static final String COURSE_ACTIVITY_WEBLECTURE_TYPE_KEY = "kuali.lu.type.activity.WebLecture";
     public static final String COURSE_ACTIVITY_WEBDISCUSS_TYPE_KEY = "kuali.lu.type.activity.WebDiscussion";
     public static final String COURSE_ACTIVITY_DIRECTED_TYPE_KEY = "kuali.lu.type.activity.Directed";
+    public static final String LU_EXAM_DRIVER_AO_KEY = "kuali.lu.exam.driver.ActivityOffering";
+    public static final String LU_EXAM_DRIVER_CO_KEY = "kuali.lu.exam.driver.CourseOffering";
+
+    public static final String[] ALL_EXAM_DRIVER_KEYS = { LU_EXAM_DRIVER_AO_KEY, LU_EXAM_DRIVER_CO_KEY };
+
 }

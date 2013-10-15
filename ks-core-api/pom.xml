@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.student.api</groupId>
         <artifactId>ks-api</artifactId>
-        <version>2.0.0-services-M8-SNAPSHOT</version>
+        <version>2.0.0-M8-SNAPSHOT</version>
     </parent>
     <artifactId>ks-core-api</artifactId>
     <name>KS Core API</name>
@@ -58,18 +58,6 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>acal-wsdl</id>
-                        <phase>${ks.java2ws.phase}</phase>
-                        <configuration>
-                            <className>org.kuali.student.r2.core.acal.service.AcademicCalendarService</className>
-                            <genWsdl>true</genWsdl>
-                            <verbose>true</verbose>
-                        </configuration>
-                        <goals>
-                            <goal>java2ws</goal>
-                        </goals>
-                    </execution>
-                    <execution>
                         <id>comment-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
@@ -94,30 +82,6 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>exemption-wsdl</id>
-                        <phase>${ks.java2ws.phase}</phase>
-                        <configuration>
-                            <className>org.kuali.student.r2.core.exemption.service.ExemptionService</className>
-                            <genWsdl>true</genWsdl>
-                            <verbose>true</verbose>
-                        </configuration>
-                        <goals>
-                            <goal>java2ws</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>hold-wsdl</id>
-                        <phase>${ks.java2ws.phase}</phase>
-                        <configuration>
-                            <className>org.kuali.student.r2.core.hold.service.HoldService</className>
-                            <genWsdl>true</genWsdl>
-                            <verbose>true</verbose>
-                        </configuration>
-                        <goals>
-                            <goal>java2ws</goal>
-                        </goals>
-                    </execution>
-                    <execution>
                         <id>enumerationmanagement-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
@@ -130,48 +94,12 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>message-wsdl</id>
-                        <phase>${ks.java2ws.phase}</phase>
-                        <configuration>
-                            <className>org.kuali.student.r2.common.messages.service.MessageService</className>
-                            <genWsdl>true</genWsdl>
-                            <verbose>true</verbose>
-                        </configuration>
-                        <goals>
-                            <goal>java2ws</goal>
-                        </goals>
-                    </execution>
-                    <execution>
                         <id>organization-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
                             <className>org.kuali.student.r2.core.organization.service.OrganizationService</className>
                             <serviceName>OrganizationService</serviceName>
                             <targetNameSpace>http://student.kuali.org/wsdl/organization</targetNameSpace>
-                        </configuration>
-                        <goals>
-                            <goal>java2ws</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>population-wsdl</id>
-                        <phase>${ks.java2ws.phase}</phase>
-                        <configuration>
-                            <className>org.kuali.student.r2.core.population.service.PopulationService</className>
-                            <genWsdl>true</genWsdl>
-                            <verbose>true</verbose>
-                        </configuration>
-                        <goals>
-                            <goal>java2ws</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>process-wsdl</id>
-                        <phase>${ks.java2ws.phase}</phase>
-                        <configuration>
-                            <className>org.kuali.student.r2.core.process.service.ProcessService</className>
-                            <genWsdl>true</genWsdl>
-                            <verbose>true</verbose>
                         </configuration>
                         <goals>
                             <goal>java2ws</goal>
@@ -202,18 +130,6 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>room-wsdl</id>
-                        <phase>${ks.java2ws.phase}</phase>
-                        <configuration>
-                            <className>org.kuali.student.r2.core.room.service.RoomService</className>
-                            <genWsdl>true</genWsdl>
-                            <verbose>true</verbose>
-                        </configuration>
-                        <goals>
-                            <goal>java2ws</goal>
-                        </goals>
-                    </execution>
-                    <execution>
                         <id>scheduling-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
@@ -226,60 +142,12 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>search-wsdl</id>
-                        <phase>${ks.java2ws.phase}</phase>
-                        <configuration>
-                            <className>org.kuali.student.r2.core.search.service.SearchService</className>
-                            <genWsdl>true</genWsdl>
-                            <verbose>true</verbose>
-                        </configuration>
-                        <goals>
-                            <goal>java2ws</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>state-wsdl</id>
-                        <phase>${ks.java2ws.phase}</phase>
-                        <configuration>
-                            <className>org.kuali.student.r2.core.class1.state.service.StateService</className>
-                            <genWsdl>true</genWsdl>
-                            <verbose>true</verbose>
-                        </configuration>
-                        <goals>
-                            <goal>java2ws</goal>
-                        </goals>
-                    </execution>
-                    <execution>
                         <id>statement-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
                             <className>org.kuali.student.r2.core.statement.service.StatementService</className>
                             <serviceName>StatementService</serviceName>
                             <targetNameSpace>http://student.kuali.org/wsdl/statement</targetNameSpace>
-                        </configuration>
-                        <goals>
-                            <goal>java2ws</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>type-wsdl</id>
-                        <phase>${ks.java2ws.phase}</phase>
-                        <configuration>
-                            <className>org.kuali.student.r2.core.class1.type.service.TypeService</className>
-                            <genWsdl>true</genWsdl>
-                            <verbose>true</verbose>
-                        </configuration>
-                        <goals>
-                            <goal>java2ws</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>versionManagement-wsdl</id>
-                        <phase>${ks.java2ws.phase}</phase>
-                        <configuration>
-                            <className>org.kuali.student.r2.core.versionmanagement.service.VersionManagementService</className>
-                            <genWsdl>true</genWsdl>
-                            <verbose>true</verbose>
                         </configuration>
                         <goals>
                             <goal>java2ws</goal>

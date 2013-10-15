@@ -20,6 +20,7 @@ package org.kuali.student.enrollment.coursewaitlist.dto;
 import org.kuali.student.enrollment.coursewaitlist.infc.CourseWaitList;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -37,7 +38,7 @@ import java.util.List;
         "formatOfferingIds", "registerInFirstAvailableActivityOffering",
         "automaticallyProcessed", "confirmationRequired", "maxSize",
         "checkInRequired", "checkInFrequency", "allowHoldUntilEntries", "effectiveDate", "expirationDate",
-        "meta", "attributes", "_futureElements" })
+        "meta", "attributes", "_futureElements"})
 public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWaitList, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -67,20 +68,25 @@ public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWa
     @XmlAnyElement
     private List<Object> _futureElements;
 
-
     public CourseWaitListInfo() {
+        activityOfferingIds = new ArrayList<String>();
+        formatOfferingIds = new ArrayList<String>();
     }
 
     public CourseWaitListInfo(CourseWaitList waitList) {
         super(waitList);
 
-        if(waitList != null) {
-            if(waitList.getActivityOfferingIds() != null) {
+        if (waitList != null) {
+            if (waitList.getActivityOfferingIds() != null) {
                 setActivityOfferingIds(new ArrayList<String>(waitList.getActivityOfferingIds()));
+            } else {
+                setActivityOfferingIds(new ArrayList<String>());
             }
 
-            if(waitList.getFormatOfferingIds() != null) {
+            if (waitList.getFormatOfferingIds() != null) {
                 setFormatOfferingIds(new ArrayList<String>(waitList.getFormatOfferingIds()));
+            } else {
+                setFormatOfferingIds(new ArrayList<String>());
             }
 
             setRegisterInFirstAvailableActivityOffering(waitList.getRegisterInFirstAvailableActivityOffering());
@@ -190,6 +196,7 @@ public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWa
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
+
 
     @Override
     public Date getExpirationDate() {

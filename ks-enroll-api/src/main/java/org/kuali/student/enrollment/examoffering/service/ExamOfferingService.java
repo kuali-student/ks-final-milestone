@@ -101,7 +101,7 @@ public interface ExamOfferingService {
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
-            PermissionDeniedException;
+            PermissionDeniedException, DoesNotExistException;
 
     /**
      * Searches for ExamOfferings that meet the given search criteria.
@@ -546,7 +546,7 @@ public interface ExamOfferingService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getExamOfferingRelationIdsByActivityOfferingId(@WebParam(name = "activityOfferingId") String activityOfferingId,
+    public List<String> getExamOfferingRelationIdsByActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId,
                                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,

@@ -17,7 +17,7 @@
 package org.kuali.student.core.rate.dto;
 
 import org.kuali.student.core.rate.infc.CatalogRate;
-import org.kuali.student.core.rate.infc.FlexibleUnitAmount;
+import org.kuali.student.core.rate.infc.FlexibleCreditAmount;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
@@ -39,12 +39,10 @@ import org.w3c.dom.Element;
 @XmlType(name = "CatalogRateInfo", propOrder = {
         "id", "typeKey", "stateKey", "name", "descr",
         "code", "applicableAtpIds", "minimumAmount",
-        "maximumAmount", "flexibleCreditAmounts",
-        "isTransactionCodeFinal", "transactionCode", 
-        "isTransactionDateTypeFinal", "transactionDateTypeKey", 
-        "isRecognitionDateDefinable", "isLimitRateFinal",
-        "isLimitRate", "minimumLimitUnits", "maximumLimitUnits",
-        "minimumLimitAmount", "maximumLimitAmount",
+        "maximumAmount", "isFixedCreditAmountCapped",
+        "cappedFixedCreditAmount", "flexibleCreditAmounts",
+        "canOverrideTransactionCode", "transactionCode", 
+        "canOverrideTransactionDateType", "transactionDateTypeKey", 
         "meta", "attributes", "_futureElements" })
 
 public class CatalogRateInfo
@@ -66,40 +64,25 @@ public class CatalogRateInfo
     private CurrencyAmountInfo maximumAmount;
 
     @XmlElement
-    private List<FlexibleUnitAmountInfo> flexibleCreditAmounts;
+    private Boolean isFixedCreditAmountCapped;
+
+    @XmlElement
+    private CurrencyAmountInfo cappedFixedCreditAmount;
+
+    @XmlElement
+    private List<FlexibleCreditAmountInfo> flexibleCreditAmounts;
     
     @XmlElement
-    private Boolean isTransactionCodeFinal;
+    private Boolean canOverrideTransactionCode;
     
     @XmlElement
     private String transactionCode;
 
     @XmlElement
-    private Boolean isTransactionDateTypeFinal;
+    private Boolean canOverrideTransactionDateType;
     
     @XmlElement
     private String transactionDateTypeKey;
-
-    @XmlElement
-    private Boolean isRecognitionDateDefinable;
-
-    @XmlElement
-    private Boolean isLimitRateFinal;
-
-    @XmlElement
-    private Boolean isLimitRate;
-
-    @XmlElement
-    private Integer minimumLimitUnits;
-
-    @XmlElement
-    private Integer maximumLimitUnits;
-
-    @XmlElement
-    private CurrencyAmountInfo minimumLimitAmount;
-
-    @XmlElement
-    private CurrencyAmountInfo maximumLimitAmount;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -126,42 +109,24 @@ public class CatalogRateInfo
                 this.applicableAtpIds = new ArrayList<String>(catalogRate.getApplicableAtpIds());
             }
 
-            if (catalogRate.getMinimumAmount() != null) {
-                this.minimumAmount = new CurrencyAmountInfo(catalogRate.getMinimumAmount());
-            }
-
-            if (catalogRate.getMaximumAmount() != null) {
-                this.maximumAmount = new CurrencyAmountInfo(catalogRate.getMaximumAmount());
-            }
-
-            this.flexibleCreditAmounts = new ArrayList<FlexibleUnitAmountInfo>();
-            if (catalogRate.getFlexibleUnitAmounts() != null) {
-                for (FlexibleUnitAmount amount : catalogRate.getFlexibleUnitAmounts()) {
-                    this.flexibleCreditAmounts.add(new FlexibleUnitAmountInfo(amount));
+            this.minimumAmount = new CurrencyAmountInfo(catalogRate.getMinimumAmount());
+            this.maximumAmount = new CurrencyAmountInfo(catalogRate.getMaximumAmount());
+            this.isFixedCreditAmountCapped = catalogRate.getIsFixedCreditAmountCapped();
+            this.cappedFixedCreditAmount = new CurrencyAmountInfo(catalogRate.getCappedFixedCreditAmount());
+            this.flexibleCreditAmounts = new ArrayList<FlexibleCreditAmountInfo>();
+            if (catalogRate.getFlexibleCreditAmounts() != null) {
+                for (FlexibleCreditAmount amount : catalogRate.getFlexibleCreditAmounts()) {
+                    this.flexibleCreditAmounts.add(new FlexibleCreditAmountInfo(amount));
                 }
             }
 
-            this.isTransactionCodeFinal = catalogRate.getIsTransactionCodeFinal();
+            this.canOverrideTransactionCode = catalogRate.getCanOverrideTransactionCode();
             this.transactionCode = catalogRate.getTransactionCode();
 
-            this.isTransactionDateTypeFinal = catalogRate.getIsTransactionDateTypeFinal();
+            this.canOverrideTransactionDateType = catalogRate.getCanOverrideTransactionDateType();
             this.transactionDateTypeKey = catalogRate.getTransactionDateTypeKey();
-            this.isRecognitionDateDefinable = catalogRate.getIsRecognitionDateDefinable();
-            this.isLimitRateFinal = catalogRate.getIsLimitRateFinal();
-            this.isLimitRate = catalogRate.getIsLimitRate();
-            this.minimumLimitUnits = catalogRate.getMinimumLimitUnits();
-            this.maximumLimitUnits = catalogRate.getMaximumLimitUnits();
-
-            if (catalogRate.getMinimumLimitAmount() != null) {
-                this.minimumLimitAmount = new CurrencyAmountInfo(catalogRate.getMinimumLimitAmount());
-            }
-
-            if (catalogRate.getMaximumLimitAmount() != null) {
-                this.maximumLimitAmount = new CurrencyAmountInfo(catalogRate.getMaximumLimitAmount());
-            }
         }
     }
-
 
     @Override
     public String getCode() {
@@ -204,25 +169,43 @@ public class CatalogRateInfo
     }
 
     @Override
-    public List<FlexibleUnitAmountInfo> getFlexibleUnitAmounts() {
+    public Boolean getIsFixedCreditAmountCapped() {
+        return (this.isFixedCreditAmountCapped);
+    }
+
+    public void setIsFixedCreditAmountCapped(Boolean isFixedCreditAmountCapped) {
+        this.isFixedCreditAmountCapped = isFixedCreditAmountCapped;
+    }
+
+    @Override
+    public CurrencyAmountInfo getCappedFixedCreditAmount() {
+        return (this.cappedFixedCreditAmount);
+    }
+
+    public void setCappedFixedCreditAmount(CurrencyAmountInfo cappedFixedCreditAmount) {
+        this.cappedFixedCreditAmount = cappedFixedCreditAmount;
+    }
+
+    @Override
+    public List<FlexibleCreditAmountInfo> getFlexibleCreditAmounts() {
         if (this.flexibleCreditAmounts == null) {
-            this.flexibleCreditAmounts = new ArrayList<FlexibleUnitAmountInfo>(0);
+            this.flexibleCreditAmounts = new ArrayList<FlexibleCreditAmountInfo>(0);
         }
 
         return (this.flexibleCreditAmounts);
     }
 
-    public void setFlexibleUnitAmounts(List <FlexibleUnitAmountInfo> flexibleCreditAmounts) {
+    public void setFlexibleCreditAmounts(List <FlexibleCreditAmountInfo> flexibleCreditAmounts) {
         this.flexibleCreditAmounts = flexibleCreditAmounts;
     }
 
     @Override
-    public Boolean getIsTransactionCodeFinal() {
-        return (this.isTransactionCodeFinal);
+    public Boolean getCanOverrideTransactionCode() {
+        return (this.canOverrideTransactionCode);
     }
 
-    public void setIsTransactionCodeFinal(Boolean isTransactionCodeFinal) {
-        this.isTransactionCodeFinal = isTransactionCodeFinal;
+    public void setCanOverrideTransactionCode(Boolean canOverrideTransactionCode) {
+        this.canOverrideTransactionCode = canOverrideTransactionCode;
     }
 
     @Override
@@ -235,12 +218,12 @@ public class CatalogRateInfo
     }
 
     @Override
-    public Boolean getIsTransactionDateTypeFinal() {
-        return (this.isTransactionDateTypeFinal);
+    public Boolean getCanOverrideTransactionDateType() {
+        return (this.canOverrideTransactionDateType);
     }
 
-    public void setIsTransactionDateTypeFinal(Boolean isTransactionDateTypeFinal) {
-        this.isTransactionDateTypeFinal = isTransactionDateTypeFinal;
+    public void setCanOverrideTransactionDateType(Boolean canOverrideTransactionDateType) {
+        this.canOverrideTransactionDateType = canOverrideTransactionDateType;
     }
 
     @Override
@@ -250,68 +233,5 @@ public class CatalogRateInfo
 
     public void setTransactionDateTypeKey(String TransactionDateTypeKey) {
         this.transactionDateTypeKey = transactionDateTypeKey;
-    }
-
-    @Override
-    public Boolean getIsRecognitionDateDefinable() {
-        return (this.isRecognitionDateDefinable);
-    }
-
-    public void setIsRecognitionDateDefinable(Boolean isRecognitionDateDefinable) {
-        this.isRecognitionDateDefinable = isRecognitionDateDefinable;
-    }
-
-    @Override
-    public Boolean getIsLimitRateFinal() {
-        return (this.isLimitRateFinal);
-    }
-
-    public void setIsLimitRateFinal(Boolean isLimitRateFinal) {
-        this.isLimitRateFinal = isLimitRateFinal;
-    }
-
-    @Override
-    public Boolean getIsLimitRate() {
-        return (this.isLimitRate);
-    }
-
-    public void setIsLimitRate(Boolean isLimitRate) {
-        this.isLimitRate = isLimitRate;
-    }
-
-    @Override
-    public Integer getMinimumLimitUnits() {
-        return (this.minimumLimitUnits);
-    }
-
-    public void setMinimumLimitUnits(Integer minimumLimitUnits) {
-        this.minimumLimitUnits = minimumLimitUnits;
-    }
-
-    @Override
-    public Integer getMaximumLimitUnits() {
-        return (this.maximumLimitUnits);
-    }
-
-    public void setMaximumLimitUnits(Integer maximumLimitUnits) {
-        this.maximumLimitUnits = maximumLimitUnits;
-    }
-
-    @Override
-    public CurrencyAmountInfo getMinimumLimitAmount() {
-        return (this.minimumLimitAmount);
-    }
-
-    public void setMinimumLimitAmount(CurrencyAmountInfo minimumLimitAmount) {
-        this.minimumLimitAmount = minimumLimitAmount;
-    }
-
-    @Override
-    public CurrencyAmountInfo getMaximumLimitAmount() {
-        return (this.maximumLimitAmount);
-    }
-
-    public void setMaximumLimitAmount(CurrencyAmountInfo maximumLimitAmount) {
-        this.maximumLimitAmount = maximumLimitAmount;
     }
 }

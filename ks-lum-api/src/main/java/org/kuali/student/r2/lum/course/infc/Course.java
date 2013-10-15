@@ -266,4 +266,5 @@ public interface Course extends IdEntity {
      * @name Version
      */
     public Version getVersion();
+
 }
