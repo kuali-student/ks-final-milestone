@@ -22,7 +22,6 @@
                         </goals>
                         <phase>${impex.metainf.phase}</phase>
                         <configuration>
-                            <propertySourcesConfig>${impex.metainf.propertySource}</propertySourcesConfig>
                             <annotatedClass>${impex.metainf.context}</annotatedClass>
                         </configuration>
                     </execution>
