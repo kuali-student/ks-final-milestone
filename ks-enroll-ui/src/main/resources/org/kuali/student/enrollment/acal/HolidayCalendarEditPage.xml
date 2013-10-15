@@ -155,7 +155,7 @@
     <bean id="KS-HolidayCalendar-HolidaySection" parent="Uif-TableCollectionSection"
           p:id="KS-HolidayCalendar-HolidaySection"
           p:layoutManager.numberOfColumns="10"
-          p:layoutManager.style="width: 100%; display:block;">
+          p:layoutManager.style="width: 70%;">
 		<property name="headerText" value="Holidays" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper" />
 		<property name="propertyName" value="holidays" />
@@ -178,7 +178,7 @@
         <property name="items">
 			<list>
                 <bean parent="Uif-InputField" p:propertyName="typeKey"  p:readOnlyDisplayReplacementPropertyName="typeName"
-                      p:label="Holiday Type" p:required="true" p:readOnly="@{!#isAddLine}"
+                      p:label="Name" p:required="true" p:readOnly="@{!#isAddLine}"
                       p:finalizeMethodToCall="populateHolidayTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
@@ -187,7 +187,7 @@
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date"
+                <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start"
                       p:readOnlyDisplayReplacementPropertyName="startDateUI">
                     <property name="control">
                         <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy" />
@@ -219,7 +219,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField" p:propertyName="endDate" p:label="End Date"
+                <bean parent="Uif-InputField" p:propertyName="endDate" p:label="End"
                       p:readOnlyDisplayReplacementPropertyName="endDateUI">
                     <property name="control">
                         <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
