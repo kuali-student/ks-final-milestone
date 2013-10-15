@@ -41,6 +41,11 @@ public class RelatedObjectHelperAOtoEOImpl implements RelatedObjectHelper {
         Map<String, String> idsAndStatesMap = new HashMap<String, String>();
 
         List<String> eoRelationIds = this.getExamOfferingService().getExamOfferingRelationIdsByActivityOffering(activityOfferingId, contextInfo);
+
+        if(eoRelationIds.isEmpty()){
+            return idsAndStatesMap;
+        }
+
         List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByIds(eoRelationIds, contextInfo);
         for(ExamOfferingRelationInfo eoRelation : eoRelations){
             ExamOfferingInfo examOffering = this.getExamOfferingService().getExamOffering(eoRelation.getExamOfferingId(), contextInfo);

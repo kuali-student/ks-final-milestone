@@ -329,6 +329,10 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             List<ActivityOfferingInfo> aoInfos = this.getCourseOfferingService().getActivityOfferingsByFormatOffering(
                     foEntry.getKey().getId(), context);
             for (ActivityOfferingInfo aoInfo : aoInfos) {
+
+                //Do not create exam offerings for canceled or suspended activity offerings.
+                if (!isActiveActivityOffering(aoInfo)) continue;
+
                 //Update EO type according to allowed FO
                 if(finalExamLevelType!=null) {
                     TypeInfo activityType = this.getTypeService().getType(aoInfo.getTypeKey(), context);
@@ -369,6 +373,14 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             removeFinalExamOfferingsFromCO(foToEoRelations, context);
         }
 
+    }
+
+    private boolean isActiveActivityOffering(ActivityOfferingInfo aoInfo) {
+        if((LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY.equals(aoInfo.getStateKey())) ||
+                (LuiServiceConstants.LUI_AO_STATE_SUSPENDED_KEY.equals(aoInfo.getStateKey()))){
+            return false;
+        }
+        return true;
     }
 
     private boolean isSocPublished(String termId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
@@ -450,7 +462,9 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         List<ActivityOfferingInfo> aoInfos = this.getCourseOfferingService().getActivityOfferingsByFormatOffering(
                 foId, context);
         for (ActivityOfferingInfo aoInfo : aoInfos) {
-            aoIds.add(aoInfo.getId());
+            if (isActiveActivityOffering(aoInfo)){
+                aoIds.add(aoInfo.getId());
+            }
         }
         createExamOfferingRelation(foId, eoId, aoIds, context);
     }
