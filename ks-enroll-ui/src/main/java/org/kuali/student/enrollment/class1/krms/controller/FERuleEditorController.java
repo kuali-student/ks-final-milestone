@@ -16,10 +16,13 @@ import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.class1.krms.dto.FEAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleEditor;
+import org.kuali.student.enrollment.class1.krms.service.impl.FERuleEditorMaintainableImpl;
 import org.kuali.student.enrollment.class1.krms.service.impl.FERuleViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSConstants;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -43,7 +46,6 @@ import java.util.Map;
 public class FERuleEditorController extends EnrolRuleEditorController {
 
     /**
-     *
      * @param form
      * @param result
      * @param request
@@ -63,13 +65,20 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         //Set a copy on the wrapper so that we can allow the user to cancel his/her action.
         RuleEditor rule = new FERuleEditor();
         AgendaTypeInfo agendaType = ruleWrapper.getAgendaEditor().getAgendaTypeInfo();
-        for(RuleTypeInfo ruleType : agendaType.getRuleTypes()){
+        try {
+            RuleTypeInfo ruleType = KSCollectionUtils.getOptionalZeroElement(agendaType.getRuleTypes());
             rule.setTypeId(ruleType.getId());
             rule.setRuleTypeInfo(ruleType);
-            break;
+        } catch (OperationFailedException e) {
+            throw new RuntimeException("Could not retrieve default rule type.");
         }
         rule.setDummy(Boolean.TRUE);
         ruleWrapper.setRuleEditor(rule);
+        if(document.getDocument().getNewMaintainableObject() instanceof FERuleEditorMaintainableImpl){
+            FERuleEditorMaintainableImpl maintainable = (FERuleEditorMaintainableImpl) document.getDocument().getNewMaintainableObject();
+            rule.setKey(maintainable.getNextRuleKey());
+        }
+
         this.getViewHelper(form).refreshInitTrees(ruleWrapper.getRuleEditor());
 
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_RULE_FE_MAINTENANCE_PAGE_ID);
@@ -90,7 +99,6 @@ public class FERuleEditorController extends EnrolRuleEditorController {
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
-        RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper(document);
 
         FEAgendaEditor agenda = this.getSelectedAgenda(document, "Delete");
         if (agenda != null) {
@@ -172,36 +180,31 @@ public class FERuleEditorController extends EnrolRuleEditorController {
 
         //Return with error message if user is currently editing a proposition.
         PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
-        if (proposition == null) {
-            GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_RULE_TREE_GROUP_ID, KRMSConstants.KRMS_MSG_ERROR_RULE_UPDATE);
-            return getUIFModelAndView(form);
-        }
         if ((proposition != null) && (proposition.isEditMode())) {
             GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID, KRMSConstants.KRMS_MSG_ERROR_RULE_PREVIEW);
             return getUIFModelAndView(form);
         }
 
-        if(ruleEditor.isDummy()) {
-            ruleEditor.setDummy(Boolean.FALSE);
-            ruleEditor.setName(ruleWrapper.getRefObjectId() + ":" + ruleEditor.getTypeId() + ":" + (((FEAgendaEditor)ruleWrapper.getAgendaEditor()).getRules().size() + 1));
+        if (ruleEditor.getProposition() == null) {
+            GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_RULE_TREE_GROUP_ID, KRMSConstants.KRMS_MSG_ERROR_RULE_UPDATE);
+            return getUIFModelAndView(form);
+        } else {
             PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor.getPropositionEditor());
             PropositionTreeUtil.resetNewProp(ruleEditor.getPropositionEditor());
-            ruleEditor.setDescription(ruleEditor.getPropositionEditor().getNaturalLanguage().get(KSKRMSServiceConstants.KRMS_NL_RULE_EDIT));
+            ruleEditor.setDescription(ruleEditor.getPropositionEditor().getNaturalLanguage().get(KSKRMSServiceConstants.KRMS_NL_TYPE_CATALOG));
+            this.getViewHelper(form).rebuildActions(ruleEditor);
+        }
+
+        if (ruleEditor.isDummy()) {
+            ruleEditor.setName(ruleWrapper.getRefObjectId() + ":" + ruleEditor.getTypeId() + ":" + (((FEAgendaEditor) ruleWrapper.getAgendaEditor()).getRules().size() + 1));
+            ruleEditor.setDummy(Boolean.FALSE);
             ((FEAgendaEditor) ruleWrapper.getAgendaEditor()).getRules().add(ruleEditor);
         } else {
-            if (!(ruleEditor.getProposition() == null && ruleEditor.getPropId() == null)) {
-                PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor.getPropositionEditor());
-                ruleEditor.setDummy(Boolean.FALSE);
-                PropositionTreeUtil.resetNewProp(ruleEditor.getPropositionEditor());
-                ruleEditor.setDescription(ruleEditor.getPropositionEditor().getNaturalLanguage().get(KSKRMSServiceConstants.KRMS_NL_RULE_EDIT));
-                this.getViewHelper(form).rebuildActions(ruleEditor);
-            }
-
             //Replace edited rule with existing rule.
             List<RuleEditor> rules = ((FEAgendaEditor) ruleWrapper.getAgendaEditor()).getRules();
             int index = 0;
             for (RuleEditor existingRule : rules) {
-                if (existingRule.getId().equals(ruleEditor.getId())) {
+                if (existingRule.getKey().equals(ruleEditor.getKey())) {
                     index = rules.indexOf(existingRule);
                 }
             }
@@ -236,7 +239,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         return this.goToEditProposition(form, result, request, response);
     }
 
-    private RuleEditor getSelectedRule(MaintenanceDocumentForm form, String actionLink){
+    private RuleEditor getSelectedRule(MaintenanceDocumentForm form, String actionLink) {
         String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set for " + actionLink);
@@ -258,7 +261,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         return rule;
     }
 
-    private FEAgendaEditor getSelectedAgenda(MaintenanceDocumentForm form, String actionLink){
+    private FEAgendaEditor getSelectedAgenda(MaintenanceDocumentForm form, String actionLink) {
         String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set for " + actionLink);
@@ -284,7 +287,6 @@ public class FERuleEditorController extends EnrolRuleEditorController {
     }
 
     /**
-     *
      * @param form
      * @return
      */

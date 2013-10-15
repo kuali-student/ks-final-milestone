@@ -29,6 +29,7 @@ import org.kuali.rice.krms.dto.AgendaTypeInfo;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.rice.krms.service.impl.RuleEditorMaintainableImpl;
+import org.kuali.rice.krms.util.AlphaIterator;
 import org.kuali.student.enrollment.class1.krms.dto.FEAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper;
@@ -63,6 +64,8 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
     private String usageId;
     private String rdlActionTypeId;
+
+    private AlphaIterator alphaIterator = new AlphaIterator(StringUtils.EMPTY);
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
@@ -173,9 +176,10 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                     if (feAgenda.getRules() != null) {
                         for (RuleEditor rule : feAgenda.getRules()) {
                            if (rule.getTypeId().equals(ruleType.getId())){
-                            ruleEditor = rule;
-                            ruleEditor.setRuleTypeInfo(ruleType);
-                            rules.add(ruleEditor);
+                                ruleEditor = rule;
+                                ruleEditor.setRuleTypeInfo(ruleType);
+                                ruleEditor.setKey((String) alphaIterator.next());
+                                rules.add(ruleEditor);
                            }
                         }
                         feAgenda.setRules(rules);
@@ -411,6 +415,10 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         }
         actionEditor.setAttributes(attributes);
 
+    }
+
+    public String getNextRuleKey(){
+        return (String) alphaIterator.next();
     }
 
     /**
