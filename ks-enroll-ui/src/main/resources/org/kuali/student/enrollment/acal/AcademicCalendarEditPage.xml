@@ -147,12 +147,12 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxGroup" p:additionalCssClasses="ks-no-margins">
-                  <property name="items">
-                    <list>
-                        <ref bean="KS-AcademicCalendar-AcalOverview"/>
-                        <ref bean="KS-AcademicTerm-Overview" />
-                    </list>
-                  </property>
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-AcademicCalendar-AcalOverview"/>
+                            <ref bean="KS-AcademicTerm-Overview" />
+                        </list>
+                    </property>
                 </bean>
             </list>
         </property>
@@ -264,16 +264,16 @@ limitations under the License.
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.name" p:label="Academic Calendar Name" p:labelPlacement="TOP"
-                      p:required="true" p:onChangeScript="displayCalendarInformation(jQuery(this),'academicCalendarName')">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30" />
-                    </property>
-                </bean>
 
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
+                            <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.name" p:label="Academic Calendar Name" p:labelPlacement="TOP"
+                                  p:required="true" p:onChangeScript="displayCalendarInformation(jQuery(this),'academicCalendarName')">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="30" />
+                                </property>
+                            </bean>
                             <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.startDate" p:label="Start Date" p:labelPlacement="TOP"
                                   p:required="true" p:onChangeScript="displayCalendarInformation(jQuery(this),'academicCalendarStartDate')">
                                 <property name="control">
@@ -306,20 +306,20 @@ limitations under the License.
         </property>
     </bean>
 
-	<bean id="KS-AcademicCalendar-EventSubSection" parent="Uif-Disclosure-TableCollectionSubSection"
-		  p:layoutManager.numberOfColumns="@{#view.readOnly ? 3 : 7}" p:id="acal-info-event" p:render="@{!#view.readOnly ? 'true' : !#form.events.empty ?  'true' : 'false'}">
-		<property name="headerText" value="Events" />
+    <bean id="KS-AcademicCalendar-EventSubSection" parent="Uif-Disclosure-TableCollectionSubSection"
+          p:layoutManager.numberOfColumns="@{#view.readOnly ? 3 : 7}" p:id="acal-info-event" p:render="@{!#view.readOnly ? 'true' : !#form.events.empty ?  'true' : 'false'}">
+        <property name="headerText" value="Events" />
         <property name="disclosure.defaultOpen" value="@{!#form.events.empty}"/>
         <property name="instructionalText" value="@{!#view.readOnly ? 'Adding events is optional.' : ''}"/>
         <property name="instructionalMessage">
-          <bean parent="Uif-InstructionalMessage"/>
+            <bean parent="Uif-InstructionalMessage"/>
         </property>
         <property name="instructionalMessage.render" value="@{!#view.readOnly}"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper" />
-		<property name="propertyName" value="events" />
-		<property name="layoutManager.sequencePropertyName" value="name" />
-		<property name="layoutManager.renderSequenceField" value="false" />
-		<property name="layoutManager.generateAutoSequence" value="false" />
+        <property name="propertyName" value="events" />
+        <property name="layoutManager.sequencePropertyName" value="name" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.generateAutoSequence" value="false" />
         <property name="layoutManager.separateAddLine" value="false" />
         <property name="layoutManager.richTable.disableTableSort" value="true" />
         <property name="addLineLabel.messageText" value=""/>
@@ -338,9 +338,9 @@ limitations under the License.
                       p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
             </list>
         </property>
-		<property name="items">
-			<list>
-				<bean parent="Uif-InputField" p:propertyName="eventTypeKey" p:label="Event Type" p:required="true"
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="eventTypeKey" p:label="Event Type" p:required="true"
                       p:readOnly="@{!#isAddLine}" p:style="font-weight:bold;" p:readOnlyDisplayReplacementPropertyName="eventTypeName">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
@@ -354,10 +354,10 @@ limitations under the License.
                     <property name="control">
                         <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
                     </property>
-                     <property name="validCharactersConstraint">
-                         <bean parent="BasicDatePatternConstraint" />
-                     </property>
-                 </bean>
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint" />
+                    </property>
+                </bean>
                 <bean parent="Uif-InputField" p:propertyName="startTime" p:render="@{!#view.readOnly}" p:label="Start Time">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="4" p:watermarkText="hh:mm"/>
@@ -378,7 +378,7 @@ limitations under the License.
                             <property name="disabled" value="@{#empty(#lp.startTime)}"/>
                         </bean>
                     </property>
-                 </bean>
+                </bean>
                 <bean parent="Uif-InputField" p:propertyName="endDate" p:render="@{!#view.readOnly}" p:label="End Date">
                     <property name="control">
                         <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
@@ -408,10 +408,10 @@ limitations under the License.
                             <property name="disabled" value="@{#empty(#lp.endTime)}"/>
                         </bean>
                     </property>
-                 </bean>
+                </bean>
             </list>
-		</property>
-	</bean>
+        </property>
+    </bean>
 
     <bean id="KS-AcademicCalendar-HolidaySubSection" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure" p:render="@{!#view.readOnly ? 'true' : !#form.holidayCalendarList.empty ?  'true' : 'false'}">
         <property name="id" value="acal-holidays" />
@@ -425,21 +425,21 @@ limitations under the License.
 
         <property name="addLineLabel.messageText" value=""/>
         <property name="layoutManager.lineGroupPrototype.header.cssClasses">
-          <list merge="true">
-            <value>ks-borderBottom2</value>
-          </list>
+            <list merge="true">
+                <value>ks-borderBottom2</value>
+            </list>
         </property>
 
         <property name="layoutManager.addLineGroup.header.lowerGroup">
-             <bean parent="Uif-HorizontalBoxGroup">
-                 <property name="items">
+            <bean parent="Uif-HorizontalBoxGroup">
+                <property name="items">
                     <list>
-                       <bean parent="Uif-ActionLink" p:methodToCall="cancelAddingHoliday" p:actionLabel="Cancel Adding Holiday Calendar"
-                             p:actionScript="actionInvokeHandler(this);" p:render="@{!#view.readOnly}"
-                             p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
+                        <bean parent="Uif-ActionLink" p:methodToCall="cancelAddingHoliday" p:actionLabel="Cancel Adding Holiday Calendar"
+                              p:actionScript="actionInvokeHandler(this);" p:render="@{!#view.readOnly}"
+                              p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
                     </list>
-                 </property>
-             </bean>
+                </property>
+            </bean>
         </property>
         <property name="layoutManager.lineGroupPrototype">
             <bean parent="Uif-CollectionVerticalBoxItem">
@@ -448,7 +448,7 @@ limitations under the License.
                 <property name="header">
                     <bean parent="Uif-HeaderFour">
                         <property name="headerText" value="@{#line.holidayCalendarHeading}"/>
-                        <property name="style" value="margin-bottom:5px;padding-bottom:0;"/>
+                        <property name="style" value="margin-bottom:5px;margin-left:20px;padding-bottom:0;"/>
                         <property name="lowerGroup">
                             <bean parent="Uif-HorizontalBoxGroup">
                                 <property name="items">
@@ -500,34 +500,40 @@ limitations under the License.
                                     </list>
                                 </property>
                             </bean>
-
-                            <bean parent="Uif-InputField"
-                                  p:propertyName="holidayCalendarInfo.name"
-                                  p:label="Holiday Calendar Name"
-                                  p:fieldLabel.width="40%"
-                                  p:width="60%"
-                                  p:readOnly="true"
-                                  p:render="@{!#isAddLine}"   >
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField"
-                                  p:propertyName="holidayCalendarInfo.startDate"
-                                  p:label="Start Date"
-                                  p:readOnly="true"
-                                  p:render="@{!#isAddLine}" >
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField"
-                                  p:propertyName="holidayCalendarInfo.endDate"
-                                  p:label="End Date"
-                                  p:readOnly="true"
-                                  p:render="@{!#isAddLine}" >
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
+                            <bean parent="Uif-VerticalBoxSection" p:layoutManager.orientation="HORIZONTAL" p:layoutManager.style="margin-left:40px;">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField"
+                                              p:propertyName="holidayCalendarInfo.name"
+                                              p:label="Holiday Calendar Name"
+                                              p:labelPlacement="TOP"
+                                              p:readOnly="true"
+                                              p:render="@{!#isAddLine}"   >
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl"/>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField"
+                                              p:propertyName="holidayCalendarInfo.startDate"
+                                              p:label="Start Date"
+                                              p:labelPlacement="TOP"
+                                              p:readOnly="true"
+                                              p:render="@{!#isAddLine}" >
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl"/>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField"
+                                              p:propertyName="holidayCalendarInfo.endDate"
+                                              p:label="End Date"
+                                              p:labelPlacement="TOP"
+                                              p:readOnly="true"
+                                              p:render="@{!#isAddLine}" >
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl"/>
+                                            </property>
+                                        </bean>
+                                    </list>
                                 </property>
                             </bean>
                         </list>
@@ -536,53 +542,53 @@ limitations under the License.
             </list>
         </property>
         <property name="subCollections">
-           <list>
-             <ref bean="KS-Holidays-SubSection" />
-           </list>
+            <list>
+                <ref bean="KS-Holidays-SubSection" />
+            </list>
         </property>
     </bean>
 
     <bean id="KS-Holidays-SubSection" parent="Uif-TableSubCollection-WithinSection" p:readOnly="true"
           p:id="acal-hc-holidays" p:layoutManager.numberOfColumns="4"
-          p:layoutManager.style="width: 70%;">
-     <property name="headerText" value="Holidays" />
-     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper" />
-     <property name="layoutManager.applyDefaultCellWidths" value="false" />
-     <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-     <property name="propertyName" value="holidays" />
-     <property name="layoutManager.renderSequenceField" value="false" />
-     <property name="layoutManager.generateAutoSequence" value="false" />
-     <property name="layoutManager.separateAddLine" value="false" />
-     <property name="layoutManager.richTable.render" value="false" />
-     <property name="header.style" value="margin-top:1em;"/>
-     <property name="items">
-       <list>
-         <bean parent="Uif-InputField" p:propertyName="holidayInfo.name">
-             <property name="control">
-                <bean parent="Uif-TextControl"/>
-             </property>
-         </bean>
-         <bean parent="Uif-InputField" p:propertyName="startDateUI" p:label="Start Date"
-               p:style="font-weight:normal; text-align:center;" p:fieldLabel.style="text-align:center;">
-             <property name="control">
-                <bean parent="Uif-TextControl"/>
-             </property>
-         </bean>
-         <bean parent="Uif-InputField" p:propertyName="endDateUI" p:label="End Date"
-               p:style="font-weight:normal; text-align:center;" p:fieldLabel.style="text-align:center;">
-             <property name="control">
-                <bean parent="Uif-TextControl"/>
-             </property>
-         </bean>
-         <bean parent="Uif-InputField" p:propertyName="holidayInfo.isInstructionalDay" p:label="Instructional"
-               p:style="font-weight:normal; text-align:center;" p:fieldLabel.style="text-align:center;"
-               p:readOnlyDisplayReplacement="@{#line.holidayInfo.isInstructionalDay ? 'Yes' : ' '}">
-             <property name="control">
-                <bean parent="Uif-CheckboxControl"/>
-             </property>
-         </bean>
-       </list>
-     </property>
+          p:layoutManager.style="width: 70%;margin-left: 40px;">
+        <property name="headerText" value="Holidays" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="propertyName" value="holidays" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.generateAutoSequence" value="false" />
+        <property name="layoutManager.separateAddLine" value="false" />
+        <property name="layoutManager.richTable.render" value="false" />
+        <property name="header.style" value="margin-top:1em;margin-left: 40px;"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="holidayInfo.name" p:label="Name">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="startDateUI" p:label="Start"
+                      p:style="font-weight:normal;" p:fieldLabel.style="">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="endDateUI" p:label="End"
+                      p:style="font-weight:normal;" p:fieldLabel.style="">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="holidayInfo.isInstructionalDay" p:label="Instructional"
+                      p:style="font-weight:normal;" p:fieldLabel.style=""
+                      p:readOnlyDisplayReplacement="@{#line.holidayInfo.isInstructionalDay ? 'Yes' : ' '}">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
     </bean>
 
     <util:list id="org-options">
@@ -590,9 +596,9 @@ limitations under the License.
         <bean parent="Uif-KeyLabelPair" p:key="34" p:value="Medical School"/>
     </util:list>
 
-   <util:list id="hctime-options">
-       <bean parent="Uif-KeyLabelPair" p:key="AM" p:value="[css='acal_keydate_radiobutton_label']am[/css]"/>
-       <bean parent="Uif-KeyLabelPair" p:key="PM" p:value="[css='acal_keydate_radiobutton_label']pm[/css]"/>
-   </util:list>
+    <util:list id="hctime-options">
+        <bean parent="Uif-KeyLabelPair" p:key="AM" p:value="[css='acal_keydate_radiobutton_label']am[/css]"/>
+        <bean parent="Uif-KeyLabelPair" p:key="PM" p:value="[css='acal_keydate_radiobutton_label']pm[/css]"/>
+    </util:list>
 
 </beans>
