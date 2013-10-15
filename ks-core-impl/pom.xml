@@ -90,6 +90,7 @@
         <dependency>
             <artifactId>rice-it-krms</artifactId>
             <groupId>org.kuali.rice</groupId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.openjpa</groupId>
