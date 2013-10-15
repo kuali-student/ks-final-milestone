@@ -443,14 +443,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         AgendaItemDefinition.Builder firstItemBuilder = AgendaItemDefinition.Builder.create(agenda.getFirstItemId(), agenda.getId());
         if (agenda.getFirstItemId() != null) {
             firstItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
-            firstItemBuilder.setRule(null);
-            firstItemBuilder.setRuleId(null);
-            firstItemBuilder.setWhenTrue(null);
-            firstItemBuilder.setWhenTrueId(null);
-            firstItemBuilder.setWhenFalse(null);
-            firstItemBuilder.setWhenFalseId(null);
-            firstItemBuilder.setAlways(null);
-            firstItemBuilder.setAlwaysId(null);
             firstItemBuilder.setVersionNumber(firstItem.getVersionNumber());
             this.getRuleManagementService().updateAgendaItem(firstItemBuilder.build());
 
@@ -464,7 +456,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             AgendaDefinition.Builder agendaBldr = AgendaDefinition.Builder.create(agenda);
             this.getRuleManagementService().updateAgenda(agendaBldr.build());
         }
-        return firstItem;
+        return this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
     }
 
     public void deleteAgendaItems(AgendaItemDefinition agendaItem) {
