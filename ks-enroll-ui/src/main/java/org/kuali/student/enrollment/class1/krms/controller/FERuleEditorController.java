@@ -201,7 +201,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         } else {
             PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor.getPropositionEditor());
             PropositionTreeUtil.resetNewProp(ruleEditor.getPropositionEditor());
-            ruleEditor.setDescription(ruleEditor.getPropositionEditor().getNaturalLanguage().get(KSKRMSServiceConstants.KRMS_NL_TYPE_CATALOG));
+            ruleEditor.setDescription(ruleEditor.getPropositionEditor().getNaturalLanguage().get(KSKRMSServiceConstants.KRMS_NL_RULE_EDIT) + ".");
             this.getViewHelper(form).rebuildActions(ruleEditor);
         }
 
@@ -268,9 +268,11 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         //Return with error message if user is currently editing a proposition.
         FEPropositionEditor proposition = (FEPropositionEditor) PropositionTreeUtil.getProposition(ruleEditor);
 
-        if (compareTime(proposition.getStartTime(), proposition.getStartTimeAMPM(), proposition.getEndTime(), proposition.getEndTimeAMPM())) {
-            GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID, ActivityOfferingConstants.MSG_ERROR_INVALID_START_TIME);
-            return getUIFModelAndView(form);
+        if(proposition.getStartTime() != null && proposition.getEndTime() != null) {
+            if (compareTime(proposition.getStartTime(), proposition.getStartTimeAMPM(), proposition.getEndTime(), proposition.getEndTimeAMPM())) {
+                GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID, ActivityOfferingConstants.MSG_ERROR_INVALID_START_TIME);
+                return getUIFModelAndView(form);
+            }
         }
         return super.updateProposition(form, result, request, response);
     }
