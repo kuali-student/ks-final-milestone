@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.facade;
 
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.issue.CourseOfferingAutogenIssue;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -324,6 +325,22 @@ public interface CourseOfferingServiceFacade {
      * @throws PermissionDeniedException
      */
     public int getAoClusterCountByFoId(String foId, ContextInfo contextInfo) throws MissingParameterException,
+            InvalidParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * This method will give a KeyValue pair AO_ID, AO_TYPE of the Activity Offerings for a given Format offering
+     *
+     * @param foId   Format offering Id.
+     * @param contextInfo   the context info object
+     * @return List of KeyValue pair AO_ID, AO_TYPE of the Activity Offerings
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<KeyValue> getAoIdAndAoTypeByFO(String foId, ContextInfo contextInfo) throws MissingParameterException,
             InvalidParameterException,
             OperationFailedException,
             PermissionDeniedException;

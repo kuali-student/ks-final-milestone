@@ -21,6 +21,8 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDaoApi;
 import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterEntity;
@@ -199,6 +201,42 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
     }
 
     @Override
+    public List<KeyValue> getAoIdAndAoTypeByFO(String foId, ContextInfo contextInfo) throws MissingParameterException,
+            InvalidParameterException,
+            OperationFailedException,
+            PermissionDeniedException{
+
+        List<KeyValue> lRet = new ArrayList<KeyValue>();
+
+        SearchRequestInfo request = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AO_COUNT_BY_FO_SEARCH_KEY);
+
+        request.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.FO_ID, foId);
+
+        SearchResultInfo searchResult = getSearchService().search(request, contextInfo);
+        for (SearchResultRowInfo row : searchResult.getRows()) {
+            String aoId = null;
+            String aoType = null;
+
+            for (SearchResultCellInfo cell : row.getCells()) {
+
+                if (ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ID.equals(cell.getKey())) {
+                    aoId = cell.getValue();
+                }  else  if (ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_TYPE.equals(cell.getKey())) {
+                    aoType = cell.getValue();
+                }
+            }
+
+            if(aoId != null && aoType != null ){
+                KeyValue kv = new ConcreteKeyValue(aoId, aoType);
+                lRet.add(kv);
+            }
+        }
+
+        return lRet;
+
+    }
+
+    @Override
     public ActivityOfferingClusterInfo createDefaultCluster(String foId, ContextInfo context)
             throws PermissionDeniedException,
             MissingParameterException,
@@ -222,10 +260,10 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
             LOGGER.warn("VersionMismatchException thrown in createDefaultCluster, part 1");
             throw new OperationFailedException(e.getMessage());
         }
-        // TODO: KSENROLL-9932 Would prefer a count method here
-        List<ActivityOfferingInfo> aoInfos =
-                coService.getActivityOfferingsByFormatOffering(foId, context);
-        if (aoInfos != null && !aoInfos.isEmpty()) {
+
+        List<KeyValue> aoKVList = getAoIdAndAoTypeByFO(foId, context);
+
+        if (aoKVList != null && !aoKVList.isEmpty()) {
             LOGGER.warn("There are AOs without an AOC for this format (" + foId + ").  Indicates bad ref data.");
         }
         // Now we're good...create the AOC
@@ -240,23 +278,25 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         clusterInfo.setTypeKey(CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY);
         ActivityOfferingClusterInfo aoc =
                 coService.createActivityOfferingCluster(foId, CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY, clusterInfo, context);
-        if (aoInfos != null && !aoInfos.isEmpty()) {
+        if (aoKVList != null && !aoKVList.isEmpty()) {
             List<ActivityOfferingSetInfo> sets = aoc.getActivityOfferingSets();
             // Put stray AOs into this cluster (considered a problem)
             LOGGER.warn("Adding stray AOs to this cluster--shouldn't happen");
-            for (ActivityOfferingInfo aoInfo: aoInfos) {
+            for (KeyValue aoIdType: aoKVList) {
                 boolean added = false;
+                String aoId = aoIdType.getKey();
+                String aoType = aoIdType.getValue();
                 // Iterate over each set to find a matching AO set to put the stray AOs into
                 for (ActivityOfferingSetInfo set: sets) {
-                    if (set.getActivityOfferingType().equals(aoInfo.getTypeKey())) {
+                    if (set.getActivityOfferingType().equals(aoType)) {
                         // Add AO ID to correct AO set
-                        set.getActivityOfferingIds().add(aoInfo.getId());
+                        set.getActivityOfferingIds().add(aoId);
                         added = true;
                         break;
                     }
                 }
                 if (!added) {
-                    throw new OperationFailedException("Unable to find correct AO set for AO ID (" + aoInfo.getId() + ").  Bad data");
+                    throw new OperationFailedException("Unable to find correct AO set for AO ID (" + aoId + ").  Bad data");
                 }
             }
             try {
