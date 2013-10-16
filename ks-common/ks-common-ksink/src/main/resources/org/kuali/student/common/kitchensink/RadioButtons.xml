@@ -178,9 +178,9 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="UifFieldDefinitions.xml (Uif-InputField)"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.0/rice-framework/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.2/rice-framework/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
                                         <entry key="UifControlDefinitions.xml (Uif-Vertical-RadioGroupControl)"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.0/rice-framework/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifControlDefinitions.xml"/>
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.2/rice-framework/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifControlDefinitions.xml"/>
                                     </map>
                                 </property>
                             </bean>
@@ -188,9 +188,9 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="InputField.java"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.0/rice-framework/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/InputField.java"/>
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.2/rice-framework/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/InputField.java"/>
                                         <entry key="RadioGroupControl.java"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.0/rice-framework/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/control/RadioGroupControl.java"/>
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.2/rice-framework/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/control/RadioGroupControl.java"/>
                                     </map>
                                 </property>
                             </bean>
@@ -198,9 +198,9 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="InputField.html"
-                                               value="http://site.origin.kuali.org/rice/2.3.0/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
+                                               value="http://site.origin.kuali.org/rice/2.3.2/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
                                         <entry key="RadioGroupControl.html"
-                                               value="http://site.origin.kuali.org/rice/2.3.0/apidocs/org/kuali/rice/krad/uif/control/RadioGroupControl.html"/>
+                                               value="http://site.origin.kuali.org/rice/2.3.2/apidocs/org/kuali/rice/krad/uif/control/RadioGroupControl.html"/>
                                     </map>
                                 </property>
                             </bean>
@@ -234,7 +234,7 @@
                             <bean parent="Uif-LinkField"
                                   p:label="KRAD XML Configuration"
                                   p:linkText="UifElementDefinitions.xml" p:target="_blank"
-                                  p:href="http://svn.kuali.org/repos/rice/tags/rice-2.3.0/rice-framework/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
+                                  p:href="http://svn.kuali.org/repos/rice/tags/rice-2.3.2/rice-framework/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
                             <bean parent="Uif-MessageField" p:messageText="(Uif-InputField)"/>
                         </list>
                     </property>
@@ -245,7 +245,7 @@
                             <bean parent="Uif-LinkField"
                                   p:label="KRAD Java Source"
                                   p:linkText="InputField.java" p:target="_blank"
-                                  p:href="http://svn.kuali.org/repos/rice/tags/rice-2.3.0/rice-framework/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/InputField.java"/>
+                                  p:href="http://svn.kuali.org/repos/rice/tags/rice-2.3.2/rice-framework/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/InputField.java"/>
                         </list>
                     </property>
                 </bean>
@@ -255,7 +255,7 @@
                             <bean parent="Uif-LinkField"
                                   p:label="KRAD Java API"
                                   p:linkText="InputField.html" p:target="_blank"
-                                  p:href="http://site.origin.kuali.org/rice/2.3.0/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
+                                  p:href="http://site.origin.kuali.org/rice/2.3.2/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
                         </list>
                     </property>
                 </bean>

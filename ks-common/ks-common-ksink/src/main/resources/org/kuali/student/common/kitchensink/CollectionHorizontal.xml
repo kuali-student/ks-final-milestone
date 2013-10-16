@@ -127,13 +127,13 @@
                                           p:label="KS XML Configuration"
                                           p:href="http://svn.kuali.org/repos/student/enrollment/ks-core/trunk/ks-common/ks-common-ui/src/main/resources/UifKSDefinitions.xml"/>
                                     <bean parent="KS-KitchenSink-Link-To-KRAD-XML-Source"
-                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.3.0/rice-framework/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
+                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.3.2/rice-framework/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
                                     <bean parent="KS-KitchenSink-Link-To-KRAD-Java-Source"
-                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.3.0/rice-framework/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/CollectionGroup.java"/>
+                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.3.2/rice-framework/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/CollectionGroup.java"/>
                                     <bean parent="KS-KitchenSink-Link-To-KRAD-API"
-                                          p:href="http://site.origin.kuali.org/rice/2.3.0/apidocs/org/kuali/rice/krad/uif/container/CollectionGroup.html"/>
+                                          p:href="http://site.origin.kuali.org/rice/2.3.2/apidocs/org/kuali/rice/krad/uif/container/CollectionGroup.html"/>
                                     <bean parent="KS-KitchenSink-Link-To-Guide"
-                                          p:href="http://site.kuali.org/rice/2.3.0/reference/html/KRAD_Guide.html"/>
+                                          p:href="http://site.kuali.org/rice/2.3.2/reference/html/KRAD_Guide.html"/>
                                     <bean parent="KS-KitchenSink-Link-To-Bare">
                                         <property name="finalizeMethodAdditionalArguments">
                                             <list>

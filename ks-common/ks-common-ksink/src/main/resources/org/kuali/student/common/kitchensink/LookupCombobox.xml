@@ -173,9 +173,9 @@
                                         <entry key="UifKSDefinitions.xml (KS-Uif-Suggest)"
                                                value="http://svn.kuali.org/repos/student/enrollment/ks-core/trunk/ks-common/ks-common-ui/src/main/resources/UifKSDefinitions.xml"/>
                                         <entry key="UifFieldDefinitions.xml (Uif-InputField)"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.0/rice-framework/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.2/rice-framework/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
                                         <entry key="UifConfigurationDefinitions.xml (Uif-AttributeQueryConfig)"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.0/rice-framework/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifConfigurationDefinitions.xml"/>
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.2/rice-framework/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifConfigurationDefinitions.xml"/>
                                     </map>
                                 </property>
                             </bean>
@@ -185,9 +185,9 @@
                                         <entry key="Suggest2.java"
                                                value="http://svn.kuali.org/repos/student/enrollment/ks-core/trunk/ks-common/ks-common-ui/src/main/java/org/kuali/rice/krad/uif/widget/Suggest2.java"/>
                                         <entry key="InputField.java"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.0/rice-framework/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/InputField.java"/>
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.2/rice-framework/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/InputField.java"/>
                                         <entry key="AttributeQuery.java"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.0/rice-framework/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/AttributeQuery.java"/>
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.2/rice-framework/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/AttributeQuery.java"/>
                                     </map>
                                 </property>
                             </bean>
@@ -195,9 +195,9 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="InputField.html"
-                                               value="http://site.origin.kuali.org/rice/2.3.0/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
+                                               value="http://site.origin.kuali.org/rice/2.3.2/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
                                         <entry key="AttributeQuery.html"
-                                               value="http://site.origin.kuali.org/rice/2.3.0/apidocs/org/kuali/rice/krad/uif/field/AttributeQuery.html"/>
+                                               value="http://site.origin.kuali.org/rice/2.3.2/apidocs/org/kuali/rice/krad/uif/field/AttributeQuery.html"/>
                                     </map>
                                 </property>
                             </bean>
@@ -205,9 +205,9 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="Field Suggest Widget"
-                                               value="http://site.kuali.org/rice/2.3.0/reference/html/KRAD_Guide.html#d9198e6670"/>
+                                               value="http://site.kuali.org/rice/2.3.2/reference/html/KRAD_Guide.html#d8791e6655"/>
                                         <entry key="Suggest"
-                                               value="http://site.kuali.org/rice/2.3.0/reference/html/KRAD_Guide.html#d9198e10655"/>
+                                               value="http://site.kuali.org/rice/2.3.2/reference/html/KRAD_Guide.html#d8791e10664"/>
                                     </map>
                                 </property>
                             </bean>

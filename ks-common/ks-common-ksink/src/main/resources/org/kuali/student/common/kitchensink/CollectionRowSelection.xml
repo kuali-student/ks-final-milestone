@@ -148,7 +148,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="UifGroupDefinitions.xml (Uif-TableCollectionSection)"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.0/rice-framework/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.2/rice-framework/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
                                     </map>
                                 </property>
                             </bean>
@@ -156,7 +156,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="CollectionGroup.java"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.0/rice-framework/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/CollectionGroup.java"/>
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.2/rice-framework/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/CollectionGroup.java"/>
                                     </map>
                                 </property>
                             </bean>
@@ -164,7 +164,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="CollectionGroup.html"
-                                               value="http://site.origin.kuali.org/rice/2.3.0/apidocs/org/kuali/rice/krad/uif/container/CollectionGroup.html"/>
+                                               value="http://site.origin.kuali.org/rice/2.3.2/apidocs/org/kuali/rice/krad/uif/container/CollectionGroup.html"/>
                                     </map>
                                 </property>
                             </bean>
@@ -172,7 +172,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="Collection Groups"
-                                               value="http://site.kuali.org/rice/2.3.0/reference/html/KRAD_Guide.html#d9198e8824"/>
+                                               value="http://site.kuali.org/rice/2.3.2/reference/html/KRAD_Guide.html#d8791e8809"/>
                                     </map>
                                 </property>
                             </bean>

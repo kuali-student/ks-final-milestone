@@ -125,9 +125,9 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="UifGroupDefinitions.xml (Uif-Disclosure-*)"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.0/rice-framework/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.2/rice-framework/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
                                         <entry key="UifWidgetDefinitions.xml (Uif-Disclosure)"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.0/rice-framework/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifWidgetDefinitions.xml"/>
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.2/rice-framework/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifWidgetDefinitions.xml"/>
                                     </map>
                                 </property>
                             </bean>
@@ -135,9 +135,9 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="Group.java"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.0/rice-framework/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/Group.java"/>
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.2/rice-framework/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/Group.java"/>
                                         <entry key="Disclosure.java"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.0/rice-framework/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/widget/Disclosure.java"/>
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.2/rice-framework/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/widget/Disclosure.java"/>
                                     </map>
                                 </property>
                             </bean>
@@ -145,9 +145,9 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="Group.html"
-                                               value="http://site.origin.kuali.org/rice/2.3.0/apidocs/org/kuali/rice/krad/uif/container/Group.html"/>
+                                               value="http://site.origin.kuali.org/rice/2.3.2/apidocs/org/kuali/rice/krad/uif/container/Group.html"/>
                                         <entry key="Disclosure.html"
-                                               value="http://site.origin.kuali.org/rice/2.3.0/apidocs/org/kuali/rice/krad/uif/widget/Disclosure.html"/>
+                                               value="http://site.origin.kuali.org/rice/2.3.2/apidocs/org/kuali/rice/krad/uif/widget/Disclosure.html"/>
                                     </map>
                                 </property>
                             </bean>
@@ -155,7 +155,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="Disclosure"
-                                               value="http://site.kuali.org/rice/2.3.0/reference/html/KRAD_Guide.html#d9198e9915"/>
+                                               value="http://site.kuali.org/rice/2.3.2/reference/html/KRAD_Guide.html#d8791e9900"/>
                                     </map>
                                 </property>
                             </bean>

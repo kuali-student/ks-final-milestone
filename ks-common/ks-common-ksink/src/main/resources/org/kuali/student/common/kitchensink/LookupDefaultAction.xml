@@ -228,7 +228,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="UifLookupDefinitions.xml (Uif-LookupView)"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.0/rice-framework/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifLookupDefinitions.xml"/>
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.2/rice-framework/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifLookupDefinitions.xml"/>
                                     </map>
                                 </property>
                             </bean>
@@ -236,7 +236,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="LookupView.java"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.0/rice-framework/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/view/LookupView.java"/>
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.2/rice-framework/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/view/LookupView.java"/>
                                     </map>
                                 </property>
                             </bean>
@@ -244,7 +244,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="LookupView.html"
-                                               value="http://site.origin.kuali.org/rice/2.3.0/apidocs/org/kuali/rice/krad/uif/view/LookupView.html"/>
+                                               value="http://site.origin.kuali.org/rice/2.3.2/apidocs/org/kuali/rice/krad/uif/view/LookupView.html"/>
                                     </map>
                                 </property>
                             </bean>
@@ -252,9 +252,9 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="Lookup View Type"
-                                               value="http://site.kuali.org/rice/2.3.0/reference/html/KRAD_Guide.html#d9198e13235"/>
+                                               value="http://site.kuali.org/rice/2.3.2/reference/html/KRAD_Guide.html#d8791e13721"/>
                                         <entry key="Maintenance View Type"
-                                               value="http://site.kuali.org/rice/2.3.0/reference/html/KRAD_Guide.html#d9198e13327"/>
+                                               value="http://site.kuali.org/rice/2.3.2/reference/html/KRAD_Guide.html#d8791e13813"/>
                                     </map>
                                 </property>
                             </bean>

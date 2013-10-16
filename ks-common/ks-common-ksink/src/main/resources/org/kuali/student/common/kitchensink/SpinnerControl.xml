@@ -139,7 +139,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="UifFieldDefinitions.xml (Uif-InputField)"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.0/rice-framework/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.2/rice-framework/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
                                     </map>
                                 </property>
                             </bean>
@@ -147,7 +147,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="InputField.java"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.0/rice-framework/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/InputField.java"/>
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.3.2/rice-framework/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/InputField.java"/>
                                     </map>
                                 </property>
                             </bean>
@@ -155,7 +155,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="InputField.html"
-                                               value="http://site.origin.kuali.org/rice/2.3.0/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
+                                               value="http://site.origin.kuali.org/rice/2.3.2/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
                                     </map>
                                 </property>
                             </bean>
@@ -163,7 +163,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="Spinner"
-                                               value="http://site.kuali.org/rice/2.3.0/reference/html/KRAD_Guide.html#d9198e5783"/>
+                                               value="http://site.kuali.org/rice/2.3.2/reference/html/KRAD_Guide.html#d8791e5768"/>
                                     </map>
                                 </property>
                             </bean>
