@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class1.krms.service.impl;
 //import org.apache.commons.lang.StringUtils;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
@@ -35,6 +36,7 @@ import org.kuali.student.enrollment.class1.krms.dto.FERuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
@@ -42,6 +44,7 @@ import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.room.service.RoomService;
 
+import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -61,6 +64,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
     private transient RoomService roomService;
     private transient TypeService typeService;
+    private transient ExamOfferingServiceFacade examOfferingServiceFacade;
 
     private String usageId;
     private String rdlActionTypeId;
@@ -89,6 +93,13 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         } catch (Exception e) {
             throw new RuntimeException("Could not retrieve type for " + typeKey);
         }
+
+        try {
+            dataObject.setLocation(this.getExamOfferingServiceFacade().isSetLocation());
+        } catch (Exception e) {
+            throw new RuntimeException("Could not retrieve type for " + typeKey);
+        }
+
 
         return dataObject;
     }
@@ -466,6 +477,13 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             typeService = CourseOfferingResourceLoader.loadTypeService();
         }
         return typeService;
+    }
+
+    public ExamOfferingServiceFacade getExamOfferingServiceFacade() {
+        if (examOfferingServiceFacade == null) {
+            examOfferingServiceFacade = (ExamOfferingServiceFacade) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/examOfferingServiceFacade", "examOfferingServiceFacade"));
+        }
+        return examOfferingServiceFacade;
     }
 
 }

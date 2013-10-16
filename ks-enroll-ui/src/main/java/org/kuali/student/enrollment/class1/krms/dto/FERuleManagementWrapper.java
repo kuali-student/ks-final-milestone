@@ -25,6 +25,7 @@ public class FERuleManagementWrapper extends RuleManagementWrapper {
 
     private TypeInfo type;
     private String termToUse;
+    private boolean location;
 
     public FERuleManagementWrapper() {
         this.setTermToUse("na");
@@ -44,5 +45,13 @@ public class FERuleManagementWrapper extends RuleManagementWrapper {
 
     public void setTermToUse(String termToUse) {
         this.termToUse = termToUse;
+    }
+
+    public boolean isLocation() {
+        return location;
+    }
+
+    public void setLocation(boolean location) {
+        this.location = location;
     }
 }
