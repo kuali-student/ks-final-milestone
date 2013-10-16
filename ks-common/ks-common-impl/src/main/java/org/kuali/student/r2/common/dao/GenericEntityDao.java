@@ -61,22 +61,36 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
         // remove duplicates from the key list
         primaryKeySet.addAll(primaryKeys);
 
-        Query query;
+
+
         StringBuilder queryString = new StringBuilder();
 
-        //Fix for JIRA KSENROLL-7492 - START
+        Query query = buildQuery(queryString, primaryKeyMemberName, primaryKeySet);
+
+        List<T> resultList = query.getResultList();
+
+        //Fix for JIRA KSENROLL-7492 - END
+
+        verifyResults(resultList, primaryKeySet);
+
+        return resultList;
+    }
+
+    protected Query buildQuery(StringBuilder queryStringRef, String primaryKeyMemberName, Set<String> primaryKeySet){
+
+        Query queryRef;
 
         if(!enableMaxIdFetch || primaryKeySet.size()<=maxInClauseElements) {
 
-            queryString.append("from ").append(entityClass.getSimpleName()).append(" where ").append(primaryKeyMemberName).append(" in (:ids)");
-            query = em.createQuery(queryString.toString()).setParameter("ids", primaryKeySet);
+            queryStringRef.append("from ").append(entityClass.getSimpleName()).append(" where ").append(primaryKeyMemberName).append(" in (:ids)");
+            queryRef = em.createQuery(queryStringRef.toString()).setParameter("ids", primaryKeySet);
 
         } else {
 
             List<List<String>> brokenLists = new ArrayList<List<String>>();
             List<String> lst = null;
 
-            queryString.append("from ").append(entityClass.getSimpleName());
+            queryStringRef.append("from ").append(entityClass.getSimpleName());
 
             Iterator<String> itr = primaryKeySet.iterator();
             for(int index=0; itr.hasNext() ; index++) {
@@ -87,30 +101,23 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
                     brokenLists.add(lst);
 
                     if(brokenLists.size()==1) {
-                        queryString.append(" where ").append(primaryKeyMemberName).append(" in (:ids1)");
+                        queryStringRef.append(" where ").append(primaryKeyMemberName).append(" in (:ids1)");
                     } else {
-                        queryString.append(" or ").append(primaryKeyMemberName).append(" in (:ids").append(brokenLists.size()).append(")");
+                        queryStringRef.append(" or ").append(primaryKeyMemberName).append(" in (:ids").append(brokenLists.size()).append(")");
                     }
 
                 }
                 lst.add(itr.next());
             }
 
-            query = em.createQuery(queryString.toString());
+            queryRef = em.createQuery(queryStringRef.toString());
 
             for(int i=1 ; i<=brokenLists.size() ; i++) {
-                query.setParameter("ids" + i, brokenLists.get(i - 1));
+                queryRef.setParameter("ids" + i, brokenLists.get(i - 1));
             }
 
         }
-
-        List<T> resultList = query.getResultList();
-
-        //Fix for JIRA KSENROLL-7492 - END
-
-        verifyResults(resultList, primaryKeySet);
-
-        return resultList;
+        return queryRef;
     }
 
     /**
