@@ -20,6 +20,7 @@ import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:state-test-context.xml"})
@@ -69,6 +70,7 @@ public class TestGenericEntityDao {
         }
 
         testStateDao.em.flush();
+        queryString = "";
 
     }
 
@@ -92,11 +94,26 @@ public class TestGenericEntityDao {
 
             assertNotNull("Result should be non-null", result);
             assertEquals(MAXIMUM_ENTITIES + " entities should be returned", MAXIMUM_ENTITIES, result.size());
-            assertEquals("Since we disabled splitting up of query, so the query should have only one 'in' clauses", queryCount, 1);
+            assertEquals("Since we disabled splitting up of query, it should have only one 'in' clause", queryCount, 1);
         } catch(Exception e) {
             e.printStackTrace();
         }
 
+    }
+
+    @Test
+    public void testStateDaoWithNullAndEmptyPrimaryKeys() throws Exception {
+        // run query with null primary keys
+        List<StateEntity> result = testStateDao.findByIds("id", null);
+        assertNotNull("Result should be non-null", result);
+        assertTrue("Result should be empty", result.isEmpty());
+        assertTrue("Since the query never ran, the query string should be empty", queryString.isEmpty());
+
+        // re-run query with empty primary keys
+        testStateDao.findByIds("id", new ArrayList<String>());
+        assertNotNull("Result should be non-null", result);
+        assertTrue("Result should be empty", result.isEmpty());
+        assertTrue("Since the query never ran, the query string should be empty", queryString.isEmpty());
     }
 
     private int getSubstringCount(String fullString, String subString){
