@@ -378,41 +378,61 @@ limitations under the License.
                         <ref bean="KSFE-FinalExam-ExamDaysDropdown"/>
                     </property>
                 </bean>
-                <bean id="FinalExam_starttime" parent="Uif-InputField-LabelTop" p:label="Start Time" p:propertyName="ruleEditor.startTime" p:required="true">
-                    <property name="fieldLabel.requiredMessage.messageText" value=""/>
-                    <property name="constraintText" value="HH:MM"/>
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="5" p:cssClasses="new_rdl_components"/>
-                    </property>
-                    <property name="validCharactersConstraint">
-                        <bean parent="TimePatternConstraint" />
-                    </property>
-                    <property name="dependencyConstraints">
+                <bean id="FinalExam-DeliveryLogistic-Time-Section-place-holder"
+                      parent="Uif-Disclosure-HorizontalBoxSubSection"
+                      p:header.render="false" p:style="margin-top:0px">
+                    <property name="items">
                         <list>
-                            <bean parent="PrerequisiteConstraint" p:propertyName="ruleEditor.startTimeAMPM"/>
+                            <bean id="FinalExam-DeliveryLogistic-Time-Section"
+                                  parent="Uif-Disclosure-HorizontalBoxSubSection" p:header.render="false"
+                                  p:refreshWhenChangedPropertyNames="#dp.ruleEditor.tba"
+                                  p:progressiveRender="@{#dp.ruleEditor.isTba() eq false}">
+                                <property name="items">
+                                    <list>
+                                        <bean id="FinalExam_starttime" parent="Uif-InputField-LabelTop"
+                                              p:label="Start Time" p:propertyName="ruleEditor.startTime">
+                                            <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                                            <property name="constraintText" value="HH:MM"/>
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="5"
+                                                      p:cssClasses="new_rdl_components"/>
+                                            </property>
+                                            <property name="validCharactersConstraint">
+                                                <bean parent="TimePatternConstraint"/>
+                                            </property>
+                                        </bean>
+                                        <bean id="FinalExam_starttime_ampm" parent="Uif-InputField-LabelTop"
+                                              p:label="&lt;br&gt;" p:propertyName="ruleEditor.startTimeAMPM">
+                                            <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options"
+                                                      p:cssClasses="new_rdl_components"/>
+                                            </property>
+                                        </bean>
+                                        <bean id="FinalExam_endtime" parent="Uif-InputField-LabelTop" p:label="End Time"
+                                              p:propertyName="ruleEditor.endTime">
+                                            <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                                            <property name="constraintText" value="HH:MM"/>
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="5"
+                                                      p:cssClasses="new_rdl_components"/>
+                                            </property>
+                                            <property name="validCharactersConstraint">
+                                                <bean parent="TimePatternConstraint"/>
+                                            </property>
+                                        </bean>
+                                        <bean id="FinalExam_endtime_ampm" parent="Uif-InputField-LabelTop"
+                                              p:label="&lt;br&gt;" p:propertyName="ruleEditor.endTimeAMPM">
+                                            <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options"
+                                                      p:cssClasses="new_rdl_components"/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
-                    </property>
-                </bean>
-                <bean id="FinalExam_starttime_ampm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="ruleEditor.startTimeAMPM" p:required="true">
-                    <property name="fieldLabel.requiredMessage.messageText" value=""/>
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_rdl_components"/>
-                    </property>
-                </bean>
-                <bean id="FinalExam_endtime" parent="Uif-InputField-LabelTop" p:label="End Time" p:propertyName="ruleEditor.endTime" p:required="true">
-                    <property name="fieldLabel.requiredMessage.messageText" value=""/>
-                    <property name="constraintText" value="HH:MM"/>
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="5" p:cssClasses="new_rdl_components"/>
-                    </property>
-                    <property name="validCharactersConstraint">
-                        <bean parent="TimePatternConstraint" />
-                    </property>
-                </bean>
-                <bean id="FinalExam_endtime_ampm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="ruleEditor.endTimeAMPM" p:required="true">
-                    <property name="fieldLabel.requiredMessage.messageText" value=""/>
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_rdl_components"/>
                     </property>
                 </bean>
                 <bean id="FinalExam_building" parent="Uif-InputField-LabelTop" p:label="Facility"

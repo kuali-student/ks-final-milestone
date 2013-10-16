@@ -180,6 +180,34 @@ public class FERuleEditorController extends EnrolRuleEditorController {
                                    HttpServletRequest request, HttpServletResponse response) {
 
         FERuleEditor ruleEditor = (FERuleEditor) getRuleEditor(form);
+        if (ruleEditor.isTba()) {
+            ruleEditor.setStartTime("");
+            ruleEditor.setStartTimeAMPM("");
+            ruleEditor.setEndTime("");
+            ruleEditor.setEndTimeAMPM("");
+        } else {
+            //Return with error if the RDL fields have not been completed and TBA is unticked
+            boolean hasError = false;
+            if (ruleEditor.getStartTime() == null || ruleEditor.getStartTime().isEmpty()) {
+                GlobalVariables.getMessageMap().putError(PropositionTreeUtil.DOC_NEW_DATAOBJECT_PATH+".ruleEditor.startTime", KRMSConstants.KRMS_MSG_ERROR_RDL_STARTTIME);
+                hasError = true;
+            }
+            if (ruleEditor.getStartTimeAMPM() == null || ruleEditor.getStartTimeAMPM().isEmpty()) {
+                GlobalVariables.getMessageMap().putError(PropositionTreeUtil.DOC_NEW_DATAOBJECT_PATH+".ruleEditor.startTimeAMPM", KRMSConstants.KRMS_MSG_ERROR_RDL_STARTTIME_AMPM);
+                hasError = true;
+            }
+            if (ruleEditor.getEndTime() == null || ruleEditor.getEndTime().isEmpty()) {
+                GlobalVariables.getMessageMap().putError(PropositionTreeUtil.DOC_NEW_DATAOBJECT_PATH+".ruleEditor.endTime", KRMSConstants.KRMS_MSG_ERROR_RDL_ENDTIME);
+                hasError = true;
+            }
+            if (ruleEditor.getEndTimeAMPM() == null || ruleEditor.getEndTimeAMPM().isEmpty()) {
+                GlobalVariables.getMessageMap().putError(PropositionTreeUtil.DOC_NEW_DATAOBJECT_PATH+".ruleEditor.endTimeAMPM", KRMSConstants.KRMS_MSG_ERROR_RDL_ENDTIME_AMPM);
+                hasError = true;
+            }
+            if (hasError) {
+                return getUIFModelAndView(form);
+            }
+        }
         RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper((MaintenanceDocumentForm) form);
 
         //Return with error message if user is currently editing a proposition.
