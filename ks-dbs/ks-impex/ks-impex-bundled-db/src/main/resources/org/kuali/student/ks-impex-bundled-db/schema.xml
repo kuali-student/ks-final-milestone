@@ -598,47 +598,7 @@
         <foreignColumnNames>POSTAL_CNTRY_CD</foreignColumnNames>
         <localColumnNames>POSTAL_CNTRY_CD</localColumnNames>
     </foreignKey>
-    <foreignKey foreignTableName="KSCO_COMMENT" localTableName="KSCO_COMMENT_ATTR" name="KSCO_COMMENT_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>ID</foreignColumnNames>
-        <localColumnNames>OWNER</localColumnNames>
-    </foreignKey>
-    <foreignKey foreignTableName="KSCO_COMMENT_TYPE" localTableName="KSCO_COMMENT" name="KSCO_COMMENT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
-        <localColumnNames>TYPE</localColumnNames>
-    </foreignKey>
-    <foreignKey foreignTableName="KSCO_RICH_TEXT_T" localTableName="KSCO_COMMENT" name="KSCO_COMMENT_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>ID</foreignColumnNames>
-        <localColumnNames>RT_DESCR_ID</localColumnNames>
-    </foreignKey>
-    <foreignKey foreignTableName="KSCO_REFERENCE" localTableName="KSCO_COMMENT" name="KSCO_COMMENT_FK3" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>ID</foreignColumnNames>
-        <localColumnNames>REFERENCE</localColumnNames>
-    </foreignKey>
     <foreignKey foreignTableName="KSCO_COMMENT_TYPE" localTableName="KSCO_COMMENT_TYPE_ATTR" name="KSCO_COMMENT_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
-        <localColumnNames>OWNER</localColumnNames>
-    </foreignKey>
-    <foreignKey foreignTableName="KSCO_REFERENCE_TYPE" localTableName="KSCO_REFERENCE" name="KSCO_REFERENCE_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
-        <localColumnNames>REFERENCE_TYPE</localColumnNames>
-    </foreignKey>
-    <foreignKey foreignTableName="KSCO_REFERENCE_TYPE" localTableName="KSCO_REFERENCE_TYPE_ATTR" name="KSCO_REFERENCE_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
-        <localColumnNames>OWNER</localColumnNames>
-    </foreignKey>
-    <foreignKey foreignTableName="KSCO_TAG" localTableName="KSCO_TAG_ATTR" name="KSCO_TAG_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>ID</foreignColumnNames>
-        <localColumnNames>OWNER</localColumnNames>
-    </foreignKey>
-    <foreignKey foreignTableName="KSCO_REFERENCE" localTableName="KSCO_TAG" name="KSCO_TAG_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>ID</foreignColumnNames>
-        <localColumnNames>REFERENCE</localColumnNames>
-    </foreignKey>
-    <foreignKey foreignTableName="KSCO_TAG_TYPE" localTableName="KSCO_TAG" name="KSCO_TAG_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
-        <localColumnNames>TYPE</localColumnNames>
-    </foreignKey>
-    <foreignKey foreignTableName="KSCO_TAG_TYPE" localTableName="KSCO_TAG_TYPE_ATTR" name="KSCO_TAG_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
         <foreignColumnNames>TYPE_KEY</foreignColumnNames>
         <localColumnNames>OWNER</localColumnNames>
     </foreignKey>
@@ -771,6 +731,10 @@
         <localColumnNames>ATP_ID</localColumnNames>
     </foreignKey>
     <foreignKey foreignTableName="KSEN_ATP" localTableName="KSEN_ATP_ATTR" name="KSEN_ATP_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_COMMENT" localTableName="KSEN_COMMENT_ATTR" name="KSEN_COMMENT_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
         <foreignColumnNames>ID</foreignColumnNames>
         <localColumnNames>OWNER_ID</localColumnNames>
     </foreignKey>
@@ -9338,79 +9302,6 @@
             <size value="40"/>
         </column>
     </table>
-    <table name="KSCO_COMMENT">
-        <column name="CREATEID" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="CREATETIME" type="TIMESTAMP">
-            <size scale="6" scaleSet="true" value="11"/>
-        </column>
-        <column name="EFF_DT" type="TIMESTAMP">
-            <size scale="6" scaleSet="true" value="11"/>
-        </column>
-        <column name="EXPIR_DT" type="TIMESTAMP">
-            <size scale="6" scaleSet="true" value="11"/>
-        </column>
-        <column name="ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="REFERENCE" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="RT_DESCR_ID" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="STATE" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="TYPE" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="UPDATEID" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="UPDATETIME" type="TIMESTAMP">
-            <size scale="6" scaleSet="true" value="11"/>
-        </column>
-        <column name="VER_NBR" nullable="false" type="FLOAT">
-            <size value="19"/>
-        </column>
-        <index name="KSCO_COMMENT_I1">
-            <column>TYPE</column>
-        </index>
-        <index name="KSCO_COMMENT_I2">
-            <column>RT_DESCR_ID</column>
-        </index>
-        <index name="KSCO_COMMENT_I3">
-            <column>REFERENCE</column>
-        </index>
-    </table>
-    <table name="KSCO_COMMENT_ATTR">
-        <column name="ATTR_NAME" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="ATTR_VALUE" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="OWNER" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="VER_NBR" type="FLOAT">
-            <size value="19"/>
-        </column>
-        <index name="KSCO_COMMENT_ATTR_I1">
-            <column>OWNER</column>
-        </index>
-    </table>
     <table name="KSCO_COMMENT_TYPE">
         <column name="EFF_DT" type="TIMESTAMP">
             <size scale="6" scaleSet="true" value="11"/>
@@ -9457,146 +9348,6 @@
             <column>OWNER</column>
         </index>
     </table>
-    <table name="KSCO_REFERENCE">
-        <column name="ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="REFERENCE_ID" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="REFERENCE_TYPE" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="VER_NBR" type="FLOAT">
-            <size value="19"/>
-        </column>
-        <index name="KSCO_REFERENCE_I1">
-            <column>REFERENCE_TYPE</column>
-        </index>
-        <uniqueConstraint name="KSCO_REFERENCE_U1">
-            <column>REFERENCE_ID</column>
-            <column>REFERENCE_TYPE</column>
-        </uniqueConstraint>
-    </table>
-    <table name="KSCO_REFERENCE_TYPE">
-        <column name="EFF_DT" type="TIMESTAMP">
-            <size scale="6" scaleSet="true" value="11"/>
-        </column>
-        <column name="EXPIR_DT" type="TIMESTAMP">
-            <size scale="6" scaleSet="true" value="11"/>
-        </column>
-        <column name="NAME" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="TYPE_DESC" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="TYPE_KEY" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="VER_NBR" type="FLOAT">
-            <size value="19"/>
-        </column>
-    </table>
-    <table name="KSCO_REFERENCE_TYPE_ATTR">
-        <column name="ATTR_NAME" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="ATTR_VALUE" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="OWNER" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="VER_NBR" type="FLOAT">
-            <size value="19"/>
-        </column>
-        <index name="KSCO_REFERENCE_TYPE_ATTR_I1">
-            <column>OWNER</column>
-        </index>
-    </table>
-    <table name="KSCO_RICH_TEXT_T">
-        <column name="FORMATTED" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="PLAIN" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="VER_NBR" type="FLOAT">
-            <size value="19"/>
-        </column>
-    </table>
-    <table name="KSCO_TAG">
-        <column name="CREATEID" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="CREATETIME" type="TIMESTAMP">
-            <size scale="6" scaleSet="true" value="11"/>
-        </column>
-        <column name="EFF_DT" type="TIMESTAMP">
-            <size scale="6" scaleSet="true" value="11"/>
-        </column>
-        <column name="EXPIR_DT" type="TIMESTAMP">
-            <size scale="6" scaleSet="true" value="11"/>
-        </column>
-        <column name="ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="NAME_SPACE" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="PREDICATE" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="REFERENCE" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="STATE" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="TYPE" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="UPDATEID" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="UPDATETIME" type="TIMESTAMP">
-            <size scale="6" scaleSet="true" value="11"/>
-        </column>
-        <column name="VAL" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="VER_NBR" nullable="false" type="FLOAT">
-            <size value="19"/>
-        </column>
-        <index name="KSCO_TAG_I1">
-            <column>REFERENCE</column>
-        </index>
-        <index name="KSCO_TAG_I2">
-            <column>TYPE</column>
-        </index>
-    </table>
     <table name="KSCO_TAG_ATTR">
         <column name="ATTR_NAME" type="STRING">
             <size value="255"/>
@@ -9617,52 +9368,6 @@
             <size value="19"/>
         </column>
         <index name="KSCO_TAG_ATTR_I1">
-            <column>OWNER</column>
-        </index>
-    </table>
-    <table name="KSCO_TAG_TYPE">
-        <column name="EFF_DT" type="TIMESTAMP">
-            <size scale="6" scaleSet="true" value="11"/>
-        </column>
-        <column name="EXPIR_DT" type="TIMESTAMP">
-            <size scale="6" scaleSet="true" value="11"/>
-        </column>
-        <column name="NAME" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="TYPE_DESC" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="TYPE_KEY" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="VER_NBR" type="FLOAT">
-            <size value="19"/>
-        </column>
-    </table>
-    <table name="KSCO_TAG_TYPE_ATTR">
-        <column name="ATTR_NAME" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="ATTR_VALUE" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="OWNER" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="VER_NBR" type="FLOAT">
-            <size value="19"/>
-        </column>
-        <index name="KSCO_TAG_TYPE_ATTR_I1">
             <column>OWNER</column>
         </index>
     </table>
@@ -10714,6 +10419,83 @@
             <column>UNIQUE_KEY</column>
             <column>NAMESPACE</column>
         </uniqueConstraint>
+    </table>
+    <table name="KSEN_COMMENT">
+        <column name="COMMENTER_ID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="COMMENT_FORMATTED" type="STRING">
+            <size value="4000"/>
+        </column>
+        <column name="COMMENT_PLAIN" type="STRING">
+            <size value="4000"/>
+        </column>
+        <column name="COMMENT_STATE" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="COMMENT_TYPE" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="CREATEID" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="CREATETIME" nullable="false" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="EFF_DT" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="EXPIR_DT" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="OBJ_ID" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="REF_OBJECT_ID" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="REF_OBJECT_TYPE" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="UPDATEID" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="UPDATETIME" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="VER_NBR" nullable="false" type="FLOAT">
+            <size value="19"/>
+        </column>
+        <index name="KSEN_COMMENT_I1">
+            <column>COMMENT_TYPE</column>
+        </index>
+        <index name="KSEN_COMMENT_I2">
+            <column>REF_OBJECT_ID</column>
+            <column>REF_OBJECT_TYPE</column>
+        </index>
+    </table>
+    <table name="KSEN_COMMENT_ATTR">
+        <column name="ATTR_KEY" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="ATTR_VALUE" type="STRING">
+            <size value="4000"/>
+        </column>
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="OBJ_ID" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="OWNER_ID" type="STRING">
+            <size value="255"/>
+        </column>
+        <index name="KSEN_COMMENT_ATTR_IF1">
+            <column>OWNER_ID</column>
+        </index>
     </table>
     <table name="KSEN_CO_AO_CLUSTER">
         <column name="AO_CLUSTER_STATE" nullable="false" type="STRING">
