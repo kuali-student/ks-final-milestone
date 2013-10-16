@@ -98,7 +98,6 @@
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-common-impl</artifactId>
             <version>${ks.core.version}</version>
-            <!--            <scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
@@ -118,14 +117,6 @@
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-krms</artifactId>
             <version>${ks.core.version}</version>
-            <classifier>tests</classifier>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.core</groupId>
-            <artifactId>ks-core-krms</artifactId>
-            <version>${ks.core.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
@@ -145,6 +136,10 @@
             <version>${ks.lum.version}</version>
             <type>test-jar</type>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-it-internal-tools</artifactId>
         </dependency>
         <dependency>
             <groupId>antlr</groupId>
