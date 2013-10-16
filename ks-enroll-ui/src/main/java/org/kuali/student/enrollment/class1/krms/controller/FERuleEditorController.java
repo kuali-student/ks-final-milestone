@@ -18,11 +18,14 @@ import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.class1.krms.dto.FEAgendaEditor;
+import org.kuali.student.enrollment.class1.krms.dto.FEPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleEditor;
 import org.kuali.student.enrollment.class1.krms.service.impl.FERuleEditorMaintainableImpl;
 import org.kuali.student.enrollment.class1.krms.service.impl.FERuleViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -32,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.ParseException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -185,6 +189,12 @@ public class FERuleEditorController extends EnrolRuleEditorController {
             return getUIFModelAndView(form);
         }
 
+        //Return with error message if start time is not prior to end time
+        if(compareTime(ruleEditor.getStartTime(), ruleEditor.getStartTimeAMPM(), ruleEditor.getEndTime(), ruleEditor.getEndTimeAMPM())) {
+            GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_RULE_TREE_GROUP_ID, ActivityOfferingConstants.MSG_ERROR_INVALID_START_TIME);
+            return getUIFModelAndView(form);
+        }
+
         if (ruleEditor.getProposition() == null) {
             GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_RULE_TREE_GROUP_ID, KRMSConstants.KRMS_MSG_ERROR_RULE_UPDATE);
             return getUIFModelAndView(form);
@@ -239,6 +249,52 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         return this.goToEditProposition(form, result, request, response);
     }
 
+    /**
+     * Ovverides method to check if FE Matrix propositions times are correct
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
+    @Override
+    @RequestMapping(params = "methodToCall=updateProposition")
+    public ModelAndView updateProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                          HttpServletRequest request, HttpServletResponse response) {
+        FERuleEditor ruleEditor = (FERuleEditor) getRuleEditor(form);
+        RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper((MaintenanceDocumentForm) form);
+
+        //Return with error message if user is currently editing a proposition.
+        FEPropositionEditor proposition = (FEPropositionEditor) PropositionTreeUtil.getProposition(ruleEditor);
+
+        if (compareTime(proposition.getStartTime(), proposition.getStartTimeAMPM(), proposition.getEndTime(), proposition.getEndTimeAMPM())) {
+            GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID, ActivityOfferingConstants.MSG_ERROR_INVALID_START_TIME);
+            return getUIFModelAndView(form);
+        }
+        return super.updateProposition(form, result, request, response);
+    }
+
+    private boolean compareTime(String startTime, String startTimeAMPM, String endTime, String endTimeAMPM) {
+        String sTimeAMPM = new StringBuilder(startTime).append(" ").append(startTimeAMPM).toString();
+        String eTimeAMPM = new StringBuilder(endTime).append(" ").append(endTimeAMPM).toString();
+
+        long sTime;
+        long eTime;
+
+        try {
+            sTime = parseTimeToMillis(sTimeAMPM);
+            eTime = parseTimeToMillis(eTimeAMPM);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        if(eTime <= sTime) {
+            return true;
+        }
+        return false;
+    }
+
     private RuleEditor getSelectedRule(MaintenanceDocumentForm form, String actionLink) {
         String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
@@ -279,6 +335,16 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         }
 
         return ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
+    }
+
+    /**
+     * Parses Date into Long
+     *
+     * @param time
+     * @return date in long value
+     */
+    protected long parseTimeToMillis(final String time) throws ParseException {
+        return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(time).getTime();
     }
 
     protected void compareRulePropositions(MaintenanceDocumentForm form, RuleEditor ruleEditor) {

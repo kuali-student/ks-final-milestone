@@ -45,6 +45,7 @@ import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.room.service.RoomService;
 
 import javax.xml.namespace.QName;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -415,17 +416,23 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
         //Populate dynamic attributes
         Map<String, String> attributes = new HashMap<String, String>();
-        attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, parseTime(feRuleEditor.getStartTime(), feRuleEditor.getStartTimeAMPM()));
-        attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY, feRuleEditor.getDay());
-        attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME, parseTime(feRuleEditor.getEndTime(), feRuleEditor.getEndTimeAMPM()));
-        if(feRuleEditor.getBuilding().getId() != null) {
-            attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY, feRuleEditor.getBuilding().getId());
+        try {
+            String startTimeAMPM = new StringBuilder(feRuleEditor.getStartTime()).append(" ").append(feRuleEditor.getStartTimeAMPM()).toString();
+            attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, Long.toString(parseTimeToMillis(startTimeAMPM)));
+            attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY, feRuleEditor.getDay());
+            String endTimeAMPM = new StringBuilder(feRuleEditor.getEndTime()).append(" ").append(feRuleEditor.getEndTimeAMPM()).toString();
+            attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME, Long.toString(parseTimeToMillis(endTimeAMPM)));
+            if(feRuleEditor.getBuilding().getId() != null) {
+                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY, feRuleEditor.getBuilding().getId());
+            }
+            if(feRuleEditor.getRoom().getId() != null) {
+                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM, feRuleEditor.getRoom().getId());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        if(feRuleEditor.getRoom().getId() != null) {
-            attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM, feRuleEditor.getRoom().getId());
-        }
-        actionEditor.setAttributes(attributes);
 
+        actionEditor.setAttributes(attributes);
     }
 
     public String getNextRuleKey(){
@@ -436,18 +443,10 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
      * Parses Date into Long
      *
      * @param time
-     * @param format
      * @return date in long value
      */
-    protected String parseTime(String time, String format) {
-        Date d = new Date();
-        d.setHours(Integer.parseInt(StringUtils.substring(time, 0, 2)) + (format.equals("PM") ? 12 : 0));
-        d.setMinutes(Integer.parseInt(StringUtils.substring(time, 3, 5)));
-        d.setSeconds(0);
-
-        long parsedTime = d.getTime();
-
-        return Long.toString(parsedTime);
+    protected long parseTimeToMillis(final String time) throws ParseException {
+        return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(time).getTime();
     }
 
     protected String getRdlActionTypeId() {
