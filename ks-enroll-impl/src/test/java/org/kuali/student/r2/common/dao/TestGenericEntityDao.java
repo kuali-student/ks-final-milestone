@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:state-test-context.xml"})
@@ -92,8 +91,9 @@ public class TestGenericEntityDao {
                 e.printStackTrace();
             }
 
+            int queryCount2 = getSubstringCount(queryStringRefLocal.toString(), "in");
 
-            assertNull("Maximum \'IN CLAUSE\' elements check : This test case can be failed if target database could allow more than 1000 elements in IN clause. In such case IGNORE this failure : ",lstStateEntity2);
+            assertEquals("Maximum \'IN CLAUSE\' elements check : This test case can be failed if target database could allow more than 1000 elements in IN clause. In such case IGNORE this failure : ", true, (queryCount2 == 1 || lstStateEntity2 == null));
 
 
 
