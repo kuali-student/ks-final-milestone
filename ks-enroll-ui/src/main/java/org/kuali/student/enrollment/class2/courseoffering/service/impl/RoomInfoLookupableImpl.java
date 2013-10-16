@@ -50,6 +50,11 @@ public class RoomInfoLookupableImpl extends LookupableImpl implements Lookupable
 
                 if (StringUtils.isBlank(fieldValues.get("roomCode"))){
                     List<String> roomIds = getRoomService().getRoomIdsByBuilding(buildings.get(firstBuilding).getId(), ContextBuilder.loadContextInfo());
+
+                    if(roomIds.isEmpty()) {
+                        return new ArrayList<RoomInfo>();
+                    }
+
                     return getRoomService().getRoomsByIds(roomIds,ContextBuilder.loadContextInfo());
                 } else {
                     return getRoomService().getRoomsByBuildingAndRoomCode(buildings.get(firstBuilding).getId(),fieldValues.get("roomCode"),ContextBuilder.loadContextInfo());
