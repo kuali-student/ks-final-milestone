@@ -47,7 +47,12 @@ public class KRMSConstants {
     public static final String KRMS_MSG_ERROR_PRECEDE_CONDITION = "error.krms.logic.precede.condition";
     public static final String KRMS_MSG_ERROR_FOLLOW_CONDITION = "error.krms.logic.follow.condition";
     public static final String KRMS_MSG_ERROR_RULE_PREVIEW = "error.krms.rule.preview";
-    public static final String KRMS_MSG_ERROR_RULE_UPDATE = "error.krms.rule.update";
 
+    // Final Exams Message Keys
+    public static final String KRMS_MSG_ERROR_RULE_UPDATE = "error.krms.rule.update";
+    public static final String KRMS_MSG_ERROR_RDL_STARTTIME = "error.krms.rule.rdl.startTime";
+    public static final String KRMS_MSG_ERROR_RDL_STARTTIME_AMPM = "error.krms.rule.rdl.startTimeAMPM";
+    public static final String KRMS_MSG_ERROR_RDL_ENDTIME = "error.krms.rule.rdl.endTime";
+    public static final String KRMS_MSG_ERROR_RDL_ENDTIME_AMPM = "error.krms.rule.rdl.endTimeAMPM";
 
 }
