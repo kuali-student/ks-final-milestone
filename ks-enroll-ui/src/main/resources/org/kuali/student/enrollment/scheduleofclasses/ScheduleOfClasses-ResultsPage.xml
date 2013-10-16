@@ -269,7 +269,6 @@
                       p:messageText="@{#line.instructorDisplayNames}" p:style="width:200px;"/>
                 <bean parent="Uif-DataField" p:label="SEATS" p:propertyName="aoInfo.maximumEnrollment" p:style="text-align:right;width:44px;"/>
                 <bean parent="Uif-MessageField" p:label="ADDITIONAL INFO" p:messageText="@{#line.schOfClassesRenderHelper.information}" p:style="width:111px;"/>
-                <bean parent="Uif-MessageField" p:label="REQUISITE" p:messageText="@{#line.requisite}"/>
             </list>
         </property>
     </bean>
@@ -278,6 +277,17 @@
     <bean id="SchOfClasses-aoFlatDisplay" parent="SchOfClasses-aoSearchResults" p:render="@{aoDisplayFormat == AoDisplayFormat.FLAT}">
         <property name="headerText" value="Activities" />
         <property name="propertyName" value="activityWrapperList" />
+        <property name="layoutManager">
+            <bean parent="Uif-TableCollectionLayout" class="org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesTableLayoutManager">
+                <property name="renderSequenceField" value="false" />
+                <property name="applyAlternatingRowStyles" value="false" />
+                <property name="applyDefaultCellWidths" value="false" />
+                <property name="richTable.render" value="false" />
+                <property name="requisitesField">
+                    <bean parent="Uif-MessageField" p:messageText="@{#line.requisite}"/>
+                </property>
+            </bean>
+        </property>
         <property name="header.upperGroup">
           <bean parent="Uif-HorizontalBoxGroup">
             <property name="items">
