@@ -733,6 +733,7 @@
                 <artifactId>rice-it-krms</artifactId>
                 <groupId>org.kuali.rice</groupId>
                 <version>${kuali.rice.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.kuali.rice</groupId>
