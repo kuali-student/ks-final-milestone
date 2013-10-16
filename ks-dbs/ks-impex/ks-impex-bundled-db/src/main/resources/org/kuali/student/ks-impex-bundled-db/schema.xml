@@ -598,10 +598,6 @@
         <foreignColumnNames>POSTAL_CNTRY_CD</foreignColumnNames>
         <localColumnNames>POSTAL_CNTRY_CD</localColumnNames>
     </foreignKey>
-    <foreignKey foreignTableName="KSCO_COMMENT_TYPE" localTableName="KSCO_COMMENT_TYPE_ATTR" name="KSCO_COMMENT_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
-        <localColumnNames>OWNER</localColumnNames>
-    </foreignKey>
     <foreignKey foreignTableName="KSDO_DOCUMENT" localTableName="KSDO_DOCUMENT_ATTR" name="KSDO_DOCUMENT_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
         <foreignColumnNames>DOC_ID</foreignColumnNames>
         <localColumnNames>OWNER</localColumnNames>
@@ -9301,75 +9297,6 @@
         <column name="SVC_DSCRPTR_ID" nullable="false" primaryKey="true" type="STRING">
             <size value="40"/>
         </column>
-    </table>
-    <table name="KSCO_COMMENT_TYPE">
-        <column name="EFF_DT" type="TIMESTAMP">
-            <size scale="6" scaleSet="true" value="11"/>
-        </column>
-        <column name="EXPIR_DT" type="TIMESTAMP">
-            <size scale="6" scaleSet="true" value="11"/>
-        </column>
-        <column name="NAME" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="TYPE_DESC" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="TYPE_KEY" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="VER_NBR" type="FLOAT">
-            <size value="19"/>
-        </column>
-    </table>
-    <table name="KSCO_COMMENT_TYPE_ATTR">
-        <column name="ATTR_NAME" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="ATTR_VALUE" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="OWNER" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="VER_NBR" type="FLOAT">
-            <size value="19"/>
-        </column>
-        <index name="KSCO_COMMENT_TYPE_ATTR_I1">
-            <column>OWNER</column>
-        </index>
-    </table>
-    <table name="KSCO_TAG_ATTR">
-        <column name="ATTR_NAME" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="ATTR_VALUE" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="OWNER" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="VER_NBR" type="FLOAT">
-            <size value="19"/>
-        </column>
-        <index name="KSCO_TAG_ATTR_I1">
-            <column>OWNER</column>
-        </index>
     </table>
     <table name="KSDO_DOCUMENT">
         <column name="CREATEID" type="STRING">
