@@ -2,10 +2,8 @@ package org.kuali.student.enrollment.class2.examoffering.service.facade;
 
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -240,4 +238,9 @@ public interface ExamOfferingServiceFacade {
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException;
 
+    /**
+     * This method retrieves the boolea value to indicate if the execution process should or not set the location on the RDL.
+     *
+     */
+    public boolean isSetLocation();
 }

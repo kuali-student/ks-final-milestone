@@ -66,6 +66,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
     private ExamOfferingService examOfferingService;
     private CourseOfferingSetService socService;
     private TypeService typeService;
+    private boolean setLocation;
 
     private enum Driver {PER_CO, PER_FO, PER_AO, NONE}
 
@@ -737,5 +738,14 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
     public void setTypeService(TypeService typeService) {
         this.typeService = typeService;
+    }
+
+  @Override
+    public boolean isSetLocation() {
+        return setLocation;
+    }
+
+    public void setSetLocation(boolean setLocation) {
+        this.setLocation = setLocation;
     }
 }

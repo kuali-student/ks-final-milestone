@@ -609,13 +609,14 @@
     </bean>
 
     <bean id="examOfferingServiceFacade" class="org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacadeImpl">
-        <property name="acalService" ref="AcademicCalendarService" />
-        <property name="examService" ref="ExamService"/>
-        <property name="courseOfferingService" ref="CourseOfferingService"/>
-        <property name="examOfferingService" ref="ExamOfferingService"/>
-        <property name="socService" ref="CourseOfferingSetService" />
-        <property name="typeService" ref="typeServiceCacheDecorator" />
-    </bean>
+    <property name="acalService" ref="AcademicCalendarService" />
+    <property name="examService" ref="ExamService"/>
+    <property name="courseOfferingService" ref="CourseOfferingService"/>
+    <property name="examOfferingService" ref="ExamOfferingService"/>
+    <property name="socService" ref="CourseOfferingSetService" />
+    <property name="typeService" ref="typeServiceCacheDecorator" />
+    <property name="setLocation" value="true" />
+</bean>
 
     <!-- Put facade on the bus -->
     <bean id="ks.exp.examOfferingServiceFacade" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
