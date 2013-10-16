@@ -619,7 +619,7 @@
 
     <!-- Comment Service Config -->
     <bean id="commentDao"
-          class="org.kuali.student.r1.core.comment.dao.impl.CommentDaoImpl">
+          class="org.kuali.student.r2.core.comment.dao.CommentDao">
         <property name="em" ref="coreEntityManager" />
     </bean>
 
@@ -628,23 +628,10 @@
         <constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />
     </bean>
 
-    <bean id="commentSearchableDao"
-          class="org.kuali.student.r2.common.dao.impl.SearchableCrudDaoImpl">
-        <property name="em" ref="coreEntityManager"/>
-    </bean>
-
-    <bean id="commentSearchManager"
-          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
-        <constructor-arg index="0" value="classpath:comment-search-config.xml" />
-        <property name="dao" ref="commentSearchableDao"/>
-    </bean>
-
     <bean id="commentServiceImpl"
-          class="org.kuali.student.r1.core.comment.service.impl.CommentServiceImpl">
+          class="org.kuali.student.r2.core.comment.service.impl.CommentServiceImpl">
         <property name="commentDao" ref="commentDao" />
-        <property name="searchManager" ref="commentSearchManager" />
-        <property name="dictionaryServiceDelegate" ref="coreDictionaryService" />
-        <property name="validatorFactory" ref="coreValidatorFactory"/>
+        <property name="commentCriteriaLookupService"  ref="coreCriteriaLookupService" />
     </bean>
 
     <bean id="ks.exp.commentService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

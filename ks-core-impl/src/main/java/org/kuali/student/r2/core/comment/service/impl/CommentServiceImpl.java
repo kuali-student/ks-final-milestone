@@ -165,6 +165,8 @@ public class CommentServiceImpl implements CommentService {
 
         entity.fromDto(commentInfo);
         entity.setEntityUpdated(contextInfo);
+
+
         entity = commentDao.merge(entity);
         commentDao.getEm().flush();
         return entity.toDto();

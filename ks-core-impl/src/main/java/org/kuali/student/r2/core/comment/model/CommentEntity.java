@@ -64,7 +64,7 @@ public class CommentEntity extends MetaEntity implements AttributeOwner<CommentA
     @Column(name = "COMMENT_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String commentFormatted;
 
-    @Column(name="COMMENTER_ID", nullable=false)
+    @Column(name="COMMENTER_ID")
     private String commenterId;
 
     @Column(name = "REF_OBJECT_TYPE", nullable=false)
