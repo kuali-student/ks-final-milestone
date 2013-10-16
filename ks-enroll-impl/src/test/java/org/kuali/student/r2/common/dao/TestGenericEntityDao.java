@@ -19,37 +19,39 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:state-test-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
 public class TestGenericEntityDao {
+    private static final int MAXIMUM_ENTITIES = 4000;
 
     @Autowired
-    protected StateDao stateDao;
+    private StateDao stateDao;
 
-    protected  List<String> primaryKeys = new ArrayList<String>();
+    private List<String> primaryKeys = new ArrayList<String>();
 
-    protected  StringBuilder queryStringRefLocal = new  StringBuilder();
+    private String queryString;
 
-    protected class TestStateDao extends GenericEntityDao<StateEntity> {
+    private class TestStateDao extends GenericEntityDao<StateEntity> {
         @Override
         protected Query buildQuery(StringBuilder queryStringRef, String primaryKeyMemberName, Set<String> primaryKeySet) {
-           Query q =  super.buildQuery(queryStringRef, primaryKeyMemberName, primaryKeySet);    //To change body of overridden methods use File | Settings | File Templates.
-            queryStringRefLocal = queryStringRef;
+            Query q =  super.buildQuery(queryStringRef, primaryKeyMemberName, primaryKeySet);
+            queryString = queryStringRef.toString();
             return q;
         }
     }
 
-    protected    TestStateDao localTest = new TestStateDao();
+    private TestStateDao testStateDao = new TestStateDao();
 
     @Before
     public void setUp() {
 
-        localTest.setEm(stateDao.getEm());
+        testStateDao.setEm(stateDao.getEm());
         //Loading data and preparing primaryKeys list.
-        for(int i=0 ; i<4000 ; i++) {
+        for(int i = 0; i < MAXIMUM_ENTITIES; i++) {
 
             StateEntity stateEntity = new StateEntity();
             stateEntity.setCreateId("SYSTEMLOADER");
@@ -61,12 +63,12 @@ public class TestGenericEntityDao {
             stateEntity.setLifecycleKey("kuali.scheduling.timeslot.lifecycle"+i);
             stateEntity.setName("Active"+i);
             stateEntity.setVersionNumber(0L);
-            localTest.persist(stateEntity);
+            testStateDao.persist(stateEntity);
 
             primaryKeys.add(stateEntity.getId());
         }
 
-        localTest.em.flush();
+        testStateDao.em.flush();
 
     }
 
@@ -75,28 +77,22 @@ public class TestGenericEntityDao {
 
         try {
 
-            List<StateEntity> lstStateEntity1 = localTest.findByIds("id", primaryKeys);
+            List<StateEntity> result = testStateDao.findByIds("id", primaryKeys);
+            int queryCount = getSubstringCount(queryString, "in");
 
-            int queryCount = getSubstringCount(queryStringRefLocal.toString(), "in");
+            assertNotNull("Result should be non-null", result);
+            assertEquals(MAXIMUM_ENTITIES + " entities should be returned", MAXIMUM_ENTITIES, result.size());
+            assertEquals("We have asked for " + MAXIMUM_ENTITIES + " ids, so the query should have 4 'in' clauses", queryCount, 4);
 
-            assertEquals("We have asked for 4K ids, so the query should have 4", queryCount, 4);
+            // set the DAO to not allow splitting up of query
+            testStateDao.setEnableMaxIdFetch(false);
+            // re-run the query
+            result = testStateDao.findByIds("id", primaryKeys);
+            queryCount = getSubstringCount(queryString, "in");
 
-
-            localTest.setEnableMaxIdFetch(false);
-            List<StateEntity> lstStateEntity2 = null;
-            try {
-                lstStateEntity2 = localTest.findByIds("id", primaryKeys);
-            } catch(Exception e) {
-                // for most DBs this will throw a javax.transaction.xa.XAException.
-                e.printStackTrace();
-            }
-
-            int queryCount2 = getSubstringCount(queryStringRefLocal.toString(), "in");
-
-            assertEquals("Maximum \'IN CLAUSE\' elements check : This test case can be failed if target database could allow more than 1000 elements in IN clause. In such case IGNORE this failure : ", true, (queryCount2 == 1 || lstStateEntity2 == null));
-
-
-
+            assertNotNull("Result should be non-null", result);
+            assertEquals(MAXIMUM_ENTITIES + " entities should be returned", MAXIMUM_ENTITIES, result.size());
+            assertEquals("Since we disabled splitting up of query, so the query should have only one 'in' clauses", queryCount, 1);
         } catch(Exception e) {
             e.printStackTrace();
         }
