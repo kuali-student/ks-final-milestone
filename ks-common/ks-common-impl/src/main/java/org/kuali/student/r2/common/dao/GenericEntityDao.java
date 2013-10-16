@@ -54,7 +54,7 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
     public List<T> findByIds(String primaryKeyMemberName, List<String> primaryKeys) throws DoesNotExistException {
 
         // fix for jira KSENROLL-2949
-        if (primaryKeys.isEmpty())
+        if (primaryKeys == null || primaryKeys.isEmpty())
             return new ArrayList<T>();
 
         Set<String>primaryKeySet = new HashSet<String>(primaryKeys.size());
@@ -68,8 +68,6 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
         Query query = buildQuery(queryString, primaryKeyMemberName, primaryKeySet);
 
         List<T> resultList = query.getResultList();
-
-        //Fix for JIRA KSENROLL-7492 - END
 
         verifyResults(resultList, primaryKeySet);
 
@@ -88,7 +86,7 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
         } else {
 
             List<List<String>> brokenLists = new ArrayList<List<String>>();
-            List<String> lst = null;
+            List<String> lst = new ArrayList<String>();
 
             queryStringRef.append("from ").append(entityClass.getSimpleName());
 
@@ -97,7 +95,6 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
 
                 if(index%maxInClauseElements==0) {
 
-                    lst = new ArrayList<String>();
                     brokenLists.add(lst);
 
                     if(brokenLists.size()==1) {
