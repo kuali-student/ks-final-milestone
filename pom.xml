@@ -52,6 +52,9 @@
             <properties>
                 <skipTests/>
             </properties>
+            <modules>
+                <module>ks-deployment-resources</module>
+            </modules>
         </profile>
         <profile>
             <id>skip-surefire-tests-core</id>
@@ -63,6 +66,9 @@
             <properties>
                 <skipTests/>
             </properties>
+            <modules>
+                <module>ks-deployment-resources</module>
+            </modules>
         </profile>
         <profile>
             <id>skip-surefire-tests-lum</id>
@@ -74,6 +80,9 @@
             <properties>
                 <skipTests/>
             </properties>
+            <modules>
+                <module>ks-deployment-resources</module>
+            </modules>
         </profile>
         <profile>
             <id>skip-surefire-tests-enroll</id>
@@ -85,6 +94,9 @@
             <properties>
                 <skipTests/>
             </properties>
+            <modules>
+                <module>ks-deployment-resources</module>
+            </modules>
         </profile>
     </profiles>
 </project>
