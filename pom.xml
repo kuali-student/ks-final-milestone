@@ -405,6 +405,13 @@
                         <stopPort>9999</stopPort>
                         <webApp>${project.build.directory}/${project.artifactId}-webapp</webApp>
                     </configuration>
+                    <dependencies>
+                    <dependency>
+                        <groupId>com.oracle</groupId>
+                        <artifactId>${oracle.artifactId}</artifactId>
+                        <version>${oracle.version}</version>
+                    </dependency>
+                    </dependencies>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
