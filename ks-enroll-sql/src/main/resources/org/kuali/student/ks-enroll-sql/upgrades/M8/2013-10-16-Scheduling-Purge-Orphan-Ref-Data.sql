@@ -33,7 +33,7 @@ delete from ksen_sched_cmp where id in (select id from t_orphanschedcmp)
 delete from ksen_sched where id in (select id from t_orphanscheds)
 /
 -- Since TBA/Adhoc mappings aren't completed yet, many otherwise orphan timeslots currently have dependency from ksen_sched_cmp_tmslot
-delete from ksen_sched_tmslot where  name is null and id in (select tsid from t_orphanSchedCmpTm) and id not in (select tm_slot_id from ksen_sched_cmp_tmslot)
+delete from ksen_sched_tmslot where  name is null and id in (select tsid from t_orphanSchedCmpTm) and id not in (select tm_slot_id from ksen_sched_cmp_tmslot) and id not in (select tm_slot_id from KSEN_SCHED_RQST_CMP_TMSLOT)
 /
 drop table t_orphanScheds
 /
