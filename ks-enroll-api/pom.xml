@@ -128,7 +128,7 @@
                             <supportFiles>
                                 <!-- needed to validate the dictionary files -->
                                 <supportFile>classpath:ks-base-dictionary.xml</supportFile>
-                             </supportFiles>
+                            </supportFiles>
                             <!-- generate only on the kuali student api -->
                             <sourceDirs>
                                 <sourceDir>${project.basedir}/src/main/java</sourceDir>
