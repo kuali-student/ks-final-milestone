@@ -37,7 +37,7 @@
         <dependency>
             <groupId>org.kuali.student.api</groupId>
             <artifactId>ks-ap-api</artifactId>
-            <version>${ks.ap.version}</version>
+            <version>${ks.api.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.kuali.student.core</groupId>
