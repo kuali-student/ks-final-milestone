@@ -72,7 +72,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
     @Override
     public StatusInfo generateFinalExamOffering(String courseOfferingId, String termId, String examPeriodId, List<String> optionKeys,
-                                          ContextInfo context)
+                                                ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
         if (StringUtil.isEmpty(examPeriodId)) {
@@ -87,7 +87,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
     @Override
     public StatusInfo generateFinalExamOffering(CourseOfferingInfo courseOfferingInfo, String termId, String examPeriodId, List<String> optionKeys,
-                                          ContextInfo context)
+                                                ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
         if (StringUtil.isEmpty(examPeriodId)) {
@@ -129,7 +129,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
     @Override
     public StatusInfo generateFinalExamOfferingForAO(CourseOfferingInfo courseOfferingInfo, ActivityOfferingInfo activityOfferingInfo,
-                                               String termId, String examPeriodID, List<String> optionKeys, ContextInfo context)
+                                                     String termId, String examPeriodID, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         if (StringUtil.isEmpty(examPeriodID)) {
@@ -243,7 +243,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
         }
 
-        if(isSocPublished(termId, context)){
+        if (isSocPublished(termId, context)) {
             cancelFinalExamOfferings(foToEoRelations, eos, context);
         } else {
             removeFinalExamOfferingsFromCO(foToEoRelations, context);
@@ -293,7 +293,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
         }
 
-        if(isSocPublished(termId, context)){
+        if (isSocPublished(termId, context)) {
             cancelFinalExamOfferings(foToEoRelations, eos, context);
         } else {
             removeFinalExamOfferingsFromCO(foToEoRelations, context);
@@ -315,6 +315,8 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             removeFinalExamOfferingsFromCO(foToEoRelations, context);
         }
 
+        boolean socPublished = isSocPublished(termId, context);
+
         Map<String, ExamOfferingInfo> eos = loadExamOfferings(foToEoRelations, context);
         for (Map.Entry<FormatOfferingInfo, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
 
@@ -335,15 +337,26 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                 if (!isActiveActivityOffering(aoInfo)) continue;
 
                 //Update EO type according to allowed FO
-                if(finalExamLevelType!=null) {
+                if (finalExamLevelType != null) {
                     TypeInfo activityType = this.getTypeService().getType(aoInfo.getTypeKey(), context);
                     //cancel if eo exits but not in sync with allowed FO
-                    if (!activityType.getName().equals(finalExamLevelType.getName())){
+                    if (!activityType.getName().equals(finalExamLevelType.getName())) {
+                        ExamOfferingRelationInfo eor = null;
                         for (ExamOfferingRelationInfo eoRelation : eors) {
                             if (eoRelation.getActivityOfferingIds().contains(aoInfo.getId())) {
-                                this.getExamOfferingService().changeExamOfferingState(eoRelation.getExamOfferingId(),
-                                             ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY, context);
+                                eor = eoRelation;
                                 break;
+                            }
+                        }
+
+                        //Remove or cancel unwanted exam offering based on soc state.
+                        if (eor != null) {
+                            if (socPublished) {
+                                this.getExamOfferingService().changeExamOfferingState(eor.getExamOfferingId(),
+                                        ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY, context);
+                            } else {
+                                this.getExamOfferingService().deleteExamOfferingRelation(eor.getId(), context);
+                                this.getExamOfferingService().deleteExamOffering(eor.getExamOfferingId(), context);
                             }
                         }
                         continue;   //next aoInfo
@@ -368,7 +381,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             }
         }
 
-        if(isSocPublished(termId, context)){
+        if (socPublished) {
             cancelFinalExamOfferings(foToEoRelations, eos, context);
         } else {
             removeFinalExamOfferingsFromCO(foToEoRelations, context);
@@ -377,8 +390,8 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
     }
 
     private boolean isActiveActivityOffering(ActivityOfferingInfo aoInfo) {
-        if((LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY.equals(aoInfo.getStateKey())) ||
-                (LuiServiceConstants.LUI_AO_STATE_SUSPENDED_KEY.equals(aoInfo.getStateKey()))){
+        if ((LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY.equals(aoInfo.getStateKey())) ||
+                (LuiServiceConstants.LUI_AO_STATE_SUSPENDED_KEY.equals(aoInfo.getStateKey()))) {
             return false;
         }
         return true;
@@ -409,7 +422,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                 eorsForDriver.add(eoRelation);
             }
         }
-        for(ExamOfferingRelationInfo eoRelation : eorsForDriver){
+        for (ExamOfferingRelationInfo eoRelation : eorsForDriver) {
             eors.remove(eoRelation);
         }
         return eorsForDriver;
@@ -463,7 +476,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         List<ActivityOfferingInfo> aoInfos = this.getCourseOfferingService().getActivityOfferingsByFormatOffering(
                 foId, context);
         for (ActivityOfferingInfo aoInfo : aoInfos) {
-            if (isActiveActivityOffering(aoInfo)){
+            if (isActiveActivityOffering(aoInfo)) {
                 aoIds.add(aoInfo.getId());
             }
         }
@@ -740,7 +753,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         this.typeService = typeService;
     }
 
-  @Override
+    @Override
     public boolean isSetLocation() {
         return setLocation;
     }
