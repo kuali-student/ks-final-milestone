@@ -385,8 +385,7 @@ limitations under the License.
                         <list>
                             <bean id="FinalExam-DeliveryLogistic-Time-Section"
                                   parent="Uif-Disclosure-HorizontalBoxSubSection" p:header.render="false"
-                                  p:refreshWhenChangedPropertyNames="#dp.ruleEditor.tba"
-                                  p:progressiveRender="@{#dp.ruleEditor.isTba() eq false}">
+                                  p:progressiveRender="@{#dp.ruleEditor.tba eq false}">
                                 <property name="items">
                                     <list>
                                         <bean id="FinalExam_starttime" parent="Uif-InputField-LabelTop"

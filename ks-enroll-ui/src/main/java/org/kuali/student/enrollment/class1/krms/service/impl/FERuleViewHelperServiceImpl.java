@@ -47,7 +47,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
  * @author Kuali Student Team
  */
 public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
@@ -55,7 +54,6 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
     private RoomService roomService;
 
     /**
-     *
      * @return
      */
     @Override
@@ -128,10 +126,10 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
         return termParameters;
     }
 
-    public List<BuildingInfo> retrieveBuildingInfo(String buildingCode,boolean strictMatch) throws Exception{
+    public List<BuildingInfo> retrieveBuildingInfo(String buildingCode, boolean strictMatch) throws Exception {
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        if (!strictMatch){
+        if (!strictMatch) {
             buildingCode = StringUtils.upperCase(buildingCode) + "%";
         }
         qbcBuilder.setPredicates(PredicateFactory.like("buildingCode", buildingCode));
@@ -142,16 +140,16 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
         return b;
     }
 
-    public List<RoomInfo> retrieveRoomInfo(String roomCode, String buildingCode,boolean strictMatch) throws Exception{
+    public List<RoomInfo> retrieveRoomInfo(String roomCode, String buildingCode, boolean strictMatch) throws Exception {
 
         int firstBuilding = 0;
         List<BuildingInfo> buildings = getRoomService().getBuildingsByBuildingCode(buildingCode, ContextBuilder.loadContextInfo());
 
-        if (StringUtils.isBlank(roomCode)){
+        if (StringUtils.isBlank(roomCode)) {
             List<String> roomIds = getRoomService().getRoomIdsByBuilding(buildings.get(firstBuilding).getId(), ContextBuilder.loadContextInfo());
-            return getRoomService().getRoomsByIds(roomIds,ContextBuilder.loadContextInfo());
+            return getRoomService().getRoomsByIds(roomIds, ContextBuilder.loadContextInfo());
         } else {
-            return getRoomService().getRoomsByBuildingAndRoomCode(buildings.get(firstBuilding).getBuildingCode(),roomCode ,ContextBuilder.loadContextInfo());
+            return getRoomService().getRoomsByBuildingAndRoomCode(buildings.get(firstBuilding).getBuildingCode(), roomCode, ContextBuilder.loadContextInfo());
         }
 
     }
@@ -166,17 +164,22 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
                 if (ruleEditor.getDay() != null) {
                     newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY, ruleEditor.getDay());
                 }
-                if (ruleEditor.getStartTime() != null) {
-                    String startTimeAMPM = new StringBuilder(ruleEditor.getStartTime()).append(" ").append(ruleEditor.getStartTimeAMPM()).toString();
-                    long startTimeMillis = this.parseTimeToMillis(startTimeAMPM);
-                    String startTime = String.valueOf(startTimeMillis);
-                    newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, startTime);
-                }
-                if (ruleEditor.getEndTime() != null) {
-                    String endTimeAMPM = new StringBuilder(ruleEditor.getEndTime()).append(" ").append(ruleEditor.getEndTimeAMPM()).toString();
-                    long endTimeMillis = this.parseTimeToMillis(endTimeAMPM);
-                    String endTime = String.valueOf(endTimeMillis);
-                    newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME, endTime);
+                if (ruleEditor.isTba()) {
+                    newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, Boolean.TRUE.toString());
+                } else {
+                    if (ruleEditor.getStartTime() != null) {
+                        String startTimeAMPM = new StringBuilder(ruleEditor.getStartTime()).append(" ").append(ruleEditor.getStartTimeAMPM()).toString();
+                        long startTimeMillis = this.parseTimeToMillis(startTimeAMPM);
+                        String startTime = String.valueOf(startTimeMillis);
+                        newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, startTime);
+                    }
+                    if (ruleEditor.getEndTime() != null) {
+                        String endTimeAMPM = new StringBuilder(ruleEditor.getEndTime()).append(" ").append(ruleEditor.getEndTimeAMPM()).toString();
+                        long endTimeMillis = this.parseTimeToMillis(endTimeAMPM);
+                        String endTime = String.valueOf(endTimeMillis);
+                        newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME, endTime);
+                    }
+                    newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, Boolean.FALSE.toString());
                 }
 
                 if (ruleEditor.getBuilding().getBuildingCode() != null && !ruleEditor.getBuilding().getBuildingCode().isEmpty()) {
@@ -219,8 +222,8 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
         return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(time).getTime();
     }
 
-    public RoomService getRoomService(){
-        if (roomService == null){
+    public RoomService getRoomService() {
+        if (roomService == null) {
             roomService = CourseOfferingResourceLoader.loadRoomService();
         }
         return roomService;

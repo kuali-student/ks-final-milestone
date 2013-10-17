@@ -204,7 +204,14 @@ public class FERuleEditorController extends EnrolRuleEditorController {
                 GlobalVariables.getMessageMap().putError(PropositionTreeUtil.DOC_NEW_DATAOBJECT_PATH+".ruleEditor.endTimeAMPM", KRMSConstants.KRMS_MSG_ERROR_RDL_ENDTIME_AMPM);
                 hasError = true;
             }
+
             if (hasError) {
+                return getUIFModelAndView(form);
+            }
+
+            //Return with error message if start time is not prior to end time, but only when all other errors are resolved.
+            if(compareTime(ruleEditor.getStartTime(), ruleEditor.getStartTimeAMPM(), ruleEditor.getEndTime(), ruleEditor.getEndTimeAMPM())) {
+                GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_RULE_TREE_GROUP_ID, ActivityOfferingConstants.MSG_ERROR_INVALID_START_TIME);
                 return getUIFModelAndView(form);
             }
         }
@@ -217,11 +224,6 @@ public class FERuleEditorController extends EnrolRuleEditorController {
             return getUIFModelAndView(form);
         }
 
-        //Return with error message if start time is not prior to end time
-        if(compareTime(ruleEditor.getStartTime(), ruleEditor.getStartTimeAMPM(), ruleEditor.getEndTime(), ruleEditor.getEndTimeAMPM())) {
-            GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_RULE_TREE_GROUP_ID, ActivityOfferingConstants.MSG_ERROR_INVALID_START_TIME);
-            return getUIFModelAndView(form);
-        }
 
         if (ruleEditor.getProposition() == null) {
             GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_RULE_TREE_GROUP_ID, KRMSConstants.KRMS_MSG_ERROR_RULE_UPDATE);
