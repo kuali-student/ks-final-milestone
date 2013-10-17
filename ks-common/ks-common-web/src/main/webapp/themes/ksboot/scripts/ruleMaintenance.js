@@ -729,9 +729,13 @@ function parseTime(timeDiv) {
     var d1 = new Date();
     //Create array of hour, minutes and 12 hour format
     var time = t.match(/(\d+)(?::(\d\d))(P|p?)/);
-    d1.setHours( parseInt(time[1]) + (time[3] ? 12 : 0) );
-    d1.setMinutes( parseInt(time[2]) || 0 );
-
+    if(time != null){
+        d1.setHours( parseInt(time[1]) + (time[3] ? 12 : 0) );
+        d1.setMinutes( parseInt(time[2]) || 0 );
+    }else{
+        d1.setHours(0);
+        d1.setMinutes(0);
+    }
     //Return date with set time for comparison
     return d1;
 }
