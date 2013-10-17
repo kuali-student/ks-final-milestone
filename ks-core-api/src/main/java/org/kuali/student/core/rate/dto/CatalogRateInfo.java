@@ -39,7 +39,7 @@ import org.w3c.dom.Element;
 @XmlType(name = "CatalogRateInfo", propOrder = {
         "id", "typeKey", "stateKey", "name", "descr",
         "code", "applicableAtpIds", "minimumAmount",
-        "maximumAmount", "flexibleCreditAmounts",
+        "maximumAmount", "flexibleUnitAmounts",
         "isTransactionCodeFinal", "transactionCode", 
         "isTransactionDateTypeFinal", "transactionDateTypeKey", 
         "isRecognitionDateDefinable", "isLimitRateFinal",
@@ -66,7 +66,7 @@ public class CatalogRateInfo
     private CurrencyAmountInfo maximumAmount;
 
     @XmlElement
-    private List<FlexibleUnitAmountInfo> flexibleCreditAmounts;
+    private List<FlexibleUnitAmountInfo> flexibleUnitAmounts;
     
     @XmlElement
     private Boolean isTransactionCodeFinal;
@@ -134,10 +134,10 @@ public class CatalogRateInfo
                 this.maximumAmount = new CurrencyAmountInfo(catalogRate.getMaximumAmount());
             }
 
-            this.flexibleCreditAmounts = new ArrayList<FlexibleUnitAmountInfo>();
+            this.flexibleUnitAmounts = new ArrayList<FlexibleUnitAmountInfo>();
             if (catalogRate.getFlexibleUnitAmounts() != null) {
                 for (FlexibleUnitAmount amount : catalogRate.getFlexibleUnitAmounts()) {
-                    this.flexibleCreditAmounts.add(new FlexibleUnitAmountInfo(amount));
+                    this.flexibleUnitAmounts.add(new FlexibleUnitAmountInfo(amount));
                 }
             }
 
@@ -205,15 +205,15 @@ public class CatalogRateInfo
 
     @Override
     public List<FlexibleUnitAmountInfo> getFlexibleUnitAmounts() {
-        if (this.flexibleCreditAmounts == null) {
-            this.flexibleCreditAmounts = new ArrayList<FlexibleUnitAmountInfo>(0);
+        if (this.flexibleUnitAmounts == null) {
+            this.flexibleUnitAmounts = new ArrayList<FlexibleUnitAmountInfo>(0);
         }
 
-        return (this.flexibleCreditAmounts);
+        return (this.flexibleUnitAmounts);
     }
 
-    public void setFlexibleUnitAmounts(List <FlexibleUnitAmountInfo> flexibleCreditAmounts) {
-        this.flexibleCreditAmounts = flexibleCreditAmounts;
+    public void setFlexibleUnitAmounts(List <FlexibleUnitAmountInfo> flexibleUnitAmounts) {
+        this.flexibleUnitAmounts = flexibleUnitAmounts;
     }
 
     @Override
