@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.StringUtils;
+import org.jfree.util.Log;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -34,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
@@ -139,7 +141,9 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             //Call the transaction helper to eventually call super.route, but with a new transaction
             //This way if the super.route transaction fails, the current transaction will still succeed and errors can
             //be displayed in the UI
-            getActivityOfferingControllerTransactionHelper().routeSuper(form, result, request, response, this);
+        	
+        	ActivityOfferingControllerTransactionHelper helper = getActivityOfferingControllerTransactionHelper();
+            helper.routeSuper(form, result, request, response, this);
         } catch (Exception e) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, unwrapException(e).getMessage());
         }
