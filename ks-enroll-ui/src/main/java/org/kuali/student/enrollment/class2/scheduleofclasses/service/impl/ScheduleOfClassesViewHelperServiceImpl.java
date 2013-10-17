@@ -378,6 +378,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
                 reqBuilder.getAoRequisite().append(aoReq);
             }
             reqBuilder.getAoRequisiteMap().put(aoEntry.getKey(), reqBuilder.getAoRequisite().toString());
+            reqBuilder.setAoRequisite(new StringBuilder());
         }
 
         return reqBuilder;
