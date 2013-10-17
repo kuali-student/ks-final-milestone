@@ -105,7 +105,6 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.jws.WebParam;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -1298,7 +1297,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
-    public List<String> getAllowedTimeSlotIdsForActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<String> getAllowedTimeSlotIdsForActivityOffering(String activityOfferingId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
@@ -1307,66 +1306,41 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
       * Provides a list of valid {@link TimeSlotInfo}s for a given Activity Offering.
       */
     @Override
-    public List<TimeSlotInfo> getAllowedTimeSlotsForActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<TimeSlotInfo> getAllowedTimeSlotsForActivityOffering(String activityOfferingId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public List<TimeSlotInfo> getAllowedTimeSlotsByDaysAndStartTimeForActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId,
-                                                                                       @WebParam(name = "daysOfWeek") List<Integer> daysOfWeek,
-                                                                                       @WebParam(name = "startTime") TimeOfDayInfo startTime,
-                                                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<TimeSlotInfo> getAllowedTimeSlotsByDaysAndStartTimeForActivityOffering(String activityOfferingId, List<Integer> daysOfWeek, TimeOfDayInfo startTime, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         // Get the ATP id from the AO's LUI.
-        LuiInfo aoLui = luiService.getLui(activityOfferingId, contextInfo);
+        LuiInfo aoLui = getLuiService().getLui(activityOfferingId, contextInfo);
         String atpId = aoLui.getAtpId();
-        // Get the ATP type key.
-        AtpInfo atpInfo = atpService.getAtp(atpId, contextInfo);
+        // Get the ATP type key. Using the ATP service since it is available and quicker.
+        AtpInfo atpInfo = getAtpService().getAtp(atpId, contextInfo);
         String atpTypeKey = atpInfo.getTypeKey();
 
-        // Get Time Slot types which are related to the ATP put them in an array. In most cases there should only be one.
+        // Get Time Slot types which are related to the ATP. In most cases there should only be one.
         List<TypeTypeRelationInfo> ttRelations =
-            typeService.getTypeTypeRelationsByOwnerAndType(atpTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_ATP2TIMESLOT_TYPE_KEY, contextInfo);
+            getTypeService().getTypeTypeRelationsByOwnerAndType(atpTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_ATP2TIMESLOT_TYPE_KEY, contextInfo);
 
         if (ttRelations.isEmpty()) {
             throw new OperationFailedException(String.format("Unable to find time slots because no time slot types are associated with ATP type %s.", atpTypeKey));
         }
 
-        String[] timeSlotTypeKeys = new String[ttRelations.size()];
-        short i = 0;
+        List<String> timeSlotTypeKeys = new ArrayList<String>();
         for (TypeTypeRelationInfo ttRelation : ttRelations) {
-            timeSlotTypeKeys[i++] = ttRelation.getRelatedTypeKey();
+            timeSlotTypeKeys.add(ttRelation.getRelatedTypeKey());
         }
 
-        String days = SchedulingServiceUtil.weekdaysList2WeekdaysString(daysOfWeek);
-
-        //  Search for TimeSlots
-        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(
-            PredicateFactory.and(
-                PredicateFactory.in("timeSlotType", timeSlotTypeKeys),
-                PredicateFactory.equal("weekdays", days)
-                //  The Rice criteria API doesn't work for type Long (and probably some other numeric types).
-                //  Not including a T-O-D-O here because I'm not sure how to proceed with the Rice bug.
-                // , PredicateFactory.equal("startTimeMillis", startTime.getMilliSeconds())
-            )
-        );
-
-        QueryByCriteria criteria = qbcBuilder.build();
-        List<TimeSlotInfo> allTimeSlotInfos = schedulingService.searchForTimeSlots(criteria, contextInfo);
-
-        //  Manually filter for startTime.
-        List<TimeSlotInfo> timeSlotInfos = new ArrayList<TimeSlotInfo>();
-        Long startMillis = startTime.getMilliSeconds();
-        for (TimeSlotInfo tsInfo : allTimeSlotInfos) {
-            if (tsInfo.getStartTime() != null && tsInfo.getStartTime().getMilliSeconds().equals(startMillis)) {
-                timeSlotInfos.add(tsInfo);
-            }
+        List<TimeSlotInfo> timeSlots = new ArrayList<TimeSlotInfo>();
+        for (String tsType : timeSlotTypeKeys) {
+            timeSlots.addAll(getSchedulingService().getTimeSlotsByDaysAndStartTime(tsType, daysOfWeek, startTime, contextInfo));
         }
 
-        return timeSlotInfos;
+        return timeSlots;
     }
 
     private ActivityOfferingInfo cAoInitActivityOffering(CourseOfferingInfo co, FormatOfferingInfo fo, LuiInfo lui, LuiLuiRelationInfo luiRel, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
@@ -2125,7 +2099,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
-    public List<RegistrationGroupInfo> getRegistrationGroupsByActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<RegistrationGroupInfo> getRegistrationGroupsByActivityOffering(String activityOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
 
         List<String> rgIds = luiService.getLuiIdsByRelatedLuiAndRelationType(activityOfferingId, LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY, context);
