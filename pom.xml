@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.pom</groupId>
         <artifactId>kuali-common</artifactId>
-        <version>3.3.3</version>
+        <version>3.3.19</version>
     </parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
@@ -131,12 +131,10 @@
         <ks.prepare-contract-dependencies.phase>site</ks.prepare-contract-dependencies.phase>
         <ks.vdecorator.phase>none</ks.vdecorator.phase>
         <!-- Spring config that creates META-INF files describing SQL resources -->
-        <metainf.sql.context>org.kuali.common.util.metainf.spring.MetaInfExecutableConfig</metainf.sql.context>
-        <metainf.sql.propertySource>org.kuali.student.deploy.spring.SqlMetaInfPropertySourceConfig</metainf.sql.propertySource>
+        <metainf.sql.context>org.kuali.common.util.metainf.spring.SqlConfig</metainf.sql.context>
+        <metainf.sql.propertySource>org.kuali.student.deploy.spring.SqlPropertySourceConfig</metainf.sql.propertySource>
         <jdk6.rt.jar>/var/lib/jenkins/tools/jdk6/jre/lib/rt.jar</jdk6.rt.jar>
         <kuali-impex.version>${impex.version}</kuali-impex.version>
-        <!-- Remove this once the top level Kuali pom is on this version (or higher) -->
-        <plugin.externals.version>1.0.10</plugin.externals.version>
     </properties>
     <profiles>
         <profile>
