@@ -34,6 +34,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.RoomServiceConstants;
@@ -564,15 +565,17 @@ public class SchedulingServiceImpl implements SchedulingService {
         return results.getResults();
     }
 
+    /**
+     * TODO: KSENROLL-10246, The Rice criteria API doesn't work for type Long (and probably some other numeric types).
+     * PredicateFactory.equal("startTimeMillis", startTime.getMilliSeconds())
+     */
     @Override
     public List<TimeSlotInfo> searchForTimeSlots(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<TimeSlotInfo> timeSlotsInfos = new ArrayList<TimeSlotInfo>();
-
         GenericQueryResults<TimeSlotEntity> results = criteriaLookupService.lookup(TimeSlotEntity.class, criteria);
         for (TimeSlotEntity ts : results.getResults()) {
             timeSlotsInfos.add(ts.toDto());
         }
-
         return timeSlotsInfos;
     }
 
@@ -647,15 +650,22 @@ public class SchedulingServiceImpl implements SchedulingService {
 
     @Override
     public List<Integer> getValidDaysOfWeekByTimeSlotType(String timeSlotTypeKey,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        if(timeSlotTypeKey.equals(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD)) {
-            return SchedulingServiceConstants.TIME_SLOT_DAYS_OF_WEEK_ACTIVITY_OFFERING_TYPE;
-        }
-        else if (timeSlotTypeKey.equals(SchedulingServiceConstants.TIME_SLOT_TYPE_EXAM)) {
+        if (timeSlotTypeKey.equals(SchedulingServiceConstants.TIME_SLOT_TYPE_EXAM)) {
             return Collections.emptyList();
+        } else {
+            List<TypeInfo> types = null;
+            try {
+                types = getTypeService().getTypesForGroupType(SchedulingServiceConstants.TIME_SLOT_TYPE_GROUPING, contextInfo);
+            } catch (DoesNotExistException e) {
+                throw new OperationFailedException("Could not lookup time slot types.", e);
+            }
+            for (TypeInfo type : types) {
+                if (type.getKey().equals(timeSlotTypeKey)) {
+                    return SchedulingServiceConstants.TIME_SLOT_DAYS_OF_WEEK_ACTIVITY_OFFERING_TYPE;
+                }
+            }
         }
-        else {
-            throw new InvalidParameterException("No defined valid days of week for type: " + timeSlotTypeKey);
-        }
+        throw new InvalidParameterException("No valid days defined for type: " + timeSlotTypeKey);
     }
 
     @Override

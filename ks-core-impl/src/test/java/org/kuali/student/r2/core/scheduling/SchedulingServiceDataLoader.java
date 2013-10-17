@@ -15,11 +15,20 @@
 
 package org.kuali.student.r2.core.scheduling;
 
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
@@ -27,8 +36,14 @@ import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.*;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -129,25 +144,65 @@ public class SchedulingServiceDataLoader {
         ////////////////////
         CommonServiceConstants.setIsIdAllowedOnCreate(contextInfo, true);
 
-        loadTimeSlotInfo("1", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, DOW_M_W_F, START_TIME_MILLIS_8_00_AM, END_TIME_MILLIS_8_50_AM);
-        loadTimeSlotInfo("2", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, DOW_M_W_F, START_TIME_MILLIS_8_00_AM, END_TIME_MILLIS_9_10_AM);
-        loadTimeSlotInfo("3", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, DOW_T_TH, START_TIME_MILLIS_8_00_AM, END_TIME_MILLIS_8_50_AM);
-        loadTimeSlotInfo("4", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, DOW_T_TH, START_TIME_MILLIS_8_00_AM, END_TIME_MILLIS_9_10_AM);
-        loadTimeSlotInfo("5", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, DOW_M_W_F, START_TIME_MILLIS_10_00_AM, END_TIME_MILLIS_10_50_AM);
-        loadTimeSlotInfo("6", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, DOW_M_W_F, START_TIME_MILLIS_10_00_AM, END_TIME_MILLIS_11_10_AM);
-        loadTimeSlotInfo("7", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, DOW_T_TH, START_TIME_MILLIS_10_00_AM, END_TIME_MILLIS_10_50_AM);
-        loadTimeSlotInfo("8", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, DOW_T_TH, START_TIME_MILLIS_10_00_AM, END_TIME_MILLIS_11_10_AM);
-        loadTimeSlotInfo("9", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, DOW_M_W_F, START_TIME_MILLIS_1_00_PM, END_TIME_MILLIS_1_50_PM);
-        loadTimeSlotInfo("10", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, DOW_M_W_F, START_TIME_MILLIS_1_00_PM, END_TIME_MILLIS_2_10_PM);
-        loadTimeSlotInfo("11", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, DOW_T_TH, START_TIME_MILLIS_1_00_PM, END_TIME_MILLIS_1_50_PM);
-        loadTimeSlotInfo("12", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, DOW_T_TH, START_TIME_MILLIS_1_00_PM, END_TIME_MILLIS_2_10_PM);
-        loadTimeSlotInfo("13", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, DOW_M_W_F, START_TIME_MILLIS_3_00_PM, END_TIME_MILLIS_3_50_PM);
-        loadTimeSlotInfo("14", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, DOW_M_W_F, START_TIME_MILLIS_3_00_PM, END_TIME_MILLIS_4_10_PM);
-        loadTimeSlotInfo("15", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, DOW_T_TH, START_TIME_MILLIS_3_00_PM, END_TIME_MILLIS_3_50_PM);
-        loadTimeSlotInfo("16", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, DOW_T_TH, START_TIME_MILLIS_3_00_PM, END_TIME_MILLIS_4_10_PM);
+        /**
+         * Create Time Slot data
+         */
 
-        loadTimeSlotInfo("toDelete", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, DOW_M_W_F, START_TIME_MILLIS_5_10_PM, END_TIME_MILLIS_6_00_PM);
-        loadTimeSlotInfo("toUpdate", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, DOW_M_W_F, START_TIME_MILLIS_5_10_PM, END_TIME_MILLIS_6_00_PM);
+        String fullTermFallType = SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_FALL;
+        String fullTermSpringType =  SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_SPRING;
+        String adHocTermType =  SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_ADHOC;
+
+        String[][] timeSlotsData = {
+            //  This data is for testing search.
+            //  {id, type, name, days, start time, end time}
+            //  Base time slot
+            {"ts101", fullTermFallType, "1000", "MWF", "08:00", "08:50"},
+            {"ts102", fullTermFallType, "1010", "MWF", "08:00", "09:10"},
+            {"ts103", fullTermFallType, "1001", "TH", "08:00", "08:50"},
+            {"ts3", fullTermFallType, "1002", "MTWHF", "08:00", "08:50"},
+            //  Same day pattern and type as base, but change up the end times
+            {"ts4", fullTermFallType, "1003", "MWF", "08:00", "09:50"},
+            {"ts5", fullTermFallType, "1004", "TH", "08:00", "09:50"},
+            {"ts6", fullTermFallType, "1005", "MTWHF", "08:00", "09:50"},
+            //  Ad hoc with different end time
+            {"ts7", adHocTermType, "1006", "MWF", "08:00", "08:51"},
+            //  Same day pattern and type as base, but change up the type
+            {"ts8", fullTermSpringType, "1007", "MWF", "08:00", "08:50"},
+            {"ts9", fullTermSpringType, "1008", "TH", "08:00", "08:50"},
+            {"ts10", fullTermSpringType, "1009", "MTWHF", "08:00", "08:50"},
+
+            //  Additional Fall Full Term time slots ...
+            {"ts104", fullTermFallType, "1012", "TH", "08:00", "09:10"},
+            {"ts105", fullTermFallType, "1013", "MWF", "10:00", "10:50"},
+            {"ts106", fullTermFallType, "1014", "MWF", "10:00", "11:10"},
+            {"ts107", fullTermFallType, "1015", "TH", "10:00", "10:50"},
+            {"ts108", fullTermFallType, "1016", "TH", "10:00", "11:10"},
+            {"ts109", fullTermFallType, "1017", "MWF", "13:00", "13:50"},
+            {"ts110", fullTermFallType, "1018", "MWF", "13:00", "14:10"},
+            {"ts111", fullTermFallType, "1019", "TH", "13:00", "13:50"},
+            {"ts112", fullTermFallType, "1020", "TH", "13:00", "14:10"},
+            {"ts113", fullTermFallType, "1021", "MWF", "15:00", "15:50"},
+            {"ts114", fullTermFallType, "1022", "MWF", "15:00", "16:10"},
+            {"ts115", fullTermFallType, "1023", "TH", "15:00", "15:50"},
+            {"ts116", fullTermFallType, "1024", "TH", "15:00", "16:10"},
+
+            //  Other Time Slots
+            {"toDelete", fullTermFallType, "1025", "MWF", "17:10", "18:00"},
+            {"toUpdate", fullTermFallType, "1026", "MWF", "17:10", "18:00"},
+        };
+
+
+        for (String[] ts: timeSlotsData) {
+            TimeSlotInfo tsInfo = new TimeSlotInfo();
+            tsInfo.setId(ts[0]);
+            tsInfo.setTypeKey(ts[1]);
+            tsInfo.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+            tsInfo.setName(ts[2]);
+            tsInfo.setWeekdays(SchedulingServiceUtil.weekdaysString2WeekdaysList(ts[3]));
+            tsInfo.setStartTime(makeTimeOfDayFromTimeString(ts[4]));
+            tsInfo.setEndTime(makeTimeOfDayFromTimeString(ts[5]));
+            schedulingService.createTimeSlot(tsInfo.getTypeKey(), tsInfo, contextInfo);
+        }
 
         CommonServiceConstants.setIsIdAllowedOnCreate(contextInfo, false);
 
@@ -159,10 +214,32 @@ public class SchedulingServiceDataLoader {
         schedulingService.createSchedule(testSchedule1.getTypeKey(), testSchedule1, contextInfo);
         schedulingService.createSchedule(testSchedule2.getTypeKey(), testSchedule2, contextInfo);
         schedulingService.createSchedule(testSchedule3.getTypeKey(), testSchedule3, contextInfo);
-
     }
 
-    private void loadTimeSlotInfo (String ts_id, String stateKey, String typeKey, List<Integer> weekdays, Long startTimeInMillisecs, Long endTimeInMillisecs)
+    /**
+     * Create a TimeOfDayInfo given a time.
+     *
+     * @param time A time string in military format (e.g. "13:00")
+     * @return
+     */
+    private TimeOfDayInfo makeTimeOfDayFromTimeString(String time) {
+        TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
+
+        // Get the date time of the epoch.
+        String[] t = time.split(":");
+        int hour = Integer.valueOf(t[0]);
+        int min = Integer.valueOf(t[1]);
+
+        //  Work from the beginning of (UNIX) time so that daylight savings time isn't a factor.
+        DateTime epoch = new DateTime(0);
+        DateTime epochPlusTime = epoch.plusHours(hour).plusMinutes(min);
+        Duration duration = new Duration(epoch, epochPlusTime);
+        timeOfDayInfo.setMilliSeconds(duration.getMillis());
+
+        return timeOfDayInfo;
+    }
+
+    private void loadTimeSlotInfo (String ts_id, String name, String stateKey, String typeKey, List<Integer> weekdays, Long startTimeInMillisecs, Long endTimeInMillisecs)
             throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
         TimeSlotInfo ts = new TimeSlotInfo();
         ts.setId(ts_id);
@@ -235,8 +312,8 @@ public class SchedulingServiceDataLoader {
         roomIds.add("1505039");
         componentInfo.setRoomIds(roomIds);
         List<String> timeSlotIds = new ArrayList<String>();
-        timeSlotIds.add("1");
-        timeSlotIds.add("2");
+        timeSlotIds.add("ts101");
+        timeSlotIds.add("ts102");
         componentInfo.setTimeSlotIds(timeSlotIds);
         List<String> resourceTypeKeys = new ArrayList<String>();
         resourceTypeKeys.add(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
@@ -248,8 +325,6 @@ public class SchedulingServiceDataLoader {
 
         return scheduleRequestInfo;
     }
-
-
 
     public static ScheduleInfo setupScheduleInfo(String id,String atpId,boolean isTBA,String roomId) {
 
@@ -267,8 +342,8 @@ public class SchedulingServiceDataLoader {
         scheduleComponentInfo.setIsTBA(Boolean.valueOf(isTBA));
 
         List<String> timeSlotIds = new ArrayList();
-        timeSlotIds.add("1");
-        timeSlotIds.add("2");
+        timeSlotIds.add("ts101");
+        timeSlotIds.add("ts102");
 
         scheduleComponentInfo.setRoomId(roomId);
         scheduleComponentInfo.setTimeSlotIds(timeSlotIds);
@@ -309,7 +384,5 @@ public class SchedulingServiceDataLoader {
         room.setStateKey("kuali.room.room.state.active");
 
         getRoomService().createRoom("Building1",room.getTypeKey(),room,contextInfo);
-
     }
-
 }
