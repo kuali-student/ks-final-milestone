@@ -37,10 +37,13 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.core.class1.type.service.impl.TypeServiceDataLoader;
 import org.kuali.student.r2.core.constants.RoomServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.SchedulingServiceDataLoader;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
@@ -60,10 +63,12 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.jws.WebParam;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -111,9 +116,6 @@ public class TestSchedulingServiceImpl {
         contextInfo = new ContextInfo();
         contextInfo.setPrincipalId(principalId);
         initScheduleRequestByRefObj();
-
-
-
         try {
             loadData();
         } catch (Exception ex) {
@@ -139,13 +141,106 @@ public class TestSchedulingServiceImpl {
     }
 
     private void loadData() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, AlreadyExistsException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
-        //  Load type data.
-        new TypeServiceDataLoader(typeService).load();
-
+        createTypeData();
         SchedulingServiceDataLoader loader = new SchedulingServiceDataLoader(this.schedulingService);
         loader.setAtpService(atpService);
         loader.setRoomService(roomService);
         loader.loadData();
+    }
+
+    private void createTypeData() throws PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, DoesNotExistException {
+
+        TypeInfo info =  createTypeInfo(requestType, "testType", "This is a test", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_REQUEST);
+
+        try {
+           typeService.createType(info.getKey(), info, contextInfo);
+        } catch (AlreadyExistsException e) {
+           throw new DataValidationErrorException(e);
+        }
+
+        // REMOVE THIS ONE
+        info =  createTypeInfo(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, "testType", "This is a test", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT);
+        try {
+           typeService.createType(info.getKey(), info, contextInfo);
+        } catch (AlreadyExistsException e) {
+           throw new DataValidationErrorException(e);
+        }
+
+        info =  createTypeInfo(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_FALL,
+               "Fall Full", "Fall Full Time Slot for testing", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT);
+        try {
+           typeService.createType(info.getKey(), info, contextInfo);
+        } catch (AlreadyExistsException e) {
+           throw new DataValidationErrorException(e);
+        }
+
+        info =  createTypeInfo(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_SPRING,
+               "Spring Full", "Spring Full Time Slot for testing", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT);
+        try {
+           typeService.createType(info.getKey(), info, contextInfo);
+        } catch (AlreadyExistsException e) {
+           throw new DataValidationErrorException(e);
+        }
+
+        info =  createTypeInfo(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_ADHOC,
+               "Ad Hoc",  "Ad Hoc Time Slot for testing", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT);
+        try {
+           typeService.createType(info.getKey(), info, contextInfo);
+        } catch (AlreadyExistsException e) {
+           throw new DataValidationErrorException(e);
+        }
+
+        info =  createTypeInfo(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA,
+               "TBA", "TBA Time Slot for testing", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT);
+        try {
+           typeService.createType(info.getKey(), info, contextInfo);
+        } catch (AlreadyExistsException e) {
+           throw new DataValidationErrorException(e);
+        }
+
+        info =  createTypeInfo(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE, "testType", "This is a test", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE);
+        try {
+           typeService.createType(info.getKey(), info, contextInfo);
+        } catch (AlreadyExistsException e) {
+           throw new DataValidationErrorException(e);
+        }
+
+        // Create type type relationships.
+        String tsGroupingType = SchedulingServiceConstants.TIME_SLOT_TYPE_GROUPING;
+        String ttRelationGroupType = TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY;
+        String fallTsType = SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_FALL;
+        String springTsType = SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_SPRING;
+        String adHocTsType = SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_ADHOC;
+        String tbaTsType = SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA;
+
+        TypeTypeRelationInfo typeTypeRelationInfo = createTypeTypeRelationInfo(tsGroupingType, fallTsType, ttRelationGroupType);
+        typeService.createTypeTypeRelation(ttRelationGroupType, tsGroupingType, fallTsType, typeTypeRelationInfo, contextInfo);
+        typeTypeRelationInfo = createTypeTypeRelationInfo(tsGroupingType, springTsType , ttRelationGroupType);
+        typeService.createTypeTypeRelation(ttRelationGroupType, tsGroupingType, springTsType, typeTypeRelationInfo, contextInfo);
+        typeTypeRelationInfo = createTypeTypeRelationInfo(tsGroupingType, adHocTsType, ttRelationGroupType);
+        typeService.createTypeTypeRelation(ttRelationGroupType, tsGroupingType, adHocTsType, typeTypeRelationInfo, contextInfo);
+        typeTypeRelationInfo = createTypeTypeRelationInfo(tsGroupingType, tbaTsType , ttRelationGroupType);
+        typeService.createTypeTypeRelation(ttRelationGroupType, tsGroupingType, tbaTsType, typeTypeRelationInfo, contextInfo);
+    }
+
+    private TypeTypeRelationInfo createTypeTypeRelationInfo(String ownerTypeKey, String relatedTypeKey, String typeTypeTypeKey) {
+        TypeTypeRelationInfo typeTypeRelationInfo = new TypeTypeRelationInfo();
+        typeTypeRelationInfo.setStateKey(TypeServiceConstants.TYPE_TYPE_RELATION_ACTIVE_STATE_KEY);
+        typeTypeRelationInfo.setTypeKey(typeTypeTypeKey);
+        typeTypeRelationInfo.setOwnerTypeKey(ownerTypeKey);
+        typeTypeRelationInfo.setRelatedTypeKey(relatedTypeKey);
+        typeTypeRelationInfo.setRank(1);
+        return typeTypeRelationInfo;
+    }
+
+    private TypeInfo createTypeInfo(String typeKey, String typeName, String descr, String refObjectUri) {
+        TypeInfo type = new TypeInfo();
+        type.setKey(typeKey);
+        type.setName(typeName);
+        type.setDescr(new RichTextHelper().fromPlain(descr));
+        type.setRefObjectUri(refObjectUri);
+        type.setEffectiveDate(new Date());
+        return type;
     }
 
     public SchedulingService getSchedulingService() {
