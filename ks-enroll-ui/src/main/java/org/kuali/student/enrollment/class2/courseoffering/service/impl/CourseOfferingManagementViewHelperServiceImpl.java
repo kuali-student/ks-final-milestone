@@ -2250,17 +2250,26 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
     public void loadExamOfferings(CourseOfferingManagementForm theForm) throws Exception {
 
+        List<FormatOfferingInfo> fos = this.getCourseOfferingService().getFormatOfferingsByCourseOffering(theForm.getCourseOfferingId(),
+                ContextUtils.createDefaultContextInfo());
+
         Set<String> examOfferingIds = new HashSet<String>();
+        Map<String, FormatOfferingInfo> foIdtoFo = new HashMap<String, FormatOfferingInfo>();
         Map<String, ExamOfferingRelationInfo> eoToRln = new HashMap<String, ExamOfferingRelationInfo>();
-        for (String foId : theForm.getFoId2aoTypeMap().keySet()) {
+        for (FormatOfferingInfo fo : fos) {
+            //Add Fos to map to use later.
+            foIdtoFo.put(fo.getId(), fo);
+
+            //Retrieve exam offering relations for fo and add to map.
             List<ExamOfferingRelationInfo> examOfferingRelationInfos = CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
-                    foId, ContextUtils.createDefaultContextInfo());
+                    fo.getId(), ContextUtils.createDefaultContextInfo());
             for (ExamOfferingRelationInfo examOfferingRelationInfo : examOfferingRelationInfos) {
                 examOfferingIds.add(examOfferingRelationInfo.getExamOfferingId());
                 eoToRln.put(examOfferingRelationInfo.getExamOfferingId(), examOfferingRelationInfo);
             }
         }
 
+        //Retrieve a list of all the unique examofferings.
         List<ExamOfferingInfo> examOfferingInfos = CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingsByIds(
                 new ArrayList<String>(examOfferingIds), ContextUtils.createDefaultContextInfo());
 
@@ -2268,7 +2277,14 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             ExamOfferingWrapper examOfferingWrapper = createWrapperFromExamOffering(examOfferingInfo);
 
             if (isDriverPerAO(examOfferingInfo)) {
-                setExamOfferingPerAO(theForm, examOfferingWrapper, eoToRln.get(examOfferingInfo.getId()));
+
+                ExamOfferingRelationInfo eor = eoToRln.get(examOfferingInfo.getId());
+                FormatOfferingInfo fo = foIdtoFo.get(eor.getFormatOfferingId());
+                if (fo.getFinalExamLevelTypeKey() != null) {
+                    TypeInfo type = CourseOfferingManagementUtil.getTypeService().getType(fo.getFinalExamLevelTypeKey(), ContextUtils.createDefaultContextInfo());
+                    examOfferingWrapper.setTypeName(type.getName());
+                }
+                setExamOfferingPerAO(theForm, examOfferingWrapper, eor);
             } else {
                 if (ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY.equals(examOfferingInfo.getStateKey())) {
                     theForm.getExamOfferingCancelledList().add(examOfferingWrapper);
@@ -2293,12 +2309,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                                       ExamOfferingRelationInfo eoRelation)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException,
             DoesNotExistException {
-
-        FormatOfferingInfo fo = theForm.getFoId2aoTypeMap().get(eoRelation.getFormatOfferingId());
-        if (fo.getFinalExamLevelTypeKey() != null) {
-            TypeInfo type = CourseOfferingManagementUtil.getTypeService().getType(fo.getFinalExamLevelTypeKey(), ContextUtils.createDefaultContextInfo());
-            examOfferingWrapper.setTypeName(type.getName());
-        }
 
         for (ActivityOfferingClusterWrapper aoClusterWrapper : theForm.getClusterResultList()) {
             for (ActivityOfferingWrapper wrapper : aoClusterWrapper.getAoWrapperList()) {
