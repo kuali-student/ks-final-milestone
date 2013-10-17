@@ -74,6 +74,37 @@
                     </dependency>
                 </dependencies>
             </plugin>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<configuration>
+					<stopKey>foo</stopKey>
+					<stopPort>9998</stopPort>
+					<webApp>${project.build.directory}/${project.artifactId}-webapp</webApp>
+					<webAppConfig>
+						<contextPath>/ks-with-rice-embedded-dev</contextPath>
+						<allowDuplicateFragmentNames>true</allowDuplicateFragmentNames> 
+					</webAppConfig>
+					<connectors>
+				       <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+				          <port>8081</port>
+				          <maxIdleTime>60000</maxIdleTime>
+				       </connector>
+   				  </connectors>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.oracle</groupId>
+						<artifactId>${oracle.artifactId}</artifactId>
+                        <version>${oracle.version}</version>
+					</dependency>
+					 <dependency>
+                        <groupId>org.apache.derby</groupId>
+                        <artifactId>derby</artifactId>
+                        <version>${derby.version}</version>
+                    </dependency>
+				</dependencies>
+			</plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
