@@ -26,7 +26,6 @@ import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.date.DateFormatters;
-import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -231,7 +230,6 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         } else {
             PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor.getPropositionEditor());
             PropositionTreeUtil.resetNewProp(ruleEditor.getPropositionEditor());
-            ruleEditor.setDescription(ruleEditor.getPropositionEditor().getNaturalLanguage().get(KSKRMSServiceConstants.KRMS_NL_RULE_EDIT) + ".");
             this.getViewHelper(form).rebuildActions(ruleEditor);
         }
 
@@ -250,6 +248,8 @@ public class FERuleEditorController extends EnrolRuleEditorController {
                 }
             }
         }
+
+        this.getViewHelper(form).refreshInitTrees(ruleWrapper.getRuleEditor());
 
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_AGENDA_FE_MAINTENANCE_PAGE_ID);
         return super.navigate(form, result, request, response);

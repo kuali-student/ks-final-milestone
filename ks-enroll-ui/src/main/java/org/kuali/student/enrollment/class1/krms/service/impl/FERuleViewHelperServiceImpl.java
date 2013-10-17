@@ -34,6 +34,7 @@ import org.kuali.student.enrollment.class1.krms.dto.FEPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleEditor;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.lum.lu.ui.krms.service.impl.LURuleViewHelperServiceImpl;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
@@ -70,6 +71,7 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
 
         //Rebuild the trees
         rule.setEditTree(getEditTreeBuilder().buildTree(rule));
+        rule.setDescription(this.getDescription(rule.getPropositionEditor()));
     }
 
     /**
@@ -218,8 +220,32 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
         }
     }
 
+    protected String getDescription(PropositionEditor proposition) {
+        if (proposition == null) {
+            return StringUtils.EMPTY;
+        }
+
+        //Get the natural language for the usage key.
+        Map<String, String> nlMap = proposition.getNaturalLanguage();
+        if(!nlMap.containsKey(this.getNaturalLanguageUsageKey())){
+            this.getNaturalLanguageHelper().setNaturalLanguageForUsage(proposition, this.getNaturalLanguageUsageKey(), StudentIdentityConstants.KS_NAMESPACE_CD);
+        }
+
+        //Return empty string if nl does is null.
+        String description = nlMap.get(this.getNaturalLanguageUsageKey());
+        if (description==null){
+            return StringUtils.EMPTY;
+        }
+
+        return description;
+    }
+
     protected long parseTimeToMillis(final String time) throws ParseException {
         return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(time).getTime();
+    }
+
+    public String getNaturalLanguageUsageKey() {
+        return KSKRMSServiceConstants.KRMS_NL_TYPE_CATALOG;
     }
 
     public RoomService getRoomService() {
