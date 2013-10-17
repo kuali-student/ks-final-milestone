@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.coursewaitlist.service.facade;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -82,20 +83,22 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
                     boolean hasWaitlistCO = true;
                     if(waitListInfo.getActivityOfferingIds().size() > 1) {
                         for (String activityOfferingId : waitListInfo.getActivityOfferingIds()) {
-                            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-                            qbcBuilder.setPredicates(PredicateFactory.and(
-                                    PredicateFactory.like("aoid", activityOfferingId),
-                                    PredicateFactory.equalIgnoreCase("atpId", termId)));
-                            QueryByCriteria criteria = qbcBuilder.build();
-                            List<String> courseOfferingIds = getCoService().searchForCourseOfferingIds(criteria, context);
-                            for (String courseOfferingId : courseOfferingIds) {
-                                CourseOfferingInfo coloCourseOfferingInfo = getCoService().getCourseOffering(courseOfferingId, context);
-                                if (!coloCourseOfferingInfo.getHasWaitlist()) {
-                                    hasWaitlistCO = false;
+                            if (!StringUtils.equals(activityOfferingId, aoInfo.getId())) {
+                                QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+                                qbcBuilder.setPredicates(PredicateFactory.and(
+                                        PredicateFactory.like("aoid", activityOfferingId),
+                                        PredicateFactory.equalIgnoreCase("atpId", termId)));
+                                QueryByCriteria criteria = qbcBuilder.build();
+                                List<String> courseOfferingIds = getCoService().searchForCourseOfferingIds(criteria, context);
+                                for (String courseOfferingId : courseOfferingIds) {
+                                    CourseOfferingInfo coloCourseOfferingInfo = getCoService().getCourseOffering(courseOfferingId, context);
+                                    if (!coloCourseOfferingInfo.getHasWaitlist()) {
+                                        hasWaitlistCO = false;
+                                    }
                                 }
-                            }
-                            if (!hasWaitlistCO) {
-                                break;
+                                if (!hasWaitlistCO) {
+                                    break;
+                                }
                             }
                         }
                     }
