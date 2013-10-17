@@ -14,7 +14,7 @@
  *
  * Created by Charles on 9/9/13
  */
-package org.kuali.student.enrollment.class2.courseoffering.service.impl;
+package org.kuali.student.enrollment.class2.courseoffering.service.helper;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;

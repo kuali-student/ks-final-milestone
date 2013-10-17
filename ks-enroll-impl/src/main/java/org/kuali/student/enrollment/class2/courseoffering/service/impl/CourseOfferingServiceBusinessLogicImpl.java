@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
+import org.kuali.student.enrollment.class2.courseoffering.service.helper.CopyActivityOfferingCommon;
+import org.kuali.student.enrollment.class2.courseoffering.service.helper.CourseOfferingServiceRolloverHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupCodeGeneratorFactory;
@@ -74,6 +76,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -706,8 +709,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             FormatOfferingInfo targetFo = _RCO_createTargetFormatOffering(sourceFo, targetCo, targetTermId, context);
 
             Map<String, String> sourceAoIdToTargetAoId = new HashMap<String, String>();
-            List<ActivityOfferingInfo> aoList = foIdsToAOList.get(sourceFo.getId());
-            for (ActivityOfferingInfo sourceAo : aoList) {
+            List<ActivityOfferingInfo> sourceAoList = foIdsToAOList.get(sourceFo.getId());
+            Map<String, ActivityOfferingInfo> targetAoId2Ao = new HashMap<String, ActivityOfferingInfo>();
+            for (ActivityOfferingInfo sourceAo : sourceAoList) {
                 if (optionKeys.contains(CourseOfferingSetServiceConstants.IGNORE_CANCELLED_AO_OPTION_KEY) &&
                         StringUtils.equals(sourceAo.getTypeKey(), LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY)) {
                     continue;
@@ -728,9 +732,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                     // KSENROLL-8064: Make behavior of copying an AO the same (other than the option
                     // keys in the if statement above
                     targetAo = CopyActivityOfferingCommon.copy(sourceAo.getId(), coService, schedulingService,
-                                roomService, activityOfferingTransformer,
-                                targetFo, targetTermIdCustom,
-                                context, optionKeys);
+                            roomService, activityOfferingTransformer,
+                            targetFo, targetTermIdCustom,
+                            context, optionKeys);
                     // Need to do this, otherwise mapping of source/target AO clusters fails
                     sourceAoIdToTargetAoId.put(sourceAo.getId(), targetAo.getId());
                 } else {
@@ -752,6 +756,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                     }
                     _RCO_rolloverSeatpools(sourceAo, targetAo, context);
                 }
+                targetAoId2Ao.put(targetAo.getId(), targetAo);
 
                 // Waitlist copy/rollover
                 List<CourseWaitListInfo> waitListInfos = courseWaitListService.getCourseWaitListsByActivityOffering(sourceAo.getId(), context);
@@ -765,7 +770,11 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             List<ActivityOfferingClusterInfo> targetClusters =
                     _RCO_rolloverActivityOfferingClusters(sourceFo, targetFo, context, sourceAoIdToTargetAoId);
             for (ActivityOfferingClusterInfo cluster: targetClusters) {
-                generateRegistrationGroupsForCluster(cluster.getId(), context);
+                List<ActivityOfferingInfo> aosInCluster = _getAosInCluster(cluster, targetAoId2Ao);
+                CourseOfferingServiceRolloverHelper.generateRegGroupsForClusterHelper(cluster.getId(), context,
+                        coService, registrationCodeGeneratorFactory,
+                        true, new ArrayList<RegistrationGroupInfo>(),
+                        cluster, targetFo, aosInCluster);
             }
         }
         //process final exam offerings for target course offering
@@ -790,6 +799,26 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         aoCountAttr.setKey(CourseOfferingSetServiceConstants.ACTIVITY_OFFERINGS_CREATED_SOC_ITEM_DYNAMIC_ATTRIBUTE);
         aoCountAttr.setValue("" + aoCount);
         return item;
+    }
+
+    private List<ActivityOfferingInfo> _getAosInCluster(ActivityOfferingClusterInfo cluster,
+                                                        Map<String, ActivityOfferingInfo> targetAoId2Ao)
+            throws OperationFailedException {
+        List<ActivityOfferingInfo> aosInCluster = new ArrayList<ActivityOfferingInfo>();
+        Set<String> aoIdsSeen = new HashSet<String>(); // Error checking for duplicate AO ids
+        for (ActivityOfferingSetInfo set: cluster.getActivityOfferingSets()) {
+            for (String aoId: set.getActivityOfferingIds()) {
+                if (!aoIdsSeen.contains(aoId)) {
+                    ActivityOfferingInfo targetAo = targetAoId2Ao.get(aoId);
+                    if (targetAo == null) {
+                        throw new OperationFailedException("Unable to locate target AO");
+                    }
+                    aosInCluster.add(targetAoId2Ao.get(aoId));
+                    aoIdsSeen.add(aoId); // Add to list of "seen" ao ids
+                }
+            }
+        }
+        return aosInCluster;
     }
 
 
@@ -1232,165 +1261,10 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     public List<BulkStatusInfo> generateRegistrationGroupsForCluster(String activityOfferingClusterId, ContextInfo contextInfo)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
                    MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<BulkStatusInfo> rgChanges = new ArrayList<BulkStatusInfo>();
         // Initializes coService
         _initServices();
-        ActivityOfferingClusterInfo cluster = coService.getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
-
-        // If any of the AO sets is empty, we'll bail out and not generate.  This is more the expected behavior.
-        if (_hasEmptyAoSets(cluster)) {
-            return new ArrayList<BulkStatusInfo>(); // KSENROLL-6193, KSENROLL-6181
-        }
-
-        List<RegistrationGroupInfo> existingRegistrationGroups =
-                coService.getRegistrationGroupsByFormatOffering(cluster.getFormatOfferingId(), contextInfo);
-        int prefix = 1;
-        if (existingRegistrationGroups.isEmpty()) {
-            // A bit tedious to fetch all the FOs
-            String foId = cluster.getFormatOfferingId();
-            FormatOfferingInfo clusterFo = getCoService().getFormatOffering(foId, contextInfo);
-            CourseOfferingInfo co = getCoService().getCourseOffering(clusterFo.getCourseOfferingId(), contextInfo);
-            List<FormatOfferingInfo> foInfos = getCoService().getFormatOfferingsByCourseOffering(co.getId(), contextInfo);
-
-            try {
-                RegistrationGroupCodeUtil.computeRegCodePrefixForFo(foInfos, getCoService(), contextInfo);
-                // Refetch the FO
-                FormatOfferingInfo fetched = getCoService().getFormatOffering(foId, contextInfo);
-                prefix = RegistrationGroupCodeUtil.getRegCodePrefixFromFo(fetched);
-            } catch (ReadOnlyException e) {
-                throw new OperationFailedException("ERROR in generating reg groups (ReadOnlyException) " + e.getMessage());
-            } catch (VersionMismatchException e) {
-                throw new OperationFailedException("ERROR in generating reg groups (VersionMismatchException) " + e.getMessage());
-            }
-        }
-        Integer firstRegGroupCode = _gRGFC_computeFirstRegGroupCode(existingRegistrationGroups, prefix);
-
-        // Calculate the set of "set of AO IDs" from which to generate reg groups.
-
-        Set<List<String>> regGroupAoIds =
-                PermutationCounter.computeMissingRegGroupAoIdsInCluster(cluster, existingRegistrationGroups);
-
-        FormatOfferingInfo fo = coService.getFormatOffering(cluster.getFormatOfferingId(), contextInfo);
-        List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByCluster(activityOfferingClusterId, contextInfo);
-
-        // New instance created each time if desired
-        RegistrationGroupCodeGenerator generator =
-                registrationCodeGeneratorFactory.makeCodeGenerator();
-        Map<String, Object> keyValues = null;
-        if (firstRegGroupCode != null) {
-            keyValues = new HashMap<String, Object>();
-            keyValues.put(FIRST_REG_GROUP_CODE, firstRegGroupCode);
-        }
-        generator.initializeGenerator(coService, fo, contextInfo, keyValues);
-
-        //Sort the lists in order to be in sequence with RGIDs when generating
-        //Sort aoList
-        if(aoList.size()>1){
-            Collections.sort(aoList, new Comparator<ActivityOfferingInfo>() {
-                @Override
-                public int compare(ActivityOfferingInfo o1, ActivityOfferingInfo o2) {
-                    if (o1.getActivityCode() != null && o2.getActivityCode() != null
-                            && !o1.getActivityCode().equals("") && !o2.getActivityCode().equals("")){
-                        return o1.getActivityCode().compareTo(o2.getActivityCode());
-                    } else {
-                        return -1;
-                    }
-                }
-            });
-        }
-        //Sort AO IDs within the regGroupAoIds list's arrays
-        ArrayList<List<ActivityOfferingInfo>> regGroupAoInfosSorted = new ArrayList<List<ActivityOfferingInfo>>();
-        for (List<String> aoIDs : regGroupAoIds) {
-            List<ActivityOfferingInfo> aoListSorted = new ArrayList<ActivityOfferingInfo>();
-            //loop aoIDs and find the related AO that will store the activityCode to be sorted on
-            for (String aoIDinaoIDs: aoIDs){
-                //find the matching ID and associate it to the AOInfo
-                for (ActivityOfferingInfo aoInfo :  aoList) {
-                    if (aoInfo.getId().equals(aoIDinaoIDs)) {
-                        aoListSorted.add(aoInfo); //create a list of AOInfos to be sorted
-                        break;
-                    }
-                }
-            }
-            if (aoListSorted.size() > 1) {  //sort if more than 1 AO in the set
-                //Sort aoListSorted based on activityCode
-                Collections.sort(aoListSorted, new Comparator<ActivityOfferingInfo>() {
-                    @Override
-                    public int compare(ActivityOfferingInfo o1, ActivityOfferingInfo o2) {
-                        if (o1.getActivityCode() != null && o2.getActivityCode() != null
-                                && !o1.getActivityCode().equals("") && !o2.getActivityCode().equals("")){
-                            return o1.getActivityCode().compareTo(o2.getActivityCode());
-                        } else {
-                            return -1;
-                        }
-                    }
-                });
-            }
-            regGroupAoInfosSorted.add(aoListSorted);
-        }
-        //Sort regGroupAoInfosSorted
-        Collections.sort(regGroupAoInfosSorted, new Comparator <List<ActivityOfferingInfo>>() {
-            @Override
-            public int compare(List<ActivityOfferingInfo> o1, List<ActivityOfferingInfo> o2) {
-                StringBuilder sb1 = new StringBuilder();
-                StringBuilder sb2 = new StringBuilder();
-                for (ActivityOfferingInfo aoInfo1 : o1) { //build o1 code
-                    sb1.append(aoInfo1.getActivityCode());
-                }
-                for (ActivityOfferingInfo aoInfo2 : o2) { //build o2 code
-                    sb2.append(aoInfo2.getActivityCode());
-                }
-                if (!sb1.toString().equals("") && !sb2.toString().equals("")){
-                    return sb1.toString().compareTo(sb2.toString());
-                } else {
-                    return -1;
-                }
-            }
-        });
-
-        // Loop through each set of AO Ids and create a reg group.
-        for (List<ActivityOfferingInfo> aoInfoList : regGroupAoInfosSorted) {
-            List<String> activityOfferingPermutation = new ArrayList<String>();
-            for (ActivityOfferingInfo aoInfo : aoInfoList){
-                activityOfferingPermutation.add(aoInfo.getId());
-            }
-
-            if (!_isValidActivityOfferingPermutation(activityOfferingPermutation)) {
-                continue;
-            }
-            String regGroupCode = generator.generateRegistrationGroupCode(fo, aoList, null);
-            RegistrationGroupInfo rg = _gRGFC_makeRegGroup(regGroupCode, activityOfferingPermutation, fo, cluster.getId());
-
-            try {
-                RegistrationGroupInfo rgInfo = coService.createRegistrationGroup(cluster.getFormatOfferingId(), cluster.getId(), LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg, contextInfo);
-                BulkStatusInfo status  = new BulkStatusInfo();
-                status.setId(rgInfo.getId());
-                status.setSuccess(Boolean.TRUE);
-                status.setMessage("Created Registration Group");
-                rgChanges.add(status);
-
-                // Now determine if this registration group is in a valid state
-                List<ValidationResultInfo> validations =
-                        coService.verifyRegistrationGroup(rgInfo.getId(), contextInfo);
-
-                for (ValidationResultInfo validation: validations) {
-                    if (validation.isWarn()) {
-                        // If any validation is an error, then make this invalid
-                        coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, contextInfo);
-                        break;
-                    }
-                }
-
-                _gRGFC_changeClusterRegistrationGroupState(rgInfo, contextInfo);
-
-            } catch (DataValidationErrorException e) {
-                throw new OperationFailedException("Failed to validate registration group", e);
-            } catch (ReadOnlyException e) {
-                throw new OperationFailedException("Failed to write registration group", e);
-            }
-        }
-
-        return rgChanges;
+        return CourseOfferingServiceRolloverHelper.generateRegGroupsForClusterHelper(activityOfferingClusterId,
+                contextInfo, coService, registrationCodeGeneratorFactory);
     }
 
     // Returns true if a cluster has one (or more) AO sets that is empty.
