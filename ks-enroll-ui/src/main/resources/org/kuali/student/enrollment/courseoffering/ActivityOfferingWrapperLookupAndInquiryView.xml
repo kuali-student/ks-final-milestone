@@ -95,12 +95,12 @@
                         <bean parent="Uif-TextControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="Days" p:propertyName="daysUI" p:readOnly="true">
+                <bean id="adlDays" parent="Uif-InputField" p:label="Days" p:propertyName="daysUI" p:readOnly="true" >
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="Start Time" p:propertyName="startTimeUI" p:readOnly="true">
+                <bean id="adlStartTime" parent="Uif-InputField" p:label="Start Time" p:propertyName="startTimeUI" p:readOnly="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"/>
                     </property>
@@ -148,12 +148,12 @@
                         <bean parent="Uif-TextControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="Days" p:propertyName="daysUI" p:readOnly="true" p:control.size="5">
+                <bean id="rdlDays" parent="Uif-InputField" p:label="Days" p:propertyName="daysUI" p:readOnly="true" p:control.size="5">
                     <property name="control">
                         <bean parent="Uif-TextControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="Start Time" p:propertyName="startTimeUI" p:readOnly="true" p:control.size="5">
+                <bean id="rdlStartTime" parent="Uif-InputField" p:label="Start Time" p:propertyName="startTimeUI" p:readOnly="true" p:control.size="5">
                     <property name="control">
                         <bean parent="Uif-TextControl"/>
                     </property>
