@@ -541,7 +541,7 @@ public class AcademicCalendarController extends UifControllerBase {
         if(acalOfficial){
             makeTermOfficial(termWrapper,academicCalendarForm);
         }
-
+        getAcalViewHelperService(academicCalendarForm).populateAcademicCalendar(academicCalendarForm.getAcademicCalendarInfo().getId(), academicCalendarForm);
         academicCalendarForm.setDefaultTabToShow(CalendarConstants.ACAL_TERM_TAB);
         return getUIFModelAndView(academicCalendarForm);
     }
