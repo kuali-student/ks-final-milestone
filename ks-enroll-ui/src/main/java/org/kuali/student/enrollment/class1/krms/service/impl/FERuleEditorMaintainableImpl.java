@@ -409,11 +409,15 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         //Populate dynamic attributes
         Map<String, String> attributes = new HashMap<String, String>();
         try {
-            String startTimeAMPM = new StringBuilder(feRuleEditor.getStartTime()).append(" ").append(feRuleEditor.getStartTimeAMPM()).toString();
-            attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, Long.toString(parseTimeToMillis(startTimeAMPM)));
+            if(!feRuleEditor.getStartTime().isEmpty()){
+                String startTimeAMPM = new StringBuilder(feRuleEditor.getStartTime()).append(" ").append(feRuleEditor.getStartTimeAMPM()).toString();
+                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, Long.toString(parseTimeToMillis(startTimeAMPM)));
+            }
             attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY, feRuleEditor.getDay());
-            String endTimeAMPM = new StringBuilder(feRuleEditor.getEndTime()).append(" ").append(feRuleEditor.getEndTimeAMPM()).toString();
-            attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME, Long.toString(parseTimeToMillis(endTimeAMPM)));
+            if(!feRuleEditor.getEndTime().isEmpty()){
+                String endTimeAMPM = new StringBuilder(feRuleEditor.getEndTime()).append(" ").append(feRuleEditor.getEndTimeAMPM()).toString();
+                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME, Long.toString(parseTimeToMillis(endTimeAMPM)));
+            }
             if(feRuleEditor.getBuilding().getId() != null) {
                 attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY, feRuleEditor.getBuilding().getId());
             }
