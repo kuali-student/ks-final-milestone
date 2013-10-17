@@ -157,12 +157,12 @@
                 <entry key="aoColumns"
                        value="[ {'bSortable':false, 'sWidth':'10%'},
                                 {'bSortable':true, 'sWidth':'10%'},
-                                {'bSortable':true, 'sWidth':'10%'},
+                                {'bSortable':true, 'sWidth':'15%'},
                                 {'bSortable':false, 'sWidth':'10%'},
-                                {'bSortable':false, 'sWidth':'15%'},
-                                {'bSortable':false, 'sWidth':'15%'},
-                                {'bSortable':false, 'sWidth':'15%'},
-                                {'bSortable':false, 'sWidth':'15%'}
+                                {'bSortable':false, 'sWidth':'10%'},
+                                {'bSortable':false, 'sWidth':'10%'},
+                                {'bSortable':false, 'sWidth':'25%'},
+                                {'bSortable':false, 'sWidth':'10%'}
                            ]"/>
             </map>
         </property>
