@@ -217,10 +217,17 @@
     <bean id="SchOfClasses-aoSearchResults" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false" p:style="margin-left:36px;width:80%;">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="propertyName" value="aoWrapperList" />
-        <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-        <property name="layoutManager.applyDefaultCellWidths" value="false" />
-        <property name="layoutManager.richTable.render" value="false" />
+        <property name="layoutManager">
+            <bean parent="Uif-TableCollectionLayout" class="org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesTableLayoutManager">
+                <property name="renderSequenceField" value="false" />
+                <property name="applyAlternatingRowStyles" value="false" />
+                <property name="applyDefaultCellWidths" value="false" />
+                <property name="richTable.render" value="false" />
+                <property name="requisitesField">
+                    <bean parent="Uif-MessageField" p:messageText="@{#line.requisite}"/>
+                </property>
+            </bean>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE" >
@@ -277,17 +284,6 @@
     <bean id="SchOfClasses-aoFlatDisplay" parent="SchOfClasses-aoSearchResults" p:render="@{aoDisplayFormat == AoDisplayFormat.FLAT}">
         <property name="headerText" value="Activities" />
         <property name="propertyName" value="activityWrapperList" />
-        <property name="layoutManager">
-            <bean parent="Uif-TableCollectionLayout" class="org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesTableLayoutManager">
-                <property name="renderSequenceField" value="false" />
-                <property name="applyAlternatingRowStyles" value="false" />
-                <property name="applyDefaultCellWidths" value="false" />
-                <property name="richTable.render" value="false" />
-                <property name="requisitesField">
-                    <bean parent="Uif-MessageField" p:messageText="@{#line.requisite}"/>
-                </property>
-            </bean>
-        </property>
         <property name="header.upperGroup">
           <bean parent="Uif-HorizontalBoxGroup">
             <property name="items">
