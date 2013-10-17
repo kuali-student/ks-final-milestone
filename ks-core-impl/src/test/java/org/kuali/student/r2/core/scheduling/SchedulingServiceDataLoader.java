@@ -191,7 +191,6 @@ public class SchedulingServiceDataLoader {
             {"toUpdate", fullTermFallType, "1026", "MWF", "17:10", "18:00"},
         };
 
-
         for (String[] ts: timeSlotsData) {
             TimeSlotInfo tsInfo = new TimeSlotInfo();
             tsInfo.setId(ts[0]);
@@ -222,7 +221,7 @@ public class SchedulingServiceDataLoader {
      * @param time A time string in military format (e.g. "13:00")
      * @return
      */
-    private TimeOfDayInfo makeTimeOfDayFromTimeString(String time) {
+    public static TimeOfDayInfo makeTimeOfDayFromTimeString(String time) {
         TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
 
         // Get the date time of the epoch.
