@@ -178,6 +178,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_PARAMETER_TYPE_TIMESLOT_END = "kuali.term.parameter.type.timeslot.end";
 
     // action parameters
+    public static final String ACTION_PARAMETER_TYPE_RDL_TBA = "tba";
     public static final String ACTION_PARAMETER_TYPE_RDL_DAY = "day";
     public static final String ACTION_PARAMETER_TYPE_RDL_STARTTIME = "startTime";
     public static final String ACTION_PARAMETER_TYPE_RDL_ENDTIME = "endTime";
