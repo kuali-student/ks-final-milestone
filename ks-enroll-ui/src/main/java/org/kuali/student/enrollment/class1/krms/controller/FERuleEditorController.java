@@ -233,20 +233,20 @@ public class FERuleEditorController extends EnrolRuleEditorController {
             this.getViewHelper(form).rebuildActions(ruleEditor);
         }
 
+        FEAgendaEditor agenda = (FEAgendaEditor) ruleWrapper.getAgendaEditor();
         if (ruleEditor.isDummy()) {
-            ruleEditor.setName(ruleWrapper.getRefObjectId() + ":" + ruleEditor.getTypeId() + ":" + (((FEAgendaEditor) ruleWrapper.getAgendaEditor()).getRules().size() + 1));
+            ruleEditor.setName(ruleWrapper.getRefObjectId() + ":" + ruleEditor.getTypeId() + ":" + agenda.getRules().size() + 1);
             ruleEditor.setDummy(Boolean.FALSE);
-            ((FEAgendaEditor) ruleWrapper.getAgendaEditor()).getRules().add(ruleEditor);
+            agenda.getRules().add(ruleEditor);
         } else {
             //Replace edited rule with existing rule.
-            List<RuleEditor> rules = ((FEAgendaEditor) ruleWrapper.getAgendaEditor()).getRules();
-            int index = 0;
+            List<RuleEditor> rules = agenda.getRules();
             for (RuleEditor existingRule : rules) {
                 if (existingRule.getKey().equals(ruleEditor.getKey())) {
-                    index = rules.indexOf(existingRule);
+                    rules.set(rules.indexOf(existingRule), ruleEditor);
+                    break;
                 }
             }
-            rules.set(index, ruleEditor);
         }
 
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_AGENDA_FE_MAINTENANCE_PAGE_ID);

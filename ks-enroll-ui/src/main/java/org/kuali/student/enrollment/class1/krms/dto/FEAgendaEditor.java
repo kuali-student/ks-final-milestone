@@ -4,6 +4,7 @@ import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,10 +27,22 @@ public class FEAgendaEditor extends AgendaEditor {
     }
 
     public List<RuleEditor> getRules() {
+        if(this.rules == null){
+            this.rules = new ArrayList<RuleEditor>();
+        }
         return rules;
     }
 
     public void setRules(List<RuleEditor> rules) {
         this.rules = rules;
+    }
+
+    public boolean isDummyAgenda(){
+        if(this.getId()==null){
+            if(this.getRules().isEmpty()){
+                return true;
+            }
+        }
+        return false;
     }
 }

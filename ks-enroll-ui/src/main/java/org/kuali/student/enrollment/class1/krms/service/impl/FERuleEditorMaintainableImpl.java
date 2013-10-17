@@ -85,7 +85,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         dataObject.setAgendas(this.getAgendasForRef(dataObject.getRefDiscriminatorType(), typeKey));
 
         String ownerTermType = this.getOwnerTypeForAgendas(dataObject.getAgendas());
-        if(!typeKey.equals(ownerTermType)){
+        if (!typeKey.equals(ownerTermType)) {
             dataObject.setTermToUse(ownerTermType);
         }
 
@@ -105,9 +105,9 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         return dataObject;
     }
 
-    private String getOwnerTypeForAgendas(List<AgendaEditor> agendas){
-        for(AgendaEditor agenda : agendas){
-            if(agenda.getAttributes().containsKey(KSKRMSServiceConstants.AGENDA_ATTRIBUTE_FINAL_EXAM_OWNER_TERM_TYPE)){
+    private String getOwnerTypeForAgendas(List<AgendaEditor> agendas) {
+        for (AgendaEditor agenda : agendas) {
+            if (agenda.getAttributes().containsKey(KSKRMSServiceConstants.AGENDA_ATTRIBUTE_FINAL_EXAM_OWNER_TERM_TYPE)) {
                 return agenda.getAttributes().get(KSKRMSServiceConstants.AGENDA_ATTRIBUTE_FINAL_EXAM_OWNER_TERM_TYPE);
             }
         }
@@ -176,27 +176,19 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         //Get all existing rules.
         List<RuleEditor> existingRules = null;
         if (agenda.getId() != null) {
-            LOG.info("Retrieving agenda item for id: " + agenda.getFirstItemId());
             AgendaItemDefinition firstItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
-            LOG.info("Retrieved agenda item for id: " + agenda.getFirstItemId());
             FEAgendaEditor feAgenda = (FEAgendaEditor) agenda;
-            feAgenda.setRules(getRuleEditorsFromTree(firstItem, true));
 
-            List<RuleEditor> rules = new ArrayList<RuleEditor>();
+            List<RuleEditor> rules = getRuleEditorsFromTree(firstItem, true);
             for (RuleTypeInfo ruleType : agenda.getAgendaTypeInfo().getRuleTypes()) {
-                RuleEditor ruleEditor = null;
-                    if (feAgenda.getRules() != null) {
-                        for (RuleEditor rule : feAgenda.getRules()) {
-                           if (rule.getTypeId().equals(ruleType.getId())){
-                                ruleEditor = rule;
-                                ruleEditor.setRuleTypeInfo(ruleType);
-                                ruleEditor.setKey((String) alphaIterator.next());
-                                rules.add(ruleEditor);
-                           }
-                        }
-                        feAgenda.setRules(rules);
+                for (RuleEditor rule : rules) {
+                    if (rule.getTypeId().equals(ruleType.getId())) {
+                        rule.setRuleTypeInfo(ruleType);
+                        rule.setKey((String) alphaIterator.next());
+                        feAgenda.getRules().add(rule);
                     }
-
+                }
+                feAgenda.setRules(rules);
             }
         }
 
@@ -395,13 +387,13 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         FERuleEditor feRuleEditor = (FERuleEditor) rule;
 
         ActionEditor actionEditor = null;
-        for(ActionEditor action : feRuleEditor.getActionEditors()){
-            if(action.getTypeId().equals(this.getRdlActionTypeId())){
+        for (ActionEditor action : feRuleEditor.getActionEditors()) {
+            if (action.getTypeId().equals(this.getRdlActionTypeId())) {
                 actionEditor = action;
             }
         }
 
-        if(actionEditor==null){
+        if (actionEditor == null) {
             actionEditor = new ActionEditor();
             actionEditor.setRuleId(feRuleEditor.getId());
             actionEditor.setNamespace(StudentIdentityConstants.KS_NAMESPACE_CD);
@@ -435,7 +427,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         actionEditor.setAttributes(attributes);
     }
 
-    public String getNextRuleKey(){
+    public String getNextRuleKey() {
         return (String) alphaIterator.next();
     }
 
