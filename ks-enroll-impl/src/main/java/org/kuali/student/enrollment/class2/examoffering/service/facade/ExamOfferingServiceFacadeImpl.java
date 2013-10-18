@@ -124,12 +124,12 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
         FormatOfferingInfo fo = this.getCourseOfferingService().getFormatOffering(activityOfferingInfo.getFormatOfferingId(), context);
         CourseOfferingInfo co = this.getCourseOfferingService().getCourseOffering(fo.getCourseOfferingId(), context);
-        return this.generateFinalExamOfferingForAO(co, activityOfferingInfo, termId, examPeriodID, optionKeys, context);
+        return this.generateFinalExamOfferingForAO(co, activityOfferingInfo, termId, examPeriodID, fo.getFinalExamLevelTypeKey(), optionKeys, context);
     }
 
     @Override
     public StatusInfo generateFinalExamOfferingForAO(CourseOfferingInfo courseOfferingInfo, ActivityOfferingInfo activityOfferingInfo,
-                                                     String termId, String examPeriodID, List<String> optionKeys, ContextInfo context)
+                                                     String termId, String examPeriodID, String finalExamLevelTypeKey, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         if (StringUtil.isEmpty(examPeriodID)) {
@@ -139,7 +139,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         StatusInfo statusInfo = new StatusInfo();
         Driver driver = calculateEODriver(courseOfferingInfo);
         if (driver.equals(Driver.PER_AO)) {
-            createFinalExamOfferingPerAO(activityOfferingInfo.getFormatOfferingId(), activityOfferingInfo.getId(), examPeriodID, context);
+            createFinalExamOfferingPerAO(activityOfferingInfo.getFormatOfferingId(), activityOfferingInfo.getId(), finalExamLevelTypeKey, examPeriodID, context);
         } else if (driver.equals(Driver.PER_CO)) {
             List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                     activityOfferingInfo.getFormatOfferingId(), context);
@@ -147,7 +147,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             //Create a new exam offering if this is the first AO linked to the CO.
             if (eoRelations.size() == 0) {
                 //Create new Exam Offering and Relationship
-                createFinalExamOfferingPerAO(activityOfferingInfo.getFormatOfferingId(), activityOfferingInfo.getId(), examPeriodID, context);
+                createFinalExamOfferingPerAO(activityOfferingInfo.getFormatOfferingId(), activityOfferingInfo.getId(), finalExamLevelTypeKey, examPeriodID, context);
 
             } else {
                 for (ExamOfferingRelationInfo eoRelation : eoRelations) {
@@ -376,7 +376,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                 }
 
                 if (!hasEo) {
-                    createFinalExamOfferingPerAO(foEntry.getKey().getId(), aoInfo.getId(), examPeriodId, context);
+                    createFinalExamOfferingPerAO(foEntry.getKey().getId(), aoInfo.getId(), foEntry.getKey().getFinalExamLevelTypeKey(), examPeriodId, context);
                 }
             }
         }
@@ -483,12 +483,24 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         createExamOfferingRelation(foId, eoId, aoIds, context);
     }
 
-    private void createFinalExamOfferingPerAO(String foId, String aoId, String examPeriodId, ContextInfo context)
+    private void createFinalExamOfferingPerAO(String foId, String aoId, String activityDriver, String examPeriodId, ContextInfo context)
             throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException,
             DoesNotExistException, DataValidationErrorException, ReadOnlyException {
 
         //Create a new Exam Offering
-        ExamOfferingInfo eo = createExamOffering(examPeriodId, Driver.PER_AO.name(), context);
+        List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
+
+        AttributeInfo attribute = new AttributeInfo();
+        attribute.setKey(ExamOfferingServiceConstants.FINAL_EXAM_DRIVER_ATTR);
+        attribute.setValue(Driver.PER_AO.name());
+        attributes.add(attribute);
+
+        attribute = new AttributeInfo();
+        attribute.setKey(ExamOfferingServiceConstants.FINAL_EXAM_ACTIVITY_DRIVER_ATTR);
+        attribute.setValue(activityDriver);
+        attributes.add(attribute);
+
+        ExamOfferingInfo eo = this.createExamOffering(examPeriodId, attributes, context);
         //executeRuleForAOScheduling(aoId, context);
 
         //Create new Exam Offering Relationship
@@ -584,15 +596,41 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException,
             DataValidationErrorException, ReadOnlyException {
 
+        List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
+
+        if (driver != null) {
+            AttributeInfo attribute = new AttributeInfo();
+            attribute.setKey(ExamOfferingServiceConstants.FINAL_EXAM_DRIVER_ATTR);
+            attribute.setValue(driver);
+        }
+
+        return this.createExamOffering(examPeriodId, attributes, context);
+    }
+
+    /**
+     * Create a new Exam Offering.
+     *
+     * @param examPeriodId
+     * @param context
+     * @return
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws DoesNotExistException
+     * @throws DataValidationErrorException
+     * @throws ReadOnlyException
+     */
+    private ExamOfferingInfo createExamOffering(String examPeriodId, List<AttributeInfo> attributes, ContextInfo context) throws MissingParameterException,
+            InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException,
+            DataValidationErrorException, ReadOnlyException {
+
         ExamOfferingInfo eo = new ExamOfferingInfo();
         eo.setTypeKey(ExamOfferingServiceConstants.EXAM_OFFERING_FINAL_TYPE_KEY);
         eo.setStateKey(ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY);
         eo.setExamId(this.getCanonicalExam(context));
         eo.setExamPeriodId(examPeriodId);
-        AttributeInfo attribute = new AttributeInfo();
-        attribute.setKey(ExamOfferingServiceConstants.FINAL_EXAM_DRIVER_ATTR);
-        attribute.setValue(driver);
-        eo.getAttributes().add(attribute);
+        eo.getAttributes().addAll(attributes);
 
         return this.getExamOfferingService().createExamOffering(eo.getExamPeriodId(),
                 eo.getExamId(), eo.getTypeKey(), eo, context);

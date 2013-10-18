@@ -2254,12 +2254,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 ContextUtils.createDefaultContextInfo());
 
         Set<String> examOfferingIds = new HashSet<String>();
-        Map<String, FormatOfferingInfo> foIdtoFo = new HashMap<String, FormatOfferingInfo>();
         Map<String, ExamOfferingRelationInfo> eoToRln = new HashMap<String, ExamOfferingRelationInfo>();
         for (FormatOfferingInfo fo : fos) {
-            //Add Fos to map to use later.
-            foIdtoFo.put(fo.getId(), fo);
-
             //Retrieve exam offering relations for fo and add to map.
             List<ExamOfferingRelationInfo> examOfferingRelationInfos = CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                     fo.getId(), ContextUtils.createDefaultContextInfo());
@@ -2279,11 +2275,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             if (isDriverPerAO(examOfferingInfo)) {
 
                 ExamOfferingRelationInfo eor = eoToRln.get(examOfferingInfo.getId());
-                FormatOfferingInfo fo = foIdtoFo.get(eor.getFormatOfferingId());
-                if (fo.getFinalExamLevelTypeKey() != null) {
-                    TypeInfo type = CourseOfferingManagementUtil.getTypeService().getType(fo.getFinalExamLevelTypeKey(), ContextUtils.createDefaultContextInfo());
-                    examOfferingWrapper.setTypeName(type.getName());
-                }
+                examOfferingWrapper.setTypeName(this.getActivityDriver(examOfferingInfo));
                 setExamOfferingPerAO(theForm, examOfferingWrapper, eor);
             } else {
                 if (ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY.equals(examOfferingInfo.getStateKey())) {
@@ -2303,6 +2295,17 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             }
         }
         return false;
+    }
+
+    private String getActivityDriver(ExamOfferingInfo eo) throws PermissionDeniedException, MissingParameterException,
+            InvalidParameterException, OperationFailedException, DoesNotExistException {
+        for (AttributeInfo attribute : eo.getAttributes()) {
+            if (attribute.getKey().equals(ExamOfferingServiceConstants.FINAL_EXAM_ACTIVITY_DRIVER_ATTR)) {
+                TypeInfo type = CourseOfferingManagementUtil.getTypeService().getType(attribute.getValue(), ContextUtils.createDefaultContextInfo());
+                return type.getName();
+            }
+        }
+        return StringUtils.EMPTY;
     }
 
     private void setExamOfferingPerAO(CourseOfferingManagementForm theForm, ExamOfferingWrapper examOfferingWrapper,

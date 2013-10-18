@@ -88,6 +88,8 @@ public interface ExamOfferingServiceFacade {
      * @param courseOfferingInfo
      * @param activityOfferingInfo
      * @param termId
+     * @param examPeriodID
+     * @param finalExamLevelTypeKey
      * @param optionKeys
      * @param context
      * @throws DoesNotExistException
@@ -99,7 +101,8 @@ public interface ExamOfferingServiceFacade {
      * @throws ReadOnlyException
      */
     StatusInfo generateFinalExamOfferingForAO(CourseOfferingInfo courseOfferingInfo, ActivityOfferingInfo activityOfferingInfo,
-                                        String termId, String examPeriodID, List<String> optionKeys, ContextInfo context)
+                                        String termId, String examPeriodID, String finalExamLevelTypeKey, List<String> optionKeys,
+                                        ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
@@ -112,6 +115,7 @@ public interface ExamOfferingServiceFacade {
      *
      * @param activityOfferingInfo
      * @param termId
+     * @param examPeriodID
      * @param optionKeys
      * @param context
      * @throws DoesNotExistException
@@ -122,7 +126,8 @@ public interface ExamOfferingServiceFacade {
      * @throws PermissionDeniedException
      * @throws ReadOnlyException
      */
-    StatusInfo generateFinalExamOfferingForAO(ActivityOfferingInfo activityOfferingInfo, String termId, String examPeriodID, List<String> optionKeys, ContextInfo context)
+    StatusInfo generateFinalExamOfferingForAO(ActivityOfferingInfo activityOfferingInfo, String termId, String examPeriodID,
+                                              List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
