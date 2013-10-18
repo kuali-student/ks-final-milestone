@@ -65,7 +65,7 @@ public class ActivityOfferingConstants {
     public static final String ACTIVITYOFFERINGS_ACTION_REINSTATE = "reinstateAOs";
 
     public static class ConfigProperties {
-        public static final String ADHOC_TIMESLOT_CREATION_MODE = "kuali.ks.enrollment.timeslots.adhoc_creation_mode";
+        public static final String NON_STANDARD_TIMESLOT_CREATION_MODE = "kuali.ks.enrollment.timeslots.adhoc_creation_mode";
     }
 
 

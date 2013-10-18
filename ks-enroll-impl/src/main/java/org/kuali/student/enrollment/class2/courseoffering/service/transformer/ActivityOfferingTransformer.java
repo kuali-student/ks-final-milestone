@@ -192,6 +192,8 @@ public class ActivityOfferingTransformer {
                 ao.setIsEvaluated(Boolean.valueOf(attr.getValue()));
             } else if (CourseOfferingServiceConstants.MAX_ENROLLMENT_IS_ESTIMATED_ATTR.equals(attr.getKey())){
                 ao.setIsMaxEnrollmentEstimate(Boolean.valueOf(attr.getValue()));
+            } else if( CourseOfferingServiceConstants.IS_AO_APPROVED_FOR_NON_STANDARD_TIME_SLOTS.equals(attr.getKey()) ) {
+                ao.setIsApprovedForNonStandardTimeSlots( Boolean.valueOf(attr.getValue()) );
             } else {
                 attributes.add(new AttributeInfo(attr));
             }
@@ -250,6 +252,8 @@ public class ActivityOfferingTransformer {
                 ao.setIsEvaluated(Boolean.valueOf(attr.getValue()));
             } else if (CourseOfferingServiceConstants.MAX_ENROLLMENT_IS_ESTIMATED_ATTR.equals(attr.getKey())){
                 ao.setIsMaxEnrollmentEstimate(Boolean.valueOf(attr.getValue()));
+            } else if( CourseOfferingServiceConstants.IS_AO_APPROVED_FOR_NON_STANDARD_TIME_SLOTS.equals(attr.getKey()) ) {
+                ao.setIsApprovedForNonStandardTimeSlots( Boolean.valueOf(attr.getValue()) );
             } else {
                 attributes.add(new AttributeInfo(attr));
             }
@@ -324,6 +328,11 @@ public class ActivityOfferingTransformer {
         isMaxEnrollmentEstimate.setKey(CourseOfferingServiceConstants.MAX_ENROLLMENT_IS_ESTIMATED_ATTR);
         isMaxEnrollmentEstimate.setValue(String.valueOf(ao.getIsMaxEnrollmentEstimate()));
         attributes.add(isMaxEnrollmentEstimate);
+
+        AttributeInfo isApprovedForNonStandardTimeSlots = new AttributeInfo();
+        isApprovedForNonStandardTimeSlots.setKey( CourseOfferingServiceConstants.IS_AO_APPROVED_FOR_NON_STANDARD_TIME_SLOTS );
+        isApprovedForNonStandardTimeSlots.setValue( String.valueOf(ao.getIsApprovedForNonStandardTimeSlots()) );
+        attributes.add( isApprovedForNonStandardTimeSlots );
 
         lui.setAttributes(attributes);
 

@@ -99,6 +99,18 @@
         </property>
         <property name="items">
             <list>
+                <bean parent="Uif-InputField"
+                      p:propertyName="aoInfo.isApprovedForNonStandardTimeSlots"
+                      p:forceSessionPersistence="true"
+                      p:label="Approved for non-standard time slots"
+                      p:labelPlacement="RIGHT"
+                      p:render="@{#dp.canNonStandardTimeslotsBeApproved}" >
+
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" />
+                    </property>
+                </bean>
+
                 <ref bean="ActivityOffering-DeliveryLogistic-New-Section"/>
 
 

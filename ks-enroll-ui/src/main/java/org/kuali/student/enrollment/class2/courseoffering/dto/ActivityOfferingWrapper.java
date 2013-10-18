@@ -164,41 +164,42 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
     private boolean limitWaitlistSize;
 
     private String requisite;
+
     /**
-     * Valid modes for creating ad-hoc timeslots
+     * Valid modes for creating non-standard timeslots
      *
-     * The application supports three ad-hoc timeslot creation modes
-     * 1. Allows the user to create ad-hoc timeslots
-     * 2. Disallows the user to create ad-hoc timeslots
-     * 3. Allows the user to create ad-hoc timeslots but only with prior approval
+     * The application supports three non-standard timeslot creation modes
+     * 1. Allows the user to create non-standard timeslots
+     * 2. Disallows the user to create non-standard timeslots
+     * 3. Allows the user to create non-standard timeslots, but only with prior approval
      *
-     * By default, ad-hoc timeslot creating is allowed only with prior approval.  This can be configured via property
+     * By default, the creation of non-standard timeslots is allowed only with prior approval.  This can be configured via property
      * kuali.ks.enrollment.timeslots.adhoc_creation_mode
      */
-    public static enum AdhocTimeslotCreationMode {
+    public static enum NonStandardTimeslotCreationMode {
 
         ALLOWED,
         NOT_ALLOWED,
         NEEDS_APPROVAL;
 
-        private AdhocTimeslotCreationMode() { }
+        private NonStandardTimeslotCreationMode() { }
 
         /**
          * Returns a value based on the string provided.  If the provided string is null or a match cannot be found,
-         * will return {@link AdhocTimeslotCreationMode#NEEDS_APPROVAL}
+         * will return {@link org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper.NonStandardTimeslotCreationMode#NEEDS_APPROVAL}
          *
          * @param text
-         * @return {@link AdhocTimeslotCreationMode}
+         * @return {@link org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper.NonStandardTimeslotCreationMode}
          */
-        public static AdhocTimeslotCreationMode fromString( String text ) {
+        public static NonStandardTimeslotCreationMode fromString( String text ) {
             if( text != null ) {
-                for( AdhocTimeslotCreationMode m : AdhocTimeslotCreationMode.values() ) {
+                for( NonStandardTimeslotCreationMode m : NonStandardTimeslotCreationMode.values() ) {
                     if( text.equalsIgnoreCase( m.name() ) ) {
                         return m;
                     }
                 }
             }
-            return AdhocTimeslotCreationMode.NEEDS_APPROVAL;
+            return NonStandardTimeslotCreationMode.NEEDS_APPROVAL;
         }
 
     }
@@ -399,18 +400,28 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
     }
 
     /**
-     * This method returns the allowed creation-mode of ad-hoc time-slots.
-     * This method read the configuration property <code>kuali.ks.enrollment.timeslots.adhoc_creation_mode</code> and
+     * This method returns the allowed creation-mode of non-standard time-slots.
+     * This method reads the configuration property <code>kuali.ks.enrollment.timeslots.adhoc_creation_mode</code> and
      * returns it's value (ALLOWED, NOT_ALLOWED, NEEDS_APPROVAL).  This is to allow the institutional configuration to
-     * decide whether or not users should be allowed to create ad-hoc time-slots.
+     * decide whether or not users should be allowed to create non-standard time-slots.
      *
-     * The default is to allow the user to create ad-hoc time-slots, but only with prior approval.
+     * The default is to allow the user to create non-standard time-slots, but only with prior approval.
      *
-     * @return {@link AdhocTimeslotCreationMode}
+     * @return {@link org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper.NonStandardTimeslotCreationMode}
      */
-    public AdhocTimeslotCreationMode getAdhocTimeslotCreationMode() {
-        String contextConfigProp = ConfigContext.getCurrentContextConfig().getProperty(ActivityOfferingConstants.ConfigProperties.ADHOC_TIMESLOT_CREATION_MODE );
-        return AdhocTimeslotCreationMode.fromString( contextConfigProp );
+    public NonStandardTimeslotCreationMode getNonStandardTimeslotCreationMode() {
+        String contextConfigProp = ConfigContext.getCurrentContextConfig().getProperty( ActivityOfferingConstants.ConfigProperties.NON_STANDARD_TIMESLOT_CREATION_MODE);
+        return NonStandardTimeslotCreationMode.fromString(contextConfigProp);
+    }
+
+    public boolean getCanNonStandardTimeslotsBeApproved() {
+        switch( getNonStandardTimeslotCreationMode() ) {
+            case NEEDS_APPROVAL:
+                return true;
+            default:
+                return false;
+
+        }
     }
 
     private String abbreviatedCourseType = "";
