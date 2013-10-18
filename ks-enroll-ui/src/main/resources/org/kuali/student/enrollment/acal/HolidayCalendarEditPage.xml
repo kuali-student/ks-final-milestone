@@ -249,11 +249,13 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="instructional" p:label="Instructional">
-					<property name="control">
-						<bean parent="Uif-CheckboxControl" />
-					</property>
-				</bean>
+                <bean parent="Uif-InputField" p:propertyName="holidayInfo.isInstructionalDay" p:label="Instructional"
+                      p:style="font-weight:normal;" p:fieldLabel.style=""
+                      p:readOnlyDisplayReplacement="@{#line.holidayInfo.isInstructionalDay ? 'Yes' : ' '}">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" />
+                    </property>
+                </bean>
 			</list>
 		</property>
         <property name="lineActions">
