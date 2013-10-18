@@ -56,25 +56,25 @@
                         <version>${derby.version}</version>
                     </dependency>
                 </dependencies>
-		    </plugin>
-			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<configuration>
-					<webApp>${project.build.directory}/${project.artifactId}-webapp</webApp>
-					<webAppConfig>
-						<contextPath>/ks-rice-standalone-dev</contextPath>
-						<allowDuplicateFragmentNames>true</allowDuplicateFragmentNames> 
-					</webAppConfig>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>com.oracle</groupId>
-						<artifactId>${oracle.artifactId}</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <configuration>
+                    <webApp>${project.build.directory}/${project.artifactId}-webapp</webApp>
+                    <webAppConfig>
+                        <contextPath>/ks-rice-standalone-dev</contextPath>
+                        <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
+                    </webAppConfig>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.oracle</groupId>
+                        <artifactId>${oracle.artifactId}</artifactId>
                         <version>${oracle.version}</version>
-					</dependency>
-				</dependencies>
-			</plugin>
+                    </dependency>
+                </dependencies>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
