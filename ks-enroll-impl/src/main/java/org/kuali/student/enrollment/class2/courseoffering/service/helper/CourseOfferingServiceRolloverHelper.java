@@ -126,11 +126,11 @@ public class CourseOfferingServiceRolloverHelper {
                 PermutationCounter.computeMissingRegGroupAoIdsInCluster(cluster, existingRegistrationGroups);
 
         FormatOfferingInfo fo = foForCluster;
-        if (fo == null) {
+        if (!useCaching) {
             fo = coService.getFormatOffering(cluster.getFormatOfferingId(), contextInfo);
         }
         List<ActivityOfferingInfo> aoList = aosInClusterCache;
-        if (aoList == null) {
+        if (!useCaching) {
             aoList = coService.getActivityOfferingsByCluster(activityOfferingClusterId, contextInfo);
         }
         // New instance created each time if desired
@@ -256,7 +256,7 @@ public class CourseOfferingServiceRolloverHelper {
     private static Map<String, ActivityOfferingInfo> _makeAoIdToAoMap(List<ActivityOfferingInfo> aoInfos) {
         Map<String, ActivityOfferingInfo> aoIdToAoMap = new HashMap<String, ActivityOfferingInfo>();
         if (aoInfos == null || aoInfos.isEmpty()) {
-            return aoIdToAoMap;
+            return null; // Can either return null or empty list to indicate there is no map
         }
         for (ActivityOfferingInfo ao: aoInfos) {
             aoIdToAoMap.put(ao.getId(), ao);
@@ -333,7 +333,7 @@ public class CourseOfferingServiceRolloverHelper {
                 for (String aoId : aoIds) {
 
                     ActivityOfferingInfo aoInfo = null;
-                    if (aoIdToAoMap != null) {
+                    if (aoIdToAoMap != null && !aoIdToAoMap.isEmpty()) {
                         aoInfo = aoIdToAoMap.get(aoId);
                         if (aoInfo == null) {
                             // This AO should appear in the map, or something is wrong with the input data
