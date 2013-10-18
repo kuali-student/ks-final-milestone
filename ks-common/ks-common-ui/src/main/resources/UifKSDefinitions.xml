@@ -712,6 +712,21 @@
         <property name="showExportOption" value="false"/>
     </bean>
 
-
+    <bean id="KS-Uif-Dynamic-BreadCrumb" parent="Uif-InputField" p:propertyName="viewId">
+        <property name="control">
+            <bean parent="Uif-OptionListControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyValueLocation" p:key="enrollmentHomeView"
+                              p:location.viewId="enrollmentHomeView" p:value="Enrollment" p:location.controllerMapping="/launch"/>
+                        <bean parent="Uif-KeyValueLocation" p:key="2" p:value="Curriculum Management"
+                              p:location.href="../org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=CURRICULUM_MANAGEMENT"/>
+                        <bean parent="Uif-KeyValueLocation" p:key="3" p:value="KS Maintenance"
+                              p:location.href="../portal.do"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
 
 </beans>
