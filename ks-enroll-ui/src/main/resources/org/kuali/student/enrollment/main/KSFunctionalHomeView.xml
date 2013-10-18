@@ -40,7 +40,8 @@
                             <bean parent="KS-Uif-Student-Home-Area-Image">
                                 <property name="source" value="@{#ConfigProperties['ks.externalizable.images.url']}/homepage/enrollment.png"/>
                             </bean>
-                            <bean parent="KS-Uif-Student-Home-Area-App-Name" p:labelText="Enrollment" />
+                            <bean parent="Uif-HeaderFour"/>
+                            <bean parent="KS-Uif-Student-Home-Area-App-Name" p:headerText="Enrollment" />
                             <bean parent="Uif-Label" p:labelText="Create and Manage Course Offerings" p:renderColon="false" />
                         </list>
                     </property>
@@ -51,7 +52,7 @@
                             <bean parent="KS-Uif-Student-Home-Area-Image">
                                 <property name="source" value="@{#ConfigProperties['ks.externalizable.images.url']}/homepage/cm.png"/>
                             </bean>
-                            <bean parent="KS-Uif-Student-Home-Area-App-Name" p:labelText="Curriculum Management" />
+                            <bean parent="KS-Uif-Student-Home-Area-App-Name" p:headerText="Curriculum Management" />
                             <bean parent="Uif-Label" p:labelText="Create and Manage Catalog Courses and Programs" p:renderColon="false" />
                         </list>
                     </property>
@@ -62,7 +63,7 @@
                             <bean parent="KS-Uif-Student-Home-Area-Image">
                                 <property name="source" value="@{#ConfigProperties['ks.externalizable.images.url']}/homepage/ks_maintenance.png"/>
                             </bean>
-                            <bean parent="KS-Uif-Student-Home-Area-App-Name" p:labelText="KS Maintenance" />
+                            <bean parent="KS-Uif-Student-Home-Area-App-Name" p:headerText="KS Maintenance" />
                             <bean parent="Uif-Label" p:labelText="Access to Rice Portal" p:renderColon="false" />
                         </list>
                     </property>
@@ -87,7 +88,7 @@
         </property>
     </bean>
 
-    <bean id="KS-Uif-Student-Home-Area-App-Name" parent="Uif-Label" p:renderColon="false">
+    <bean id="KS-Uif-Student-Home-Area-App-Name" parent="Uif-HeaderThree">
         <property name="cssClasses">
             <list merge="true">
                 <value>ks-student-home-area-app-name</value>
