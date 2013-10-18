@@ -34,7 +34,12 @@
         <property name="navigation">
             <ref bean="KS-CourseNavigation-Menu" />
         </property>
-
+        <property name="dialogs">
+            <list>
+                  <ref bean="commentsLightBox" />
+                  <ref bean="decisionsDialog" />
+            </list>
+        </property>
         <property name="additionalScriptFiles">
             <list>
                 <value>ks-cm-krad/scripts/jquery.jqEasyCharCounter.custom.js</value>
