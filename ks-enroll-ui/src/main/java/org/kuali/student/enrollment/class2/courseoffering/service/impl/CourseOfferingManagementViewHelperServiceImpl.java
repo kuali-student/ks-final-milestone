@@ -2285,6 +2285,23 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 }
             }
         }
+
+        //Sort EO Clusters in sync with AO Clusters
+        List<ExamOfferingClusterWrapper> clusterWrapperList = theForm.getEoClusterResultList();
+        if (clusterWrapperList.size() > 1) {
+            Collections.sort(clusterWrapperList, new Comparator<ExamOfferingClusterWrapper>() {
+                @Override
+                public int compare(ExamOfferingClusterWrapper o1, ExamOfferingClusterWrapper o2) {
+                    int formatComparison = o1.getFormatNameForDisplay().compareToIgnoreCase(o2.getFormatNameForDisplay());
+                    int nameComparison = o1.getClusterNameForDisplay().compareToIgnoreCase(o2.getClusterNameForDisplay());
+                    if (formatComparison == 0) {
+                        return nameComparison;
+                    } else {
+                        return formatComparison;
+                    }
+                }
+            });
+        }
     }
 
     private boolean isDriverPerAO(ExamOfferingInfo eo) {
