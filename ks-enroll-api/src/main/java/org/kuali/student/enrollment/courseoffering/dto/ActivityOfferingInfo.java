@@ -17,12 +17,10 @@
 package org.kuali.student.enrollment.courseoffering.dto;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
 import org.kuali.student.enrollment.courseoffering.infc.OfferingInstructor;
-import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -47,6 +45,7 @@ import java.io.Serializable;
                 "activityOfferingURL",
                 "courseOfferingId", "courseOfferingTitle", 
                 "courseOfferingCode", "isColocated",
+                "isApprovedForNonStandardTimeSlots",
                 "meta", "attributes", "_futureElements"})
 
 public class ActivityOfferingInfo
@@ -126,6 +125,9 @@ public class ActivityOfferingInfo
 
     @XmlElement
     private Boolean isColocated;
+
+    @XmlElement
+    private boolean isApprovedForNonStandardTimeSlots;
 
     /**
      * Constructs a new ActivityOfferingInfo.
@@ -407,6 +409,15 @@ public class ActivityOfferingInfo
 
     public void setIsColocated(Boolean isColocated) {
         this.isColocated = isColocated;
+    }
+
+    public void setIsApprovedForNonStandardTimeSlots( boolean isApprovedForNonStandardTimeSlots ) {
+        this.isApprovedForNonStandardTimeSlots = isApprovedForNonStandardTimeSlots;
+    }
+
+    @Override
+    public boolean getIsApprovedForNonStandardTimeSlots() {
+        return this.isApprovedForNonStandardTimeSlots;
     }
 
     @Override
