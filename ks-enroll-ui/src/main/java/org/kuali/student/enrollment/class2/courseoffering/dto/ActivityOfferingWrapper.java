@@ -119,6 +119,8 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
     private boolean isRemovedFromColoSet;
     private String reinstateStateName;
 
+    protected String viewId;
+
     private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
 
     //This is needed to display the cross listed courses
@@ -1381,6 +1383,14 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
 
     public void setRequisite(String requisite) {
         this.requisite = requisite;
+    }
+
+    public String getViewId() {
+        return viewId;
+    }
+
+    public void setViewId(String viewId) {
+        this.viewId = viewId;
     }
 
     /**

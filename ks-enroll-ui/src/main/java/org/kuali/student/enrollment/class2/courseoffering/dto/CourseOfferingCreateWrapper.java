@@ -70,6 +70,8 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
 
     private SocInfo socInfo;
 
+    protected String viewId;
+
     private int selectedJointCourseIndex;
     private String selectedJointCourseCode;
     private List<FormatOfferingWrapper> dialogFormatOfferingWrapperList;
@@ -461,6 +463,14 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
      */
     public void setDialogFormatOfferingWrapperList(List<FormatOfferingWrapper> dialogFormatOfferingWrapperList) {
         this.dialogFormatOfferingWrapperList = dialogFormatOfferingWrapperList;
+    }
+
+    public String getViewId() {
+        return viewId;
+    }
+
+    public void setViewId(String viewId) {
+        this.viewId = viewId;
     }
 
     /**

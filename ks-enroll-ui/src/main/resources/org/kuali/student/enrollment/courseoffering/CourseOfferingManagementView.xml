@@ -62,15 +62,6 @@
             </list>
         </property>
 
-
-        <property name="breadcrumbOptions.breadcrumbOverrides">
-            <list>
-                <bean id="KS-HomewardPathBreadcrumbs-this-Landing" parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Course Offerings"/>
-                </bean>
-            </list>
-        </property>
-
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-SearchInputPage"/>

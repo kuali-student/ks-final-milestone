@@ -44,6 +44,8 @@ public class PopulationWrapper implements Serializable {
     private List<PopulationInfo> childPopulations;
     private PopulationInfo referencePopulation;
 
+    protected String viewId;
+
     public PopulationWrapper(){
         createByRule = true;
         enableCreateButton = true;
@@ -150,5 +152,12 @@ public class PopulationWrapper implements Serializable {
         this.referencePopulation = referencePopulation;
     }
 
+    public String getViewId() {
+        return viewId;
+    }
+
+    public void setViewId(String viewId) {
+        this.viewId = viewId;
+    }
 
 }

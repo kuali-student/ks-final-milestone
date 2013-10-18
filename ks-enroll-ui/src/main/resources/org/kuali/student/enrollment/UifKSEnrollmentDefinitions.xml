@@ -22,12 +22,18 @@
 
     <bean id="KS-HomewardPathBreadcrumbs-Home" parent="Uif-BreadcrumbItem">
         <property name="label" value="Home"/>
-        <property name="url.href" value="@{#ConfigProperties['application.url']}/portal.do"/>
+        <!--<property name="url.href" value="@{#ConfigProperties['application.url']}/portal.do"/>-->
+        <property name="url.baseUrl" value="launch"/>
+        <property name="url.viewId" value="ksFunctionalHomeView"/>
     </bean>
     <bean id="KS-HomewardPathBreadcrumbs-Enrollment" parent="Uif-BreadcrumbItem">
         <property name="label" value="Enrollment"/>
         <property name="url.baseUrl" value="launch"/>
         <property name="url.viewId" value="enrollmentHomeView"/>
+        <!--<property name="renderAsLink" value="true" />-->
+        <property name="siblingBreadcrumbComponent">
+            <bean parent="KS-Uif-Dynamic-BreadCrumb"/>
+        </property>
     </bean>
 
     <util:list id="KS-Enrollment-HomewardPathBreadcrumbs">

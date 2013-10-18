@@ -69,6 +69,8 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     private RenderHelper renderHelper;
 
+    protected String viewId;
+
     //this field is used for CO inquiry page to display all associated AOs
     private List<ActivityOfferingWrapper> aoWrapperList;
 
@@ -410,6 +412,14 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     public void setAoWrapperList(List<ActivityOfferingWrapper> aoWrapperList) {
         this.aoWrapperList = aoWrapperList;
+    }
+
+    public String getViewId() {
+        return viewId;
+    }
+
+    public void setViewId(String viewId) {
+        this.viewId = viewId;
     }
 }
 
