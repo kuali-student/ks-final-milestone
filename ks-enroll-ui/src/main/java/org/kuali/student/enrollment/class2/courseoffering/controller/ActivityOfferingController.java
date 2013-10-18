@@ -1,7 +1,14 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Properties;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
+
 import org.apache.commons.lang.StringUtils;
-import org.jfree.util.Log;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -31,14 +38,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.namespace.QName;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Properties;
 
 @Controller
 @RequestMapping(value = "/activityOffering")
