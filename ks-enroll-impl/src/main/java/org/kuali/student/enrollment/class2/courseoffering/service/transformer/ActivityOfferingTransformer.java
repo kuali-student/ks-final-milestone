@@ -361,6 +361,16 @@ public class ActivityOfferingTransformer {
         return info;
     }
 
+    /**
+     * Indicates whether or not this Activity Offering is involved in a colocation relationship with other AOs by
+     * looking up associated ScheduleRequestSets and checking the ref object Id counts in each. If any of the counts
+     * are greater than one then the AO is considered colocated.
+     *
+     * @param lui
+     * @param schedulingService
+     * @param context
+     * @return
+     */
     private static boolean isColocated(LuiInfo lui, SchedulingService schedulingService, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
     {

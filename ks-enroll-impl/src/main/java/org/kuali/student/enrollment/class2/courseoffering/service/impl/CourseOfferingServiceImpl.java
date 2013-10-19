@@ -1905,12 +1905,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
          */
         ActivityOfferingInfo aoInfo = getActivityOffering(activityOfferingId, contextInfo);
 
-        List<ScheduleRequestInfo> requests = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, activityOfferingId, contextInfo);
+        List<ScheduleRequestInfo> requests = getSchedulingService()
+                .getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, activityOfferingId, contextInfo);
 
         StatusInfo result = new StatusInfo();
 
+        //  Save the list of schedule Ids associated with the AO to be deleted for later.
         List<String> scheduleInfoListToDelete = new ArrayList<String>(aoInfo.getScheduleIds());
-
         aoInfo.getScheduleIds().clear();
 
         for (ScheduleRequestInfo request : requests) {
@@ -1940,8 +1941,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         int firstScheduleRequestInfo=0;
 
+        //  If the AO is colocated then update the related AO's schedule Ids.
         if (aoInfo.getIsColocated() && !requests.isEmpty()){
-            ScheduleRequestSetInfo schSet = getSchedulingService().getScheduleRequestSet(requests.get(firstScheduleRequestInfo).getScheduleRequestSetId(),contextInfo);
+            // Only processing the SRS for the first schedule request only works for full colocation (An AO only has
+            // one SRS). When partial colocation is implemented (and an AO may be associated with multiple SRSs),
+            // getScheduleRequestSetsByRefObject(...) will have to be called and the collection of SRSs will have to be
+            // iterated through.
+            ScheduleRequestSetInfo schSet = getSchedulingService()
+                    .getScheduleRequestSet(requests.get(firstScheduleRequestInfo).getScheduleRequestSetId(),contextInfo);
             for (String aoId : schSet.getRefObjectIds()){
                 if (!StringUtils.equals(aoId,aoInfo.getId())) {
                     ActivityOfferingInfo colo = getActivityOffering(aoId,contextInfo);
@@ -1956,21 +1963,25 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             }
         }
 
+        //  Delete orphaned schedules.
         for(String scheduleId : scheduleInfoListToDelete){
-
+            /**
+             * Only delete the schedules if they are not used by other AOs in a colocation. To determine this look up
+             * the ScheduleRequests associated with the schedule. Then lookup the SRS associated with the SR. If the
+             * list of ref object Ids in the SRS does NOT contain the Id of this AO this is shouldn't be deleted. (This
+             * situation can happen when an AO is removed from a colocation)
+             */
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
             qbcBuilder.setPredicates(PredicateFactory.equal("scheduleId", scheduleId));
 
             QueryByCriteria criteria = qbcBuilder.build();
 
             List<ScheduleRequestInfo> schInfos = getSchedulingService().searchForScheduleRequests(criteria,contextInfo);
-            /**
-             * This SRS check is to make sure the AO is part of the set. If it's not, we should not delete the schedule
-             * as it may contain other AOs (This happens when user decides to decolcate from a set)
-             */
+
             boolean deleteSchedule = true;
             if (!schInfos.isEmpty()){
-                ScheduleRequestSetInfo setInfo = getSchedulingService().getScheduleRequestSet(schInfos.get(firstScheduleRequestInfo).getScheduleRequestSetId(),contextInfo);
+                ScheduleRequestSetInfo setInfo = getSchedulingService()
+                        .getScheduleRequestSet(schInfos.get(firstScheduleRequestInfo).getScheduleRequestSetId(),contextInfo);
                 if (!setInfo.getRefObjectIds().contains(aoInfo.getId())){
                     deleteSchedule = false;
                 }
@@ -1982,10 +1993,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                      throw new OperationFailedException("Error deleting schedule" + scheduleId);
                 }
             }
-
-
         }
-
         return result;
     }
 

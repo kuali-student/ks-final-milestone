@@ -118,16 +118,16 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             }
 
             /**
-             * Even if the user doesn't change any RDL data, here are the scenarios whether we need to process schedules
-             * 1. If the user checks/unchecks the colo checkbox even the user has not changed anything in the schedules
-             * 2. If the user opens an activity after scheduling and without changing any schedule details, submits the doc.
+             * Even if the user doesn't change any RDL data, here are the scenarios where we need to process schedules
+             * 1. If the user checks/unchecks the colo checkbox
+             * 2. If a new member is added to the colocation
+             * 3. If the user opens an activity after scheduling and without changing any schedule details, submits the doc.
              * Once user submits a doc after scheduling complemented, all the RDLs should be converted to ADLs
              */
             if (activityOfferingWrapper.isSchedulesModified() ||
                     (!activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && activityOfferingWrapper.isColocatedAO()) ||
                     (activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && !activityOfferingWrapper.isColocatedAO()) ||
                     (activityOfferingWrapper.isSchedulingCompleted() && !activityOfferingWrapper.getRequestedScheduleComponents().isEmpty())){
-
                 getScheduleHelper().saveSchedules(activityOfferingWrapper,contextInfo);
             }
 
@@ -745,20 +745,19 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
     @Override
     protected void processAfterDeleteLine(View view, CollectionGroup collectionGroup, Object model, int lineIndex) {
-//        if (!(collectionGroup.getPropertyName().equals("seatpools") || collectionGroup.getPropertyName().equals("instructors"))) {
         if (!(collectionGroup.getPropertyName().equals("seatpools") || collectionGroup.getPropertyName().equals("instructors"))) {
             super.processAfterDeleteLine(view, collectionGroup, model, lineIndex);
         }  else if(collectionGroup.getPropertyName().equals("instructors")) {
-                if (model instanceof MaintenanceDocumentForm) {
-                    MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
-                    MaintenanceDocument document = maintenanceForm.getDocument();
-                    // get the old object's collection
-                    Collection<Object> oldCollection = ObjectPropertyUtils.getPropertyValue(document.getOldMaintainableObject().getDataObject(),
-                            collectionGroup.getPropertyName());
-                    if(oldCollection.size() -1 >= lineIndex) {
-                        super.processAfterDeleteLine(view, collectionGroup, model, lineIndex);
-                    }
+            if (model instanceof MaintenanceDocumentForm) {
+                MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
+                MaintenanceDocument document = maintenanceForm.getDocument();
+                // get the old object's collection
+                Collection<Object> oldCollection = ObjectPropertyUtils.getPropertyValue(document.getOldMaintainableObject().getDataObject(),
+                        collectionGroup.getPropertyName());
+                if(oldCollection.size() -1 >= lineIndex) {
+                    super.processAfterDeleteLine(view, collectionGroup, model, lineIndex);
                 }
+            }
         }
     }
 
@@ -794,7 +793,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
             activityOfferingWrapper.setSchedulesModified(true);
         } else if (addLine instanceof OfferingInstructorWrapper) {
-            // set the person name if it's null, in the case of user-input personell id
+            // set the person name if it's null, in the case of user-input personnel id
             OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;
             if (instructor.getOfferingInstructorInfo().getPersonName() == null && instructor.getOfferingInstructorInfo().getPersonId() != null) {
                 List<Person> personList = CourseOfferingViewHelperUtil.getInstructorByPersonId(instructor.getOfferingInstructorInfo().getPersonId());
@@ -809,6 +808,9 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
             activityOfferingWrapper.getEditRenderHelper().getManageSeperateEnrollmentList().add(colo);
             activityOfferingWrapper.getNewScheduleRequest().getColocatedAOs().add(colo.getEditRenderHelper().getCode());
+
+            //  Set this flag so that schedule requests are processed in saveDataObject().
+            activityOfferingWrapper.setSchedulesModified(true);
         }
     }
 

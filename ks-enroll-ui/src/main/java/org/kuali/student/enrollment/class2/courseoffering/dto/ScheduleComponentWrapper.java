@@ -47,10 +47,6 @@ public class ScheduleComponentWrapper implements Serializable {
     private String ownership;
     private Integer capacity;
 
-    // constructor
-    //public ScheduleComponentWrapper() {
-    //}
-
     public String getAddDaysSpecifiedBoolean() {
         return addDaysSpecifiedBoolean;
     }
