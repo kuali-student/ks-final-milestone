@@ -238,7 +238,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
             if (eo == null) {
                 //Create a new Exam Offering
-                eo = createExamOffering(examPeriodId, Driver.PER_CO.name(), ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY,
+                eo = createExamOffering(examPeriodId, ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY, Driver.PER_CO.name(),
                         context);
                 //executeRuleForCOScheduling(courseOfferingId, context);
             }
