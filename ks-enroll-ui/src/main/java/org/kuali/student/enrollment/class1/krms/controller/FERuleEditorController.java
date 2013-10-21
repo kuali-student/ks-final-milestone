@@ -249,7 +249,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
             }
         }
 
-        this.getViewHelper(form).refreshInitTrees(ruleWrapper.getRuleEditor());
+        this.getViewHelper(form).refreshViewTree(ruleWrapper.getRuleEditor());
 
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_AGENDA_FE_MAINTENANCE_PAGE_ID);
         return super.navigate(form, result, request, response);

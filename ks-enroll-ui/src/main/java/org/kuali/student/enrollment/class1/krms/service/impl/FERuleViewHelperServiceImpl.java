@@ -18,6 +18,10 @@ package org.kuali.student.enrollment.class1.krms.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
+import org.kuali.rice.krms.api.repository.LogicalOperator;
+import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
+import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
@@ -71,7 +75,18 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
 
         //Rebuild the trees
         rule.setEditTree(getEditTreeBuilder().buildTree(rule));
-        rule.setDescription(this.getDescription(rule.getPropositionEditor()));
+    }
+
+    @Override
+    public void refreshViewTree(RuleEditor rule) {
+
+        if (rule == null) {
+            return;
+        }
+
+        //Rebuild the trees
+        rule.setDescription(this.getDescriptionForPropositionTree(rule.getPropositionEditor(), true));
+
     }
 
     /**
@@ -220,24 +235,54 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
         }
     }
 
-    protected String getDescription(PropositionEditor proposition) {
+    private String getDescriptionForPropositionTree(PropositionEditor proposition, boolean isRoot) {
+
         if (proposition == null) {
             return StringUtils.EMPTY;
         }
 
         //Get the natural language for the usage key.
-        Map<String, String> nlMap = proposition.getNaturalLanguage();
-        if(!nlMap.containsKey(this.getNaturalLanguageUsageKey())){
-            this.getNaturalLanguageHelper().setNaturalLanguageForUsage(proposition, this.getNaturalLanguageUsageKey(), StudentIdentityConstants.KS_NAMESPACE_CD);
+        this.getNaturalLanguageHelper().setNaturalLanguageForUsage(proposition, this.getNaturalLanguageUsageKey(), StudentIdentityConstants.KS_NAMESPACE_CD);
+
+        StringBuilder naturalLanguage = new StringBuilder();
+        if (proposition.getPropositionTypeCode().equals(PropositionType.SIMPLE.getCode())) {
+            naturalLanguage.append(proposition.getNaturalLanguage().get(this.getNaturalLanguageUsageKey()));
+
+        } else if (proposition.getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
+            //Null check because newly created compound propositions should also be translateable.
+            if(proposition.getCompoundComponents()!=null){
+                String operator = getCompoundSeperator(proposition, isRoot);
+                for (PropositionEditor child : proposition.getCompoundEditors()) {
+                    if(proposition.getCompoundComponents().indexOf(child)!=0){
+                        naturalLanguage.append(operator);
+                    }
+                    naturalLanguage.append(this.getDescriptionForPropositionTree(child, false));
+                }
+            }
+
+        } else {
+            throw new RiceIllegalArgumentException("Unknown proposition type: " + proposition.getPropositionTypeCode());
         }
 
-        //Return empty string if nl does is null.
-        String description = nlMap.get(this.getNaturalLanguageUsageKey());
-        if (description==null){
-            return StringUtils.EMPTY;
-        }
+        return naturalLanguage.toString();
+    }
 
-        return description;
+    private String getCompoundSeperator(PropositionEditor proposition, boolean isRoot) {
+        String operator = getCompoundOperator(proposition);
+        if (isRoot){
+            return ". " + StringUtils.capitalize(operator) + " ";
+        }
+        return "; " + operator + " ";
+    }
+
+    private String getCompoundOperator(PropositionEditor proposition) {
+        String operator = null;
+        if (LogicalOperator.AND.getCode().equalsIgnoreCase(proposition.getCompoundOpCode())) {
+            operator = "and";
+        } else if (LogicalOperator.OR.getCode().equalsIgnoreCase(proposition.getCompoundOpCode())) {
+            operator = "or";
+        }
+        return operator;
     }
 
     protected long parseTimeToMillis(final String time) throws ParseException {

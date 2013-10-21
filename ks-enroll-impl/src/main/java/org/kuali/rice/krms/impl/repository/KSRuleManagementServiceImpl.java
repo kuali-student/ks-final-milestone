@@ -260,7 +260,7 @@ public class KSRuleManagementServiceImpl extends RuleRepositoryServiceImpl imple
      */
     public TranslateBusinessMethods getTranslateBusinessMethods() {
         if(translationBusinessMethods  == null) {
-            this.translationBusinessMethods  = new TranslationUtility(this, getTermRepositoryService(), this.templater);
+            this.translationBusinessMethods  = new KSTranslationUtility(this, getTermRepositoryService(), this.templater);
         }
         return this.translationBusinessMethods ;
     }
