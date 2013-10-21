@@ -1130,7 +1130,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         } else if (addLine instanceof AcalEventWrapper){
             AcalEventWrapper acalEventWrapper = (AcalEventWrapper)addLine;
             try {
-                if (acalEventWrapper.getEventTypeKey() != null && !StringUtils.isBlank(acalEventWrapper.getEventTypeKey())) {
+                if (!StringUtils.isBlank(acalEventWrapper.getEventTypeKey())) {
                     TypeInfo type = getTypeService().getType(acalEventWrapper.getEventTypeKey(), createContextInfo());
                     acalEventWrapper.setEventTypeName(type.getName());
                 }
