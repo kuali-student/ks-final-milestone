@@ -15,15 +15,19 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import junit.framework.Assert;
 import org.junit.Test;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.AutogenCount;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.CourseOfferingServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.slf4j.Logger;
@@ -88,13 +92,12 @@ public class TestCourseOfferingServiceFacadeSearchService extends
         List<KeyValue> aoKVList = courseOfferingServiceFacade.getAoIdAndAoTypeByFO(formatOfferingId,contextInfo);
         List<String> resultList = new ArrayList<String>();
 
-        if (aoKVList != null && !aoKVList.isEmpty()) {
-            for (KeyValue aoIdType: aoKVList) {
-                resultList.add(aoIdType.getKey() + "-->" + aoIdType.getValue());
-            }
+        assertNotNull(aoKVList);
+        for (KeyValue aoIdType: aoKVList) {
+            resultList.add(aoIdType.getKey() + "-->" + aoIdType.getValue());
         }
 
-        assertEquals(expectedList.size(),aoKVList.size());
+        assertEquals(expectedList.size(), aoKVList.size());
         assertEquals(expectedList.containsAll(resultList),true);
 
     }
@@ -119,28 +122,26 @@ public class TestCourseOfferingServiceFacadeSearchService extends
         // make sure the data is in the db for the searches 
         entityManager.flush();
         
-        AutogenCount counts = null;
+        AutogenCount counts = courseOfferingServiceFacade.getAutogenCountByCourseOffering("Lui-1", contextInfo);
         
-        counts = courseOfferingServiceFacade.getAutogenCountByCourseOffering("Lui-1", contextInfo);
-        
-        Assert.assertEquals(1, counts.getNumberOfActivityOfferingClusters().intValue());
-        Assert.assertEquals(3, counts.getNumberOfActivityOfferings().intValue());
-        Assert.assertEquals(2, counts.getNumberOfRegistrationGroups().intValue());
-        Assert.assertEquals(0, counts.getNumberOfInvalidRegistrationGroups().intValue());
+        assertEquals(1, counts.getNumberOfActivityOfferingClusters().intValue());
+        assertEquals(3, counts.getNumberOfActivityOfferings().intValue());
+        assertEquals(2, counts.getNumberOfRegistrationGroups().intValue());
+        assertEquals(0, counts.getNumberOfInvalidRegistrationGroups().intValue());
         
         counts = courseOfferingServiceFacade.getAutogenCountByFormatOffering("Lui-6", contextInfo);
         
-        Assert.assertEquals(1, counts.getNumberOfActivityOfferingClusters().intValue());
-        Assert.assertEquals(3, counts.getNumberOfActivityOfferings().intValue());
-        Assert.assertEquals(2, counts.getNumberOfRegistrationGroups().intValue());
-        Assert.assertEquals(0, counts.getNumberOfInvalidRegistrationGroups().intValue());
+        assertEquals(1, counts.getNumberOfActivityOfferingClusters().intValue());
+        assertEquals(3, counts.getNumberOfActivityOfferings().intValue());
+        assertEquals(2, counts.getNumberOfRegistrationGroups().intValue());
+        assertEquals(0, counts.getNumberOfInvalidRegistrationGroups().intValue());
         
         counts = courseOfferingServiceFacade.getAutogenCountByActivtyOfferingCluster(actual.getId(), contextInfo);
         
-        Assert.assertEquals(1, counts.getNumberOfActivityOfferingClusters().intValue());
-        Assert.assertEquals(3, counts.getNumberOfActivityOfferings().intValue());
-        Assert.assertEquals(2, counts.getNumberOfRegistrationGroups().intValue());
-        Assert.assertEquals(0, counts.getNumberOfInvalidRegistrationGroups().intValue());
+        assertEquals(1, counts.getNumberOfActivityOfferingClusters().intValue());
+        assertEquals(3, counts.getNumberOfActivityOfferings().intValue());
+        assertEquals(2, counts.getNumberOfRegistrationGroups().intValue());
+        assertEquals(0, counts.getNumberOfInvalidRegistrationGroups().intValue());
         
         log.info("");
         

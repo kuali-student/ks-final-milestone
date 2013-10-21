@@ -12,15 +12,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:state-test-context.xml"})
@@ -38,8 +36,8 @@ public class TestGenericEntityDao {
 
     private class TestStateDao extends GenericEntityDao<StateEntity> {
         @Override
-        protected Query buildQuery(StringBuilder queryStringRef, String primaryKeyMemberName, Set<String> primaryKeySet) {
-            Query q =  super.buildQuery(queryStringRef, primaryKeyMemberName, primaryKeySet);
+        protected TypedQuery<StateEntity> buildQuery(StringBuilder queryStringRef, String primaryKeyMemberName, Set<String> primaryKeySet) {
+            TypedQuery<StateEntity> q =  super.buildQuery(queryStringRef, primaryKeyMemberName, primaryKeySet);
             queryString = queryStringRef.toString();
             return q;
         }
