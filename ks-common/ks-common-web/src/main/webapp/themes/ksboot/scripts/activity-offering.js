@@ -676,138 +676,37 @@ function handleAONavigation(component, aoId){
 }
 
 
-function setupRDLEndTimeWidget(event){
+function tbaOnClick(){
+    retrieveComponent('rdl_endtime');
 
-    event.preventDefault();
-    event.stopImmediatePropagation();
+}
+
+function endTimeOnBlur(){
+    var endTime = jQuery("#rdl_endtime_text_control").val();
+    if (endTime == ''){
+        return;
+    }
+    parseAndReplaceTimeClause(jQuery("#rdl_endtime_text_control"), jQuery("#rdl_days_control"));
+}
+
+function startTimeOnBlur(){
 
     parseAndReplaceTimeClause(jQuery("#rdl_starttime_control"), jQuery("#rdl_days_control"));
 
     var startTime = jQuery("#rdl_starttime_control").val();
     var days = jQuery("#rdl_days_control").val();
-    var isTba = jQuery("#rdl_tba_control").is(':checked')
-
-    var endTimeWidget = jQuery('#rdl_endtime_dropdown_control');
-//    var endTimeWidgetOptions = endTimeWidget.prop('options');
-//    jQuery('option', endTimeWidget).remove();
-//    jQuery('#rdl_endtime_dropdown_control').prop('disabled', true);
-//    jQuery('#rdl_endtime_text_control').prop('disabled', true);
-//    jQuery('#rdl_endtime_text_control').val('');
 
     if (startTime == '' || days == ''){
-        return;
+       return;
     }
 
-    if (validateFieldValue(jQuery("#rdl_starttime_control")) == false ||
-        validateFieldValue(jQuery("#rdl_days_control")) == false){
+
+   if (validateFieldValue(jQuery("#rdl_starttime_control")) == false ||
+       validateFieldValue(jQuery("#rdl_days_control")) == false){
 //        jQuery("#rdl_days_control").focus();
-        return;
-    }
+       return;
+   }
 
-    var requestParam = {};
-
-    requestParam.methodToCall = 'loadTSEndTimes';
-    requestParam.ajaxRequest = true;
-    requestParam.ajaxReturnType = 'update-none';
-    requestParam.formKey = jQuery("input#formKey").val();
-    requestParam.startTime = startTime;
-    requestParam.days = days;
-
-    jQuery.ajax({
-        url: jQuery("form#kualiForm").attr("action"),
-        dataType: "json",
-        data: requestParam,
-        beforeSend: null,
-        complete: null,
-        success: function (jsonResponse) {
-            if (isTba == true || isAuthorizedToEditEndTime == true){
-                setupEndTimeTextField(jsonResponse);
-            } else {
-                setupEndTimeDropDown(endTimeWidgetOptions,jsonResponse);
-            }
-        }
-    });
-
-    /**
-     * error: function (error) {
-                 event.preventDefault();
-                 event.stopImmediatePropagation();
-                 showGrowl("Error fetching Endtimes", 'EndTime Error', 'errorGrowl');
-                 jQuery("#rdl_starttime_control").focus();
-             },
-     */
-
+    retrieveComponent('rdl_endtime','loadTSEndTimes');
 }
 
-var isAuthorizedToEditEndTime = false;
-var endTimeDropDownOptions;
-
-function setupEndTimeDropDown(endTimeWidgetOptions,endTimes){
-
-    jQuery('#rdl_endtime_text').hide();
-    jQuery('#rdl_endtime_dropdown').show();
-    jQuery('#rdl_endtime_text_control').prop('disabled', true);
-    jQuery('#rdl_endtime_dropdown_control').prop('disabled', false);
-
-    var endTimeWidget = jQuery('#rdl_endtime_dropdown_control');
-    jQuery('option', endTimeWidget).remove();
-
-    for (var i = 0; i < endTimes.length; i++) {
-        endTimeWidgetOptions[endTimeWidgetOptions.length] = new Option(endTimes[i], endTimes[i]);
-    }
-
-    endTimeDropDownOptions = endTimeWidgetOptions;
-
-    if (endTimes.length == 1){
-        jQuery('#rdl_bldg_control').focus();
-    } else if (endTimes.length > 1){
-        var endTimeWidget = jQuery('#rdl_endtime_dropdown_control');
-        endTimeWidget.focus();
-    }
-}
-
-
-function setupEndTimeTextField(endTimes){
-
-    jQuery('#rdl_endtime_text').show();
-    jQuery('#rdl_endtime_dropdown').hide();
-    jQuery('#rdl_endtime_dropdown_control').prop('disabled', true);
-    jQuery('#rdl_endtime_text_control').prop('disabled', false);
-
-    jQuery( "#rdl_endtime_text_control" ).autocomplete({
-        source: endTimes
-    });
-
-    jQuery("#rdl_endtime_text_control").focus();
-}
-
-function removeEndTimeAutoComplete(){
-
-    var endTimeControl = jQuery('#rdl_endtime_text');
-
-    if (endTimeControl.data('autocomplete')) {
-        endTimeControl.autocomplete("destroy");
-        endTimeControl.removeData('autocomplete');
-    }
-
-}
-
-function endTimeRDLOnBlur(){
-    if (jQuery("#rdl_endtime_text_control").is(':hidden') == false){
-        parseAndReplaceTimeClause(jQuery("#rdl_endtime_text_control"), jQuery("#rdl_days_control"));
-    }
-}
-
-function reInitializeEndTimeWidget(){
-
-    if (endTimeDropDownOptions != null){
-        var endTimeWidget = jQuery('#rdl_endtime_dropdown_control');
-        endTimeWidget.prop('options',endTimeDropDownOptions);
-        jQuery('#rdl_endtime_dropdown_control').prop('disabled', false);
-    }
-}
-
-function initializeTimeSlot(){
-    isAuthorizedToEditEndTime = jQuery("#authorizedToModifyEndTimeTS_control").val() == "true";
-    jQuery('#authorizedToModifyEndTimeTS_control').prop('disabled', true);
-}
