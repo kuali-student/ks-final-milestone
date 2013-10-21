@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
+import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 import java.util.Collection;
@@ -92,5 +93,13 @@ public class KSControllerHelper {
         Object selectedObject = ((List<Object>) collection).get(selectedLineIndex);
 
         return selectedObject;
+    }
+    
+    public static View getView(UifFormBase form){
+        if (form.getView() != null){
+            return form.getView();
+        }else{
+            return form.getPostedView();
+        }
     }
 }

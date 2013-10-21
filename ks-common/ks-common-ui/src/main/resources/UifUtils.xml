@@ -28,5 +28,7 @@ limitations under the License.
    <bean parent="Uif-KeyLabelPair" p:key="PM" p:value="pm"/>
 </util:list>
 
-
+<util:list id="dummy-Options">
+   <bean parent="Uif-KeyLabelPair" p:key="" p:value=""/>
+</util:list>
 </beans>
