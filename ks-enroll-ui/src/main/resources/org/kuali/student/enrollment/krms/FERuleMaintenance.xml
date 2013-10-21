@@ -110,7 +110,7 @@ limitations under the License.
             <list>
                 <ref bean="KSFE-FinalExamMatrixSearch-Page-parent"/>
                 <bean parent="KRMS-AgendaManage-Section" class="org.kuali.student.enrollment.class1.krms.util.FinalExamAgendaSection"
-                      p:progressiveRender="#dp.termToUse eq 'na'">
+                      p:progressiveRender="#dp.termToUse eq 'na'" p:style="margin-top:-25px">
                     <property name="agendaPrototype">
                         <ref bean="KSFE-RuleTable"/>
                     </property>
@@ -153,7 +153,6 @@ limitations under the License.
                             </list>
                         </property>
                     </bean>
-
                 </property>
             </bean>
         </property>
@@ -633,8 +632,8 @@ limitations under the License.
     </bean>
     <bean id="KSFE-endtime_ampm-Section" parent="KSFE-endtime_ampm-Section-Parent"/>
 
-    <bean id="KSFE_location-Parent" parent="Uif-InputField" p:label="Set Exam Locations" p:propertyName="location" p:labelPlacement="LEFT"
-          p:uppercaseValue="false">
+    <bean id="KSFE_location-Parent" parent="Uif-InputField" p:label="Standard Final Exam location determined by Activity Offering location" p:propertyName="location" p:labelPlacement="LEFT"
+          p:uppercaseValue="false" p:style="padding-top:25px">
             <property name="control">
                 <bean parent="Uif-CheckboxControl" p:disabled="true"/>
             </property>
