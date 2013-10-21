@@ -86,7 +86,7 @@
         <property name="lineActions">
               <list>
                   <!--<bean parent="Uif-ActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:successCallback="retrieveComponent('ActivityOffering-DeliveryLogistic-New');" p:render="@{#dp.schedulingCompleted}"/>-->
-                  <bean parent="Uif-NavigationActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:dirtyOnAction="false" p:preSubmitCall="return checkAOEditWIP();"/>
+                  <bean parent="Uif-NavigationActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:preSubmitCall="return checkAOEditWIP();"/>
                   <bean parent="Uif-DeleteLineAction" p:successCallback="reDisplayRDLSection();"/>
               </list>
         </property>
@@ -208,6 +208,12 @@
                             <property name="replacement">
                                 <bean parent="Uif-Suggest" p:render="true" p:retrieveAllSuggestions="true">
                                     <property name="suggestOptions" value="@{#dp.newScheduleRequest.endTimesArray}"/>
+                                    <property name="templateOptions">
+                                        <map>
+                                          <entry key="minLength" value="0"/>
+                                          <entry key="delay" value="0"/>
+                                        </map>
+                                    </property>
                                 </bean>
                             </property>
                         </bean>
