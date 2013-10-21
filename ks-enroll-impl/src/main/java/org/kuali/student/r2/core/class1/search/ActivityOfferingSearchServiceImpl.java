@@ -105,7 +105,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         public static final String ATP_ID = "atpId";
         public static final String TOTAL_MAX_SEATS = "totalMaxSeats";
         public static final String AO_CLUSTER_COUNT = "aoClusterCount";
-        public static final String AO_COUNT = "aoCount";
     }
 
     static {
@@ -199,8 +198,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
         info = new TypeInfo();
         info.setKey(AO_ID_AND_TYPE_BY_FO_SEARCH_KEY);
-        info.setName("get AO count by Format offering");
-        info.setDescr(new RichTextHelper().fromPlain("Returns the number of AOs for a particular Format Offering"));
+        info.setName("get AO ids and types by Format offering");
+        info.setDescr(new RichTextHelper().fromPlain("Returns AO ids and types for a particular Format Offering"));
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
         AO_ID_AND_TYPE_BY_FO_TYPE = info;
