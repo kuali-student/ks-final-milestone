@@ -3,10 +3,43 @@ package org.kuali.student.enroll.krms.type;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.framework.type.TermResolverTypeService;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.AdminOrgPermissionTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.AdmittedProgramAtCourseCampusTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.AdmittedProgramTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.AdmittedProgramWithClassStandingTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.CompletedCourseAsOfTermTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.CompletedCourseBetweenTermsTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.CompletedCourseForTermTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.CompletedCoursePriorToTermTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.CompletedCourseTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.CompletedCoursesTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.CourseWithGradeTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.CoursesWithGradeTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.CreditsEarnedFromCoursesTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.CreditsEarnedFromOrganizationTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.CreditsEarnedTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.EnrolledCourseTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.EnrolledCoursesTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.FreeFormTextTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.GPAForCoursesTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.GPAForDurationTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.GPATermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.InstructorPermissionTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.NumberOfCompletedCoursesTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.NumberOfCoursesWithGradeTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.NumberOfEnrolledCoursesTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.PopulationTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.ProgramCoursesOrgDurationTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.ScoreTermResolver;
+import org.kuali.student.enroll.krms.courseoffering.termresolver.util.CluIdsInCluSetTermResolver;
+import org.kuali.student.enroll.krms.examoffering.termresolver.MatchingCourseSetTermResolver;
+import org.kuali.student.enroll.krms.examoffering.termresolver.MatchingCourseTermResolver;
+import org.kuali.student.enroll.krms.examoffering.termresolver.MatchingTimeSlotTermResolver;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -29,7 +62,7 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
 	public TermResolver<?> loadTermResolver(
 			TermResolverDefinition termResolverDefinition) {
 
-        /*if(KSKRMSServiceConstants.TERM_RESOLVER_ADMINORGANIZATIONPERMISSIONREQUIRED.equals(termResolverDefinition.getName())) {
+        if(KSKRMSServiceConstants.TERM_RESOLVER_ADMINORGANIZATIONPERMISSIONREQUIRED.equals(termResolverDefinition.getName())) {
             AdminOrgPermissionTermResolver resolver = new AdminOrgPermissionTermResolver();
             resolver.setOrganizationService(organizationService);
             return resolver;
@@ -162,16 +195,16 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
             resolver.setCourseService(courseService);
             resolver.setCluIdsInCluSetTermResolver(getCluIdsInCluSetTermResolver());
             return resolver;
-        }       */
+        }
 
         return null;
 	}
 
-    /*private CluIdsInCluSetTermResolver getCluIdsInCluSetTermResolver() {
+    private CluIdsInCluSetTermResolver getCluIdsInCluSetTermResolver() {
         CluIdsInCluSetTermResolver cluIdsInCluSetResolver = new CluIdsInCluSetTermResolver();
         cluIdsInCluSetResolver.setCluService(cluService);
         return cluIdsInCluSetResolver;
-    } */
+    }
 
     public AcademicRecordService getAcadRecordService() {
 		return acadRecordService;
