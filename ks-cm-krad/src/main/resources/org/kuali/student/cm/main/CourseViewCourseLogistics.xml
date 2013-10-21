@@ -22,8 +22,7 @@
 				<ref bean="KS-CourseView-CourseLogisticsPage-DurationCount-Widgets" />
 				<ref bean="KS-CourseView-CourseLogisticsPage-LearningResults-Widgets" />
 				<ref bean="KS-CourseView-CourseLogisticsPage-GradesAssessments-Widgets" />
-				<ref
-					bean="KS-CourseView-CourseLogisticsPage-StudentRegistrationOptions-Widgets" />
+				<ref bean="KS-CourseView-CourseLogisticsPage-StudentRegistrationOptions-Widgets" />
 				<ref bean="KS-CourseView-CourseLogisticsPage-FinalExam-Widgets" />
 				<ref bean="KS-CourseView-CourseLogisticsPage-Outcome-Widgets" />
 				<ref bean="KS-CourseView-CourseLogisticsPage-CourseFormats-Widgets" />
