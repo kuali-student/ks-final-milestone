@@ -559,6 +559,26 @@
     <!--</property>-->
   <!--</bean>-->
 
+
+    <!-- Setup natural language template information service -->
+    <import resource="classpath:org/kuali/student/enrollment/krms/PropositionTypeTemplateData.xml"/>
+
+    <bean id="templateResolverService" class="org.kuali.rice.krms.service.impl.TemplateRegistryImpl">
+        <property name="templatesMap" ref="templatesMap"/>
+    </bean>
+
+    <bean id="ks.exp.templateResolverService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
+                <property name="service" ref="templateResolverService" /> <!-- Must match id in the bean -->
+                <property name="serviceInterface" value="org.kuali.rice.krms.service.TemplateRegistry" />
+                <property name="localServiceName" value="templateResolverService" /> <!-- Part of the QName -->
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/templateResolverService" />
+                <property name="busSecurity" value="${ks.enroll.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
     <!-- Exam Service beans -->
     <bean id="examServiceImpl" class="org.kuali.student.enrollment.class2.exam.service.impl.ExamServiceImpl">
         <property name="cluService" ref="cluServiceImpl"/>
