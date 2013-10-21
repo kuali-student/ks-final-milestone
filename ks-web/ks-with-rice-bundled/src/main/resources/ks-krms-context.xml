@@ -21,10 +21,10 @@
 
     <bean id="ruleTypeService" class="org.kuali.rice.krms.impl.type.RuleTypeServiceBase"/>
 
-    <bean id="agendaTypeService" class="org.kuali.student.krms.service.impl.KSAgendaTypeServiceImpl">
+    <bean id="agendaTypeService" class="org.kuali.student.enroll.krms.type.KSAgendaTypeServiceImpl">
     </bean>
 
-    <bean id="termresolverTypeService" class="org.kuali.student.krms.service.impl.KSTermResolverTypeService">
+    <bean id="termresolverTypeService" class="org.kuali.student.enroll.krms.type.KSTermResolverTypeService">
         <property name="acadRecordService" ref="academicRecordClient"/>
         <property name="courseRegistrationService" ref="courseRegistrationClient"/>
         <property name="organizationService" ref="orgClient"/>
@@ -36,7 +36,7 @@
         <property name="courseService" ref="courseClient"/>
     </bean>
 
-    <bean id="actionTypeService" class="org.kuali.student.krms.service.impl.KSActionTypeServiceImpl">
+    <bean id="actionTypeService" class="org.kuali.student.enroll.krms.type.KSActionTypeServiceImpl">
         <property name="schedulingService" ref="schedulingClient"/>
     </bean>
 
@@ -130,7 +130,7 @@
         <property name="populationService" ref="PopulationServiceClient"/>
     </bean>
     <bean id="finalExamContext" class="org.kuali.student.krms.naturallanguage.config.context.FinalExamContextImpl"/>
-    <!-- TODO this contextRegistry should be part of KS -->
+
     <bean id="translationContextRegistry"
           class="org.kuali.rice.krms.impl.repository.language.TranslationContextRegistry">
         <constructor-arg>
