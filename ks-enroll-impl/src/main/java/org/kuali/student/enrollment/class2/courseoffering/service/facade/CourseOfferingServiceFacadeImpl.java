@@ -208,7 +208,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
 
         List<KeyValue> lRet = new ArrayList<KeyValue>();
 
-        SearchRequestInfo request = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AO_COUNT_BY_FO_SEARCH_KEY);
+        SearchRequestInfo request = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AO_ID_AND_TYPE_BY_FO_SEARCH_KEY);
 
         request.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.FO_ID, foId);
 
