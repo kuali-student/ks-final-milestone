@@ -1983,7 +1983,7 @@
     <sequence name="KREW_TYP_ATTR_S" startValue="10000"/>
     <sequence name="KREW_TYP_S" startValue="10000"/>
     <sequence name="KREW_USR_S" startValue="100000000000"/>
-    <sequence name="KRIM_ATTR_DATA_ID_S" startValue="10006"/>
+    <sequence name="KRIM_ATTR_DATA_ID_S" startValue="10007"/>
     <sequence name="KRIM_ATTR_DEFN_ID_S" startValue="10003"/>
     <sequence name="KRIM_DLGN_ID_S" startValue="10000"/>
     <sequence name="KRIM_DLGN_MBR_ID_S" startValue="10000"/>
