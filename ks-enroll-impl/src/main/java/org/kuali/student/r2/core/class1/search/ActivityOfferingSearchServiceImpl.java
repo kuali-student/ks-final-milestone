@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -271,7 +272,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         if (SCH_IDS_BY_AO_SEARCH_TYPE.getKey().equals(searchRequestInfo.getSearchKey())) {
-            return searchForScheduleIdsByAoId(searchRequestInfo, contextInfo);
+            return searchForScheduleIdsByAoId(searchRequestInfo);
         }
         else if (AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForAOsAndClustersByCoId(searchRequestInfo);
@@ -323,7 +324,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                         "FROM LuiEntity ao " +
                         "WHERE ao.id IN (:aoIds)";
 
-        Query query = entityManager.createQuery(queryStr);
+        TypedQuery<Long> query = entityManager.createQuery(queryStr, Long.class);
         query.setParameter(SearchParameters.AO_IDS, aoIds);       // After updating an oracle driver the List binding is causing massive problems
         List<Long> results = query.getResultList();
 
@@ -354,7 +355,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             "WHERE co2fo.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
             "  AND co2fo.lui.id = :coId ";
 
-        Query query = entityManager.createQuery(queryStr);
+        TypedQuery<Object[]> query = entityManager.createQuery(queryStr, Object[].class);
         query.setParameter(SearchParameters.CO_ID, coId);       // After updating an oracle driver the List binding is causing massive problems
         List<Object[]> results = query.getResultList();
 
@@ -362,7 +363,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell(SearchResultColumns.FO_ID, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.AO_TYPE, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_TYPE, (String)resultRow[i]);
             resultInfo.getRows().add(row);
         }
 
@@ -389,7 +390,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "  AND co2fo.relatedLui.id = fo2ao.lui.id " +
                 "  AND luiId.lui.id = fo2ao.relatedLui";
 
-        Query query = entityManager.createQuery(queryStr);
+        TypedQuery<Object[]> query = entityManager.createQuery(queryStr, Object[].class);
         query.setParameter(SearchParameters.CO_ID, coId);
         List<Object[]> results = query.getResultList();
 
@@ -397,7 +398,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i]);
             resultInfo.getRows().add(row);
         }
         return resultInfo;
@@ -441,8 +442,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             queryStr = queryStr + " AND lui.luiState in (" + filterAOStates + ")";
         }
 
-        Query query = entityManager.createQuery(queryStr);
-//        query.setParameter(SearchParameters.AO_IDS, aoIds);
+        TypedQuery<Object[]> query = entityManager.createQuery(queryStr, Object[].class);
         List<Object[]> results = query.getResultList();
 
         for(Object[] resultRow : results){
@@ -450,7 +450,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.CO_CODE, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i]);
             resultInfo.getRows().add(row);
         }
 
@@ -483,7 +483,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             queryStr = queryStr + " AND rg2ao.lui.luiState IN(:regGroupStates)";
         }
 
-        Query query = entityManager.createQuery(queryStr);
+        TypedQuery<Object[]> query = entityManager.createQuery(queryStr, Object[].class);
         query.setParameter(SearchParameters.CO_ID, coId);
         if(regGroupStates != null && !regGroupStates.isEmpty()) {
             query.setParameter(SearchParameters.REGGROUP_STATES, regGroupStates);
@@ -496,7 +496,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.RG_ID, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.RG_NAME, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.RG_STATE, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.RG_STATE, (String)resultRow[i]);
             resultInfo.getRows().add(row);
         }
 
@@ -506,12 +506,12 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     /**
      *
      * @param searchRequestInfo   Contains an Activity Offering ID that we will use to find the scheduleIds
-     * @return
+     * @return ScheduleIds
      * @throws MissingParameterException
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    protected SearchResultInfo searchForScheduleIdsByAoId(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+    protected SearchResultInfo searchForScheduleIdsByAoId(SearchRequestInfo searchRequestInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
 
         String aoId = requestHelper.getParamAsString(SearchParameters.AO_ID);
@@ -626,6 +626,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         if((aoStates != null) && !aoStates.isEmpty()) {
             query.setParameter(SearchParameters.AO_STATES, aoStates);
         }
+        @SuppressWarnings("unchecked")
         List<Object[]> results = query.getResultList();
 
         Map<String, SearchResultRowInfo> aoMap = new HashMap<String, SearchResultRowInfo>();
@@ -650,7 +651,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 i++; // increment from previous row
                 row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i++]);
                 row.addCell(SearchResultColumns.ATP_ID, resultRow[i]==null?null:resultRow[i].toString());
-                i++; // increment from previous row
                 resultInfo.getRows().add(row);
                 aoMap.put(aoId, row);
             } else {
@@ -683,14 +683,14 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                         "WHERE " +
                         "  aoc.formatOfferingId = :foId ) ";
 
-        Query query = entityManager.createQuery(queryStr);
+        TypedQuery<Object[]> query = entityManager.createQuery(queryStr, Object[].class);
         query.setParameter(SearchParameters.FO_ID, foId);
         List<Object[]> results = query.getResultList();
 
         for(Object[] resultRow : results){
             int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i]);
             resultInfo.getRows().add(row);
         }
 
@@ -712,7 +712,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                         "  AND rel.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
                         "  AND rel.relatedLui.id = fo_lui.id";
 
-        Query query = entityManager.createQuery(queryStr);
+        TypedQuery<Object[]> query = entityManager.createQuery(queryStr, Object[].class);
         query.setParameter(SearchParameters.CO_ID, coId);
         List<Object[]> results = query.getResultList();
 
@@ -720,7 +720,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell(SearchResultColumns.FO_ID, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.FO_NAME, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.FO_NAME, (String)resultRow[i]);
             resultInfo.getRows().add(row);
         }
 
@@ -754,8 +754,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
      *
      * This was made as a performance improvement.
      *
-     * @param searchRequestInfo
-     * @return
+     * @param searchRequestInfo FO id search params
+     * @return a AO cluster count
      */
     private SearchResultInfo searchForAOClusterCountByFO(SearchRequestInfo searchRequestInfo) {
         SearchResultInfo resultInfo = new SearchResultInfo();
@@ -768,7 +768,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                         "from ActivityOfferingClusterEntity a " +
                         "where a.formatOfferingId=:" + SearchParameters.FO_ID;
 
-        Query query = entityManager.createQuery(queryStr);
+        TypedQuery<Long> query = entityManager.createQuery(queryStr, Long.class);
         query.setParameter(SearchParameters.FO_ID, formatOfferingId);
         List<Long> results = query.getResultList();
 
@@ -786,8 +786,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
      *
      * This was made as a performance improvement.
      *
-     * @param searchRequestInfo
-     * @return
+     * @param searchRequestInfo FO id search params
+     * @return AO_ID, AO_TYPE
      */
     private SearchResultInfo searchForAoIdAndTypeByFO(SearchRequestInfo searchRequestInfo) {
         SearchResultInfo resultInfo = new SearchResultInfo();
@@ -799,7 +799,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "Select rel.relatedLui.id, rel.relatedLui.luiType from LuiLuiRelationEntity rel where rel.lui.id=:" + SearchParameters.FO_ID +
                         " AND rel.luiLuiRelationType=:" + SearchParameters.FO_REL_TYPE;
 
-        Query query = entityManager.createQuery(queryStr);
+        TypedQuery<Object[]> query = entityManager.createQuery(queryStr, Object[].class);
         query.setParameter(SearchParameters.FO_ID, formatOfferingId);
         query.setParameter(SearchParameters.FO_REL_TYPE, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY);
         List<Object[]> results = query.getResultList();
@@ -808,7 +808,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.AO_TYPE, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_TYPE, (String)resultRow[i]);
             resultInfo.getRows().add(row);
         }
 
