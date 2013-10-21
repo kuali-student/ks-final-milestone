@@ -500,9 +500,9 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            if (!AcalCommonUtils.isValidDateRange(holiday.getStartDate(), holiday.getEndDate())){
+            /*if (!AcalCommonUtils.isValidDateRange(holiday.getStartDate(), holiday.getEndDate())){
                 GlobalVariables.getMessageMap().putWarningForSectionId("KS-HolidayCalendar-HolidaySection", "error.enroll.daterange.invalid",holiday.getTypeName(), AcalCommonUtils.formatDate(holiday.getStartDate()), AcalCommonUtils.formatDate(holiday.getEndDate()));
-            }
+            }*/
         } else {
             super.processBeforeAddLine(view, collectionGroup, model, addLine);
         }
