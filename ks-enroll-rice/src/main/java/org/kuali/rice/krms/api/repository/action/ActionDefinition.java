@@ -21,6 +21,7 @@ import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
 import org.kuali.rice.core.api.util.jaxb.MapStringStringAdapter;
 import org.kuali.rice.krms.api.KrmsConstants;
+import org.kuali.rice.krms.api.repository.action.ActionDefinitionContract;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -41,7 +42,7 @@ import java.util.Map;
  * Instances of Action can be (un)marshalled to and from XML.
  *
  * @see org.kuali.rice.krms.framework.engine.Action
- * @see ActionDefinitionContract
+ * @see org.kuali.rice.krms.api.repository.action.ActionDefinitionContract
  *
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */

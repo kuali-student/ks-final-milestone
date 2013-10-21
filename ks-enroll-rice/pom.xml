@@ -59,6 +59,11 @@
             <version>${ks.api.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.kuali.student.api</groupId>
+            <artifactId>ks-enroll-api</artifactId>
+            <version>${ks.api.version}</version>
+        </dependency>
+        <dependency>
             <artifactId>servlet-api</artifactId>
             <groupId>javax.servlet</groupId>
         </dependency>

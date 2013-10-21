@@ -1,12 +1,9 @@
-package org.kuali.student.krms.service.impl;
+package org.kuali.student.enroll.krms.type;
 
 import org.kuali.rice.krms.api.repository.action.ActionDefinition;
 import org.kuali.rice.krms.framework.engine.Action;
 import org.kuali.rice.krms.framework.type.ActionTypeService;
 import org.kuali.rice.krms.impl.type.KrmsTypeServiceBase;
-import org.kuali.student.krms.action.RDLAction;
-import org.kuali.student.r2.core.scheduling.service.SchedulingService;
-import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 
 /**
  * Created with IntelliJ IDEA.

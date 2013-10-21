@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.krms.service.impl;
+package org.kuali.student.enroll.krms.type;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -28,7 +28,6 @@ import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.impl.type.KrmsTypeResolver;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.krms.service.impl.KSTermResolverTypeService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.springframework.test.context.ContextConfiguration;
@@ -38,24 +37,24 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = {"classpath:ks-krms-test-context.xml"})
 @Ignore
 public class TestKSTermResolverTypeService {
-        private KrmsTypeResolver typeResolver;
+    private KrmsTypeResolver typeResolver;
 
-        public ContextInfo callContext = null;
-        @Resource(name = "acadRecordService")
-        private AcademicRecordService academicRecordService;
-        private CourseRegistrationService courseRegistrationService;
-        private OrganizationService organizationService;
+    public ContextInfo callContext = null;
+    @Resource(name = "acadRecordService")
+    private AcademicRecordService academicRecordService;
+    private CourseRegistrationService courseRegistrationService;
+    private OrganizationService organizationService;
 
-        @Before
-        public void setUp() {
-            callContext = new ContextInfo();
-        }
+    @Before
+    public void setUp() {
+        callContext = new ContextInfo();
+    }
 
 
-        @Test
-        public void testCourseRegistrationServiceNotNull() {
-            assertNotNull(courseRegistrationService);
-        }
+    @Test
+    public void testCourseRegistrationServiceNotNull() {
+        assertNotNull(courseRegistrationService);
+    }
 
     @Test
     public void testOrganizationServiceNotNull() {
@@ -66,14 +65,14 @@ public class TestKSTermResolverTypeService {
     public void testAcadRecordServiceNotNull() {
         assertNotNull(academicRecordService);
     }
-        @Test
-        public void testloadTermResolver() {
 
-            KSTermResolverTypeService termResolver = new KSTermResolverTypeService();
-            TermResolverDefinition termResolverDefinition = null ;
-            TermResolver<?> term = termResolver.loadTermResolver(termResolverDefinition);
-        }
+    @Test
+    public void testloadTermResolver() {
 
-
-
+        KSTermResolverTypeService termResolver = new KSTermResolverTypeService();
+        TermResolverDefinition termResolverDefinition = null;
+        TermResolver<?> term = termResolver.loadTermResolver(termResolverDefinition);
     }
+
+
+}
