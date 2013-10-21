@@ -74,27 +74,23 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(method = RequestMethod.GET, params = "methodToCall=loadTSEndTimes")
-    @ResponseBody
-    public List<String> loadTSEndTimes(@ModelAttribute("KualiForm") MaintenanceDocumentForm form,
-                                                           HttpServletRequest request) throws Exception {
+    @RequestMapping(params = "methodToCall=loadTSEndTimes")
+    public ModelAndView loadTSEndTimes(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
-
-
-        String startTime = request.getParameter("startTime");
-        String days = request.getParameter("days");
-
-        List<String> endTimes = new ArrayList<String>();
+        String startTime = activityOfferingWrapper.getNewScheduleRequest().getStartTime();
+        String days = activityOfferingWrapper.getNewScheduleRequest().getDays();
 
         if (!StringUtils.isBlank(startTime) && !StringUtils.isBlank(days)){
             ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
 
-            endTimes = viewHelper.getEndTimes(days,startTime,activityOfferingWrapper.getTerm().getTypeKey());
+            List<String> endTimes = viewHelper.getEndTimes(days,startTime,activityOfferingWrapper.getTerm().getTypeKey());
+            activityOfferingWrapper.getNewScheduleRequest().setEndTimes(endTimes);
         }
 
-        return endTimes;
+        return super.refresh(form,result,request,response);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=editScheduleComponent")
@@ -106,6 +102,13 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         activityOfferingWrapper.setNewScheduleRequest(scheduleWrapper);
         activityOfferingWrapper.getRequestedScheduleComponents().remove(scheduleWrapper);
         activityOfferingWrapper.getEditRenderHelper().setScheduleEditInProgress(true);
+
+        String startTime = activityOfferingWrapper.getNewScheduleRequest().getStartTime();
+        String days = activityOfferingWrapper.getNewScheduleRequest().getDays();
+
+        ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
+        List<String> endTimes = viewHelper.getEndTimes(days,startTime,activityOfferingWrapper.getTerm().getTypeKey());
+        activityOfferingWrapper.getNewScheduleRequest().setEndTimes(endTimes);
 
         return getUIFModelAndView(form);
     }

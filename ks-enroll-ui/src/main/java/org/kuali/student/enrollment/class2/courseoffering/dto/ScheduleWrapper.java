@@ -71,11 +71,13 @@ public class ScheduleWrapper implements Serializable{
 
     private EditRenderHelper editRenderHelper;
     private boolean modified;
+    private List<String> endTimes;
 
     public ScheduleWrapper(){
         features = new ArrayList<String>();
         this.colocatedAOs = new ArrayList<String>();
         this.editRenderHelper = new EditRenderHelper();
+        endTimes = new ArrayList<String>();
     }
 
     public ScheduleWrapper(ScheduleWrapper wrapper){
@@ -185,14 +187,6 @@ public class ScheduleWrapper implements Serializable{
         this.startTime = startTime;
     }
 
-    /*public String getStartTimeAMPM() {
-        return startTimeAMPM;
-    }
-
-    public void setStartTimeAMPM(String startTimeAMPM) {
-        this.startTimeAMPM = startTimeAMPM;
-    }*/
-
     public String getEndTime() {
         return endTime;
     }
@@ -200,14 +194,6 @@ public class ScheduleWrapper implements Serializable{
     public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
-
-    /*public String getEndTimeAMPM() {
-        return endTimeAMPM;
-    }
-
-    public void setEndTimeAMPM(String endTimeAMPM) {
-        this.endTimeAMPM = endTimeAMPM;
-    }*/
 
     public String getBuildingName() {
         if (building != null){
@@ -244,25 +230,9 @@ public class ScheduleWrapper implements Serializable{
         return daysUI;
     }
 
-    /*public String getStartTimeUI() {
-        return startTimeUI;
-    }
-
-    public String getEndTimeUI() {
-        return endTimeUI;
-    }*/
-
     public void setDaysUI(String daysUI) {
         this.daysUI = daysUI;
     }
-
-    /*public void setStartTimeUI(String startTimeUI) {
-        this.startTimeUI = startTimeUI;
-    }
-
-    public void setEndTimeUI(String endTimeUI) {
-        this.endTimeUI = endTimeUI;
-    }*/
 
     public boolean isRequestAlreadySaved() {
         if (scheduleRequestComponentInfo != null){
@@ -410,5 +380,22 @@ public class ScheduleWrapper implements Serializable{
             return StringUtils.removeEnd(sb.toString(),"<br>");
         }
 
+    }
+
+    public List<String> getEndTimes() {
+        return endTimes;
+    }
+
+    public void setEndTimes(List<String> endTimes) {
+        this.endTimes = endTimes;
+    }
+
+    public String[] getEndTimesArray(){
+        if (!endTimes.isEmpty()){
+            String[] array = endTimes.toArray(new String[endTimes.size()]);
+            return array;
+        } else{
+            return new String[0];
+        }
     }
 }

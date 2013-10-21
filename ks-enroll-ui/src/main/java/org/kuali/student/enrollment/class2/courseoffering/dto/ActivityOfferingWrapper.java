@@ -1461,4 +1461,5 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
     public void setAuthorizedToModifyEndTimeTS(boolean authorizedToModifyEndTimeTS) {
     }
 
+
 }

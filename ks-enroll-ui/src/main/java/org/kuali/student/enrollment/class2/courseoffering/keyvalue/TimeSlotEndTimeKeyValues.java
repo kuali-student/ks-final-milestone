@@ -22,7 +22,6 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -42,8 +41,9 @@ public class TimeSlotEndTimeKeyValues  extends UifKeyValuesFinderBase implements
         MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
         ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        for(ColocatedActivity colo : wrapper.getColocatedActivities()){
-            keyValues.add(new ConcreteKeyValue(colo.getEditRenderHelper().getCode(),colo.getEditRenderHelper().getCode()));
+
+        for(String endTime : wrapper.getNewScheduleRequest().getEndTimes()){
+            keyValues.add(new ConcreteKeyValue(endTime,endTime));
         }
 
         return keyValues;
