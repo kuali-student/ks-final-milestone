@@ -32,6 +32,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
+import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
+import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.student.common.UUIDHelper;
 import org.kuali.student.common.util.KSCollectionUtils;
@@ -49,8 +51,8 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.sort.KSComparator;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.KSComparatorChain;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.ActivityOfferingCodeComparator;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.ActivityOfferingTypeComparator;
+import org.kuali.student.enrollment.class2.scheduleofclasses.util.SOCRequisiteWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
-import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesRequisites;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -74,6 +76,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * This class performs queries for scheduling of classes
@@ -348,40 +351,61 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
      * @param courseOfferingId
      * @return Map of course offering requisites
      */
-    public ScheduleOfClassesRequisites retrieveRequisites(String courseOfferingId, List<ActivityOfferingWrapper> activityOfferingWrapperList) {
+    public SOCRequisiteWrapper retrieveRequisites(String courseOfferingId, List<ActivityOfferingWrapper> activityOfferingWrapperList) {
 
-        ScheduleOfClassesRequisites reqBuilder = new ScheduleOfClassesRequisites();
+        SOCRequisiteWrapper reqWrapper = new SOCRequisiteWrapper();
 
-        reqBuilder.setCatalogUsageId(getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_CATALOG, PermissionServiceConstants.KS_SYS_NAMESPACE).getId());
+        String catalogUsageId = getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_CATALOG, PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
 
         //Retrieve reference object bindings for course offering
-        reqBuilder.setCoRefObjectsBindingList(ruleManagementService.findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING, courseOfferingId));
-
-        //Retrieve reference object bindings for activity offering's
-        for(ActivityOfferingWrapper activityOfferingWrapper : activityOfferingWrapperList) {
-            List<ReferenceObjectBinding> aoRefObjectBindingList = ruleManagementService.findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, activityOfferingWrapper.getAoInfo().getId());
-            if(aoRefObjectBindingList != null && !aoRefObjectBindingList.isEmpty()) {
-                reqBuilder.getAoRefObjectsBindingMap().put(activityOfferingWrapper.getActivityCode(), aoRefObjectBindingList);
-            }
-        }
+        List<ReferenceObjectBinding> coRefObjectsBindingList = ruleManagementService.findReferenceObjectBindingsByReferenceObject(
+                CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING, courseOfferingId);
 
         //Retrieve agenda's for course offering
-        for(ReferenceObjectBinding coReferenceObjectBinding : reqBuilder.getCoRefObjectsBindingList()) {
-            String coReq = ruleManagementService.translateNaturalLanguageForObject(reqBuilder.getCatalogUsageId(), "agenda", coReferenceObjectBinding.getKrmsObjectId(), "en");
-            reqBuilder.getCoRequisite().append(coReq);
+        for(ReferenceObjectBinding coReferenceObjectBinding : coRefObjectsBindingList) {
+            AgendaDefinition agendaDefinition = ruleManagementService.getAgenda(coReferenceObjectBinding.getKrmsObjectId());
+            AgendaItemDefinition agendaItem = ruleManagementService.getAgendaItem(agendaDefinition.getFirstItemId());
+            loadNaturalLanguageForRuleTypes(reqWrapper.getCoRequisiteTypeMap(), agendaItem, catalogUsageId, reqWrapper.getRuleTypes());
         }
 
-        //Retrieve agenda's for activity offering
-        for(Map.Entry<String, List<ReferenceObjectBinding>> aoEntry : reqBuilder.getAoRefObjectsBindingMap().entrySet()) {
-            for(ReferenceObjectBinding aoReferenceObjectBinding : aoEntry.getValue()) {
-                String aoReq = ruleManagementService.translateNaturalLanguageForObject(reqBuilder.getCatalogUsageId(), "agenda", aoReferenceObjectBinding.getKrmsObjectId(), "en");
-                reqBuilder.getAoRequisite().append(aoReq);
+        Map<String, List<ReferenceObjectBinding>> aoRefObjectsBindingMap = new HashMap<String, List<ReferenceObjectBinding>>();
+        //Retrieve reference object bindings for activity offering's
+        for(ActivityOfferingWrapper activityOfferingWrapper : activityOfferingWrapperList) {
+            List<ReferenceObjectBinding> aoRefObjectBindingList = ruleManagementService.findReferenceObjectBindingsByReferenceObject(
+                    CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, activityOfferingWrapper.getAoInfo().getId());
+            if(aoRefObjectBindingList != null && !aoRefObjectBindingList.isEmpty()) {
+                aoRefObjectsBindingMap.put(activityOfferingWrapper.getActivityCode(), aoRefObjectBindingList);
             }
-            reqBuilder.getAoRequisiteMap().put(aoEntry.getKey(), reqBuilder.getAoRequisite().toString());
-            reqBuilder.setAoRequisite(new StringBuilder());
         }
 
-        return reqBuilder;
+        StringBuilder aoRequisite = new StringBuilder();
+        //Retrieve agenda's for activity offering
+        for(Map.Entry<String, List<ReferenceObjectBinding>> aoEntry : aoRefObjectsBindingMap.entrySet()) {
+            Map<String, String> typeRequisites = new HashMap<String, String>();
+            for(ReferenceObjectBinding aoReferenceObjectBinding : aoEntry.getValue()) {
+                AgendaDefinition agendaDefinition = ruleManagementService.getAgenda(aoReferenceObjectBinding.getKrmsObjectId());
+                AgendaItemDefinition agendaItemDefinition = ruleManagementService.getAgendaItem(agendaDefinition.getFirstItemId());
+                this.loadNaturalLanguageForRuleTypes(typeRequisites, agendaItemDefinition, catalogUsageId, reqWrapper.getRuleTypes());
+            }
+            reqWrapper.getAoRequisiteTypeMap().put(aoEntry.getKey(), typeRequisites);
+        }
+        reqWrapper.loadRequisites(activityOfferingWrapperList);
+        return reqWrapper;
+    }
+
+    protected void loadNaturalLanguageForRuleTypes(Map<String, String> typeRequisites, AgendaItemDefinition agendaItem, String catalogUsageId, Set<String> ruleTypes) {
+
+        if(agendaItem.getRuleId() != null) {
+            String ruleRequisite = ruleManagementService.translateNaturalLanguageForObject(catalogUsageId, "rule", agendaItem.getRuleId(), "en");
+            typeRequisites.put(agendaItem.getRule().getTypeId(), ruleRequisite);
+            if(!ruleTypes.contains(agendaItem.getRule().getTypeId())) {
+                ruleTypes.add(agendaItem.getRule().getTypeId());
+            }
+        }
+
+        if(agendaItem.getWhenTrue() != null) {
+            this.loadNaturalLanguageForRuleTypes(typeRequisites, agendaItem.getWhenTrue(), catalogUsageId, ruleTypes);
+        }
     }
 
     public String getTermStartEndDate(TermInfo term) {
