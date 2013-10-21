@@ -597,7 +597,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
     protected TemplateRegistry getTemplateRegistry() {
         if (templateRegistry == null) {
-            templateRegistry = (TemplateRegistry) GlobalResourceLoader.getService(QName.valueOf("templateResolverMockService"));
+            templateRegistry = (TemplateRegistry) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/templateResolverService", "templateResolverService"));
         }
         return templateRegistry;
     }
