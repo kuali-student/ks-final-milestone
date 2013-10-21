@@ -36,7 +36,8 @@
     </bean>
 
     <!-- Edit a Course Offering MaintenanceView -->
-    <bean id="KS-CourseOfferingEditWrapper-EditMaintenanceView" parent="KS-CourseOffering-MaintenanceViewWithTermContextBarPlaceholder">
+    <bean id="KS-CourseOfferingEditWrapper-EditMaintenanceView" parent="KS-CourseOffering-MaintenanceViewWithTermContextBarPlaceholder"
+          p:header.additionalCssClasses="ks-unified-header">
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
         </property>
@@ -64,11 +65,7 @@
         </property>
 
         <property name="page.header.lowerGroup.render" value="false"/>
-        <property name="header.cssClasses">
-            <list >
-                <value>ks-unified-header</value>
-            </list>
-        </property>
+
         <property name="additionalCssFiles">
             <list merge="true">
                 <value>themes/ksboot/stylesheets/calendar.css</value>
@@ -316,7 +313,7 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-Label" p:labelText="Suffix" p:renderColon="false" />
-                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.courseNumberSuffix" p:showLabel="false" p:style="margin-top: -5px;" >
+                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.courseNumberSuffix" p:showLabel="false" p:additionalCssClasses="co_suffix" >
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="10" />
                                             </property>
@@ -358,7 +355,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.gradingOptionId" p:id="gradingOptionId" p:label="Grading Options" p:fieldLabel.renderColon="false" p:componentSecurity.editAuthz="true"
-                      p:onChangeScript="jQuery('#dirtyForm').val(true);" p:style="margin-top: -12px;" >
+                      p:onChangeScript="jQuery('#dirtyForm').val(true);" p:additionalCssClasses="co_radio" >
                     <property name="control">
                         <bean parent="Uif-HorizontalRadioControl"/>
                     </property>
@@ -386,16 +383,16 @@
                 <!--</bean>-->
                 <bean parent="Uif-MessageField" p:label="Student Registration Options"
                       p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
-                      p:render="true" p:style="margin-top: -10px;"  />
+                      p:render="true" p:additionalCssClasses="co_check"  />
                 <!-- List of checkboxes seem to break in KRAD 2.2M3 so had to replace with individual checkboxes -->
                 <bean parent="Uif-CheckboxInputField" p:label="Pass/Fail"
                       p:propertyName="passFailStudentRegOpts"
                       p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.passFail')}" p:style="margin-top: -10px;"/>
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.passFail')}" p:additionalCssClasses="co_check"/>
                 <bean parent="Uif-CheckboxInputField" p:label="Audit"
                       p:propertyName="auditStudentRegOpts"
                       p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.audit')}" p:style="margin-top: -10px;"/>
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.audit')}" p:additionalCssClasses="co_check"/>
                 <!-- For read only view show as message fields -->
                 <bean parent="Uif-MessageField"
                       p:messageText="Pass/Fail" p:render="@{!#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.passFailStudentRegOpts}"/>
@@ -403,7 +400,7 @@
                       p:messageText="Audit" p:render="@{!#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.auditStudentRegOpts}"/>
                 <!-- No reg options were available -->
                 <bean parent="Uif-MessageField"
-                      p:messageText="None available" p:render="@{#dp.studentRegOptions.empty}" p:style="margin-top: -10px;"/>
+                      p:messageText="None available" p:render="@{#dp.studentRegOptions.empty}" p:additionalCssClasses="co_check"/>
             </list>
         </property>
     </bean>
@@ -412,7 +409,7 @@
             <list>
                 <!-- Credit Option Type Selector -->
                 <bean parent="Uif-InputField" p:propertyName="creditOption.typeKey" p:label="Credit Type"
-                      p:onChangeScript="jQuery('#dirtyForm').val(true); " p:style="margin-top: -12px;">
+                      p:onChangeScript="jQuery('#dirtyForm').val(true); " p:additionalCssClasses="co_radio">
                     <property name="id" value="KS-CourseOfferingEdit-CreditType_OptionTypeSelector" />
                     <property name="control" >
                         <bean parent="Uif-HorizontalRadioControl" p:disabled="@{#dp.creditOptionFixed}" />
@@ -425,7 +422,7 @@
                 <bean parent="Uif-InputField" p:label="Credits" p:propertyName="creditOption.fixedCredit" p:fieldLabel.renderColon="false"
                       p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.fixed'}"
                       p:exclusiveMin="@{document.oldMaintainableObject.dataObject.creditOption.courseMinCredits}-0.0001"
-                      p:inclusiveMax="@{document.oldMaintainableObject.dataObject.creditOption.courseMaxCredits}" p:style="margin-top: -10px;">
+                      p:inclusiveMax="@{document.oldMaintainableObject.dataObject.creditOption.courseMaxCredits}" p:additionalCssClasses="co_check">
                     <property name="id" value="KS-CourseOfferingEdit-CreditType_OptionTypeFixed" />
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
@@ -645,7 +642,7 @@
             <list>
                 <bean parent="Uif-Message"
                       p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/info.png&quot;] The waitlist settings can be managed on the individual Edit Activity Offering screens."
-                      p:cssClasses="ks-informational-message-for-field"/>
+                      p:additionalCssClasses="ks-informational-message-for-field"/>
             </list>
         </property>
     </bean>
@@ -687,7 +684,7 @@
                     <property name="Items">
                         <list>
                             <bean parent="Uif-InputField" p:id="personnelPriority" p:propertyName="offeringInstructorInfo.personId"
-                                  p:label="ID" p:required="false" p:cssClasses="col_5">
+                                  p:label="ID" p:required="false" p:additionalCssClasses="col_5">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder">
                                         <property name="dataObjectClassName" value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
