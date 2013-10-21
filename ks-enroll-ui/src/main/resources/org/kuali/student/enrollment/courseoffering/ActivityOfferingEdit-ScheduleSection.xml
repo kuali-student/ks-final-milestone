@@ -106,7 +106,7 @@
                       p:label="Approved for non-standard time slots"
                       p:labelPlacement="RIGHT"
                       p:render="@{#dp.canNonStandardTimeslotsBeApproved}"
-                      p:componentSecurity.editAuthz="false" >  <!-- this should be set to true but currently the perms aren't working, don't know why -->
+                      p:componentSecurity.editAuthz="true" >
 
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" />
