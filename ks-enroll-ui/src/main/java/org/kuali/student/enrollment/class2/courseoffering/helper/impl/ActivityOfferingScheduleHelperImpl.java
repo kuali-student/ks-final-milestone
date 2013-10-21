@@ -22,11 +22,13 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.class1.util.WeekDaysDtoAndUIConversions;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.helper.ActivityOfferingScheduleHelper;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -48,6 +50,8 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
@@ -171,12 +175,12 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             scheduleWrapper.setDaysUI(scheduleWrapper.getDays().replace("", " ").trim().toUpperCase());
         }
 
-        if (scheduleWrapper.getStartTime() != null) {
-            scheduleWrapper.setStartTimeUI(scheduleWrapper.getStartTime() + " " + scheduleWrapper.getStartTimeAMPM());
+        /*if (scheduleWrapper.getStartTime() != null) {
+            scheduleWrapper.setStartTimeUI(scheduleWrapper.getStartTime());
         }
         if (scheduleWrapper.getEndTime() != null) {
             scheduleWrapper.setEndTimeUI(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM());
-        }
+        }*/
 
         if (StringUtils.isBlank(scheduleWrapper.getRoomCode())){
             scheduleWrapper.setRoom(null);
@@ -408,7 +412,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                 scheduleRequest.setScheduleRequestSetId(wrapper.getScheduleRequestSetInfo().getId());
 
                 try {
-                    ScheduleRequestComponentInfo componentInfo = buildScheduleComponentRequest(scheduleWrapper,contextInfo);
+                    ScheduleRequestComponentInfo componentInfo = buildScheduleComponentRequest(wrapper,scheduleWrapper,contextInfo);
                     scheduleRequest.getScheduleRequestComponents().add(componentInfo);
 
                     ScheduleRequestInfo newScheduleRequest = getSchedulingService().createScheduleRequest(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST,scheduleRequest,contextInfo);
@@ -420,7 +424,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             } else if (scheduleWrapper.isModified()){
                 try {
                     ScheduleRequestInfo scheduleRequest = scheduleWrapper.getScheduleRequestInfo();
-                    ScheduleRequestComponentInfo componentInfo = buildScheduleComponentRequest(scheduleWrapper,contextInfo);
+                    ScheduleRequestComponentInfo componentInfo = buildScheduleComponentRequest(wrapper,scheduleWrapper,contextInfo);
                     scheduleRequest.getScheduleRequestComponents().clear();
                     scheduleRequest.getScheduleRequestComponents().add(componentInfo);
 
@@ -433,7 +437,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         }
     }
 
-    private ScheduleRequestComponentInfo buildScheduleComponentRequest(ScheduleWrapper scheduleWrapper,ContextInfo defaultContextInfo) throws Exception{
+    private ScheduleRequestComponentInfo buildScheduleComponentRequest(ActivityOfferingWrapper wrapper,ScheduleWrapper scheduleWrapper,ContextInfo defaultContextInfo) throws Exception{
 
         ScheduleRequestComponentInfo componentInfo = new ScheduleRequestComponentInfo();
         componentInfo.setIsTBA(scheduleWrapper.isTba());
@@ -451,34 +455,85 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
         componentInfo.setResourceTypeKeys(scheduleWrapper.getFeatures());
 
-        TimeSlotInfo timeSlot = new TimeSlotInfo();
-        timeSlot.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD);
-        timeSlot.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_ACTIVE);
+        TimeSlotInfo timeSlotInfo = fetchOrCreateTimeSlot(wrapper, scheduleWrapper, defaultContextInfo);
+        componentInfo.getTimeSlotIds().add(timeSlotInfo.getId());
+
+        return componentInfo;
+    }
+
+    public TimeSlotInfo fetchOrCreateTimeSlot(ActivityOfferingWrapper aoWrapper,ScheduleWrapper scheduleWrapper,ContextInfo defaultContextInfo) throws Exception {
+
+        TimeOfDayInfo startTimeOfDayInfo = new TimeOfDayInfo();
+        TimeOfDayInfo endTimeOfDayInfo = new TimeOfDayInfo();
+
         List<Integer> days = WeekDaysDtoAndUIConversions.buildDaysForDTO(scheduleWrapper.getDays());
-        timeSlot.setWeekdays(days);
 
         if (StringUtils.isNotEmpty(scheduleWrapper.getStartTime())) {
-            long time = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(scheduleWrapper.getStartTime() + " " + scheduleWrapper.getStartTimeAMPM()).getTime();
-            TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
-            timeOfDayInfo.setMilliSeconds(time);
-            timeSlot.setStartTime(timeOfDayInfo);
+            long time = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(scheduleWrapper.getStartTime()).getTime();
+            startTimeOfDayInfo.setMilliSeconds(time);
         }
 
         if (StringUtils.isNotEmpty(scheduleWrapper.getEndTime())) {
-            long time = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM()).getTime();
-            TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
-            timeOfDayInfo.setMilliSeconds(time);
-            timeSlot.setEndTime(timeOfDayInfo);
+            long time = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(scheduleWrapper.getEndTime()).getTime();
+            endTimeOfDayInfo.setMilliSeconds(time);
         }
 
-        try {
-            TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD,timeSlot, defaultContextInfo);
-            componentInfo.getTimeSlotIds().add(createdTimeSlot.getId());
-        } catch (Exception e) {
-            throw new Exception("Error creating timeslot: " + timeSlot, e);
+        TimeSlotInfo timeSlot;
+
+        /**
+         * 1. If TBA, loook for tba timeslot and use that
+         * 2. Otherwise, look for standard timeslot and use that. If there is no standard timeslot exists, create
+         * an adhoc one if permission exists for the user.
+         */
+
+        if (scheduleWrapper.isTba()){
+            List<TimeSlotInfo> existingTimeSlots = getSchedulingService().getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA,days,startTimeOfDayInfo,endTimeOfDayInfo,defaultContextInfo);
+            if (existingTimeSlots.isEmpty()){
+                timeSlot = new TimeSlotInfo();
+                timeSlot.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA);
+                timeSlot.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_ACTIVE);
+                timeSlot.setStartTime(startTimeOfDayInfo);
+                timeSlot.setEndTime(endTimeOfDayInfo);
+                timeSlot.setWeekdays(days);
+                timeSlot = getSchedulingService().createTimeSlot(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA,timeSlot,defaultContextInfo);
+            } else {
+                timeSlot = KSCollectionUtils.getRequiredZeroElement(existingTimeSlots);
+            }
+        } else {
+            /*
+            Look for standard timeslot.
+             */
+            List<TypeTypeRelationInfo> typeTypeRelationInfos = CourseOfferingManagementUtil.getTypeService().getTypeTypeRelationsByOwnerAndType(aoWrapper.getTerm().getTypeKey(), TypeServiceConstants.TYPE_TYPE_RELATION_ATP2TIMESLOT_TYPE_KEY,defaultContextInfo);
+            //Each term type associated with only one standard timeslot type
+            TypeTypeRelationInfo typeTypeRelationInfo = KSCollectionUtils.getRequiredZeroElement(typeTypeRelationInfos);
+
+            List<TimeSlotInfo> existingTimeSlots = getSchedulingService().getTimeSlotsByDaysAndStartTimeAndEndTime(typeTypeRelationInfo.getRelatedTypeKey(),days,startTimeOfDayInfo,endTimeOfDayInfo,defaultContextInfo);
+
+            //If standard TS exists, use that. Otherwise, check for Adhoc and create one
+            if (!existingTimeSlots.isEmpty()){
+                 timeSlot = KSCollectionUtils.getRequiredZeroElement(existingTimeSlots);
+            } else {
+                existingTimeSlots = getSchedulingService().getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_ADHOC,days,startTimeOfDayInfo,endTimeOfDayInfo,defaultContextInfo);
+                //If AdHoc TS exists, use that. Otherwise, check create one if the user has permission
+                if (!existingTimeSlots.isEmpty()){
+                     timeSlot = KSCollectionUtils.getRequiredZeroElement(existingTimeSlots);
+                } else {
+                    if (aoWrapper.isAuthorizedToModifyEndTimeTS()){
+                        timeSlot = new TimeSlotInfo();
+                        timeSlot.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_ADHOC);
+                        timeSlot.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_ACTIVE);
+                        timeSlot.setStartTime(startTimeOfDayInfo);
+                        timeSlot.setEndTime(endTimeOfDayInfo);
+                        timeSlot.setWeekdays(days);
+                        timeSlot = getSchedulingService().createTimeSlot(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA,timeSlot,defaultContextInfo);
+                    } else {
+                        throw new PermissionDeniedException("Sorry, you dont have permission to create a adhoc timeslot");
+                    }
+                }
+            }
         }
 
-        return componentInfo;
+        return timeSlot;
     }
 
     /**
@@ -533,20 +588,20 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                     timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds());
                     String formattedTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay);
                     //Set for read only display purpose in the format hh:mm a
-                    scheduleWrapper.setStartTimeUI(formattedTime);
+//                    scheduleWrapper.setStartTimeUI(formattedTime);
                     //Set only hh:mm for user editable purpose
-                    scheduleWrapper.setStartTime(StringUtils.substringBefore(formattedTime," "));
-                    scheduleWrapper.setStartTimeAMPM(StringUtils.substringAfter(formattedTime," "));
+                    scheduleWrapper.setStartTime(formattedTime);
+//                    scheduleWrapper.setStartTimeAMPM(StringUtils.substringAfter(formattedTime," "));
                 }
 
                 if(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds() != null) {
                     timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds());
                     String formattedTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay);
                     //Set for read only display purpose in the format hh:mm a
-                    scheduleWrapper.setEndTimeUI(formattedTime);
+//                    scheduleWrapper.setEndTimeUI(formattedTime);
                     //Set only hh:mm for user editable purpose
-                    scheduleWrapper.setEndTime(StringUtils.substringBefore(formattedTime," "));
-                    scheduleWrapper.setEndTimeAMPM(StringUtils.substringAfter(formattedTime," "));
+                    scheduleWrapper.setEndTime(formattedTime);
+//                    scheduleWrapper.setEndTimeAMPM(StringUtils.substringAfter(formattedTime," "));
                 }
 
                 String daysUI = WeekDaysDtoAndUIConversions.buildDaysForUI(scheduleWrapper.getTimeSlot().getWeekdays());
@@ -617,12 +672,12 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                             Date timeForDisplay;
                             if (scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds() != null){
                                 timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds());
-                                scheduleWrapper.setStartTimeUI(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
+                                scheduleWrapper.setStartTime(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
                             }
 
                             if (scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds() != null){
                                 timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds());
-                                scheduleWrapper.setEndTimeUI(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
+                                scheduleWrapper.setEndTime(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
                             }
 
                             scheduleWrapper.setDaysUI(WeekDaysDtoAndUIConversions.buildDaysForUI(scheduleWrapper.getTimeSlot().getWeekdays()));
@@ -796,5 +851,25 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
         List<BuildingInfo> b = getRoomService().searchForBuildings(criteria, createContextInfo());
         return b;
+    }
+
+    public List<String> getEndTimes(String days,String startTime,String termTypeKey) throws Exception{
+
+        List<TypeTypeRelationInfo> typeTypeRelationInfos = CourseOfferingManagementUtil.getTypeService().getTypeTypeRelationsByOwnerAndType(termTypeKey, "kuali.type.type.relation.type.allowed.atp2timeslot", createContextInfo());
+        TypeTypeRelationInfo typeTypeRelationInfo = KSCollectionUtils.getRequiredZeroElement(typeTypeRelationInfos);
+
+        List<Integer> daysArray = WeekDaysDtoAndUIConversions.buildDaysForDTO(days);
+        TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
+        long time = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(startTime).getTime();
+        timeOfDayInfo.setMilliSeconds(time);
+        List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByDaysAndStartTime(typeTypeRelationInfo.getRelatedTypeKey(),daysArray,timeOfDayInfo,createContextInfo());
+        List<String> endTime = new ArrayList<String>();
+        for (TimeSlotInfo ts : timeSlotInfos){
+            if (ts.getStartTime().getMilliSeconds() != null) {
+                Date date = new Date(ts.getEndTime().getMilliSeconds());
+                endTime.add(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(date));
+            }
+        }
+        return endTime;
     }
 }

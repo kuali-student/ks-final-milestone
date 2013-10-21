@@ -19,6 +19,8 @@ package org.kuali.student.enrollment.class2.courseoffering.helper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
+import java.util.List;
+
 /**
  * This class defines methods to load and save schedules in Activity Offering schedule logic
  *
@@ -29,5 +31,7 @@ public interface ActivityOfferingScheduleHelper {
     public void loadSchedules(ActivityOfferingWrapper wrapper,ContextInfo defaultContextInfo);
 
     public void saveSchedules(ActivityOfferingWrapper wrapper,ContextInfo defaultContextInfo);
+
+    public List<String> getEndTimes(String days,String startTime,String termTypeKey) throws Exception;
 
 }

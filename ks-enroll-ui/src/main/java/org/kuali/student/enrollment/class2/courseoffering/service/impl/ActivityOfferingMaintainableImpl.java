@@ -275,6 +275,10 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         return getScheduleHelper().addScheduleRequestComponent(activityOfferingWrapper);
     }
 
+    public List<String> getEndTimes(String days,String startTime,String termTypeKey) throws Exception{
+        return getScheduleHelper().getEndTimes(days,startTime,termTypeKey);
+    }
+
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
         try {

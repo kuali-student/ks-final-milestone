@@ -49,9 +49,9 @@ public class ScheduleWrapper implements Serializable{
     //Properties
     private String days;
     private String startTime;
-    private String startTimeAMPM;
+//    private String startTimeAMPM;
     private String endTime;
-    private String endTimeAMPM;
+//    private String endTimeAMPM;
 
     private boolean tba;
 
@@ -64,8 +64,8 @@ public class ScheduleWrapper implements Serializable{
 
     //For informational display only
     private String daysUI;
-    private String startTimeUI;
-    private String endTimeUI;
+//    private String startTimeUI;
+//    private String endTimeUI;
 
     private List<String> colocatedAOs;
 
@@ -83,9 +83,9 @@ public class ScheduleWrapper implements Serializable{
         this.scheduleRequestComponentInfo = wrapper.getScheduleRequestComponentInfo();
         this.days = wrapper.getDays();
         this.startTime = wrapper.getStartTime();
-        this.startTimeAMPM = wrapper.getStartTimeAMPM();
+//        this.startTimeAMPM = wrapper.getStartTimeAMPM();
         this.endTime = wrapper.getEndTime();
-        this.endTimeAMPM = wrapper.getEndTimeAMPM();
+//        this.endTimeAMPM = wrapper.getEndTimeAMPM();
         this.tba = wrapper.isTba();
         this.buildingCode = wrapper.getBuildingCode();
         this.buildingId = wrapper.getBuildingId();
@@ -93,8 +93,8 @@ public class ScheduleWrapper implements Serializable{
         this.roomCapacity = wrapper.getRoomCapacity();
         this.features = wrapper.getFeatures();
         this.daysUI = wrapper.getDaysUI();
-        this.startTimeUI = wrapper.getStartTimeUI();
-        this.endTimeUI = wrapper.getEndTimeUI();
+//        this.startTimeUI = wrapper.getStartTimeUI();
+//        this.endTimeUI = wrapper.getEndTimeUI();
         this.room = wrapper.getRoom();
         this.building = wrapper.getBuilding();
         this.colocatedAOs = new ArrayList<String>();
@@ -107,9 +107,9 @@ public class ScheduleWrapper implements Serializable{
         this.days = wrapper.getDays();
         this.tba = wrapper.isTba();
         this.startTime = wrapper.getStartTime();
-        this.startTimeAMPM = wrapper.getStartTimeAMPM();
+//        this.startTimeAMPM = wrapper.getStartTimeAMPM();
         this.endTime = wrapper.getEndTime();
-        this.endTimeAMPM = wrapper.getEndTimeAMPM();
+//        this.endTimeAMPM = wrapper.getEndTimeAMPM();
         this.buildingId = wrapper.getBuildingId();
         this.buildingCode = wrapper.getBuildingCode();
         this.roomCode = wrapper.getRoomCode();
@@ -185,13 +185,13 @@ public class ScheduleWrapper implements Serializable{
         this.startTime = startTime;
     }
 
-    public String getStartTimeAMPM() {
+    /*public String getStartTimeAMPM() {
         return startTimeAMPM;
     }
 
     public void setStartTimeAMPM(String startTimeAMPM) {
         this.startTimeAMPM = startTimeAMPM;
-    }
+    }*/
 
     public String getEndTime() {
         return endTime;
@@ -201,13 +201,13 @@ public class ScheduleWrapper implements Serializable{
         this.endTime = endTime;
     }
 
-    public String getEndTimeAMPM() {
+    /*public String getEndTimeAMPM() {
         return endTimeAMPM;
     }
 
     public void setEndTimeAMPM(String endTimeAMPM) {
         this.endTimeAMPM = endTimeAMPM;
-    }
+    }*/
 
     public String getBuildingName() {
         if (building != null){
@@ -244,25 +244,25 @@ public class ScheduleWrapper implements Serializable{
         return daysUI;
     }
 
-    public String getStartTimeUI() {
+    /*public String getStartTimeUI() {
         return startTimeUI;
     }
 
     public String getEndTimeUI() {
         return endTimeUI;
-    }
+    }*/
 
     public void setDaysUI(String daysUI) {
         this.daysUI = daysUI;
     }
 
-    public void setStartTimeUI(String startTimeUI) {
+    /*public void setStartTimeUI(String startTimeUI) {
         this.startTimeUI = startTimeUI;
     }
 
     public void setEndTimeUI(String endTimeUI) {
         this.endTimeUI = endTimeUI;
-    }
+    }*/
 
     public boolean isRequestAlreadySaved() {
         if (scheduleRequestComponentInfo != null){

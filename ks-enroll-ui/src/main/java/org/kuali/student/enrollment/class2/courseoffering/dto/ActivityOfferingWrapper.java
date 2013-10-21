@@ -4,6 +4,8 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.ComparatorModel;
@@ -12,6 +14,7 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -166,6 +169,8 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
     private boolean limitWaitlistSize;
 
     private String requisite;
+
+    private boolean authorizedToModifyEndTimeTS;
 
     /**
      * Valid modes for creating non-standard timeslots
@@ -1422,4 +1427,38 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
             waitListTypeUI = "Manual";
         }
     }
+
+    public boolean isAuthorizedToModifyEndTimeTS() {
+        Person user = GlobalVariables.getUserSession().getPerson();
+        /**
+         * This is just for ui testing.. we need to check the user role...
+         */
+        if (StringUtils.equals(user.getPrincipalId(),"martha") || StringUtils.equals(user.getPrincipalId(),"admin")){
+            return true;
+        } else {
+            if (getNonStandardTimeslotCreationMode() == ActivityOfferingWrapper.NonStandardTimeslotCreationMode.ALLOWED){
+                return true;
+            } else if (getNonStandardTimeslotCreationMode() == ActivityOfferingWrapper.NonStandardTimeslotCreationMode.NOT_ALLOWED){
+                return false;
+            } else if (getNonStandardTimeslotCreationMode() == ActivityOfferingWrapper.NonStandardTimeslotCreationMode.NEEDS_APPROVAL){
+                return isAdHocFlagSet();
+            }
+        }
+
+        return false;
+
+    }
+
+    private boolean isAdHocFlagSet(){
+       for (AttributeInfo attr : aoInfo.getAttributes()){
+           if (StringUtils.equals(attr.getKey(),"kuali.attribute.nonstd.ts.indicator")){
+               return BooleanUtils.toBoolean(attr.getValue());
+           }
+       }
+       return false;
+    }
+
+    public void setAuthorizedToModifyEndTimeTS(boolean authorizedToModifyEndTimeTS) {
+    }
+
 }

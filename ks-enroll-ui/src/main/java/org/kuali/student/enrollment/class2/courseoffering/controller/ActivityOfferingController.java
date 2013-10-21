@@ -1,13 +1,5 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Properties;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.namespace.QName;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
@@ -37,7 +29,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Properties;
 
 @Controller
 @RequestMapping(value = "/activityOffering")
@@ -73,6 +74,29 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
+    @RequestMapping(method = RequestMethod.GET, params = "methodToCall=loadTSEndTimes")
+    @ResponseBody
+    public List<String> loadTSEndTimes(@ModelAttribute("KualiForm") MaintenanceDocumentForm form,
+                                                           HttpServletRequest request) throws Exception {
+
+        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+
+
+
+        String startTime = request.getParameter("startTime");
+        String days = request.getParameter("days");
+
+        List<String> endTimes = new ArrayList<String>();
+
+        if (!StringUtils.isBlank(startTime) && !StringUtils.isBlank(days)){
+            ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
+
+            endTimes = viewHelper.getEndTimes(days,startTime,activityOfferingWrapper.getTerm().getTypeKey());
+        }
+
+        return endTimes;
+    }
+
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=editScheduleComponent")
     public ModelAndView editScheduleComponent(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
@@ -92,7 +116,17 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
         ScheduleWrapper scheduleWrapper = activityOfferingWrapper.getNewScheduleRequest();
-        if (!scheduleWrapper.isTba() && validateTime(scheduleWrapper.getStartTime(), scheduleWrapper.getStartTimeAMPM(), scheduleWrapper.getEndTime(), scheduleWrapper.getEndTimeAMPM())) {
+        String startTime = StringUtils.substringBefore(scheduleWrapper.getStartTime()," ");
+        String startTimeAmPm = StringUtils.substringAfter(scheduleWrapper.getStartTime()," ");
+        String endTime = "";
+        String endTimeAmPm = "";
+
+        if (StringUtils.isNotBlank(scheduleWrapper.getEndTime())){
+            endTime = StringUtils.substringBefore(scheduleWrapper.getEndTime()," ");
+            endTimeAmPm = StringUtils.substringAfter(scheduleWrapper.getEndTime()," ");
+        }
+
+        if (!scheduleWrapper.isTba() && validateTime(startTime, startTimeAmPm, endTime, endTimeAmPm)) {
             GlobalVariables.getMessageMap().putError("requestedDeliveryLogistic", ActivityOfferingConstants.MSG_ERROR_INVALID_START_TIME);
             return getUIFModelAndView(form);
         }
