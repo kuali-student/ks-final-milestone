@@ -901,7 +901,6 @@ public class KSRuleManagementServiceImpl extends RuleRepositoryServiceImpl imple
 
     @Override
     public List<ActionDefinition> getActions(List<String> actionIds) {
-        // TODO: implement this more efficiently by adding the bulk op to the bo service and calling it
         List<ActionDefinition> list = new ArrayList<ActionDefinition>();
 
         for (String id : actionIds) {

@@ -57,8 +57,6 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.in;
  */
 public final class KSAgendaBoServiceImpl implements AgendaBoService {
 
-    // TODO: deal with active flag
-
     private BusinessObjectService businessObjectService;
     private CriteriaLookupService criteriaLookupService;
     private KrmsAttributeDefinitionService attributeDefinitionService;

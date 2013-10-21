@@ -79,7 +79,6 @@ public class KSTranslationUtility implements TranslateBusinessMethods {
     public String translateNaturalLanguageForObject(String naturalLanguageUsageId, String typeId, String krmsObjectId, String languageCode)
             throws RiceIllegalArgumentException {
 
-        // TODO: find out what RICE intended for this typeId? Was it supposed to be the Simple Class name?
         if (typeId.equals("agenda")) {
             AgendaDefinition agenda = this.ruleManagementService.getAgenda(krmsObjectId);
             if (agenda == null) {

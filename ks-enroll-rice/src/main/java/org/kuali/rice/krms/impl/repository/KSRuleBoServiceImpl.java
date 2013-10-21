@@ -221,7 +221,6 @@ public final class KSRuleBoServiceImpl implements RuleBoService {
         ruleBo.setId(rule.getId());
         ruleBo.setActive(rule.isActive());
         ruleBo.setVersionNumber(rule.getVersionNumber());
-        // TODO collections, etc.
 //        Set<RuleAttributeBo> attributes = buildAttributeBo(rule);
         ruleBo.setActions(buildActionBoList(rule));
         ruleBo.setAttributeBos(buildAttributeBoList(rule));
