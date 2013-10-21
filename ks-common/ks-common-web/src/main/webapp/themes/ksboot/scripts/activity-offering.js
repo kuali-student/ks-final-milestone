@@ -678,15 +678,14 @@ function handleAONavigation(component, aoId){
 
 function tbaOnClick(){
     retrieveComponent('rdl_endtime');
-
 }
 
 function endTimeOnBlur(){
-    var endTime = jQuery("#rdl_endtime_text_control").val();
+    var endTime = jQuery("#rdl_endtime_control").val();
     if (endTime == ''){
         return;
     }
-    parseAndReplaceTimeClause(jQuery("#rdl_endtime_text_control"), jQuery("#rdl_days_control"));
+    parseAndReplaceTimeClause(jQuery("#rdl_endtime_control"), jQuery("#rdl_days_control"));
 }
 
 function startTimeOnBlur(){
