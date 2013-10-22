@@ -835,6 +835,7 @@
 	        	<value>ks-Popover-body</value>
         	</list>
         </property>
+        <property name="stickyFooter" value="false"/>
         <property name="footer">
             <bean parent="KSAP-VerticalBoxGroup-NoMargin" />
         </property>
