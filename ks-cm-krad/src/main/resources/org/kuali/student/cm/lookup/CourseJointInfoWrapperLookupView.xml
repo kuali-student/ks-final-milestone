@@ -34,9 +34,6 @@
 			value="org.kuali.student.cm.course.service.impl.CourseJointInfoLookupableImpl" />
 		<property name="criteriaFields">
 			<list>
-				<bean id="CriteriaFieldSection" parent="Uif-VerticalBoxSection">
-					<property name="items">
-						<list>
 							<bean parent="Uif-LookupCriteriaInputField" p:label="Search By" p:propertyName="searchBy">
 								<property name="control">
 									<bean parent="Uif-DropdownControl" />
@@ -45,13 +42,20 @@
                        	 			<bean class="org.kuali.student.lum.lu.ui.course.keyvalues.CourseJointKeyValuesFinder" p:addBlankOption="false"/>
                    				</property>
 							</bean>
+                            <!--
 							<bean parent="Uif-Message" p:messageText="Enter one or more fields" />
+                            -->
 							<bean parent="Uif-LookupCriteriaInputField" p:propertyName="courseTitle" p:label="Given Name" />
 							<bean parent="Uif-LookupCriteriaInputField" p:propertyName="courseCode" p:label="Course Code" />
 							<bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr.plain" p:label="Plain Text Description" />
+<!--
+				<bean id="CriteriaFieldSection" parent="Uif-VerticalBoxSection">
+					<property name="items">
+						<list>
 						</list>
 					</property>
 				</bean>
+-->
 			</list>
 		</property>
 		<property name="resultFields">
