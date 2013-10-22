@@ -488,10 +488,15 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             Look for standard timeslot.
              */
             List<TypeTypeRelationInfo> typeTypeRelationInfos = CourseOfferingManagementUtil.getTypeService().getTypeTypeRelationsByOwnerAndType(aoWrapper.getTerm().getTypeKey(), TypeServiceConstants.TYPE_TYPE_RELATION_ATP2TIMESLOT_TYPE_KEY,defaultContextInfo);
-            //Each term type associated with only one standard timeslot type
-            TypeTypeRelationInfo typeTypeRelationInfo = KSCollectionUtils.getRequiredZeroElement(typeTypeRelationInfos);
 
-            List<TimeSlotInfo> existingTimeSlots = getSchedulingService().getTimeSlotsByDaysAndStartTimeAndEndTime(typeTypeRelationInfo.getRelatedTypeKey(),days,startTimeOfDayInfo,endTimeOfDayInfo,defaultContextInfo);
+            List<TimeSlotInfo> existingTimeSlots = new ArrayList<TimeSlotInfo>();
+
+            // Type Type may not be available for terms which uses adhoc timeslots
+            if (!typeTypeRelationInfos.isEmpty()){
+                //Each term type associated with only one standard timeslot type
+                TypeTypeRelationInfo typeTypeRelationInfo = KSCollectionUtils.getRequiredZeroElement(typeTypeRelationInfos);
+                existingTimeSlots = getSchedulingService().getTimeSlotsByDaysAndStartTimeAndEndTime(typeTypeRelationInfo.getRelatedTypeKey(),days,startTimeOfDayInfo,endTimeOfDayInfo,defaultContextInfo);
+            }
 
             //If standard TS exists, use that. Otherwise, check for Adhoc and create one
             if (!existingTimeSlots.isEmpty()){
