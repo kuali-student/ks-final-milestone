@@ -337,26 +337,10 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         //  Handle deleted schedule requests.
         deleteScheduleRequestComponents(wrapper.getDeletedScheduleComponents(), contextInfo);
 
-        /**
-         * If the AO has no ScheduleRequests then delete the Schedule Request Set.
-         * (This still misses when the AO is part of a colo set (with multiple AOs) on load) but user
-         * deleted all the RDLs and unchecked the colo checkbox. In this case, we should not be deleting the set,
-         * just remove the AO from the SRS and save.)
-         */
-        ScheduleRequestSetInfo scheduleRequestSetInfo = wrapper.getScheduleRequestSetInfo();
-
-        if (wrapper.getRequestedScheduleComponents().isEmpty() && !wrapper.isRemovedFromColoSet()) {
-            if (scheduleRequestSetInfo != null && StringUtils.isNotBlank(scheduleRequestSetInfo.getId())){
-                deleteScheduleRequestSetInfo(scheduleRequestSetInfo.getId(), contextInfo);
-            }
-        }
-
         String aoId = wrapper.getId();
         ActivityOfferingInfo aoInfo =  wrapper.getAoInfo();
 
-        if (wrapper.getScheduleRequestSetInfo() == null){
-            scheduleRequestSetInfo = makeScheduleRequestSetInfo(aoId, aoInfo.getCourseOfferingCode(), aoInfo.getActivityCode());
-        }
+        ScheduleRequestSetInfo scheduleRequestSetInfo = wrapper.getScheduleRequestSetInfo();
 
         //  If this is a new ScheduleRequestSet then set the ref object Id to this AO and create it.
         if (StringUtils.isBlank(scheduleRequestSetInfo.getId())){

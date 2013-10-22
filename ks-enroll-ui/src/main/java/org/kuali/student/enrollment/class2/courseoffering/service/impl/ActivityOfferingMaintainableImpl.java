@@ -152,6 +152,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     activityOfferingWrapper.setCourseWaitListInfo(courseWaitListInfo);
                 } else {
                     HashMap<String, String> aoIdfoIdMap = new HashMap<String, String>();
+                    //  Clean up the delivery logistics newly colocated AOs
                     for (ColocatedActivity activity : activityOfferingWrapper.getColocatedActivities()){
                         //If an activity is newly added in this session for colo, delete it's RDLs and ADLs if exists
                         activity.getActivityOfferingInfo().setIsColocated(activityOfferingWrapper.isColocatedAO());
@@ -557,20 +558,31 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
         ActivityOfferingInfo info = wrapper.getAoInfo();
         wrapper.setColocatedOnLoadAlready(info.getIsColocated());
+
         int firstRequestSet = 0;
+
+        //  Look for a SchedulingRequestSet. This needs to be loaded even if the AO isn't currently colocated.
+        ScheduleRequestSetInfo scheduleRequestSetInfo = null;
+        List<ScheduleRequestSetInfo> scheduleRequestSets = CourseOfferingManagementUtil.getSchedulingService().getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, info.getId(), createContextInfo());
+        if (scheduleRequestSets != null && !scheduleRequestSets.isEmpty()) {
+            //  Remove this when partial colocation is implemented.
+            if (scheduleRequestSets.size() > 1) {
+                throw new RuntimeException(String.format("Activity %s:%s [%s] has multiple ScheduleRequestSets. This shouldn't happen.",
+                        wrapper.getCourseOfferingCode(), wrapper.getActivityCode(), wrapper.getId()));
+            } else {
+                scheduleRequestSetInfo = scheduleRequestSets.get(firstRequestSet);
+                wrapper.setScheduleRequestSetInfo(scheduleRequestSetInfo);
+            }
+        }
+
         if (info.getIsColocated()){
 
             wrapper.setColocatedAO(true);
             wrapper.setPartOfColoSetOnLoadAlready(true);
 
-            List<ScheduleRequestSetInfo> scheduleRequestSets = CourseOfferingManagementUtil.getSchedulingService().getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, info.getId(), createContextInfo());
-            if(scheduleRequestSets != null && !scheduleRequestSets.isEmpty()){
-                ScheduleRequestSetInfo scheduleRequestSetInfo = scheduleRequestSets.get(firstRequestSet);
-
-                //Each AO has only one ScheduleRequestSet for M7-SP2(support full co-location only)
-                wrapper.setScheduleRequestSetInfo(scheduleRequestSetInfo);
+            if (scheduleRequestSetInfo != null) {
                 wrapper.setMaxEnrollmentShared(scheduleRequestSetInfo.getIsMaxEnrollmentShared());
-                if(scheduleRequestSetInfo.getIsMaxEnrollmentShared()) {
+                if (scheduleRequestSetInfo.getIsMaxEnrollmentShared()) {
                     wrapper.setSharedMaxEnrollment(scheduleRequestSetInfo.getMaximumEnrollment());
                 }
 
