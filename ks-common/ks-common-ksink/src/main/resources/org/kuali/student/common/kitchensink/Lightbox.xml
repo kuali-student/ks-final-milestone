@@ -61,25 +61,17 @@
     </bean>
 
 
-    <bean id="KS-KitchenSink-Lightbox-DialogButtonConfirm" parent="Uif-VerticalBoxSection">
+    <bean id="KS-KitchenSink-Lightbox-DialogButtonConfirm"
+          parent="Uif-VerticalBoxSection"
+          p:additionalCssClasses="ks-uif-lightbox-form">
         <property name="hidden" value="true"/>
         <property name="header.render" value="false"/>
         <property name="style" value="width:300px;"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-uif-lightbox-form</value>
-            </list>
-        </property>
         <property name="items">
             <list>
                 <!-- header - horizontal box subsection? -->
-                <bean parent="Uif-HorizontalBoxGroup">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>clearfix</value>
-                            <value>ks-uif-lightbox-form-header</value>
-                        </list>
-                    </property>
+                <bean parent="Uif-HorizontalBoxGroup"
+                      p:additionalCssClasses="ks-uif-lightbox-form-header,clearfix">
                     <property name="items">
                         <list>
                             <bean parent="Uif-HeaderThree" p:headerText="Header"/>
@@ -87,12 +79,8 @@
                     </property>
                 </bean>
                 <!-- middle scrollpane -->
-                <bean parent="Uif-VerticalBoxGroup">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ks-uif-lightbox-form-content</value>
-                        </list>
-                    </property>
+                <bean parent="Uif-VerticalBoxGroup"
+                      p:additionalCssClasses="ks-uif-lightbox-form-content">
                     <property name="scrollpane">
                         <bean parent="Uif-Scrollpane">
                             <property name="height" value="150px"/>
@@ -108,13 +96,8 @@
                     </property>
                 </bean>
                 <!-- footer - horizontal box subsection? -->
-                <bean parent="Uif-HorizontalBoxGroup">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>clearfix</value>
-                            <value>ks-uif-lightbox-form-footer</value>
-                        </list>
-                    </property>
+                <bean parent="Uif-HorizontalBoxGroup"
+                      p:additionalCssClasses="ks-uif-lightbox-form-footer,clearfix">
                     <property name="items">
                         <list>
                             <bean parent="Uif-PrimaryActionButton-Small">

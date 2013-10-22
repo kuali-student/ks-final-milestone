@@ -171,13 +171,10 @@
 
     <!-- Example #1 containers -->
 
-    <bean id="KS-KitchenSink-LookupOverview-View-Bare" parent="KS-KitchenSink-LookupOverview-View-Base">
+    <bean id="KS-KitchenSink-LookupOverview-View-Bare"
+          parent="KS-KitchenSink-LookupOverview-View-Base"
+          p:additionalCssClasses="uif-ks-kitchensink-marginTop">
         <property name="breadcrumbs.render" value="false"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>uif-ks-kitchensink-marginTop</value>
-            </list>
-        </property>
         <property name="additionalScriptFiles">
             <list merge="true">
                 <value>ks-common-ksink/scripts/crossdomain.js</value>
