@@ -5957,6 +5957,12 @@
         <column name="WEEKDAYS" type="STRING">
             <size value="255"/>
         </column>
+        <uniqueConstraint name="TMSLOTS_UNIQUE">
+            <column>END_TIME_MS</column>
+            <column>START_TIME_MS</column>
+            <column>TM_SLOT_TYPE</column>
+            <column>WEEKDAYS</column>
+        </uniqueConstraint>
     </table>
     <table name="KSEN_SCHED_TMSLOT_ATTR">
         <column name="ATTR_KEY" type="STRING">
