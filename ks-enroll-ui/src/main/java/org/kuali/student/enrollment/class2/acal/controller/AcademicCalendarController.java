@@ -1414,24 +1414,6 @@ public class AcademicCalendarController extends UifControllerBase {
                 ExamPeriodInfo updatedExamPeriodInfo = getAcalService().updateExamPeriod(examPeriodInfo.getId(), examPeriodInfo, helperService.createContextInfo());
                 examPeriodWrapper.setExamPeriodInfo(updatedExamPeriodInfo);
             }
-
-            //get all the holidays for the academic calendar
-            List<HolidayInfo> holidayInfos = new ArrayList<HolidayInfo>();
-            for (HolidayCalendarWrapper holidayCalendarWrapper : form.getHolidayCalendarList()) {
-                for (HolidayWrapper holidayWrapper : holidayCalendarWrapper.getHolidays()) {
-                    holidayInfos.add(holidayWrapper.getHolidayInfo());
-                }
-            }
-            //calculate the valid days of exam period, if
-            String finalExamSectionName="acal-term-examdates_line"+termIndex;
-            SelectControl select = (SelectControl) ComponentFactory.getNewComponentInstance("KSFE-FinalExam-ExamDaysDropdown");
-            int maxday = 0;
-            for(KeyValue value : select.getOptions()){
-                maxday = Math.max(Integer.valueOf(value.getKey()), maxday);
-            }
-            if (getAcademicCalendarServiceFacade().getDaysForExamPeriod(examPeriodWrapper.getExamPeriodInfo().getId(), holidayInfos, helperService.createContextInfo()) < maxday) {
-                GlobalVariables.getMessageMap().putWarningForSectionId(finalExamSectionName, CalendarConstants.MessageKeys.ERROR_EXAM_PERIOD_DAYS_VALIDATION);
-            }
         } catch (OperationFailedException oe){
             LOG.error("Save exam period has failed",oe);
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_TERM_EXAMPERIOD_FAILED,examPeriodWrapper.getExamPeriodNameUI(),term.getName() +". FEP is not allowed for the selected term.");

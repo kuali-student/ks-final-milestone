@@ -20,6 +20,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
+import org.joda.time.DateMidnight;
+import org.joda.time.DateTimeConstants;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -29,6 +31,7 @@ import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.control.SelectControl;
 import org.kuali.rice.krad.uif.field.InputField;
+import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -709,9 +712,25 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         // will be pointint at the wrong term.
         sortTermWrappers(acalForm.getTermWrapperList());
 
+        //get all the holidays for the academic calendar
+        List<HolidayInfo> holidayInfos = new ArrayList<HolidayInfo>();
+        for (HolidayCalendarWrapper holidayCalendarWrapper : acalForm.getHolidayCalendarList()) {
+            for (HolidayWrapper holidayWrapper : holidayCalendarWrapper.getHolidays()) {
+                holidayInfos.add(holidayWrapper.getHolidayInfo());
+            }
+        }
+
         //Validate Terms keydates and exam period
         for (int index=0; index < acalForm.getTermWrapperList().size(); index++) {
             validateTerm(acalForm.getTermWrapperList(),index,acal);
+
+            //in order not to modify the existing method signatures, place the exam period days validation here
+            AcademicTermWrapper termWrapperToValidate = acalForm.getTermWrapperList().get(index);
+            try {
+                validateExamPeriodDays(termWrapperToValidate, holidayInfos, index);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
 
     }
@@ -1374,5 +1393,119 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 }
             }
         }
+    }
+
+    /**
+     * Validates the exam period days given the term that it is associated with
+     *
+     * @param termWrapperToValidate term wrapper that the exam period to be validated is associated with
+     * @param holidayInfos list of holidayinfos of the academic calendar
+     * @param termIndex index of the term to be validated
+     */
+    private void validateExamPeriodDays(AcademicTermWrapper termWrapperToValidate, List<HolidayInfo> holidayInfos, int termIndex) throws Exception {
+        //trap null parameters
+        if (termWrapperToValidate == null) {
+            throw new Exception("term wrapper is null");
+        }
+
+        String finalExamSectionName="acal-term-examdates_line"+termIndex;
+        SelectControl select = (SelectControl) ComponentFactory.getNewComponentInstance("KSFE-FinalExam-ExamDaysDropdown");
+        int maxday = 0;
+        for(KeyValue value : select.getOptions()){
+            maxday = Math.max(Integer.valueOf(value.getKey()), maxday);
+        }
+
+        if (termWrapperToValidate.getExamdates()!=null && !termWrapperToValidate.getExamdates().isEmpty()) {
+            for (ExamPeriodWrapper examPeriodWrapper : termWrapperToValidate.getExamdates()){
+                if (getDaysForExamPeriod(examPeriodWrapper, holidayInfos, createContextInfo()) < maxday) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId(finalExamSectionName, CalendarConstants.MessageKeys.ERROR_EXAM_PERIOD_DAYS_VALIDATION);
+                }
+            }
+        }
+
+    }
+
+    /**
+     * Calculate and returns the valid number of final exam period days based on the excludeSaturday/excludeSunday setting.
+     * Also, overlapping non-instructional holidays will be subtracted as well.
+     *
+     * @param examPeriodWrapper exam period wrapper
+     * @param holidayInfos list of holidayinfos of the academic calendar
+     */
+    private int getDaysForExamPeriod(ExamPeriodWrapper examPeriodWrapper, List<HolidayInfo> holidayInfos, ContextInfo contextInfo) throws Exception {
+        //trap null parameters
+        if (examPeriodWrapper == null){
+            throw new Exception("Exam Period wrapper is null");
+        }
+
+        int examPeriodDays = 0;
+        boolean excludeSaturday = examPeriodWrapper.isExcludeSaturday();
+        boolean excludeSunday = examPeriodWrapper.isExcludeSunday();
+
+        DateMidnight currentDateExamPeriod = new DateMidnight(examPeriodWrapper.getStartDate().getTime());
+        DateMidnight endDateExamPeriod = new DateMidnight(examPeriodWrapper.getEndDate().getTime());
+
+        // go from start to end and count exam period days
+        while (currentDateExamPeriod.compareTo(endDateExamPeriod) <= 0) {
+            // if it is Saturday or Sunday and the exam period set exclude Saturday or Sunday attr
+            // do not count that day
+            if(!(((currentDateExamPeriod.getDayOfWeek() == DateTimeConstants.SATURDAY) && excludeSaturday)
+                    || ((currentDateExamPeriod.getDayOfWeek() == DateTimeConstants.SUNDAY) && excludeSunday))){
+                ++examPeriodDays;
+            }
+
+            currentDateExamPeriod = currentDateExamPeriod.plusDays(1);
+        }
+
+        //if there is a holiday calendar for the academic calendar where the exam period is in,
+        //check if there are holidays overlapping with the exam period
+        if (holidayInfos != null && !holidayInfos.isEmpty()) {
+            List<DateMidnight> holidayDatesToSubtract = new ArrayList<DateMidnight>();
+            for (HolidayInfo holidayInfo : holidayInfos) {
+                Boolean isInstDay = holidayInfo.getIsInstructionalDay();
+                Boolean isDateRange = holidayInfo.getIsDateRange();
+                Date holStartDate = holidayInfo.getStartDate();
+                Date holEndDate = holidayInfo.getEndDate();
+
+                // If's it's not a range then the start and end dates are the same
+                if(!isDateRange){
+                    holEndDate = holStartDate;
+                }
+
+                // if holiday is an instructional day, it doesn't need to be subtracted from the exam period
+                if(!isInstDay) {
+                    DateMidnight currentDate = new DateMidnight(holStartDate.getTime());
+                    DateMidnight stopDate = new DateMidnight(holEndDate.getTime());
+                    while (currentDate.compareTo(stopDate) <= 0) {
+                        if (doDatesOverlap(examPeriodWrapper.getStartDate(), examPeriodWrapper.getEndDate(), currentDate.toDate(), currentDate.toDate())) {
+                            //if holiday is on Saturday or Sunday and excludeSaturday/excludeSunday is set,
+                            //the holiday doesn't need to be subtracted again because the Saturday/Sunday has already been excluded
+                            if(!(((currentDate.getDayOfWeek() == DateTimeConstants.SATURDAY) && excludeSaturday)
+                                    || ((currentDate.getDayOfWeek() == DateTimeConstants.SUNDAY) && excludeSunday))){
+                                if (!holidayDatesToSubtract.contains(currentDate)) {
+                                    holidayDatesToSubtract.add(currentDate);
+                                    --examPeriodDays;
+                                }
+                            }
+                        }
+                        currentDate = currentDate.plusDays(1);
+                    }
+                }
+            }
+        }
+
+        return examPeriodDays;
+    }
+
+    private boolean doDatesOverlap(Date periodStartDate, Date periodEndDate, Date subStart, Date subEnd){
+        boolean bRet = false;
+
+        int compStart = subStart.compareTo(periodEndDate);
+        int compEnd = subEnd.compareTo(periodStartDate);
+        if (compStart <= 0 && compEnd >= 0) {
+            bRet = true;
+        }
+
+        return bRet;
     }
 }
