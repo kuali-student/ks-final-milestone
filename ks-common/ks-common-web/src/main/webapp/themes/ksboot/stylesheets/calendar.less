@@ -12,12 +12,52 @@ td.col2, td.col4, th.col1, th.col3 { padding-bottom:0; padding-left:0; padding-r
 .ks-header .uif-headerText { border-bottom:solid 2px #000; margin-bottom:5px; }
 
 /*-- Create New Calendar ----------------------------------------------------------------*/
-.ks-calendar-copy-from { background-color:#eee; padding:18px 10px 5px 10px; width:35px; }
-.ks-holiday-calendar-copy-from {padding:7px 38px 18px 40px; width:350px; min-height:200px; border:solid 1px #aaa; }
-.ks-holiday-calendar-copy-from table {margin: 0 auto;}
-.ks-calendar-copy-to {border:solid 1px #aaa; padding: 10px 0px 0px 45px; width:350px; min-height:200px; }
-.ks-calendar-copy-content {width: 150px; margin-left:auto; margin-right:auto;}
-.ks-holiday-calendar-copy-to-width {padding-top:18px; padding-left:60px; padding-bottom:7px; padding-right:15px }
+.ks-calendar-copy-from, .ks-calendar-copy-to {
+  box-sizing: border-box;
+  background-color:#fff;
+  width: 427px;
+  height: 229px;
+  .ks-border-style();
+  padding-top: 27px;
+  padding-bottom: 27px;
+}
+.ks-calendar-copy-from .uif-field {
+  margin-bottom:10px;
+}
+// Copy from styles
+.ks-calendar-copy-from-date-labels {
+  font-weight: bold;
+}
+.ks-calendar-copy-from-date-labels, .ks-calendar-copy-from-date-values, .ks-calendar-copy-from-date-labels .uif-field, .ks-calendar-copy-from-date-values .uif-field {
+  margin-bottom:0;
+}
+#newCalendarEndDate {
+  padding-bottom: 0;
+}
+#newCalendarEndDate_control {
+  margin-bottom:0;
+}
+
+.ks-calendar-copy-from-heading {
+  font-size: 1.23076923076923em;
+  text-align: center;
+}
+.ks-calendar-copy-from table {
+  margin: 0 auto;
+}
+.ks-calendar-copy-content {
+  width: 150px;
+  margin-left:auto;
+  margin-right:auto;
+}
+// Copy to (in hcal) styles
+.ks-calendar-copy-to {
+  padding-left: 60px;
+  padding-right: 60px;
+}
+.ks-calendar-copy-to #newCalendarName_control {
+  width: 291px;
+}
 /*-- End of Create New Calendar ---------------------------------------------------------*/
 /*
   POST RICE 2.3 UPGRADE OVERRIDES
