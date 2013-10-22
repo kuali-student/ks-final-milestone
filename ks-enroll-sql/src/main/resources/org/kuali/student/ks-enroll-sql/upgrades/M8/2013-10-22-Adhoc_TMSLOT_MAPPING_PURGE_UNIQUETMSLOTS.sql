@@ -11,12 +11,8 @@ alter table t_distinct_adhoc_tmslots_adl add newtsid varchar2(255)
 /
 update t_distinct_adhoc_tmslots_adl set newtsid = SYS_GUID()
 /
-CREATE SEQUENCE t_nameSeq
-  MINVALUE 1033
-  START WITH 1033
-  INCREMENT BY 1
-  CACHE 20
-/ 
+CREATE SEQUENCE t_nameSeq MINVALUE 1033 START WITH 1033 INCREMENT BY 1 CACHE 20
+/
 alter table t_distinct_adhoc_tmslots_adl add newname varchar2(255)
 /
 update t_distinct_adhoc_tmslots_adl set newname = t_nameSeq.nextval
