@@ -45,13 +45,9 @@
         <!--<property name="onSubmitScript" value="return false;"/>-->
     </bean>
 
-    <bean id="KS-KitchenSink-FormView-Bare" parent="KS-KitchenSink-FormView" abstract="true">
+    <bean id="KS-KitchenSink-FormView-Bare" parent="KS-KitchenSink-FormView" abstract="true"
+          p:additionalCssClasses="uif-ks-kitchensink-marginTop">
         <property name="breadcrumbs.render" value="false"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>uif-ks-kitchensink-marginTop</value>
-            </list>
-        </property>
         <!-- -->
         <property name="additionalScriptFiles">
             <list merge="true">

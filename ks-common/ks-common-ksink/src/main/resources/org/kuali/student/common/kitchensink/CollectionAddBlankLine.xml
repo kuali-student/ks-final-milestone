@@ -29,7 +29,7 @@
                 <bean parent="KS-KitchenSink-Collection-Base">
                     <property name="renderAddBlankLineButton" value="true" />
                     <property name="addLinePlacement" value="BOTTOM" />
-                    <property name="layoutManager.cssClasses" value=""/>
+                    <property name="layoutManager.additionalCssClasses" value=""/>
                     <property name="layoutManager.richTable.render" value="false" />
                     <property name="layoutManager.actionFieldPrototype.label" value=""/>
                     <property name="items">

@@ -23,41 +23,22 @@
     <bean id="UifCompView-ComboBox" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean id="horizontalTextBox" parent="UifCompView-HorizontalTextBox">
-                    <property name="cssClasses">
-                        <list merge="false">
-                            <value>uif-horizontal-comboBox</value>
-                        </list>
-                    </property>
+                <bean id="horizontalTextBox" parent="UifCompView-HorizontalTextBox" p:additionalCssClasses="uif-horizontal-comboBox">
                 </bean>
-                <bean id="dropDownTarget" parent="Uif-VerticalBoxSection">
-                    <property name="cssClasses">
-                        <list merge="false">
-                            <value>uif-target-comboBox</value>
-                        </list>
-                    </property>
+                <bean id="dropDownTarget" parent="Uif-VerticalBoxSection" p:additionalCssClasses="uif-target-comboBox">
                 </bean>
                 <bean id="dropDown" parent="Uif-InputField" p:propertyName="stringField2" p:width="auto"
-                      p:defaultValue="1" p:style="display: none">
+                      p:defaultValue="1" p:style="display: none" p:additionalCssClasses="uif-dropDown-comboBox">
                     <property name="readOnly" value="false"/>
                     <property name="control">
                         <bean parent="Uif-DropdownControl"
-                              p:onChangeScript="setFilterBox('dropDown_control', 'filterTextBox_control', 'dropDownTarget');">
-                            <property name="cssClasses">
-                                <list merge="false">
-                                    <value>uif-dropDown-control-comboBox</value>
-                                </list>
-                            </property>
+                              p:onChangeScript="setFilterBox('dropDown_control', 'filterTextBox_control', 'dropDownTarget');"
+                              p:additionalCssClasses="uif-dropDown-control-comboBox">
                         </bean>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.common.kitchensink.KitchenSinkMockLanguageKeyValues"
                               p:blankOption="true"/>
-                    </property>
-                    <property name="cssClasses">
-                        <list merge="false">
-                            <value>uif-dropDown-comboBox</value>
-                        </list>
                     </property>
                 </bean>
             </list>
@@ -68,28 +49,18 @@
         <property name="items">
             <list>
                 <bean id="filterTextBox" parent="Uif-InputField" p:propertyName="stringField2" p:label="Select Language"
-                      p:labelPlacement="TOP">
+                      p:labelPlacement="TOP" p:additionalCssClasses="uif-filter-textBox">
                     <property name="control">
                         <bean parent="Uif-TextControl">
                             <property name="onKeyUpScript"
                                       value="filterSelectBox('dropDown_control', 'filterTextBox_control', 'dropDownTarget');"/>
                         </bean>
                     </property>
-                    <property name="cssClasses">
-                        <list merge="false">
-                            <value>uif-filter-textBox</value>
-                        </list>
-                    </property>
                 </bean>
-                <bean id="KS-KitchenSink-Button-Primary" parent="Uif-PrimaryActionButton">
+                <bean id="KS-KitchenSink-Button-Primary" parent="Uif-PrimaryActionButton" p:additionalCssClasses="uif-comboBox-button">
                     <property name="actionLabel" value="V"/>
                     <property name="actionScript"
                               value="expandSelectBox('dropDown_control', 'filterTextBox_control', 'dropDownTarget');"/>
-                    <property name="cssClasses">
-                        <list merge="false">
-                            <value>uif-comboBox-button</value>
-                        </list>
-                    </property>
                 </bean>
             </list>
         </property>
@@ -102,7 +73,7 @@
 
     <bean id="GenericTextField" parent="Uif-InputField" abstract="true"
           p:label="Field Label" p:labelPlacement="TOP"
-          p:fieldLabel.cssClasses="labelTop" p:fieldLabel.renderColon="false">
+          p:fieldLabel.additionalCssClasses="labelTop" p:fieldLabel.renderColon="false">
         <property name="control">
             <bean parent="Uif-TextControl" p:size="30"/>
         </property>

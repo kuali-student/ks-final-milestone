@@ -22,16 +22,12 @@
 
 
     <bean id="Uif-KsKrad-Button-ImageOnly" parent="Uif-SecondaryActionButton-Small" abstract="true"
-          class="org.kuali.student.common.ui.krad.uif.element.ActionImageButton">
+          class="org.kuali.student.common.ui.krad.uif.element.ActionImageButton"
+          p:additionalCssClasses="uif-kskrad-actionImageButton">
         <property name="actionImage">
             <bean parent="Uif-Image"/>
         </property>
         <property name="actionImagePlacement" value="TOP"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>uif-kskrad-actionImageButton</value>
-            </list>
-        </property>
     </bean>
 
     <bean id="Uif-KS-Default-DateControl" parent="Uif-DateControl" p:size="9" p:minLength="8" p:maxLength="10" p:watermarkText="mm/dd/yyyy">

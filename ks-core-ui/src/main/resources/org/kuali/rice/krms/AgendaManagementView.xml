@@ -142,22 +142,12 @@ limitations under the License.
     <bean id="KRMS-AgendaManage-AgendaPrototype" parent="Uif-VerticalBoxSection">
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="header">
-            <bean parent="Uif-HeaderThree">
-                <property name="cssClasses">
-                    <list merge="true">
-                        <value>krms-agendaHeader</value>
-                    </list>
-                </property>
+            <bean parent="Uif-HeaderThree" p:additionalCssClasses="krms-agendaHeader">
             </bean>
         </property>
     </bean>
 
-    <bean id="KRMS-RuleSection-BoxSection" parent="Uif-VerticalBoxSection">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>krms-ruleViewSection</value>
-            </list>
-        </property>
+    <bean id="KRMS-RuleSection-BoxSection" parent="Uif-VerticalBoxSection" p:additionalCssClasses="krms-ruleViewSection">
     </bean>
 
     <bean id="KRMS-AgendaManage-RulePrototype" parent="Uif-Disclosure-VerticalBoxSubSection">
@@ -177,7 +167,7 @@ limitations under the License.
                 <bean id="KRSM-RuleView-ActionLinks" parent="KRMS-RuleView-Links" p:align="right"/>
                 <bean parent="Uif-MessageField" p:messageText="@{#line.ruleTypeInfo.instruction}"/>
                 <bean id="KRMS-PreviewTree-Group" parent="Uif-VerticalBoxGroup"
-                      p:cssClasses="viewModeNode">
+                      p:additionalCssClasses="viewModeNode">
                     <property name="items">
                         <list>
                             <bean parent="KRMS-ViewTree-Section">
