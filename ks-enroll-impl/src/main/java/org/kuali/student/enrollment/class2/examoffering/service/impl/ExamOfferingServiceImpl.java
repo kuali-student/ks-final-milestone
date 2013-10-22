@@ -225,14 +225,27 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
         }
 
         LuiInfo lui = luiService.getLui(examOfferingId, contextInfo);
+        String thisStateKey = lui.getStateKey();
 
-        if (!StringUtils.equals(lui.getStateKey(), stateKey)){
-            lui.setStateKey(stateKey);
-            try{
-                luiService.updateLui(lui.getId(), lui, contextInfo);
-            }catch(Exception e){
-                throw new OperationFailedException("Failed to update State", e);
+        if (!StringUtils.equals(thisStateKey, stateKey)){
+            StatusInfo statusInfo = getStateTransitionsHelper().processStateConstraints(examOfferingId,stateKey,contextInfo);
+            if (statusInfo.getIsSuccess()){
+                lui.setStateKey(stateKey);
+                try{
+                    luiService.updateLui(lui.getId(), lui, contextInfo);
+                }catch(Exception e){
+                    throw new OperationFailedException("Failed to update State", e);
+                }
+
+                String propagationKey = thisStateKey + ":" + stateKey;
+                Map<String,StatusInfo> stringStatusInfoMap = getStateTransitionsHelper().processStatePropagations(examOfferingId,propagationKey,contextInfo);
+                for (StatusInfo statusInfo1 : stringStatusInfoMap.values()) {
+                    if (!statusInfo1.getIsSuccess()){
+                        throw new OperationFailedException(statusInfo1.getMessage());
+                    }
+                }
             }
+
         }
         return new StatusInfo();
     }

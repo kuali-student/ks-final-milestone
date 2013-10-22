@@ -21,7 +21,7 @@ insert into KSEN_STATE_PROPAGT (CREATEID, CREATETIME, OBJ_ID, ID, STATE_PROPAGT_
 -- KSEN_STATE_CHG_PROPAGT
 insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.activityoffering.offered.canceled', 'kuali.statepropagation.ao2eo.offered.canceled.2.draft.canceled' )
 /
-insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.activityoffering.draft.canceled', 'kuali.statepropagation.ao2eo.draft.canceled.2.draft.canceled' )
+  insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.activityoffering.draft.canceled', 'kuali.statepropagation.ao2eo.draft.canceled.2.draft.canceled' )
 /
 insert into KSEN_STATE_CHG_PROPAGT (STATE_CHG_ID, STATE_PROPAGT_ID) values ('kuali.statechange.activityoffering.approved.canceled', 'kuali.statepropagation.ao2eo.approved.canceled.2.draft.canceled' )
 /

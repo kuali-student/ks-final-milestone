@@ -438,6 +438,7 @@
          <entry key="kuali.soc:kuali.lui.activity.offering" value-ref="socToAORelatedObjHelper"/>
          <entry key="kuali.lui.activity.offering:kuali.soc" value-ref="aotoSOCRelatedObjHelper"/>
          <entry key="kuali.lui.activity.offering:kuali.lui.exam.offering" value-ref="aoToEoRelatedObjHelper"/>
+         <entry key="kuali.lui.exam.offering:kuali.lui.activity.offering" value-ref="eoToAoRelatedObjHelper"/>
          <entry key="kuali.lui.format.offering:kuali.lui.exam.offering" value-ref="foToEoRelatedObjHelper"/>
      </util:map>
 
@@ -468,6 +469,8 @@
     <bean id="rgToAoRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperRGtoAOImpl"/>
 
     <bean id="aoToEoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoEOImpl"/>
+
+    <bean id="eoToAoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperEOtoAOImpl"/>
 
     <bean id="foToEoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperFOtoEOImpl"/>
 
@@ -609,6 +612,7 @@
         <property name="typeService" ref="typeServiceCacheDecorator" />
         <property name="acalService" ref="AcademicCalendarService" />
         <property name="examOfferingTransformer" ref="examOfferingTransformer"/>
+        <property name="stateTransitionsHelper" ref="stateTransitionsHelper"/>
     </bean>
 
     <bean id="examOfferingTransformer" class="org.kuali.student.enrollment.class2.examoffering.service.transformer.ExamOfferingTransformer">
