@@ -31,8 +31,6 @@ public class TypeServiceMockImpl implements TypeService, MockService {
      * The key is the owner type key.
      * The value is a Map with the related type type key as the key and the TypeTypeRelationInfo as the value.
      */
-    //private Map<String, Map<String, TypeTypeRelationInfo>> groupTypeTypeRelations = new HashMap<String, Map<String, TypeTypeRelationInfo>>();
-    //private Map<String, Map<String, TypeTypeRelationInfo>> allowedTypeTypeRelations = new HashMap<String, Map<String, TypeTypeRelationInfo>>();
 
     //  Storage for TypeType relations.
     private Map<String, List<TypeTypeRelationInfo>> typeTypeRelations = new HashMap<String, List<TypeTypeRelationInfo>>();
@@ -46,8 +44,6 @@ public class TypeServiceMockImpl implements TypeService, MockService {
 	public void clear() {
         this.allTypes.clear();
         this.typeTypeRelations.clear();
-       // this.allowedTypeTypeRelations.clear();
-    //	this.groupTypeTypeRelations.clear();
     	init();
 	}
 
