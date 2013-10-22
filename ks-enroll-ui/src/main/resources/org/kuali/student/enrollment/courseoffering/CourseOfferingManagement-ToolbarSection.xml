@@ -142,10 +142,14 @@
     </bean>
 
 
-    <bean id="KS-CourseOfferingManagement-AddActivityOfferingPopupForm" parent="Uif-HorizontalBoxSection"
-          p:additionalCssClasses="uif-bubblepopup-content">
+    <bean id="KS-CourseOfferingManagement-AddActivityOfferingPopupForm" parent="Uif-HorizontalBoxSection">
         <!--<property name="render" value="@{enableAddButton and !currentCourseOfferingWrapper.crossListed}"/>-->
         <property name="hidden" value="true"/>
+        <property name="cssClasses">
+            <list>
+                <value>uif-bubblepopup-content</value>
+            </list>
+        </property>
         <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
         <property name="items">
             <list>
@@ -187,7 +191,12 @@
                       <bean parent="NumericPatternConstraint"/>
                     </property>
                 </bean>
-                <bean parent="Uif-SecondaryActionButton-Small" p:additionalCssClasses="ks_toolbar_popup_action_button">
+                <bean parent="Uif-SecondaryActionButton-Small">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks_toolbar_popup_action_button</value>
+                        </list>
+                    </property>
                     <property name="actionLabel" value="Add"/>
                     <property name="successCallback" value="jQuery('div[id=KS-CourseOfferingManagement-AddActivityOfferingPopupForm]:gt(0)').detach();"/>
                     <property name="errorCallback" value="jQuery('div[id=KS-CourseOfferingManagement-AddActivityOfferingPopupForm]:gt(0)').detach();"/>
@@ -197,10 +206,14 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-AddAOCPopupForm" parent="Uif-HorizontalBoxSection"
-          p:additionalCssClasses="uif-bubblepopup-content">
+    <bean id="KS-CourseOfferingManagement-AddAOCPopupForm" parent="Uif-HorizontalBoxSection">
         <!--<property name="render" value="@{enableAddButton and !currentCourseOfferingWrapper.crossListed}"/>-->
         <property name="hidden" value="true"/>
+        <property name="cssClasses">
+            <list>
+                <value>uif-bubblepopup-content</value>
+            </list>
+        </property>
         <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
         <property name="items">
             <list>
@@ -222,7 +235,12 @@
                         <bean parent="Uif-TextControl" p:size="10"  p:maxLength="20"/>
                     </property>
                 </bean>
-                <bean parent="Uif-SecondaryActionButton-Small" p:id="addAOCButton" p:additionalCssClasses="ks_toolbar_popup_action_button">
+                <bean parent="Uif-SecondaryActionButton-Small" p:id="addAOCButton" >
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks_toolbar_popup_action_button</value>
+                        </list>
+                    </property>
                     <property name="actionLabel" value="Add"/>
                     <property name="successCallback" value="jQuery('div[id=KS-CourseOfferingManagement-AddAOCPopupForm]:gt(0)').detach();"/>
                     <property name="errorCallback" value="jQuery('div[id=KS-CourseOfferingManagement-AddAOCPopupForm]:gt(0)').detach();"/>
@@ -242,10 +260,14 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-MoveAOCPopupForm" parent="Uif-HorizontalBoxSection"
-          p:forceSessionPersistence="true" p:additionalCssClasses="uif-bubblepopup-content">
+    <bean id="KS-CourseOfferingManagement-MoveAOCPopupForm" parent="Uif-HorizontalBoxSection" p:forceSessionPersistence="true">
         <!--<property name="render" value="@{enableAddButton and !currentCourseOfferingWrapper.crossListed}"/>-->
         <!--<property name="hidden" value="true"/>-->
+        <property name="cssClasses">
+            <list>
+                <value>uif-bubblepopup-content</value>
+            </list>
+        </property>
         <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
         <property name="items">
             <list>
@@ -273,8 +295,12 @@
                     </property>
                 </bean>
                 <!--these fields above are used for creating a cluster and moving AOs-->
-                <bean parent="Uif-SecondaryActionButton-Small" p:disabled="@{disableMoveButtonForMoveAOCPopOver}"
-                      p:id="moveAOCButton" p:additionalCssClasses="ks_toolbar_popup_action_button">
+                <bean parent="Uif-SecondaryActionButton-Small" p:disabled="@{disableMoveButtonForMoveAOCPopOver}"  p:id="moveAOCButton">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks_toolbar_popup_action_button</value>
+                        </list>
+                    </property>
                     <property name="actionLabel" value="Move"/>
                     <property name="successCallback" value="jQuery('div[id=KS-CourseOfferingManagement-MoveAOCPopupForm]:gt(0)').detach();"/>
                     <property name="errorCallback" value="jQuery('div[id=KS-CourseOfferingManagement-MoveAOCPopupForm]:gt(0)').detach();"/>
@@ -284,6 +310,6 @@
         </property>
     </bean>
 
-    <bean id="KS-HorizontalBoxGroup-WithRPadding" parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-horizontal-box-group-with-right-padding" />
+    <bean id="KS-HorizontalBoxGroup-WithRPadding" parent="Uif-HorizontalBoxGroup" p:cssClasses="ks-horizontal-box-group-with-right-padding" />
 
 </beans>

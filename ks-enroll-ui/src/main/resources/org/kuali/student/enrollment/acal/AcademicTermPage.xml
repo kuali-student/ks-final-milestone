@@ -8,7 +8,7 @@
     <bean id="KS-AcademicTerm-EditSection" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Terms" />
         <property name="header.render" value="false"/>
-        <property name="additionalCssClasses" value="ac_disclosure"/>
+        <property name="cssClasses" value="ac_disclosure"/>
         <property name="header.style" value="margin-bottom:0"/>
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
@@ -212,13 +212,23 @@
                                         </bean>
                                         <bean id="term_code" parent="Uif-InputField-LabelTop" p:propertyName="termCode" p:label="Term Code" p:render="@{#line.termCode != T(org.kuali.student.enrollment.class2.acal.util.CalendarConstants).EMPTY_TERM_CODE}">
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" p:disabled="true" p:size="9" p:additionalCssClasses="acal_term_code">
+                                                <bean parent="Uif-TextControl" p:disabled="true" p:size="9">
+                                                    <property name="cssClasses">
+                                                        <list>
+                                                            <value>acal_term_code</value>
+                                                        </list>
+                                                    </property>
                                                 </bean>
                                             </property>
                                         </bean>
                                         <bean id="parent_term_name" parent="Uif-InputField-LabelTop" p:propertyName="parentTermName" p:label="Parent Term" p:render="@{#line.parentTerm != null and #line.parentTerm != ''}">
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" p:disabled="true" p:size="20" p:additionalCssClasses="acal_term_code">
+                                                <bean parent="Uif-TextControl" p:disabled="true" p:size="20">
+                                                    <property name="cssClasses">
+                                                        <list>
+                                                            <value>acal_term_code</value>
+                                                        </list>
+                                                    </property>
                                                 </bean>
                                             </property>
                                         </bean>
@@ -285,8 +295,7 @@
     </bean>
 
     <bean id="KS-KeyDatesGroup-EditSubSection" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure"
-          p:onDocumentReadyScript="highlightElements(@{validationJSONString == '' ? '{}' : validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');"
-          p:additionalCssClasses="acal_keydate_group">
+          p:onDocumentReadyScript="highlightElements(@{validationJSONString == '' ? '{}' : validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');">
         <property name="id" value="acal-term-keydatesgroup"/>
         <property name="disclosure.render" value="false"/>
         <property name="readOnly" value="@{#view.readOnly}"/>
@@ -294,6 +303,11 @@
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper" />
         <property name="headerText" value="Key Dates" />
         <property name="header.render" value="@{!#view.readOnly}"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>acal_keydate_group</value>
+            </list>
+        </property>
 
         <!-- Move the add button to the right of the fields -->
         <property name="layoutManager.addLineGroup.layoutManager.style" value="float:left;"/>
@@ -339,8 +353,7 @@
     </bean>
 
     <bean id="KS-KeyDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSubSection"
-          p:id="acal-term-keydates" p:readOnly="@{#view.readOnly}" p:onDocumentReadyScript="highlightElements(@{validationJSONString == '' ? '{}' : validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');"
-            p:layoutManager.additionalCssClasses="ks-tablecollection-table">
+          p:id="acal-term-keydates" p:readOnly="@{#view.readOnly}" p:onDocumentReadyScript="highlightElements(@{validationJSONString == '' ? '{}' : validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');">
         <property name="propertyName" value="keydates" />                <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper" />
         <property name="header.render" value="false"/>
         <!--<property name="layoutManager.numberOfColumns" value="@{#view.readOnly ? 3 : 9}"/>-->
@@ -349,6 +362,11 @@
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <!--<property name="validationMessages.displayMessages" value="false"/>-->
         <property name="layoutManager.addLineGroup.layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.cssClasses">
+            <list merge="true">
+                <value>ks-tablecollection-table</value>
+            </list>
+        </property>
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.generateAutoSequence" value="false" />
         <property name="layoutManager.separateAddLine" value="false" />
@@ -394,8 +412,12 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean id="key_date_start_time_ampm" parent="Uif-InputField" p:propertyName="startTimeAmPm" p:render="@{!#view.readOnly}"
-                      p:defaultValue="AM" p:additionalCssClasses="acal_keydate_radiobutton">
+                <bean id="key_date_start_time_ampm" parent="Uif-InputField" p:propertyName="startTimeAmPm" p:render="@{!#view.readOnly}" p:defaultValue="AM">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>acal_keydate_radiobutton</value>
+                        </list>
+                    </property>
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options"
                               p:refreshWhenChangedPropertyNames="#lp.startTime" p:evaluateDisabledOnKeyUp="true">
@@ -420,8 +442,12 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean id="key_date_end_time_ampm" parent="Uif-InputField" p:propertyName="endTimeAmPm" p:render="@{!#view.readOnly}"
-                      p:defaultValue="AM" p:additionalCssClasses="acal_keydate_radiobutton">
+                <bean id="key_date_end_time_ampm" parent="Uif-InputField" p:propertyName="endTimeAmPm" p:render="@{!#view.readOnly}" p:defaultValue="AM">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>acal_keydate_radiobutton</value>
+                        </list>
+                    </property>
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options"
                               p:refreshWhenChangedPropertyNames="#lp.endTime" p:evaluateDisabledOnKeyUp="true">
@@ -440,7 +466,7 @@
 
     <!--Final Exam Period section-->
     <bean id="KS-ExamDates-EditSubSection" parent="KS-Uif-Disclosure-TableSubCollection-WithinSubSection-BottomAddLine-ExamPeriod"
-          p:id="acal-term-examdates" p:readOnly="@{#view.readOnly}" p:layoutManager.additionalCssClasses="ks-tablecollection-table">
+          p:id="acal-term-examdates" p:readOnly="@{#view.readOnly}" >
         <property name="propertyName" value="examdates" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper" />
         <property name="headerText" value="Final Exam Period" />
@@ -451,6 +477,12 @@
         <property name="addBlankLineAction.actionLabel" value="Add Final Exam Period"/>
         <property name="addBlankLineAction.onDocumentReadyScript" value="hideAddExamPeriodButton('@{#collectionGroup.id}', 'exam_date_type', 'acal-term-examdates-add');"/>
         <property name="addBlankLineAction.id" value="acal-term-examdates-add"/>
+
+        <property name="layoutManager.cssClasses">
+            <list merge="true">
+                <value>ks-tablecollection-table</value>
+            </list>
+        </property>
 
         <property name="items">
             <list>

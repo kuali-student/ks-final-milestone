@@ -73,8 +73,13 @@
                         </list>
                     </property>
                 </bean>
-                <bean id="KS-ActivityOfferingEdit-SubtermsPopupForm" parent="Uif-HorizontalBoxSection" p:additionalCssClasses="uif-bubblepopup-content">
+                <bean id="KS-ActivityOfferingEdit-SubtermsPopupForm" parent="Uif-HorizontalBoxSection">
                     <property name="hidden" value="true"/>
+                    <property name="cssClasses">
+                        <list>
+                            <value>uif-bubblepopup-content</value>
+                        </list>
+                    </property>
                     <property name="items">
                         <list>
                             <bean id="subterm_type" parent="Uif-InputField-LabelTop" p:propertyName="subTermId" p:label="Choose a subterm">
@@ -320,7 +325,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:id="personnelPriority" p:propertyName="offeringInstructorInfo.personId"
-                                   p:label="ID" p:required="false" p:additionalCssClasses="col_5">
+                                   p:label="ID" p:required="false" p:cssClasses="col_5">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder">
                                         <property name="dataObjectClassName" value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
@@ -470,8 +475,13 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-SeatPool" parent="Uif-VerticalBoxSection" p:additionalCssClasses="ks-seatpools">
+    <bean id="ActivityOfferingEdit-SeatPool" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Seat Pools"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-seatpools</value>
+            </list>
+        </property>
         <property name="componentSecurity.editAuthz" value="true"/>
         <property name="items">
             <list>
@@ -506,7 +516,7 @@
                             </bean>
                             <bean parent="Uif-MessageField" p:messageText="%" p:label="PERCENT" p:readOnly="true" p:id="seatLimitPercent" />
                             <!-- validatePopulationForSP('@{document.newMaintainableObject.dataObject.populationsJSONString}') -->
-                            <bean parent="Uif-InputField" p:label="POPULATION NAME" p:id="ao-seatpoolgroup-population-name" p:propertyName="seatPoolPopulation.name"  p:additionalCssClasses="col_6">
+                            <bean parent="Uif-InputField" p:label="POPULATION NAME" p:id="ao-seatpoolgroup-population-name" p:propertyName="seatPoolPopulation.name"  p:cssClasses="col_6">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="40" p:onBlurScript="validatePopulationForSP(this,'@{document.newMaintainableObject.dataObject.populationsJSONString}');"/>
                                 </property>
@@ -573,7 +583,7 @@
                                   parent="Uif-InputField-LabelRight"
                                   p:propertyName="aoInfo.isEvaluated"
                                   p:label="This lecture requires an evaluation"
-                                  p:fieldLabel.additionalCssClasses="label-normal"
+                                  p:fieldLabel.cssClasses="label-normal"
                                   p:required="false">
                                 <property name="control">
                                     <bean parent="Uif-CheckboxControl"/>
@@ -592,7 +602,7 @@
                                   parent="Uif-InputField-LabelRight"
                                   p:propertyName="aoInfo.isHonorsOffering"
                                   p:label="This is an honors course"
-                                  p:fieldLabel.additionalCssClasses="label-normal"
+                                  p:fieldLabel.cssClasses="label-normal"
                                   p:required="false">
                                 <property name="control">
                                     <bean parent="Uif-CheckboxControl"/>

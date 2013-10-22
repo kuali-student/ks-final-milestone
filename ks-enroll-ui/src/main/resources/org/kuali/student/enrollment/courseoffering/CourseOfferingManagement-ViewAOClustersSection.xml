@@ -22,7 +22,7 @@
         <property name="disclosure.render" value="false"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper" />
         <property name="propertyName" value="clusterResultList" />
-        <property name="additionalCssClasses" value="aoc_disclosure"/>
+        <property name="cssClasses" value="aoc_disclosure"/>
         <property name="headerText" value=""/>
         <property name="collectionLookup">
             <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />

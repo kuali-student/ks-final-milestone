@@ -259,9 +259,13 @@
        </property>
    </bean>
 
-   <bean id="ManageSOCView-SchedulingDetails-SubSection2" parent="Uif-VerticalBoxSubSection"
-           p:header.additionalCssClasses="ks-borderBottom3">
+   <bean id="ManageSOCView-SchedulingDetails-SubSection2" parent="Uif-VerticalBoxSubSection">
        <property name="headerText" value="Scheduling Details" />
+       <property name="header.cssClasses">
+            <list merge="true">
+                <value>ks-borderBottom3</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxSubSection" p:style="background-color:#E0DEDE; ">
@@ -279,9 +283,13 @@
         </property>
    </bean>
 
-   <bean id="ManageSOCView-SchedulingDetails-SubSection3" parent="Uif-VerticalBoxSubSection"
-           p:header.additionalCssClasses="ks-borderBottom3">
+   <bean id="ManageSOCView-SchedulingDetails-SubSection3" parent="Uif-VerticalBoxSubSection">
        <property name="headerText" value="Publishing Process Details" />
+       <property name="header.cssClasses">
+            <list merge="true">
+                <value>ks-borderBottom3</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxSubSection" p:style="background-color:#E0DEDE; ">

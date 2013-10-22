@@ -20,11 +20,15 @@
     -->
 
     <bean id="KS-CheckInfo-Search" parent="KS-Uif-FormView"
-          p:id="checkInfoSearchView" p:headerText="Manage Checks" p:renderHeader="false"
-          p:additionalCssClasses="ks-enrollment-home">
+          p:id="checkInfoSearchView" p:headerText="Manage Checks" p:renderHeader="false">
         <property name="entryPageId" value="checkInfoSearch-SearchPage" />
         <property name="formClass" value="org.kuali.student.enrollment.class1.check.form.CheckInfoForm" />
         <property name="viewSourceFile" value="CheckInfoSearchView.xml" /> <!-- Shows up in HTML so devs can find the code -->
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-enrollment-home</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <ref bean="KS-CheckInfoSearch-SearchPage" />

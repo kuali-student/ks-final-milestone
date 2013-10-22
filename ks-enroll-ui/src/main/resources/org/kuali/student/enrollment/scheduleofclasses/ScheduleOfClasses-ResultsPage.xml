@@ -103,8 +103,12 @@
                 </bean>
                 <bean parent="Uif-DataField" p:label="TITLE" p:propertyName="courseOfferingDesc"/>
                 <bean parent="Uif-DataField" p:label="CREDITS" p:propertyName="courseOfferingCreditOptionDisplay"/>
-                <bean parent="Uif-MessageField" p:label="ADDITIONAL INFO" p:messageText="@{#line.information}"
-                      p:additionalCssClasses="course-offering-display-info-icon">
+                <bean parent="Uif-MessageField" p:label="ADDITIONAL INFO" p:messageText="@{#line.information}">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>course-offering-display-info-icon</value>
+                        </list>
+                    </property>
                 </bean>
             </list>
         </property>

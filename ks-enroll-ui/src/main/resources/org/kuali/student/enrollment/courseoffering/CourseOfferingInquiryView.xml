@@ -20,9 +20,15 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-GridGroup"
-                                  p:layoutManager.numberOfColumns="4"
-                                  p:additionalCssClasses="ks-krad-tab-gridgroup-fix,ks-gray-background,ks-no-margins">
+                                  p:layoutManager.numberOfColumns="4">
                                   <!--p:layoutManager.applyDefaultCellWidths="false">-->
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ks-krad-tab-gridgroup-fix</value>
+                                        <value>ks-gray-background</value>
+                                        <value>ks-no-margins</value>
+                                    </list>
+                                </property>
                                 <property name="items">
                                     <list>
                                         <!--<bean parent="Uif-DataField" p:label="ID" p:propertyName="courseOfferingInfo.id" />-->
@@ -130,7 +136,7 @@
                                         <!--<bean parent="Uif-DataField" p:label="Affiliated Personnel Name" p:propertyName="offeringInstructorInfo.personName" />-->
                                         <!--<bean parent="Uif-DataField" p:label="Affiliated Personnel Affiliation" p:propertyName="typeName" />-->
                                         <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personId"
-                                              p:label="ID" p:required="false" p:additionalCssClasses="col_5"/>
+                                              p:label="ID" p:required="false" p:cssClasses="col_5"/>
                                         <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" />
                                         <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.typeKey" p:label="AFFILIATION" p:required="false">
                                             <!--<property name="control">-->

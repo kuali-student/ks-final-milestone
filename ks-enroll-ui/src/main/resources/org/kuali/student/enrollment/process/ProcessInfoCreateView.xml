@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="ProcessInfo-CreateView" parent="KS-Uif-FormView" p:additionalCssClasses="ks-enrollment-home">
+    <bean id="ProcessInfo-CreateView" parent="KS-Uif-FormView">
         <property name="id" value="processCreateView"/>
         <property name="headerText" value="Create Process"/>
         <property name="formClass"
@@ -36,6 +36,11 @@
         </property>
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-enrollment-home</value>
+            </list>
         </property>
         <property name="items">
             <list>

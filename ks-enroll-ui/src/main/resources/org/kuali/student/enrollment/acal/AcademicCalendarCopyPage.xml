@@ -31,7 +31,12 @@ limitations under the License.
         <property name="pageSourceFile" value="AcademicCalendarCopyPage.xml" />
 
         <property name="header">
-            <bean parent="Uif-HeaderTwo" p:additionalCssClasses="ks-header">
+            <bean parent="Uif-HeaderTwo">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-header</value>
+                    </list>
+                </property>
             </bean>
         </property>
         <property name="header.lowerGroup">
@@ -99,7 +104,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxGroup"
-                      p:render="@{copyFromAcal != null}" p:additionalCssClasses="ks-holiday-calendar-copy-from">
+                      p:render="@{copyFromAcal != null}">
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField"
@@ -109,7 +114,12 @@ limitations under the License.
                                   p:showLabel="false">
                                 <property name="align" value="center;"/>
                                   </bean>
-                            <bean parent="Uif-HorizontalFieldGroup" p:additionalCssClasses="ks-calendar-copy-content">
+                            <bean parent="Uif-HorizontalFieldGroup">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ks-calendar-copy-content</value>
+                                    </list>
+                                </property>
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-VerticalBoxGroup">
@@ -157,6 +167,11 @@ limitations under the License.
                                   p:style="font-size:125%;"/>
                             <bean parent="Uif-ActionLink" p:methodToCall="search" p:align="center"
                                   p:actionLabel="@{copyFromAcal != null ? 'Find a different calendar to copy' : 'Choose a Calendar'}"/>
+                        </list>
+                    </property>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-holiday-calendar-copy-from</value>
                         </list>
                     </property>
                 </bean>

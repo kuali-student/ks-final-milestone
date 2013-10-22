@@ -351,7 +351,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KSFE-FinalExam-ExamDaysDropdown" parent="Uif-DropdownControl" p:additionalCssClasses="new_rdl_components" >
+    <bean id="KSFE-FinalExam-ExamDaysDropdown" parent="Uif-DropdownControl" p:cssClasses="new_rdl_components" >
         <property name="options">
             <list>
                 <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Day 1" />
@@ -393,7 +393,7 @@ limitations under the License.
                                             <property name="constraintText" value="HH:MM"/>
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="5"
-                                                      p:additionalCssClasses="new_rdl_components"/>
+                                                      p:cssClasses="new_rdl_components"/>
                                             </property>
                                             <property name="validCharactersConstraint">
                                                 <bean parent="TimePatternConstraint"/>
@@ -404,7 +404,7 @@ limitations under the License.
                                             <property name="fieldLabel.requiredMessage.messageText" value=""/>
                                             <property name="control">
                                                 <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options"
-                                                      p:additionalCssClasses="new_rdl_components"/>
+                                                      p:cssClasses="new_rdl_components"/>
                                             </property>
                                         </bean>
                                         <bean id="FinalExam_endtime" parent="Uif-InputField-LabelTop" p:label="End Time"
@@ -413,7 +413,7 @@ limitations under the License.
                                             <property name="constraintText" value="HH:MM"/>
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="5"
-                                                      p:additionalCssClasses="new_rdl_components"/>
+                                                      p:cssClasses="new_rdl_components"/>
                                             </property>
                                             <property name="validCharactersConstraint">
                                                 <bean parent="TimePatternConstraint"/>
@@ -424,7 +424,7 @@ limitations under the License.
                                             <property name="fieldLabel.requiredMessage.messageText" value=""/>
                                             <property name="control">
                                                 <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options"
-                                                      p:additionalCssClasses="new_rdl_components"/>
+                                                      p:cssClasses="new_rdl_components"/>
                                             </property>
                                         </bean>
                                     </list>
@@ -438,7 +438,7 @@ limitations under the License.
                       p:propertyName="ruleEditor.building.buildingCode" p:uppercaseValue="true">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="20" p:additionalCssClasses="new_rdl_components"/>
+                        <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
                     </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder">
@@ -456,7 +456,7 @@ limitations under the License.
                       p:render="@{#dp.ruleEditor.ruleTypeInfo.type ne 'kuali.krms.rule.type.final.exam.standard'}"
                       p:propertyName="ruleEditor.room.roomCode">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="20" p:additionalCssClasses="new_rdl_components"/>
+                        <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
                     </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder">
@@ -551,7 +551,7 @@ limitations under the License.
           p:uppercaseValue="true">
         <property name="constraintText" value="MTWHFSU"/>
         <property name="control">
-            <bean parent="Uif-TextControl" p:size="10" p:additionalCssClasses="new_rdl_components"/>
+            <bean parent="Uif-TextControl" p:size="10" p:cssClasses="new_rdl_components"/>
         </property>
         <property name="validCharactersConstraint">
             <bean parent="CharsetPatternConstraint" p:validChars="MTWHFSUmtwhfsu"
@@ -564,7 +564,7 @@ limitations under the License.
           p:propertyName="proposition.startTime">
         <property name="constraintText" value="HH:MM"/>
         <property name="control">
-            <bean parent="Uif-TextControl" p:size="5" p:additionalCssClasses="new_rdl_components"/>
+            <bean parent="Uif-TextControl" p:size="5" p:cssClasses="new_rdl_components"/>
         </property>
         <property name="validCharactersConstraint">
             <bean parent="TimePatternConstraint"/>
@@ -575,7 +575,7 @@ limitations under the License.
     <bean id="KSFE_starttime_ampm-Parent" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;"
           p:propertyName="proposition.startTimeAMPM">
         <property name="control">
-            <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:additionalCssClasses="new_rdl_components"/>
+            <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_rdl_components"/>
         </property>
     </bean>
     <bean id="KSFE_starttime_ampm" parent="KSFE_starttime_ampm-Parent"/>
@@ -584,7 +584,7 @@ limitations under the License.
           p:propertyName="proposition.endTime">
         <property name="constraintText" value="HH:MM"/>
         <property name="control">
-            <bean parent="Uif-TextControl" p:size="5" p:additionalCssClasses="new_rdl_components"/>
+            <bean parent="Uif-TextControl" p:size="5" p:cssClasses="new_rdl_components"/>
         </property>
         <property name="validCharactersConstraint">
             <bean parent="TimePatternConstraint"/>
@@ -595,7 +595,7 @@ limitations under the License.
     <bean id="KSFE_endtime_ampm-Parent" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;"
           p:propertyName="proposition.endTimeAMPM">
         <property name="control">
-            <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:additionalCssClasses="new_rdl_components"/>
+            <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_rdl_components"/>
         </property>
     </bean>
     <bean id="KSFE_endtime_ampm" parent="KSFE_endtime_ampm-Parent"/>
