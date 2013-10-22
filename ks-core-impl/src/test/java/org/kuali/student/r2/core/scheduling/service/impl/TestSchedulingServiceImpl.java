@@ -158,14 +158,6 @@ public class TestSchedulingServiceImpl {
            throw new DataValidationErrorException(e);
         }
 
-        // REMOVE THIS ONE
-        info =  createTypeInfo(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, "testType", "This is a test", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT);
-        try {
-           typeService.createType(info.getKey(), info, contextInfo);
-        } catch (AlreadyExistsException e) {
-           throw new DataValidationErrorException(e);
-        }
-
         info =  createTypeInfo(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_FALL,
                "Fall Full", "Fall Full Time Slot for testing", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT);
         try {

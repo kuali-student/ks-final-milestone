@@ -191,7 +191,6 @@ public class SchedulingServiceDataLoader {
             {"toUpdate", fullTermFallType, "1026", "MWF", "17:10", "18:00"},
         };
 
-
         for (String[] ts: timeSlotsData) {
             TimeSlotInfo tsInfo = new TimeSlotInfo();
             tsInfo.setId(ts[0]);
@@ -199,8 +198,8 @@ public class SchedulingServiceDataLoader {
             tsInfo.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
             tsInfo.setName(ts[2]);
             tsInfo.setWeekdays(SchedulingServiceUtil.weekdaysString2WeekdaysList(ts[3]));
-            tsInfo.setStartTime(makeTimeOfDayFromTimeString(ts[4]));
-            tsInfo.setEndTime(makeTimeOfDayFromTimeString(ts[5]));
+            tsInfo.setStartTime(SchedulingServiceUtil.makeTimeOfDayFromMilitaryTimeString(ts[4]));
+            tsInfo.setEndTime(SchedulingServiceUtil.makeTimeOfDayFromMilitaryTimeString(ts[5]));
             schedulingService.createTimeSlot(tsInfo.getTypeKey(), tsInfo, contextInfo);
         }
 
@@ -214,29 +213,6 @@ public class SchedulingServiceDataLoader {
         schedulingService.createSchedule(testSchedule1.getTypeKey(), testSchedule1, contextInfo);
         schedulingService.createSchedule(testSchedule2.getTypeKey(), testSchedule2, contextInfo);
         schedulingService.createSchedule(testSchedule3.getTypeKey(), testSchedule3, contextInfo);
-    }
-
-    /**
-     * Create a TimeOfDayInfo given a time.
-     *
-     * @param time A time string in military format (e.g. "13:00")
-     * @return
-     */
-    private TimeOfDayInfo makeTimeOfDayFromTimeString(String time) {
-        TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
-
-        // Get the date time of the epoch.
-        String[] t = time.split(":");
-        int hour = Integer.valueOf(t[0]);
-        int min = Integer.valueOf(t[1]);
-
-        //  Work from the beginning of (UNIX) time so that daylight savings time isn't a factor.
-        DateTime epoch = new DateTime(0);
-        DateTime epochPlusTime = epoch.plusHours(hour).plusMinutes(min);
-        Duration duration = new Duration(epoch, epochPlusTime);
-        timeOfDayInfo.setMilliSeconds(duration.getMillis());
-
-        return timeOfDayInfo;
     }
 
     private void loadTimeSlotInfo (String ts_id, String name, String stateKey, String typeKey, List<Integer> weekdays, Long startTimeInMillisecs, Long endTimeInMillisecs)
