@@ -150,7 +150,8 @@ limitations under the License.
     <bean id="KRMS-PropKey-HiddenField" parent="KRMS-Rules-HiddenField" p:id="prop_key" p:propertyName="proposition.key"
           p:showLabel="false" p:label="id" p:maxLength="255">
         <property name="control">
-            <bean parent="Uif-HiddenControl" p:additionalCssClasses="hiddenId"/>
+            <!-- NOTE: additionalCssClasses property does not work here. -->
+            <bean parent="Uif-HiddenControl" p:cssClasses="hiddenId"/>
         </property>
     </bean>
 
