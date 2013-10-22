@@ -455,7 +455,7 @@ limitations under the License.
                 <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.render="false">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-HorizontalBoxGroup">
+                            <bean parent="Uif-HorizontalBoxGroup" p:refreshWhenChangedPropertyNames="academicCalendarInfo.startDate">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-InputField" p:label=" " p:propertyName="id" p:id="holidayCalendars" p:render="@{#isAddLine}"
@@ -468,14 +468,14 @@ limitations under the License.
                                                 </bean>
                                             </property>
                                             <property name="control">
-                                                <bean parent="Uif-DropdownControl" p:onChangeScript="disableIfSelectedValue('','holidayCalendars_add_control','acal-holidays_add');"/>
+                                                <bean parent="Uif-DropdownControl"/>
                                             </property>
                                             <property name="optionsFinder">
                                                 <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.HolidayWrapperListFinder" p:addBlankOption="false"/>
                                             </property>
                                         </bean>
                                         <bean parent="Uif-AddLineAction" p:actionLabel="Add Holiday Calendar"
-                                              p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');" p:render="@{#isAddLine}" p:disabled="true"/>
+                                              p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');" p:render="@{#isAddLine}" p:disabled="@{(#lp.id == null) or (#lp.id == '')}" p:refreshWhenChangedPropertyNames="#lp.holidayCalendars"/>
                                     </list>
                                 </property>
                             </bean>
