@@ -55,6 +55,7 @@
 				<ref bean="myplan_section" />
 			</list>
 		</property>
+        <property name="stickyFooter" value="false"/>
 	</bean>
 
 	<!-- Layout for Empty Course Search Form Page -->

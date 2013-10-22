@@ -68,6 +68,7 @@
                             </bean>
                         </list>
                     </property>
+                    <property name="stickyFooter" value="false"/>
                 </bean>
             </list>
         </property>

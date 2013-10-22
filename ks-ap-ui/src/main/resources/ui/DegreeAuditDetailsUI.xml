@@ -135,6 +135,7 @@
                             </bean>
                         </list>
                     </property>
+                    <property name="stickyFooter" value="false"/>
                 </bean>
 
                 <bean parent="Uif-Page" p:id="degree_audit_non_student_page">
@@ -195,6 +196,7 @@
                             </bean>
                         </list>
                     </property>
+                    <property name="stickyFooter" value="false"/>
                 </bean>
 
             </list>
