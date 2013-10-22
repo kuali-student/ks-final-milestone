@@ -87,7 +87,7 @@ limitations under the License.
                 <ref bean="KRMS-MultiCourse-Type-Field"/>
                 <ref bean="KRMS-ApprovedCourseStackedCollectionGroup"/>
                 <ref bean="KRMS-CourseSetStackedCollectionGroup"/>
-                <bean parent="Uif-VerticalBoxGroup">
+                <bean parent="Uif-VerticalBoxGroup" p:additionalCssClasses="ks-multiCourseItem">
                     <property name="validationMessages.displayMessages" value="false"/>
                     <property name="header">
                         <bean parent="Uif-HeaderSix" p:headerText="Course Range" p:progressiveRender="#np.proposition.cluSet.cluRangeListSize gt 0"/>
@@ -96,11 +96,6 @@ limitations under the License.
                         <list>
                             <ref bean="KS-CourseRange-BoxSection"/>
                             <ref bean="KS-CourseRangeStackedCollectionGroup"/>
-                        </list>
-                    </property>
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ks-multiCourseItem</value>
                         </list>
                     </property>
                 </bean>
@@ -161,7 +156,8 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-CourseSetStackedCollectionGroup" parent="KRMS-StackedCollectionGroup" p:headerText="Course Sets">
+    <bean id="KRMS-CourseSetStackedCollectionGroup" parent="KRMS-StackedCollectionGroup" p:headerText="Course Sets"
+          p:additionalCssClasses="ks-multiCourseItem">
         <property name="layoutManager">
             <bean parent="KRMS-StackedCollectionLayout-WithBoxItems">
                 <property name="summaryFields" value="name"/>
@@ -217,15 +213,10 @@ limitations under the License.
                 </property>
             </bean>
         </property-->
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-multiCourseItem</value>
-            </list>
-        </property>
     </bean>
 
     <bean id="KRMS-ApprovedCourseStackedCollectionGroup" parent="KRMS-StackedCollectionGroup"
-          p:headerText="Approved Courses">
+          p:headerText="Approved Courses" p:additionalCssClasses="ks-multiCourseItem">
         <property name="layoutManager">
             <bean parent="KRMS-StackedCollectionLayout-WithBoxItems">
                 <property name="summaryFields" value="code"/>
@@ -282,11 +273,6 @@ limitations under the License.
                 </property>
             </bean>
         </property-->
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-multiCourseItem</value>
-            </list>
-        </property>
     </bean>
 
     <bean id="KS-CourseRange-BoxSection-parent" parent="Uif-VerticalBoxSection"
@@ -385,7 +371,8 @@ limitations under the License.
             p:style="margin-top: 25px;" p:methodToCall="addRange">
     </bean>
 
-    <bean id="KS-CourseRangeStackedCollectionGroup" parent="KRMS-StackedCollectionGroup" p:render="@{#np.proposition.cluSet.cluRangeListSize gt 0}">
+    <bean id="KS-CourseRangeStackedCollectionGroup" parent="KRMS-StackedCollectionGroup" p:render="@{#np.proposition.cluSet.cluRangeListSize gt 0}"
+          p:additionalCssClasses="ks-multiCourseItem">
         <property name="layoutManager">
             <bean parent="KRMS-StackedCollectionLayout-WithBoxItems">
                 <property name="summaryFields" value="cluSetRangeLabel"/>
@@ -413,18 +400,8 @@ limitations under the License.
             <list>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="View" p:methodToCall="viewCourseRange"
                       p:style="margin-right: 15px;" p:actionParameters="selectedIndex:@{#index}"/>
-                <bean parent="Uif-DeleteLineAction">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>krms-stackedActionItem</value>
-                        </list>
-                    </property>
+                <bean parent="Uif-DeleteLineAction" p:additionalCssClasses="krms-stackedActionItem">
                 </bean>
-            </list>
-        </property>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-multiCourseItem</value>
             </list>
         </property>
     </bean>
