@@ -20,14 +20,23 @@
     limitations under the License.
     -->
 
-    <bean id="Uif-PrimaryActionButton" parent="Uif-PrimaryActionButton-parentBean" class="org.kuali.student.common.uif.element.KSUifActionButton"
-          p:additionalCssClasses="btn,btn-primary">
+    <bean id="Uif-PrimaryActionButton" parent="Uif-PrimaryActionButton-parentBean" class="org.kuali.student.common.uif.element.KSUifActionButton">
         <property name="buttonSize" value="default"/>
+        <property name="cssClasses">
+            <list merge="false">
+                <value>btn</value>
+                <value>btn-primary</value>
+            </list>
+        </property>
     </bean>
 
-    <bean id="Uif-SecondaryActionButton" parent="Uif-SecondaryActionButton-parentBean" class="org.kuali.student.common.uif.element.KSUifActionButton"
-          p:additionalCssClasses="btn">
+    <bean id="Uif-SecondaryActionButton" parent="Uif-SecondaryActionButton-parentBean" class="org.kuali.student.common.uif.element.KSUifActionButton">
         <property name="buttonSize" value="default"/>
+        <property name="cssClasses">
+            <list merge="false">
+                <value>btn</value>
+            </list>
+        </property>
     </bean>
 
    <bean id="Uif-KS-NavigationActionLink-parentBean" abstract="true" parent="Uif-NavigationActionLink-parentBean" p:ajaxSubmit="false" p:actionScript="actionInvokeHandler(this);"/>
@@ -42,7 +51,7 @@
     </bean>
 
     <bean id="Uif-FooterBase" parent="Uif-FooterBase-parentBean">
-        <property name="additionalCssClasses" value="ks-uif-footer" />
+        <property name="cssClasses" value="ks-uif-footer" />
     </bean>
 
     <!-- All input fields in KS should have their required Message Placement on the right. This is the '*'. Also, we should never render the colon. -->

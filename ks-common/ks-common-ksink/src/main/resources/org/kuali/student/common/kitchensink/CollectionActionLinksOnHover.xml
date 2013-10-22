@@ -40,7 +40,12 @@
     <bean id="KS-KitchenSink-CollectionActionLinksOnHover" parent="KS-KitchenSink-Collection-Base-ReadOnly">
         <!-- KS-KitchenSink-Collection-Base-ReadOnly is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
         <property name="layoutManager">
-            <bean parent="Uif-TableCollectionLayout" p:additionalCssClasses="uif-kskrad-collection-actionLinksOnHover">
+            <bean parent="Uif-TableCollectionLayout">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>uif-kskrad-collection-actionLinksOnHover</value>
+                    </list>
+                </property>
             </bean>
         </property>
     </bean>

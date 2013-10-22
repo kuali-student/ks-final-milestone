@@ -72,7 +72,17 @@
             Adding class "ks-krad-collection-allowOneRow" allows only one row to be selected.
         -->
         <property name="layoutManager">
-            <bean parent="Uif-TableCollectionLayout" p:additionalCssClasses="ks-krad-collection-rowSelectionHighlight">
+            <bean parent="Uif-TableCollectionLayout">
+                <property name="cssClasses">
+                    <!--
+                        Spring has a nested property merge problem, otherwise property
+                        "layoutManager.cssClasses" could be accessed directly
+                    -->
+                    <list merge="true">
+                        <value>ks-krad-collection-rowSelectionHighlight</value>
+                        <!-- <value>ks-krad-collection-allowOneRow</value> -->
+                    </list>
+                </property>
             </bean>
         </property>
     </bean>

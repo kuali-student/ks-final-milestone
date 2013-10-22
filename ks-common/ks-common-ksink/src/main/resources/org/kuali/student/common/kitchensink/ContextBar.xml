@@ -20,7 +20,7 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="KS-KitchenSink-ContextBar-View-Base" parent="KS-Uif-FormView" p:header.additionalCssClasses="ks-unified-header">
+    <bean id="KS-KitchenSink-ContextBar-View-Base" parent="KS-Uif-FormView">
         <!--<property name="headerText" value="Toolbar Example"/>-->
 
         <property name="topGroup">
@@ -36,6 +36,12 @@
         </property>
 
         <property name="headerText" value="Context Bar"/>
+
+        <property name="header.cssClasses">
+            <list merge="true">
+                <value>ks-unified-header</value>
+            </list>
+        </property>
 
         <!--<property name="header.headerText" value="The Page Title"/>-->
         <!--<property name="header.areaTitleText" value="The View Title"/>-->

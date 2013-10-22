@@ -143,9 +143,13 @@
     </bean>
 
     <!-- Content attached to button #1 -->
-    <bean id="KS-KitchenSink-Popovers-PopoverContent-1" parent="Uif-HorizontalBoxSection"
-          p:additionalCssClasses="uif-bubblepopup-content">
+    <bean id="KS-KitchenSink-Popovers-PopoverContent-1" parent="Uif-HorizontalBoxSection">
         <property name="hidden" value="true"/>
+        <property name="cssClasses">
+            <list>
+                <value>uif-bubblepopup-content</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-InputField-LabelTop">
@@ -189,9 +193,13 @@
     </bean>
 
     <!-- Content attached to button #2 -->
-    <bean id="KS-KitchenSink-Popovers-PopoverContent-2" parent="Uif-VerticalBoxSection"
-          p:additionalCssClasses="uif-bubblepopup-content">
+    <bean id="KS-KitchenSink-Popovers-PopoverContent-2" parent="Uif-VerticalBoxSection">
         <property name="hidden" value="true"/>
+        <property name="cssClasses">
+            <list>
+                <value>uif-bubblepopup-content</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-Image">
@@ -203,9 +211,13 @@
     </bean>
 
     <!-- Content attached to button #3 -->
-    <bean id="KS-KitchenSink-Popovers-PopoverContent-3" parent="Uif-VerticalBoxSection"
-          p:additionalCssClasses="uif-bubblepopup-content">
+    <bean id="KS-KitchenSink-Popovers-PopoverContent-3" parent="Uif-VerticalBoxSection">
         <property name="hidden" value="true"/>
+        <property name="cssClasses">
+            <list>
+                <value>uif-bubblepopup-content</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-InputField-LabelTop">
@@ -228,12 +240,16 @@
     </bean>
 
     <!-- Content attached to action link #1 -->
-    <bean id="KS-KitchenSink-Popovers-PopoverContent-4" parent="Uif-VerticalBoxSection"
-          p:additionalCssClasses="uif-bubblepopup-content">
+    <bean id="KS-KitchenSink-Popovers-PopoverContent-4" parent="Uif-VerticalBoxSection">
         <!-- The content is hidden by its container, otherwise the "Loading..." blocker
              is sometimes briefly visible before the popover appears.
         <property name="hidden" value="true"/>
         -->
+        <property name="cssClasses">
+            <list>
+                <value>uif-bubblepopup-content</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-DataField">
@@ -253,8 +269,7 @@
     </bean>
 
     <!-- Content attached to action link #2 -->
-    <bean id="KS-KitchenSink-Popovers-PopoverContent-5" parent="Uif-VerticalBoxSection"
-          p:additionalCssClasses="uif-bubblepopup-content">
+    <bean id="KS-KitchenSink-Popovers-PopoverContent-5" parent="Uif-VerticalBoxSection">
         <!-- The content is hidden by its container, because when this content is
              refreshed by js function retrieveComponent(), the "hidden" property
              is reset to its initial value.
@@ -264,6 +279,11 @@
         <property name="forceSessionPersistence" value="true"/>
         <!-- width may be needed if "align" option is not the default value "left": -->
         <property name="width" value="425px"/>
+        <property name="cssClasses">
+            <list>
+                <value>uif-bubblepopup-content</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-InputField">
@@ -296,9 +316,13 @@
     </bean>
 
     <!-- Content for "Hover example" -->
-    <bean id="KS-KitchenSink-Popovers-PopoverContent-6" parent="Uif-Image"
-          p:additionalCssClasses="uif-bubblepopup-content">
+    <bean id="KS-KitchenSink-Popovers-PopoverContent-6" parent="Uif-Image">
         <property name="hidden" value="true"/>
+        <property name="cssClasses">
+            <list>
+                <value>uif-bubblepopup-content</value>
+            </list>
+        </property>
         <property name="source" value="../ks-common-ksink/images/pike_place_public_market.jpg"/>
     </bean>
 

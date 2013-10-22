@@ -98,9 +98,13 @@
 
     <!-- Autc-Suggest containers -->
 
-    <bean id="KS-KitchenSink-LookupSuggest-View-Bare" parent="KS-KitchenSink-LookupSuggest-View-Base"
-          p:additionalCssClasses="uif-ks-kitchensink-marginTop">
+    <bean id="KS-KitchenSink-LookupSuggest-View-Bare" parent="KS-KitchenSink-LookupSuggest-View-Base">
         <property name="breadcrumbs.render" value="false"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-ks-kitchensink-marginTop</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-Page" p:header.render="false">
