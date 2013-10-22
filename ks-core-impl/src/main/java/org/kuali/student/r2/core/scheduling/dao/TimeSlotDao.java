@@ -20,6 +20,11 @@ import org.kuali.student.r2.common.dao.GenericEntityDao;
 import org.kuali.student.r2.core.scheduling.model.TimeSlotEntity;
 
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,13 +49,34 @@ public class TimeSlotDao extends GenericEntityDao<TimeSlotEntity> {
     }
 
     public List<TimeSlotEntity> getByTimeSlotTypeWeekdaysStartTimeAndEndTime(String timeSlotType, String weekdays, Long startTime, Long endTime) {
-        Query query = em.createNamedQuery("TimeSlotEntity.GetByTimeSlotTypeDaysStartTimeAndEndTime");
-        query.setParameter("timeSlotType", timeSlotType);
-        query.setParameter("weekdays", weekdays);
-        query.setParameter("startTimeMillis", startTime);
-        query.setParameter("endTimeMillis", endTime);
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<TimeSlotEntity> query = builder.createQuery(TimeSlotEntity.class);
+        Root<TimeSlotEntity> root = query.from(TimeSlotEntity.class);
+        query.select(root);
 
-        return query.getResultList();
+        List<Predicate> predicateList = new ArrayList<Predicate>();
+
+        predicateList.add(builder.equal(root.get("timeSlotType"), timeSlotType));
+        predicateList.add(builder.equal(root.get("weekdays"), weekdays));
+
+        if (startTime != null){
+            predicateList.add(builder.equal(root.get("startTimeMillis"), startTime));
+        } else {
+            predicateList.add(builder.isNull(root.get("startTimeMillis")));
+        }
+
+        if (endTime != null){
+            predicateList.add(builder.equal(root.get("endTimeMillis"), endTime));
+        } else {
+            predicateList.add(builder.isNull(root.get("endTimeMillis")));
+        }
+
+        Predicate[] predicates = new Predicate[predicateList.size()];
+        predicateList.toArray(predicates);
+
+        query.where(predicates);
+
+        return em.createQuery(query).getResultList();
     }
 
     public String getCurrentMaxTimeSlotCode(){

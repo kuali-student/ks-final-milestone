@@ -688,12 +688,14 @@ function endTimeOnBlur(){
     parseAndReplaceTimeClause(jQuery("#rdl_endtime_control"), jQuery("#rdl_days_control"));
 }
 
-function startTimeOnBlur(focusWidget){
-
-    parseAndReplaceTimeClause(jQuery("#rdl_starttime_control"), jQuery("#rdl_days_control"));
+function refreshEndTimeWidget(widgetToFocusAfterRefresh){
 
     var startTime = jQuery("#rdl_starttime_control").val();
     var days = jQuery("#rdl_days_control").val();
+
+    if (startTime != ''){
+        parseAndReplaceTimeClause(jQuery("#rdl_starttime_control"), jQuery("#rdl_days_control"));
+    }
 
     if (startTime == '' || days == ''){
        return;
@@ -702,12 +704,11 @@ function startTimeOnBlur(focusWidget){
 
    if (validateFieldValue(jQuery("#rdl_starttime_control")) == false ||
        validateFieldValue(jQuery("#rdl_days_control")) == false){
-//        jQuery("#rdl_days_control").focus();
        return;
    }
 
     retrieveComponent('rdl_endtime','loadTSEndTimes',function () {
-        jQuery("#" + focusWidget).focus();
+        jQuery("#" + widgetToFocusAfterRefresh).focus();
     });
 }
 
