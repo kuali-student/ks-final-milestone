@@ -688,7 +688,7 @@ function endTimeOnBlur(){
     parseAndReplaceTimeClause(jQuery("#rdl_endtime_control"), jQuery("#rdl_days_control"));
 }
 
-function startTimeOnBlur(){
+function startTimeOnBlur(focusWidget){
 
     parseAndReplaceTimeClause(jQuery("#rdl_starttime_control"), jQuery("#rdl_days_control"));
 
@@ -706,6 +706,8 @@ function startTimeOnBlur(){
        return;
    }
 
-    retrieveComponent('rdl_endtime','loadTSEndTimes');
+    retrieveComponent('rdl_endtime','loadTSEndTimes',function () {
+        jQuery("#" + focusWidget).focus();
+    });
 }
 
