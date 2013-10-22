@@ -12,7 +12,7 @@
 
         <property name="cssClasses">
             <list merge="true">
-                <value>ks-enrollment-home</value>
+                <value>ks-home</value>
             </list>
         </property>
 
@@ -22,7 +22,7 @@
                     <property name="items">
                         <list>
                             <!--<bean parent="Uif-Label" p:labelText="Kuali Student Modules" p:renderColon="false" p:cssClasses="ks-student-home-page-header"/>-->
-                            <bean parent="Uif-Label" p:labelText="Click a module below to get started" p:renderColon="false" p:cssClasses="ks-student-home-area-instruction"/>
+                            <bean parent="Uif-Label" p:labelText="Click a module to get started." p:renderColon="false" p:cssClasses="ks-student-home-area-instruction"/>
                             <ref bean="KS-StudentHome-Setup"/>
                         </list>
                     </property>
