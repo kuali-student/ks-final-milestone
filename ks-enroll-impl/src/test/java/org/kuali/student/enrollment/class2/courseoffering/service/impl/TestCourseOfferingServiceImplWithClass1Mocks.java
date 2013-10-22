@@ -1,5 +1,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +21,7 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -35,9 +39,13 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.scheduling.SchedulingServiceDataLoader;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
@@ -50,6 +58,8 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -71,6 +81,8 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
     protected CourseService courseService;
     @Resource(name = "stateService")
     protected StateService stateService;
+    @Resource(name = "typeService")
+    protected TypeService typeService;
     @Resource(name = "luiService")
     protected LuiService luiService;
     @Resource(name = "acalService")
@@ -102,7 +114,6 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
-
     }
 
     protected void createSchedulingServiceData() throws Exception {
@@ -186,7 +197,6 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
         return stateService.createState(orig.getLifecycleKey(), orig.getKey(), orig, callContext);
     }
 
-
     @Test
     public void testCRUD() throws DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
@@ -195,9 +205,91 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
         CourseOfferingInfo co = this.testCRUDCourseOffering();
         FormatOfferingInfo fo = this.testCRUDFormatOffering(co);
         ActivityOfferingInfo ao = this.testCRUDActivityOffering(fo);
+
+        searchForTimeSlots(ao);
+
         this.testDeletes(co, fo, ao);
     }
-    
+
+    public void searchForTimeSlots(ActivityOfferingInfo ao) throws PermissionDeniedException, MissingParameterException,
+            InvalidParameterException, OperationFailedException, DoesNotExistException {
+        /*
+         *  Search for time slots for an AO in a Fall term, with days == Tues, Thurs, and start time == 8am
+         */
+        String aoId = ao.getId();
+        List<Integer> days = new ArrayList<Integer>();
+        days.add(3);
+        days.add(5);
+        Collections.sort(days);  //  Make the order predictable.
+
+        TimeOfDayInfo startTime = SchedulingServiceUtil.makeTimeOfDayFromMilitaryTimeString("08:00");
+        //  Define some end times
+        TimeOfDayInfo endTime850 =  SchedulingServiceUtil.makeTimeOfDayFromMilitaryTimeString("08:50");
+        TimeOfDayInfo endTime910 =  SchedulingServiceUtil.makeTimeOfDayFromMilitaryTimeString("09:10");
+        TimeOfDayInfo endTime950 =  SchedulingServiceUtil.makeTimeOfDayFromMilitaryTimeString("09:50");
+        TimeOfDayInfo endTime1050 =  SchedulingServiceUtil.makeTimeOfDayFromMilitaryTimeString("10:50");
+        TimeOfDayInfo endTime1110 =  SchedulingServiceUtil.makeTimeOfDayFromMilitaryTimeString("11:10");
+
+        //  Search
+        List<TimeSlotInfo> timeSlots = courseOfferingService
+                .getAllowedTimeSlotsByDaysAndStartTimeForActivityOffering(aoId, days, startTime, ContextUtils.createDefaultContextInfo());
+
+        assertEquals(3, timeSlots.size());
+
+        //  Make the time slot order predictable.
+        Collections.sort(timeSlots, SchedulingServiceUtil.makeTimeSlotComparator());
+
+        //  Type, days, start time should be the same
+        for (TimeSlotInfo ts : timeSlots) {
+            assertEquals(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_FALL, ts.getTypeKey());
+            List<Integer> tsDays = new ArrayList<Integer>();
+            tsDays.addAll(ts.getWeekdays());
+            Collections.sort(tsDays);
+            assertEquals(days.toString(), tsDays.toString());
+            assertEquals(startTime.getMilliSeconds(), ts.getStartTime().getMilliSeconds());
+        }
+
+        //  Check end times.
+        TimeSlotInfo endTime = timeSlots.get(0);
+        assertEquals(endTime850.getMilliSeconds(), endTime.getEndTime().getMilliSeconds());
+        endTime = timeSlots.get(1);
+        assertEquals(endTime910.getMilliSeconds(), endTime.getEndTime().getMilliSeconds());
+        endTime = timeSlots.get(2);
+        assertEquals(endTime950.getMilliSeconds(), endTime.getEndTime().getMilliSeconds());
+
+        /*
+         *  Search for time slots for an AO in a Fall term, with days == MWF, and start time == 10am
+         */
+        startTime = SchedulingServiceUtil.makeTimeOfDayFromMilitaryTimeString("10:00");
+
+        days = new ArrayList<Integer>();
+        days.add(2);
+        days.add(4);
+        days.add(6);
+        Collections.sort(days);
+
+        timeSlots = courseOfferingService
+                .getAllowedTimeSlotsByDaysAndStartTimeForActivityOffering(aoId, days, startTime, ContextUtils.createDefaultContextInfo());
+
+        assertEquals(2, timeSlots.size());
+
+        //  Type, days, start time should be the same
+        for (TimeSlotInfo ts : timeSlots) {
+            assertEquals(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_FALL, ts.getTypeKey());
+            List<Integer> tsDays = new ArrayList<Integer>();
+            tsDays.addAll(ts.getWeekdays());
+            Collections.sort(tsDays);
+            assertEquals(days.toString(), tsDays.toString());
+            assertEquals(startTime.getMilliSeconds(), ts.getStartTime().getMilliSeconds());
+        }
+
+        //  Check end times.
+        endTime = timeSlots.get(0);
+        assertEquals(endTime1050.getMilliSeconds(), endTime.getEndTime().getMilliSeconds());
+        endTime = timeSlots.get(1);
+        assertEquals(endTime1110.getMilliSeconds(), endTime.getEndTime().getMilliSeconds());
+    }
+
     private CourseOfferingInfo testCRUDCourseOffering() throws DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {

@@ -3,8 +3,6 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-
-
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
     <context:annotation-config />
@@ -15,24 +13,16 @@
     <import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml" />
     <import resource="classpath:co-test-base-entityManager-context.xml" />
 
-    <bean id="acalService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.AcademicCalendarServiceMockImpl">
-    </bean>
-    <bean id="luiService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.LuiServiceMockImpl">
-    </bean>
-    <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceMockImpl">
-    </bean>
+    <bean id="acalService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.AcademicCalendarServiceMockImpl" />
+    <bean id="luiService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.LuiServiceMockImpl" />
+    <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceMockImpl" />
     <bean id="LrcService" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceMockImpl"/>
-    <bean id="typeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl">
-    </bean>
+    <bean id="typeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl" />
     <bean id="stateService" class="org.kuali.student.r2.core.class1.state.mock.StateServiceMockImpl" />
-    <bean id="courseService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseServiceR1MockImpl">
-    </bean>
+    <bean id="courseService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseServiceR1MockImpl" />
+    <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl" />
 
-    <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl">
-    </bean>
-
-    <bean id="activityOfferingClusterDao" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.MockActivityOfferingClusterDao">
-    </bean>
+    <bean id="activityOfferingClusterDao" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.MockActivityOfferingClusterDao" />
 
     <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
         <property name="rgAssembler" ref="rgAssembler" />
@@ -53,7 +43,6 @@
         <property name="courseWaitListService" ref="courseWaitListService"/>
         <property name="examOfferingService" ref="examOfferingService"/>
         <property name="searchService" ref="searchService" />
-
     </bean>
 
     <bean id="courseWaitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceImpl">
@@ -73,16 +62,14 @@
         <property name="roomService" ref="roomService"/>
     </bean>
 
-    <bean id="roomService" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImplM5">
-    </bean>
+    <bean id="roomService" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImplM5" />
 
-    <bean id="organizationService" class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceMockImpl">
-    </bean>
+    <bean id="organizationService" class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceMockImpl"/>
 
     <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
 
-   <bean id="krmsRuleManagementCopyMethods" class="org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethodsMockImpl">
-   </bean>
+    <bean id="krmsRuleManagementCopyMethods" class="org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethodsMockImpl"/>
+
     <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
         <property name="lprService" ref="lprService" />
         <property name="personService" ref="personService" />
@@ -97,8 +84,7 @@
         <property name="typeService" ref="typeService" />
     </bean>
 
-    <bean id="rolloverAssist" class="org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssistImpl">
-    </bean>
+    <bean id="rolloverAssist" class="org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssistImpl"/>
 
     <bean id="courseWaitListServiceFacade" class="org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacadeImpl"/>
 
@@ -141,7 +127,7 @@
     </bean>
     
     <!-- 	 This needs to be replaced with a real impl that follows the prescrivbed pattern -->
-	 <bean id="regGroupCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.UUIDRegistrationGroupCodeGenerator" />
+	<bean id="regGroupCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.UUIDRegistrationGroupCodeGenerator" />
 
     <bean id="coCriteriaLookupService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CriteriaLookupServiceMockImpl" />
 
