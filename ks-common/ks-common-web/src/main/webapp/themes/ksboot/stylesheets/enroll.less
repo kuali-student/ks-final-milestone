@@ -610,65 +610,18 @@ cursor:auto;
 
 
 
-/************************************** LOZENGES **********************
-   This is designed to work with the Uif-DataField. We will need to make it more default later */
-.text-lozenge-orange > span:first-child {
-  color: @stateText;
-  background-color: @suspendedStateBackground;
-  font-size: 0.688em;
-  padding: 2px 8px;
-  .border-radius(6px);
-  margin-left: 1em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  font-weight: bold;
-}
+/************************************** LOZENGES **********************/
+//.text-lozenge-orange-msg, .text-lozenge-orange > span:first-child { .state-lozenge-suspended(); }
+//
+//.text-lozenge-grey-msg, .text-lozenge-grey > span:first-child { .state-lozenge-draft(); }
+//
+//.text-lozenge-green-msg { .state-lozenge-completed(); }
 
-.text-lozenge-grey > span:first-child {
-  color: @stateText;
-  background-color: @draftStateBackground;
-  font-size: 0.688em;
-  padding: 2px 8px;
-  .border-radius(6px);
-  margin-left: 1em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  font-weight: bold;
-}
-
-/* Uif-Message */
-.text-lozenge-grey-msg {
-  color: @stateText;
-  background-color: @draftStateBackground;
-  font-size: 0.688em;
-  padding: 2px 8px;
-  .border-radius(6px);
-  text-transform: uppercase;
-  white-space: nowrap;
-  font-weight: bold;
-}
-
-.text-lozenge-green-msg {
-  color: @stateText;
-  background-color: @completedStateBackground;
-  font-size: 0.688em;
-  padding: 2px 8px;
-  .border-radius(6px);
-  text-transform: uppercase;
-  white-space: nowrap;
-  font-weight: bold;
-}
-
-.text-lozenge-orange-msg {
-  color: @stateText;
-  background-color: @suspendedStateBackground;
-  font-size: 0.688em;
-  padding: 2px 8px;
-  .border-radius(6px);
-  text-transform: uppercase;
-  white-space: nowrap;
-  font-weight: bold;
-}
+.state-draft        { .state-lozenge-draft(); }
+.state-ready        { .state-lozenge-ready(); }
+.state-completed    { .state-lozenge-completed(); }
+.state-canceled     { .state-lozenge-canceled(); }
+.state-suspended    { .state-lozenge-suspended(); }
 /************************************** END LOZENGES **********************/
 
 
@@ -701,11 +654,7 @@ cursor:auto;
 
 /* Attributes of the SOC State */
 .ks-topGroup-courseOffering-socState {
-  padding-top: 10px;
-}
-
-.ks-topGroup-courseOffering-socState span {
-  font-weight: normal;
+  margin: 10px;
 }
 /************************************** END CONTEXT BAR ***********************/
 

@@ -439,7 +439,7 @@
     <bean id="KS-Lozenge-Grey-Uif-DataField" parent="Uif-DataField">
         <property name="cssClasses">
             <list merge="true">
-                <value>text-lozenge-grey</value>
+                <value>state-draft</value>
             </list>
         </property>
     </bean>
@@ -447,14 +447,14 @@
     <bean id="KS-Lozenge-Grey-Uif-Message" parent="Uif-Message">
         <property name="cssClasses">
             <list merge="true">
-                <value>text-lozenge-grey-msg</value>
+                <value>state-draft</value>
             </list>
         </property>
     </bean>
     <bean id="KS-Lozenge-Grey-Uif-InputField" parent="KS-Uif-InputField">
         <property name="cssClasses">
             <list merge="true">
-                <value>text-lozenge-grey-msg</value>
+                <value>state-draft</value>
             </list>
         </property>
     </bean>
@@ -462,7 +462,7 @@
     <bean id="KS-Lozenge-Green-Uif-Message" parent="Uif-Message">
         <property name="cssClasses">
             <list merge="true">
-                <value>text-lozenge-green-msg</value>
+                <value>state-completed</value>
             </list>
         </property>
     </bean>
@@ -470,7 +470,7 @@
     <bean id="KS-Lozenge-Orange-Uif-Message" parent="Uif-Message">
         <property name="cssClasses">
             <list merge="true">
-                <value>text-lozenge-orange-msg</value>
+                <value>state-suspended</value>
             </list>
         </property>
     </bean>
