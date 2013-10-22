@@ -227,6 +227,14 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             set.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
         }
 
+        // KSENROLL-10338 If the isMaxEnrollentShared changes, then need to save the
+        // schedule request set data (thus, we set the wrapper's schedulesModified to true)
+        Boolean origMaxShared = wrapper.getScheduleRequestSetInfo().getIsMaxEnrollmentShared();
+        if (origMaxShared == null ||
+                origMaxShared != wrapper.isMaxEnrollmentShared()) {
+            wrapper.setSchedulesModified(true);
+        }
+
         if (wrapper.isColocatedAO()){
             wrapper.getScheduleRequestSetInfo().getRefObjectIds().clear();
 
@@ -236,6 +244,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             wrapper.getScheduleRequestSetInfo().getRefObjectIds().add(wrapper.getAoInfo().getId());
 
             wrapper.getScheduleRequestSetInfo().setMaxEnrollmentShared(wrapper.isMaxEnrollmentShared());
+
             if (wrapper.isMaxEnrollmentShared()){
                 wrapper.getAoInfo().setMaximumEnrollment(wrapper.getSharedMaxEnrollment());
                 wrapper.getScheduleRequestSetInfo().setMaximumEnrollment(wrapper.getSharedMaxEnrollment());
