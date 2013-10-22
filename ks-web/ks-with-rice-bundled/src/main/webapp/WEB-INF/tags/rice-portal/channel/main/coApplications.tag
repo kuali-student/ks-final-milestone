@@ -2,7 +2,7 @@
 
 <channel:portalChannelTop channelTitle="Sandbox" />
 <div class="body">
-    <strong>Schedule of Classes (Alternative Views)</strong>
+    <strong>Schedule of Classes (Alternate Views)</strong>
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Schedule of Classes - Cluster View"
                                url="${ConfigProperties.application.url}/kr-krad/scheduleOfClassesSearch?viewId=scheduleOfClassesSearchView&pageId=scheduleOfClassesSearchInputPage&methodToCall=start&scheduleOfClassesDisplayFormat=By Cluster" /></li>
