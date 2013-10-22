@@ -12,3 +12,10 @@
   .border-bottom-right-radius(@bottom-right);
   .border-bottom-left-radius(@bottom-left);
 }
+
+/*-- Border Style mixins --*/
+.ks-border-style(@size: 1px, @style: solid, @color: @border-color) {
+  border-width: @size;
+  border-style: @style;
+  border-color: @color;
+}
