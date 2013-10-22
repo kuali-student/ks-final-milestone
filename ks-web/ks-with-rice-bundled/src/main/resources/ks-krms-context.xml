@@ -107,29 +107,29 @@
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/courseRegistrationService}CourseRegistrationService"/>
     </bean>
 
-    <bean id="basicContext" class="org.kuali.student.krms.naturallanguage.config.context.BasicContextImpl">
+    <bean id="basicContext" class="org.kuali.student.enroll.krms.courseoffering.naturallanguage.context.BasicContextImpl">
     </bean>
-    <bean id="luContext" class="org.kuali.student.krms.naturallanguage.config.context.CluContextImpl">
+    <bean id="luContext" class="org.kuali.student.enroll.krms.courseoffering.naturallanguage.context.CluContextImpl">
         <property name="cluService" ref="cluClient"/>
     </bean>
-    <bean id="lrcContext" class="org.kuali.student.krms.naturallanguage.config.context.LrcContextImpl">
+    <bean id="lrcContext" class="org.kuali.student.enroll.krms.courseoffering.naturallanguage.context.LrcContextImpl">
     </bean>
-    <bean id="gpaContext" class="org.kuali.student.krms.naturallanguage.config.context.GpaContextImpl">
+    <bean id="gpaContext" class="org.kuali.student.enroll.krms.courseoffering.naturallanguage.context.GpaContextImpl">
     </bean>
-    <bean id="personContext" class="org.kuali.student.krms.naturallanguage.config.context.PersonContextImpl">
+    <bean id="personContext" class="org.kuali.student.enroll.krms.courseoffering.naturallanguage.context.PersonContextImpl">
     </bean>
-    <bean id="orgContext" class="org.kuali.student.krms.naturallanguage.config.context.OrganizationContextImpl">
+    <bean id="orgContext" class="org.kuali.student.enroll.krms.courseoffering.naturallanguage.context.OrganizationContextImpl">
         <property name="organizationService" ref="orgClient"/>
     </bean>
-    <bean id="atpContext" class="org.kuali.student.krms.naturallanguage.config.context.AtpContextImpl">
+    <bean id="atpContext" class="org.kuali.student.enroll.krms.courseoffering.naturallanguage.context.AtpContextImpl">
     </bean>
-    <bean id="termContext" class="org.kuali.student.krms.naturallanguage.config.context.TermContextImpl">
+    <bean id="termContext" class="org.kuali.student.enroll.krms.courseoffering.naturallanguage.context.TermContextImpl">
         <property name="acalService" ref="acalClient"/>
     </bean>
-    <bean id="populationContext" class="org.kuali.student.krms.naturallanguage.config.context.PopulationContextImpl">
+    <bean id="populationContext" class="org.kuali.student.enroll.krms.courseoffering.naturallanguage.context.PopulationContextImpl">
         <property name="populationService" ref="PopulationServiceClient"/>
     </bean>
-    <bean id="finalExamContext" class="org.kuali.student.krms.naturallanguage.config.context.FinalExamContextImpl"/>
+    <bean id="finalExamContext" class="org.kuali.student.enroll.krms.examoffering.naturallanguage.context.FinalExamContextImpl"/>
 
     <bean id="translationContextRegistry"
           class="org.kuali.rice.krms.impl.repository.language.TranslationContextRegistry">
