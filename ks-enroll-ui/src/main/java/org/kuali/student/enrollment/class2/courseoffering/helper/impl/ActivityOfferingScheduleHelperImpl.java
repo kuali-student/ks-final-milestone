@@ -465,7 +465,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         TimeSlotInfo timeSlot;
 
         /**
-         * 1. If TBA, loook for tba timeslot and use that
+         * 1. If TBA, look for tba timeslot and use that
          * 2. Otherwise, look for standard timeslot and use that. If there is no standard timeslot exists, create
          * an adhoc one if permission exists for the user.
          */
@@ -510,7 +510,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                         timeSlot.setEndTime(endTimeOfDayInfo);
                         timeSlot.setWeekdays(days);
                         timeSlot = getSchedulingService().createTimeSlot(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA,timeSlot,defaultContextInfo);
-                    } else {
+                    } else { // This never happen as the user restricts displaying a free end time field for dept scheduling coordinators
                         throw new PermissionDeniedException("Sorry, you dont have permission to create a adhoc timeslot");
                     }
                 }
