@@ -16,8 +16,12 @@
 package org.kuali.student.enrollment.class1.krms.builder;
 
 import org.apache.log4j.Logger;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.builder.ComponentBuilder;
+import org.kuali.rice.krms.util.KRMSConstants;
+import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.dto.FEPropositionEditor;
+import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
@@ -111,6 +115,48 @@ public class TimeSlotsComponentBuilder implements ComponentBuilder<FEProposition
 
     @Override
     public void validate(FEPropositionEditor propositionEditor) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        if (propositionEditor.getStartTime() == null || propositionEditor.getStartTime().isEmpty()) {
+            String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "startTime");
+            GlobalVariables.getMessageMap().putError(propName, KRMSConstants.KRMS_MSG_ERROR_RDL_STARTTIME);
+        }
+        if (propositionEditor.getStartTimeAMPM() == null || propositionEditor.getStartTimeAMPM().isEmpty()) {
+            String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "startTimeAMPM");
+            GlobalVariables.getMessageMap().putError(propName, KRMSConstants.KRMS_MSG_ERROR_RDL_STARTTIME_AMPM);
+        }
+        if (propositionEditor.getEndTime() == null || propositionEditor.getEndTime().isEmpty()) {
+            String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "endTime");
+            GlobalVariables.getMessageMap().putError(propName, KRMSConstants.KRMS_MSG_ERROR_RDL_ENDTIME);
+        }
+        if (propositionEditor.getEndTimeAMPM() == null || propositionEditor.getEndTimeAMPM().isEmpty()) {
+            String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "endTimeAMPM");
+            GlobalVariables.getMessageMap().putError(propName, KRMSConstants.KRMS_MSG_ERROR_RDL_ENDTIME_AMPM);
+        }
+
+        //Only perform this validation once all other have passed.
+        if(!GlobalVariables.getMessageMap().hasErrors()) {
+            if (compareTime(propositionEditor.getStartTime(), propositionEditor.getStartTimeAMPM(), propositionEditor.getEndTime(), propositionEditor.getEndTimeAMPM())) {
+                GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID, ActivityOfferingConstants.MSG_ERROR_INVALID_START_TIME);
+            }
+        }
+    }
+
+    private boolean compareTime(String startTime, String startTimeAMPM, String endTime, String endTimeAMPM) {
+        String sTimeAMPM = new StringBuilder(startTime).append(" ").append(startTimeAMPM).toString();
+        String eTimeAMPM = new StringBuilder(endTime).append(" ").append(endTimeAMPM).toString();
+
+        long sTime;
+        long eTime;
+
+        try {
+            sTime = parseTimeToMillis(sTimeAMPM);
+            eTime = parseTimeToMillis(eTimeAMPM);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        if(eTime <= sTime) {
+            return true;
+        }
+        return false;
     }
 }

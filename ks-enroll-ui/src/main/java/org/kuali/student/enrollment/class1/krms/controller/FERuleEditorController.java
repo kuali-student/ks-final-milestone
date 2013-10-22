@@ -255,6 +255,26 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         return super.navigate(form, result, request, response);
     }
 
+    private boolean compareTime(String startTime, String startTimeAMPM, String endTime, String endTimeAMPM) {
+        String sTimeAMPM = new StringBuilder(startTime).append(" ").append(startTimeAMPM).toString();
+        String eTimeAMPM = new StringBuilder(endTime).append(" ").append(endTimeAMPM).toString();
+
+        long sTime;
+        long eTime;
+
+        try {
+            sTime = parseTimeToMillis(sTimeAMPM);
+            eTime = parseTimeToMillis(eTimeAMPM);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        if(eTime <= sTime) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Retrieves selected proposition key and initializes edit on propostion.
      *
@@ -277,54 +297,6 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         getRuleEditor(form).setSelectedKey(selectedKey);
 
         return this.goToEditProposition(form, result, request, response);
-    }
-
-    /**
-     * Ovverides method to check if FE Matrix propositions times are correct
-     *
-     * @param form
-     * @param result
-     * @param request
-     * @param response
-     * @return
-     */
-    @Override
-    @RequestMapping(params = "methodToCall=updateProposition")
-    public ModelAndView updateProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                          HttpServletRequest request, HttpServletResponse response) {
-        FERuleEditor ruleEditor = (FERuleEditor) getRuleEditor(form);
-        RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper((MaintenanceDocumentForm) form);
-
-        //Return with error message if user is currently editing a proposition.
-        FEPropositionEditor proposition = (FEPropositionEditor) PropositionTreeUtil.getProposition(ruleEditor);
-
-        if(proposition.getStartTime() != null && proposition.getEndTime() != null) {
-            if (compareTime(proposition.getStartTime(), proposition.getStartTimeAMPM(), proposition.getEndTime(), proposition.getEndTimeAMPM())) {
-                GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID, ActivityOfferingConstants.MSG_ERROR_INVALID_START_TIME);
-                return getUIFModelAndView(form);
-            }
-        }
-        return super.updateProposition(form, result, request, response);
-    }
-
-    private boolean compareTime(String startTime, String startTimeAMPM, String endTime, String endTimeAMPM) {
-        String sTimeAMPM = new StringBuilder(startTime).append(" ").append(startTimeAMPM).toString();
-        String eTimeAMPM = new StringBuilder(endTime).append(" ").append(endTimeAMPM).toString();
-
-        long sTime;
-        long eTime;
-
-        try {
-            sTime = parseTimeToMillis(sTimeAMPM);
-            eTime = parseTimeToMillis(eTimeAMPM);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-
-        if(eTime <= sTime) {
-            return true;
-        }
-        return false;
     }
 
     private RuleEditor getSelectedRule(MaintenanceDocumentForm form, String actionLink) {

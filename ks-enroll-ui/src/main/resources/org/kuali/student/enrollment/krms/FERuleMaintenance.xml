@@ -561,8 +561,7 @@ limitations under the License.
     <bean id="KSFE_days" parent="KSFE_days-Parent"/>
 
     <bean id="KSFE_starttime-Parent" parent="Uif-InputField-LabelTop" p:label="Start Time"
-          p:propertyName="proposition.startTime" p:required="true">
-        <property name="fieldLabel.requiredMessage.messageText" value=""/>
+          p:propertyName="proposition.startTime">
         <property name="constraintText" value="HH:MM"/>
         <property name="control">
             <bean parent="Uif-TextControl" p:size="5" p:additionalCssClasses="new_rdl_components"/>
@@ -570,17 +569,11 @@ limitations under the License.
         <property name="validCharactersConstraint">
             <bean parent="TimePatternConstraint"/>
         </property>
-        <property name="dependencyConstraints">
-            <list>
-                <bean parent="PrerequisiteConstraint" p:propertyName="proposition.startTimeAMPM"/>
-            </list>
-        </property>
     </bean>
     <bean id="KSFE_starttime" parent="KSFE_starttime-Parent"/>
 
     <bean id="KSFE_starttime_ampm-Parent" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;"
-          p:propertyName="proposition.startTimeAMPM" p:required="true">
-        <property name="fieldLabel.requiredMessage.messageText" value=""/>
+          p:propertyName="proposition.startTimeAMPM">
         <property name="control">
             <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:additionalCssClasses="new_rdl_components"/>
         </property>
@@ -588,8 +581,7 @@ limitations under the License.
     <bean id="KSFE_starttime_ampm" parent="KSFE_starttime_ampm-Parent"/>
 
     <bean id="KSFE_endtime-Parent" parent="Uif-InputField-LabelTop" p:label="End Time"
-          p:propertyName="proposition.endTime" p:required="true">
-        <property name="fieldLabel.requiredMessage.messageText" value=""/>
+          p:propertyName="proposition.endTime">
         <property name="constraintText" value="HH:MM"/>
         <property name="control">
             <bean parent="Uif-TextControl" p:size="5" p:additionalCssClasses="new_rdl_components"/>
@@ -601,8 +593,7 @@ limitations under the License.
     <bean id="KSFE_endtime" parent="KSFE_endtime-Parent"/>
 
     <bean id="KSFE_endtime_ampm-Parent" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;"
-          p:propertyName="proposition.endTimeAMPM" p:required="true">
-        <property name="fieldLabel.requiredMessage.messageText" value=""/>
+          p:propertyName="proposition.endTimeAMPM">
         <property name="control">
             <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:additionalCssClasses="new_rdl_components"/>
         </property>
