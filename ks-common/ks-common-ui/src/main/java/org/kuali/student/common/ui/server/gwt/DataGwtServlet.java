@@ -52,7 +52,7 @@ public class DataGwtServlet extends RemoteServiceServlet implements BaseDataOrch
 			return dataService.getData(id, ContextUtils.getContextInfo());
 		} catch (Exception e) {
 			LOG.error("Could not get Data ", e);
-			throw new OperationFailedException("Failed to get data");
+			throw new OperationFailedException("Failed to get data", e);
 		}
 	}
 
@@ -62,7 +62,7 @@ public class DataGwtServlet extends RemoteServiceServlet implements BaseDataOrch
 			return dataService.getMetadata(id, idAttributes, ContextUtils.getContextInfo());
 		} catch (Exception e) {
 			LOG.error("Could not get metadata ", e);
-			throw new OperationFailedException("Failed to get metadata");
+			throw new OperationFailedException("Failed to get metadata", e);
 		}
 	}
 
@@ -81,7 +81,7 @@ public class DataGwtServlet extends RemoteServiceServlet implements BaseDataOrch
 		    throw new VersionMismatchClientException(vme.getMessage());
 		} catch (Exception e) {
 			LOG.error("Could not save data ", e);
-			throw new OperationFailedException(e.getMessage());
+			throw new OperationFailedException(e.getMessage(), e);
 		} 
 	}
 
@@ -91,7 +91,7 @@ public class DataGwtServlet extends RemoteServiceServlet implements BaseDataOrch
 		    return result;
 		} catch (Exception e) {
 			LOG.error("Could not validate data ", e);
-			throw new OperationFailedException("Failed to  data");
+			throw new OperationFailedException("Failed to  data", e);
 		} 
 	}
 

@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.action.ActionRequestStatus;
 import org.kuali.rice.kew.api.action.ActionRequestType;
@@ -67,13 +68,13 @@ public class CollaboratorHelper implements Serializable {
         try {
             if (StudentWorkflowConstants.ActionRequestType.APPROVE.equals(actionRequestEnum)) {
                 ahtpBuilder.setResponsibilityDescription(KewApiConstants.ACTION_REQUEST_APPROVE_REQ_LABEL);
-                stdResp = workflowDocumentActionsService.adHocToPrincipal(docActionParams, ahtpBuilder.build());
+                stdResp = getWorkflowDocumentActionsService().adHocToPrincipal(docActionParams, ahtpBuilder.build());
             } else if (StudentWorkflowConstants.ActionRequestType.ACKNOWLEDGE.equals(actionRequestEnum)) {
                 ahtpBuilder.setResponsibilityDescription(KewApiConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
-                stdResp = workflowDocumentActionsService.adHocToPrincipal(docActionParams, ahtpBuilder.build());
+                stdResp = getWorkflowDocumentActionsService().adHocToPrincipal(docActionParams, ahtpBuilder.build());
             } else if (StudentWorkflowConstants.ActionRequestType.FYI.equals(actionRequestEnum)) {
                 ahtpBuilder.setResponsibilityDescription(KewApiConstants.ACTION_REQUEST_FYI_REQ_LABEL);
-                stdResp = workflowDocumentActionsService.adHocToPrincipal(docActionParams, ahtpBuilder.build());
+                stdResp = getWorkflowDocumentActionsService().adHocToPrincipal(docActionParams, ahtpBuilder.build());
             } else {
                 throw new OperationFailedException("Invalid action request type '"
                         + actionRequestEnum.getActionRequestLabel() + "'");
@@ -284,8 +285,15 @@ public class CollaboratorHelper implements Serializable {
     }
 
 	public WorkflowDocumentActionsService getWorkflowDocumentActionsService() throws OperationFailedException {
+	    
         if (workflowDocumentActionsService == null) {
-            throw new OperationFailedException("unable to find valid workflowDocumentActionsService");
+            
+            workflowDocumentActionsService = KewApiServiceLocator.getWorkflowDocumentActionsService();
+            
+            if (workflowDocumentActionsService == null) {
+                throw new OperationFailedException(
+                        "unable to find valid workflowDocumentActionsService");
+            }
         }
 		return workflowDocumentActionsService;
 	}
@@ -296,9 +304,16 @@ public class CollaboratorHelper implements Serializable {
 
 
 	public WorkflowDocumentService getWorkflowDocumentService() throws OperationFailedException {
-        if (workflowDocumentService == null) {
-            throw new OperationFailedException("unable to find valid workflowDocumentService");
-        }
+	    
+	    if (workflowDocumentService == null) {
+	        
+	        workflowDocumentService = KewApiServiceLocator.getWorkflowDocumentService();
+	        
+	        if (workflowDocumentService == null) {
+	            throw new OperationFailedException("unable to find valid workflowDocumentService");
+	        }
+	        
+	    }
 		return workflowDocumentService;
 	}
 
