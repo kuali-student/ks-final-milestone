@@ -479,8 +479,7 @@ limitations under the License.
                             <bean parent="Uif-HorizontalBoxGroup" p:refreshWhenChangedPropertyNames="academicCalendarInfo.startDate">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField" p:label=" " p:propertyName="id" p:id="holidayCalendars" p:render="@{#isAddLine}"
-                                              p:refreshWhenChangedPropertyNames="academicCalendarInfo.startDate">
+                                        <bean parent="Uif-InputField" p:label=" " p:propertyName="id" p:id="holidayCalendars" p:render="@{#isAddLine}">
                                             <property name="inquiry">
                                                 <bean parent="Uif-Inquiry">
                                                     <property name="directInquiryAction">
@@ -495,8 +494,8 @@ limitations under the License.
                                                 <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.HolidayWrapperListFinder" p:addBlankOption="false"/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-AddLineAction" p:actionLabel="Add Holiday Calendar"
-                                              p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');" p:render="@{#isAddLine}" p:disabled="@{(#lp.id == null) or (#lp.id == '')}" p:refreshWhenChangedPropertyNames="#lp.holidayCalendars"/>
+                                        <bean parent="Uif-AddLineAction" p:actionLabel="Add Holiday Calendar !!"
+                                              p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');" p:render="@{#isAddLine}" p:disabled="@{(#lp.id == null) or (#lp.id == '')}" p:refreshWhenChangedPropertyNames="@{#lp.id}"/>
                                     </list>
                                 </property>
                             </bean>
