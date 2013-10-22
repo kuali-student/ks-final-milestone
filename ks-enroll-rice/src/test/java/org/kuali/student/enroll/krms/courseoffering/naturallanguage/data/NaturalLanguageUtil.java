@@ -25,9 +25,6 @@ import org.kuali.rice.krms.api.repository.proposition.PropositionParameterType;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.impl.repository.language.TranslationContext;
 import org.kuali.rice.krms.impl.repository.language.TranslationContextRegistry;
-import org.kuali.student.enroll.krms.courseoffering.naturallanguage.mock.ContextMockImpl;
-
-
 
 /**
  * Utility class to support testing.
