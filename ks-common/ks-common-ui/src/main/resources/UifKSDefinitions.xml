@@ -96,12 +96,10 @@
         <!--</property>-->
     </bean>
 
-    <bean id="KS-Uif-VerticalBoxGroup-TopGroup" abstract="true" parent="Uif-VerticalBoxGroup">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-topGroup</value>
-            </list>
-        </property>
+    <bean id="KS-Uif-VerticalBoxGroup-TopGroup"
+          abstract="true"
+          parent="Uif-VerticalBoxGroup"
+          p:additionalCssClasses="ks-topGroup">
     </bean>
 
     <bean id="KS-Uif-LookupView" abstract="true"
@@ -283,12 +281,9 @@
     </bean>
 
     <!--Note: This is a tab group with link based look and feel. It is not used in any code so far. -->
-    <bean id="KS-Uif-TabGroup-LinkTab" parent="Uif-TabGroup">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-uif-tabSection</value>
-            </list>
-        </property>
+    <bean id="KS-Uif-TabGroup-LinkTab"
+          parent="Uif-TabGroup"
+          p:additionalCssClasses="ks-uif-tabSection">
     </bean>
 
     <!--Note by bonnie: Not used in any code -->
@@ -361,32 +356,30 @@
     <!--p:onDocumentReadyScript="decorateToolbar();-->
 
     <bean id="KS-Uif-HorizontalBoxSection-ToolbarSection" parent="KS-Uif-HorizontalBoxSection-ToolbarSection-parent"/>
-    <bean id="KS-Uif-HorizontalBoxSection-ToolbarSection-parent" abstract="true" parent="Uif-HorizontalBoxSection" scope="prototype">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-toolbar</value>
-            </list>
-        </property>
+    <bean id="KS-Uif-HorizontalBoxSection-ToolbarSection-parent"
+          abstract="true"
+          parent="Uif-HorizontalBoxSection"
+          scope="prototype"
+          p:additionalCssClasses="ks-toolbar">
     </bean>
 
     <bean id="KS-Uif-HorizontalBoxGroup-ToolbarGroup" parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup-parent"/>
-    <bean id="KS-Uif-HorizontalBoxGroup-ToolbarGroup-parent" parent="Uif-HorizontalBoxGroup" class="org.kuali.student.common.uif.container.KSToolbarGroup" abstract="true" scope="prototype">
+    <bean id="KS-Uif-HorizontalBoxGroup-ToolbarGroup-parent"
+          parent="Uif-HorizontalBoxGroup"
+          class="org.kuali.student.common.uif.container.KSToolbarGroup"
+          abstract="true"
+          scope="prototype"
+          p:additionalCssClasses="ks-toolbar-group-padded">
         <property name="template" value="/ks-common/WEB-INF/ftl/ksToolbarGroup.ftl"/>
         <property name="templateName" value="ks_ToolbarGroup"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-toolbar-group-padded</value>
-            </list>
-        </property>
     </bean>
 
-    <bean id="KS-Uif-ToolBar-Button" parent="Uif-SecondaryActionButton" p:disabled="true" abstract="true">
+    <bean id="KS-Uif-ToolBar-Button"
+          parent="Uif-SecondaryActionButton"
+          p:disabled="true"
+          abstract="true"
+          p:additionalCssClasses="tree-bar-button">
         <property name="actionImagePlacement" value="TOP"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>tree-bar-button</value>
-            </list>
-        </property>
     </bean>
 
     <bean id="KS-Uif-TableCollectionSubSection-WithActionSeperator" parent="KS-Uif-TableCollectionSubSection-WithActionSeperator-parent"/>
@@ -398,19 +391,6 @@
     <bean id="KS-Uif-TableCollectionSection-WithActionSeperator-parent" parent="Uif-TableCollectionSection" class="org.kuali.student.common.uif.container.KSTableCollectionWithLineActionLinkSeperator" abstract="true" scope="prototype">
         <property name="lineActionSeparator" value="&#160;&#160;|&#160;&#160;"/>
     </bean>
-
-    <!-- the following bean is not used in any place -->
-    <!--<bean id="ActionField_SmallSecondary_Override" parent="ActionField_SmallSecondary_Override-parentBean"/>-->
-    <!--<bean id="ActionField_SmallSecondary_Override-parentBean" abstract="true"-->
-          <!--class="org.kuali.student.common.uif.field.ActionFieldJsOverride">-->
-        <!--<property name="template" value="/krad/WEB-INF/jsp/templates/field/actionField.jsp"/>-->
-        <!--<property name="cssClasses" value="ui-priority-secondary-sm"/>-->
-    <!--</bean>-->
-
-    <!-- Added by David Yin -->
-    <!-- For breadcrumb customization -->
-    <!--<bean id="KS-Uif-Page" parent="KS-Uif-Page-parentBean" abstract="true" />
-    <bean id="KS-Uif-Page-parentBean" class="org.kuali.student.common.uif.container.KSUifPage" parent="Uif-Page" abstract="true" />-->
 
     <bean id="KS-Uif-Suggest" parent="KS-Uif-Suggest-parentBean"/>
     <bean id="KS-Uif-Suggest-parentBean" abstract="true" scope="prototype"
@@ -436,44 +416,15 @@
         <property name="comboboxButtonEnabled" value="true"/>
     </bean>
 
-    <bean id="KS-Lozenge-Grey-Uif-DataField" parent="Uif-DataField">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>state-draft</value>
-            </list>
-        </property>
-    </bean>
+    <bean id="KS-Lozenge-Grey-Uif-DataField" parent="Uif-DataField" p:additionalCssClasses="state-draft" />
 
-    <bean id="KS-Lozenge-Grey-Uif-Message" parent="Uif-Message">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>state-draft</value>
-            </list>
-        </property>
-    </bean>
-    <bean id="KS-Lozenge-Grey-Uif-InputField" parent="KS-Uif-InputField">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>state-draft</value>
-            </list>
-        </property>
-    </bean>
+    <bean id="KS-Lozenge-Grey-Uif-Message" parent="Uif-Message" p:additionalCssClasses="state-draft" />
 
-    <bean id="KS-Lozenge-Green-Uif-Message" parent="Uif-Message">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>state-completed</value>
-            </list>
-        </property>
-    </bean>
+    <bean id="KS-Lozenge-Grey-Uif-InputField" parent="KS-Uif-InputField" p:additionalCssClasses="state-draft" />
 
-    <bean id="KS-Lozenge-Orange-Uif-Message" parent="Uif-Message">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>state-suspended</value>
-            </list>
-        </property>
-    </bean>
+    <bean id="KS-Lozenge-Green-Uif-Message" parent="Uif-Message" p:additionalCssClasses="state-completed" />
+
+    <bean id="KS-Lozenge-Orange-Uif-Message" parent="Uif-Message" p:additionalCssClasses="state-suspended" />
 
     <bean id="KS-Unified-Uif-FormView" parent="KS-Uif-FormView">
         <property name="headerText" value="Unified Header - View Title"/>
