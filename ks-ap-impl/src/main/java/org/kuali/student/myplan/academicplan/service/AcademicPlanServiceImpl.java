@@ -526,6 +526,11 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 			planItemEntity.setLearningPlan(newPlan);
 		}
 
+        // update credits
+        if (planItem.getCredit() != null) {
+            planItemEntity.setCredit(planItem.getCredit());
+        }
+
 		// If plan type changes create a new one and delete
 		String updatePlanItemId = null;
 		if (createNewPlanItem) {
@@ -553,10 +558,7 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 			learningPlanDao.update(newPlan);
 		}
 
-		// update credits
-		if (planItem.getCredit() != null) {
-			planItemEntity.setCredit(planItem.getCredit());
-		}
+
 
 		return planItemDao.find(updatePlanItemId).toDto();
 	}
