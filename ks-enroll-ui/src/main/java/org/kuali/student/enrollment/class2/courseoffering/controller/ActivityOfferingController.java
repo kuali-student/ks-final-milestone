@@ -17,6 +17,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.common.uif.util.KSUifUtils;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
@@ -87,10 +88,13 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
 
             List<String> endTimes = viewHelper.getEndTimes(days,startTime,activityOfferingWrapper.getTerm().getTypeKey());
+            if (endTimes.size() == 1){
+                activityOfferingWrapper.getNewScheduleRequest().setEndTime(KSCollectionUtils.getRequiredZeroElement(endTimes));
+            }
             activityOfferingWrapper.getNewScheduleRequest().setEndTimes(endTimes);
         }
 
-        return super.refresh(form,result,request,response);
+        return getUIFModelAndView(form);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=editScheduleComponent")
