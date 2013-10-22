@@ -71,20 +71,6 @@
     <param name="datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>
     <param name="datasource.username">KSRICE</param>
     <param name="datasource.password">KSRICE</param>
-    <param name="datasource.pool.minSize">3</param>
-    <param name="datasource.pool.maxOpenPreparedStatements">500</param>
-
-	<!-- core datasource needed for admin screens -->
-	<param name="ks.core.datasource.driver.name">${datasource.driver.name}</param>
-	<param name="ks.core.datasource.pool.maxSize">${datasource.pool.maxSize}</param>
-	<param name="ks.core.datasource.pool.minSize">${datasource.pool.minSize}</param>
-	<param name="ks.core.datasource.pool.maxWait">${datasource.pool.maxWait}</param>
-	<param name="ks.core.datasource.pool.validationQuery">${datasource.pool.validationQuery}</param>
-	<param name="ks.core.datasource.url">${datasource.url}</param>
-	<param name="ks.core.datasource.username">KSAPP</param>
-	<param name="ks.core.datasource.password">KSAPP</param>
-	<param name="ks.core.datasource.minSize">4</param>
-    <param name="ks.core.datasource.maxOpenPreparedStatements">500</param>
 
     <!-- Keystore Configuration -->
     <param name="keystore.file">${user.home}/rice.keystore</param>
@@ -93,14 +79,12 @@
 
     <!-- Login Filter Configuration - Dummy Login Filter (CAS later?) -->
 <!--
-    <param name="filter.login.class">org.kuali.rice.krad.web.filter.DummyLoginFilter</param>
+    <param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
     <param name="filtermapping.login.1">/*</param>
 -->
     <!-- additional config files -->
-    <param name="rice.kim.additionalSpringFiles">classpath:ks-kim-context.xml</param>
     <param name="ks.authentication.context">classpath:ks-spring-security.xml</param>
-    <param name="rice.krms.additionalSpringFiles">classpath:ks-krms-context.xml</param>
-    <param name="rice.additionalSpringFiles">${ks.authentication.context},ks-spring-security-saml.xml,classpath:StudentStandaloneSpringBeans.xml,classpath:ks-rice-standalone-admin-context.xml</param>
+    <param name="rice.additionalSpringFiles">${ks.authentication.context},ks-spring-security-saml.xml,classpath:StudentStandaloneSpringBeans.xml</param>
     
     <!-- Bus security -->
     <param name="ks.core.bus.security">false</param>

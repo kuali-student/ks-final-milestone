@@ -129,11 +129,14 @@
     <param name="keystore.password">r1c3pw</param>
 
     <!-- run modes -->
-    <param name="ksb.mode">THIN</param>
+    <param name="ksb.mode">REMOTE</param>
     <param name="krms.mode">LOCAL</param>
 
     <!-- krad module name is kr for now, to be fixed when KULRICE-6532 is resolved -->
     <param name="kr.mode">LOCAL</param>
+
+    <param name="kim.mode">EMBEDDED</param>
+    <param name="kew.mode">EMBEDDED</param>
 
     <!-- additional config files -->
     <!--
@@ -144,6 +147,9 @@
 	</param>
 
     <!-- additional context files -->
+    <param name="rice.kim.additionalSpringFiles">classpath:ks-kim-context.xml</param>
+    <param name="rice.krms.additionalSpringFiles">classpath:ks-krms-context.xml</param>
+    
     <param name="ks.authentication.context">classpath:ks-spring-security.xml</param>
     <param name="rice.additionalSpringFiles">${ks.projects},${ks.authentication.context},${ks.institutional.context}</param>
     
