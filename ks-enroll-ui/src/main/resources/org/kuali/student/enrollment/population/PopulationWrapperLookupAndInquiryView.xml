@@ -45,7 +45,7 @@
     </bean>
 
     <!-- LookupView -->
-    <bean id="KS-Population-LookupView" parent="KS-Uif-LookupView">
+    <bean id="KS-Population-LookupView" parent="KS-Uif-LookupView" p:header.additionalCssClasses="ks-unified-header">
         <property name="headerText" value="@{viewName != null ? 'Manage Populations' : 'Active Population Lookup'}" />
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.population.service.impl.PopulationWrapperLookupableImpl" />
@@ -59,11 +59,6 @@
             <bean parent="Uif-GlobalApplicationHeader-parentBean"
                   p:template="/ks-common/WEB-INF/ftl/ksApplicationHeader.ftl" p:render="true"
                   p:templateName="ks_applicationHeader"/>
-        </property>
-        <property name="header.cssClasses">
-            <list merge="true">
-                <value>ks-unified-header</value>
-            </list>
         </property>
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
@@ -181,12 +176,7 @@
     </bean>
 
     <!-- Re-defining css for "Create New" link for lookup screen -->
-    <bean id="Uif-LookupPageHeaderGroup" parent="Uif-ActionsGroup">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>uif-leftAligned-headerFieldGroup</value>
-            </list>
-        </property>
+    <bean id="Uif-LookupPageHeaderGroup" parent="Uif-ActionsGroup" p:additionalCssClasses="uif-leftAligned-headerFieldGroup">
         <property name="items">
             <list>
                 <bean parent="Uif-CreateNewLink"/>

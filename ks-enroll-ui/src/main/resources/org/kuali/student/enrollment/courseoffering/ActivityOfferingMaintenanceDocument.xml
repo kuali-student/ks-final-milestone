@@ -50,7 +50,8 @@
     </bean>
 
     <bean id="ActivityOffering-MaintenanceView" parent="KS-CourseOffering-MaintenanceViewWithTermContextBarPlaceholder"
-          p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView or !#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
+          p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView or !#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"
+          p:additionalCssClasses="aoc_page" p:header.additionalCssClasses="ks-unified-header">
          <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
         <property name="onDocumentReadyScript" value="updateContextBar( 'KS-CourseOffering-ContextBar', 'KS-CourseOffering-View-ContextBar-PlaceHolder', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' );"/>
 
@@ -103,7 +104,7 @@
                         <bean parent="Uif-VerticalBoxGroup">
                             <property name="items">
                                 <list>
-                                    <bean  id="send_RDLs_to_scheduler" parent="Uif-InputField-LabelRight" p:cssClasses="unprocessed_changes_checkbox" p:render="@{#dp.schedulingCompleted}"
+                                    <bean  id="send_RDLs_to_scheduler" parent="Uif-InputField-LabelRight" p:additionalCssClasses="unprocessed_changes_checkbox" p:render="@{#dp.schedulingCompleted}"
                                           p:label="@{#dp.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.canceled' ? 'Delivery logistics cannot be sent to the scheduler for this activity offering because it is canceled.' : 'Send revised delivery logistics to the scheduler for processing upon save.'}"
                                           p:propertyName="sendRDLsToSchedulerAfterMSE">
                                         <property name="control">
@@ -125,11 +126,6 @@
             <list />
         </property>
 
-        <property name="cssClasses">
-            <list merge="true">
-                <value>aoc_page</value>
-            </list>
-        </property>
         <property name="page.items">
             <list>
                  <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
@@ -164,11 +160,6 @@
             <!--<ref bean="deleteScheduleConfirmDialog"/>-->
               <!--<bean id="colocateDialog" parent="Colocate-DialogGroup"/>-->
           </list>
-        </property>
-        <property name="header.cssClasses">
-            <list merge="true">
-                <value>ks-unified-header</value>
-            </list>
         </property>
         <property name="viewHelperService.helperClasses">
               <map>

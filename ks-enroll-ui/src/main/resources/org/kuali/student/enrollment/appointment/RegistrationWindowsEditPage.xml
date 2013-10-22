@@ -98,7 +98,7 @@
                 <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-Message" p:messageText="@{periodInfoDetails}" p:cssClasses="font-light12" p:id="periodDetails"/>
+                            <bean parent="Uif-Message" p:messageText="@{periodInfoDetails}" p:additionalCssClasses="font-light12" p:id="periodDetails"/>
                         </list>
                     </property>
                 </bean>
@@ -117,14 +117,9 @@
             p:addLineLabel.messageText=""
             p:layoutManager.richTable.render="false"
             p:layoutManager.applyAlternatingRowStyles="false"
-            p:id="addRegistrationWindowCollection"            >
-
-        <property name="cssClasses">
-            <list merge="true">
-                <!-- used for custom line separators -->
-                <value>ks-appointmentWindow-table</value>
-            </list>
-        </property>
+            p:id="addRegistrationWindowCollection"
+            p:additionalCssClasses="ks-appointmentWindow-table">
+        <!-- used for custom line separators-above css classes -->
         <!--<property name="layoutManager.sequencePropertyName" value="name" />-->
         <property name="collectionLookup" >
             <null/>

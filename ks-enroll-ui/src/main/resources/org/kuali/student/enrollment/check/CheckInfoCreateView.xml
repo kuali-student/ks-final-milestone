@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="CheckInfo-CreateView" parent="KS-Uif-FormView">
+    <bean id="CheckInfo-CreateView" parent="KS-Uif-FormView" p:additionalCssClasses="ks-enrollment-home">
         <property name="id" value="checkCreateView"/>
         <property name="headerText" value="Create Checks"/>
         <property name="formClass"
@@ -37,11 +37,6 @@
         </property>
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
-        </property>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-enrollment-home</value>
-            </list>
         </property>
         <property name="items">
             <list>

@@ -31,7 +31,7 @@
         This is a single page view with all the required beans defined only here.
     -->
 
-    <bean id="KS-CalendarSearch-View" parent="KS-Uif-FormView">
+    <bean id="KS-CalendarSearch-View" parent="KS-Uif-FormView" p:header.additionalCssClasses="ks-unified-header">
         <property name="id" value="calendarSearchView"/>
         <property name="headerText" value="Calendar Search"/>
         <property name="singlePageView" value="true"/>
@@ -39,11 +39,6 @@
         <property name="viewSourceFile" value="CalendarSearchView.xml" /> <!-- Shows up in HTML so devs can find the code -->
         <property name="page">
             <bean parent="KS-Uif-Page"/>
-        </property>
-        <property name="header.cssClasses">
-            <list merge="true">
-                <value>ks-unified-header</value>
-            </list>
         </property>
         <property name="footer">
             <bean parent="Uif-FooterBase"/>

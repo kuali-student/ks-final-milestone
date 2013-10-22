@@ -19,18 +19,14 @@
      limitations under the License.
     -->
 
-    <bean id="KSFE-FinalExamMatrixManagement-View" parent="KS-Uif-FormView" p:applyDirtyCheck="false">
+    <bean id="KSFE-FinalExamMatrixManagement-View" parent="KS-Uif-FormView" p:applyDirtyCheck="false"
+            p:header.additionalCssClasses="uif-viewHeader">
 
         <property name="id" value="finalExamMatrixManagementView"/>
         <property name="entryPageId" value="finalExamSearchInputPage"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.FERuleViewHelperServiceImpl"/>
         <property name="formClass" value="org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper"/>
         <property name="headerText" value="Manage Final Exam Matrix" />
-        <property name="header.cssClasses">
-            <list merge="true">
-                <value>uif-viewHeader</value>
-            </list>
-        </property>
 
         <property name="viewSourceFile" value="FinalExamMatrixManagementView.xml" /> <!-- Shows up in HTML so devs can find the code -->
 

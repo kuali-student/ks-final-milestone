@@ -48,7 +48,7 @@
             </list>
         </property>
     </bean>
-    <bean id="KS-CourseOfferingRolloverManagement-ReleaseToDeptsDialog" parent="Uif-VerticalBoxGroup" p:hidden="true" p:style="width: 600px; overflow: hidden" p:cssClasses="aoc_dialog">
+    <bean id="KS-CourseOfferingRolloverManagement-ReleaseToDeptsDialog" parent="Uif-VerticalBoxGroup" p:hidden="true" p:style="width: 600px; overflow: hidden" p:additionalCssClasses="aoc_dialog">
         <property name="items">
             <list>
                 <bean id="releaseToDeptsVBoxSec" parent="Uif-VerticalBoxSection">

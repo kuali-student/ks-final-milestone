@@ -30,7 +30,7 @@ limitations under the License.
         2. AcademicCalendarCopyPage.xml
         3. AcademicTermPage.xml
     -->
-    <bean id="KS-AcademicCalendarView" parent="KS-Uif-FormView">
+    <bean id="KS-AcademicCalendarView" parent="KS-Uif-FormView" p:header.additionalCssClasses="ks-unified-header">
         <property name="id" value="academicCalendarFlowView"/>
         <property name="headerText" value="Create an Academic Calendar"/>
         <property name="entryPageId" value="academicCalendarCopyPage"/>
@@ -42,11 +42,6 @@ limitations under the License.
 
         <property name="header.rightGroup">
             <ref bean="KS-View-Acal-Header-RightGroup-PlaceHolder"/>
-        </property>
-        <property name="header.cssClasses">
-            <list merge="true">
-                <value>ks-unified-header</value>
-            </list>
         </property>
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
@@ -122,13 +117,8 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-AcademicCalendar-ConfirmDelete-Dialog" parent="Uif-DialogGroup" >
+    <bean id="KS-AcademicCalendar-ConfirmDelete-Dialog" parent="Uif-DialogGroup" p:additionalCssClasses="acal_dialog">
         <property name="renderHeader" value="false"/>
-        <property name="cssClasses" >
-            <list merge="true">
-                <value>acal_dialog</value>
-            </list>
-        </property>
         <property name="promptText"
                   value="Are you sure you want to delete the Academic Calendar? All associated Terms and Subterms will be deleted as well."/>
         <property name="availableResponses">
@@ -139,13 +129,8 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-AcademicTerm-ConfirmDelete-Dialog" parent="Uif-DialogGroup" >
+    <bean id="KS-AcademicTerm-ConfirmDelete-Dialog" parent="Uif-DialogGroup" p:additionalCssClasses="acal_dialog">
         <property name="renderHeader" value="false"/>
-        <property name="cssClasses" >
-            <list merge="true">
-                <value>acal_dialog</value>
-            </list>
-        </property>
         <property name="promptText"
                   value="@{messageForDeleteTermOrSubterm}"/>
         <property name="availableResponses">
@@ -156,14 +141,10 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-AcademicCalendar-ConfirmCalendarOfficial-Dialog" parent="Uif-DialogGroup" >
+    <bean id="KS-AcademicCalendar-ConfirmCalendarOfficial-Dialog" parent="Uif-DialogGroup"
+            p:additionalCssClasses="acal_dialog">
         <property name="renderHeader" value="true"/>
         <property name="headerText" value="Confirm Official Status"/>
-        <property name="cssClasses" >
-            <list merge="true">
-                <value>acal_dialog</value>
-            </list>
-        </property>
         <property name="promptText"
                   value="You are making @{academicCalendarInfo.name} official. This action cannot be undone.
                   Official calendars and terms cannot be deleted."/>
@@ -175,14 +156,9 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-AcademicCalendar-ConfirmTermOfficial-Dialog" parent="Uif-DialogGroup" >
+    <bean id="KS-AcademicCalendar-ConfirmTermOfficial-Dialog" parent="Uif-DialogGroup" p:additionalCssClasses="acal_dialog">
         <property name="renderHeader" value="true"/>
         <property name="headerText" value="Confirm Official Status"/>
-        <property name="cssClasses" >
-            <list merge="true">
-                <value>acal_dialog</value>
-            </list>
-        </property>
         <property name="promptText"
                   value="You are making @{makeOfficialName} official.@{makeOfficialIsSubterm ? officialParentTerm ?
                   '' : ' Making this official this will also make ' + makeOfficialParentTermName +' official.' : ''} This
@@ -195,14 +171,10 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-AcademicCalendar-ConfirmCalendarTermOfficial-Dialog" parent="Uif-DialogGroup" >
+    <bean id="KS-AcademicCalendar-ConfirmCalendarTermOfficial-Dialog" parent="Uif-DialogGroup"
+            p:additionalCssClasses="acal_dialog">
         <property name="renderHeader" value="true"/>
         <property name="headerText" value="Confirm Official Status"/>
-        <property name="cssClasses" >
-            <list merge="true">
-                <value>acal_dialog</value>
-            </list>
-        </property>
         <property name="promptText"
                   value="You are making @{makeOfficialName} official. Making this official will also make
                   @{makeOfficialIsSubterm?makeOfficialParentTermName +' official and ':''}@{academicCalendarInfo.name}

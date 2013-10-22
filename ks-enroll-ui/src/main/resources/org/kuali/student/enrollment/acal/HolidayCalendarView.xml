@@ -30,7 +30,7 @@
         KS-HolidayCalendar-ViewPage and all the required beans are defined by the three subviews.
     -->
 
-    <bean id="KS-HolidayCalendar-FlowView" parent="KS-Uif-FormView">
+    <bean id="KS-HolidayCalendar-FlowView" parent="KS-Uif-FormView" p:header.additionalCssClasses="ks-unified-header">
         <property name="id" value="holidayCalendarFlowView"/>
         <property name="entryPageId" value="holidayCalendarCopyPage"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.HolidayCalendarViewHelperServiceImpl"/>
@@ -42,11 +42,6 @@
             <bean parent="Uif-FooterBase"/>
         </property>
 
-        <property name="header.cssClasses">
-            <list merge="true">
-                <value>ks-unified-header</value>
-            </list>
-        </property>
         <property name="header.rightGroup">
             <ref bean="KS-View-Hcal-Header-RightGroup-PlaceHolder"/>
         </property>
