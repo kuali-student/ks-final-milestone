@@ -115,6 +115,7 @@ function handleWaitListPrompt(dialog) {
             //Uncheck checked button ...because krad implemented it as a radio bttn!!
             dialogResponses[i].checked=false;
         }
+        setValue('dialogResponse','');
     }
 
     //set label style-class-states back to default
@@ -133,6 +134,15 @@ function handleWaitListPrompt(dialog) {
 function handleWaitListShowDialog(dialog){
     jQuery('#KS-CourseOfferingEdit-HasWaitlist_control').prop('checked',true);
     jQuery('#KS-CourseOfferingEdit-WailtList-Message-Section').show();
+
+    // This shoud be done before the dialog opens
+    //set label style-class-states back to default
+    //TODO: (KSENROLL-9194) research why the following style classes are reverted again sometime
+    //      before it is displayed 2nd and subsequent times!!!
+
+    var labels = jQuery("label.uif-primaryDialogButton",dialog);
+    labels.removeClass('ui-state-active');
+    labels.addClass('ui-state-default');
 }
 
 function updateExamDriverInFOTable(finalExamDropDownId, finalExamTableCellId, parentReadOnly) {
