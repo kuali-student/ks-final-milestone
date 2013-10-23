@@ -8,7 +8,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
+ * Helper class for building the requisites for display on Schedule of Classes screens
  *
+ * @author Kuali Student Team
  */
 public class SOCRequisiteHelper {
 
@@ -26,9 +28,15 @@ public class SOCRequisiteHelper {
         this.reqWrapper = reqWrapper;
     }
 
+    /**
+     * Build and populate requisites
+     *
+     * @param activityOfferingWrapperList
+     */
     public void loadRequisites(List<ActivityOfferingWrapper> activityOfferingWrapperList) {
         Map<String, String> overriddenRules = new TreeMap<String, String>();
 
+        //Populate map of overridden CO requisites
         for (String ruleType : reqWrapper.getRuleTypes()) {
             if (!reqWrapper.getAoRequisiteTypeMap().isEmpty()) {
                 for (Map.Entry<String, Map<String, String>> aoEntry : reqWrapper.getAoRequisiteTypeMap().entrySet()) {
@@ -51,6 +59,11 @@ public class SOCRequisiteHelper {
         }
     }
 
+    /**
+     * Build map of AO requisites and add overridden requisites
+     *
+     * @param overriddenRules
+     */
     private void loadAORequisites(Map<String, String> overriddenRules) {
         String aoRequisite;
         for (String ruleType : reqWrapper.getRuleTypes()) {
@@ -79,6 +92,12 @@ public class SOCRequisiteHelper {
         }
     }
 
+    /**
+     * Populate AO requisite map with overridden requisites for all outstanding ActivityOfferingWrappers
+     *
+     * @param overriddenRules
+     * @param activityOfferingWrapperList
+     */
     private void loadcoOverridenRules(Map<String, String> overriddenRules, List<ActivityOfferingWrapper> activityOfferingWrapperList) {
         for (ActivityOfferingWrapper activityOfferingWrapper : activityOfferingWrapperList) {
             if(activityOfferingWrapper.getRequisite() == null) {
@@ -89,17 +108,26 @@ public class SOCRequisiteHelper {
         }
     }
 
+    /**
+     * Populate CO requisites with requisites not overridden
+     */
     private void loadCORequisites() {
         for(Map.Entry<String, String> coReq : reqWrapper.getCoRequisiteTypeMap().entrySet()) {
             reqWrapper.getCoRequisite().append(coReq.getValue());
         }
     }
 
+    /**
+     * Build and populate RegistrationGroupWrappers requisites from AO requisite map
+     *
+     * @param registrationGroupWrapperList
+     */
     public void loadRegRequisites(List<RegistrationGroupWrapper> registrationGroupWrapperList) {
         StringBuilder firstReq;
         StringBuilder secondReq;
         StringBuilder commonReq;
 
+        //For each RegistrationGroupWrapper and its partner with same name
         for(int i = 0; i < registrationGroupWrapperList.size(); i = i + 2) {
             RegistrationGroupWrapper registrationGroupWrapper = registrationGroupWrapperList.get(i);
 
@@ -107,8 +135,10 @@ public class SOCRequisiteHelper {
             secondReq = new StringBuilder();
             commonReq = new StringBuilder();
 
+            //Determine each RegistrationGroupWrapper's requisite and common requisite
             if(reqWrapper.getAoRequisiteMap().containsKey(registrationGroupWrapper.getAoActivityCodeText())) {
-                RegistrationGroupWrapper partnerRegGroup = getPartnerRegGroup(registrationGroupWrapperList, registrationGroupWrapper.getRgInfo().getName(), registrationGroupWrapper.getAoActivityCodeText());
+                //Retrieve RegistrationGroupWrapper with same name
+                RegistrationGroupWrapper partnerRegGroup = getRegistrationGroupWrapper(registrationGroupWrapperList, registrationGroupWrapper.getRgInfo().getName(), registrationGroupWrapper.getAoActivityCodeText());
                 for(String rule : reqWrapper.getRuleTypes()) {
                     Map<String, String> firstReqMap = reqWrapper.getAoRequisiteMap().get(registrationGroupWrapper.getAoActivityCodeText());
                     Map<String, String> secondReqMap = reqWrapper.getAoRequisiteMap().get(partnerRegGroup.getAoActivityCodeText());
@@ -125,6 +155,7 @@ public class SOCRequisiteHelper {
                         secondReq.append(secondReqMap.get(rule));
                     }
                 }
+                //Set requisite on RegistrationGroupWrapper
                 if (!commonReq.toString().isEmpty()) {
                     registrationGroupWrapper.setCommonRequisite(commonReq.toString());
                 }
@@ -138,7 +169,7 @@ public class SOCRequisiteHelper {
         }
     }
 
-    private RegistrationGroupWrapper getPartnerRegGroup(List<RegistrationGroupWrapper> registrationGroupWrapperList, String name, String aoCode) {
+    private RegistrationGroupWrapper getRegistrationGroupWrapper(List<RegistrationGroupWrapper> registrationGroupWrapperList, String name, String aoCode) {
         for (RegistrationGroupWrapper registrationGroupWrapper : registrationGroupWrapperList) {
             if(registrationGroupWrapper.getRgInfo().getName().equals(name) && !registrationGroupWrapper.getAoActivityCodeText().equals(aoCode)) {
                 return registrationGroupWrapper;
@@ -148,6 +179,12 @@ public class SOCRequisiteHelper {
         return null;
     }
 
+    /**
+     * Build string for display of AO requisites
+     *
+     * @param aoCode
+     * @return string of requisites
+     */
     public String prepareAORequisites(String aoCode) {
         StringBuilder requisites = new StringBuilder();
         Map<String, String> requisiteMap = reqWrapper.getAoRequisiteMap().get(aoCode);

@@ -17,8 +17,6 @@ import java.util.TreeSet;
  */
 public class SOCRequisiteWrapper {
 
-    private SOCRequisiteHelper requisiteHelper;
-
     private Map<String, Map<String, String>> aoRequisiteTypeMap;
     private Map<String, String> coRequisiteTypeMap;
     private Set<String> ruleTypes;
@@ -72,13 +70,5 @@ public class SOCRequisiteWrapper {
 
     public void setAoRequisiteMap(Map<String, Map<String,String>> aoRequisiteMap) {
         this.aoRequisiteMap = aoRequisiteMap;
-    }
-
-    public SOCRequisiteHelper getRequisiteHelper() {
-        return requisiteHelper;
-    }
-
-    public void setRequisiteHelper(SOCRequisiteHelper requisiteHelper) {
-        this.requisiteHelper = requisiteHelper;
     }
 }
