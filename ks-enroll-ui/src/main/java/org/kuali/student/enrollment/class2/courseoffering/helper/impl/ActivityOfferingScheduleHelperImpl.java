@@ -843,6 +843,10 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
     public List<String> getEndTimes(String days,String startTime,String timeSlotType) throws Exception{
 
+        if (StringUtils.isBlank(timeSlotType)){
+            return new ArrayList<String>();
+        }
+
         List<Integer> daysArray = WeekDaysDtoAndUIConversions.buildDaysForDTO(days);
         TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
         long time = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(startTime).getTime();

@@ -99,8 +99,8 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=resetEndTime")
-    public ModelAndView resetEndTime(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+    @RequestMapping(params = "methodToCall=resetNewRDLTime")
+    public ModelAndView resetNewRDLTime(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                 HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();

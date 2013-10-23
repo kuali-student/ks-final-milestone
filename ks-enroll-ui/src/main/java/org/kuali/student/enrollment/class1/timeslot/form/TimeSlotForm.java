@@ -47,8 +47,6 @@ import java.util.List;
      private String addEndTime;
      private String addEndTimeAmPm;
 
-    private String pocTimeWithAMPM;
-
      private boolean editInProcess;
 
      public TimeSlotForm() {
@@ -320,14 +318,6 @@ import java.util.List;
 
     public void setEditInProcess(boolean editInProcess) {
         this.editInProcess = editInProcess;
-    }
-
-    public String getPocTimeWithAMPM() {
-        return pocTimeWithAMPM;
-    }
-
-    public void setPocTimeWithAMPM(String pocTimeWithAMPM) {
-        this.pocTimeWithAMPM = pocTimeWithAMPM;
     }
 
 }
