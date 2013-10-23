@@ -457,12 +457,22 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
 
         // Now add the AO ID to the correct AOC set
+        boolean checkType = false;
         for (ActivityOfferingSetInfo set: cluster.getActivityOfferingSets()) {
             if (set.getActivityOfferingType().equals(aoInfo.getTypeKey())) {
                 set.getActivityOfferingIds().add(aoInfo.getId()); // Found set, add the ID
+                checkType = true;
                 break;
             }
         }
+        // if missing set of certain type in cluster -> have to create it
+        if (!checkType) {
+            ActivityOfferingSetInfo set = new ActivityOfferingSetInfo();
+            set.setActivityOfferingType(aoInfo.getTypeKey());
+            set.getActivityOfferingIds().add(aoInfo.getId());
+            cluster.getActivityOfferingSets().add(set);
+        }
+
         // Update the AOC
         ActivityOfferingClusterInfo updated =
                 coService.updateActivityOfferingCluster(cluster.getFormatOfferingId(), cluster.getId(), cluster, context);
