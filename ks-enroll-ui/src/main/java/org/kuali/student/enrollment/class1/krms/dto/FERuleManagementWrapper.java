@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.class1.krms.dto;
 
+import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
@@ -53,5 +54,15 @@ public class FERuleManagementWrapper extends RuleManagementWrapper {
 
     public void setLocation(boolean location) {
         this.location = location;
+    }
+
+    public boolean isMatrixEmpty(){
+        for(AgendaEditor agenda : this.getAgendas()){
+            FEAgendaEditor feAgenda = (FEAgendaEditor) agenda;
+            if(!feAgenda.getRules().isEmpty()){
+                return false;
+            }
+        }
+        return true;
     }
 }
