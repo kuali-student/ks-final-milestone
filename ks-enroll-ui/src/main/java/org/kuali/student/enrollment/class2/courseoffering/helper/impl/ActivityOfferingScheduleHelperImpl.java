@@ -841,6 +841,16 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         return b;
     }
 
+    /**
+     * This method retrieves a list of matching end times for days and startime entered by the user. This loads
+     * only the standard timeslots.
+     *
+     * @param days
+     * @param startTime
+     * @param timeSlotType
+     * @return
+     * @throws Exception
+     */
     public List<String> getEndTimes(String days,String startTime,String timeSlotType) throws Exception{
 
         if (StringUtils.isBlank(timeSlotType)){

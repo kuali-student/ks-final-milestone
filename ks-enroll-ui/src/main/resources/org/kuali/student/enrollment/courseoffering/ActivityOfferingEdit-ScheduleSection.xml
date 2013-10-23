@@ -42,16 +42,6 @@
                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.editRenderHelper.colocatedAOs}"/>
                     </property>
                 </bean>
-                <!--<bean parent="Uif-InputField" p:label="Capacity" p:propertyName="roomCapacity" p:readOnly="true">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="5"/>
-                    </property>
-                </bean>-->
-                <!--<bean parent="Uif-MessageField" p:messageText="F" p:label="Features">
-                    <property name="toolTip">
-                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="N/A"/>
-                      </property>
-                </bean>-->
             </list>
         </property>
     </bean>

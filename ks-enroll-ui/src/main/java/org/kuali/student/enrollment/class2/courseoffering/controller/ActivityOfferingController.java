@@ -30,13 +30,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
@@ -76,8 +74,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
     }
 
     @RequestMapping(params = "methodToCall=loadTSEndTimes")
-    public ModelAndView loadTSEndTimes(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView loadTSEndTimes(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
@@ -100,8 +97,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
     }
 
     @RequestMapping(params = "methodToCall=resetNewRDLTime")
-    public ModelAndView resetNewRDLTime(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView resetNewRDLTime(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
