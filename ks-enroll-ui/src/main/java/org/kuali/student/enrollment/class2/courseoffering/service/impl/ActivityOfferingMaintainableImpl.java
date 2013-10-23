@@ -574,8 +574,14 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
 
+        String roleId = rms.getRoleIdByNamespaceCodeAndName("KS-ENR", "KS Schedule Coordinator");
+
+        if (StringUtils.isBlank(roleId)){
+            throw new RuntimeException("Couldnt find role 'KS Schedule Coordinator' in 'KS-ENR' namespace");
+        }
+
         List<String> roleIds = new ArrayList<String>();
-        roleIds.add(rms.getRoleIdByNamespaceCodeAndName("KS-ENR", "KS Schedule Coordinator"));
+        roleIds.add(roleId);
 
         return rms.principalHasRole(principalId, roleIds, null);
     }
