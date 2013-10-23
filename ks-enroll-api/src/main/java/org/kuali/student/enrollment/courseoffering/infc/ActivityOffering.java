@@ -241,6 +241,6 @@ public interface ActivityOffering extends IdEntity {
      *
      * @name Is Approved For Non Standard TimeSlots flag
      */
-    public boolean getIsApprovedForNonStandardTimeSlots();
+    public Boolean getIsApprovedForNonStandardTimeSlots();
 
 }

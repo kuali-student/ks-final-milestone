@@ -127,7 +127,7 @@ public class ActivityOfferingInfo
     private Boolean isColocated;
 
     @XmlElement
-    private boolean isApprovedForNonStandardTimeSlots;
+    private Boolean isApprovedForNonStandardTimeSlots;
 
     /**
      * Constructs a new ActivityOfferingInfo.
@@ -411,12 +411,12 @@ public class ActivityOfferingInfo
         this.isColocated = isColocated;
     }
 
-    public void setIsApprovedForNonStandardTimeSlots( boolean isApprovedForNonStandardTimeSlots ) {
+    public void setIsApprovedForNonStandardTimeSlots( Boolean isApprovedForNonStandardTimeSlots ) {
         this.isApprovedForNonStandardTimeSlots = isApprovedForNonStandardTimeSlots;
     }
 
     @Override
-    public boolean getIsApprovedForNonStandardTimeSlots() {
+    public Boolean getIsApprovedForNonStandardTimeSlots() {
         return this.isApprovedForNonStandardTimeSlots;
     }
 
