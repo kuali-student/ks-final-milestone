@@ -27,7 +27,7 @@ set t1.tm_slot_id =
 (select t2.newtsid  from t_distinct_adhoc_tmslots_adl t2, ksen_sched_tmslot t3 where t3.id = t1.tm_slot_id 
 and t3.end_time_ms = t2.et and t3.start_time_ms = t2.st and t3.weekdays = t2.weekdays)
 where exists (select null from t_distinct_adhoc_tmslots_adl t2, ksen_sched_tmslot t3 where t3.id = t1.tm_slot_id 
-and t3.end_time_ms = t2.et and t3.start_time_ms = t2.st and t3.weekdays = t2.weekdays)
+and t3.end_time_ms = t2.et and t3.start_time_ms = t2.st and t3.weekdays = t2.weekdays and t3.name is null)
 /
 create table t_all_adhoc_tmslots_rdl as (select g.start_time_ms as st, g.end_time_ms as et, g.weekdays  
 from ksen_lui a inner join ksen_sched_ref_object b on b.ref_object_id = a.id 
@@ -60,14 +60,14 @@ set t1.tm_slot_id =
 (select t2.newtsid  from t_distinct_adhoc_tmslots_rdl t2, ksen_sched_tmslot t3 where t3.id = t1.tm_slot_id 
 and t3.end_time_ms = t2.et and t3.start_time_ms = t2.st and t3.weekdays = t2.weekdays)
 where exists (select null from t_distinct_adhoc_tmslots_rdl t2, ksen_sched_tmslot t3 where t3.id = t1.tm_slot_id 
-and t3.end_time_ms = t2.et and t3.start_time_ms = t2.st and t3.weekdays = t2.weekdays)
+and t3.end_time_ms = t2.et and t3.start_time_ms = t2.st and t3.weekdays = t2.weekdays and t3.name is null)
 /
 update ksen_sched_rqst_cmp_tmslot t1
 set t1.tm_slot_id = 
 (select t2.newtsid  from t_distinct_adhoc_tmslots_adl t2, ksen_sched_tmslot t3 where t3.id = t1.tm_slot_id 
 and t3.end_time_ms = t2.et and t3.start_time_ms = t2.st and t3.weekdays = t2.weekdays)
 where exists (select null from t_distinct_adhoc_tmslots_adl t2, ksen_sched_tmslot t3 where t3.id = t1.tm_slot_id 
-and t3.end_time_ms = t2.et and t3.start_time_ms = t2.st and t3.weekdays = t2.weekdays)
+and t3.end_time_ms = t2.et and t3.start_time_ms = t2.st and t3.weekdays = t2.weekdays and t3.name is null)
 /
 delete from ksen_sched_tmslot 
 where name is null and 
