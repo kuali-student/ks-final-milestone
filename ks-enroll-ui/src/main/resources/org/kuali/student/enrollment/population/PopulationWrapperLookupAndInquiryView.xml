@@ -181,12 +181,7 @@
     </bean>
 
     <!-- Re-defining css for "Create New" link for lookup screen -->
-    <bean id="Uif-LookupPageHeaderGroup" parent="Uif-ActionsGroup">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>uif-leftAligned-headerFieldGroup</value>
-            </list>
-        </property>
+    <bean id="Uif-LookupPageHeaderGroup" parent="Uif-ActionsGroup" p:additionalCssClasses="uif-leftAligned-headerFieldGroup">
         <property name="items">
             <list>
                 <bean parent="Uif-CreateNewLink"/>

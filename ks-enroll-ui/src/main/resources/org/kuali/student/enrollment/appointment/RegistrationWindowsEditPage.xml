@@ -117,14 +117,10 @@
             p:addLineLabel.messageText=""
             p:layoutManager.richTable.render="false"
             p:layoutManager.applyAlternatingRowStyles="false"
-            p:id="addRegistrationWindowCollection"            >
+            p:id="addRegistrationWindowCollection"
+            p:additionalCssClasses="ks-appointmentWindow-table">
+        <!-- used for custom line separators -->
 
-        <property name="cssClasses">
-            <list merge="true">
-                <!-- used for custom line separators -->
-                <value>ks-appointmentWindow-table</value>
-            </list>
-        </property>
         <!--<property name="layoutManager.sequencePropertyName" value="name" />-->
         <property name="collectionLookup" >
             <null/>

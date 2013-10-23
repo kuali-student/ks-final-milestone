@@ -295,7 +295,8 @@
     </bean>
 
     <bean id="KS-KeyDatesGroup-EditSubSection" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure"
-          p:onDocumentReadyScript="highlightElements(@{validationJSONString == '' ? '{}' : validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');">
+          p:onDocumentReadyScript="highlightElements(@{validationJSONString == '' ? '{}' : validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');"
+          p:additionalCssClasses="acal_keydate_group">
         <property name="id" value="acal-term-keydatesgroup"/>
         <property name="disclosure.render" value="false"/>
         <property name="readOnly" value="@{#view.readOnly}"/>
@@ -303,11 +304,6 @@
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper" />
         <property name="headerText" value="Key Dates" />
         <property name="header.render" value="@{!#view.readOnly}"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>acal_keydate_group</value>
-            </list>
-        </property>
 
         <!-- Move the add button to the right of the fields -->
         <property name="layoutManager.addLineGroup.layoutManager.style" value="float:left;"/>
@@ -412,12 +408,8 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean id="key_date_start_time_ampm" parent="Uif-InputField" p:propertyName="startTimeAmPm" p:render="@{!#view.readOnly}" p:defaultValue="AM">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>acal_keydate_radiobutton</value>
-                        </list>
-                    </property>
+                <bean id="key_date_start_time_ampm" parent="Uif-InputField" p:propertyName="startTimeAmPm" p:render="@{!#view.readOnly}" p:defaultValue="AM"
+                      p:additionalCssClasses="acal_keydate_radiobutton">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options"
                               p:refreshWhenChangedPropertyNames="#lp.startTime" p:evaluateDisabledOnKeyUp="true">
@@ -442,12 +434,8 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean id="key_date_end_time_ampm" parent="Uif-InputField" p:propertyName="endTimeAmPm" p:render="@{!#view.readOnly}" p:defaultValue="AM">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>acal_keydate_radiobutton</value>
-                        </list>
-                    </property>
+                <bean id="key_date_end_time_ampm" parent="Uif-InputField" p:propertyName="endTimeAmPm" p:render="@{!#view.readOnly}" p:defaultValue="AM"
+                      p:additionalCssClasses="acal_keydate_radiobutton">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options"
                               p:refreshWhenChangedPropertyNames="#lp.endTime" p:evaluateDisabledOnKeyUp="true">

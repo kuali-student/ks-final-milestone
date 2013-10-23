@@ -5,16 +5,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-FunctionalHome-View" parent="KS-Uif-FormView">
+    <bean id="KS-FunctionalHome-View" parent="KS-Uif-FormView" p:additionalCssClasses="ks-home">
         <property name="id" value="ksFunctionalHomeView"/>
         <property name="formClass" value="org.kuali.student.enrollment.main.form.LaunchForm"/>
         <property name="onLoadScript" value="jQuery('#Uif-BreadcrumbWrapper').remove(); jQuery('.ks-unified-header').hide();"/>
-
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-home</value>
-            </list>
-        </property>
 
         <property name="items">
             <list>
@@ -72,28 +66,13 @@
         </property>
     </bean>
 
-    <bean id="KS-Uif-Student-Home-Area" parent="Uif-VerticalBoxSection">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-student-home-area</value>
-            </list>
-        </property>
+    <bean id="KS-Uif-Student-Home-Area" parent="Uif-VerticalBoxSection" p:additionalCssClasses="ks-student-home-area">
     </bean>
 
-    <bean id="KS-Uif-Student-Home-Area-Image" parent="Uif-Image">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-student-home-area-image</value>
-            </list>
-        </property>
+    <bean id="KS-Uif-Student-Home-Area-Image" parent="Uif-Image" p:additionalCssClasses="ks-student-home-area-image">
     </bean>
 
-    <bean id="KS-Uif-Student-Home-Area-App-Name" parent="Uif-HeaderThree">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-student-home-area-app-name</value>
-            </list>
-        </property>
+    <bean id="KS-Uif-Student-Home-Area-App-Name" parent="Uif-HeaderThree" p:additionalCssClasses="ks-student-home-area-app-name">
     </bean>
 
 </beans>

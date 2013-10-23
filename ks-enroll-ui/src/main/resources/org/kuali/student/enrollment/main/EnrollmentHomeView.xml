@@ -5,17 +5,12 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-EnrollmentHome-View" parent="KS-Uif-FormView">
+    <bean id="KS-EnrollmentHome-View" parent="KS-Uif-FormView" p:additionalCssClasses="ks-enrollment-home">
         <property name="id" value="enrollmentHomeView"/>
         <property name="headerText" value="Enrollment"/>
         <property name="formClass" value="org.kuali.student.enrollment.main.form.LaunchForm"/>
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
-        </property>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-enrollment-home</value>
-            </list>
         </property>
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
@@ -43,13 +38,8 @@
         </property>
     </bean>
 
-    <bean id="KS-EnrollmentHome-Calendars" parent="Uif-VerticalBoxSection">
+    <bean id="KS-EnrollmentHome-Calendars" parent="Uif-VerticalBoxSection" p:additionalCssClasses="ks-enrollment-home-group">
         <property name="headerText" value="Calendars"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-enrollment-home-group</value>
-            </list>
-        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-Link" p:linkText="Search for Calendar or Term"
@@ -62,13 +52,8 @@
         </property>
     </bean>
 
-    <bean id="KS-EnrollmentHome-Administration" parent="Uif-VerticalBoxSection">
+    <bean id="KS-EnrollmentHome-Administration" parent="Uif-VerticalBoxSection" p:additionalCssClasses="ks-enrollment-home-group">
         <property name="headerText" value="Administration"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-enrollment-home-group</value>
-            </list>
-        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-Link" p:linkText="Perform Rollover"
@@ -87,13 +72,8 @@
         </property>
     </bean>
 
-    <bean id="KS-EnrollmentHome-CourseOfferings" parent="Uif-VerticalBoxSection">
+    <bean id="KS-EnrollmentHome-CourseOfferings" parent="Uif-VerticalBoxSection" p:additionalCssClasses="ks-enrollment-home-group">
         <property name="headerText" value="Course Offerings"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-enrollment-home-group</value>
-            </list>
-        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-Link" p:linkText="Manage Course Offerings"

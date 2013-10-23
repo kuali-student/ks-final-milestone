@@ -20,15 +20,8 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-GridGroup"
-                                  p:layoutManager.numberOfColumns="4">
+                                  p:layoutManager.numberOfColumns="4" p:additionalCssClasses="ks-krad-tab-gridgroup-fix,ks-gray-background,ks-no-margins">
                                   <!--p:layoutManager.applyDefaultCellWidths="false">-->
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ks-krad-tab-gridgroup-fix</value>
-                                        <value>ks-gray-background</value>
-                                        <value>ks-no-margins</value>
-                                    </list>
-                                </property>
                                 <property name="items">
                                     <list>
                                         <!--<bean parent="Uif-DataField" p:label="ID" p:propertyName="courseOfferingInfo.id" />-->

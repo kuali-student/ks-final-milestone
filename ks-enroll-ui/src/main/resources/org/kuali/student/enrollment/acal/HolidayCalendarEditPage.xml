@@ -85,12 +85,7 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-HorizontalBoxGroup">
-                            <property name="cssClasses">
-                                <list merge="true">
-                                    <value>ac_stickyfooter</value>
-                                </list>
-                            </property>
+                        <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ac_stickyfooter">
                             <property name="items">
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton"
@@ -155,7 +150,8 @@
     <bean id="KS-HolidayCalendar-HolidaySection" parent="Uif-TableCollectionSection"
           p:id="KS-HolidayCalendar-HolidaySection"
           p:layoutManager.numberOfColumns="10"
-          p:layoutManager.style="width: 70%;">
+          p:layoutManager.style="width: 70%;"
+          p:additionalCssClasses="ks-holidays-collection">
 		<property name="headerText" value="Holidays" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper" />
 		<property name="propertyName" value="holidays" />
@@ -164,11 +160,6 @@
         <property name="layoutManager.richTable.render" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-holidays-collection</value>
-            </list>
-        </property>
         <property name="addLineActions">
             <list>
                 <bean parent="Uif-AddLineAction-Link" p:focusOnIdAfterSubmit="SELF" />
@@ -205,12 +196,8 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="startTimeAmPm" p:defaultValue="AM" p:render="@{!#view.readOnly}">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>acal_keydate_radiobutton</value>
-                        </list>
-                    </property>
+                <bean parent="Uif-InputField" p:propertyName="startTimeAmPm" p:defaultValue="AM" p:render="@{!#view.readOnly}"
+                      p:additionalCssClasses="acal_keydate_radiobutton">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options"
                               p:refreshWhenChangedPropertyNames="#lp.startTime" p:evaluateDisabledOnKeyUp="true">
@@ -236,12 +223,8 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="endTimeAmPm" p:defaultValue="AM" p:render="@{!#view.readOnly}">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>acal_keydate_radiobutton</value>
-                        </list>
-                    </property>
+                <bean parent="Uif-InputField" p:propertyName="endTimeAmPm" p:defaultValue="AM" p:render="@{!#view.readOnly}"
+                      p:additionalCssClasses="acal_keydate_radiobutton">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options"
                               p:refreshWhenChangedPropertyNames="#lp.endTime" p:evaluateDisabledOnKeyUp="true">

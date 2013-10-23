@@ -308,12 +308,7 @@
             <list>
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.formatId"  p:required="true" p:label="FORMAT" p:forceSessionPersistence="true">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl">
-                            <property name="cssClasses">
-                              <list merge="true">
-                                <value>ignoreValid</value>
-                              </list>
-                            </property>
+                        <bean parent="Uif-DropdownControl"  p:additionalCssClasses="ignoreValid">
                         </bean>
                     </property>
                     <property name="optionsFinder">
@@ -324,24 +319,14 @@
                  <bean parent="Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.gradeRosterLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.addLineFormatWrapper.formatId" p:forceSessionPersistence="true"
                       p:label="GRADE ROSTER LEVEL" p:required="true" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl">
-                            <property name="cssClasses">
-                              <list merge="true">
-                                <value>ignoreValid</value>
-                              </list>
-                            </property>
+                        <bean parent="Uif-DropdownControl" p:additionalCssClasses="ignoreValid">
                         </bean>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.finalExamLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.addLineFormatWrapper.gradeRosterLevelTypeKey,#dp.addLineFormatWrapper.formatId" p:forceSessionPersistence="true"
                       p:label="FINAL EXAM DRIVER ACTIVITY" p:required="true" p:finalizeMethodToCall="populateFinalExamDriverTypes">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl">
-                            <property name="cssClasses">
-                              <list merge="true">
-                                <value>ignoreValid</value>
-                              </list>
-                            </property>
+                        <bean parent="Uif-DropdownControl" p:additionalCssClasses="ignoreValid">
                         </bean>
                     </property>
                 </bean>
@@ -530,12 +515,7 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-HorizontalBoxGroup">
-                            <property name="cssClasses">
-                                <list merge="true">
-                                    <value>ac_stickyfooter</value>
-                                </list>
-                            </property>
+                        <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ac_stickyfooter">
                             <property name="items">
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton" p:id="createFromCopy_btn" p:methodToCall="createFromCopy" p:actionLabel="Create" p:render="@{!#view.readOnly}"
@@ -562,12 +542,8 @@
         </property>
     </bean>
 
-    <bean id="KS-ExistingOffering-ConfigureCopySubSection" parent="Uif-VerticalBoxSection" p:disclosure.render="false" p:disclosure.defaultOpen="false" p:headerText="Options">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>co_copy_tables</value>
-            </list>
-        </property>
+    <bean id="KS-ExistingOffering-ConfigureCopySubSection" parent="Uif-VerticalBoxSection" p:disclosure.render="false" p:disclosure.defaultOpen="false" p:headerText="Options"
+          p:additionalCssClasses="co_copy_tables">
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="excludeSchedulingInformation" p:fieldLabel.renderColon="false">
@@ -589,12 +565,7 @@
     </bean>
 
     <!-- Displays a list of COs from current and previous terms-->
-    <bean id="KS-ExistingOffering-ListCOs" parent="Uif-TableCollectionSection" p:renderAddLine="false">
-		<property name="cssClasses">
-            <list merge="true">
-                <value>co_copy_tables</value>
-            </list>
-		</property>
+    <bean id="KS-ExistingOffering-ListCOs" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:additionalCssClasses="co_copy_tables">
         <property name="headerText" value="@{document.newMaintainableObject.dataObject.existingTermOfferings.size()>1 ? 'Course Offerings Available for Copying' : 'Course Offering Available for Copying' }" />
 		<property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" />
 		<property name="propertyName" value="existingTermOfferings" />

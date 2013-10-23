@@ -475,13 +475,8 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-SeatPool" parent="Uif-VerticalBoxSection">
+    <bean id="ActivityOfferingEdit-SeatPool" parent="Uif-VerticalBoxSection" p:additionalCssClasses="ks-seatpools">
         <property name="headerText" value="Seat Pools"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-seatpools</value>
-            </list>
-        </property>
         <property name="componentSecurity.editAuthz" value="true"/>
         <property name="items">
             <list>

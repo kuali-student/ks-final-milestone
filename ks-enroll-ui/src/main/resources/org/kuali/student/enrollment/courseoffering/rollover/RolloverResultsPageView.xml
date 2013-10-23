@@ -52,21 +52,13 @@
                             </bean>
                             <bean parent="Uif-Message" p:messageText="&lt;b&gt;@{rolloverTargetTermDesc!=''?rolloverTargetTermDesc: 'Enter valid Term'} Rollover&lt;/b&gt;" p:style="font-size:125%; padding-top:35px"
                                   p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}"/>
-                            <bean id="KS-RolloverResultsInfoSection" parent="Uif-GridSection" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}" p:style="background-color:#dadada;">
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ks-rolloverResultsInfoSection-gridSection</value>
-                                    </list>
-                                </property>
+                            <bean id="KS-RolloverResultsInfoSection" parent="Uif-GridSection" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}" p:style="background-color:#dadada;"
+                                  p:additionalCssClasses="ks-rolloverResultsInfoSection-gridSection">
                                 <property name="items">
                                     <list>
                                         <!-- Roll over details display -->
-                                        <bean parent="Uif-GridSubSection" p:colSpan="2" p:layoutManager.numberOfColumns="3" p:render="@{!socReleasedToDepts and statusField!='Finished'}" p:width="200px">
-                                            <property name="cssClasses">
-                                                <list merge="true">
-                                                    <value>ks-rolloverResultsInfoSection-gridSubsection</value>
-                                                </list>
-                                            </property>
+                                        <bean parent="Uif-GridSubSection" p:colSpan="2" p:layoutManager.numberOfColumns="3" p:render="@{!socReleasedToDepts and statusField!='Finished'}" p:width="200px"
+                                              p:additionalCssClasses="ks-rolloverResultsInfoSection-gridSubsection">
                                             <property name="items">
                                                 <list>
                                                     <bean parent="KS-Lozenge-Grey-Uif-DataField" p:id="rollover-status" p:label="Status" p:fieldLabel.renderColon="false" p:propertyName="statusField" />
@@ -74,12 +66,8 @@
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-GridSubSection" p:colSpan="2" p:layoutManager.numberOfColumns="3" p:style="padding-right:106px;" p:render="@{!socReleasedToDepts and statusField=='Finished'}" p:width="200px">
-                                            <property name="cssClasses">
-                                                <list merge="true">
-                                                    <value>ks-rolloverResultsInfoSection-gridSubsection</value>
-                                                </list>
-                                            </property>
+                                        <bean parent="Uif-GridSubSection" p:colSpan="2" p:layoutManager.numberOfColumns="3" p:style="padding-right:106px;" p:render="@{!socReleasedToDepts and statusField=='Finished'}" p:width="200px"
+                                              p:additionalCssClasses="ks-rolloverResultsInfoSection-gridSubsection">
                                             <property name="items">
                                                 <list>
                                                     <bean parent="Uif-Message" p:messageText="&lt;b&gt;Status&lt;/b&gt;" p:style="font-size:109%;"/>
@@ -87,12 +75,8 @@
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-GridSubSection" p:colSpan="2" p:layoutManager.numberOfColumns="3"  p:style="padding-right:11px;" p:render="@{socReleasedToDepts and statusField=='Finished'}" p:width="200px">
-                                            <property name="cssClasses">
-                                                <list merge="true">
-                                                    <value>ks-rolloverResultsInfoSection-gridSubsection</value>
-                                                </list>
-                                            </property>
+                                        <bean parent="Uif-GridSubSection" p:colSpan="2" p:layoutManager.numberOfColumns="3"  p:style="padding-right:11px;" p:render="@{socReleasedToDepts and statusField=='Finished'}" p:width="200px"
+                                              p:additionalCssClasses="ks-rolloverResultsInfoSection-gridSubsection">
                                             <property name="items">
                                                 <list>
                                                     <bean parent="Uif-Message" p:messageText="&lt;b&gt;Status&lt;/b&gt;"   p:style="font-size:109%;"/>

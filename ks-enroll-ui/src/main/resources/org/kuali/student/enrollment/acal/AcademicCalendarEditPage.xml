@@ -161,14 +161,8 @@ limitations under the License.
     <bean id="KS-AcademicCalendar-AcalOverview" parent="Uif-VerticalBoxSubSection">
         <property name="items">
             <list>
-                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" >
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ks-krad-tab-gridgroup-fix</value>
-                            <value>ks-gray-background</value>
-                            <value>ks-no-margins</value>
-                        </list>
-                    </property>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4"
+                      p:additionalCssClasses="ks-krad-tab-gridgroup-fix,ks-gray-background,ks-no-margins">
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.startDate"
@@ -366,12 +360,8 @@ limitations under the License.
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="startTimeAmPm" p:render="@{!#view.readOnly}" p:defaultValue="AM">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>acal_keydate_radiobutton</value>
-                        </list>
-                    </property>
+                <bean parent="Uif-InputField" p:propertyName="startTimeAmPm" p:render="@{!#view.readOnly}" p:defaultValue="AM"
+                      p:additionalCssClasses="acal_keydate_radiobutton">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options"
                               p:refreshWhenChangedPropertyNames="#lp.startTime" p:evaluateDisabledOnKeyUp="true">
@@ -396,12 +386,8 @@ limitations under the License.
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="endTimeAmPm" p:render="@{!#view.readOnly}" p:defaultValue="AM">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>acal_keydate_radiobutton</value>
-                        </list>
-                    </property>
+                <bean parent="Uif-InputField" p:propertyName="endTimeAmPm" p:render="@{!#view.readOnly}" p:defaultValue="AM"
+                      p:additionalCssClasses="acal_keydate_radiobutton">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options"
                               p:refreshWhenChangedPropertyNames="#lp.endTime" p:evaluateDisabledOnKeyUp="true">

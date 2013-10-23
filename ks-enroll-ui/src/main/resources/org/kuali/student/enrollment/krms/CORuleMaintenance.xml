@@ -257,26 +257,17 @@ limitations under the License.
 
     <bean id="KSCO-ListItems-DataGroup-parent" parent="KRMS-ListItems-DataGroup-parent" p:renderAddLine="false">
         <property name="layoutManager">
-            <bean parent="Uif-StackedCollectionLayout-WithBoxItems" class="org.kuali.student.core.krms.HorizontalActionsStackedLayoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems" class="org.kuali.student.core.krms.HorizontalActionsStackedLayoutManager"
+                  p:additionalCssClasses="krms-stackedCollectionLayout">
                 <property name="actionsInLineGroup" value="true"/>
                 <property name="lineGroupPrototype">
-                    <bean parent="Uif-CollectionHorizontalBoxItem">
-                        <property name="cssClasses">
-                            <list merge="true">
-                                <value>krms-stackedPreviewItem</value>
-                            </list>
-                        </property>
+                    <bean parent="Uif-CollectionHorizontalBoxItem" p:additionalCssClasses="krms-stackedPreviewItem">
                         <property name="renderFooter" value="true"/>
                     </bean>
                 </property>
                 <property name="subCollectionFieldGroupPrototype">
                     <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.render="false"
                           p:cssClasses="uif-subCollection"/>
-                </property>
-                <property name="cssClasses">
-                    <list merge="true">
-                        <value>krms-stackedCollectionLayout</value>
-                    </list>
                 </property>
             </bean>
         </property>
@@ -289,23 +280,13 @@ limitations under the License.
         <property name="lineActions">
             <list>
                 <bean parent="KS-Uif-ActionLink" p:actionScript="show(e);" p:render="@{#line.showTitle}"
-                      p:actionLabel="Show Courses">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>showActionLink</value>
-                        </list>
-                    </property>
+                      p:actionLabel="Show Courses" p:additionalCssClasses="showActionLink">
                     <property name="actionImage">
                         <null/>
                     </property>
                 </bean>
                 <bean parent="KS-Uif-ActionLink" p:actionScript="hide(e);" p:render="@{#line.showTitle}"
-                      p:actionLabel="Hide Courses">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>hideActionLink</value>
-                        </list>
-                    </property>
+                      p:actionLabel="Hide Courses" p:additionalCssClasses="hideActionLink">
                     <property name="actionImage">
                         <null/>
                     </property>
@@ -315,12 +296,7 @@ limitations under the License.
         <property name="subCollections">
             <list>
                 <bean parent="KSCO-ListItems-SubGroup" p:render="@{!#line.showTitle}"/>
-                <bean parent="KSCO-ListItems-SubGroup" p:render="@{#line.showTitle}">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>subGroup</value>
-                        </list>
-                    </property>
+                <bean parent="KSCO-ListItems-SubGroup" p:render="@{#line.showTitle}" p:additionalCssClasses="subGroup">
                 </bean>
             </list>
         </property>

@@ -50,7 +50,8 @@
     </bean>
 
     <bean id="ActivityOffering-MaintenanceView" parent="KS-CourseOffering-MaintenanceViewWithTermContextBarPlaceholder"
-          p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView or !#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
+          p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView or !#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"
+          p:additionalCssClasses="aoc_page">
          <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
         <property name="onDocumentReadyScript" value="updateContextBar( 'KS-CourseOffering-ContextBar', 'KS-CourseOffering-View-ContextBar-PlaceHolder', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' );"/>
 
@@ -125,11 +126,6 @@
             <list />
         </property>
 
-        <property name="cssClasses">
-            <list merge="true">
-                <value>aoc_page</value>
-            </list>
-        </property>
         <property name="page.items">
             <list>
                  <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
