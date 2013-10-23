@@ -676,10 +676,19 @@ function handleAONavigation(component, aoId){
 }
 
 
+/**
+ * On TBA check box click, we're refreshing the end time component. For TBA,
+ *  the end time is always editable irrespective of authz.
+ *
+ * In future sprint, we'll having a user story to deal just with tba.
+ */
 function tbaOnClick(){
     retrieveComponent('rdl_endtime');
 }
 
+/**
+ * This is a validation to make sure the end time is in correct format hh:mm am
+ */
 function endTimeOnBlur(){
     var endTime = jQuery("#rdl_endtime_control").val();
     if (endTime == ''){
@@ -688,6 +697,10 @@ function endTimeOnBlur(){
     parseAndReplaceTimeClause(jQuery("#rdl_endtime_control"), jQuery("#rdl_days_control"));
 }
 
+/**
+ * This will be called on start time focus lost. Here, we load matching endtimes for the
+ * days and start time.
+ */
 function rdlStartTimeOnBlur(){
 
     var startTime = jQuery("#rdl_starttime_control").val();
@@ -714,7 +727,10 @@ function rdlStartTimeOnBlur(){
     });
 }
 
-
+/**
+ * This will be called on days lost focus. This method will reset both start and end time
+ * and set the focus on start time.
+ */
 function rdlDaysOnBlur(){
 
     retrieveComponent('rdl_endtime','resetNewRDLTime',function () {
