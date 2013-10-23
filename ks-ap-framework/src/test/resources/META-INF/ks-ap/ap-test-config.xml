@@ -34,4 +34,7 @@
 	<!-- CI build config -->
 	<param name="config.location">/data/kuali/etc/ks-ap-config.xml</param>
 
+	<param name="ks.cache.config.file">classpath:ks-ehcache.xml</param>
+	<param name="ks.lum.bus.security">false</param>
+
 </config>
