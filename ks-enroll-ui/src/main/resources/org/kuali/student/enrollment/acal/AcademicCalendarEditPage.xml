@@ -494,7 +494,7 @@ limitations under the License.
                                                 <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.HolidayWrapperListFinder" p:addBlankOption="false"/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-AddLineAction" p:actionLabel="Add Holiday Calendar !!"
+                                        <bean parent="Uif-AddLineAction" p:actionLabel="Add Holiday Calendar"
                                               p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');" p:render="@{#isAddLine}" p:disabled="@{(#lp.id == null) or (#lp.id == '')}" p:refreshWhenChangedPropertyNames="@{#lp.id}"/>
                                     </list>
                                 </property>
