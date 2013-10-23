@@ -24,6 +24,7 @@ import org.kuali.student.enrollment.class1.krms.dto.FEPropositionEditor;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -115,6 +116,20 @@ public class TimeSlotsComponentBuilder implements ComponentBuilder<FEProposition
 
     @Override
     public void validate(FEPropositionEditor propositionEditor) {
+
+        //Validate days
+        if (propositionEditor.getWeekdays() == null || propositionEditor.getWeekdays().isEmpty()) {
+            String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "weekdays");
+            GlobalVariables.getMessageMap().putError(propName, KRMSConstants.KRMS_MSG_ERROR_RDL_WEEKDAYS);
+        } else {
+            List<Integer> weekdaysList = SchedulingServiceUtil.weekdaysString2WeekdaysList(propositionEditor.getWeekdays());
+            if(weekdaysList.size() == 0){
+                String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "weekdays");
+                GlobalVariables.getMessageMap().putError(propName, KRMSConstants.KRMS_MSG_ERROR_RDL_WEEKDAYS_INVALID);
+            }
+        }
+
+        //Validate start time and end tiem
         if (propositionEditor.getStartTime() == null || propositionEditor.getStartTime().isEmpty()) {
             String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "startTime");
             GlobalVariables.getMessageMap().putError(propName, KRMSConstants.KRMS_MSG_ERROR_RDL_STARTTIME);

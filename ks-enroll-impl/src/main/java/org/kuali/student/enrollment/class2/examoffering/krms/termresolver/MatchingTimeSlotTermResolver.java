@@ -32,6 +32,7 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 
 import java.util.Calendar;
 import java.util.Collections;
@@ -95,7 +96,7 @@ public class MatchingTimeSlotTermResolver implements TermResolver<Boolean> {
                 for(ScheduleComponentInfo scheduleComponent : schedule.getScheduleComponents()){
                     List<TimeSlotInfo> timeSlots = this.getSchedulingService().getTimeSlotsByIds(scheduleComponent.getTimeSlotIds(), context);
                     for(TimeSlotInfo timeSlot : timeSlots){
-                        if(weekdays.equals(this.weekdaysList2WeekdaysString(timeSlot.getWeekdays()))
+                        if(weekdays.equals(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlot.getWeekdays()))
                                 && Long.valueOf(startTime).equals(timeSlot.getStartTime().getMilliSeconds())){
                             return true;
                         }
@@ -109,45 +110,6 @@ public class MatchingTimeSlotTermResolver implements TermResolver<Boolean> {
         }
 
         return false;
-    }
-
-    public static String weekdaysList2WeekdaysString(List<Integer> weekdaysList) {
-        StringBuilder result = new StringBuilder();
-
-        for(Integer day : weekdaysList) {
-            switch (day) {
-                case Calendar.MONDAY: {
-                    result.append(SchedulingServiceConstants.MONDAY_TIMESLOT_DAY_CODE);
-                    break;
-                }
-                case Calendar.TUESDAY: {
-                    result.append(SchedulingServiceConstants.TUESDAY_TIMESLOT_DAY_CODE);
-                    break;
-                }
-                case Calendar.WEDNESDAY: {
-                    result.append(SchedulingServiceConstants.WEDNESDAY_TIMESLOT_DAY_CODE);
-                    break;
-                }
-                case Calendar.THURSDAY: {
-                    result.append(SchedulingServiceConstants.THURSDAY_TIMESLOT_DAY_CODE);
-                    break;
-                }
-                case Calendar.FRIDAY: {
-                    result.append(SchedulingServiceConstants.FRIDAY_TIMESLOT_DAY_CODE);
-                    break;
-                }
-                case Calendar.SATURDAY: {
-                    result.append(SchedulingServiceConstants.SATURDAY_TIMESLOT_DAY_CODE);
-                    break;
-                }
-                case Calendar.SUNDAY: {
-                    result.append(SchedulingServiceConstants.SUNDAY_TIMESLOT_DAY_CODE);
-                    break;
-                }
-            }
-        }
-
-        return result.toString();
     }
 
     private ActivityOffering retrieveActivityOffering(Map<String, Object> resolvedPrereqs, ContextInfo context)

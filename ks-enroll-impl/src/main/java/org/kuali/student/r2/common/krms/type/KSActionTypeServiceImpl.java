@@ -7,6 +7,7 @@ import org.kuali.rice.krms.framework.type.ActionTypeService;
 import org.kuali.student.enrollment.class2.examoffering.krms.action.RDLAction;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,24 +36,10 @@ public class KSActionTypeServiceImpl extends ActionTypeServiceBase implements Ac
         RDLAction rdlAction = new RDLAction();
         rdlAction.setSchedulingService(this.getSchedulingService());
         String weekdays = actionDefinition.getAttributes().get("weekdays");
-        rdlAction.setWeekdays(this.weekdaysString2WeekdaysList(weekdays));
+        rdlAction.setWeekdays(SchedulingServiceUtil.weekdaysString2WeekdaysList(weekdays));
         rdlAction.setStartTime(actionDefinition.getAttributes().get("startTime"));
         rdlAction.setEndTime(actionDefinition.getAttributes().get("endTime"));
         return rdlAction;
-    }
-
-    public static List<Integer> weekdaysString2WeekdaysList(String weekdaysString) {
-        List<Integer> result = new ArrayList<Integer>();
-        if (StringUtils.isNotBlank(weekdaysString)) {
-            checkStringForDayCode(SchedulingServiceConstants.MONDAY_TIMESLOT_DAY_CODE, Calendar.MONDAY, result, weekdaysString);
-            checkStringForDayCode(SchedulingServiceConstants.TUESDAY_TIMESLOT_DAY_CODE, Calendar.TUESDAY, result, weekdaysString);
-            checkStringForDayCode(SchedulingServiceConstants.WEDNESDAY_TIMESLOT_DAY_CODE, Calendar.WEDNESDAY, result, weekdaysString);
-            checkStringForDayCode(SchedulingServiceConstants.THURSDAY_TIMESLOT_DAY_CODE, Calendar.THURSDAY, result, weekdaysString);
-            checkStringForDayCode(SchedulingServiceConstants.FRIDAY_TIMESLOT_DAY_CODE, Calendar.FRIDAY, result, weekdaysString);
-            checkStringForDayCode(SchedulingServiceConstants.SATURDAY_TIMESLOT_DAY_CODE, Calendar.SATURDAY, result, weekdaysString);
-            checkStringForDayCode(SchedulingServiceConstants.SUNDAY_TIMESLOT_DAY_CODE, Calendar.SUNDAY, result, weekdaysString);
-        }
-        return result;
     }
 
     private static void checkStringForDayCode(String codeInString, Integer integerDayCode, List<Integer> result, String testString) {
