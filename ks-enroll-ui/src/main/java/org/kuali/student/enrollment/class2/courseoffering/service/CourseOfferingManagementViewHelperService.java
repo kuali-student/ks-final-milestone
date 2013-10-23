@@ -53,7 +53,7 @@ public interface CourseOfferingManagementViewHelperService extends CO_AO_RG_View
     public void draftActivityOfferings(CourseOfferingManagementForm form) throws Exception;
 
     public void build_AOs_RGs_AOCs_Lists_For_TheCourseOffering (ActivityOfferingDisplayUI form) throws Exception;
-    public void build_AOs_RGs_AOCs_Lists_For_TheCourseOffering (ActivityOfferingDisplayUI form, SearchRequestInfo searchRequestInfo) throws Exception;
+    public void build_AOs_RGs_AOCs_Lists_For_TheCourseOffering (ActivityOfferingDisplayUI form, SearchRequestInfo searchRequestInfo, boolean socView) throws Exception;
 
     public void setupRuleIndicator(List<ActivityOfferingWrapper> wrappers);
     public void loadExamOfferings(CourseOfferingManagementForm theForm) throws Exception;

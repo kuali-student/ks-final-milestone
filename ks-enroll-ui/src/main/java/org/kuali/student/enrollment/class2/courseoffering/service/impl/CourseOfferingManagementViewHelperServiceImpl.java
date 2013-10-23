@@ -318,7 +318,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         //First search for AOs and Cluster information
         SearchRequestInfo searchRequestInfo = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY);
 
-        this.build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(form, searchRequestInfo);
+        this.build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(form, searchRequestInfo, false);
     }
 
 
@@ -333,7 +333,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
      * @param sr   Client supplied search info with params
      * @throws Exception
      */
-    public void build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(ActivityOfferingDisplayUI form, SearchRequestInfo sr) throws Exception {
+    public void build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(ActivityOfferingDisplayUI form, SearchRequestInfo sr, boolean socView) throws Exception {
         //KSENROLL-6102 performance improvements, delete this code when performance work is complete
 
         //New Search Stuff!
@@ -451,7 +451,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             }
             results = searchService.search(sr, null);
 
-            List<RegistrationGroupWrapper> rgWrappers = processRgData(results, clusterMap, aoMap);
+            List<RegistrationGroupWrapper> rgWrappers = processRgData(results, clusterMap, aoMap, socView);
 
             //Sort rgWrappers
             if (rgWrappers.size() > 1) {
@@ -875,7 +875,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         aoWrapper.setDaysDisplayName(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlotInfo.getWeekdays()), newline, cssStyle);
     }
 
-    private List<RegistrationGroupWrapper> processRgData(SearchResultInfo searchResults, Map<String, ActivityOfferingClusterWrapper> clusterMap, Map<String, ActivityOfferingWrapper> aoMap) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    private List<RegistrationGroupWrapper> processRgData(SearchResultInfo searchResults, Map<String, ActivityOfferingClusterWrapper> clusterMap, Map<String, ActivityOfferingWrapper> aoMap, boolean socView) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         Map<String, RegistrationGroupWrapper> rgMap = new HashMap<String, RegistrationGroupWrapper>();
         Map<String, List<ActivityOfferingWrapper>> storedAOs = new HashMap<String, List<ActivityOfferingWrapper>>();
 
@@ -940,6 +940,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         for (int i = 0; i < keyList.size(); i++) {
 
             RegistrationGroupWrapper rgWrapper = rgMap.get(keyList.get(i));
+            RegistrationGroupWrapper socRGWrapper = (RegistrationGroupWrapper) ObjectUtils.deepCopy(rgWrapper);
             List<ActivityOfferingWrapper> aoList = storedAOs.get(keyList.get(i));
 
             //Sort aoList by AO types
@@ -953,10 +954,15 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 ActivityOfferingWrapper aoWrapper = aoList.get(j);
 
                 rgWrapper.getRgInfo().getActivityOfferingIds().add(aoWrapper.getAoInfo().getId());
+                socRGWrapper.getRgInfo().getActivityOfferingIds().add(aoWrapper.getAoInfo().getId());
 
                 rgWrapper.setStartTime(aoWrapper.getStartTime());
                 rgWrapper.setEndTime(aoWrapper.getEndTime());
                 rgWrapper.setWeekDays(aoWrapper.getWeekDays());
+
+                socRGWrapper.setStartTime(aoWrapper.getStartTime());
+                socRGWrapper.setEndTime(aoWrapper.getEndTime());
+                socRGWrapper.setWeekDays(aoWrapper.getWeekDays());
 
                 //if there are more than one instructors re-arrange the rows
                 StringBuilder lineBreaksInstructorsSB = new StringBuilder();
@@ -1001,8 +1007,20 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 }
 
                 //Set the wrapper
-                rgWrapper.setAoMaxEnrText(aoWrapper.getAoInfo().getMaximumEnrollment() == null ? "" : aoWrapper.getAoInfo().getMaximumEnrollment().toString());
-                rgWrapper.setAoStateNameText(aoWrapper.getStateName());
+                socRGWrapper.setAoMaxEnrText(aoWrapper.getAoInfo().getMaximumEnrollment() == null ? "" : aoWrapper.getAoInfo().getMaximumEnrollment().toString());
+                rgWrapper.setAoMaxEnrText(rgWrapper.getAoMaxEnrText() + (newLine ? "<br/>" : "") + (aoWrapper.getAoInfo().getMaximumEnrollment() == null ? "" : aoWrapper.getAoInfo().getMaximumEnrollment()) + lineBreaks);
+                if (rgWrapper.getRgMaxEnrText() != null && rgWrapper.getRgMaxEnrText().length() > 1 && aoWrapper.getAoInfo().getMaximumEnrollment() != null) {
+                    Integer seats = Integer.parseInt(rgWrapper.getRgMaxEnrText());
+                    Integer nSeats = aoWrapper.getAoInfo().getMaximumEnrollment();
+                    if (seats.compareTo(nSeats) > 0) {
+                        rgWrapper.setRgMaxEnrText(nSeats.toString());
+                    }
+                } else {
+                    String rgSeats = aoWrapper.getAoInfo().getMaximumEnrollment() == null ? "" : aoWrapper.getAoInfo().getMaximumEnrollment().toString();
+                    rgWrapper.setRgMaxEnrText(rgSeats);
+                }
+                rgWrapper.setAoStateNameText(rgWrapper.getAoStateNameText() + (newLine ? "<br/>" : "") + aoWrapper.getStateName() + lineBreaks);
+                socRGWrapper.setAoStateNameText(aoWrapper.getStateName());
                 //sub-term icon and tooltip setup
                 if (!aoWrapper.getSubTermName().equals("None")) {  //sub-term? > icon + name and dates
                     StringBuilder sb = new StringBuilder();
@@ -1017,51 +1035,64 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     sb.append(lineBreaks);
                     rgWrapper.setAoActivityCodeText(sb.toString());
                 } else {
-                    rgWrapper.setAoActivityCodeText(aoWrapper.getAoInfo().getActivityCode());
+                    rgWrapper.setAoActivityCodeText(rgWrapper.getAoActivityCodeText() + (newLine ? "<br/>" : "") + aoWrapper.getAoInfo().getActivityCode() + lineBreaks);
+                    socRGWrapper.setAoActivityCodeText(aoWrapper.getAoInfo().getActivityCode());
                 }
-                rgWrapper.setAoTypeNameText(aoWrapper.getTypeName() + lineBreaks);
-                rgWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay() + lineBreaksInstructors);
-                rgWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay() + lineBreaksInstructors);
-                rgWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName() + lineBreaksInstructors);
-                rgWrapper.setRoomName(aoWrapper.getRoomName() + lineBreaksInstructors);
-                rgWrapper.setBuildingName(aoWrapper.getBuildingName() + lineBreaksInstructors);
-                rgWrapper.setBuildingCodeWithTooltip(aoWrapper.getBldgCodeSimple(), aoWrapper.getBuildingName());
-                rgWrapper.setAoInstructorText((aoWrapper.getInstructorDisplayNames() == null ? "" : aoWrapper.getInstructorDisplayNames()) + lineBreaksDeliveries);
+                rgWrapper.setAoTypeNameText(rgWrapper.getAoTypeNameText() + (newLine ? "<br/>" : "") + aoWrapper.getTypeName() + lineBreaks);
+                rgWrapper.setStartTimeDisplay(rgWrapper.getStartTimeDisplay() + (newLine ? "<br/>" : "") + aoWrapper.getStartTimeDisplay() + lineBreaksInstructors);
+                rgWrapper.setEndTimeDisplay(rgWrapper.getEndTimeDisplay() + (newLine ? "<br/>" : "") + aoWrapper.getEndTimeDisplay() + lineBreaksInstructors);
+                rgWrapper.setDaysDisplayName(rgWrapper.getDaysDisplayName() + (newLine ? "<br/>" : "") + aoWrapper.getDaysDisplayName() + lineBreaksInstructors);
+                rgWrapper.setRoomName(rgWrapper.getRoomName() + (newLine ? "<br/>" : "") + aoWrapper.getRoomName() + lineBreaksInstructors);
+                rgWrapper.setBuildingName(rgWrapper.getBuildingName() + (newLine ? "<br/>" : "") + aoWrapper.getBuildingName() + lineBreaksInstructors);
+                rgWrapper.setBuildingCodeWithTooltip(aoWrapper.getBldgCodeSimple(), aoWrapper.getBuildingName(), (newLine ? "<br/>" : ""));
+                rgWrapper.setAoInstructorText(rgWrapper.getAoInstructorText() + (newLine ? "<br/>" : "") + (aoWrapper.getInstructorDisplayNames() == null ? "" : aoWrapper.getInstructorDisplayNames()) + lineBreaksDeliveries);
 
-                RegistrationGroupWrapper registrationGroupWrapper = (RegistrationGroupWrapper) ObjectUtils.deepCopy(rgWrapper);
+                socRGWrapper.setAoTypeNameText(aoWrapper.getTypeName() + lineBreaks);
+                socRGWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay() + lineBreaksInstructors);
+                socRGWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay() + lineBreaksInstructors);
+                socRGWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName() + lineBreaksInstructors);
+                socRGWrapper.setRoomName(aoWrapper.getRoomName() + lineBreaksInstructors);
+                socRGWrapper.setBuildingName(aoWrapper.getBuildingName() + lineBreaksInstructors);
+                socRGWrapper.setBuildingCodeWithTooltip(aoWrapper.getBldgCodeSimple(), aoWrapper.getBuildingName());
+                socRGWrapper.setAoInstructorText((aoWrapper.getInstructorDisplayNames() == null ? "" : aoWrapper.getInstructorDisplayNames()) + lineBreaksDeliveries);
+
+                RegistrationGroupWrapper registrationGroupWrapper = (RegistrationGroupWrapper) ObjectUtils.deepCopy(socRGWrapper);
 
                 registrationGroupWrapperList.add(registrationGroupWrapper);
             }
         }
 
-        //Set the same Registration Group seats
-        for (RegistrationGroupWrapper registrationGroupWrapper : registrationGroupWrapperList) {
-            RegistrationGroupWrapper regWrapper = new RegistrationGroupWrapper();
-            for (RegistrationGroupWrapper partnerRegWrapper : registrationGroupWrapperList) {
-                if(registrationGroupWrapper.getRgInfo().getName().equals(partnerRegWrapper.getRgInfo().getName()) &&
-                        !registrationGroupWrapper.getAoActivityCodeText().equals(partnerRegWrapper.getAoActivityCodeText())) {
-                    regWrapper = partnerRegWrapper;
+        if(socView) {
+            //Set the same Registration Group seats
+            for (RegistrationGroupWrapper registrationGroupWrapper : registrationGroupWrapperList) {
+                RegistrationGroupWrapper regWrapper = new RegistrationGroupWrapper();
+                for (RegistrationGroupWrapper partnerRegWrapper : registrationGroupWrapperList) {
+                    if(registrationGroupWrapper.getRgInfo().getName().equals(partnerRegWrapper.getRgInfo().getName()) &&
+                            !registrationGroupWrapper.getAoActivityCodeText().equals(partnerRegWrapper.getAoActivityCodeText())) {
+                        regWrapper = partnerRegWrapper;
+                    }
                 }
-            }
-            if (registrationGroupWrapper.getAoMaxEnrText() != null && registrationGroupWrapper.getAoMaxEnrText().length() > 1) {
-                if (regWrapper.getAoMaxEnrText() != null && regWrapper.getAoMaxEnrText().length() > 1) {
-                    Integer seats = Integer.parseInt(registrationGroupWrapper.getAoMaxEnrText());
-                    Integer nSeats = Integer.parseInt(regWrapper.getAoMaxEnrText());
-                    if (seats.compareTo(nSeats) > 0) {
-                        registrationGroupWrapper.setRgMaxEnrText(nSeats.toString());
-                        regWrapper.setRgMaxEnrText(nSeats.toString());
-                    } else {
-                        registrationGroupWrapper.setRgMaxEnrText(seats.toString());
-                        regWrapper.setRgMaxEnrText(seats.toString());
+                if (registrationGroupWrapper.getAoMaxEnrText() != null && registrationGroupWrapper.getAoMaxEnrText().length() > 1) {
+                    if (regWrapper.getAoMaxEnrText() != null && regWrapper.getAoMaxEnrText().length() > 1) {
+                        Integer seats = Integer.parseInt(registrationGroupWrapper.getAoMaxEnrText());
+                        Integer nSeats = Integer.parseInt(regWrapper.getAoMaxEnrText());
+                        if (seats.compareTo(nSeats) > 0) {
+                            registrationGroupWrapper.setRgMaxEnrText(nSeats.toString());
+                            regWrapper.setRgMaxEnrText(nSeats.toString());
+                        } else {
+                            registrationGroupWrapper.setRgMaxEnrText(seats.toString());
+                            regWrapper.setRgMaxEnrText(seats.toString());
+                        }
                     }
                 }
             }
+
+            clusterWrapper.getRgWrapperList().clear();
+            clusterWrapper.getRgWrapperList().addAll(registrationGroupWrapperList);
         }
 
-        clusterWrapper.getRgWrapperList().clear();
-        clusterWrapper.getRgWrapperList().addAll(registrationGroupWrapperList);
 
-        return registrationGroupWrapperList;
+        return new ArrayList<RegistrationGroupWrapper>(rgMap.values());
     }
 
     /**
