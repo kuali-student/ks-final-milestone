@@ -688,7 +688,7 @@ function endTimeOnBlur(){
     parseAndReplaceTimeClause(jQuery("#rdl_endtime_control"), jQuery("#rdl_days_control"));
 }
 
-function refreshEndTimeWidget(widgetToFocusAfterRefresh){
+function rdlStartTimeOnBlur(){
 
     var startTime = jQuery("#rdl_starttime_control").val();
     var days = jQuery("#rdl_days_control").val();
@@ -707,8 +707,16 @@ function refreshEndTimeWidget(widgetToFocusAfterRefresh){
        return;
    }
 
+    jQuery("#rdl_endtime_control").val('');
+
     retrieveComponent('rdl_endtime','loadTSEndTimes',function () {
-        jQuery("#" + widgetToFocusAfterRefresh).focus();
+        jQuery("#rdl_endtime_control").focus();
     });
 }
 
+
+function rdlDaysOnBlur(){
+
+    jQuery("#rdl_starttime_control").val('');
+    jQuery("#rdl_endtime_control").val('');
+}
