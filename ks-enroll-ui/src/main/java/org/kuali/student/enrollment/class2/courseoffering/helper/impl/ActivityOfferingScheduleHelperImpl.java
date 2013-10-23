@@ -844,7 +844,12 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
     public List<String> getEndTimes(String days,String startTime,String termTypeKey) throws Exception{
 
-        List<TypeTypeRelationInfo> typeTypeRelationInfos = CourseOfferingManagementUtil.getTypeService().getTypeTypeRelationsByOwnerAndType(termTypeKey, "kuali.type.type.relation.type.allowed.atp2timeslot", createContextInfo());
+        List<TypeTypeRelationInfo> typeTypeRelationInfos = CourseOfferingManagementUtil.getTypeService().getTypeTypeRelationsByOwnerAndType(termTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_ATP2TIMESLOT_TYPE_KEY,createContextInfo());
+
+        if (typeTypeRelationInfos.isEmpty()){
+            return new ArrayList<String>();
+        }
+
         TypeTypeRelationInfo typeTypeRelationInfo = KSCollectionUtils.getRequiredZeroElement(typeTypeRelationInfos);
 
         List<Integer> daysArray = WeekDaysDtoAndUIConversions.buildDaysForDTO(days);
