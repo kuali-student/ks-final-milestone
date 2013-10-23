@@ -35,6 +35,9 @@
     <param name="appserver.url">http://localhost:8081</param>
 	
     <param name="serviceNamespace">ks-with-rice-embedded</param>
+
+    <param name="krad.externalizable.images.url">${application.url}/themes/ksboot/images/</param>
+
     <param name="rice.ksb.loadKNSModuleConfiguration">false</param>
     <param name="rice.logging.configure">true</param>
     <param name="log4j.settings.path">classpath:log4j.properties</param>

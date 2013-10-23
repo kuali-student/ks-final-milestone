@@ -23,8 +23,8 @@
         syntax: ${varname} ${institution}
     -->
 <config>
-	<param name="module.name">ks-with-rice-bundled</param>
-	<param name="application.id">ks</param>
+    <param name="module.name">ks-with-rice-bundled</param>
+    <param name="application.id">ks</param>
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
     
@@ -41,6 +41,7 @@
 
     <param name="appserver.url">http://localhost:8081</param>
     <param name="app.code">ks-with-rice-bundled</param>
+    <param name="krad.externalizable.images.url">${application.url}/themes/ksboot/images/</param>
 
     <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
     <param name="rice.logging.configure">true</param>

@@ -31,6 +31,9 @@
     <param name="config.location">classpath:ks-security-config.xml</param>
     <param name="appserver.url">http://localhost:8080</param>
     <param name="app.code">ks-rice-standalone</param>
+
+    <param name="krad.externalizable.images.url">${application.url}/themes/ksboot/images/</param>
+
     <param name="app.context.name">ks-rice-standalone-${environment}</param>
     <param name="application.id">RICE</param>
     <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
