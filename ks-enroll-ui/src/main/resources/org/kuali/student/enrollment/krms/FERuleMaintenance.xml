@@ -195,9 +195,9 @@ limitations under the License.
                 <entry key="aaSorting" value="[[1,'asc'],[2,'asc']]"/>
                 <entry key="bAutoWidth" value="false"/>
                 <entry key="aoColumns"
-                       value="[ {'bSortable':false, 'sWidth':'55%'},
-                                {'bSortable':false, 'sWidth':'15%'},
-                                {'bSortable':false, 'sType':'time-sort', 'sWidth':'15%'}
+                       value="[ {'bSortable':false, 'sWidth':'69%'},
+                                {'bSortable':false, 'sWidth':'9%'},
+                                {'bSortable':false, 'sType':'time-sort', 'sWidth':'12%'}
                             ]"/>
             </map>
         </property>
@@ -252,11 +252,24 @@ limitations under the License.
     </bean>
 
     <bean id="KSFE-RuleTable-Common" parent="KSFE-RuleTable-Parent">
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="aoColumns"
+                       value="[ {'bSortable':false, 'sWidth':'49%'},
+                                {'bSortable':false, 'sWidth':'9%'},
+                                {'bSortable':false, 'sType':'time-sort', 'sWidth':'12%'},
+                                {'bSortable':false, 'sWidth':'15%'},
+                                {'bSortable':false, 'sWidth':'5%'}
+                            ]"/>
+            </map>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:label="If course is:" p:propertyName="description"/>
                 <bean parent="Uif-DataField" p:label="Exam will be on:" p:propertyName="dayToDisplay"/>
                 <bean parent="Uif-DataField" p:label="Time:" p:propertyName="timePeriodToDisplay"/>
+                <bean parent="Uif-DataField" p:label="Facility:" p:propertyName="building.name"/>
+                <bean parent="Uif-DataField" p:label="Room:" p:propertyName="room.roomCode"/>
             </list>
         </property>
     </bean>
