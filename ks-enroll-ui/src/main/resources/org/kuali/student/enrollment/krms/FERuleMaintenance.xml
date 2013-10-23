@@ -108,14 +108,15 @@ limitations under the License.
         <property name="headerText" value="Term Type: @{#dp.type.name}"/>
         <property name="items">
             <list>
-                <bean name="KSFE-FinalExamMatrixSearch-Page-parent" parent="Uif-VerticalBoxSection" p:render="@{#dp.matrixEmpty}">
+                <bean name="KSFE-FinalExamMatrix-SameAsTermType" parent="Uif-VerticalBoxSection" p:render="@{#dp.matrixEmpty or #dp.termToUse ne 'na'}">
                     <property name="items">
                         <list>
                             <bean parent="Uif-MessageField" p:messageText="Use the same Matrix as:"/>
                             <bean parent="Uif-HorizontalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField" p:propertyName="termToUse" p:label="Term Type" p:labelPlacement="LEFT" p:readOnly="false">
+                                        <bean parent="Uif-InputField" p:propertyName="termToUse" p:label="Term Type" p:labelPlacement="LEFT" p:readOnly="false"
+                                              p:onChangeScript="retrieveComponent('KSFE-AgendaManage-Section', 'loadTermType');">
                                             <property name="control">
                                                 <bean parent="Uif-DropdownControl"/>
                                             </property>
@@ -129,8 +130,8 @@ limitations under the License.
                         </list>
                     </property>
                 </bean>
-                <bean parent="KRMS-AgendaManage-Section" class="org.kuali.student.enrollment.class1.krms.util.FinalExamAgendaSection"
-                      p:progressiveRender="#dp.termToUse eq 'na'" p:style="margin-top:-25px">
+                <bean id="KSFE-AgendaManage-Section" parent="KRMS-AgendaManage-Section" class="org.kuali.student.enrollment.class1.krms.util.FinalExamAgendaSection"
+                      p:style="margin-top:-25px" p:forceSessionPersistence="true">
                     <property name="agendaPrototypeMap">
                         <map>
                             <entry key="kuali.krms.agenda.type.final.exam.standard" value-ref="KSFE-RuleTable-Standard" />
@@ -160,7 +161,7 @@ limitations under the License.
     </bean>
 
     <bean id="KSFE-RuleTable-Parent" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="true"
-          p:readOnly="false" p:width="75%" p:style="padding-top:25px">
+          p:readOnly="@{#dp.termToUse ne 'na'}" p:width="75%" p:style="padding-top:25px" >
         <property name="id" value="ruledefinitions"/>
         <property name="collectionObjectClass"
                   value="org.kuali.rice.krms.dto.RuleEditor"/>
@@ -169,7 +170,7 @@ limitations under the License.
         <property name="header">
             <bean parent="Uif-SectionHeader">
                 <property name="rightGroup">
-                    <bean parent="Uif-ActionsGroup">
+                    <bean parent="Uif-ActionsGroup" p:render="@{#dp.termToUse eq 'na'}">
                         <property name="items">
                             <list>
                                 <bean parent="Uif-NavigationActionLink" p:methodToCall="addRule" p:actionLabel="Add" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
@@ -208,7 +209,6 @@ limitations under the License.
                 <bean parent="Uif-DataField" p:label="Time:" p:propertyName="timePeriodToDisplay"/>
             </list>
         </property>
-
         <property name="lineActions">
             <list>
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="goToRuleView" p:actionLabel="Edit" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
@@ -222,7 +222,7 @@ limitations under the License.
         <property name="header">
             <bean parent="Uif-SectionHeader">
                 <property name="rightGroup">
-                    <bean parent="Uif-ActionsGroup">
+                    <bean parent="Uif-ActionsGroup" p:render="@{#dp.termToUse eq 'na'}">
                         <property name="items">
                             <list>
                                 <bean parent="Uif-NavigationActionLink" p:methodToCall="addRule" p:actionLabel="Add" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>

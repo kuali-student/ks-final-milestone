@@ -6,6 +6,8 @@ import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
+import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.AgendaTypeInfo;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
@@ -17,11 +19,13 @@ import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.class1.krms.dto.FEAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleEditor;
+import org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.service.impl.FERuleEditorMaintainableImpl;
 import org.kuali.student.enrollment.class1.krms.service.impl.FERuleViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSConstants;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,6 +36,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -73,7 +78,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         }
         rule.setDummy(Boolean.TRUE);
         ruleWrapper.setRuleEditor(rule);
-        if(document.getDocument().getNewMaintainableObject() instanceof FERuleEditorMaintainableImpl){
+        if (document.getDocument().getNewMaintainableObject() instanceof FERuleEditorMaintainableImpl) {
             FERuleEditorMaintainableImpl maintainable = (FERuleEditorMaintainableImpl) document.getDocument().getNewMaintainableObject();
             rule.setKey(maintainable.getNextRuleKey());
         }
@@ -142,6 +147,36 @@ public class FERuleEditorController extends EnrolRuleEditorController {
 
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_RULE_FE_MAINTENANCE_PAGE_ID);
         return super.navigate(form, result, request, response);
+    }
+
+    /**
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(params = "methodToCall=loadTermType")
+    public ModelAndView loadTermType(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                     HttpServletRequest request, HttpServletResponse response) {
+
+        MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) form;
+        FERuleEditorMaintainableImpl maintainable = (FERuleEditorMaintainableImpl) maintenanceDocumentForm.getDocument().getNewMaintainableObject();
+        FERuleManagementWrapper wrapper = (FERuleManagementWrapper) maintainable.getDataObject();
+
+
+        Map<String, String> dataObjectKeys = new HashMap<String, String>();
+        if (!wrapper.getTermToUse().equals("na")) {
+            dataObjectKeys.put("refObjectId", wrapper.getTermToUse());
+        } else {
+            dataObjectKeys.put("refObjectId", wrapper.getRefObjectId());
+
+        }
+        Object dataObject = maintainable.retrieveObjectForEditOrCopy(maintenanceDocumentForm.getDocument(), dataObjectKeys);
+        wrapper.setAgendas(((FERuleManagementWrapper) dataObject).getAgendas());
+
+
+        return getUIFModelAndView(form);
     }
 
     /**
