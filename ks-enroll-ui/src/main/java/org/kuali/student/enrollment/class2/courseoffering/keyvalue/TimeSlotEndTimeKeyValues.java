@@ -28,7 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class populates all the standard time slot endtimes, which are matched with the user
+ * entered days and startime.
  *
  * @author Kuali Student Team
  */
