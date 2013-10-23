@@ -43,7 +43,8 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
-import org.kuali.student.cm.course.form.GenericStringForCollectionWrapper;
+import org.kuali.student.cm.course.form.LoItem;
+import org.kuali.student.cm.course.form.LoItemModel;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.impl.LookupableConstants;
@@ -604,7 +605,80 @@ public class CourseController extends MaintenanceDocumentController {
         info("Returning a null from org search");
         return null;
     }
+    
+    @RequestMapping(params = "methodToCall=moveLearningObjectiveUp")
+    public ModelAndView moveLearningObjectiveUp(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                          HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        LoItemModel loItemModel = setupLoModel(form);
+        loItemModel.moveUpCurrent();
+        clearSelectedLoItem(loItemModel.getLoItems());
+        
+        return getUIFModelAndView(form);
+    }
+    
+    @RequestMapping(params = "methodToCall=moveLearningObjectiveDown")
+    public ModelAndView moveLearningObjectiveDown(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                          HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        LoItemModel loItemModel = setupLoModel(form);
+        loItemModel.moveDownCurrent();
+        clearSelectedLoItem(loItemModel.getLoItems());
 
+        return getUIFModelAndView(form);
+    }
+    
+    @RequestMapping(params = "methodToCall=moveLearningObjectiveRight")
+    public ModelAndView moveLearningObjectiveRight(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                          HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        LoItemModel loItemModel = setupLoModel(form);
+        loItemModel.indentCurrent();
+        clearSelectedLoItem(loItemModel.getLoItems());
+        
+        return getUIFModelAndView(form);
+    }
+    
+    @RequestMapping(params = "methodToCall=moveLearningObjectiveLeft")
+    public ModelAndView moveLearningObjectiveLeft(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                          HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        LoItemModel loItemModel = setupLoModel(form);
+        loItemModel.outdentCurrent();
+        clearSelectedLoItem(loItemModel.getLoItems());
+
+        return getUIFModelAndView(form);
+    }
+    
+    private LoItemModel setupLoModel(MaintenanceDocumentForm form) {
+        CourseInfoMaintainable courseInfoMaintainable = getCourseMaintainableFrom(form);
+        LoItemModel loItemModel = courseInfoMaintainable.getLoItemModel();
+        List<LoItem> loItems = loItemModel.getLoItems();
+        LoItem selectedLoItem = getSelectedLoItem(loItems);
+        loItemModel.setCurrentLoItem(selectedLoItem);
+        return loItemModel;
+    }
+    
+    private LoItem getSelectedLoItem(List<LoItem> loItems) {
+        LoItem selectedLoItem = null;
+        if (loItems != null && !loItems.isEmpty()) {
+            for (LoItem loItem : loItems) {
+                if (loItem.isSelected()) {
+                    selectedLoItem = loItem;
+                    break;
+                }
+            }
+        }
+        return selectedLoItem;
+    }
+    
+    private void clearSelectedLoItem(List<LoItem> loItems) {
+        if (loItems != null && !loItems.isEmpty()) {
+            for (LoItem loItem : loItems) {
+                loItem.setSelected(false);
+            }
+        }
+    }
      
     /**
      * Retrieves the {@link CourseInfoMaintainable} instance from the {@link MaintenanceDocumentForm} in session

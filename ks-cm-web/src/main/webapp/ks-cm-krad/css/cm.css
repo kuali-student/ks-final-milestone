@@ -53,4 +53,48 @@
 }
 
 .cm-charcount-max-500 {
-}	
+}
+
+.cm-lo-indent-0 {
+	margin-left: 0px;
+}
+
+.cm-lo-indent-50 {
+	margin-left: 50px;
+}
+
+.cm-lo-indent-100 {
+	margin-left: 100px;
+}
+
+.cm-lo-indent-150 {
+	margin-left: 150px;
+}
+
+.cm-lo-indent-200 {
+	margin-left: 200px;
+}
+
+.cm-lo-indent-250 {
+	margin-left: 250px;
+}
+
+.cm-lo-indent-300 {
+	margin-left: 300px;
+}
+
+.cm-lo-indent-350 {
+	margin-left: 350px;
+}
+
+.cm-lo-indent-400 {
+	margin-left: 400px;
+}
+
+.cm-lo-indent-450 {
+	margin-left: 450px;
+}
+
+.cm-lo-indent-500 {
+	margin-left: 500px;
+}

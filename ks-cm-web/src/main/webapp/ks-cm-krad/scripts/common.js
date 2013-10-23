@@ -99,3 +99,70 @@ function setupCharCounters() {
 	jQuery(".cm-charcount-max-255").jqEasyCounter({'maxChars': 255, 'maxCharsWarning': 220, 'msgTextAlign': 'left'});
 	jQuery(".cm-charcount-max-500").jqEasyCounter({'maxChars': 500, 'maxCharsWarning': 450, 'msgTextAlign': 'left'});
 }
+
+/*Learning Objective functionality*/
+
+function moveLo(button, collectionGroupId, controllerMethod) {
+	performLOToolbarAction(button, collectionGroupId, controllerMethod);
+	retrieveComponent(collectionGroupId, controllerMethod);
+}
+
+function performLOToolbarAction(button, collectionGroupId, controllerMethod) {
+	var id = button.id;
+	var lineSuffixIndex = id.lastIndexOf("_line");
+	var lineNumberIndex = lineSuffixIndex + "_line".length;
+	var index = id.substr(lineNumberIndex);
+	/* Set the 'selected' property on the LoItem */
+	jQuery('#KS-LoInfo-selected_line' + index + '_control').prop('value', true);
+}
+
+function applyIndentationStyling() {
+	 jQuery(".uif-collectionItem[data-parent='LearningObjective-CollectionSection']").each(function(index) {
+		 var indentString = jQuery('#KS-LoInfo-indentLevel_line' + index + '_control').prop('value');
+		 var indentLevel = parseInt(indentString);
+		 
+		 var collectionItem = jQuery(this);
+		 collectionItem.removeClass("cm-lo-indent-0 cm-lo-indent-50 cm-lo-indent-100 cm-lo-indent-150 cm-lo-indent-200 cm-lo-indent-250 cm-lo-indent-300 cm-lo-indent-350 cm-lo-indent-400 cm-lo-indent-450 cm-lo-indent-500");
+		 collectionItem.addClass(getIndentationClass(indentLevel));
+	 });
+}
+
+function getIndentationClass(indentLevel) {
+	var indentationClass;
+	switch (indentLevel) {
+		case 0:
+			indentationClass = "cm-lo-indent-0";
+			break;
+		case 1:
+			indentationClass = "cm-lo-indent-50";
+			break;
+		case 2:
+			indentationClass = "cm-lo-indent-100";
+			break;
+		case 3:
+			indentationClass = "cm-lo-indent-150";
+			break;
+		case 4:
+			indentationClass = "cm-lo-indent-200";
+			break;
+		case 5:
+			indentationClass = "cm-lo-indent-250";
+			break;
+		case 6:
+			indentationClass = "cm-lo-indent-300";
+			break;
+		case 7:
+			indentationClass = "cm-lo-indent-350";
+			break;
+		case 8:
+			indentationClass = "cm-lo-indent-400";
+			break;
+		case 9:
+			indentationClass = "cm-lo-indent-450";
+			break;
+		case 10:
+			indentationClass = "cm-lo-indent-500";
+			break;
+	}
+	return indentationClass;
+}

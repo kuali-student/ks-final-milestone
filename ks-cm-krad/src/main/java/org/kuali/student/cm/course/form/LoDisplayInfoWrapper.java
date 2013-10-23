@@ -25,7 +25,7 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo {
     private String loCategory;
     
     private String loDescription;
-
+    
     public String getSearchBy() {
         return searchBy;
     }
@@ -105,5 +105,5 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo {
     public void setLoDescription(String loDescription) {
         this.loDescription = loDescription;
     }
-
+    
 }

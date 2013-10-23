@@ -18,18 +18,33 @@ package org.kuali.student.cm.course.service.impl;
 import static org.kuali.student.logging.FormattedLogger.error;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.core.api.util.tree.Node;
+import org.kuali.rice.core.api.util.tree.Tree;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
+import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
+import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
+import org.kuali.student.cm.course.form.LoItem;
+import org.kuali.student.cm.course.form.LoItemModel;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.SubjectCodeWrapper;
@@ -106,8 +121,6 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
     
     private List<CollaboratorWrapper> collaboratorWrappers;
     
-    private List<LoDisplayInfoWrapper> loDisplayInfoWrappers;
-    
     private String unitsContentOwnerToAdd;
     
     private List<KeyValue> unitsContentOwner;
@@ -115,6 +128,8 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
     private List<SupportingDocumentInfoWrapper> supportingDocuments;
     
     private String crossListingDisclosureSection;
+    
+    private LoItemModel loItemModel;
 	
     public void setUnitsContentOwnerToAdd(final String unitsContentOwnerToAdd) {
         this.unitsContentOwnerToAdd = unitsContentOwnerToAdd;
@@ -673,54 +688,6 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
        return listCollaboratorWrappers;
    }
 
-    public List<LoDisplayInfoWrapper> getLoDisplayInfoWrappers() {
-        if (loDisplayInfoWrappers == null) {
-            loDisplayInfoWrappers = new ArrayList<LoDisplayInfoWrapper>(0);
-        }
-        return loDisplayInfoWrappers;
-    }
-
-    public void setLoDisplayInfoWrappers(List<LoDisplayInfoWrapper> loDisplayInfoWrappers) {
-        this.loDisplayInfoWrappers = loDisplayInfoWrappers;
-    }
-    
-    protected SearchService getSearchService() {
-        if (searchService == null) {
-            searchService = GlobalResourceLoader.getService(new QName(LookupableConstants.NAMESPACE_PERSONSEACH, LookupableConstants.PERSONSEACH_SERVICE_NAME_LOCAL_PART));
-        }
-        return searchService;
-    }
-    
-    protected SubjectCodeService getSubjectCodeService() {
-        if (subjectCodeService == null) {
-            subjectCodeService = GlobalResourceLoader.getService(new QName(LookupableConstants.NAMESPACE_SUBJECTCODE, SubjectCodeService.class.getSimpleName()));
-        }
-        return subjectCodeService;
-    }   
-    
-    protected CluService getCluService() {
-        if (cluService == null) {
-            cluService = GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluService.class.getSimpleName()));
-        }
-        return cluService;
-    }   
-    
-    protected LearningObjectiveService getLearningObjectiveService() {
-        if (learningObjectiveService == null) {
-            learningObjectiveService = GlobalResourceLoader.getService(new QName(
-                    LearningObjectiveServiceConstants.NAMESPACE, LearningObjectiveService.class.getSimpleName()));
-        }
-        return learningObjectiveService;
-    }
-    
-    protected OrganizationService getOrganizationService() {
-        if (organizationService == null) {
-            organizationService = (OrganizationService) GlobalResourceLoader
-                .getService(new QName("http://student.kuali.org/wsdl/organization","OrganizationService"));
-        }
-        return organizationService;
-    }
-    
     /**
      * Method is overridden to change default property
      * 
@@ -742,5 +709,65 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
     public void setCrossListingDisclosureSection(String argCrossListingDisclosureSection) {
         this.crossListingDisclosureSection = argCrossListingDisclosureSection;
     }
+    
+    @Override
+    public LoItemModel getLoItemModel() {
+        if (loItemModel == null) {
+            loItemModel = new LoItemModel();
+        }
+        return loItemModel;
+    }
+    
+//    @Override
+//    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine, boolean isValidLine) {
+//        super.processAfterAddLine(view, collectionGroup, model, addLine, isValidLine);
+//        
+//        //Add the newly added LoItem to the LoItemModel
+//        if (model instanceof MaintenanceDocumentForm) {
+//            MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
+//            CourseInfoMaintainable courseInfoMaintainable = (CourseInfoMaintainable)maintenanceForm.getDocument().getNewMaintainableObject();
+//            if (addLine instanceof LoItem) {
+//                courseInfoMaintainable.getLoItemModel().addLoItem((LoItem)addLine);
+//            }
+//        }
+//        
+//    }
+    
+    protected SearchService getSearchService() {
+        if (searchService == null) {
+            searchService = GlobalResourceLoader.getService(new QName(LookupableConstants.NAMESPACE_PERSONSEACH, LookupableConstants.PERSONSEACH_SERVICE_NAME_LOCAL_PART));
+        }
+        return searchService;
+    }
+    
+    protected SubjectCodeService getSubjectCodeService() {
+        if (subjectCodeService == null) {
+            subjectCodeService = GlobalResourceLoader.getService(new QName(LookupableConstants.NAMESPACE_SUBJECTCODE, SubjectCodeService.class.getSimpleName()));
+        }
+        return subjectCodeService;
+    }
+    
+    protected CluService getCluService() {
+        if (cluService == null) {
+            cluService = GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluService.class.getSimpleName()));
+        }
+        return cluService;
+    }
+    
+    protected LearningObjectiveService getLearningObjectiveService() {
+        if (learningObjectiveService == null) {
+            learningObjectiveService = GlobalResourceLoader.getService(new QName(
+                    LearningObjectiveServiceConstants.NAMESPACE, LearningObjectiveService.class.getSimpleName()));
+        }
+        return learningObjectiveService;
+    }
+    
+    protected OrganizationService getOrganizationService() {
+        if (organizationService == null) {
+            organizationService = (OrganizationService) GlobalResourceLoader
+                .getService(new QName("http://student.kuali.org/wsdl/organization","OrganizationService"));
+        }
+        return organizationService;
+    }    
     
 }

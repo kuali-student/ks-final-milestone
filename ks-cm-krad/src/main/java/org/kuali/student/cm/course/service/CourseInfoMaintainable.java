@@ -24,6 +24,8 @@ import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
+import org.kuali.student.cm.course.form.LoItem;
+import org.kuali.student.cm.course.form.LoItemModel;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.SubjectCodeWrapper;
@@ -271,20 +273,6 @@ public interface CourseInfoMaintainable extends Maintainable {
     void setUnitsContentOwner(final List<KeyValue> unitsContentOwner);
     
     /**
-     * Gets the list of Lo Display Infos
-     * 
-     * @return the list of {@link LoDisplayInfoWrapper}
-     */
-    List<LoDisplayInfoWrapper> getLoDisplayInfoWrappers();
-
-    /**
-     * Sets the list of Lo Display Infos
-     * 
-     * @param the list of {@link LoDisplayInfoWrapper}
-     */
-    void setLoDisplayInfoWrappers(List<LoDisplayInfoWrapper> loDisplayInfoWrappers);
-    
-    /**
      * 
      * This method is used to check for DisclosureSection 
      * of Cross List, Offer Jointly and Version Codes
@@ -294,4 +282,13 @@ public interface CourseInfoMaintainable extends Maintainable {
     String getCrossListingDisclosureSection();
     
     void setCrossListingDisclosureSection(final String argCrossListingDisclosureSection);
+    
+
+    /**
+     * 
+     * Retrieve the {@link LoItemModel} that is used for Learning Objectives.
+     * 
+     * @return The {@link LoItemModel} that is used to render {@link LoDisplayInfoWrapper} instances.
+     */
+    LoItemModel getLoItemModel();
 }

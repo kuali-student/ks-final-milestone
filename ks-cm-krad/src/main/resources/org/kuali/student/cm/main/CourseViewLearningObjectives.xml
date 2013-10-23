@@ -35,8 +35,8 @@
     </bean>
 
 	<bean id="LearningObjective-CollectionSection" parent="Uif-StackedCollectionSection"
-		p:propertyName="loDisplayInfoWrappers" p:collectionObjectClass="org.kuali.student.cm.course.form.LoDisplayInfoWrapper">
-        <property name="onDocumentReadyScript" value="setupCharCounters()" />
+		p:propertyName="loItemModel.loItems" p:collectionObjectClass="org.kuali.student.cm.course.form.LoItem">
+        <property name="onDocumentReadyScript" value="setupCharCounters(); applyIndentationStyling();" />
         <property name="layoutManager">
 			<bean parent="Uif-StackedCollectionLayout-WithBoxItems">
 				<property name="subCollectionFieldGroupPrototype">
@@ -60,7 +60,7 @@
         <property name="items">
 			<list>
 				<bean id="KS-LoInfo-descr" parent="Uif-InputField"
-					p:propertyName="loInfo.descr.plain" p:showLabel="false">
+					p:propertyName="loWrapper.loInfo.descr.plain" p:showLabel="false">
 					<property name="control">
 						<bean parent="Uif-TextAreaControl" p:cols="60">
                             <property name="cssClasses">
@@ -71,13 +71,23 @@
                         </bean>
 					</property>
 				</bean>
+                <bean id="KS-LoInfo-selected" parent="Uif-InputField" p:propertyName="selected">
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl" />
+                    </property>
+                </bean>
+                <bean id="KS-LoInfo-indentLevel" parent="Uif-InputField" p:propertyName="indentLevel">
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl" />
+                    </property>
+                </bean>
 			</list>
 		</property>
 		<property name="subCollections">
 			<list>
 				<bean parent="Uif-StackedCollectionSubSection"
 					p:collectionObjectClass="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo"
-					p:propertyName="loCategoryInfoList">
+					p:propertyName="loWrapper.loCategoryInfoList">
 					<property name="layoutManager">
 						<bean parent="Uif-StackedCollectionLayout-WithBoxItems">
 							<property name="subCollectionFieldGroupPrototype">
@@ -144,21 +154,25 @@
 			</list>
 		</property>
 	</bean>
-	
+    
     <bean id="LearningObjectives-MoveUp-Button" parent="Uif-ActionImage">
 		<property name="actionImage">
             <bean parent="Uif-Image" p:source="@{#ConfigProperties['cm.krad.externalizable.images.url']+'/ArrowUp.png'}" p:altText="Move Up"/>
         	<!-- "@{enableAddButton ? #ConfigProperties['cm.krad.externalizable.images.url']+'/ArrowUp.png' : #ConfigProperties['cm.krad.externalizable.images.url']+'/ArrowUpDisabled.png'}" -->
         </property>
+        <property name="actionScript" value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveUp');" />
+        <!-- <property name="onMouseDownScript" value="jq(this).addClass('tree-bar-button-selected');" />
+        <property name="onMouseUpScript" value="jq(this).removeClass('tree-bar-button-selected');" /> -->
         <property name="toolTip">
         	<bean parent="Uif-Tooltip" p:tooltipContent="Move learning objective up" />
         </property>
     </bean>
     
-    <bean id="LearningObjectives-MoveDown-Button" parent="Uif-ActionImage" p:ajaxSubmit="true">
-		<property name="actionImage">
+    <bean id="LearningObjectives-MoveDown-Button" parent="Uif-ActionImage">
+    	<property name="actionImage">
             <bean parent="Uif-Image" p:source="@{#ConfigProperties['cm.krad.externalizable.images.url']+'/ArrowDown.png'}" p:altText="Move Down"/>
         </property>
+        <property name="actionScript" value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveDown');" />
         <property name="toolTip">
         	<bean parent="Uif-Tooltip" p:tooltipContent="Move learning objective down" />
         </property>
@@ -168,15 +182,18 @@
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="@{#ConfigProperties['cm.krad.externalizable.images.url']+'/IncreaseIndent.png'}" p:altText="Increase Indent"/>
         </property>
+        <property name="actionScript" value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveRight');" />
         <property name="toolTip">
         	<bean parent="Uif-Tooltip" p:tooltipContent="Indent learning objective" />
         </property>
+        <property name="successCallback" value="alert('successCallback')" />
     </bean>
     
     <bean id="LearningObjectives-DecreaseIndent-Button" parent="Uif-ActionImage">
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="@{#ConfigProperties['cm.krad.externalizable.images.url']+'/DecreaseIndent.png'}" p:altText="Decrease Indent"/>
         </property>
+        <property name="actionScript" value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveLeft');" />
         <property name="toolTip">
         	<bean parent="Uif-Tooltip" p:tooltipContent="Outdent learning objective" />
         </property>
