@@ -30,6 +30,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class KSInvalidateRGStateEventType extends KSEventType {
+    public static final String EVENT_NAME = "kuali.event.invalidate.rg.state";
     public static final List<KSEventAttributeKey> REQUIRED_KEYS;
     static {
         REQUIRED_KEYS = new ArrayList<KSEventAttributeKey>();
@@ -37,6 +38,6 @@ public class KSInvalidateRGStateEventType extends KSEventType {
     }
 
     public KSInvalidateRGStateEventType() {
-        super(KSEventNamespace.NAMESPACE_CHANGE_STATE, KSEventFactory.RG_INVALIDATE_STATE_EVENT_NAME, REQUIRED_KEYS, null);
+        super(KSEventNamespace.NAMESPACE_CHANGE_STATE, EVENT_NAME, REQUIRED_KEYS, null);
     }
 }

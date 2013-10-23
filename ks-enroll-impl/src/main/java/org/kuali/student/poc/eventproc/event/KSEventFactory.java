@@ -47,6 +47,12 @@ public class KSEventFactory {
     public static final String EVENT_ATTRIBUTE_NAME_AO_ID = "kuali.event.attribute.aoId";
     public static final KSEventAttributeKey EVENT_ATTRIBUTE_KEY_AO_ID =
             new KSEventAttributeKey(EVENT_ATTRIBUTE_NAME_AO_ID, "aoId", "String");
+
+    // AO fromState
+    public static final String EVENT_ATTRIBUTE_NAME_AO_FROM_STATE = "kuali.event.attribute.aoFromState";
+    public static final KSEventAttributeKey EVENT_ATTRIBUTE_KEY_AO_FROM_STATE =
+            new KSEventAttributeKey(EVENT_ATTRIBUTE_NAME_AO_FROM_STATE, "fromState", "String");
+
     // AO toState
     public static final String EVENT_ATTRIBUTE_NAME_AO_TO_STATE = "kuali.event.attribute.aoToState";
     public static final KSEventAttributeKey EVENT_ATTRIBUTE_KEY_AO_TO_STATE =
@@ -67,7 +73,7 @@ public class KSEventFactory {
     public static final KSEventAttributeKey EVENT_ATTRIBUTE_KEY_RG_ID =
             new KSEventAttributeKey(EVENT_ATTRIBUTE_NAME_RG_ID, "rgId", "String");
     // ------------------------------------- AO CHANGE STATE EVENT -------------------------------------------
-    public static final String AO_CHANGE_STATE_EVENT_NAME = "kuali.event.change.ao.state";
+    public static final String AO_CHANGE_STATE_EVENT_NAME = KSAOStateChangeEventType.EVENT_NAME;
     public static final KSEventType AO_CHANGE_STATE_EVENT_TYPE = new KSAOStateChangeEventType();
 
     public static KSEvent createChangeActivityOfferingStateEvent(String aoId, String toState) throws OperationFailedException {
@@ -75,15 +81,15 @@ public class KSEventFactory {
     }
 
     // -------------------------------- AO STATE MODIFIED EVENT -----------------------------------------
-    public static final String AO_STATE_MODIFIED_EVENT_NAME = "kuali.event.ao.state.modified";
+    public static final String AO_STATE_MODIFIED_EVENT_NAME = KSAOStateModifiedEventType.EVENT_NAME;
     public static final KSEventType AO_STATE_MODIFIED_EVENT_TYPE = new KSAOStateModifiedEventType();
 
-    public static KSEvent createActivityOfferingStateModifiedEvent(String aoId, String toState) throws OperationFailedException {
-        return new KSAOStateModifiedEvent(aoId, toState);
+    public static KSEvent createActivityOfferingStateModifiedEvent(String aoId, String fromState, String toState) throws OperationFailedException {
+        return new KSAOStateModifiedEvent(aoId, fromState, toState);
     }
 
     // -------------------------------- FO RECOMPUTE STATE EVENT -----------------------------------------
-    public static final String FO_RECOMPUTE_STATE_EVENT_NAME = "kuali.event.recompute.fo.state";
+    public static final String FO_RECOMPUTE_STATE_EVENT_NAME = KSRecomputeFOStateEventType.EVENT_NAME;
     public static final KSEventType FO_RECOMPUTE_STATE_EVENT_TYPE = new KSRecomputeFOStateEventType();
 
     public static KSEvent createRecomputeFormatOfferingStateEvent(String foId) throws OperationFailedException {
@@ -91,7 +97,7 @@ public class KSEventFactory {
     }
 
     // -------------------------------- FO STATE MODIFIED EVENT -----------------------------------------
-    public static final String FO_STATE_MODIFIED_EVENT_NAME = "kuali.event.fo.state.modified";
+    public static final String FO_STATE_MODIFIED_EVENT_NAME = KSFOStateModifiedEventType.EVENT_NAME;
     public static final KSEventType FO_STATE_MODIFIED_EVENT_TYPE = new KSFOStateModifiedEventType();
 
     public static KSEvent createFormatOfferingStateModifiedEvent(String foId) throws OperationFailedException {
@@ -99,7 +105,7 @@ public class KSEventFactory {
     }
 
     // -------------------------------- CO RECOMPUTE STATE EVENT -----------------------------------------
-    public static final String CO_RECOMPUTE_STATE_EVENT_NAME = "kuali.event.recompute.co.state";
+    public static final String CO_RECOMPUTE_STATE_EVENT_NAME = KSRecomputeCOStateEventType.EVENT_NAME;
     public static final KSEventType CO_RECOMPUTE_STATE_EVENT_TYPE = new KSRecomputeCOStateEventType();
 
     public static KSEvent createRecomputeCourseOfferingStateEvent(String coId) throws OperationFailedException {
@@ -107,7 +113,7 @@ public class KSEventFactory {
     }
 
     // -------------------------------- RG RECOMPUTE STATE EVENT -----------------------------------------
-    public static final String RG_RECOMPUTE_STATE_EVENT_NAME = "kuali.event.recompute.rg.state";
+    public static final String RG_RECOMPUTE_STATE_EVENT_NAME = KSRecomputeRGStateEventType.EVENT_NAME;
     public static final KSEventType RG_RECOMPUTE_STATE_EVENT_TYPE = new KSRecomputeRGStateEventType();
 
     public static KSEvent createRecomputeRegGroupStateEvent(String rgId) throws OperationFailedException {
@@ -115,7 +121,7 @@ public class KSEventFactory {
     }
 
     // -------------------------------- RG VALIDATE STATE EVENT -----------------------------------------
-    public static final String RG_VALIDATE_STATE_EVENT_NAME = "kuali.event.validate.rg.state";
+    public static final String RG_VALIDATE_STATE_EVENT_NAME = KSValidateRGStateEventType.EVENT_NAME;
     public static final KSEventType RG_VALIDATE_STATE_EVENT_TYPE = new KSValidateRGStateEventType();
 
     public static KSEvent createValidateRegGroupStateEvent(String rgId) throws OperationFailedException {
@@ -123,7 +129,7 @@ public class KSEventFactory {
     }
 
     // -------------------------------- RG VALIDATE STATE EVENT -----------------------------------------
-    public static final String RG_INVALIDATE_STATE_EVENT_NAME = "kuali.event.invalidate.rg.state";
+    public static final String RG_INVALIDATE_STATE_EVENT_NAME = KSInvalidateRGStateEventType.EVENT_NAME;
     public static final KSEventType RG_INVALIDATE_STATE_EVENT_TYPE = new KSInvalidateRGStateEventType();
 
     public static KSEvent createInvalidateRegGroupStateEvent(String rgId) throws OperationFailedException {

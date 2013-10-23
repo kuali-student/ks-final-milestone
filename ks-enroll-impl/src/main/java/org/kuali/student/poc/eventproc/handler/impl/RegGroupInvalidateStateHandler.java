@@ -24,6 +24,7 @@ import org.kuali.student.poc.eventproc.event.KSEvent;
 import org.kuali.student.poc.eventproc.event.KSEventFactory;
 import org.kuali.student.poc.eventproc.event.KSHandlerResult;
 import org.kuali.student.poc.eventproc.event.KSEventType;
+import org.kuali.student.poc.eventproc.event.subclass.event.KSInvalidateRGStateEvent;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -53,7 +54,7 @@ public class RegGroupInvalidateStateHandler implements KSHandler {
 
     @Override
     public boolean handlesEvent(KSEvent event) {
-        return KSEventFactory.RG_INVALIDATE_STATE_EVENT_TYPE.hasSameEventTypeAs(event.getEventType());
+        return event instanceof KSInvalidateRGStateEvent;
     }
 
     @Override
@@ -65,7 +66,8 @@ public class RegGroupInvalidateStateHandler implements KSHandler {
             return new KSHandlerResult(KSHandlerResult.FAIL_HANDLER_WONT_PROCESS, RegGroupInvalidateStateHandler.class);
         }
         LOGGER.info(">>> " + getName() + " handling " + event.toString());
-        String rgId = event.getValueByAttributeKey(KSEventFactory.EVENT_ATTRIBUTE_KEY_RG_ID);
+        KSInvalidateRGStateEvent invalidateEvent = (KSInvalidateRGStateEvent) event;
+        String rgId = invalidateEvent.getRgId();
         LuiInfo rgLui = processor.getLuiService().getLui(rgId, context);
         if (rgLui.getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY)) {
             // RG is already invalid

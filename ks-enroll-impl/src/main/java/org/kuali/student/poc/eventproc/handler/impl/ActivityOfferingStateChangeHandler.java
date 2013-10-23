@@ -25,6 +25,8 @@ import org.kuali.student.poc.eventproc.event.KSEventFactory;
 import org.kuali.student.poc.eventproc.api.KSHandler;
 import org.kuali.student.poc.eventproc.event.KSEventType;
 import org.kuali.student.poc.eventproc.event.KSHandlerResult;
+import org.kuali.student.poc.eventproc.event.subclass.event.KSAOStateChangeEvent;
+import org.kuali.student.poc.eventproc.event.subclass.type.KSAOStateChangeEventType;
 import org.kuali.student.poc.eventproc.handler.constraint.ActivityOfferingStateChangeConstraintUtil;
 import org.kuali.student.poc.eventproc.handler.constraint.ConstraintResult;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -55,7 +57,7 @@ public class ActivityOfferingStateChangeHandler implements KSHandler {
 
     @Override
     public boolean handlesEvent(KSEvent event) {
-        return KSEventFactory.AO_CHANGE_STATE_EVENT_TYPE.hasSameEventTypeAs(event.getEventType());
+        return event.getEventType() instanceof KSAOStateChangeEventType;
     }
 
     @Override
@@ -67,9 +69,10 @@ public class ActivityOfferingStateChangeHandler implements KSHandler {
             // Shouldn't happen, but just in case
             return new KSHandlerResult(KSHandlerResult.FAIL_HANDLER_WONT_PROCESS, ActivityOfferingStateChangeHandler.class);
         }
-        String aoId = event.getValueByAttributeKey(KSEventFactory.EVENT_ATTRIBUTE_KEY_AO_ID);
+        KSAOStateChangeEvent stateChangeEvent = (KSAOStateChangeEvent) event;
+        String aoId = stateChangeEvent.getAoId();
         LuiInfo aoLui = processor.getLuiService().getLui(aoId, context);
-        String toState = event.getValueByAttributeKey(KSEventFactory.EVENT_ATTRIBUTE_KEY_AO_TO_STATE);
+        String toState = stateChangeEvent.getToState();
         String fromState = aoLui.getStateKey();
         // Check to see if there is a state change key
         ActivityOfferingInfo aoInfo = processor.getCoService().getActivityOffering(aoId, context);
@@ -82,7 +85,7 @@ public class ActivityOfferingStateChangeHandler implements KSHandler {
             String newToState = modifiedAoLui.getStateKey();
             LOGGER.info("Setting AO to state: " + newToState);
             // Get ready to send AO state modified event
-            KSEvent aoModifiedEvent = KSEventFactory.createActivityOfferingStateModifiedEvent(aoId, newToState);
+            KSEvent aoModifiedEvent = KSEventFactory.createActivityOfferingStateModifiedEvent(aoId, fromState, newToState);
 
             processor.internalFireEvent(aoModifiedEvent, context);
             // Add aoModifiedEvent to event (helps track what happens

@@ -17,6 +17,7 @@
 package org.kuali.student.poc.eventproc.event.subclass.event;
 
 import org.kuali.student.poc.eventproc.event.KSEvent;
+import org.kuali.student.poc.eventproc.event.KSEventAttributeKey;
 import org.kuali.student.poc.eventproc.event.KSEventFactory;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
@@ -26,8 +27,27 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
  * @author Kuali Student Team
  */
 public class KSValidateRGStateEvent extends KSEvent {
+    private String rgId;
+
     public KSValidateRGStateEvent(String rgId) throws OperationFailedException {
         super(KSEventFactory.RG_VALIDATE_STATE_EVENT_TYPE);
-        addEventAttribute(KSEventFactory.EVENT_ATTRIBUTE_KEY_RG_ID, rgId);
+        this.rgId = rgId;
+    }
+
+    public String getRgId() {
+        return rgId;
+    }
+
+    @Override
+    public boolean hasAttribute(KSEventAttributeKey key) {
+        return key.isEqualTo(KSEventFactory.EVENT_ATTRIBUTE_KEY_RG_ID);
+    }
+
+    @Override
+    public String getAttributeValueByKey(KSEventAttributeKey key) {
+        if (key.isEqualTo(KSEventFactory.EVENT_ATTRIBUTE_KEY_RG_ID)) {
+            return rgId;
+        }
+        throw new RuntimeException("Invalid key name: " + key);
     }
 }

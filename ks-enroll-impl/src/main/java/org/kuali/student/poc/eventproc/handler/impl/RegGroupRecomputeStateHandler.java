@@ -26,6 +26,9 @@ import org.kuali.student.poc.eventproc.event.KSEvent;
 import org.kuali.student.poc.eventproc.event.KSEventFactory;
 import org.kuali.student.poc.eventproc.event.KSHandlerResult;
 import org.kuali.student.poc.eventproc.event.KSEventType;
+import org.kuali.student.poc.eventproc.event.subclass.event.KSAOStateModifiedEvent;
+import org.kuali.student.poc.eventproc.event.subclass.event.KSRecomputeRGStateEvent;
+import org.kuali.student.poc.eventproc.event.subclass.event.KSValidateRGStateEvent;
 import org.kuali.student.poc.eventproc.handler.impl.helper.FoCoRgComputeStateUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -56,10 +59,9 @@ public class RegGroupRecomputeStateHandler implements KSHandler {
 
     @Override
     public boolean handlesEvent(KSEvent event) {
-        KSEventType eventType = event.getEventType();
-        return KSEventFactory.AO_STATE_MODIFIED_EVENT_TYPE.hasSameEventTypeAs(eventType) ||
-                KSEventFactory.RG_RECOMPUTE_STATE_EVENT_TYPE.hasSameEventTypeAs(eventType) ||
-                KSEventFactory.RG_VALIDATE_STATE_EVENT_TYPE.hasSameEventTypeAs(eventType);
+        return event instanceof KSAOStateModifiedEvent ||
+                event instanceof KSRecomputeRGStateEvent ||
+                event instanceof KSValidateRGStateEvent;
     }
 
     @Override
@@ -72,15 +74,18 @@ public class RegGroupRecomputeStateHandler implements KSHandler {
             return new KSHandlerResult(KSHandlerResult.FAIL_HANDLER_WONT_PROCESS, RegGroupRecomputeStateHandler.class);
         }
         KSHandlerResult eventResult = null;
-        if (KSEventFactory.AO_STATE_MODIFIED_EVENT_TYPE.equals(event.getEventType())) {
-            String aoId = event.getValueByAttributeKey(KSEventFactory.EVENT_ATTRIBUTE_KEY_AO_ID);
+        if (event instanceof KSAOStateModifiedEvent) {
+            KSAOStateModifiedEvent modifiedEvent = (KSAOStateModifiedEvent) event;
+            String aoId = modifiedEvent.getAoId();
             eventResult = _processAoStateModifiedEvent(aoId, event, context);
-        } else if (KSEventFactory.RG_VALIDATE_STATE_EVENT_TYPE.equals(event.getEventType())) {
-            String rgId = event.getValueByAttributeKey(KSEventFactory.EVENT_ATTRIBUTE_KEY_RG_ID);
+        } else if (event instanceof KSRecomputeRGStateEvent) {
+            KSRecomputeRGStateEvent recomputeEvent = (KSRecomputeRGStateEvent) event;
+            String rgId = recomputeEvent.getRgId();
             eventResult = _processValidateRgStateEvent(rgId, event, context);
         } else {
-            // Must be RG_RECOMPUTE_STATE_EVENT_TYPE
-            String rgId = event.getValueByAttributeKey(KSEventFactory.EVENT_ATTRIBUTE_KEY_RG_ID);
+            // Must be KSValidateRGStateEvent
+            KSValidateRGStateEvent validateEvent = (KSValidateRGStateEvent) event;
+            String rgId = validateEvent.getRgId();
             eventResult = _processRecomputeRgStateEvent(rgId, event, context);
         }
         return eventResult;

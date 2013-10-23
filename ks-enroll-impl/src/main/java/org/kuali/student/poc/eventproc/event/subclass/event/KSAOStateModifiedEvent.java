@@ -17,6 +17,7 @@
 package org.kuali.student.poc.eventproc.event.subclass.event;
 
 import org.kuali.student.poc.eventproc.event.KSEvent;
+import org.kuali.student.poc.eventproc.event.KSEventAttributeKey;
 import org.kuali.student.poc.eventproc.event.KSEventFactory;
 import org.kuali.student.poc.eventproc.event.KSEventType;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -27,9 +28,45 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
  * @author Kuali Student Team
  */
 public class KSAOStateModifiedEvent extends KSEvent {
-    public KSAOStateModifiedEvent(String aoId, String toState) throws OperationFailedException {
+    private String aoId;
+    private String fromState;
+    private String toState;
+
+    public KSAOStateModifiedEvent(String aoId, String fromState, String toState) throws OperationFailedException {
         super(KSEventFactory.AO_STATE_MODIFIED_EVENT_TYPE);
-        addEventAttribute(KSEventFactory.EVENT_ATTRIBUTE_KEY_AO_ID, aoId);
-        addEventAttribute(KSEventFactory.EVENT_ATTRIBUTE_KEY_AO_TO_STATE, toState);
+        this.aoId = aoId;
+        this.fromState = fromState;
+        this.toState = toState;
+    }
+
+    public String getAoId() {
+        return aoId;
+    }
+
+    public String getToState() {
+        return toState;
+    }
+
+    public String getFromState() {
+        return fromState;
+    }
+
+    @Override
+    public boolean hasAttribute(KSEventAttributeKey key) {
+        return key.isEqualTo(KSEventFactory.EVENT_ATTRIBUTE_KEY_AO_ID) ||
+                key.isEqualTo(KSEventFactory.EVENT_ATTRIBUTE_KEY_AO_FROM_STATE) ||
+                key.isEqualTo(KSEventFactory.EVENT_ATTRIBUTE_KEY_AO_TO_STATE);
+    }
+
+    @Override
+    public String getAttributeValueByKey(KSEventAttributeKey key) {
+        if (key.isEqualTo(KSEventFactory.EVENT_ATTRIBUTE_KEY_AO_ID)) {
+            return aoId;
+        } else if (key.isEqualTo(KSEventFactory.EVENT_ATTRIBUTE_KEY_AO_FROM_STATE)) {
+            return fromState;
+        } else if (key.isEqualTo(KSEventFactory.EVENT_ATTRIBUTE_KEY_AO_TO_STATE)) {
+            return toState;
+        }
+        throw new RuntimeException("Invalid key name: " + key);
     }
 }

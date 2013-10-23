@@ -30,6 +30,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class KSAOStateModifiedEventType extends KSEventType {
+    public static final String EVENT_NAME = "kuali.event.ao.state.modified";
     public static final List<KSEventAttributeKey> REQUIRED_KEYS;
     static {
         REQUIRED_KEYS = new ArrayList<KSEventAttributeKey>();
@@ -38,6 +39,6 @@ public class KSAOStateModifiedEventType extends KSEventType {
     }
 
     public KSAOStateModifiedEventType() {
-        super(KSEventNamespace.NAMESPACE_STATE_MODIFIED, KSEventFactory.AO_STATE_MODIFIED_EVENT_NAME, REQUIRED_KEYS, null);
+        super(KSEventNamespace.NAMESPACE_STATE_MODIFIED, EVENT_NAME, REQUIRED_KEYS, null);
     }
 }

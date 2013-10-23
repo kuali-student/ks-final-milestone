@@ -25,6 +25,9 @@ import org.kuali.student.poc.eventproc.event.KSEvent;
 import org.kuali.student.poc.eventproc.event.KSEventFactory;
 import org.kuali.student.poc.eventproc.event.KSHandlerResult;
 import org.kuali.student.poc.eventproc.event.KSEventType;
+import org.kuali.student.poc.eventproc.event.subclass.event.KSFOStateModifiedEvent;
+import org.kuali.student.poc.eventproc.event.subclass.event.KSRecomputeCOStateEvent;
+import org.kuali.student.poc.eventproc.event.subclass.type.KSFOStateModifiedEventType;
 import org.kuali.student.poc.eventproc.handler.impl.helper.FoCoRgComputeStateUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -54,8 +57,8 @@ public class CourseOfferingRecomputeStateHandler implements KSHandler {
 
     @Override
     public boolean handlesEvent(KSEvent event) {
-        return KSEventFactory.FO_STATE_MODIFIED_EVENT_TYPE.hasSameEventTypeAs(event.getEventType()) ||
-                KSEventFactory.CO_RECOMPUTE_STATE_EVENT_TYPE.hasSameEventTypeAs(event.getEventType());
+        return event instanceof KSFOStateModifiedEvent ||
+                event instanceof KSRecomputeCOStateEvent;
     }
 
     @Override
@@ -66,13 +69,15 @@ public class CourseOfferingRecomputeStateHandler implements KSHandler {
             return new KSHandlerResult(KSHandlerResult.FAIL_HANDLER_WONT_PROCESS, CourseOfferingRecomputeStateHandler.class);
         }
         String coId = null;
-        if (KSEventFactory.FO_STATE_MODIFIED_EVENT_TYPE.equals(event.getEventType())) {
-            String foId = event.getValueByAttributeKey(KSEventFactory.EVENT_ATTRIBUTE_KEY_FO_ID);
+        if (event instanceof KSFOStateModifiedEvent) {
+            KSFOStateModifiedEvent stateModifiedEvent = (KSFOStateModifiedEvent) event;
+            String foId = stateModifiedEvent.getFoId();
             FormatOfferingInfo foInfo = processor.getCoService().getFormatOffering(foId, context);
             coId = foInfo.getCourseOfferingId();
         } else {
+            KSRecomputeCOStateEvent recomputeEvent = (KSRecomputeCOStateEvent) event;
             // Must be KSEventFactory.CO_RECOMPUTE_STATE_EVENT_TYPE
-            coId = event.getValueByAttributeKey(KSEventFactory.EVENT_ATTRIBUTE_KEY_CO_ID);
+            coId = recomputeEvent.getCoId();
         }
         List<FormatOfferingInfo> foInfos = processor.getCoService().getFormatOfferingsByCourseOffering(coId, context);
         String toCoState = FoCoRgComputeStateUtil.computeCoState(foInfos);

@@ -24,6 +24,7 @@ import org.kuali.student.poc.eventproc.event.KSEvent;
 import org.kuali.student.poc.eventproc.event.KSEventFactory;
 import org.kuali.student.poc.eventproc.event.KSHandlerResult;
 import org.kuali.student.poc.eventproc.event.KSEventType;
+import org.kuali.student.poc.eventproc.event.subclass.event.KSAOStateModifiedEvent;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -56,11 +57,12 @@ public class ActivityOfferingDropADLsHandler implements KSHandler {
 
     @Override
     public boolean handlesEvent(KSEvent event) {
-        if (!KSEventFactory.AO_STATE_MODIFIED_EVENT_TYPE.hasSameEventTypeAs(event.getEventType())) {
+        if (!(event instanceof KSAOStateModifiedEvent)) {
             return false;
         }
+        KSAOStateModifiedEvent stateModifiedEvent = (KSAOStateModifiedEvent) event;
         // Must be ao state modified event--fetch to state
-        String toState = event.getValueByAttributeKey(KSEventFactory.EVENT_ATTRIBUTE_KEY_AO_TO_STATE);
+        String toState = stateModifiedEvent.getToState();
         // Only handles if toState is draft/canceled
         boolean result = LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY.equals(toState) ||
                 LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY.equals(toState);
@@ -73,7 +75,8 @@ public class ActivityOfferingDropADLsHandler implements KSHandler {
         if (!handlesEvent(event)) {
             return new KSHandlerResult(KSHandlerResult.FAIL_HANDLER_WONT_PROCESS, ActivityOfferingDropADLsHandler.class);
         }
-        String aoId = event.getValueByAttributeKey(KSEventFactory.EVENT_ATTRIBUTE_KEY_AO_ID);
+        KSAOStateModifiedEvent stateModifiedEvent = (KSAOStateModifiedEvent) event;
+        String aoId = stateModifiedEvent.getAoId();
         ActivityOfferingInfo aoInfo = processor.getCoService().getActivityOffering(aoId, context);
         List<ScheduleRequestSetInfo> srsList =
                 processor.getSchedulingService().getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoId, context);

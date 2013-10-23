@@ -30,7 +30,7 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class KSEvent implements KSEventAuditTrail {
+public abstract class KSEvent implements KSEventAuditTrail {
     private static final Logger LOGGER = Logger.getLogger(KSEvent.class);
 
     private KSEventType eventType;
@@ -45,47 +45,13 @@ public class KSEvent implements KSEventAuditTrail {
         this.eventAttributeKeyValueMap = new HashMap<KSEventAttributeKey, String>();
     }
 
-    public boolean hasAttribute(KSEventAttributeKey key) {
-        return eventAttributeKeyValueMap.containsKey(key);
-    }
+    public abstract boolean hasAttribute(KSEventAttributeKey key);
 
     public KSEventType getEventType() {
         return eventType;
     }
 
-    public String getValueByAttributeKey(KSEventAttributeKey key) {
-        return eventAttributeKeyValueMap.get(key);
-    }
-
-    public boolean addEventAttribute(KSEventAttributeKey key, String value) throws OperationFailedException {
-        if (eventType.getRequiredAttributeKeys().contains(key) || eventType.getOptionalAttributeKeys().contains(key)) {
-            // Only allow permissible keys (overwrites previous entries)
-            if (eventAttributeKeyValueMap.containsKey(key)) {
-                LOGGER.warn("Adding an existing key, " + key.getShortName() + ", to this event: " + eventType.getEventName());
-            }
-            eventAttributeKeyValueMap.put(key, value);
-            return true;
-        }
-        throw new OperationFailedException("Illegal key for event type: " + eventType.getEventName());
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder(eventType.getEventName() + ": [");
-        boolean isFirst = true;
-        for (Map.Entry<KSEventAttributeKey, String> entry: eventAttributeKeyValueMap.entrySet()) {
-            if (isFirst) {
-                isFirst = false;
-            } else {
-                result.append(", ");
-            }
-            result.append(entry.getKey().getShortName());
-            result.append(" = ");
-            result.append(entry.getValue());
-        }
-        result.append("]");
-        return result.toString();
-    }
+    public abstract String getAttributeValueByKey(KSEventAttributeKey key);
 
     @Override
     public void addHandlerResult(KSHandlerResult result) {

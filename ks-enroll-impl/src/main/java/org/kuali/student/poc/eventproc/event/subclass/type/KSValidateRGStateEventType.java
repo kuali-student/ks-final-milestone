@@ -30,6 +30,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class KSValidateRGStateEventType extends KSEventType {
+    public static final String EVENT_NAME = "kuali.event.validate.rg.state";
     public static final List<KSEventAttributeKey> REQUIRED_KEYS;
     static {
         REQUIRED_KEYS = new ArrayList<KSEventAttributeKey>();
@@ -37,6 +38,6 @@ public class KSValidateRGStateEventType extends KSEventType {
     }
 
     public KSValidateRGStateEventType() {
-        super(KSEventNamespace.NAMESPACE_RECOMPUTE_STATE, KSEventFactory.RG_VALIDATE_STATE_EVENT_NAME, REQUIRED_KEYS, null);
+        super(KSEventNamespace.NAMESPACE_RECOMPUTE_STATE, EVENT_NAME, REQUIRED_KEYS, null);
     }
 }

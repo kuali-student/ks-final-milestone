@@ -44,20 +44,8 @@ public class KSEventAttributeKey {
         return shortName;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof KSEventAttributeKey)) {
-            return false;
-        }
-
-        KSEventAttributeKey that = (KSEventAttributeKey) o;
-
-        if (!attribute.equals(that.attribute)) {
-            return false;
-        }
-
-        return true;
+    public boolean isEqualTo(KSEventAttributeKey o) {
+        return attribute.equals(o.getAttribute());
     }
 
     @Override
