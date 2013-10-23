@@ -206,7 +206,7 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
                     }
                 }
             }
-            return NonStandardTimeslotCreationMode.NEEDS_APPROVAL;
+            return NonStandardTimeslotCreationMode.ALLOWED;
         }
 
     }
