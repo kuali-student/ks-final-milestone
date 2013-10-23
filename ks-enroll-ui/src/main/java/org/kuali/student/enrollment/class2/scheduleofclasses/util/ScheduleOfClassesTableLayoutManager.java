@@ -53,6 +53,7 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
         } else {
             RegistrationGroupWrapper rgWrapper = (RegistrationGroupWrapper) currentLine;
 
+            //Set RegistrationGroupWrapper name field to encompass all rows related
             if(name.isEmpty() || !rgWrapper.getRgInfo().getName().equals(name)){
 
                 name = rgWrapper.getRgInfo().getName();
@@ -63,6 +64,8 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
                     }
                 }
             } else {
+                //Set related RegistrationGroupWrapper name field to hidden and remove
+                // border so that it looks like one field
                 for (Field field : lineFields) {
                     if(field.getId().contains("regGroupName")) {
                         field.setHidden(true);
@@ -72,6 +75,7 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
                 }
             }
 
+            //If wrapper has common requisite, create field and add to collection
             if((rgWrapper.getCommonRequisite()!=null)&&(!rgWrapper.getCommonRequisite().isEmpty())){
                 Field commonRequisitesPrototype = this.getCommonRequisiteField();
 
@@ -80,10 +84,12 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
 
                 commonRequisites.setColSpan(this.getNumberOfDataColumns() - 1);
 
+                //Add to start of row
                 int index = (this.getAllRowFields().size() - lineFields.size()) + 1;
                 this.getAllRowFields().add(index, commonRequisites);
             }
 
+            //If wrapper has requisite, create field and add to collection
             if((rgWrapper.getRequisite()!=null)&&(!rgWrapper.getRequisite().isEmpty())){
                 Field requisitesPrototype = this.getRequisitesField();
 
@@ -103,6 +109,12 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
         }
     }
 
+    /**
+     * Determine span size of row according to requisites populated
+     *
+     * @param registrationGroupWrapper
+     * @return int of row span size
+     */
     private int getSpanSize(RegistrationGroupWrapper registrationGroupWrapper) {
         int spanSize = 1;
         if (registrationGroupWrapper.getRequisite() != null) {

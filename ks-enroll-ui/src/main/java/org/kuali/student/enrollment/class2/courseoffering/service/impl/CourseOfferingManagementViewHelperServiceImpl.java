@@ -1043,13 +1043,15 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     regWrapper = partnerRegWrapper;
                 }
             }
-            if (registrationGroupWrapper.getRgMaxEnrText() != null && registrationGroupWrapper.getRgMaxEnrText().length() > 1) {
-                if (regWrapper.getRgMaxEnrText() != null && regWrapper.getRgMaxEnrText().length() > 1) {
-                    Integer seats = Integer.parseInt(registrationGroupWrapper.getRgMaxEnrText());
-                    Integer nSeats = Integer.parseInt(regWrapper.getRgMaxEnrText());
+            if (registrationGroupWrapper.getAoMaxEnrText() != null && registrationGroupWrapper.getAoMaxEnrText().length() > 1) {
+                if (regWrapper.getAoMaxEnrText() != null && regWrapper.getAoMaxEnrText().length() > 1) {
+                    Integer seats = Integer.parseInt(registrationGroupWrapper.getAoMaxEnrText());
+                    Integer nSeats = Integer.parseInt(regWrapper.getAoMaxEnrText());
                     if (seats.compareTo(nSeats) > 0) {
                         registrationGroupWrapper.setRgMaxEnrText(nSeats.toString());
+                        regWrapper.setRgMaxEnrText(nSeats.toString());
                     } else {
+                        registrationGroupWrapper.setRgMaxEnrText(seats.toString());
                         regWrapper.setRgMaxEnrText(seats.toString());
                     }
                 }
