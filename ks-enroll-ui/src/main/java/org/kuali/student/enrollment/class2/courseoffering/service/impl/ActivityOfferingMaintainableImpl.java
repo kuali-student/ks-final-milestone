@@ -7,6 +7,8 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
@@ -295,7 +297,10 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
             ActivityOfferingInfo info = CourseOfferingManagementUtil.getCourseOfferingService().getActivityOffering(dataObjectKeys.get(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID), contextInfo);
-            ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(info);
+
+            boolean isCentralSchedulingCoOrdinator = isSchedulingCoOrdinator();
+
+            ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(info,isCentralSchedulingCoOrdinator);
 
             //get the course offering
             CourseOfferingInfo courseOfferingInfo = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(info.getCourseOfferingId(), contextInfo);
@@ -561,6 +566,18 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         }catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+
+    protected boolean isSchedulingCoOrdinator() throws Exception{
+        RoleService rms = KimApiServiceLocator.getRoleService();
+
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+
+        List<String> roleIds = new ArrayList<String>();
+        roleIds.add(rms.getRoleIdByNamespaceCodeAndName("KS-ENR", "KS Schedule Coordinator"));
+
+        return rms.principalHasRole(principalId, roleIds, null);
     }
 
     protected void loadColocatedAOs(ActivityOfferingWrapper wrapper) throws Exception {

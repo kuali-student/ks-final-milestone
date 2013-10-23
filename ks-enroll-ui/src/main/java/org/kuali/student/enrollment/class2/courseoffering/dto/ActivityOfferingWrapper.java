@@ -170,7 +170,7 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
 
     private String requisite;
 
-    private boolean authorizedToModifyEndTimeTS;
+    private boolean isCentralSchedulingCoOrdinator;
 
     /**
      * Valid modes for creating non-standard timeslots
@@ -242,6 +242,10 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
     }
 
     public ActivityOfferingWrapper(ActivityOfferingInfo info){
+        this(info,false);
+    }
+
+    public ActivityOfferingWrapper(ActivityOfferingInfo info,boolean isCentralSchedulingCoOrdinator){
         this();
         aoInfo = info;
         instructors = new ArrayList<OfferingInstructorWrapper>();
@@ -262,6 +266,7 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         startTime = new ArrayList<String>();
         endTime = new ArrayList<String>();
         weekDays = new ArrayList<String>();
+        this.isCentralSchedulingCoOrdinator = isCentralSchedulingCoOrdinator;
     }
 
     public String getAoClusterName() {
@@ -1429,11 +1434,7 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
     }
 
     public boolean isAuthorizedToModifyEndTimeTS() {
-        Person user = GlobalVariables.getUserSession().getPerson();
-        /**
-         * This is just for ui testing.. we need to check the user role...
-         */
-        if (StringUtils.equals(user.getPrincipalId(),"martha") || StringUtils.equals(user.getPrincipalId(),"admin")){
+        if (isCentralSchedulingCoOrdinator){
             return true;
         } else {
             if (getNonStandardTimeslotCreationMode() == ActivityOfferingWrapper.NonStandardTimeslotCreationMode.ALLOWED){
@@ -1457,9 +1458,5 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
        }
        return false;
     }
-
-    public void setAuthorizedToModifyEndTimeTS(boolean authorizedToModifyEndTimeTS) {
-    }
-
 
 }
