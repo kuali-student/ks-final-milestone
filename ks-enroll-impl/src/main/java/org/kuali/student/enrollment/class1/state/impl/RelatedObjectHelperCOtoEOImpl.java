@@ -42,7 +42,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class retrieves associated exam offerings of a given course offering
+ * It is for performing the state propagations from course offering to exam offering
  *
  * @author Kuali Student Team
  */

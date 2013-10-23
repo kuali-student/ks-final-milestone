@@ -39,7 +39,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class retrieves the associated activity offerings given an exam offering
+ * It is for processing exam offering state constraints
  *
  * @author Kuali Student Team
  */
