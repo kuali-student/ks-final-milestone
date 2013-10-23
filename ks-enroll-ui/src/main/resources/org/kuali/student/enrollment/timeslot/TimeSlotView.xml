@@ -201,7 +201,7 @@
                 <bean id="days" parent="KS-Uif-DataField-Simple"
                       p:label="Days"
                       p:propertyName="daysDisplayName"
-                      p:cssClasses="fixedCol_7"/>
+                      p:cssClasses="fixedCol_8"/>
 
                 <bean id="startTime" parent="KS-Uif-DataField-Simple"
                       p:label="Start Time"
