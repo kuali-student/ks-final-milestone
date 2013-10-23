@@ -56,5 +56,7 @@ public class KRMSConstants {
     public static final String KRMS_MSG_ERROR_RDL_STARTTIME_AMPM = "error.krms.rule.rdl.startTimeAMPM";
     public static final String KRMS_MSG_ERROR_RDL_ENDTIME = "error.krms.rule.rdl.endTime";
     public static final String KRMS_MSG_ERROR_RDL_ENDTIME_AMPM = "error.krms.rule.rdl.endTimeAMPM";
+    public static final String KRMS_MSG_ERROR_RDL_FACILITY = "error.krms.rule.rdl.facility";
+    public static final String KRMS_MSG_ERROR_RDL_ROOM = "error.krms.rule.rdl.room";
 
 }
