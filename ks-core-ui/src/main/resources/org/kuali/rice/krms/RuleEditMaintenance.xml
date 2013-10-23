@@ -192,28 +192,20 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-RuleEditorView-Button" parent="Uif-SecondaryActionButton" abstract="true">
+    <bean id="KRMS-RuleEditorView-Button" parent="Uif-SecondaryActionButton" abstract="true"
+          p:additionalCssClasses="tree-bar-button">
         <property name="onMouseDownScript" value="jq(this).addClass('tree-bar-button-selected');"/>
         <property name="onMouseUpScript" value="jq(this).removeClass('tree-bar-button-selected');"/>
         <property name="actionImagePlacement" value="TOP"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>tree-bar-button</value>
-            </list>
-        </property>
     </bean>
 
     <bean id="KRMS-RuleEditorView-AddButton" parent="KRMS-RuleEditorView-Button"
-          p:actionLabel="Add Statement" p:actionScript="ajaxCallPropositionTree('addProposition','KRMS-RuleEditor-TreeGroup');">
+          p:actionLabel="Add Statement" p:actionScript="ajaxCallPropositionTree('addProposition','KRMS-RuleEditor-TreeGroup');"
+          p:additionalCssClasses="kr-add-button">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconAdd.png"
                   p:altText="Add"/>
-        </property>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>kr-add-button</value>
-            </list>
         </property>
     </bean>
 
@@ -236,119 +228,82 @@ limitations under the License.
     </bean>
 
     <bean id="KRMS-RuleEditorView-LeftButton" parent="KRMS-RuleEditorView-Button"
-          p:actionLabel="Move Out" p:actionScript="ajaxCallPropositionTree('movePropositionLeft','KRMS-RuleEditor-TreeGroup');">
+          p:actionLabel="Move Out" p:actionScript="ajaxCallPropositionTree('movePropositionLeft','KRMS-RuleEditor-TreeGroup');"
+          p:additionalCssClasses="kr-move-button,kr-left-button">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconLeft.png"
                   p:altText="Left"/>
         </property>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>kr-move-button</value>
-                <value>kr-left-button</value>
-            </list>
-        </property>
     </bean>
 
     <bean id="KRMS-RuleEditorView-RightButton" parent="KRMS-RuleEditorView-Button"
-          p:actionLabel="Move In" p:actionScript="ajaxCallPropositionTree('movePropositionRight','KRMS-RuleEditor-TreeGroup');">
+          p:actionLabel="Move In" p:actionScript="ajaxCallPropositionTree('movePropositionRight','KRMS-RuleEditor-TreeGroup');"
+          p:additionalCssClasses="kr-move-button,kr-right-button">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconRight.png"
                   p:altText="Right"/>
         </property>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>kr-move-button</value>
-                <value>kr-right-button</value>
-            </list>
-        </property>
     </bean>
 
     <bean id="KRMS-RuleEditorView-UpButton" parent="KRMS-RuleEditorView-Button"
-          p:actionLabel="Move Up" p:actionScript="ajaxCallPropositionTree('movePropositionUp','KRMS-RuleEditor-TreeGroup');">
+          p:actionLabel="Move Up" p:actionScript="ajaxCallPropositionTree('movePropositionUp','KRMS-RuleEditor-TreeGroup');"
+          p:additionalCssClasses="kr-move-button,kr-up-button">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconUp.png"
                   p:altText="Up"/>
         </property>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>kr-move-button</value>
-                <value>kr-up-button</value>
-            </list>
-        </property>
     </bean>
 
     <bean id="KRMS-RuleEditorView-DownButton" parent="KRMS-RuleEditorView-Button"
-          p:actionLabel="Move Down" p:actionScript="ajaxCallPropositionTree('movePropositionDown','KRMS-RuleEditor-TreeGroup');">
+          p:actionLabel="Move Down" p:actionScript="ajaxCallPropositionTree('movePropositionDown','KRMS-RuleEditor-TreeGroup');"
+          p:additionalCssClasses="kr-move-button,kr-down-button">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconDown.png"
                   p:altText="Down"/>
         </property>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>kr-move-button</value>
-                <value>kr-down-button</value>
-            </list>
-        </property>
     </bean>
 
     <bean id="KRMS-RuleEditorView-CopyButton" parent="KRMS-RuleEditorView-Button"
-          p:actionLabel="Copy" p:actionScript="ajaxCopyPropositionTree();">
+          p:actionLabel="Copy" p:actionScript="ajaxCopyPropositionTree();"
+          p:additionalCssClasses="kr-cut-button,kr-copy-button">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconCopy.png"
                   p:altText="Copy"/>
         </property>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>kr-cut-button</value>
-                <value>kr-copy-button</value>
-            </list>
-        </property>
     </bean>
 
     <bean id="KRMS-RuleEditorView-CutButton" parent="KRMS-RuleEditorView-Button"
-          p:actionLabel="Cut" p:actionScript="ajaxCutPropositionTree();">
+          p:actionLabel="Cut" p:actionScript="ajaxCutPropositionTree();"
+          p:additionalCssClasses="kr-cut-button">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconCut.png"
                   p:altText="Cut"/>
         </property>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>kr-cut-button</value>
-            </list>
-        </property>
     </bean>
 
     <bean id="KRMS-RuleEditorView-PasteButton" parent="KRMS-RuleEditorView-Button"
-          p:actionScript="ajaxPastePropositionTree('pasteProposition', 'KRMS-RuleEditor-TreeGroup');" p:actionLabel="Paste">
+          p:actionScript="ajaxPastePropositionTree('pasteProposition', 'KRMS-RuleEditor-TreeGroup');" p:actionLabel="Paste"
+          p:additionalCssClasses="kr-paste-button">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconPaste.png"
                   p:altText="Paste"/>
         </property>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>kr-paste-button</value>
-            </list>
-        </property>
     </bean>
 
     <bean id="KRMS-RuleEditorView-DeleteButton" parent="KRMS-RuleEditorView-Button"
-          p:actionLabel="Delete" p:actionScript="ajaxCallPropositionTree('deleteProposition','KRMS-RuleEditor-TreeGroup');">
+          p:actionLabel="Delete" p:actionScript="ajaxCallPropositionTree('deleteProposition','KRMS-RuleEditor-TreeGroup');"
+          p:additionalCssClasses="kr-delete-button">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconDelete.png"
                   p:altText="Delete"/>
-        </property>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>kr-delete-button</value>
-            </list>
         </property>
     </bean>
 
@@ -412,12 +367,7 @@ limitations under the License.
 
     <bean id="KRMS-SimplePropositionEditNodePrototype" parent="KRMS-SimplePropositionNodePrototype">
         <property name="labelPrototype">
-            <bean id="RuleMessage" parent="Uif-Message">
-                <property name="cssClasses">
-                    <list merge="true">
-                        <value>rule-message</value>
-                    </list>
-                </property>
+            <bean id="RuleMessage" parent="Uif-Message" p:additionalCssClasses="rule-message">
             </bean>
         </property>
 

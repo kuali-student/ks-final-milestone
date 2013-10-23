@@ -137,18 +137,14 @@ limitations under the License.
 
     <bean id="KRMS-StackedCollectionLayout-WithBoxItems" parent="Uif-StackedCollectionLayout-WithBoxItems"
           p:style="width: 620px"
-          class="org.kuali.student.core.krms.HorizontalActionsStackedLayoutManager">
+          class="org.kuali.student.core.krms.HorizontalActionsStackedLayoutManager"
+          p:additionalCssClasses="krms-stackedCollectionLayout">
         <property name="actionsInLineGroup" value="true"/>
         <property name="lineGroupPrototype">
             <bean parent="KRMS-CollectionGridItem"/>
         </property>
         <property name="addLineGroup">
             <bean parent="KRMS-CollectionGridItem"/>
-        </property>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>krms-stackedCollectionLayout</value>
-            </list>
         </property>
     </bean>
 
@@ -163,27 +159,16 @@ limitations under the License.
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-DeleteLineAction">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>krms-stackedActionItem</value>
-                        </list>
-                    </property>
+                <bean parent="Uif-DeleteLineAction" p:additionalCssClasses="krms-stackedActionItem">
                 </bean>
             </list>
         </property>
     </bean>
 
-    <bean id="KRMS-CollectionGridItem" abstract="true" parent="Uif-GridGroup">
+    <bean id="KRMS-CollectionGridItem" abstract="true" parent="Uif-GridGroup"
+          p:additionalCssClasses="uif-collectionItem,uif-gridCollectionItem,krms-stackedCollectionItem">
         <property name="layoutManager">
             <bean parent="Uif-HorizontalBoxLayout"/>
-        </property>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>uif-collectionItem</value>
-                <value>uif-gridCollectionItem</value>
-                <value>krms-stackedCollectionItem</value>
-            </list>
         </property>
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
