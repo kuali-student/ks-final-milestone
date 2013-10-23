@@ -338,6 +338,8 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             List<ActivityOfferingInfo> aoInfos = this.getCourseOfferingService().getActivityOfferingsByFormatOffering(
                     foEntry.getKey().getId(), context);
             for (ActivityOfferingInfo aoInfo : aoInfos) {
+                //Do not create exam offerings for canceled activity offerings.
+                if (LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY.equals(aoInfo.getStateKey())) continue;
 
                 //Update EO type according to allowed FO
                 if (finalExamLevelType != null) {
@@ -484,7 +486,9 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         List<ActivityOfferingInfo> aoInfos = this.getCourseOfferingService().getActivityOfferingsByFormatOffering(
                 foId, context);
         for (ActivityOfferingInfo aoInfo : aoInfos) {
-            aoIds.add(aoInfo.getId());
+            if(!LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY.equals(aoInfo.getStateKey())){
+                aoIds.add(aoInfo.getId());
+            }
         }
         createExamOfferingRelation(foId, eoId, aoIds, context);
     }
