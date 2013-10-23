@@ -87,9 +87,11 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         if (!StringUtils.isBlank(startTime) && !StringUtils.isBlank(days)){
             ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
 
-            List<String> endTimes = viewHelper.getEndTimes(days,startTime,activityOfferingWrapper.getTerm().getTypeKey());
+            List<String> endTimes = viewHelper.getEndTimes(days,startTime,activityOfferingWrapper.getTimeSlotType());
             if (endTimes.size() == 1){
                 activityOfferingWrapper.getNewScheduleRequest().setEndTime(KSCollectionUtils.getRequiredZeroElement(endTimes));
+            } else {
+                activityOfferingWrapper.getNewScheduleRequest().setEndTime("");
             }
             activityOfferingWrapper.getNewScheduleRequest().setEndTimes(endTimes);
         }
@@ -124,7 +126,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         String days = activityOfferingWrapper.getNewScheduleRequest().getDays();
 
         ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
-        List<String> endTimes = viewHelper.getEndTimes(days,startTime,activityOfferingWrapper.getTerm().getTypeKey());
+        List<String> endTimes = viewHelper.getEndTimes(days,startTime,activityOfferingWrapper.getTimeSlotType());
         activityOfferingWrapper.getNewScheduleRequest().setEndTimes(endTimes);
 
         return getUIFModelAndView(form);

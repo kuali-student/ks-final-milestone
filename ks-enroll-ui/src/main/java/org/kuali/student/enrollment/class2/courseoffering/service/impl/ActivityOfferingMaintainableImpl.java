@@ -18,6 +18,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
@@ -558,6 +559,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
             loadNavigationDetails(wrapper);
 
+            initializeForTimeSlot(wrapper);
             return wrapper;
 
         }catch (AuthorizationException ae){
@@ -568,6 +570,25 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         }
     }
 
+
+    /**
+     * Finds the type type relation for the term type and set it at the form for later use.
+     * This is used whenever we fetch the timeslots for a term type
+     *
+     * @param wrapper
+     * @throws Exception
+     */
+    protected void initializeForTimeSlot(ActivityOfferingWrapper wrapper) throws Exception{
+        List<TypeTypeRelationInfo> typeTypeRelationInfos = CourseOfferingManagementUtil.getTypeService().getTypeTypeRelationsByOwnerAndType(wrapper.getTerm().getTypeKey(), TypeServiceConstants.TYPE_TYPE_RELATION_ATP2TIMESLOT_TYPE_KEY,createContextInfo());
+
+        if (typeTypeRelationInfos.isEmpty()){
+            return;
+        }
+
+        TypeTypeRelationInfo typeTypeRelationInfo = KSCollectionUtils.getRequiredZeroElement(typeTypeRelationInfos);
+        wrapper.setTimeSlotType(typeTypeRelationInfo.getRelatedTypeKey());
+
+    }
 
     protected boolean isSchedulingCoOrdinator() throws Exception{
         RoleService rms = KimApiServiceLocator.getRoleService();

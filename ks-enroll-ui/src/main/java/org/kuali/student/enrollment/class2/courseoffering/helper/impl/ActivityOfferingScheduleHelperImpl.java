@@ -487,15 +487,12 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             /*
             Look for standard timeslot.
              */
-            List<TypeTypeRelationInfo> typeTypeRelationInfos = CourseOfferingManagementUtil.getTypeService().getTypeTypeRelationsByOwnerAndType(aoWrapper.getTerm().getTypeKey(), TypeServiceConstants.TYPE_TYPE_RELATION_ATP2TIMESLOT_TYPE_KEY,defaultContextInfo);
-
             List<TimeSlotInfo> existingTimeSlots = new ArrayList<TimeSlotInfo>();
 
             // Type Type may not be available for terms which uses adhoc timeslots
-            if (!typeTypeRelationInfos.isEmpty()){
+            if (StringUtils.isNotBlank(aoWrapper.getTimeSlotType())){
                 //Each term type associated with only one standard timeslot type
-                TypeTypeRelationInfo typeTypeRelationInfo = KSCollectionUtils.getRequiredZeroElement(typeTypeRelationInfos);
-                existingTimeSlots = getSchedulingService().getTimeSlotsByDaysAndStartTimeAndEndTime(typeTypeRelationInfo.getRelatedTypeKey(),days,startTimeOfDayInfo,endTimeOfDayInfo,defaultContextInfo);
+                existingTimeSlots = getSchedulingService().getTimeSlotsByDaysAndStartTimeAndEndTime(aoWrapper.getTimeSlotType(),days,startTimeOfDayInfo,endTimeOfDayInfo,defaultContextInfo);
             }
 
             //If standard TS exists, use that. Otherwise, check for Adhoc and create one
@@ -842,28 +839,23 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         return b;
     }
 
-    public List<String> getEndTimes(String days,String startTime,String termTypeKey) throws Exception{
-
-        List<TypeTypeRelationInfo> typeTypeRelationInfos = CourseOfferingManagementUtil.getTypeService().getTypeTypeRelationsByOwnerAndType(termTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_ATP2TIMESLOT_TYPE_KEY,createContextInfo());
-
-        if (typeTypeRelationInfos.isEmpty()){
-            return new ArrayList<String>();
-        }
-
-        TypeTypeRelationInfo typeTypeRelationInfo = KSCollectionUtils.getRequiredZeroElement(typeTypeRelationInfos);
+    public List<String> getEndTimes(String days,String startTime,String timeSlotType) throws Exception{
 
         List<Integer> daysArray = WeekDaysDtoAndUIConversions.buildDaysForDTO(days);
         TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
         long time = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(startTime).getTime();
         timeOfDayInfo.setMilliSeconds(time);
-        List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByDaysAndStartTime(typeTypeRelationInfo.getRelatedTypeKey(),daysArray,timeOfDayInfo,createContextInfo());
+        List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByDaysAndStartTime(timeSlotType,daysArray,timeOfDayInfo,createContextInfo());
         List<String> endTime = new ArrayList<String>();
+
         for (TimeSlotInfo ts : timeSlotInfos){
             if (ts.getStartTime().getMilliSeconds() != null) {
                 Date date = new Date(ts.getEndTime().getMilliSeconds());
                 endTime.add(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(date));
             }
         }
+
         return endTime;
     }
+
 }

@@ -172,6 +172,8 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
 
     private boolean isCentralSchedulingCoOrdinator;
 
+    private String timeSlotType;
+
     /**
      * Valid modes for creating non-standard timeslots
      *
@@ -1457,6 +1459,14 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
            }
        }
        return false;
+    }
+
+    public String getTimeSlotType() {
+        return timeSlotType;
+    }
+
+    public void setTimeSlotType(String timeSlotType) {
+        this.timeSlotType = timeSlotType;
     }
 
 }

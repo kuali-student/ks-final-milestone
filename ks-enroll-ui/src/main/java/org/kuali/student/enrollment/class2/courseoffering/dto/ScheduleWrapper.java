@@ -49,9 +49,7 @@ public class ScheduleWrapper implements Serializable{
     //Properties
     private String days;
     private String startTime;
-//    private String startTimeAMPM;
     private String endTime;
-//    private String endTimeAMPM;
 
     private boolean tba;
 
@@ -64,8 +62,6 @@ public class ScheduleWrapper implements Serializable{
 
     //For informational display only
     private String daysUI;
-//    private String startTimeUI;
-//    private String endTimeUI;
 
     private List<String> colocatedAOs;
 
@@ -85,9 +81,7 @@ public class ScheduleWrapper implements Serializable{
         this.scheduleRequestComponentInfo = wrapper.getScheduleRequestComponentInfo();
         this.days = wrapper.getDays();
         this.startTime = wrapper.getStartTime();
-//        this.startTimeAMPM = wrapper.getStartTimeAMPM();
         this.endTime = wrapper.getEndTime();
-//        this.endTimeAMPM = wrapper.getEndTimeAMPM();
         this.tba = wrapper.isTba();
         this.buildingCode = wrapper.getBuildingCode();
         this.buildingId = wrapper.getBuildingId();
@@ -95,8 +89,6 @@ public class ScheduleWrapper implements Serializable{
         this.roomCapacity = wrapper.getRoomCapacity();
         this.features = wrapper.getFeatures();
         this.daysUI = wrapper.getDaysUI();
-//        this.startTimeUI = wrapper.getStartTimeUI();
-//        this.endTimeUI = wrapper.getEndTimeUI();
         this.room = wrapper.getRoom();
         this.building = wrapper.getBuilding();
         this.colocatedAOs = new ArrayList<String>();
@@ -109,9 +101,7 @@ public class ScheduleWrapper implements Serializable{
         this.days = wrapper.getDays();
         this.tba = wrapper.isTba();
         this.startTime = wrapper.getStartTime();
-//        this.startTimeAMPM = wrapper.getStartTimeAMPM();
         this.endTime = wrapper.getEndTime();
-//        this.endTimeAMPM = wrapper.getEndTimeAMPM();
         this.buildingId = wrapper.getBuildingId();
         this.buildingCode = wrapper.getBuildingCode();
         this.roomCode = wrapper.getRoomCode();
