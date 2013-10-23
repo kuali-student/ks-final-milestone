@@ -27,6 +27,7 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
@@ -113,16 +114,15 @@ public class CourseOfferingManagementController extends UifControllerBase {
         }
 
         // This is workaround to fix stack trace while refreshing manage CO pages.
-        if (!form.getCourseOfferingResultList().isEmpty()) {
-           if(form.getCourseOfferingResultList().size() == 1) { // just one course offering is returned
-                CourseOfferingListSectionWrapper coListWrapper = form.getCourseOfferingResultList().get(0);
-                try {
-                    CourseOfferingManagementUtil.prepareManageAOsModelAndView(form, coListWrapper);
+        if ((!form.getCourseOfferingResultList().isEmpty()) && (form.getCourseOfferingResultList().size() == 1))  { // just one course offering is returned
+            try {
+                CourseOfferingListSectionWrapper coListWrapper = KSCollectionUtils.getRequiredZeroElement(form.getCourseOfferingResultList());
+                CourseOfferingManagementUtil.prepareManageAOsModelAndView(form, coListWrapper);
                 } catch (Exception e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                LOG.error(e);
+                throw new RuntimeException(e);
                 }
                 return getUIFModelAndView(form, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
-            }
         }
         return getUIFModelAndView(form);
     }
