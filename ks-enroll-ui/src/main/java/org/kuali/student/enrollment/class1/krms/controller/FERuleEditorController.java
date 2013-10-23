@@ -3,12 +3,10 @@ package org.kuali.student.enrollment.class1.krms.controller;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.dto.AgendaTypeInfo;
-import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.dto.RuleTypeInfo;
@@ -18,12 +16,10 @@ import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.class1.krms.dto.FEAgendaEditor;
-import org.kuali.student.enrollment.class1.krms.dto.FEPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleEditor;
 import org.kuali.student.enrollment.class1.krms.service.impl.FERuleEditorMaintainableImpl;
 import org.kuali.student.enrollment.class1.krms.service.impl.FERuleViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.springframework.stereotype.Controller;
@@ -179,53 +175,10 @@ public class FERuleEditorController extends EnrolRuleEditorController {
                                    HttpServletRequest request, HttpServletResponse response) {
 
         FERuleEditor ruleEditor = (FERuleEditor) getRuleEditor(form);
-        if (ruleEditor.isTba()) {
-            ruleEditor.setStartTime("");
-            ruleEditor.setStartTimeAMPM("");
-            ruleEditor.setEndTime("");
-            ruleEditor.setEndTimeAMPM("");
-        } else {
-            //Return with error if the RDL fields have not been completed and TBA is unticked
-            boolean hasError = false;
-            if (ruleEditor.getStartTime() == null || ruleEditor.getStartTime().isEmpty()) {
-                GlobalVariables.getMessageMap().putError(PropositionTreeUtil.DOC_NEW_DATAOBJECT_PATH+".ruleEditor.startTime", KRMSConstants.KRMS_MSG_ERROR_RDL_STARTTIME);
-                hasError = true;
-            }
-            if (ruleEditor.getStartTimeAMPM() == null || ruleEditor.getStartTimeAMPM().isEmpty()) {
-                GlobalVariables.getMessageMap().putError(PropositionTreeUtil.DOC_NEW_DATAOBJECT_PATH+".ruleEditor.startTimeAMPM", KRMSConstants.KRMS_MSG_ERROR_RDL_STARTTIME_AMPM);
-                hasError = true;
-            }
-            if (ruleEditor.getEndTime() == null || ruleEditor.getEndTime().isEmpty()) {
-                GlobalVariables.getMessageMap().putError(PropositionTreeUtil.DOC_NEW_DATAOBJECT_PATH+".ruleEditor.endTime", KRMSConstants.KRMS_MSG_ERROR_RDL_ENDTIME);
-                hasError = true;
-            }
-            if (ruleEditor.getEndTimeAMPM() == null || ruleEditor.getEndTimeAMPM().isEmpty()) {
-                GlobalVariables.getMessageMap().putError(PropositionTreeUtil.DOC_NEW_DATAOBJECT_PATH+".ruleEditor.endTimeAMPM", KRMSConstants.KRMS_MSG_ERROR_RDL_ENDTIME_AMPM);
-                hasError = true;
-            }
-
-            if (hasError) {
-                return getUIFModelAndView(form);
-            }
-
-            //Return with error message if start time is not prior to end time, but only when all other errors are resolved.
-            if(compareTime(ruleEditor.getStartTime(), ruleEditor.getStartTimeAMPM(), ruleEditor.getEndTime(), ruleEditor.getEndTimeAMPM())) {
-                GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_RULE_TREE_GROUP_ID, ActivityOfferingConstants.MSG_ERROR_INVALID_START_TIME);
-                return getUIFModelAndView(form);
-            }
-        }
         RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper((MaintenanceDocumentForm) form);
 
-        //Return with error message if user is currently editing a proposition.
-        PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
-        if ((proposition != null) && (proposition.isEditMode())) {
-            GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID, KRMSConstants.KRMS_MSG_ERROR_RULE_PREVIEW);
-            return getUIFModelAndView(form);
-        }
 
-
-        if (ruleEditor.getProposition() == null) {
-            GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_RULE_TREE_GROUP_ID, KRMSConstants.KRMS_MSG_ERROR_RULE_UPDATE);
+        if (this.getViewHelper(form).validate(ruleEditor)) {
             return getUIFModelAndView(form);
         } else {
             PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor.getPropositionEditor());
@@ -255,25 +208,6 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         return super.navigate(form, result, request, response);
     }
 
-    private boolean compareTime(String startTime, String startTimeAMPM, String endTime, String endTimeAMPM) {
-        String sTimeAMPM = new StringBuilder(startTime).append(" ").append(startTimeAMPM).toString();
-        String eTimeAMPM = new StringBuilder(endTime).append(" ").append(endTimeAMPM).toString();
-
-        long sTime;
-        long eTime;
-
-        try {
-            sTime = parseTimeToMillis(sTimeAMPM);
-            eTime = parseTimeToMillis(eTimeAMPM);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-
-        if(eTime <= sTime) {
-            return true;
-        }
-        return false;
-    }
 
     /**
      * Retrieves selected proposition key and initializes edit on propostion.
