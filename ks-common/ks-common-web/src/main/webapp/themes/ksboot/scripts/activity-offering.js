@@ -717,7 +717,7 @@ function rdlStartTimeOnBlur(){
 
 function rdlDaysOnBlur(){
 
-    retrieveComponent('rdl_endtime','resetEndTime',function () {
+    retrieveComponent('rdl_endtime','resetNewRDLTime',function () {
         jQuery("#rdl_starttime_control").val('');
         jQuery("#rdl_starttime_control").focus();
     });
