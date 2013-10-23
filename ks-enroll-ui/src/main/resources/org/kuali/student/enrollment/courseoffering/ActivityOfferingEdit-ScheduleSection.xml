@@ -86,7 +86,7 @@
         <property name="lineActions">
               <list>
                   <!--<bean parent="Uif-ActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:successCallback="retrieveComponent('ActivityOffering-DeliveryLogistic-New');" p:render="@{#dp.schedulingCompleted}"/>-->
-                  <bean parent="Uif-NavigationActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:preSubmitCall="return checkAOEditWIP();"/>
+                  <bean parent="Uif-NavigationActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:preSubmitCall="return checkAOEditWIP();" p:performDirtyValidation="false" />
                   <bean parent="Uif-DeleteLineAction" p:successCallback="reDisplayRDLSection();"/>
               </list>
         </property>
@@ -178,7 +178,7 @@
                 <bean id="rdl_days" parent="Uif-InputField-LabelTop" p:label="Days" p:propertyName="newScheduleRequest.days" p:uppercaseValue="true">
                     <property name="constraintText" value="MTWHFSU"/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10" p:cssClasses="new_rdl_components" p:onBlurScript="refreshEndTimeWidget('rdl_starttime_control');"/>
+                        <bean parent="Uif-TextControl" p:size="10" p:cssClasses="new_rdl_components" p:onBlurScript="rdlDaysOnBlur();"/>
                     </property>
                     <property name="validCharactersConstraint">
 						<bean parent="CharsetPatternConstraint" p:validChars="MTWHFSUmtwhfsu" p:messageKey="validation.enroll.ao.scheduleValidChars"/>
@@ -187,7 +187,7 @@
                 <bean id="rdl_starttime" parent="Uif-InputField-LabelTop" p:label="Start Time" p:propertyName="newScheduleRequest.startTime" p:disableNativeAutocomplete="true" p:required="true">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="8" p:maxLength="8" p:cssClasses="new_rdl_components, validTimeAMPMPattern" p:onBlurScript="refreshEndTimeWidget('rdl_endtime_control');"/>
+                        <bean parent="Uif-TextControl" p:size="8" p:maxLength="8" p:cssClasses="new_rdl_components, validTimeAMPMPattern" p:onBlurScript="rdlStartTimeOnBlur();"/>
                     </property>
                 </bean>
                 <bean id="rdl_endtime" parent="Uif-InputField-LabelTop" p:label="End Time" p:propertyName="newScheduleRequest.endTime"  p:disableNativeAutocomplete="true" p:required="@{!#dp.newScheduleRequest.tba}" p:forceSessionPersistence="true">
