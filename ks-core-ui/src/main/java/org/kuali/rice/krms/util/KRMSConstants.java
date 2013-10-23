@@ -50,6 +50,8 @@ public class KRMSConstants {
 
     // Final Exams Message Keys
     public static final String KRMS_MSG_ERROR_RULE_UPDATE = "error.krms.rule.update";
+    public static final String KRMS_MSG_ERROR_RDL_WEEKDAYS = "error.krms.rule.rdl.weekdays";
+    public static final String KRMS_MSG_ERROR_RDL_WEEKDAYS_INVALID = "error.krms.rule.rdl.weekdays.invalid";
     public static final String KRMS_MSG_ERROR_RDL_STARTTIME = "error.krms.rule.rdl.startTime";
     public static final String KRMS_MSG_ERROR_RDL_STARTTIME_AMPM = "error.krms.rule.rdl.startTimeAMPM";
     public static final String KRMS_MSG_ERROR_RDL_ENDTIME = "error.krms.rule.rdl.endTime";
