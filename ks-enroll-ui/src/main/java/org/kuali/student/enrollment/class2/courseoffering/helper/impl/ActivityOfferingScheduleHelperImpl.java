@@ -67,6 +67,8 @@ import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -854,6 +856,19 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                 endTime.add(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(date));
             }
         }
+
+        Collections.sort(endTime, new Comparator<String>() {
+            @Override
+            public int compare(String time1, String time2) {
+
+                String startam = StringUtils.substringAfter(time1, " ");
+                String starttime = StringUtils.substringBefore(time1, " ");
+                String endam = StringUtils.substringAfter(time2, " ");
+                String endtime = StringUtils.substringBefore(time2, " ");
+
+                return startam.compareToIgnoreCase(endam) + starttime.compareToIgnoreCase(endtime);
+            }
+        });
 
         return endTime;
     }
