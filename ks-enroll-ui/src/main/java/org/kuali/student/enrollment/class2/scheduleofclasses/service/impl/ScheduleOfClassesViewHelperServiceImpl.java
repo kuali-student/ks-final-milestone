@@ -51,6 +51,7 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.sort.KSComparator;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.KSComparatorChain;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.ActivityOfferingCodeComparator;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.ActivityOfferingTypeComparator;
+import org.kuali.student.enrollment.class2.scheduleofclasses.util.SOCRequisiteHelper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.SOCRequisiteWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
@@ -351,9 +352,9 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
      * @param courseOfferingId
      * @return Map of course offering requisites
      */
-    public SOCRequisiteWrapper retrieveRequisites(String courseOfferingId, List<ActivityOfferingWrapper> activityOfferingWrapperList) {
+    public SOCRequisiteHelper retrieveRequisites(String courseOfferingId, List<ActivityOfferingWrapper> activityOfferingWrapperList) {
 
-        SOCRequisiteWrapper reqWrapper = new SOCRequisiteWrapper();
+        SOCRequisiteHelper reqHelper = new SOCRequisiteHelper();
 
         String catalogUsageId = getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_CATALOG, PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
 
@@ -365,7 +366,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
         for(ReferenceObjectBinding coReferenceObjectBinding : coRefObjectsBindingList) {
             AgendaDefinition agendaDefinition = ruleManagementService.getAgenda(coReferenceObjectBinding.getKrmsObjectId());
             AgendaItemDefinition agendaItem = ruleManagementService.getAgendaItem(agendaDefinition.getFirstItemId());
-            loadNaturalLanguageForRuleTypes(reqWrapper.getCoRequisiteTypeMap(), agendaItem, catalogUsageId, reqWrapper.getRuleTypes());
+            loadNaturalLanguageForRuleTypes(reqHelper.getReqWrapper().getCoRequisiteTypeMap(), agendaItem, catalogUsageId, reqHelper.getReqWrapper().getRuleTypes());
         }
 
         Map<String, List<ReferenceObjectBinding>> aoRefObjectsBindingMap = new HashMap<String, List<ReferenceObjectBinding>>();
@@ -385,12 +386,12 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
             for(ReferenceObjectBinding aoReferenceObjectBinding : aoEntry.getValue()) {
                 AgendaDefinition agendaDefinition = ruleManagementService.getAgenda(aoReferenceObjectBinding.getKrmsObjectId());
                 AgendaItemDefinition agendaItemDefinition = ruleManagementService.getAgendaItem(agendaDefinition.getFirstItemId());
-                this.loadNaturalLanguageForRuleTypes(typeRequisites, agendaItemDefinition, catalogUsageId, reqWrapper.getRuleTypes());
+                this.loadNaturalLanguageForRuleTypes(typeRequisites, agendaItemDefinition, catalogUsageId, reqHelper.getReqWrapper().getRuleTypes());
             }
-            reqWrapper.getAoRequisiteTypeMap().put(aoEntry.getKey(), typeRequisites);
+            reqHelper.getReqWrapper().getAoRequisiteTypeMap().put(aoEntry.getKey(), typeRequisites);
         }
-        reqWrapper.loadRequisites(activityOfferingWrapperList);
-        return reqWrapper;
+        reqHelper.loadRequisites(activityOfferingWrapperList);
+        return reqHelper;
     }
 
     protected void loadNaturalLanguageForRuleTypes(Map<String, String> typeRequisites, AgendaItemDefinition agendaItem, String catalogUsageId, Set<String> ruleTypes) {

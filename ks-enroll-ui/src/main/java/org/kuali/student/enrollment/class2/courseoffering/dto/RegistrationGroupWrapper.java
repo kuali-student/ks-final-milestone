@@ -53,6 +53,8 @@ public class RegistrationGroupWrapper implements Serializable, ComparatorModel {
     private String buildingName = "";
     private String buildingCode = "";
     private String roomName = "";
+    private String requisite;
+    private String commonRequisite;
 
     private List<String> startTime = new ArrayList<String>();
     private List<String> endTime = new ArrayList<String>();
@@ -334,6 +336,14 @@ public class RegistrationGroupWrapper implements Serializable, ComparatorModel {
 
     }
 
+    public void setBuildingCodeWithTooltip(String buildingCode, String buildingName) {
+        String underlineCssClass = "<span style=\"border-bottom: 1px dotted;\">";
+
+        String BldgCodeMark = "<span title='" + buildingName  + "'>" + underlineCssClass + buildingCode + "</span> </span>";
+
+        this.buildingCode = BldgCodeMark;
+    }
+
     public List<String> getBldgNameList() {
         return bldgNameList;
     }
@@ -399,5 +409,21 @@ public class RegistrationGroupWrapper implements Serializable, ComparatorModel {
 
     public void setAoEditLink(String aoEditLink) {
         this.aoEditLink = aoEditLink;
+    }
+
+    public String getRequisite() {
+        return requisite;
+    }
+
+    public void setRequisite(String requisite) {
+        this.requisite = requisite;
+    }
+
+    public String getCommonRequisite() {
+        return commonRequisite;
+    }
+
+    public void setCommonRequisite(String commonRequisite) {
+        this.commonRequisite = commonRequisite;
     }
 }

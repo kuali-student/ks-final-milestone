@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.scheduleofclasses.util;
 
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,19 +17,21 @@ import java.util.TreeSet;
  */
 public class SOCRequisiteWrapper {
 
+    private SOCRequisiteHelper requisiteHelper;
+
     private Map<String, Map<String, String>> aoRequisiteTypeMap;
     private Map<String, String> coRequisiteTypeMap;
     private Set<String> ruleTypes;
 
     private StringBuilder coRequisite;
-    private Map<String, StringBuilder> aoRequisiteMap;
+    private Map<String, Map<String, String>> aoRequisiteMap;
 
     public SOCRequisiteWrapper() {
         aoRequisiteTypeMap = new HashMap<String, Map<String, String>>();
         coRequisiteTypeMap = new HashMap<String, String>();
         ruleTypes = new TreeSet<String>();
         coRequisite = new StringBuilder();
-        aoRequisiteMap = new HashMap<String, StringBuilder>();
+        aoRequisiteMap = new HashMap<String, Map<String, String>>();
     }
 
     public Map<String, Map<String, String>> getAoRequisiteTypeMap() {
@@ -63,80 +66,19 @@ public class SOCRequisiteWrapper {
         this.coRequisite = coRequisite;
     }
 
-    public Map<String, StringBuilder> getAoRequisiteMap() {
+    public Map<String, Map<String,String>> getAoRequisiteMap() {
         return aoRequisiteMap;
     }
 
-    public void setAoRequisiteMap(Map<String, StringBuilder> aoRequisiteMap) {
+    public void setAoRequisiteMap(Map<String, Map<String,String>> aoRequisiteMap) {
         this.aoRequisiteMap = aoRequisiteMap;
     }
 
-    public void loadRequisites(List<ActivityOfferingWrapper> activityOfferingWrapperList) {
-        Map<String, String> overriddenRules = new TreeMap<String, String>();
-
-        for(String ruleType : ruleTypes) {
-            if(!aoRequisiteTypeMap.isEmpty()) {
-                for(Map.Entry<String, Map<String, String>> aoEntry : aoRequisiteTypeMap.entrySet()) {
-                    if(coRequisiteTypeMap.containsKey(ruleType) && aoEntry.getValue().containsKey(ruleType)) {
-                        overriddenRules.put(ruleType, coRequisiteTypeMap.get(ruleType));
-                        coRequisiteTypeMap.remove(ruleType);
-                    }
-                }
-            }
-        }
-
-        loadAORequisites(overriddenRules);
-
-        if(!overriddenRules.isEmpty()) {
-            loadcoOverridenRules(overriddenRules, activityOfferingWrapperList);
-        }
-
-        if(!coRequisiteTypeMap.isEmpty()) {
-            loadCORequisites();
-        }
+    public SOCRequisiteHelper getRequisiteHelper() {
+        return requisiteHelper;
     }
 
-    private void loadAORequisites(Map<String, String> overriddenRules) {
-        String aoRequisite;
-        for(String ruleType : ruleTypes) {
-            if(!aoRequisiteTypeMap.isEmpty()) {
-                for(Map.Entry<String, Map<String, String>> aoEntry : aoRequisiteTypeMap.entrySet()) {
-                    aoRequisite = new String();
-                    if(aoEntry.getValue().containsKey(ruleType)) {
-                        aoRequisite = aoEntry.getValue().get(ruleType);
-                    } else if(!overriddenRules.isEmpty()) {
-                        if(overriddenRules.containsKey(ruleType)) {
-                            aoRequisite = overriddenRules.get(ruleType);
-                        }
-                    }
-
-                    if(!aoRequisite.isEmpty()) {
-                        if(aoRequisiteMap.containsKey(aoEntry.getKey())) {
-                            aoRequisiteMap.get(aoEntry.getKey()).append(aoRequisite);
-                            continue;
-                        }
-                        aoRequisiteMap.put(aoEntry.getKey(), new StringBuilder(aoRequisite));
-                    }
-                }
-            }
-        }
-    }
-
-    private void loadcoOverridenRules(Map<String, String> overriddenRules, List<ActivityOfferingWrapper> activityOfferingWrapperList) {
-        for(ActivityOfferingWrapper activityOfferingWrapper : activityOfferingWrapperList) {
-            if(activityOfferingWrapper.getRequisite() == null) {
-                StringBuilder req = new StringBuilder();
-                for(Map.Entry<String, String> rule : overriddenRules.entrySet()) {
-                    req.append(rule.getValue());
-                }
-                activityOfferingWrapper.setRequisite(req.toString());
-            }
-        }
-    }
-
-    private void loadCORequisites() {
-        for(Map.Entry<String, String> coReq : coRequisiteTypeMap.entrySet()) {
-            coRequisite.append(coReq.getValue());
-        }
+    public void setRequisiteHelper(SOCRequisiteHelper requisiteHelper) {
+        this.requisiteHelper = requisiteHelper;
     }
 }
