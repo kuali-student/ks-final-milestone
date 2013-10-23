@@ -142,9 +142,9 @@
             <version>${ks.enroll.version}</version>
         </dependency>
         <dependency>
-        	<groupId>org.kuali.student.core</groupId>
-        	<artifactId>ks-standard-sec</artifactId>
-        	<version>${ks.core.version}</version>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-standard-sec</artifactId>
+            <version>${ks.core.version}</version>
         </dependency>
     </dependencies>
 </project>
