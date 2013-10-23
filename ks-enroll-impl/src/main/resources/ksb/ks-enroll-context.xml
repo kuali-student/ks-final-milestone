@@ -438,6 +438,7 @@
          <entry key="kuali.soc:kuali.lui.activity.offering" value-ref="socToAORelatedObjHelper"/>
          <entry key="kuali.lui.activity.offering:kuali.soc" value-ref="aotoSOCRelatedObjHelper"/>
          <entry key="kuali.lui.activity.offering:kuali.lui.exam.offering" value-ref="aoToEoRelatedObjHelper"/>
+         <entry key="kuali.lui.course.offering:kuali.lui.exam.offering" value-ref="coToEoRelatedObjHelper"/>
          <entry key="kuali.lui.exam.offering:kuali.lui.activity.offering" value-ref="eoToAoRelatedObjHelper"/>
          <entry key="kuali.lui.format.offering:kuali.lui.exam.offering" value-ref="foToEoRelatedObjHelper"/>
      </util:map>
@@ -469,6 +470,8 @@
     <bean id="rgToAoRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperRGtoAOImpl"/>
 
     <bean id="aoToEoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoEOImpl"/>
+
+    <bean id="coToEoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperCOtoEOImpl"/>
 
     <bean id="eoToAoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperEOtoAOImpl"/>
 

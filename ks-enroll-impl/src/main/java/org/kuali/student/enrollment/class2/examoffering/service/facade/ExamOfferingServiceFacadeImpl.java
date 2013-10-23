@@ -611,6 +611,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             AttributeInfo attribute = new AttributeInfo();
             attribute.setKey(ExamOfferingServiceConstants.FINAL_EXAM_DRIVER_ATTR);
             attribute.setValue(driver);
+            attributes.add(attribute);
         }
 
         return this.createExamOffering(examPeriodId, stateKey, attributes, context);
