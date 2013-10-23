@@ -97,6 +97,19 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
+    @RequestMapping(params = "methodToCall=resetEndTime")
+    public ModelAndView resetEndTime(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+
+        activityOfferingWrapper.getNewScheduleRequest().setStartTime("");
+        activityOfferingWrapper.getNewScheduleRequest().setEndTime("");
+        activityOfferingWrapper.getNewScheduleRequest().getEndTimes().clear();
+
+        return getUIFModelAndView(form);
+    }
+
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=editScheduleComponent")
     public ModelAndView editScheduleComponent(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
