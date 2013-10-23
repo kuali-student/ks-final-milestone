@@ -357,13 +357,23 @@
     <bean id="SchOfClasses-RegistrationGroupsPerClusterResults" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper" />
         <property name="propertyName" value="rgWrapperList" />
+        <property name="layoutManager">
+            <bean parent="Uif-TableCollectionLayout" class="org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesTableLayoutManager">
+                <property name="renderSequenceField" value="false" />
+                <property name="applyAlternatingRowStyles" value="false" />
+                <property name="applyDefaultCellWidths" value="false" />
+                <property name="richTable.render" value="false" />
+                <property name="requisitesField">
+                    <bean parent="Uif-MessageField" p:messageText="@{#line.requisite}"/>
+                </property>
+                <property name="commonRequisiteField">
+                    <bean parent="Uif-MessageField" p:messageText="@{#line.commonRequisite}"/>
+                </property>
+            </bean>
+        </property>
         <property name="collectionLookup">
             <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
         </property>
-        <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.applyDefaultCellWidths" value="false" />
-        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-        <property name="layoutManager.richTable.render" value="false" />
         <property name="disclosure.defaultOpen" value="false"/>
         <property name="style" value="padding-left: 30px;"/>
         <property name="layoutManager.richTable.templateOptions">
@@ -377,10 +387,12 @@
         <property name="items">
             <list>
                 <bean parent="Uif-DataField"
+                      p:id="regGroupName"
                       p:label="Reg Group"
-                      p:propertyName="rgInfo.name" p:valign="middle">
+                      p:propertyName="rgInfo.name">
                 </bean>
                 <bean parent="Uif-MessageField"
+                      p:id="activityOfferingCode"
                       p:label="AO Code"
                       p:messageText="@{#line.aoActivityCodeText}">
                 </bean>
