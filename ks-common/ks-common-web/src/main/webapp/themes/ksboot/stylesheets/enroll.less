@@ -620,6 +620,7 @@ cursor:auto;
 .state-draft        { .state-lozenge-draft(); }
 .state-ready        { .state-lozenge-ready(); }
 .state-completed    { .state-lozenge-completed(); }
+.state-published    { .state-lozenge-completed(); }
 .state-canceled     { .state-lozenge-canceled(); }
 .state-suspended    { .state-lozenge-suspended(); }
 /************************************** END LOZENGES **********************/
@@ -1137,6 +1138,10 @@ table.dataTable tr.uif-newCollectionItem td.sorting_1 {
 
 .ks-student-home-area:hover {
   background-color: #EEF7FF;
+  cursor: pointer;
+}
+
+.ks-student-home-area label:hover {
   cursor: pointer;
 }
 
