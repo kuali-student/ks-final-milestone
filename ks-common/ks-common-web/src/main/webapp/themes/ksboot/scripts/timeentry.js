@@ -41,43 +41,6 @@ function formatTime(t) {
     return pad(t['hours'], 2) + ":" + t['minutes'] + " " + ((t['meridiem'] == "a") ? "AM" : "PM");
 }
 
-function queryForTimeSlots(timeSlotType, daysPattern, startTimeMap) {
-
-    var startTime = formatTime(startTimeMap);
-
-    // Here's where we would make an async call to get a list of possible time slots.
-    // For now we'll just simulate a call that returns a single possiblity and fake the end time.
-    var endTime = calculateEndTime(startTimeMap);
-    var timeSlots = new Array();
-    var ts = {'id': 1, 'endTime': endTime };
-    timeSlots[0] = ts;
-    return timeSlots;
-}
-
-//  This method should go away one a real time slot query is in place.
-function calculateEndTime(startTimeMap) {
-    var hours = startTimeMap['hours'];
-    var minutes = startTimeMap['minutes'];
-    var meridiem = startTimeMap['meridiem'];
-    if (minutes == "00") {
-        minutes = "50";
-    } else {
-        //  If the minutes aren't 00 and the hours are less that 12 just increment the hours.
-        if (hours < 12) {
-            if (hours == 11) {
-                //  Swap AM/PM
-                meridiem = ((meridiem == "a") ? "p" : "a");
-            }
-            hours++;
-        } else {
-            hours = 1;
-            //  Swap AM/PM
-            meridiem = ((meridiem == "a") ? "p" : "a");
-        }
-    }
-    return formatTime({'hours': hours, 'minutes': minutes, 'meridiem': meridiem});
-}
-
 //  Parses a string of text into a standard time format.
 //  Returns a map contains hours, minutes, and  meridiem if the parsing succeeds. Otherwise, null.
 function parseTimeString(timeStringText) {

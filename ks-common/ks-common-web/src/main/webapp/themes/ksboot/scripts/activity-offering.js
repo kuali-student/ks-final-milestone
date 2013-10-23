@@ -693,6 +693,8 @@ function rdlStartTimeOnBlur(){
     var startTime = jQuery("#rdl_starttime_control").val();
     var days = jQuery("#rdl_days_control").val();
 
+    jQuery("#rdl_endtime_control").val('');
+
     if (startTime != ''){
         parseAndReplaceTimeClause(jQuery("#rdl_starttime_control"), jQuery("#rdl_days_control"));
     }

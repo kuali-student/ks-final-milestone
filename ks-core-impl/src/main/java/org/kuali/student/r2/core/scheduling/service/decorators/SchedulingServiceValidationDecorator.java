@@ -369,8 +369,17 @@ public class SchedulingServiceValidationDecorator extends SchedulingServiceDecor
      */
     protected void validateAOTimeSlotCreateAndUpdate(TimeSlotInfo timeSlotInfo) throws DataValidationErrorException{
 
-        if (SchedulingServiceConstants.TIME_SLOT_ACTIVITY_OFFERING_STANDARD_TYPES.contains(timeSlotInfo.getTypeKey()) ||
-            StringUtils.equals(timeSlotInfo.getTypeKey(), SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_ADHOC)){
+        if (StringUtils.equals(timeSlotInfo.getTypeKey(), SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA)){
+            /**
+             * Make sure at least one field (days/starttime/endtime is empty)
+              */
+            if (timeSlotInfo.getStartTime() != null && timeSlotInfo.getStartTime().getMilliSeconds() != null &&
+                timeSlotInfo.getEndTime() != null && timeSlotInfo.getEndTime().getMilliSeconds() != null &&
+                timeSlotInfo.getWeekdays() != null && !timeSlotInfo.getWeekdays().isEmpty()){
+                throw new DataValidationErrorException("For time slots of type TBA at least one of these properties: weekDays, startTime, or endTime must be unspecified.");
+            }
+        } else { //This else covers both standard and adhoc timeslots (Currently, we have only AO related timeslots. Once we
+                // implement final exam timeslots, we should be reviewing this else and make appropriate changes.)
 
             if (timeSlotInfo.getStartTime() == null || timeSlotInfo.getStartTime().getMilliSeconds() == null){
                 throw new DataValidationErrorException("Start Time should not be empty for standard and ad hoc time slots");
@@ -390,15 +399,6 @@ public class SchedulingServiceValidationDecorator extends SchedulingServiceDecor
 
             if (timeSlotInfo.getWeekdays() == null || timeSlotInfo.getWeekdays().isEmpty()){
                 throw new DataValidationErrorException("Days should not be empty for standard and ad hoc time slots");
-            }
-        } else if (StringUtils.equals(timeSlotInfo.getTypeKey(), SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA)){
-            /**
-             * Make sure at least one field (days/starttime/endtime is empty)
-              */
-            if (timeSlotInfo.getStartTime() != null && timeSlotInfo.getStartTime().getMilliSeconds() != null &&
-                timeSlotInfo.getEndTime() != null && timeSlotInfo.getEndTime().getMilliSeconds() != null &&
-                timeSlotInfo.getWeekdays() != null && !timeSlotInfo.getWeekdays().isEmpty()){
-                throw new DataValidationErrorException("For the TBA Time slot, at least one of the required fields is left unspecified.");
             }
         }
     }
