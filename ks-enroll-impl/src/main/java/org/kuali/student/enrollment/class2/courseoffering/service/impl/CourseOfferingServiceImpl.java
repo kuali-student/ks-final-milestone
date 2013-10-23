@@ -2827,6 +2827,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 // Didn't find all AOs from the reg group AO IDs
                 regGroupIdsToDelete.add(regGroup.getId());
             }
+            // In case we have mismatch between the number of sets (AO types) in cluster and number of AOs in reg group
+            if ((clusterInfo.getActivityOfferingSets().size() > regGroup.getActivityOfferingIds().size())
+                    && !regGroupIdsToDelete.contains(regGroup.getId())) {
+                regGroupIdsToDelete.add(regGroup.getId());
+            }
         }
         // Delete the reg groups in the list
         for (String regGroupIdToDelete: regGroupIdsToDelete) {
