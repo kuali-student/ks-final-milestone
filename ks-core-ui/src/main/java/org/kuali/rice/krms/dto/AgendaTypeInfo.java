@@ -24,6 +24,7 @@ import java.util.List;
 public class AgendaTypeInfo implements Serializable {
 
     private String id;
+    private String type;
     private String description;
     private List<RuleTypeInfo> ruleTypes;
 
@@ -33,6 +34,14 @@ public class AgendaTypeInfo implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getDescription() {
