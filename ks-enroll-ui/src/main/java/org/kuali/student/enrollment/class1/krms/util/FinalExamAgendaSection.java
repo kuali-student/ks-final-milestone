@@ -15,9 +15,12 @@
  */
 package org.kuali.student.enrollment.class1.krms.util;
 
+import com.google.common.collect.Maps;
+import org.kuali.rice.krad.uif.component.BindingInfo;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Group;
+import org.kuali.rice.krad.uif.container.NodePrototype;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
@@ -29,6 +32,7 @@ import org.kuali.rice.krms.util.AgendaSection;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Kuali Student Team
@@ -36,6 +40,7 @@ import java.util.List;
 public class FinalExamAgendaSection extends AgendaSection {
 
     private AgendaBuilder agendaBuilder;
+    private Map<String, Group> agendaPrototypeMap;
 
     public AgendaBuilder getAgendaBuilder() {
         if (this.agendaBuilder == null) {
@@ -44,4 +49,41 @@ public class FinalExamAgendaSection extends AgendaSection {
         return this.agendaBuilder;
     }
 
+    public Map<String, Group> getAgendaPrototypeMap() {
+        return agendaPrototypeMap;
+    }
+
+    public void setAgendaPrototypeMap(Map<String, Group> agendaPrototypeMap) {
+        this.agendaPrototypeMap = agendaPrototypeMap;
+    }
+
+    @Override
+    public List<Component> getComponentPrototypes() {
+        List<Component> components = super.getComponentPrototypes();
+        for (Map.Entry<String, Group> agendaPrototypeMapEntry : this.getAgendaPrototypeMap().entrySet()) {
+            components.add(agendaPrototypeMapEntry.getValue());
+        }
+
+        return components;
+    }
+
+    /**
+     * @see org.kuali.rice.krad.uif.component.ComponentBase#copy()
+     */
+    @Override
+    protected <T> void copyProperties(T component) {
+        super.copyProperties(component);
+
+        FinalExamAgendaSection agendaSectionCopy = (FinalExamAgendaSection) component;
+        if (this.agendaPrototypeMap != null) {
+            Map<String, Group> agendaPrototypeMapCopy = Maps.newHashMapWithExpectedSize(
+                    this.getAgendaPrototypeMap().size());
+            for (Map.Entry<String, Group> agendaPrototypeMapEntry : agendaPrototypeMap.entrySet()) {
+                Group prototypeCopy = (Group) agendaPrototypeMapEntry.getValue().copy();
+                agendaPrototypeMapCopy.put(agendaPrototypeMapEntry.getKey(), prototypeCopy);
+            }
+
+            agendaSectionCopy.setAgendaPrototypeMap(agendaPrototypeMapCopy);
+        }
+    }
 }

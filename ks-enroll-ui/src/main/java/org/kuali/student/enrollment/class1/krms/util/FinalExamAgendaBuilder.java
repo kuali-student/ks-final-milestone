@@ -41,8 +41,11 @@ public class FinalExamAgendaBuilder extends AgendaBuilder {
      * @return
      */
     public Component buildAgenda(AgendaEditor agenda, int index, AgendaSection agendaSection) {
+
+        FinalExamAgendaSection feAgendaSection = (FinalExamAgendaSection) agendaSection;
+
         String agendaSuffix = "_agenda" + Integer.toString(index);
-        Group group = ComponentUtils.copy(agendaSection.getAgendaPrototype(), agendaSuffix);
+        Group group = ComponentUtils.copy(feAgendaSection.getAgendaPrototypeMap().get(agenda.getAgendaTypeInfo().getType()), agendaSuffix);
         group.setHeaderText(agenda.getAgendaTypeInfo().getDescription());
 
         String bindingPrefix = "agendas[" + index + "]";

@@ -111,8 +111,11 @@ limitations under the License.
                 <ref bean="KSFE-FinalExamMatrixSearch-Page-parent"/>
                 <bean parent="KRMS-AgendaManage-Section" class="org.kuali.student.enrollment.class1.krms.util.FinalExamAgendaSection"
                       p:progressiveRender="#dp.termToUse eq 'na'" p:style="margin-top:-25px">
-                    <property name="agendaPrototype">
-                        <ref bean="KSFE-RuleTable"/>
+                    <property name="agendaPrototypeMap">
+                        <map>
+                            <entry key="kuali.krms.agenda.type.final.exam.standard" value-ref="KSFE-RuleTable-Standard" />
+                            <entry key="kuali.krms.agenda.type.final.exam.common" value-ref="KSFE-RuleTable-Common" />
+                        </map>
                     </property>
                 </bean>
             </list>
@@ -136,7 +139,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KSFE-RuleTable" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="true"
+    <bean id="KSFE-RuleTable-Parent" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="true"
           p:readOnly="false" p:width="75%">
         <property name="id" value="ruledefinitions"/>
         <property name="collectionObjectClass"
@@ -190,6 +193,27 @@ limitations under the License.
             <list>
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="goToRuleView" p:actionLabel="Edit" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="deleteRule" p:actionLabel="Delete" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KSFE-RuleTable" parent="KSFE-RuleTable-Parent"/>
+
+    <bean id="KSFE-RuleTable-Standard" parent="KSFE-RuleTable-Parent">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="If course meets:" p:propertyName="description"/>
+                <bean parent="Uif-DataField" p:label="Exam will be on:" p:propertyName="dayToDisplay"/>
+                <bean parent="Uif-DataField" p:label="Time:" p:propertyName="timePeriodToDisplay"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFE-RuleTable-Common" parent="KSFE-RuleTable-Parent">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="If course is:" p:propertyName="description"/>
+                <bean parent="Uif-DataField" p:label="Exam will be on:" p:propertyName="dayToDisplay"/>
+                <bean parent="Uif-DataField" p:label="Time:" p:propertyName="timePeriodToDisplay"/>
             </list>
         </property>
     </bean>
