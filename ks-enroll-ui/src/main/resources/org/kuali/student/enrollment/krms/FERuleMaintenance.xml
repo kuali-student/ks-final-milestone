@@ -140,7 +140,7 @@ limitations under the License.
     </bean>
 
     <bean id="KSFE-RuleTable-Parent" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="true"
-          p:readOnly="false" p:width="75%">
+          p:readOnly="false" p:width="75%" p:style="padding-top:25px">
         <property name="id" value="ruledefinitions"/>
         <property name="collectionObjectClass"
                   value="org.kuali.rice.krms.dto.RuleEditor"/>
@@ -199,6 +199,29 @@ limitations under the License.
     <bean id="KSFE-RuleTable" parent="KSFE-RuleTable-Parent"/>
 
     <bean id="KSFE-RuleTable-Standard" parent="KSFE-RuleTable-Parent">
+        <property name="header">
+            <bean parent="Uif-SectionHeader">
+                <property name="rightGroup">
+                    <bean parent="Uif-ActionsGroup">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-NavigationActionLink" p:methodToCall="addRule" p:actionLabel="Add" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+                <property name="lowerGroup">
+                    <bean parent="Uif-HorizontalBoxGroup" >
+                        <property name="items">
+                            <list>
+                                <ref bean="KSFE_location"/>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:label="If course meets:" p:propertyName="description"/>
@@ -526,7 +549,6 @@ limitations under the License.
             <list>
                 <bean parent="Uif-MessageField" p:messageText="Use the same Matrix as:"/>
                 <ref bean="KS-FinalExamMatrixManagement-CriteriaSection"/>
-                <ref bean="KSFE_location"/>
             </list>
         </property>
     </bean>
@@ -648,7 +670,7 @@ limitations under the License.
     <bean id="KSFE-endtime_ampm-Section" parent="KSFE-endtime_ampm-Section-Parent"/>
 
     <bean id="KSFE_location-Parent" parent="Uif-InputField" p:label="Standard Final Exam location determined by Activity Offering location" p:propertyName="location" p:labelPlacement="LEFT"
-          p:uppercaseValue="false" p:style="padding-top:25px">
+          p:uppercaseValue="false">
             <property name="control">
                 <bean parent="Uif-CheckboxControl" p:disabled="true"/>
             </property>
