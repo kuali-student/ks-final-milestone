@@ -64,7 +64,11 @@
                                     <bean parent="Uif-HiddenControl"/>
                                 </property>
                             </bean>
-
+                            <bean id="PlanItems_atpId" parent="Uif-InputField" p:propertyName="atpId">
+                                <property name="control">
+                                    <bean parent="Uif-HiddenControl"/>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
@@ -449,7 +453,8 @@
                     <property name="onClickScript"
                               value="
                               openMenu('@{#line.planItemDataObject.id}_planned','planned_menu_items-POC-Dialog','@{#line.planItemDataObject.atp}',e,'.uif-collectionItem','fl-container-150 uif-boxLayoutHorizontalItem',{tail:{align:'top'},align:'top',position:'right'},false);
-                              jQuery('PlanItems_planItemId').val('@{#line.planItemDataObject.id}');"/>
+                              jQuery('#PlanItems_planItemId_control')[0].value='@{#line.planItemDataObject.id}';
+                              jQuery('#PlanItems_atpId_control')[0].value='@{#line.planItemDataObject.atp}';"/>
                     <!-- TODO: after M2 upgrade : add SpEL for page name in openMenu param to swtich menu -->
                     <!-- @{#parentLine.openForPlanning ? 'planned_menu_items' : 'completed_backup_menu_items'} -->
                     <property name="dataAttributes">

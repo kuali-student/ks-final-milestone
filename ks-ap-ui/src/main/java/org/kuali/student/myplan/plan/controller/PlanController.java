@@ -60,6 +60,8 @@ import org.kuali.student.ap.framework.context.support.DefaultTermHelper;
 import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.myplan.plan.dataobject.PlanItemDataObject;
+import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedTerm;
 import org.kuali.student.myplan.plan.service.PlannedCoursesLookupableHelperImpl;
 import org.kuali.student.r2.core.acal.infc.Term;
@@ -3691,26 +3693,9 @@ public class PlanController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=deleteDialogPOC")
     public ModelAndView deleteDialogPOC(@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        form.setPlanItemId("06d455d1-04b0-4469-bec8-008316d51c13");
         String dialog ="plan_item_delete_dialogPOC";
         if (!hasDialogBeenDisplayed(dialog, form)) {
-            PlanItemInfo planItem;
-            try {
-                planItem = getPlanItemFromPlanItemId(form.getPlanItemId());
-            }catch(RuntimeException e){
-                LOG.warn("Unable to Retrieve Plan Item");
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unable to retrieve plan item");
-                return getUIFModelAndView(form);
-            }
-
-            if (hasText(planItem.getRefObjectId())) {
-                form.setCourseSummaryDetails(getCourseDetailsInquiryService().retrieveCourseSummaryById(planItem.getRefObjectId()));
-            }else {
-                LOG.warn("Missing course ID for summary " + form.getPageId());
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-                        "Missing course ID for summary " + form.getPageId());
-                return getUIFModelAndView(form);
-            }
+            form.getCourseSummaryDetails().setCode("Test123");
             //redirect back to client to display lightbox
             return showDialog(dialog, form, request, response);
         }else{
@@ -3721,28 +3706,26 @@ public class PlanController extends UifControllerBase {
                     return getUIFModelAndView(form);
                 }
             } else {
-                PlanItemInfo planItem;
-                try {
-                    planItem = getPlanItemFromPlanItemId(form.getPlanItemId());
-                }catch(RuntimeException e){
-                    LOG.warn("Unable to Retrieve Plan Item");
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unable to retrieve plan item");
-                    return getUIFModelAndView(form);
-                }
-
-                if (hasText(planItem.getRefObjectId())) {
-                    form.setCourseSummaryDetails(getCourseDetailsInquiryService().retrieveCourseSummaryById(planItem.getRefObjectId()));
-                }else {
-                    LOG.warn("Missing course ID for summary " + form.getPageId());
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-                            "Missing course ID for summary " + form.getPageId());
-                    return getUIFModelAndView(form);
-                }
+                form.getCourseSummaryDetails().setCode("Test123");
                 //redirect back to client to display lightbox
                 return showDialog(dialog, form, request, response);
             }
         }
-        form.getTermsToDisplay().get(0).getPlannedList().remove(0);
+        String atpId=form.getAtpId();
+        String planItemId=form.getPlanItemId();
+        for(int i=0;i<5;i++){
+            PlannedTerm term = form.getTermsToDisplay().get(i);
+            if(term.getAtpId().equals(atpId)){
+                for(int j=0;j<term.getPlannedList().size();j++){
+                    PlannedCourseDataObject planItem = term.getPlannedList().get(j);
+                    if(planItem.getPlanItemDataObject().getId().equals(planItemId)){
+                        form.getTermsToDisplay().get(i).getPlannedList().remove(j);
+                        return getUIFModelAndView(form);
+                    }
+                }
+            }
+
+        }
         return getUIFModelAndView(form);
     }
 
