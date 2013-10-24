@@ -15,17 +15,17 @@
  */
 
 var ADD = '.kr-add-button';
-var CUT='.kr-cut-button';
-var PASTE='.kr-paste-button';
-var DELETE='.kr-delete-button';
-var REFRESH='.kr-refresh-button';
+var CUT = '.kr-cut-button';
+var PASTE = '.kr-paste-button';
+var DELETE = '.kr-delete-button';
+var REFRESH = '.kr-refresh-button';
 var TREE = '.tree-bar-button';
-var MOVE='.kr-move-button';
-var UP='.kr-up-button';
-var DOWN='.kr-down-button';
-var LEFT='.kr-left-button';
-var RIGHT='.kr-right-button';
-var COPY='.kr-copy-button';
+var MOVE = '.kr-move-button';
+var UP = '.kr-up-button';
+var DOWN = '.kr-down-button';
+var LEFT = '.kr-left-button';
+var RIGHT = '.kr-right-button';
+var COPY = '.kr-copy-button';
 
 var ENABLED = true;
 var pasting = false;
@@ -116,7 +116,7 @@ function disableCutCopyButtons() {
 function cutPasteButtonInit() {
     // CUT
     if (jq('.kr-cut-button') != undefined && jq('.kr-cut-button') != null) {
-        jq('.kr-cut-button').click(function() {
+        jq('.kr-cut-button').click(function () {
             enablePasteButton();
         });
     }
@@ -191,7 +191,7 @@ function enabledCheck(command) {
 
 function selectedCheck() {
     var disableButtons = jq('input.disableButtons').val();
-    if(disableButtons == 'true'){
+    if (disableButtons == 'true') {
         disableTreeButtons();
     }
 }
@@ -230,7 +230,8 @@ function getPropositionIdFromParentLi(parentLiNode) {
 function ajaxCallPropositionTree(controllerMethod, collectionGroupId) {
     var selectedItemInput = getSelectedPropositionInput();
     var selectedItemId = selectedItemInput.val();
-    var actionRevealCallBack = function (htmlContent) {};
+    var actionRevealCallBack = function (htmlContent) {
+    };
     retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
 }
 
@@ -287,7 +288,7 @@ function ajaxCallOnTabSelect(event, ui, editwithgroup, editwithlogic, controller
     }
 }
 
-function show(e){
+function show(e) {
     //Show the subcollections
     jq(e.currentTarget).siblings().find('div.subGroup').show();
 
@@ -300,7 +301,7 @@ function show(e){
     jq(e.currentTarget).siblings().find('.showActionLink').hide();
 }
 
-function hide(e){
+function hide(e) {
     //Hide the subcollections
     jq(e.currentTarget).siblings().find('div.subGroup').hide();
 
@@ -371,18 +372,20 @@ function ajaxPastePropositionTree(controllerMethod, collectionGroupId) {
 
 function updateProposition(controllerMethod, collectionGroupId) {
     var selectedItemInput = getSelectedPropositionInput();
-    if(controllerMethod != 'cancelEditProposition') {
+    if (controllerMethod != 'cancelEditProposition') {
         if (validateForm()) {
             var selectedItemInput = getSelectedPropositionInput();
             var selectedItemId = selectedItemInput.val();
-            var actionRevealCallBack = function (htmlContent) {};
+            var actionRevealCallBack = function (htmlContent) {
+            };
 
             retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
         }
     } else {
         var selectedItemInput = getSelectedPropositionInput();
         var selectedItemId = selectedItemInput.val();
-        var actionRevealCallBack = function (htmlContent) {};
+        var actionRevealCallBack = function (htmlContent) {
+        };
 
         enableAddButton();
 
@@ -426,11 +429,11 @@ function markNodeAsSelected(parentLiNode) {
         disableDownButton();
     }
 
-    if(jq(parentLiNode).hasClass('disableMoveRight')) {
+    if (jq(parentLiNode).hasClass('disableMoveRight')) {
         disableRightButton();
     }
 
-    if(jq(parentLiNode).hasClass('disableMoveLeft')) {
+    if (jq(parentLiNode).hasClass('disableMoveLeft')) {
         disableLeftButton();
     }
 }
@@ -486,6 +489,17 @@ function handleEditNodeClick(parentLiNode) {
     });
 
     selectedItemTracker.val(propositionId);
+}
+
+function handleOperatorChange(jqObject, controllerMethod, collectionGroupId) {
+
+    //Set the selected id
+    var parentLiNode = jqObject.closest('li');
+    var propositionId = getPropositionIdFromParentLi(parentLiNode);
+    var selectedItemTracker = getSelectedPropositionInput();
+    selectedItemTracker.val(propositionId);
+
+    ajaxCallPropositionTree(controllerMethod, collectionGroupId)
 }
 
 /**
@@ -596,21 +610,6 @@ function initRuleTree(componentId) {
             }
         });
 
-        /* update sister compound operators and update proposition summary */
-        jq('li.compoundOpCodeNode').change(function () {
-            //Set the selected id
-            var parentLiNode = jq(this).closest('li');
-            //Set parent to be refreshed
-            var componentId = jq(parentLiNode).offsetParent().attr('id');
-            var tabId = componentId.substring(0, componentId.indexOf('_'));
-
-            var propositionId = getPropositionIdFromParentLi(parentLiNode);
-            var selectedItemTracker = getSelectedPropositionInput();
-            selectedItemTracker.val(propositionId);
-
-            ajaxCallPropositionTree('updateCompoundOperator', tabId);
-        })
-
     });
 
 
@@ -706,7 +705,7 @@ function initPreviewTree(componentId) {
 }
 
 /* Custom function (asc) for time sorting on Final Exam Matrix */
-jQuery.fn.dataTableExt.oSort['time-sort-asc']  = function(x,y) {
+jQuery.fn.dataTableExt.oSort['time-sort-asc'] = function (x, y) {
 
     //Parse html content into date format
     var dateX = parseTime(x);
@@ -716,7 +715,7 @@ jQuery.fn.dataTableExt.oSort['time-sort-asc']  = function(x,y) {
     y = dateY.getTime();
 
     //Compare time of columns for sorting
-    return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
 };
 
 /*Parse html content retrieved into date format */
@@ -724,15 +723,15 @@ function parseTime(timeDiv) {
 
     //Retrieve only the time
     var t = jq(timeDiv).find('span').text();
-    t = t.substring(0, t.search(/m/i)+1);
+    t = t.substring(0, t.search(/m/i) + 1);
     t = t.replace(/ /g, '');
     var d1 = new Date();
     //Create array of hour, minutes and 12 hour format
     var time = t.match(/(\d+)(?::(\d\d))(P|p?)/);
-    if(time != null){
-        d1.setHours( parseInt(time[1]) + (time[3] ? 12 : 0) );
-        d1.setMinutes( parseInt(time[2]) || 0 );
-    }else{
+    if (time != null) {
+        d1.setHours(parseInt(time[1]) + (time[3] ? 12 : 0));
+        d1.setMinutes(parseInt(time[2]) || 0);
+    } else {
         d1.setHours(0);
         d1.setMinutes(0);
     }
