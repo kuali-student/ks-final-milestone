@@ -57,6 +57,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 				<ref bean="myplan_section" />
 			</list>
 		</property>
+        <property name="stickyFooter" value="false"/>
 	</bean>
 
     <bean id="course_details_back_link" parent="Uif-ViewHeader">
