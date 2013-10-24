@@ -35,6 +35,9 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConsta
 import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.slf4j.Logger;
 
@@ -54,7 +57,7 @@ public class ExamOfferingServiceTestDataLoader extends AbstractMockServicesAware
 
     private static final Logger log = KSLog4JConfigurer.getLogger(ExamOfferingServiceTestDataLoader.class);
 
-    private AcademicCalendarService acalService;
+    private AtpService atpService;
 
     private CourseOfferingSetService socService;
 
@@ -104,19 +107,25 @@ public class ExamOfferingServiceTestDataLoader extends AbstractMockServicesAware
             ReadOnlyException, AlreadyExistsException {
 
         //Create ExamPeriod
-        ExamPeriodInfo examPeriodInfo = populateExamPeriod();
-        ExamPeriodInfo createdExam = acalService.createExamPeriod(AtpServiceConstants.ATP_EXAM_PERIOD_TYPE_KEY, examPeriodInfo, context);
+        AtpInfo examPeriod = populateExamPeriod();
+        AtpInfo createdExam = atpService.createAtp(AtpServiceConstants.ATP_EXAM_PERIOD_TYPE_KEY, examPeriod, context);
 
         //Create Term
-        TermInfo term = populateTerm();
-        TermInfo createdTerm = acalService.createTerm(AtpServiceConstants.ATP_FALL_TYPE_KEY, term, context);
+        AtpInfo term = populateTerm();
+        AtpInfo createdTerm = atpService.createAtp(AtpServiceConstants.ATP_FALL_TYPE_KEY, term, context);
 
         //Add
-        StatusInfo ret = acalService.addExamPeriodToTerm(createdTerm.getId(), createdExam.getId(), context);
+        AtpAtpRelationInfo atpRel = new AtpAtpRelationInfo();
+        atpRel.setAtpId(createdTerm.getId());
+        atpRel.setRelatedAtpId(createdExam.getId());
+        atpRel.setTypeKey(AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TERM2EXAMPERIOD_TYPE_KEY);
+        atpRel.setStateKey(AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY);
+        atpRel.setEffectiveDate(new Date());
+        atpService.createAtpAtpRelation(createdTerm.getId(), createdExam.getId(), AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TERM2EXAMPERIOD_TYPE_KEY,atpRel,context);
     }
 
-    private TermInfo populateTerm() {
-        TermInfo term = new TermInfo();
+    private AtpInfo populateTerm() {
+        AtpInfo term = new AtpInfo();
         term.setId(TERM_ONE_ID);
         term.setName("testNewTerm");
         term.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
@@ -130,10 +139,10 @@ public class ExamOfferingServiceTestDataLoader extends AbstractMockServicesAware
         return term;
     }
 
-    private ExamPeriodInfo populateExamPeriod (){
-        ExamPeriodInfo examPeriodInfo = new ExamPeriodInfo();
-        examPeriodInfo.setId(PERIOD_ONE_ID);
-        examPeriodInfo.setName("testCreate");
+    private AtpInfo populateExamPeriod (){
+        AtpInfo examPeriod = new AtpInfo();
+        examPeriod.setId(PERIOD_ONE_ID);
+        examPeriod.setName("testCreate");
 
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, 2005);
@@ -141,24 +150,24 @@ public class ExamOfferingServiceTestDataLoader extends AbstractMockServicesAware
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
-        examPeriodInfo.setStartDate(cal.getTime());
+        examPeriod.setStartDate(cal.getTime());
         cal.set(Calendar.YEAR, 2006);
-        examPeriodInfo.setEndDate(cal.getTime());
+        examPeriod.setEndDate(cal.getTime());
 
-        examPeriodInfo.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
-        examPeriodInfo.setTypeKey(AtpServiceConstants.ATP_EXAM_PERIOD_TYPE_KEY);
+        examPeriod.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        examPeriod.setTypeKey(AtpServiceConstants.ATP_EXAM_PERIOD_TYPE_KEY);
         RichTextInfo descr = new RichTextInfo();
         descr.setPlain("Test");
-        examPeriodInfo.setDescr(descr);
-        return examPeriodInfo;
+        examPeriod.setDescr(descr);
+        return examPeriod;
     }
 
-    public AcademicCalendarService getAcalService() {
-        return acalService;
+    public AtpService getAtpService() {
+        return atpService;
     }
 
-    public void setAcalService(AcademicCalendarService acalService) {
-        this.acalService = acalService;
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
     }
 
     public CourseOfferingSetService getSocService() {

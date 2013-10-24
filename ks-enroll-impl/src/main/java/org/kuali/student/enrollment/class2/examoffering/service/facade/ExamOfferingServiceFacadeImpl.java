@@ -37,10 +37,11 @@ import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.ExamServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
     private static final Logger LOGGER = Logger.getLogger(ExamOfferingServiceFacadeImpl.class);
 
-    private AcademicCalendarService acalService;
+    private AtpService atpService;
     private ExamService examService;
     private CourseOfferingService courseOfferingService;
     private ExamOfferingService examOfferingService;
@@ -172,12 +173,12 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
     public String getExamPeriodId(String termID, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-
         //Get the Exam Period Id for the term.
         String epId = null;
-        List<ExamPeriodInfo> epInfos = this.getAcalService().getExamPeriodsForTerm(termID, context);
-        for (ExamPeriodInfo epInfo : epInfos) {
-            epId = epInfo.getId();
+        List<AtpAtpRelationInfo> results = atpService.getAtpAtpRelationsByTypeAndAtp(termID,
+                AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TERM2EXAMPERIOD_TYPE_KEY, context);
+        for (AtpAtpRelationInfo atpRelation : results) {
+            epId = atpRelation.getRelatedAtpId();
             break;
         }
 
@@ -759,12 +760,12 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         return executionOptions;
     }
 
-    public AcademicCalendarService getAcalService() {
-        return acalService;
+    public AtpService getAtpService() {
+        return atpService;
     }
 
-    public void setAcalService(AcademicCalendarService acalService) {
-        this.acalService = acalService;
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
     }
 
     public ExamService getExamService() {

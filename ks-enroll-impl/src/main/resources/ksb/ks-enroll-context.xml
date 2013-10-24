@@ -636,7 +636,7 @@
     </bean>
 
     <bean id="examOfferingServiceFacade" class="org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacadeImpl">
-    <property name="acalService" ref="AcademicCalendarService" />
+    <property name="atpService" ref="AtpService" />
     <property name="examService" ref="ExamService"/>
     <property name="courseOfferingService" ref="CourseOfferingService"/>
     <property name="examOfferingService" ref="ExamOfferingService"/>

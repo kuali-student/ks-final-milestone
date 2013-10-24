@@ -102,7 +102,7 @@
 
     <bean id="examOfferingBusinessLogic"
           class="org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacadeImpl">
-        <property name="acalService" ref="acalService"/>
+        <property name="atpService" ref="atpService"/>
         <property name="examService" ref="examService"/>
         <property name="examOfferingService" ref="examOfferingService"/>
         <property name="courseOfferingService" ref="courseOfferingService"/>
@@ -113,7 +113,7 @@
     <bean id="examOfferingDataLoader"
           class="org.kuali.student.enrollment.class2.examoffering.service.impl.ExamOfferingServiceTestDataLoader"
           autowire="default">
-        <property name="acalService" ref="acalService"/>
+        <property name="atpService" ref="atpService"/>
         <property name="socService" ref="socService"/>
     </bean>
 

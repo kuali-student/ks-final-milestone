@@ -323,7 +323,7 @@
     </bean>
 
     <bean id="examOfferingServiceFacade" class="org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacadeImpl">
-        <property name="acalService" ref="acalService" />
+        <property name="atpService" ref="atpService" />
         <property name="courseOfferingService" ref="coService"/>
         <property name="examOfferingService" ref="examOfferingService"/>
     </bean>
