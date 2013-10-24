@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.rice.krms.repository.action;
+package org.kuali.rice.krms.api.repository.action;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.CoreConstants;
@@ -21,7 +21,6 @@ import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
 import org.kuali.rice.core.api.util.jaxb.MapStringStringAdapter;
 import org.kuali.rice.krms.api.KrmsConstants;
-import org.kuali.rice.krms.api.repository.action.ActionDefinitionContract;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
