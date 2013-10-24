@@ -32,17 +32,17 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
         super.buildLine(view, model, collectionGroup, lineFields, subCollectionFields, bindingPath, actions, idSuffix,
                 currentLine, lineIndex);
 
-        if(currentLine instanceof ActivityOfferingWrapper) {
+        if (currentLine instanceof ActivityOfferingWrapper) {
             ActivityOfferingWrapper aoWrapper = (ActivityOfferingWrapper) currentLine;
 
-            if((aoWrapper.getRequisite()!=null)&&(!aoWrapper.getRequisite().isEmpty())){
+            if ((aoWrapper.getRequisite()!=null)&&(!aoWrapper.getRequisite().isEmpty())){
                 Field requisitesPrototype = this.getRequisitesField();
 
                 Field requisites = ComponentUtils.copy(requisitesPrototype,
                         idSuffix + UifConstants.IdSuffixes.SUB + lineIndex);
 
-                for(Field field : lineFields) {
-                    if(field instanceof FieldGroup) {
+                for (Field field : lineFields) {
+                    if (field instanceof FieldGroup) {
                         field.setRowSpan(2);
                     }
                 }
@@ -54,23 +54,31 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
             RegistrationGroupWrapper rgWrapper = (RegistrationGroupWrapper) currentLine;
 
             //Set RegistrationGroupWrapper name field to encompass all rows related
-            if(name.isEmpty() || !rgWrapper.getRgInfo().getName().equals(name)){
+            if (name.isEmpty() || !rgWrapper.getRgInfo().getName().equals(name)){
 
                 name = rgWrapper.getRgInfo().getName();
 
                 for (Field field : lineFields) {
-                    if(field.getId().contains("regGroupName")) {
-                        field.setRowSpan(getSpanSize(rgWrapper));
+                    if (field.getId().contains("regGroupName")) {
+                        field.setRowSpan(getSpanSize(rgWrapper, false));
+                    }
+                    if (field.getId().contains("regGroupSeats")) {
+                        field.setRowSpan(getSpanSize(rgWrapper, true));
                     }
                 }
             } else {
                 //Set related RegistrationGroupWrapper name field to hidden and remove
                 // border so that it looks like one field
                 for (Field field : lineFields) {
-                    if(field.getId().contains("regGroupName")) {
+                    if (field.getId().contains("regGroupName")) {
                         field.setHidden(true);
                         field.setCellStyle("border-top:none;");
-                        field.setRowSpan(getSpanSize(rgWrapper));
+                        field.setRowSpan(getSpanSize(rgWrapper, false));
+                    }
+                    if (field.getId().contains("regGroupSeats")) {
+                        field.setHidden(true);
+                        field.setCellStyle("border-top:none");
+                        field.setRowSpan(getSpanSize(rgWrapper, true));
                     }
                 }
             }
@@ -96,7 +104,7 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
                 Field requisites = ComponentUtils.copy(requisitesPrototype,
                         idSuffix + UifConstants.IdSuffixes.SUB + lineIndex);
 
-                requisites.setColSpan(this.getNumberOfDataColumns() - 2);
+                requisites.setColSpan(this.getNumberOfDataColumns() - 3);
 
                 for(Field field : lineFields) {
                     if(field.getId().contains("activityOfferingCode")) {
@@ -115,13 +123,15 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
      * @param registrationGroupWrapper
      * @return int of row span size
      */
-    private int getSpanSize(RegistrationGroupWrapper registrationGroupWrapper) {
+    private int getSpanSize(RegistrationGroupWrapper registrationGroupWrapper, boolean seats) {
         int spanSize = 1;
         if (registrationGroupWrapper.getRequisite() != null) {
             spanSize++;
         }
-        if (registrationGroupWrapper.getCommonRequisite() != null) {
-            spanSize++;
+        if (!seats) {
+            if (registrationGroupWrapper.getCommonRequisite() != null) {
+                spanSize++;
+            }
         }
         return spanSize;
     }

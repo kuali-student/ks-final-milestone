@@ -145,18 +145,27 @@ public class SOCRequisiteHelper {
                 RegistrationGroupWrapper partnerRegGroup = getRegistrationGroupWrapper(registrationGroupWrapperList, registrationGroupWrapper.getRgInfo().getName(), registrationGroupWrapper.getAoActivityCodeText());
                 for(String rule : reqWrapper.getRuleTypes()) {
                     Map<String, String> firstReqMap = reqWrapper.getAoRequisiteMap().get(registrationGroupWrapper.getAoActivityCodeText());
-                    Map<String, String> secondReqMap = reqWrapper.getAoRequisiteMap().get(partnerRegGroup.getAoActivityCodeText());
-                    if (firstReqMap.containsKey(rule) && secondReqMap.containsKey(rule)) {
-                        if (firstReqMap.get(rule).equals(secondReqMap.get(rule))) {
-                            commonReq.append(firstReqMap.get(rule));
-                            continue;
+                    Map<String, String> secondReqMap = null;
+                    if (partnerRegGroup != null) {
+                        secondReqMap = reqWrapper.getAoRequisiteMap().get(partnerRegGroup.getAoActivityCodeText());
+                    }
+                    if (firstReqMap != null && secondReqMap != null) {
+                        if (firstReqMap.containsKey(rule) && secondReqMap.containsKey(rule)) {
+                            if (firstReqMap.get(rule).equals(secondReqMap.get(rule))) {
+                                commonReq.append(firstReqMap.get(rule));
+                                continue;
+                            }
                         }
                     }
-                    if (firstReqMap.containsKey(rule)) {
-                        firstReq.append(firstReqMap.get(rule));
+                    if (firstReqMap != null) {
+                        if (firstReqMap.containsKey(rule)) {
+                            firstReq.append(firstReqMap.get(rule));
+                        }
                     }
-                    if (secondReqMap.containsKey(rule)) {
-                        secondReq.append(secondReqMap.get(rule));
+                    if (secondReqMap != null) {
+                        if (secondReqMap.containsKey(rule)) {
+                            secondReq.append(secondReqMap.get(rule));
+                        }
                     }
                 }
                 //Set requisite on RegistrationGroupWrapper

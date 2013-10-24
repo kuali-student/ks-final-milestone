@@ -421,8 +421,9 @@
                       p:messageText="@{#line.aoInstructorText}">
                 </bean>
                 <bean parent="Uif-DataField"
+                      p:id="regGroupSeats"
                       p:label="Seats"
-                      p:propertyName="rgMaxEnrText" p:valign="middle">
+                      p:propertyName="rgMaxEnrText">
                 </bean>
             </list>
         </property>

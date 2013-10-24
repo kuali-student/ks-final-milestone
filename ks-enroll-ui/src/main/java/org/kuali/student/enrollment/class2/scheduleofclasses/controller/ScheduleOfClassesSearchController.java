@@ -320,12 +320,6 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
 
         getViewHelperService(theForm).build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(theForm,searchRequestInfo, true);
 
-        SOCRequisiteHelper requisites =  getViewHelperService(theForm).retrieveRequisites(coDisplayWrapper.getCourseOfferingId(), theForm.getActivityWrapperList());
-        coDisplayWrapper.setRequisites(requisites.getReqWrapper().getCoRequisite().toString());
-        for(ActivityOfferingClusterWrapper activityOfferingClusterWrapper : theForm.getClusterResultList()) {
-            requisites.loadRegRequisites(activityOfferingClusterWrapper.getRgWrapperList());
-        }
-
         coDisplayWrapper.getClusterResultList().clear();
         coDisplayWrapper.getClusterResultList().addAll(theForm.getClusterResultList());
 
@@ -339,6 +333,12 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
                 //Sort by whatever configured at the xml (which are institutionally configurable)
                 getViewHelperService(theForm).sortRegGroups(clusterWrapper.getRgWrapperList());
             }
+        }
+
+        SOCRequisiteHelper requisites =  getViewHelperService(theForm).retrieveRequisites(coDisplayWrapper.getCourseOfferingId(), theForm.getActivityWrapperList());
+        coDisplayWrapper.setRequisites(requisites.getReqWrapper().getCoRequisite().toString());
+        for(ActivityOfferingClusterWrapper activityOfferingClusterWrapper : theForm.getClusterResultList()) {
+            requisites.loadRegRequisites(activityOfferingClusterWrapper.getRgWrapperList());
         }
 
         return getUIFModelAndView(theForm, ScheduleOfClassesConstants.SOC_RESULT_PAGE);
