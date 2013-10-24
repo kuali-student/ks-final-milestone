@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.scheduleofclasses.util;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 
@@ -71,7 +72,10 @@ public class SOCRequisiteHelper {
                 for (Map.Entry<String, Map<String, String>> aoEntry : reqWrapper.getAoRequisiteTypeMap().entrySet()) {
                     aoRequisite = new String();
                     if (aoEntry.getValue().containsKey(ruleType)) {
-                        aoRequisite = aoEntry.getValue().get(ruleType);
+                        String aoValue = StringUtils.substringAfter(aoEntry.getValue().get(ruleType), ":");
+                        if(aoValue.length() > 1) {
+                            aoRequisite = aoEntry.getValue().get(ruleType);
+                        }
                     } else if (!overriddenRules.isEmpty()) {
                         if (overriddenRules.containsKey(ruleType)) {
                             aoRequisite = overriddenRules.get(ruleType);
