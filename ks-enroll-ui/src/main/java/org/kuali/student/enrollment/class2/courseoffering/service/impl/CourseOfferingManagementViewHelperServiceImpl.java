@@ -878,6 +878,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     private List<RegistrationGroupWrapper> processRgData(SearchResultInfo searchResults, Map<String, ActivityOfferingClusterWrapper> clusterMap, Map<String, ActivityOfferingWrapper> aoMap, boolean socView) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         Map<String, RegistrationGroupWrapper> rgMap = new HashMap<String, RegistrationGroupWrapper>();
         Map<String, List<ActivityOfferingWrapper>> storedAOs = new HashMap<String, List<ActivityOfferingWrapper>>();
+        Map<String, List<RegistrationGroupWrapper>> registrationGroupWrapperMap = new HashMap<String, List<RegistrationGroupWrapper>>();
 
         ActivityOfferingClusterWrapper clusterWrapper = new ActivityOfferingClusterWrapper();
 
@@ -910,6 +911,12 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
                 clusterWrapper = clusterMap.get(aoWrapper.getAoClusterID());
 
+                if (registrationGroupWrapperMap.isEmpty()) {
+                    registrationGroupWrapperMap.put(aoWrapper.getAoClusterID(), new ArrayList<RegistrationGroupWrapper>());
+                } else if (!registrationGroupWrapperMap.containsKey(aoWrapper.getAoClusterID())) {
+                    registrationGroupWrapperMap.put(aoWrapper.getAoClusterID(), new ArrayList<RegistrationGroupWrapper>());
+                }
+
                 rgWrapper = new RegistrationGroupWrapper();
                 rgWrapper.setAoCluster(clusterWrapper.getAoCluster());
                 rgWrapper.setAoClusterName(clusterWrapper.getClusterNameForDisplay());
@@ -934,6 +941,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             }
             storedAOs.get(rgId).add(aoWrapper);
         }
+
 
         List<RegistrationGroupWrapper> registrationGroupWrapperList = new ArrayList<RegistrationGroupWrapper>();
         List<String> keyList = new ArrayList<String>(storedAOs.keySet());
@@ -1057,40 +1065,42 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 socRGWrapper.setAoInstructorText((aoWrapper.getInstructorDisplayNames() == null ? "" : aoWrapper.getInstructorDisplayNames()) + lineBreaksDeliveries);
 
                 RegistrationGroupWrapper registrationGroupWrapper = (RegistrationGroupWrapper) ObjectUtils.deepCopy(socRGWrapper);
-
-                registrationGroupWrapperList.add(registrationGroupWrapper);
+                registrationGroupWrapperMap.get(aoWrapper.getAoClusterID()).add(registrationGroupWrapper);
             }
         }
 
         if(socView) {
             //Set the same Registration Group seats
-            for (RegistrationGroupWrapper registrationGroupWrapper : registrationGroupWrapperList) {
-                RegistrationGroupWrapper regWrapper = new RegistrationGroupWrapper();
-                for (RegistrationGroupWrapper partnerRegWrapper : registrationGroupWrapperList) {
-                    if(registrationGroupWrapper.getRgInfo().getName().equals(partnerRegWrapper.getRgInfo().getName()) &&
-                            !registrationGroupWrapper.getAoActivityCodeText().equals(partnerRegWrapper.getAoActivityCodeText())) {
-                        regWrapper = partnerRegWrapper;
+            for (Map.Entry<String, List<RegistrationGroupWrapper>> entry : registrationGroupWrapperMap.entrySet()) {
+                clusterMap.get(entry.getKey()).getRgWrapperList().clear();
+                clusterMap.get(entry.getKey()).getRgWrapperList().addAll(entry.getValue());
+
+                List<RegistrationGroupWrapper> registrationGroupWrappers = entry.getValue();
+
+                for (RegistrationGroupWrapper registrationGroupWrapper : registrationGroupWrappers) {
+                    RegistrationGroupWrapper regWrapper = new RegistrationGroupWrapper();
+                    for (RegistrationGroupWrapper partnerRegWrapper : registrationGroupWrappers) {
+                        if(registrationGroupWrapper.getRgInfo().getName().equals(partnerRegWrapper.getRgInfo().getName()) &&
+                                !registrationGroupWrapper.getAoActivityCodeText().equals(partnerRegWrapper.getAoActivityCodeText())) {
+                            regWrapper = partnerRegWrapper;
+                        }
                     }
-                }
-                if (registrationGroupWrapper.getAoMaxEnrText() != null && registrationGroupWrapper.getAoMaxEnrText().length() > 1) {
-                    if (regWrapper.getAoMaxEnrText() != null && regWrapper.getAoMaxEnrText().length() > 1) {
-                        Integer seats = Integer.parseInt(registrationGroupWrapper.getAoMaxEnrText());
-                        Integer nSeats = Integer.parseInt(regWrapper.getAoMaxEnrText());
-                        if (seats.compareTo(nSeats) > 0) {
-                            registrationGroupWrapper.setRgMaxEnrText(nSeats.toString());
-                            regWrapper.setRgMaxEnrText(nSeats.toString());
-                        } else {
-                            registrationGroupWrapper.setRgMaxEnrText(seats.toString());
-                            regWrapper.setRgMaxEnrText(seats.toString());
+                    if (registrationGroupWrapper.getAoMaxEnrText() != null && registrationGroupWrapper.getAoMaxEnrText().length() > 1) {
+                        if (regWrapper.getAoMaxEnrText() != null && regWrapper.getAoMaxEnrText().length() > 1) {
+                            Integer seats = Integer.parseInt(registrationGroupWrapper.getAoMaxEnrText());
+                            Integer nSeats = Integer.parseInt(regWrapper.getAoMaxEnrText());
+                            if (seats.compareTo(nSeats) > 0) {
+                                registrationGroupWrapper.setRgMaxEnrText(nSeats.toString());
+                                regWrapper.setRgMaxEnrText(nSeats.toString());
+                            } else {
+                                registrationGroupWrapper.setRgMaxEnrText(seats.toString());
+                                regWrapper.setRgMaxEnrText(seats.toString());
+                            }
                         }
                     }
                 }
             }
-
-            clusterWrapper.getRgWrapperList().clear();
-            clusterWrapper.getRgWrapperList().addAll(registrationGroupWrapperList);
         }
-
 
         return new ArrayList<RegistrationGroupWrapper>(rgMap.values());
     }
