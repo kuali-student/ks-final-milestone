@@ -132,11 +132,9 @@ public class HolidayWrapper extends TimeSetWrapper implements Comparable<Holiday
 
     //This is for UI display purpose
     public String getStartDateUI(){
-        String formattedDate = "";
         if (holidayInfo.getStartDate() != null) {
             if (getStartTime()!=null && !getStartTime().isEmpty()){
-                formattedDate = DateFormatters.MONTH_DATE_YEAR_TIME_COMMA_FORMATTER.format(holidayInfo.getStartDate());
-                return formattedDate;
+                return DateFormatters.MONTH_DATE_YEAR_TIME_COMMA_FORMATTER.format(holidayInfo.getStartDate());
             }else{
                 return DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(holidayInfo.getStartDate());
             }
@@ -147,11 +145,9 @@ public class HolidayWrapper extends TimeSetWrapper implements Comparable<Holiday
 
     //This is for UI display purpose
     public String getEndDateUI(){
-        String formattedDate = "";
         if (holidayInfo.getEndDate() != null) {
             if (getEndTime()!=null && !getEndTime().isEmpty()){
-                formattedDate = DateFormatters.MONTH_DATE_YEAR_TIME_COMMA_FORMATTER.format(holidayInfo.getEndDate());
-                return formattedDate;
+                return DateFormatters.MONTH_DATE_YEAR_TIME_COMMA_FORMATTER.format(holidayInfo.getEndDate());
             }else{
                 return DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(holidayInfo.getEndDate());
             }
