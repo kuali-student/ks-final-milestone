@@ -19,6 +19,9 @@ import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Kuali Student Team
  */
@@ -27,6 +30,7 @@ public class FERuleManagementWrapper extends RuleManagementWrapper {
     private TypeInfo type;
     private String termToUse;
     private boolean location;
+    private List<String> linkedTermTypes;
 
     public FERuleManagementWrapper() {
         this.setTermToUse("na");
@@ -54,6 +58,17 @@ public class FERuleManagementWrapper extends RuleManagementWrapper {
 
     public void setLocation(boolean location) {
         this.location = location;
+    }
+
+    public List<String> getLinkedTermTypes() {
+        if(linkedTermTypes==null){
+            linkedTermTypes = new ArrayList<String>();
+        }
+        return linkedTermTypes;
+    }
+
+    public void setLinkedTermTypes(List<String> linkedTermTypes) {
+        this.linkedTermTypes = linkedTermTypes;
     }
 
     public boolean isMatrixEmpty(){

@@ -31,6 +31,7 @@ import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.rice.krms.service.impl.RuleEditorMaintainableImpl;
 import org.kuali.rice.krms.util.AlphaIterator;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.class1.krms.dto.FEAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper;
@@ -38,7 +39,9 @@ import org.kuali.student.enrollment.class2.courseoffering.service.decorators.Per
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
@@ -84,10 +87,6 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         dataObject.setRefObjectId(typeKey);
         dataObject.setAgendas(this.getAgendasForRef(dataObject.getRefDiscriminatorType(), typeKey));
 
-        String ownerTermType = this.getOwnerTypeForAgendas(dataObject.getAgendas());
-        if (!typeKey.equals(ownerTermType)) {
-            dataObject.setTermToUse(ownerTermType);
-        }
 
         try {
             dataObject.setType(this.getTypeService().getType(typeKey, this.createContextInfo()));
@@ -98,9 +97,29 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         try {
             dataObject.setLocation(this.getExamOfferingServiceFacade().isSetLocation());
         } catch (Exception e) {
-            throw new RuntimeException("Could not retrieve type for " + typeKey);
+            throw new RuntimeException("Could not retrieve location setting.");
         }
 
+        try {
+            String ownerTermType = this.getOwnerTypeForAgendas(dataObject.getAgendas());
+            if (!typeKey.equals(ownerTermType)) {
+                dataObject.setTermToUse(ownerTermType);
+            } else {
+                for (AgendaEditor agendaEditor : dataObject.getAgendas()) {
+                    if (agendaEditor.getId() != null) {
+                        List<ReferenceObjectBinding> bindings = this.getRuleManagementService().findReferenceObjectBindingsByKrmsObject(agendaEditor.getId());
+                        for (ReferenceObjectBinding binding : bindings) {
+                            if (!binding.getReferenceObjectId().equals(typeKey)) {
+                                TypeInfo type = this.getTypeService().getType(binding.getReferenceObjectId(), this.createContextInfo());
+                                dataObject.getLinkedTermTypes().add(type.getName());
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Could not retrieve linked term types.");
+        }
 
         return dataObject;
     }
@@ -269,18 +288,18 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
     @Override
     public void saveDataObject() {
         FERuleManagementWrapper ruleWrapper = (FERuleManagementWrapper) getDataObject();
-        if(ruleWrapper.getTermToUse().equals("na")){
+        if (ruleWrapper.getTermToUse().equals("na")) {
             super.saveDataObject();
         } else {
             // delete current agenda associated with this type.
-            for(AgendaEditor agenda : ruleWrapper.getAgendas()){
-                if(agenda.getId()==null){
+            for (AgendaEditor agenda : ruleWrapper.getAgendas()) {
+                if (agenda.getId() == null) {
                     continue;
                 }
                 if (agenda.getAttributes().containsKey(KSKRMSServiceConstants.AGENDA_ATTRIBUTE_FINAL_EXAM_OWNER_TERM_TYPE)) {
                     String ownerTermType = agenda.getAttributes().get(KSKRMSServiceConstants.AGENDA_ATTRIBUTE_FINAL_EXAM_OWNER_TERM_TYPE);
                     if (ruleWrapper.getRefObjectId().equals(ownerTermType)) {
-                        if(agenda.getFirstItemId()!=null){
+                        if (agenda.getFirstItemId() != null) {
                             this.getRuleManagementService().deleteAgendaItem(agenda.getFirstItemId());
                         }
                         this.getRuleManagementService().deleteAgenda(agenda.getId());
@@ -293,7 +312,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             List<ReferenceObjectBinding> refObjectsBindingsForOwner = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getTermToUse());
             for (ReferenceObjectBinding ownerBinding : refObjectsBindingsForOwner) {
                 ReferenceObjectBinding binding = this.getBindingForObjectId(ownerBinding.getKrmsObjectId(), refObjectsBindingsForType);
-                if(binding == null){
+                if (binding == null) {
                     //Create the reference object binding only on create agenda, no need to update.
                     ReferenceObjectBinding.Builder refBuilder = ReferenceObjectBinding.Builder.create("Agenda",
                             ownerBinding.getKrmsObjectId(), ruleWrapper.getNamespace(), ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getRefObjectId());
@@ -302,16 +321,16 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             }
 
             //Delete remaining ref object binding.
-            for(ReferenceObjectBinding typeBinding : refObjectsBindingsForType){
+            for (ReferenceObjectBinding typeBinding : refObjectsBindingsForType) {
                 this.getRuleManagementService().deleteReferenceObjectBinding(typeBinding.getId());
             }
         }
 
     }
 
-    private ReferenceObjectBinding getBindingForObjectId(String objectId, List<ReferenceObjectBinding> bindings){
-        for(ReferenceObjectBinding binding : bindings){
-            if(binding.getKrmsObjectId().equals(objectId)){
+    private ReferenceObjectBinding getBindingForObjectId(String objectId, List<ReferenceObjectBinding> bindings) {
+        for (ReferenceObjectBinding binding : bindings) {
+            if (binding.getKrmsObjectId().equals(objectId)) {
                 bindings.remove(binding);
                 return binding;
             }
@@ -339,10 +358,10 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
         AgendaItemDefinition.Builder rootItemBuilder = AgendaItemDefinition.Builder.create(firstItem);
         AgendaItemDefinition.Builder itemBuilder = rootItemBuilder;
-        while (rules.peek()!=null) {
+        while (rules.peek() != null) {
             itemBuilder.setRule(this.finRule(rules.poll(), namePrefix, nameSpace));
             itemBuilder.setRuleId(itemBuilder.getRule().getId());
-            if (rules.peek()!=null) {
+            if (rules.peek() != null) {
                 itemBuilder.setWhenFalse(AgendaItemDefinition.Builder.create(null, agenda.getId()));
                 itemBuilder = itemBuilder.getWhenFalse();
             }
@@ -409,19 +428,19 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         //Populate dynamic attributes
         Map<String, String> attributes = new HashMap<String, String>();
         try {
-            if(!feRuleEditor.getStartTime().isEmpty()){
+            if (!feRuleEditor.getStartTime().isEmpty()) {
                 String startTimeAMPM = new StringBuilder(feRuleEditor.getStartTime()).append(" ").append(feRuleEditor.getStartTimeAMPM()).toString();
                 attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, Long.toString(parseTimeToMillis(startTimeAMPM)));
             }
             attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY, feRuleEditor.getDay());
-            if(!feRuleEditor.getEndTime().isEmpty()){
+            if (!feRuleEditor.getEndTime().isEmpty()) {
                 String endTimeAMPM = new StringBuilder(feRuleEditor.getEndTime()).append(" ").append(feRuleEditor.getEndTimeAMPM()).toString();
                 attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME, Long.toString(parseTimeToMillis(endTimeAMPM)));
             }
-            if(feRuleEditor.getBuilding().getId() != null) {
+            if (feRuleEditor.getBuilding().getId() != null) {
                 attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY, feRuleEditor.getBuilding().getId());
             }
-            if(feRuleEditor.getRoom().getId() != null) {
+            if (feRuleEditor.getRoom().getId() != null) {
                 attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM, feRuleEditor.getRoom().getId());
             }
         } catch (Exception e) {

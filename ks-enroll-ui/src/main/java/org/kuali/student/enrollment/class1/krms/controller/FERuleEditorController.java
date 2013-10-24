@@ -3,6 +3,8 @@ package org.kuali.student.enrollment.class1.krms.controller;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -48,6 +50,19 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/finalExamRules")
 public class FERuleEditorController extends EnrolRuleEditorController {
+
+    /**
+     * Setups a new <code>MaintenanceDocumentView</code> with the edit maintenance
+     * action
+     */
+    @RequestMapping(params = "methodToCall=" + KRADConstants.Maintenance.METHOD_TO_CALL_EDIT)
+    public ModelAndView maintenanceEdit(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        setupMaintenance(form, request, KRADConstants.MAINTENANCE_EDIT_ACTION);
+        this.displayLinkedTermTypeMessages(form);
+        return getUIFModelAndView(form);
+    }
 
     /**
      * @param form
@@ -332,5 +347,14 @@ public class FERuleEditorController extends EnrolRuleEditorController {
     @Override
     protected FERuleViewHelperServiceImpl getViewHelper(UifFormBase form) {
         return (FERuleViewHelperServiceImpl) KSControllerHelper.getViewHelperService(form);
+    }
+
+    protected void displayLinkedTermTypeMessages(MaintenanceDocumentForm form) {
+
+        FERuleManagementWrapper ruleWrapper = (FERuleManagementWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+
+        for(String termType : ruleWrapper.getLinkedTermTypes()){
+            GlobalVariables.getMessageMap().putInfoForSectionId("KSFE-AgendaMaintenance-Page-parent", EnrolKRMSConstants.KSKRMS_MSG_INFO_FE_LINKED_TERMTYPE, termType);
+        }
     }
 }
