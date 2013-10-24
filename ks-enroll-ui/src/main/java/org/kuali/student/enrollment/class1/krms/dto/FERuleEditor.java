@@ -22,6 +22,7 @@ import org.kuali.rice.krms.dto.ActionEditor;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleTypeInfo;
+import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSConstants;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
 import org.kuali.student.r2.common.util.date.DateFormatters;
@@ -151,11 +152,15 @@ public class FERuleEditor extends LURuleEditor {
 
     public String getTimePeriodToDisplay() {
         String timeString = StringUtils.EMPTY;
-        if(this.getStartTime() != null){
-            timeString = this.getStartTime() + " " + this.getStartTimeAMPM();
-        }
-        if(this.getEndTime() != null){
-            timeString += "-" + this.getEndTime() + " " + this.getEndTimeAMPM();
+        if (this.isTba()) {
+            timeString = EnrolKRMSConstants.KSKRMS_RULE_TBA_UI;
+        }else {
+            if(this.getStartTime() != null){
+                timeString = this.getStartTime() + " " + this.getStartTimeAMPM();
+            }
+            if(this.getEndTime() != null){
+                timeString += "-" + this.getEndTime() + " " + this.getEndTimeAMPM();
+            }
         }
 
         return timeString;
