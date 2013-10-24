@@ -192,11 +192,15 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-RuleEditorView-Button" parent="Uif-SecondaryActionButton" abstract="true"
-          p:additionalCssClasses="tree-bar-button">
+    <bean id="KRMS-RuleEditorView-Button" parent="Uif-SecondaryActionButton" abstract="true">
         <property name="onMouseDownScript" value="jq(this).addClass('tree-bar-button-selected');"/>
         <property name="onMouseUpScript" value="jq(this).removeClass('tree-bar-button-selected');"/>
         <property name="actionImagePlacement" value="TOP"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>tree-bar-button</value>
+            </list>
+        </property>
     </bean>
 
     <bean id="KRMS-RuleEditorView-AddButton" parent="KRMS-RuleEditorView-Button"
