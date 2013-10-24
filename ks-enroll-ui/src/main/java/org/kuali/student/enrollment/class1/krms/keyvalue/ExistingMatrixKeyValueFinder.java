@@ -72,7 +72,7 @@ public class ExistingMatrixKeyValueFinder extends UifKeyValuesFinderBase impleme
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         try {
 
-            keyValues.add(new ConcreteKeyValue("na", "Select Term Type"));
+            //keyValues.add(new ConcreteKeyValue("na", "Select Term Type"));
 
             for (TypeInfo type : getAcalTermTypes()) {
 
