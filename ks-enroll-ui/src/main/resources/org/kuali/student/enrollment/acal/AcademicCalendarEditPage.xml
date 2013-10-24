@@ -432,9 +432,8 @@ limitations under the License.
                 <property name="disclosure.render" value="true"/>
                 <property name="footer.render" value="@{#isAddLine}"/>
                 <property name="header">
-                    <bean parent="Uif-HeaderFour">
+                    <bean parent="Uif-HeaderFour" p:cssClasses="acal-header">
                         <property name="headerText" value="@{#line.holidayCalendarHeading}"/>
-                        <property name="style" value="margin-bottom:5px;margin-left:20px;padding-bottom:0;"/>
                         <property name="lowerGroup">
                             <bean parent="Uif-HorizontalBoxGroup">
                                 <property name="items">
@@ -485,7 +484,7 @@ limitations under the License.
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-VerticalBoxSection" p:layoutManager.orientation="HORIZONTAL" p:layoutManager.style="margin-left:40px;">
+                            <bean parent="Uif-VerticalBoxSection" p:layoutManager.orientation="HORIZONTAL" p:layoutManager.cssClasses="acal-layout">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-InputField"
@@ -535,7 +534,7 @@ limitations under the License.
 
     <bean id="KS-Holidays-SubSection" parent="Uif-TableSubCollection-WithinSection" p:readOnly="true"
           p:id="acal-hc-holidays" p:layoutManager.numberOfColumns="4"
-          p:layoutManager.style="width: 70%;margin-left: 40px;">
+          p:layoutManager.cssClasses="acal-layout-style,acal-layout">
         <property name="headerText" value="Holidays" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
@@ -545,7 +544,7 @@ limitations under the License.
         <property name="layoutManager.generateAutoSequence" value="false" />
         <property name="layoutManager.separateAddLine" value="false" />
         <property name="layoutManager.richTable.render" value="false" />
-        <property name="header.style" value="margin-top:1em;margin-left: 40px;"/>
+        <property name="header.cssClasses" value="acal-hcal-header,acal-layout"/>
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="holidayInfo.name" p:label="Name">
@@ -554,19 +553,19 @@ limitations under the License.
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="startDateUI" p:label="Start"
-                      p:style="font-weight:normal;" p:fieldLabel.style="">
+                      p:cssClasses="acal-field" p:fieldLabel.style="">
                     <property name="control">
                         <bean parent="Uif-TextControl"/>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="endDateUI" p:label="End"
-                      p:style="font-weight:normal;" p:fieldLabel.style="">
+                      p:cssClasses="acal-field" p:fieldLabel.style="">
                     <property name="control">
                         <bean parent="Uif-TextControl"/>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="holidayInfo.isInstructionalDay" p:label="Instructional"
-                      p:style="font-weight:normal;" p:fieldLabel.style=""
+                      p:cssClasses="acal-field"
                       p:readOnlyDisplayReplacement="@{#line.holidayInfo.isInstructionalDay ? 'Yes' : ' '}">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
