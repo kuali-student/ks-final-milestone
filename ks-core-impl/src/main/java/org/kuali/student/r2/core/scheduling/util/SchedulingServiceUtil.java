@@ -19,6 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Duration;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -35,6 +37,7 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import java.util.ArrayList;
@@ -300,13 +303,13 @@ public class SchedulingServiceUtil {
 
     /**
      * Makes a TimeOfDayInfo given a time in military format. This is used in tests.
-     * @param time A time string in miltary format (e.g. "13:00" or "08:15")
-     * @return A new TimeOfDayInfo.
+     * @param time
+     * @return
      */
     public static TimeOfDayInfo makeTimeOfDayFromMilitaryTimeString(String time) {
         TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
 
-        // Parse the time string.
+        // Get the date time of the epoch.
         String[] t = time.split(":");
         int hour = Integer.valueOf(t[0]);
         int min = Integer.valueOf(t[1]);
@@ -318,38 +321,6 @@ public class SchedulingServiceUtil {
         timeOfDayInfo.setMilliSeconds(duration.getMillis());
 
         return timeOfDayInfo;
-    }
-
-    /**
-     * Creates a new TimeOfDayInfo given a time in standard format.
-     * @param time A time string of format HH:MM AM or HH:MM PM
-     * @return  A new TimeOfDayInfo.
-     */
-    public static TimeOfDayInfo makeTimeOfDayInfoFromTimeString(String time) {
-        time = standardTimeStringToStandardTimeString(time);
-        return makeTimeOfDayFromMilitaryTimeString(time);
-    }
-
-    private static String standardTimeStringToStandardTimeString(String time) {
-        boolean isPM = true;
-        if (time.endsWith("AM")) {
-            isPM = false;
-        }
-
-        int hour = Integer.valueOf(time.substring(0, 2));
-        int min = Integer.valueOf(time.substring(3, 5));
-
-        if (isPM) {
-            //  For PM times just add 12
-            hour = hour + 12;
-        } else {
-            // For AM times if the hour is 12 then it becomes zero. Otherwise, noop.
-            if (hour == 12) {
-                hour = 0;
-            }
-        }
-
-        return String.format("%02d:%02d", hour, min);
     }
 
     /**

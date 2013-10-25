@@ -1,6 +1,7 @@
 package org.kuali.student.r2.core.scheduling.util;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 
 import java.util.Arrays;
@@ -68,28 +69,5 @@ public class TestSchedulingServiceUtil {
             TimeOfDayInfo tdi = SchedulingServiceUtil.makeTimeOfDayFromMilitaryTimeString((String) t[0]);
             assertEquals(t[1], tdi.getMilliSeconds());
         }
-    }
-
-    @Test
-    public void t() {
-        TimeOfDayInfo timeOfDayInfo1 = SchedulingServiceUtil.makeTimeOfDayFromMilitaryTimeString("10:00");
-        System.err.println(SchedulingServiceUtil.makeFormattedTimeFromMillis(timeOfDayInfo1.getMilliSeconds()));
-        TimeOfDayInfo timeOfDayInfo2 = SchedulingServiceUtil.makeTimeOfDayFromMilitaryTimeString("10:50");
-        System.err.println(SchedulingServiceUtil.makeFormattedTimeFromMillis(timeOfDayInfo2.getMilliSeconds()));
-
-        System.err.println(SchedulingServiceUtil.makeFormattedTimeFromMillis(64800000L));
-
-        timeOfDayInfo1 = SchedulingServiceUtil.makeTimeOfDayInfoFromTimeString("01:00 PM");
-        System.err.println(SchedulingServiceUtil.makeFormattedTimeFromMillis(timeOfDayInfo1.getMilliSeconds()));
-
-        timeOfDayInfo1 = SchedulingServiceUtil.makeTimeOfDayInfoFromTimeString("08:00 PM");
-        System.err.println(SchedulingServiceUtil.makeFormattedTimeFromMillis(timeOfDayInfo1.getMilliSeconds()));
-
-        timeOfDayInfo1 = SchedulingServiceUtil.makeTimeOfDayInfoFromTimeString("12:01 AM");
-        System.err.println(SchedulingServiceUtil.makeFormattedTimeFromMillis(timeOfDayInfo1.getMilliSeconds()));
-
-        timeOfDayInfo1 = SchedulingServiceUtil.makeTimeOfDayInfoFromTimeString("01:00 AM");
-        System.err.println(SchedulingServiceUtil.makeFormattedTimeFromMillis(timeOfDayInfo1.getMilliSeconds()));
-
     }
 }
