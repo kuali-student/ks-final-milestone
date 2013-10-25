@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "FlexibleUnitAmountInfo", propOrder = {
-        "units", "amount", "_futureElements" })
+        "units", "amount", "transactionCode", "_futureElements" })
 
 public class FlexibleUnitAmountInfo
     implements FlexibleUnitAmount {
@@ -44,6 +44,9 @@ public class FlexibleUnitAmountInfo
 
     @XmlElement
     private CurrencyAmountInfo amount;
+
+    @XmlElement
+    private String transactionCode;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -65,6 +68,7 @@ public class FlexibleUnitAmountInfo
         if (flexibleUnitAmount != null) {
             this.units = flexibleUnitAmount.getUnits();
             this.amount = new CurrencyAmountInfo(flexibleUnitAmount.getAmount());
+            this.transactionCode = flexibleUnitAmount.getTransactionCode();
         }
     }
 
@@ -84,5 +88,14 @@ public class FlexibleUnitAmountInfo
 
     public void setAmount(CurrencyAmountInfo amount) {
         this.amount = amount;
+    }
+
+    @Override
+    public String getTransactionCode() {
+        return (this.transactionCode);
+    }
+
+    public void setTransactionCode(String transactionCode) {
+        this.transactionCode = transactionCode;
     }
 }

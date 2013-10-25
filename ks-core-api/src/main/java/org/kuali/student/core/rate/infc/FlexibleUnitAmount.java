@@ -46,4 +46,14 @@ public interface FlexibleUnitAmount
      * @required
      */
     public CurrencyAmount getAmount();
+
+    /**
+     * Gets another override transaction code. This can be the same
+     * transaction code defined in the Rate. Or, the transaction code
+     * can differ on a unit by unit basis (USC) if not final.
+     *
+     * @return the transaction code
+     * @name Transaction Code
+     */
+    public String getTransactionCode();
 }
