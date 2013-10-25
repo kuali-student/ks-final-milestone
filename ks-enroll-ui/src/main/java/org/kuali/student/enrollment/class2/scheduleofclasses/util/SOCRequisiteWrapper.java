@@ -1,13 +1,10 @@
 package org.kuali.student.enrollment.class2.scheduleofclasses.util;
 
-import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
@@ -24,12 +21,15 @@ public class SOCRequisiteWrapper {
     private StringBuilder coRequisite;
     private Map<String, Map<String, String>> aoRequisiteMap;
 
+    private Map<String, String> suppressNullMap;
+
     public SOCRequisiteWrapper() {
         aoRequisiteTypeMap = new HashMap<String, Map<String, String>>();
         coRequisiteTypeMap = new HashMap<String, String>();
         ruleTypes = new TreeSet<String>();
         coRequisite = new StringBuilder();
         aoRequisiteMap = new HashMap<String, Map<String, String>>();
+        suppressNullMap = new HashMap<String, String>();
     }
 
     public Map<String, Map<String, String>> getAoRequisiteTypeMap() {
@@ -70,5 +70,13 @@ public class SOCRequisiteWrapper {
 
     public void setAoRequisiteMap(Map<String, Map<String,String>> aoRequisiteMap) {
         this.aoRequisiteMap = aoRequisiteMap;
+    }
+
+    public Map<String, String> getSuppressNullMap() {
+        return suppressNullMap;
+    }
+
+    public void setSuppressNullMap(Map<String, String> suppressNullKeys) {
+        this.suppressNullMap = suppressNullKeys;
     }
 }

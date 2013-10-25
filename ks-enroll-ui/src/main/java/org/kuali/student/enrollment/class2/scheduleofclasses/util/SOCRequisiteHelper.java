@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -75,6 +76,8 @@ public class SOCRequisiteHelper {
                         String aoValue = StringUtils.substringAfter(aoEntry.getValue().get(ruleType), ":");
                         if(aoValue.length() > 1) {
                             aoRequisite = aoEntry.getValue().get(ruleType);
+                        } else {
+                            reqWrapper.getSuppressNullMap().put(aoEntry.getKey(), ruleType);
                         }
                     } else if (!overriddenRules.isEmpty()) {
                         if (overriddenRules.containsKey(ruleType)) {
@@ -106,6 +109,12 @@ public class SOCRequisiteHelper {
         for (ActivityOfferingWrapper activityOfferingWrapper : activityOfferingWrapperList) {
             if(activityOfferingWrapper.getRequisite() == null) {
                 if(!reqWrapper.getAoRequisiteMap().containsKey(activityOfferingWrapper.getActivityCode())) {
+                    if (reqWrapper.getSuppressNullMap().containsKey(activityOfferingWrapper.getActivityCode())) {
+                        Map<String, String> temp = new HashMap<String, String>(overriddenRules);
+                        temp.remove(reqWrapper.getSuppressNullMap().get(activityOfferingWrapper.getActivityCode()));
+                        reqWrapper.getAoRequisiteMap().put(activityOfferingWrapper.getActivityCode(), temp);
+                        continue;
+                    }
                     reqWrapper.getAoRequisiteMap().put(activityOfferingWrapper.getActivityCode(), overriddenRules);
                 }
             }
@@ -139,16 +148,17 @@ public class SOCRequisiteHelper {
             secondReq = new StringBuilder();
             commonReq = new StringBuilder();
 
+            //Retrieve RegistrationGroupWrapper with same name
+            RegistrationGroupWrapper partnerRegGroup = getRegistrationGroupWrapper(registrationGroupWrapperList, registrationGroupWrapper.getRgInfo().getName(), registrationGroupWrapper.getAoActivityCodeText());
+
             //Determine each RegistrationGroupWrapper's requisite and common requisite
-            if(reqWrapper.getAoRequisiteMap().containsKey(registrationGroupWrapper.getAoActivityCodeText())) {
-                //Retrieve RegistrationGroupWrapper with same name
-                RegistrationGroupWrapper partnerRegGroup = getRegistrationGroupWrapper(registrationGroupWrapperList, registrationGroupWrapper.getRgInfo().getName(), registrationGroupWrapper.getAoActivityCodeText());
+            if(reqWrapper.getAoRequisiteMap().containsKey(registrationGroupWrapper.getAoActivityCodeText()) ||
+                    reqWrapper.getAoRequisiteMap().containsKey(partnerRegGroup.getAoActivityCodeText())) {
+
                 for(String rule : reqWrapper.getRuleTypes()) {
                     Map<String, String> firstReqMap = reqWrapper.getAoRequisiteMap().get(registrationGroupWrapper.getAoActivityCodeText());
-                    Map<String, String> secondReqMap = null;
-                    if (partnerRegGroup != null) {
-                        secondReqMap = reqWrapper.getAoRequisiteMap().get(partnerRegGroup.getAoActivityCodeText());
-                    }
+                    Map<String, String> secondReqMap = reqWrapper.getAoRequisiteMap().get(partnerRegGroup.getAoActivityCodeText());
+
                     if (firstReqMap != null && secondReqMap != null) {
                         if (firstReqMap.containsKey(rule) && secondReqMap.containsKey(rule)) {
                             if (firstReqMap.get(rule).equals(secondReqMap.get(rule))) {
@@ -188,8 +198,9 @@ public class SOCRequisiteHelper {
                 return registrationGroupWrapper;
             }
         }
-
-        return null;
+        RegistrationGroupWrapper emptyRegistrationGroupWrapper = new RegistrationGroupWrapper();
+        emptyRegistrationGroupWrapper.setAoActivityCodeText("null");
+        return emptyRegistrationGroupWrapper;
     }
 
     /**
