@@ -249,18 +249,22 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             }
             if (attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY)) {
                 String buildingId = attributes.get(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY);
-                try {
-                    ruleEditor.setBuilding(this.getRoomService().getBuilding(buildingId, this.createContextInfo()));
-                } catch (Exception e) {
-                    throw new RuntimeException("Could not retrieve building for " + buildingId);
+                if (buildingId != null && !buildingId.isEmpty()) {
+                    try {
+                        ruleEditor.setBuilding(this.getRoomService().getBuilding(buildingId, this.createContextInfo()));
+                    } catch (Exception e) {
+                        throw new RuntimeException("Could not retrieve building for " + buildingId);
+                    }
                 }
             }
             if (attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM)) {
                 String roomId = attributes.get(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM);
-                try {
-                    ruleEditor.setRoom(this.getRoomService().getRoom(roomId, this.createContextInfo()));
-                } catch (Exception e) {
-                    throw new RuntimeException("Could not retrieve room for " + roomId);
+                if (roomId != null && !roomId.isEmpty()) {
+                    try {
+                        ruleEditor.setRoom(this.getRoomService().getRoom(roomId, this.createContextInfo()));
+                    } catch (Exception e) {
+                        throw new RuntimeException("Could not retrieve room for " + roomId);
+                    }
                 }
             }
 
@@ -439,9 +443,13 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             }
             if (feRuleEditor.getBuilding().getId() != null) {
                 attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY, feRuleEditor.getBuilding().getId());
+            }else{
+                    attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY, "");
             }
             if (feRuleEditor.getRoom().getId() != null) {
                 attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM, feRuleEditor.getRoom().getId());
+            }else{
+                    attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM, "");
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

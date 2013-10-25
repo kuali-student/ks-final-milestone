@@ -336,6 +336,9 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
                         hasError = true;
                     }
 
+                } else{
+                    ruleEditor.setBuilding(new BuildingInfo());
+                    ruleEditor.setRoom(new RoomInfo());
                 }
                 if (ruleEditor.getRoom().getRoomCode() != null && !ruleEditor.getRoom().getRoomCode().isEmpty()) {
 
@@ -353,6 +356,8 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
                         hasError = true;
                     }
 
+                }else{
+                    ruleEditor.setRoom(new RoomInfo());
                 }
 
             } catch (Exception e) {
