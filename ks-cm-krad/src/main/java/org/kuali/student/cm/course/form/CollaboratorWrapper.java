@@ -17,6 +17,7 @@ public class CollaboratorWrapper {
         private String principalId;
         private String firstName;
         private String lastName;
+        private String id;
         
         private String permission;
         private String action;
@@ -103,5 +104,11 @@ public class CollaboratorWrapper {
         }
         public void setPersonID(String personID) {
             this.personID = personID;
+        }
+        public String getId() {
+            return id;
+        }
+        public void setId(String id) {
+            this.id = id;
         }
 }
