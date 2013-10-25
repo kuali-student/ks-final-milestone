@@ -32,11 +32,11 @@ import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.kuali.student.r2.core.class1.atp.service.impl.DateUtil;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class CourseRegistrationServiceMockImpl
@@ -98,7 +98,7 @@ public class CourseRegistrationServiceMockImpl
         regInfo.setCourseOfferingId(getCourseIdByCodeAndTerm(contextInfo, termId, courseCode));
         regInfo.setCredits("3"); ///default credit hours to 3 for all
         regInfo.setGradingOptionId("def");
-        try { regInfo.setEffectiveDate(new SimpleDateFormat("dd/MM/yyyy").parse("31/02/2001")); } catch(Exception e) {}
+        try { regInfo.setEffectiveDate(new KSDateTimeFormatter("dd/MM/yyyy").parse("01/01/2001")); } catch(Exception e) {}
         regInfo.setId(UUID.randomUUID().toString()); //uuid generated via. oracle sql: select SYS_GUID() from dual;
         regInfo.setTypeKey(LprServiceConstants.REGISTRANT_TYPE_KEY);  //seems wrong...but copied from existing code below
         regInfo.setStateKey(LprServiceConstants.REGISTERED_STATE_KEY);
