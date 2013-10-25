@@ -763,8 +763,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 List<ScheduleCalcContainer> schedList = ao2sch.get(aoId);
                 boolean newRow = false;
                 for (ScheduleCalcContainer sched : schedList) {
-                    aoWrapper.setStartTimeDisplay(sched.getStart().isEmpty() ? sched.getStart() : SchedulingServiceUtil.makeFormattedTimeFromMillis(Long.parseLong(sched.getStart())), newRow);
-                    aoWrapper.setEndTimeDisplay(sched.getEnd().isEmpty() ? sched.getEnd() : SchedulingServiceUtil.makeFormattedTimeFromMillis(Long.parseLong(sched.getEnd())), newRow);
+                    aoWrapper.setStartTimeDisplay(sched.getStart().isEmpty() ? sched.getStart() : DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(Long.parseLong(sched.getStart()))), newRow);
+                    aoWrapper.setEndTimeDisplay(sched.getEnd().isEmpty() ? sched.getEnd() : DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(Long.parseLong(sched.getEnd()))), newRow);
                     aoWrapper.setBuildingName(sched.getBldgName(), newRow);
                     aoWrapper.setBuildingCode(sched.getBldgCode(), newRow);
                     aoWrapper.setBldgCodeSimple(sched.getBldgCode());
@@ -787,6 +787,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
                     aoWrapper.setTbaDisplayName(sched.getTbaInd(), true);
                 }
+
             }
         }
     }
@@ -848,21 +849,21 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     }
 
     private void setStartTimeOnAoWrapper(TimeSlotInfo timeSlotInfo, ActivityOfferingWrapper aoWrapper, boolean newline, String cssStyle) {
-        Long startTimeMillis = timeSlotInfo.getStartTime().getMilliSeconds();
-        if (timeSlotInfo == null || timeSlotInfo.getStartTime() == null || startTimeMillis == null) {
+        if (timeSlotInfo == null || timeSlotInfo.getStartTime() == null || timeSlotInfo.getStartTime().getMilliSeconds() == null) {
             aoWrapper.setStartTimeDisplay(StringUtils.EMPTY, newline, cssStyle);
             return;
         }
-        aoWrapper.setStartTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(startTimeMillis), newline, "uif-scheduled-dl");
+
+        aoWrapper.setStartTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(timeSlotInfo.getStartTime().getMilliSeconds())), newline, "uif-scheduled-dl");
     }
 
     private void setEndTimeOnAoWrapper(TimeSlotInfo timeSlotInfo, ActivityOfferingWrapper aoWrapper, boolean newline, String cssStyle) {
-        Long endTimeMillis = timeSlotInfo.getEndTime().getMilliSeconds();
-        if (timeSlotInfo == null || timeSlotInfo.getEndTime() == null || endTimeMillis == null) {
+        if (timeSlotInfo == null || timeSlotInfo.getEndTime() == null || timeSlotInfo.getEndTime().getMilliSeconds() == null) {
             aoWrapper.setEndTimeDisplay(StringUtils.EMPTY, newline, cssStyle);
             return;
         }
-        aoWrapper.setEndTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(endTimeMillis), newline, "uif-scheduled-dl");
+
+        aoWrapper.setEndTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(timeSlotInfo.getEndTime().getMilliSeconds())), newline, "uif-scheduled-dl");
     }
 
     private void setDaysOnAoWrapper(TimeSlotInfo timeSlotInfo, ActivityOfferingWrapper aoWrapper, boolean newline, String cssStyle) {
@@ -2455,12 +2456,15 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     TimeOfDayInfo endTime = timeSlot.getEndTime();
                     List<Integer> days = timeSlot.getWeekdays();
 
+                    Calendar calendar = new GregorianCalendar();
                     if (startTime != null && startTime.getMilliSeconds() != null) {
-                        eoWrapper.setStartTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(startTime.getMilliSeconds()));
+                        calendar.setTimeInMillis(startTime.getMilliSeconds());
+                        eoWrapper.setStartTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(calendar.getTime()));
                     }
 
                     if (endTime != null && endTime.getMilliSeconds() != null) {
-                        eoWrapper.setEndTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(endTime.getMilliSeconds()));
+                        calendar.setTimeInMillis(endTime.getMilliSeconds());
+                        eoWrapper.setEndTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(calendar.getTime()));
                     }
 
                     if (days != null && days.size() > 0) {
@@ -2499,7 +2503,13 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     }
 
     private String millisToTime(Long milliseconds) {
-        return SchedulingServiceUtil.makeFormattedTimeFromMillis(milliseconds);
+        if (milliseconds == null) {
+            return null;
+        }
+        final Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(milliseconds);
+        return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(cal.getTime());
+
     }
 
     private String convertIntoDaysDisplay(int day) {

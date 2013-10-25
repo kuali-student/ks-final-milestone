@@ -24,13 +24,14 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
-import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -58,14 +59,14 @@ public class TimeSlotViewHelperServiceImpl
             for (TimeSlotInfo timeSlotInfo : timeSlotInfos) {
                 TimeSlotWrapper tsWrapper = new TimeSlotWrapper();
                 tsWrapper.setTimeSlotInfo(timeSlotInfo);
-                Long startTime = timeSlotInfo.getStartTime().getMilliSeconds();
-                if (startTime != null) {
-                    tsWrapper.setStartTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(startTime));
+                if (timeSlotInfo.getStartTime().getMilliSeconds() != null) {
+                    timeForDisplay = new Date(timeSlotInfo.getStartTime().getMilliSeconds());
+                    tsWrapper.setStartTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
                 }
 
-                Long endTime = timeSlotInfo.getEndTime().getMilliSeconds();
-                if (endTime != null) {
-                    tsWrapper.setEndTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(endTime));
+                if (timeSlotInfo.getEndTime().getMilliSeconds() != null) {
+                    timeForDisplay = new Date(timeSlotInfo.getEndTime().getMilliSeconds());
+                    tsWrapper.setEndTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
                 }
 
                 String daysUI = WeekDaysDtoAndUIConversions.buildDaysForUI(timeSlotInfo.getWeekdays());
@@ -162,15 +163,15 @@ public class TimeSlotViewHelperServiceImpl
     public boolean isUniqueTimeSlot(TimeSlotForm form,TimeSlotInfo skipTS) throws Exception {
 
         List<Integer> days = WeekDaysDtoAndUIConversions.buildDaysForDTO(form.getAddOrEditDays());
+        long startTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(form.getAddOrEditStartTime() + " " + form.getAddOrEditStartTimeAmPm()).getTime();
+        TimeOfDayInfo startTimeOfDayInfo = new TimeOfDayInfo();
+        startTimeOfDayInfo.setMilliSeconds(startTime);
 
-        String startTimeString = form.getAddOrEditStartTime() + " " + form.getAddOrEditStartTimeAmPm();
-        TimeOfDayInfo startTimeOfDayInfo = SchedulingServiceUtil.makeTimeOfDayInfoFromTimeString(startTimeString);
+        long endTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(form.getAddOrEditEndTime() + " " + form.getAddOrEditEndTimeAmPm()).getTime();
+        TimeOfDayInfo endTimeOfDayInfo = new TimeOfDayInfo();
+        endTimeOfDayInfo.setMilliSeconds(endTime);
 
-        String endTimeString = form.getAddOrEditEndTime() + " " + form.getAddOrEditEndTimeAmPm();
-        TimeOfDayInfo endTimeOfDayInfo = SchedulingServiceUtil.makeTimeOfDayInfoFromTimeString(endTimeString);
-
-        List<TimeSlotInfo> exisitingTS = getSchedulingService()
-                .getTimeSlotsByDaysAndStartTimeAndEndTime(form.getAddOrEditTermKey(),days,startTimeOfDayInfo,endTimeOfDayInfo,createContextInfo());
+        List<TimeSlotInfo> exisitingTS = getSchedulingService().getTimeSlotsByDaysAndStartTimeAndEndTime(form.getAddOrEditTermKey(),days,startTimeOfDayInfo,endTimeOfDayInfo,createContextInfo());
 
         if (exisitingTS.size() == 1 && skipTS != null){
             TimeSlotInfo ts = KSCollectionUtils.getRequiredZeroElement(exisitingTS);
@@ -182,6 +183,7 @@ public class TimeSlotViewHelperServiceImpl
         } else {
             return exisitingTS.isEmpty();
         }
+
     }
 
     public boolean isTimeSlotInUse(TimeSlotInfo ts) throws Exception {
@@ -194,21 +196,29 @@ public class TimeSlotViewHelperServiceImpl
         List<Integer> days = WeekDaysDtoAndUIConversions.buildDaysForDTO(form.getAddOrEditDays());
         tsInfo.setWeekdays(days);
 
-        String startTimeString = form.getAddOrEditStartTime() + " " + form.getAddOrEditStartTimeAmPm();
-        tsInfo.setStartTime(SchedulingServiceUtil.makeTimeOfDayInfoFromTimeString(startTimeString));
+        long time = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(form.getAddOrEditStartTime() + " " + form.getAddOrEditStartTimeAmPm()).getTime();
+        TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
+        timeOfDayInfo.setMilliSeconds(time);
+        tsInfo.setStartTime(timeOfDayInfo);
 
-        String endTimeString = form.getAddOrEditEndTime() + " " + form.getAddOrEditEndTimeAmPm();
-        tsInfo.setEndTime(SchedulingServiceUtil.makeTimeOfDayInfoFromTimeString(endTimeString));
-
+        time = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(form.getAddOrEditEndTime() + " " + form.getAddOrEditEndTimeAmPm()).getTime();
+        timeOfDayInfo = new TimeOfDayInfo();
+        timeOfDayInfo.setMilliSeconds(time);
+        tsInfo.setEndTime(timeOfDayInfo);
         tsInfo.setTypeKey(form.getAddOrEditTermKey());
+
     }
 
     protected void initializeTimeSlotWrapper(TimeSlotForm form,TimeSlotWrapper tsWrapper){
+        Date timeForDisplay;
+
         String daysUI = WeekDaysDtoAndUIConversions.buildDaysForUI(tsWrapper.getTimeSlotInfo().getWeekdays());
         tsWrapper.setDaysDisplayName(daysUI);
         tsWrapper.setEnableDeleteButton(true);
-        tsWrapper.setStartTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(tsWrapper.getTimeSlotInfo().getStartTime().getMilliSeconds()));
-        tsWrapper.setEndTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(tsWrapper.getTimeSlotInfo().getEndTime().getMilliSeconds()));
+        timeForDisplay = new Date(tsWrapper.getTimeSlotInfo().getStartTime().getMilliSeconds());
+        tsWrapper.setStartTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
+        timeForDisplay = new Date(tsWrapper.getTimeSlotInfo().getEndTime().getMilliSeconds());
+        tsWrapper.setEndTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
         TypeInfo type = getTypeInfo(form.getAddOrEditTermKey());
         tsWrapper.setTypeName(type.getName());
 
