@@ -28,7 +28,6 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWr
 import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.helper.ActivityOfferingScheduleHelper;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -49,9 +48,6 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.common.util.date.DateFormatters;
-import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
-import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
@@ -69,7 +65,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -454,14 +449,14 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
         List<Integer> days = WeekDaysDtoAndUIConversions.buildDaysForDTO(scheduleWrapper.getDays());
 
-        if (StringUtils.isNotEmpty(scheduleWrapper.getStartTime())) {
-            long time = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(scheduleWrapper.getStartTime()).getTime();
-            startTimeOfDayInfo.setMilliSeconds(time);
+        String startTimeString = scheduleWrapper.getStartTime();
+        if (StringUtils.isNotEmpty(startTimeString)) {
+            startTimeOfDayInfo = SchedulingServiceUtil.makeTimeOfDayInfoFromTimeString(startTimeString);
         }
 
-        if (StringUtils.isNotEmpty(scheduleWrapper.getEndTime())) {
-            long time = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(scheduleWrapper.getEndTime()).getTime();
-            endTimeOfDayInfo.setMilliSeconds(time);
+        String endTimeString = scheduleWrapper.getEndTime();
+        if (StringUtils.isNotEmpty(endTimeString)) {
+            endTimeOfDayInfo =  SchedulingServiceUtil.makeTimeOfDayInfoFromTimeString(endTimeString);
         }
 
         TimeSlotInfo timeSlot;
@@ -504,7 +499,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                 existingTimeSlots = getSchedulingService().getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_ADHOC,days,startTimeOfDayInfo,endTimeOfDayInfo,defaultContextInfo);
                 //If AdHoc TS exists, use that. Otherwise, check create one if the user has permission
                 if (!existingTimeSlots.isEmpty()){
-                     timeSlot = KSCollectionUtils.getRequiredZeroElement(existingTimeSlots);
+                    timeSlot = KSCollectionUtils.getRequiredZeroElement(existingTimeSlots);
                 } else {
                     if (aoWrapper.isAuthorizedToModifyEndTimeTS()){
                         timeSlot = new TimeSlotInfo();
@@ -513,7 +508,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                         timeSlot.setStartTime(startTimeOfDayInfo);
                         timeSlot.setEndTime(endTimeOfDayInfo);
                         timeSlot.setWeekdays(days);
-                        timeSlot = getSchedulingService().createTimeSlot(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA,timeSlot,defaultContextInfo);
+                        timeSlot = getSchedulingService().createTimeSlot(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_ADHOC,timeSlot,defaultContextInfo);
                     } else { // This never happen as the user restricts displaying a free end time field for dept scheduling coordinators
                         throw new PermissionDeniedException("Sorry, you dont have permission to create a adhoc timeslot");
                     }
@@ -571,25 +566,16 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                 int firstTimeSlotInfo = 0;
                 scheduleWrapper.setTimeSlot(timeSlotInfos.get(firstTimeSlotInfo));
 
-                Date timeForDisplay;
-                if(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds() != null) {
-                    timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds());
-                    String formattedTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay);
-                    //Set for read only display purpose in the format hh:mm a
-//                    scheduleWrapper.setStartTimeUI(formattedTime);
-                    //Set only hh:mm for user editable purpose
+                Long startTime = scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds();
+                if(startTime != null) {
+                    String formattedTime = SchedulingServiceUtil.makeFormattedTimeFromMillis(startTime);
                     scheduleWrapper.setStartTime(formattedTime);
-//                    scheduleWrapper.setStartTimeAMPM(StringUtils.substringAfter(formattedTime," "));
                 }
 
-                if(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds() != null) {
-                    timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds());
-                    String formattedTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay);
-                    //Set for read only display purpose in the format hh:mm a
-//                    scheduleWrapper.setEndTimeUI(formattedTime);
-                    //Set only hh:mm for user editable purpose
+                Long endTime = scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds();
+                if(endTime != null) {
+                    String formattedTime = SchedulingServiceUtil.makeFormattedTimeFromMillis(endTime);
                     scheduleWrapper.setEndTime(formattedTime);
-//                    scheduleWrapper.setEndTimeAMPM(StringUtils.substringAfter(formattedTime," "));
                 }
 
                 String daysUI = WeekDaysDtoAndUIConversions.buildDaysForUI(scheduleWrapper.getTimeSlot().getWeekdays());
@@ -657,17 +643,15 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                             int firstTimeSlotInfo = 0;
                             scheduleWrapper.setTimeSlot(timeSlotInfos.get(firstTimeSlotInfo));
 
-                            Date timeForDisplay;
-                            if (scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds() != null){
-                                timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds());
-                                scheduleWrapper.setStartTime(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
+                            Long startTime = scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds();
+                            if (startTime != null){
+                                scheduleWrapper.setStartTime(SchedulingServiceUtil.makeFormattedTimeFromMillis(startTime));
                             }
 
-                            if (scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds() != null){
-                                timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds());
-                                scheduleWrapper.setEndTime(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
+                            Long endTime = scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds();
+                            if (endTime != null){
+                                scheduleWrapper.setEndTime(SchedulingServiceUtil.makeFormattedTimeFromMillis(endTime));
                             }
-
                             scheduleWrapper.setDaysUI(WeekDaysDtoAndUIConversions.buildDaysForUI(scheduleWrapper.getTimeSlot().getWeekdays()));
                         }
 
@@ -858,16 +842,14 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         }
 
         List<Integer> daysArray = WeekDaysDtoAndUIConversions.buildDaysForDTO(days);
-        TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
-        long time = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(startTime).getTime();
-        timeOfDayInfo.setMilliSeconds(time);
+        TimeOfDayInfo timeOfDayInfo = SchedulingServiceUtil.makeTimeOfDayInfoFromTimeString(startTime);
         List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByDaysAndStartTime(timeSlotType,daysArray,timeOfDayInfo,createContextInfo());
         List<String> endTime = new ArrayList<String>();
 
         for (TimeSlotInfo ts : timeSlotInfos){
-            if (ts.getStartTime().getMilliSeconds() != null) {
-                Date date = new Date(ts.getEndTime().getMilliSeconds());
-                endTime.add(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(date));
+            Long st = ts.getStartTime().getMilliSeconds();
+            if (st != null) {
+                endTime.add(SchedulingServiceUtil.makeFormattedTimeFromMillis(ts.getEndTime().getMilliSeconds()));
             }
         }
 

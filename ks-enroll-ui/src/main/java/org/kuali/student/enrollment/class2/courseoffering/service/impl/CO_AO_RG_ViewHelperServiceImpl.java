@@ -31,6 +31,7 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
 import java.util.Calendar;
@@ -173,8 +174,6 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
     private void updateScheduleToAOWrapperForDisplay(ActivityOfferingWrapper aoWrapper, Boolean isTBA, RoomInfo roomInfo,TimeSlotInfo timeSlot,boolean append) throws Exception{
 
-        Calendar calendar = new GregorianCalendar();
-
         aoWrapper.setTbaDisplayName(isTBA,append);
 
         if (timeSlot != null) {
@@ -184,13 +183,11 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
             List<Integer> days = timeSlot.getWeekdays();
 
             if (startTime != null && startTime.getMilliSeconds() != null) {
-                calendar.setTimeInMillis(startTime.getMilliSeconds());
-                aoWrapper.setStartTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(calendar.getTime()),append);
+                aoWrapper.setStartTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(startTime.getMilliSeconds()),append);
             }
 
             if (endTime != null && endTime.getMilliSeconds() != null) {
-                calendar.setTimeInMillis(endTime.getMilliSeconds());
-                aoWrapper.setEndTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(calendar.getTime()),append);
+                aoWrapper.setEndTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(endTime.getMilliSeconds()),append);
             }
 
             if (days != null && days.size() > 0) {
