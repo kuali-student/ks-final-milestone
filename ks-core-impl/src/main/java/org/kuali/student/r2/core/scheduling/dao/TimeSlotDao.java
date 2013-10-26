@@ -57,7 +57,12 @@ public class TimeSlotDao extends GenericEntityDao<TimeSlotEntity> {
         List<Predicate> predicateList = new ArrayList<Predicate>();
 
         predicateList.add(builder.equal(root.get("timeSlotType"), timeSlotType));
-        predicateList.add(builder.equal(root.get("weekdays"), weekdays));
+
+        if (StringUtils.isNotBlank(weekdays)) {
+            predicateList.add(builder.equal(root.get("weekdays"), weekdays));
+        } else {
+            predicateList.add(builder.isNull(root.get("weekdays")));
+        }
 
         if (startTime != null){
             predicateList.add(builder.equal(root.get("startTimeMillis"), startTime));
