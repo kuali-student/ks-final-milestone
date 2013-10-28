@@ -98,7 +98,26 @@ public class TestCourseServiceImpl{
         assertNotNull(courseService);
         assertNotNull(statementService);
     }
- 
+
+    @Test
+    public void testGetCoursesByIds() throws Exception{
+
+        CourseDataGenerator generator = new CourseDataGenerator();
+        CourseInfo cInfo = generator.getCourseTestData();
+        assertNotNull(cInfo);
+        CourseInfo createdCourse = courseService.createCourse(cInfo, contextInfo);
+        assertNotNull(createdCourse);
+        List<String> courseIds = new ArrayList<String>();
+        courseIds.add(createdCourse.getId());
+        List<CourseInfo> courseInfos = courseService.getCoursesByIds(courseIds,contextInfo);
+        assertTrue(courseInfos.size() ==1);
+        for(CourseInfo courseInfo : courseInfos){
+            System.out.println(courseInfo);
+            assertTrue(courseInfo.getCourseTitle().equals(createdCourse.getCourseTitle()));
+            assertTrue(courseInfo.getCode().equals(createdCourse.getCode()));
+        }
+    }
+
     @Test
     @Transactional
     public void testCreateCourse() throws Exception {
@@ -127,6 +146,8 @@ public class TestCourseServiceImpl{
             System.out.println(vr.getElement() + " " + vr.getMessage());
         }
     }
+
+
 
     @Test
     @Transactional
