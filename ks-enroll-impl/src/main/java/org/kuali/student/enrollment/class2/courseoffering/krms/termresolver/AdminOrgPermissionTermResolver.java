@@ -65,7 +65,7 @@ public class AdminOrgPermissionTermResolver implements TermResolver<Boolean> {
         
         try {
             OrgInfo org = organizationService.getOrg(orgId, context);
-            //TODO: Determine permision???
+            //TODO KSENROLL-4659: Determine permision???
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
