@@ -36,7 +36,7 @@ td.jquerybubblepopup-innerHtml {
 .myplan-view h5,
 .myplan-view h6 {
     font-weight: 500;
-    font-family: "museo-sans", Arial, Helvetica, Verdana, sans-serif;
+    font-family: Arial, Helvetica, Verdana, sans-serif;
     text-transform: none;
 }
 
@@ -388,7 +388,7 @@ button.uif-primaryActionButton,
 button.uif-secondaryActionButton {
     font-size: 14px;
     font-weight: bold;
-    font-family: "museo-sans", Arial, Helvetica, Verdana, sans-serif;
+    font-family: Arial, Helvetica, Verdana, sans-serif;
     /*color: #39275b;*/
     text-decoration: none;
 
@@ -496,7 +496,7 @@ button.uif-secondaryActionButton:focus {
 button.uif-primaryActionButton.uif-smallActionButton,
 button.uif-secondaryActionButton.uif-smallActionButton {
     font-size: 12px;
-    font-family: "museo-sans", Arial, Helvetica, Verdana, sans-serif;
+    font-family: Arial, Helvetica, Verdana, sans-serif;
     padding: 3px 14px;
 
     -moz-border-radius: 10px;

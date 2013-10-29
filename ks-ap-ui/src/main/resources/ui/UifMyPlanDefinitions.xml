@@ -30,7 +30,6 @@
         <property name="persistFormToSession" value="true"/>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
-        <property name="onLoadScript" value="try{Typekit.load();}catch(e){}"/>
     </bean>
 
     <!-- View without the header and footer and just the theme -->
@@ -44,7 +43,6 @@
         <property name="persistFormToSession" value="true"/>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
-        <property name="onLoadScript" value="try{Typekit.load();}catch(e){}"/>
     </bean>
 
     <bean id="MyPlanFormView" abstract="true" parent="MyPlanBaseFormView">
@@ -73,7 +71,6 @@
         <property name="persistFormToSession" value="true"/>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
-        <property name="onLoadScript" value="try{Typekit.load();}catch(e){}"/>
     </bean>
 
     <bean id="MyPlanLookupView" abstract="true" parent="MyPlanBaseLookupView">
@@ -102,7 +99,6 @@
         <property name="persistFormToSession" value="true"/>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
-        <property name="onLoadScript" value="try{Typekit.load();}catch(e){}"/>
     </bean>
 
     <bean id="MyPlanInquiryView" abstract="true" parent="MyPlanBaseInquiryView">
@@ -130,7 +126,6 @@
         </property>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
-        <property name="onLoadScript" value="try{Typekit.load();}catch(e){}"/>
     </bean>
 
     <bean id="MyPlanMaintenanceView" abstract="true" parent="MyPlanBaseMaintenanceView">
