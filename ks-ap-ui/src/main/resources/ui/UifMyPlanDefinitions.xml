@@ -168,7 +168,6 @@
                 <value>ks-myplan/plugins/jquery.subscribe.js?@{#ConfigProperties['myplan.version']}</value>
                 <value>ks-myplan/plugins/polling.js?@{#ConfigProperties['myplan.version']}</value>
                 <value>ks-myplan/jquery-popover/jquery.popover.js?@{#ConfigProperties['myplan.version']}</value>
-                <value>ks-myplan/scripts/myplan.google.js?@{#ConfigProperties['myplan.version']}</value>
             </list>
         </property>
     </bean>
