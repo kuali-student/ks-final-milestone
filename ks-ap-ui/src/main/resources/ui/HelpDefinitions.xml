@@ -72,14 +72,14 @@
         </property>
     </bean>
 
-    <bean id="total_credits_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayCreditsHelp}" p:cssClasses="ks-plan-Bucket-creditHelpIcon">
+    <bean id="total_credits_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayCreditsHelp}" p:cssClasses="uif-helpImage">
         <property name="toolTip">
           <bean parent="MyPlan-Tooltip" p:tooltipContent="The total number of credits attempted for a completed quarter. Check your transcript to verify earned credits.">
           </bean>
         </property>
     </bean>
 
-    <bean id="cart_credits_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayCreditsHelp ? true : false}" p:cssClasses="ks-plan-Bucket-creditHelpIcon">
+    <bean id="cart_credits_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayCreditsHelp ? true : false}" p:cssClasses="uif-helpImage">
         <property name="toolTip">
             <bean parent="MyPlan-Tooltip" p:tooltipContent="&lt;div class=\ks-Tooltip\&gt;The total number of credits for all course currently in the shopping cart.&lt;/div&gt;">
             </bean>
