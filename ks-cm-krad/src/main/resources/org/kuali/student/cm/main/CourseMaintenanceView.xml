@@ -78,7 +78,32 @@
             </list>
         </property>
     </bean>  
-    
+
+    <bean id="KS-CourseView-SectionHeader" parent="Uif-HeaderTwo">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-header</value>
+            </list>
+        </property>
+        <property name="upperGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-cm-page-header</value>
+                    </list>
+                </property>
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-PrimaryActionButton" 
+                              p:ajaxSubmit="false" 
+                              p:methodToCall="navigate&amp;pageId=KS-CourseView-CourseInfoPage" 
+                              p:actionLabel="Edit"/>
+                    </list> 
+                </property>
+            </bean>
+        </property>                   
+    </bean>
+          
     <bean id="KS-CourseView-Header" parent="Uif-HeaderTwo">
         <property name="headerText" value="New Proposal" />
         <property name="cssClasses">
@@ -242,7 +267,7 @@
                 <bean id="KS-CourseViewSupportingDocuments-ActionLink" parent="Uif-NavigationActionLink"
                       p:navigateToPageId="KS-CourseView-SupportingDocumentsPage" p:actionLabel="Supporting Documents" />
                 <bean id="KS-CourseViewReviewProposal-ActionLink" parent="Uif-NavigationActionLink"
-                      p:navigateToPageId="KS-CourseView-ReviewProposalPage" p:actionLabel="Review Proposal" p:disabled="true"/>
+                      p:navigateToPageId="KS-CourseView-ReviewProposalPage" p:actionLabel="Review Proposal" />
             </list>
         </property>
     </bean>
