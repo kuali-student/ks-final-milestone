@@ -302,6 +302,8 @@
                 <value>classpath:ui/PlanItemsUIPOCSingleYear.xml</value>
                 <value>classpath:ui/PlanItemsUIPOCDeleteDialog.xml</value>
                 <value>classpath:ui/PlanItemsUIPOCDelayLoad.xml</value>
+                <!-- Course Search POC -->
+                <value>classpath:org/kuali/student/ap/CourseInfoLookupView-ForKSAP.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">

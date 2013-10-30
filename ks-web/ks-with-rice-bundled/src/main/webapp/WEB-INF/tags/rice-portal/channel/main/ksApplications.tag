@@ -33,7 +33,8 @@
         <li><a href="${ConfigProperties.application.url}/myplan/plan?methodToCall=start&amp;viewId=PlannedCourses-FormView-POC-Single-Year">KSAP Planner - Single Year</a></li>
         <li><a href="${ConfigProperties.application.url}/myplan/plan?methodToCall=start&amp;viewId=PlannedCourses-FormView-POC-Dialog">KSAP Planner - Krad Dialog</a></li>
         <li><a href="${ConfigProperties.application.url}/myplan/plan?methodToCall=start&amp;viewId=PlannedCourses-FormView-POC-delay-load&amp;loadCalendar=true">KSAP Planner - Delayed Calendar Load</a></li>
-
+        <br>
+        <li><a href="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.student.r2.lum.course.dto.CourseInfo&amp;viewId=CourseInfo-LookupView-ForKSAP">Simple Course Lookup for KSAP</a></li>
     </ul>
 
 </div>
