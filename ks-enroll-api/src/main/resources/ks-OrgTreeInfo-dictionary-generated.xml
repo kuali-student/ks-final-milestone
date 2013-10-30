@@ -31,13 +31,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 		because the generator is not perfect) please update the corresponding 
 		ks-XXXX-dictionary.xml instead of this one.
 	************************************************************* -->
-	<!-- ********************************************************************************************************** -->
-	<!-- The following file is required for this file to load:
- ks-base-dictionary.xml
-plus any of its dependencies -->
-	<!-- ********************************************************************************************************** -->
-	<import resource="classpath:ks-base-dictionary.xml"/>
-
 	<!-- OrgTreeInfo-->
 	<bean id="OrgTreeInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="orgTreeInfo"/>
@@ -170,7 +163,7 @@ Gets the Id of the parent to the Organization node.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="OrgTreeInfo.positions-generated" abstract="true" parent="BaseKuali.long">
+	<bean id="OrgTreeInfo.positions-generated" abstract="true" parent="BaseKuali.long.positive">
 		<property name="name" value="positions"/>
 		<property name="shortLabel" value="Positions"/>
 		<property name="summary">

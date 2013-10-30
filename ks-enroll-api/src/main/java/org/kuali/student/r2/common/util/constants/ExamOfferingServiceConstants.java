@@ -16,6 +16,8 @@
  */
 package org.kuali.student.r2.common.util.constants;
 
+import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
+import org.kuali.student.enrollment.examoffering.service.ExamOfferingService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 
 /**
@@ -24,8 +26,10 @@ import org.kuali.student.r2.common.constants.CommonServiceConstants;
  * @author Mezba Mahtab (mezba.mahtab@utoronto.ca)
  */
 public class ExamOfferingServiceConstants {
+
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "examOffering";
-    public static final String SERVICE_NAME_LOCAL_PART = "ExamOfferingService";
+    public static final String SERVICE_NAME_LOCAL_PART = ExamOfferingService.class.getSimpleName();
+    public static final String REF_OBJECT_URI_EXAM_OFFERING = NAMESPACE + "/" + ExamOfferingInfo.class.getSimpleName();
 
     /////////////////
     // TYPES
@@ -37,9 +41,16 @@ public class ExamOfferingServiceConstants {
     /////////////////
     // STATES
     /////////////////
+    public static final String EXAM_OFFERING_DRAFT_STATE_KEY = "kuali.lui.exam.offering.state.draft";
+    public static final String EXAM_OFFERING_OFFERED_STATE_KEY = "kuali.lui.exam.offering.state.offered";
+    public static final String EXAM_OFFERING_SUSPENDED_STATE_KEY = "kuali.lui.exam.offering.state.suspended";
+    public static final String EXAM_OFFERING_CANCELED_STATE_KEY = "kuali.lui.exam.offering.state.canceled";
 
     public static final String EXAM_OFFERING_SCHEDULING_EXEMPT_STATE_KEY = "kuali.lui.exam.offering.scheduling.state.exempt";
     public static final String EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY = "kuali.lui.exam.offering.scheduling.state.unscheduled";
     public static final String EXAM_OFFERING_SCHEDULING_MATRIX_ERROR_STATE_KEY = "kuali.lui.exam.offering.scheduling.state.matrix.error";
+
+    public static final String FINAL_EXAM_DRIVER_ATTR = "kuali.attribute.final.exam.driver";
+    public static final String FINAL_EXAM_ACTIVITY_DRIVER_ATTR = "kuali.attribute.final.exam.activity.driver";
 
 }

@@ -47,6 +47,8 @@ public class DateFormatters {
      */
     public static final String DYNAMIC_ATTRIBUTE_SHORT_ZONE_DATE_FORMAT = "yyyy MMM d HH:mm:ss z";    // 2012 Nov 8 15:05:19 EST
 
+    public static final String MONTH_DATE_YEAR_TIME_COMMA_FORMAT = "MM/dd/yyyy, hh:mm aa";
+
 
     // Fast Thread Safe Formatter. Use this instead of SimpleDateFormat
     public static final KSDateTimeFormatter STATE_CHANGE_DATE_FORMATTER = new KSDateTimeFormatter(STATE_CHANGE_DATE_FORMAT);
@@ -67,4 +69,5 @@ public class DateFormatters {
     public static final KSDateTimeFormatter DEFAULT_MONTH_YEAR_TIME_DATE_FORMATTER = new KSDateTimeFormatter(DEFAULT_MONTH_YEAR_TIME_DATE_FORMAT);
     public static final KSDateTimeFormatter DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMATTER = new KSDateTimeFormatter(DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMAT);
     public static final KSDateTimeFormatter QUERY_SERVICE_TIMESTAMP_FORMATTER = new KSDateTimeFormatter(QUERY_SERVICE_TIMESTAMP_FORMAT);
+    public static final KSDateTimeFormatter MONTH_DATE_YEAR_TIME_COMMA_FORMATTER = new KSDateTimeFormatter(MONTH_DATE_YEAR_TIME_COMMA_FORMAT);
 }

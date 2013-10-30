@@ -119,11 +119,7 @@ public class TimeSlotInfo extends IdEntityInfo implements TimeSlot, Serializable
 
     @Override
     public String toString() {
-        return "TimeSlotInfo{" +
-                "weekdays=" + weekdays +
-                ", id=" + getId() +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                '}';
+        return String.format("TimeSlotInfo{type=%s,weekdays=%s,startTime=%s,endTime=%s}",
+                getTypeKey(), weekdays, getId(), startTime, endTime);
     }
 }

@@ -58,6 +58,8 @@ public class AcademicCalendarServiceConstants {
      * Dynamic Attributes Keys
      */
     public static final String CAMPUS_KEY_DYNAMIC_ATTRIBUTE_KEY = "kuali.atp.attribute.campus.key";
+    public static final String EXAM_PERIOD_EXCLUDE_SATURDAY_ATTR = "kuali.attribute.exam.period.exclude.saturday";
+    public static final String EXAM_PERIOD_EXCLUDE_SUNDAY_ATTR = "kuali.attribute.exam.period.exclude.sunday";
 
     /**
      * Registration Date Groups

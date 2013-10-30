@@ -37,10 +37,12 @@ public class ScheduleRequestSetInfo extends IdEntityInfo implements ScheduleRequ
     }
 
     public ScheduleRequestSetInfo(ScheduleRequestSet scheduleRequestSet) {
-        super (scheduleRequestSet);
+        super (scheduleRequestSet); // copies id, name, descr, type, state
         if (null != scheduleRequestSet) {
             if (scheduleRequestSet.getRefObjectIds() != null) {
                 this.refObjectIds = new ArrayList<String>(scheduleRequestSet.getRefObjectIds());
+            } else {
+                this.refObjectIds = new ArrayList<String>();
             }
             this.refObjectTypeKey = scheduleRequestSet.getRefObjectTypeKey();
             this.isMaxEnrollmentShared = scheduleRequestSet.getIsMaxEnrollmentShared();

@@ -35,7 +35,7 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class TestServiceDictionaries {
         return "ks-" + clazz.getSimpleName() + "-dictionary.xml";
     }
 
-    public List<String> getInputFiles() {
+    private List<String> getInputFiles() {
         List<String> inputFiles = new ArrayList<String>();
 //       Academic Calendar (ACAL) Service
         inputFiles.add(calculateXmlFileName(AcademicCalendarInfo.class));
@@ -79,28 +79,17 @@ public class TestServiceDictionaries {
 
     @Test
     public void testDictionaries() {
-        System.out.println("testing dictionary files");
-        List<String> supportFiles = new ArrayList();
-        for (String inputFile : this.getInputFiles()) {
-            this.doTest(inputFile, supportFiles);
-        }
-    }
+        List<String> inputFiles = getInputFiles();
+        // must include base dictionary files
+        inputFiles.add("ks-base-dictionary.xml");
 
-    public void doTest(String dictFileName, List<String> supportFiles) {
-        List<String> configLocations = new ArrayList(supportFiles);
-//        System.out.println ("DictionaryTesterHelper: adding " + supportFiles.size() + " support files");
-        configLocations.add("classpath:" + dictFileName);
-        String[] configLocs = configLocations.toArray(new String[0]);
-        ApplicationContext ac = new ClassPathXmlApplicationContext(configLocs);
-        Map<String, DataObjectEntry> beansOfType =
-                ac.getBeansOfType(DataObjectEntry.class);
-        for (DataObjectEntry doe : beansOfType.values()) {
-            System.out.println("Loading object structure: " + doe.getFullClassName());
-            if ("org.kuali.rice.krad.bo.AttributeReferenceDummy".equals(doe.getFullClassName())) {
-                continue;
-            }
-            doe.completeValidation();
+        ConfigurableApplicationContext ac = new ClassPathXmlApplicationContext(
+                inputFiles.toArray(new String[inputFiles.size()]));
+        Map<String, DataObjectEntry> dataObjectEntries = ac.getBeansOfType(DataObjectEntry.class);
+        ac.close();
+
+        for (DataObjectEntry entry : dataObjectEntries.values()) {
+            entry.completeValidation();
         }
-        return;
     }
 }

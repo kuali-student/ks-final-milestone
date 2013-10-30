@@ -35,4 +35,9 @@ public class OperationFailedException
     public OperationFailedException(String message, Throwable t) {
         super(message, t);
     }
+
+    public OperationFailedException( Throwable t ) {
+        super(t);
+    }
+
 }

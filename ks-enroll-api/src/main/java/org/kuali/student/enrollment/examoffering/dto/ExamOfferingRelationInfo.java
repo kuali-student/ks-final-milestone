@@ -34,17 +34,12 @@ import java.util.List;
  *
  * @author Mezba Mahtab (mezba.mahtab@utoronto.ca)
  */
-
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ExamOfferingRelationInfo", propOrder = {
-        "id", "typeKey", "stateKey", "effectiveDate", "expirationDate",
-        "formatOfferingId", "examOfferingId", 
-        "activityOfferingIds", "populationIds",
-        "meta", "attributes", "_futureElements"})
-
-public class ExamOfferingRelationInfo 
-    extends RelationshipInfo 
-    implements ExamOfferingRelation, Serializable {
+@XmlType(name = "ExamOfferingRelationInfo", propOrder = {"id", "typeKey", "stateKey",
+        "effectiveDate", "expirationDate", "meta", "attributes",
+        "formatOfferingId", "examOfferingId", "activityOfferingIds", "populationIds",
+        "_futureElements"})
+public class ExamOfferingRelationInfo extends RelationshipInfo implements ExamOfferingRelation, Serializable {
 
     ///////////////////////////
     // CONSTANTS
@@ -129,5 +124,13 @@ public class ExamOfferingRelationInfo
 
     public void setPopulationIds(List<String> populationIds) {
         this.populationIds = populationIds;
+    }
+
+    public List<Object> get_futureElements() {
+        return _futureElements;
+    }
+
+    public void set_futureElements(List<Object> _futureElements) {
+        this._futureElements = _futureElements;
     }
 }

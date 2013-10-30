@@ -236,4 +236,11 @@ public interface ActivityOffering extends IdEntity {
      */
     public Boolean getIsColocated();
 
+    /**
+     * Indicates that the activity offering has been approved for non-standard time-slots.
+     *
+     * @name Is Approved For Non Standard TimeSlots flag
+     */
+    public Boolean getIsApprovedForNonStandardTimeSlots();
+
 }

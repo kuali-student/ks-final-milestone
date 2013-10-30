@@ -54,7 +54,10 @@ public enum TermParameterTypes {
     FREE_TEXT_KEY("kuali.term.parameter.type.free.text"),
     TERM_KEY("kuali.term.parameter.type.Term"),
     TERM2_KEY("kuali.term.parameter.type.Term2"),
-    POPULATION_KEY("kuali.term.parameter.type.population");
+    POPULATION_KEY("kuali.term.parameter.type.population"),
+    TIMESLOT_WEEKDAY_STRING("kuali.term.parameter.type.timeslot.weekday.string"),
+    TIMESLOT_START("kuali.term.parameter.type.timeslot.start"),
+    TIMESLOT_END("kuali.term.parameter.type.timeslot.end");
 
 	private String id;
 

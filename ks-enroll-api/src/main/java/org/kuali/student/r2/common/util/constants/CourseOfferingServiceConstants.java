@@ -47,6 +47,8 @@ public class CourseOfferingServiceConstants {
     public static final String GRADE_ROSTER_LEVEL_TYPE_KEY_ATTR = "kuali.attribute.grade.roster.level.type.key";
     public static final String FINAL_EXAM_LEVEL_TYPE_KEY_ATTR = "kuali.attribute.final.exam.level.type";
     public static final String COURSE_EVALUATION_INDICATOR_ATTR = "kuali.attribute.course.evaluation.indicator";
+    public static final String FINAL_EXAM_DRIVER_ATTR = "kuali.attribute.final.exam.driver";
+    public static final String FINAL_EXAM_USE_MATRIX = "kuali.attribute.final.exam.use.matrix";
     public static final String FINAL_EXAM_INDICATOR_ATTR = "kuali.attribute.final.exam.indicator";
     public static final String FUNDING_SOURCE_ATTR = "kuali.attribute.funding.source";
     public static final String FEES_ATTACHED_FLAG_ATTR = "kuali.attribute.where.fees.attached.flag";
@@ -59,6 +61,7 @@ public class CourseOfferingServiceConstants {
     public static final String AOCLUSTER_ID_ATTR = "kuali.attribute.registration.group.aocluster.id";
     public static final String COLOCATED_SET_MAXIMUM_ENROLLMENT_ATTR = "kuali.attribute.colocatedset.max.enrollment";
     public static final String IS_MAX_ENROLLMENT_SHARED_ATTR = "kuali.attribute.colocatedset.is.max.enrollment.shared";
+    public static final String IS_AO_APPROVED_FOR_NON_STANDARD_TIME_SLOTS = "kuali.attribute.nonstd.ts.indicator";
 
     // The type/states are defined in LuiServiceConstants.java
 

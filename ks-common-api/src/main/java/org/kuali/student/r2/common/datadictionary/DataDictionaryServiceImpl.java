@@ -29,7 +29,7 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -60,15 +60,13 @@ public class DataDictionaryServiceImpl implements DataDictionaryService, RiceDat
     public void setDictionaryLocations(List<String> locations) throws IOException {
         studMap = new LinkedHashMap<String, DictionaryEntryInfo>();
         riceMap = new LinkedHashMap<String, DataObjectEntry>();
-        for (String location : locations) {
-            ApplicationContext ac = new ClassPathXmlApplicationContext(location);
-            Map<String, DataObjectEntry> beansOfType =
-                    (Map<String, DataObjectEntry>) ac.getBeansOfType(DataObjectEntry.class);
-            for (DataObjectEntry entry : beansOfType.values()) {
-                log.debug(entry.getDataObjectClass());
-                riceMap.put(entry.getFullClassName(), entry);
-                studMap.put(calcRefObjectURI (entry.getDataObjectClass()), new Rice2StudentDictionaryEntryConverter().convert(entry));
-            }
+        ConfigurableApplicationContext ac = new ClassPathXmlApplicationContext(locations.toArray(new String[locations.size()]));
+        Map<String, DataObjectEntry> beansOfType = ac.getBeansOfType(DataObjectEntry.class);
+        ac.close();
+        for (DataObjectEntry entry : beansOfType.values()) {
+            log.debug(entry.getDataObjectClass());
+            riceMap.put(entry.getFullClassName(), entry);
+            studMap.put(calcRefObjectURI (entry.getDataObjectClass()), new Rice2StudentDictionaryEntryConverter().convert(entry));
         }
     }
 

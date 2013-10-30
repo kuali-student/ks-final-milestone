@@ -15,24 +15,18 @@
  */
 package org.kuali.student.common.spring;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
-import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
-import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r2.common.messages.service.MessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.io.IOException;
 
 /**
  * 
@@ -51,7 +45,7 @@ public class TestWebServiceAwareBeanPostProcessorManualWithContextPostProcessor 
 
 	private static final Logger log = LoggerFactory
 	        .getLogger(TestWebServiceAwareBeanPostProcessorManualWithContextPostProcessor.class);
-	private ClassPathXmlApplicationContext context;
+	private ConfigurableApplicationContext context;
 
 	/**
 	 * 
