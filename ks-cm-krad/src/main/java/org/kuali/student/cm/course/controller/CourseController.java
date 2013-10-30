@@ -20,6 +20,8 @@ import static org.kuali.student.logging.FormattedLogger.error;
 import static org.kuali.student.logging.FormattedLogger.info;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -74,6 +76,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
@@ -181,6 +184,7 @@ public class CourseController extends MaintenanceDocumentController {
         maintainable.getCourse().getJoints().clear();
         maintainable.getCourse().getInstructors().clear();
         maintainable.getCourse().getUnitsDeployment().clear();
+        maintainable.getCourse().getCourseSpecificLOs().clear();
         
         //Retrieve the collection display values and get the fully loaded object (containing all the IDs and related IDs)
         if (maintainable.getCourseJointWrappers() != null) {
@@ -199,6 +203,33 @@ public class CourseController extends MaintenanceDocumentController {
         if (maintainable.getAdministeringOrganizations() != null) {
             for (final OrganizationInfoWrapper org : maintainable.getAdministeringOrganizations()) {
                 maintainable.getCourse().getUnitsDeployment().add(org.getOrganizationName());
+            }
+        }
+        
+        if (maintainable.getLoDisplayWrapperModel() != null && maintainable.getLoDisplayWrapperModel().getLoWrappers() != null) {
+            List<LoDisplayInfoWrapper> loWrappers = maintainable.getLoDisplayWrapperModel().getLoWrappers();
+            List<LoDisplayInfo> courseLos = maintainable.getCourse().getCourseSpecificLOs();
+            for (int i = 0; i < loWrappers.size(); i++) {
+                
+                LoDisplayInfoWrapper currentLo = loWrappers.get(i);
+                
+                boolean rootLevel = true;
+                int parentIndex = i - 1;
+                while (parentIndex >= 0) {
+                    LoDisplayInfoWrapper potentialParent = loWrappers.get(parentIndex);
+                    boolean parentMatch = currentLo.getIndentLevel() > potentialParent.getIndentLevel();
+                    if (parentMatch) {
+                        potentialParent.getLoDisplayInfoList().add(currentLo);
+                        rootLevel = false;
+                        break;
+                    } else {
+                        parentIndex--;
+                    }
+                }
+                
+                if (rootLevel) {
+                    courseLos.add(currentLo);
+                }
             }
         }
         
