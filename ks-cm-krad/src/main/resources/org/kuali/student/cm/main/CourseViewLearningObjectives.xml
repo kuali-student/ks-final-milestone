@@ -35,7 +35,7 @@
     </bean>
 
 	<bean id="LearningObjective-CollectionSection" parent="Uif-StackedCollectionSection"
-		p:propertyName="loItemModel.loItems" p:collectionObjectClass="org.kuali.student.cm.course.form.LoItem">
+		p:propertyName="loDisplayWrapperModel.loWrappers" p:collectionObjectClass="org.kuali.student.cm.course.form.LoDisplayInfoWrapper">
         <property name="onDocumentReadyScript" value="setupCharCounters(); applyIndentationStyling();" />
         <property name="layoutManager">
 			<bean parent="Uif-StackedCollectionLayout-WithBoxItems">
@@ -56,11 +56,11 @@
         <property name="collectionLookup">
             <bean parent="Uif-CollectionQuickFinder" p:render="true" p:dataObjectClassName="org.kuali.student.cm.course.form.LoDisplayInfoWrapper" /> 
         </property>
-        <!-- <property name="collectionLookup.fieldConversions" value="catNameAndType:name"/> -->
+<!--         <property name="collectionLookup.fieldConversions" value="descr.plain:loWrapper.descr.plain,loCategoryInfoList[0].name:loWrapper.name"/> -->
         <property name="items">
 			<list>
-				<bean id="KS-LoInfo-descr" parent="Uif-InputField"
-					p:propertyName="loWrapper.loInfo.descr.plain" p:showLabel="false">
+				<bean id="KS-LoDisplayInfoWrapper-descr" parent="Uif-InputField"
+					p:propertyName="loInfo.descr.plain" p:showLabel="false">
 					<property name="control">
 						<bean parent="Uif-TextAreaControl" p:cols="60">
                             <property name="cssClasses">
@@ -71,12 +71,12 @@
                         </bean>
 					</property>
 				</bean>
-                <bean id="KS-LoInfo-selected" parent="Uif-InputField" p:propertyName="selected">
+                <bean id="KS-LoDisplayInfoWrapper-selected" parent="Uif-InputField" p:propertyName="selected">
                     <property name="control">
                         <bean parent="Uif-HiddenControl" />
                     </property>
                 </bean>
-                <bean id="KS-LoInfo-indentLevel" parent="Uif-InputField" p:propertyName="indentLevel">
+                <bean id="KS-LoDisplayInfoWrapper-indentLevel" parent="Uif-InputField" p:propertyName="indentLevel">
                     <property name="control">
                         <bean parent="Uif-HiddenControl" />
                     </property>
@@ -87,7 +87,7 @@
 			<list>
 				<bean parent="Uif-StackedCollectionSubSection"
 					p:collectionObjectClass="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo"
-					p:propertyName="loWrapper.loCategoryInfoList">
+					p:propertyName="loCategoryInfoList">
 					<property name="layoutManager">
 						<bean parent="Uif-StackedCollectionLayout-WithBoxItems">
 							<property name="subCollectionFieldGroupPrototype">
@@ -158,11 +158,8 @@
     <bean id="LearningObjectives-MoveUp-Button" parent="Uif-ActionImage">
 		<property name="actionImage">
             <bean parent="Uif-Image" p:source="@{#ConfigProperties['cm.krad.externalizable.images.url']+'/ArrowUp.png'}" p:altText="Move Up"/>
-        	<!-- "@{enableAddButton ? #ConfigProperties['cm.krad.externalizable.images.url']+'/ArrowUp.png' : #ConfigProperties['cm.krad.externalizable.images.url']+'/ArrowUpDisabled.png'}" -->
         </property>
         <property name="actionScript" value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveUp');" />
-        <!-- <property name="onMouseDownScript" value="jq(this).addClass('tree-bar-button-selected');" />
-        <property name="onMouseUpScript" value="jq(this).removeClass('tree-bar-button-selected');" /> -->
         <property name="toolTip">
         	<bean parent="Uif-Tooltip" p:tooltipContent="Move learning objective up" />
         </property>

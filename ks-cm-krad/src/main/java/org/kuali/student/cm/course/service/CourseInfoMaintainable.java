@@ -24,8 +24,7 @@ import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
-import org.kuali.student.cm.course.form.LoItem;
-import org.kuali.student.cm.course.form.LoItemModel;
+import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.SubjectCodeWrapper;
@@ -286,9 +285,9 @@ public interface CourseInfoMaintainable extends Maintainable {
 
     /**
      * 
-     * Retrieve the {@link LoItemModel} that is used for Learning Objectives.
+     * Retrieve the {@link LoDisplayWrapperModel} that is used for displaying Learning Objectives.
      * 
-     * @return The {@link LoItemModel} that is used to render {@link LoDisplayInfoWrapper} instances.
+     * @return The {@link LoDisplayWrapperModel} that is used to render {@link LoDisplayInfoWrapper} instances.
      */
-    LoItemModel getLoItemModel();
+    LoDisplayWrapperModel getLoDisplayWrapperModel();
 }

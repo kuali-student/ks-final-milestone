@@ -3,29 +3,29 @@ package org.kuali.student.cm.course.form;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 
 public class LoDisplayInfoWrapper extends LoDisplayInfo {
-    
+
     private static final long serialVersionUID = 8232176748014317444L;
-    
+
     private String searchBy;
-    
+
     private String code;
-    
+
     private String courseTitle;
-    
+
     private String programTitle;
-    
+
     private String typeName;
-    
+
     private String orgName;
-    
+
     private String orgType;
-    
+
     private String courseNumber;
-    
-    private String loCategory;
-    
-    private String loDescription;
-    
+
+    private int indentLevel = 0;
+
+    private boolean selected;
+
     public String getSearchBy() {
         return searchBy;
     }
@@ -90,20 +90,24 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo {
         this.courseNumber = courseNumber;
     }
 
-    public String getLoCategory() {
-        return loCategory;
+    public void indent() {
+        indentLevel++;
     }
 
-    public void setLoCategory(String loCategory) {
-        this.loCategory = loCategory;
+    public void outdent() {
+        indentLevel--;
     }
 
-    public String getLoDescription() {
-        return loDescription;
+    public int getIndentLevel() {
+        return indentLevel;
     }
 
-    public void setLoDescription(String loDescription) {
-        this.loDescription = loDescription;
+    public boolean isSelected() {
+        return selected;
     }
-    
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
 }

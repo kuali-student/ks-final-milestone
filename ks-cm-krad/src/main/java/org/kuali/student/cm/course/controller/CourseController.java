@@ -15,7 +15,9 @@
  */
 package org.kuali.student.cm.course.controller;
 
-import static org.kuali.student.logging.FormattedLogger.*;
+import static org.kuali.student.logging.FormattedLogger.debug;
+import static org.kuali.student.logging.FormattedLogger.error;
+import static org.kuali.student.logging.FormattedLogger.info;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,6 +34,8 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.Entity;
@@ -43,13 +47,12 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
-import org.kuali.student.cm.course.form.LoItem;
-import org.kuali.student.cm.course.form.LoItemModel;
+import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
+import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.impl.LookupableConstants;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
-import org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities.DecisionRationaleDetail;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
@@ -74,8 +77,6 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.core.api.util.KeyValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -610,9 +611,9 @@ public class CourseController extends MaintenanceDocumentController {
     public ModelAndView moveLearningObjectiveUp(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        LoItemModel loItemModel = setupLoModel(form);
-        loItemModel.moveUpCurrent();
-        clearSelectedLoItem(loItemModel.getLoItems());
+        LoDisplayWrapperModel loModel = setupLoModel(form);
+        loModel.moveUpCurrent();
+        clearSelectedLoItem(loModel.getLoWrappers());
         
         return getUIFModelAndView(form);
     }
@@ -621,9 +622,9 @@ public class CourseController extends MaintenanceDocumentController {
     public ModelAndView moveLearningObjectiveDown(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        LoItemModel loItemModel = setupLoModel(form);
+        LoDisplayWrapperModel loItemModel = setupLoModel(form);
         loItemModel.moveDownCurrent();
-        clearSelectedLoItem(loItemModel.getLoItems());
+        clearSelectedLoItem(loItemModel.getLoWrappers());
 
         return getUIFModelAndView(form);
     }
@@ -632,9 +633,9 @@ public class CourseController extends MaintenanceDocumentController {
     public ModelAndView moveLearningObjectiveRight(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        LoItemModel loItemModel = setupLoModel(form);
+        LoDisplayWrapperModel loItemModel = setupLoModel(form);
         loItemModel.indentCurrent();
-        clearSelectedLoItem(loItemModel.getLoItems());
+        clearSelectedLoItem(loItemModel.getLoWrappers());
         
         return getUIFModelAndView(form);
     }
@@ -643,39 +644,39 @@ public class CourseController extends MaintenanceDocumentController {
     public ModelAndView moveLearningObjectiveLeft(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        LoItemModel loItemModel = setupLoModel(form);
+        LoDisplayWrapperModel loItemModel = setupLoModel(form);
         loItemModel.outdentCurrent();
-        clearSelectedLoItem(loItemModel.getLoItems());
+        clearSelectedLoItem(loItemModel.getLoWrappers());
 
         return getUIFModelAndView(form);
     }
     
-    private LoItemModel setupLoModel(MaintenanceDocumentForm form) {
+    private LoDisplayWrapperModel setupLoModel(MaintenanceDocumentForm form) {
         CourseInfoMaintainable courseInfoMaintainable = getCourseMaintainableFrom(form);
-        LoItemModel loItemModel = courseInfoMaintainable.getLoItemModel();
-        List<LoItem> loItems = loItemModel.getLoItems();
-        LoItem selectedLoItem = getSelectedLoItem(loItems);
-        loItemModel.setCurrentLoItem(selectedLoItem);
-        return loItemModel;
+        LoDisplayWrapperModel loDisplayWrapperModel = courseInfoMaintainable.getLoDisplayWrapperModel();
+        List<LoDisplayInfoWrapper> loWrappers = loDisplayWrapperModel.getLoWrappers();
+        LoDisplayInfoWrapper selectedLoWrapper = getSelectedLoWrapper(loWrappers);
+        loDisplayWrapperModel.setCurrentLoWrapper(selectedLoWrapper);
+        return loDisplayWrapperModel;
     }
     
-    private LoItem getSelectedLoItem(List<LoItem> loItems) {
-        LoItem selectedLoItem = null;
-        if (loItems != null && !loItems.isEmpty()) {
-            for (LoItem loItem : loItems) {
+    private LoDisplayInfoWrapper getSelectedLoWrapper(List<LoDisplayInfoWrapper> loWrappers) {
+        LoDisplayInfoWrapper selectedLo = null;
+        if (loWrappers != null && !loWrappers.isEmpty()) {
+            for (LoDisplayInfoWrapper loItem : loWrappers) {
                 if (loItem.isSelected()) {
-                    selectedLoItem = loItem;
+                    selectedLo = loItem;
                     break;
                 }
             }
         }
-        return selectedLoItem;
+        return selectedLo;
     }
     
-    private void clearSelectedLoItem(List<LoItem> loItems) {
-        if (loItems != null && !loItems.isEmpty()) {
-            for (LoItem loItem : loItems) {
-                loItem.setSelected(false);
+    private void clearSelectedLoItem(List<LoDisplayInfoWrapper> loWrappers) {
+        if (loWrappers != null && !loWrappers.isEmpty()) {
+            for (LoDisplayInfoWrapper loWrapper : loWrappers) {
+                loWrapper.setSelected(false);
             }
         }
     }

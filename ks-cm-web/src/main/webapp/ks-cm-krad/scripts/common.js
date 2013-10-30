@@ -113,12 +113,12 @@ function performLOToolbarAction(button, collectionGroupId, controllerMethod) {
 	var lineNumberIndex = lineSuffixIndex + "_line".length;
 	var index = id.substr(lineNumberIndex);
 	/* Set the 'selected' property on the LoItem */
-	jQuery('#KS-LoInfo-selected_line' + index + '_control').prop('value', true);
+	jQuery('#KS-LoDisplayInfoWrapper-selected_line' + index + '_control').prop('value', true);
 }
 
 function applyIndentationStyling() {
 	 jQuery(".uif-collectionItem[data-parent='LearningObjective-CollectionSection']").each(function(index) {
-		 var indentString = jQuery('#KS-LoInfo-indentLevel_line' + index + '_control').prop('value');
+		 var indentString = jQuery('#KS-LoDisplayInfoWrapper-indentLevel_line' + index + '_control').prop('value');
 		 var indentLevel = parseInt(indentString);
 		 
 		 var collectionItem = jQuery(this);
