@@ -506,7 +506,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-MessageField"
-                                  p:messageText="Create your plan by finding and adding courses to any quarter."/>
+                                  p:messageText="Create your plan by finding and adding courses to any term."/>
                         </list>
                     </property>
                     <property name="cssClasses">
@@ -1769,8 +1769,8 @@
     </bean>
 
     <bean id="menuOptionMovePlanItem" parent="menuOptionMovePlanItem-parent"/>
-    <bean id="menuOptionMovePlanItem-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="Move to Another Quarter"
-          p:title="Move to Another Quarter">
+    <bean id="menuOptionMovePlanItem-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="Move to Another Term"
+          p:title="Move to Another Term">
         <property name="actionScript" value="
             var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startMoveDialog', planItemId:jQuery(this).data('planitemid'), atpId:jQuery(this).data('atpid'), pageId:'move_dialog_page'};
             var popupStyle = {width:'300px', height:'16px'};
@@ -1781,8 +1781,8 @@
     </bean>
 
     <bean id="menuOptionCopyPlanItem" parent="menuOptionCopyPlanItem-parent"/>
-    <bean id="menuOptionCopyPlanItem-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="Copy to Another Quarter"
-          p:title="Copy to Another Quarter">
+    <bean id="menuOptionCopyPlanItem-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="Copy to Another Term"
+          p:title="Copy to Another Term">
         <property name="actionScript" value="
             var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startCopyDialog', planItemId:jQuery(this).data('planitemid'), atpId:jQuery(this).data('atpid'), pageId:'copy_dialog_page'};
             var popupStyle = {width:'300px', height:'16px'};

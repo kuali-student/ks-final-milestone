@@ -7,7 +7,7 @@
     <!--Single Plan Item View-->
 
     <bean id="SingleTerm-InquiryView" parent="MyPlanInquiryView">
-        <property name="headerText" value="Single Quarter View"/>
+        <property name="headerText" value="Single Term View"/>
         <property name="header.render" value="false"/>
         <property name="viewName" value="SingleTerm-InquiryView"/>
         <property name="dataObjectClassName" value="org.kuali.student.myplan.plan.dataobject.PlannedTerm"/>

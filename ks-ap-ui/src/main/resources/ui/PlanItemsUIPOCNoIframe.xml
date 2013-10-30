@@ -226,7 +226,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-MessageField"
-                                  p:messageText="Create your plan by finding and adding courses to any quarter."/>
+                                  p:messageText="Create your plan by finding and adding courses to any term."/>
                         </list>
                     </property>
                     <property name="cssClasses">

@@ -386,7 +386,7 @@
                                   p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">
                                 <property name="fieldLabel.cssClasses" value="fl-text-gray myplan-text-normal"/>
                                 <property name="propertyEditor">
-                                    <bean parent="terms_formatter" p:emptyListMessage="No projected quarter"/>
+                                    <bean parent="terms_formatter" p:emptyListMessage="No projected term"/>
                                 </property>
                                 <property name="cssClasses">
                                     <list merge="true">

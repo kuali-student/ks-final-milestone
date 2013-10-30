@@ -595,11 +595,11 @@
     <bean id="CourseSummaryDetails.termsOffered" parent="CourseSummaryDetails.termsOffered-parentBean"/>
     <bean id="CourseSummaryDetails.termsOffered-parentBean" abstract="true" parent="CollectionDefinition">
         <property name="name" value="termsOffered"/>
-        <property name="shortLabel" value="Projected Quarter"/>
+        <property name="shortLabel" value="Projected Term"/>
         <property name="summary">
-            <value>Projected Quarter</value>
+            <value>Projected Term</value>
         </property>
-        <property name="label" value="Projected Quarter"/>
+        <property name="label" value="Projected Term"/>
         <property name="minOccurs" value="0"/>
         <property name="dataObjectClass" value="java.lang.String"/>
     </bean>

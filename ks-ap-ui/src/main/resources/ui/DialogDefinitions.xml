@@ -273,7 +273,7 @@ limitations under the License.
 
     <!--Move Course to another Quarter Dialog Box Content-->
     <bean id="move_dialog_page" parent="move_dialog_page-parent"/>
-    <bean id="move_dialog_page-parent" abstract="true" parent="KSAP-PopoverPage" p:id="move_dialog_page" p:headerText="Move to Another Quarter">
+    <bean id="move_dialog_page-parent" abstract="true" parent="KSAP-PopoverPage" p:id="move_dialog_page" p:headerText="Move to Another Term">
         <property name="cssClasses">
             <list merge="true">
                 <value>@{planItemIdXmlSafe}</value>
@@ -282,7 +282,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:cssClasses="ks-Popover-bodyLabel"
-                      p:messageText="Which quarter would you like to move &lt;strong&gt;@{courseSummaryDetails.code}&lt;/strong&gt; to?"/>
+                      p:messageText="Which term would you like to move &lt;strong&gt;@{courseSummaryDetails.code}&lt;/strong&gt; to?"/>
 
                 <bean parent="Uif-DataField" p:propertyName="courseSummaryDetails.scheduledTermsNames"
                       p:label="Scheduled For"
@@ -297,7 +297,7 @@ limitations under the License.
                 </bean>
 
                 <bean parent="Uif-HorizontalFieldGroup" p:cssClasses="ks-Popover-item"
-                      p:label="Quarter &amp; Year" p:labelPlacement="TOP">
+                      p:label="Term &amp; Year" p:labelPlacement="TOP">
                     <property name="fieldLabel.cssClasses" value="myplan-text-normal ks-Popover-itemLabel"/>
                     <property name="items">
                         <list>
@@ -310,7 +310,7 @@ limitations under the License.
                                 </property>
                             </bean>
                             <bean parent="KSAP-Message"
-                                  p:messageText="Note: This course MAY NOT be offered in your selected quarter. Check back after the Time Schedule is released.">
+                                  p:messageText="Note: This course MAY NOT be offered in your selected term. Check back after the Time Schedule is released.">
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>fl-font-size-80</value>
@@ -382,7 +382,7 @@ limitations under the License.
 
     <!--Copy Course to another Quarter Dialog Box Content-->
     <bean id="copy_dialog_page" parent="copy_dialog_page-parent"/>
-    <bean id="copy_dialog_page-parent" abstract="true" parent="KSAP-PopoverPage" p:id="copy_dialog_page" p:headerText="Copy to Another Quarter">
+    <bean id="copy_dialog_page-parent" abstract="true" parent="KSAP-PopoverPage" p:id="copy_dialog_page" p:headerText="Copy to Another Term">
         <property name="cssClasses">
             <list merge="true">
                 <value>@{planItemIdXmlSafe}</value>
@@ -391,7 +391,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:cssClasses="ks-Popover-bodyLabel"
-                      p:messageText="Which quarter would you like to copy &lt;strong&gt;@{courseSummaryDetails.code}&lt;/strong&gt; to?"/>
+                      p:messageText="Which term would you like to copy &lt;strong&gt;@{courseSummaryDetails.code}&lt;/strong&gt; to?"/>
 
                 <bean parent="Uif-DataField" p:propertyName="courseSummaryDetails.scheduledTermsNames"
                       p:label="Scheduled For"
@@ -406,7 +406,7 @@ limitations under the License.
                 </bean>
 
                 <bean parent="Uif-HorizontalFieldGroup" p:cssClasses="ks-Popover-item"
-                      p:label="Quarter &amp; Year" p:labelPlacement="TOP">
+                      p:label="Term &amp; Year" p:labelPlacement="TOP">
                     <property name="fieldLabel.cssClasses" value="myplan-text-normal ks-Popover-itemLabel"/>
                     <property name="items">
                         <list>
@@ -419,7 +419,7 @@ limitations under the License.
                                 </property>
                             </bean>
                             <bean parent="KSAP-Message"
-                                  p:messageText="Note: This course MAY NOT be offered in your selected quarter. Check back after the Time Schedule is released.">
+                                  p:messageText="Note: This course MAY NOT be offered in your selected term. Check back after the Time Schedule is released.">
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>fl-font-size-80</value>
@@ -683,7 +683,7 @@ limitations under the License.
                                     <list>
 
                                         <bean parent="Uif-Message"
-                                              p:messageText="Which quarter would you like to copy &lt;strong&gt;@{courseSummaryDetails.code}&lt;/strong&gt; to?"/>
+                                              p:messageText="Which term would you like to copy &lt;strong&gt;@{courseSummaryDetails.code}&lt;/strong&gt; to?"/>
 
                                         <bean parent="Uif-DataField" p:propertyName="courseSummaryDetails.scheduledTermsNames"
                                               p:label="Scheduled For"
@@ -697,7 +697,7 @@ limitations under the License.
                                         </bean>
 
                                         <bean parent="Uif-HorizontalFieldGroup"
-                                              p:label="Quarter &amp; Year" p:labelPlacement="TOP">
+                                              p:label="Term &amp; Year" p:labelPlacement="TOP">
                                             <property name="fieldLabel.cssClasses" value="myplan-text-normal"/>
                                             <property name="items">
                                                 <list>
@@ -710,7 +710,7 @@ limitations under the License.
                                                         </property>
                                                     </bean>
                                                     <bean parent="KSAP-Message"
-                                                          p:messageText="Note: This course MAY NOT be offered in your selected quarter. Check back after the Time Schedule is released.">
+                                                          p:messageText="Note: This course MAY NOT be offered in your selected term. Check back after the Time Schedule is released.">
                                                         <property name="cssClasses">
                                                             <list merge="true">
                                                                 <value>fl-font-size-80</value>
@@ -849,7 +849,7 @@ limitations under the License.
     <!-- Atp/Term Selection for Copy and Move plan items-->
     <bean id="courseTermSelection" parent="courseTermSelection-parent"/>
     <bean id="courseTermSelection-parent" abstract="true" parent="Uif-HorizontalFieldGroup"
-          p:label="Quarter &amp; Year" p:labelPlacement="TOP">
+          p:label="Term &amp; Year" p:labelPlacement="TOP">
         <property name="fieldLabel.cssClasses" value="myplan-text-normal"/>
         <property name="items">
             <list>
@@ -862,7 +862,7 @@ limitations under the License.
                     </property>
                 </bean>
                 <bean parent="KSAP-Message"
-                      p:messageText="Note: This course MAY NOT be offered in your selected quarter. Check back after the Time Schedule is released.">
+                      p:messageText="Note: This course MAY NOT be offered in your selected term. Check back after the Time Schedule is released.">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>fl-font-size-80</value>
