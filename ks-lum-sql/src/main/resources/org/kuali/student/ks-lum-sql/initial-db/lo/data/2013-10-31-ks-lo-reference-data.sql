@@ -1,3 +1,11 @@
+/*
+ * **************************************
+ * **************************************
+ *	This is just a custom test script that is being used while developing Learning Objectives in the Curriculum Management KRAD Conversion project.
+ *	This is NOT an official sql script.
+ * **************************************
+ * **************************************
+ */
 
 delete from KSLO_LO_JN_LOCATEGORY where lo_id='4beee444-ac19-4063-85e3-61df2662ceab'
 /
