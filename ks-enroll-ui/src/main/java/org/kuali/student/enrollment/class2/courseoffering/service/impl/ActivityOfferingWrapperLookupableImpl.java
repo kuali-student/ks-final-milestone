@@ -52,7 +52,7 @@ public class ActivityOfferingWrapperLookupableImpl extends LookupableImpl {
     @Override
     public boolean validateSearchParameters(LookupForm form, Map<String, String> searchCriteria){
         if (searchCriteria == null || searchCriteria.isEmpty() || StringUtils.isBlank(searchCriteria.get("termId")) || StringUtils.isBlank(searchCriteria.get("courseOfferingCode"))){
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,RiceKeyConstants.ERROR_CUSTOM,"Missing Course Offering code and/or term Id");
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,RiceKeyConstants.ERROR_CUSTOM,"Missing Course Offering code");
             return false;
         }
         return true;
