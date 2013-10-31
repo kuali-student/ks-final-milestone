@@ -35,16 +35,14 @@ import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
 /**
- * TODO KSCM-820
  * 
  * This is the helper class for CourseView
+ * It specifically looks for certain keys
  * 
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  * 
- * Copy from
- * DurationTypeValueFinder.java
- * 
  */
+
 public class DurationTypeKeyValueFinder extends UifKeyValuesFinderBase {
 
     private TypeService typeService;
