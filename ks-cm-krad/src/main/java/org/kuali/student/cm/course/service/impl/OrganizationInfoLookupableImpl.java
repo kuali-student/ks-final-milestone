@@ -58,9 +58,16 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
 		final List<OrganizationInfoWrapper> retval = new LinkedList<OrganizationInfoWrapper>();
 		
 		final List<SearchParamInfo> queryParamValueList = new LinkedList<SearchParamInfo>();
+        final String id               = searchCriteria.get("id");
         final String organizationName = searchCriteria.get("organizationName");
         final String shortName        = searchCriteria.get("abbreviation");
         
+        if (StringUtils.isNotBlank(id)) {
+            final SearchParamInfo idParam = new SearchParamInfo();
+            displayNameParam.setKey("org.queryParam.orgId");
+            displayNameParam.getValues().add(id);
+            queryParamValueList.add(idParam);
+        }
         if (StringUtils.isNotBlank(organizationName)) {
             final SearchParamInfo displayNameParam = new SearchParamInfo();
             displayNameParam.setKey("org.queryParam.orgOptionalLongName");
