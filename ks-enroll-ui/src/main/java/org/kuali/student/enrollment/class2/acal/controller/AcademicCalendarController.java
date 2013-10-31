@@ -149,12 +149,14 @@ public class AcademicCalendarController extends UifControllerBase {
     public ModelAndView createBlankCalendar(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response){
 
-        acalForm.setAcademicCalendarInfo(new AcademicCalendarInfo());
-        acalForm.setEvents(new ArrayList<AcalEventWrapper>());
-        acalForm.setHolidayCalendarList(new ArrayList<HolidayCalendarWrapper>());
-        acalForm.setTermWrapperList(new ArrayList<AcademicTermWrapper>());
+        Properties urlParameters = new Properties();
+        urlParameters.put(UifParameters.VIEW_ID, CalendarConstants.ACAL_VIEW);
+        urlParameters.put("flow", acalForm.getFlowKey());
+        urlParameters.put(CalendarConstants.PAGE_ID,CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "startNew");
+        String controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
+        return super.performRedirect(acalForm,controllerPath, urlParameters);
 
-        return getUIFModelAndView(acalForm, CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
     }
 
     /**
