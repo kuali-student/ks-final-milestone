@@ -22,33 +22,8 @@
     <bean id="LoCategoryInfoWrapper-DataObjectEntry" parent="DataObjectEntry">
         <property name="objectLabel" value="LoCategoryInfoWrapper" />
         <property name="dataObjectClass" value="org.kuali.student.cm.course.form.LoCategoryInfoWrapper" />
-        <property name="attributes">
-            <list>
-                <ref bean="LoCategoryInfoWrapper.name" />
-                <ref bean="LoCategoryInfoWrapper.typeName" />
-                <ref bean="LoCategoryInfoWrapper.typeKey" />
-            </list>
-        </property>
     </bean>
     
-    <bean id="LoCategoryInfoWrapper.name" parent="BaseKuali.string">
-        <property name="name" value="name"/>
-        <property name="dataType" value="STRING" />
-		<property name="label" value="Type Name"/>
-    </bean>
-    
-    <bean id="LoCategoryInfoWrapper.typeName" parent="BaseKuali.string">
-        <property name="name" value="typeName"/>
-        <property name="dataType" value="STRING" />
-		<property name="label" value="Type Name"/>
-    </bean>
-    
-    <bean id="LoCategoryInfoWrapper.typeKey" parent="BaseKuali.string">
-        <property name="name" value="typeKey"/>
-        <property name="dataType" value="STRING" />
-		<property name="label" value="Type Name"/>
-    </bean>
-                           
     <bean id="KS-LoCategoryInfoWrapper-View" parent="KS-Uif-LookupView">
         <property name="id" value="LoCategoryInfoWrapperView" />
         <property name="headerText" value="Select Categories" />
