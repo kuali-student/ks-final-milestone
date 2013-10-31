@@ -15,7 +15,7 @@
  */
 package org.kuali.student.cm.course.service.impl;
 
-import static org.kuali.student.logging.FormattedLogger.info;
+import static org.kuali.student.logging.FormattedLogger.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -64,8 +64,8 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
         
         if (StringUtils.isNotBlank(id)) {
             final SearchParamInfo idParam = new SearchParamInfo();
-            displayNameParam.setKey("org.queryParam.orgId");
-            displayNameParam.getValues().add(id);
+            idParam.setKey("org.queryParam.orgId");
+            idParam.getValues().add(id);
             queryParamValueList.add(idParam);
         }
         if (StringUtils.isNotBlank(organizationName)) {
@@ -102,8 +102,8 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
             final List<SearchResultCellInfo> cells = result.getCells();
             final OrganizationInfoWrapper cluOrgInfoDisplay = new OrganizationInfoWrapper();
             for (final SearchResultCellInfo cell : cells) {
-                info("Got key %s", cell.getKey());
-                info("Got key %s", cell.getValue());
+                debug("Got key %s", cell.getKey());
+                debug("Got value %s", cell.getValue());
                 
                 if ("org.resultColumn.orgId".equals(cell.getKey())) {
                     cluOrgInfoDisplay.setId(cell.getValue());
@@ -111,6 +111,9 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
                 else if ("org.resultColumn.orgOptionalLongName".equals(cell.getKey())) {
                     cluOrgInfoDisplay.setOrganizationName(cell.getValue());
                 } 
+                else if ("org.resultColumn.orgShortName".equals(cell.getKey())) {
+                    cluOrgInfoDisplay.setAbbreviation(cell.getValue());
+                }
             }
             retval.add(cluOrgInfoDisplay);
         }
