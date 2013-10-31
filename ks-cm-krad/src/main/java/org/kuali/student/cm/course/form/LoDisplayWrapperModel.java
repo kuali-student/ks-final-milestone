@@ -32,12 +32,12 @@ public class LoDisplayWrapperModel {
     private LoDisplayInfoWrapper currentLoWrapper;
 
     public void clearLoWrappers() {
-        loWrappers = new ArrayList<LoDisplayInfoWrapper>();
+        loWrappers = new ArrayList<LoDisplayInfoWrapper>(0);
     }
 
     public List<LoDisplayInfoWrapper> getLoWrappers() {
         if (loWrappers == null) {
-            loWrappers = new ArrayList<LoDisplayInfoWrapper>();
+            loWrappers = new ArrayList<LoDisplayInfoWrapper>(0);
         }
         return loWrappers;
     }

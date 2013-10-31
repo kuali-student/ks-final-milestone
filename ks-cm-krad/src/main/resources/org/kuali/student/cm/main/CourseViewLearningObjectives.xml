@@ -56,7 +56,7 @@
         <property name="collectionLookup">
             <bean parent="Uif-CollectionQuickFinder" p:render="true" p:dataObjectClassName="org.kuali.student.cm.course.form.LoDisplayInfoWrapper" /> 
         </property>
-<!--         <property name="collectionLookup.fieldConversions" value="descr.plain:loWrapper.descr.plain,loCategoryInfoList[0].name:loWrapper.name"/> -->
+        <property name="collectionLookup.fieldConversions" value="code:code,typeName:typeName,name:name,descr.plain:loInfo.descr.plain" />
         <property name="items">
 			<list>
 				<bean id="KS-LoDisplayInfoWrapper-descr" parent="Uif-InputField"
