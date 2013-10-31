@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.pom</groupId>
         <artifactId>kuali-common</artifactId>
-        <version>3.3.19</version>
+        <version>3.3.29</version>
     </parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
@@ -110,7 +110,6 @@
         <kuali.javadoc.link.7>http://site.kuali.org/rice/${kuali.rice.version}/apidocs/</kuali.javadoc.link.7>
         <kuali.javadoc.link.8>http://logging.apache.org/log4j/${log4j.javadoc.version}/apidocs/</kuali.javadoc.link.8>
         <kuali.javadoc.link.9>http://ws.apache.org/wss4j/apidocs/</kuali.javadoc.link.9>
-        <kuali.javadoc.maxmemory>1g</kuali.javadoc.maxmemory>
         <!-- gwt properties -->
         <ks.gwt.compile.draftCompile>false</ks.gwt.compile.draftCompile>
         <ks.gwt.compile.force>false</ks.gwt.compile.force>
