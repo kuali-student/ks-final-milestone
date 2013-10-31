@@ -115,8 +115,8 @@ limitations under the License.
                             <bean parent="Uif-HorizontalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField" p:propertyName="termToUse" p:label="Term Type" p:labelPlacement="LEFT" p:readOnly="false"
-                                              p:onChangeScript="retrieveComponent('KSFE-AgendaManage-Section', 'loadTermType');">
+                                        <bean parent="Uif-InputField" p:id="ksfeTermType" p:propertyName="termToUse" p:label="Term Type" p:labelPlacement="LEFT" p:readOnly="false"
+                                              p:onChangeScript="retrieveFinalExamMatrix('KSFE-AgendaManage-Section', 'loadTermType', 'ksfeTermType');">
                                             <property name="control">
                                                 <bean parent="Uif-DropdownControl"/>
                                             </property>
