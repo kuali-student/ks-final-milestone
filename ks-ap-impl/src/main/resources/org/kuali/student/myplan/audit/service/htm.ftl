@@ -10,7 +10,7 @@
 	"-":"The sub-requirement has not been satisfied.",
 	"IP -":"A course is in-progress which partially satisfies the sub-requirement but does not complete it.",
 	"IP +":"A course is in-progress which partially satisfies the sub-requirement.",
-	"0000":"Zeros precede some transfer courses to indicate that quarter and year the course was taken are not available to DARS.",
+	"0000":"Zeros precede some transfer courses to indicate that term and year the course was taken are not available to DARS.",
 	"R":"This sub-requirement is mandatory.",
 	"*":"This sub-requirement is optional.",
 	">S":"The course credit is split.",
