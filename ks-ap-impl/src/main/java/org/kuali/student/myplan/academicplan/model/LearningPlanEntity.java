@@ -12,8 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "KSPL_LRNG_PLAN")
-public class LearningPlanEntity extends MetaEntity
-        implements AttributeOwner<LearningPlanAttributeEntity>, Comparable<LearningPlanEntity> {
+public class LearningPlanEntity extends MetaEntity implements Comparable<LearningPlanEntity> {
 
     @Column(name="STUDENT_ID")
 	private String studentId;
@@ -32,16 +31,17 @@ public class LearningPlanEntity extends MetaEntity
     @Column(name="SHARED")
     private Boolean shared;
 
+    @Column(name="STATE")
+    private String stateKey;
+
     public LearningPlanEntity() {
         super();
     }
 
-    @Override
     public void setAttributes(Set<LearningPlanAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
-    @Override
     public Set<LearningPlanAttributeEntity> getAttributes() {
         return attributes;
     }
@@ -78,6 +78,14 @@ public class LearningPlanEntity extends MetaEntity
         this.shared = shared;
     }
 
+    public String getStateKey() {
+		return stateKey;
+	}
+
+	public void setStateKey(String stateKey) {
+		this.stateKey = stateKey;
+	}
+
     @Override
     public String toString() {
         return String.format("LearningPlan [%s, %s]: %s", this.getId(), this.getObjectId(), this.getDescr().getPlain());
@@ -93,6 +101,7 @@ public class LearningPlanEntity extends MetaEntity
         dto.setId(getId());
         dto.setStudentId(this.studentId);
         dto.setTypeKey(this.getLearningPlanType().getId());
+        dto.setStateKey(this.getStateKey());
         dto.setShared(this.shared);
 
         dto.setMeta(super.toDTO());

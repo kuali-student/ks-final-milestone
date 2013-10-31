@@ -838,7 +838,6 @@
 	        	<value>ks-Popover-footer</value>
         	</list>
         </property>
-        <property name="width" value="300px"/>
     </bean>
 
     <bean id="KSAP-Suggest" parent="Uif-Suggest-parentBean">

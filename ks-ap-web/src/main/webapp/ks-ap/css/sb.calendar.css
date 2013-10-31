@@ -1,0 +1,225 @@
+.fc {
+	background-color: #fff;
+	color: #2f2e2b
+}
+
+.fc table {
+	border-collapse: collapse;
+	border-spacing: 0
+}
+
+.fc td,.fc th {
+	padding: 0;
+	vertical-align: top
+}
+
+.fc-widget-header,.fc-widget-content {
+	border: 1px solid;
+	border-color: #d6d3c6 #eeebdc
+}
+
+.fc-state-highlight {
+	background: #f8f3d2
+}
+
+.fc-cell-overlay {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30 );
+	opacity: 0.3;
+	background-color: #6f679d
+}
+
+.fc-event {
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-ms-border-radius: 2px;
+	-o-border-radius: 2px;
+	border-radius: 2px;
+	text-shadow: 0 1px rgba(255, 255, 255, 0.5);
+	background-color: #3a87ad;
+	border: 1px solid #3a87ad;
+	cursor: default
+}
+
+a.fc-event,.fc-event.quick-add-cell,.fc-event-draggable {
+	cursor: pointer
+}
+
+a.fc-event,.fc-event.quick-add-cell {
+	text-decoration: none
+}
+
+.fc-event-inner {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	border-style: solid;
+	border-width: 0;
+	font-size: 0.7em;
+	height: 100%;
+	line-height: 1.4;
+	overflow: hidden;
+	padding-top: 0;
+	position: relative;
+	width: 100%
+}
+
+.fc-event-time,.fc-event-title {
+	padding: 0 0
+}
+
+.fc .ui-resizable-handle {
+	display: block;
+	position: absolute;
+	z-index: 99999;
+	overflow: hidden;
+	font-size: 300%;
+	line-height: 50%
+}
+
+.fc-event-head {
+	background-color: transparent !important
+}
+
+.fc-border-separate {
+	border: 1px solid #d6d3c6;
+	border-width: 1px 0;
+	border-collapse: separate
+}
+
+.fc-border-separate th,.fc-border-separate td {
+	border-width: 1px 0 0 1px
+}
+
+.fc-border-separate th.fc-last,.fc-border-separate td.fc-last {
+	border-right-width: 1px
+}
+
+.fc-border-separate thead tr.fc-last th,.fc-border-separate thead tr.fc-last td
+	{
+	border-bottom-width: 1px
+}
+
+.fc-border-separate tr.fc-first th,.fc-border-separate tr.fc-first td {
+	border-top-width: 0
+}
+
+.fc-agenda table {
+	border-collapse: separate
+}
+
+.fc-agenda .fc-agenda-axis {
+	font-size: 0.6em;
+	font-weight: normal;
+	padding: 0 0.5rem;
+	text-align: right;
+	vertical-align: middle;
+	white-space: normal;
+	width: 50px !important;
+}
+
+.fc-agenda-days th {
+	text-align: center
+}
+
+.fc-agenda-days .fc-agenda-axis {
+	border-right-width: 1px
+}
+
+.fc-agenda-days .fc-col0 {
+	border-left-width: 0
+}
+
+.fc-agenda-allday th {
+	border-width: 0 1px
+}
+
+.fc-agenda-allday .fc-day-content {
+	min-height: 2.25rem
+}
+
+thead .fc-widget-header {
+	background-color: #eeebdc;
+	font-size: 0.8125em;
+	line-height: 2.75
+}
+
+.fc-agenda-divider-inner {
+	background-color: #eeebdc;
+	height: 2px
+}
+
+.fc-agenda-slots th {
+	border-width: 1px 1px 0
+}
+
+.fc-agenda-slots td {
+	border-width: 1px 0 0
+}
+
+.fc-agenda-slots tr.fc-slot0 th,.fc-agenda-slots tr.fc-slot0 td {
+	border-top-width: 0
+}
+
+.fc-agenda-slots tr.fc-minor th,.fc-agenda-slots tr.fc-minor td {
+	border-top-style: dotted
+}
+
+.fc-event {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	border-width: 1px;
+	font-size: 1em;
+	line-height: normal;
+}
+
+.fc-event .fc-event-head,.fc-event .fc-event-content {
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+	z-index: 2
+}
+
+.fc-event .fc-event-inner {
+	position: relative;
+	z-index: 2;
+	background-color: transparent !important
+}
+
+.fc-event .fc-event-time {
+	font-size: 0.6875em !important;
+	white-space: nowrap
+}
+
+.fc-event-title {
+	font-size: 0.8125em;
+}
+
+.fc-event .fc-event-bg,.fc-event.fc-event-hori .ui-resizable-handle {
+	filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50 );
+	opacity: 0.5;
+	background: #fff;
+	height: 100%;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: 1
+}
+
+.fc-event-vert .ui-resizable-s {
+	cursor: s-resize;
+	bottom: 0 !important;
+	font-family: monospace;
+	font-size: 1em !important;
+	height: 1em !important;
+	line-height: 1em !important;
+	text-align: center
+}
+
+.fc-event-bg {
+	display: none;
+}

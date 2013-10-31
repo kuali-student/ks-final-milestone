@@ -152,15 +152,12 @@ function searchForCourses(id, parentId) {
 								jQuery(".dataTables_paginate .ui-button")
 										.hide();
 							}
-							if (this.fnSettings()._iDisplayStart != 0
-									&& jQuery("#" + parentId).height() > jQuery(
-											window).height()) {
+
 								var targetOffset = jQuery("#" + parentId)
 										.offset().top;
 								jQuery('html,body').animate({
 									scrollTop : targetOffset
 								}, 250);
-							}
 						},
 						fnInitComplete : function(oSettings, json) {
 							oTable.fnDraw();

@@ -1,4 +1,4 @@
-package org.kuali.student.myplan.course.util;
+package org.kuali.student.ap.framework.course;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
+import org.kuali.student.ap.framework.course.CreditsFormatter;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;

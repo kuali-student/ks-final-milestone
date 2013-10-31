@@ -25,6 +25,12 @@
 		<property name="cluService" ref="ksLumCluService" />
 	</bean>
 
+	<bean id="scheduleBuildStrategy"
+		class="org.kuali.student.ap.schedulebuilder.support.DefaultScheduleBuildStrategy" />
+
+	<bean id="shoppingCartStrategy"
+		class="org.kuali.student.ap.schedulebuilder.support.DefaultShoppingCartStrategy" />
+
 	<bean id="kualiConfigurationService"
 		class="org.kuali.rice.core.impl.services.ConfigurationServiceImpl" />
 

@@ -130,7 +130,12 @@
 
         <!-- Not Displaying any criteria -->
         <property name="criteriaGroup">
-            <bean parent="Uif-VerticalBoxGroup"/>
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="validationMessages.render" value="false"/>
+                <property name="footer">
+                    <bean parent="Uif-FooterBase"/>
+                </property>
+            </bean>
         </property>
         <property name="resultsGroup">
             <bean id="degree_audits_summary" parent="degree_audits_summary_list"/>

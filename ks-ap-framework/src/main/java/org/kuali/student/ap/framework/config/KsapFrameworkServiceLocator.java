@@ -13,6 +13,9 @@ import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.context.TextHelper;
 import org.kuali.student.ap.framework.context.UserSessionHelper;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
+import org.kuali.student.ap.plannerreview.LearningPlanReviewStrategy;
+import org.kuali.student.ap.schedulebuilder.ScheduleBuildStrategy;
+import org.kuali.student.ap.schedulebuilder.ShoppingCartStrategy;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -28,6 +31,7 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.program.service.ProgramService;
+
 
 /**
  * Convenience factory for acquiring KSAP provided service.
@@ -299,6 +303,28 @@ public final class KsapFrameworkServiceLocator {
         return getInstance().planHelper;
     }
 
+	/**
+	 * Get the schedule build strategy.
+	 *
+	 * @return The schedule build strategy.
+	 */
+    public static ScheduleBuildStrategy getScheduleBuildStrategy() {
+        return getInstance().scheduleBuildStrategy;
+    }
+
+    /**
+     * Get the shopping cart strategy.
+     *
+     * @return The shopping cart strategy.
+     */
+    public static ShoppingCartStrategy getShoppingCartStrategy() {
+        return getInstance().shoppingCartStrategy;
+    }
+
+    public static LearningPlanReviewStrategy getLearningPlanReviewStrategy() {
+        return getInstance().learningPlanReviewStrategy;
+    }
+
     public void setKsCoreAtpService(AtpService ksCoreAtpService) {
         getInstance().ksCoreAtpService = ksCoreAtpService;
     }
@@ -403,6 +429,18 @@ public final class KsapFrameworkServiceLocator {
         getInstance().courseSearchStrategy = courseSearchStrategy;
     }
 
+    public void setLearningPlanReviewStrategy(LearningPlanReviewStrategy learningPlanReviewStrategy) {
+        getInstance().learningPlanReviewStrategy = learningPlanReviewStrategy;
+    }
+
+    public void setShoppingCartStrategy(ShoppingCartStrategy shoppingCartStrategy) {
+        getInstance().shoppingCartStrategy = shoppingCartStrategy;
+    }
+
+    public void setScheduleBuildStrategy(ScheduleBuildStrategy scheduleBuildStrategy) {
+        getInstance().scheduleBuildStrategy = scheduleBuildStrategy;
+    }
+
 	@EJB
 	private transient AtpService ksCoreAtpService;
 	@EJB
@@ -453,10 +491,23 @@ public final class KsapFrameworkServiceLocator {
 	private transient ShoppingCartHelper shoppingCartHelper;
     @EJB
     private transient PlanHelper planHelper;
-	@EJB
-	@OptionalResource
+
 	// provided by ks-ap-ui or institution override
-	private transient CourseSearchStrategy courseSearchStrategy;
+	@EJB
+    @OptionalResource
+    private transient CourseSearchStrategy courseSearchStrategy;
+
+    @OptionalResource
+    @EJB
+    private transient LearningPlanReviewStrategy learningPlanReviewStrategy;
+    @OptionalResource
+    @EJB
+    private transient ScheduleBuildStrategy scheduleBuildStrategy;
+
+
+    @OptionalResource
+    @EJB
+    private transient ShoppingCartStrategy shoppingCartStrategy;
 
 	private KsapFrameworkServiceLocator() {
 	}

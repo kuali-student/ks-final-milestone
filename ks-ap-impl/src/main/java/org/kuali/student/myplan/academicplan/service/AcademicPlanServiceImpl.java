@@ -21,6 +21,7 @@ import org.kuali.student.myplan.academicplan.dao.PlanItemTypeDao;
 import org.kuali.student.myplan.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.myplan.academicplan.dto.PlanItemInfo;
 import org.kuali.student.myplan.academicplan.dto.PlanItemSetInfo;
+import org.kuali.student.myplan.academicplan.model.AttributeEntity;
 import org.kuali.student.myplan.academicplan.model.LearningPlanAttributeEntity;
 import org.kuali.student.myplan.academicplan.model.LearningPlanEntity;
 import org.kuali.student.myplan.academicplan.model.LearningPlanRichTextEntity;
@@ -33,7 +34,6 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -223,11 +223,19 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		LearningPlanEntity lpe = new LearningPlanEntity();
 		lpe.setId(UUIDHelper.genStringUUID());
 
+		// FIXME: Is this check necessary?
+		LearningPlanEntity existing = learningPlanDao.find(lpe.getId());
+		if (existing != null) {
+			// When generating a new UUID as the key, this should not be possible.
+			throw new AlreadyExistsException();
+		}
+
 		LearningPlanTypeEntity type = learningPlanTypeDao.find(learningPlan.getTypeKey());
 		if (type == null) {
 			throw new InvalidParameterException(String.format("Unknown type [%s].", learningPlan.getTypeKey()));
 		}
 		lpe.setLearningPlanType(type);
+		lpe.setStateKey(learningPlan.getStateKey());
 
 		lpe.setStudentId(learningPlan.getStudentId());
 		lpe.setDescr(new LearningPlanRichTextEntity(learningPlan.getDescr()));
@@ -239,10 +247,11 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		lpe.setUpdateTime(new Date());
 		lpe.setShared(learningPlan.getShared());
 
-		LearningPlanEntity existing = learningPlanDao.find(lpe.getId());
-		if (existing != null) {
-			throw new AlreadyExistsException();
-		}
+		// Update attributes.
+		Set<LearningPlanAttributeEntity> attributeEntities = new HashSet<LearningPlanAttributeEntity>();
+		for (Attribute att : learningPlan.getAttributes())
+			attributeEntities.add(new LearningPlanAttributeEntity(att, lpe));
+		lpe.setAttributes(attributeEntities);
 
 		learningPlanDao.persist(lpe);
 
@@ -330,12 +339,13 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 
 	/**
 	 *
+	 * @param createNewPlanItem
 	 * @param attrSource
 	 * @param attributeEntities
 	 * @return
 	 */
-	private List<Attribute> mergeAttributes(HasAttributes attrSource,
-			Set<? extends BaseAttributeEntity<?>> attributeEntities) {
+	private List<Attribute> mergeAttributes(boolean createNewPlanItem, HasAttributes attrSource,
+			Set<? extends AttributeEntity> attributeEntities) {
 		if (attrSource.getAttributes() == null)
 			return null;
 
@@ -349,9 +359,12 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		}
 
 		if (attributeEntities != null) {
-			Iterator<? extends BaseAttributeEntity<?>> ai = attributeEntities.iterator();
+			if (createNewPlanItem) {
+				attributeEntities.clear();
+			} else {
+				Iterator<? extends AttributeEntity> ai = attributeEntities.iterator();
 			while (ai.hasNext()) {
-				BaseAttributeEntity<?> attrEntity = ai.next();
+					AttributeEntity attrEntity = ai.next();
 				String key = attrEntity.getKey();
 				if (attributeMap.containsKey(key)) {
 					List<Attribute> attl = attributeMap.get(key);
@@ -379,6 +392,7 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 				}
 			}
 		}
+		}
 
 		List<Attribute> rv = new LinkedList<Attribute>();
 		for (List<Attribute> attl : attributeMap.values())
@@ -399,11 +413,31 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 			throw new DoesNotExistException(learningPlanId);
 		}
 
+		LearningPlanTypeEntity type = learningPlanTypeDao.find(learningPlan.getTypeKey());
+		if (type == null) {
+			throw new InvalidParameterException(String.format("Unknown type [%s].", learningPlan.getTypeKey()));
+		}
+		lpe.setLearningPlanType(type);
+		lpe.setStateKey(learningPlan.getStateKey());
+
 		lpe.setStudentId(learningPlan.getStudentId());
-		lpe.setDescr(new LearningPlanRichTextEntity(learningPlan.getDescr()));
+
+		//  Update text entity.
+		RichTextInfo descrInfo = learningPlan.getDescr();
+		if (descrInfo == null) {
+			lpe.setDescr(null);
+		} else {
+			LearningPlanRichTextEntity descr = lpe.getDescr();
+			if (descr == null) {
+				descr = new LearningPlanRichTextEntity(descrInfo);
+			} else {
+				descr.setPlain(descrInfo.getPlain());
+				descr.setFormatted(descrInfo.getFormatted());
+			}
+		}
 
 		//  Update attributes.
-		List<Attribute> createAttrs = mergeAttributes(learningPlan, lpe.getAttributes());
+		List<Attribute> createAttrs = mergeAttributes(false, learningPlan, lpe.getAttributes());
 		if (createAttrs != null) {
 			Set<LearningPlanAttributeEntity> attributeEntities = lpe.getAttributes();
 			if (attributeEntities == null) {
@@ -413,18 +447,10 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 				attributeEntities.add(new LearningPlanAttributeEntity(att, lpe));
 		}
 
-		lpe.setAttributes(new HashSet<LearningPlanAttributeEntity>());
-		if (null != learningPlan.getAttributes()) {
-			for (Attribute att : learningPlan.getAttributes()) {
-				LearningPlanAttributeEntity attEntity = new LearningPlanAttributeEntity(att, lpe);
-				lpe.getAttributes().add(attEntity);
-			}
-		}
-
-		lpe.setShared(learningPlan.getShared());
-		//  Update meta data.
+		//  Plan meta
 		lpe.setUpdateId(context.getPrincipalId());
 		lpe.setUpdateTime(new Date());
+		lpe.setShared(learningPlan.getShared());
 
 		learningPlanDao.merge(lpe);
 		return learningPlanDao.find(learningPlanId).toDto();
@@ -477,7 +503,7 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		}
 
 		//  Update attributes.
-		List<Attribute> createAttrs = mergeAttributes(planItem, planItemEntity.getAttributes());
+		List<Attribute> createAttrs = mergeAttributes(createNewPlanItem, planItem, planItemEntity.getAttributes());
 		if (createAttrs != null) {
 			Set<PlanItemAttributeEntity> attributeEntities = planItemEntity.getAttributes();
 			if (attributeEntities == null) {

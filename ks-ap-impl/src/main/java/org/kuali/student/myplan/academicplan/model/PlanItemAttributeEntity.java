@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "KSPL_LRNG_PLAN_ITEM_ATTR")
-public class PlanItemAttributeEntity extends BaseAttributeEntity<PlanItemEntity> {
+public class PlanItemAttributeEntity extends BaseAttributeEntity<PlanItemEntity> implements AttributeEntity {
 
     public PlanItemAttributeEntity() {}
 

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <!--
+     Copyright 2007-2009 The Kuali Foundation
+
+     Licensed under the Educational Community License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+     http://www.opensource.org/licenses/ecl2.php
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+    -->
+    <bean id="Conversation-FormView" parent="Conversation-FormView-parent" />
+	<bean abstract="true" id="Conversation-FormView-parent" parent="MyPlanFormView">
+		<property name="id" value="Conversation-FormView" />
+		<property name="entryPageId" value="conversation_view" />
+		<property name="cssClasses">
+			<list merge="true">
+				<value>myplan-view</value>
+			</list>
+		</property>
+		<property name="additionalScriptFiles">
+            <list>
+                <value>arm-ks/scripts/arm-review-ks.js</value>
+                <value>ks-ap/scripts/dotdotdot/jquery.dotdotdot.min.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>arm-ks/css/arm-review-ks.css</value>
+            </list>
+        </property>
+		<property name="items">
+			<list>
+				<ref bean="conversation_view_page" />
+			</list>
+		</property>
+		<property name="persistFormToSession" value="true"/>
+		<property name="header.render" value="false" />
+		<property name="footer.render" value="false" />
+	</bean>
+
+	<bean id="conversation_view_page" parent="conversation_view_page-parent" />
+	<bean abstract="true" id="conversation_view_page-parent" parent="Uif-Page" p:id="conversation_view">
+		<property name="layoutManager">
+			<bean parent="Uif-HorizontalBoxLayout" />
+		</property>
+		<property name="cssClasses">
+      		<list merge="true">
+          		<value>conversation-section</value>
+      		</list>
+  		</property>
+		<property name="items">
+			<list>
+				<ref bean="conversation_view_controls" />
+
+			</list>
+		</property>
+	</bean>
+
+	<bean id="conversation_view_controls" parent="conversation_view_controls-parent" />
+	<bean abstract="true" id="conversation_view_controls-parent" parent="Uif-VerticalBoxGroup" p:id="conversation_view_controls">
+		<property name="forceSessionPersistence" value="true"/>
+		<property name="items">
+			<list>
+				<bean parent="Uif-LinkField" p:linkText="Back to conversations" p:href="reviewList" />
+				<bean parent="Uif-MessageField" p:messageText="[hr]"/>
+				<bean parent="Uif-HorizontalFieldGroup">
+                    <property name="fieldLabel.render" value="false"/>
+                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="items">
+                        <list>
+
+                        	<bean parent="Uif-MessageField" p:messageText="Topic"/>
+                        	<bean parent="Uif-LinkField" p:linkText="Show details" p:href="" p:additionalCssClasses="floatedRight"/>
+
+		                </list>
+	                </property>
+                </bean>
+                <bean parent="Uif-MessageField" p:messageText="@{conversation.topic}" p:additionalCssClasses="ellipsisWrapper,doubleLineEllipsis"/>
+                <bean parent="Uif-MessageField" p:messageText="[hr]"/>
+				<bean parent="Uif-MessageField" p:messageText="@{conversation.advisor.name}"/>
+				<bean parent="Uif-MessageField" p:messageText="[hr]"/>
+				<bean parent="Uif-InputField" p:propertyName="newComment" p:render="@{not conversation.closed}">
+				    <property name="control">
+				 		<bean parent="Uif-TextAreaControl"/>
+				    </property>
+				</bean>
+				<bean parent="Uif-PrimaryActionButton" p:actionLabel="Send" p:render="@{not conversation.closed}"
+						p:methodToCall="send" p:disabled="@{commentTextEmpty}" p:enabledWhenChangedPropertyNames="newComment"
+						p:evaluateDisabledOnKeyUp="true"/>
+				<bean parent="Uif-MessageField" p:messageText="Conversation closed" p:render="@{conversation.closed}" p:align="center"/>
+				<ref bean="conversation_comments"/>
+			</list>
+		</property>
+		<property name="onDocumentReadyScript" value="
+          		jQuery('.ellipsisWrapper').dotdotdot();"/>
+	</bean>
+
+	<bean id="conversation_comments" parent="conversation_comments-parent"/>
+	<bean id="conversation_comments-parent" abstract="true" parent="Uif-ListCollectionSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.ap.plannerreview.dto.ConversationDateCommentInfo"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="propertyName" value="commentsByDate"/>
+        <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
+
+        <property name="items">
+            <list>
+            	<bean parent="Uif-MessageField" p:messageText="@{#line.getDateDisplay()}" p:align="center"/>
+            </list>
+        </property>
+        <property name="subCollections">
+        	<list>
+        		<ref bean="conversation_comment" />
+        	</list>
+        </property>
+    </bean>
+
+    <bean id="conversation_comment" parent="conversation_comment-parent"/>
+    <bean id="conversation_comment-parent" abstract="true" parent="Uif-ListCollectionSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.ap.plannerreview.dto.ConversationCommentInfo"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="propertyName" value="comments"/>
+        <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
+        <property name="items">
+            <list>
+            	<bean parent="Uif-VerticalFieldGroup">
+                    <property name="fieldLabel.render" value="false"/>
+                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="cssClasses">
+					<list merge="true">
+						<value>boxedComment</value>
+						<value>@{#line.byAdvisor ? 'advisorComment' : 'studentComment'}</value>
+					</list>
+					</property>
+		        	<property name="items">
+                        <list>
+                        	<bean parent="Uif-HorizontalFieldGroup">
+                        		<property name="items">
+                        			<list>
+                        				<bean parent="Uif-MessageField" p:messageText="@{getAdvisorInfo(#line.meta.createId, #line.byAdvisor ? conversation.advisor.advisorRoleId : 'STUDENT').name}"/>
+                        				<bean parent="Uif-MessageField" p:messageText="@{#line.getCommentCreateTime()}"/>
+                        			</list>
+                        		</property>
+                        	</bean>
+                        	<bean parent="Uif-MessageField" p:messageText="@{#line.commentText.plain}"/>
+		                </list>
+	                </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

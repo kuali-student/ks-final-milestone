@@ -1,8 +1,4 @@
-package org.kuali.student.myplan.course.util;
-
-import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.List;
+package org.kuali.student.ap.framework.course;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
@@ -16,6 +12,10 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+
+import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Turns credits info into Strings.
@@ -122,17 +122,22 @@ public class CreditsFormatter {
 
 			if (minString != null)
 				try {
-					min = max = new BigDecimal(minString);
+					min = new BigDecimal(minString);
 				} catch (NumberFormatException e) {
 					LOG.warn("Invalid min credits value for course " + course.getId(), e);
 				}
 
 			if (maxString != null)
 				try {
-					min = max = new BigDecimal(minString);
+					max = new BigDecimal(maxString);
 				} catch (NumberFormatException e) {
 					LOG.warn("Invalid min credits value for course " + course.getId(), e);
 				}
+
+			if (min == null)
+				min = max;
+			if (max == null)
+				max = min;
 
 		} else if (type.equals("kuali.result.values.group.type.multiple")) {
 			List<String> rvks = rci.getResultValueKeys();
@@ -161,7 +166,7 @@ public class CreditsFormatter {
 
 	/**
 	 * Formats credit options list as a String.
-	 *
+	 * 
 	 * @param course
 	 * @return
 	 */

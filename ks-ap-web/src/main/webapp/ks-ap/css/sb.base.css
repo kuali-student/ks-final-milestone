@@ -1,0 +1,666 @@
+#schedule_build {
+	position : relative ;
+}
+
+#schedule_build h1.uif-headerText {
+	font-size : 1.625em ;
+	line-height : 2rem ;
+}
+
+#schedule_build h3.uif-headerText {
+	font-size : 1.1em ;
+	color : #8e8d84 ;
+	text-transform : uppercase ;
+}
+
+#sb_calendarWrapper {
+	height : 62rem;
+}
+
+#sb_calendar {
+	position : absolute ;
+	left : 14.6875em;
+	right : 0px;
+	font-size : 1.2em ;
+	line-height : 1.2em ;
+}
+
+.fc-slot0 .fc-widget-content,
+.fc-slot1 .fc-widget-content,
+.fc-slot2 .fc-widget-content,
+.fc-slot3 .fc-widget-content,
+.fc-slot4 .fc-widget-content,
+.fc-slot5 .fc-widget-content,
+.fc-slot24 .fc-widget-content,
+.fc-slot25 .fc-widget-content,
+.fc-slot26 .fc-widget-content,
+.fc-slot27 .fc-widget-content,
+.fc-slot28 .fc-widget-content,
+.fc-slot29 .fc-widget-content,
+.fc-slot30 .fc-widget-content,
+.fc-slot31 .fc-widget-content,
+.fc-slot32 .fc-widget-content,
+.fc-slot33 .fc-widget-content,
+.fc-slot34 .fc-widget-content,
+.fc-slot35 .fc-widget-content,
+.fc-slot36 .fc-widget-content,
+.fc-slot37 .fc-widget-content {
+	background : url('../images/sb-offhours-bg.png')
+}
+
+#sb_week_group_area {
+	margin : 0;
+	line-height : 1;
+	max-width : 38em;
+}
+
+#sb_week_group_area .ksap-sb-weekGroup {
+	border-top-radius : 2px;
+	border-top : 1px solid #eeebdc;
+	border-left : 1px solid #eeebdc;
+	border-right : 1px solid #eeebdc;
+	border-bottom : 0;
+	margin : 0;
+}
+
+#sb_week_group_area .ksap-sb-weekGroup>div {
+	border : 1px solid #d6d3c6;
+	padding : 12px 12px 4px 12px;
+}
+
+#sb_week_group_area .ksap-sb-weekGroup.ksap-sb-selected {
+}
+
+#sb_week_group_area span {
+	text-align : center;
+}
+
+#sb_week_group_area .ksap-sb-weekGroup-title {
+	font-size : 1em;
+	color : #8e8d84;
+	text-shadow : white 0px 1px 0px;
+}
+
+#sb_week_group_area .ksap-sb-weekGroup-subtitle {
+	font-size : 0.8125em;
+	color : #8e8d84;
+	text-shadow : white 0px 1px 0px;
+}
+
+#sb_course_options {
+	width : 100%;
+}
+
+#sb_course_options .uif-boxLayoutVerticalItem {
+	margin : 0;
+}
+
+#sb_course_options .ksap-sb-course-row {
+	position : relative;
+	height : 3.375em;
+	margin-top : 0.625em;
+	border : 1px solid #eeebdc;
+	border-left : 0px solid #eeebdc;
+}
+
+#sb_possible_options {
+	margin : 0.625em 0 0 0;
+}
+
+#sb_reserved_times_possible,
+#sb_reserved_times_saved {
+	margin : 0.625em 0;
+}
+
+#sb_reserved_times_possible .ksap-sb-reserved-time-row,
+#sb_reserved_times_saved .ksap-sb-reserved-time-row {
+	position : relative;
+	height : 3.375em;
+	margin : 0.625em 0 0 0;
+	border : 1px solid #eeebdc;
+}
+
+#sb_reserved_times_possible .ksap-sb-reserved-time-row .uif-boxGroup,
+#sb_reserved_times_saved .ksap-sb-reserved-time-row .uif-boxGroup {
+	margin : 0;
+}
+
+#sb_reserved_times_possible .ksap-sb-reserved-time-title,
+#sb_reserved_times_saved .ksap-sb-reserved-time-title {
+	margin: 0.625px 0 0 0;
+	font-size : 1em;
+	font-weight : bold;
+}
+
+#sb_reserved_times_possible .ksap-sb-reserved-time-subtext,
+#sb_reserved_times_saved .ksap-sb-reserved-time-subtext {
+	margin: 0 0 10px 0;
+	font-size : 0.6em;
+	max-width : 18.75em;
+}
+
+.myplan-view .ksap-sb-schedule-row {
+	margin : 0 0 0.5em 0;
+}
+
+.myplan-view .ksap-sb-schedule-noupicon,
+.myplan-view .ksap-sb-schedule-nodownicon {
+	height : 16px;
+	width : 10px;
+	margin : 0;
+}
+
+.myplan-view .ksap-sb-schedule-upicon {
+	background : url('../../krad/images/ks/ui-icons_222222_256x240.png') no-repeat -3px -48px;
+	height : 16px;
+	width : 10px;
+	margin : 0;
+}
+
+.myplan-view .ksap-sb-schedule-downicon {
+	background : url('../../krad/images/ks/ui-icons_222222_256x240.png') no-repeat -67px -48px;
+	height : 16px;
+	width : 10px;
+	margin : 0;
+}
+
+.myplan-view .ksap-sb-schedule-trashicon {
+  background : url('../images/trash.png') no-repeat;
+	height : 16px;
+	width : 16px;
+	margin : 0 2px 0 2px;
+}
+
+.myplan-view .ksap-sb-schedule-saveicon {
+  background: url('../images/bookmark_icons.png') no-repeat 0px 0px;
+	height : 16px;
+	width : 16px;
+	margin : 0 2px 0 2px;
+}
+
+.myplan-view .ksap-sb-schedule-savedicon {
+  background: url('../images/bookmark_icons.png') no-repeat -16px 0px;
+	height : 16px;
+	width : 16px;
+	margin : 0 2px 0 2px;
+}
+
+.myplan-view .ksap-sb-schedule-carticon {
+  background : url('../images/cart.png') no-repeat;
+	height : 16px;
+	width : 16px;
+	margin : 0 2px 0 2px;
+}
+
+.myplan-view .ksap-sb-schedule-activity-descr {
+	margin : 0;
+	width : 50%;
+}
+
+.myplan-view .ksap-sb-schedule-title {
+	font-size : 1.2em;
+}
+
+.myplan-view .ksap-sb-schedule-activitydetail {
+	display : none;
+}
+
+.myplan-view .ksap-sb-schedule-activity-title {
+	font-size : 0.6em;
+	font-weight : bold;
+	height : 1.2em;
+	float : left;
+	clear : left;
+}
+
+.myplan-view .ksap-sb-schedule-activity-subtitle {
+	font-size : 0.6em;
+	height : 1.2em;
+	float : right;
+	clear : right;
+}
+
+.ksap-sb-morelink {
+	float : right;
+}
+
+.myplan-view .ksap-sb-selected {
+	background-color : #f8f3d2;
+	cursor : pointer;
+}
+
+.myplan-view .ksap-sb-deselected:hover {
+	background-color : #fbf9e8;
+	cursor : pointer;
+}
+
+.myplan-view div.ksap-sb-course-select {
+	margin : 0.875px 0 0 0.1875px;
+	width: 1em;
+}
+
+.myplan-view .ksap-sb-course-title {
+	margin: 0.625px 0 0 0;
+	font-size : 1em;
+	font-weight : bold;
+}
+
+.ksap-sb-course-subtext {
+	margin: 0 0 10px 0;
+	font-size : 0.6em;
+	max-width : 13.75em;
+}
+
+.ksap-sb-course-disclosure-icon-open,
+.ksap-sb-course-disclosure-icon-closed {
+	width : 24px;
+	height : 56px;
+	vertical-align : middle;
+	position : absolute;
+	right : 0;
+	top : -1px;
+}
+
+#sb_course_options .ksap-sb-secondary-option-row.ksap-sb-selected {
+	background-color : #fbf9e8;
+}
+
+#sb_course_options .ksap-sb-secondary-option-row {
+	position : relative;
+	border-bottom : 1px solid #eeebdc;
+	margin: 0;
+	height : 1.625em;
+}
+
+#sb_course_options .ksap-sb-secondary-title {
+	width : 100%;
+	text-align : center;
+	vertical-align : middle;
+	font-weight : bold;
+	padding-top : 2px;
+}
+
+.ksap-sb-course-disclosure-icon-open {
+	background : url('../images/sb-course-disclosure.png') no-repeat 0px 0px;
+}
+
+.ksap-sb-course-disclosure-icon-closed {
+	background : url('../images/sb-course-disclosure.png') no-repeat -24px 0px;
+}
+
+#sb_course_options .ksap-sb-secondary-disclosure-icon-open,
+#sb_course_options .ksap-sb-secondary-disclosure-icon-closed {
+	width : 22px;
+	height : 28px;
+	vertical-align : middle;
+	position : absolute;
+	right : 0;
+	top : -1px;
+	margin : 0;
+	background-image : url('../images/sb-secondary-disclosure.png');
+	background-repeat : no-repeat;
+}
+
+.ksap-sb-secondary-disclosure-icon-closed {
+	background-position : -22px 0px;
+}
+
+#sb_course_options .ksap-sb-secondary-options-wrapper {
+	margin: 0 0 12px 16px;
+}
+
+.myplan-view .ksap-sb-activity-select {
+	margin : 0;
+}
+
+#sb_course_options .ksap-sb-primary-options {
+	border-right : 1px solid #eeebdc;
+	border-bottom : 1px solid #eeebdc;
+	padding-top : 0.25em;
+}
+
+#sb_course_options .ksap-sb-primary-row {
+	position : relative;
+	border-bottom : 1px solid #eeebdc;
+	margin: 0.25em 0 0 0.25em;
+}
+
+#sb_course_options .ksap-sb-secondary-options {
+	border-left : 1px solid #eeebdc;
+	border-bottom : 1px solid #eeebdc;
+	padding: 0.25em 0 0 0;
+}
+
+#sb_course_options .ksap-sb-secondary-row {
+	position : relative;
+	border-bottom : 1px solid #eeebdc;
+	margin: 0 0 0.25em 0;
+}
+
+.ksap-sb-activity-select .uif-checkboxControl {
+	margin : 0.375em 0.125em 0 0.375em;
+}
+
+.ksap-sb-activity-details {
+	width : 11.5em;
+}
+
+#sb_course_options .ksap-sb-activity-title {
+	font-size : 0.875em;
+	font-weight : bold;
+	margin : 0.25em 0.25em 0 0;
+}
+
+#sb_course_options .ksap-sb-activity-subtitle {
+	font-size : 0.875em;
+	margin : 0.25em 0 0 0;
+}
+
+#sb_course_options .ksap-sb-activity-seats {
+	font-size : 0.875em;
+	position : absolute;
+	margin : 0.25em 0.125em 0 0;
+	right : 0;
+}
+
+.ksap-sb-activity-session {
+	white-space : nowrap;
+}
+
+.ksap-sb-activity-session, .ksap-sb-classtimes-daystimes, .ksap-sb-classtimes-location {
+	font-size : 0.6em;
+	margin-top : 0.1875em;
+}
+
+#sb_classes_include_closed_sections {
+	width : 100%;
+	margin : 1em 0 1em 0;
+	padding : 0.5em 0 0.5em 0;
+	border-top : 1px solid #eeebdc;
+	border-bottom : 1px solid #eeebdc;
+}
+
+#sb_classes_include_closed_sections .uif-message {
+	padding-top : 0.1875em;
+	font-size : 0.8125em;
+	vertical-align : center;
+}
+
+.uif-boxSection {
+	padding : 0.5em 0.75em;
+	border : 1px solid #eeebdc;
+	background : white;
+}
+
+#schedule_build .ui-tabs {
+	width : 16.625em;
+}
+
+#schedule_build .ui-tabs-nav {
+	-moz-border-radius : 0;
+	-webkit-border-radius : 0;
+	-border-radius : 0;
+	border-top : 0;
+	border-left : 0;
+	border-right : 0;
+	padding : 0;
+	border : 0;
+	border-bottom : 1px solid #eeebdc;
+}
+
+#schedule_build .ui-tabs-panel {
+	padding : 0;
+	padding-top : 1.25em;
+}
+
+#schedule_build li.ui-state-default,
+#schedule_build li.ui-state-default:hover {
+	-moz-border-radius : 0;
+	-webkit-border-radius : 0;
+	-border-radius : 0;
+	outline : 0;
+	border : 0;
+	color : black;
+	background : white;
+}
+
+#schedule_build li.ui-state-default a {
+	font-size : 0.8125em ;
+	text-transform : uppercase;
+	line-height : 2 ;
+	color : #6f679d ;
+}
+
+#schedule_build li.ui-state-default a:hover {
+	color : black ;
+}
+
+#schedule_build .ui-tabs-nav li.ui-state-default.ui-tabs-active {
+	border-top : 1px solid #c5c2d7;
+	border-left : 1px solid #c5c2d7;
+	border-right : 1px solid #c5c2d7;
+	border-bottom : 1px solid white !important;
+}
+
+#schedule_build .ui-tabs-nav li.ui-state-default.ui-tabs-active a {
+	background : white;
+	color : #4d486d ;
+}
+
+.ksap-sb-disclosure-closed {
+	display : none!important;
+}
+
+.ks-schedule-Color {
+  border: 1px solid;
+  border-radius: 2px;
+  padding: 0.05em;
+}
+
+.ks-schedule-Color--0 {
+  background-color: #c7bd7f !important;
+  border-color: #6b5d00 !important;
+  box-shadow: inset 0 0 1px 1px #e3debf;
+  color: black !important;
+  text-shadow: 0 1px #e3debf;
+}
+
+.ks-schedule-Color--1 {
+  background-color: #cee57f !important;
+  border-color: #759900 !important;
+  box-shadow: inset 0 0 1px 1px #e6f2bf;
+  color: #141a00 !important;
+  text-shadow: 0 1px #e6f2bf;
+}
+
+.ks-schedule-Color--2 {
+  background-color: #cc9f7f !important;
+  border-color: #722f00 !important;
+  box-shadow: inset 0 0 1px 1px #e5cfbf;
+  color: black !important;
+  text-shadow: 0 1px #e5cfbf;
+}
+
+.ks-schedule-Color--3 {
+  background-color: #cc7f7f !important;
+  border-color: #720000 !important;
+  box-shadow: inset 0 0 1px 1px #e5bfbf;
+  color: black !important;
+  text-shadow: 0 1px #e5bfbf;
+}
+
+.ks-schedule-Color--4 {
+  background-color: #ffd182 !important;
+  border-color: #bf7b03 !important;
+  box-shadow: inset 0 0 1px 1px #ffe8c0;
+  color: #412a01 !important;
+  text-shadow: 0 1px #ffe8c0;
+}
+
+.ks-schedule-Color--5 {
+  background-color: #7fad98 !important;
+  border-color: #004524 !important;
+  box-shadow: inset 0 0 1px 1px #bfd6cb;
+  color: black !important;
+  text-shadow: 0 1px #bfd6cb;
+}
+
+.ks-schedule-Color--6 {
+  background-color: #95e6a3 !important;
+  border-color: #209a36 !important;
+  box-shadow: inset 0 0 1px 1px #caf2d1;
+  color: #0a3011 !important;
+  text-shadow: 0 1px #caf2d1;
+}
+
+.ks-schedule-Color--7 {
+  background-color: #ffe5cc !important;
+  border-color: #bf9972 !important;
+  box-shadow: inset 0 0 1px 1px #fff2e5;
+  color: #7a5937 !important;
+  text-shadow: 0 1px #fff2e5;
+}
+
+.ks-schedule-Color--8 {
+  background-color: #efffb2 !important;
+  border-color: #a8bf4c !important;
+  box-shadow: inset 0 0 1px 1px #f7ffd8;
+  color: #5a6725 !important;
+  text-shadow: 0 1px #f7ffd8;
+}
+
+.ks-schedule-Color--9 {
+  background-color: #ffff7f !important;
+  border-color: #bfbf00 !important;
+  box-shadow: inset 0 0 1px 1px #ffffbf;
+  color: #404000 !important;
+  text-shadow: 0 1px #ffffbf;
+}
+
+.ks-schedule-Color--10 {
+  background-color: #f7d1ff !important;
+  border-color: #b47abf !important;
+  box-shadow: inset 0 0 1px 1px #fbe8ff;
+  color: #733c7d !important;
+  text-shadow: 0 1px #fbe8ff;
+}
+
+.ks-schedule-Color--11 {
+  background-color: #7fbaed !important;
+  border-color: #0057a5 !important;
+  box-shadow: inset 0 0 1px 1px #bfdcf6;
+  color: #001425 !important;
+  text-shadow: 0 1px #bfdcf6;
+}
+
+.ks-schedule-Color--12 {
+  background-color: #e07fc3 !important;
+  border-color: #910066 !important;
+  box-shadow: inset 0 0 1px 1px #efbfe1;
+  color: #11000c !important;
+  text-shadow: 0 1px #efbfe1;
+}
+
+.ks-schedule-Color--13 {
+  background-color: #ffffbf !important;
+  border-color: #bfbf60 !important;
+  box-shadow: inset 0 0 1px 1px #ffffdf;
+  color: #72722e !important;
+  text-shadow: 0 1px #ffffdf;
+}
+
+.ks-schedule-Color--14 {
+  background-color: #c9ffda !important;
+  border-color: #6fbf87 !important;
+  box-shadow: inset 0 0 1px 1px #e4ffec;
+  color: #36794a !important;
+  text-shadow: 0 1px #e4ffec;
+}
+
+.ks-schedule-Color--15 {
+  background-color: #ffa782 !important;
+  border-color: #bf3c03 !important;
+  box-shadow: inset 0 0 1px 1px #ffd3c0;
+  color: #411501 !important;
+  text-shadow: 0 1px #ffd3c0;
+}
+
+.ks-schedule-Color--16 {
+  background-color: #a0b27f !important;
+  border-color: #314c00 !important;
+  box-shadow: inset 0 0 1px 1px #cfd8bf;
+  color: black !important;
+  text-shadow: 0 1px #cfd8bf;
+}
+
+.ks-schedule-Color--17 {
+  background-color: #ff7f87 !important;
+  border-color: #bf000c !important;
+  box-shadow: inset 0 0 1px 1px #ffbfc3;
+  color: #400004 !important;
+  text-shadow: 0 1px #ffbfc3;
+}
+
+.ks-schedule-Color--18 {
+  background-color: #aef8f8 !important;
+  border-color: #46b4b5 !important;
+  box-shadow: inset 0 0 1px 1px #d6fbfb;
+  color: #225959 !important;
+  text-shadow: 0 1px #d6fbfb;
+}
+
+.ks-schedule-Color--19 {
+  background-color: #7fccc7 !important;
+  border-color: #00726b !important;
+  box-shadow: inset 0 0 1px 1px #bfe5e3;
+  color: black !important;
+  text-shadow: 0 1px #bfe5e3;
+}
+
+.ks-schedule-Color--20 {
+  background-color: #b984ff !important;
+  border-color: #5707bf !important;
+  box-shadow: inset 0 0 1px 1px #dcc1ff;
+  color: #1f0244 !important;
+  text-shadow: 0 1px #dcc1ff;
+}
+
+.ks-schedule-Color--21 {
+  background-color: #bfbfbf !important;
+  border-color: #606060 !important;
+  box-shadow: inset 0 0 1px 1px #dfdfdf;
+  color: #202020 !important;
+  text-shadow: 0 1px #dfdfdf;
+}
+
+.ks-schedule-Color--22 {
+  background-color: #a57fad !important;
+  border-color: #390045 !important;
+  box-shadow: inset 0 0 1px 1px #d2bfd6;
+  color: black !important;
+  text-shadow: 0 1px #d2bfd6;
+}
+
+.ks-schedule-Color--23 {
+  background-color: #7f99bf !important;
+  border-color: #002660 !important;
+  box-shadow: inset 0 0 1px 1px #bfccdf;
+  color: black !important;
+  text-shadow: 0 1px #bfccdf;
+}
+
+.ks-schedule-Color--24 {
+  background-color: #8c8c8c !important;
+  border-color: #121212 !important;
+  box-shadow: inset 0 0 1px 1px #c5c5c5;
+  color: black !important;
+  text-shadow: 0 1px #c5c5c5;
+}
+
+.ks-schedule-Color--25 {
+  background-color: #ffd3dd !important;
+  border-color: #bf7e8c !important;
+  box-shadow: inset 0 0 1px 1px #ffe9ee;
+  color: #7f3f4d !important;
+  text-shadow: 0 1px #ffe9ee;
+}

@@ -1,5 +1,6 @@
 package org.kuali.student.ap.framework.context;
 
+import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.r2.core.acal.infc.Term;
@@ -165,6 +166,13 @@ public interface TermHelper {
 	List<Term> getPlanningTerms();
 
 	/**
+	 * Gets a list of terms by date range.
+	 *
+	 * @return A list of terms, by date range.
+	 */
+	List<Term> getTermsByDateRange(Date startDate, Date endDate);
+
+	/**
 	 * 
 	 * @param yearTerm
 	 *            - Year and term storage object
@@ -179,5 +187,8 @@ public interface TermHelper {
 	 * @return YearTerm holding information for the term
 	 */
 	YearTerm getYearTerm(Term term);
+
+    public String findTermIdByNameAndContainingDates
+            (Date termBeginDate, Date termEndDate, String termName);
 
 }
