@@ -248,8 +248,13 @@
     </bean>
 
     <bean id="atpServiceValidation" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">
-        <property name="nextDecorator" ref="atpServiceImpl" />
+        <property name="nextDecorator" ref="atpServiceCache" />
         <property name="validator" ref="validator" />
+    </bean>
+
+    <bean id="atpServiceCache" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceCacheDecorator">
+        <property name="nextDecorator" ref="atpServiceImpl" />
+        <property name="cacheManager" ref="ksCacheManager"/>
     </bean>
 
     <alias name="atpServiceValidation" alias="AtpService" />
