@@ -54,11 +54,11 @@
         <property name="stickyTopGroup" value="false"/>
         <property name="stickyBreadcrumbs" value="false"/>
         <property name="stickyApplicationHeader" value="false"/>
-        <property name="stickyHeader" value="true"/>
+        <property name="stickyHeader" value="@{viewName != null ? 'true' : 'false'}"/>
         <property name="applicationHeader">
             <bean parent="Uif-GlobalApplicationHeader-parentBean"
-                  p:template="/ks-common/WEB-INF/ftl/ksApplicationHeader.ftl" p:render="true"
-                  p:templateName="ks_applicationHeader"/>
+                  p:template="/ks-common/WEB-INF/ftl/ksApplicationHeader.ftl"
+                  p:templateName="ks_applicationHeader" p:render="@{viewName != null}"/>
         </property>
         <property name="header.cssClasses">
             <list merge="true">
