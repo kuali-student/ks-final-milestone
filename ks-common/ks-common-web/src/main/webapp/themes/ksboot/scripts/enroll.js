@@ -736,3 +736,10 @@ Skip dirty check
  function skipDirtyChecks() {
  dirtyFormState.skipDirtyChecks=true;
  }
+
+function retrieveFinalExamMatrix (id, methodToCall, dropdownId) {
+    var dropDownElement = jQuery('#' + dropdownId + '_control');
+    if (dropDownElement.val() != 'na') {
+        retrieveComponent(id, methodToCall);
+    }
+}
