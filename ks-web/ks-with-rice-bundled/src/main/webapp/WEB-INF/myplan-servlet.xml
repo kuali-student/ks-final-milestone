@@ -20,7 +20,8 @@
     <context:component-scan base-package="org.kuali.student.myplan.adviser"/>
     <context:component-scan base-package="org.kuali.student.myplan.plan"/>
     <context:component-scan base-package="org.kuali.student.myplan.comment"/>
-    <context:component-scan base-package="org.kuali.student.myplan.quickAdd"/>
+    <context:component-scan base-package="org.kuali.student.ap.plannerreview"/>
+    <context:component-scan base-package="org.kuali.student.ap.schedulebuilder"/>
 
     <!-- Global Resource Loader Service Bean for a Student Service-->
     <bean id="StudentService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
@@ -43,14 +44,12 @@
     <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="preferFileSystemAccess" value="false"/>
         <property name="templateLoaderPath" value="/"/>
+        <property name="defaultEncoding" value="UTF-8"/>
         <property name="freemarkerSettings">
             <props>
-                <prop key="template_update_delay">0</prop>
-                <prop key="cache_storage">freemarker.cache.NullCacheStorage</prop>
-        <!-- 
                 <prop key="template_update_delay">1000000</prop>
                 <prop key="cache_storage">freemarker.cache.StrongCacheStorage</prop>
-         -->
+                <prop key="url_escaping_charset">UTF-8</prop>
             </props>
         </property>
     </bean>
@@ -60,6 +59,7 @@
         <property name="cache" value="true"/>
         <property name="prefix" value=""/>
         <property name="suffix" value=".ftl"/>
+        <property name="contentType" value="text/html;charset=UTF-8"/>
     </bean>
 
     <!-- Setup of Mapping handler for annotations -->
