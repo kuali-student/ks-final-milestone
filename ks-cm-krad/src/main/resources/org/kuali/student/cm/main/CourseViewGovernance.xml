@@ -71,7 +71,7 @@
                       p:propertyName="unitsContentOwner"
                       p:headerText="Curriculum Oversight"
                       p:collectionObjectClass="org.kuali.rice.core.api.util.ConcreteKeyValue"
-                      p:instructionalText="This is the organization(s) responsible for the content of the course. This selection will determine the workflow/approval process for this proposal.">
+                      p:instructionalText="">
                     <!--
                     <property name="addLineItems">
                         <list>
@@ -110,7 +110,7 @@
     </bean>
 
     <bean id="KS-AdministeringOrganization-Section" parent="Uif-StackedCollectionSection"
-          p:headerText="Organization(s)" p:propertyName="administeringOrganizations"
+          p:headerText="Administering Organization(s)" p:propertyName="administeringOrganizations"
           p:collectionObjectClass="org.kuali.student.cm.course.form.OrganizationInfoWrapper">
         <property name="addLineLabel.messageText" value="Add an Organization" />
         <property name="layoutManager.lineGroupPrototype.header.headerText"
