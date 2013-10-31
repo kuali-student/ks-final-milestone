@@ -185,7 +185,7 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
                     newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY, ruleEditor.getDay());
                 }
                 if (ruleEditor.isTba()) {
-                    newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, Boolean.TRUE.toString());
+                    newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_TBA, Boolean.TRUE.toString());
                 } else {
                     if (ruleEditor.getStartTime() != null) {
                         String startTimeAMPM = new StringBuilder(ruleEditor.getStartTime()).append(" ").append(ruleEditor.getStartTimeAMPM()).toString();
@@ -199,7 +199,7 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
                         String endTime = String.valueOf(endTimeMillis);
                         newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME, endTime);
                     }
-                    newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, Boolean.FALSE.toString());
+                    newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_TBA, Boolean.FALSE.toString());
                 }
 
                 if (ruleEditor.getBuilding().getBuildingCode() != null && !ruleEditor.getBuilding().getBuildingCode().isEmpty()) {

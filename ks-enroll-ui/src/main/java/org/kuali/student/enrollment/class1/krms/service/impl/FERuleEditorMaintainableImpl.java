@@ -267,6 +267,9 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                     }
                 }
             }
+            if (attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_TBA)) {
+                ruleEditor.setTba(Boolean.parseBoolean(attributes.get(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_TBA)));
+            }
 
             String description = this.getRuleManagementService().translateNaturalLanguageForObject(this.getUsageId(), "rule", ruleEditor.getId(), "en");
             int index = description.indexOf(": ");
@@ -451,6 +454,12 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             }else{
                     attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM, "");
             }
+            if (feRuleEditor.isTba()) {
+                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_TBA, Boolean.TRUE.toString());
+            } else {
+                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_TBA, Boolean.FALSE.toString());
+            }
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
