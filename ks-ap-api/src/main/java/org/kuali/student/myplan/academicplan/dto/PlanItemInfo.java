@@ -1,21 +1,27 @@
 package org.kuali.student.myplan.academicplan.dto;
 
-import org.kuali.student.myplan.academicplan.infc.PlanItem;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
-import org.w3c.dom.Element;
-
-import javax.xml.bind.annotation.*;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
+import org.kuali.student.myplan.academicplan.infc.PlanItem;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.w3c.dom.Element;
+
 /**
  * PlanItem message structure
  *
- * @Author kmuthu
- * Date: 1/5/12
+ * @Author kmuthu Date: 1/5/12
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PlanItemInfo", propOrder = {"refObjectId", "refObjectType", "learningPlanId", "planPeriods", "id",
@@ -64,18 +70,28 @@ public class PlanItemInfo extends TypeStateEntityInfo implements PlanItem {
 
         if(null != item) {
             this.id = item.getId();
+			this.setTypeKey(item.getTypeKey());
+			this.setStateKey(item.getStateKey());
             this.refObjectId = item.getRefObjectId();
             this.refObjectType = item.getRefObjectType();
             this.learningPlanId = item.getLearningPlanId();
+			this.credit = item.getCredit();
 
-            if(null != item.getPlanPeriods()) {
-                for(String atpId : item.getPlanPeriods()) {
-                    this.planPeriods.add(atpId);
-                }
+			List<String> planPeriods = item.getPlanPeriods();
+			if (null != planPeriods) {
+				this.planPeriods = new ArrayList<String>(planPeriods);
             }
 
             this.descr = (null != item.getDescr()) ? new RichTextInfo(item.getDescr()) : null;
 
+			List<? extends Attribute> attrs = item.getAttributes();
+			if (attrs != null) {
+				List<AttributeInfo> attrInfos = new ArrayList<AttributeInfo>(attrs.size());
+				for (Attribute attr : attrs) {
+					attrInfos.add(new AttributeInfo(attr));
+				}
+				this.setAttributes(attrInfos);
+			}
         }
     }
 
