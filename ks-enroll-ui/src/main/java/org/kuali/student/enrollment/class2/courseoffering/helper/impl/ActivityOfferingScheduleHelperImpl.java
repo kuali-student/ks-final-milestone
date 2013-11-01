@@ -216,7 +216,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
             // if a building code exists, validate the building code and populate the building info
             if (StringUtils.isNotBlank(scheduleWrapper.getBuildingCode())){
-                List<BuildingInfo> buildings = retrieveBuildingInfo(scheduleWrapper.getBuildingCode(),true);
+                List<BuildingInfo> buildings = retrieveBuildingInfoByCode(scheduleWrapper.getBuildingCode(),true);
                 if (buildings.isEmpty()) {
                     addErrorMessage(ScheduleInput.BUILDING, "Facility code was invalid");
                 } else {
@@ -810,10 +810,16 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         return ContextUtils.createDefaultContextInfo();
     }
 
-
-    public List<BuildingInfo> retrieveBuildingInfo(String buildingCode,boolean strictMatch) throws Exception{
-
+    /**
+     * Searches for buildings given a building code.
+     * @param buildingCode A building code.
+     * @param strictMatch If false do a wildcard search matching at the beginning of the field. Otherwise, match exactly.
+     * @return A List of BuildingInfos
+     * @throws Exception
+     */
+    public List<BuildingInfo> retrieveBuildingInfoByCode(String buildingCode, boolean strictMatch) throws Exception {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+
         if (!strictMatch){
             buildingCode = StringUtils.upperCase(buildingCode) + "%";
         }
@@ -823,6 +829,16 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
         List<BuildingInfo> b = getRoomService().searchForBuildings(criteria, createContextInfo());
         return b;
+    }
+
+    /**
+     * Searches for buildings given a building code.
+     * @param buildingCode A building code.
+     * @return A List of BuildingInfos
+     * @throws Exception
+     */
+    public List<BuildingInfo> retrieveBuildingInfoByCode(String buildingCode) throws Exception {
+        return  retrieveBuildingInfoByCode(buildingCode, false);
     }
 
     /**
@@ -844,16 +860,16 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         List<Integer> daysArray = WeekDaysDtoAndUIConversions.buildDaysForDTO(days);
         TimeOfDayInfo timeOfDayInfo = SchedulingServiceUtil.makeTimeOfDayInfoFromTimeString(startTime);
         List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByDaysAndStartTime(timeSlotType,daysArray,timeOfDayInfo,createContextInfo());
-        List<String> endTime = new ArrayList<String>();
+        List<String> endTimes = new ArrayList<String>();
 
         for (TimeSlotInfo ts : timeSlotInfos){
             Long st = ts.getStartTime().getMilliSeconds();
             if (st != null) {
-                endTime.add(SchedulingServiceUtil.makeFormattedTimeFromMillis(ts.getEndTime().getMilliSeconds()));
+                endTimes.add(SchedulingServiceUtil.makeFormattedTimeFromMillis(ts.getEndTime().getMilliSeconds()));
             }
         }
 
-        Collections.sort(endTime, new Comparator<String>() {
+        Collections.sort(endTimes, new Comparator<String>() {
             @Override
             public int compare(String time1, String time2) {
 
@@ -866,7 +882,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             }
         });
 
-        return endTime;
+        return endTimes;
     }
 
 }
