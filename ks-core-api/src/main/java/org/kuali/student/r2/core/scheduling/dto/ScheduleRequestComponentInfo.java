@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.common.collection.KSApiListUtils;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponent;
 
 //import org.w3c.dom.Element;
@@ -83,22 +84,25 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
     public boolean equals (Object obj) {
         ScheduleRequestComponentInfo srci = (ScheduleRequestComponentInfo) obj; // will throw ClassCastException
         if (!this.id.equals(srci.getId())) return false;
-        if (this.buildingIds.size()!=srci.buildingIds.size()) return false;
-        for (int i=0; i<this.buildingIds.size(); i++) { if (!this.buildingIds.get(i).equals(srci.buildingIds.get(i))) { return false; }}
-        if (this.campusIds.size()!=srci.campusIds.size()) return false;
-        for (int i=0; i<this.campusIds.size(); i++) { if (!this.campusIds.get(i).equals(srci.campusIds.get(i))) { return false; }}
-        if (this.orgIds.size()!=srci.orgIds.size()) return false;
-        for (int i=0; i<this.orgIds.size(); i++) { if (!this.orgIds.get(i).equals(srci.orgIds.get(i))) { return false; }}
-        if (this.resourceTypeKeys.size()!=srci.resourceTypeKeys.size()) return false;
-        for (int i=0; i<this.resourceTypeKeys.size(); i++) { if (!this.resourceTypeKeys.get(i).equals(srci.resourceTypeKeys.get(i))) { return false; }}
-        if (this.roomIds.size()!=srci.roomIds.size()) return false;
-        for (int i=0; i<this.roomIds.size(); i++) { if (!this.roomIds.get(i).equals(srci.roomIds.get(i))) { return false; }}
-        if (this.timeSlotIds.size()!=srci.timeSlotIds.size()) return false;
-        for (int i=0; i<this.timeSlotIds.size(); i++) { if (!this.timeSlotIds.get(i).equals(srci.timeSlotIds.get(i))) { return false; }}
-        if (this.partitionIds.size()!=srci.partitionIds.size()) return false;
-        for (int i=0; i<this.partitionIds.size(); i++) { if (!this.partitionIds.get(i).equals(srci.partitionIds.get(i))) { return false; }}
+        
+        if (!KSApiListUtils.areListContentsEquals(buildingIds, srci.buildingIds)) return false;
+
+        if (!KSApiListUtils.areListContentsEquals(campusIds, srci.campusIds)) return false;
+        
+        if (!KSApiListUtils.areListContentsEquals(orgIds, srci.orgIds)) return false;
+        
+        if (!KSApiListUtils.areListContentsEquals(resourceTypeKeys, srci.resourceTypeKeys)) return false;
+        
+        if (!KSApiListUtils.areListContentsEquals(roomIds, srci.roomIds)) return false;
+        
+        if (!KSApiListUtils.areListContentsEquals(timeSlotIds, srci.timeSlotIds)) return false;
+        
+        if (!KSApiListUtils.areListContentsEquals(partitionIds, srci.partitionIds)) return false;
+        
         if (this.isTBA==null && srci.getIsTBA()==null) return true;
+        
         if (this.isTBA.equals(srci.getIsTBA())) { return true; }
+        
         return false;
     }
 
