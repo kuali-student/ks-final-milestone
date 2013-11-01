@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
@@ -32,8 +33,46 @@ public class RegistrationGroupTransformer {
         this.luiService = luiService;
     }
 
-    public RegistrationGroupInfo lui2Rg(LuiInfo lui, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    /**
+     * KSENROLL-10515
+     * By passing in foId and aoIds, this can convert the Lui to RG a little faster by avoiding a service call
+     * to look it up.  Used by CourseOfferingServiceImpl::createRegistrationGroup
+     * @param lui lui corresponding to RG
+     * @param context
+     * @param foId FO id associated with this RG (passed in to remove a service call lookup)
+     * @param aoIds List of ao IDs associated with this RG (passed in to remove a service call lookup)
+     * @return
+     * @throws MissingParameterException
+     * @throws PermissionDeniedException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws DoesNotExistException
+     */
+    public RegistrationGroupInfo lui2RgOptimized(LuiInfo lui, ContextInfo context, String foId, List<String> aoIds)
+            throws MissingParameterException, PermissionDeniedException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException {
+        return lui2RgInternal(lui, context, true, foId, aoIds);
+    }
 
+    /**
+     * Private internal version
+     * @param lui Lui corresponding to RG
+     * @param context
+     * @param useCached true, if foId and aoIds are passed, false if those params are ignored
+     * @param foId Format offering ID with RG. Use this if useCached is true, otherwise ignore
+     * @param aoIds List of AO IDs with RG. Use this if useCached is true, otherwise ignore
+     * @return Filled out RG
+     * @throws PermissionDeniedException
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws DoesNotExistException
+     */
+    private RegistrationGroupInfo lui2RgInternal(LuiInfo lui, ContextInfo context,
+                                                 boolean useCached,
+                                                 String foId, List<String> aoIds)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException {
         RegistrationGroupInfo regGroup = new RegistrationGroupInfo();
         regGroup.setId(lui.getId());
         regGroup.setMeta(lui.getMeta());
@@ -61,25 +100,40 @@ public class RegistrationGroupTransformer {
         regGroup.setName(lui.getName());  // This is the 4-digit reg group code unique to RG within a CO
         regGroup.setTermId(lui.getAtpId());
 
-        // below undecided
-        // co.setHasWaitlist(lui.getHasWaitlist());
-        // co.setWaitlistTypeKey(lui.getWaitlistTypeKey());
-        // co.setWaitlistMaximum(lui.getWaitlistMaximum());
-        // co.setIsWaitlistCheckinRequired(lui.getIsWaitlistCheckinRequired());
-        // co.setWaitlistCheckinFrequency(lui.getWaitlistCheckinFrequency());
-
         // LuiLuiRelation (to set courseOfferingId, activityOfferingIds)
-        try {
+
+        if (!useCached) {
             assembleLuiLuiRelations(regGroup, lui.getId(), context);
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
+        } else {
+            // Use parameters passed in (which avoids a service call)
+            regGroup.setActivityOfferingIds(aoIds);
+            regGroup.setFormatOfferingId(foId);
         }
 
         return regGroup;
     }
 
+    /**
+     * Converts a lui to an RG (since Luis are saved in the DB, not RGs).
+     * See also: lui2RgOptimized
+     * @param lui A lui fetched from the DB
+     * @param context
+     * @return The Registration Group created from the RG.
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws PermissionDeniedException
+     * @throws OperationFailedException
+     * @throws DoesNotExistException
+     */
+    public RegistrationGroupInfo lui2Rg(LuiInfo lui, ContextInfo context) throws
+            InvalidParameterException, MissingParameterException, PermissionDeniedException,
+            OperationFailedException, DoesNotExistException {
+        return lui2RgInternal(lui, context, false, null, null);
+    }
 
-    public LuiInfo rg2Lui(RegistrationGroupInfo regGroup, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+
+    public LuiInfo rg2Lui(RegistrationGroupInfo regGroup, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
 
         LuiInfo lui = new LuiInfo();
         lui.setId(regGroup.getId());
@@ -88,14 +142,14 @@ public class RegistrationGroupTransformer {
         lui.setDescr(regGroup.getDescr());
         lui.setMeta(regGroup.getMeta());
 
-        //Lui Official Identifier
+        // Lui Official Identifier
         LuiIdentifierInfo officialIdentifier = new LuiIdentifierInfo();
         officialIdentifier.setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);
         officialIdentifier.setStateKey(LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY);
         officialIdentifier.setCode(regGroup.getRegistrationCode());
         lui.setOfficialIdentifier(officialIdentifier);
 
-        //Dynamic attributes - Some lui dynamic attributes are defined fields on Activity Offering
+        // Dynamic attributes - Some lui dynamic attributes are defined fields on Activity Offering
         List<AttributeInfo> attributes = lui.getAttributes();
         for (Attribute attr : regGroup.getAttributes()) {
             attributes.add(new AttributeInfo(attr));
@@ -123,23 +177,14 @@ public class RegistrationGroupTransformer {
 
         lui.setAtpId(regGroup.getTermId());
 
-        //below undecided
-        //lui.setHasWaitlist(rg.getHasWaitlist());
-        //lui.setIsWaitlistCheckinRequired(rg.getIsWaitlistCheckinRequired());
-        //lui.setWaitlistCheckinFrequency(rg.getWaitlistCheckinFrequency());
-        //lui.setWaitlistMaximum(rg.getWaitlistMaximum());
-        //lui.setWaitlistTypeKey(rg.getWaitlistTypeKey());
-
-
         return lui;
-
     }
 
     /**
-     * This method populates the passed in RegistrationGroupInfo with it's related ActivityOffering Ids and
+     * This method populates the passed in RegistrationGroupInfo with its related ActivityOffering Ids and
      * the related FormatOffering Id
      * @param rg
-     * @param luiId
+     * @param rgLuiId The id for the RG
      * @param context
      * @throws DoesNotExistException
      * @throws InvalidParameterException
@@ -147,29 +192,29 @@ public class RegistrationGroupTransformer {
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public void assembleLuiLuiRelations(RegistrationGroupInfo rg, String luiId, ContextInfo context)
+    public void assembleLuiLuiRelations(RegistrationGroupInfo rg, String rgLuiId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-        List<String> activityIds = new ArrayList<String>();
-        List<LuiLuiRelationInfo> rels = luiService.getLuiLuiRelationsByLui(luiId, context);
+
+        List<String> aoIds = new ArrayList<String>();
+        List<LuiLuiRelationInfo> rels = luiService.getLuiLuiRelationsByLui(rgLuiId, context);
         if (rels != null && !rels.isEmpty()) {
             for (LuiLuiRelationInfo rel : rels) {
-                if (rel.getLuiId().equals(luiId)
+                if (rel.getLuiId().equals(rgLuiId)
                         && rel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY)) {
-                    if (!activityIds.contains(rel.getRelatedLuiId())) {
-                        activityIds.add(rel.getRelatedLuiId());
+                    if (!aoIds.contains(rel.getRelatedLuiId())) {
+                        aoIds.add(rel.getRelatedLuiId());
                     }
-                } else if (rel.getRelatedLuiId().equals(luiId)
+                } else if (rel.getRelatedLuiId().equals(rgLuiId)
                         && rel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY)) {
                     rg.setFormatOfferingId(rel.getLuiId());
                 }
             }
         }
 
-        if (!activityIds.isEmpty()) {
-            rg.setActivityOfferingIds(activityIds);
-        }
+        rg.setActivityOfferingIds(aoIds);
+
     }
 
     private FormatOfferingInfo getFo(String formatOfferingId, ContextInfo context)

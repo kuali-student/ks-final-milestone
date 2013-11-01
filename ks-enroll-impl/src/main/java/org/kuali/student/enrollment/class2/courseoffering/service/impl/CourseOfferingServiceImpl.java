@@ -341,7 +341,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public RegistrationGroupInfo createRegistrationGroup(String formatOfferingId, String activityOfferingClusterId, String registrationGroupTypeKey, RegistrationGroupInfo registrationGroupInfo,  ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public RegistrationGroupInfo createRegistrationGroup(String formatOfferingId, String activityOfferingClusterId,
+                                                         String registrationGroupTypeKey,
+                                                         RegistrationGroupInfo registrationGroupInfo,
+                                                         ContextInfo context) throws
+            DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
         validateLuiIsInValidInitialState( registrationGroupInfo, LuiServiceConstants.REGISTRATION_GROUP_LIFECYCLE_KEY, context );
 
@@ -379,7 +384,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         // Everything saved to the DB, now return RG sent back by createLui and transformed by transformer back to caller
         RegistrationGroupInfo rgInfo;
-        rgInfo = registrationGroupTransformer.lui2Rg(lui, context);
+        rgInfo = registrationGroupTransformer.lui2RgOptimized(lui, context, formatOfferingId, aoIds);
         rgInfo.setCourseOfferingId(coInfo.getId());
         rgInfo.setRegistrationCode(registrationGroupInfo.getRegistrationCode());
         return rgInfo;
@@ -3170,14 +3175,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
         for (LuiEntity lui : results.getResults()) {
-            RegistrationGroupInfo rgInfo = registrationGroupTransformer.lui2Rg(lui.toDto(), context);
             try {
+                RegistrationGroupInfo rgInfo = registrationGroupTransformer.lui2Rg(lui.toDto(), context);
                 rgInfo.setCourseOfferingId(this.getFormatOffering(rgInfo.getFormatOfferingId(), context).getCourseOfferingId());
                 regGroups.add(rgInfo); // Add the reg group
             } catch (DoesNotExistException ex) {
-                throw new OperationFailedException(rgInfo.getFormatOfferingId(), ex);
+                throw new OperationFailedException("searchForRegistrationGroups", ex);
             }
-
         }
 
         return regGroups;

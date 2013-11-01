@@ -700,6 +700,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             }
         }
 
+        Map<String, List<ActivityOfferingInfo>> foIdToAoList = new HashMap<String, List<ActivityOfferingInfo>>();
         int aoCount = 0;
         for (FormatOfferingInfo sourceFo : foInfos) {
             //TODO FIXME if the  IF_NO_NEW_VERSION_OPTION_KEY is not set and the Course version is different,
@@ -707,6 +708,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             // Logic will need to be added that reconciles the formats based on activity types
             // cclin -- It's assumed that both the CO/FO have term IDs that are parent terms so targetTermId works
             FormatOfferingInfo targetFo = _RCO_createTargetFormatOffering(sourceFo, targetCo, targetTermId, context);
+            foIdsToAOList.put(targetFo.getId(), new ArrayList<ActivityOfferingInfo>());
 
             Map<String, String> sourceAoIdToTargetAoId = new HashMap<String, String>();
             List<ActivityOfferingInfo> sourceAoList = foIdsToAOList.get(sourceFo.getId());
@@ -757,6 +759,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                     _RCO_rolloverSeatpools(sourceAo, targetAo, context);
                 }
                 targetAoId2Ao.put(targetAo.getId(), targetAo);
+                foIdsToAOList.get(targetFo.getId()).add(targetAo);
 
                 // Waitlist copy/rollover
                 List<CourseWaitListInfo> waitListInfos = courseWaitListService.getCourseWaitListsByActivityOffering(sourceAo.getId(), context);
@@ -783,10 +786,12 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         try{
             examPeriodID = getExamOfferingServiceFacade().getExamPeriodId(targetCo.getTermId(), context);
         } catch (DoesNotExistException e) {
-
+            // Unable to find exam period ID so value remains null
         }
+
         if (examPeriodID != null) {
-            getExamOfferingServiceFacade().generateFinalExamOffering(targetCo, targetCo.getTermId(), examPeriodID, optionKeys, context);
+            getExamOfferingServiceFacade().generateFinalExamOfferingOptimized(targetCo, targetCo.getTermId(),
+                    examPeriodID, optionKeys, context, foIdsToAOList);
         }
 
         SocRolloverResultItemInfo item = new SocRolloverResultItemInfo();

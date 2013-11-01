@@ -44,6 +44,7 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.poc.eventproc.KSEventProcessorImpl;
 import org.kuali.student.poc.eventproc.event.KSEvent;
@@ -75,6 +76,7 @@ import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -499,10 +501,38 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         LOGGER.info("Hi");
     }
 
+    private void _runTimings() throws Exception {
+        _reset(true);
+        List<LuiLuiRelationInfo> infos = null;
+
+        Stopwatch watch = new Stopwatch();
+        watch.reset();
+        int iterations = 2000;
+        for (int i = 0; i < iterations; i++) {
+            infos = luiService.getLuiLuiRelationsByLui(rgInfo.getId(), CONTEXT);
+        }
+        String overall = watch.computeAndAccumulate();
+        LOGGER.info("Total time: " + overall);
+
+        Stopwatch watch2 = new Stopwatch();
+        watch2.reset();
+        for (int i = 0; i < iterations; i++) {
+            List<String> aoIds =
+                    luiService.getLuiIdsByLuiAndRelationType(rgInfo.getId(),
+                            LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY, CONTEXT);
+            List<String> foIds =
+                    luiService.getLuiIdsByRelatedLuiAndRelationType(rgInfo.getId(),
+                            LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY, CONTEXT);
+        }
+        overall = watch2.computeAndAccumulate();
+        LOGGER.info("Total time 2: " + overall);
+    }
+
     @Override
     public void runTests(TestStatePropagationForm form) throws Exception {
         _initServices();
 //        _testEventProcessor();
+//        _runTimings();
 //
 //        if (1 + 1 == 2) {
 //            return;

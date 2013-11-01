@@ -39,11 +39,11 @@ public class Stopwatch {
         startMillis = Calendar.getInstance().getTimeInMillis();
     }
 
-    public int diffInMillis() {
+    public long diffInMillis() {
         if (startMillis == -1) {
             return -1;
         }
-        return (int) (Calendar.getInstance().getTimeInMillis() - startMillis);
+        return (Calendar.getInstance().getTimeInMillis() - startMillis);
     }
 
     public String compute() {
@@ -62,7 +62,7 @@ public class Stopwatch {
         long nowMillis = Calendar.getInstance().getTimeInMillis();
         long diff = nowMillis - startMillis;
         accumulatedMillis += diff;
-        return compute((int) diff);
+        return compute(diff);
     }
 
     public String getAccumulated() {
@@ -73,14 +73,12 @@ public class Stopwatch {
         accumulatedMillis = 0;
     }
 
-    public static String compute(int diff) {
-        int seconds = (int) (diff / 1000L);
-        int fraction = (int) (diff % 1000L);
-        String fractionStr = fraction + "";
-        while (fractionStr.length() < 3) {
-            fractionStr = "0" + fractionStr;
-        }
-        return seconds + "." + fractionStr + "s";
+    public static String compute(long intDiff) {
+        double diff = intDiff;
+        diff = diff / 1000; // Change to seconds
+        String s = String.format("%.4f", diff);
+        String result = s + "s";
+        return result;
     }
 
 }

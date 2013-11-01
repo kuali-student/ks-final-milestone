@@ -82,7 +82,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
         //Retrieve the course offering to create the exam offerings for.
         CourseOfferingInfo courseOfferingInfo = this.getCourseOfferingService().getCourseOffering(courseOfferingId, context);
-        return this.generateFinalExamOffering(courseOfferingInfo, termId, examPeriodId, optionKeys, context);
+        return this.generateFinalExamOfferingOptimized(courseOfferingInfo, termId, examPeriodId, optionKeys, context, null);
 
     }
 
@@ -91,18 +91,24 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                                                 ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return generateFinalExamOfferingOptimized(courseOfferingInfo, termId, examPeriodId, optionKeys, context, null);
+    }
+    @Override
+    public StatusInfo generateFinalExamOfferingOptimized(CourseOfferingInfo courseOfferingInfo, String termId, String examPeriodId, List<String> optionKeys,
+                                                ContextInfo context, Map<String, List<ActivityOfferingInfo>> foIdToListOfAOs)
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException {
         if (StringUtil.isEmpty(examPeriodId)) {
             throw new MissingParameterException("Exam Period id is not provided.");
         }
-
         StatusInfo statusInfo = new StatusInfo();
         Driver driver = calculateEODriver(courseOfferingInfo);
         if (driver.equals(Driver.PER_AO)) {
-            generateFinalExamOfferingsPerAO(courseOfferingInfo.getId(), termId, examPeriodId, optionKeys, context);
+            generateFinalExamOfferingsPerAOOptimized(courseOfferingInfo.getId(), termId, examPeriodId, optionKeys, context, foIdToListOfAOs);
         } else if (driver.equals(Driver.PER_FO)) {
-            generateFinalExamOfferingsPerFO(courseOfferingInfo.getId(), termId, examPeriodId, optionKeys, context);
+            generateFinalExamOfferingsPerFOOptimized(courseOfferingInfo.getId(), termId, examPeriodId, optionKeys, context, foIdToListOfAOs);
         } else if (driver.equals(Driver.PER_CO)) {
-            generateFinalExamOfferingsPerCO(courseOfferingInfo.getId(), termId, examPeriodId, optionKeys, context);
+            generateFinalExamOfferingsPerCOOptimized(courseOfferingInfo.getId(), termId, examPeriodId, optionKeys, context, foIdToListOfAOs);
         } else if (driver.equals(Driver.NONE)) {
             if ((!optionKeys.contains(ExamOfferingServiceFacade.RECREATE_OPTION_KEY)) && (isSocPublished(termId, context))) {
                 cancelFinalExamOfferings(courseOfferingInfo.getId(), context);
@@ -212,6 +218,15 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                                                 ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
+        generateFinalExamOfferingsPerCOOptimized(courseOfferingId, termId, examPeriodId, optionKeys, context, null);
+    }
+    @Override
+    public void generateFinalExamOfferingsPerCOOptimized(String courseOfferingId, String termId, String examPeriodId,
+                                                         List<String> optionKeys,
+                                                         ContextInfo context, Map<String,
+                                                         List<ActivityOfferingInfo>> foIdToListOfAO)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
         if (StringUtil.isEmpty(examPeriodId)) {
             throw new MissingParameterException("Exam Period id is not provided.");
         }
@@ -245,7 +260,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             }
 
             //Create new Exam Offering Relationship
-            createExamOfferingRelationPerFO(foEntry.getKey().getId(), eo.getId(), context);
+            createExamOfferingRelationPerFOOptimized(foEntry.getKey().getId(), eo.getId(), context, foIdToListOfAO);
 
         }
 
@@ -260,6 +275,17 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
     @Override
     public void generateFinalExamOfferingsPerFO(String courseOfferingId, String termId, String examPeriodId, List<String> optionKeys,
                                                 ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
+        generateFinalExamOfferingsPerFOOptimized(courseOfferingId, termId, examPeriodId, optionKeys,
+                context, null);
+    }
+
+    @Override
+    public void generateFinalExamOfferingsPerFOOptimized(String courseOfferingId, String termId, String examPeriodId,
+                                                         List<String> optionKeys,
+                                                         ContextInfo context,
+                                                         Map<String, List<ActivityOfferingInfo>> foIdToListOfAOs)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
         if (StringUtil.isEmpty(examPeriodId)) {
@@ -295,7 +321,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                         ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY, context);
 
                 //Create new Exam Offering Relationship
-                createExamOfferingRelationPerFO(foEntry.getKey().getId(), eo.getId(), context);
+                createExamOfferingRelationPerFOOptimized(foEntry.getKey().getId(), eo.getId(), context, foIdToListOfAOs);
             }
 
         }
@@ -309,7 +335,16 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
     @Override
     public void generateFinalExamOfferingsPerAO(String courseOfferingId, String termId, String examPeriodId, List<String> optionKeys,
-                                                ContextInfo context)
+                                                         ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
+        // Default to "optimized" with null parameter
+        generateFinalExamOfferingsPerAOOptimized(courseOfferingId, termId, examPeriodId, optionKeys, context, null);
+    }
+
+    @Override
+    public void generateFinalExamOfferingsPerAOOptimized(String courseOfferingId, String termId, String examPeriodId, List<String> optionKeys,
+                                                        ContextInfo context, Map<String, List<ActivityOfferingInfo>> foIdToListOfAOs)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
         if (StringUtil.isEmpty(examPeriodId)) {
@@ -336,8 +371,15 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             }
 
             //Create new exam offerings per AO
-            List<ActivityOfferingInfo> aoInfos = this.getCourseOfferingService().getActivityOfferingsByFormatOffering(
-                    foEntry.getKey().getId(), context);
+            List<ActivityOfferingInfo> aoInfos = null;
+            if (foIdToListOfAOs != null && !foIdToListOfAOs.isEmpty()) {
+                LOGGER.info("(1) Using 'cached' AOs");
+                aoInfos = foIdToListOfAOs.get(foEntry.getKey().getId());
+            } else {
+                LOGGER.info("(1) Not using 'cached' AOs");
+                aoInfos = this.getCourseOfferingService().getActivityOfferingsByFormatOffering(
+                            foEntry.getKey().getId(), context);
+            }
             for (ActivityOfferingInfo aoInfo : aoInfos) {
                 //Do not create exam offerings for canceled activity offerings.
                 if (LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY.equals(aoInfo.getStateKey())) continue;
@@ -478,14 +520,22 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         return eos;
     }
 
-    private void createExamOfferingRelationPerFO(String foId, String eoId, ContextInfo context)
+    private void createExamOfferingRelationPerFOOptimized(String foId, String eoId, ContextInfo context,
+                                                          Map<String, List<ActivityOfferingInfo>> foIdToListOfAOs)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
 
         //Create new Exam Offering Relationship
         List<String> aoIds = new ArrayList<String>();
-        List<ActivityOfferingInfo> aoInfos = this.getCourseOfferingService().getActivityOfferingsByFormatOffering(
+        List<ActivityOfferingInfo> aoInfos = null;
+        if (foIdToListOfAOs != null && !foIdToListOfAOs.isEmpty()) {
+            LOGGER.info("(2) Using 'cached' AOs");
+            aoInfos = foIdToListOfAOs.get(foId);
+        } else {
+            LOGGER.info("(2) Not using 'cached' AOs");
+            aoInfos = this.getCourseOfferingService().getActivityOfferingsByFormatOffering(
                 foId, context);
+        }
         for (ActivityOfferingInfo aoInfo : aoInfos) {
             if(!LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY.equals(aoInfo.getStateKey())){
                 aoIds.add(aoInfo.getId());
