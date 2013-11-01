@@ -50,7 +50,6 @@ public class TimeSlotViewHelperServiceImpl
         List<TimeSlotWrapper> timeSlotWrappers = new ArrayList<TimeSlotWrapper>();
 
         for (String tsTypeKey : timeSlotTypes) {
-            Date timeForDisplay;
 
             List<String> timeSlotIds = getSchedulingService().getTimeSlotIdsByType(tsTypeKey, getContextInfo());
             List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByIds(timeSlotIds, getContextInfo());
@@ -142,7 +141,7 @@ public class TimeSlotViewHelperServiceImpl
                 boolean isInUse = isTimeSlotInUse(tsWrapper.getTimeSlotInfo());
                 if (!isInUse){
                     selectedTimeSlots.add(tsWrapper);
-                    StatusInfo statusInfo = getSchedulingService().deleteTimeSlot(tsWrapper.getTimeSlotInfo().getId(), contextInfo);
+                    getSchedulingService().deleteTimeSlot(tsWrapper.getTimeSlotInfo().getId(), contextInfo);
                     timeSlotsToDelete.add(tsWrapper);
                 }
                 if (!deleteInfoAdded){
@@ -155,11 +154,24 @@ public class TimeSlotViewHelperServiceImpl
         form.getTimeSlotResults().removeAll(timeSlotsToDelete);
     }
 
+    /**
+     * Determines if a time slot created from the values in the add/edit time slot form (as an add) would be unique.
+     *
+     * @param form The add/edit time slot form.
+     * @return Returns false if a time slot already exists. Otherwise, returns true (i.e. the time slot would be unique).
+     */
     public boolean isUniqueTimeSlot(TimeSlotForm form) throws Exception {
-        return isUniqueTimeSlot(form,null);
+        return isUniqueTimeSlot(form, null);
     }
 
-    public boolean isUniqueTimeSlot(TimeSlotForm form,TimeSlotInfo skipTS) throws Exception {
+    /**
+     * Determines if a time slot created from the values in the add/edit time slot form would be unique.
+     *
+     * @param form The edit time slot form.
+     * @param editedTimeSlot The time slot that is being edited. If called from an add operation this should be null.
+     * @return Returns false if a time slot already exists. Otherwise, returns true (i.e. the time slot would be unique).
+     */
+    public boolean isUniqueTimeSlot(TimeSlotForm form, TimeSlotInfo editedTimeSlot) throws Exception {
 
         List<Integer> days = WeekDaysDtoAndUIConversions.buildDaysForDTO(form.getAddOrEditDays());
 
@@ -172,16 +184,24 @@ public class TimeSlotViewHelperServiceImpl
         List<TimeSlotInfo> exisitingTS = getSchedulingService()
                 .getTimeSlotsByDaysAndStartTimeAndEndTime(form.getAddOrEditTermKey(),days,startTimeOfDayInfo,endTimeOfDayInfo,createContextInfo());
 
-        if (exisitingTS.size() == 1 && skipTS != null){
+        boolean isUnique = false;
+
+        //  There is an existing time slot and this is an edit.
+        if (exisitingTS.size() == 1 && editedTimeSlot != null){
+            // Since there is a unique constraint on TimeSlot type, weekdays, start, and end times the search
+            // results should only constain one item.
             TimeSlotInfo ts = KSCollectionUtils.getRequiredZeroElement(exisitingTS);
-            if (StringUtils.equals(ts.getId(),skipTS.getId())){
-                return true;
-            } else {
-                return false;
+            //  If the existing time slot is the one being edited then return true.
+            if (StringUtils.equals(ts.getId(), editedTimeSlot.getId())){
+                isUnique = true;
             }
         } else {
-            return exisitingTS.isEmpty();
+            //  This is an add, so check the result set for a dup.
+            if (exisitingTS.isEmpty()) {
+                isUnique = true;
+            }
         }
+        return isUnique;
     }
 
     public boolean isTimeSlotInUse(TimeSlotInfo ts) throws Exception {
