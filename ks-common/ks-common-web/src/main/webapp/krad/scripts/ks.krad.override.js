@@ -23,6 +23,8 @@ function openDataTablePage(tableId, pageNumber) {
 }
 
 /*
+ * FIXME KSENROLL-10557: Remove once jira is fixed.
+ *
  * Function that returns lookup results by script
  */
 function returnLookupResultByScript(fieldName, value) {
