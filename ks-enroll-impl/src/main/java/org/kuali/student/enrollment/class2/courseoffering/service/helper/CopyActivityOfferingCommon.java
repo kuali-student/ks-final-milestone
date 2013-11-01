@@ -113,8 +113,11 @@ public class CopyActivityOfferingCommon {
             for (ScheduleRequestInfo request: sourceRequests) {
                 // Step 3: for each schedule ID, create a schedule request and attach it to newly created SRS
                 String schedId = request.getScheduleId(); // Get the ID of the ADL
+
                 if (schedId == null) {
-                    throw new OperationFailedException("Copy AO: schedule ID should exist");
+                    // If the schedule Id is null it means that the RDL has been saved, but hasn't been submitted to the
+                    // "scheduler" for processing. So, just move on the the next item.
+                    continue;
                 }
                 ScheduleInfo schedule = schedulingService.getSchedule(schedId, context);
                 ScheduleRequestInfo newRequest = SchedulingServiceUtil.scheduleToRequest(schedule, roomService, context);
