@@ -25,16 +25,17 @@ import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
-import org.kuali.rice.krad.uif.control.CheckboxGroupControl;
 import org.kuali.rice.krad.uif.control.SelectControl;
 import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -42,6 +43,7 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
@@ -223,7 +225,7 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
      * @see #populateGradeRosterLevelTypes
      */
     @SuppressWarnings("unused")
-    public void populateFinalExamDriverTypes(InputField field, MaintenanceDocumentForm form){
+    public void populateFinalExamDriverTypes(InputField field, MaintenanceDocumentForm form) throws Exception {
 
         if (field.isReadOnly()){
             return;
@@ -255,9 +257,22 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
         SelectControl control = (SelectControl)field.getControl();
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-
+        CourseOfferingEditWrapper courseOfferingEditWrapper;
         if (StringUtils.isNotBlank(formatOfferingInfo.getFormatId()) && courseInfo != null){
             keyValues.addAll(collectActivityTypeKeyValues(courseInfo, formatOfferingInfo.getFormatId(), getTypeService(), ContextUtils.createDefaultContextInfo()));
+                if (wrapper instanceof CourseOfferingEditWrapper){
+                courseOfferingEditWrapper = (CourseOfferingEditWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+                       loadActivityOfferingsByCourseOffering(wrapper.getCourseOfferingInfo(), courseOfferingEditWrapper);
+                       FormatOfferingInfo aoformatOfferingInfo = courseOfferingEditWrapper.getAoWrapperList().get(0).getFormatOffering();
+                    if(aoformatOfferingInfo.getFinalExamLevelTypeKey() != keyValues.get(0).getKey()){
+                        List<KeyValue> newKeyValues = new ArrayList<KeyValue>();
+                        newKeyValues.add(keyValues.get(0));
+                        keyValues.remove(0);
+                        keyValues.add(newKeyValues.get(0));
+
+                    }
+                }
+           // }
             control.setDisabled(false);
         } else {
             control.setDisabled(true);
@@ -355,6 +370,42 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
             }
         }
 
+    }
+
+    private void loadActivityOfferingsByCourseOffering(CourseOfferingInfo theCourseOfferingInfo, CourseOfferingEditWrapper formObject) throws Exception {
+        String courseOfferingId = theCourseOfferingInfo.getId();
+        List<ActivityOfferingInfo> activityOfferingInfoList;
+        List<ActivityOfferingWrapper> activityOfferingWrapperList;
+
+        try {
+            activityOfferingInfoList = getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, ContextUtils.createDefaultContextInfo());
+            activityOfferingWrapperList = new ArrayList<ActivityOfferingWrapper>(activityOfferingInfoList.size());
+
+            for (ActivityOfferingInfo info : activityOfferingInfoList) {
+                ActivityOfferingWrapper aoWrapper = convertAOInfoToWrapper_Simple(info);
+                activityOfferingWrapperList.add(aoWrapper);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(String.format("Could not load AOs for course offering [%s].", courseOfferingId), e);
+        }
+        formObject.setAoWrapperList(activityOfferingWrapperList);
+    }
+
+    private ActivityOfferingWrapper convertAOInfoToWrapper_Simple(ActivityOfferingInfo aoInfo) throws Exception{
+
+        ActivityOfferingWrapper aoWrapper = new ActivityOfferingWrapper(aoInfo);
+
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
+        StateInfo state = getStateService().getState(aoInfo.getStateKey(), contextInfo);
+        aoWrapper.setStateName(state.getName());
+
+        TypeInfo typeInfo = getTypeService().getType(aoInfo.getTypeKey(), contextInfo);
+        aoWrapper.setTypeName(typeInfo.getName());
+
+        FormatOfferingInfo fo = getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), contextInfo);
+        aoWrapper.setFormatOffering(fo);
+        return aoWrapper;
     }
 
     protected TypeService getTypeService() {
