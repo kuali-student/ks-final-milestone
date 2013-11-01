@@ -135,6 +135,8 @@ public class ManageSOCController extends UifControllerBase {
             socForm.clear();
             socForm.setTermInfo(term);
             viewHelper.buildModel(socForm);
+        } else {
+            socForm.clear();
         }
         return getUIFModelAndView(socForm);
 
