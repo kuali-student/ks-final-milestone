@@ -48,7 +48,7 @@ public class BuildingInfoLookupableImpl extends LookupableImpl implements Lookup
             QueryByCriteria criteria = qbcBuilder.build();
             buildingInfos = getRoomService().searchForBuildings(criteria, ContextUtils.createDefaultContextInfo());
         } catch (Exception e) {
-            //  If something goes wrong just log the error and return and empty list.
+            //  If something goes wrong just log the error and return an empty list.
             String errorTxt = "Query to RoomService failed. See the application log for additional details.";
             LOGGER.error(errorTxt, e);
             GlobalVariables.getMessageMap()
