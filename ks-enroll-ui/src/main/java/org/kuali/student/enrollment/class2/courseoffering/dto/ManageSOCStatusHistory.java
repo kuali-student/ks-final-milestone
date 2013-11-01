@@ -15,6 +15,8 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+
 import java.util.Date;
 
 /**
@@ -87,7 +89,22 @@ public class ManageSOCStatusHistory implements Comparable<ManageSOCStatusHistory
     public int compareTo(ManageSOCStatusHistory manageSOCStatusHistory) {
         //FindBugs - it is fine as is
         if (this.getDateObject() != null && manageSOCStatusHistory.getDateObject() != null){
-            return getDateObject().compareTo(manageSOCStatusHistory.getDateObject());
+            int dateOnlyCompare = getDateObject().compareTo(manageSOCStatusHistory.getDateObject());
+            if(dateOnlyCompare == 0){//dates are equal, sort by stateKey
+                int currentStatusIndex = 0;
+                int comparedStatusIndex = 0;
+                for(int i = 0;i< CourseOfferingSetServiceConstants.SOC_LIFECYCLE_STATE_KEYS.length;i++){
+                    if(CourseOfferingSetServiceConstants.SOC_LIFECYCLE_STATE_KEYS[i].equals(this.getStateKey())){
+                        currentStatusIndex = i;
+                    }
+                    if(CourseOfferingSetServiceConstants.SOC_LIFECYCLE_STATE_KEYS[i].equals(manageSOCStatusHistory.getStateKey())){
+                        comparedStatusIndex = i;
+                    }
+                }
+                return (currentStatusIndex < comparedStatusIndex) ? -1 : ((currentStatusIndex == comparedStatusIndex) ? 0 : 1);
+            }else{
+                return dateOnlyCompare;
+            }
         }else if (manageSOCStatusHistory.getDateObject() == null){
             return -1;
         }else{
