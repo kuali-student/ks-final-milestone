@@ -330,7 +330,7 @@ public class SchedulingServiceValidationDecorator extends SchedulingServiceDecor
         boolean canUpdate = canUpdateTimeSlot(timeSlotId,contextInfo);
 
         if (!canUpdate){
-            throw new OperationFailedException("Time slot " + timeSlotInfo.getName() + " is already associated with delivery logistics, so cannot be changed.");
+            throw new OperationFailedException("Time slot " + timeSlotInfo.getName() + " is already associated with scheduling information, so cannot be changed.");
         }
 
         return getNextDecorator().updateTimeSlot(timeSlotId, timeSlotInfo, contextInfo);
@@ -346,7 +346,7 @@ public class SchedulingServiceValidationDecorator extends SchedulingServiceDecor
         boolean canDelete = canUpdateTimeSlot(timeSlotId,contextInfo);
 
         if (!canDelete){
-            throw new OperationFailedException("The time slot(s) you are attempting to delete are already associated with delivery logistics, so cannot be changed.");
+            throw new OperationFailedException("The time slot(s) you are attempting to delete are already associated with scheduling information, so cannot be changed.");
         }
 
         return getNextDecorator().deleteTimeSlot(timeSlotId, contextInfo);
