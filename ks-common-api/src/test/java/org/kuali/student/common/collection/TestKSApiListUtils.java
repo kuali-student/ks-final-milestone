@@ -39,22 +39,22 @@ public class TestKSApiListUtils {
 		
 		List<String>nullList = null;
 		
-		Assert.assertTrue (KSApiListUtils.areListContentsEquals(nullList, null));
+		Assert.assertTrue (KSApiListUtils.areListContentsEqual(nullList, null));
 		
 		List<String>abcList = Arrays.asList(new String[]{"A", "B", "C"});
 		
-		Assert.assertFalse("null is not equal to abc", KSApiListUtils.areListContentsEquals(nullList, abcList));
-		Assert.assertFalse("abc is not equal to null", KSApiListUtils.areListContentsEquals(abcList, nullList));
+		Assert.assertFalse("null is not equal to abc", KSApiListUtils.areListContentsEqual(nullList, abcList));
+		Assert.assertFalse("abc is not equal to null", KSApiListUtils.areListContentsEqual(abcList, nullList));
 		
 		List<String>xyzList = Arrays.asList(new String[]{"X", "Y", "Z"});
 		
-		Assert.assertFalse("xyz is not equal to abc", KSApiListUtils.areListContentsEquals(xyzList, abcList));
-		Assert.assertFalse("abc is not equal to xyz", KSApiListUtils.areListContentsEquals(abcList, xyzList));
+		Assert.assertFalse("xyz is not equal to abc", KSApiListUtils.areListContentsEqual(xyzList, abcList));
+		Assert.assertFalse("abc is not equal to xyz", KSApiListUtils.areListContentsEqual(abcList, xyzList));
 		
 		List<String>abList = Arrays.asList(new String[]{"A", "B"});
 		
-		Assert.assertFalse("ab is not equal to abc", KSApiListUtils.areListContentsEquals(abList, abcList));
-		Assert.assertFalse("abc is not equal to ab", KSApiListUtils.areListContentsEquals(abcList, abList));
+		Assert.assertFalse("ab is not equal to abc", KSApiListUtils.areListContentsEqual(abList, abcList));
+		Assert.assertFalse("abc is not equal to ab", KSApiListUtils.areListContentsEqual(abcList, abList));
 		
 		List<String>abcCopy = new ArrayList<String>(abcList);
 		
@@ -62,7 +62,7 @@ public class TestKSApiListUtils {
 			abcCopy.set(i, new String (abcList.get(i)));
 		}
 		
-		Assert.assertTrue ("abc should be equal to abc", KSApiListUtils.areListContentsEquals(abcList, abcCopy));
+		Assert.assertTrue ("abc should be equal to abc", KSApiListUtils.areListContentsEqual(abcList, abcCopy));
 		
 		List<String>xyzCopy = new ArrayList<String>(xyzList);
 		
@@ -70,7 +70,7 @@ public class TestKSApiListUtils {
 			xyzCopy.set(i, new String (xyzList.get(i)));
 		}
 		
-		Assert.assertTrue ("xyz should be equal to xyz", KSApiListUtils.areListContentsEquals(xyzList, xyzList));
+		Assert.assertTrue ("xyz should be equal to xyz", KSApiListUtils.areListContentsEqual(xyzList, xyzList));
 		
 		
 	}

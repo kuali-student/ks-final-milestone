@@ -85,19 +85,19 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
         ScheduleRequestComponentInfo srci = (ScheduleRequestComponentInfo) obj; // will throw ClassCastException
         if (!this.id.equals(srci.getId())) return false;
         
-        if (!KSApiListUtils.areListContentsEquals(buildingIds, srci.buildingIds)) return false;
+        if (!KSApiListUtils.areListContentsEqual(buildingIds, srci.buildingIds)) return false;
 
-        if (!KSApiListUtils.areListContentsEquals(campusIds, srci.campusIds)) return false;
+        if (!KSApiListUtils.areListContentsEqual(campusIds, srci.campusIds)) return false;
         
-        if (!KSApiListUtils.areListContentsEquals(orgIds, srci.orgIds)) return false;
+        if (!KSApiListUtils.areListContentsEqual(orgIds, srci.orgIds)) return false;
         
-        if (!KSApiListUtils.areListContentsEquals(resourceTypeKeys, srci.resourceTypeKeys)) return false;
+        if (!KSApiListUtils.areListContentsEqual(resourceTypeKeys, srci.resourceTypeKeys)) return false;
         
-        if (!KSApiListUtils.areListContentsEquals(roomIds, srci.roomIds)) return false;
+        if (!KSApiListUtils.areListContentsEqual(roomIds, srci.roomIds)) return false;
         
-        if (!KSApiListUtils.areListContentsEquals(timeSlotIds, srci.timeSlotIds)) return false;
+        if (!KSApiListUtils.areListContentsEqual(timeSlotIds, srci.timeSlotIds)) return false;
         
-        if (!KSApiListUtils.areListContentsEquals(partitionIds, srci.partitionIds)) return false;
+        if (!KSApiListUtils.areListContentsEqual(partitionIds, srci.partitionIds)) return false;
         
         if (this.isTBA==null && srci.getIsTBA()==null) return true;
         

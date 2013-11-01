@@ -42,7 +42,7 @@ public final class KSApiListUtils {
 	 * @param target the second list in the comparison
 	 * @return true if the source and target list are of the same size and each element within them are equal.
 	 */
-	public static <T> boolean areListContentsEquals (List<T>source, List<T>target) {
+	public static <T> boolean areListContentsEqual (List<T>source, List<T>target) {
 		if (source == null && target == null)
 			return true;
 		else if (source == null || target == null)
