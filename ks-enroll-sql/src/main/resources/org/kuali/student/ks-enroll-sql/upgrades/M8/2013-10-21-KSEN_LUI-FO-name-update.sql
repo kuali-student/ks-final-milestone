@@ -1,7 +1,7 @@
 -- KSENROLL-10061
 update KSEN_LUI set NAME = 'Lecture/Lab', DESCR_FORMATTED = 'Courses with Lecture/Lab', DESCR_PLAIN = 'Courses with Lecture/Lab' where ID = '6d6259ed-1244-45cd-a8f9-7a3a5cf43f47'
 /
-update KSEN_LUI set NAME = 'Lecture/Discussion', DESCR_FORMATTED = 'Courses with Lecture/Discussion', DESCR_PLAIN = 'Courses with Lecture/Discussion' where ID = '7e4c21f6-c185-45ee-b9a7-1a504aa04d97'
+update KSEN_LUI set NAME = 'Discussion/Lab', DESCR_FORMATTED = 'Courses with Discussion/Lab', DESCR_PLAIN = 'Courses with Discussion/Lab' where ID = '7e4c21f6-c185-45ee-b9a7-1a504aa04d97'
 /
 update KSEN_LUI set NAME = 'Lecture/Lab', DESCR_FORMATTED = 'Courses with Lecture/Lab', DESCR_PLAIN = 'Courses with Lecture/Lab' where ID = '3b6923ee-ac45-45db-97b8-233968138978'
 /
