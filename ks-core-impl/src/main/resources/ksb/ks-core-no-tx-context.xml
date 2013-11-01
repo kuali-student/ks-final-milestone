@@ -248,13 +248,8 @@
     </bean>
 
     <bean id="atpServiceValidation" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">
-        <property name="nextDecorator" ref="atpServiceCache" />
-        <property name="validator" ref="validator" />
-    </bean>
-
-    <bean id="atpServiceCache" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceCacheDecorator">
         <property name="nextDecorator" ref="atpServiceImpl" />
-        <property name="cacheManager" ref="ksCacheManager"/>
+        <property name="validator" ref="validator" />
     </bean>
 
     <alias name="atpServiceValidation" alias="AtpService" />
@@ -942,13 +937,7 @@
     <!-- necessary to use ACSCalculationDecorator's copyHolidayCalendar() -->
     <bean id="acalServiceCalculation" class="org.kuali.student.r2.core.acal.service.decorators.AcademicCalendarServiceCalculationDecorator">
         <property name="atpService" ref="atpServiceClient" />
-        <property name="nextDecorator" ref="academicCalendarServiceCacheDecorator" />
-    </bean>
-    <!-- -->
-
-    <bean id="academicCalendarServiceCacheDecorator" class="org.kuali.student.r2.core.acal.service.decorators.AcademicCalendarServiceCacheDecorator">
         <property name="nextDecorator" ref="acalServiceImpl" />
-        <property name="cacheManager" ref="ksCacheManager"/>
     </bean>
 
     <!-- change id to "acalServiceImpl" if the above bean is used -->
