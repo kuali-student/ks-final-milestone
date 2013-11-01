@@ -12,7 +12,6 @@
     <cache name="roomRespOrgCache" maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="120" />
     <cache name="buildingRoomCodeCache" maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="120" />
     <cache name="buildingCodeCache" maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="120" />
-    <cache name="AcademicCalendarServiceCache" maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="120" />
 
     <!-- This is for the Course Code Lookup Cache.  -->
     <cache name="CourseOfferingMaintainableImplCache" maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
@@ -21,6 +20,6 @@
     <cache name="LRCServiceCache" maxElementsInMemory="1000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" />
     <cache name="TypeServiceCache" maxElementsInMemory="1000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" />
     <cache name="StateServiceCache" maxElementsInMemory="1000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" />
-    <cache name="atpCache" maxElementsInMemory="1000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="120" />
-    <cache name="milestoneCache" maxElementsInMemory="1000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="120" />
+    <cache name="atpCache" maxElementsInMemory="200" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="120" />
+    <cache name="milestoneCache" maxElementsInMemory="200" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="120" />
 </ehcache>
