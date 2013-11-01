@@ -9,7 +9,7 @@
         <property name="titleAttribute" value="id"/>
     </bean>
 
-    <!-- LookupView -->
+    <!-- LookupView which goes with BuildingInfoLookableImpl.java -->
     <bean id="KS-BuildingInfo-LookupView" parent="KS-Uif-LookupView">
         <property name="headerText" value="Building Info Lookup" />
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.room.dto.BuildingInfo" />
@@ -17,7 +17,7 @@
 
         <property name="criteriaFields">
             <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="buildingCode" p:uppercaseValue="true" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name" />
             </list>
         </property>
         <property name="resultFields">

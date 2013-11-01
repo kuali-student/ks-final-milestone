@@ -1,39 +1,63 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import edu.emory.mathcs.backport.java.util.Collections;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.lookup.Lookupable;
 import org.kuali.rice.krad.lookup.LookupableImpl;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.common.util.ContextBuilder;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
+
+import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * This lookup implementation is just for the KD. This will be replaced by the autosuggest after M4 rice upgrade.
+ * Building lookup used by activity and final exam quickfinders.
+ *
+ * Goes with BuildingLookupAndInquiry.xml
  */
 public class BuildingInfoLookupableImpl extends LookupableImpl implements Lookupable {
+    private static final Logger LOGGER = Logger.getLogger(BuildingInfoLookupableImpl.class);
 
     private RoomService roomService;
 
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+
+        List<BuildingInfo> buildingInfos = null;
+
         try {
-            String buildingCode = fieldValues.get("buildingCode");
-            if (StringUtils.isNotBlank(buildingCode)){
-                 return getRoomService().getBuildingsByBuildingCode(buildingCode, ContextBuilder.loadContextInfo());
-            } else{
-                return getRoomService().searchForBuildings(QueryByCriteria.Builder.create().build(), ContextBuilder.loadContextInfo());
-            }
+            //  Get the (potentially partial) name from the fieldValues.
+            String nameString = fieldValues.get("name");
+            //  Getting all rows is quite fast so not checking for an empty query.
+            //  Put some wildcards around it so that it matches anywhere in the field.
+            String name = "*" + StringUtils.upperCase(nameString) + "*";
+
+            //  Build the query and execute.
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(PredicateFactory.like("name", name));
+            QueryByCriteria criteria = qbcBuilder.build();
+            buildingInfos = getRoomService().searchForBuildings(criteria, ContextUtils.createDefaultContextInfo());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            //  If something goes wrong just log the error and return and empty list.
+            String errorTxt = "Query to RoomService failed. See the application log for additional details.";
+            LOGGER.error(errorTxt, e);
+            GlobalVariables.getMessageMap()
+                    .putError(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.ERROR_CUSTOM, errorTxt);
+            buildingInfos = Collections.emptyList();
         }
 
+        return buildingInfos;
     }
-
 
     public RoomService getRoomService(){
         if (roomService == null){
