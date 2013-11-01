@@ -1,11 +1,11 @@
-/*
- * **************************************
- * **************************************
- *	This is just a custom test script that is being used while developing Learning Objectives in the Curriculum Management KRAD Conversion project.
- *	This is NOT an official sql script.
- * **************************************
- * **************************************
- */
+--
+-- **************************************
+-- **************************************
+--	This is just a custom test script that is being used while developing Learning Objectives in the Curriculum Management KRAD Conversion project.
+--	This is NOT an official sql script.
+-- **************************************
+-- **************************************
+--
 
 delete from KSLO_LO_JN_LOCATEGORY where lo_id='4beee444-ac19-4063-85e3-61df2662ceab'
 /
@@ -61,9 +61,9 @@ INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Students should be able to demonstrate an understanding of the fundamental principles, concepts and knowledge of human geography.','06adf410-fc87-4882-84e0-53726276a4c2','38380785-bd4d-4aa3-8f9e-eb5817a90cfc','Students should be able to demonstrate an understanding of the fundamental principles, concepts and knowledge of human geography.',0)
 /
-/*INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('Undergraduates will learn and develop information literacy skills that they can successfully apply within a wide range and intersection of disciplines inside and outside academia.','0772651e-9abb-4c28-a01a-2c14a9c68298','ba8c7f1c-b5bd-4832-b5c4-3dbe58dc9c7c','Undergraduates will learn and develop information literacy skills that they can successfully apply within a wide range and intersection of disciplines inside and outside academia.',0)
-/*/
+-- INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
+--  VALUES ('Undergraduates will learn and develop information literacy skills that they can successfully apply within a wide range and intersection of disciplines inside and outside academia.','0772651e-9abb-4c28-a01a-2c14a9c68298','ba8c7f1c-b5bd-4832-b5c4-3dbe58dc9c7c','Undergraduates will learn and develop information literacy skills that they can successfully apply within a wide range and intersection of disciplines inside and outside academia.',0)
+-- /
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Demonstrate critical thinking about arguments in the social and behavioral sciences and evaluate an argument''s major assertions, its background assumptions, the evidence used to support its assertions, and its explanatory utility','0774bfd2-8df6-4c67-b19b-741fa4dc0fbc','2338d7a7-1d98-416c-8010-9060b1aa44dd','Demonstrate critical thinking about arguments in the social and behavioral sciences and evaluate an argument''s major assertions, its background assumptions, the evidence used to support its assertions, and its explanatory utility',0)
 /
@@ -214,9 +214,9 @@ INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Interpret and analyze works of painting, sculpture, architecture, music, dance, theatre, film, multi-media, or environmental art','1bbc8d1e-eb5e-4314-bedc-c1487679656b','f6214c31-acdc-4a3d-b60c-d56f5bfbbc91','Interpret and analyze works of painting, sculpture, architecture, music, dance, theatre, film, multi-media, or environmental art',0)
 /
-/*INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('Undergraduates will be able to understand basic technologies and how these relate to their specific disciplines, and will be able to apply these technologies to their research and academic efforts.','1cde7b48-a2d2-4c0e-9c98-e58c6bf5fbdc','bc5e811a-da3f-4d6e-9ceb-0447ae2bbd42','Undergraduates will be able to understand basic technologies and how these relate to their specific disciplines, and will be able to apply these technologies to their research and academic efforts.',0)
-/*/
+-- INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
+--  VALUES ('Undergraduates will be able to understand basic technologies and how these relate to their specific disciplines, and will be able to apply these technologies to their research and academic efforts.','1cde7b48-a2d2-4c0e-9c98-e58c6bf5fbdc','bc5e811a-da3f-4d6e-9ceb-0447ae2bbd42','Undergraduates will be able to understand basic technologies and how these relate to their specific disciplines, and will be able to apply these technologies to their research and academic efforts.',0)
+-- /
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Use mathematical reasoning with appropriate technology to solve problems, test conjectures, judge the validity of arguments, formulate valid arguments, check answers to determine reasonableness, and communicate the reasoning and the results','1dbb5278-7853-4a7d-8302-e5e0fdf86af0','6f4c4d31-3bd2-4e51-9531-beab33b20cd2','Use mathematical reasoning with appropriate technology to solve problems, test conjectures, judge the validity of arguments, formulate valid arguments, check answers to determine reasonableness, and communicate the reasoning and the results',0)
 /
@@ -340,9 +340,9 @@ INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Students should demonstrate an ability to use and apply quantitative methods, especially:','2c7d043e-b54f-4aea-b5c5-65339df2d42f','8b8c5258-3609-46a6-9609-cb992c49889d','Students should demonstrate an ability to use and apply quantitative methods, especially:',0)
 /
-/*INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('Using standard English, undergraduates will communicate clearly and effectively in writing and orally for different audiences and purposes.','2c8107b4-d0a3-443b-b4af-c7a969d1b451','e85da1da-021f-4726-bb8b-600aaf4c99fb','Using standard English, undergraduates will communicate clearly and effectively in writing and orally for different audiences and purposes.',0)
-/*/
+-- INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
+--  VALUES ('Using standard English, undergraduates will communicate clearly and effectively in writing and orally for different audiences and purposes.','2c8107b4-d0a3-443b-b4af-c7a969d1b451','e85da1da-021f-4726-bb8b-600aaf4c99fb','Using standard English, undergraduates will communicate clearly and effectively in writing and orally for different audiences and purposes.',0)
+-- /
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Understand and describe change in history and historiography','2d85ad50-a8dc-48f0-94e6-3e63ac7f21ac','a60e0941-8b9b-43ff-a74b-e0d740dd7e12','Understand and describe change in history and historiography',0)
 /
@@ -589,9 +589,9 @@ INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Use quantitative information and/or mathematical analysis to obtain sound results and recognize questionable assumptions','4d3e4e89-06d3-475e-8347-69d8452db0db','9f898a4e-e55b-45dc-8cdc-9db9744ac7c4','Use quantitative information and/or mathematical analysis to obtain sound results and recognize questionable assumptions',0)
 /
-/*INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('Undergraduates should understand and be able to apply basic scientific and mathematical reasoning to their research efforts and critical analyses.','4e0ecb4d-13bc-4cf0-815c-767a3e5640a4','f977a8d8-7250-4dcd-b596-790b04733df0','Undergraduates should understand and be able to apply basic scientific and mathematical reasoning to their research efforts and critical analyses.',0)
-/*/
+-- INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
+--  VALUES ('Undergraduates should understand and be able to apply basic scientific and mathematical reasoning to their research efforts and critical analyses.','4e0ecb4d-13bc-4cf0-815c-767a3e5640a4','f977a8d8-7250-4dcd-b596-790b04733df0','Undergraduates should understand and be able to apply basic scientific and mathematical reasoning to their research efforts and critical analyses.',0)
+-- /
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Physical Geography','4efb55c2-8cba-4733-8f1b-cde3b68ef760','5cb0628f-e567-40fe-9222-e53d0fd71033','Physical Geography',0)
 /
@@ -640,9 +640,9 @@ INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Students will demonstrate basic knowledge of major criminology and criminal justice content areas.','5474f303-0341-4f0c-bd1c-37122dfacba3','d34edd3e-7cb0-426a-9835-5db0abbc0dc7','Students will demonstrate basic knowledge of major criminology and criminal justice content areas.',0)
 /
-/*INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('Undergraduates should learn and develop critical reasoning and research skills that they can apply successfully within a wide range and intersection of disciplines inside and outside of academia.','54754205-8d42-4bc4-aa96-c0a28e204f20','563a97fd-f9dc-47c4-8cf6-8cee4f3dd375','Undergraduates should learn and develop critical reasoning and research skills that they can apply successfully within a wide range and intersection of disciplines inside and outside of academia.',0)
-/*/
+-- INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
+--  VALUES ('Undergraduates should learn and develop critical reasoning and research skills that they can apply successfully within a wide range and intersection of disciplines inside and outside of academia.','54754205-8d42-4bc4-aa96-c0a28e204f20','563a97fd-f9dc-47c4-8cf6-8cee4f3dd375','Undergraduates should learn and develop critical reasoning and research skills that they can apply successfully within a wide range and intersection of disciplines inside and outside of academia.',0)
+-- /
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Describe specific processes by which works of painting, sculpture, architecture, music, dance, theatre, film, multi-media, or environmental art are created; describe general creative processes common to two or more of these media','547de4ab-7968-4965-a64f-bdef39d62788','950037a8-803e-4be6-b3ff-38dbd7ed483a','Describe specific processes by which works of painting, sculpture, architecture, music, dance, theatre, film, multi-media, or environmental art are created; describe general creative processes common to two or more of these media',0)
 /
@@ -1150,9 +1150,9 @@ INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Compare and contrast one work of literature with another or one genre with another to illuminate both','8bd37978-03b4-4e88-ab70-784cc941fbe7','1043865b-073c-4f48-9383-f43b6ea162a8','Compare and contrast one work of literature with another or one genre with another to illuminate both',0)
 /
-/*INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
-  VALUES ('Undergraduates will learn and develop information literacy skills that they can successfully apply within a wide range and intersection of disciplines inside and outside academia.','8ea93095-0512-40a6-b689-d1fea476ceab','7f26e078-1269-49bd-973f-118b384e8618','Undergraduates will learn and develop information literacy skills that they can successfully apply within a wide range and intersection of disciplines inside and outside academia.',0)
-/*/
+-- INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
+--  VALUES ('Undergraduates will learn and develop information literacy skills that they can successfully apply within a wide range and intersection of disciplines inside and outside academia.','8ea93095-0512-40a6-b689-d1fea476ceab','7f26e078-1269-49bd-973f-118b384e8618','Undergraduates will learn and develop information literacy skills that they can successfully apply within a wide range and intersection of disciplines inside and outside academia.',0)
+-- /
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Establish requisite authority and credibility through various forms of research','9098999c-f5fc-4ea8-bc1f-517b228a2101','bb615f8d-b22a-42f6-a41f-6e1e3ac55fc3','Establish requisite authority and credibility through various forms of research',0)
 /
@@ -2004,9 +2004,9 @@ INSERT INTO KSLO_LO (CREATEID,CREATETIME,ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_
 INSERT INTO KSLO_LO (CREATEID,CREATETIME,ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('admin',TO_DATE( '20101213084611', 'YYYYMMDDHH24MISS' ),'173f4640-778c-4561-a6b9-40517a382d68','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','062ed290-a55f-4bda-8cf1-c3fd3a669b58','547de4ab-7968-4965-a64f-bdef39d62788','earl',TO_DATE( '20101213155310', 'YYYYMMDDHH24MISS' ),6)
 /
-/*INSERT INTO KSLO_LO (CREATETIME,ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES (TO_DATE( '20101210172159', 'YYYYMMDDHH24MISS' ),'19f8d4eb-4886-4930-a23a-52e7902a7fef','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','4b199c27-c3aa-4fd6-a195-060600440432','1cde7b48-a2d2-4c0e-9c98-e58c6bf5fbdc','earl',TO_DATE( '20101214102531', 'YYYYMMDDHH24MISS' ),3)
-/*/
+-- INSERT INTO KSLO_LO (CREATETIME,ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,UPDATEID,UPDATETIME,VER_NBR)
+--  VALUES (TO_DATE( '20101210172159', 'YYYYMMDDHH24MISS' ),'19f8d4eb-4886-4930-a23a-52e7902a7fef','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','4b199c27-c3aa-4fd6-a195-060600440432','1cde7b48-a2d2-4c0e-9c98-e58c6bf5fbdc','earl',TO_DATE( '20101214102531', 'YYYYMMDDHH24MISS' ),3)
+-- /
 INSERT INTO KSLO_LO (CREATEID,CREATETIME,ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('admin',TO_DATE( '20101213084612', 'YYYYMMDDHH24MISS' ),'223fef61-b58a-4fea-8f93-665778d7d4c5','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','c35d11df-b203-4795-9149-81527d86b9c8','a1779392-102f-4a5a-9715-45ff3d37ecd9','earl',TO_DATE( '20101213155310', 'YYYYMMDDHH24MISS' ),6)
 /
@@ -2067,9 +2067,9 @@ INSERT INTO KSLO_LO (CREATETIME,ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,
 INSERT INTO KSLO_LO (CREATEID,CREATETIME,ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('admin',TO_DATE( '20101213084612', 'YYYYMMDDHH24MISS' ),'59e1a36c-63d3-4e10-8607-840fa3c8e52c','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','cc22c73d-60ac-4927-83a6-c83d79280293','93091694-66be-4658-8b52-e904829e8f8d','earl',TO_DATE( '20101213155310', 'YYYYMMDDHH24MISS' ),6)
 /
-/*INSERT INTO KSLO_LO (CREATETIME,ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES (TO_DATE( '20101210172159', 'YYYYMMDDHH24MISS' ),'5e008dcd-cc9a-4cc7-b5a3-a3c0707d455a','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','22e9d722-da10-4471-a986-5657574ea38b','54754205-8d42-4bc4-aa96-c0a28e204f20','earl',TO_DATE( '20101214102531', 'YYYYMMDDHH24MISS' ),3)
-/*/
+-- INSERT INTO KSLO_LO (CREATETIME,ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,UPDATEID,UPDATETIME,VER_NBR)
+--  VALUES (TO_DATE( '20101210172159', 'YYYYMMDDHH24MISS' ),'5e008dcd-cc9a-4cc7-b5a3-a3c0707d455a','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','22e9d722-da10-4471-a986-5657574ea38b','54754205-8d42-4bc4-aa96-c0a28e204f20','earl',TO_DATE( '20101214102531', 'YYYYMMDDHH24MISS' ),3)
+-- /
 INSERT INTO KSLO_LO (CREATETIME,ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES (TO_DATE( '20101210172200', 'YYYYMMDDHH24MISS' ),'5f7048e5-c149-4449-b244-62f7542b7c01','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','997f4a5a-9cf5-4e31-889b-8132eba28b45','6f178b19-0e3a-47b7-9589-11ef5e550aca','earl',TO_DATE( '20101214105343', 'YYYYMMDDHH24MISS' ),10)
 /
@@ -2142,9 +2142,9 @@ INSERT INTO KSLO_LO (CREATEID,CREATETIME,ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_
 INSERT INTO KSLO_LO (CREATEID,CREATETIME,ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('admin',TO_DATE( '20101213084611', 'YYYYMMDDHH24MISS' ),'9b07c128-b46d-4d3b-855e-803d263614d5','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','363f030c-4871-415e-bf8b-017ae36c7aaf','07f597bc-b0eb-4eb6-a789-7001bdafab7c','earl',TO_DATE( '20101213155310', 'YYYYMMDDHH24MISS' ),6)
 /
-/*INSERT INTO KSLO_LO (CREATETIME,ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES (TO_DATE( '20101210172159', 'YYYYMMDDHH24MISS' ),'9c01136e-5a0f-4ca8-a19c-7afb191a8296','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','037b246b-344c-4482-989e-b07e5b179b94','4e0ecb4d-13bc-4cf0-815c-767a3e5640a4','earl',TO_DATE( '20101214102531', 'YYYYMMDDHH24MISS' ),3)
-/*/
+-- INSERT INTO KSLO_LO (CREATETIME,ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,UPDATEID,UPDATETIME,VER_NBR)
+--  VALUES (TO_DATE( '20101210172159', 'YYYYMMDDHH24MISS' ),'9c01136e-5a0f-4ca8-a19c-7afb191a8296','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','037b246b-344c-4482-989e-b07e5b179b94','4e0ecb4d-13bc-4cf0-815c-767a3e5640a4','earl',TO_DATE( '20101214102531', 'YYYYMMDDHH24MISS' ),3)
+-- /
 INSERT INTO KSLO_LO (CREATEID,CREATETIME,ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('admin',TO_DATE( '20101213085042', 'YYYYMMDDHH24MISS' ),'a01a8486-ca82-40a5-9a0a-30a6c28c706a','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','37b4141d-1077-4c0b-b9ba-8389c10902e1','2e6c622b-0801-4e2b-a76f-9e8a10180963','fred',TO_DATE( '20101213151948', 'YYYYMMDDHH24MISS' ),5)
 /
@@ -2235,12 +2235,12 @@ INSERT INTO KSLO_LO (CREATEID,CREATETIME,ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_
 INSERT INTO KSLO_LO (CREATEID,CREATETIME,ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('admin',TO_DATE( '20101213084611', 'YYYYMMDDHH24MISS' ),'f730696f-f732-474b-918d-ac206606b82a','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','c42056f4-9bf7-4bf4-88f1-660fbd65d332','519bec4a-472d-405b-8953-ab62c09960b7','earl',TO_DATE( '20101213155310', 'YYYYMMDDHH24MISS' ),6)
 /
-/*INSERT INTO KSLO_LO (CREATETIME,ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES (TO_DATE( '20101210172159', 'YYYYMMDDHH24MISS' ),'f8b222c4-b632-42b5-9d0e-b1aaea5fe1cd','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','1a84b4b8-e59b-4248-86bf-db0a0519f5cb','2c8107b4-d0a3-443b-b4af-c7a969d1b451','earl',TO_DATE( '20101214102531', 'YYYYMMDDHH24MISS' ),3)
-/*/
-/*INSERT INTO KSLO_LO (CREATETIME,ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,UPDATEID,UPDATETIME,VER_NBR)
-  VALUES (TO_DATE( '20101210172159', 'YYYYMMDDHH24MISS' ),'fe94d276-1e7c-4704-984a-e2d88cdc46cb','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','ac374337-a379-4919-874a-2b4cb80e4122','c0d37b53-ed67-4db0-8aa9-6430ee0a08f4','earl',TO_DATE( '20101214102531', 'YYYYMMDDHH24MISS' ),3)
-/*/
+-- INSERT INTO KSLO_LO (CREATETIME,ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,UPDATEID,UPDATETIME,VER_NBR)
+--  VALUES (TO_DATE( '20101210172159', 'YYYYMMDDHH24MISS' ),'f8b222c4-b632-42b5-9d0e-b1aaea5fe1cd','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','1a84b4b8-e59b-4248-86bf-db0a0519f5cb','2c8107b4-d0a3-443b-b4af-c7a969d1b451','earl',TO_DATE( '20101214102531', 'YYYYMMDDHH24MISS' ),3)
+-- /
+-- INSERT INTO KSLO_LO (CREATETIME,ID,LOTYPE_ID,LO_REPO_ID,NAME,OBJ_ID,RT_DESCR_ID,UPDATEID,UPDATETIME,VER_NBR)
+--  VALUES (TO_DATE( '20101210172159', 'YYYYMMDDHH24MISS' ),'fe94d276-1e7c-4704-984a-e2d88cdc46cb','kuali.lo.type.singleUse','kuali.loRepository.key.singleUse','SINGLE USE LO','ac374337-a379-4919-874a-2b4cb80e4122','c0d37b53-ed67-4db0-8aa9-6430ee0a08f4','earl',TO_DATE( '20101214102531', 'YYYYMMDDHH24MISS' ),3)
+-- /
 INSERT INTO KSLO_LO_JN_LOCATEGORY (ID,LOCATEGORY_ID,LO_ID,OBJ_ID,VER_NBR)
   VALUES ('03e712aa-ea30-4538-af34-54c6e9737c02','d983c794-2e5c-4293-a833-babdc8f7897f','5f7048e5-c149-4449-b244-62f7542b7c01','5b3cc7a9-4a6a-403f-bdf0-916b061a4379',0)
 /
