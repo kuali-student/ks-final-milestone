@@ -15,10 +15,14 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Wrapper class around {@link FormatOfferingInfo}. This wrapper can represent a format offering
@@ -41,6 +45,9 @@ public class FormatOfferingWrapper implements Serializable{
     private String activitesUI;
     private String gradeRosterUI;
     private String finalExamUI;
+
+    private List<ActivityOfferingInfo> activityOfferingInfos = new ArrayList<ActivityOfferingInfo>();
+    private List<RegistrationGroupInfo> registrationGroupInfos = new ArrayList<RegistrationGroupInfo>();
 
     private RenderHelper renderHelper;
 
@@ -274,6 +281,22 @@ public class FormatOfferingWrapper implements Serializable{
      */
     public void setFinalExamUI(String finalExamUI) {
         this.finalExamUI = finalExamUI;
+    }
+
+    public List<ActivityOfferingInfo> getActivityOfferingInfos() {
+        return activityOfferingInfos;
+    }
+
+    public void setActivityOfferingInfos(List<ActivityOfferingInfo> activityOfferingInfos) {
+        this.activityOfferingInfos = activityOfferingInfos;
+    }
+
+    public List<RegistrationGroupInfo> getRegistrationGroupInfos() {
+        return registrationGroupInfos;
+    }
+
+    public void setRegistrationGroupInfos(List<RegistrationGroupInfo> registrationGroupInfos) {
+        this.registrationGroupInfos = registrationGroupInfos;
     }
 
     public RenderHelper getRenderHelper() {
