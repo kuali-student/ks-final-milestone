@@ -236,7 +236,7 @@ function ajaxCallPropositionTree(controllerMethod, collectionGroupId) {
 }
 
 function ajaxCallOnTabSelect(event, ui, editwithgroup, editwithlogic, controllerMethod, logicAreaField) {
-    //Do client side validation before continueing to next tab.
+    //Do client side validation before continuing to next tab.
     if (validateForm()) {
 
         if (ui.index == 0) {

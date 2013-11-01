@@ -97,10 +97,9 @@ limitations under the License.
     </bean>
 
     <bean name="KRMS-RuleMaintenance-Page-Parent" parent="KS-Uif-Page">
-        <property name="headerText" value="Requisites"/>
+        <property name="headerText" value="@{#dp.ruleEditor.dummy == true ? 'Add' : 'Edit'} @{#dp.ruleEditor.ruleTypeInfo.description}"/>
         <property name="items">
             <list>
-                <bean parent="Uif-HeaderFour" p:headerText="@{#dp.ruleEditor.dummy == true ? 'Add' : 'Edit'} @{#dp.ruleEditor.ruleTypeInfo.description}"/>
                 <ref bean="KRMS-Rules-ManageSection"/>
             </list>
         </property>
@@ -108,12 +107,12 @@ limitations under the License.
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean id="update-button" parent="Uif-PrimaryActionButton"
+                        <bean id="update-button" parent="Uif-NavigationActionButton"
                               p:performClientSideValidation="true">
                             <property name="actionLabel" value="Update Rule"/>
                             <property name="methodToCall" value="updateRule"/>
                         </bean>
-                        <bean id="cancel-button" parent="Uif-ActionLink"
+                        <bean id="cancel-button" parent="Uif-NavigationActionLink"
                               p:style="margin-left: 0.5em;margin-top: 0.3em;">
                             <property name="actionLabel" value="Cancel"/>
                             <property name="methodToCall" value="cancelEditRule"/>
@@ -194,7 +193,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="Uif-ActionLink" p:actionLabel="Compare Rule" p:methodToCall="compareRules" p:disabled="@{!#line.permission.compare}"/>
-                <bean parent="Uif-ActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView" p:disabled="@{!#line.permission.addEditRequisite}"/>
+                <bean parent="Uif-NavigationActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView" p:disabled="@{!#line.permission.addEditRequisite}"/>
                 <bean parent="Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule" p:disabled="@{!#line.permission.deleteRequisite}"/>
             </list>
         </property>
@@ -219,7 +218,7 @@ limitations under the License.
             <list>
                 <bean parent="Uif-ActionLink" p:actionLabel="Compare Rule" p:methodToCall="compareRules"
                       p:render="@{#line.dummy and #line.parent != null}" />
-                <bean parent="Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
+                <bean parent="Uif-NavigationActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
             </list>
         </property>
