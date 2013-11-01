@@ -563,7 +563,7 @@
         <property name="propertyName" value="formatOfferingList" />
         <property name="lineActions">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="delete"
+                <bean parent="KS-Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete"
                       p:dirtyOnAction="true"
                       p:onMouseOverScript="deleteLineMouseOver(this, 'uif-collectionDeleteHighlight');"
                       p:onMouseOutScript="deleteLineMouseOut(this, 'uif-collectionDeleteHighlight');"
@@ -712,7 +712,7 @@
 
                     <property name="lineActions">
                         <list>
-                            <bean parent="KS-Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="delete"
+                            <bean parent="KS-Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete"
                                   p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
                         </list>
                     </property>
@@ -773,7 +773,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="delete"
+                <bean parent="KS-Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete"
                       p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
             </list>
         </property>
