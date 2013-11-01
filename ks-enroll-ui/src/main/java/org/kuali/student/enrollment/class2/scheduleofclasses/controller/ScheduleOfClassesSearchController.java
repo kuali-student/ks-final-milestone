@@ -31,6 +31,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
@@ -67,6 +68,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -327,13 +329,40 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
          * Sort the RegGroups first by the ID and then by institutionally configured list of comparators
          */
         for (ActivityOfferingClusterWrapper clusterWrapper : coDisplayWrapper.getClusterResultList()){
-            if(clusterWrapper.getRgWrapperList().size() >1){
+            Map<RegistrationGroupWrapper, List<RegistrationGroupWrapper>> regGroupMap = new HashMap<RegistrationGroupWrapper, List<RegistrationGroupWrapper>>();
+            List<RegistrationGroupWrapper> sortRegGroupWrappers = new ArrayList<RegistrationGroupWrapper>();
+
+            for (int i = 0; i < clusterWrapper.getRgWrapperList().size(); i++) {
+                RegistrationGroupWrapper registrationGroupWrapper = clusterWrapper.getRgWrapperList().get(i);
+                for (RegistrationGroupWrapper partnerRegistrationGroupWrappers : clusterWrapper.getRgWrapperList()) {
+                    if (registrationGroupWrapper.getRgInfo().getId().equals(partnerRegistrationGroupWrappers.getRgInfo().getId())) {
+                        if (regGroupMap.containsKey(registrationGroupWrapper)) {
+                            regGroupMap.get(registrationGroupWrapper).add(partnerRegistrationGroupWrappers);
+                            i++;
+                        } else {
+                            regGroupMap.put(registrationGroupWrapper, new ArrayList<RegistrationGroupWrapper>());
+                            regGroupMap.get(registrationGroupWrapper).add(registrationGroupWrapper);
+                        }
+                    }
+                }
+            }
+
+            sortRegGroupWrappers.addAll(regGroupMap.keySet());
+
+            if(clusterWrapper.getRgWrapperList().size() > 1){
                 //Sort Reg Groups by Reg Group name (which is not institutionally configurable)
                // Collections.sort(clusterWrapper.getRgWrapperList(),new RegGroupNameComparator());
                 //Sort by whatever configured at the xml (which are institutionally configurable)
-                getViewHelperService(theForm).sortRegGroups(clusterWrapper.getRgWrapperList());
+                getViewHelperService(theForm).sortRegGroups(sortRegGroupWrappers);
+            }
+
+            clusterWrapper.getRgWrapperList().clear();
+
+            for (RegistrationGroupWrapper registrationGroupWrapper : sortRegGroupWrappers) {
+                clusterWrapper.getRgWrapperList().addAll(regGroupMap.get(registrationGroupWrapper));
             }
         }
+
 
         SOCRequisiteHelper requisites =  getViewHelperService(theForm).retrieveRequisites(coDisplayWrapper.getCourseOfferingId(), theForm.getActivityWrapperList());
         coDisplayWrapper.setRequisites(requisites.getReqWrapper().getCoRequisite().toString());
