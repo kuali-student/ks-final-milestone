@@ -360,7 +360,6 @@ public class ScheduleWrapper implements Serializable{
             if (colocatedAOs == null){
                 return StringUtils.EMPTY;
             }
-            //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
             StringBuilder sb = new StringBuilder();
             sb.append("This activity is colocated with:<br>");
             for (String code : colocatedAOs){
