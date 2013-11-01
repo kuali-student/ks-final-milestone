@@ -234,9 +234,10 @@
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
                 <bean parent="Uif-CancelAction" 
                       p:ajaxSubmit="false" 
+                      p:methodToCall="cancel" 
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
                 <bean parent="Uif-ActionLink" 
-                      p:ajaxSubmit="false" 
+                      p:ajaxSubmit="false"
                       p:methodToCall="copy" 
                       p:actionLabel="copy"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY]}"/>

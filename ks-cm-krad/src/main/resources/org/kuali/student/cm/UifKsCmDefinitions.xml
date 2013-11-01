@@ -19,48 +19,15 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd"
        >
-    <bean id="Uif-GlobalApplicationHeader" parent="Uif-GlobalApplicationHeader-parentBean"/>
-    <bean id="Uif-GlobalApplicationHeader-parentBean" abstract="true" parent="Uif-HeaderBase"
-          p:render="false"/>
-<!--
-    <bean id="Uif-ViewHeader" parent="Uif-ViewHeader-parentBean"/>
-    <bean id="Uif-ViewHeader-parentBean" abstract="true" parent="Uif-HeaderOne"
-          class="org.kuali.student.uif.element.KsViewHeader">
-        <property name="template" value="/krad/WEB-INF/ftl/components/element/viewHeader.ftl"/>
-        <property name="templateName" value="uif_viewHeader"/>
-        <property name="supportTitleMessage">
-            <bean parent="Uif-Message" p:cssClasses="uif-viewHeader-supportTitle"/>
-        </property>
-        <property name="areaTitleMessage">
-            <bean parent="Uif-Message" p:cssClasses="uif-viewHeader-areaTitle"/>
-        </property>
-        <property name="metadataMessage">
-            <bean parent="Uif-Message" p:cssClasses="uif-viewHeader-metadata"/>
-        </property>
-        <property name="cssClasses">
-            <list>
-                <value>uif-viewHeader</value>
-            </list>
-        </property>
-    </bean>
--->
+  <bean id="Uif-CancelActionButton" parent="Uif-CancelActionButton-parentBean"/>
+  <bean id="Uif-CancelActionButton-parentBean" abstract="true" parent="Uif-Action">
+    <property name="cssClasses">
+      <list>
+        <value>btn-danger</value>
+      </list>
+    </property>
+  </bean>
 
-<!--
-    <bean id="KS-HomewardPathBreadcrumbs-Home" parent="Uif-BreadcrumbItem">
-        <property name="label" value="Home"/>
-        <property name="url.href" value="@{#ConfigProperties['application.url']}/portal.do"/>
-    </bean>
-    <bean id="Uif-BreadcrumbItem" class="org.kuali.rice.krad.uif.util.BreadcrumbItem" scope="prototype">
-        <property name="template" value="/krad/WEB-INF/ftl/components/widget/breadcrumb.ftl"/>
-        <property name="templateName" value="uif_breadcrumb"/>
-        <property name="renderAsLink" value="true"/>
-        <property name="url">
-            <bean parent="Uif-Url"/>
-        </property>
-    </bean>
-    <bean id="Uif-Url" class="org.kuali.rice.krad.uif.util.UrlInfo" scope="prototype">
-        <property name="baseUrl" value="@{#ConfigProperties['krad.url']}"/>
-        <property name="methodToCall" value="start"/>
-    </bean>
--->
+  <bean id="Uif-CancelAction" parent="Uif-CancelActionButton" p:methodToCall="cancel"
+        p:actionLabel="Cancel" p:performDirtyValidation="true" p:id="cancel"/>
 </beans>
