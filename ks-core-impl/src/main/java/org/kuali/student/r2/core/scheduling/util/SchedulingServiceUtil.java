@@ -49,7 +49,7 @@ import java.util.List;
  * @author andrewlubbers
  * @author Mezba Mahtab
  */
-public class SchedulingServiceUtil {
+public final class SchedulingServiceUtil {
 
     //  Since this is a utility class (all static methods) hide the constructor.
     private SchedulingServiceUtil() {}
@@ -326,8 +326,7 @@ public class SchedulingServiceUtil {
      * @return  A new TimeOfDayInfo.
      */
     public static TimeOfDayInfo makeTimeOfDayInfoFromTimeString(String time) {
-        time = standardTimeStringToMilitaryTimeString(time);
-        return makeTimeOfDayFromMilitaryTimeString(time);
+        return makeTimeOfDayFromMilitaryTimeString(standardTimeStringToMilitaryTimeString(time));
     }
 
     public static String standardTimeStringToMilitaryTimeString(String time) {
