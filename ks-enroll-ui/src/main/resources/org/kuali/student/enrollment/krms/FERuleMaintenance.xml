@@ -255,8 +255,8 @@ limitations under the License.
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="aoColumns"
-                       value="[ {'bSortable':false, 'sWidth':'49%'},
-                                {'bSortable':false, 'sWidth':'9%'},
+                       value="[ {'bSortable':false, 'sWidth':'44%'},
+                                {'bSortable':false, 'sWidth':'13%'},
                                 {'bSortable':false, 'sType':'time-sort', 'sWidth':'12%'},
                                 {'bSortable':false, 'sWidth':'15%'},
                                 {'bSortable':false, 'sWidth':'5%'}
