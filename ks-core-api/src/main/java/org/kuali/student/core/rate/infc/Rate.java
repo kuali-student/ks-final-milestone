@@ -24,9 +24,8 @@ import java.util.List;
 
 
 /**
- * The Rate is drawn from the CatalogRate and applied to something
- * (ref object) with a charge, like a CourseOffering. The CatalogRate
- * constrains the Rate.
+ * The Rate is drawn from the CatalogRate. The CatalogRate constrains
+ * the Rate.
  *
  * The Rate has one of three flavors indicated by its Type:
  *
@@ -34,17 +33,17 @@ import java.util.List;
  *                    constrained by the minimum and maximum amount
  *                    range in the Rate Catalog.</dd>
  *  
- *    <dt>Fixed Credit</dt> <dd>A rate per credit where the total
- *                          amount is the rate multiplied by the
- *                          credits (or units) determined by what this
- *                          Rate applies to. The amount is constrained
- *                          by the minimum and maximum amount range in
- *                          the Rate Catalog.</dd>
+ *    <dt>Fixed Unit</dt> <dd>A rate per unit where the total amount
+ *                          is the rate multiplied by the units
+ *                          determined by what this Rate applies
+ *                          to. The amount is constrained by the
+ *                          minimum and maximum amount range in the
+ *                          Rate Catalog.</dd>
  * 
- *    <dt>Flexible Credit</dt> <dd>A specific rate for each credit
- *                             value. The list of flexible credit
+ *    <dt>Flexible Unit</dt> <dd>A specific rate for each unit
+ *                             value. The list of flexible unit
  *                             amounts is constrained by the list of
- *                             acceptable credits amounts in the Rate
+ *                             acceptable units amounts in the Rate
  *                             Catalog.</dd> </dl>
  *
  * @author Kuali Student Services
@@ -64,24 +63,6 @@ public interface Rate
     public String getCatalogRateId();
 
     /**
-     * The URI of the reference object to which this Rate applies.
-     *
-     * @return the URI
-     * @name Reference Object URI
-     */
-    public String getRefObjectURI();
-
-    /**
-     * The identifier of the reference objects to which this Rate
-     * applies. There may be multiple references, but all of the same
-     * type as indicated by the reference object URI.
-     *
-     * @return the Ids of the reference objects
-     * @name Reference Object Ids
-     */
-    public List<String> getRefObjectIds();
-
-    /**
      * The ATP for which this Rate is in effect. The ATP should be
      * constrained by the list of applicable ATP Ids in the Rate
      * Catalog.
@@ -95,9 +76,9 @@ public interface Rate
     public String getAtpId();
 
     /**
-     * The amount for a flat or fixed credit rate. This amount should
+     * The amount for a flat or fixed unit rate. This amount should
      * be constrained by the minimum and maxmimum range in the Rate
-     * Catalog for flat and fixed credit Rates.
+     * Catalog for flat and fixed unit Rates.
      * 
      * @return the amount
      * @name Amount
@@ -105,14 +86,14 @@ public interface Rate
     public CurrencyAmount getAmount();
 
     /**
-     * The list of flexible credit amounts. This list should be
-     * constrained by the list of flexible credit amounts in the Rate
+     * The list of flexible unit amounts. This list should be
+     * constrained by the list of flexible unit amounts in the Rate
      * Catalog.
      * 
-     * @return the list of flexible credit amounts
-     * @name Flexible Credit Amounts
+     * @return the list of flexible unit amounts
+     * @name Flexible Unit Amounts
      */
-    public List<? extends FlexibleCreditAmount> getFlexibleCreditAmounts();
+    public List<? extends FlexibleUnitAmount> getFlexibleUnitAmounts();
 
     /**
      * The transaction code. The transaction code can differ from the
@@ -125,14 +106,6 @@ public interface Rate
     public String getTransactionCode();
 
     /**
-     * The transaction date used for rate processing.
-     *
-     * @return the transaction date
-     * @name Transaction Date
-     */
-    public Date getTransactionDate();
-
-    /**
      * The transaction date type key. The transaction date type can
      * differ from the default type in the Rate Catalog of
      * CatlogRate.canOverrideTransactionDateTypeKey is true.
@@ -141,4 +114,56 @@ public interface Rate
      * @name Transaction Date Type Key
      */
     public String getTransactionDateTypeKey();
+
+    /**
+     * The transaction date used for rate processing.
+     *
+     * @return the transaction date
+     * @name Transaction Date
+     */
+    public Date getTransactionDate();
+
+    /**
+     * The recognition date used for rate processing.
+     *
+     * @return the recognition date
+     * @name Recognition Date
+     */
+    public Date getRecognitionDate();
+
+    /**
+     * Tests if this is a "limit" rate. A limit rate has a minimum and
+     * maximum limit unit range at which the rate is the limitAmount.
+     *
+     * @return true if this is a limit rate, false otherwise
+     * @name Is Limit Rate
+     */
+    public Boolean getIsLimitRate();
+
+    /**
+     * Gets the minimum, or low end of the unit range, for a limit
+     * rate. This field is only applicable if isLimitRate() is true.
+     *
+     * @return the low end of the limit units range
+     * @name Minimum Limit Units
+     */
+    public Integer getMinimumLimitUnits();
+
+    /**
+     * Gets the maximum, or high end of the unit range, for a limit
+     * rate. This field is only applicable if isLimitRate() is true.
+     *
+     * @return the low end of the limit units range
+     * @name Maximum Limit Units
+     */
+    public Integer getMaximumLimitUnits();
+
+    /**
+     * Gets the amount for the limit when the number of units false
+     * in between the minimum and maximum limit range inclusive.
+     *
+     * @return the limit amount
+     * @name Limit Amount
+     */
+    public CurrencyAmount getLimitAmount();
 }

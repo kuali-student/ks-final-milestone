@@ -136,9 +136,8 @@ public class PropositionBuilder {
         if (reqComponents == null || reqComponents.isEmpty() || reqComponents.size() > 2) {
             throw new InvalidParameterException("reqComponents parameter is invalid");
         }
-        //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
-        int firstReqComponentInfo = 0;
-        req1 = reqComponents.get(firstReqComponentInfo);
+
+        req1 = reqComponents.get(0);
         Proposition prop1 = buildPropositionForRequirementComponent(req1);
 
         reqComponentPropositionMap.put(prop1, req1);

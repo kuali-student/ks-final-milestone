@@ -373,7 +373,7 @@ public interface CourseOfferingSetService extends CourseOfferingSetServiceBusine
     public Integer deleteCourseOfferingsBySoc(@WebParam(name = "socId") String socId,
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException, ReadOnlyException;
+            OperationFailedException, PermissionDeniedException;
 
     /**
      * Checks if the specified course offering is or is not in the specified soc.

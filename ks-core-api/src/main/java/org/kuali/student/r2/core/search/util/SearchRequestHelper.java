@@ -128,9 +128,7 @@ public class SearchRequestHelper {
         if (list.isEmpty()) {
             return null;
         }
-        //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
-        int firstParam = 0;
-        return list.get(firstParam);
+        return list.get(0);
     }
 
     /**

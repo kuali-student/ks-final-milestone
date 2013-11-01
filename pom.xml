@@ -4,11 +4,11 @@
     <parent>
         <groupId>org.kuali.student</groupId>
         <artifactId>student</artifactId>
-        <version>2.0.0-M8-SNAPSHOT</version>
+        <version>2.0.0-services-SNAPSHOT</version>
     </parent>
     <groupId>org.kuali.student.api</groupId>
     <artifactId>ks-api</artifactId>
-    <version>2.0.0-M8-SNAPSHOT</version>
+    <version>2.0.0-services-M9-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>KS API</name>
     <profiles>
@@ -17,6 +17,32 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+            <modules>
+                <module>ks-common-ws</module>
+                <module>ks-common-api</module>
+                <module>ks-core-api</module>
+                <module>ks-lum-api</module>
+                <module>ks-enroll-api</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>skip-surefire-tests</id>
+            <activation>
+                <property>
+                    <name>skip.api.tests</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <!-- include all the modules from the default profile -->
             <modules>
                 <module>ks-common-ws</module>
                 <module>ks-common-api</module>

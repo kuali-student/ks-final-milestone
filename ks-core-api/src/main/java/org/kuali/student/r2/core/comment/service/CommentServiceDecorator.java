@@ -16,6 +16,7 @@
 package org.kuali.student.r2.core.comment.service;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -103,8 +104,15 @@ public class CommentServiceDecorator implements CommentService {
         return getNextDecorator().deleteCommentsByReference(referenceId, referenceTypeKey, contextInfo);
     }
 
-    @Override
-    public List<ValidationResultInfo> validateComment(String validationTypeKey, String referenceId, String referenceTypeKey, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().validateComment(validationTypeKey, referenceId, referenceTypeKey, commentTypeKey, commentInfo, contextInfo);
-    }
+	@Override
+	public List<ValidationResultInfo> validateComment(String validationTypeKey,
+			String referenceId, String referenceTypeKey, String commentTypeKey,
+			CommentInfo commentInfo, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		return getNextDecorator().validateComment(validationTypeKey, referenceId, referenceTypeKey, commentTypeKey, commentInfo, contextInfo);
+	}
+
+  
+   
 }

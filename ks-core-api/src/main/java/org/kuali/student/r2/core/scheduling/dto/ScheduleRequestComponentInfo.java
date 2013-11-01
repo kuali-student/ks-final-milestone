@@ -34,7 +34,7 @@ import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponent;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ScheduleRequestComponentInfo", propOrder = {"id", "buildingIds", "campusIds", "orgIds", "resourceTypeKeys", "roomIds", "timeSlotIds", "isTBA" , "_futureElements" }) 
+@XmlType(name = "ScheduleRequestComponentInfo", propOrder = {"id", "buildingIds", "campusIds", "orgIds", "resourceTypeKeys", "roomIds", "timeSlotIds", "partitionIds", "isTBA" , "_futureElements" })
 public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, Serializable {
 
     @XmlElement
@@ -51,6 +51,8 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
     private List<String> roomIds;
     @XmlElement
     private List<String> timeSlotIds;
+    @XmlElement
+    private List<String> partitionIds;
     @XmlElement
     private Boolean isTBA;
 
@@ -69,6 +71,7 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
             this.resourceTypeKeys = scheduleRequestComponent.getResourceTypeKeys();
             this.roomIds = scheduleRequestComponent.getRoomIds();
             this.timeSlotIds = new ArrayList<String>(scheduleRequestComponent.getTimeSlotIds());
+            this.partitionIds = new ArrayList<String>(scheduleRequestComponent.getPartitionIds());
             this.isTBA = scheduleRequestComponent.getIsTBA();
         }
     }
@@ -92,6 +95,8 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
         for (int i=0; i<this.roomIds.size(); i++) { if (!this.roomIds.get(i).equals(srci.roomIds.get(i))) { return false; }}
         if (this.timeSlotIds.size()!=srci.timeSlotIds.size()) return false;
         for (int i=0; i<this.timeSlotIds.size(); i++) { if (!this.timeSlotIds.get(i).equals(srci.timeSlotIds.get(i))) { return false; }}
+        if (this.partitionIds.size()!=srci.partitionIds.size()) return false;
+        for (int i=0; i<this.partitionIds.size(); i++) { if (!this.partitionIds.get(i).equals(srci.partitionIds.get(i))) { return false; }}
         if (this.isTBA==null && srci.getIsTBA()==null) return true;
         if (this.isTBA.equals(srci.getIsTBA())) { return true; }
         return false;
@@ -106,6 +111,7 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
         result = 31 * result + (resourceTypeKeys != null ? resourceTypeKeys.hashCode() : 0);
         result = 31 * result + (roomIds != null ? roomIds.hashCode() : 0);
         result = 31 * result + (timeSlotIds != null ? timeSlotIds.hashCode() : 0);
+        result = 31 * result + (partitionIds != null ? partitionIds.hashCode() : 0);
         result = 31 * result + (isTBA != null ? isTBA.hashCode() : 0);
         return result;
     }
@@ -191,6 +197,18 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
     }
 
     @Override
+    public List<String> getPartitionIds() {
+        if (null == this.partitionIds) {
+            this.partitionIds = new ArrayList<String>();
+        }
+        return this.partitionIds;
+    }
+
+    public void setPartitionIds(List<String> partitionIds) {
+        this.partitionIds = partitionIds;
+    }
+
+    @Override
     public Boolean getIsTBA() {
         return isTBA;
     }
@@ -209,6 +227,7 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
                 ", resourceTypeKeys=" + resourceTypeKeys +
                 ", roomIds=" + roomIds +
                 ", timeSlotIds=" + timeSlotIds +
+                ", partitionIds=" + partitionIds +
                 ", isTBA=" + isTBA +
                 '}';
     }

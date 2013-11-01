@@ -17,7 +17,7 @@
 package org.kuali.student.core.rate.dto;
 
 import org.kuali.student.core.rate.infc.Rate;
-import org.kuali.student.core.rate.infc.FlexibleCreditAmount;
+import org.kuali.student.core.rate.infc.FlexibleUnitAmount;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
@@ -38,9 +38,10 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RateInfo", propOrder = {
         "id", "typeKey", "stateKey", "name", "descr",
-        "catalogRateId", "refObjectURI", "refObjectIds",
-        "atpId", "amount", "flexibleCreditAmounts",
-        "transactionCode", "transactionDate", "transactionDateTypeKey",
+        "catalogRateId", "atpId", "amount", "flexibleUnitAmounts",
+        "transactionCode", "transactionDateTypeKey", "transactionDate", 
+        "recognitionDate", "isLimitRate", "minimumLimitUnits",
+        "maximumLimitUnits", "limitAmount",
         "meta", "attributes", "_futureElements" })
 
 public class RateInfo
@@ -53,29 +54,38 @@ public class RateInfo
     private String catalogRateId;
 
     @XmlElement
-    private String refObjectURI;
-    
-    @XmlElement
-    private List<String> refObjectIds;
-
-    @XmlElement
     private String atpId;
 
     @XmlElement
     private CurrencyAmountInfo amount;
 
     @XmlElement
-    private List<FlexibleCreditAmountInfo> flexibleCreditAmounts;
+    private List<FlexibleUnitAmountInfo> flexibleUnitAmounts;
 
     @XmlElement
     private String transactionCode;
 
     @XmlElement
+    private String transactionDateTypeKey;
+
+    @XmlElement
     private Date transactionDate;
 
     @XmlElement
-    private String transactionDateTypeKey;
+    private Date recognitionDate;
 
+    @XmlElement
+    private Boolean isLimitRate;
+
+    @XmlElement
+    private Integer minimumLimitUnits;
+
+    @XmlElement
+    private Integer maximumLimitUnits;
+
+    @XmlElement
+    private CurrencyAmountInfo limitAmount;
+    
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -96,28 +106,35 @@ public class RateInfo
 
         if (rate != null) {
             this.catalogRateId = rate.getCatalogRateId();
-            this.refObjectURI = rate.getRefObjectURI();
-            
-            if (rate.getRefObjectIds() != null) {
-                this.refObjectIds = new ArrayList<String>(rate.getRefObjectIds());
+            this.atpId = rate.getAtpId();
+            if (rate.getAmount() != null) {
+                this.amount = new CurrencyAmountInfo(rate.getAmount());
             }
 
-            this.atpId = rate.getAtpId();
-            this.amount = new CurrencyAmountInfo(rate.getAmount());
-
-            this.flexibleCreditAmounts = new ArrayList<FlexibleCreditAmountInfo>();
-            if (rate.getFlexibleCreditAmounts() != null) {
-                for (FlexibleCreditAmount amount : rate.getFlexibleCreditAmounts()) {
-                    this.flexibleCreditAmounts.add(new FlexibleCreditAmountInfo(amount));
+            this.flexibleUnitAmounts = new ArrayList<FlexibleUnitAmountInfo>();
+            if (rate.getFlexibleUnitAmounts() != null) {
+                for (FlexibleUnitAmount amount : rate.getFlexibleUnitAmounts()) {
+                    this.flexibleUnitAmounts.add(new FlexibleUnitAmountInfo(amount));
                 }
             }
 
             this.transactionCode = rate.getTransactionCode();
+            this.transactionDateTypeKey = rate.getTransactionDateTypeKey();
             if (rate.getTransactionDate() != null) {
                 this.transactionDate = new Date(rate.getTransactionDate().getTime());
             }
 
-            this.transactionDateTypeKey = rate.getTransactionDateTypeKey();
+            if (rate.getRecognitionDate() != null) {
+                this.recognitionDate = new Date(rate.getRecognitionDate().getTime());
+            }
+            
+            this.isLimitRate = rate.getIsLimitRate();
+            this.minimumLimitUnits = rate.getMinimumLimitUnits();
+            this.maximumLimitUnits = rate.getMaximumLimitUnits();
+
+            if (rate.getLimitAmount() != null) {
+                this.amount = new CurrencyAmountInfo(rate.getLimitAmount());
+            }
         }
     }
 
@@ -129,28 +146,6 @@ public class RateInfo
     
     public void setCatalogRateId(String catalogRateId) {
         this.catalogRateId = catalogRateId;
-    }
-
-    @Override
-    public String getRefObjectURI() {
-        return (this.refObjectURI);
-    }
-
-    public void setRefObjectURI(String refObjectURI) {
-        this.refObjectURI = refObjectURI;
-    }
-
-    @Override
-    public List<String> getRefObjectIds() {
-        if (this.refObjectIds == null) {
-            this.refObjectIds = new ArrayList<String>(0);
-        }
-
-        return (this.refObjectIds);
-    }
-
-    public void setRefObjectId(List<String> refObjectIds) {
-        this.refObjectIds = new ArrayList<String>(refObjectIds);
     }
 
     @Override
@@ -172,16 +167,25 @@ public class RateInfo
     }
 
     @Override
-    public List<FlexibleCreditAmountInfo> getFlexibleCreditAmounts() {
-        if (this.flexibleCreditAmounts == null) {
-            this.flexibleCreditAmounts = new ArrayList<FlexibleCreditAmountInfo>(0);
+    public List<FlexibleUnitAmountInfo> getFlexibleUnitAmounts() {
+        if (this.flexibleUnitAmounts == null) {
+            this.flexibleUnitAmounts = new ArrayList<FlexibleUnitAmountInfo>(0);
         }
 
-        return (this.flexibleCreditAmounts);
+        return (this.flexibleUnitAmounts);
     }
 
-    public void setFlexibleCreditAmounts(List <FlexibleCreditAmountInfo> flexibleCreditAmounts) {
-        this.flexibleCreditAmounts = flexibleCreditAmounts;
+    public void setFlexibleUnitAmounts(List <FlexibleUnitAmountInfo> flexibleUnitAmounts) {
+        this.flexibleUnitAmounts = flexibleUnitAmounts;
+    }
+
+    @Override
+    public String getTransactionDateTypeKey() {
+        return (this.transactionDateTypeKey);
+    }
+
+    public void setTransactionDateTypeKey(String transactionDateTypeKey) {
+        this.transactionDateTypeKey = transactionDateTypeKey;
     }
 
     @Override
@@ -203,11 +207,47 @@ public class RateInfo
     }
 
     @Override
-    public String getTransactionDateTypeKey() {
-        return (this.transactionDateTypeKey);
+    public Date getRecognitionDate() {
+        return (this.recognitionDate);
     }
 
-    public void setTransactionDateTypeKey(String transactionDateTypeKey) {
-        this.transactionDateTypeKey = transactionDateTypeKey;
+    public void setRecognitionDate(Date recognitionDate) {
+        this.recognitionDate = recognitionDate;
     }
+
+    @Override
+    public Boolean getIsLimitRate() {
+        return (this.isLimitRate);
+    }
+
+    public void setIsLimitRate(Boolean isLimitRate) {
+        this.isLimitRate = isLimitRate;
+    }
+
+    @Override
+    public Integer getMinimumLimitUnits() {
+        return (this.minimumLimitUnits);
+    }
+
+    public void setMinimumLimitUnits(Integer minimumLimitUnits) {
+        this.minimumLimitUnits = minimumLimitUnits;
+    }
+
+    @Override
+    public Integer getMaximumLimitUnits() {
+        return (this.maximumLimitUnits);
+    }
+
+    public void setMaximumLimitUnits(Integer maximumLimitUnits) {
+        this.maximumLimitUnits = maximumLimitUnits;
+    }
+
+    @Override
+    public CurrencyAmountInfo getLimitAmount() {
+        return (this.limitAmount);
+    }
+
+    public void setLimitAmount(CurrencyAmountInfo limitAmount) {
+        this.limitAmount = limitAmount;
+    }    
 }

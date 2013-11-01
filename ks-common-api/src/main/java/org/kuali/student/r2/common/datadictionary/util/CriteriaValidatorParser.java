@@ -164,9 +164,7 @@ public class CriteriaValidatorParser {
         if (values.isEmpty()) {
             throw new InvalidParameterException("The " + i + "th comparison's values list is required and cannot be an empty list");
         }
-        int firstValue = 0;
-        int secondValue = 1;
-        if (values.get(firstValue) == null) {
+        if (values.get(0) == null) {
             if (!operator.equals("=") && !operator.equals("!=")) {
                 throw new InvalidParameterException("The " + i + "th comparison's value is null but the operator " + operator + " is a comparison operator that does not apply");
             }
@@ -176,10 +174,10 @@ public class CriteriaValidatorParser {
             if (values.size() != 2) {
                 throw new InvalidParameterException("The " + i + "th comparison is a between operator which requires two values, found " + values.size());
             }
-            if (values.get(firstValue) == null) {
+            if (values.get(0) == null) {
                 throw new InvalidParameterException("The " + i + "th comparison is a between operator but the first value is null");
             }
-            if (values.get(secondValue) == null) {
+            if (values.get(1) == null) {
                 throw new InvalidParameterException("The " + i + "th comparison is a between operator but the second value is null");
             }
         } else if (values.size() > 1) {
@@ -215,10 +213,8 @@ public class CriteriaValidatorParser {
 
     private Object parseValues(int i, DataType dataType, List<String> values, boolean ignoreCase)
             throws InvalidParameterException {
-        //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
-        int firstValue = 0;
         if (values.size() == 1) {
-            return parseValue(i, dataType, values.get(firstValue), ignoreCase);
+            return parseValue(i, dataType, values.get(0), ignoreCase);
         }
         List<Object> list = new ArrayList<Object>();
         for (String value : values) {
