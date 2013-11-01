@@ -326,11 +326,11 @@ public class SchedulingServiceUtil {
      * @return  A new TimeOfDayInfo.
      */
     public static TimeOfDayInfo makeTimeOfDayInfoFromTimeString(String time) {
-        time = standardTimeStringToStandardTimeString(time);
+        time = standardTimeStringToMilitaryTimeString(time);
         return makeTimeOfDayFromMilitaryTimeString(time);
     }
 
-    private static String standardTimeStringToStandardTimeString(String time) {
+    public static String standardTimeStringToMilitaryTimeString(String time) {
         boolean isPM = true;
         if (time.endsWith("AM")) {
             isPM = false;
@@ -341,7 +341,7 @@ public class SchedulingServiceUtil {
 
         if (isPM) {
             //  For PM times just add 12
-            hour = hour + 12;
+            hour = (hour % 12) + 12;
         } else {
             // For AM times if the hour is 12 then it becomes zero. Otherwise, noop.
             if (hour == 12) {
@@ -393,7 +393,7 @@ public class SchedulingServiceUtil {
     /**
      * Creates a time string in hh:mm aa format. Does not suffer from DST issues.
      *
-     * @param offsetFromMidnight Number of milliseconds from midnight.
+     * @param offsetFromMidnight Number of milliseconds since midnight.
      * @return  A time string.
      */
     public static String makeFormattedTimeFromMillis(Long offsetFromMidnight) {
