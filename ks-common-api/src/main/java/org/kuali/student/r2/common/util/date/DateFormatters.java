@@ -47,7 +47,7 @@ public class DateFormatters {
      */
     public static final String DYNAMIC_ATTRIBUTE_SHORT_ZONE_DATE_FORMAT = "yyyy MMM d HH:mm:ss z";    // 2012 Nov 8 15:05:19 EST
 
-    public static final String MONTH_DATE_YEAR_TIME_COMMA_FORMAT = "MM/dd/yyyy, hh:mm aa";
+    public static final String MONTH_DATE_YEAR_TIME_COMMA_FORMAT = "MM/dd/yyyy, hh:mm aa";    // 11/01/2013, 11:03 AM
 
 
     // Fast Thread Safe Formatter. Use this instead of SimpleDateFormat
