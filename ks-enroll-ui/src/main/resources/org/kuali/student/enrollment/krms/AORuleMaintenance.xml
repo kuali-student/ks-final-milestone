@@ -181,7 +181,7 @@ limitations under the License.
             <list>
                 <bean parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Submit" p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-                <bean parent="KS-Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
+                <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
             </list>
         </property>
@@ -225,7 +225,7 @@ limitations under the License.
                     </property>
                 </bean>
                 <bean parent="KSAO-RuleView-Link" p:render="@{#line.dummy}"/>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView"
+                <bean parent="KS-Uif-NavigationActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView"
                       p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditRequisite">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip"
@@ -435,16 +435,15 @@ limitations under the License.
             </list>
         </property>
         <property name="footer">
-            <bean parent="Uif-FooterBase">
+            <bean parent="KS-Uif-FooterBase">
                 <property name="items">
                     <list>
                         <bean id="KSAO-UpdateRule-Button" parent="KS-Uif-PrimaryActionButton"
-                              p:performClientSideValidation="true">
+                              p:performClientSideValidation="true" p:ajaxSubmit="false">
                             <property name="actionLabel" value="Update Rule"/>
                             <property name="methodToCall" value="updateRule"/>
                         </bean>
-                        <bean id="KSAO-CancelRule-Button" parent="KS-Uif-ActionLink"
-                              p:style="margin-left: 0.5em;margin-top: 0.3em;">
+                        <bean id="KSAO-CancelRule-Button" parent="KS-Uif-NavigationActionLink">
                             <property name="actionLabel" value="Cancel"/>
                             <property name="methodToCall" value="cancelEditRule"/>
                         </bean>

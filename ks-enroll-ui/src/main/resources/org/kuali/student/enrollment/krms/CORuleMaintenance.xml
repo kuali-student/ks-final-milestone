@@ -163,7 +163,7 @@ limitations under the License.
             <list>
                 <bean parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Submit" p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-                <bean parent="KS-Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
+                <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
             </list>
         </property>
@@ -209,7 +209,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="KSCO-RuleView-Links" p:render="@{#line.dummy and #line.parent != null}"/>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule" p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditRequisite"
+                <bean parent="KS-Uif-NavigationActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule" p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditRequisite"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
             </list>
         </property>
@@ -223,7 +223,7 @@ limitations under the License.
                         <bean parent="Uif-Tooltip" p:tooltipContent="Compare Catalog and Course Offering rules"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView" p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditRequisite"/>
+                <bean parent="KS-Uif-NavigationActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView" p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditRequisite"/>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteRequisite"/>
             </list>
         </property>
@@ -381,16 +381,15 @@ limitations under the License.
             </list>
         </property>
         <property name="footer">
-            <bean parent="Uif-FooterBase">
+            <bean parent="KS-Uif-FooterBase">
                 <property name="items">
                     <list>
                         <bean id="KSCO-UpdateRule-Button" parent="KS-Uif-PrimaryActionButton"
-                              p:performClientSideValidation="true">
+                              p:performClientSideValidation="true" p:ajaxSubmit="false">
                             <property name="actionLabel" value="Update Rule"/>
                             <property name="methodToCall" value="updateRule"/>
                         </bean>
-                        <bean id="KSCO-CancelRule-Button" parent="KS-Uif-ActionLink"
-                              p:style="margin-left: 0.5em;margin-top: 0.3em;">
+                        <bean id="KSCO-CancelRule-Button" parent="KS-Uif-NavigationActionLink">
                             <property name="actionLabel" value="Cancel"/>
                             <property name="methodToCall" value="cancelEditRule"/>
                         </bean>

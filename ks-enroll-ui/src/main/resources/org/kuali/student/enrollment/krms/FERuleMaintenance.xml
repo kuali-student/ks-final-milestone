@@ -154,7 +154,7 @@ limitations under the License.
                       p:actionLabel="Submit" p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"
                       p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
-                <bean parent="KS-Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
+                <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
             </list>
         </property>
@@ -173,7 +173,7 @@ limitations under the License.
                     <bean parent="Uif-ActionsGroup" p:render="@{#dp.termToUse eq 'na'}">
                         <property name="items">
                             <list>
-                                <bean parent="Uif-NavigationActionLink" p:methodToCall="addRule" p:actionLabel="Add" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                                <bean parent="KS-Uif-NavigationActionLink" p:methodToCall="addRule" p:actionLabel="Add" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
                             </list>
                         </property>
                     </bean>
@@ -212,7 +212,7 @@ limitations under the License.
         <property name="lineActions">
             <list>
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="goToRuleView" p:actionLabel="Edit" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="deleteRule" p:actionLabel="Delete" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="deleteRule" p:actionLabel="Delete" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
             </list>
         </property>
     </bean>
@@ -225,7 +225,7 @@ limitations under the License.
                     <bean parent="Uif-ActionsGroup" p:render="@{#dp.termToUse eq 'na'}">
                         <property name="items">
                             <list>
-                                <bean parent="Uif-NavigationActionLink" p:methodToCall="addRule" p:actionLabel="Add" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                                <bean parent="KS-Uif-NavigationActionLink" p:methodToCall="addRule" p:actionLabel="Add" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
                             </list>
                         </property>
                     </bean>
@@ -283,16 +283,15 @@ limitations under the License.
             </list>
         </property>
         <property name="footer">
-            <bean parent="Uif-FooterBase">
+            <bean parent="KS-Uif-FooterBase">
                 <property name="items">
                     <list>
                         <bean id="KSFE-UpdateRule-Button" parent="KS-Uif-PrimaryActionButton"
-                              p:performClientSideValidation="true">
+                              p:performClientSideValidation="true" p:ajaxSubmit="false">
                             <property name="actionLabel" value="Update Rule"/>
                             <property name="methodToCall" value="updateRule"/>
                         </bean>
-                        <bean id="KSFE-CancelRule-Button" parent="KS-Uif-ActionLink"
-                              p:style="margin-left: 0.5em;margin-top: 0.3em;">
+                        <bean id="KSFE-CancelRule-Button" parent="KS-Uif-NavigationActionLink">
                             <property name="actionLabel" value="Cancel"/>
                             <property name="methodToCall" value="cancelEditRule"/>
                         </bean>
@@ -303,15 +302,6 @@ limitations under the License.
     </bean>
 
     <bean id="KSFE-Rules-ManageSection" parent="KRMS-Rules-ManageSection">
-        <property name="items">
-            <list>
-                <ref bean="KSFE-EditWithObject-EditSection"/>
-            </list>
-        </property>
-    </bean>
-
-
-    <bean id="KSFE-EditWithObject-EditSection" parent="KRMS-EditWithObject-EditSection-parent">
         <property name="items">
             <list>
                 <bean parent="KSFE-EditWithObject-EditGroup"/>
@@ -426,7 +416,6 @@ limitations under the License.
         <property name="items">
             <list>
                 <ref bean="FinalExam-DeliveryLogistic-New-Section"/>
-
             </list>
         </property>
     </bean>
@@ -521,7 +510,7 @@ limitations under the License.
                         <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
                     </property>
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder">
+                        <bean parent="Uif-QuickFinder" p:lightBoxLookup.lookupReturnByScript="true">
                             <property name="dataObjectClassName" value="org.kuali.student.r2.core.room.dto.BuildingInfo"/>
                             <property name="fieldConversions">
                                 <map>
@@ -539,7 +528,7 @@ limitations under the License.
                         <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
                     </property>
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder">
+                        <bean parent="Uif-QuickFinder" p:lightBoxLookup.lookupReturnByScript="true">
                             <property name="dataObjectClassName" value="org.kuali.student.r2.core.room.dto.RoomInfo"/>
                             <property name="autoSearch" value="true"/>
                             <property name="fieldConversions">
