@@ -99,6 +99,43 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
         return StringUtils.EMPTY;
     }
 
+    /**
+     * Returns the format long name short name as a string array  by concatenation all the shortened activity names with / seperated
+     *
+     * @param foWrapper
+     * @param course
+     * @return   String[]
+     */
+    public String[] getFormatShortAndLongNames(FormatOfferingWrapper foWrapper,CourseInfo course){
+        String[] formatNames = new String[2];
+        for (FormatInfo format : course.getFormats()) {
+            if (StringUtils.equals(format.getId(),foWrapper.getFormatId())){
+                StringBuilder longName = new StringBuilder();
+                StringBuilder shortName = new StringBuilder();
+                for (ActivityInfo activityInfo : format.getActivities()) {
+                    TypeInfo activityType = null;
+                    try {
+                        activityType = getTypeService().getType(activityInfo.getTypeKey(), ContextUtils.createDefaultContextInfo());
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    longName.append(activityType.getName()+"/");
+                    shortName.append(activityType.getName().toUpperCase().substring(0,3)+"/");
+                }
+                if (format.getActivities().size() == 1){
+                    formatNames[0] = StringUtils.removeEnd(longName.toString(),"/") + " Only";
+                } else {
+                    formatNames[0] = StringUtils.removeEnd(longName.toString(),"/");
+                }
+                formatNames[1] = StringUtils.removeEnd(shortName.toString(),"/");
+                return formatNames;
+            }
+        }
+        formatNames[0] = StringUtils.EMPTY;
+        formatNames[1] = StringUtils.EMPTY;
+        return formatNames;
+    }
+
     @Override
     public void processCollectionAddBlankLine(View view, Object model, String collectionPath) {
 

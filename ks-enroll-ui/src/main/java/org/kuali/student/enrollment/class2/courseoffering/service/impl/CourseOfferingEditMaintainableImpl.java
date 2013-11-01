@@ -388,7 +388,10 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                             formatOfferingInfo.setCourseOfferingId(coInfo.getId());
                             //We need to set the name to maintain ordinality from CLU. (If we're not setting the name here, service will set the name based on priority order which is not the expected behavior)
                             if (StringUtils.isBlank(formatOfferingInfo.getName())) {
-                                formatOfferingInfo.setName(getFormatName(foWrapper, coEditWrapper.getCourse()));
+                                String[] foNames = getFormatShortAndLongNames(foWrapper, coEditWrapper.getCourse());
+                                formatOfferingInfo.setName(foNames[0]);
+                                formatOfferingInfo.setShortName(foNames[1]);
+
                             }
                             if (coInfo.getFinalExamType() != null && !coInfo.getFinalExamType().equals(CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)) {
                                 formatOfferingInfo.setFinalExamLevelTypeKey(null);
