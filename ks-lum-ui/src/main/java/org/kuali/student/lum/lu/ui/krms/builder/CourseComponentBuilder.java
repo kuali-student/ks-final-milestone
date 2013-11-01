@@ -23,6 +23,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
+import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.lum.lu.ui.krms.util.LUKRMSConstants;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
@@ -36,6 +37,7 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
@@ -118,6 +120,22 @@ public class CourseComponentBuilder extends CluComponentBuilder {
 
     @Override
     public void validate(LUPropositionEditor propositionEditor) {
+
+        if((propositionEditor.getCourseInfo().getCode()==null)||(propositionEditor.getCourseInfo().getCode().isEmpty())){
+            String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "courseInfo.code");
+            GlobalVariables.getMessageMap().putErrorForSectionId(propName, LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_COURSE_REQUIRED);
+        }
+
+        CluInformation searchClu = this.getCluInfoHelper().getCluInfoForCode(propositionEditor.getCourseInfo().getCode());
+        if(searchClu==null){
+            String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "courseInfo.code");
+            GlobalVariables.getMessageMap().putErrorForSectionId(propName, LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_COURSE_CODE_INVALID);
+        } else {
+            propositionEditor.getCourseInfo().setId(searchClu.getCluId());
+            VersionInfo version = new VersionInfo();
+            version.setVersionIndId(searchClu.getVerIndependentId());
+            propositionEditor.getCourseInfo().setVersion(version);
+        }
 
         if (propositionEditor.getTermCode() != null) {
             String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "termCode");

@@ -70,7 +70,6 @@ public class CourseInfoLookupableImpl extends LookupableImpl {
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
 
-        String courseId;
         List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
         SearchParamInfo qpv1 = new SearchParamInfo();
         qpv1.setKey("lu.queryParam.luOptionalType");

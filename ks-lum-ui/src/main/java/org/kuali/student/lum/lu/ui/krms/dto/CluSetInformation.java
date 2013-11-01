@@ -64,14 +64,6 @@ public class CluSetInformation implements Serializable {
         this.cluSetInfo = cluSetInfo;
     }
 
-    public String getName() {
-        return cluSetInfo.getName();
-    }
-
-    public void setName(String name) {
-        this.cluSetInfo.setName(name);
-    }
-
     public List<CluInformation> getClus() {
         if (clus == null) {
             this.clus = new ArrayList<CluInformation>();

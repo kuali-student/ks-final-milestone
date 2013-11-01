@@ -88,7 +88,7 @@ limitations under the License.
     </bean>
 
     <bean id="KRMS-Course-LookupView" parent="KS-Uif-LookupView" p:breadcrumbs.render="false">
-        <property name="id" value="CourseLookupView"/>
+
         <property name="viewName" value="krmsCoursesOnlyLookup"/>
         <property name="headerText" value="Advanced Search: Courses Only" />
         <property name="dataObjectClassName" value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation" />
@@ -103,17 +103,21 @@ limitations under the License.
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="title" p:label="Course Title"/>
-                <bean parent="Uif-DataField" p:propertyName="code" p:label="Course Code"/>
-                <bean parent="Uif-DataField" p:propertyName="state" p:label="State"/>
-                <bean parent="Uif-DataField" p:propertyName="description" p:label="Description"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="title" p:label="Course Title"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="code" p:label="Course Code"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="state" p:label="State"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="description" p:label="Description"/>
             </list>
         </property>
-        <property name="additionalCssFiles">
+
+        <property name="criteriaGroup.footer.items">
             <list>
-                <value>themes/ksboot/stylesheets/krms.css</value>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:render="@{#form.renderedInLightBox}"
+                      p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
             </list>
         </property>
+
     </bean>
 
 </beans>

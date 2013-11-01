@@ -274,10 +274,22 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
         if(LUKRMSConstants.KSKRMS_PROPERTY_NAME_CLUS.equals(collectionGroup.getPropertyName())){
             //Check if this is a valid clu.
             CluInformation clu = (CluInformation) addLine;
-            if((clu.getCluId() == null)||(clu.getCluId().isEmpty())){
+            if((clu.getCode()==null)||(clu.getCode().isEmpty())){
                 collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
                 GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_COURSE_REQUIRED);
-                  return false;
+                return false;
+            }
+
+            CluInformation searchClu = this.getCluInfoHelper().getCluInfoForCode(clu.getCode());
+            if(searchClu==null){
+                collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
+                GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_COURSE_CODE_INVALID);
+                return false;
+            } else {
+                clu.setCluId(searchClu.getCluId());
+                clu.setVerIndependentId(searchClu.getVerIndependentId());
+                clu.setShortName(searchClu.getShortName());
+                clu.setDescription(searchClu.getDescription());
             }
 
             //Check if this clu is not already in the collection
@@ -295,6 +307,15 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             if((cluSet.getCluSetInfo().getId() == null)||(cluSet.getCluSetInfo().getId().isEmpty())){
                 GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), LUKRMSConstants.KSKRMS_MSG_ERROR_COURSESETS_REQUIRED);
                 return false;
+            }
+
+            CluSetInfo searchCluSet = this.getCluInfoHelper().getCluSetForId(cluSet.getCluSetInfo().getId());
+            if(searchCluSet==null){
+                collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
+                GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_COURSE_CODE_INVALID);
+                return false;
+            } else {
+                cluSet.setCluSetInfo(searchCluSet);
             }
 
             //Check if this clu is not already in the collection
@@ -376,11 +397,9 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
 
     private void completeCluSetInformation(CluSetInformation cluSet) {
         try {
-            CluSetInfo cluSetInfo = this.getCluService().getCluSet(cluSet.getCluSetInfo().getId(), ContextUtils.getContextInfo());
-            for(String subCluSetId : cluSetInfo.getCluSetIds()){
+            for(String subCluSetId : cluSet.getCluSetInfo().getCluSetIds()){
                 cluSet.getCluSets().add(this.getCluInfoHelper().getCluSetInformation(subCluSetId));
             }
-            cluSet.setCluSetInfo(cluSetInfo);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
