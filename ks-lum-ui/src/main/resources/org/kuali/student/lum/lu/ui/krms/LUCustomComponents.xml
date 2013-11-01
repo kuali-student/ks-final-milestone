@@ -90,6 +90,7 @@ limitations under the License.
           p:propertyName="proposition.multipleCourseType">
         <property name="control">
             <bean parent="Uif-DropdownControl">
+                <!--TODO KSENROLL-10558: remove this once krad jira is fixed.-->
                 <property name="onChangeScript">
                     <value>
                         jQuery("input[id='cluSetId_add_control']").removeAttr("disabled");
