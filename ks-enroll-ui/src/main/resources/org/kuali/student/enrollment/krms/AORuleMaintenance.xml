@@ -239,7 +239,7 @@ limitations under the License.
                               p:tooltipContent="Delete this rule. Course Offering rule(if any) will be executed."/>
                     </property>
                 </bean>
-                <bean parent="KSAO-SuppressRule-Link" p:render="@{!#line.dummy and #line.proposition != null}"/>
+                <bean parent="KSAO-SuppressRule-Link" p:render="@{#line.proposition != null and #line.parent != null and #line.parent.proposition != null}"/>
             </list>
         </property>
     </bean>
