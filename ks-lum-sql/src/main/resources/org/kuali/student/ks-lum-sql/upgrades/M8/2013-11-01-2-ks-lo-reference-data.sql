@@ -1939,9 +1939,9 @@ INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
 INSERT INTO KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR)
   VALUES ('Students should demonstrate an understanding of the fundamental principles, concepts and knowledge of geographic technologies used in the acquisition, processing and analysis of spatial geographic data.','fe6a6755-4ba6-4ed4-8169-81b3fd4e13e0','badceb62-015e-4c63-bc93-bcd317ce83eb','Students should demonstrate an understanding of the fundamental principles, concepts and knowledge of geographic technologies used in the acquisition, processing and analysis of spatial geographic data.',0)
 /
--- INSERT INTO KSLO_LO_CATEGORY (CREATEID,CREATETIME,ID,LO_CATEGORY_TYPE_ID,LO_REPO_ID,NAME,OBJ_ID,STATE,UPDATEID,UPDATETIME,VER_NBR)
---   VALUES ('admin',TO_DATE( '20101213085519', 'YYYYMMDDHH24MISS' ),'007a91fa-d954-41ac-aa19-96030e538fdc','loCategoryType.skillarea','kuali.loRepository.key.singleUse','Research skills','ec7d75f2-6160-4bf1-af08-a12c6dce2549','active','admin',TO_DATE( '20101213085519', 'YYYYMMDDHH24MISS' ),0)
--- /
+INSERT INTO KSLO_LO_CATEGORY (CREATEID,CREATETIME,ID,LO_CATEGORY_TYPE_ID,LO_REPO_ID,NAME,OBJ_ID,STATE,UPDATEID,UPDATETIME,VER_NBR)
+  VALUES ('admin',TO_DATE( '20101213085519', 'YYYYMMDDHH24MISS' ),'007a91fa-d954-41ac-aa19-96030e538fdc','loCategoryType.skillarea','kuali.loRepository.key.singleUse','Research skills','ec7d75f2-6160-4bf1-af08-a12c6dce2549','active','admin',TO_DATE( '20101213085519', 'YYYYMMDDHH24MISS' ),0)
+/
 INSERT INTO KSLO_LO_CATEGORY (CREATEID,CREATETIME,ID,LO_CATEGORY_TYPE_ID,LO_REPO_ID,NAME,OBJ_ID,STATE,UPDATEID,UPDATETIME,VER_NBR)
   VALUES ('admin',TO_DATE( '20101213090113', 'YYYYMMDDHH24MISS' ),'5074e8b8-d145-4199-8a72-6967925687df','loCategoryType.skillarea','kuali.loRepository.key.singleUse','Technology application','2db8c431-f15f-4f91-9eb1-5801eed24f77','active','admin',TO_DATE( '20101213090113', 'YYYYMMDDHH24MISS' ),0)
 /
