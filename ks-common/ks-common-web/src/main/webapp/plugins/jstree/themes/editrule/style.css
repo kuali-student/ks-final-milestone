@@ -52,7 +52,8 @@ li.compoundOpCodeNode > a { display: none; }
 .jstree-editrule .jstree-clicked { /* background:#beebff; border:1px solid #99defd; padding:0 3px 0 1px; */ }
 .jstree-editrule a .jstree-icon { background-position:-56px -20px; }
 .jstree-editrule a.jstree-loading .jstree-icon { background:url("throbber.gif") center center no-repeat !important; }
-.jstree-editrule a.uif-action { color: #3F7826; display: inline-block; height: 16px; line-height: 16px; margin: 0; padding: 1px 2px; text-decoration: none; white-space: nowrap; }
+.jstree-editrule a.uif-action { color: #0088CC; display: inline-block; height: 16px; line-height: 16px; margin: 0; padding: 1px 2px; text-decoration: none; white-space: nowrap; }
+.jstree-editrule a.uif-actionLink { color: #0088CC; display: inline-block; height: 16px; line-height: 16px; margin: 0; padding: 1px 2px; text-decoration: none; white-space: nowrap; }
 
 .jstree-editrule .jstree-focused { background:white; }
 

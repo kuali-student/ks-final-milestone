@@ -40,11 +40,11 @@ limitations under the License.
             <bean parent="Uif-ActionLink">
                 <property name="methodToCall" value="performLookup"/>
                 <property name="actionLabel" value="Advanced Search"/>
-                <property name="style" value="display:block;color: #3F7826;"/>
+                <property name="style" value="display:block"/>
             </bean>
         </property>
         <property name="lightBoxLookup">
-            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="true"/>
         </property>
     </bean>
 
