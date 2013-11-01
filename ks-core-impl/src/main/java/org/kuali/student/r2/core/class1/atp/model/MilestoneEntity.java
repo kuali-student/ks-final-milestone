@@ -57,7 +57,7 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
     @Column(name = "RELATIVE_ANCHOR_MSTONE_ID")
     private String relativeAnchorMilestoneId;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
     private Set<MilestoneAttributeEntity> attributes = new HashSet<MilestoneAttributeEntity>();
 
     public MilestoneEntity() {
