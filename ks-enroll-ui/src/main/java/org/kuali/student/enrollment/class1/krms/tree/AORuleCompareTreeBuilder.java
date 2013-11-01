@@ -87,6 +87,11 @@ public class AORuleCompareTreeBuilder extends KSRuleCompareTreeBuilder {
                         compareTreeNode.setThirdElement(compareTreeNode.getThirdElement() + ":");
                     }
                 }
+
+                //Set suppressed rule description
+                if (!thirdElement.isDummy() && thirdElement.getProposition() == null && thirdElement.getParent().getProposition() != null) {
+                    compareTreeNode.setThirdElement("Rule Suppressed");
+                }
             }
         }
 
