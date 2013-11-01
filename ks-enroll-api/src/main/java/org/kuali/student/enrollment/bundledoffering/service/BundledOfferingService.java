@@ -242,7 +242,7 @@ public interface BundledOfferingService {
                PermissionDeniedException;
 
     /** 
-     * Retrieves a list of BundledOfferings by Term and subject area.
+     * Retrieves a list of BundledOfferings by subject area and code.
      *
      * @param term a Term Id
      * @param subjectAreaOrgIdId a subject area Org Id

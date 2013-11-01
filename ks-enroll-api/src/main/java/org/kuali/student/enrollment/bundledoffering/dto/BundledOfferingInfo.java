@@ -63,10 +63,10 @@ public class BundledOfferingInfo
     @XmlElement
     private List<String> adminOrgIds;
 
-    @XmlElement
+    @XmlAnyElement
     private List<String> formatOfferingIds;
 
-    @XmlElement
+    @XmlAnyElement
     private List<String> registrationGroupIds;
 
     @XmlAnyElement
