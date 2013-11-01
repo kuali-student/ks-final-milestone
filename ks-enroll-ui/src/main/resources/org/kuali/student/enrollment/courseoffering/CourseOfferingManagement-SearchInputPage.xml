@@ -81,7 +81,7 @@
                                 </property>
 
                             </bean>
-                            <bean parent="Uif-PrimaryActionButton" p:performClientSideValidation="false" p:actionLabel="Show" p:methodToCall="show"/>
+                            <bean parent="Uif-PrimaryActionButton" p:performClientSideValidation="false" p:actionLabel="Show" p:methodToCall="show" p:ajaxSubmit="false"/>
                         </list>
                     </property>
                 </bean>
