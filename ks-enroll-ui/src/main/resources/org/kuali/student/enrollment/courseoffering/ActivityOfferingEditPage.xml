@@ -649,7 +649,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message"
-                      p:messageText="Colocating this activity offering will delete all of its requested and actual delivery logistics. Would you like to proceed?"/>
+                      p:messageText="Colocating this activity offering will delete all of its requested and actual scheduling information. Would you like to proceed?"/>
 
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">

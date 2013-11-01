@@ -105,7 +105,7 @@
                             <property name="items">
                                 <list>
                                     <bean  id="send_RDLs_to_scheduler" parent="Uif-InputField-LabelRight" p:cssClasses="unprocessed_changes_checkbox" p:render="@{#dp.schedulingCompleted}"
-                                          p:label="@{#dp.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.canceled' ? 'Delivery logistics cannot be sent to the scheduler for this activity offering because it is canceled.' : 'Send revised delivery logistics to the scheduler for processing upon save.'}"
+                                          p:label="@{#dp.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.canceled' ? 'Scheduling information cannot be sent to the scheduler for this activity offering because it is canceled.' : 'Send revised scheduling information to the scheduler for processing upon save.'}"
                                           p:propertyName="sendRDLsToSchedulerAfterMSE">
                                         <property name="control">
                                             <bean parent="Uif-CheckboxControl" id="send_RDLs_to_scheduler_control">
@@ -267,7 +267,7 @@
     </bean>
 
     <bean id="deleteScheduleConfirmDialog" parent="Uif-OK-Cancel-DialogGroup"
-          p:promptText="Removing all delivery logistics from this activity offering will cause it to become unscheduled." >
+          p:promptText="Removing all scheduling information from this activity offering will cause it to become unscheduled." >
         <property name="headerText" value="Delete Schedule"/>
         <property name="availableResponses">
           <list>
@@ -279,7 +279,7 @@
 
     <!--<bean id="Colocate-DialogGroup" parent="Uif-DialogGroup">
         <property name="headerText" value="Partial Colocation Not Supported"/>
-        <property name="promptText" value="Enrollment does not currently support partial colocation. In order to make modifications colocated activities or delivery logistics, you must ensure all delivery logistics are fully colocated."/>
+        <property name="promptText" value="Enrollment does not currently support partial colocation. In order to make modifications colocated activities or Scheduling Information, you must ensure all Scheduling Information are fully colocated."/>
         <property name="availableResponses">
           <list>
               <bean parent="Uif-KeyLabelPair" p:key="O" p:value="Close"/>

@@ -156,7 +156,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     activityOfferingWrapper.setCourseWaitListInfo(courseWaitListInfo);
                 } else {
                     HashMap<String, String> aoIdfoIdMap = new HashMap<String, String>();
-                    //  Clean up the delivery logistics newly colocated AOs
+                    //  Clean up the Scheduling Informations newly colocated AOs
                     for (ColocatedActivity activity : activityOfferingWrapper.getColocatedActivities()){
                         //If an activity is newly added in this session for colo, delete it's RDLs and ADLs if exists
                         activity.getActivityOfferingInfo().setIsColocated(activityOfferingWrapper.isColocatedAO());

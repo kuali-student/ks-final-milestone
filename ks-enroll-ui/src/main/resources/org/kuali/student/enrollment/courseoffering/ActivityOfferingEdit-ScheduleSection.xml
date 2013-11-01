@@ -21,7 +21,7 @@
     -->
 
     <bean id="ActivityOffering-DeliveryLogistic-Actuals" parent="Uif-TableCollectionSection"
-            p:headerText="Actual Delivery Logistics"
+            p:headerText="Actual Scheduling Information"
             p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper"
             p:propertyName="actualScheduleComponents"
             p:readOnly="true"
@@ -52,7 +52,7 @@
             p:renderAddLine="false"
             p:layoutManager.renderSequenceField="false"
             p:componentSecurity.editAuthz="true">
-        <property name="headerText" value="Requested Delivery Logistics"/>
+        <property name="headerText" value="Requested Scheduling Information"/>
         <property name="layoutManager.richTable.render" value="false" />
         <property name="disclosure.render" value="@{#dp.schedulingCompleted and !#dp.requestedScheduleComponents.isEmpty()}"/>
         <property name="disclosure.defaultOpen" value="false"/>
@@ -83,7 +83,7 @@
     </bean>
 
     <bean id="ActivityOffering-DeliveryLogistic-New" parent="Uif-VerticalBoxSection" p:style="background-color:#f3f3f3; padding: 4px 0 4px 4px;border: 1px solid black;width:725px;" p:componentSecurity.viewAuthz="true">
-        <property name="headerText" value="Add New Delivery Logistics" />
+        <property name="headerText" value="Add New Scheduling Information" />
         <property name="header">
           <bean parent="Uif-HeaderFour" p:style="margin-top:20px;"/>
         </property>
@@ -279,13 +279,13 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message"
-                      p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/warning.png&quot;]  This action affect maximum enrollment and delivery logistics for all colocated activities."
+                      p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/warning.png&quot;]  This action affect maximum enrollment and scheduling information for all colocated activities."
                       p:style="background-color:#F4E271; padding-top:4px; padding-bottom:4px;font-size: 110%;margin-top:10px;margin-bottom-10px;" p:colSpan="2"/>
 
-                <bean parent="Uif-Message" p:messageText="[b]Delivery Logistics[/b]"/>
+                <bean parent="Uif-Message" p:messageText="[b]Scheduling Information[/b]"/>
 
-                <bean parent="Uif-Message" p:messageText="The Activity you are editing will forfeit any requested and actual delivery logistics as a result [br]
-                                                          of breaking colocation. Delivery logistics will be retained by any remaining Activities.[br]" p:style="margin-top:10px;margin-bottom-10px;"/>
+                <bean parent="Uif-Message" p:messageText="The Activity you are editing will forfeit any requested and actual scheduling information as a result [br]
+                                                          of breaking colocation. Scheduling information will be retained by any remaining Activities.[br]" p:style="margin-top:10px;margin-bottom-10px;"/>
 
                 <bean parent="Uif-Message" p:messageText="[b]Maximum Enrollment[/b]"/>
 
