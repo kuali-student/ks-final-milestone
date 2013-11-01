@@ -211,7 +211,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
             }
 
             //If nothing was found then error
-            if (courseOfferingIds.isEmpty()) {
+            if (courseOfferingIds==null || courseOfferingIds.isEmpty()) {
                 LOG.error("Error: Can't find any Course Offering for selected Instructor in term: " + termId);
                 GlobalVariables.getMessageMap().putError("Term & Instructor", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "instructor", instructorId, termId);
                 form.getCoDisplayWrapperList().clear();

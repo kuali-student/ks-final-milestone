@@ -128,15 +128,8 @@
                                                 <entry key="principalName" value="instructorName" />
                                             </map>
                                         </property>
-                                        <property name="quickfinderAction">
-                                            <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:id="KS-Personnel-LookupView">
-                                                <property name="actionImage">
-                                                    <bean parent="Uif-QuickLookupImage"/>
-                                                </property>
-                                            </bean>
-                                        </property>
                                         <property name="lightBoxLookup">
-                                            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                                            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="true"/>
                                         </property>
                                     </bean>
                                 </property>
