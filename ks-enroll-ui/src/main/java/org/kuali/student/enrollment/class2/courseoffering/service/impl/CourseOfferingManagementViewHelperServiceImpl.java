@@ -99,7 +99,6 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConsta
 import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
@@ -137,12 +136,10 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -967,9 +964,9 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 rgWrapper.setEndTime(aoWrapper.getEndTime());
                 rgWrapper.setWeekDays(aoWrapper.getWeekDays());
 
-                socRGWrapper.setStartTime(aoWrapper.getStartTime());
-                socRGWrapper.setEndTime(aoWrapper.getEndTime());
-                socRGWrapper.setWeekDays(aoWrapper.getWeekDays());
+                socRGWrapper.setStartTime((aoList.get(aoList.size()-1)).getStartTime());
+                socRGWrapper.setEndTime((aoList.get(aoList.size()-1)).getEndTime());
+                socRGWrapper.setWeekDays((aoList.get(aoList.size()-1)).getWeekDays());
 
                 //if there are more than one instructors re-arrange the rows
                 StringBuilder lineBreaksInstructorsSB = new StringBuilder();

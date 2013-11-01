@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +19,17 @@ public class SOCRequisiteHelper {
 
     private SOCRequisiteWrapper reqWrapper;
 
+    private Map<String, Map<String, String>> aoRequisiteTypeMap;
+    private Map<String, String> coRequisiteTypeMap;
+    private List<String> ruleTypes;
+    private Map<String, String> suppressNullMap;
+
     public SOCRequisiteHelper() {
         reqWrapper = new SOCRequisiteWrapper();
+        aoRequisiteTypeMap = new HashMap<String, Map<String, String>>();
+        coRequisiteTypeMap = new HashMap<String, String>();
+        ruleTypes = new ArrayList<String>();
+        suppressNullMap = new HashMap<String, String>();
     }
 
     public SOCRequisiteWrapper getReqWrapper() {
@@ -28,6 +38,38 @@ public class SOCRequisiteHelper {
 
     public void setReqWrapper(SOCRequisiteWrapper reqWrapper) {
         this.reqWrapper = reqWrapper;
+    }
+
+    public Map<String, Map<String, String>> getAoRequisiteTypeMap() {
+        return aoRequisiteTypeMap;
+    }
+
+    public void setAoRequisiteTypeMap(Map<String, Map<String, String>> aoRequisiteTypeMap) {
+        this.aoRequisiteTypeMap = aoRequisiteTypeMap;
+    }
+
+    public Map<String, String> getCoRequisiteTypeMap() {
+        return coRequisiteTypeMap;
+    }
+
+    public void setCoRequisiteTypeMap(Map<String, String> coRequisiteTypeMap) {
+        this.coRequisiteTypeMap = coRequisiteTypeMap;
+    }
+
+    public List<String> getRuleTypes() {
+        return ruleTypes;
+    }
+
+    public void setRuleTypes(List<String> ruleTypes) {
+        this.ruleTypes = ruleTypes;
+    }
+
+    public Map<String, String> getSuppressNullMap() {
+        return suppressNullMap;
+    }
+
+    public void setSuppressNullMap(Map<String, String> suppressNullMap) {
+        this.suppressNullMap = suppressNullMap;
     }
 
     /**
@@ -39,12 +81,12 @@ public class SOCRequisiteHelper {
         Map<String, String> overriddenRules = new TreeMap<String, String>();
 
         //Populate map of overridden CO requisites
-        for (String ruleType : reqWrapper.getRuleTypes()) {
-            if (!reqWrapper.getAoRequisiteTypeMap().isEmpty()) {
-                for (Map.Entry<String, Map<String, String>> aoEntry : reqWrapper.getAoRequisiteTypeMap().entrySet()) {
-                    if (reqWrapper.getCoRequisiteTypeMap().containsKey(ruleType) && aoEntry.getValue().containsKey(ruleType)) {
-                        overriddenRules.put(ruleType, reqWrapper.getCoRequisiteTypeMap().get(ruleType));
-                        reqWrapper.getCoRequisiteTypeMap().remove(ruleType);
+        for (String ruleType : ruleTypes) {
+            if (!aoRequisiteTypeMap.isEmpty()) {
+                for (Map.Entry<String, Map<String, String>> aoEntry : aoRequisiteTypeMap.entrySet()) {
+                    if (coRequisiteTypeMap.containsKey(ruleType) && aoEntry.getValue().containsKey(ruleType)) {
+                        overriddenRules.put(ruleType, coRequisiteTypeMap.get(ruleType));
+                        coRequisiteTypeMap.remove(ruleType);
                     }
                 }
             }
@@ -56,7 +98,7 @@ public class SOCRequisiteHelper {
             loadcoOverridenRules(overriddenRules, activityOfferingWrapperList);
         }
 
-        if (!reqWrapper.getCoRequisiteTypeMap().isEmpty()) {
+        if (!coRequisiteTypeMap.isEmpty()) {
             loadCORequisites();
         }
     }
@@ -68,16 +110,16 @@ public class SOCRequisiteHelper {
      */
     private void loadAORequisites(Map<String, String> overriddenRules) {
         String aoRequisite;
-        for (String ruleType : reqWrapper.getRuleTypes()) {
-            if (!reqWrapper.getAoRequisiteTypeMap().isEmpty()) {
-                for (Map.Entry<String, Map<String, String>> aoEntry : reqWrapper.getAoRequisiteTypeMap().entrySet()) {
+        for (String ruleType : ruleTypes) {
+            if (!aoRequisiteTypeMap.isEmpty()) {
+                for (Map.Entry<String, Map<String, String>> aoEntry : aoRequisiteTypeMap.entrySet()) {
                     aoRequisite = new String();
                     if (aoEntry.getValue().containsKey(ruleType)) {
                         String aoValue = StringUtils.substringAfter(aoEntry.getValue().get(ruleType), ":");
                         if(aoValue.length() > 1) {
                             aoRequisite = aoEntry.getValue().get(ruleType);
                         } else {
-                            reqWrapper.getSuppressNullMap().put(aoEntry.getKey(), ruleType);
+                            suppressNullMap.put(aoEntry.getKey(), ruleType);
                         }
                     } else if (!overriddenRules.isEmpty()) {
                         if (overriddenRules.containsKey(ruleType)) {
@@ -109,9 +151,9 @@ public class SOCRequisiteHelper {
         for (ActivityOfferingWrapper activityOfferingWrapper : activityOfferingWrapperList) {
             if(activityOfferingWrapper.getRequisite() == null) {
                 if(!reqWrapper.getAoRequisiteMap().containsKey(activityOfferingWrapper.getActivityCode())) {
-                    if (reqWrapper.getSuppressNullMap().containsKey(activityOfferingWrapper.getActivityCode())) {
+                    if (suppressNullMap.containsKey(activityOfferingWrapper.getActivityCode())) {
                         Map<String, String> temp = new HashMap<String, String>(overriddenRules);
-                        temp.remove(reqWrapper.getSuppressNullMap().get(activityOfferingWrapper.getActivityCode()));
+                        temp.remove(suppressNullMap.get(activityOfferingWrapper.getActivityCode()));
                         reqWrapper.getAoRequisiteMap().put(activityOfferingWrapper.getActivityCode(), temp);
                         continue;
                     }
@@ -125,8 +167,12 @@ public class SOCRequisiteHelper {
      * Populate CO requisites with requisites not overridden
      */
     private void loadCORequisites() {
-        for(Map.Entry<String, String> coReq : reqWrapper.getCoRequisiteTypeMap().entrySet()) {
-            reqWrapper.getCoRequisite().append(coReq.getValue());
+        for (String ruleType : ruleTypes) {
+            for(Map.Entry<String, String> coReq : coRequisiteTypeMap.entrySet()) {
+                if (coReq.getKey().contains(ruleType)) {
+                    reqWrapper.getCoRequisite().append(coReq.getValue());
+                }
+            }
         }
     }
 
@@ -141,7 +187,7 @@ public class SOCRequisiteHelper {
         StringBuilder commonReq;
 
         //For each RegistrationGroupWrapper and its partner with same name
-        for(int i = 0; i < registrationGroupWrapperList.size(); i = i + 2) {
+        for(int i = 0; i < registrationGroupWrapperList.size(); i++) {
             RegistrationGroupWrapper registrationGroupWrapper = registrationGroupWrapperList.get(i);
 
             firstReq = new StringBuilder();
@@ -150,12 +196,14 @@ public class SOCRequisiteHelper {
 
             //Retrieve RegistrationGroupWrapper with same name
             RegistrationGroupWrapper partnerRegGroup = getRegistrationGroupWrapper(registrationGroupWrapperList, registrationGroupWrapper.getRgInfo().getName(), registrationGroupWrapper.getAoActivityCodeText());
-
+            if (!partnerRegGroup.getAoActivityCodeText().equals("null")) {
+                i++;
+            }
             //Determine each RegistrationGroupWrapper's requisite and common requisite
             if(reqWrapper.getAoRequisiteMap().containsKey(registrationGroupWrapper.getAoActivityCodeText()) ||
                     reqWrapper.getAoRequisiteMap().containsKey(partnerRegGroup.getAoActivityCodeText())) {
 
-                for(String rule : reqWrapper.getRuleTypes()) {
+                for(String rule : ruleTypes) {
                     Map<String, String> firstReqMap = reqWrapper.getAoRequisiteMap().get(registrationGroupWrapper.getAoActivityCodeText());
                     Map<String, String> secondReqMap = reqWrapper.getAoRequisiteMap().get(partnerRegGroup.getAoActivityCodeText());
 

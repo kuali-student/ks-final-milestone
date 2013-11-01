@@ -35,6 +35,8 @@ import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
+import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
+import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
 import org.kuali.student.common.UUIDHelper;
 import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
@@ -52,7 +54,6 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.sort.KSComparatorCh
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.ActivityOfferingCodeComparator;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.ActivityOfferingTypeComparator;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.SOCRequisiteHelper;
-import org.kuali.student.enrollment.class2.scheduleofclasses.util.SOCRequisiteWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -72,8 +73,11 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Formatter;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -91,6 +95,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
     private OrganizationService organizationService;
     private TypeService typeService;
     private RuleManagementService ruleManagementService;
+    private KrmsTypeRepositoryService krmsTypeRepositoryService;
 
     @ReferenceCopy
     private KSComparatorChain activityComparatorChain;
@@ -362,11 +367,13 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
         List<ReferenceObjectBinding> coRefObjectsBindingList = ruleManagementService.findReferenceObjectBindingsByReferenceObject(
                 CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING, courseOfferingId);
 
+        Set<TypeTypeRelation> ruleRelationships = new HashSet<TypeTypeRelation>();
         //Retrieve agenda's for course offering
         for(ReferenceObjectBinding coReferenceObjectBinding : coRefObjectsBindingList) {
             AgendaDefinition agendaDefinition = ruleManagementService.getAgenda(coReferenceObjectBinding.getKrmsObjectId());
             AgendaItemDefinition agendaItem = ruleManagementService.getAgendaItem(agendaDefinition.getFirstItemId());
-            loadNaturalLanguageForRuleTypes(reqHelper.getReqWrapper().getCoRequisiteTypeMap(), agendaItem, catalogUsageId, reqHelper.getReqWrapper().getRuleTypes());
+            ruleRelationships.addAll(this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(agendaDefinition.getTypeId()));
+            loadNaturalLanguageForRuleTypes(reqHelper.getCoRequisiteTypeMap(), agendaItem, catalogUsageId);
         }
 
         Map<String, List<ReferenceObjectBinding>> aoRefObjectsBindingMap = new HashMap<String, List<ReferenceObjectBinding>>();
@@ -386,26 +393,38 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
             for(ReferenceObjectBinding aoReferenceObjectBinding : aoEntry.getValue()) {
                 AgendaDefinition agendaDefinition = ruleManagementService.getAgenda(aoReferenceObjectBinding.getKrmsObjectId());
                 AgendaItemDefinition agendaItemDefinition = ruleManagementService.getAgendaItem(agendaDefinition.getFirstItemId());
-                this.loadNaturalLanguageForRuleTypes(typeRequisites, agendaItemDefinition, catalogUsageId, reqHelper.getReqWrapper().getRuleTypes());
+                ruleRelationships.addAll(this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(agendaDefinition.getTypeId()));
+                this.loadNaturalLanguageForRuleTypes(typeRequisites, agendaItemDefinition, catalogUsageId);
             }
-            reqHelper.getReqWrapper().getAoRequisiteTypeMap().put(aoEntry.getKey(), typeRequisites);
+            reqHelper.getAoRequisiteTypeMap().put(aoEntry.getKey(), typeRequisites);
         }
+
+        List<TypeTypeRelation> sortedRuleRelations = new ArrayList<TypeTypeRelation>();
+        sortedRuleRelations.addAll(ruleRelationships);
+        Collections.sort(sortedRuleRelations, new Comparator<TypeTypeRelation>() {
+            @Override
+            public int compare(TypeTypeRelation typeTypeRelation1, TypeTypeRelation typeTypeRelation2) {
+                return typeTypeRelation1.getSequenceNumber().compareTo(typeTypeRelation2.getSequenceNumber());
+            }
+        });
+
+        for (TypeTypeRelation ruleRelation : sortedRuleRelations) {
+            reqHelper.getRuleTypes().add(ruleRelation.getToTypeId());
+        }
+
         reqHelper.loadRequisites(activityOfferingWrapperList);
         return reqHelper;
     }
 
-    protected void loadNaturalLanguageForRuleTypes(Map<String, String> typeRequisites, AgendaItemDefinition agendaItem, String catalogUsageId, Set<String> ruleTypes) {
+    protected void loadNaturalLanguageForRuleTypes(Map<String, String> typeRequisites, AgendaItemDefinition agendaItem, String catalogUsageId) {
 
         if(agendaItem.getRuleId() != null) {
             String ruleRequisite = ruleManagementService.translateNaturalLanguageForObject(catalogUsageId, "rule", agendaItem.getRuleId(), "en");
             typeRequisites.put(agendaItem.getRule().getTypeId(), ruleRequisite);
-            if(!ruleTypes.contains(agendaItem.getRule().getTypeId())) {
-                ruleTypes.add(agendaItem.getRule().getTypeId());
-            }
         }
 
         if(agendaItem.getWhenTrue() != null) {
-            this.loadNaturalLanguageForRuleTypes(typeRequisites, agendaItem.getWhenTrue(), catalogUsageId, ruleTypes);
+            this.loadNaturalLanguageForRuleTypes(typeRequisites, agendaItem.getWhenTrue(), catalogUsageId);
         }
     }
 
@@ -575,5 +594,12 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
             ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "ruleManagementService"));
         }
         return ruleManagementService;
+    }
+
+    public KrmsTypeRepositoryService getKrmsTypeRepositoryService() {
+        if (krmsTypeRepositoryService == null) {
+            krmsTypeRepositoryService = (KrmsTypeRepositoryService) GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "krmsTypeRepositoryService"));
+        }
+        return krmsTypeRepositoryService;
     }
 }
