@@ -143,7 +143,7 @@
     <bean id="searchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
         <property name="searchServices">
             <list>
-
+                <ref bean="courseService"/>
                 <ref bean="ActivityOfferingSearchServiceImpl"/>
                 <bean id="CoreSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.CoreSearchServiceImpl"/>
             </list>

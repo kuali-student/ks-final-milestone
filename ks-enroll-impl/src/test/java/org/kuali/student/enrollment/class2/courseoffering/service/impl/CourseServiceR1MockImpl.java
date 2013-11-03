@@ -6,6 +6,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
@@ -13,6 +14,13 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
@@ -22,7 +30,9 @@ import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
+import javax.jws.WebParam;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -32,7 +42,7 @@ import java.util.Map;
  *
  * @author nwright
  */
-public class CourseServiceR1MockImpl implements CourseService, MockService {
+public class CourseServiceR1MockImpl implements CourseService, MockService, SearchService {
 
     private Map<String, CourseInfo> courses = new LinkedHashMap<String, CourseInfo>();
 
@@ -228,5 +238,54 @@ public class CourseServiceR1MockImpl implements CourseService, MockService {
             }
         }
         return list;
+    }
+
+    static TypeInfo typeInfo;
+    static {
+        typeInfo = new TypeInfo();
+        typeInfo.setKey("lu.search.relatedTypes");
+    }
+
+    @Override
+    public List<TypeInfo> getSearchTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        return Arrays.asList(typeInfo);
+    }
+
+    @Override
+    public TypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        if(typeInfo.getKey().equals(searchTypeKey)){
+            return typeInfo;
+        }
+        throw new DoesNotExistException("Search Not Defined");
+    }
+
+    @Override
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+
+        if("lu.search.relatedTypes".equals(searchRequestInfo.getSearchKey())){
+            String formatId = null;
+            for(SearchParamInfo searchParam:searchRequestInfo.getParams()){
+                if("lu.queryParam.cluId".equals(searchParam.getKey())){
+                    formatId = KSCollectionUtils.getRequiredZeroElement(searchParam.getValues());
+                    break;
+                }
+            }
+            if(formatId !=null){
+                for(CourseInfo course:this.courses.values()){
+                    for(FormatInfo format:course.getFormats()){
+                        if(format.getId().equals(formatId)){
+                            SearchResultInfo searchResultInfo = new SearchResultInfo();
+                            for(ActivityInfo activity:format.getActivities()){
+                                SearchResultRowInfo row = new SearchResultRowInfo();
+                                row.addCell("lu.resultColumn.cluType", activity.getTypeKey());
+                                searchResultInfo.getRows().add(row);
+                            }
+                            return searchResultInfo;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
     }
 }

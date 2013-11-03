@@ -515,7 +515,7 @@
    <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
        <property name="lprService" ref="lprPersistenceService" />
        <property name="lrcService" ref="lrcServiceCache" />
-       <property name="cluService" ref="cluServiceImpl"/>
+       <property name="cluService" ref="CluService"/>
        <property name="luiService" ref="LuiService" />
        <property name="krmsRuleManagementCopyMethods" ref="krmsRuleManagementCopyMethods" />
    </bean>
@@ -587,12 +587,12 @@
 
     <!-- Exam Service beans -->
     <bean id="examServiceImpl" class="org.kuali.student.enrollment.class2.exam.service.impl.ExamServiceImpl">
-        <property name="cluService" ref="cluServiceImpl"/>
+        <property name="cluService" ref="CluService"/>
         <property name="examTransformer" ref="examTransformer"/>
     </bean>
 
     <bean id="examTransformer" class="org.kuali.student.enrollment.class2.exam.service.transformer.ExamTransformer">
-        <property name="cluService" ref="cluServiceImpl"/>
+        <property name="cluService" ref="CluService"/>
     </bean>
 
     <bean id="ks.exp.examService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

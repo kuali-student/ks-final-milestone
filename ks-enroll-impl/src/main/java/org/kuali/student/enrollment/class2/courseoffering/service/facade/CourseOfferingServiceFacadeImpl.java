@@ -74,10 +74,9 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
-import org.kuali.student.r2.lum.course.dto.ActivityInfo;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 import javax.annotation.Resource;
@@ -252,10 +251,9 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         }
         FormatOfferingInfo fo = coService.getFormatOffering(foId, context);
         String coId = fo.getCourseOfferingId();
-        CourseOfferingInfo co = coService.getCourseOffering(coId, context);
-        CourseInfo course = getCourseService().getCourse(co.getCourseId(), context);
+
         try {
-            _addActivityOfferingTypesToFormatOffering(fo, course, context);
+            _addActivityOfferingTypesToFormatOffering(fo, context);
         } catch (VersionMismatchException e) {
             LOGGER.warn("VersionMismatchException thrown in createDefaultCluster, part 1");
             throw new OperationFailedException(e.getMessage());
@@ -309,35 +307,20 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         return aoc;
     }
 
-    private void _addActivityOfferingTypesToFormatOffering(FormatOfferingInfo fo, CourseInfo course, ContextInfo context)
+    private void _addActivityOfferingTypesToFormatOffering(FormatOfferingInfo fo, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException,
             DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         if (fo.getActivityOfferingTypeKeys() != null && !fo.getActivityOfferingTypeKeys().isEmpty()) {
             // Only bother with this if there are no AO type keys
             return;
         }
-        List<FormatInfo> formats = course.getFormats();
-        FormatInfo format = null;
-        for (FormatInfo f: formats) {
-            if (f.getId().equals(fo.getFormatId())) {
-                // Find correct format
-                format = f;
-                break;
-            }
-        }
-
-        if(format == null){
-            throw new OperationFailedException("No format could be found to match id: " + fo.getFormatId());
-        }
 
         // Get the activity types
-        List<String> activityTypes = new ArrayList<String>();
-        if (format.getActivities() == null || format.getActivities().isEmpty()) {
-            throw new OperationFailedException("Formats must contain non-empty activities.  Error!");
+        List<String> activityTypes = getActivityTypesForFormatId(fo.getId(), context);
+        if (activityTypes.isEmpty()) {
+            throw new OperationFailedException("No format could be found to match id: " + fo.getFormatId() + " or Formats contains no activities.  Error!");
         }
-        for (ActivityInfo activityInfo: format.getActivities()) {
-            activityTypes.add(activityInfo.getTypeKey());
-        }
+
         // Use type service to find corresponding AO types--assumes 1-1 mapping of Activity types to AO types
         TypeService typeService = getTypeService();
         List<String> aoTypeKeys = new ArrayList<String>();
@@ -360,6 +343,36 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         fo.setActivityOfferingTypeKeys(aoTypeKeys);
 
         getCoService().updateFormatOffering(fo.getId(), fo, context);
+    }
+
+    /**
+     * Searches for actifity types for a given FO id.
+     * @param id FO id
+     * @param context call context
+     * @return list of activity types for given FO ID
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws PermissionDeniedException
+     * @throws OperationFailedException
+     */
+    protected List<String> getActivityTypesForFormatId(String id, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        List<String> activityTypes = new ArrayList<String>();
+        //Create the search request
+        SearchRequestInfo request = new SearchRequestInfo("lu.search.relatedTypes");
+        request.addParam("lu.queryParam.cluId", id);
+        request.addParam("lu.queryParam.luOptionalRelationType", CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE);
+        //Execute the search and parse params
+        SearchResultInfo result = searchService.search(request, context);
+        for(SearchResultRowInfo row : result.getRows()){
+            for(SearchResultCellInfo cell: row.getCells()){
+                if("lu.resultColumn.cluType".equals(cell.getKey())){
+                    activityTypes.add(cell.getValue());
+                    break;
+                }
+            }
+        }
+
+        return activityTypes;
     }
 
     /**

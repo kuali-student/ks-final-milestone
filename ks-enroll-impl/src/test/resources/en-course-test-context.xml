@@ -188,6 +188,9 @@
 	<!-- Statement Service Config -->
 	<import resource="classpath:statement-context.xml"/>
 
+    <!-- Top Level Alias -->
+    <alias name="cluServiceImpl" alias="CluService" />
+
 	<bean id="statementDao"
 		class="org.kuali.student.r1.core.statement.dao.impl.StatementDaoImpl">
         <property name="em" ref="entityManager" />

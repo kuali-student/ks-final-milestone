@@ -7,6 +7,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.helper.CopyActivityOfferingCommon;
@@ -647,17 +648,15 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         }
         R1CourseServiceHelper helper = new R1CourseServiceHelper(courseService, acalService);
 
-        CourseInfo sourceCourse = helper.getCourse(sourceCo.getCourseId());
-        String sourceCourseId = sourceCourse.getId();
-        List<CourseInfo> targetCourses = helper.getCoursesForTerm(sourceCourseId, targetTermId, context);
+        List<CourseInfo> targetCourses = helper.getCoursesForTerm(sourceCo.getCourseId(), targetTermId, context);
         if (targetCourses.isEmpty()) {
             throw new InvalidParameterException("Skipped because there is no valid version of the course in the target term");
         } else if (targetCourses.size() > 1) {
             throw new InvalidParameterException(
                     "Skipped because there are more than one valid versions of the course in the target term");
         }
-        int firstCourseInfo = 0;
-        CourseInfo targetCourse = targetCourses.get(firstCourseInfo);
+
+        CourseInfo targetCourse = KSCollectionUtils.getRequiredZeroElement(targetCourses);
         if (optionKeys.contains(CourseOfferingSetServiceConstants.SKIP_IF_ALREADY_EXISTS_OPTION_KEY)) {
             String existingCoId = this._findFirstExistingCourseOfferingIdInTargetTerm(targetCourse.getId(), targetTermId, context);
             if (existingCoId != null) {
@@ -672,7 +671,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             }
         }
         if (optionKeys.contains(CourseOfferingSetServiceConstants.IF_NO_NEW_VERSION_OPTION_KEY)) {
-            if (!sourceCourse.getId().equals(targetCourse.getId())) {
+            if (!sourceCo.getCourseId().equals(targetCourse.getId())) {
                 throw new InvalidParameterException("skipped because there is a new version of the canonical course");
             }
         }
@@ -1015,6 +1014,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         targetCo.setCourseId(targetCourse.getId());
         if (optionKeys.contains(CourseOfferingSetServiceConstants.USE_CANONICAL_OPTION_KEY)) {
             // copy from cannonical
+            //Why is this here? it's called already in createCourseOffering
             courseOfferingTransformer.copyFromCanonical(targetCourse, targetCo, optionKeys, context);
         }
         // Rolled over CO should be in draft state

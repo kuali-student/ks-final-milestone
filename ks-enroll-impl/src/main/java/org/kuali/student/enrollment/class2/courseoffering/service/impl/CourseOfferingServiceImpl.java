@@ -99,10 +99,10 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
-import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -931,7 +931,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         LuiInfo lui = new LuiInfo();
 
         // Make the name of the FO correct
-        generateLuiNameAndDescr(foInfo, course, context);
+        generateLuiNameAndDescr(foInfo, context);
 
         new FormatOfferingTransformer().format2Lui(foInfo, lui);
 
@@ -971,29 +971,50 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     /**
+     * Searches for actifity types for a given FO id.
+     * @param id FO id
+     * @param context call context
+     * @return list of activity types for given FO ID
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws PermissionDeniedException
+     * @throws OperationFailedException
+     */
+    protected List<String> getActivityTypesForFormatId(String id, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        List<String> activityTypes = new ArrayList<String>();
+        //Create the search request
+        SearchRequestInfo request = new SearchRequestInfo("lu.search.relatedTypes");
+        request.addParam("lu.queryParam.cluId", id);
+        request.addParam("lu.queryParam.luOptionalRelationType", CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE);
+        //Execute the search and parse params
+        SearchResultInfo result = searchService.search(request, context);
+        for(SearchResultRowInfo row : result.getRows()){
+            for(SearchResultCellInfo cell: row.getCells()){
+                if("lu.resultColumn.cluType".equals(cell.getKey())){
+                    activityTypes.add(cell.getValue());
+                    break;
+                }
+            }
+        }
+
+        return activityTypes;
+    }
+
+    /**
      * Generates a name based on priority sorted names of the AO types within an FO
      *
      * @param foInfo the FO
-     * @param course course associated with the format
      * @param context context  @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws DoesNotExistException
      * @throws PermissionDeniedException
      * @throws OperationFailedException
      */
-    private void generateLuiNameAndDescr(FormatOfferingInfo foInfo, CourseInfo course, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    private void generateLuiNameAndDescr(FormatOfferingInfo foInfo, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
 
         if(foInfo.getName()==null || foInfo.getName().isEmpty()){
             //Get the activity type keys associated with this format
-            List<String> activityTypeKeys = new ArrayList<String>();
-            for(FormatInfo format:course.getFormats()){
-                if(format.getId().equals(foInfo.getFormatId())){
-                    for(ActivityInfo activity:format.getActivities()){
-                        activityTypeKeys.add(activity.getTypeKey());
-                    }
-                    break;
-                }
-            }
+            List<String> activityTypeKeys = getActivityTypesForFormatId(foInfo.getFormatId(), context);
 
             //Lookup the types to get the names
             List<TypeInfo> types = typeService.getTypesByKeys(activityTypeKeys, context);
@@ -1115,7 +1136,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         LuiInfo lui = luiService.getLui(activityOfferingId, context);
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
-        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, searchService, context);
+        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, searchService, context);
 
         LuiInfo foLui = this.findFormatOfferingLui(ao.getId(), context);
         LuiInfo coLui = this.findCourseOfferingLui(foLui.getId(), context);
@@ -1201,7 +1222,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             for (LuiInfo lui : luiInfos) {
 
                 ActivityOfferingInfo ao = new ActivityOfferingInfo();
-                ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, searchService, contextInfo);
+                ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, searchService, contextInfo);
 
                 LuiInfo foLui = this.findFormatOfferingLui(lui.getId(), contextInfo);
                 LuiInfo coLui = this.findCourseOfferingLui(foLui.getId(), contextInfo);
@@ -1239,7 +1260,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         // Find all related luis to the course Offering
         List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(formatOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY, contextInfo);
-        activityOfferings = ActivityOfferingTransformer.luis2AOs(luis, lprService, schedulingService, searchService, contextInfo);
+        activityOfferings = ActivityOfferingTransformer.luis2AOs(luis, lprService, searchService, contextInfo);
 
         Iterator<ActivityOfferingInfo> iter = activityOfferings.iterator();
 
@@ -1351,7 +1372,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     private ActivityOfferingInfo cAoInitActivityOffering(CourseOfferingInfo co, FormatOfferingInfo fo, LuiInfo lui, LuiLuiRelationInfo luiRel, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
-        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, searchService, context);
+        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, searchService, context);
         ao.setFormatOfferingId(luiRel.getLuiId());
         ao.setCourseOfferingId(co.getId());
         ao.setFormatOfferingName(fo.getShortName());
@@ -1672,7 +1693,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         // rebuild activity to return it
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
-        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, searchService, context);
+        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, searchService, context);
         FormatOfferingInfo foInfo = this.getFormatOffering(activityOfferingInfo.getFormatOfferingId(), context);
         CourseOfferingInfo coInfo = this.getCourseOffering(foInfo.getCourseOfferingId(), context);
         ao.setFormatOfferingId(foInfo.getId());

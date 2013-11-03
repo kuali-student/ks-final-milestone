@@ -54,12 +54,14 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final TypeInfo RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo AO_CLUSTER_COUNT_BY_FO_TYPE;
     public static final TypeInfo AO_ID_AND_TYPE_BY_FO_TYPE;
+    public static final TypeInfo COLOCATED_AOIDS_BY_AO_IDS_SEARCH_TYPE;
 
     public static final String SCH_IDS_BY_AO_SEARCH_KEY = "kuali.search.type.lui.searchForScheduleIdsByAoId";
     public static final String AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAOsAndClustersByCoId";
     public static final String REG_GROUPS_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForRegGroupsByCoId";
     public static final String AOS_WO_CLUSTER_BY_FO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAOsWithoutClusterByFormatId";
     public static final String COLOCATED_AOS_BY_AO_IDS_SEARCH_KEY = "kuali.search.type.lui.searchForAosByAoIds";
+    public static final String COLOCATED_AOIDS_BY_AO_IDS_SEARCH_KEY = "kuali.search.type.lui.searchForColocatedAoIdsByAoIds";
     public static final String FO_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForFOByCoId";
     public static final String RELATED_AO_TYPES_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForRelatedAoTypesByCoId";
     public static final String AO_CODES_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAoCodesByCoId";
@@ -204,6 +206,14 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
         AO_ID_AND_TYPE_BY_FO_TYPE = info;
+
+        info = new TypeInfo();
+        info.setKey(COLOCATED_AOIDS_BY_AO_IDS_SEARCH_KEY);
+        info.setName("get AO ids that are colocated");
+        info.setDescr(new RichTextHelper().fromPlain("Returns AO ids that are colocated from a list of ao ids passed in"));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
+
+        COLOCATED_AOIDS_BY_AO_IDS_SEARCH_TYPE = info;
     }
 
     @Override
@@ -253,6 +263,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         if (AO_ID_AND_TYPE_BY_FO_SEARCH_KEY.equals(searchTypeKey)) {
             return AO_ID_AND_TYPE_BY_FO_TYPE;
         }
+        if (COLOCATED_AOIDS_BY_AO_IDS_SEARCH_KEY.equals(searchTypeKey)) {
+            return COLOCATED_AOIDS_BY_AO_IDS_SEARCH_TYPE;
+        }
         throw new DoesNotExistException("No Search Type Found for key:"+searchTypeKey);
     }
 
@@ -264,7 +277,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         return Arrays.asList(SCH_IDS_BY_AO_SEARCH_TYPE, AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE,
                 REG_GROUPS_BY_CO_ID_SEARCH_TYPE, AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE, COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE, FO_BY_CO_ID_SEARCH_TYPE,
                 RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE, AO_CODES_BY_CO_ID_SEARCH_TYPE, TERM_ID_BY_OFFERING_ID_SEARCH_TYPE, TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_TYPE,
-                AO_CLUSTER_COUNT_BY_FO_TYPE, AO_ID_AND_TYPE_BY_FO_TYPE);
+                AO_CLUSTER_COUNT_BY_FO_TYPE, AO_ID_AND_TYPE_BY_FO_TYPE, COLOCATED_AOIDS_BY_AO_IDS_SEARCH_TYPE);
     }
 
     @Override
@@ -307,9 +320,42 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         else if (AO_ID_AND_TYPE_BY_FO_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForAoIdAndTypeByFO(searchRequestInfo);
         }
+        else if (COLOCATED_AOIDS_BY_AO_IDS_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
+            return searchForColocatedAoIdsByAoIds(searchRequestInfo);
+        }
         else{
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
+    }
+
+    private SearchResultInfo searchForColocatedAoIdsByAoIds(SearchRequestInfo searchRequestInfo) {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        List<String> aoIdsList = requestHelper.getParamAsList(SearchParameters.AO_IDS);
+        String aoIds = commaString(aoIdsList);
+
+        String queryStr =
+                "SELECT DISTINCT srs1RefId FROM ScheduleRequestSetEntity srs1, " +
+                        "    ScheduleRequestSetEntity srs2, " +
+                        "    IN(srs1.refObjectIds) srs1RefId, " +
+                        "    IN(srs2.refObjectIds) srs2RefId " +
+                        "WHERE srs1.id = srs2.id " +
+                        "  AND srs1RefId != srs2RefId " +
+                        "  AND srs1RefId IN (:aoIds)";
+
+        TypedQuery<String> query = entityManager.createQuery(queryStr, String.class);
+        query.setParameter(SearchParameters.AO_IDS, aoIds);       // After updating an oracle driver the List binding is causing massive problems
+        List<String> results = query.getResultList();
+
+        for(String result : results){
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.AO_ID, result);
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
+
     }
 
     private SearchResultInfo searchForTotalMaxSeatsByAOIds(SearchRequestInfo searchRequestInfo) {

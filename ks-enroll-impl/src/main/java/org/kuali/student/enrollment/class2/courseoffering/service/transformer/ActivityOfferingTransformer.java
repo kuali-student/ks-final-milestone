@@ -18,10 +18,9 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl;
 import org.kuali.student.r2.core.class1.search.CoreSearchServiceImpl;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
-import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -48,7 +47,6 @@ public class ActivityOfferingTransformer {
      *
      * @param luiInfos                  the list of LuiInfos
      * @param lprService                the reference of LprService
-     * @param schedulingService         the reference of SchedulingService
      * @param context                   information containing the principalId and locale
      *                                  information about the caller of service operation
      * @return a list of ActivityOfferingInfos
@@ -59,7 +57,7 @@ public class ActivityOfferingTransformer {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public static List<ActivityOfferingInfo> luis2AOs(List<LuiInfo> luiInfos, LprService lprService, SchedulingService schedulingService, SearchService searchService, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    public static List<ActivityOfferingInfo> luis2AOs(List<LuiInfo> luiInfos, LprService lprService, SearchService searchService, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         if (luiInfos == null || luiInfos.isEmpty())
             return new ArrayList<ActivityOfferingInfo>(0);
 
@@ -100,12 +98,33 @@ public class ActivityOfferingTransformer {
 
         Map<String, Boolean> ao2TBAMap = getAo2TBAMap(luiIds, searchService, context);
 
+        List<String> colocatedAOIds = getColocatedAoIds(searchService, luiIds, context);
+
         for (LuiInfo luiInfo : luiInfos) {
-            aoInfos.add(lui2Activity(luiInfo, luiToInstructorsMap, scheduleIdsWithNonTBA, ao2TBAMap, schedulingService, context));
+            aoInfos.add(lui2Activity(luiInfo, luiToInstructorsMap, scheduleIdsWithNonTBA, ao2TBAMap, colocatedAOIds));
         }
 
 
         return aoInfos;
+    }
+
+    private static List<String> getColocatedAoIds(SearchService searchService, List<String> luiIds, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        List<String> colocatedAOIds = new ArrayList<String>();
+        //Create the search request
+        SearchRequestInfo request = new SearchRequestInfo("kuali.search.type.lui.searchForColocatedAoIdsByAoIds");
+        request.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_IDS, luiIds);
+        //Execute the search and parse params
+        SearchResultInfo result = searchService.search(request, context);
+        for(SearchResultRowInfo row : result.getRows()){
+            for(SearchResultCellInfo cell: row.getCells()){
+                if(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ID.equals(cell.getKey())){
+                    colocatedAOIds.add(cell.getValue());
+                    break;
+                }
+            }
+        }
+
+        return colocatedAOIds;
     }
 
     /**
@@ -164,8 +183,7 @@ public class ActivityOfferingTransformer {
                                                     Map<String, List<OfferingInstructorInfo>> luiToInstructorsMap,
                                                     List<String> scheduleIdsWithNonTBA,
                                                     Map<String, Boolean> ao2TBAMap,
-                                                    SchedulingService schedulingService,
-                                                    ContextInfo contextInfo ) throws PermissionDeniedException, InvalidParameterException, MissingParameterException, OperationFailedException {
+                                                    List<String> colocatedAOids ) throws PermissionDeniedException, InvalidParameterException, MissingParameterException, OperationFailedException {
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
         ao.setId(lui.getId());
         ao.setMeta(lui.getMeta());
@@ -179,7 +197,7 @@ public class ActivityOfferingTransformer {
         ao.setMaximumEnrollment(lui.getMaximumEnrollment());
         ao.setScheduleIds(new ArrayList<String>(lui.getScheduleIds()));
         ao.setActivityOfferingURL(lui.getReferenceURL());
-        ao.setIsColocated(isColocated(lui, schedulingService, contextInfo));
+        ao.setIsColocated(colocatedAOids.contains(lui.getId()));
 
         if (lui.getOfficialIdentifier() != null){
             ao.setActivityCode(lui.getOfficialIdentifier().getCode());
@@ -226,7 +244,7 @@ public class ActivityOfferingTransformer {
         return ao;
     }
 
-    public static void lui2Activity(ActivityOfferingInfo ao, LuiInfo lui, LprService lprService, SchedulingService schedulingService, SearchService searchService, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    public static void lui2Activity(ActivityOfferingInfo ao, LuiInfo lui, LprService lprService, SearchService searchService, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         ao.setId(lui.getId());
         ao.setMeta(lui.getMeta());
         ao.setStateKey(lui.getStateKey());
@@ -239,7 +257,9 @@ public class ActivityOfferingTransformer {
         ao.setMaximumEnrollment(lui.getMaximumEnrollment());
         ao.setScheduleIds(new ArrayList<String>(lui.getScheduleIds()));
         ao.setActivityOfferingURL(lui.getReferenceURL());
-        ao.setIsColocated(isColocated(lui, schedulingService, context));
+
+        List<String> colocatedAOIds = getColocatedAoIds(searchService, Arrays.asList(lui.getId()), context);
+        ao.setIsColocated(!colocatedAOIds.isEmpty());
 
         if (lui.getOfficialIdentifier() != null){
             ao.setActivityCode(lui.getOfficialIdentifier().getCode());
@@ -359,41 +379,6 @@ public class ActivityOfferingTransformer {
         info.setTypeKey(typeKey);
         lui.getLuiCodes().add(info);
         return info;
-    }
-
-    /**
-     * Indicates whether or not this Activity Offering is involved in a colocation relationship with other AOs by
-     * looking up associated ScheduleRequestSets and checking the ref object Id counts in each. If any of the counts
-     * are greater than one then the AO is considered colocated.
-     *
-     * @param lui
-     * @param schedulingService
-     * @param context
-     * @return
-     */
-    private static boolean isColocated(LuiInfo lui, SchedulingService schedulingService, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
-    {
-        if( lui == null ) {
-            throw new NullPointerException( "lui cannot be null" );
-        }
-        if( schedulingService == null ) {
-            throw new NullPointerException( "schedulingService cannot be null" );
-        }
-        if( context == null ) {
-            throw new NullPointerException( "context cannot be null" );
-        }
-
-        List<ScheduleRequestSetInfo> scheduleRequestSets = schedulingService.getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, lui.getId(), context);
-        if(scheduleRequestSets != null && !scheduleRequestSets.isEmpty()){
-            for(ScheduleRequestSetInfo srs : scheduleRequestSets){
-                if(srs.getRefObjectIds() != null && srs.getRefObjectIds().size() > 1) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 
     private static String getSchedulingState(ActivityOfferingInfo ao, SearchService searchService, ContextInfo context)
