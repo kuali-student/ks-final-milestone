@@ -15,20 +15,27 @@
  */
 package org.kuali.student.enrollment.class1.krms.builder;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.lum.lu.ui.krms.builder.CourseComponentBuilder;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 
+import javax.xml.namespace.QName;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,6 +44,9 @@ import java.util.Map;
 public class EnrolCourseComponentBuilder extends CourseComponentBuilder {
 
     private final static Logger LOG = Logger.getLogger(EnrolCourseComponentBuilder.class);
+    private transient AtpService atpService;
+    private transient CourseOfferingService courseOfferingService;
+    private AcademicCalendarService acalService = null;
 
     @Override
     public Map<String, String> buildTermParameters(LUPropositionEditor propositionEditor) {
@@ -49,14 +59,14 @@ public class EnrolCourseComponentBuilder extends CourseComponentBuilder {
             termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM_KEY, propositionEditor.getTermInfo().getId());
             termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERMCODE_KEY, propositionEditor.getTermCode());
             String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "termCode");
-            loadCourseOfferingsByTermAndCourseCode(propositionEditor.getTermInfo().getId(), propositionEditor.getCourseInfo().getCode(), propName);
+            loadCourseOfferingsByTermAndCourseCode(propositionEditor, propName);
         }
 
         if (propositionEditor.getTermInfo2() != null) {
             termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM2_KEY, propositionEditor.getTermInfo2().getId());
             termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERMCODE2_KEY, propositionEditor.getTermCode2());
             String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "termCode2");
-            loadCourseOfferingsByTermAndCourseCode(propositionEditor.getTermInfo2().getId(), propositionEditor.getCourseInfo().getCode(),propName );
+            loadCourseOfferingsByTermAndCourseCode(propositionEditor,propName );
         }
 
         return termParameters;
@@ -67,26 +77,82 @@ public class EnrolCourseComponentBuilder extends CourseComponentBuilder {
      * find THE course based on termId and courseCode. If find more than one CO or don't find
      * any CO, log and report an error message.
      *
-     * @param termId
-     * @param courseCode
+     * @param propositionEditor
+     * @param propName
      */
-    public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, String propName ) {
+    public void loadCourseOfferingsByTermAndCourseCode(LUPropositionEditor propositionEditor, String propName ) {
 
-        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey());
-        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.COURSE_CODE, courseCode);
-        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.ATP_ID, termId);
-        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.CROSS_LIST_SEARCH_ENABLED, BooleanUtils.toStringTrueFalse(true));
-
-        SearchResultInfo searchResult = null;
+        boolean foundPriorTerm = true;
+        boolean foundAsOfTerm = true;
+        boolean foundBetweenTerm = true;
+        List<CourseOfferingInfo> courseOfferings;
         try {
-            searchResult = getSearchService().search(searchRequest, ContextUtils.getContextInfo());
+            courseOfferings = this.getCourseOfferingService().getCourseOfferingsByCourse(propositionEditor.getCourseInfo().getId(), ContextUtils.createDefaultContextInfo());
+
+            for (CourseOfferingInfo courseOffering : courseOfferings) {
+
+                TermInfo term;
+                term = this.getAcalService().getTerm(courseOffering.getTermId(), ContextUtils.createDefaultContextInfo());
+
+                if (propositionEditor.getType().equals(KSKRMSServiceConstants.PROPOSITION_TYPE_SUCCESS_COMPL_PRIOR_TO_TERM)) {
+                    foundPriorTerm = false;
+                    if ((term.getEndDate().before(propositionEditor.getTermInfo().getEndDate()))) {
+                        foundPriorTerm = true;
+                        break;
+                    }
+                } else if (propositionEditor.getType().equals(KSKRMSServiceConstants.PROPOSITION_TYPE_SUCCESS_COMPL_COURSE_AS_OF_TERM)) {
+                    foundAsOfTerm = false;
+                    if ((term.getStartDate().after(propositionEditor.getTermInfo().getStartDate()))) {
+
+                        foundAsOfTerm = true;
+                        break;
+                    }
+                } else if (propositionEditor.getType().equals(KSKRMSServiceConstants.PROPOSITION_TYPE_SUCCESS_COMPL_COURSE_BETWEEN_TERMS)) {
+                    foundBetweenTerm = false;
+                    if ((term.getStartDate().before(propositionEditor.getTermInfo().getStartDate())) || (term.getStartDate().after(propositionEditor.getTermInfo2().getEndDate()))) {
+                        foundBetweenTerm = true;
+                        break;
+                    }
+                }
+
+            }
+
+        } catch (DoesNotExistException e) {
+            throw new RuntimeException("CO does not exist");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        if (searchResult.getRows().isEmpty()) {
-            LOG.error("Error: Can't find any Course Offering for a Course Code: " + courseCode + " in term: " + termId);
-            GlobalVariables.getMessageMap().putError(propName, CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND,  "Course Code",courseCode, termId);
+        if (!foundPriorTerm) {
+            GlobalVariables.getMessageMap().putError(propName, KRMSConstants.KSKRMS_MSG_ERROR_NO_PRIOR_COURSEOFFERING_TERM_FOUND, "Course", propositionEditor.getCourseInfo().getCode(), propositionEditor.getTermInfo().getName());
         }
+        if (!foundAsOfTerm) {
+            GlobalVariables.getMessageMap().putError(propName, KRMSConstants.KSKRMS_MSG_ERROR_NO_ASOF_COURSEOFFERING_TERM_FOUND, "Course", propositionEditor.getCourseInfo().getCode(), propositionEditor.getTermInfo().getName());
+        }
+        if (!foundBetweenTerm) {
+            GlobalVariables.getMessageMap().putError(propName, KRMSConstants.KSKRMS_MSG_ERROR_NO_BETWEEN_COURSEOFFERING_TERM_FOUND, "Course", propositionEditor.getCourseInfo().getCode(), propositionEditor.getTermInfo().getName(), propositionEditor.getTermInfo2().getName());
+        }
+    }
+
+    private AtpService getAtpService() {
+        if (atpService == null) {
+            atpService = CourseOfferingResourceLoader.loadAtpService();
+        }
+        return atpService;
+    }
+
+    private CourseOfferingService getCourseOfferingService() {
+        if (courseOfferingService == null) {
+            courseOfferingService = CourseOfferingResourceLoader.loadCourseOfferingService();
+        }
+        return courseOfferingService;
+    }
+
+    private AcademicCalendarService getAcalService() {
+        if (acalService == null) {
+            acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE,
+                    AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return acalService;
     }
 
 }
