@@ -782,10 +782,9 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
                     setRoomNameOnAoWrapper(sched, aoWrapper, newLine, cssStyle);
                     setBuildingNameAndCodeOnAoWrapper(sched, aoWrapper, newLine, cssStyle);
-                    setTimesAndDaysOnAoWrapper(sched, aoWrapper, newLine, cssStyle);
+                    setTimesAndDaysAndScheduledStateOnAoWrapper(sched, aoWrapper, newLine, cssStyle);
 
                     aoWrapper.setTbaDisplayName(sched.getTbaInd(), true);
-                    aoWrapper.setScheduledState(ActivityOfferingConstants.ACTIVITYOFFERING_SCHEDULE_STATE_UNSCHEDULED);
                 }
             }
         }
@@ -817,15 +816,15 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             aoWrapper.setBuildingName(bldgName, newline, "uif-scheduled-dl");
             aoWrapper.setBuildingCode(bldgCode, newline, "uif-scheduled-dl");
             aoWrapper.setBldgCodeSimple(bldgCode);
-            aoWrapper.setScheduledState(ActivityOfferingConstants.ACTIVITYOFFERING_SCHEDULE_STATE_UNSCHEDULED);
         }
     }
 
-    private void setTimesAndDaysOnAoWrapper(ScheduleRequestCalcContainer sched, ActivityOfferingWrapper aoWrapper, boolean newline, String cssStyle) {
+    private void setTimesAndDaysAndScheduledStateOnAoWrapper(ScheduleRequestCalcContainer sched, ActivityOfferingWrapper aoWrapper, boolean newline, String cssStyle) {
         if (sched.getTimeSlots() == null || sched.getTimeSlots().isEmpty()) {
             setStartTimeOnAoWrapper(null, aoWrapper, newline, cssStyle);
             setEndTimeOnAoWrapper(null, aoWrapper, newline, cssStyle);
             setDaysOnAoWrapper(null, aoWrapper, newline, cssStyle);
+            setScheduledStateOnAoWrapper(null, aoWrapper, newline, cssStyle);
             return;
         }
 
@@ -834,14 +833,21 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             setEndTimeOnAoWrapper(timeSlotInfo, aoWrapper, newline, cssStyle);
             setDaysOnAoWrapper(timeSlotInfo, aoWrapper, newline, cssStyle);
             if (timeSlotInfo != null) {
+                boolean timeAdded = false;
                 if (timeSlotInfo.getStartTime() != null && timeSlotInfo.getStartTime().getMilliSeconds() != null) {
                     aoWrapper.getStartTime().add(timeSlotInfo.getStartTime().getMilliSeconds().toString());
+                    timeAdded = true;
                 }
                 if (timeSlotInfo.getEndTime() != null && timeSlotInfo.getEndTime().getMilliSeconds() != null) {
                     aoWrapper.getEndTime().add(timeSlotInfo.getEndTime().getMilliSeconds().toString());
+                    timeAdded = true;
                 }
                 if (timeSlotInfo.getWeekdays() != null && !timeSlotInfo.getWeekdays().isEmpty()) {
                     aoWrapper.getWeekDays().add(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlotInfo.getWeekdays()));
+                    timeAdded = true;
+                }
+                if(timeAdded)  {
+                    setScheduledStateOnAoWrapper(timeSlotInfo, aoWrapper, newline, cssStyle);
                 }
             }
         }
@@ -854,7 +860,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             return;
         }
         aoWrapper.setStartTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(startTimeMillis), newline, "uif-scheduled-dl");
-        aoWrapper.setScheduledState(ActivityOfferingConstants.ACTIVITYOFFERING_SCHEDULE_STATE_UNSCHEDULED);
     }
 
     private void setEndTimeOnAoWrapper(TimeSlotInfo timeSlotInfo, ActivityOfferingWrapper aoWrapper, boolean newline, String cssStyle) {
@@ -864,7 +869,14 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             return;
         }
         aoWrapper.setEndTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(endTimeMillis), newline, "uif-scheduled-dl");
-        aoWrapper.setScheduledState(ActivityOfferingConstants.ACTIVITYOFFERING_SCHEDULE_STATE_UNSCHEDULED);
+    }
+
+    private void setScheduledStateOnAoWrapper(TimeSlotInfo timeSlotInfo, ActivityOfferingWrapper aoWrapper, boolean newline, String cssStyle) {
+         if (timeSlotInfo == null) {
+            aoWrapper.setScheduledState(StringUtils.EMPTY, newline, cssStyle);
+            return;
+        }
+        aoWrapper.setScheduledState(ActivityOfferingConstants.ACTIVITYOFFERING_SCHEDULE_STATE_UNSCHEDULED, newline, "uif-scheduled-dl");
     }
 
     private void setDaysOnAoWrapper(TimeSlotInfo timeSlotInfo, ActivityOfferingWrapper aoWrapper, boolean newline, String cssStyle) {

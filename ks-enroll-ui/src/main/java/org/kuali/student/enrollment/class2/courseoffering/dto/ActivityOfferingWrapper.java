@@ -557,6 +557,28 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         this.scheduledState = scheduledState;
     }
 
+    public void setScheduledState(String scheduledState,boolean appendForDisplay) {
+        if (appendForDisplay){
+            this.scheduledState = this.scheduledState + "<br>" + StringUtils.defaultString(scheduledState);
+        }else{
+            this.scheduledState = StringUtils.defaultString(scheduledState);
+        }
+    }
+    public void setScheduledState(String scheduledState,boolean appendForDisplay, String dlTypeClass) {
+        String cssClass = "";
+        if(!StringUtils.isEmpty(dlTypeClass)){
+            cssClass = "class=\"" + dlTypeClass + "\"";
+        }
+        if(StringUtils.isEmpty(this.scheduledState)){
+            appendForDisplay = false;
+        }
+        if (appendForDisplay){
+            this.scheduledState = this.scheduledState + "<br><span " + cssClass + " >" + scheduledState + "</span>";
+        }else{
+            this.scheduledState = "<span " + cssClass + " >" + scheduledState + "</span>";
+        }
+    }
+
     public String getStateName() {
         return stateName;
     }
