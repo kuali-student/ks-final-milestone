@@ -1943,7 +1943,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         for (ScheduleRequestInfo request : requests) {
             ScheduleInfo scheduleInfo = new ScheduleInfo();
 
-            // short cut the submission to the scheduler, and just translate requested Scheduling Information to actual Scheduling Information
+            // short cut the submission to the scheduler, and just translate the schedule request components to actuals
             SchedulingServiceUtil.requestToSchedule(request, scheduleInfo,getRoomService(),contextInfo);
 
             scheduleInfo.setAtpId(aoInfo.getTermId());
