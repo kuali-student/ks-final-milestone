@@ -4,8 +4,6 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.ComparatorModel;
@@ -77,6 +75,7 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
 
     private SocInfo socInfo;
 
+    private String scheduledState = "";
     private String startTimeDisplay = "";
     private String endTimeDisplay = "";
     private String daysDisplayName = "";
@@ -550,6 +549,13 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         isCheckedByCluster = checkedByCluster;
     }
 
+    public String getScheduledState() {
+        return scheduledState;
+    }
+
+    public void setScheduledState(String scheduledState) {
+        this.scheduledState = scheduledState;
+    }
 
     public String getStateName() {
         return stateName;

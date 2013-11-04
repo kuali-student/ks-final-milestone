@@ -193,6 +193,9 @@
                       p:label="MAX ENR"
                       p:propertyName="aoInfo.maximumEnrollment"/>
                 <bean parent="Uif-MessageField"
+                      p:label="SCHEDULING"
+                      p:messageText="@{#line.scheduledState}" />
+                <bean parent="Uif-MessageField"
                       p:label="DAYS"
                       p:messageText="@{#line.daysDisplayName}" />
                 <bean parent="Uif-MessageField"
@@ -304,6 +307,9 @@
                       p:label="MAX ENR"
                       p:messageText="@{#line.aoMaxEnrText}">
                 </bean>
+                <bean parent="Uif-MessageField"
+                      p:label="SCHEDULING"
+                      p:messageText="@{#line.scheduledState}" />
                 <bean parent="Uif-MessageField"
                       p:label="DAYS"
                       p:messageText="@{#line.daysDisplayName}">

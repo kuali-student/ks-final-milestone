@@ -15,8 +15,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.util;
 
-import org.kuali.rice.krad.util.ErrorMessage;
-
 /**
  * This class defines constants related to the Activity Offering ui
  *
@@ -29,6 +27,8 @@ public class ActivityOfferingConstants {
     public final static String ACTIVITYOFFERING_TERM_CODE = "termCode";
     public final static String ACTIVITYOFFERING_COURSE_OFFERING_ID = "courseOfferingId";
     public final static String ACTIVITYOFFERING_COURSE_OFFERING_CODE = "courseOfferingCode";
+    public final static String ACTIVITYOFFERING_SCHEDULE_STATE_SCHEDULED = "Scheduled";
+    public final static String ACTIVITYOFFERING_SCHEDULE_STATE_UNSCHEDULED = "Unscheduled";
 
     public static final String ATP_CODE = "atpCode";
     public static final String ACTIVITY_OFFERING_WRAPPER_ID = "aoInfo.id";

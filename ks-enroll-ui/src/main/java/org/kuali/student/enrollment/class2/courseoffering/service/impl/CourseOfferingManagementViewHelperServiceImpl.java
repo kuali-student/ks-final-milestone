@@ -49,6 +49,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleRequestCal
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.ActivityOfferingResult;
+import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementToolbarUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
@@ -768,6 +769,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     aoWrapper.setRoomName(sched.getRoomCode(), newRow);
                     aoWrapper.setDaysDisplayName(sched.getWeekdays(), newRow);
                     aoWrapper.setTbaDisplayName(sched.getTbaInd(), newRow);
+                    aoWrapper.setScheduledState(ActivityOfferingConstants.ACTIVITYOFFERING_SCHEDULE_STATE_SCHEDULED);
                     newRow = true;
                 }
 
@@ -783,6 +785,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     setTimesAndDaysOnAoWrapper(sched, aoWrapper, newLine, cssStyle);
 
                     aoWrapper.setTbaDisplayName(sched.getTbaInd(), true);
+                    aoWrapper.setScheduledState(ActivityOfferingConstants.ACTIVITYOFFERING_SCHEDULE_STATE_UNSCHEDULED);
                 }
             }
         }
@@ -814,7 +817,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             aoWrapper.setBuildingName(bldgName, newline, "uif-scheduled-dl");
             aoWrapper.setBuildingCode(bldgCode, newline, "uif-scheduled-dl");
             aoWrapper.setBldgCodeSimple(bldgCode);
-
+            aoWrapper.setScheduledState(ActivityOfferingConstants.ACTIVITYOFFERING_SCHEDULE_STATE_UNSCHEDULED);
         }
     }
 
@@ -851,6 +854,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             return;
         }
         aoWrapper.setStartTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(startTimeMillis), newline, "uif-scheduled-dl");
+        aoWrapper.setScheduledState(ActivityOfferingConstants.ACTIVITYOFFERING_SCHEDULE_STATE_UNSCHEDULED);
     }
 
     private void setEndTimeOnAoWrapper(TimeSlotInfo timeSlotInfo, ActivityOfferingWrapper aoWrapper, boolean newline, String cssStyle) {
@@ -860,6 +864,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             return;
         }
         aoWrapper.setEndTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(endTimeMillis), newline, "uif-scheduled-dl");
+        aoWrapper.setScheduledState(ActivityOfferingConstants.ACTIVITYOFFERING_SCHEDULE_STATE_UNSCHEDULED);
     }
 
     private void setDaysOnAoWrapper(TimeSlotInfo timeSlotInfo, ActivityOfferingWrapper aoWrapper, boolean newline, String cssStyle) {
@@ -927,6 +932,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 rgWrapper.setStartTimeDisplay("");
                 rgWrapper.setEndTimeDisplay("");
                 rgWrapper.setDaysDisplayName("");
+                rgWrapper.setScheduledState("");
                 rgWrapper.setRoomName("");
                 rgWrapper.setBuildingName("");
                 rgWrapper.setBuildingCode("");
@@ -1046,6 +1052,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 rgWrapper.setStartTimeDisplay(rgWrapper.getStartTimeDisplay() + (newLine ? "<br/>" : "") + aoWrapper.getStartTimeDisplay() + lineBreaksInstructors);
                 rgWrapper.setEndTimeDisplay(rgWrapper.getEndTimeDisplay() + (newLine ? "<br/>" : "") + aoWrapper.getEndTimeDisplay() + lineBreaksInstructors);
                 rgWrapper.setDaysDisplayName(rgWrapper.getDaysDisplayName() + (newLine ? "<br/>" : "") + aoWrapper.getDaysDisplayName() + lineBreaksInstructors);
+                rgWrapper.setScheduledState(rgWrapper.getScheduledState() + (newLine ? "<br/>" : "") + aoWrapper.getScheduledState() + lineBreaksInstructors);
                 rgWrapper.setRoomName(rgWrapper.getRoomName() + (newLine ? "<br/>" : "") + aoWrapper.getRoomName() + lineBreaksInstructors);
                 rgWrapper.setBuildingName(rgWrapper.getBuildingName() + (newLine ? "<br/>" : "") + aoWrapper.getBuildingName() + lineBreaksInstructors);
                 rgWrapper.setBuildingCodeWithTooltip(aoWrapper.getBldgCodeSimple(), aoWrapper.getBuildingName(), (newLine ? "<br/>" : ""));

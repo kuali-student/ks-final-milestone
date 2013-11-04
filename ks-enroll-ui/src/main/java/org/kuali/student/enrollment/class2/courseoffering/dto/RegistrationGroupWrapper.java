@@ -47,6 +47,7 @@ public class RegistrationGroupWrapper implements Serializable, ComparatorModel {
     private String rgMaxEnrText;
     private String aoClusterName;
     private String aoEditLink;
+    private String scheduledState = "";
     private String startTimeDisplay = "";
     private String endTimeDisplay = "";
     private String daysDisplayName = "";
@@ -243,6 +244,33 @@ public class RegistrationGroupWrapper implements Serializable, ComparatorModel {
 
     public void setEndTime(List<String> endTime) {
         this.endTime = endTime;
+    }
+
+    public String getScheduledState() {
+        return scheduledState;
+    }
+
+    public void setScheduledState(String scheduledState) {
+        setScheduledState(scheduledState, false);
+    }
+
+    public void setScheduledState(String scheduledState,boolean appendForDisplay) {
+        setScheduledState(scheduledState, false, null);
+    }
+
+    public void setScheduledState(String scheduledState,boolean appendForDisplay, String dlTypeClass) {
+        String cssClass = "";
+        if(!StringUtils.isEmpty(dlTypeClass)){
+            cssClass = "class=\"" + dlTypeClass + "\"";
+        }
+        if(StringUtils.isEmpty(this.scheduledState)){
+            appendForDisplay = false;
+        }
+        if (appendForDisplay){
+            this.scheduledState = this.scheduledState + "<br><span " + cssClass + " >" + scheduledState + "</span>";
+        }else{
+            this.scheduledState = "<span " + cssClass + " >" + scheduledState + "</span>";
+        }
     }
 
     public List<String> getWeekDays() {
