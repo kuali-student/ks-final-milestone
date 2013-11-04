@@ -51,7 +51,7 @@ function handleButtons(hiddenColumnsMap, buttonsMap) {
 
 function handleButton(arr, id) {
     if(jQuery.isEmptyObject(arr)){
-        disableButton(id);
+        disableTBButton(id);
     } else{
         evaluateButton(arr, id);
     }
@@ -61,11 +61,11 @@ function evaluateButton(arr, id){
     if(jQuery.inArray("true", arr) != -1){
         enableButton(id);
     } else{
-        disableButton(id);
+        disableTBButton(id);
     }
 }
 
-function enableButton(id){
+function enableTBButton(id){
     jQuery("#" + id).removeClass('disabled');
     jQuery("#" + id).removeAttr("disabled");
     var img = jQuery("#" + id).find('img') ,
@@ -78,7 +78,7 @@ function enableButton(id){
 
 }
 
-function disableButton(id){
+function disableTBButton(id){
     jQuery("#" + id).addClass("disabled");
     jQuery("#" + id).attr("disabled", "disabled");
     var img = jQuery("#" + id).find('img') ,
@@ -106,5 +106,21 @@ function decorateToolbar(id) {
             }
             firstItem = false;
         });
+    }
+}
+
+/*
+    Use Glyph Icons insstead of images.
+    This removes an image with a given class name and adds the class to the span containing the image.
+ */
+function replaceImageWithGlyph(containerId, className) {
+    var container = jQuery("#" + containerId);
+    var image = jQuery(container).find('img.' + className);
+    if (image.length) {
+        var span = jQuery(image).parents('span');
+        if (span.length) {
+            span.addClass(className);
+        }
+        jQuery(image).remove();
     }
 }

@@ -111,40 +111,46 @@
     </bean>
 
     <bean id="KS-KitchenSink-ToolBar-Add-parent" parent="KS-Uif-ToolBar-Button">
+        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-plus-1');"/>
         <property name="actionLabel" value="Add Course"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#parent.disabled ? #ConfigProperties['ks.externalizable.images.url']+'/toolbar/add_disabled.png' : #ConfigProperties['ks.externalizable.images.url']+'/toolbar/add_enabled.png'}"/>
+            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-plus-1"/>
         </property>
     </bean>
     <bean id="KS-KitchenSink-ToolBar-Approve-parent" parent="KS-Uif-ToolBar-Button">
+        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-ok');"/>
         <property name="actionLabel" value="Approve"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#parent.disabled ? #ConfigProperties['ks.externalizable.images.url']+'/toolbar/approve_disabled.png' : #ConfigProperties['ks.externalizable.images.url']+'/toolbar/approve_enabled.png'}"/>
+            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-ok"/>
         </property>
     </bean>
     <bean id="KS-KitchenSink-ToolBar-Delete-parent" parent="KS-Uif-ToolBar-Button">
+        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-cancel');"/>
         <property name="actionLabel" value="Delete"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#parent.disabled ? #ConfigProperties['ks.externalizable.images.url']+'/toolbar/delete_disabled.png' : #ConfigProperties['ks.externalizable.images.url']+'/toolbar/delete_enabled.png'}"/>
+            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-cancel"/>
         </property>
     </bean>
 
     <bean id="KS-KitchenSink-ToolBar-Draft-parent" parent="KS-Uif-ToolBar-Button">
+        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-doc-text');"/>
         <property name="actionLabel" value="Set as Draft"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#parent.disabled ? #ConfigProperties['ks.externalizable.images.url']+'/toolbar/draft_disabled.png' : #ConfigProperties['ks.externalizable.images.url']+'/toolbar/draft_enabled.png'}"/>
+            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-doc-text"/>
         </property>
     </bean>
     <bean id="KS-KitchenSink-ToolBar-AddCluster-parent" parent="KS-Uif-ToolBar-Button">
+        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-doc-add');"/>
         <property name="actionLabel" value="Add Cluster"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#parent.disabled ? #ConfigProperties['ks.externalizable.images.url']+'/toolbar/add_cluster.png' : #ConfigProperties['ks.externalizable.images.url']+'/toolbar/add_cluster.png'}"/>
+            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-doc-add"/>
         </property>
     </bean>
     <bean id="KS-KitchenSink-ToolBar-MoveTo-parent" parent="KS-Uif-ToolBar-Button">
+        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-right-small');"/>
         <property name="actionLabel" value="Move Activity"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#parent.disabled ? #ConfigProperties['ks.externalizable.images.url']+'/toolbar/move_to_cluster.png' : #ConfigProperties['ks.externalizable.images.url']+'/toolbar/move_to_cluster.png'}"/>
+            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-right-small"/>
         </property>
     </bean>
 

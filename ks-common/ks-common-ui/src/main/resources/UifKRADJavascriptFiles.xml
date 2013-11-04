@@ -29,6 +29,7 @@
         <property name="cssFiles">
             <list>
                 <value>themes/ksboot/stylesheets/ksboot.css</value>
+                <value>themes/ksboot/stylesheets/fontello.css</value>
                 <value>plugins/jqueryUI/jquery-ui-1.9.2.css</value>
                 <value>plugins/menu/tabs.css</value>
                 <value>plugins/jgrowl/jquery.jgrowl.css</value>
