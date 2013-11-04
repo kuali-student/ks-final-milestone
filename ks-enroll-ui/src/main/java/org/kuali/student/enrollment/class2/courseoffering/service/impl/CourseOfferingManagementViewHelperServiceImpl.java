@@ -2022,10 +2022,10 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                                     aoDisplayWrapper.setRoomName(scheduleComponentDisplay.getRoom().getRoomCode(), true);
                                 }
                                 if (!scheduleComponentDisplay.getTimeSlots().isEmpty()) {
-                                    if (scheduleComponentDisplay.getTimeSlots().get(0).getStartTime() != null) {
+                                    if (scheduleComponentDisplay.getTimeSlots().get(0).getStartTime() != null && (scheduleComponentDisplay.getTimeSlots().get(0).getStartTime().getMilliSeconds() !=null)) {
                                         aoDisplayWrapper.setStartTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getStartTime().getMilliSeconds()), true);
                                     }
-                                    if (scheduleComponentDisplay.getTimeSlots().get(0).getEndTime() != null) {
+                                    if (scheduleComponentDisplay.getTimeSlots().get(0).getEndTime() != null && (scheduleComponentDisplay.getTimeSlots().get(0).getEndTime().getMilliSeconds() != null) ) {
                                         aoDisplayWrapper.setEndTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getEndTime().getMilliSeconds()), true);
                                     }
                                     aoDisplayWrapper.setDaysDisplayName(getDays(scheduleComponentDisplay.getTimeSlots().get(0).getWeekdays()), true);
