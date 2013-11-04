@@ -47,6 +47,9 @@ public class KRMSConstants {
     public static final String KRMS_MSG_ERROR_PRECEDE_CONDITION = "error.krms.logic.precede.condition";
     public static final String KRMS_MSG_ERROR_FOLLOW_CONDITION = "error.krms.logic.follow.condition";
     public static final String KRMS_MSG_ERROR_RULE_PREVIEW = "error.krms.rule.preview";
+    public static final String KSKRMS_MSG_ERROR_NO_PRIOR_COURSEOFFERING_TERM_FOUND = "error.enroll.courseoffering.noPriorTermCourseOfferingIsFound";
+    public static final String KSKRMS_MSG_ERROR_NO_ASOF_COURSEOFFERING_TERM_FOUND = "error.enroll.courseoffering.noAsOfTermCourseOfferingIsFound";
+    public static final String KSKRMS_MSG_ERROR_NO_BETWEEN_COURSEOFFERING_TERM_FOUND = "error.enroll.courseoffering.noBetweenTermsCourseOfferingIsFound";
 
     // Final Exams Message Keys
     public static final String KRMS_MSG_ERROR_RULE_UPDATE = "error.krms.rule.update";
