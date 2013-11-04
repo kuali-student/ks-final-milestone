@@ -18,13 +18,18 @@ package org.kuali.student.cm.course.service.impl;
 import static org.kuali.student.logging.FormattedLogger.error;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
@@ -703,6 +708,25 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
         return loDisplayWrapperModel;
     }
     
+    @Override
+    protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+        if (addLine instanceof CluInstructorInfoWrapper) {
+            CluInstructorInfoWrapper instructorWrapper = (CluInstructorInfoWrapper)addLine;
+            
+            if (model instanceof MaintenanceDocumentForm) {
+                MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm)model;
+                CourseInfoMaintainable courseInfoMaintainable = (CourseInfoMaintainable)modelForm.getDocument().getNewMaintainableObject();
+                for (CluInstructorInfoWrapper instructor : courseInfoMaintainable.getInstructorWrappers()) {
+                    if (instructor.getDisplayName().equals(instructorWrapper.getDisplayName())) {
+                        return false; //already in the list
+                    }
+                }
+            }
+            return StringUtils.isNotEmpty(instructorWrapper.getDisplayName()) ? true : false;
+        }
+        return true;
+    }
+    
     protected SearchService getSearchService() {
         if (searchService == null) {
             searchService = GlobalResourceLoader.getService(new QName(LookupableConstants.NAMESPACE_PERSONSEACH, LookupableConstants.PERSONSEACH_SERVICE_NAME_LOCAL_PART));
@@ -738,6 +762,8 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
                 .getService(new QName("http://student.kuali.org/wsdl/organization","OrganizationService"));
         }
         return organizationService;
-    }    
+    }
+
+
     
 }

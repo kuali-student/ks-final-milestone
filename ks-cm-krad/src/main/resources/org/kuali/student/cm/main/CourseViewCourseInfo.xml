@@ -80,8 +80,11 @@
 					<property name="items">
 						<list>
 							<bean id="KS-SubjectArea-Field" parent="Uif-InputField-LabelTop"
-								p:label="Subject Code" p:propertyName="course.subjectArea">
-								<property name="constraintText" value="Must be a 4 letter code" />
+								p:label="Subject Code" p:propertyName="course.subjectArea" p:required="true">
+								<property name="fieldLabel.requiredMessage">
+                                    <bean parent="Uif-RequiredMessage" p:messageText="Required on Submit" />
+                                </property>
+                                <property name="constraintText" value="Must be a 4 letter code" />
 								<property name="validCharactersConstraint">
 									<bean parent="AlphaPatternConstraint" />
 								</property>
@@ -142,19 +145,35 @@
 					</property>
 					<property name="items">
 						<list>
-							<bean parent="Uif-InputField" p:propertyName="displayName">
+							<bean id="KS-Instructor-displayName" parent="Uif-InputField" p:propertyName="displayName">
 								<property name="control">
 									<bean parent="Uif-TextControl" p:size="50" />
 								</property>
 								<property name="suggest">
-									<bean parent="Uif-Suggest" p:render="true">
-										<property name="valuePropertyName" value="displayName" />
-										<property name="templateOptions" value="minLength:1,delay:0" />
-										<property name="suggestQuery">
-											<bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getInstructorsForSuggest" />
-										</property>
-									</bean>
-								</property>
+                                    <bean parent="Uif-Suggest" p:render="true">
+                                        <property name="valuePropertyName" value="displayName" />
+                                        <property name="templateOptions">
+                                            <map>
+                                                <entry key="minLength" value="1" />
+                                                <entry key="delay" value="0" />
+                                                <entry key="change">
+                                                    <value>
+                                                        function(event, ui) {
+                                                            if (ui.item==null) {
+                                                                jQuery(this).val('');
+                                                                jQuery(this).focus();
+                                                            }
+                                                        }
+                                                    </value>
+                                                </entry>
+                                            </map>
+                                        </property>
+                                        <property name="suggestQuery">
+                                            <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getInstructorsForSuggest"
+                                                p:queryMethodArgumentFieldList="" />
+                                        </property>
+                                    </bean>
+                                </property>
 								<property name="quickfinder">
 									<bean parent="Uif-QuickFinder">
 										<property name="quickfinderAction">
@@ -189,7 +208,15 @@
 					<property name="items">
 						<list>
 							<bean parent="Uif-InputField-LabelTop" p:label="Description"
-								p:propertyName="course.descr.plain">
+								p:propertyName="course.descr.plain" p:required="true">
+                                <property name="fieldLabel.requiredMessage">
+                                    <bean parent="Uif-RequiredMessage" p:messageText="Required on Submit" />
+                                </property>
+                                <property name="cssClasses">
+                                    <list>
+                                        <value>uif-label</value>
+                                    </list>
+                                </property>
 								<property name="instructionalText"
 									value="This description will appear in the catalog." />
 								<property name="control">
@@ -197,8 +224,11 @@
 								</property>
 							</bean>
 							<bean id="KS-ProposalRationale" parent="Uif-InputField-LabelTop" p:label="Proposal Rationale"
-								p:propertyName="proposal.rationale.plain">
-								<property name="instructionalText"
+								p:propertyName="proposal.rationale.plain" p:required="true">
+								<property name="fieldLabel.requiredMessage">
+                                    <bean parent="Uif-RequiredMessage" p:messageText="Required on Submit" />
+                                </property>
+                                <property name="instructionalText"
 									value="This will be used in evaluating the proposal. It will not be published in the catalog." />
 								<property name="control">
 									<bean parent="Uif-LargeTextAreaControl">
