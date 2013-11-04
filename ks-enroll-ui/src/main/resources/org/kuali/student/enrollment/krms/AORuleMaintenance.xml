@@ -269,7 +269,7 @@ limitations under the License.
     <bean id="KSAO-RuleView-Link" parent="KS-Uif-ActionLink" p:actionLabel="View Catalog and Course Offering Rule"
           p:methodToCall="viewCoAndCluRules" p:componentSecurity.performActionAuthz="true" p:actionEvent="compare"/>
 
-    <bean id="KSAO-RuleCopyEdit-Link" parent="KS-Uif-ActionLink" p:actionLabel="Copy and  Edit Course Offering Rule"
+    <bean id="KSAO-RuleCopyEdit-Link" parent="KS-Uif-NavigationActionLink" p:actionLabel="Copy and  Edit Course Offering Rule"
           p:methodToCall="copyEditCoRule" p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditRequisite">
         <property name="toolTip">
             <bean parent="Uif-Tooltip" p:tooltipContent="Modify existing rule to apply to this Activity Offering"/>
@@ -284,7 +284,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KSAO-AddRule-Link" parent="KS-Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
+    <bean id="KSAO-AddRule-Link" parent="KS-Uif-NavigationActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
           p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditRequisite"
           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" />
 
