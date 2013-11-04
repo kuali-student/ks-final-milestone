@@ -35,6 +35,7 @@ import org.kuali.student.r2.core.room.dao.BuildingServiceDao;
 import org.kuali.student.r2.core.room.dao.RoomResponsibleOrgDao;
 import org.kuali.student.r2.core.room.dao.RoomServiceDao;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
+import org.kuali.student.r2.core.room.dto.PartitionInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.dto.RoomResponsibleOrgInfo;
 import org.kuali.student.r2.core.room.model.RoomBuildingEntity;
@@ -45,6 +46,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.jws.WebParam;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -1345,6 +1347,214 @@ public class RoomServiceImpl implements RoomService {
     public void setRoomResponsibleOrgDao(RoomResponsibleOrgDao roomResponsibleOrgDao) {
         this.roomResponsibleOrgDao = roomResponsibleOrgDao;
     }
+
+	@Override
+	public List<String> getBuildingIdsByType(String buildingTypeKey,
+			ContextInfo contextInfo) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// intended to be implemented during M9
+		throw new UnsupportedOperationException("not implemented.");
+	}
+
+	@Override
+	public PartitionInfo getPartition(String partitionId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// intended to be implemented during M9
+		throw new UnsupportedOperationException("not implemented.");
+	}
+
+	@Override
+	public List<PartitionInfo> getPartitionsByIds(List<String> partitionIds,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// intended to be implemented during M9
+		throw new UnsupportedOperationException("not implemented.");
+	}
+
+	@Override
+	public List<String> getPartitionIdsByType(String partitionTypeKey,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// intended to be implemented during M9
+		throw new UnsupportedOperationException("not implemented.");
+	}
+
+	@Override
+	public List<String> getBuildingIdsByPartition(String partitionId,
+			ContextInfo contextInfo) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// intended to be implemented during M9
+		throw new UnsupportedOperationException("not implemented.");
+	}
+
+	@Override
+	public List<BuildingInfo> getBuildingsByPartition(String partitionId,
+			ContextInfo contextInfo) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// intended to be implemented during M9
+		throw new UnsupportedOperationException("not implemented.");
+	}
+
+	@Override
+	public List<String> getPartitionIdsByBuilding(String buildingId,
+			ContextInfo contextInfo) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// intended to be implemented during M9
+		throw new UnsupportedOperationException("not implemented.");
+	}
+
+	@Override
+	public List<PartitionInfo> getPartitionsByBuilding(String buildingId,
+			ContextInfo contextInfo) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// intended to be implemented during M9
+		throw new UnsupportedOperationException("not implemented.");
+	}
+
+	@Override
+	public List<String> getRoomIdsByPartition(String partitionId,
+			ContextInfo contextInfo) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// intended to be implemented during M9
+		throw new UnsupportedOperationException("not implemented.");
+	}
+
+	@Override
+	public List<RoomInfo> getRoomsByPartition(String partitionId,
+			ContextInfo contextInfo) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// intended to be implemented during M9
+		throw new UnsupportedOperationException("not implemented.");
+	}
+
+	@Override
+	public List<String> getPartitionIdsByRoom(String roomId,
+			ContextInfo contextInfo) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// intended to be implemented during M9
+		throw new UnsupportedOperationException("not implemented.");
+	}
+
+	@Override
+	public List<PartitionInfo> getPartitionsByRoom(String roomId,
+			ContextInfo contextInfo) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// intended to be implemented during M9
+		throw new UnsupportedOperationException("not implemented.");
+	}
+
+	@Override
+	public List<String> searchForPartitionIds(QueryByCriteria criteria,
+			ContextInfo contextInfo) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// intended to be implemented during M9
+		throw new UnsupportedOperationException("not implemented.");
+	}
+
+	@Override
+	public List<PartitionInfo> searchForPartitions(QueryByCriteria criteria,
+			ContextInfo contextInfo) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// intended to be implemented during M9
+		throw new UnsupportedOperationException("not implemented.");
+	}
+
+	@Override
+	public List<ValidationResultInfo> validatePartition(
+			String partitionTypeKey, String validationTypeKey,
+			PartitionInfo partitionInfo, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// intended to be implemented during M9
+		throw new UnsupportedOperationException("not implemented.");
+	}
+
+	@Override
+	public PartitionInfo createPartition(String partitionTypeKey,
+			PartitionInfo partitionInfo, ContextInfo contextInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			ReadOnlyException {
+		// intended to be implemented during M9
+		throw new UnsupportedOperationException("not implemented.");
+	}
+
+	@Override
+	public PartitionInfo updatePartition(String partitionId,
+			PartitionInfo partitionInfo, ContextInfo contextInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			ReadOnlyException, VersionMismatchException {
+		// intended to be implemented during M9
+		throw new UnsupportedOperationException("not implemented.");
+	}
+
+	@Override
+	public StatusInfo deletePartition(String partitionId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// intended to be implemented during M9
+		throw new UnsupportedOperationException("not implemented.");
+	}
+
+	@Override
+	public StatusInfo addBuildingToPartition(String partitionId,
+			String buildingId, ContextInfo contextInfo)
+			throws AlreadyExistsException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// intended to be implemented during M9
+		throw new UnsupportedOperationException("not implemented.");
+	}
+
+	@Override
+	public StatusInfo removeBuildingFromPartition(String partitionId,
+			String buildingId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// intended to be implemented during M9
+		throw new UnsupportedOperationException("not implemented.");
+	}
+
+	@Override
+	public StatusInfo addRoomToPartition(String partitionId, String roomId,
+			ContextInfo contextInfo) throws AlreadyExistsException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// intended to be implemented during M9
+		throw new UnsupportedOperationException("not implemented.");
+	}
+
+	@Override
+	public StatusInfo removeRoomFromPartition(String partitionId,
+			String roomId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// intended to be implemented during M9
+		throw new UnsupportedOperationException("not implemented.");
+	}
 
 
 }
