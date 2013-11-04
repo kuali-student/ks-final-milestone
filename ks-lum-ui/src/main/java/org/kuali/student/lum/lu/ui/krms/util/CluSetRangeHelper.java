@@ -50,7 +50,7 @@ public class CluSetRangeHelper implements Serializable {
     public static final String COURSE_RANGE_LEARNING_OBJECTIVES = "2";
     public static final String COURSE_RANGE_EFFECTIVE_DATE = "3";
 
-    public static final String COURSE_RANGE_COURSE_NUMBER_LBL = "Course Number";
+    public static final String COURSE_RANGE_COURSE_NUMBER_LBL = "Course Number Range";
     public static final String COURSE_RANGE_LEARNING_OBJECTIVE_LBL = "Learning Objective";
     public static final String COURSE_RANGE_EFFECTIVE_DATE_LBL = "Effective Date Range";
 
