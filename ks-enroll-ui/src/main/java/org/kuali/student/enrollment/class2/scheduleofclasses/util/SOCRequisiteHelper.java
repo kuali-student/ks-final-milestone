@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Helper class for building the requisites for display on Schedule of Classes screens
@@ -78,7 +77,7 @@ public class SOCRequisiteHelper {
      * @param activityOfferingWrapperList
      */
     public void loadRequisites(List<ActivityOfferingWrapper> activityOfferingWrapperList) {
-        Map<String, String> overriddenRules = new TreeMap<String, String>();
+        Map<String, String> overriddenRules = new HashMap<String, String>();
 
         //Populate map of overridden CO requisites
         for (String ruleType : ruleTypes) {
@@ -132,7 +131,7 @@ public class SOCRequisiteHelper {
                             reqWrapper.getAoRequisiteMap().get(aoEntry.getKey()).put(ruleType, aoRequisite);
                             continue;
                         }
-                        Map<String, String> temp = new TreeMap<String, String>();
+                        Map<String, String> temp = new HashMap<String, String>();
                         temp.put(ruleType, aoRequisite);
                         reqWrapper.getAoRequisiteMap().put(aoEntry.getKey(), temp);
                     }
