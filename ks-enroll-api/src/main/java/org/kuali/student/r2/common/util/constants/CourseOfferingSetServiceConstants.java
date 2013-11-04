@@ -140,7 +140,7 @@ public class CourseOfferingSetServiceConstants {
     public static final String ROLLOVER_ASSIST_ID_DYNATTR_KEY = "kuali.rollover.context.att.rollover.assist.id";
 
     // KSENROLL-9460 Option key to continue without generating examofferings
-    public static final String CONTINUE_WITHOUT_EXAM_OFFERINGS_OPTION_KEY = "kuali.rollover.option.contunue.without.exam.offerings";
+    public static final String CONTINUE_WITHOUT_EXAM_OFFERINGS_OPTION_KEY = "kuali.rollover.option.continue.without.exam.offerings";
 
     // dynamic attributes for rollover info
     public static final String CO_CREATED_RESULT_DYNATTR_KEY = "kuali.soc.rollover.result.dynattr.course.offerings.created";
