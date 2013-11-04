@@ -38,7 +38,7 @@ limitations under the License.
                             <property name="actionScript" value="updateProposition('updateProposition', 'KRMS-RuleEditor-TreeGroup');"/>
                         </bean>
                         <bean id="KS-CancelProp-Button" parent="KS-Uif-ActionLink"
-                              p:style="margin-left: 0.5em;margin-top: 0.3em;color: #0088cc;">
+                              p:style="margin-left: 0.5em;margin-top: 0.3em;">
                             <property name="actionLabel" value="Cancel"/>
                             <property name="actionScript" value="updateProposition('cancelEditProposition', 'KRMS-RuleEditor-TreeGroup');"/>
                         </bean>
