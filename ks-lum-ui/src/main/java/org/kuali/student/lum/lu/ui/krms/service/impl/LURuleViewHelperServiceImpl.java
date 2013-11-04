@@ -278,6 +278,9 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
                 collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
                 GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_COURSE_REQUIRED);
                 return false;
+            } else {
+                // convert term-code to UPPERCASE
+                clu.setCode(clu.getCode().toUpperCase());
             }
 
             CluInformation searchClu = this.getCluInfoHelper().getCluInfoForCode(clu.getCode());

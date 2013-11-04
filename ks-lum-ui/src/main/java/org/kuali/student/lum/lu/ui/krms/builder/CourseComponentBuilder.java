@@ -121,20 +121,24 @@ public class CourseComponentBuilder extends CluComponentBuilder {
     @Override
     public void validate(LUPropositionEditor propositionEditor) {
 
-        if((propositionEditor.getCourseInfo().getCode()==null)||(propositionEditor.getCourseInfo().getCode().isEmpty())){
+        CourseInfo course = propositionEditor.getCourseInfo();
+        if((course.getCode()==null)||(course.getCode().isEmpty())){
             String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "courseInfo.code");
             GlobalVariables.getMessageMap().putErrorForSectionId(propName, LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_COURSE_REQUIRED);
+        } else {
+            // convert term-code to UPPERCASE
+            course.setCode(course.getCode().toUpperCase());
         }
 
-        CluInformation searchClu = this.getCluInfoHelper().getCluInfoForCode(propositionEditor.getCourseInfo().getCode());
+        CluInformation searchClu = this.getCluInfoHelper().getCluInfoForCode(course.getCode());
         if(searchClu==null){
             String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "courseInfo.code");
             GlobalVariables.getMessageMap().putErrorForSectionId(propName, LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_COURSE_CODE_INVALID);
         } else {
-            propositionEditor.getCourseInfo().setId(searchClu.getCluId());
+            course.setId(searchClu.getCluId());
             VersionInfo version = new VersionInfo();
             version.setVersionIndId(searchClu.getVerIndependentId());
-            propositionEditor.getCourseInfo().setVersion(version);
+            course.setVersion(version);
         }
 
         if (propositionEditor.getTermCode() != null) {
