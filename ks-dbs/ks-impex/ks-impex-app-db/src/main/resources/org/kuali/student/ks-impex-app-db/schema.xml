@@ -4261,6 +4261,12 @@
         <index name="KSEN_LUI_IDENT_IF1">
             <column>LUI_ID</column>
         </index>
+        <index name="KSEN_LUI_IDENT_IX1">
+            <column>LUI_CD</column>
+        </index>
+        <index name="KSEN_LUI_IDENT_IX2">
+            <column>DIVISION</column>
+        </index>
     </table>
     <table name="KSEN_LUI_IDENT_ATTR">
         <column name="ATTR_KEY" type="STRING">
@@ -5666,6 +5672,9 @@
         <index name="KSEN_SCHED_REF_OBJECT_IF1">
             <column>SCHED_RQST_SET_ID</column>
         </index>
+        <index name="KSEN_SCHED_REF_OBJECT_IX1">
+            <column>REF_OBJECT_ID</column>
+        </index>
     </table>
     <table name="KSEN_SCHED_RQST">
         <column name="CREATEID" nullable="false" type="STRING">
@@ -5710,6 +5719,9 @@
         <column name="VER_NBR" nullable="false" type="FLOAT">
             <size value="19"/>
         </column>
+        <index name="KSEN_SCHED_RQST_IX1">
+            <column>SCHED_RQST_SET_ID</column>
+        </index>
     </table>
     <table name="KSEN_SCHED_RQST_ATTR">
         <column name="ATTR_KEY" type="STRING">
