@@ -219,7 +219,11 @@ public class CourseController extends MaintenanceDocumentController {
                     LoDisplayInfoWrapper potentialParent = loWrappers.get(parentIndex);
                     boolean parentMatch = currentLo.getIndentLevel() > potentialParent.getIndentLevel();
                     if (parentMatch) {
+                        // TODO: Implement this on the 'Find Course' functionality
+                        //currentLo.setParentLoRelationid(potentialParent.getLoInfo().getId());
+                        //currentLo.setParentRelType(CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES);
                         potentialParent.getLoDisplayInfoList().add(currentLo);
+                        
                         rootLevel = false;
                         break;
                     } else {
