@@ -743,3 +743,15 @@ function retrieveFinalExamMatrix (id, methodToCall, dropdownId) {
         retrieveComponent(id, methodToCall);
     }
 }
+
+function toggleShowButton() {
+
+    var termCodeVal = jQuery("#termCode_control").val();
+    var inputCodeVal = jQuery("#inputCode_control").val();
+    if (termCodeVal != '' && inputCodeVal != '') {
+        jQuery("#show_button").removeAttr("disabled");
+    } else {
+        jQuery("#show_button").attr("disabled", "disabled");
+    }
+
+}
