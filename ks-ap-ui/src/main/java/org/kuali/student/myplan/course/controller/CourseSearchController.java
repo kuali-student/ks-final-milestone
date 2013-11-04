@@ -87,12 +87,6 @@ public class CourseSearchController extends UifControllerBase {
 			.getName() + ".results";
 
 	/**
-	 * HTTP session attribute key for holding trending state.
-	 */
-	private static final String TRSTATE_ATTR = CourseSearchController.class
-			.getName() + ".trendingState";
-
-	/**
 	 * Keyed mapping of DataTables search column order by facet id. This column
 	 * order is fully internal to this controller class, and is used to tie
 	 * faceted searches columns on the search item.
@@ -115,11 +109,6 @@ public class CourseSearchController extends UifControllerBase {
 	private static final List<String> FACET_COLUMNS_REVERSE;
 
 	/**
-	 * Internal count of trending search keywords.
-	 */
-	private static final TrendingState TRENDING = new TrendingState();
-
-	/**
 	 * Initialize internal facet column order.
 	 */
 	static {
@@ -136,214 +125,6 @@ public class CourseSearchController extends UifControllerBase {
 				.unmodifiableMap(m));
 		FACET_COLUMNS_REVERSE = Collections.synchronizedList(Collections
 				.unmodifiableList(l));
-	}
-
-	/**
-	 * Trending search state controller.
-	 * 
-	 * <p>
-	 * This class monitors keywords by relevance score in search results
-	 * continuously as search results report keyword sets.
-	 * </p>
-	 * 
-	 * <p>
-	 * TODO: evaluate moving to a public framework class.
-	 * </p>
-	 * 
-	 * @see org.kuali.student.ap.framework.course.CourseSearchItem#getKeywords()
-	 */
-	private static class TrendingState implements Serializable {
-
-		private static final long serialVersionUID = -4009692402116702481L;
-
-		/**
-		 * Keyword count tracking map.
-		 */
-		private final Map<String, Long> count = Collections
-				.synchronizedMap(new java.util.HashMap<String, Long>(256));
-
-		/**
-		 * Handle to the last reported array of search keywords.
-		 * 
-		 * <p>
-		 * This field is populated via the order parameter
-		 * {@link #trend(String[], java.util.Map)} when non-null, and may be
-		 * expected to be truncated to a relatively small size (32) prior to
-		 * being populated.
-		 * </p>
-		 * 
-		 * @see org.kuali.student.myplan.course.controller.CourseSearchController.SessionSearchInfo#SessionSearchInfo(javax.servlet.http.HttpServletRequest,
-		 *      org.kuali.student.ap.framework.course.CourseSearchStrategy,
-		 *      org.kuali.student.myplan.course.controller.CourseSearchController.FormKey,
-		 *      org.kuali.student.ap.framework.course.CourseSearchForm, String)
-		 */
-		private String[] related;
-
-		/**
-		 * Record trending keywords related to an active search.
-		 * 
-		 * @param order
-		 *            The keywords to record as trending, in order of relevance
-		 *            to the active search. This parameter should be truncated
-		 *            before sending.
-		 * @param keywordCount
-		 *            Mapping of keywords counts to use as increment values for
-		 *            the trending score. It is expected that order represents a
-		 *            subset of the this map's keys.
-		 */
-		private void trend(String[] order, Map<String, Integer> keywordCount) {
-			if (order.length == 0)
-				return;
-			long topCount = keywordCount.get(order[0]).longValue();
-			if (topCount == 0L)
-				return;
-			for (String key : related = order) {
-				Integer c = keywordCount.get(key);
-				assert c != null : key;
-				synchronized (count) {
-					Long tsc = count.get(key);
-					if (tsc == null)
-						tsc = 0L;
-					tsc += c.longValue() * 100L / topCount;
-					count.put(key, tsc);
-				}
-			}
-		}
-
-		/**
-		 * Purge trending state to keep only the 128 most relevant entries.
-		 * <p>
-		 * Only the most relevant entries are displayed, but many more are kept
-		 * as a buffer. The 128 size limit prevents the count map from growing
-		 * too large.
-		 * </p>
-		 */
-		private void purge() {
-			if (count.size() > 128) {
-				String[] tsk;
-				synchronized (count) {
-					tsk = count.keySet().toArray(new String[count.size()]);
-				}
-				// Sort by lowest to highest trending count
-				Arrays.sort(tsk, new Comparator<String>() {
-					@Override
-					public int compare(String o1, String o2) {
-						Long i1 = count.get(o1);
-						Long i2 = count.get(o2);
-						if (i1 == i2)
-							return 0;
-						if (i1 == null)
-							return -1;
-						if (i2 == null)
-							return 1;
-						return i1.compareTo(i2);
-					}
-				});
-				// Removed lowest count entries until down to 128
-				for (int i = 0; i < tsk.length && count.size() > 128; i++)
-					count.remove(tsk[i]);
-			}
-		}
-
-		/**
-		 * Retrieve the top n trending search keywords observed at this node.
-		 * 
-		 * @param n
-		 *            The number of entries to ensure are in the set on return.
-		 *            There may be fewer entries, but there will not be more
-		 *            unless passed.
-		 * @param rv
-		 *            A set that may or may not be null, and that may or may not
-		 *            already contain entries. This set will be returned if
-		 *            non-null, otherwise a new set will be created.
-		 * @return The passed in set if non-null, otherwise a new set will be
-		 *         created. Either way, the returned set will contain up to n
-		 *         entries supplied by this node in addition to the entries
-		 *         already in the set when passed in.
-		 */
-		private Set<String> top(int n, Set<String> rv) {
-			purge(); // drop all but the 128 most relevent entries
-			rv = rv == null ? new java.util.LinkedHashSet<String>(n) : rv;
-
-			// Use the last related search for 1/3 of the entries
-			int rn = (n - rv.size()) / 3;
-			if (related != null)
-				for (int i = 0; i < related.length && i < rn; i++)
-					rv.add(related[i]);
-			if (LOG.isDebugEnabled())
-				LOG.debug("Trending " + n + " related terms " + rv);
-			String[] sk;
-
-			// Use trending counts to select the other 2/3 of the entries
-			synchronized (count) {
-				sk = count.keySet().toArray(new String[count.size()]);
-			}
-			// Sort by highest to lowest trending count
-			Arrays.sort(sk, new Comparator<String>() {
-				@Override
-				public int compare(String o1, String o2) {
-					Long n1 = count.get(o1);
-					Long n2 = count.get(o2);
-					if (n1 == n2)
-						return 0;
-					if (n1 == null)
-						return 1;
-					if (n2 == null)
-						return -1;
-					return -n1.compareTo(n2);
-				}
-			});
-			// Truncate results
-			for (int i = 0; rv.size() < n && i < sk.length; i++)
-				rv.add(sk[i]);
-			if (LOG.isDebugEnabled())
-				LOG.debug("Trending " + n + " top count " + rv);
-			return rv;
-		}
-	}
-
-	/**
-	 * Get a session bound trending state for tracking common keywords for the
-	 * current user.
-	 * 
-	 * @param request
-	 *            The incoming servlet request.
-	 * @return A trending state monitor for tracking the current user's search
-	 *         activity.
-	 */
-	private static TrendingState getSessionTendingState(
-			HttpServletRequest request) {
-		HttpSession sess = request.getSession();
-		TrendingState rv = (TrendingState) sess.getAttribute(TRSTATE_ATTR);
-		if (rv == null)
-			sess.setAttribute(TRSTATE_ATTR, rv = new TrendingState());
-		return rv;
-	}
-
-	/**
-	 * Report trending keywords for the current user.
-	 * 
-	 * <p>
-	 * This method proxies trending reports to all relevant monitors. At preset,
-	 * we are tracking the current user's activity (
-	 * {@link #getSessionTendingState(javax.servlet.http.HttpServletRequest)})
-	 * and global activity on this node ({@link #TRENDING}).
-	 * 
-	 * @param request
-	 *            The incoming servlet request.
-	 * @param order
-	 *            The keywords to track, in order from most to least relevant to
-	 *            the current search. To keep trending operation efficient, this
-	 *            array should be truncated 32 or fewer entries before tracking.
-	 * @param keywordCount
-	 *            A mapping from keywords to a relevance score relative to the
-	 *            current search. It is expected that order represents a subset
-	 *            of this mapping's key set.
-	 */
-	private static void trend(HttpServletRequest request, String[] order,
-			Map<String, Integer> keywordCount) {
-		TRENDING.trend(order, keywordCount);
-		getSessionTendingState(request).trend(order, keywordCount);
 	}
 
 	/**
@@ -776,7 +557,6 @@ public class CourseSearchController extends UifControllerBase {
 					}
 				});
 				sk = Arrays.copyOf(sk, Math.min(sk.length, 32));
-				trend(request, sk, kwc);
 			}
 			// Tread pruned facets as not checked unless all
 			// visible facet values in the same group are checked
@@ -1144,20 +924,6 @@ public class CourseSearchController extends UifControllerBase {
 		public List<SearchInfo> getSearchResults() {
 			return searchResults;
 		}
-	}
-
-	/**
-	 * Get a list of the 10 most commonly seen search keywords.
-	 * 
-	 * @return The 10 most commonly seen search keywords.
-	 */
-	static Set<String> getCurrentTrend() {
-		return TRENDING.top(
-				10,
-				getSessionTendingState(
-						((ServletRequestAttributes) RequestContextHolder
-								.getRequestAttributes()).getRequest()).top(6,
-						null));
 	}
 
 	private CourseSearchStrategy searcher = KsapFrameworkServiceLocator

@@ -166,9 +166,6 @@ function searchForCourses(id, parentId) {
 							results.find("table#" + id).width(
 									ksapCourseSearchTableWidth());
 							ksapSearchComplete();
-							jQuery("#trending_summary").each(function() {
-					            myplanRetrieveComponent('trending_summary','trending_summary','search','lookup',{viewId:'Trending-LookupView'});
-							});
 						},
 						fnServerData : function(sSource, aoData, fnCallback) {
 							jQuery
