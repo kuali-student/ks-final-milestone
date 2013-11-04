@@ -576,14 +576,14 @@ Course Offering code the activity is being offered in.
 		<property name="shortLabel" value="Is Colocated"/>
 		<property name="summary">
 			<value>
-Indicates that the activity offering has one or more shared delivery logistics.
+Indicates that the activity offering has one or more shared Scheduling Information.
 
 			</value>
 		</property>
 		<property name="label" value="Is Colocated"/>
 		<property name="description">
 			<value>
-Indicates that the activity offering has one or more shared delivery logistics.
+Indicates that the activity offering has one or more shared Scheduling Information.
 This is a derived flag, managed without persistence
 			</value>
 		</property>
