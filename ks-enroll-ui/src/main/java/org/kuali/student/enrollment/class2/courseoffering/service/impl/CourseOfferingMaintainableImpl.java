@@ -264,12 +264,12 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
     @SuppressWarnings("unused")
     public void populateFinalExamDriverTypes(InputField field, MaintenanceDocumentForm form) throws Exception {
 
-        if (field.isReadOnly()){
+        if (field.isReadOnly()) {
             return;
         }
 
         FormatOfferingInfo formatOfferingInfo;
-        CourseOfferingWrapper wrapper = (CourseOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+        CourseOfferingWrapper wrapper = (CourseOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         CourseInfo courseInfo = wrapper.getCourse();
 
         if (wrapper instanceof CourseOfferingCreateWrapper) {
@@ -277,39 +277,43 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
              * If the call is from create co, then there are two places from where this method is being called. From the 'Add format' section
              * and from the format offering collections. For the 'add format' section, we're checking the property name to get the FO Wrapper
              */
-            if (StringUtils.equals(field.getPropertyName(),"addLineFormatWrapper.finalExamLevelTypeKey")){
-                formatOfferingInfo = ((CourseOfferingCreateWrapper)wrapper).getAddLineFormatWrapper().getFormatOfferingInfo();
+            if (StringUtils.equals(field.getPropertyName(), "addLineFormatWrapper.finalExamLevelTypeKey")) {
+                formatOfferingInfo = ((CourseOfferingCreateWrapper) wrapper).getAddLineFormatWrapper().getFormatOfferingInfo();
             } else {
                 //This else is for the format offering collection.
-                FormatOfferingWrapper foWrapper = (FormatOfferingWrapper)field.getContext().get(UifConstants.ContextVariableNames.LINE);
+                FormatOfferingWrapper foWrapper = (FormatOfferingWrapper) field.getContext().get(UifConstants.ContextVariableNames.LINE);
                 formatOfferingInfo = foWrapper.getFormatOfferingInfo();
-                if (foWrapper.isJointOffering()){
+                if (foWrapper.isJointOffering()) {
                     courseInfo = foWrapper.getJointCreateWrapper().getCourseInfo();
                 }
             }
         } else {
-            formatOfferingInfo = ((FormatOfferingWrapper)field.getContext().get(UifConstants.ContextVariableNames.LINE)).getFormatOfferingInfo();
+            formatOfferingInfo = ((FormatOfferingWrapper) field.getContext().get(UifConstants.ContextVariableNames.LINE)).getFormatOfferingInfo();
         }
 
-        SelectControl control = (SelectControl)field.getControl();
+        SelectControl control = (SelectControl) field.getControl();
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         CourseOfferingEditWrapper courseOfferingEditWrapper;
-        if (StringUtils.isNotBlank(formatOfferingInfo.getFormatId()) && courseInfo != null){
+        if (StringUtils.isNotBlank(formatOfferingInfo.getFormatId()) && courseInfo != null) {
             keyValues.addAll(collectActivityTypeKeyValues(courseInfo, formatOfferingInfo.getFormatId(), getTypeService(), ContextUtils.createDefaultContextInfo()));
-                if (wrapper instanceof CourseOfferingEditWrapper){
-                courseOfferingEditWrapper = (CourseOfferingEditWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-                       loadActivityOfferingsByCourseOffering(wrapper.getCourseOfferingInfo(), courseOfferingEditWrapper);
-                       FormatOfferingInfo aoformatOfferingInfo = courseOfferingEditWrapper.getAoWrapperList().get(0).getFormatOffering();
-                    if(aoformatOfferingInfo.getFinalExamLevelTypeKey() != keyValues.get(0).getKey()){
-                        List<KeyValue> newKeyValues = new ArrayList<KeyValue>();
-                        newKeyValues.add(keyValues.get(0));
-                        keyValues.remove(0);
-                        keyValues.add(newKeyValues.get(0));
+            if (wrapper instanceof CourseOfferingEditWrapper) {
+                courseOfferingEditWrapper = (CourseOfferingEditWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+                if (wrapper.getCourseOfferingInfo().getId() != null) {
+                    loadActivityOfferingsByCourseOffering(wrapper.getCourseOfferingInfo(), courseOfferingEditWrapper);
+                    if (courseOfferingEditWrapper.getAoWrapperList() != null) {
+                        FormatOfferingInfo aoformatOfferingInfo = courseOfferingEditWrapper.getAoWrapperList().get(0).getFormatOffering();
+                        if (aoformatOfferingInfo.getFinalExamLevelTypeKey() != keyValues.get(0).getKey()) {
+                            List<KeyValue> newKeyValues = new ArrayList<KeyValue>();
+                            newKeyValues.add(keyValues.get(0));
+                            keyValues.remove(0);
+                            keyValues.add(newKeyValues.get(0));
 
+                        }
                     }
                 }
-           // }
+
+            }
             control.setDisabled(false);
         } else {
             control.setDisabled(true);
@@ -413,19 +417,19 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
         String courseOfferingId = theCourseOfferingInfo.getId();
         List<ActivityOfferingInfo> activityOfferingInfoList;
         List<ActivityOfferingWrapper> activityOfferingWrapperList;
+            try {
 
-        try {
-            activityOfferingInfoList = getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, ContextUtils.createDefaultContextInfo());
-            activityOfferingWrapperList = new ArrayList<ActivityOfferingWrapper>(activityOfferingInfoList.size());
+                activityOfferingInfoList = getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, ContextUtils.createDefaultContextInfo());
+                activityOfferingWrapperList = new ArrayList<ActivityOfferingWrapper>(activityOfferingInfoList.size());
 
-            for (ActivityOfferingInfo info : activityOfferingInfoList) {
-                ActivityOfferingWrapper aoWrapper = convertAOInfoToWrapper_Simple(info);
-                activityOfferingWrapperList.add(aoWrapper);
+                for (ActivityOfferingInfo info : activityOfferingInfoList) {
+                    ActivityOfferingWrapper aoWrapper = convertAOInfoToWrapper_Simple(info);
+                    activityOfferingWrapperList.add(aoWrapper);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(String.format("Could not load AOs for course offering [%s].", courseOfferingId), e);
             }
-        } catch (Exception e) {
-            throw new RuntimeException(String.format("Could not load AOs for course offering [%s].", courseOfferingId), e);
-        }
-        formObject.setAoWrapperList(activityOfferingWrapperList);
+            formObject.setAoWrapperList(activityOfferingWrapperList);
     }
 
     private ActivityOfferingWrapper convertAOInfoToWrapper_Simple(ActivityOfferingInfo aoInfo) throws Exception{
