@@ -2,7 +2,7 @@
 
 <script type="text/javascript">
     function logout() {
-        var url = "${ConfigProperties['rice.server.url']}/backdoorlogin.do?methodToCall=logout";
+        var url = "${ConfigProperties['ks.logout.url']}";
         redirect(url);
     }
 </script>
