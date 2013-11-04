@@ -538,25 +538,6 @@ public class CourseSearchController extends UifControllerBase {
 				}
 				facetState = Collections.synchronizedMap(Collections
 						.unmodifiableMap(facetStateMap));
-
-				// Establish keyword relevance order
-				String[] sk = kwc.keySet().toArray(new String[kwc.size()]);
-				// Sort by relevance for trending
-				Arrays.sort(sk, new Comparator<String>() {
-					@Override
-					public int compare(String o1, String o2) {
-						Integer i1 = kwc.get(o1);
-						Integer i2 = kwc.get(o2);
-						if (i1 == i2)
-							return 0;
-						if (i1 == null)
-							return 1;
-						if (i2 == null)
-							return -1;
-						return -i1.compareTo(i2);
-					}
-				});
-				sk = Arrays.copyOf(sk, Math.min(sk.length, 32));
 			}
 			// Tread pruned facets as not checked unless all
 			// visible facet values in the same group are checked
