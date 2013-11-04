@@ -124,12 +124,12 @@ public class OfferingInstructorTransformer {
 
         //Build the search criteria
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(PredicateFactory.and(
+        qbcBuilder.setPredicates(
                 PredicateFactory.in("principals.principalId", personIds.toArray()),
                 PredicateFactory.equalIgnoreCase("entityTypeContactInfos.active", "Y"),
                 PredicateFactory.or(
                     PredicateFactory.equalIgnoreCase("entityTypeContactInfos.entityTypeCode", "PERSON"),
-                    PredicateFactory.equalIgnoreCase("entityTypeContactInfos.entityTypeCode", "SYSTEM"))));
+                    PredicateFactory.equalIgnoreCase("entityTypeContactInfos.entityTypeCode", "SYSTEM")));
         QueryByCriteria criteria = qbcBuilder.build();
 
         //retrieve all the default entities with the search criteria
