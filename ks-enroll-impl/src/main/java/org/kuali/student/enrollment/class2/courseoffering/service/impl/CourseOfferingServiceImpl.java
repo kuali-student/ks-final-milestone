@@ -107,6 +107,7 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.namespace.QName;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -159,7 +160,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo deleteCourseOfferingCascaded(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException, DataValidationErrorException {
+    public StatusInfo deleteCourseOfferingCascaded(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         // Cascade delete to the formats
         List<FormatOfferingInfo> fos = getFormatOfferingsByCourseOffering(courseOfferingId, context);
@@ -211,11 +212,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo deleteFormatOfferingCascaded(String formatOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException, DataValidationErrorException {
+    public StatusInfo deleteFormatOfferingCascaded(String formatOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // Delete dependent activity offerings
         List<ActivityOfferingInfo> aos = getActivityOfferingsByFormatOffering(formatOfferingId, context);
         for (ActivityOfferingInfo ao : aos) {
-            deleteActivityOfferingCascaded(ao.getId(), formatOfferingId, context);
+            deleteActivityOfferingCascaded(ao.getId(), context);
         }
 
         // TODO: Delete dependent RegistrationGroups
@@ -1810,13 +1811,24 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo deleteActivityOfferingCascaded(String activityOfferingId, String formatOfferingId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
-                     ReadOnlyException, VersionMismatchException, DataValidationErrorException {
+	public StatusInfo deleteActivityOfferingCascaded(String activityOfferingId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
 
+    	ActivityOfferingInfo ao = getActivityOffering(activityOfferingId, context);
+    	
         List<SeatPoolDefinitionInfo> seatPoolsToDelete = getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
         deleteSeatPoolsFromAo(seatPoolsToDelete, activityOfferingId, context);
-        deleteWaitListFromAo(activityOfferingId, formatOfferingId, context);
+        try {
+			deleteWaitListFromAo(activityOfferingId, ao.getFormatOfferingId(), context);
+		} catch (DataValidationErrorException e) {
+			throw new OperationFailedException(e);
+		} catch (ReadOnlyException e) {
+			throw new OperationFailedException(e);
+		} catch (VersionMismatchException e) {
+			throw new OperationFailedException(e);
+		}
         deleteExamOfferingFromAo(activityOfferingId, context);
         removeActivityOfferingFromAoCluster(activityOfferingId, context);
 

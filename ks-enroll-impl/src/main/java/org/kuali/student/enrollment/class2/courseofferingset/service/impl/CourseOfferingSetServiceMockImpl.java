@@ -246,7 +246,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
     @Override
     public Integer deleteCourseOfferingsBySoc(String socId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
+            PermissionDeniedException {
         return this.businessLogic.deleteCourseOfferingsBySoc(socId, context);
     }
 

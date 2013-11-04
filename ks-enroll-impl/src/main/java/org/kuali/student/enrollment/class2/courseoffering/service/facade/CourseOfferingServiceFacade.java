@@ -130,7 +130,7 @@ public interface CourseOfferingServiceFacade {
      * @param context
      * Doesn't return anything for now.  If we need something, can always modify the return type
      */
-    void deleteActivityOfferingCascaded(String aoId, String aocId, String foId, ContextInfo context)
+    void deleteActivityOfferingCascaded(String aoId, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException, VersionMismatchException;
 

@@ -339,7 +339,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
     @Override
     public Integer deleteCourseOfferingsBySoc(String socId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException {
+            PermissionDeniedException {
         // TODO: add bulk ops to CourseOfferingService so this can call them 
         // to delete all for a term or delete all for a subject area intead of doing it one by one
         List<String> ids = this.getCourseOfferingIdsBySoc(socId, context);

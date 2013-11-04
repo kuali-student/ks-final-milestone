@@ -535,7 +535,7 @@ public class CourseOfferingServiceValidationDecorator
     }
 
     @Override
-    public StatusInfo deleteCourseOfferingCascaded(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
+    public StatusInfo deleteCourseOfferingCascaded(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         verifySocStatePermitsCrud(_getTermIdByOfferingId(courseOfferingId, context), context);
 

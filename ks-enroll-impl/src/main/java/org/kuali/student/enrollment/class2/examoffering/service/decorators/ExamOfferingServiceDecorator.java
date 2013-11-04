@@ -47,7 +47,7 @@ public class ExamOfferingServiceDecorator implements ExamOfferingService {
     }
 
     @Override
-    public List<String> getExamOfferingIdsByType( String examTypeKey,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    public List<String> getExamOfferingIdsByType( String examTypeKey,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getExamOfferingIdsByType(  examTypeKey,   contextInfo);
     }
 

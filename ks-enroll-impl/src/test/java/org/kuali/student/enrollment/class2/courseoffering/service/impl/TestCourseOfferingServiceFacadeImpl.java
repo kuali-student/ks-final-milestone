@@ -196,7 +196,7 @@ public class TestCourseOfferingServiceFacadeImpl {
         String aoIdFirst = aoInfos.get(0).getId();
         String aoIdSecond = aoInfos.get(1).getId();
         // App layer call
-        coServiceFacade.deleteActivityOfferingCascaded(aoIdFirst, aocId, foId, contextInfo);
+        coServiceFacade.deleteActivityOfferingCascaded(aoIdFirst, contextInfo);
         List<ActivityOfferingClusterInfo> retrieved =
                 coService.getActivityOfferingClustersByFormatOffering(foId, contextInfo);
         // Fetch the AOs again--should only be 1

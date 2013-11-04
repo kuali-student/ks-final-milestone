@@ -14,6 +14,7 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import javax.jws.WebParam;
+
 import java.util.List;
 
 
@@ -47,12 +48,12 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
-    public StatusInfo deleteCourseOfferingCascaded(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException {
+    public StatusInfo deleteCourseOfferingCascaded(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().deleteCourseOfferingCascaded(courseOfferingId, context);
     }
 
     @Override
-    public StatusInfo deleteFormatOfferingCascaded(String formatOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException {
+    public StatusInfo deleteFormatOfferingCascaded(String formatOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().deleteFormatOfferingCascaded(formatOfferingId, context);
     }
 
@@ -569,14 +570,7 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
         return getNextDecorator().removeSeatPoolDefinitionFromActivityOffering(seatPoolDefinitionId, activityOfferingId, contextInfo);
     }
 
-    @Override
-    public StatusInfo deleteActivityOfferingCascaded(String activityOfferingId, String formatOfferingId,
-                                                     ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException {
-        return getNextDecorator().deleteActivityOfferingCascaded(activityOfferingId, formatOfferingId, context);
-    }
-
+    
     @Override
     public StatusInfo changeCourseOfferingState(
             String courseOfferingId,
@@ -587,7 +581,16 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
         return getNextDecorator().changeCourseOfferingState(courseOfferingId, nextStateKey, contextInfo);
     }
 
+    
     @Override
+	public StatusInfo deleteActivityOfferingCascaded(String activityOfferingId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().deleteActivityOfferingCascaded(activityOfferingId, context);
+	}
+
+	@Override
     public StatusInfo changeFormatOfferingState(
             String formatOfferingId,
             String nextStateKey,

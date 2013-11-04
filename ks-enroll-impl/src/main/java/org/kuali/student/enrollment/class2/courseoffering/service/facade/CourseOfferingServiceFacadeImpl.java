@@ -823,12 +823,10 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
 
     @Override
     public void deleteActivityOfferingCascaded(String aoId,
-                                               String aocId,
-                                               String foId,
                                                ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
-            OperationFailedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException, VersionMismatchException {
-        coService.deleteActivityOfferingCascaded(aoId, foId, context);
+            OperationFailedException, DoesNotExistException {
+        coService.deleteActivityOfferingCascaded(aoId, context);
     }
 
     @Override

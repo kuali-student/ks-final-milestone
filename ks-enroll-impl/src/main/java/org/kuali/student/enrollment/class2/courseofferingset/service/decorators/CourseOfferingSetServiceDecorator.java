@@ -300,7 +300,7 @@ public class CourseOfferingSetServiceDecorator implements CourseOfferingSetServi
 
     @Override
     public Integer deleteCourseOfferingsBySoc(String socId, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException {
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().deleteCourseOfferingsBySoc(socId, context);
     }
 

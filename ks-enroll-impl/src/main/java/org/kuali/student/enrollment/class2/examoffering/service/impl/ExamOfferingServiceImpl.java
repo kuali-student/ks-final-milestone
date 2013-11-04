@@ -107,10 +107,15 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     @Transactional(readOnly = true)
     public List<String> getExamOfferingIdsByType(String examTypeKey, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException, DoesNotExistException {
+            PermissionDeniedException {
         List<String> examOfferingIds = new ArrayList<String>();
 
-        List<TypeInfo> allowedTypes = typeService.getAllowedTypesForType(examTypeKey, contextInfo);
+        List<TypeInfo> allowedTypes;
+		try {
+			allowedTypes = typeService.getAllowedTypesForType(examTypeKey, contextInfo);
+		} catch (DoesNotExistException e) {
+			throw new OperationFailedException(e);
+		}
         for (TypeInfo typeInfo : allowedTypes) {
             examOfferingIds.addAll(getLuiService().getLuiIdsByType(typeInfo.getKey(), contextInfo));
         }

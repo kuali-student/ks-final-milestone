@@ -749,7 +749,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
         // now cascade the delete
 
         String formatOfferingId = "CO-1:LEC-ONLY";
-        StatusInfo status = coService.deleteActivityOfferingCascaded(activityOfferingId, formatOfferingId, callContext);
+        StatusInfo status = coService.deleteActivityOfferingCascaded(activityOfferingId, callContext);
 
         assertTrue(status.getIsSuccess());
 
