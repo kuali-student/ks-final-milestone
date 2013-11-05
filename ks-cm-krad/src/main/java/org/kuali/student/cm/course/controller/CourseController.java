@@ -94,7 +94,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping(value = "/courses")
-public class CourseController extends MaintenanceDocumentController {
+public class CourseController extends CourseRuleEditorController {
     
     private static final String DECISIONS_DIALOG_KEY = "decisionsDialog";
     
