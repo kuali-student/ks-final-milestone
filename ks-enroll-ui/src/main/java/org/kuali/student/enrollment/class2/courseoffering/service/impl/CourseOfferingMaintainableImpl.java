@@ -70,36 +70,6 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
     private transient CourseService courseService;
 
     /**
-     * Returns the format name by concatenation all the activity names with / seperated
-     *
-     * @param foWrapper
-     * @param course
-     * @return
-     */
-    public String getFormatName(FormatOfferingWrapper foWrapper,CourseInfo course){
-        for (FormatInfo format : course.getFormats()) {
-            if (StringUtils.equals(format.getId(),foWrapper.getFormatId())){
-                StringBuilder activityName = new StringBuilder();
-                for (ActivityInfo activityInfo : format.getActivities()) {
-                    TypeInfo activityType = null;
-                    try {
-                        activityType = getTypeService().getType(activityInfo.getTypeKey(), ContextUtils.createDefaultContextInfo());
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                    activityName.append(activityType.getName()+"/");
-                }
-                if (format.getActivities().size() == 1){
-                    return StringUtils.removeEnd(activityName.toString(),"/") + " Only";
-                } else {
-                    return StringUtils.removeEnd(activityName.toString(),"/");
-                }
-            }
-        }
-        return StringUtils.EMPTY;
-    }
-
-    /**
      * Returns the format long name short name as a string array  by concatenation all the shortened activity names with / seperated
      *
      * @param foWrapper
@@ -404,7 +374,9 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
         CourseOfferingEditWrapper editWrapper = (CourseOfferingEditWrapper)coWrapper;
         for (FormatOfferingWrapper foWrapper : editWrapper.getFormatOfferingList()){
             if (StringUtils.isBlank(foWrapper.getFormatOfferingInfo().getName())){
-                foWrapper.getFormatOfferingInfo().setName(getFormatName(foWrapper,editWrapper.getCourse()));
+                String[] foNames = getFormatShortAndLongNames(foWrapper, editWrapper.getCourse());
+                foWrapper.getFormatOfferingInfo().setName(foNames[0]);
+                foWrapper.getFormatOfferingInfo().setShortName(foNames[1]);
             }
             if (StringUtils.isNotBlank(foWrapper.getFormatId())){
                 foWrapper.getRenderHelper().setNewRow(false);
