@@ -44,6 +44,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     @Resource
     private EntityManager entityManager;
 
+    private int maxInClauseElements = 100;
+
     public static final TypeInfo SCH_IDS_BY_AO_SEARCH_TYPE;
     public static final TypeInfo AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo REG_GROUPS_BY_CO_ID_SEARCH_TYPE;
@@ -352,9 +354,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         List<String> aoIdsList = requestHelper.getParamAsList(SearchParameters.AO_IDS);
 
-        int maxInClauseElements = 100;
         boolean enableMaxIdFetch = false;
-        if (!aoIdsList.isEmpty() && aoIdsList.size() > 100) {
+        if (!aoIdsList.isEmpty() && aoIdsList.size() > this.maxInClauseElements) {
             enableMaxIdFetch = true;
         }
 
@@ -369,7 +370,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         String queryStrEnd = ")";
         String primaryKeyMemberName = "srs1RefId";
 
-        TypedQuery<String> query = buildQuery(queryStrStart, queryStrEnd, primaryKeyMemberName, aoIdsList, enableMaxIdFetch, maxInClauseElements);
+        TypedQuery<String> query = buildQuery(queryStrStart, queryStrEnd, primaryKeyMemberName, aoIdsList, enableMaxIdFetch, maxInClauseElements, String.class);
         List<String> results = query.getResultList();
 
         for(String result : results){
@@ -381,73 +382,24 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         return resultInfo;
     }
 
-    // need this because Oracle has limitation of 4000 chars in string, and we may have more than that
-    private TypedQuery buildQuery(String queryStrStart, String queryStrEnd, String primaryKeyMemberName, List<String> primaryKeys, boolean enableMaxIdFetch, int maxInClauseElements) {
-
-        TypedQuery queryRef;
-        StringBuilder queryStringRef = new StringBuilder();
-        queryStringRef.append(queryStrStart);
-
-        if (!enableMaxIdFetch) {
-            String ids = commaString(primaryKeys);
-            queryStringRef.append(primaryKeyMemberName).append(" IN (:ids)");
-            queryRef = entityManager.createQuery(queryStringRef.toString(), String.class).setParameter("ids", ids);
-        } else {
-            //Max fetchh is enabled so break uip the where clause into multiple IN() clauses
-            List<List<String>> brokenLists = new ArrayList<List<String>>();
-            List<String> list = new ArrayList<String>();
-
-            if (queryStrEnd != null && StringUtils.equals(queryStrEnd, ")")) {
-                queryStringRef.append("(");
-            }
-
-            Iterator<String> itr = primaryKeys.iterator();
-            for (int index = 0; itr.hasNext(); index++) {
-                if ((index > 0) && (index % maxInClauseElements == 0)) {
-                    brokenLists.add(list);
-                    if (brokenLists.size() == 1) {
-                        queryStringRef.append(primaryKeyMemberName).append(" IN (:ids1)");
-                    } else {
-                        queryStringRef.append(" OR ").append(primaryKeyMemberName).append(" IN (:ids").append(brokenLists.size()).append(")");
-                    }
-                    list = new ArrayList<String>();
-                }
-                list.add(itr.next());
-                if ((index == primaryKeys.size() - 1) && (index % maxInClauseElements != 0)) {
-                    brokenLists.add(list);
-                    queryStringRef.append(" OR ").append(primaryKeyMemberName).append(" IN (:ids").append(brokenLists.size()).append(")");
-                }
-            }
-
-            if (queryStrEnd != null && !StringUtils.isBlank(queryStrEnd)) {
-                queryStringRef.append(queryStrEnd);
-            }
-
-            queryRef = entityManager.createQuery(queryStringRef.toString(), String.class);
-
-            for (int i = 1; i <= brokenLists.size(); i++) {
-                String ids = commaString(brokenLists.get(i - 1));
-                queryRef.setParameter("ids" + i, ids);
-            }
-        }
-
-        return queryRef;
-    }
-
     private SearchResultInfo searchForTotalMaxSeatsByAOIds(SearchRequestInfo searchRequestInfo) {
         SearchResultInfo resultInfo = new SearchResultInfo();
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         List<String> aoIdsList = requestHelper.getParamAsList(SearchParameters.AO_IDS);
-        String aoIds = commaString(aoIdsList);
 
-        String queryStr =
+        boolean enableMaxIdFetch = false;
+        if (!aoIdsList.isEmpty() && aoIdsList.size() > this.maxInClauseElements) {
+            enableMaxIdFetch = true;
+        }
+
+        String queryStrStart =
                 "SELECT SUM(ao.maxSeats)" +
                         "FROM LuiEntity ao " +
-                        "WHERE ao.id IN (:aoIds)";
+                        "WHERE ";
+        String primaryKeyMemberName = "ao.id";
 
-        TypedQuery<Long> query = entityManager.createQuery(queryStr, Long.class);
-        query.setParameter(SearchParameters.AO_IDS, aoIds);       // After updating an oracle driver the List binding is causing massive problems
+        TypedQuery<Long> query = buildQuery(queryStrStart, null, primaryKeyMemberName, aoIdsList, enableMaxIdFetch, maxInClauseElements, Long.class);
         List<Long> results = query.getResultList();
 
         for(Long result : results){
@@ -564,12 +516,16 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         SearchResultInfo resultInfo = new SearchResultInfo();
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-        List<String> aoIds = requestHelper.getParamAsList(SearchParameters.AO_IDS);
+        List<String> aoIdsList = requestHelper.getParamAsList(SearchParameters.AO_IDS);
         List<String> aoStates = requestHelper.getParamAsList(SearchParameters.AO_STATES);
-        String aoIdStr =   commaString(aoIds);
         String filterAOStates = "'" + StringUtils.join(aoStates, "','") + "'";
 
-        String queryStr =
+        boolean enableMaxIdFetch = false;
+        if (!aoIdsList.isEmpty() && aoIdsList.size() > this.maxInClauseElements) {
+            enableMaxIdFetch = true;
+        }
+
+        String queryStrStart =
                 "SELECT aoMatchIds," +
                 "       co_ident.code," +
                 "       ao_ident.code " +
@@ -581,9 +537,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "     LuiLuiRelationEntity co2fo," +
                 "     LuiLuiRelationEntity fo2ao, " +
                 "     LuiEntity lui " +
-                "WHERE " +
-                "  aoMatchIds IN(" + aoIdStr + ") " +
-                "  AND co2fo.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
+                "WHERE co2fo.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
                 "  AND fo2ao.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.fo2ao' " +
                 "  AND co2fo.relatedLui.id = fo2ao.lui.id " +
                 "  AND fo2ao.relatedLui.id = aoIds " +
@@ -595,10 +549,15 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "  AND aoMatchIds != aoIds";
 
         if (aoStates != null && !aoStates.isEmpty()){
-            queryStr = queryStr + " AND lui.luiState in (" + filterAOStates + ")";
+            queryStrStart = queryStrStart + " AND lui.luiState in (" + filterAOStates + ")";
         }
 
-        TypedQuery<Object[]> query = entityManager.createQuery(queryStr, Object[].class);
+        queryStrStart = queryStrStart + " AND ";
+
+        String queryStrEnd = ")";
+        String primaryKeyMemberName = "aoMatchIds";
+
+        TypedQuery<Object[]> query = buildQuery(queryStrStart, queryStrEnd, primaryKeyMemberName, aoIdsList, enableMaxIdFetch, maxInClauseElements, Object[].class);
         List<Object[]> results = query.getResultList();
 
         for(Object[] resultRow : results){
@@ -817,9 +776,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         return resultInfo;
     }
 
-
-
-
     protected SearchResultInfo searchForAOsWithoutClusterByFormatOffering(SearchRequestInfo searchRequestInfo) throws OperationFailedException{
         SearchResultInfo resultInfo = new SearchResultInfo();
 
@@ -975,9 +931,60 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     }
 
     private static String commaString(List<String> items){
-
         return items.toString().replace("[", "'").replace("]", "'").replace(", ", "','");
+    }
 
+    // need this because Oracle has limitation of 4000 chars in string, and we may have more than that
+    private TypedQuery buildQuery(String queryStrStart, String queryStrEnd, String primaryKeyMemberName, List<String> primaryKeys, boolean enableMaxIdFetch, int maxInClauseElements, Class resultClass) {
+
+        TypedQuery queryRef;
+        StringBuilder queryStringRef = new StringBuilder();
+        queryStringRef.append(queryStrStart);
+
+        if (!enableMaxIdFetch) {
+            String ids = commaString(primaryKeys);
+            queryStringRef.append(primaryKeyMemberName).append(" IN (:ids)");
+            queryRef = entityManager.createQuery(queryStringRef.toString(), resultClass).setParameter("ids", ids);
+        } else {
+            //Max fetchh is enabled so break uip the where clause into multiple IN() clauses
+            List<List<String>> brokenLists = new ArrayList<List<String>>();
+            List<String> list = new ArrayList<String>();
+
+            if (queryStrEnd != null && StringUtils.equals(queryStrEnd, ")")) {
+                queryStringRef.append("(");
+            }
+
+            Iterator<String> itr = primaryKeys.iterator();
+            for (int index = 0; itr.hasNext(); index++) {
+                if ((index > 0) && (index % maxInClauseElements == 0)) {
+                    brokenLists.add(list);
+                    if (brokenLists.size() == 1) {
+                        queryStringRef.append(primaryKeyMemberName).append(" IN (:ids1)");
+                    } else {
+                        queryStringRef.append(" OR ").append(primaryKeyMemberName).append(" IN (:ids").append(brokenLists.size()).append(")");
+                    }
+                    list = new ArrayList<String>();
+                }
+                list.add(itr.next());
+            }
+            if (!list.isEmpty()) {
+                brokenLists.add(list);
+                queryStringRef.append(" OR ").append(primaryKeyMemberName).append(" IN (:ids").append(brokenLists.size()).append(")");
+            }
+
+            if (queryStrEnd != null && !StringUtils.isBlank(queryStrEnd)) {
+                queryStringRef.append(queryStrEnd);
+            }
+
+            queryRef = entityManager.createQuery(queryStringRef.toString(), resultClass);
+
+            for (int i = 1; i <= brokenLists.size(); i++) {
+                String ids = commaString(brokenLists.get(i - 1));
+                queryRef.setParameter("ids" + i, ids);
+            }
+        }
+
+        return queryRef;
     }
 
     public EntityManager getEntityManager() {
