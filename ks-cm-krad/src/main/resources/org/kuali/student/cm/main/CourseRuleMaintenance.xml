@@ -195,7 +195,7 @@ limitations under the License.
     </bean>
 
     <bean name="KS-RuleMaintenance-Page-Parent" parent="KRMS-RuleMaintenance-Page-Parent">
-        <property name="headerText" value="@{#dp.ruleEditor.dummy == true ? 'Add' : 'Edit'} @{#dp.ruleEditor.ruleTypeInfo.description}"/>
+        <property name="headerText" value="@{#dp.courseRuleManagementWrapper.ruleEditor.dummy == true ? 'Add' : 'Edit'} @{#dp.courseRuleManagementWrapper.ruleEditor.ruleTypeInfo.description}"/>
         <property name="items">
             <list>
                 <ref bean="KS-Rules-ManageSection"/>
@@ -232,7 +232,9 @@ limitations under the License.
     <bean id="KS-RuleHeader-BoxSection" parent="KRMS-RuleHeader-BoxSection">
         <property name="items">
             <list>
-                <ref bean="KRMS-RuleHeader-Section"/>
+                <bean parent="KRMS-RuleHeader-Section">
+                    <property name="instructionalText" value="@{#dp.courseRuleManagementWrapper.ruleEditor.ruleTypeInfo.instruction}"/>
+                </bean>
             </list>
         </property>
     </bean>

@@ -44,6 +44,8 @@ import org.kuali.rice.krms.service.RuleViewHelperService;
 import org.kuali.rice.krms.service.impl.RuleEditorMaintainableImpl;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
+import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
+import org.kuali.rice.krms.tree.node.TreeNode;
 import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
@@ -740,6 +742,50 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             courseRuleManagementWrapper = new CourseRuleManagementWrapper();
         }
         return courseRuleManagementWrapper;
+    }
+
+    public Tree<RuleEditorTreeNode, String> getEditTree() {
+        return courseRuleManagementWrapper.getEditTree();
+    }
+
+    public Tree<TreeNode, String> getPreviewTree() {
+        return courseRuleManagementWrapper.getPreviewTree();
+    }
+
+    public Tree<TreeNode, String> getViewTree() {
+        return courseRuleManagementWrapper.getViewTree();
+    }
+
+    public String getSelectedKey() {
+        return courseRuleManagementWrapper.getSelectedKey();
+    }
+
+    public void setSelectedKey(String selectedKey) {
+        courseRuleManagementWrapper.setSelectedKey(selectedKey);
+    }
+
+    public String getCutKey() {
+        return courseRuleManagementWrapper.getCutKey();
+    }
+
+    public void setCutKey(String cutKey) {
+        courseRuleManagementWrapper.setCutKey(cutKey);
+    }
+
+    public String getCopyKey() {
+        return courseRuleManagementWrapper.getCopyKey();
+    }
+
+    public void setCopyKey(String copyKey) {
+        courseRuleManagementWrapper.setCopyKey(copyKey);
+    }
+
+    public String getLogicArea() {
+        return courseRuleManagementWrapper.getLogicArea();
+    }
+
+    public void setLogicArea(String logicArea) {
+        courseRuleManagementWrapper.setLogicArea(logicArea);
     }
 
     @Override
