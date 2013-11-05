@@ -58,8 +58,5 @@ public class PartitionInfo extends IdEntityInfo implements Partition, Serializab
 
     public PartitionInfo(Partition partition) {
         super(partition);
-        if (null != partition) {
-            // copy specific fields here
-        }
     }
 }
