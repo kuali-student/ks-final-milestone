@@ -15,15 +15,12 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import org.apache.commons.collections.keyvalue.MultiKey;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.permission.PermissionService;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.maintenance.Maintainable;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
@@ -38,7 +35,6 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -54,13 +50,11 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
-import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
@@ -85,12 +79,7 @@ import java.util.Set;
 public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintainableImpl implements Maintainable {
 
     private static final Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingCreateMaintainableImpl.class);
-    private static PermissionService permissionService = getPermissionService();
-    private CluService cluService;
-    private AtpService atpService;
     private final static String CACHE_NAME = "CourseOfferingMaintainableImplCache";
-    private CacheManager cacheManager;
-
 
     /**
      * Sets a default maintenace document description and if term code exists in the request parameter, set it to the wrapper.
@@ -133,16 +122,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
             }
         }
     }
-    
-    private DefaultOptionKeysService defaultOptionKeysService;
 
-    private DefaultOptionKeysService getDefaultOptionKeysService() {
-        if (defaultOptionKeysService == null) {
-            defaultOptionKeysService = new DefaultOptionKeysServiceImpl();
-        }
-        return this.defaultOptionKeysService;
-    }
-    
     /**
      *
      * This method creates the CourseOffering for a course and for a specific term. This is being called
@@ -156,7 +136,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
      */
     protected CourseOfferingInfo createCourseOfferingInfo(String termId, CourseInfo courseInfo, String courseOfferingSuffix,CourseOfferingInfo courseOffering) throws Exception {
 
-        List<String> optionKeys = getDefaultOptionKeysService ().getDefaultOptionKeysForCreateCourseOfferingFromCanonical();
+        List<String> optionKeys = CourseOfferingManagementUtil.getDefaultOptionKeysService().getDefaultOptionKeysForCreateCourseOfferingFromCanonical();
 
         courseOffering.setTermId(termId);
         courseOffering.setCourseOfferingTitle(courseInfo.getCourseTitle());
@@ -350,7 +330,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
             permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, viewId);
             permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "createNewCO");
             jointCourseWrapper.setEnableCreateNewCOActionLink(false);
-            if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)){
+            if(CourseOfferingManagementUtil.getPermissionService().isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)){
                 jointCourseWrapper.setEnableCreateNewCOActionLink(true);
             }
 
@@ -607,18 +587,18 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
 
         // only one character. This is the base search.
         if(catalogCourseCode.length() == 1){
-            Element cachedResult = getCacheManager().getCache(CACHE_NAME).get(cacheKey);
+            Element cachedResult = CourseOfferingManagementUtil.getCacheManager().getCache(CACHE_NAME).get(cacheKey);
 
             Object result;
             if (cachedResult == null) {
                 result = _retrieveCourseCodes(targetTermCode, catalogCourseCode);
-                getCacheManager().getCache(CACHE_NAME).put(new Element(cacheKey, result));
+                CourseOfferingManagementUtil.getCacheManager().getCache(CACHE_NAME).put(new Element(cacheKey, result));
                 results = (List<String>)result;
             } else {
                 results = (List<String>)cachedResult.getValue();
             }
         }else{
-            Element cachedResult = getCacheManager().getCache(CACHE_NAME).get(cacheKey);
+            Element cachedResult = CourseOfferingManagementUtil.getCacheManager().getCache(CACHE_NAME).get(cacheKey);
 
             if (cachedResult == null) {
                 // This is where the recursion happens. If you entered CHEM and it didn't find anything it will
@@ -631,7 +611,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                     }
                 }
 
-                getCacheManager().getCache(CACHE_NAME).put(new Element(cacheKey, results));
+                CourseOfferingManagementUtil.getCacheManager().getCache(CACHE_NAME).put(new Element(cacheKey, results));
             } else {
                 results = (List<String>)cachedResult.getValue();
             }
@@ -652,7 +632,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         ContextInfo context = ContextUtils.createDefaultContextInfo();
 
         //First get ATP information
-        List<AtpInfo> atps = getAtpService().getAtpsByCode(targetTermCode, context);
+        List<AtpInfo> atps = CourseOfferingManagementUtil.getAtpService().getAtpsByCode(targetTermCode, context);
         if(atps == null || atps.size() != 1){
             return rList;
         }
@@ -667,7 +647,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         request.addParam(CourseInfoByTermLookupableImpl.QueryParamEnum.TERM_END.getQueryKey(), DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(0).getEndDate()));
         request.setSortColumn("lu.resultColumn.cluOfficialIdentifier.cluCode");
 
-        SearchResultInfo results = getCluService().search(request, context);
+        SearchResultInfo results = CourseOfferingManagementUtil.getCluService().search(request, context);
         for(SearchResultRow row:results.getRows()){
             for(SearchResultCell cell:row.getCells()){
                 if("lu.resultColumn.cluOfficialIdentifier.cluCode".equals(cell.getKey())){
@@ -677,34 +657,4 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         }
         return new ArrayList<String>(rSet);
     }
-
-    private CluService getCluService() {
-        if(cluService == null){
-            cluService = CourseOfferingResourceLoader.loadCluService();
-        }
-        return cluService;
-    }
-
-    private AtpService getAtpService() {
-        if(atpService == null){
-            atpService = CourseOfferingResourceLoader.loadAtpService();
-        }
-        return atpService;
-    }
-
-    private static PermissionService getPermissionService() {
-        if(permissionService==null){
-            permissionService = KimApiServiceLocator.getPermissionService();
-        }
-        return permissionService;
-    }
-
-    public CacheManager getCacheManager() {
-        if(cacheManager == null){
-            // "ks-ehcache" is the parent bean in ks-ehcache.xml file. This should probably be a constant.
-            cacheManager = CacheManager.getCacheManager("ks-ehcache");
-        }
-        return cacheManager;
-    }
-
 }

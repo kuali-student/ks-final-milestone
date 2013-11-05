@@ -20,7 +20,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
-import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -44,7 +44,6 @@ public class FormatsForCreateAOKeyValues extends UifKeyValuesFinderBase implemen
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
         CourseOfferingManagementForm coForm = (CourseOfferingManagementForm) model;
-        CourseOfferingManagementViewHelperServiceImpl helperService = ((CourseOfferingManagementViewHelperServiceImpl)coForm.getView().getViewHelperService());
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         CourseOfferingInfo selectedCourseOffering = coForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
@@ -53,7 +52,7 @@ public class FormatsForCreateAOKeyValues extends UifKeyValuesFinderBase implemen
             SearchRequestInfo sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.FO_BY_CO_ID_SEARCH_KEY);
             sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, selectedCourseOffering.getId());
 
-            SearchResultInfo results = helperService.getSearchService().search(sr, null);
+            SearchResultInfo results = CourseOfferingManagementUtil.getSearchService().search(sr, null);
 
             for(SearchResultRowInfo row:results.getRows()){
                 String foId = null;
@@ -82,14 +81,13 @@ public class FormatsForCreateAOKeyValues extends UifKeyValuesFinderBase implemen
     // and to determine the default value for the Activity Type and Cluster dropdowns to ensure there are no mismatches.
     public String getFirstKey(ViewModel model){
         CourseOfferingManagementForm coForm = (CourseOfferingManagementForm) model;
-        CourseOfferingManagementViewHelperServiceImpl helperService = ((CourseOfferingManagementViewHelperServiceImpl)coForm.getView().getViewHelperService());
         String foId = null;
         CourseOfferingInfo selectedCourseOffering = coForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
         try {
             SearchRequestInfo sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.FO_BY_CO_ID_SEARCH_KEY);
             sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, selectedCourseOffering.getId());
 
-            SearchResultInfo results = helperService.getSearchService().search(sr, null);
+            SearchResultInfo results = CourseOfferingManagementUtil.getSearchService().search(sr, null);
 
                 for(SearchResultCellInfo cell:results.getRows().get(0).getCells()){
                     if(ActivityOfferingSearchServiceImpl.SearchResultColumns.FO_ID.equals(cell.getKey())){

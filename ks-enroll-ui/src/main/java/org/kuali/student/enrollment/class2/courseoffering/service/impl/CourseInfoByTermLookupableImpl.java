@@ -1,29 +1,25 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.LookupForm;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
-import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -42,9 +38,6 @@ import static org.apache.commons.lang.StringUtils.isEmpty;
  */
 public class CourseInfoByTermLookupableImpl extends LookupableImpl {
     private static final long serialVersionUID = 1L;
-
-    private transient CluService cluService;
-    private AtpService atpService;
 
     public enum QueryParamEnum {
         TERM_START("lu.queryParam.luOptionalGreaterThanEqualExpirDate","termStartDate"),
@@ -171,7 +164,7 @@ public class CourseInfoByTermLookupableImpl extends LookupableImpl {
                         //First get ATP information
                         List<AtpInfo> atps;
                         try {
-                            atps = getAtpService().getAtpsByCode(fieldValue, context);
+                            atps = CourseOfferingManagementUtil.getAtpService().getAtpsByCode(fieldValue, context);
                         } catch (Exception e) {
                             return courseInfoList;
                         }
@@ -201,7 +194,7 @@ public class CourseInfoByTermLookupableImpl extends LookupableImpl {
         searchRequest.setSearchKey("lu.search.courseCodes"); //This defines the base query to use (see lu-search-config.xml)
 
         try {
-            SearchResultInfo searchResult = getCluService().search(searchRequest, ContextUtils.getContextInfo());
+            SearchResultInfo searchResult = CourseOfferingManagementUtil.getCluService().search(searchRequest, ContextUtils.getContextInfo());
 
             if (searchResult.getRows().size() > 0) {
                 for(SearchResultRowInfo srrow : searchResult.getRows()){
@@ -229,18 +222,4 @@ public class CourseInfoByTermLookupableImpl extends LookupableImpl {
             throw new RuntimeException(e);
         }
     }
-
-     protected CluService getCluService() {
-        if(this.cluService == null) {
-            this.cluService = GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE,CluServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return this.cluService;
-    }
-    private AtpService getAtpService() {
-        if(atpService == null){
-            atpService = CourseOfferingResourceLoader.loadAtpService();
-        }
-        return atpService;
-    }
-
 }

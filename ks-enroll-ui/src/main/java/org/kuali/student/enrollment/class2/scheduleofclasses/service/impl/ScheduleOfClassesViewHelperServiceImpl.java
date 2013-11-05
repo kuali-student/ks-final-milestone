@@ -45,6 +45,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupW
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
@@ -194,7 +195,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
             //this is a cross service search between LPR and LUI, so it is inefficient (no join)
             //First get all the luiIds that the instructor is teaching
             //Only get active courses
-            List<String> luiIds = getLprService().getLuiIdsByPersonAndTypeAndState(instructorId, LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, LprServiceConstants.ACTIVE_STATE_KEY, context);
+            List<String> luiIds = CourseOfferingManagementUtil.getLprService().getLuiIdsByPersonAndTypeAndState(instructorId, LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, LprServiceConstants.ACTIVE_STATE_KEY, context);
 
             List<String> courseOfferingIds = null;
 
@@ -207,7 +208,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
                         PredicateFactory.equalIgnoreCase("atpId", termId)),
                         PredicateFactory.equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
                 QueryByCriteria criteria = qbcBuilder.build();
-                courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, context);
+                courseOfferingIds = CourseOfferingManagementUtil.getCourseOfferingService().searchForCourseOfferingIds(criteria, context);
             }
 
             //If nothing was found then error
