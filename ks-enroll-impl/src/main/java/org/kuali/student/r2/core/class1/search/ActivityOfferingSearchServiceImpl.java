@@ -26,8 +26,10 @@ import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -47,6 +49,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final TypeInfo REG_GROUPS_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE;
     public static final TypeInfo AO_CODES_BY_CO_ID_SEARCH_TYPE;
+    public static final TypeInfo AO_CODES_TYPES_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo TERM_ID_BY_OFFERING_ID_SEARCH_TYPE;
     public static final TypeInfo TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_TYPE;
     public static final TypeInfo COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE;
@@ -65,6 +68,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final String FO_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForFOByCoId";
     public static final String RELATED_AO_TYPES_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForRelatedAoTypesByCoId";
     public static final String AO_CODES_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAoCodesByCoId";
+    public static final String AO_CODES_TYPES_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAoCodesAndTypesByCoId";
     public static final String TERM_ID_BY_OFFERING_ID_SEARCH_KEY = "kuali.search.type.lui.searchForTermIdByOfferingId";
     public static final String TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_KEY = "kuali.search.type.lui.searchForTotalMaxSeatsByAOIds";
     public static final String AO_CLUSTER_COUNT_BY_FO_SEARCH_KEY = "kuali.search.type.lui.getCountOfAOClustersByFO";
@@ -176,6 +180,14 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         AO_CODES_BY_CO_ID_SEARCH_TYPE = info;
 
         info = new TypeInfo();
+        info.setKey(AO_CODES_TYPES_BY_CO_ID_SEARCH_KEY);
+        info.setName("AO codes and types for course offering id");
+        info.setDescr(new RichTextHelper().fromPlain("Returns a list of AO codes and types for a given CO id"));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
+
+        AO_CODES_TYPES_BY_CO_ID_SEARCH_TYPE = info;
+
+        info = new TypeInfo();
         info.setKey(TERM_ID_BY_OFFERING_ID_SEARCH_KEY);
         info.setName("Term Id for offering id");
         info.setDescr(new RichTextHelper().fromPlain("Returns term id for a given offering id"));
@@ -251,6 +263,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         if (AO_CODES_BY_CO_ID_SEARCH_KEY.equals(searchTypeKey)) {
             return AO_CODES_BY_CO_ID_SEARCH_TYPE;
         }
+        if (AO_CODES_TYPES_BY_CO_ID_SEARCH_KEY.equals(searchTypeKey)) {
+            return AO_CODES_TYPES_BY_CO_ID_SEARCH_TYPE;
+        }
         if (TERM_ID_BY_OFFERING_ID_SEARCH_KEY.equals(searchTypeKey)) {
             return AO_CODES_BY_CO_ID_SEARCH_TYPE;
         }
@@ -276,8 +291,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             OperationFailedException {
         return Arrays.asList(SCH_IDS_BY_AO_SEARCH_TYPE, AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE,
                 REG_GROUPS_BY_CO_ID_SEARCH_TYPE, AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE, COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE, FO_BY_CO_ID_SEARCH_TYPE,
-                RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE, AO_CODES_BY_CO_ID_SEARCH_TYPE, TERM_ID_BY_OFFERING_ID_SEARCH_TYPE, TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_TYPE,
-                AO_CLUSTER_COUNT_BY_FO_TYPE, AO_ID_AND_TYPE_BY_FO_TYPE, COLOCATED_AOIDS_BY_AO_IDS_SEARCH_TYPE);
+                RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE, AO_CODES_BY_CO_ID_SEARCH_TYPE, AO_CODES_TYPES_BY_CO_ID_SEARCH_TYPE, TERM_ID_BY_OFFERING_ID_SEARCH_TYPE,
+                TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_TYPE, AO_CLUSTER_COUNT_BY_FO_TYPE, AO_ID_AND_TYPE_BY_FO_TYPE, COLOCATED_AOIDS_BY_AO_IDS_SEARCH_TYPE);
     }
 
     @Override
@@ -308,6 +323,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         else if (AO_CODES_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForAoCodesByCoId(searchRequestInfo);
         }
+        else if (AO_CODES_TYPES_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
+            return searchForAoCodesAndTypesByCoId(searchRequestInfo);
+        }
         else if (TERM_ID_BY_OFFERING_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForTermIdByOfferingId(searchRequestInfo);
         }
@@ -333,19 +351,25 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         List<String> aoIdsList = requestHelper.getParamAsList(SearchParameters.AO_IDS);
-        String aoIds = commaString(aoIdsList);
 
-        String queryStr =
+        int maxInClauseElements = 100;
+        boolean enableMaxIdFetch = false;
+        if (!aoIdsList.isEmpty() && aoIdsList.size() > 100) {
+            enableMaxIdFetch = true;
+        }
+
+        String queryStrStart =
                 "SELECT DISTINCT srs1RefId FROM ScheduleRequestSetEntity srs1, " +
                         "    ScheduleRequestSetEntity srs2, " +
                         "    IN(srs1.refObjectIds) srs1RefId, " +
                         "    IN(srs2.refObjectIds) srs2RefId " +
-                        "WHERE srs1.id = srs2.id " +
+                        "  WHERE srs1.id = srs2.id " +
                         "  AND srs1RefId != srs2RefId " +
-                        "  AND srs1RefId IN (:aoIds)";
+                        "  AND ";
+        String queryStrEnd = ")";
+        String primaryKeyMemberName = "srs1RefId";
 
-        TypedQuery<String> query = entityManager.createQuery(queryStr, String.class);
-        query.setParameter(SearchParameters.AO_IDS, aoIds);       // After updating an oracle driver the List binding is causing massive problems
+        TypedQuery<String> query = buildQuery(queryStrStart, queryStrEnd, primaryKeyMemberName, aoIdsList, enableMaxIdFetch, maxInClauseElements);
         List<String> results = query.getResultList();
 
         for(String result : results){
@@ -355,7 +379,59 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         }
 
         return resultInfo;
+    }
 
+    // need this because Oracle has limitation of 4000 chars in string, and we may have more than that
+    private TypedQuery buildQuery(String queryStrStart, String queryStrEnd, String primaryKeyMemberName, List<String> primaryKeys, boolean enableMaxIdFetch, int maxInClauseElements) {
+
+        TypedQuery queryRef;
+        StringBuilder queryStringRef = new StringBuilder();
+        queryStringRef.append(queryStrStart);
+
+        if (!enableMaxIdFetch) {
+            String ids = commaString(primaryKeys);
+            queryStringRef.append(primaryKeyMemberName).append(" IN (:ids)");
+            queryRef = entityManager.createQuery(queryStringRef.toString(), String.class).setParameter("ids", ids);
+        } else {
+            //Max fetchh is enabled so break uip the where clause into multiple IN() clauses
+            List<List<String>> brokenLists = new ArrayList<List<String>>();
+            List<String> list = new ArrayList<String>();
+
+            if (queryStrEnd != null && StringUtils.equals(queryStrEnd, ")")) {
+                queryStringRef.append("(");
+            }
+
+            Iterator<String> itr = primaryKeys.iterator();
+            for (int index = 0; itr.hasNext(); index++) {
+                if ((index > 0) && (index % maxInClauseElements == 0)) {
+                    brokenLists.add(list);
+                    if (brokenLists.size() == 1) {
+                        queryStringRef.append(primaryKeyMemberName).append(" IN (:ids1)");
+                    } else {
+                        queryStringRef.append(" OR ").append(primaryKeyMemberName).append(" IN (:ids").append(brokenLists.size()).append(")");
+                    }
+                    list = new ArrayList<String>();
+                }
+                list.add(itr.next());
+                if ((index == primaryKeys.size() - 1) && (index % maxInClauseElements != 0)) {
+                    brokenLists.add(list);
+                    queryStringRef.append(" OR ").append(primaryKeyMemberName).append(" IN (:ids").append(brokenLists.size()).append(")");
+                }
+            }
+
+            if (queryStrEnd != null && !StringUtils.isBlank(queryStrEnd)) {
+                queryStringRef.append(queryStrEnd);
+            }
+
+            queryRef = entityManager.createQuery(queryStringRef.toString(), String.class);
+
+            for (int i = 1; i <= brokenLists.size(); i++) {
+                String ids = commaString(brokenLists.get(i - 1));
+                queryRef.setParameter("ids" + i, ids);
+            }
+        }
+
+        return queryRef;
     }
 
     private SearchResultInfo searchForTotalMaxSeatsByAOIds(SearchRequestInfo searchRequestInfo) {
@@ -445,6 +521,39 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i]);
+            resultInfo.getRows().add(row);
+        }
+        return resultInfo;
+    }
+
+    private SearchResultInfo searchForAoCodesAndTypesByCoId(SearchRequestInfo searchRequestInfo) {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
+
+        String queryStr =
+                "SELECT luiId.lui.id, " +
+                        "luiId.code, " +
+                        "luiId.lui.luiType " +
+                        "FROM  LuiIdentifierEntity luiId," +
+                        "LuiLuiRelationEntity co2fo," +
+                        "LuiLuiRelationEntity fo2ao " +
+                        "WHERE co2fo.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
+                        "  AND fo2ao.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.fo2ao' " +
+                        "  AND co2fo.lui.id = :coId " +
+                        "  AND co2fo.relatedLui.id = fo2ao.lui.id " +
+                        "  AND luiId.lui.id = fo2ao.relatedLui";
+
+        TypedQuery<Object[]> query = entityManager.createQuery(queryStr, Object[].class);
+        query.setParameter(SearchParameters.CO_ID, coId);
+        List<Object[]> results = query.getResultList();
+
+        for(Object[] resultRow : results){
+            int i = 0;
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_TYPE, (String)resultRow[i]);
             resultInfo.getRows().add(row);
         }
         return resultInfo;
