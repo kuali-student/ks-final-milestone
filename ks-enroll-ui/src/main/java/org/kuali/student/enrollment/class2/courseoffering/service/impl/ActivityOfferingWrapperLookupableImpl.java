@@ -17,23 +17,19 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.core.search.service.SearchService;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -46,8 +42,6 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class ActivityOfferingWrapperLookupableImpl extends LookupableImpl {
-
-    private SearchService searchService;
 
     @Override
     public boolean validateSearchParameters(LookupForm form, Map<String, String> searchCriteria){
@@ -77,7 +71,7 @@ public class ActivityOfferingWrapperLookupableImpl extends LookupableImpl {
 
             try {
                 String coId = "";
-                SearchResultInfo searchResult = getSearchService().search(searchRequest, ContextUtils.createDefaultContextInfo());
+                SearchResultInfo searchResult = CourseOfferingManagementUtil.getSearchService().search(searchRequest, ContextUtils.createDefaultContextInfo());
 
                 if (searchResult.getRows().isEmpty()){
                     GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Invalid CourseOfferingCode " + courseOfferingCode);
@@ -95,7 +89,7 @@ public class ActivityOfferingWrapperLookupableImpl extends LookupableImpl {
                 }
 
                 if (StringUtils.isNotBlank(coId)){
-                    List<ActivityOfferingInfo> aos = getCourseOfferingService().getActivityOfferingsByCourseOffering(coId,ContextUtils.createDefaultContextInfo());
+                    List<ActivityOfferingInfo> aos = CourseOfferingManagementUtil.getCourseOfferingService().getActivityOfferingsByCourseOffering(coId,ContextUtils.createDefaultContextInfo());
                     for (ActivityOfferingInfo activityOffering : aos) {
                         CO_AO_RG_ViewHelperServiceImpl helper = new CO_AO_RG_ViewHelperServiceImpl();
                         ActivityOfferingWrapper wrapper = helper.convertAOInfoToWrapper(activityOffering);
@@ -113,14 +107,4 @@ public class ActivityOfferingWrapperLookupableImpl extends LookupableImpl {
         return activityOfferingWrappers;
     }
 
-    public CourseOfferingService getCourseOfferingService() {
-        return CourseOfferingResourceLoader.loadCourseOfferingService();
-    }
-
-    protected SearchService getSearchService() {
-        if(searchService == null) {
-            searchService = (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "search", SearchService.class.getSimpleName()));
-        }
-        return searchService;
-    }
 }

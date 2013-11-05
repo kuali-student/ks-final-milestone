@@ -4,19 +4,15 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -44,7 +40,7 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
                 QueryByCriteria criteria = qbcBuilder.build();
 
                 // Do search.  In ideal case, termList contains one element, which is the desired term.
-                List<TermInfo> termList = getAcalService().searchForTerms(criteria, new ContextInfo());
+                List<TermInfo> termList = CourseOfferingManagementUtil.getAcademicCalendarService().searchForTerms(criteria, new ContextInfo());
 
                 if (termList != null  && termList.size()>0 ){
                     int firstTerm = 0;
@@ -70,7 +66,7 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
                 QueryByCriteria criteria = qbcBuilder.build();
 
                 //Do search. In ideal case, returns one element, which is the desired CO.
-                courseOfferingList = getCourseOfferingService().searchForCourseOfferings(criteria, new ContextInfo());
+                courseOfferingList = CourseOfferingManagementUtil.getCourseOfferingService().searchForCourseOfferings(criteria, new ContextInfo());
             }
 
             //get all AOs based on the retrieved courseOfferingId
@@ -78,7 +74,7 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
                 int firstCOInfo = 0;
                 //Get the courseOfferingId from THE CO
                 courseOfferingId = courseOfferingList.get(firstCOInfo).getId();
-                activityOfferingInfos =  getCourseOfferingService().getActivityOfferingsByCourseOffering (courseOfferingId, ContextUtils.createDefaultContextInfo());
+                activityOfferingInfos =  CourseOfferingManagementUtil.getCourseOfferingService().getActivityOfferingsByCourseOffering (courseOfferingId, ContextUtils.createDefaultContextInfo());
             } else if (courseOfferingList.size()>1) {
                 throw new RuntimeException("Error: find more than one CO for specified courseOfferingCode: "+courseOfferingCode);
             } else {
@@ -90,16 +86,6 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
         }
 
         return activityOfferingInfos;
-    }
-
-    public CourseOfferingService getCourseOfferingService() {
-        return CourseOfferingResourceLoader.loadCourseOfferingService();
-    }
-
-    public AcademicCalendarService getAcalService() {
-        return (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE,
-                AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
-
     }
 
 }

@@ -10,10 +10,9 @@ import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.LookupForm;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
-import org.kuali.student.r2.core.room.service.RoomService;
 
 import org.apache.log4j.Logger;
 
@@ -27,8 +26,6 @@ import java.util.Map;
  */
 public class BuildingInfoLookupableImpl extends LookupableImpl implements Lookupable {
     private static final Logger LOGGER = Logger.getLogger(BuildingInfoLookupableImpl.class);
-
-    private RoomService roomService;
 
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
@@ -46,7 +43,7 @@ public class BuildingInfoLookupableImpl extends LookupableImpl implements Lookup
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
             qbcBuilder.setPredicates(PredicateFactory.like("name", name));
             QueryByCriteria criteria = qbcBuilder.build();
-            buildingInfos = getRoomService().searchForBuildings(criteria, ContextUtils.createDefaultContextInfo());
+            buildingInfos = CourseOfferingManagementUtil.getRoomService().searchForBuildings(criteria, ContextUtils.createDefaultContextInfo());
         } catch (Exception e) {
             //  If something goes wrong just log the error and return an empty list.
             String errorTxt = "Query to RoomService failed. See the application log for additional details.";
@@ -57,12 +54,5 @@ public class BuildingInfoLookupableImpl extends LookupableImpl implements Lookup
         }
 
         return buildingInfos;
-    }
-
-    public RoomService getRoomService(){
-        if (roomService == null){
-            roomService = CourseOfferingResourceLoader.loadRoomService();
-        }
-        return roomService;
     }
 }
