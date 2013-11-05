@@ -49,6 +49,7 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
+import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
@@ -70,6 +71,7 @@ import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.core.constants.CommentServiceConstants;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
@@ -163,6 +165,15 @@ public class CourseController extends CourseRuleEditorController {
         if (maintainable.getCourse().getUnitsContentOwner() == null) {
             maintainable.getCourse().setUnitsContentOwner(new ArrayList<String>());
         }
+
+        //Initialize Course Requisites
+        CourseRuleManagementWrapper ruleWrapper = maintainable.getCourseRuleManagementWrapper();
+        ruleWrapper.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
+
+        ruleWrapper.setRefDiscriminatorType(CourseServiceConstants.REF_OBJECT_URI_COURSE);
+        ruleWrapper.setRefObjectId(maintainable.getCourse().getId());
+
+        ruleWrapper.setAgendas(maintainable.getAgendasForRef(ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getRefObjectId()));
                 
         return retval;
     }
