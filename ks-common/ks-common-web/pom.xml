@@ -110,10 +110,5 @@
             <type>war</type>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-krad-web</artifactId>
-            <type>pom</type>
-        </dependency>
     </dependencies>
 </project>
