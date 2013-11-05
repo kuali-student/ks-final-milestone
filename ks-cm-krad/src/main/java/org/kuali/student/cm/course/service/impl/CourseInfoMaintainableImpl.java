@@ -26,10 +26,17 @@ import javax.xml.namespace.QName;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.rice.krms.dto.PropositionEditor;
+import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.TemplateInfo;
+import org.kuali.rice.krms.dto.TermParameterEditor;
+import org.kuali.rice.krms.service.RuleViewHelperService;
+import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
@@ -68,7 +75,7 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
  *
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public class CourseInfoMaintainableImpl extends MaintainableImpl implements CourseInfoMaintainable {
+public class CourseInfoMaintainableImpl extends MaintainableImpl implements CourseInfoMaintainable, RuleViewHelperService {
 
 	private static final long serialVersionUID = 1338662637708570500L;
 
@@ -776,5 +783,83 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
     }
 
 
-    
+    @Override
+    public void validateProposition(PropositionEditor proposition) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void resetDescription(PropositionEditor proposition) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void configurePropositionForType(PropositionEditor proposition) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public TemplateInfo getTemplateForType(String type) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void refreshInitTrees(RuleEditor rule) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void refreshViewTree(RuleEditor rule) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, RuleEditor compare) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public Tree<CompareTreeNode, String> buildMultiViewTree(RuleEditor coRuleEditor, RuleEditor cluRuleEditor) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public Boolean compareRules(RuleEditor original) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public PropositionEditor copyProposition(PropositionEditor proposition) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public PropositionEditor createCompoundPropositionBoStub(PropositionEditor existing, boolean addNewChild) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setTypeForCompoundOpCode(PropositionEditor proposition, String compoundOpCode) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public PropositionEditor createSimplePropositionBoStub(PropositionEditor sibling) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public Boolean compareProposition(PropositionEditor original, PropositionEditor compare) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public Boolean compareCompoundProposition(List<PropositionEditor> original, List<PropositionEditor> compare) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public Boolean compareTerm(List<TermParameterEditor> original, List<TermParameterEditor> compare) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
