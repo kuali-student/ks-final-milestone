@@ -24,12 +24,13 @@
         <property name="header" ref="KS-CourseView-Header" />
  		<property name="items"> 
 			<list> 
- 				<!-- <bean parent="KRMS-AgendaMaintenance-DisclosureLinks"/>
+ 				<bean parent="KRMS-AgendaMaintenance-DisclosureLinks"/>
                 <bean parent="KRMS-AgendaManage-Section" class="org.kuali.student.cm.course.service.util.CourseAgendaSection">
+                    <property name="propertyName" value="courseRuleManagementWrapper.agendas"/>
                     <property name="rulePrototype">
                         <ref bean="KS-AgendaManage-RulePrototype"/>
                     </property>
-                </bean> -->
+                </bean>
  			</list> 
  		</property> 
         <property name="footer">
