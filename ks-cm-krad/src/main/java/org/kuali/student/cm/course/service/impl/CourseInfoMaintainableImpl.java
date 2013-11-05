@@ -18,7 +18,6 @@ package org.kuali.student.cm.course.service.impl;
 import static org.kuali.student.logging.FormattedLogger.error;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -130,6 +129,8 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
     private LoDisplayWrapperModel loDisplayWrapperModel;
     
     private CourseRuleManagementWrapper courseRuleManagementWrapper;
+    
+    private RuleViewHelperService ruleViewHelperService = new CourseRuleViewHelperServiceImpl();
 	
     public void setUnitsContentOwnerToAdd(final String unitsContentOwnerToAdd) {
         this.unitsContentOwnerToAdd = unitsContentOwnerToAdd;
@@ -785,81 +786,81 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
 
     @Override
     public void validateProposition(PropositionEditor proposition) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        ruleViewHelperService.validateProposition(proposition);
     }
 
     @Override
     public void resetDescription(PropositionEditor proposition) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        ruleViewHelperService.resetDescription(proposition);
     }
 
     @Override
     public void configurePropositionForType(PropositionEditor proposition) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        ruleViewHelperService.configurePropositionForType(proposition);
     }
 
     @Override
     public TemplateInfo getTemplateForType(String type) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return ruleViewHelperService.getTemplateForType(type);  
     }
 
     @Override
     public void refreshInitTrees(RuleEditor rule) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        ruleViewHelperService.refreshInitTrees(rule);
     }
 
     @Override
     public void refreshViewTree(RuleEditor rule) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        ruleViewHelperService.refreshViewTree(rule);
     }
 
     @Override
     public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, RuleEditor compare) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return ruleViewHelperService.buildCompareTree(original, compare);  
     }
 
     @Override
     public Tree<CompareTreeNode, String> buildMultiViewTree(RuleEditor coRuleEditor, RuleEditor cluRuleEditor) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return ruleViewHelperService.buildMultiViewTree(coRuleEditor, cluRuleEditor);
     }
 
     @Override
     public Boolean compareRules(RuleEditor original) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return ruleViewHelperService.compareRules(original);
     }
 
     @Override
     public PropositionEditor copyProposition(PropositionEditor proposition) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return ruleViewHelperService.copyProposition(proposition);
     }
 
     @Override
     public PropositionEditor createCompoundPropositionBoStub(PropositionEditor existing, boolean addNewChild) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return ruleViewHelperService.createCompoundPropositionBoStub(existing, addNewChild);
     }
 
     @Override
     public void setTypeForCompoundOpCode(PropositionEditor proposition, String compoundOpCode) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        ruleViewHelperService.setTypeForCompoundOpCode(proposition, compoundOpCode);
     }
 
     @Override
     public PropositionEditor createSimplePropositionBoStub(PropositionEditor sibling) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return ruleViewHelperService.createSimplePropositionBoStub(sibling);
     }
 
     @Override
     public Boolean compareProposition(PropositionEditor original, PropositionEditor compare) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return ruleViewHelperService.compareProposition(original, compare);
     }
 
     @Override
     public Boolean compareCompoundProposition(List<PropositionEditor> original, List<PropositionEditor> compare) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return ruleViewHelperService.compareCompoundProposition(original, compare);
     }
 
     @Override
     public Boolean compareTerm(List<TermParameterEditor> original, List<TermParameterEditor> compare) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return ruleViewHelperService.compareTerm(original, compare);
     }
 }
