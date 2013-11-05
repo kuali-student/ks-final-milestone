@@ -692,12 +692,18 @@ cursor:auto;
 #Uif-BreadcrumbWrapper {
   display: block !important;         /* It is overriding the KRMS display: none; */
   visibility: visible !important;;    /* It is overriding the KRMS visibility: hidden; */
-  background-image: url('../images/breadcrumb/bg_breadcrumb.png');
+  background-color: red;
 }
 
 /* Breadcrumb Dividers */
 .uif-breadcrumbs > li {
   background-image: url(../images/breadcrumb/divider-breadcrumb.png);
+
+}
+
+/* Last Breadcrumb */
+.uif-breadcrumbs > li:last-child > span, .uif-breadcrumbs > li:last-child > a {
+    font-weight: normal;
 }
 /************************************** END BREADCRUMBS **************************************/
 
