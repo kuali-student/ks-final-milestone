@@ -43,6 +43,11 @@
             <version>${ks.api.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.kuali.student.lum</groupId>
+            <artifactId>ks-lum-ui</artifactId>
+            <version>${ks.lum.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-common-util</artifactId>
             <version>${ks.api.version}</version>
