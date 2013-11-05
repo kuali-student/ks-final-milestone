@@ -111,7 +111,7 @@ public class ActivityOfferingTransformer {
     private static List<String> getColocatedAoIds(SearchService searchService, List<String> luiIds, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         List<String> colocatedAOIds = new ArrayList<String>();
         //Create the search request
-        SearchRequestInfo request = new SearchRequestInfo("kuali.search.type.lui.searchForColocatedAoIdsByAoIds");
+        SearchRequestInfo request = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.COLOCATED_AOIDS_BY_AO_IDS_SEARCH_KEY);
         request.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_IDS, luiIds);
         //Execute the search and parse params
         SearchResultInfo result = searchService.search(request, context);
