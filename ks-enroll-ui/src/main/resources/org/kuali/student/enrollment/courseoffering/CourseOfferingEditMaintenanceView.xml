@@ -537,9 +537,7 @@
 
 
     <bean id="KS-CourseOfferingEdit-DeliveryFormats" parent="KS-CourseOffering-DeliveryFormats-parent"/>
-    <bean id="KS-CourseOffering-DeliveryFormats-parent" parent="Uif-HorizontalBoxSubSection" abstract="true">
-
-
+    <bean id="KS-CourseOffering-DeliveryFormats-parent" parent="Uif-VerticalBoxSubSection" abstract="true">
         <property name="instructionalText" value="Add the delivery formats to be used for this course offering"/>
 
         <property name="header.headerText" value="Delivery Formats"/>
@@ -548,7 +546,23 @@
 
         <property name="items">
             <list>
+                <ref bean="KS-CourseOfferingEdit-DeleteFormatOfferingWarning"/>
                 <ref bean="KS-CourseOffering-FormatOfferingSubSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--
+        TODO: KSENROLL-10683 - Replace this warning message with a confirmation dialog once KULRICE-10443 is implemented.
+    -->
+    <bean id="KS-CourseOfferingEdit-DeleteFormatOfferingWarning" parent="Uif-VerticalBoxSection" p:header.style="margin-top: 0;">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message"
+                        p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/warning.png&quot;] Deleting a delivery format will delete all of its activities and registration groups from the system."
+                        p:additionalCssClasses=".uif-validationMessages uif-groupValidationMessages uif-pageValidationMessages-warning">
+                    <property name="style" value="display: inline-block;" />
+                </bean>
             </list>
         </property>
     </bean>
