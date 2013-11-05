@@ -22,6 +22,7 @@ import org.kuali.rice.krad.maintenance.Maintainable;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
+import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
@@ -290,4 +291,6 @@ public interface CourseInfoMaintainable extends Maintainable {
      * @return The {@link LoDisplayWrapperModel} that is used to render {@link LoDisplayInfoWrapper} instances.
      */
     LoDisplayWrapperModel getLoDisplayWrapperModel();
+    
+    CourseRuleManagementWrapper getCourseRuleManagementWrapper();
 }

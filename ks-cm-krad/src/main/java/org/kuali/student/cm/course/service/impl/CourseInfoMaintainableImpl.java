@@ -33,6 +33,7 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
+import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
@@ -120,6 +121,8 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
     private String crossListingDisclosureSection;
     
     private LoDisplayWrapperModel loDisplayWrapperModel;
+    
+    private CourseRuleManagementWrapper courseRuleManagementWrapper;
 	
     public void setUnitsContentOwnerToAdd(final String unitsContentOwnerToAdd) {
         this.unitsContentOwnerToAdd = unitsContentOwnerToAdd;
@@ -709,6 +712,14 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
     }
     
     @Override
+    public CourseRuleManagementWrapper getCourseRuleManagementWrapper() {
+        if (courseRuleManagementWrapper == null) {
+             courseRuleManagementWrapper = new CourseRuleManagementWrapper();
+        }
+        return courseRuleManagementWrapper;
+    }
+    
+    @Override
     protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
         if (addLine instanceof CluInstructorInfoWrapper) {
             CluInstructorInfoWrapper instructorWrapper = (CluInstructorInfoWrapper)addLine;
@@ -725,7 +736,7 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
             return StringUtils.isNotEmpty(instructorWrapper.getDisplayName()) ? true : false;
         }
         return true;
-    }
+    }    
     
     protected SearchService getSearchService() {
         if (searchService == null) {
