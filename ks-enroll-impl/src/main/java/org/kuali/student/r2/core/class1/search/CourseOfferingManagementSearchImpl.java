@@ -208,8 +208,9 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
      * @param requestHelper
      * @return
      * @throws MissingParameterException
+     * @throws OperationFailedException 
      */
-    private String buildSearchQuery(SearchRequestHelper requestHelper) throws MissingParameterException{
+    private String buildSearchQuery(SearchRequestHelper requestHelper) throws MissingParameterException, OperationFailedException{
 
         String searchCourseCode = requestHelper.getParamAsString(SearchParameters.COURSE_CODE);
         String searchSubjectArea = requestHelper.getParamAsString(SearchParameters.SUBJECT_AREA);

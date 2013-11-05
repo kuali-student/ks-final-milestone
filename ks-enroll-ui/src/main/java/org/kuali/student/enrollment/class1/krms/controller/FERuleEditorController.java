@@ -17,8 +17,8 @@ import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.util.KSControllerHelper;
-import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.class1.krms.dto.FEAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper;
@@ -36,6 +36,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.HashMap;

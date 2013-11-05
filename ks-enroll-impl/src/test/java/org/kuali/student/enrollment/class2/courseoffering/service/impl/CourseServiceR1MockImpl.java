@@ -5,8 +5,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.mock.MockService;
-import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
@@ -31,6 +31,7 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import javax.jws.WebParam;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;

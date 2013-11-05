@@ -463,7 +463,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         return resultInfo;
     }
 
-    private SearchResultInfo searchForRelatedAoTypesByCoId(SearchRequestInfo searchRequestInfo) {
+    private SearchResultInfo searchForRelatedAoTypesByCoId(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
         SearchResultInfo resultInfo = new SearchResultInfo();
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
@@ -494,8 +494,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
     /**
      * Finds a list of AO codes and Ids given a CO id.
+     * @throws OperationFailedException 
      */
-    private SearchResultInfo searchForAoCodesByCoId(SearchRequestInfo searchRequestInfo) {
+    private SearchResultInfo searchForAoCodesByCoId(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
         SearchResultInfo resultInfo = new SearchResultInfo();
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
@@ -526,7 +527,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         return resultInfo;
     }
 
-    private SearchResultInfo searchForAoCodesAndTypesByCoId(SearchRequestInfo searchRequestInfo) {
+    private SearchResultInfo searchForAoCodesAndTypesByCoId(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
         SearchResultInfo resultInfo = new SearchResultInfo();
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
@@ -612,7 +613,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         return resultInfo;
     }
 
-    private SearchResultInfo searchForRegGroupsByCoId(SearchRequestInfo searchRequestInfo) {
+    private SearchResultInfo searchForRegGroupsByCoId(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
         SearchResultInfo resultInfo = new SearchResultInfo();
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
@@ -690,7 +691,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         return resultInfo;
     }
 
-    private SearchResultInfo searchForAOsAndClustersByCoId(SearchRequestInfo searchRequestInfo){
+    private SearchResultInfo searchForAOsAndClustersByCoId(SearchRequestInfo searchRequestInfo) throws OperationFailedException{
         SearchResultInfo resultInfo = new SearchResultInfo();
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
@@ -819,7 +820,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
 
 
-    protected SearchResultInfo searchForAOsWithoutClusterByFormatOffering(SearchRequestInfo searchRequestInfo){
+    protected SearchResultInfo searchForAOsWithoutClusterByFormatOffering(SearchRequestInfo searchRequestInfo) throws OperationFailedException{
         SearchResultInfo resultInfo = new SearchResultInfo();
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
@@ -852,7 +853,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         return resultInfo;
     }
 
-    protected SearchResultInfo searchForFOByCOId(SearchRequestInfo searchRequestInfo){
+    protected SearchResultInfo searchForFOByCOId(SearchRequestInfo searchRequestInfo) throws OperationFailedException{
         SearchResultInfo resultInfo = new SearchResultInfo();
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
@@ -884,8 +885,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
     /**
      * Finds a list of AO codes and Ids given a CO id.
+     * @throws OperationFailedException 
      */
-    private SearchResultInfo searchForTermIdByOfferingId(SearchRequestInfo searchRequestInfo) {
+    private SearchResultInfo searchForTermIdByOfferingId(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
         SearchResultInfo resultInfo = new SearchResultInfo();
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String offeringId = requestHelper.getParamAsString(SearchParameters.OFFERING_ID);
@@ -911,8 +913,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
      *
      * @param searchRequestInfo FO id search params
      * @return a AO cluster count
+     * @throws OperationFailedException 
      */
-    private SearchResultInfo searchForAOClusterCountByFO(SearchRequestInfo searchRequestInfo) {
+    private SearchResultInfo searchForAOClusterCountByFO(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
         SearchResultInfo resultInfo = new SearchResultInfo();
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
@@ -943,8 +946,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
      *
      * @param searchRequestInfo FO id search params
      * @return AO_ID, AO_TYPE
+     * @throws OperationFailedException 
      */
-    private SearchResultInfo searchForAoIdAndTypeByFO(SearchRequestInfo searchRequestInfo) {
+    private SearchResultInfo searchForAoIdAndTypeByFO(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
         SearchResultInfo resultInfo = new SearchResultInfo();
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);

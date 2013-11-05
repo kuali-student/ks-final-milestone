@@ -23,7 +23,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.student.common.util.KSCollectionUtils;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDaoApi;
 import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterEntity;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.issue.ActivityOfferingNotInAocSubissue;
@@ -81,6 +81,7 @@ import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 import javax.annotation.Resource;
 import javax.xml.namespace.QName;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
