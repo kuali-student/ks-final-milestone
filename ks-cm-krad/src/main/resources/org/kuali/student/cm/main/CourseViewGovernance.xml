@@ -111,6 +111,7 @@
 
     <bean id="KS-AdministeringOrganization-Section" parent="Uif-StackedCollectionSection"
           p:headerText="Administering Organization(s)" p:propertyName="administeringOrganizations"
+          p:instructionalText="List the organization(s) that can administer, or offer, this course. In most cases this will be the same as the Curriculum Oversight organization, but additional and/or alternate organizations can also be listed as administering organizations."
           p:collectionObjectClass="org.kuali.student.cm.course.form.OrganizationInfoWrapper">
         <property name="addLineLabel.messageText" value="Add an Organization" />
         <property name="layoutManager.lineGroupPrototype.header.headerText"
