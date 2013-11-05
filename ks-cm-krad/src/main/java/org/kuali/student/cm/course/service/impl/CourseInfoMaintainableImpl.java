@@ -19,6 +19,7 @@ import static org.kuali.student.logging.FormattedLogger.error;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -26,16 +27,23 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.tree.Tree;
-import org.kuali.rice.krad.maintenance.MaintainableImpl;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
+import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
+import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
+import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.TemplateInfo;
 import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.service.RuleViewHelperService;
+import org.kuali.rice.krms.service.impl.RuleEditorMaintainableImpl;
+import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
+import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
@@ -50,12 +58,17 @@ import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
 import org.kuali.student.cm.course.service.util.LoCategorySearchUtil;
 import org.kuali.student.cm.course.service.util.OrganizationSearchUtil;
+import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
+import org.kuali.student.lum.lu.ui.krms.dto.LUAgendaEditor;
+import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
+import org.kuali.student.lum.lu.ui.krms.tree.LURuleViewTreeBuilder;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
@@ -66,15 +79,17 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 /**
  * Base view helper service for both create and edit course info presentations.
  *
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public class CourseInfoMaintainableImpl extends MaintainableImpl implements CourseInfoMaintainable, RuleViewHelperService {
+public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl implements CourseInfoMaintainable, RuleViewHelperService {
 
 	private static final long serialVersionUID = 1338662637708570500L;
 
@@ -131,7 +146,15 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
     private CourseRuleManagementWrapper courseRuleManagementWrapper;
     
     private RuleViewHelperService ruleViewHelperService = new CourseRuleViewHelperServiceImpl();
+    
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseInfoMaintainableImpl.class);
 	
+    private transient CourseService courseService;
+    
+    private transient KSRuleViewTreeBuilder viewTreeBuilder;
+    
+    private transient NaturalLanguageHelper nlHelper;
+    
     public void setUnitsContentOwnerToAdd(final String unitsContentOwnerToAdd) {
         this.unitsContentOwnerToAdd = unitsContentOwnerToAdd;
     }
@@ -863,4 +886,111 @@ public class CourseInfoMaintainableImpl extends MaintainableImpl implements Cour
     public Boolean compareTerm(List<TermParameterEditor> original, List<TermParameterEditor> compare) {
         return ruleViewHelperService.compareTerm(original, compare);
     }
+    
+    @Override
+    public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
+
+//        CourseRuleManagementWrapper dataObject = new CourseRuleManagementWrapper();
+//
+//        dataObject.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
+//        //KRMS - dataObject.setRefDiscriminatorType(CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING);
+//
+//        String coId = dataObjectKeys.get("refObjectId");
+//        dataObject.setRefObjectId(coId);
+//        dataObject.setAgendas(this.getAgendasForRef(dataObject.getRefDiscriminatorType(), coId));
+//
+//        dataObject.setCompareTree(RuleCompareTreeBuilder.initCompareTree());
+//
+//        return dataObject;
+        return super.retrieveObjectForEditOrCopy(document, dataObjectKeys);
+    }
+
+    @Override
+    public String getViewTypeName() {
+        return KSKRMSServiceConstants.AGENDA_TYPE_COURSE;
+    }
+
+    /**
+     * This method was overriden from the RuleEditorMaintainableImpl to create an EnrolAgendaEditor instead of
+     * an AgendaEditor.
+     *
+     * @param agendaId
+     * @return EnrolAgendaEditor.
+     */
+    @Override
+    protected AgendaEditor getAgendaEditor(String agendaId) {
+        AgendaDefinition agenda = this.getRuleManagementService().getAgenda(agendaId);
+        LOG.info("Retrieved agenda for id: " + agendaId);
+        return new LUAgendaEditor(agenda);
+    }
+
+    /**
+     * Retrieves all the rules from the agenda tree and create a list of ruleeditor objects.
+     * <p/>
+     * Also initialize the proposition editors for each rule recursively and set natural language for the view trees.
+     *
+     * @param agendaItem
+     * @return
+     */
+    @Override
+    protected List<RuleEditor> getRuleEditorsFromTree(AgendaItemDefinition agendaItem, boolean initProps) {
+
+        List<RuleEditor> rules = new ArrayList<RuleEditor>();
+        if (agendaItem.getRule() != null) {
+
+            //Build the ruleEditor
+            RuleEditor ruleEditor = new LURuleEditor(agendaItem.getRule());
+
+            //Initialize the Proposition tree
+            if (initProps) {
+                this.initPropositionEditor(ruleEditor.getPropositionEditor());
+                ruleEditor.setViewTree(this.getViewTreeBuilder().buildTree(ruleEditor));
+            }
+
+            //Add rule to list on agenda
+            rules.add(ruleEditor);
+        }
+
+        if (agendaItem.getWhenTrue() != null) {
+            rules.addAll(getRuleEditorsFromTree(agendaItem.getWhenTrue(), initProps));
+        }
+
+        return rules;
+    }
+
+    /**
+     * Return the clu id from the canonical course that is linked to the given course offering id.
+     *
+     * @param refObjectId - the course offering id.
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<ReferenceObjectBinding> getParentRefOjbects(String refObjectId) {
+        return this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseServiceConstants.REF_OBJECT_URI_COURSE, refObjectId);
+    }
+    
+    protected RuleViewTreeBuilder getViewTreeBuilder() {
+        if (this.viewTreeBuilder == null) {
+            viewTreeBuilder = new LURuleViewTreeBuilder();
+            viewTreeBuilder.setNlHelper(this.getNLHelper());
+        }
+        return viewTreeBuilder;
+    }
+
+    protected NaturalLanguageHelper getNLHelper() {
+        if (this.nlHelper == null) {
+            nlHelper = new NaturalLanguageHelper();
+            nlHelper.setRuleManagementService(this.getRuleManagementService());
+        }
+        return nlHelper;
+    }
+
+    protected CourseService getCourseService() {
+        if (courseService == null) {
+            courseService = (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, CourseServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return courseService;
+    }
+
 }
