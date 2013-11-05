@@ -131,6 +131,7 @@ limitations under the License.
                 <value>themes/ksboot/scripts/ruleMaintenance.js</value>
                 <value>krms/scripts/requiredAlerts.js</value>
                 <value>krms/scripts/countdownInputs.js</value>
+                <value>themes/ksboot/scripts/toolbar.js</value>
             </list>
         </property>
         <property name="additionalCssFiles">
