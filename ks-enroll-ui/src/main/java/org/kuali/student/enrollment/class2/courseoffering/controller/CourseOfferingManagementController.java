@@ -93,7 +93,10 @@ public class CourseOfferingManagementController extends UifControllerBase {
         }
 
         //TODO: Workaround for KRMS return
-        if(!(form.getMethodToCall().contains("edit") || form.getMethodToCall().contains("refresh"))) {
+        if(!( form.getMethodToCall().contains("edit")
+                || form.getMethodToCall().contains("refresh")
+                || form.getMethodToCall().contains("manageCORequisites") ))
+        {
             form.setCurrentCourseOfferingWrapper(null);
         }
 
