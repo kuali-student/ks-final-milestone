@@ -15,6 +15,7 @@
  */
 package org.kuali.student.cm.course.controller;
 
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -30,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * Override of RuleEditorController for Student
@@ -53,7 +55,7 @@ public class CourseRuleEditorController extends RuleEditorController {
     public ModelAndView addRule(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
                                 @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
-        //KRMS - form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_RULE_CO_MAINTENANCE_PAGE_ID);
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KS-RuleMaintenance-Page-Parent");
         return super.addRule(form, result, request, response);
     }
 
@@ -71,7 +73,7 @@ public class CourseRuleEditorController extends RuleEditorController {
     public ModelAndView goToRuleView(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
-        //KRMS - form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_RULE_CO_MAINTENANCE_PAGE_ID);
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KS-RuleMaintenance-Page-Parent");
         return super.goToRuleView(form, result, request, response);
     }
 
@@ -88,7 +90,7 @@ public class CourseRuleEditorController extends RuleEditorController {
     public ModelAndView cancelEditRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) {
 
-        //KRMS - form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_AGENDA_CO_MAINTENANCE_PAGE_ID);
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KS-CourseView-CourseRequisitesPage");
         return super.cancelEditRule(form, result, request, response);
     }
 
@@ -105,7 +107,7 @@ public class CourseRuleEditorController extends RuleEditorController {
     public ModelAndView updateRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) {
 
-        //KRMS - form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_AGENDA_CO_MAINTENANCE_PAGE_ID);
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KS-CourseView-CourseRequisitesPage");
         return super.updateRule(form, result, request, response);
     }
 
@@ -131,26 +133,6 @@ public class CourseRuleEditorController extends RuleEditorController {
         getRuleEditor(form).setSelectedKey(selectedKey);
 
         return this.goToEditProposition(form, result, request, response);
-    }
-
-    /**
-     * Test method for a controller that invokes a dialog lightbox.
-     *
-     * @param form     - test form
-     * @param result   - Spring form binding result
-     * @param request  - http request
-     * @param response - http response
-     * @return
-     */
-    @RequestMapping(params = "methodToCall=compareRules")
-    public ModelAndView compareRules(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                     HttpServletRequest request, HttpServletResponse response) {
-
-        doCompareRules(form);
-
-        // redirect back to client to display lightbox
-        //KRMS - return showDialog(EnrolKRMSConstants.KSKRMS_DIALOG_COMPARE_CLU_CO, form, request, response);
-        return null;
     }
 
     protected void compareRulePropositions(MaintenanceDocumentForm form, RuleEditor ruleEditor) {

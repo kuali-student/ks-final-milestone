@@ -43,10 +43,16 @@ import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.name.EntityNameContract;
+import org.kuali.rice.krad.maintenance.Maintainable;
 import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.rice.krms.dto.AgendaEditor;
+import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
@@ -725,6 +731,39 @@ public class CourseController extends CourseRuleEditorController {
                 loWrapper.setSelected(false);
             }
         }
+    }
+
+    protected RuleEditor retrieveSelectedRuleEditor(MaintenanceDocumentForm document){
+
+        CourseInfoMaintainable courseInfoMaintainable = getCourseMaintainableFrom(document);
+        RuleManagementWrapper ruleWrapper = courseInfoMaintainable.getCourseRuleManagementWrapper();
+
+        String ruleKey = document.getActionParamaterValue("ruleKey");
+        RuleEditor ruleEditor = getSelectedRuleEditor(ruleWrapper, ruleKey);
+        ruleWrapper.setRuleEditor((RuleEditor) ObjectUtils.deepCopy(ruleEditor));
+
+        return ruleWrapper.getRuleEditor();
+    }
+
+    protected RuleEditor getSelectedRuleEditor(RuleManagementWrapper wrapper, String ruleKey) {
+
+        AgendaEditor agendaEditor = getSelectedAgendaEditor(wrapper, ruleKey);
+        if (agendaEditor != null) {
+            return agendaEditor.getRuleEditors().get(ruleKey);
+        }
+
+        return null;
+    }
+
+    protected AgendaEditor getSelectedAgendaEditor(RuleManagementWrapper wrapper, String ruleKey) {
+
+        for (AgendaEditor agendaEditor : wrapper.getAgendas()) {
+            if (agendaEditor.getRuleEditors().containsKey(ruleKey)) {
+                return agendaEditor;
+            }
+        }
+
+        return null;
     }
      
     /**

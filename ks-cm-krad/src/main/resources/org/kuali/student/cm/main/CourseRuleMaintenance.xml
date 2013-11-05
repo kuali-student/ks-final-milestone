@@ -254,7 +254,7 @@ limitations under the License.
             <map>
                 <entry key="selected" value="0"/>
                 <entry key="select"
-                       value="function(event, ui) {ajaxCallOnTabSelect(event, ui, 'KRMS-RuleEditor-TreeGroup', 'KSCO-EditWithLogic-EditGroup', 'refreshLogicArea', 'KRMS-LogicArea-InputField');}"/>
+                       value="function(event, ui) {ajaxCallOnTabSelect(event, ui, 'KRMS-RuleEditor-TreeGroup', 'KS-EditWithLogic-EditGroup', 'refreshLogicArea', 'KRMS-LogicArea-InputField');}"/>
             </map>
         </property>
     </bean>
@@ -328,7 +328,7 @@ limitations under the License.
     <bean id="KS-EditWithLogic-EditSection" parent="KRMS-EditWithLogic-EditSection-parent">
         <property name="items">
             <list>
-                <ref bean="KSCO-EditWithLogic-EditGroup"/>
+                <ref bean="KS-EditWithLogic-EditGroup"/>
             </list>
         </property>
     </bean>
