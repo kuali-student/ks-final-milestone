@@ -70,7 +70,7 @@ limitations under the License.
     <bean id="KS-RuleAdd-Links" parent="KRMS-RuleAdd-Links">
         <property name="items">
             <list>
-                <bean parent="Uif-NavigationActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule" p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditRequisite"
+                <bean parent="Uif-NavigationActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
             </list>
         </property>
@@ -79,8 +79,8 @@ limitations under the License.
     <bean id="KS-RuleEdit-Links" parent="KRMS-RuleEdit-Links">
         <property name="items">
             <list>
-                <bean parent="Uif-NavigationActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView" p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditRequisite"/>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteRequisite"/>
+                <bean parent="Uif-NavigationActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView"/>
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule"/>
             </list>
         </property>
     </bean>
