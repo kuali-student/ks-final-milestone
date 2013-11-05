@@ -107,6 +107,10 @@
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
             <artifactId>rice-impl</artifactId>
         </dependency>
         <dependency>
