@@ -65,6 +65,7 @@
                 <ref bean="KS-CourseView-CourseLogisticsPage" />
                 <ref bean="KS-CourseView-LearningObjectivesPage" />
                 <ref bean="KS-CourseView-CourseRequisitesPage" />
+<!--                 <ref bean="KS-RuleMaintenance-Page-Parent"/> -->
                 <ref bean="KS-CourseView-ActiveDatesPage" />
                 <ref bean="KS-CourseView-FinancialsPage" />
                 <ref bean="KS-CourseView-AuthorsAndCollaboratorsPage" />
