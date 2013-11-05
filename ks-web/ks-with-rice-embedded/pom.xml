@@ -214,6 +214,7 @@
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-web</artifactId>
+            <type>pom</type>
         </dependency>
         <!--  Sources for GWT Compile -->
         <dependency>
