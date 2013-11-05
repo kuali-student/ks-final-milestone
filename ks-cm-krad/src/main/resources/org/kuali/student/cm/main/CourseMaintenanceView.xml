@@ -36,19 +36,26 @@
         </property>
         <property name="dialogs">
             <list>
-                  <ref bean="commentsLightBox" />
-                  <ref bean="decisionsDialog" />
+                <ref bean="commentsLightBox" />
+                <ref bean="decisionsDialog" />
+                <!--bean id="compareCluAndCoRuleLightBox" parent="KRMS-CompareRule">
+                    <property name="headerText" value="Compare Catalog and Course Offering Rules"/>
+                </bean>
+                <bean id="courseRangeLookup" parent="KRMS-CourseRangeResult-Lookup"/>
+                <bean id="warningMessagedYesNo" parent="KRMS-WarningMessagedYesNo"/-->
             </list>
         </property>
         <property name="additionalScriptFiles">
             <list>
                 <value>ks-cm-krad/scripts/jquery.jqEasyCharCounter.custom.js</value>
                 <value>ks-cm-krad/scripts/common.js</value>
+                <value>themes/ksboot/scripts/ruleMaintenance.js</value>
             </list>
         </property>
         <property name="additionalCssFiles">
             <list>
                 <value>ks-cm-krad/css/cm.css</value>
+                <value>themes/ksboot/stylesheets/krms.css</value>
             </list>
         </property>
         <property name="items">
