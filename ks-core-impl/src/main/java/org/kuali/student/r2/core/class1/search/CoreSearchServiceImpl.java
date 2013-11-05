@@ -464,8 +464,9 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
      *                          holidays.
      * @param contextInfo context of the call
      * @return holidays associated with a term
+     * @throws OperationFailedException 
      */
-    protected SearchResultInfo searchForHolidaysByTermId(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo){
+    protected SearchResultInfo searchForHolidaysByTermId(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws OperationFailedException{
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
 
         String termId = requestHelper.getParamAsString(SearchParameters.TERM_ID);
