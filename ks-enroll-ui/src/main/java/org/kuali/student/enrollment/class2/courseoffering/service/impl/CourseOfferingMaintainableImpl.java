@@ -299,11 +299,12 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
             keyValues.addAll(collectActivityTypeKeyValues(courseInfo, formatOfferingInfo.getFormatId(), getTypeService(), ContextUtils.createDefaultContextInfo()));
             if (wrapper instanceof CourseOfferingEditWrapper) {
                 courseOfferingEditWrapper = (CourseOfferingEditWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
-                if (wrapper.getCourseOfferingInfo().getId() != null) {
+                if (wrapper.getCourseOfferingInfo().getId() != null && courseOfferingEditWrapper.getAoWrapperList() == null) {
                     loadActivityOfferingsByCourseOffering(wrapper.getCourseOfferingInfo(), courseOfferingEditWrapper);
+                }
                     if (courseOfferingEditWrapper.getAoWrapperList() != null) {
                         FormatOfferingInfo aoformatOfferingInfo = courseOfferingEditWrapper.getAoWrapperList().get(0).getFormatOffering();
-                        if (aoformatOfferingInfo.getFinalExamLevelTypeKey() != keyValues.get(0).getKey()) {
+                        if (!aoformatOfferingInfo.getFinalExamLevelTypeKey().equals(keyValues.get(0).getKey())) {
                             List<KeyValue> newKeyValues = new ArrayList<KeyValue>();
                             newKeyValues.add(keyValues.get(0));
                             keyValues.remove(0);
@@ -311,7 +312,6 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
 
                         }
                     }
-                }
 
             }
             control.setDisabled(false);
