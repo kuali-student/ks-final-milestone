@@ -769,7 +769,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     aoWrapper.setRoomName(sched.getRoomCode(), newRow);
                     aoWrapper.setDaysDisplayName(sched.getWeekdays(), newRow);
                     aoWrapper.setTbaDisplayName(sched.getTbaInd(), newRow);
-                    aoWrapper.setScheduledState(ActivityOfferingConstants.ACTIVITYOFFERING_SCHEDULE_STATE_SCHEDULED);
+                    aoWrapper.setScheduledState(ActivityOfferingConstants.ACTIVITYOFFERING_SCHEDULE_STATE_SCHEDULED, newRow);
                     newRow = true;
                 }
 
