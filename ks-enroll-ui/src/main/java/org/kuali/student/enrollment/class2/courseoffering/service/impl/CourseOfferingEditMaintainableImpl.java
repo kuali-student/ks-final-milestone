@@ -40,14 +40,12 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingCon
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FinalExam;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
@@ -566,9 +564,6 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                     wrapper.setFormatOfferingInfo(fo);
                     wrapper.setCourseOfferingWrapper(formObject);
 
-                    setAosOnFormatOffering( fo.getId(), wrapper, contextInfo );
-                    setRgsOnFormatOffering( fo.getId(), wrapper, contextInfo );
-
                     //set the reader friendly Grade Roster Level
                     if (!StringUtils.isEmpty(fo.getGradeRosterLevelTypeKey())) {
                         wrapper.setGradeRosterUI(getTypeService().getType(fo.getGradeRosterLevelTypeKey(), contextInfo).getName());
@@ -947,19 +942,4 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
         newAttr.setValue(value);
         return newAttr;
     }
-
-    private void setAosOnFormatOffering( String formatOfferingId, FormatOfferingWrapper wrapper, ContextInfo contextInfo ) throws Exception {
-        List<ActivityOfferingInfo> aos = getCourseOfferingService().getActivityOfferingsByFormatOffering( formatOfferingId, contextInfo );
-        if( aos != null && !aos.isEmpty() ) {
-            wrapper.setActivityOfferingInfos(aos);
-        }
-    }
-
-    private void setRgsOnFormatOffering( String formatOfferingId, FormatOfferingWrapper wrapper, ContextInfo contextInfo ) throws Exception {
-        List<RegistrationGroupInfo> rgs = getCourseOfferingService().getRegistrationGroupsByFormatOffering( formatOfferingId, contextInfo );
-        if( rgs != null && !rgs.isEmpty() ) {
-            wrapper.setRegistrationGroupInfos(rgs);
-        }
-    }
-
 }
