@@ -80,7 +80,7 @@
 					<property name="items">
 						<list>
 							<bean id="KS-SubjectArea-Field" parent="Uif-InputField-LabelTop"
-								p:label="Subject Code" p:propertyName="course.subjectArea" p:required="true">
+								p:label="Subject Code" p:propertyName="course.subjectArea">
 								<property name="fieldLabel.requiredMessage">
                                     <bean parent="Uif-RequiredMessage" p:messageText="Required on Submit" />
                                 </property>
@@ -208,7 +208,7 @@
 					<property name="items">
 						<list>
 							<bean parent="Uif-InputField-LabelTop" p:label="Description"
-								p:propertyName="course.descr.plain" p:required="true">
+								p:propertyName="course.descr.plain">
                                 <property name="fieldLabel.requiredMessage">
                                     <bean parent="Uif-RequiredMessage" p:messageText="Required on Submit" />
                                 </property>
@@ -224,7 +224,7 @@
 								</property>
 							</bean>
 							<bean id="KS-ProposalRationale" parent="Uif-InputField-LabelTop" p:label="Proposal Rationale"
-								p:propertyName="proposal.rationale.plain" p:required="true">
+								p:propertyName="proposal.rationale.plain">
 								<property name="fieldLabel.requiredMessage">
                                     <bean parent="Uif-RequiredMessage" p:messageText="Required on Submit" />
                                 </property>
