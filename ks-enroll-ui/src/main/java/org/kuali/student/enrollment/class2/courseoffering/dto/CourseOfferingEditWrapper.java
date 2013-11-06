@@ -42,6 +42,7 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
     private List<String> crsGradingOptions;
     private List<OrganizationInfoWrapper> organizationNames;
     private List<OfferingInstructorWrapper> instructors;
+    private List<String> alternateCOCodes;
     private String stateName;
 
     private String selectedGradingOptionName;
@@ -70,6 +71,19 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
     private RenderHelper renderHelper;
 
     protected String viewId;
+
+
+    /**
+     * @see #setAlternateCOCodes(List<String>)
+     * @return
+     */
+    public List<String> getAlternateCOCodes() {
+        return alternateCOCodes;
+    }
+
+    public void setAlternateCOCodes(List<String> alternateCOCodes) {
+        this.alternateCOCodes = alternateCOCodes;
+    }
 
     //this field is used for CO inquiry page to display all associated AOs
     private List<ActivityOfferingWrapper> aoWrapperList;
@@ -420,6 +434,24 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     public void setViewId(String viewId) {
         this.viewId = viewId;
+    }
+
+    /**
+     * This method returns a list of crosslisted/official course code for a course. This will
+     * be displayed as the tooltip (if crosslisted cos exists) at Copy CO Screen.
+     *
+     * @return
+     */
+    @SuppressWarnings("unused")
+    public String getCrossListedCodesUI(){
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("This course is crosslisted with:<br>");
+        for (String code : alternateCOCodes){
+            sb.append(code + "<br>");
+        }
+
+        return StringUtils.removeEnd(sb.toString(),"<br>");
     }
 }
 

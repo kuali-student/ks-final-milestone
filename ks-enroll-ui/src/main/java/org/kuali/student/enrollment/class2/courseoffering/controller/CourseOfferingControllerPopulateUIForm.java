@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
@@ -48,6 +49,7 @@ import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.class1.search.CourseOfferingHistorySearchImpl;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
@@ -324,12 +326,29 @@ public class CourseOfferingControllerPopulateUIForm {
             searchRequest.addParam(CourseOfferingHistorySearchImpl.COURSE_ID, coWrapper.getCourse().getId());
 
             searchRequest.addParam(CourseOfferingHistorySearchImpl.TARGET_YEAR_PARAM, termYear);
+            searchRequest.addParam(CourseOfferingHistorySearchImpl.SearchParameters.CROSS_LIST_SEARCH_ENABLED, BooleanUtils.toStringTrueFalse(true));
             org.kuali.student.r2.core.search.dto.SearchResultInfo searchResult = CourseOfferingManagementUtil.getSearchService().search(searchRequest, null);
 
             List<String> courseOfferingIds = new ArrayList<String>(searchResult.getTotalResults());
+
             for (org.kuali.student.r2.core.search.dto.SearchResultRowInfo row : searchResult.getRows()) {
-                courseOfferingIds.add(row.getCells().get(firstValue).getValue());
+                for (SearchResultCellInfo cellInfo : row.getCells()) {
+                    String value = StringUtils.EMPTY;
+                    if (cellInfo.getValue() != null) {
+                        value = cellInfo.getValue();
+                    }
+                    if (CourseOfferingHistorySearchImpl.SearchResultColumns.CO_ID.equals(cellInfo.getKey())) {
+                        courseOfferingIds.add(value);
+                    } else if (CourseOfferingHistorySearchImpl.SearchResultColumns.IS_CROSS_LISTED.equals(cellInfo.getValue())) {
+                        coWrapper.setCrossListedCo(BooleanUtils.toBoolean(value));
+                    } else if (CourseOfferingHistorySearchImpl.SearchResultColumns.CROSS_LISTED_COURSES.equals(cellInfo.getKey())) {
+                        coWrapper.setAlternateCOCodes(Arrays.asList(StringUtils.split(value, ",")));
+                    }
+
+                }
             }
+
+
 
             courseOfferingInfos = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOfferingsByIds(courseOfferingIds, contextInfo);
 
@@ -338,6 +357,7 @@ public class CourseOfferingControllerPopulateUIForm {
                 TermInfo termInfo = CourseOfferingManagementUtil.getAcademicCalendarService().getTerm(courseOfferingInfo.getTermId(), contextInfo);
                 co.setTerm(termInfo);
                 co.setGradingOption(CourseOfferingManagementUtil.getGradingOption(courseOfferingInfo.getGradingOptionId()));
+                co.setAlternateCOCodes(coWrapper.getAlternateCOCodes());
                 coWrapper.getExistingTermOfferings().add(co);
             }
         } catch (Exception e) {
