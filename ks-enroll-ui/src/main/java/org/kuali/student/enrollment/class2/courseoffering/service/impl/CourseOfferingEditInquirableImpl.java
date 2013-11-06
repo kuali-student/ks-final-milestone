@@ -209,7 +209,9 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
              * Sets the cross listed infos
              */
             for (CourseOfferingCrossListingInfo crossListingInfo : coInfo.getCrossListings()){
-                formObject.getAlternateCOCodes().add(crossListingInfo.getCode());
+                if(formObject.getAlternateCOCodes()!=null && !formObject.getAlternateCOCodes().isEmpty()){
+                    formObject.getAlternateCOCodes().add(crossListingInfo.getCode());
+                }
             }
 
             // set use final exam matrix toggle UI
