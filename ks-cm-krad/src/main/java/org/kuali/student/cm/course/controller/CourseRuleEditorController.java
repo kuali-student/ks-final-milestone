@@ -140,7 +140,7 @@ public class CourseRuleEditorController extends RuleEditorController {
 
     protected void compareRulePropositions(MaintenanceDocumentForm form, RuleEditor ruleEditor) {
 
-        RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+        RuleManagementWrapper ruleWrapper = getCourseMaintainableFrom(form).getCourseRuleManagementWrapper();
 
         //Compare CO to CLU and display info message
         if (ruleEditor.getProposition() != null) {

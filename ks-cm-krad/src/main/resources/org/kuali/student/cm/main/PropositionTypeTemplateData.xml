@@ -31,7 +31,7 @@ limitations under the License.
                           p:termSpecName="CompletedCourse"
                           p:value="true">
                         <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.cm.course.krms.EnrolCourseComponentBuilder"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.lum.lu.ui.krms.builder.CourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -75,7 +75,7 @@ limitations under the License.
                           p:termSpecName="CompletedCourse"
                           p:value="false">
                         <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.cm.course.krms.EnrolCourseComponentBuilder"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.lum.lu.ui.krms.builder.CourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -126,7 +126,7 @@ limitations under the License.
                           p:termSpecName="EnrolledCourses"
                           p:value="true">
                         <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.cm.course.krms.EnrolCourseComponentBuilder"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.lum.lu.ui.krms.builder.CourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -284,7 +284,7 @@ limitations under the License.
                           p:termSpecName="CompletedCourse" p:value="true">
                         <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
                         <property name="componentBuilderClass"
-                                  value="org.kuali.student.cm.course.krms.EnrolCourseComponentBuilder"/>
+                                  value="org.kuali.student.lum.lu.ui.krms.builder.CourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -365,7 +365,7 @@ limitations under the License.
                           p:termSpecName="CompletedCourse" p:value="true">
                         <property name="componentId" value="KRMS-CourseAndTerm-Group"/>
                         <property name="componentBuilderClass"
-                                  value="org.kuali.student.cm.course.krms.EnrolCourseComponentBuilder"/>
+                                  value="org.kuali.student.lum.lu.ui.krms.builder.CourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -374,7 +374,7 @@ limitations under the License.
                           p:termSpecName="CompletedCourse" p:value="true">
                         <property name="componentId" value="KRMS-CourseAndTerm-Group"/>
                         <property name="componentBuilderClass"
-                                  value="org.kuali.student.cm.course.krms.EnrolCourseComponentBuilder"/>
+                                  value="org.kuali.student.lum.lu.ui.krms.builder.CourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -383,7 +383,7 @@ limitations under the License.
                           p:termSpecName="CompletedCourse" p:value="true">
                         <property name="componentId" value="KRMS-CourseAndTerms-Group"/>
                         <property name="componentBuilderClass"
-                                  value="org.kuali.student.cm.course.krms.EnrolCourseComponentBuilder"/>
+                                  value="org.kuali.student.lum.lu.ui.krms.builder.CourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -483,7 +483,7 @@ limitations under the License.
                           p:termSpecName="NumberOfEnrollments" p:value="n">
                         <property name="componentId" value="KRMS-CourseAndRepeat-Group"/>
                         <property name="componentBuilderClass"
-                                  value="org.kuali.student.cm.course.krms.EnrolCourseComponentBuilder"/>
+                                  value="org.kuali.student.lum.lu.ui.krms.builder.CourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -516,7 +516,7 @@ limitations under the License.
                           p:termSpecName="EnrolledCourses" p:value="true">
                         <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
                         <property name="componentBuilderClass"
-                                  value="org.kuali.student.cm.course.krms.EnrolCourseComponentBuilder"/>
+                                  value="org.kuali.student.lum.lu.ui.krms.builder.CourseComponentBuilder"/>
                     </bean>
                 </entry>
                 <entry key="kuali.krms.proposition.type.final.exam.courseset">
