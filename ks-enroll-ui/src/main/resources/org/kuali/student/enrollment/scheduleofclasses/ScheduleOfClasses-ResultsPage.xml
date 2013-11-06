@@ -160,7 +160,7 @@
         <property name="header.render" value="true"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper" />
         <property name="header.upperGroup">
-          <bean parent="Uif-HorizontalBoxGroup">
+          <bean parent="Uif-VerticalBoxGroup">
             <property name="items">
               <list>
                   <bean parent="Uif-MessageField" p:label="[b]Course Description[/b]" p:messageText="@{#line.courseOfferingFormatedDesc}"/>
@@ -281,7 +281,7 @@
         <property name="headerText" value="Activities" />
         <property name="propertyName" value="activityWrapperList" />
         <property name="header.upperGroup">
-          <bean parent="Uif-HorizontalBoxGroup">
+          <bean parent="Uif-VerticalBoxGroup">
             <property name="items">
               <list>
                   <bean parent="Uif-MessageField" p:label="[b]Course Description[/b]" p:messageText="@{#line.courseOfferingFormatedDesc}"/>
@@ -300,7 +300,7 @@
         <property name="header.render" value="true"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper" />
         <property name="header.upperGroup">
-            <bean parent="Uif-HorizontalBoxGroup">
+            <bean parent="Uif-VerticalBoxGroup">
                 <property name="items">
                     <list>
                         <bean parent="Uif-MessageField" p:label="[b]Course Description[/b]" p:messageText="@{#line.courseOfferingFormatedDesc}"/>
