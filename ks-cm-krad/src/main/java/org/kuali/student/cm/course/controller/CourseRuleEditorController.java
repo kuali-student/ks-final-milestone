@@ -17,12 +17,15 @@ package org.kuali.student.cm.course.controller;
 
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.controller.RuleEditorController;
+import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.util.KRMSConstants;
+import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -147,6 +150,73 @@ public class CourseRuleEditorController extends RuleEditorController {
                 GlobalVariables.getMessageMap().removeAllInfoMessagesForProperty(KRMSConstants.KRMS_RULE_TREE_GROUP_ID);
             }
         }
+    }
+    
+    /**
+     * 
+     * This is used on the 'Edit Rule' tab on the Course Requisite page (once a rule has already been selected).
+     * 
+     * @see org.kuali.rice.krms.controller.RuleEditorController#getRuleEditor(org.kuali.rice.krad.web.form.UifFormBase)
+     */
+    @Override
+    protected RuleEditor getRuleEditor(UifFormBase form) {
+        if (form instanceof MaintenanceDocumentForm) {
+            MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) form;
+            CourseInfoMaintainable courseInfoMaintainable = getCourseMaintainableFrom(maintenanceDocumentForm);
+            RuleManagementWrapper ruleWrapper = courseInfoMaintainable.getCourseRuleManagementWrapper();
+            return ruleWrapper.getRuleEditor();
+        }
+        return null;
+    }
+    
+    /**
+     * 
+     * This is used on the Course Requisite screen to determine the matching {@link RuleEditor} for the selected rule.
+     * 
+     * @see org.kuali.rice.krms.controller.RuleEditorController#retrieveSelectedRuleEditor(org.kuali.rice.krad.web.form.MaintenanceDocumentForm)
+     */
+    @Override
+    protected RuleEditor retrieveSelectedRuleEditor(MaintenanceDocumentForm document){
+
+        CourseInfoMaintainable courseInfoMaintainable = getCourseMaintainableFrom(document);
+        RuleManagementWrapper ruleWrapper = courseInfoMaintainable.getCourseRuleManagementWrapper();
+
+        String ruleKey = document.getActionParamaterValue("ruleKey");
+        RuleEditor ruleEditor = getSelectedRuleEditor(ruleWrapper, ruleKey);
+        ruleWrapper.setRuleEditor((RuleEditor) ObjectUtils.deepCopy(ruleEditor));
+
+        return ruleWrapper.getRuleEditor();
+    }
+
+    protected RuleEditor getSelectedRuleEditor(RuleManagementWrapper wrapper, String ruleKey) {
+
+        AgendaEditor agendaEditor = getSelectedAgendaEditor(wrapper, ruleKey);
+        if (agendaEditor != null) {
+            return agendaEditor.getRuleEditors().get(ruleKey);
+        }
+
+        return null;
+    }
+
+    protected AgendaEditor getSelectedAgendaEditor(RuleManagementWrapper wrapper, String ruleKey) {
+
+        for (AgendaEditor agendaEditor : wrapper.getAgendas()) {
+            if (agendaEditor.getRuleEditors().containsKey(ruleKey)) {
+                return agendaEditor;
+            }
+        }
+
+        return null;
+    }
+    
+    /**
+     * Retrieves the {@link CourseInfoMaintainable} instance from the {@link MaintenanceDocumentForm} in session
+     * 
+     * @param form {@link MaintenanceDocumentForm}
+     * @param {@link CourseInfoMaintainable}
+     */
+    protected CourseInfoMaintainable getCourseMaintainableFrom(final MaintenanceDocumentForm form) {
+        return (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
     }
 
 }

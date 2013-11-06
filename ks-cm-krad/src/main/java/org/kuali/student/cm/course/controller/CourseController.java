@@ -732,50 +732,7 @@ public class CourseController extends CourseRuleEditorController {
             }
         }
     }
-
-    protected RuleEditor retrieveSelectedRuleEditor(MaintenanceDocumentForm document){
-
-        CourseInfoMaintainable courseInfoMaintainable = getCourseMaintainableFrom(document);
-        RuleManagementWrapper ruleWrapper = courseInfoMaintainable.getCourseRuleManagementWrapper();
-
-        String ruleKey = document.getActionParamaterValue("ruleKey");
-        RuleEditor ruleEditor = getSelectedRuleEditor(ruleWrapper, ruleKey);
-        ruleWrapper.setRuleEditor((RuleEditor) ObjectUtils.deepCopy(ruleEditor));
-
-        return ruleWrapper.getRuleEditor();
-    }
-
-    protected RuleEditor getSelectedRuleEditor(RuleManagementWrapper wrapper, String ruleKey) {
-
-        AgendaEditor agendaEditor = getSelectedAgendaEditor(wrapper, ruleKey);
-        if (agendaEditor != null) {
-            return agendaEditor.getRuleEditors().get(ruleKey);
-        }
-
-        return null;
-    }
-
-    protected AgendaEditor getSelectedAgendaEditor(RuleManagementWrapper wrapper, String ruleKey) {
-
-        for (AgendaEditor agendaEditor : wrapper.getAgendas()) {
-            if (agendaEditor.getRuleEditors().containsKey(ruleKey)) {
-                return agendaEditor;
-            }
-        }
-
-        return null;
-    }
      
-    /**
-     * Retrieves the {@link CourseInfoMaintainable} instance from the {@link MaintenanceDocumentForm} in session
-     * 
-     * @param form {@link MaintenanceDocumentForm}
-     * @param {@link CourseInfoMaintainable}
-     */
-    protected CourseInfoMaintainable getCourseMaintainableFrom(final MaintenanceDocumentForm form) {
-        return (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
-    }
-    
     protected CluService getCluService() {
           if (cluService == null) {
               cluService = GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluService.class.getSimpleName()));
