@@ -75,7 +75,7 @@
                                             </bean>
                                         </property>
                                         <property name="lightBoxLookup">
-                                            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                                            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="true"/>
                                         </property>
                                     </bean>
                                 </property>
