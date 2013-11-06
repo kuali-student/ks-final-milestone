@@ -4,6 +4,8 @@
  */
 package org.kuali.student.r2.core.search.util;
 
+import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 
@@ -117,18 +119,14 @@ public class SearchRequestHelper {
      *
      * @param paramKey
      * @return null if no values are set, the first value if more than one set
+     * @throws OperationFailedException 
      * @throws IllegalArgumentException if one of the parameter values is not a
      * date
      */
-    public String getParamAsString(String paramKey) {
+    public String getParamAsString(String paramKey) throws OperationFailedException {
         List<String> list = this.getParamAsList(paramKey);
-        if (list == null) {
-            return null;
-        }
-        if (list.isEmpty()) {
-            return null;
-        }
-        return list.get(0);
+        
+        return KSCollectionUtils.getRequiredZeroElement(list, false, false);
     }
 
     /**
@@ -136,9 +134,10 @@ public class SearchRequestHelper {
      *
      * @param paramKey
      * @return null if no values are set, the first value if more than one set
+     * @throws OperationFailedException 
      * @throws IllegalArgumentException if parameter is not a date
      */
-    public Date getParamAsDate(String paramKey) {
+    public Date getParamAsDate(String paramKey) throws OperationFailedException {
         String value = this.getParamAsString(paramKey);
         if (value == null) {
             return null;
@@ -155,9 +154,10 @@ public class SearchRequestHelper {
      *
      * @param paramKey
      * @return null if no values are set, the first value if more than one set
+     * @throws OperationFailedException 
      * @throws NumberFormatException if parameter is not an integer
      */
-    public Integer getParamAsInteger(String paramKey) {
+    public Integer getParamAsInteger(String paramKey) throws OperationFailedException {
         String value = this.getParamAsString(paramKey);
         if (value == null) {
             return null;
