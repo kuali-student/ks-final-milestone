@@ -1202,3 +1202,39 @@ button.halflings:before {
   top:-6px;
 }
 .icon.halflings:hover:before {color: @iconHoverColor;}
+
+/*
+  Style guide implementation: text sizes. START
+*/
+
+label{
+  font-size:1em;
+}
+
+input[type="radio"]+label, input[type="checkbox"]+label, input[type="checkbox"] ~ span > label {
+  font-weight: normal;
+}
+
+select,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+  font-size: 1em;
+}
+
+/*
+  Style guide implementation: text sizes. END
+*/
