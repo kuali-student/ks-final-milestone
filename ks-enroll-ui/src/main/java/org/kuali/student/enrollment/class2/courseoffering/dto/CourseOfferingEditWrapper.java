@@ -72,12 +72,10 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     protected String viewId;
 
-
-    /**
-     * @see #setAlternateCOCodes(List<String>)
-     * @return
-     */
     public List<String> getAlternateCOCodes() {
+        if(alternateCOCodes == null){
+            alternateCOCodes = new ArrayList<String>();
+        }
         return alternateCOCodes;
     }
 
@@ -118,24 +116,24 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
     }
 
     public List<FormatOfferingWrapper> getFormatOfferingList() {
+        if (formatOfferingList == null) {
+            formatOfferingList = new ArrayList<FormatOfferingWrapper>();
+        }
         return formatOfferingList;
     }
 
     public void setFormatOfferingList(List<FormatOfferingWrapper> formatOfferingList) {
-        if (formatOfferingList == null) {
-            formatOfferingList = new ArrayList<FormatOfferingWrapper>();
-        }
         this.formatOfferingList = formatOfferingList;
     }
 
     public List<String> getStudentRegOptions() {
+        if (studentRegOptions == null) {
+            studentRegOptions = new ArrayList<String>();
+        }
         return studentRegOptions;
     }
 
     public void setStudentRegOptions(List<String> studentRegOptions) {
-        if (studentRegOptions == null) {
-            studentRegOptions = new ArrayList<String>();
-        }
         this.studentRegOptions = studentRegOptions;
     }
 
