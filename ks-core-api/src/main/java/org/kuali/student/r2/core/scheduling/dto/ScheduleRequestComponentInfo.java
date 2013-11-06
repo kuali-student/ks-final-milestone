@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.collection.KSApiListUtils;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponent;
 
 //import org.w3c.dom.Element;
@@ -85,19 +85,19 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
         ScheduleRequestComponentInfo srci = (ScheduleRequestComponentInfo) obj; // will throw ClassCastException
         if (!this.id.equals(srci.getId())) return false;
         
-        if (!KSApiListUtils.areListContentsEqual(buildingIds, srci.buildingIds)) return false;
+        if (!KSCollectionUtils.areCollectionContentsEqual(buildingIds, srci.buildingIds)) return false;
 
-        if (!KSApiListUtils.areListContentsEqual(campusIds, srci.campusIds)) return false;
+        if (!KSCollectionUtils.areCollectionContentsEqual(campusIds, srci.campusIds)) return false;
         
-        if (!KSApiListUtils.areListContentsEqual(orgIds, srci.orgIds)) return false;
+        if (!KSCollectionUtils.areCollectionContentsEqual(orgIds, srci.orgIds)) return false;
         
-        if (!KSApiListUtils.areListContentsEqual(resourceTypeKeys, srci.resourceTypeKeys)) return false;
+        if (!KSCollectionUtils.areCollectionContentsEqual(resourceTypeKeys, srci.resourceTypeKeys)) return false;
         
-        if (!KSApiListUtils.areListContentsEqual(roomIds, srci.roomIds)) return false;
+        if (!KSCollectionUtils.areCollectionContentsEqual(roomIds, srci.roomIds)) return false;
         
-        if (!KSApiListUtils.areListContentsEqual(timeSlotIds, srci.timeSlotIds)) return false;
+        if (!KSCollectionUtils.areCollectionContentsEqual(timeSlotIds, srci.timeSlotIds)) return false;
         
-        if (!KSApiListUtils.areListContentsEqual(partitionIds, srci.partitionIds)) return false;
+        if (!KSCollectionUtils.areCollectionContentsEqual(partitionIds, srci.partitionIds)) return false;
         
         if (this.isTBA==null && srci.getIsTBA()==null) return true;
         
