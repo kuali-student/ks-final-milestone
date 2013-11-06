@@ -150,7 +150,7 @@
 									<bean parent="Uif-TextControl" p:size="50" />
 								</property>
 								<property name="suggest">
-                                    <bean parent="Uif-Suggest" p:render="true">
+                                    <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
                                         <property name="valuePropertyName" value="displayName" />
                                         <property name="templateOptions">
                                             <map>
@@ -166,6 +166,13 @@
                                                         }
                                                     </value>
                                                 </entry>
+                                                <!-- <entry key="formatResult">
+                                                    <value>
+                                                        function(data) {
+                                                            
+                                                        }
+                                                    </value>
+                                                </entry> -->
                                             </map>
                                         </property>
                                         <property name="suggestQuery">
