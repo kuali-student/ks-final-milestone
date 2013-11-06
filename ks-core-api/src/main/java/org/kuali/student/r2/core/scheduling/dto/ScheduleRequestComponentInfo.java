@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.student.common.object.KSObjectUtils;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponent;
 
 //import org.w3c.dom.Element;
@@ -113,15 +114,15 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
         
         if (!KSCollectionUtils.areCollectionContentsEqual(partitionIds, srci.partitionIds)) return false;
         
-//        if (!KSObjectUtils.nullSafeBooleanEquals(this.isTBA, srci.getIsTBA())) return false;
+        if (!KSObjectUtils.nullSafeBooleanEquals(this.isTBA, srci.getIsTBA())) return false;
         
         if (!KSCollectionUtils.areCollectionContentsEqual(roomFeatureTypeKeys, srci.roomFeatureTypeKeys)) return false;
         
         if (!KSCollectionUtils.areCollectionContentsEqual(roomTypeKeys, srci.roomTypeKeys)) return false;
         
-//        if (!KSObjectUtils.nullSafeIntegerEquals(this.capacity, srci.getCapacity())) return false;
+        if (!KSObjectUtils.nullSafeIntegerEquals(this.capacity, srci.getCapacity())) return false;
         
-//        if (!KSObjectUtils.nullSafeBooleanEquals(this.ignoreConflicts, srci.getIgnoreConflicts())) return false;
+        if (!KSObjectUtils.nullSafeBooleanEquals(this.ignoreConflicts, srci.getIgnoreConflicts())) return false;
         
         // at this point all of the checks have passed.
         return true;
