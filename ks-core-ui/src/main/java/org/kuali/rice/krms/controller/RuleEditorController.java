@@ -1016,7 +1016,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         //validate the expression
         List<String> errorMessages = new ArrayList<String>();
-        boolean validExpression = ruleLogicExpressionParser.validateExpression(errorMessages);
+        List<String> keyList = getPropositionKeys(new ArrayList<String>(), ruleEditor.getPropositionEditor());
+        boolean validExpression = ruleLogicExpressionParser.validateExpression(errorMessages, keyList);
 
         //show errors and don't change anything else
         if (!validExpression) {
