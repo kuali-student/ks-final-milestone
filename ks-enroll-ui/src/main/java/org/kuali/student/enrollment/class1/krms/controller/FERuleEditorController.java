@@ -228,13 +228,12 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         FERuleEditor ruleEditor = (FERuleEditor) getRuleEditor(form);
         RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper((MaintenanceDocumentForm) form);
 
-
-        if (this.getViewHelper(form).validate(ruleEditor)) {
+        if (this.getViewHelper(form).validateRule(ruleEditor)) {
             return getUIFModelAndView(form);
         } else {
             PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor.getPropositionEditor());
             PropositionTreeUtil.resetNewProp(ruleEditor.getPropositionEditor());
-            this.getViewHelper(form).rebuildActions(ruleEditor);
+            this.getViewHelper(form).buildActions(ruleEditor);
         }
 
         FEAgendaEditor agenda = (FEAgendaEditor) ruleWrapper.getAgendaEditor();
@@ -339,15 +338,6 @@ public class FERuleEditorController extends EnrolRuleEditorController {
     protected void compareRulePropositions(MaintenanceDocumentForm form, RuleEditor ruleEditor) {
         //We don't do comparisons on Final Exam.
         return;
-    }
-
-    /**
-     * @param form
-     * @return
-     */
-    @Override
-    protected FERuleViewHelperServiceImpl getViewHelper(UifFormBase form) {
-        return (FERuleViewHelperServiceImpl) KSControllerHelper.getViewHelperService(form);
     }
 
     protected void displayLinkedTermTypeMessages(MaintenanceDocumentForm form) {

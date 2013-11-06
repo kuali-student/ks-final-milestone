@@ -174,27 +174,30 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
         }
     }
 
-    public void rebuildActions(FERuleEditor ruleEditor) {
+    @Override
+    public void buildActions(RuleEditor ruleEditor) {
         try {
+            FERuleEditor rule = (FERuleEditor) ruleEditor;
             ArrayList<ActionEditor> newActions = new ArrayList<ActionEditor>();
+
             ArrayList<ActionEditor> actions = (ArrayList<ActionEditor>) ruleEditor.getActions();
             for (ActionEditor action : actions) {
                 Map<String, String> attributes = action.getAttributes();
                 Map<String, String> newAttributes = new HashMap<String, String>();
-                if (ruleEditor.getDay() != null) {
-                    newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY, ruleEditor.getDay());
+                if (rule.getDay() != null) {
+                    newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY, rule.getDay());
                 }
-                if (ruleEditor.isTba()) {
+                if (rule.isTba()) {
                     newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_TBA, Boolean.TRUE.toString());
                 } else {
-                    if (ruleEditor.getStartTime() != null) {
-                        String startTimeAMPM = new StringBuilder(ruleEditor.getStartTime()).append(" ").append(ruleEditor.getStartTimeAMPM()).toString();
+                    if (rule.getStartTime() != null) {
+                        String startTimeAMPM = new StringBuilder(rule.getStartTime()).append(" ").append(rule.getStartTimeAMPM()).toString();
                         long startTimeMillis = this.parseTimeToMillis(startTimeAMPM);
                         String startTime = String.valueOf(startTimeMillis);
                         newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, startTime);
                     }
-                    if (ruleEditor.getEndTime() != null) {
-                        String endTimeAMPM = new StringBuilder(ruleEditor.getEndTime()).append(" ").append(ruleEditor.getEndTimeAMPM()).toString();
+                    if (rule.getEndTime() != null) {
+                        String endTimeAMPM = new StringBuilder(rule.getEndTime()).append(" ").append(rule.getEndTimeAMPM()).toString();
                         long endTimeMillis = this.parseTimeToMillis(endTimeAMPM);
                         String endTime = String.valueOf(endTimeMillis);
                         newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME, endTime);
@@ -202,11 +205,11 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
                     newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_TBA, Boolean.FALSE.toString());
                 }
 
-                if (ruleEditor.getBuilding().getBuildingCode() != null && !ruleEditor.getBuilding().getBuildingCode().isEmpty()) {
-                     newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY, ruleEditor.getBuilding().getId());
+                if (rule.getBuilding().getBuildingCode() != null && !rule.getBuilding().getBuildingCode().isEmpty()) {
+                    newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY, rule.getBuilding().getId());
                 }
-                if (ruleEditor.getRoom().getRoomCode() != null && !ruleEditor.getRoom().getRoomCode().isEmpty()) {
-                  newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM, ruleEditor.getRoom().getId());
+                if (rule.getRoom().getRoomCode() != null && !rule.getRoom().getRoomCode().isEmpty()) {
+                    newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM, rule.getRoom().getId());
 
                 }
                 action.setAttributes(newAttributes);
@@ -237,10 +240,10 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
 
         } else if (proposition.getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
             //Null check because newly created compound propositions should also be translateable.
-            if(proposition.getCompoundComponents()!=null){
+            if (proposition.getCompoundComponents() != null) {
                 String operator = getCompoundSeperator(proposition, isRoot);
                 for (PropositionEditor child : proposition.getCompoundEditors()) {
-                    if(proposition.getCompoundComponents().indexOf(child)!=0){
+                    if (proposition.getCompoundComponents().indexOf(child) != 0) {
                         naturalLanguage.append(operator);
                     }
                     naturalLanguage.append(this.getDescriptionForPropositionTree(child, false));
@@ -256,7 +259,7 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
 
     private String getCompoundSeperator(PropositionEditor proposition, boolean isRoot) {
         String operator = getCompoundOperator(proposition);
-        if (isRoot){
+        if (isRoot) {
             return ". " + StringUtils.capitalize(operator) + " ";
         }
         return "; " + operator + " ";
@@ -272,100 +275,95 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
         return operator;
     }
 
+    @Override
+    public Boolean validateRule(RuleEditor ruleEditor) {
 
-    public boolean validate(FERuleEditor ruleEditor) {
-        boolean hasError = false;
-        if (ruleEditor.isTba()) {
-            ruleEditor.setStartTime("");
-            ruleEditor.setStartTimeAMPM("");
-            ruleEditor.setEndTime("");
-            ruleEditor.setEndTimeAMPM("");
+        boolean hasError = super.validateRule(ruleEditor);
+        FERuleEditor rule = (FERuleEditor) ruleEditor;
+
+        if (rule.isTba()) {
+            rule.setStartTime("");
+            rule.setStartTimeAMPM("");
+            rule.setEndTime("");
+            rule.setEndTimeAMPM("");
         } else {
-            //Return with error if the RDL fields have not been completed and TBA is unticked
 
-            if (ruleEditor.getStartTime() == null || ruleEditor.getStartTime().isEmpty()) {
+            //Return with error if the RDL fields have not been completed and TBA is unticked
+            if (rule.getStartTime() == null || rule.getStartTime().isEmpty()) {
                 GlobalVariables.getMessageMap().putError(PropositionTreeUtil.DOC_NEW_DATAOBJECT_PATH + ".ruleEditor.startTime", KRMSConstants.KRMS_MSG_ERROR_RDL_STARTTIME);
                 hasError = true;
             }
-            if (ruleEditor.getStartTimeAMPM() == null || ruleEditor.getStartTimeAMPM().isEmpty()) {
+            if (rule.getStartTimeAMPM() == null || rule.getStartTimeAMPM().isEmpty()) {
                 GlobalVariables.getMessageMap().putError(PropositionTreeUtil.DOC_NEW_DATAOBJECT_PATH + ".ruleEditor.startTimeAMPM", KRMSConstants.KRMS_MSG_ERROR_RDL_STARTTIME_AMPM);
                 hasError = true;
             }
-            if (ruleEditor.getEndTime() == null || ruleEditor.getEndTime().isEmpty()) {
+            if (rule.getEndTime() == null || rule.getEndTime().isEmpty()) {
                 GlobalVariables.getMessageMap().putError(PropositionTreeUtil.DOC_NEW_DATAOBJECT_PATH + ".ruleEditor.endTime", KRMSConstants.KRMS_MSG_ERROR_RDL_ENDTIME);
                 hasError = true;
             }
-            if (ruleEditor.getEndTimeAMPM() == null || ruleEditor.getEndTimeAMPM().isEmpty()) {
+            if (rule.getEndTimeAMPM() == null || rule.getEndTimeAMPM().isEmpty()) {
                 GlobalVariables.getMessageMap().putError(PropositionTreeUtil.DOC_NEW_DATAOBJECT_PATH + ".ruleEditor.endTimeAMPM", KRMSConstants.KRMS_MSG_ERROR_RDL_ENDTIME_AMPM);
                 hasError = true;
             }
-             if(!hasError) {
-            //Return with error message if start time is not prior to end time, but only when all other errors are resolved.
-            if (compareTime(ruleEditor.getStartTime(), ruleEditor.getStartTimeAMPM(), ruleEditor.getEndTime(), ruleEditor.getEndTimeAMPM())) {
-                GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_RULE_TREE_GROUP_ID, ActivityOfferingConstants.MSG_ERROR_INVALID_START_TIME);
-                hasError = true;
-            }
 
-
-            //Return with error message if user is currently editing a proposition.
-            PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
-            if ((proposition != null) && (proposition.isEditMode())) {
-                GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID, KRMSConstants.KRMS_MSG_ERROR_RULE_PREVIEW);
-                hasError = true;
-            }
-
-
-            if (ruleEditor.getProposition() == null) {
-                GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_RULE_TREE_GROUP_ID, KRMSConstants.KRMS_MSG_ERROR_RULE_UPDATE);
-                hasError = true;
-            }
-            try {
-
-                if (ruleEditor.getBuilding().getBuildingCode() != null && !ruleEditor.getBuilding().getBuildingCode().isEmpty()) {
-                    List<BuildingInfo> buildingInfos = new ArrayList<BuildingInfo>();
-                    buildingInfos = retrieveBuildingInfo(ruleEditor.getBuilding().getBuildingCode(), true);
-                    if (buildingInfos.size() > 0) {
-                        for (BuildingInfo buildingInfo : buildingInfos) {
-                            if (buildingInfo.getBuildingCode().equals(ruleEditor.getBuilding().getBuildingCode())) {
-                                ruleEditor.setBuilding(buildingInfo);
-                                break;
-                            }
-                        }
-                    } else {
-                        GlobalVariables.getMessageMap().putError(PropositionTreeUtil.DOC_NEW_DATAOBJECT_PATH + ".ruleEditor.building.buildingCode", KRMSConstants.KRMS_MSG_ERROR_RDL_FACILITY);
-                        hasError = true;
-                    }
-
-                } else{
-                    ruleEditor.setBuilding(new BuildingInfo());
-                    ruleEditor.setRoom(new RoomInfo());
+            if (!hasError) {
+                //Return with error message if start time is not prior to end time, but only when all other errors are resolved.
+                if (compareTime(rule.getStartTime(), rule.getStartTimeAMPM(), rule.getEndTime(), rule.getEndTimeAMPM())) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_RULE_TREE_GROUP_ID, ActivityOfferingConstants.MSG_ERROR_INVALID_START_TIME);
+                    hasError = true;
                 }
-                if (ruleEditor.getRoom().getRoomCode() != null && !ruleEditor.getRoom().getRoomCode().isEmpty()) {
-
-                    List<RoomInfo> roomInfos = new ArrayList<RoomInfo>();
-                    roomInfos = retrieveRoomInfo(ruleEditor.getRoom().getRoomCode(), ruleEditor.getBuilding().getBuildingCode(), true);
-                    if (roomInfos.size() > 0) {
-                        for (RoomInfo roomInfo : roomInfos) {
-                            if (roomInfo.getRoomCode().equals(ruleEditor.getRoom().getRoomCode())) {
-                                ruleEditor.setRoom(roomInfo);
-                                break;
-                            }
-                        }
-                    } else {
-                        GlobalVariables.getMessageMap().putError(PropositionTreeUtil.DOC_NEW_DATAOBJECT_PATH + ".ruleEditor.room.roomCode", KRMSConstants.KRMS_MSG_ERROR_RDL_ROOM);
-                        hasError = true;
-                    }
-
-                }else{
-                    ruleEditor.setRoom(new RoomInfo());
-                }
-
-            } catch (Exception e) {
-                throw new RuntimeException(e);
             }
-             }
-
         }
+
+        if (rule.getProposition() == null) {
+            GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_RULE_TREE_GROUP_ID, KRMSConstants.KRMS_MSG_ERROR_RULE_UPDATE);
+            hasError = true;
+        }
+
+        try {
+            if (rule.getBuilding().getBuildingCode() != null && !rule.getBuilding().getBuildingCode().isEmpty()) {
+                List<BuildingInfo> buildingInfos = new ArrayList<BuildingInfo>();
+                buildingInfos = retrieveBuildingInfo(rule.getBuilding().getBuildingCode(), true);
+                if (buildingInfos.size() > 0) {
+                    for (BuildingInfo buildingInfo : buildingInfos) {
+                        if (buildingInfo.getBuildingCode().equals(rule.getBuilding().getBuildingCode())) {
+                            rule.setBuilding(buildingInfo);
+                            break;
+                        }
+                    }
+                } else {
+                    GlobalVariables.getMessageMap().putError(PropositionTreeUtil.DOC_NEW_DATAOBJECT_PATH + ".ruleEditor.building.buildingCode", KRMSConstants.KRMS_MSG_ERROR_RDL_FACILITY);
+                    hasError = true;
+                }
+
+            } else {
+                rule.setBuilding(new BuildingInfo());
+                rule.setRoom(new RoomInfo());
+            }
+            if (rule.getRoom().getRoomCode() != null && !rule.getRoom().getRoomCode().isEmpty()) {
+
+                List<RoomInfo> roomInfos = new ArrayList<RoomInfo>();
+                roomInfos = retrieveRoomInfo(rule.getRoom().getRoomCode(), rule.getBuilding().getBuildingCode(), true);
+                if (roomInfos.size() > 0) {
+                    for (RoomInfo roomInfo : roomInfos) {
+                        if (roomInfo.getRoomCode().equals(rule.getRoom().getRoomCode())) {
+                            rule.setRoom(roomInfo);
+                            break;
+                        }
+                    }
+                } else {
+                    GlobalVariables.getMessageMap().putError(PropositionTreeUtil.DOC_NEW_DATAOBJECT_PATH + ".ruleEditor.room.roomCode", KRMSConstants.KRMS_MSG_ERROR_RDL_ROOM);
+                    hasError = true;
+                }
+
+            } else {
+                rule.setRoom(new RoomInfo());
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         return hasError;
     }
 
@@ -383,7 +381,7 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
             throw new RuntimeException(e);
         }
 
-        if(eTime <= sTime) {
+        if (eTime <= sTime) {
             return true;
         }
         return false;
