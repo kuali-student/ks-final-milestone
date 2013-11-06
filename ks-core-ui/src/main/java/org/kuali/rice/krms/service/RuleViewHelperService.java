@@ -32,9 +32,13 @@ import java.util.List;
  */
 public interface RuleViewHelperService {
 
-    public  void validateProposition(PropositionEditor proposition);
+    public Boolean validateRule(RuleEditor rule);
+
+    public Boolean validateProposition(PropositionEditor proposition);
 
     public void resetDescription(PropositionEditor proposition);
+
+    public void buildActions(RuleEditor rule);
 
     public void configurePropositionForType(PropositionEditor proposition);
 

@@ -25,6 +25,7 @@ import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.BeanPropertyComparator;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.KrmsConstants;
@@ -155,12 +156,34 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     }
 
     /**
+     * Validate the rule.
+     *
+     * @param rule
+     * @return True if valid, false if not.
+     */
+    @Override
+    public Boolean validateRule(RuleEditor rule) {
+
+        boolean hasError = false;
+
+        //Return with error message if user is currently editing a proposition.
+        PropositionEditor proposition = PropositionTreeUtil.getProposition(rule);
+        if ((proposition != null) && (proposition.isEditMode())) {
+            GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID, KRMSConstants.KRMS_MSG_ERROR_RULE_PREVIEW);
+            hasError = true;
+        }
+
+        return hasError;
+    }
+
+    /**
      * Validate the proposition.
      *
      * @param proposition
+     * @return True if valid, false if not.
      */
     @Override
-    public void validateProposition(PropositionEditor proposition) {
+    public Boolean validateProposition(PropositionEditor proposition) {
 
         // Retrieve the builder for the current proposition type.
         ComponentBuilder builder = this.getTemplateRegistry().getComponentBuilderForType(proposition.getType());
@@ -168,6 +191,12 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             // Execute validation
             builder.validate(proposition);
         }
+
+        if (GlobalVariables.getMessageMap().getErrorMessages().isEmpty()) {
+            return Boolean.TRUE;
+        }
+
+        return Boolean.FALSE;
     }
 
     /**
@@ -235,6 +264,10 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
         //Refresh the natural language.
         prop.getNaturalLanguage().clear();
+    }
+
+    @Override
+    public void buildActions(RuleEditor ruleEditor) {
     }
 
     public void configurePropositionForType(PropositionEditor proposition) {
