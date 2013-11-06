@@ -942,9 +942,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         queryStringRef.append(queryStrStart);
 
         if (!enableMaxIdFetch) {
-            String ids = commaString(primaryKeys);
             queryStringRef.append(primaryKeyMemberName).append(" IN (:ids)");
-            queryRef = entityManager.createQuery(queryStringRef.toString(), resultClass).setParameter("ids", ids);
+            queryRef = entityManager.createQuery(queryStringRef.toString(), resultClass);
+            queryRef.setParameter("ids", primaryKeys);
         } else {
             //Max fetchh is enabled so break uip the where clause into multiple IN() clauses
             List<List<String>> brokenLists = new ArrayList<List<String>>();
@@ -979,8 +979,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             queryRef = entityManager.createQuery(queryStringRef.toString(), resultClass);
 
             for (int i = 1; i <= brokenLists.size(); i++) {
-                String ids = commaString(brokenLists.get(i - 1));
-                queryRef.setParameter("ids" + i, ids);
+                queryRef.setParameter("ids" + i, brokenLists.get(i - 1));
             }
         }
 
