@@ -439,7 +439,7 @@ public class CourseOfferingManagementUtil {
     }
 
     public static void reloadCourseOfferings(CourseOfferingManagementForm theForm) throws Exception {
-        getViewHelperService(theForm).loadCourseOfferingsByTermAndCourseCode(theForm.getTermInfo().getId(), theForm.getInputCode(), theForm);
+        getViewHelperService(theForm).loadCourseOfferingsByTermAndCourseCode(theForm.getTermInfo(), theForm.getInputCode(), theForm);
         CourseOfferingManagementToolbarUtil.processCoToolbarForUser(theForm.getCourseOfferingResultList(), theForm);
     }
 

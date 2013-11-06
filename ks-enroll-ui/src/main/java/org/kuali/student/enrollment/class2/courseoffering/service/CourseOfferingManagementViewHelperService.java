@@ -22,6 +22,7 @@ import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingMan
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ActivityOfferingDisplayUI;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.CourseOfferingDisplayUI;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 
 import java.util.List;
@@ -33,7 +34,7 @@ import java.util.List;
 public interface CourseOfferingManagementViewHelperService extends CO_AO_RG_ViewHelperService {
     public void populateTerm(CourseOfferingManagementForm form) throws Exception;
 
-    public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, CourseOfferingManagementForm form) throws Exception;
+    public void loadCourseOfferingsByTermAndCourseCode(TermInfo termInfo, String courseCode, CourseOfferingManagementForm form) throws Exception;
 
     public void loadCourseOfferingsByTermAndSubjectCode(String termId, String subjectCode, CourseOfferingDisplayUI form) throws Exception;
 

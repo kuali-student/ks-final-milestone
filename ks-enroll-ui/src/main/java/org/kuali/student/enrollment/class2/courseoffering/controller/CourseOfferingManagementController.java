@@ -182,7 +182,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
             return getUIFModelAndView(form, CourseOfferingConstants.SEARCH_PAGE);
         }
 
-        CourseOfferingManagementUtil.getViewHelperService(form).loadCourseOfferingsByTermAndCourseCode(form.getTermInfo().getId(), form.getInputCode(), form);
+        CourseOfferingManagementUtil.getViewHelperService(form).loadCourseOfferingsByTermAndCourseCode(form.getTermInfo(), form.getInputCode(), form);
 
         //turn on authz
         form.setEditAuthz(CourseOfferingManagementUtil.checkEditViewAuthz(form));

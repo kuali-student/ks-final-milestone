@@ -218,16 +218,16 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     /**
      * This method loads all the course offerings for a term and course code.
      *
-     * @param termId     Term Id
+     * @param termInfo   Term Info
      * @param courseCode Course Code
      * @param form       Input Form
      * @throws Exception
      */
-    public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, CourseOfferingManagementForm form) throws Exception {
+    public void loadCourseOfferingsByTermAndCourseCode(TermInfo termInfo, String courseCode, CourseOfferingManagementForm form) throws Exception {
 
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey());
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.COURSE_CODE, courseCode);
-        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.ATP_ID, termId);
+        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.ATP_ID, termInfo.getId());
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.CROSS_LIST_SEARCH_ENABLED, BooleanUtils.toStringTrueFalse(true));
 
         // Check to see if the "exact co code match" param has been set. If so, add a query param.
@@ -239,8 +239,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         loadCourseOfferings(searchRequest, form);
 
         if (form.getCourseOfferingResultList().isEmpty()) {
-            LOG.error("Error: Can't find any Course Offering for a Course Code: " + courseCode + " in term: " + termId);
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Course Code", courseCode, termId);
+            LOG.error("Error: Can't find any Course Offering for a Course Code: " + courseCode + " in term: " + termInfo.getName());
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Course Code", courseCode, termInfo.getName());
         }
 
         form.setContextBar(CourseOfferingContextBar.NEW_INSTANCE(form.getTermInfo(), form.getSocStateKey(),
