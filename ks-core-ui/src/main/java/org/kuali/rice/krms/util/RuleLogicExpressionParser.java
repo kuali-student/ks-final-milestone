@@ -229,7 +229,7 @@ public class RuleLogicExpressionParser {
         }
 
         ExpressionToken conditionToken = tokenList.get(currentIndex);
-        if(!keyList.contains(conditionToken.getValue())){
+        if((!keyList.contains(conditionToken.getValue().toLowerCase())) && (!keyList.contains(conditionToken.getValue().toUpperCase()))){
             errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_INVALID_CONDITION);
             validToken = false;
         }
