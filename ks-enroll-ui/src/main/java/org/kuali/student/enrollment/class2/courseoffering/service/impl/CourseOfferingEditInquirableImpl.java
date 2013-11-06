@@ -51,6 +51,8 @@ import org.kuali.student.r2.core.constants.StateServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
+import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
@@ -80,6 +82,7 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
     private TypeService typeService;
     private StateService stateService;
     private transient AcademicCalendarService acalService;
+    private SchedulingService schedulingService;
 
     @Override
     public Object retrieveDataObject(Map<String, String> parameters) {
@@ -277,6 +280,25 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
             }
         }
 
+        //Added the colocation tooltip for colocated AOs
+        List<ScheduleRequestSetInfo>  scheduleRequestSetInfoList = getSchedulingService().getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,
+                aoInfo.getId(), contextInfo);
+
+        if(scheduleRequestSetInfoList != null && scheduleRequestSetInfoList.size() > 0) {
+            StringBuilder sb = new StringBuilder();
+            if (!scheduleRequestSetInfoList.isEmpty()){
+                for(ScheduleRequestSetInfo coloSet : scheduleRequestSetInfoList) {
+                    List<ActivityOfferingInfo> aoList = getCourseOfferingService().getActivityOfferingsByIds(coloSet.getRefObjectIds(), contextInfo);
+                    for(ActivityOfferingInfo coloActivity : aoList) {
+                        if (!StringUtils.equals(coloActivity.getId(),aoInfo.getId())){
+                            sb.append(coloActivity.getCourseOfferingCode() + " " + coloActivity.getActivityCode() + "<br>");
+                        }
+                    }
+                }
+                aoWrapper.setColocatedAoInfo(sb.toString());
+            }
+        }
+
         //Check for sub-term or term and populate accordingly if AO belongs to a subterm
         //If no change of AO.getTermId() > avoid service calls and populate sub-term info as it has been stored in aoWrapperStored
         TermInfo term;
@@ -357,6 +379,13 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
             acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.acalService;
+    }
+
+    private SchedulingService getSchedulingService() {
+        if(schedulingService == null)  {
+            schedulingService = CourseOfferingResourceLoader.loadSchedulingService();
+        }
+        return schedulingService;
     }
 
 }
