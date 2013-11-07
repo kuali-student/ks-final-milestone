@@ -86,7 +86,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentInfo> getCommentsByReferenceAndType(String referenceId, String referenceTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<CommentEntity> allEnts = commentDao.findAll();
         List<CommentEntity> entities = commentDao.getCommentsByRefObjectIdAndRefObjectType(referenceId, referenceTypeKey);
         List<CommentInfo> infoList = new ArrayList<CommentInfo>();
         for(CommentEntity entity : entities) {
