@@ -16,7 +16,6 @@
 package org.kuali.student.lum.lu.ui.course.keyvalues;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -81,18 +80,4 @@ public class ActivityTypeKeyValueFinder extends UifKeyValuesFinderBase {
         return cluService;
     }
 
-    private final Hashtable<String, String> luTypes = new Hashtable<String, String>() {
-        {
-            put("kuali.lu.type.activity.Directed", "Directed");
-            put("kuali.lu.type.activity.Discussion", "Discussion");
-            put("kuali.lu.type.activity.ExperientialLearningOROther", "Experiential Learning/Other");
-            put("kuali.lu.type.activity.Homework", "Homework");
-            put("kuali.lu.type.activity.Lab", "Lab");
-            put("kuali.lu.type.activity.Lecture", "Lecture");
-            put("kuali.lu.type.activity.Seminar", "Lecture or Seminar");
-            put("kuali.lu.type.activity.Tutorial", "Tutorial");
-            put("kuali.lu.type.activity.WebDiscussion", "Web Discussion");
-            put("kuali.lu.type.activity.WebLecture", "Web Lecture");
-        }
-    };
 }

@@ -29,6 +29,13 @@ import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConsta
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 
+/**
+ * 
+ * This is the helper class for CourseView
+ * 
+ * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
+ */
+
 public class LoCategoryInfoTypeKeyValueFinder extends UifKeyValuesFinderBase {
 
 	private static final long serialVersionUID = 147855845619407560L;

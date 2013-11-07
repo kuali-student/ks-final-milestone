@@ -20,8 +20,6 @@ import static org.kuali.student.logging.FormattedLogger.error;
 import static org.kuali.student.logging.FormattedLogger.info;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -43,16 +41,9 @@ import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.name.EntityNameContract;
-import org.kuali.rice.krad.maintenance.Maintainable;
 import org.kuali.rice.krad.uif.UifConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.rice.krms.dto.AgendaEditor;
-import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.dto.RuleManagementWrapper;
-import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
@@ -60,7 +51,6 @@ import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
-import org.kuali.student.cm.course.service.impl.LookupableConstants;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities.DecisionRationaleDetail;
@@ -763,7 +753,7 @@ public class CourseController extends CourseRuleEditorController {
     
 	protected SubjectCodeService getSubjectCodeService() {
 		if (subjectCodeService == null) {
-			subjectCodeService = GlobalResourceLoader.getService(new QName(LookupableConstants.NAMESPACE_SUBJECTCODE, SubjectCodeService.class.getSimpleName()));
+			subjectCodeService = GlobalResourceLoader.getService(new QName(CourseServiceConstants.NAMESPACE_SUBJECTCODE, SubjectCodeService.class.getSimpleName()));
 		}
 		return subjectCodeService;
 	}	

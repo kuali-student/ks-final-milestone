@@ -31,6 +31,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 /**
  * Lookupable service class for {@link LoDisplayInfoWrapper} "Search for Learning Objectives" link
@@ -83,11 +84,11 @@ public class LoDisplayInfoLookupableImpl extends LookupableImpl {
     protected List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
         List<LoDisplayInfoWrapper> loCategories = new ArrayList<LoDisplayInfoWrapper>();
         SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey(LookupableConstants.LO_BY_CATEGORY_CLU_CROSS_SEARCH);
-        searchRequest.setSortColumn(LookupableConstants.LU_CLU_OFFICIAL_IDENTIFIER_CLU_CODE_RESULT);
+        searchRequest.setSearchKey(CourseServiceConstants.LO_BY_CATEGORY_CLU_CROSS_SEARCH);
+        searchRequest.setSortColumn(CourseServiceConstants.LU_CLU_OFFICIAL_IDENTIFIER_CLU_CODE_RESULT);
         
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
-        SearchByKeys searchByKey = SearchByKeys.valueOf(searchCriteria.get(LookupableConstants.SEARCHBY_SEARCH));
+        SearchByKeys searchByKey = SearchByKeys.valueOf(searchCriteria.get(CourseServiceConstants.SEARCHBY_SEARCH));
         String keywordInLO = searchCriteria.get("keywordInLO");
         String loCategory = searchCriteria.get("loCategory");
         String orgName = searchCriteria.get("orgName");
@@ -96,49 +97,49 @@ public class LoDisplayInfoLookupableImpl extends LookupableImpl {
         String title = searchCriteria.get("title");
                 
         if (StringUtils.isNotBlank(keywordInLO)) {
-            SearchParamInfo keywordInLoParam = new SearchParamInfo(LookupableConstants.LO_DESC_PLAIN_PARAM, keywordInLO);
+            SearchParamInfo keywordInLoParam = new SearchParamInfo(CourseServiceConstants.LO_DESC_PLAIN_PARAM, keywordInLO);
             queryParamValueList.add(keywordInLoParam);
         }
         
         if (StringUtils.isNotBlank(loCategory)) {
-            SearchParamInfo loCategoryParam = new SearchParamInfo(LookupableConstants.OPTIONAL_LO_CATEGORY_NAME_PARAM, loCategory);
+            SearchParamInfo loCategoryParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_LO_CATEGORY_NAME_PARAM, loCategory);
             queryParamValueList.add(loCategoryParam);
         }
         
         if (StringUtils.isNotBlank(orgName)) {
-            SearchParamInfo orgNameParam = new SearchParamInfo(LookupableConstants.OPTIONAL_LU_OPTIONAL_ADMIN_ORG_IDS_PARAM, orgName);
+            SearchParamInfo orgNameParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_LU_OPTIONAL_ADMIN_ORG_IDS_PARAM, orgName);
             queryParamValueList.add(orgNameParam);
         }
         
         if (StringUtils.isNotBlank(orgType)) {
-            SearchParamInfo orgTypeParam = new SearchParamInfo(LookupableConstants.OPTIONAL_LU_OPTIONAL_ADMIN_ORG_TYPES_PARAM, orgType);
+            SearchParamInfo orgTypeParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_LU_OPTIONAL_ADMIN_ORG_TYPES_PARAM, orgType);
             queryParamValueList.add(orgTypeParam);
         }
         
         if (searchByKey == SearchByKeys.COURSE_ONLY || searchByKey == SearchByKeys.PROGRAM_ONLY) {
             if (StringUtils.isNotBlank(code)) {
-                SearchParamInfo codeParam = new SearchParamInfo(LookupableConstants.OPTIONAL_CODE_PARAM, code);
+                SearchParamInfo codeParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_CODE_PARAM, code);
                 queryParamValueList.add(codeParam);
             }
                 
             if (StringUtils.isNotBlank(title)) {
-                SearchParamInfo titleParam = new SearchParamInfo(LookupableConstants.OPTIONAL_LONGNAME_PARAM, title);
+                SearchParamInfo titleParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_LONGNAME_PARAM, title);
                 queryParamValueList.add(titleParam);
             }
         }  
                 
-        SearchParamInfo stateParam = new SearchParamInfo(LookupableConstants.OPTIONAL_STATE_PARAM, "Active");
+        SearchParamInfo stateParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_STATE_PARAM, "Active");
         queryParamValueList.add(stateParam);
         
         SearchParamInfo typeParam = new SearchParamInfo();
-        typeParam.setKey(LookupableConstants.OPTIONAL_TYPE_PARAM);
+        typeParam.setKey(CourseServiceConstants.OPTIONAL_TYPE_PARAM);
         if (searchByKey == SearchByKeys.COURSE_AND_PROGRAM) {
             List<String> courseAndProgramStates = new ArrayList<String>();
-            courseAndProgramStates.add(LookupableConstants.CREDITCOURSE_LU);
+            courseAndProgramStates.add(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
             courseAndProgramStates.addAll(ProgramStates.getStateKeys());
             typeParam.setValues(courseAndProgramStates);
         } else if (searchByKey == SearchByKeys.COURSE_ONLY) {
-            typeParam.getValues().add(LookupableConstants.CREDITCOURSE_LU);
+            typeParam.getValues().add(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
         } else if (searchByKey == SearchByKeys.PROGRAM_ONLY) {
             typeParam.setValues(ProgramStates.getStateKeys());
         }
@@ -151,19 +152,19 @@ public class LoDisplayInfoLookupableImpl extends LookupableImpl {
                 List<SearchResultCellInfo> cells = result.getCells();
                 LoDisplayInfoWrapper loWrapper = new LoDisplayInfoWrapper();
                 for (SearchResultCellInfo cell : cells) {
-                    if (LookupableConstants.LO_CLU_CODE_RESULT.equals(cell.getKey())) {
+                    if (CourseServiceConstants.LO_CLU_CODE_RESULT.equals(cell.getKey())) {
                         loWrapper.setCode(cell.getValue());
                     }
-                    else if (LookupableConstants.LO_CLU_TYPE_RESULT.equals(cell.getKey())) {
+                    else if (CourseServiceConstants.LO_CLU_TYPE_RESULT.equals(cell.getKey())) {
                         loWrapper.setTypeName(cell.getValue());
                     }
-                    else if (LookupableConstants.LO_CLU_STATE_RESULT.equals(cell.getKey())) {
+                    else if (CourseServiceConstants.LO_CLU_STATE_RESULT.equals(cell.getKey())) {
                         loWrapper.setStateKey(cell.getValue());
                     }
-                    else if (LookupableConstants.LO_CATEGORY_NAME_RESULT.equals(cell.getKey())) {
+                    else if (CourseServiceConstants.LO_CATEGORY_NAME_RESULT.equals(cell.getKey())) {
                         loWrapper.setName(cell.getValue());
                     }
-                    else if (LookupableConstants.LO_DESC_PLAIN_RESULT.equals(cell.getKey())) {
+                    else if (CourseServiceConstants.LO_DESC_PLAIN_RESULT.equals(cell.getKey())) {
                         loWrapper.setDescr(new RichTextInfo(cell.getValue(), null));
                     }
                 }

@@ -17,6 +17,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 /**
  * Lookupable service class for {@link LoCategoryInfoWrapper} "Browse for categories" link
@@ -33,25 +34,25 @@ public class LoCategoryInfoLookupableImpl extends LookupableImpl {
     protected List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
         List<LoCategoryInfoWrapper> loCategories = new ArrayList<LoCategoryInfoWrapper>();
         SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey(LookupableConstants.LOCATEGORY_SEARCH);
-        searchRequest.setSortColumn(LookupableConstants.LO_CATEGORY_NAME_AND_TYPE_RESULT);
+        searchRequest.setSearchKey(CourseServiceConstants.LOCATEGORY_SEARCH);
+        searchRequest.setSortColumn(CourseServiceConstants.LO_CATEGORY_NAME_AND_TYPE_RESULT);
         try {
             SearchResultInfo searchResult = getLearningObjectiveService().search(searchRequest, ContextUtils.getContextInfo());
             for (SearchResultRowInfo result : searchResult.getRows()) {
                 List<SearchResultCellInfo> cells = result.getCells();
                 LoCategoryInfoWrapper loWrapper = new LoCategoryInfoWrapper();
                 for (SearchResultCellInfo cell : cells) {
-                    if (LookupableConstants.LO_CATEGORY_ID_RESULT.equals(cell.getKey())) {
+                    if (CourseServiceConstants.LO_CATEGORY_ID_RESULT.equals(cell.getKey())) {
                         loWrapper.setId(cell.getValue());
-                    } else if (LookupableConstants.LO_CATEGORY_NAME_RESULT.equals(cell.getKey())) {
+                    } else if (CourseServiceConstants.LO_CATEGORY_NAME_RESULT.equals(cell.getKey())) {
                         loWrapper.setName(cell.getValue());
-                    } else if(LookupableConstants.LO_CATEGORY_TYPE_RESULT.equals(cell.getKey())){
+                    } else if(CourseServiceConstants.LO_CATEGORY_TYPE_RESULT.equals(cell.getKey())){
                         loWrapper.setTypeKey(cell.getValue());
-                    } else if(LookupableConstants.LO_CATEGORY_TYPE_NAME_RESULT.equals(cell.getKey())){
+                    } else if(CourseServiceConstants.LO_CATEGORY_TYPE_NAME_RESULT.equals(cell.getKey())){
                         loWrapper.setTypeName(cell.getValue());
-                    } else if (LookupableConstants.LO_CATEGORY_NAME_AND_TYPE_RESULT.equals(cell.getKey())) {
+                    } else if (CourseServiceConstants.LO_CATEGORY_NAME_AND_TYPE_RESULT.equals(cell.getKey())) {
                         loWrapper.setCatNameAndType(cell.getValue());
-                    } else if(LookupableConstants.LO_CATEGORY_STATE_RESULT.equals(cell.getKey())){
+                    } else if(CourseServiceConstants.LO_CATEGORY_STATE_RESULT.equals(cell.getKey())){
                         loWrapper.setStateKey(cell.getValue());
                     }
                 }

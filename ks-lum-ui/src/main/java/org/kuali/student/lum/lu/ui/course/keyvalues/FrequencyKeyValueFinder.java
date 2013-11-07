@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 /**
  * 
@@ -29,15 +30,15 @@ import org.kuali.rice.krad.uif.view.ViewModel;
  * 
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  * 
- * 
  */
+
 public class FrequencyKeyValueFinder extends UifKeyValuesFinderBase { 
         @Override
         public List<KeyValue> getKeyValues(ViewModel model) {
             List<KeyValue> labels = new ArrayList<KeyValue>();
-            labels.add(new ConcreteKeyValue("1", KeyValueConstants.PER_DAY_FREQUENCY_KEY));
-            labels.add(new ConcreteKeyValue("2", KeyValueConstants.PER_MONTH_FREQUENCY_KEY));
-            labels.add(new ConcreteKeyValue("3", KeyValueConstants.PER_WEEK_FREQUENCY_KEY));
+            labels.add(new ConcreteKeyValue("1", CourseServiceConstants.PER_DAY_FREQUENCY_KEY));
+            labels.add(new ConcreteKeyValue("2", CourseServiceConstants.PER_MONTH_FREQUENCY_KEY));
+            labels.add(new ConcreteKeyValue("3", CourseServiceConstants.PER_WEEK_FREQUENCY_KEY));
             return labels;
         }
     

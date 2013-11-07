@@ -33,17 +33,16 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.constants.EnumerationManagementServiceConstants;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 /**
- * TODO KSCM-821
- * 
  * This is the helper class for CourseView
  * 
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  * 
- * Copy from FinalExamOptionsKeyValues.java
- * 
  */
+
 public class FinalExamKeyValueFinder extends UifKeyValuesFinderBase implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -57,16 +56,16 @@ public class FinalExamKeyValueFinder extends UifKeyValuesFinderBase implements S
 
         try {
             List<EnumeratedValueInfo> enumerationInfos = getEnumerationManagementService().getEnumeratedValues(
-                    KeyValueConstants.FINAL_EXAM_STATUS_ENUM_KEY, null, null, null, ContextUtils.getContextInfo());
+                    CluServiceConstants.FINAL_EXAM_STATUS_ENUM_KEY, null, null, null, ContextUtils.getContextInfo());
             Collections.sort(enumerationInfos, new FinalExamComparator());
 
             for (EnumeratedValueInfo enumerationInfo : enumerationInfos) {
-                if (enumerationInfo.getCode().equals(KeyValueConstants.ALT_EXAM_FINAL_ENUM_KEY)) {
-                    keyValues.add(new ConcreteKeyValue(KeyValueConstants.ALTERNATE_STRING_EXAM_FINAL_ENUM, enumerationInfo.getValue()));
-                } else if (enumerationInfo.getCode().equals(KeyValueConstants.NONE_EXAM_ENUM_KEY)) {
-                    keyValues.add(new ConcreteKeyValue(KeyValueConstants.NONE_STRING_EXAM_ENUM, enumerationInfo.getValue()));
-                } else if (enumerationInfo.getCode().equals(KeyValueConstants.STD_EXAM_FINAL_ENUM_KEY)) {
-                    keyValues.add(new ConcreteKeyValue(KeyValueConstants.STANDARD_STRING_EXAM_ENUM, enumerationInfo.getValue()));
+                if (enumerationInfo.getCode().equals(CourseServiceConstants.ALT_EXAM_FINAL_ENUM_KEY)) {
+                    keyValues.add(new ConcreteKeyValue(CourseServiceConstants.ALTERNATE_STRING_EXAM_FINAL_ENUM, enumerationInfo.getValue()));
+                } else if (enumerationInfo.getCode().equals(CourseServiceConstants.NONE_EXAM_ENUM_KEY)) {
+                    keyValues.add(new ConcreteKeyValue(CourseServiceConstants.NONE_STRING_EXAM_ENUM, enumerationInfo.getValue()));
+                } else if (enumerationInfo.getCode().equals(CourseServiceConstants.STD_EXAM_FINAL_ENUM_KEY)) {
+                    keyValues.add(new ConcreteKeyValue(CourseServiceConstants.STANDARD_STRING_EXAM_ENUM, enumerationInfo.getValue()));
                 }
             }
         } catch (Exception e) {

@@ -35,6 +35,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 public class CluInstructorInfoLookupableImpl extends LookupableImpl {
 
@@ -101,7 +102,7 @@ public class CluInstructorInfoLookupableImpl extends LookupableImpl {
 	
 	private SearchService getSearchService() {
 		if (searchService == null) {
-			searchService = GlobalResourceLoader.getService(new QName(LookupableConstants.NAMESPACE_PERSONSEACH, LookupableConstants.PERSONSEACH_SERVICE_NAME_LOCAL_PART));
+			searchService = GlobalResourceLoader.getService(new QName(CourseServiceConstants.NAMESPACE_PERSONSEACH, CourseServiceConstants.PERSONSEACH_SERVICE_NAME_LOCAL_PART));
 		}
 		return searchService;
 	}

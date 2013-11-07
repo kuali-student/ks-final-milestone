@@ -15,9 +15,8 @@
  */
 package org.kuali.student.lum.lu.ui.course.keyvalues;
 
-import static java.util.Collections.sort;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -33,16 +32,16 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.constants.EnumerationManagementServiceConstants;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 /**
- * This is the helper class for CourseView
+ * Campus location values finder
  * 
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public class LogisticSchedulingKeyValuesFinder extends UifKeyValuesFinderBase {
 
+public class CampusLocationsKeyValuesFinder extends UifKeyValuesFinderBase {
     private static final long serialVersionUID = -1L;
-
     private transient EnumerationManagementService enumerationManagementService;
 
     @Override
@@ -52,15 +51,9 @@ public class LogisticSchedulingKeyValuesFinder extends UifKeyValuesFinderBase {
         try {
             final List<EnumeratedValueInfo> enumerationInfos =
                     getEnumerationManagementService().getEnumeratedValues
-                            (KeyValueConstants.COURSE_SCHEDULING_TERM_ENUM_KEY, null, null, null,
-                                    ContextUtils.getContextInfo());
-
-            sort(enumerationInfos, new Comparator<EnumeratedValueInfo>() {
-                @Override
-                public int compare(final EnumeratedValueInfo o1, final EnumeratedValueInfo o2) {
-                    return o1.getSortKey().compareToIgnoreCase(o2.getSortKey());
-                }
-            });
+                            (CluServiceConstants.CAMPUS_LOCATION_ENUM_KEY, null, null, null, ContextUtils.createDefaultContextInfo());
+            
+            Collections.sort(enumerationInfos, new FinalExamComparator());
 
             for (final EnumeratedValueInfo enumerationInfo : enumerationInfos) {
                 options.add(new ConcreteKeyValue(enumerationInfo.getCode(), enumerationInfo.getValue()));
@@ -72,6 +65,15 @@ public class LogisticSchedulingKeyValuesFinder extends UifKeyValuesFinderBase {
         }
 
         return options;
+    }
+
+    private static class FinalExamComparator implements Comparator<EnumeratedValueInfo> {
+
+        @Override
+        public int compare(EnumeratedValueInfo o1, EnumeratedValueInfo o2) {
+            int result = o1.getSortKey().compareToIgnoreCase(o2.getSortKey());
+            return result;
+        }
     }
 
     protected EnumerationManagementService getEnumerationManagementService() {

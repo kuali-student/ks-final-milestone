@@ -19,7 +19,6 @@ import static org.kuali.student.logging.FormattedLogger.error;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -27,7 +26,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.tree.Tree;
-import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.view.View;
@@ -299,7 +297,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
 
         SearchParamInfo codeParam = new SearchParamInfo();
-        codeParam.setKey(LookupableConstants.SUBJECTCODE_CODE_PARAM);
+        codeParam.setKey(CourseServiceConstants.SUBJECTCODE_CODE_PARAM);
         List<String> codeValues = new ArrayList<String>();
         codeValues.add(subjectCode);
         codeParam.setValues(codeValues);
@@ -307,7 +305,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         queryParamValueList.add(codeParam);
 
         SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey(LookupableConstants.SUBJECTCODE_GENERIC_SEARCH);
+        searchRequest.setSearchKey(CourseServiceConstants.SUBJECTCODE_GENERIC_SEARCH);
         searchRequest.setParams(queryParamValueList);
 
         SearchResultInfo searchResult = null;
@@ -318,9 +316,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 String id = "";
                 String code = "";
                 for (SearchResultCellInfo cell : cells) {
-                    if (LookupableConstants.SUBJECTCODE_ID_RESULT.equals(cell.getKey())) {
+                    if (CourseServiceConstants.SUBJECTCODE_ID_RESULT.equals(cell.getKey())) {
                         id = cell.getValue();
-                    } else if (LookupableConstants.SUBJECTCODE_CODE_RESULT.equals(cell.getKey())) {
+                    } else if (CourseServiceConstants.SUBJECTCODE_CODE_RESULT.equals(cell.getKey())) {
                         code = cell.getValue();
                     }
                 }
@@ -810,14 +808,14 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     protected SearchService getSearchService() {
         if (searchService == null) {
-            searchService = GlobalResourceLoader.getService(new QName(LookupableConstants.NAMESPACE_PERSONSEACH, LookupableConstants.PERSONSEACH_SERVICE_NAME_LOCAL_PART));
+            searchService = GlobalResourceLoader.getService(new QName(CourseServiceConstants.NAMESPACE_PERSONSEACH, CourseServiceConstants.PERSONSEACH_SERVICE_NAME_LOCAL_PART));
         }
         return searchService;
     }
 
     protected SubjectCodeService getSubjectCodeService() {
         if (subjectCodeService == null) {
-            subjectCodeService = GlobalResourceLoader.getService(new QName(LookupableConstants.NAMESPACE_SUBJECTCODE, SubjectCodeService.class.getSimpleName()));
+            subjectCodeService = GlobalResourceLoader.getService(new QName(CourseServiceConstants.NAMESPACE_SUBJECTCODE, SubjectCodeService.class.getSimpleName()));
         }
         return subjectCodeService;
     }

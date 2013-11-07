@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
-import org.kuali.student.cm.course.service.impl.LookupableConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -14,6 +13,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 public class LoCategorySearchUtil {
     
@@ -23,7 +23,7 @@ public class LoCategorySearchUtil {
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
 
         SearchParamInfo categoryNameParam = new SearchParamInfo();
-        categoryNameParam.setKey(LookupableConstants.OPTIONAL_LO_CATEGORY_NAME_PARAM);
+        categoryNameParam.setKey(CourseServiceConstants.OPTIONAL_LO_CATEGORY_NAME_PARAM);
         List<String> categoryNameValues = new ArrayList<String>();
         categoryNameValues.add(categoryName);
         categoryNameParam.setValues(categoryNameValues);
@@ -31,9 +31,9 @@ public class LoCategorySearchUtil {
         queryParamValueList.add(categoryNameParam);
 
         SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey(LookupableConstants.LOCATEGORY_SEARCH);
+        searchRequest.setSearchKey(CourseServiceConstants.LOCATEGORY_SEARCH);
         searchRequest.setParams(queryParamValueList);
-        searchRequest.setSortColumn(LookupableConstants.LO_CATEGORY_NAME_AND_TYPE_RESULT);
+        searchRequest.setSortColumn(CourseServiceConstants.LO_CATEGORY_NAME_AND_TYPE_RESULT);
 
         try {
             SearchResultInfo searchResult = learningObjectiveService.search(searchRequest,
@@ -42,17 +42,17 @@ public class LoCategorySearchUtil {
                 List<SearchResultCellInfo> cells = result.getCells();
                 LoCategoryInfoWrapper newCat = new LoCategoryInfoWrapper();
                 for (SearchResultCellInfo cell : cells) {
-                    if (LookupableConstants.LO_CATEGORY_ID_RESULT.equals(cell.getKey())) {
+                    if (CourseServiceConstants.LO_CATEGORY_ID_RESULT.equals(cell.getKey())) {
                         newCat.setId(cell.getValue());
-                    } else if (LookupableConstants.LO_CATEGORY_NAME_RESULT.equals(cell.getKey())) {
+                    } else if (CourseServiceConstants.LO_CATEGORY_NAME_RESULT.equals(cell.getKey())) {
                         newCat.setName(cell.getValue());
-                    } else if(LookupableConstants.LO_CATEGORY_TYPE_RESULT.equals(cell.getKey())){
+                    } else if(CourseServiceConstants.LO_CATEGORY_TYPE_RESULT.equals(cell.getKey())){
                         newCat.setTypeKey(cell.getValue());
-                    } else if(LookupableConstants.LO_CATEGORY_TYPE_NAME_RESULT.equals(cell.getKey())){
+                    } else if(CourseServiceConstants.LO_CATEGORY_TYPE_NAME_RESULT.equals(cell.getKey())){
                         newCat.setTypeName(cell.getValue());
-                    } else if (LookupableConstants.LO_CATEGORY_NAME_AND_TYPE_RESULT.equals(cell.getKey())) {
+                    } else if (CourseServiceConstants.LO_CATEGORY_NAME_AND_TYPE_RESULT.equals(cell.getKey())) {
                         newCat.setCatNameAndType(cell.getValue());
-                    } else if(LookupableConstants.LO_CATEGORY_STATE_RESULT.equals(cell.getKey())){
+                    } else if(CourseServiceConstants.LO_CATEGORY_STATE_RESULT.equals(cell.getKey())){
                         newCat.setStateKey(cell.getValue());
                     }
                 }

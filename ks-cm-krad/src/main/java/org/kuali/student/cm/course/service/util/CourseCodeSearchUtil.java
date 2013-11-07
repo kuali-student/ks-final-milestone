@@ -2,13 +2,11 @@ package org.kuali.student.cm.course.service.util;
 
 import static org.kuali.student.logging.FormattedLogger.error;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
-import org.kuali.student.cm.course.service.impl.LookupableConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -16,6 +14,8 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 public class CourseCodeSearchUtil {
     
@@ -32,22 +32,22 @@ public class CourseCodeSearchUtil {
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
         
         SearchParamInfo codeParam = new SearchParamInfo();
-        codeParam.setKey(LookupableConstants.OPTIONAL_CODE_PARAM);
+        codeParam.setKey(CourseServiceConstants.OPTIONAL_CODE_PARAM);
         List<String> codeValues = new ArrayList<String>();
         codeValues.add(courseNumber);
         codeParam.setValues(codeValues);
         
         SearchParamInfo typeParam = new SearchParamInfo();
-        typeParam.setKey(LookupableConstants.OPTIONAL_TYPE_PARAM);
+        typeParam.setKey(CourseServiceConstants.OPTIONAL_TYPE_PARAM);
         List<String> typeValues = new ArrayList<String>();
-        typeValues.add(LookupableConstants.CREDITCOURSE_LU);
+        typeValues.add(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
         typeParam.setValues(typeValues);
         
         queryParamValueList.add(codeParam);
         queryParamValueList.add(typeParam);
         
         SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey(LookupableConstants.CURRENT_QUICK_SEARCH);
+        searchRequest.setSearchKey(CourseServiceConstants.CURRENT_QUICK_SEARCH);
         searchRequest.setParams(queryParamValueList);
         
         SearchResultInfo searchResult = null;
@@ -59,9 +59,9 @@ public class CourseCodeSearchUtil {
                 String id = "";
                 String code = "";
                 for (SearchResultCellInfo cell : cells) {
-                    if (LookupableConstants.ID_RESULT.equals(cell.getKey())) {
+                    if (CourseServiceConstants.ID_RESULT.equals(cell.getKey())) {
                         id = cell.getValue();
-                    } else if (LookupableConstants.OPTIONALCODE_RESULT.equals(cell.getKey())) {
+                    } else if (CourseServiceConstants.OPTIONALCODE_RESULT.equals(cell.getKey())) {
                         code = cell.getValue();
                     }
                 }
