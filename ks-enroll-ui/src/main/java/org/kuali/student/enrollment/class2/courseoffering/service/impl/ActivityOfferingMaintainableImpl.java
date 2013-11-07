@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
@@ -26,7 +27,6 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructor
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleComponentWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.helper.impl.ActivityOfferingScheduleHelperImpl;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
@@ -49,9 +49,9 @@ import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
-import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl;
+import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
@@ -1126,5 +1126,39 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
      */
     public List<BuildingInfo> retrieveBuildingInfoByCode(String buildingCode) throws Exception {
         return CourseOfferingManagementUtil.getScheduleHelper().retrieveBuildingInfoByCode(buildingCode, false);
+    }
+
+    /**
+     * Query for course offering codes given a term and dept code.
+     *
+     * This is used by the course code auto-suggest in the Edit AO colocation section.
+     *
+     * @param termId The id of the term in which to search.
+     * @param partialCode The initial (currently the first 4) characters of a course code.
+     * @return A list of course codes that begin with the partial code.
+     */
+    public List<String> retrieveCourseOfferingCodes(String termId, String partialCode) {
+        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey());
+        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.COURSE_CODE, StringUtils.upperCase(partialCode));
+        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.ATP_ID, termId);
+        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.CROSS_LIST_SEARCH_ENABLED, BooleanUtils.toStringTrueFalse(false));
+
+        SearchResultInfo searchResult = null;
+        try {
+            searchResult = CourseOfferingManagementUtil.getSearchService().search(searchRequest, ContextUtils.createDefaultContextInfo());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        List<String> courseOfferingCodes = new ArrayList<String>();
+
+        for (SearchResultRowInfo row : searchResult.getRows()) {
+            for(SearchResultCellInfo cellInfo : row.getCells()){
+                if(CourseOfferingManagementSearchImpl.SearchResultColumns.CODE.equals(cellInfo.getKey())){
+                    courseOfferingCodes.add(cellInfo.getValue());
+                }
+            }
+        }
+        return courseOfferingCodes;
     }
 }

@@ -197,7 +197,8 @@
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
                             <property name="suggestQuery">
-                                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveCourseOfferingCode" p:queryMethodArgumentFieldList="document.newMaintainableObject.dataObject.termId"/>
+                                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveCourseOfferingCodes"
+                                      p:queryMethodArgumentFieldList="document.newMaintainableObject.dataObject.termId"/>
                             </property>
                             <property name="templateOptions">
                                 <map merge="true">
