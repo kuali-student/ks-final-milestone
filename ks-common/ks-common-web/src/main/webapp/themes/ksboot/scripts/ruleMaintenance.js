@@ -738,8 +738,3 @@ function parseTime(timeDiv) {
     //Return date with set time for comparison
     return d1;
 }
-
-/* Set custom font icons for calendar datepickers */
-function customDatepicker() {
-    jQuery('button.ui-datepicker-trigger').empty().addClass('icon halflings calendar').attr('alt', 'Date picker').attr('value', 'Date picker');
-}
