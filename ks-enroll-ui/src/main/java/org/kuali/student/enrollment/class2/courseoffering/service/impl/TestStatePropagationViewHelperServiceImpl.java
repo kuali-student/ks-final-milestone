@@ -473,25 +473,25 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         _reset(true);
         List<LuiLuiRelationInfo> infos = null;
 
-        Stopwatch watch = new Stopwatch();
-        watch.reset();
-        int iterations = 2000;
-        for (int i = 0; i < iterations; i++) {
-            infos = CourseOfferingManagementUtil.getLuiService().getLuiLuiRelationsByLui(rgInfo.getId(), CONTEXT);
-        }
-        String overall = watch.computeAndAccumulate();
-        LOGGER.info("Total time: " + overall);
-
-        Stopwatch watch2 = new Stopwatch();
-        watch2.reset();
-        for (int i = 0; i < iterations; i++) {
-            List<String> aoIds = CourseOfferingManagementUtil.getLuiService().getLuiIdsByLuiAndRelationType(rgInfo.getId(),
-                            LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY, CONTEXT);
-            List<String> foIds = CourseOfferingManagementUtil.getLuiService().getLuiIdsByRelatedLuiAndRelationType(rgInfo.getId(),
-                            LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY, CONTEXT);
-        }
-        overall = watch2.computeAndAccumulate();
-        LOGGER.info("Total time 2: " + overall);
+//        Stopwatch watch = new Stopwatch();
+//        watch.reset();
+//        int iterations = 2000;
+//        for (int i = 0; i < iterations; i++) {
+//            infos = CourseOfferingManagementUtil.getLuiService().getLuiLuiRelationsByLui(rgInfo.getId(), CONTEXT);
+//        }
+//        String overall = watch.computeAndAccumulate();
+//        LOGGER.info("Total time: " + overall);
+//
+//        Stopwatch watch2 = new Stopwatch();
+//        watch2.reset();
+//        for (int i = 0; i < iterations; i++) {
+//            List<String> aoIds = CourseOfferingManagementUtil.getLuiService().getLuiIdsByLuiAndRelationType(rgInfo.getId(),
+//                            LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY, CONTEXT);
+//            List<String> foIds = CourseOfferingManagementUtil.getLuiService().getLuiIdsByRelatedLuiAndRelationType(rgInfo.getId(),
+//                            LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY, CONTEXT);
+//        }
+//        overall = watch2.computeAndAccumulate();
+//        LOGGER.info("Total time 2: " + overall);
     }
 
     @Override
