@@ -49,7 +49,7 @@ public class CourseRuleEditorController extends RuleEditorController {
     
     private static final String KSKRMS_RULE_CO_EDITWITHOBJECT_ID = "KSCO-EditWithObject-EditSection";
 
-    private static final KSKRMS_MSG_INFO_CO_RULE_CHANGED = "info.krms.agenda.rule.co.changed";
+    private static final String KSKRMS_MSG_INFO_CO_RULE_CHANGED = "info.krms.agenda.rule.co.changed";
     
     /**
      *
