@@ -677,8 +677,18 @@
                               p:location.viewId="enrollmentHomeView" p:value="Enrollment" p:location.controllerMapping="/launch"/>
                         <bean parent="Uif-KeyValueLocation" p:key="2" p:value="Curriculum Management"
                               p:location.href="../org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=CURRICULUM_MANAGEMENT"/>
-                        <bean parent="Uif-KeyValueLocation" p:key="3" p:value="KS Maintenance"
-                              p:location.href="../portal.do"/>
+                        <bean parent="Uif-KeyValueLocation" p:key="3" p:value="KS Maintenance">
+                            <property name="location">
+                                <bean class="org.kuali.rice.krad.uif.util.UrlInfo" scope="prototype">
+                                    <property name="href" value="@{#ConfigProperties['ks.rice.url']}/portal.do" />
+                                    <property name="expressionGraph">
+                                        <map>
+                                            <entry key="href" value="@{#ConfigProperties['ks.rice.url']}/portal.do" />
+                                        </map>
+                                    </property>
+                                </bean>
+                            </property>
+                        </bean>
                     </list>
                 </property>
             </bean>
