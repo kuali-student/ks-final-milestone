@@ -44,7 +44,13 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/courseOfferingRules")
 public class CourseRuleEditorController extends RuleEditorController {
+    
+    private static final String KSKRMS_RULE_CO_TABS_ID = "KSCO-TabsWidget";
+    
+    private static final String KSKRMS_RULE_CO_EDITWITHOBJECT_ID = "KSCO-EditWithObject-EditSection";
 
+    private static final KSKRMS_MSG_INFO_CO_RULE_CHANGED = "info.krms.agenda.rule.co.changed";
+    
     /**
      *
      * @param form
@@ -128,8 +134,8 @@ public class CourseRuleEditorController extends RuleEditorController {
                                        HttpServletRequest request, HttpServletResponse response) {
 
         //Clear the current states of the tabs to open the first tab again with the edit tree.
-        //KRMS - Map<String, String> states = (Map<String, String>) form.getClientStateForSyncing().get(EnrolKRMSConstants.KSKRMS_RULE_CO_TABS_ID);
-        //KRMS - states.put(KRMSConstants.KRMS_PARM_ACTIVE_TAB, EnrolKRMSConstants.KSKRMS_RULE_CO_EDITWITHOBJECT_ID);
+        Map<String, String> states = (Map<String, String>) form.getClientStateForSyncing().get(KSKRMS_RULE_CO_TABS_ID);
+        states.put(KRMSConstants.KRMS_PARM_ACTIVE_TAB, KSKRMS_RULE_CO_EDITWITHOBJECT_ID);
 
         //Set the selected rule statement key.
         String selectedKey = request.getParameter(KRMSConstants.KRMS_PARM_SELECTED_KEY);
@@ -145,7 +151,7 @@ public class CourseRuleEditorController extends RuleEditorController {
         //Compare CO to CLU and display info message
         if (ruleEditor.getProposition() != null) {
             if (!this.getViewHelper(form).compareRules(ruleWrapper.getRuleEditor())) {
-                //KRMS - GlobalVariables.getMessageMap().putInfoForSectionId(KRMSConstants.KRMS_RULE_TREE_GROUP_ID, EnrolKRMSConstants.KSKRMS_MSG_INFO_CO_RULE_CHANGED);
+                GlobalVariables.getMessageMap().putInfoForSectionId(KRMSConstants.KRMS_RULE_TREE_GROUP_ID, KSKRMS_MSG_INFO_CO_RULE_CHANGED);
             } else if (GlobalVariables.getMessageMap().containsMessageKey(KRMSConstants.KRMS_RULE_TREE_GROUP_ID)) {
                 GlobalVariables.getMessageMap().removeAllInfoMessagesForProperty(KRMSConstants.KRMS_RULE_TREE_GROUP_ID);
             }

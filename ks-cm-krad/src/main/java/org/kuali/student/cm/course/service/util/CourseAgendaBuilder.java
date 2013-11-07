@@ -26,7 +26,13 @@ import org.kuali.rice.krms.util.AgendaSection;
  * @author Kuali Student Team
  */
 public class CourseAgendaBuilder extends AgendaBuilder {
+    
+    private static final String KSKRMS_MSG_WARNING_CO_RULE_HASPARENT = "warning.krms.agenda.rule.co.hasparent";
 
+    private static final String KSKRMS_MSG_WARNING_CO_RULE_EMPTY = "warning.krms.agenda.rule.co.empty";
+    
+    private static final String KSKRMS_MSG_INFO_CO_RULE_CHANGED = "info.krms.agenda.rule.co.changed";
+    
     /**
      * This method dynamically builds a disclosure section for each rule that already exists.
      *
@@ -39,16 +45,16 @@ public class CourseAgendaBuilder extends AgendaBuilder {
         //Add warning messages for empty or deleted rules.
         boolean hasMessage = false;
         if (rule.isDummy() && rule.getParent() != null)  {
-            //KRMS - GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_WARNING_CO_RULE_HASPARENT);
+            GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), KSKRMS_MSG_WARNING_CO_RULE_HASPARENT);
             hasMessage = true;
         } else if ((rule.getProposition()==null) && (rule.getParent()!=null) && (rule.getParent().getProposition()!=null)) {
-            //KRMS - GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_WARNING_CO_RULE_EMPTY);
+            GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), KSKRMS_MSG_WARNING_CO_RULE_EMPTY);
             hasMessage = true;
         }
 
         //Add Info message if co rule differs from clu rule.
         if (!this.getViewHelperService().compareRules(rule)) {
-            //KRMS - GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_INFO_CO_RULE_CHANGED);
+            GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), KSKRMS_MSG_INFO_CO_RULE_CHANGED);
             hasMessage = true;
         }
 

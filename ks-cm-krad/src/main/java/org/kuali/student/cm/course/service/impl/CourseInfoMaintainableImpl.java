@@ -29,6 +29,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
@@ -843,7 +844,12 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
         return organizationService;
     }
-
+    
+    
+    @Override
+    protected void addCustomContainerComponents(View view, Object model, Container container) {
+        ((CourseRuleViewHelperServiceImpl)ruleViewHelperService).addCustomContainerComponents(view, model, container);
+    }
 
     @Override
     public void validateProposition(PropositionEditor proposition) {
