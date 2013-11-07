@@ -73,6 +73,7 @@ import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
@@ -103,6 +104,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Formatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
@@ -154,6 +156,8 @@ public class CourseOfferingManagementUtil {
     private static LuiService luiService = null;
     private static ActivityOfferingControllerTransactionHelper activityOfferingControllerTransactionHelper;
     private static EnumerationManagementService enumerationManagementService;
+
+    private static HashMap<String, String> scheduleStateHm = null;
 
     public static EnumerationManagementService getEnumerationManagementService() {
         if(enumerationManagementService == null) {
@@ -933,5 +937,24 @@ public class CourseOfferingManagementUtil {
         }
         return null;
     }
+    public static HashMap getSchedulingStateAndNameHash() throws Exception {
+        if (scheduleStateHm == null) {
+            scheduleStateHm = new HashMap<String, String>();
+            ContextInfo contextInfo = ContextUtils.getContextInfo();
 
+            List<StateInfo> stateInfoList;
+            try {
+                stateInfoList = getStateService().getStatesByLifecycle(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_LIFECYCLE_KEY, contextInfo);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            for (StateInfo stateInfo : stateInfoList) {
+                if (stateInfo != null) {
+                    scheduleStateHm.put(stateInfo.getKey(), stateInfo.getName());
+                }
+            }
+        }
+        return scheduleStateHm;
+    }
 }

@@ -6,6 +6,7 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.ComparatorModel;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -24,6 +25,7 @@ import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -1431,6 +1433,14 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
 
     public void setViewId(String viewId) {
         this.viewId = viewId;
+    }
+
+    public HashMap getSchedulingStateHash() {
+        try {
+            return CourseOfferingManagementUtil.getSchedulingStateAndNameHash();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

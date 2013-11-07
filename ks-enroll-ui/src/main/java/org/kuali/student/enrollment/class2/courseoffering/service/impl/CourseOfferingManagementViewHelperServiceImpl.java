@@ -43,7 +43,6 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleRequestCal
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.ActivityOfferingResult;
-import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementToolbarUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
@@ -117,8 +116,6 @@ import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
-
-import javax.xml.namespace.QName;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -740,7 +737,13 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     aoWrapper.setRoomName(sched.getRoomCode(), newRow);
                     aoWrapper.setDaysDisplayName(sched.getWeekdays(), newRow);
                     aoWrapper.setTbaDisplayName(sched.getTbaInd(), newRow);
-                    aoWrapper.setScheduledState(ActivityOfferingConstants.ACTIVITYOFFERING_SCHEDULE_STATE_SCHEDULED, newRow);
+                    HashMap schedulingStateHash = aoWrapper.getSchedulingStateHash();
+                    String key = aoWrapper.getAoInfo().getSchedulingStateKey();
+                    if(StringUtils.isBlank(key)) {
+                        key = LuiServiceConstants.LUI_AO_SCHEDULING_STATE_SCHEDULED_KEY;
+                    }
+                    String schState = (String) schedulingStateHash.get(key);
+                    aoWrapper.setScheduledState(schState, newRow);
                     newRow = true;
                 }
 
@@ -847,7 +850,13 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             aoWrapper.setScheduledState(StringUtils.EMPTY, newline, cssStyle);
             return;
         }
-        aoWrapper.setScheduledState(ActivityOfferingConstants.ACTIVITYOFFERING_SCHEDULE_STATE_UNSCHEDULED, newline, "uif-scheduled-dl");
+        HashMap schedulingStateHash = aoWrapper.getSchedulingStateHash();
+        String key = aoWrapper.getAoInfo().getSchedulingStateKey();
+        if(StringUtils.isBlank(key)) {
+            key = LuiServiceConstants.LUI_AO_SCHEDULING_STATE_UNSCHEDULED_KEY;
+        }
+        String schState = (String) schedulingStateHash.get(key);
+        aoWrapper.setScheduledState(schState, newline, "uif-scheduled-dl");
     }
 
     private void setDaysOnAoWrapper(TimeSlotInfo timeSlotInfo, ActivityOfferingWrapper aoWrapper, boolean newline, String cssStyle) {
