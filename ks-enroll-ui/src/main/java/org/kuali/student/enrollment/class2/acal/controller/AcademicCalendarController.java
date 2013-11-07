@@ -864,7 +864,7 @@ public class AcademicCalendarController extends UifControllerBase {
      */
     private ModelAndView redirectToSearch(AcademicCalendarForm academicCalendarForm,HttpServletRequest request, Properties urlParameters){
         urlParameters.put("viewId", CalendarConstants.CALENDAR_SEARCH_VIEW);
-        urlParameters.put("methodToCall", KRADConstants.START_METHOD);
+        urlParameters.put("methodToCall", KRADConstants.SEARCH_METHOD);
         // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
         // https://fisheye.kuali.org/changelog/rice?cs=39034
         // TODO KSENROLL-8469
