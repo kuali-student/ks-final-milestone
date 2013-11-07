@@ -2776,21 +2776,23 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         for(ActivityOfferingSetInfo activityOfferingSet : activityOfferingClusterInfo.getActivityOfferingSets()){
             try {
                 //Perform a search that returns each AOSet and the total max enrollment for each
-                SearchRequestInfo searchRequest = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_KEY);
-                searchRequest.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_IDS, activityOfferingSet.getActivityOfferingIds());
-                SearchResultInfo searchResult = searchService.search(searchRequest, contextInfo);
-                for (SearchResultRowInfo row : searchResult.getRows()) {
-                    for (SearchResultCellInfo cell : row.getCells()) {
-                        if (ActivityOfferingSearchServiceImpl.SearchResultColumns.TOTAL_MAX_SEATS.equals(cell.getKey())) {
-                            String totalMaxSeatsStr = cell.getValue();
-                            if (totals.contains(totalMaxSeatsStr)) {
-                                validationResultInfo.setLevel(ValidationResult.ErrorLevel.WARN);
-                                validationResultInfo.setMessage("Sum of enrollment for each AO type is not equal");
-                                validationResultInfos.add(validationResultInfo);
+                if (activityOfferingSet.getActivityOfferingIds() != null && !activityOfferingSet.getActivityOfferingIds().isEmpty()) {
+                    SearchRequestInfo searchRequest = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_KEY);
+                    searchRequest.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_IDS, activityOfferingSet.getActivityOfferingIds());
+                    SearchResultInfo searchResult = searchService.search(searchRequest, contextInfo);
+                    for (SearchResultRowInfo row : searchResult.getRows()) {
+                        for (SearchResultCellInfo cell : row.getCells()) {
+                            if (ActivityOfferingSearchServiceImpl.SearchResultColumns.TOTAL_MAX_SEATS.equals(cell.getKey())) {
+                                String totalMaxSeatsStr = cell.getValue();
+                                if (totals.contains(totalMaxSeatsStr)) {
+                                    validationResultInfo.setLevel(ValidationResult.ErrorLevel.WARN);
+                                    validationResultInfo.setMessage("Sum of enrollment for each AO type is not equal");
+                                    validationResultInfos.add(validationResultInfo);
 
-                                return validationResultInfos;
+                                    return validationResultInfos;
+                                }
+                                totals.add(totalMaxSeatsStr);
                             }
-                            totals.add(totalMaxSeatsStr);
                         }
                     }
                 }
