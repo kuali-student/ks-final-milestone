@@ -21,11 +21,10 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.FormatOfferingConstants;
 import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 
@@ -43,8 +42,6 @@ public class FormatOfferingInfoLookupableImpl extends LookupableImpl {
     private static final long serialVersionUID = 1L;
     public final static String COURSE_OFFER_ID = "courseOfferingId";
 
-    private transient CourseOfferingService courseOfferingService;
-
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<FormatOfferingInfo> formatOfferingInfos = null;
@@ -53,7 +50,7 @@ public class FormatOfferingInfoLookupableImpl extends LookupableImpl {
         String courseOfferingId = fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID);
         try {
             if (StringUtils.isNotBlank(courseOfferingId)) {
-                formatOfferingInfos = getCourseOfferingService().getFormatOfferingsByCourseOffering(fieldValues.get(COURSE_OFFER_ID), ContextUtils.createDefaultContextInfo());
+                formatOfferingInfos = CourseOfferingManagementUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(fieldValues.get(COURSE_OFFER_ID), ContextUtils.createDefaultContextInfo());
             }  else if (StringUtils.isNotBlank(typeKey)) {
                 formatOfferingInfos = getSearchResultsByType (typeKey);
             }
@@ -62,12 +59,6 @@ public class FormatOfferingInfoLookupableImpl extends LookupableImpl {
         }
 
         return formatOfferingInfos;
-    }
-
-    public CourseOfferingService getCourseOfferingService() {
-        if(courseOfferingService == null)
-            courseOfferingService= CourseOfferingResourceLoader.loadCourseOfferingService();
-        return courseOfferingService;
     }
 
     public ContextInfo getContextInfo() {
@@ -90,13 +81,13 @@ public class FormatOfferingInfoLookupableImpl extends LookupableImpl {
                     PredicateFactory.equalIgnoreCase(FormatOfferingConstants.FORMAT_OFFERING_LUI_TYPE, typeKey)));
             QueryByCriteria criteria = qbcBuilder.build();
 
-            List<String> listFormatOfferingIDs = getCourseOfferingService().searchForFormatOfferingIds(criteria, getContextInfo());
+            List<String> listFormatOfferingIDs = CourseOfferingManagementUtil.getCourseOfferingService().searchForFormatOfferingIds(criteria, getContextInfo());
             if (listFormatOfferingIDs != null) {
                 String formatOfferingID = null;
                 formatOfferingInfos = new ArrayList<FormatOfferingInfo>();
                 for(Iterator i = listFormatOfferingIDs.iterator(); i.hasNext();){
                     formatOfferingID = (String) i.next();
-                    formatOfferingInfos.add ((FormatOfferingInfo) getCourseOfferingService().getFormatOffering(formatOfferingID, getContextInfo()));
+                    formatOfferingInfos.add ((FormatOfferingInfo) CourseOfferingManagementUtil.getCourseOfferingService().getFormatOffering(formatOfferingID, getContextInfo()));
                 }
             }
         } catch (Exception e) {

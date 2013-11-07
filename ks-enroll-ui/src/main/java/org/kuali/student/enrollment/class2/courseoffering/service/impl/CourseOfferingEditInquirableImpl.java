@@ -17,48 +17,33 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
-import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.core.constants.StateServiceConstants;
-import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
-import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
-import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.r2.lum.lrc.service.LRCService;
-import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -75,14 +60,6 @@ import java.util.Set;
  * @author Kuali Student Team
  */
 public class CourseOfferingEditInquirableImpl extends InquirableImpl {
-    private CourseOfferingService courseOfferingService;
-    private CourseService courseService;
-    private LRCService lrcService;
-    private OrganizationService organizationService;
-    private TypeService typeService;
-    private StateService stateService;
-    private transient AcademicCalendarService acalService;
-    private SchedulingService schedulingService;
 
     @Override
     public Object retrieveDataObject(Map<String, String> parameters) {
@@ -101,17 +78,17 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
         //ResultValuesGroup rvGroup = null;
 
         try {
-            CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(coInfoId, contextInfo);
+            CourseOfferingInfo coInfo = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(coInfoId, contextInfo);
 
             //Display credit count
-            CourseInfo courseInfo = getCourseService().getCourse(coInfo.getCourseId(), contextInfo);
+            CourseInfo courseInfo = CourseOfferingManagementUtil.getCourseService().getCourse(coInfo.getCourseId(), contextInfo);
 
             CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(coInfo);
 
             formObject.setCourse(courseInfo);
 
             //Display format offering
-            List<FormatOfferingInfo> formatOfferingInfos = getCourseOfferingService().getFormatOfferingsByCourseOffering(coInfoId, contextInfo);
+            List<FormatOfferingInfo> formatOfferingInfos = CourseOfferingManagementUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(coInfoId, contextInfo);
             List<FormatOfferingWrapper> foList = new ArrayList<FormatOfferingWrapper>();
             for (FormatOfferingInfo fo : formatOfferingInfos){
                 FormatOfferingWrapper wrapper = new FormatOfferingWrapper();
@@ -120,7 +97,7 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
 
                 //set the reader friendly Final Exam Driver Activity
                 if (!StringUtils.isEmpty(fo.getFinalExamLevelTypeKey()) && StringUtils.equals(formObject.getFinalExamDriver(), LuServiceConstants.LU_EXAM_DRIVER_AO_KEY)) {
-                    wrapper.setFinalExamUI(getTypeService().getType(fo.getFinalExamLevelTypeKey(), contextInfo).getName());
+                    wrapper.setFinalExamUI(CourseOfferingManagementUtil.getTypeService().getType(fo.getFinalExamLevelTypeKey(), contextInfo).getName());
                 } else {
                     wrapper.setFinalExamUI(" ");
                 }
@@ -128,7 +105,7 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
                 foList.add(wrapper);
             }
             formObject.setFormatOfferingList(foList);
-            TermInfo term = getAcalService().getTerm(coInfo.getTermId(), contextInfo);
+            TermInfo term = CourseOfferingManagementUtil.getAcademicCalendarService().getTerm(coInfo.getTermId(), contextInfo);
             formObject.setTermName(term.getName());
 
             //Display instructors
@@ -155,7 +132,7 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
             List<OrganizationInfoWrapper> orgList = new ArrayList<OrganizationInfoWrapper>();
             if(coInfo.getUnitsDeploymentOrgIds() != null){
                 for(String orgId: coInfo.getUnitsDeploymentOrgIds()){
-                    OrgInfo orgInfo = getOrganizationService().getOrg(orgId, contextInfo);
+                    OrgInfo orgInfo = CourseOfferingManagementUtil.getOrganizationService().getOrg(orgId, contextInfo);
                     orgList.add(new OrganizationInfoWrapper(orgInfo));
                 }
             }
@@ -190,7 +167,7 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
                 ResultValuesGroupInfo rvg;
                 StringBuilder sbStudentRegOpts = new StringBuilder();
                 for(String studentGradingOption : studentRegOptions) {
-                    rvg = getLRCService().getResultValuesGroup(studentGradingOption, contextInfo);
+                    rvg = CourseOfferingManagementUtil.getLrcService().getResultValuesGroup(studentGradingOption, contextInfo);
                     if (null != rvg) {
                         sbStudentRegOpts.append(rvg.getName());
                     } else {
@@ -238,7 +215,7 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
         List<ActivityOfferingWrapper> activityOfferingWrapperList;
 
         try {
-            activityOfferingInfoList = getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, ContextUtils.createDefaultContextInfo());
+            activityOfferingInfoList = CourseOfferingManagementUtil.getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, ContextUtils.createDefaultContextInfo());
             activityOfferingWrapperList = new ArrayList<ActivityOfferingWrapper>(activityOfferingInfoList.size());
 
             for (ActivityOfferingInfo info : activityOfferingInfoList) {
@@ -257,13 +234,13 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
-        StateInfo state = getStateService().getState(aoInfo.getStateKey(), contextInfo);        
+        StateInfo state = CourseOfferingManagementUtil.getStateService().getState(aoInfo.getStateKey(), contextInfo);
         aoWrapper.setStateName(state.getName());
 
-        TypeInfo typeInfo = getTypeService().getType(aoInfo.getTypeKey(), contextInfo);
+        TypeInfo typeInfo = CourseOfferingManagementUtil.getTypeService().getType(aoInfo.getTypeKey(), contextInfo);
         aoWrapper.setTypeName(typeInfo.getName());
 
-        FormatOfferingInfo fo = getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), contextInfo);
+        FormatOfferingInfo fo = CourseOfferingManagementUtil.getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), contextInfo);
         aoWrapper.setFormatOffering(fo);
 
         OfferingInstructorInfo displayInstructor = CourseOfferingViewHelperUtil.findDisplayInstructor(aoInfo.getInstructors());
@@ -281,14 +258,14 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
         }
 
         //Added the colocation tooltip for colocated AOs
-        List<ScheduleRequestSetInfo>  scheduleRequestSetInfoList = getSchedulingService().getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,
+        List<ScheduleRequestSetInfo>  scheduleRequestSetInfoList = CourseOfferingManagementUtil.getSchedulingService().getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,
                 aoInfo.getId(), contextInfo);
 
         if(scheduleRequestSetInfoList != null && scheduleRequestSetInfoList.size() > 0) {
             StringBuilder sb = new StringBuilder();
             if (!scheduleRequestSetInfoList.isEmpty()){
                 for(ScheduleRequestSetInfo coloSet : scheduleRequestSetInfoList) {
-                    List<ActivityOfferingInfo> aoList = getCourseOfferingService().getActivityOfferingsByIds(coloSet.getRefObjectIds(), contextInfo);
+                    List<ActivityOfferingInfo> aoList = CourseOfferingManagementUtil.getCourseOfferingService().getActivityOfferingsByIds(coloSet.getRefObjectIds(), contextInfo);
                     for(ActivityOfferingInfo coloActivity : aoList) {
                         if (!StringUtils.equals(coloActivity.getId(),aoInfo.getId())){
                             sb.append(coloActivity.getCourseOfferingCode() + " " + coloActivity.getActivityCode() + "<br>");
@@ -307,20 +284,20 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
         aoWrapper.setSubTermName("None");
         aoWrapper.setSubTermId("");
         //check if the term has any parent term
-        List<TermInfo> terms = getAcalService().getContainingTerms(aoInfo.getTermId(), contextInfo);
+        List<TermInfo> terms = CourseOfferingManagementUtil.getAcademicCalendarService().getContainingTerms(aoInfo.getTermId(), contextInfo);
         if (terms == null || terms.isEmpty()) { //AO belong to a parent term or a standard term
-            term = getAcalService().getTerm(aoWrapper.getAoInfo().getTermId(), contextInfo);
+            term = CourseOfferingManagementUtil.getAcademicCalendarService().getTerm(aoWrapper.getAoInfo().getTermId(), contextInfo);
             // checking if we can have sub-terms for giving term
-            List<TermInfo> subTerms = getAcalService().getIncludedTermsInTerm(aoWrapper.getAoInfo().getTermId(), contextInfo);
+            List<TermInfo> subTerms = CourseOfferingManagementUtil.getAcademicCalendarService().getIncludedTermsInTerm(aoWrapper.getAoInfo().getTermId(), contextInfo);
             if(!subTerms.isEmpty()) {
                 aoWrapper.setHasSubTerms(true);
             }
         } else {//AO belongs to a sub-term
-            subTerm = getAcalService().getTerm(aoInfo.getTermId(), contextInfo);
+            subTerm = CourseOfferingManagementUtil.getAcademicCalendarService().getTerm(aoInfo.getTermId(), contextInfo);
             term = terms.get(0);
             aoWrapper.setHasSubTerms(true);
             aoWrapper.setSubTermId(subTerm.getId());
-            TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
+            TypeInfo subTermType = CourseOfferingManagementUtil.getTypeService().getType(subTerm.getTypeKey(), contextInfo);
             aoWrapper.setSubTermName(subTermType.getName());
             aoWrapper.setTermStartEndDate(CourseOfferingManagementUtil.getTermStartEndDate(subTerm.getId(), subTerm));
         }
@@ -330,62 +307,6 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
         }
         aoWrapper.setTermDisplayString(CourseOfferingManagementUtil.getTermDisplayString(aoInfo.getTermId(), term));
         return aoWrapper;
-    }
-
-
-
-    public CourseOfferingService getCourseOfferingService() {
-        if(courseOfferingService == null)
-            courseOfferingService= CourseOfferingResourceLoader.loadCourseOfferingService();
-        return courseOfferingService;
-    }
-
-    protected CourseService getCourseService() {
-        if(courseService == null) {
-            courseService = (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, "CourseService"));
-        }
-        return this.courseService;
-    }
-
-    protected LRCService getLRCService() {
-        if(lrcService == null) {
-            lrcService = (LRCService) GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return this.lrcService;
-    }
-
-    protected StateService getStateService(){
-        if (stateService == null){
-            stateService = GlobalResourceLoader.getService(new QName(StateServiceConstants.NAMESPACE, StateServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return stateService;
-    }
-
-    protected TypeService getTypeService(){
-        if (typeService == null){
-            typeService = GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return typeService;
-    }
-
-    private OrganizationService getOrganizationService(){
-        if(organizationService == null) {
-            organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "organization", "OrganizationService"));
-        }
-        return organizationService;
-    }
-    public AcademicCalendarService getAcalService() {
-        if(acalService == null) {
-            acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return this.acalService;
-    }
-
-    private SchedulingService getSchedulingService() {
-        if(schedulingService == null)  {
-            schedulingService = CourseOfferingResourceLoader.loadSchedulingService();
-        }
-        return schedulingService;
     }
 
 }

@@ -18,22 +18,16 @@ package org.kuali.student.enrollment.class2.courseoffering.util;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.permission.PermissionService;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
-import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import java.util.Date;
@@ -47,9 +41,6 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class CourseOfferingManagementToolbarUtil {
-    private static PermissionService permissionService = getPermissionService();
-    private static TypeService typeService;
-    private static AcademicCalendarService academicCalendarService;
 
     public static void processCoToolbarForUser(List<CourseOfferingListSectionWrapper> coListWrapperList, CourseOfferingManagementForm form){
         form.setEnableAddButton(false);
@@ -80,7 +71,7 @@ public class CourseOfferingManagementToolbarUtil {
         if (checkBzLogicForCOButtons(socStateKey, socSchedulingState, "", "addCO")) {
             //check role permission
             permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "addCO");
-            if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+            if (CourseOfferingManagementUtil.getPermissionService().isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                 form.setEnableAddButton(true);
             }
         }
@@ -105,12 +96,12 @@ public class CourseOfferingManagementToolbarUtil {
 
                 //for copy and edit action links on each CO row.
                 permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "copyCOonManageCOsPage");
-                if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+                if (CourseOfferingManagementUtil.getPermissionService().isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                     coListWrapper.setEnableCopyCOActionLink(true);
                 }
 
                 permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "editCO");
-                if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+                if (CourseOfferingManagementUtil.getPermissionService().isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                     coListWrapper.setEnableEditCOActionLink(true);
                 }
 
@@ -119,7 +110,7 @@ public class CourseOfferingManagementToolbarUtil {
                 if (checkBzLogicForCOButtons(socStateKey, socSchedulingState, coStateKey, "approveCO")) {
                     //check role permission
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "approveCO");
-                    if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+                    if (CourseOfferingManagementUtil.getPermissionService().isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                         coListWrapper.setEnableApproveButton(true);
                     }
                 }
@@ -132,8 +123,8 @@ public class CourseOfferingManagementToolbarUtil {
                         Date termRegStartDate = null;
                         try {
                             //loop through the key dates and registration periods in order to determine the start date for the registration within the subject term
-                            List<TypeInfo> regPeriods = getTypeService().getTypesForGroupType(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_GROUP_TYPE_KEY, contextInfo);
-                            List<KeyDateInfo> keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm(form.getTermInfo().getId(), contextInfo);
+                            List<TypeInfo> regPeriods = CourseOfferingManagementUtil.getTypeService().getTypesForGroupType(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_GROUP_TYPE_KEY, contextInfo);
+                            List<KeyDateInfo> keyDateInfoList = CourseOfferingManagementUtil.getAcademicCalendarService().getKeyDatesForTerm(form.getTermInfo().getId(), contextInfo);
                             if (keyDateInfoList != null && keyDateInfoList.size() > 0) {
                                 for (KeyDateInfo keyDateInfo : keyDateInfoList) {
                                     for (TypeInfo regPeriod : regPeriods) {
@@ -155,7 +146,7 @@ public class CourseOfferingManagementToolbarUtil {
                     }
                     //check role permission
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "deleteCO");
-                    if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+                    if (CourseOfferingManagementUtil.getPermissionService().isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                         coListWrapper.setEnableDeleteButton(true);
                     }
                 }
@@ -198,7 +189,7 @@ public class CourseOfferingManagementToolbarUtil {
         if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_ADD)) {
             //check role permission
             permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_ADD);
-            if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+            if (CourseOfferingManagementUtil.getPermissionService().isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                 form.setEnableAddButton(true);
             }
 
@@ -208,7 +199,7 @@ public class CourseOfferingManagementToolbarUtil {
         if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_ADD_CLUSTER)) {
             //check role permission
             permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_ADD_CLUSTER);
-            if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+            if (CourseOfferingManagementUtil.getPermissionService().isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                 form.setEnableAddClusterButton(true);
             }
         }
@@ -237,7 +228,7 @@ public class CourseOfferingManagementToolbarUtil {
                 if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_APPROVE)) {
                     //check role permission
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_APPROVE);
-                    if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+                    if (CourseOfferingManagementUtil.getPermissionService().isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                         activityWrapper.setEnableApproveButton(true);
                     }
                 }
@@ -246,7 +237,7 @@ public class CourseOfferingManagementToolbarUtil {
                 if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_DELETE)) {
                     //check role permission
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_DELETE);
-                    if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+                    if (CourseOfferingManagementUtil.getPermissionService().isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                         activityWrapper.setEnableDeleteButton(true);
                     }
                 }
@@ -255,7 +246,7 @@ public class CourseOfferingManagementToolbarUtil {
                 if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_SET_DRAFT)) {
                     //check role permission
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_SET_DRAFT);
-                    if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+                    if (CourseOfferingManagementUtil.getPermissionService().isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                         activityWrapper.setEnableDraftButton(true);
                     }
                 }
@@ -264,14 +255,14 @@ public class CourseOfferingManagementToolbarUtil {
                 if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_MOVE)) {
                     //check role permission
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_MOVE);
-                    if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+                    if (CourseOfferingManagementUtil.getPermissionService().isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                         activityWrapper.setEnableMoveToButton(true);
                     }
                 }
 
                 //for copy and edit action links on each CO row.
                 permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "copyAOonManageAOsPage");
-                if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+                if (CourseOfferingManagementUtil.getPermissionService().isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                     activityWrapper.setEnableCopyAOActionLink(true);
                 }
 
@@ -281,14 +272,14 @@ public class CourseOfferingManagementToolbarUtil {
                 }
                 permissionDetails.put("colocatedAO", colocatedAO);
                 permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "editAOonManageAOsPage");
-                if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
+                if(CourseOfferingManagementUtil.getPermissionService().isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
                     activityWrapper.setEnableEditAOActionLink(true);
                 }
 
                 //for Cancel AO button
                 if (!activityWrapper.isColocatedAO() && checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_CANCEL)) {
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_CANCEL);
-                    if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+                    if (CourseOfferingManagementUtil.getPermissionService().isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                         activityWrapper.setEnableCancelButton(true);
                     }
                 }
@@ -296,7 +287,7 @@ public class CourseOfferingManagementToolbarUtil {
                 //for Suspend AO button
                 if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_SUSPEND)) {
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_SUSPEND);
-                    if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+                    if (CourseOfferingManagementUtil.getPermissionService().isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                         activityWrapper.setEnableSuspendButton(true);
                     }
                 }
@@ -304,7 +295,7 @@ public class CourseOfferingManagementToolbarUtil {
                 //for Reinstate AO button
                 if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_REINSTATE)) {
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_REINSTATE);
-                    if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+                    if (CourseOfferingManagementUtil.getPermissionService().isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                         activityWrapper.setEnableReinstateButton(true);
                     }
                 }
@@ -394,27 +385,5 @@ public class CourseOfferingManagementToolbarUtil {
             socLockedAndMSEInProgress = true;
         }
         return socLockedAndMSEInProgress;
-    }
-
-    private static PermissionService getPermissionService() {
-        if(permissionService==null){
-            permissionService = KimApiServiceLocator.getPermissionService();
-        }
-        return permissionService;
-    }
-
-    private static TypeService getTypeService() {
-        if (typeService == null) {
-            typeService = CourseOfferingResourceLoader.loadTypeService();
-        }
-        return typeService;
-    }
-
-    private static AcademicCalendarService getAcademicCalendarService() {
-        if (academicCalendarService == null) {
-            academicCalendarService = CourseOfferingResourceLoader.loadAcademicCalendarService();
-        }
-
-        return academicCalendarService;
     }
 }

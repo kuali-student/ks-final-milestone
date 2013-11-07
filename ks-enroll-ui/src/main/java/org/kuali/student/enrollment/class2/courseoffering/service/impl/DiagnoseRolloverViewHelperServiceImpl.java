@@ -18,27 +18,19 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.DiagnoseRolloverViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
-import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.lum.course.service.CourseService;
 
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -50,10 +42,6 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl implements DiagnoseRolloverViewHelperService {
-    private AcademicCalendarService acalService = null;
-    private CourseOfferingService coService = null;
-    private CourseOfferingSetService socService = null;
-    private CourseService courseService = null;
 
     public static final String COURSE_OFFERING_KEY = "courseOffering";
     public static final String START_ROLLOVER_DATE = "startRolloverDate";
@@ -62,8 +50,6 @@ public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl
 
     @Override
     public TermInfo searchTermByTermCode(String termCode) throws Exception {
-        _initServices();
-
         // TODO: Find sensible way to rewrap exception that acal service may throw
         // Find the term (alas, I think it does approximate search)
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
@@ -71,7 +57,7 @@ public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl
         QueryByCriteria criteria = qbcBuilder.build();
 
         // Do search.  In ideal case, terms returns one element, which is the desired term.
-        List<TermInfo> terms = acalService.searchForTerms(criteria, new ContextInfo());
+        List<TermInfo> terms = CourseOfferingManagementUtil.getAcademicCalendarService().searchForTerms(criteria, new ContextInfo());
         int firstTerm = 0;
         if (terms == null || terms.isEmpty()) {
             return null;
@@ -82,17 +68,15 @@ public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl
 
     @Override
     public boolean termHasCourseOfferings(TermInfo termInfo) throws Exception {
-        _initServices();
-        List<String> coIds = coService.getCourseOfferingIdsByTerm(termInfo.getId(), true, new ContextInfo());
+        List<String> coIds = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOfferingIdsByTerm(termInfo.getId(), true, new ContextInfo());
         return coIds != null && coIds.size() > 0;
     }
 
     @Override
     public boolean termHasSoc(TermInfo termInfo) throws Exception {
-        _initServices();
         ContextInfo contextInfo = new ContextInfo();
-        List<String> socIds = socService.getSocIdsByTerm(termInfo.getId(), contextInfo);
-        List<SocInfo> socInfos = socService.getSocsByIds(socIds, contextInfo);
+        List<String> socIds = CourseOfferingManagementUtil.getSocService().getSocIdsByTerm(termInfo.getId(), contextInfo);
+        List<SocInfo> socInfos = CourseOfferingManagementUtil.getSocService().getSocsByIds(socIds, contextInfo);
         for (SocInfo socInfo: socInfos) {
             if (socInfo.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
                 return true;
@@ -122,7 +106,6 @@ public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl
 
     @Override
     public boolean deleteCourseOfferingInTerm(String courseOfferingCode, String termId) throws Exception {
-        _initServices();
         List<CourseOfferingInfo> coList = _searchCourseOfferingByCOCodeAndTerm(courseOfferingCode, termId);
         if (coList == null || coList.isEmpty()) {
             return false;
@@ -131,7 +114,7 @@ public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl
         CourseOfferingInfo coInfo = coList.get(firstCOInfo);
         StatusInfo statusInfo;
         try {
-            statusInfo = coService.deleteCourseOfferingCascaded(coInfo.getId(), new ContextInfo());
+            statusInfo = CourseOfferingManagementUtil.getCourseOfferingService().deleteCourseOfferingCascaded(coInfo.getId(), new ContextInfo());
         } catch (Exception e) {
             return false;
         }
@@ -144,18 +127,8 @@ public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl
         return diffInSeconds;
     }
     
-    private DefaultOptionKeysService defaultOptionKeysService;
-
-    private DefaultOptionKeysService getDefaultOptionKeysService() {
-        if (defaultOptionKeysService == null) {
-            defaultOptionKeysService = new DefaultOptionKeysServiceImpl();
-        }
-        return this.defaultOptionKeysService;
-    }
-
     @Override
     public Map<String, Object> rolloverCourseOfferingFromSourceTermToTargetTerm(String courseOfferingCode, String sourceTermId, String targetTermId) throws Exception {
-        _initServices();
         List<CourseOfferingInfo> coInfos = _searchCourseOfferingByCOCodeAndTerm(courseOfferingCode, sourceTermId);
         if (coInfos == null || coInfos.isEmpty()) {
             return null;
@@ -164,12 +137,12 @@ public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl
         int firstCOInfo = 0;
         CourseOfferingInfo coInfo = coInfos.get(firstCOInfo); // Just get the first one
         Date start = new Date();
-        List<String> optionKeys = this.getDefaultOptionKeysService().getDefaultOptionKeysForCopySingleCourseOffering();
+        List<String> optionKeys = CourseOfferingManagementUtil.getDefaultOptionKeysService().getDefaultOptionKeysForCopySingleCourseOffering();
         SocRolloverResultItemInfo rolloverResultInfo =
-                coService.rolloverCourseOffering(coInfo.getId(), targetTermId, optionKeys, contextInfo);
+                CourseOfferingManagementUtil.getCourseOfferingService().rolloverCourseOffering(coInfo.getId(), targetTermId, optionKeys, contextInfo);
         Date end = new Date();
         String targetId = rolloverResultInfo.getTargetCourseOfferingId();
-        CourseOfferingInfo targetCo = coService.getCourseOffering(targetId, contextInfo);
+        CourseOfferingInfo targetCo = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(targetId, contextInfo);
         Map<String, Object> keyValues = new HashMap<String, Object>();
         keyValues.put(COURSE_OFFERING_KEY, targetCo);
         keyValues.put(START_ROLLOVER_DATE, start);
@@ -180,8 +153,6 @@ public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl
     }
 
     private List<CourseOfferingInfo> _searchCourseOfferingByCOCodeAndTerm(String courseOfferingCode, String termId) throws Exception {
-        _initServices();
-
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(
                 PredicateFactory.and(
@@ -189,30 +160,7 @@ public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl
                     PredicateFactory.equal(CourseOfferingConstants.ATP_ID, termId)
                 ));
         QueryByCriteria criteria = qbcBuilder.build();
-        List<CourseOfferingInfo> coList = coService.searchForCourseOfferings(criteria, new ContextInfo());
+        List<CourseOfferingInfo> coList = CourseOfferingManagementUtil.getCourseOfferingService().searchForCourseOfferings(criteria, new ContextInfo());
         return coList;
-    }
-
-    private void _initServices() {
-        if (coService == null) {
-            coService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
-                    CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-
-        if (socService == null) {
-            socService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE,
-                    CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-
-        if (courseService == null) {
-            Object o = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "course",
-                    "CourseService"));
-            courseService = (CourseService) o;
-        }
-
-        if (acalService == null) {
-            acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE,
-                    AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
     }
 }

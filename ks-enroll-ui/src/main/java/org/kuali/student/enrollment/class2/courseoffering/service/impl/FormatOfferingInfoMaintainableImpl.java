@@ -16,14 +16,12 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -44,8 +42,6 @@ public class FormatOfferingInfoMaintainableImpl extends MaintainableImpl {
     private static final String DEFAULT_DOCUMENT_DESC_FOR_COPYING_FORMAT_OFFERING =
             "Copy from an existing Format offering to create a new one";
 
-    private transient CourseOfferingService courseOfferingService;
-
     @Override
     public void saveDataObject() {
         //System.out.println (">>> in save ");
@@ -54,7 +50,7 @@ public class FormatOfferingInfoMaintainableImpl extends MaintainableImpl {
                 getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {
             try {
 
-                getCourseOfferingService().createFormatOffering(formatOfferingInfoMaintenance.getCourseOfferingId(), formatOfferingInfoMaintenance.getFormatId(),
+                CourseOfferingManagementUtil.getCourseOfferingService().createFormatOffering(formatOfferingInfoMaintenance.getCourseOfferingId(), formatOfferingInfoMaintenance.getFormatId(),
                                                                                             LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY, formatOfferingInfoMaintenance, ContextUtils.createDefaultContextInfo());
                 //setDataObject(new FormatOfferingInfo(formatOfferingInfoCreated));
             } catch (Exception e) {
@@ -64,7 +60,7 @@ public class FormatOfferingInfoMaintainableImpl extends MaintainableImpl {
         }
         else {   //should be edit action
             try {
-                getCourseOfferingService().updateFormatOffering(formatOfferingInfoMaintenance.getId(), formatOfferingInfoMaintenance, ContextUtils.createDefaultContextInfo());
+                CourseOfferingManagementUtil.getCourseOfferingService().updateFormatOffering(formatOfferingInfoMaintenance.getId(), formatOfferingInfoMaintenance, ContextUtils.createDefaultContextInfo());
             } catch (Exception e) {
                 //logger.error("FormatOfferingInfoMaintenance - edit failed. ", e);
                 throw new RuntimeException("FormatOfferingInfoMaintenance - edit failed. ", e);
@@ -89,7 +85,7 @@ public class FormatOfferingInfoMaintainableImpl extends MaintainableImpl {
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
         try {
-            FormatOfferingInfo info = getCourseOfferingService().getFormatOffering(dataObjectKeys.get("id"), ContextUtils.createDefaultContextInfo());
+            FormatOfferingInfo info = CourseOfferingManagementUtil.getCourseOfferingService().getFormatOffering(dataObjectKeys.get("id"), ContextUtils.createDefaultContextInfo());
             return info;
         } catch (Exception e) {
             throw new RuntimeException("FormatOfferingInfoMaintenance - edit/copy failed. ", e);
@@ -122,13 +118,5 @@ public class FormatOfferingInfoMaintainableImpl extends MaintainableImpl {
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
         //set documentDescription to document.documentHeader.documentDescription
         document.getDocumentHeader().setDocumentDescription(DEFAULT_DOCUMENT_DESC_FOR_CREATING_FORMAT_OFFERING);
-
-    }
-
-    protected CourseOfferingService getCourseOfferingService() {
-        if (courseOfferingService == null) {
-            courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, "CourseOfferingService"));
-        }
-        return courseOfferingService;
     }
 }

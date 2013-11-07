@@ -21,6 +21,7 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -54,44 +55,12 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/statusview/**")
 public class StatePropagationTestController extends UifControllerBase {
-    private transient AcademicCalendarService academicCalendarService;
-    private transient CourseOfferingService courseOfferingService;
-    private transient StateService stateService;
-    private transient CourseOfferingSetService courseOfferingSetService;
 
     private static final Logger LOG = Logger.getLogger(StatePropagationTestController.class);
 
     public ContextInfo getContextInfo() {
          return ContextUtils.createDefaultContextInfo();
      }
-
-    protected AcademicCalendarService getAcademicCalendarService(){
-        if(academicCalendarService == null) {
-            academicCalendarService = CourseOfferingResourceLoader.loadAcademicCalendarService();
-        }
-        return academicCalendarService;
-    }
-
-   protected CourseOfferingService getCourseOfferingService() {
-       if(courseOfferingService == null){
-            courseOfferingService = CourseOfferingResourceLoader.loadCourseOfferingService();
-        }
-       return courseOfferingService;
-    }
-
-   protected StateService getStateService() {
-        if(stateService == null) {
-            stateService = CourseOfferingResourceLoader.loadStateService();
-        }
-        return this.stateService;
-    }
-
-     protected CourseOfferingSetService getCourseOfferingSetService(){
-        if (courseOfferingSetService == null){
-            courseOfferingSetService = CourseOfferingResourceLoader.loadCourseOfferingSetService();
-        }
-        return courseOfferingSetService;
-    }
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -135,7 +104,7 @@ public class StatePropagationTestController extends UifControllerBase {
                     stringBuilder.append("<table id=\"ao_list\" border=\"1\">");
                     stringBuilder.append("<tr><th>AO Code</th><th>AO State</th><th>FO State</th><th>AO Scheduling State</th><th>Registration Group</th><th>Seat pool</th></tr>");
                     if (displayAllAOs){
-                        List<ActivityOfferingInfo> aoInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOffering.getId(), getContextInfo());
+                        List<ActivityOfferingInfo> aoInfos = CourseOfferingManagementUtil.getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOffering.getId(), getContextInfo());
                         for (ActivityOfferingInfo aoInfo : aoInfos) {
                             displayAO(stringBuilder, aoInfo);
                         }
@@ -166,7 +135,7 @@ public class StatePropagationTestController extends UifControllerBase {
     private void displayAO(StringBuilder stringBuilder, ActivityOfferingInfo activityOffering) throws Exception{
         //load activityOffering based on aoCode
 
-        FormatOfferingInfo formatOffering = getCourseOfferingService().getFormatOffering(activityOffering.getFormatOfferingId(), getContextInfo());
+        FormatOfferingInfo formatOffering = CourseOfferingManagementUtil.getCourseOfferingService().getFormatOffering(activityOffering.getFormatOfferingId(), getContextInfo());
 
         stringBuilder.append("<tr>");
         stringBuilder.append(getHTMLTableCell(activityOffering.getActivityCode()));
@@ -192,8 +161,7 @@ public class StatePropagationTestController extends UifControllerBase {
        QueryByCriteria criteria = qbcBuilder.build();
 
        // Do search.  In ideal case, terms returns one element, which is the desired term.
-       AcademicCalendarService acalService = getAcademicCalendarService();
-       return acalService.searchForTerms(criteria, getContextInfo());
+       return CourseOfferingManagementUtil.getAcademicCalendarService().searchForTerms(criteria, getContextInfo());
     }
 
     private CourseOfferingInfo loadCourseOfferingByTermAndCoCode(String termId, String coCode) throws Exception {
@@ -205,11 +173,11 @@ public class StatePropagationTestController extends UifControllerBase {
                 PredicateFactory.equal("courseOfferingCode", coCode),
                 PredicateFactory.equalIgnoreCase("atpId", termId)));
         QueryByCriteria criteria = qbcBuilder.build();
-        List<String> courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, getContextInfo());
+        List<String> courseOfferingIds = CourseOfferingManagementUtil.getCourseOfferingService().searchForCourseOfferingIds(criteria, getContextInfo());
 
         if(courseOfferingIds.size() > 0){
             if(courseOfferingIds.size() == 1){
-                 courseOffering = getCourseOfferingService().getCourseOffering(courseOfferingIds.get(0), getContextInfo());
+                 courseOffering = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(courseOfferingIds.get(0), getContextInfo());
 
             } else {
                 LOG.error("Error: Found more than one CourseOffering for CourseOffering code: " + coCode);
@@ -226,7 +194,7 @@ public class StatePropagationTestController extends UifControllerBase {
 
     private ActivityOfferingInfo loadActivityOfferingByCOAndAoCode(String coId, String aoCode)throws Exception {
         ActivityOfferingInfo aoInfo = null;
-        List<ActivityOfferingInfo> aoInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(coId, getContextInfo());
+        List<ActivityOfferingInfo> aoInfos = CourseOfferingManagementUtil.getCourseOfferingService().getActivityOfferingsByCourseOffering(coId, getContextInfo());
         if (StringUtils.isNotBlank(aoCode)){
             for (ActivityOfferingInfo info : aoInfos) {
                     if (info.getActivityCode().equals(aoCode)) {
@@ -239,14 +207,14 @@ public class StatePropagationTestController extends UifControllerBase {
     }
 
     private String getStateName(String stateKey) throws Exception {
-        StateInfo state = getStateService().getState(stateKey, getContextInfo());
+        StateInfo state = CourseOfferingManagementUtil.getStateService().getState(stateKey, getContextInfo());
         return state.getName();
     }
 
     private void loadSeatPool(StringBuilder stringBuilder, String aoId) throws Exception{
         List<SeatPoolDefinitionInfo> seatPoolDefinitionInfoList;
         try {
-            seatPoolDefinitionInfoList = getCourseOfferingService().getSeatPoolDefinitionsForActivityOffering(aoId, getContextInfo());
+            seatPoolDefinitionInfoList = CourseOfferingManagementUtil.getCourseOfferingService().getSeatPoolDefinitionsForActivityOffering(aoId, getContextInfo());
         } catch (Exception e) {
             LOG.error("Error calling getSeatPoolDefinitionsForActivityOffering - " + aoId);
             stringBuilder.append("Error calling Seat Pool");
@@ -278,7 +246,7 @@ public class StatePropagationTestController extends UifControllerBase {
         List<String> socIds;
         SocInfo soc = null;
         try {
-            socIds = getCourseOfferingSetService().getSocIdsByTerm(termId, getContextInfo());
+            socIds = CourseOfferingManagementUtil.getCourseOfferingSetService().getSocIdsByTerm(termId, getContextInfo());
         } catch (Exception e) {
             LOG.error("Error calling getSocIdsByTerm - " + termId);
             stringBuilder.append("\n" )
@@ -297,7 +265,7 @@ public class StatePropagationTestController extends UifControllerBase {
 
 
             try {
-                soc = getCourseOfferingSetService().getSoc(socIds.get(0), getContextInfo());
+                soc = CourseOfferingManagementUtil.getCourseOfferingSetService().getSoc(socIds.get(0), getContextInfo());
                 appendHtmlSpanForState(stringBuilder, "soc", getStateName(soc.getStateKey()));
                 appendHtmlSpanForState(stringBuilder, "soc_scheduling", getStateName(soc.getSchedulingStateKey()));
             } catch (Exception e) {
@@ -337,7 +305,7 @@ public class StatePropagationTestController extends UifControllerBase {
     private void loadRegGroup(StringBuilder stringBuilder, String aoId){
 
         try {
-            List<RegistrationGroupInfo>  registrationGroupInfos = getCourseOfferingService().getRegistrationGroupsByActivityOffering(aoId, getContextInfo());
+            List<RegistrationGroupInfo>  registrationGroupInfos = CourseOfferingManagementUtil.getCourseOfferingService().getRegistrationGroupsByActivityOffering(aoId, getContextInfo());
             if(registrationGroupInfos.size()>0){
                 StringBuilder sb = new StringBuilder();
                 for(RegistrationGroupInfo rg : registrationGroupInfos){

@@ -16,22 +16,19 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.keyvalue;
 
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
-import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
@@ -41,9 +38,6 @@ import java.util.List;
 public class CourseOfferingIdFormatKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private transient CourseOfferingService courseOfferingService;
-    private transient CourseService courseService;
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
@@ -59,8 +53,8 @@ public class CourseOfferingIdFormatKeyValues extends UifKeyValuesFinderBase impl
         if (courseOfferingId != null) {
             List<FormatInfo> formats;
             try {
-                CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(courseOfferingId, context);
-                CourseInfo courseInfo = getCourseService().getCourse(courseOfferingInfo.getCourseId(), context);
+                CourseOfferingInfo courseOfferingInfo = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(courseOfferingId, context);
+                CourseInfo courseInfo = CourseOfferingManagementUtil.getCourseService().getCourse(courseOfferingInfo.getCourseId(), context);
                 formats = courseInfo.getFormats();
             } catch (DoesNotExistException e) {
                 throw new RuntimeException("No subject areas found! There should be some in the database", e);
@@ -74,19 +68,5 @@ public class CourseOfferingIdFormatKeyValues extends UifKeyValuesFinderBase impl
         }
 
         return keyValues;
-    }
-
-    protected CourseOfferingService getCourseOfferingService() {
-        if(courseOfferingService == null) {
-            courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseOffering", "CourseOfferingService"));
-        }
-        return this.courseOfferingService;
-    }
-
-    protected CourseService getCourseService() {
-        if(courseService == null) {
-            courseService = (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, "CourseService"));
-        }
-        return this.courseService;
     }
 }

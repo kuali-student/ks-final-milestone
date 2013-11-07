@@ -1,14 +1,11 @@
 package org.kuali.student.enrollment.class2.courseoffering.keyvalue;
 
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
@@ -16,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FormatsForCreateRGKeyValues extends UifKeyValuesFinderBase implements Serializable {
-    private transient CourseOfferingService courseOfferingService;
+
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -34,13 +31,6 @@ public class FormatsForCreateRGKeyValues extends UifKeyValuesFinderBase implemen
         }
 
         return keyValues;
-    }
-
-    protected CourseOfferingService getCourseOfferingService() {
-        if (courseOfferingService == null) {
-            courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, "CourseOfferingService"));
-        }
-        return courseOfferingService;
     }
 }
 

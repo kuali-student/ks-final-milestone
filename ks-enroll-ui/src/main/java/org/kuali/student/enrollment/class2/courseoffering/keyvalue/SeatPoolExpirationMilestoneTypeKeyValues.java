@@ -17,15 +17,13 @@
 package org.kuali.student.enrollment.class2.courseoffering.keyvalue;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
@@ -38,15 +36,16 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class SeatPoolExpirationMilestoneTypeKeyValues extends UifKeyValuesFinderBase implements Serializable {
-    private transient TypeService typeService;
+
     private static final Logger LOG = Logger.getLogger(SeatPoolExpirationMilestoneTypeKeyValues.class);
     private static final long serialVersionUID = 1L;
+
     @Override
     public List<KeyValue> getKeyValues(ViewModel viewModel) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("NONE", "NONE"));
         try {
-            List<TypeInfo> typeInfos = getTypeService().getTypesForGroupType("kuali.milestone.type.group.seatpool", ContextUtils.createDefaultContextInfo());
+            List<TypeInfo> typeInfos = CourseOfferingManagementUtil.getTypeService().getTypesForGroupType("kuali.milestone.type.group.seatpool", ContextUtils.createDefaultContextInfo());
 
             if (typeInfos != null) {
                 for (TypeInfo typeInfo : typeInfos) {
@@ -58,12 +57,5 @@ public class SeatPoolExpirationMilestoneTypeKeyValues extends UifKeyValuesFinder
         }
 
         return keyValues;
-    }
-
-    public TypeService getTypeService() {
-        if(typeService == null) {
-            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return this.typeService;
     }
 }

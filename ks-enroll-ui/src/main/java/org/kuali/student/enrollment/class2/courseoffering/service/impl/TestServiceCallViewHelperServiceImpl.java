@@ -17,23 +17,11 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.refdata.CluFixer;
 import org.kuali.student.enrollment.class2.courseoffering.service.TestServiceCallViewHelperService;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.core.constants.PopulationServiceConstants;
-import org.kuali.student.r2.core.population.service.PopulationService;
-import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.lrc.service.LRCService;
-import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.List;
@@ -45,20 +33,13 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class TestServiceCallViewHelperServiceImpl extends ViewHelperServiceImpl implements TestServiceCallViewHelperService {
-    private AcademicCalendarService acalService = null;
-    private CourseOfferingService coService = null;
-    private CourseOfferingSetService socService = null;
-    private CourseService courseService = null;
-    private PopulationService populationService = null;
-    private LRCService lrcService = null;
-    private CluFixer cluFixer;
+
     private ContextInfo contextInfo = new ContextInfo();
     private static final Logger LOG = Logger.getLogger(TestServiceCallViewHelperServiceImpl.class);
 
     @Override
     public List<String> getSocIdsByTerm(String termId) throws Exception {
-        _initServices();
-        List<String> socIds = socService.getSocIdsByTerm(termId, contextInfo);
+        List<String> socIds = CourseOfferingManagementUtil.getSocService().getSocIdsByTerm(termId, contextInfo);
         return socIds;
     }
 
@@ -267,9 +248,8 @@ public class TestServiceCallViewHelperServiceImpl extends ViewHelperServiceImpl 
     @Override
     public void verifyPopulations() throws Exception {
         //To change body of implemented methods use File | Settings | File Templates.
-        _initServices();
         //Run in a new thread
-        new Thread(new CluFixRunner(cluFixer)).start();
+        new Thread(new CluFixRunner(CourseOfferingManagementUtil.getCluFixer())).start();
     }
 
     public class CluFixRunner implements Runnable {
@@ -286,43 +266,6 @@ public class TestServiceCallViewHelperServiceImpl extends ViewHelperServiceImpl 
             } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
-        }
-    }
-
-    private void _initServices() {
-        if (coService == null) {
-            coService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
-                    CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-
-        if (socService == null) {
-            socService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE,
-                    CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-
-        if (courseService == null) {
-            Object o = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "course",
-                    "CourseService"));
-            courseService = (CourseService) o;
-        }
-
-        if (acalService == null) {
-            acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE,
-                    AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-
-        if (populationService == null) {
-            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE,
-                    PopulationServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-
-        if (lrcService == null) {
-            lrcService = (LRCService) GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE,
-                    LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-
-        if(cluFixer == null){
-            cluFixer = (CluFixer) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/cluFixer","CluFixer"));
         }
     }
 }

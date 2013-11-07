@@ -14,9 +14,11 @@ import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.student.common.uif.form.KSUifForm;
+import org.kuali.student.enrollment.class2.courseoffering.controller.ActivityOfferingControllerTransactionHelper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
@@ -24,9 +26,17 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingList
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.form.CreateSocForm;
+import org.kuali.student.enrollment.class2.courseoffering.form.DiagnoseRolloverForm;
+import org.kuali.student.enrollment.class2.courseoffering.form.TestServiceCallForm;
 import org.kuali.student.enrollment.class2.courseoffering.helper.impl.ActivityOfferingScheduleHelperImpl;
+import org.kuali.student.enrollment.class2.courseoffering.refdata.CluFixer;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.service.CreateSocViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.service.DiagnoseRolloverViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.SeatPoolUtilityService;
+import org.kuali.student.enrollment.class2.courseoffering.service.TestServiceCallViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.CourseOfferingServiceFacade;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.CSRServiceFacade;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseInfoByTermLookupableImpl;
@@ -46,6 +56,7 @@ import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetS
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.enrollment.examoffering.service.ExamOfferingService;
 import org.kuali.student.enrollment.lpr.service.LprService;
+import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -65,7 +76,10 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.constants.FeeServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
+import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
+import org.kuali.student.r2.core.fee.service.FeeService;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.population.service.PopulationService;
@@ -104,6 +118,10 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
  */
 public class CourseOfferingManagementUtil {
     private static CourseOfferingManagementViewHelperService viewHelperService;
+    private static CourseOfferingViewHelperService coViewHelperService;
+    private static CreateSocViewHelperService socViewHelperService;
+    private static DiagnoseRolloverViewHelperService drViewHelperService;
+    private static  TestServiceCallViewHelperService testViewHelperService;
     private static OrganizationService organizationService;
     private static StateService stateService;
     private static LRCService lrcService;
@@ -131,6 +149,49 @@ public class CourseOfferingManagementUtil {
     private static IdentityService identityService;
     private static RuleManagementService ruleManagementService;
     private static LprService lprService;
+    private static FeeService feeService;
+    private static CluFixer cluFixer;
+    private static LuiService luiService = null;
+    private static ActivityOfferingControllerTransactionHelper activityOfferingControllerTransactionHelper;
+    private static EnumerationManagementService enumerationManagementService;
+
+    public static EnumerationManagementService getEnumerationManagementService() {
+        if(enumerationManagementService == null) {
+            enumerationManagementService = (EnumerationManagementService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/enumerationmanagement", "EnumerationManagementService"));
+        }
+        return enumerationManagementService;
+    }
+
+    public static ActivityOfferingControllerTransactionHelper getActivityOfferingControllerTransactionHelper() {
+        if(activityOfferingControllerTransactionHelper == null){
+            activityOfferingControllerTransactionHelper = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "activityOfferingControllerTransactionHelper", ActivityOfferingControllerTransactionHelper.class.getSimpleName()));
+        }
+
+        return activityOfferingControllerTransactionHelper;
+    }
+
+    public static LuiService getLuiService() {
+        if (luiService == null) {
+            luiService = (LuiService) GlobalResourceLoader.getService(new QName(LuiServiceConstants.NAMESPACE,
+                    LuiServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return luiService;
+    }
+
+    public static CluFixer getCluFixer() {
+        if(cluFixer == null){
+            cluFixer = (CluFixer) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/cluFixer","CluFixer"));
+        }
+        return cluFixer;
+    }
+
+    public static FeeService getFeeService() {
+        if (feeService == null) {
+            feeService = (FeeService) GlobalResourceLoader.getService(new QName(FeeServiceConstants.NAMESPACE,
+                    FeeServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return feeService;
+    }
 
     public static LprService getLprService() {
         if (lprService == null) {
@@ -185,7 +246,6 @@ public class CourseOfferingManagementUtil {
     }
 
     public static CourseOfferingManagementViewHelperService getViewHelperService(CourseOfferingManagementForm theForm) {
-
         if (viewHelperService == null) {
             if (theForm.getView().getViewHelperServiceClass() != null) {
                 viewHelperService = (CourseOfferingManagementViewHelperService) theForm.getView().getViewHelperService();
@@ -193,8 +253,51 @@ public class CourseOfferingManagementUtil {
                 viewHelperService = (CourseOfferingManagementViewHelperService) theForm.getPostedView().getViewHelperService();
             }
         }
-
         return viewHelperService;
+    }
+
+    public static CourseOfferingViewHelperService getCoViewHelperService(UifFormBase form) {
+        if (coViewHelperService == null) {
+            if (form.getView().getViewHelperServiceClass() != null) {
+                coViewHelperService = (CourseOfferingViewHelperService) form.getView().getViewHelperService();
+            } else {
+                coViewHelperService = (CourseOfferingViewHelperService) form.getPostedView().getViewHelperService();
+            }
+        }
+        return coViewHelperService;
+    }
+
+    public static CreateSocViewHelperService getSocViewHelperService(CreateSocForm createSocForm) {
+        if (socViewHelperService == null) {
+            if (createSocForm.getView().getViewHelperServiceClass() != null) {
+                socViewHelperService = (CreateSocViewHelperService) createSocForm.getView().getViewHelperService();
+            } else {
+                socViewHelperService = (CreateSocViewHelperService) createSocForm.getPostedView().getViewHelperService();
+            }
+        }
+        return socViewHelperService;
+    }
+
+    public static DiagnoseRolloverViewHelperService getDrViewHelperService(DiagnoseRolloverForm rolloverForm) {
+        if (drViewHelperService == null) {
+            if (rolloverForm.getView().getViewHelperServiceClass() != null) {
+                drViewHelperService = (DiagnoseRolloverViewHelperService) rolloverForm.getView().getViewHelperService();
+            } else {
+                drViewHelperService = (DiagnoseRolloverViewHelperService) rolloverForm.getPostedView().getViewHelperService();
+            }
+        }
+        return drViewHelperService;
+    }
+
+    public static TestServiceCallViewHelperService getTestViewHelperService(TestServiceCallForm serviceCallForm) {
+        if (testViewHelperService == null) {
+            if (serviceCallForm.getView().getViewHelperServiceClass() != null) {
+                testViewHelperService = (TestServiceCallViewHelperService) serviceCallForm.getView().getViewHelperService();
+            } else {
+                testViewHelperService = (TestServiceCallViewHelperService) serviceCallForm.getPostedView().getViewHelperService();
+            }
+        }
+        return testViewHelperService;
     }
 
     public static OrganizationService getOrganizationService() {

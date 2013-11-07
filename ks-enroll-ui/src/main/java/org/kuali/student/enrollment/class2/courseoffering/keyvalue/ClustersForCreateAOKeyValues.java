@@ -24,11 +24,7 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.lum.course.service.CourseService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -82,18 +78,4 @@ public class ClustersForCreateAOKeyValues extends UifKeyValuesFinderBase impleme
 
         return keyValues;
     }
-
-    protected CourseService getCourseService() {
-        return CourseOfferingResourceLoader.loadCourseService();
-    }
-
-    protected TypeService getTypeService() {
-        return CourseOfferingResourceLoader.loadTypeService();
-    }
-
-    protected CourseOfferingService getCourseOfferingService() {
-        return CourseOfferingResourceLoader.loadCourseOfferingService();
-    }
-
-
 }

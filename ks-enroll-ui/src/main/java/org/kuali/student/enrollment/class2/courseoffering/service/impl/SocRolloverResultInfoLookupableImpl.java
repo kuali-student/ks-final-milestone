@@ -6,16 +6,15 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
-import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 
 import java.util.List;
 import java.util.Map;
 
 public class SocRolloverResultInfoLookupableImpl extends LookupableImpl {
-    private transient CourseOfferingSetService courseOfferingSetService = null;
     private static final long serialVersionUID = 1L;
+
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<SocRolloverResultInfo> socRolloverResultInfos ;
         String sourceTermId = fieldValues.get(CourseOfferingConstants.SOCROLLOVERRESULTINFO_SOURCE_TERM_ID);
@@ -39,7 +38,7 @@ public class SocRolloverResultInfoLookupableImpl extends LookupableImpl {
 
         //Perform Search with Service Call
         try{
-            socRolloverResultInfos = getCourseOfferingSetService().searchForSocRolloverResults(criteria, null);
+            socRolloverResultInfos = CourseOfferingManagementUtil.getCourseOfferingSetService().searchForSocRolloverResults(criteria, null);
         }catch (Exception e){
             throw new RuntimeException("Error searching for terms",e);
         }
@@ -47,11 +46,4 @@ public class SocRolloverResultInfoLookupableImpl extends LookupableImpl {
        return socRolloverResultInfos;
 
     }
-
-    public CourseOfferingSetService getCourseOfferingSetService() {
-        if(courseOfferingSetService == null)
-            courseOfferingSetService= CourseOfferingResourceLoader.loadCourseOfferingSetService();
-        return courseOfferingSetService;
-    }
-
 }

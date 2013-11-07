@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.keyvalue;
 
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -24,13 +23,10 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.InquiryForm;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.r2.lum.lrc.service.LRCService;
-import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
-import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
@@ -47,9 +43,6 @@ import java.util.List;
 public class StudentRegistrationOptionsKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private transient CourseService courseService;
-    private transient LRCService lrcService;
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
@@ -70,7 +63,7 @@ public class StudentRegistrationOptionsKeyValues extends UifKeyValuesFinderBase 
             try {
                 ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
                 for(String studentGradingOption : form.getStudentRegOptions()) {
-                    rvg = getLrcService().getResultValuesGroup(studentGradingOption, contextInfo);
+                    rvg = CourseOfferingManagementUtil.getLrcService().getResultValuesGroup(studentGradingOption, contextInfo);
                     if (null != rvg) {
                         keyValues.add(new ConcreteKeyValue(studentGradingOption, rvg.getName()));
                     }
@@ -86,19 +79,4 @@ public class StudentRegistrationOptionsKeyValues extends UifKeyValuesFinderBase 
 
         return keyValues;
     }
-
-    protected CourseService getCourseService() {
-        if(courseService == null) {
-            courseService = (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, "CourseService"));
-        }
-        return this.courseService;
-    }
-
-    protected LRCService getLrcService() {
-        if(lrcService == null) {
-            lrcService = (LRCService) GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return this.lrcService;
-    }
-
 }

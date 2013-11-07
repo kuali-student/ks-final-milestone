@@ -16,25 +16,18 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.keyvalue;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.InquiryForm;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
-import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.core.constants.TypeServiceConstants;
-import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
@@ -51,9 +44,6 @@ import java.util.List;
 public class ActivityOfferingSubtermKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private transient TypeService typeService;
-    private transient AcademicCalendarService acalService;
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
@@ -77,7 +67,7 @@ public class ActivityOfferingSubtermKeyValues extends UifKeyValuesFinderBase imp
         List<TermInfo> terms = new ArrayList<TermInfo>();
         try {
             ContextInfo context = new ContextInfo();
-            terms = getAcademicCalendarService().getIncludedTermsInTerm(parentTermType, context);
+            terms = CourseOfferingManagementUtil.getAcademicCalendarService().getIncludedTermsInTerm(parentTermType, context);
 
             if(terms.size() > 1) {
                 Collections.sort(terms, new SubtermComparator());
@@ -86,7 +76,7 @@ public class ActivityOfferingSubtermKeyValues extends UifKeyValuesFinderBase imp
             for (TermInfo term : terms) {
                 if (term.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)) {
                     ConcreteKeyValue keyValue = new ConcreteKeyValue();
-                    TypeInfo type = getTypeService().getType(term.getTypeKey(), context);
+                    TypeInfo type = CourseOfferingManagementUtil.getTypeService().getType(term.getTypeKey(), context);
                     keyValue.setKey(term.getId());
                     keyValue.setValue(type.getName());
                     keyValues.add(keyValue);
@@ -110,19 +100,4 @@ public class ActivityOfferingSubtermKeyValues extends UifKeyValuesFinderBase imp
             return result;
         }
     }
-
-    public TypeService getTypeService() {
-        if(typeService == null) {
-            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return this.typeService;
-    }
-
-    public AcademicCalendarService getAcademicCalendarService() {
-        if(acalService == null) {
-            acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "acal", "AcademicCalendarService"));
-        }
-        return this.acalService;
-    }
-
 }

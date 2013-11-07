@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.keyvalue;
 
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -24,12 +23,10 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.InquiryForm;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.r2.lum.lrc.service.LRCService;
-import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
@@ -44,9 +41,6 @@ import java.util.List;
 public class GradingOptionsKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private transient CourseService courseService;
-    private transient LRCService lrcService;
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
@@ -66,7 +60,7 @@ public class GradingOptionsKeyValues extends UifKeyValuesFinderBase implements S
         if (form != null && form.getCrsGradingOptions() != null) {
            for(String crsGradingOption : form.getCrsGradingOptions()) {
                try {
-                   ResultValuesGroupInfo rvg = getLrcService().getResultValuesGroup(crsGradingOption, context);  // gradingOption = LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER || LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL
+                   ResultValuesGroupInfo rvg = CourseOfferingManagementUtil.getLrcService().getResultValuesGroup(crsGradingOption, context);  // gradingOption = LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER || LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL
                    keyValues.add(new ConcreteKeyValue(rvg.getKey(), rvg.getName()));
                } catch (Exception e) {
                    throw new RuntimeException("Error looking up grading option",e);
@@ -76,19 +70,5 @@ public class GradingOptionsKeyValues extends UifKeyValuesFinderBase implements S
         }
 
         return keyValues;
-    }
-
-    protected CourseService getCourseService() {
-        if(courseService == null) {
-            courseService = (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, "CourseService"));
-        }
-        return this.courseService;
-    }
-
-    protected LRCService getLrcService() {
-        if(lrcService == null) {
-            lrcService = (LRCService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/lrc", "LrcService"));
-        }
-        return this.lrcService;
     }
 }

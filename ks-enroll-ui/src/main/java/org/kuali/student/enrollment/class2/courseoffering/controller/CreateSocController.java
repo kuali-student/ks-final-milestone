@@ -21,6 +21,7 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.courseoffering.form.CreateSocForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CreateSocViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.springframework.stereotype.Controller;
@@ -42,7 +43,6 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/createSoc")
 public class CreateSocController extends UifControllerBase {
-    private CreateSocViewHelperService viewHelperService;
 
     private static final Logger LOGGER = Logger.getLogger(CreateSocController.class);
 
@@ -80,7 +80,7 @@ public class CreateSocController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=createSocTerm")
     public ModelAndView createSocTerm(@ModelAttribute("KualiForm") CreateSocForm form, @SuppressWarnings("unused") BindingResult result,
                                           @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        CreateSocViewHelperService helper = getViewHelperService(form);
+        CreateSocViewHelperService helper = CourseOfferingManagementUtil.getSocViewHelperService(form);
         // First, check if term exists
         try {
             helper.getTermByTermCode(form.getSocTermCode());
@@ -105,16 +105,5 @@ public class CreateSocController extends UifControllerBase {
         }
 
         return getUIFModelAndView(form);
-    }
-
-    public CreateSocViewHelperService getViewHelperService(CreateSocForm createSocForm) {
-        if (viewHelperService == null) {
-            if (createSocForm.getView().getViewHelperServiceClass() != null) {
-                viewHelperService = (CreateSocViewHelperService) createSocForm.getView().getViewHelperService();
-            } else {
-                viewHelperService = (CreateSocViewHelperService) createSocForm.getPostedView().getViewHelperService();
-            }
-        }
-        return viewHelperService;
     }
 }

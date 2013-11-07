@@ -21,6 +21,7 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.courseoffering.form.TestServiceCallForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.TestServiceCallViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,7 +41,6 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/testServiceCall")
 public class TestServiceController extends UifControllerBase {
-    private TestServiceCallViewHelperService viewHelperService;
 
     private static final Logger LOGGER = Logger.getLogger(DiagnoseRolloverController.class);
 
@@ -81,7 +81,7 @@ public class TestServiceController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=testSocService")
     public ModelAndView testSocService(@ModelAttribute("KualiForm") TestServiceCallForm form, @SuppressWarnings("unused") BindingResult result,
                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        TestServiceCallViewHelperService helper = getViewHelperService(form);
+        TestServiceCallViewHelperService helper = CourseOfferingManagementUtil.getTestViewHelperService(form);
         helper.getSocIdsByTerm("20123");
         return getUIFModelAndView(form);
     }
@@ -89,19 +89,8 @@ public class TestServiceController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=testSeatpools")
     public ModelAndView testSeatpools(@ModelAttribute("KualiForm") TestServiceCallForm form, @SuppressWarnings("unused") BindingResult result,
                                        @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        TestServiceCallViewHelperService helper = getViewHelperService(form);
+        TestServiceCallViewHelperService helper = CourseOfferingManagementUtil.getTestViewHelperService(form);
         helper.verifyPopulations();
         return getUIFModelAndView(form);
-    }
-
-    public TestServiceCallViewHelperService getViewHelperService(TestServiceCallForm serviceCallForm) {
-        if (viewHelperService == null) {
-            if (serviceCallForm.getView().getViewHelperServiceClass() != null) {
-                viewHelperService = (TestServiceCallViewHelperService) serviceCallForm.getView().getViewHelperService();
-            } else {
-                viewHelperService = (TestServiceCallViewHelperService) serviceCallForm.getPostedView().getViewHelperService();
-            }
-        }
-        return viewHelperService;
     }
 }

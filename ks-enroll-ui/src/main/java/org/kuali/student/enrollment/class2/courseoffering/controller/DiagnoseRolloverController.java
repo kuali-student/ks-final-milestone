@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.form.DiagnoseRolloverForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.DiagnoseRolloverViewHelperService;
@@ -46,7 +47,6 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/diagnoseRollover")
 public class DiagnoseRolloverController extends UifControllerBase {
-    private DiagnoseRolloverViewHelperService viewHelperService;
 
     private static final Logger LOGGER = Logger.getLogger(DiagnoseRolloverController.class);
 
@@ -84,7 +84,7 @@ public class DiagnoseRolloverController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=goTargetTerm")
     public ModelAndView goTargetTerm(@ModelAttribute("KualiForm") DiagnoseRolloverForm form, @SuppressWarnings("unused") BindingResult result,
                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        DiagnoseRolloverViewHelperService helper = getViewHelperService(form);
+        DiagnoseRolloverViewHelperService helper = CourseOfferingManagementUtil.getDrViewHelperService(form);
         TermInfo targetTerm = helper.searchTermByTermCode(form.getTargetTermCode());
         if (targetTerm == null) {
             form.alertTargetTermValid(false);
@@ -106,7 +106,7 @@ public class DiagnoseRolloverController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=goSourceCO")
     public ModelAndView goSourceCO(@ModelAttribute("KualiForm") DiagnoseRolloverForm form, @SuppressWarnings("unused") BindingResult result,
                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        DiagnoseRolloverViewHelperService helper = getViewHelperService(form);
+        DiagnoseRolloverViewHelperService helper = CourseOfferingManagementUtil.getDrViewHelperService(form);
         String sourceTermCode = form.getSourceTermCode();
         TermInfo termInfo = helper.searchTermByTermCode(sourceTermCode);
         if (termInfo != null) {
@@ -152,7 +152,7 @@ public class DiagnoseRolloverController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=deleteCoInTargetTerm")
     public ModelAndView deleteCoInTargetTerm(@ModelAttribute("KualiForm") DiagnoseRolloverForm form, @SuppressWarnings("unused") BindingResult result,
                                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        DiagnoseRolloverViewHelperService helper = getViewHelperService(form);
+        DiagnoseRolloverViewHelperService helper = CourseOfferingManagementUtil.getDrViewHelperService(form);
         TermInfo targetTerm = helper.searchTermByTermCode(form.getTargetTermCode());
         boolean success = helper.deleteCourseOfferingInTerm(form.getCourseOfferingCode(), targetTerm.getId());
         if (success) {
@@ -164,22 +164,11 @@ public class DiagnoseRolloverController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=performCoRollover")
     public ModelAndView performCoRollover(@ModelAttribute("KualiForm") DiagnoseRolloverForm form, @SuppressWarnings("unused") BindingResult result,
                                        @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        DiagnoseRolloverViewHelperService helper = getViewHelperService(form);
+        DiagnoseRolloverViewHelperService helper = CourseOfferingManagementUtil.getDrViewHelperService(form);
         helper.searchTermByTermCode(form.getTargetTermCode());
         Map<String, Object> keyValues = helper.rolloverCourseOfferingFromSourceTermToTargetTerm(form.getCourseOfferingCode(), form.getSourceTerm().getId(), form.getTargetTerm().getId());
         double diffInSeconds = (Double) keyValues.get(DiagnoseRolloverViewHelperServiceImpl.DURATION_IN_SECONDS);
         form.setRolloverDuration(diffInSeconds  + "s");
         return getUIFModelAndView(form);
-    }
-
-    public DiagnoseRolloverViewHelperService getViewHelperService(DiagnoseRolloverForm rolloverForm) {
-        if (viewHelperService == null) {
-            if (rolloverForm.getView().getViewHelperServiceClass() != null) {
-                viewHelperService = (DiagnoseRolloverViewHelperService) rolloverForm.getView().getViewHelperService();
-            } else {
-                viewHelperService = (DiagnoseRolloverViewHelperService) rolloverForm.getPostedView().getViewHelperService();
-            }
-        }
-        return viewHelperService;
     }
 }

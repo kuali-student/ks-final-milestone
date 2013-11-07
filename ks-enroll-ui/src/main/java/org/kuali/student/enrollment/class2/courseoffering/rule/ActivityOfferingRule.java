@@ -3,7 +3,6 @@ package org.kuali.student.enrollment.class2.courseoffering.rule;
 import edu.emory.mathcs.backport.java.util.Collections;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -15,31 +14,24 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructor
 import org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
-import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
-import org.kuali.student.r2.core.population.service.PopulationService;
 
 import javax.xml.namespace.QName;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
 public class ActivityOfferingRule extends KsMaintenanceDocumentRuleBase {
-
-    private transient PopulationService populationService;
-    private transient CourseOfferingService courseOfferingService;
 
     @Override
     protected boolean isDocumentValidForSave(MaintenanceDocument maintenanceDocument) {
@@ -79,7 +71,7 @@ public class ActivityOfferingRule extends KsMaintenanceDocumentRuleBase {
         ContextInfo context = createContextInfo();
         List<ValidationResultInfo> errors = Collections.emptyList();
         try {
-            errors = getCourseOfferingService().validateActivityOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), aoInfo, context);
+            errors = CourseOfferingManagementUtil.getCourseOfferingService().validateActivityOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), aoInfo, context);
         } catch (Exception e) {
             //  Capture the error is the service call fails.
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
@@ -115,7 +107,7 @@ public class ActivityOfferingRule extends KsMaintenanceDocumentRuleBase {
 
             try {
                 List<PopulationInfo> populationInfoList =
-                        getPopulationService().searchForPopulations(criteria, createContextInfo());
+                        CourseOfferingManagementUtil.getPopulationService().searchForPopulations(criteria, createContextInfo());
                 //check if the population is valid
                 if (populationInfoList == null || populationInfoList.isEmpty()){
                     if (errorMsgInvalidPop.isEmpty()) {
@@ -216,21 +208,6 @@ public class ActivityOfferingRule extends KsMaintenanceDocumentRuleBase {
         }
 
         return noError;
-    }
-
-    private PopulationService getPopulationService() {
-        if (populationService == null) {
-            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, PopulationServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return populationService;
-    }
-
-    private CourseOfferingService getCourseOfferingService() {
-        if (courseOfferingService == null) {
-            courseOfferingService = (CourseOfferingService)
-                    GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return courseOfferingService;
     }
 
     private ContextInfo createContextInfo() {

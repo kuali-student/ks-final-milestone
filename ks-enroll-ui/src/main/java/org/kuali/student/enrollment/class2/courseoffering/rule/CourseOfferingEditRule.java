@@ -23,15 +23,13 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
-import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -48,8 +46,6 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class CourseOfferingEditRule extends KsMaintenanceDocumentRuleBase {
-
-    private CourseOfferingService courseOfferingService;
 
     @Override
     protected boolean isDocumentValidForSave(MaintenanceDocument document) {
@@ -111,7 +107,7 @@ public class CourseOfferingEditRule extends KsMaintenanceDocumentRuleBase {
         String newCoCode = courseCode + coWrapper.getCourseOfferingInfo().getCourseNumberSuffix();
 
         try {
-            List<CourseOfferingInfo> wrapperList = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(coWrapper.getCourse().getId(), coWrapper.getCourseOfferingInfo().getTermId(), ContextUtils.createDefaultContextInfo());
+            List<CourseOfferingInfo> wrapperList = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOfferingsByCourseAndTerm(coWrapper.getCourse().getId(), coWrapper.getCourseOfferingInfo().getTermId(), ContextUtils.createDefaultContextInfo());
             for (CourseOfferingInfo courseOfferingInfo : wrapperList) {
 
                 if (StringUtils.equals(newCoCode, courseOfferingInfo.getCourseOfferingCode())) {
@@ -209,15 +205,8 @@ public class CourseOfferingEditRule extends KsMaintenanceDocumentRuleBase {
                     PredicateFactory.equalIgnoreCase("atpId", termId)));
             QueryByCriteria criteria = qbcBuilder.build();
 
-            courseOfferings = getCourseOfferingService().searchForCourseOfferings(criteria, ContextUtils.createDefaultContextInfo());
+            courseOfferings = CourseOfferingManagementUtil.getCourseOfferingService().searchForCourseOfferings(criteria, ContextUtils.createDefaultContextInfo());
         }
         return courseOfferings;
-    }
-
-    protected CourseOfferingService getCourseOfferingService() {
-        if (courseOfferingService == null) {
-            courseOfferingService = CourseOfferingResourceLoader.loadCourseOfferingService();
-        }
-        return courseOfferingService;
     }
 }

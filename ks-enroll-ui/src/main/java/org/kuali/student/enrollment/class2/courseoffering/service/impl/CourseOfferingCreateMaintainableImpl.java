@@ -181,7 +181,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
             }
         }
 
-        CourseOfferingInfo info = getCourseOfferingService().createCourseOffering(courseInfo.getId(), termId, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, courseOffering, optionKeys, ContextUtils.createDefaultContextInfo());
+        CourseOfferingInfo info = CourseOfferingManagementUtil.getCourseOfferingService().createCourseOffering(courseInfo.getId(), termId, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, courseOffering, optionKeys, ContextUtils.createDefaultContextInfo());
 
         try {
             String examPeriodID = CourseOfferingManagementUtil.getExamOfferingServiceFacade().getExamPeriodId(info.getTermId(), ContextUtils.createDefaultContextInfo());
@@ -225,8 +225,8 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                 foWrapper.getFormatOfferingInfo().setCourseOfferingId(wrapper.getCourseOfferingInfo().getId());
                 try {
                     // KSENROLL-6071
-                    CourseOfferingViewHelperUtil.addActivityOfferingTypesToFormatOffering(foWrapper.getFormatOfferingInfo(), wrapper.getCourse(), getTypeService(), contextInfo);
-                    FormatOfferingInfo createdFormatOffering = getCourseOfferingService().createFormatOffering(wrapper.getCourseOfferingInfo().getId(), foWrapper.getFormatId(), foWrapper.getFormatOfferingInfo().getTypeKey(), foWrapper.getFormatOfferingInfo(), contextInfo);
+                    CourseOfferingViewHelperUtil.addActivityOfferingTypesToFormatOffering(foWrapper.getFormatOfferingInfo(), wrapper.getCourse(), CourseOfferingManagementUtil.getTypeService(), contextInfo);
+                    FormatOfferingInfo createdFormatOffering = CourseOfferingManagementUtil.getCourseOfferingService().createFormatOffering(wrapper.getCourseOfferingInfo().getId(), foWrapper.getFormatId(), foWrapper.getFormatOfferingInfo().getTypeKey(), foWrapper.getFormatOfferingInfo(), contextInfo);
 
                     foWrapper.setFormatOfferingInfo(createdFormatOffering);
                 } catch (Exception e) {
@@ -255,8 +255,8 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                       foWrapper.getFormatOfferingInfo().setTermId(wrapper.getCourseOfferingInfo().getTermId());
                       foWrapper.getFormatOfferingInfo().setCourseOfferingId(coInfo.getId());
                       try {
-                          CourseOfferingViewHelperUtil.addActivityOfferingTypesToFormatOffering(foWrapper.getFormatOfferingInfo(), jointWrapper.getCourseInfo(), getTypeService(), contextInfo);
-                          FormatOfferingInfo createdFormatOffering = getCourseOfferingService().createFormatOffering(coInfo.getId(), foWrapper.getFormatOfferingInfo().getFormatId(), foWrapper.getFormatOfferingInfo().getTypeKey(), foWrapper.getFormatOfferingInfo(), contextInfo);
+                          CourseOfferingViewHelperUtil.addActivityOfferingTypesToFormatOffering(foWrapper.getFormatOfferingInfo(), jointWrapper.getCourseInfo(), CourseOfferingManagementUtil.getTypeService(), contextInfo);
+                          FormatOfferingInfo createdFormatOffering = CourseOfferingManagementUtil.getCourseOfferingService().createFormatOffering(coInfo.getId(), foWrapper.getFormatOfferingInfo().getFormatId(), foWrapper.getFormatOfferingInfo().getTypeKey(), foWrapper.getFormatOfferingInfo(), contextInfo);
                           foWrapper.setFormatOfferingInfo(createdFormatOffering);
                       } catch (Exception e) {
                           throw new RuntimeException(e);
@@ -289,11 +289,11 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         for (CourseJointInfo joint : joints) {
 
             JointCourseWrapper jointCourseWrapper = new JointCourseWrapper();
-            CourseInfo jointCourse = getCourseService().getCourse(joint.getCourseId(),contextInfo);
+            CourseInfo jointCourse = CourseOfferingManagementUtil.getCourseService().getCourse(joint.getCourseId(),contextInfo);
             jointCourseWrapper.setCourseJointInfo(joint);
             jointCourseWrapper.setCourseInfo(jointCourse);
 
-            List<CourseOfferingInfo> cos = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(joint.getCourseId(),wrapper.getTerm().getId(),contextInfo);
+            List<CourseOfferingInfo> cos = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOfferingsByCourseAndTerm(joint.getCourseId(),wrapper.getTerm().getId(),contextInfo);
 
             if (!cos.isEmpty()){
                 LOG.debug("For the joint course " + jointCourse.getCode() + ", it already has the offerings created.");
@@ -301,12 +301,12 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
             }
 
             for (CourseOfferingInfo co : cos) {
-                List<FormatOfferingInfo> formatOfferings = getCourseOfferingService().getFormatOfferingsByCourseOffering(co.getId(),contextInfo);
+                List<FormatOfferingInfo> formatOfferings = CourseOfferingManagementUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(co.getId(),contextInfo);
                 for (FormatOfferingInfo formatOffering : formatOfferings) {
                     FormatOfferingWrapper foWrapper = new FormatOfferingWrapper();
                     foWrapper.setCourseCode(co.getCourseOfferingCode());
                     foWrapper.setFormatOfferingInfo(formatOffering);
-                    CourseInfo courseInfo = getCourseService().getCourse(co.getCourseId(),contextInfo);
+                    CourseInfo courseInfo = CourseOfferingManagementUtil.getCourseService().getCourse(co.getCourseId(),contextInfo);
                     foWrapper.setFormatInfo(getFormatInfo(courseInfo,formatOffering.getFormatId()));
                     foWrapper.setActivitesUI(getActivityTypeNames(foWrapper.getFormatInfo()));
                     foWrapper.setGradeRosterUI(super.getTypeName(formatOffering.getGradeRosterLevelTypeKey()));
@@ -466,7 +466,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         try {
             List<ActivityInfo> activityInfos = formatInfo.getActivities();
             for (ActivityInfo activityInfo : activityInfos) {
-                TypeInfo activityType = getTypeService().getType(activityInfo.getTypeKey(), contextInfo);
+                TypeInfo activityType = CourseOfferingManagementUtil.getTypeService().getType(activityInfo.getTypeKey(), contextInfo);
                 activities.append(activityType.getName() + "/");
             }
         } catch (Exception e) {

@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.form.DeleteTargetTermForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingViewHelperService;
@@ -47,22 +48,10 @@ import java.util.List;
 @RequestMapping(value = "/deleteTargetTerm")
 public class DeleteTargetTermController extends UifControllerBase {
     private final static Logger LOGGER = Logger.getLogger(DeleteTargetTermForm.class);
-    private CourseOfferingViewHelperService viewHelperService;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
         return new DeleteTargetTermForm();
-    }
-
-    public CourseOfferingViewHelperService getViewHelperService(UifFormBase form) {
-        if (viewHelperService == null) {
-            if (form.getView().getViewHelperServiceClass() != null) {
-                viewHelperService = (CourseOfferingViewHelperService) form.getView().getViewHelperService();
-            } else {
-                viewHelperService = (CourseOfferingViewHelperService) form.getPostedView().getViewHelperService();
-            }
-        }
-        return viewHelperService;
     }
 
     @Override
@@ -83,7 +72,7 @@ public class DeleteTargetTermController extends UifControllerBase {
     public ModelAndView goTargetTerm(@ModelAttribute("KualiForm") DeleteTargetTermForm form, @SuppressWarnings("unused") BindingResult result,
                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         LOGGER.info("In goTargetTerm");
-        CourseOfferingViewHelperService helperService = getViewHelperService(form);
+        CourseOfferingViewHelperService helperService = CourseOfferingManagementUtil.getCoViewHelperService(form);
 
         List<TermInfo> termInfos = helperService.findTermByTermCode(form.getTargetTermCode());
         if (termInfos == null || termInfos.isEmpty()) {
@@ -111,7 +100,7 @@ public class DeleteTargetTermController extends UifControllerBase {
             return getUIFModelAndView(form);
         }
         // Check for target SOC
-        CourseOfferingViewHelperService helperService = getViewHelperService(form);
+        CourseOfferingViewHelperService helperService = CourseOfferingManagementUtil.getCoViewHelperService(form);
         SocInfo mainSoc = helperService.getMainSoc(form.getDisplayedTargetTermId());
         if (mainSoc == null) {
             GlobalVariables.getMessageMap().putError("targetTermCode", "error.delete.targetTerm.noSoc");

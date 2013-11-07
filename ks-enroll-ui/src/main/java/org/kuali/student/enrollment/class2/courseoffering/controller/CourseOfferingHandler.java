@@ -51,20 +51,11 @@ public class CourseOfferingHandler {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingHandler.class);
 
-    private static DefaultOptionKeysService defaultOptionKeysService;
-
-    private static DefaultOptionKeysService getDefaultOptionKeysService() {
-        if (defaultOptionKeysService == null) {
-            defaultOptionKeysService = new DefaultOptionKeysServiceImpl();
-        }
-        return defaultOptionKeysService;
-    }
-
     public static void copyCourseOfferingCreateCopy(CourseOfferingManagementForm theForm) throws Exception {
 
         CourseOfferingCopyWrapper copyWrapper = theForm.getCourseOfferingCopyWrapper();
         CourseOfferingInfo courseOfferingInfo = copyWrapper.getCoInfo();
-        List<String> optionKeys = getDefaultOptionKeysService ().getDefaultOptionKeysForCopySingleCourseOffering();
+        List<String> optionKeys = CourseOfferingManagementUtil.getDefaultOptionKeysService ().getDefaultOptionKeysForCopySingleCourseOffering();
 
         if (copyWrapper.isExcludeSchedulingInformation()) {
             optionKeys.add(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY);

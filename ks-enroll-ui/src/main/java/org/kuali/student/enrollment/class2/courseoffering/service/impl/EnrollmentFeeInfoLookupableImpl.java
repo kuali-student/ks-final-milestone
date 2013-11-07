@@ -16,16 +16,12 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.core.constants.FeeServiceConstants;
 import org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo;
-import org.kuali.student.r2.core.fee.service.FeeService;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -41,8 +37,6 @@ public class EnrollmentFeeInfoLookupableImpl extends LookupableImpl {
 
     private static final Logger LOG = Logger.getLogger(EnrollmentFeeInfoInquirableImpl.class);
 
-    private FeeService feeService;
-
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<EnrollmentFeeInfo> enrollmentFeeInfos = new ArrayList<EnrollmentFeeInfo>();
@@ -54,7 +48,7 @@ public class EnrollmentFeeInfoLookupableImpl extends LookupableImpl {
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
             // perform this search first so we don't have to search through the list for duplicates later
             if(refObjectId != null && !"".equals(refObjectId) && refObjectURI != null && !"".equals(refObjectURI) ){
-                List<EnrollmentFeeInfo> efiList = getFeeService().getFeesByReference(refObjectURI,refObjectId, contextInfo);
+                List<EnrollmentFeeInfo> efiList = CourseOfferingManagementUtil.getFeeService().getFeesByReference(refObjectURI,refObjectId, contextInfo);
 
                 for(EnrollmentFeeInfo efi : efiList){
                     enrollmentFeeInfos.add(efi);
@@ -63,7 +57,7 @@ public class EnrollmentFeeInfoLookupableImpl extends LookupableImpl {
 
 
             if(id != null && !"".equals(id)){
-               EnrollmentFeeInfo efi = getFeeService().getFee(id, contextInfo);
+               EnrollmentFeeInfo efi = CourseOfferingManagementUtil.getFeeService().getFee(id, contextInfo);
 
                if(efi != null && !enrollmentFeeInfos.contains(efi)){
                    enrollmentFeeInfos.add(efi);
@@ -75,16 +69,5 @@ public class EnrollmentFeeInfoLookupableImpl extends LookupableImpl {
         }
 
         return enrollmentFeeInfos;
-    }
-
-    public FeeService getFeeService() {
-        if (feeService == null) {
-            this.feeService = (FeeService) GlobalResourceLoader.getService(new QName(FeeServiceConstants.NAMESPACE, FeeServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return this.feeService;
-    }
-
-    public CourseOfferingService getCourseOfferingService() {
-        return CourseOfferingResourceLoader.loadCourseOfferingService();
     }
 }

@@ -3,7 +3,6 @@ package org.kuali.student.enrollment.class2.courseoffering.controller;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -22,8 +21,8 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWr
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.common.util.EnrollConstants;
-import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -43,8 +42,6 @@ import java.util.Properties;
 @Controller
 @RequestMapping(value = "/activityOffering")
 public class ActivityOfferingController extends MaintenanceDocumentController {
-
-    private ActivityOfferingControllerTransactionHelper activityOfferingControllerTransactionHelper;
 
     @Override
     protected MaintenanceDocumentForm createInitialForm(HttpServletRequest request) {
@@ -201,7 +198,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             //This way if the super.route transaction fails, the current transaction will still succeed and errors can
             //be displayed in the UI
         	
-        	ActivityOfferingControllerTransactionHelper helper = getActivityOfferingControllerTransactionHelper();
+        	ActivityOfferingControllerTransactionHelper helper = CourseOfferingManagementUtil.getActivityOfferingControllerTransactionHelper();
             helper.routeSuper(form, result, request, response, this);
         } catch (Exception e) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, unwrapException(e).getMessage());
@@ -353,14 +350,4 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             return false;
         }
     }
-
-
-    public ActivityOfferingControllerTransactionHelper getActivityOfferingControllerTransactionHelper() {
-        if(activityOfferingControllerTransactionHelper == null){
-            activityOfferingControllerTransactionHelper = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "activityOfferingControllerTransactionHelper", ActivityOfferingControllerTransactionHelper.class.getSimpleName()));
-        }
-
-        return activityOfferingControllerTransactionHelper;
-    }
-
 }

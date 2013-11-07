@@ -16,9 +16,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.kuali.rice.krad.inquiry.InquirableImpl;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.util.ContextUtils;
 
 import java.util.Map;
@@ -34,14 +33,10 @@ public class FormatOfferingInfoInquirableImpl extends InquirableImpl {
     @Override
     public FormatOfferingInfo retrieveDataObject(Map<String, String> parameters) {
         try {
-            FormatOfferingInfo formatOfferingInfo = getCourseOfferingService().getFormatOffering(parameters.get(FORMAT_OFFERING_ID), ContextUtils.createDefaultContextInfo());
+            FormatOfferingInfo formatOfferingInfo = CourseOfferingManagementUtil.getCourseOfferingService().getFormatOffering(parameters.get(FORMAT_OFFERING_ID), ContextUtils.createDefaultContextInfo());
             return formatOfferingInfo;
         } catch (Exception e) {
             throw new RuntimeException("FormatOfferingInfo inquiry has failed. ", e);
         }
-    }
-
-    public CourseOfferingService getCourseOfferingService() {
-        return CourseOfferingResourceLoader.loadCourseOfferingService();
     }
 }

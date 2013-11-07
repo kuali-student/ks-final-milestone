@@ -16,19 +16,17 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.keyvalue;
 
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -45,8 +43,6 @@ public class CreditOptionsKeyValues extends UifKeyValuesFinderBase implements Se
 
     private static final long serialVersionUID = 1L;
 
-    private transient CourseService courseService;
-
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
 
@@ -60,7 +56,7 @@ public class CreditOptionsKeyValues extends UifKeyValuesFinderBase implements Se
 
         if (courseId != null) {
             try {
-                CourseInfo courseInfo = getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
+                CourseInfo courseInfo = CourseOfferingManagementUtil.getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
                 creditOptions = courseInfo.getCreditOptions();
             } catch (DoesNotExistException e) {
                 throw new RuntimeException("No subject areas found! There should be some in the database", e);
@@ -86,12 +82,5 @@ public class CreditOptionsKeyValues extends UifKeyValuesFinderBase implements Se
         }
 
         return keyValues;
-    }
-
-    protected CourseService getCourseService() {
-        if(courseService == null) {
-            courseService = (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, "CourseService"));
-        }
-        return this.courseService;
     }
 }

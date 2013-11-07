@@ -16,15 +16,14 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.keyvalue;
 
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
-import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
@@ -42,15 +41,13 @@ public class FinalExamOptionsKeyValues extends UifKeyValuesFinderBase implements
 
     private static final long serialVersionUID = 1L;
 
-    private transient EnumerationManagementService enumerationManagementService;
-
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         try {
-            List<EnumeratedValueInfo> enumerationInfos = getEnumerationManagementService().getEnumeratedValues("kuali.lu.finalExam.status", null, null, null, ContextUtils.createDefaultContextInfo());
+            List<EnumeratedValueInfo> enumerationInfos = CourseOfferingManagementUtil.getEnumerationManagementService().getEnumeratedValues("kuali.lu.finalExam.status", null, null, null, ContextUtils.createDefaultContextInfo());
             Collections.sort(enumerationInfos, new FinalExamComparator());
 
             for(EnumeratedValueInfo enumerationInfo : enumerationInfos) {
@@ -69,13 +66,6 @@ public class FinalExamOptionsKeyValues extends UifKeyValuesFinderBase implements
         }
 
         return keyValues;
-    }
-
-    protected EnumerationManagementService getEnumerationManagementService() {
-        if(enumerationManagementService == null) {
-            enumerationManagementService = (EnumerationManagementService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/enumerationmanagement", "EnumerationManagementService"));
-        }
-        return this.enumerationManagementService;
     }
 
     private static class FinalExamComparator implements Comparator, Serializable {

@@ -16,12 +16,10 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
-import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.Map;
@@ -32,7 +30,7 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class SocRolloverResultItemInfoInquirableImpl extends InquirableImpl {
-    private transient CourseOfferingSetService courseOfferingSetService;
+
     private static final long serialVersionUID = 1L;
     public final static String ID = "id";
 
@@ -40,18 +38,10 @@ public class SocRolloverResultItemInfoInquirableImpl extends InquirableImpl {
     public SocRolloverResultItemInfo retrieveDataObject(Map<String, String> parameters) {
         String id = parameters.get(ID);
         try {
-            SocRolloverResultItemInfo socRolloverResultItemInfo = getCourseOfferingSetService().getSocRolloverResultItem(id, ContextUtils.createDefaultContextInfo());
+            SocRolloverResultItemInfo socRolloverResultItemInfo = CourseOfferingManagementUtil.getCourseOfferingSetService().getSocRolloverResultItem(id, ContextUtils.createDefaultContextInfo());
             return socRolloverResultItemInfo;
         } catch (Exception e) {
             throw new RuntimeException("socRolloverResultItemInfo inquiry has failed. ", e);
         }
-    }
-
-    public CourseOfferingSetService getCourseOfferingSetService() {
-        if (courseOfferingSetService == null) {
-            courseOfferingSetService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-
-        return courseOfferingSetService;
     }
 }

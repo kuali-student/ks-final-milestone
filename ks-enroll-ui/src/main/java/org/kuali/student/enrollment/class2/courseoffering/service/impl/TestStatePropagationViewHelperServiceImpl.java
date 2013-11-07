@@ -33,23 +33,20 @@ import org.kuali.student.enrollment.class2.courseoffering.service.util.PseudoUni
 import org.kuali.student.enrollment.class2.courseoffering.service.util.RegGroupStateResult;
 import org.kuali.student.enrollment.class2.courseoffering.service.util.TransitionGridYesNoEnum;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
-import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
-import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.poc.eventproc.KSEventProcessorImpl;
 import org.kuali.student.poc.eventproc.event.KSEvent;
 import org.kuali.student.poc.eventproc.event.KSEventFactory;
-import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -66,17 +63,11 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.acal.service.facade.AcademicCalendarServiceFacade;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
-import org.kuali.student.r2.core.scheduling.service.SchedulingService;
-import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -94,12 +85,6 @@ import java.util.Set;
  * @author Kuali Student Team
  */
 public class TestStatePropagationViewHelperServiceImpl extends ViewHelperServiceImpl implements TestStatePropagationViewHelperService {
-    private AcademicCalendarService acalService = null;
-    private CourseOfferingService coService = null;
-    private CourseOfferingSetService socService = null;
-    private CourseService courseService = null;
-    private LuiService luiService = null;
-    private SchedulingService schedulingService = null;
 
     private static Logger LOGGER = Logger.getLogger(TestStatePropagationViewHelperServiceImpl.class);
 
@@ -180,14 +165,14 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
      * Get a fresh copy from the DB
      */
     private void _refetch() throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-        courseOfferingInfo = coService.getCourseOffering(courseOfferingInfo.getId(), CONTEXT);
+        courseOfferingInfo = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(courseOfferingInfo.getId(), CONTEXT);
         for (int i = 0; i < foInfos.size(); i++) {
             FormatOfferingInfo foInfo = foInfos.get(i);
-            foInfos.set(i, coService.getFormatOffering(foInfo.getId(), CONTEXT));
+            foInfos.set(i, CourseOfferingManagementUtil.getCourseOfferingService().getFormatOffering(foInfo.getId(), CONTEXT));
         }
         for (int i = 0; i < aoInfos.size(); i++) {
             ActivityOfferingInfo aoInfo = aoInfos.get(i);
-            aoInfos.set(i, coService.getActivityOffering(aoInfo.getId(), CONTEXT));
+            aoInfos.set(i, CourseOfferingManagementUtil.getCourseOfferingService().getActivityOffering(aoInfo.getId(), CONTEXT));
         }
     }
 
@@ -203,9 +188,9 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
      */
     private void _resetFoCoAndSecondaryAoState(String fromState, String secondaryState) throws Exception {
         // First, reset the secondary AO state
-        LuiInfo aoLui = luiService.getLui(secondaryAoId, CONTEXT);
+        LuiInfo aoLui = CourseOfferingManagementUtil.getLuiService().getLui(secondaryAoId, CONTEXT);
         aoLui.setStateKey(secondaryState);
-        luiService.updateLui(aoLui.getId(), aoLui, CONTEXT);
+        CourseOfferingManagementUtil.getLuiService().updateLui(aoLui.getId(), aoLui, CONTEXT);
         // The AO state that has the biggest index is used to determine what the FO/CO state is.
         int fromStateIndex = AoStateTransitionRefSolution.AO_STATES_ORDERED.indexOf(fromState);
         int secondaryStateIndex = AoStateTransitionRefSolution.AO_STATES_ORDERED.indexOf(secondaryState);
@@ -215,23 +200,23 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         }
         // Set the FO state
         String foId = foInfos.get(0).getId(); // Grab first FO
-        LuiInfo foLui = luiService.getLui(foId, CONTEXT);
+        LuiInfo foLui = CourseOfferingManagementUtil.getLuiService().getLui(foId, CONTEXT);
         String foState = SECOND_AO_STATE_TO_FO_STATE.get(aoStateWinner);
         foLui.setStateKey(foState);
-        LuiInfo updateFoLui = luiService.updateLui(foLui.getId(), foLui, CONTEXT);
+        LuiInfo updateFoLui = CourseOfferingManagementUtil.getLuiService().updateLui(foLui.getId(), foLui, CONTEXT);
 
         // Set the CO state
         String coId = courseOfferingInfo.getId(); // Grab first FO
-        LuiInfo coLui = luiService.getLui(coId, CONTEXT);
+        LuiInfo coLui = CourseOfferingManagementUtil.getLuiService().getLui(coId, CONTEXT);
         String coState = SECOND_AO_STATE_TO_CO_STATE.get(aoStateWinner);
         coLui.setStateKey(coState);
-        LuiInfo updateCoLui = luiService.updateLui(coLui.getId(), coLui, CONTEXT);
+        LuiInfo updateCoLui = CourseOfferingManagementUtil.getLuiService().updateLui(coLui.getId(), coLui, CONTEXT);
     }
 
     private void _resetSocOnly() throws Exception {
         socInfo = _getMainSocForTerm(SAMPLE_TERM);
         if (socInfo != null) {
-            socService.deleteSoc(socInfo.getId(), CONTEXT);
+            CourseOfferingManagementUtil.getSocService().deleteSoc(socInfo.getId(), CONTEXT);
         }
         socInfo = _createSocForTerm(SAMPLE_TERM);
     }
@@ -241,34 +226,34 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         if (socInfoLocal != null) {
             List<String> coIds = null;
             try {
-                coIds = socService.getCourseOfferingIdsBySoc(socInfoLocal.getId(), CONTEXT);
+                coIds = CourseOfferingManagementUtil.getSocService().getCourseOfferingIdsBySoc(socInfoLocal.getId(), CONTEXT);
                 if (coIds != null) {
                     if (coIds.size() > 2) {
                         throw new PseudoUnitTestException("Should only have at most 2 COs in this term");
                     } else if (!coIds.isEmpty()) { // Has one CO
-                        coService.deleteCourseOfferingCascaded(coIds.get(0), CONTEXT);
+                        CourseOfferingManagementUtil.getCourseOfferingService().deleteCourseOfferingCascaded(coIds.get(0), CONTEXT);
                         if (coIds.size() > 1) {
-                            coService.deleteCourseOfferingCascaded(coIds.get(1), CONTEXT);
+                            CourseOfferingManagementUtil.getCourseOfferingService().deleteCourseOfferingCascaded(coIds.get(1), CONTEXT);
                         }
                     }
                 }
             } catch (DoesNotExistException e) {
                 // Do nothing
             }
-            List<String> itemIds = socService.getSocRolloverResultIdsBySourceSoc(socInfoLocal.getId(), CONTEXT);
+            List<String> itemIds = CourseOfferingManagementUtil.getSocService().getSocRolloverResultIdsBySourceSoc(socInfoLocal.getId(), CONTEXT);
             // Fetch socRollover
             for (String itemId: itemIds) {
-                SocRolloverResultInfo result = socService.getSocRolloverResult(itemId, CONTEXT);
+                SocRolloverResultInfo result = CourseOfferingManagementUtil.getSocService().getSocRolloverResult(itemId, CONTEXT);
                 List<SocRolloverResultItemInfo> items =
-                        socService.getSocRolloverResultItemsByResultId(result.getId(), CONTEXT);
+                        CourseOfferingManagementUtil.getSocService().getSocRolloverResultItemsByResultId(result.getId(), CONTEXT);
                 if (items != null) {
                     for (SocRolloverResultItemInfo item: items) {
-                        socService.deleteSocRolloverResultItem(item.getId(), CONTEXT);
+                        CourseOfferingManagementUtil.getSocService().deleteSocRolloverResultItem(item.getId(), CONTEXT);
                     }
                 }
-                socService.deleteSocRolloverResult(result.getId(), CONTEXT);
+                CourseOfferingManagementUtil.getSocService().deleteSocRolloverResult(result.getId(), CONTEXT);
             }
-            socService.deleteSoc(socInfoLocal.getId(), CONTEXT);
+            CourseOfferingManagementUtil.getSocService().deleteSoc(socInfoLocal.getId(), CONTEXT);
         }
     }
 
@@ -277,14 +262,14 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         AtpService atpService = (AtpService) GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE,
                 AtpServiceConstants.SERVICE_NAME_LOCAL_PART));
         TermInfo term = getTermByTermCode(parentTermCode);
-        List<TermInfo> childTerms = acalService.getIncludedTermsInTerm(term.getId(), CONTEXT);
+        List<TermInfo> childTerms = CourseOfferingManagementUtil.getAcademicCalendarService().getIncludedTermsInTerm(term.getId(), CONTEXT);
         for (TermInfo child: childTerms) {
             // Force into draft state so it can be deleted
             AtpInfo atpInfo = atpService.getAtp(child.getId(), CONTEXT);
             atpInfo.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
             atpService.updateAtp(atpInfo.getId(), atpInfo, CONTEXT);
             // Then delete
-            acalService.deleteTerm(child.getId(), CONTEXT);
+            CourseOfferingManagementUtil.getAcademicCalendarService().deleteTerm(child.getId(), CONTEXT);
         }
     }
 
@@ -303,13 +288,13 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             targetTerm = getTermByTermCode(SAMPLE_TERM);
             courseOfferingInfo = (CourseOfferingInfo) keyToValues.get(COURSE_OFFERING_KEY);
             // Get FOs (should only be 1)
-            foInfos = coService.getFormatOfferingsByCourseOffering(courseOfferingInfo.getId(), CONTEXT);
+            foInfos = CourseOfferingManagementUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingInfo.getId(), CONTEXT);
             // Save all RGs
-            rgInfos = coService.getRegistrationGroupsByFormatOffering(foInfos.get(0).getId(), CONTEXT);
+            rgInfos = CourseOfferingManagementUtil.getCourseOfferingService().getRegistrationGroupsByFormatOffering(foInfos.get(0).getId(), CONTEXT);
             // Pick first RG
             rgInfo = rgInfos.get(0);
             // Get list of AOs but only for this RG
-            aoInfos = coService.getActivityOfferingsByIds(rgInfo.getActivityOfferingIds(), CONTEXT);
+            aoInfos = CourseOfferingManagementUtil.getCourseOfferingService().getActivityOfferingsByIds(rgInfo.getActivityOfferingIds(), CONTEXT);
             primaryAoId = aoInfos.get(0).getId();
             secondaryAoId = aoInfos.get(1).getId();
         }
@@ -318,7 +303,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     private String _computeFoState(String primaryAoId, String desiredAoState) throws Exception {
         // Use actual AOs to compute CO state
         Set<String> aoStates = new HashSet<String>();
-        List<ActivityOfferingInfo> aoInfos = coService.getActivityOfferingsByFormatOffering(foInfos.get(0).getId(), CONTEXT);
+        List<ActivityOfferingInfo> aoInfos = CourseOfferingManagementUtil.getCourseOfferingService().getActivityOfferingsByFormatOffering(foInfos.get(0).getId(), CONTEXT);
         boolean foundPrimaryAoId = false;
         for (ActivityOfferingInfo ao: aoInfos) {
             if (ao.getId().equals(primaryAoId)) {
@@ -343,7 +328,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     private String _computeCoState(String primaryAoId, String desiredAoState) throws Exception {
         // Use actual AOs to compute CO state
         Set<String> aoStates = new HashSet<String>();
-        List<ActivityOfferingInfo> aoInfos = coService.getActivityOfferingsByCourseOffering(courseOfferingInfo.getId(), CONTEXT);
+        List<ActivityOfferingInfo> aoInfos = CourseOfferingManagementUtil.getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingInfo.getId(), CONTEXT);
         boolean foundPrimaryAoId = false;
         for (ActivityOfferingInfo ao: aoInfos) {
             if (ao.getId().equals(primaryAoId)) {
@@ -377,14 +362,14 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         richTextInfo.setPlain("foo");
         richTextInfo.setFormatted("bar");
         halfFallOne.setDescr(richTextInfo);
-        subtermOne = acalService.createTerm(halfFallOne.getTypeKey(), halfFallOne, CONTEXT);
+        subtermOne = CourseOfferingManagementUtil.getAcademicCalendarService().createTerm(halfFallOne.getTypeKey(), halfFallOne, CONTEXT);
         // Attach subterm to term
-        acalService.addTermToTerm(targetTerm.getId(), subtermOne.getId(), CONTEXT);
+        CourseOfferingManagementUtil.getAcademicCalendarService().addTermToTerm(targetTerm.getId(), subtermOne.getId(), CONTEXT);
         // Change primary AO to refer to this term
-        ActivityOfferingInfo aoInfo = coService.getActivityOffering(primaryAoId, CONTEXT);
+        ActivityOfferingInfo aoInfo = CourseOfferingManagementUtil.getCourseOfferingService().getActivityOffering(primaryAoId, CONTEXT);
         aoInfo.setTermId(subtermOne.getId());
         aoInfo.setTermCode(null);
-        coService.updateActivityOffering(aoInfo.getId(), aoInfo, CONTEXT);
+        CourseOfferingManagementUtil.getCourseOfferingService().updateActivityOffering(aoInfo.getId(), aoInfo, CONTEXT);
         // Create SOC in another term to rollover
         SocInfo socInfo2 = _createSocForTerm(SAMPLE_ROLLOVER_TERM);
         TermInfo newTargetTerm = getTermByTermCode(SAMPLE_ROLLOVER_TERM);
@@ -399,9 +384,9 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         richTextInfo.setFormatted("bar");
         halfFallTwo.setDescr(richTextInfo);
         //
-        subtermTwo = acalService.createTerm(halfFallTwo.getTypeKey(), halfFallTwo, CONTEXT);
+        subtermTwo = CourseOfferingManagementUtil.getAcademicCalendarService().createTerm(halfFallTwo.getTypeKey(), halfFallTwo, CONTEXT);
         // Attach subterm to term
-        acalService.addTermToTerm(newTargetTerm.getId(), subtermTwo.getId(), CONTEXT);
+        CourseOfferingManagementUtil.getAcademicCalendarService().addTermToTerm(newTargetTerm.getId(), subtermTwo.getId(), CONTEXT);
         AcademicCalendarServiceFacade acalServiceFacade
             = (AcademicCalendarServiceFacade) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/acalServiceFacade", "AcademicCalendarServiceFacade"));
         acalServiceFacade.makeTermOfficialCascaded(subtermTwo.getId(), CONTEXT);
@@ -413,8 +398,8 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             System.err.println(e.getMessage());
         }
 
-        List<String> coIds = socService.getCourseOfferingIdsBySoc(socInfo2.getId(), CONTEXT);
-        List<ActivityOfferingInfo> aoInfos = coService.getActivityOfferingsByCourseOffering(coIds.get(0), CONTEXT);
+        List<String> coIds = CourseOfferingManagementUtil.getSocService().getCourseOfferingIdsBySoc(socInfo2.getId(), CONTEXT);
+        List<ActivityOfferingInfo> aoInfos = CourseOfferingManagementUtil.getCourseOfferingService().getActivityOfferingsByCourseOffering(coIds.get(0), CONTEXT);
         System.err.println("Hi");
     }
 
@@ -422,26 +407,19 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
 
-//        ScheduleRequestSetInfo set =
-//                schedulingService.getScheduleRequestSet("E150F1007232E857E040440A9B9A7EB8", context);
-//        List<ActivityOfferingInfo> aoInfos = new ArrayList<ActivityOfferingInfo>();
-//        for (String aoId: set.getRefObjectIds()) {
-//            ActivityOfferingInfo aoInfo = coService.getActivityOffering(aoId, context);
-//            aoInfos.add(aoInfo);
-//        }
         RolloverAssist rolloverAssist =
                 (RolloverAssist) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/rolloverAssist", "RolloverAssist"));
         List<ScheduleRequestSetInfo> srsList1 =
-                schedulingService.getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, primaryAoId, context);
+                CourseOfferingManagementUtil.getSchedulingService().getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, primaryAoId, context);
         List<ScheduleRequestSetInfo> srsList2 =
-                schedulingService.getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, secondaryAoId, context);
+                CourseOfferingManagementUtil.getSchedulingService().getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, secondaryAoId, context);
         ScheduleRequestSetInfo srs1 = srsList1.get(0);
         ScheduleRequestSetInfo srs2 = srsList2.get(0);
-        schedulingService.deleteScheduleRequestSet(srs2.getId(), context);
+        CourseOfferingManagementUtil.getSchedulingService().deleteScheduleRequestSet(srs2.getId(), context);
         srs1.getRefObjectIds().add(secondaryAoId);
         ScheduleRequestSetInfo srs1Fetched = null;
         try {
-            srs1Fetched = schedulingService.updateScheduleRequestSet(srs1.getId(), srs1, context);
+            srs1Fetched = CourseOfferingManagementUtil.getSchedulingService().updateScheduleRequestSet(srs1.getId(), srs1, context);
         } catch (VersionMismatchException e) {
             throw new OperationFailedException(e.getMessage());
         }
@@ -458,8 +436,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         KSEventProcessorImpl ksEventProcessor
                 = (KSEventProcessorImpl) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/ksEventProcessor", "KSEventProcessor"));
         // Get all the AOs for the initial RG
-        List<ActivityOfferingInfo> rgAos =
-                coService.getActivityOfferingsByIds(rgInfo.getActivityOfferingIds(), CONTEXT);
+        List<ActivityOfferingInfo> rgAos = CourseOfferingManagementUtil.getCourseOfferingService().getActivityOfferingsByIds(rgInfo.getActivityOfferingIds(), CONTEXT);
         ActivityOfferingInfo sampleAO = null;
         for (ActivityOfferingInfo ao: rgAos) {
             // Find the one that's a lecture
@@ -473,7 +450,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         for (int i = 1; i < rgInfos.size(); i++) {
             // Skip the zeroth one
             RegistrationGroupInfo rg = rgInfos.get(i);
-            rgAos = coService.getActivityOfferingsByIds(rgInfo.getActivityOfferingIds(), CONTEXT);
+            rgAos = CourseOfferingManagementUtil.getCourseOfferingService().getActivityOfferingsByIds(rgInfo.getActivityOfferingIds(), CONTEXT);
             for (ActivityOfferingInfo ao: rgAos) {
                 // Find the one that's a lecture
                 if (ao.getId().equals(sampleAO.getId())) {
@@ -487,16 +464,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         }
         ksEventProcessor.getCoService().scheduleActivityOffering(sampleAO.getId(), CONTEXT);
         sampleAO = ksEventProcessor.getCoService().getActivityOffering(sampleAO.getId(), CONTEXT);
-//        // Invalidate an RG
-//        KSEvent invalidateRGState =
-//                KSEventFactory.createInvalidateRegGroupStateEvent(rgInfos.get(2).getId());
-//        ksEventProcessor.fireEvent(invalidateRGState, CONTEXT);
-//        // Validate it
-//        KSEvent validateRGState =
-//                KSEventFactory.createValidateRegGroupStateEvent(rgInfos.get(2).getId());
-//        ksEventProcessor.fireEvent(validateRGState, CONTEXT);
-        KSEvent changeAOState =
-                KSEventFactory.createChangeActivityOfferingStateEvent(sampleAO.getId(), LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY);
+        KSEvent changeAOState = KSEventFactory.createChangeActivityOfferingStateEvent(sampleAO.getId(), LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY);
         ksEventProcessor.fireEvent(changeAOState, CONTEXT);
         LOGGER.info("Hi");
     }
@@ -509,7 +477,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         watch.reset();
         int iterations = 2000;
         for (int i = 0; i < iterations; i++) {
-            infos = luiService.getLuiLuiRelationsByLui(rgInfo.getId(), CONTEXT);
+            infos = CourseOfferingManagementUtil.getLuiService().getLuiLuiRelationsByLui(rgInfo.getId(), CONTEXT);
         }
         String overall = watch.computeAndAccumulate();
         LOGGER.info("Total time: " + overall);
@@ -517,11 +485,9 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         Stopwatch watch2 = new Stopwatch();
         watch2.reset();
         for (int i = 0; i < iterations; i++) {
-            List<String> aoIds =
-                    luiService.getLuiIdsByLuiAndRelationType(rgInfo.getId(),
+            List<String> aoIds = CourseOfferingManagementUtil.getLuiService().getLuiIdsByLuiAndRelationType(rgInfo.getId(),
                             LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY, CONTEXT);
-            List<String> foIds =
-                    luiService.getLuiIdsByRelatedLuiAndRelationType(rgInfo.getId(),
+            List<String> foIds = CourseOfferingManagementUtil.getLuiService().getLuiIdsByRelatedLuiAndRelationType(rgInfo.getId(),
                             LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY, CONTEXT);
         }
         overall = watch2.computeAndAccumulate();
@@ -530,13 +496,6 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
 
     @Override
     public void runTests(TestStatePropagationForm form) throws Exception {
-        _initServices();
-//        _testEventProcessor();
-//        _runTimings();
-//
-//        if (1 + 1 == 2) {
-//            return;
-//        }
         // Now begin to test AO state transitions
         System.err.println("<<<<<<<<<<<<<< Starting tests >>>>>>>>>>>>");
         _reset(true);
@@ -647,8 +606,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             _forceChangeLuiState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY);
         }
 
-        StatusInfo status =
-                coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, CONTEXT);
+        StatusInfo status = CourseOfferingManagementUtil.getCourseOfferingService().changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, CONTEXT);
         PseudoUnitTestStateTransitionGrid rgStateGrid = _createRgStateGrid(aosAllOffered);
         String result = TransitionGridYesNoEnum.YES.getName();
         if (!status.getIsSuccess()) {
@@ -657,13 +615,12 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         rgStateGrid.setTransition(AFUTTypeEnum.ACTUAL,
                 initRgState, LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, result);
         // RG should be in invalid state now
-        rgInfo = coService.getRegistrationGroup(rgInfo.getId(), CONTEXT);
+        rgInfo = CourseOfferingManagementUtil.getCourseOfferingService().getRegistrationGroup(rgInfo.getId(), CONTEXT);
         if (!rgInfo.getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY)) {
             throw new PseudoUnitTestException("RG should be in invalid state");
         }
         // Attempt to change it to state it shouldn't go to
-        status =
-            coService.changeRegistrationGroupState(rgInfo.getId(), otherRgState, CONTEXT);
+        status = CourseOfferingManagementUtil.getCourseOfferingService().changeRegistrationGroupState(rgInfo.getId(), otherRgState, CONTEXT);
         result = TransitionGridYesNoEnum.YES.getName();
         if (!status.getIsSuccess()) {
             result = TransitionGridYesNoEnum.NO.getName();
@@ -673,8 +630,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         // Change back to invalid for now
         _forceChangeLuiState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY);
         // Attempt to change it to state it SHOULD go to
-        status =
-                coService.changeRegistrationGroupState(rgInfo.getId(), initRgState, CONTEXT);
+        status = CourseOfferingManagementUtil.getCourseOfferingService().changeRegistrationGroupState(rgInfo.getId(), initRgState, CONTEXT);
         result = TransitionGridYesNoEnum.YES.getName();
         if (!status.getIsSuccess()) {
             result = TransitionGridYesNoEnum.NO.getName();
@@ -781,12 +737,12 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         for (int i = 0; i < aoStateString.length(); i++) {
             char ch = aoStateString.charAt(i);
             if (ch == 'X') {
-                coService.changeActivityOfferingState(aoIds.get(i), otherAoState, CONTEXT);
+                CourseOfferingManagementUtil.getCourseOfferingService().changeActivityOfferingState(aoIds.get(i), otherAoState, CONTEXT);
             } else {
-                coService.changeActivityOfferingState(aoIds.get(i), LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY, CONTEXT);
+                CourseOfferingManagementUtil.getCourseOfferingService().changeActivityOfferingState(aoIds.get(i), LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY, CONTEXT);
             }
         }
-        LuiInfo lui = luiService.getLui(rgInfo.getId(), CONTEXT);
+        LuiInfo lui = CourseOfferingManagementUtil.getLuiService().getLui(rgInfo.getId(), CONTEXT);
         return lui.getStateKey();
     }
 
@@ -915,7 +871,6 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     }
 
     public void testSocStateHappy() throws Exception {
-        _initServices();
         assertEquals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY, "SocHappy 1");
         // Draft to Open
         _changeSocState(socInfo.getId(), CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY, "SocHappy 2");
@@ -944,7 +899,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
 
     public Map<String, PseudoUnitTestStateTransitionGrid>
     testAoStateTransitionsInSocState(String aoId, String socId, String socState, String secondaryAoState) throws Exception {
-        SocInfo fetched = socService.getSoc(socId, CONTEXT);
+        SocInfo fetched = CourseOfferingManagementUtil.getSocService().getSoc(socId, CONTEXT);
         if (!fetched.getStateKey().equals(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY)) {
             throw new PseudoUnitTestException("Initial soc state not in DRAFT state");
         }
@@ -1031,7 +986,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     }
 
     private void _changeSocState(String socId, String nextState, String message) throws Exception {
-        socService.changeSocState(socId, nextState, ContextUtils.createDefaultContextInfo());
+        CourseOfferingManagementUtil.getSocService().changeSocState(socId, nextState, ContextUtils.createDefaultContextInfo());
         SocInfo fetched = _getMainSocForTerm(SAMPLE_TERM);
         assertEquals(fetched.getStateKey(), nextState, message);
     }
@@ -1039,7 +994,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     private void _changeSocStateInvalid(String socId, String nextState, String origState, String message) throws Exception {
         boolean exceptionThrown = false;
         try {
-            socService.changeSocState(socId, nextState, ContextUtils.createDefaultContextInfo());
+            CourseOfferingManagementUtil.getSocService().changeSocState(socId, nextState, ContextUtils.createDefaultContextInfo());
         } catch (OperationFailedException e) {
             exceptionThrown = true;
         }
@@ -1051,9 +1006,9 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     private boolean _forceChangeLuiState(String aoId, String nextState) throws PseudoUnitTestException {
         // DanEp suggested this sneaky way to circumvent state changes
         try {
-            LuiInfo lui = luiService.getLui(aoId, CONTEXT);
+            LuiInfo lui = CourseOfferingManagementUtil.getLuiService().getLui(aoId, CONTEXT);
             lui.setStateKey(nextState);
-            luiService.updateLui(lui.getId(), lui, CONTEXT);
+            CourseOfferingManagementUtil.getLuiService().updateLui(lui.getId(), lui, CONTEXT);
             return true;
         } catch (Exception e) {
             throw new PseudoUnitTestException("Unexpected exception in _forceChangeAoState: " + e.getMessage());
@@ -1065,7 +1020,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             if (nextState.equals(LuiServiceConstants.LUI_AO_STATE_SUSPENDED_KEY)) {
                 System.out.println("Hi");
             }
-            coService.changeActivityOfferingState(aoId, nextState, CONTEXT);
+            CourseOfferingManagementUtil.getCourseOfferingService().changeActivityOfferingState(aoId, nextState, CONTEXT);
             return true;
         } catch (OperationFailedException e) {
             return false;
@@ -1087,7 +1042,6 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     }
 
     private SocInfo _createSocForTerm(String termCode) throws Exception {
-        _initServices();
         SocInfo soc = null;
         if (_getMainSocForTerm(termCode) != null) {
             return null; // Already exists, so return null
@@ -1098,18 +1052,16 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             socInfo.setStateKey(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY);
             socInfo.setTermId(mainTerm.getId());
             socInfo.setSchedulingStateKey(CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_NOT_STARTED);
-            soc = socService.createSoc(mainTerm.getId(), socInfo.getTypeKey(), socInfo, new ContextInfo());
+            soc = CourseOfferingManagementUtil.getSocService().createSoc(mainTerm.getId(), socInfo.getTypeKey(), socInfo, new ContextInfo());
         }
         return soc;
     }
 
     private SocInfo _getMainSocForTerm(String termCode) throws Exception {
-        _initServices();
-
         TermInfo mainTerm = getTermByTermCode(termCode);
         ContextInfo contextInfo = new ContextInfo();
-        List<String> socIds = socService.getSocIdsByTerm(mainTerm.getId(), contextInfo);
-        List<SocInfo> socInfos = socService.getSocsByIds(socIds, contextInfo);
+        List<String> socIds = CourseOfferingManagementUtil.getSocService().getSocIdsByTerm(mainTerm.getId(), contextInfo);
+        List<SocInfo> socInfos = CourseOfferingManagementUtil.getSocService().getSocsByIds(socIds, contextInfo);
         for (SocInfo socInfo: socInfos) {
             if (socInfo.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
                 return socInfo;
@@ -1119,8 +1071,6 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     }
 
     public TermInfo getTermByTermCode(String termCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
-        _initServices();
-
         // TODO: Find sensible way to rewrap exception that acal service may throw
         // Find the term (alas, I think it does approximate search)
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
@@ -1129,7 +1079,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
 
         // Do search.  In ideal case, terms returns one element, which is the desired term.
         List<TermInfo> terms = null;
-        terms = acalService.searchForTerms(criteria, new ContextInfo());
+        terms = CourseOfferingManagementUtil.getAcademicCalendarService().searchForTerms(criteria, new ContextInfo());
         TermInfo mainTerm = null;
         if (terms == null || terms.isEmpty()) {
             throw new InvalidParameterException("Unable to find term for: " + termCode);
@@ -1139,19 +1089,8 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         return mainTerm;
     }
 
-    
-    private DefaultOptionKeysService defaultOptionKeysService;
-
-    private DefaultOptionKeysService getDefaultOptionKeysService() {
-        if (defaultOptionKeysService == null) {
-            defaultOptionKeysService = new DefaultOptionKeysServiceImpl();
-        }
-        return this.defaultOptionKeysService;
-    }
-    
     @Override
     public Map<String, Object> rolloverCourseOfferingFromSourceTermToTargetTerm(String courseOfferingCode, String sourceTermCode, String targetTermCode) throws Exception {
-        _initServices();
         TermInfo sourceTerm = getTermByTermCode(sourceTermCode);
         TermInfo targetTerm = getTermByTermCode(targetTermCode);
         List<CourseOfferingInfo> coInfos = _searchCourseOfferingByCOCodeAndTerm(courseOfferingCode, sourceTerm.getId());
@@ -1161,12 +1100,12 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         CourseOfferingInfo coInfo = coInfos.get(0); // Just get the first one
         Date start = new Date();
-        List<String> optionKeys = this.getDefaultOptionKeysService().getDefaultOptionKeysForCopySingleCourseOffering();
+        List<String> optionKeys = CourseOfferingManagementUtil.getDefaultOptionKeysService().getDefaultOptionKeysForCopySingleCourseOffering();
         SocRolloverResultItemInfo rolloverResultInfo =
-                coService.rolloverCourseOffering(coInfo.getId(), targetTerm.getId(), optionKeys, contextInfo);
+                CourseOfferingManagementUtil.getCourseOfferingService().rolloverCourseOffering(coInfo.getId(), targetTerm.getId(), optionKeys, contextInfo);
         Date end = new Date();
         String targetId = rolloverResultInfo.getTargetCourseOfferingId();
-        CourseOfferingInfo targetCo = coService.getCourseOffering(targetId, contextInfo);
+        CourseOfferingInfo targetCo = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(targetId, contextInfo);
 
         Map<String, Object> keyToValues = new HashMap<String, Object>();
         keyToValues.put(COURSE_OFFERING_KEY, targetCo);
@@ -1174,8 +1113,6 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     }
 
     private List<CourseOfferingInfo> _searchCourseOfferingByCOCodeAndTerm(String courseOfferingCode, String termId) throws Exception {
-        _initServices();
-
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(
                 PredicateFactory.and(
@@ -1183,40 +1120,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
                         PredicateFactory.equal(CourseOfferingConstants.ATP_ID, termId)
                 ));
         QueryByCriteria criteria = qbcBuilder.build();
-        List<CourseOfferingInfo> coList = coService.searchForCourseOfferings(criteria, new ContextInfo());
+        List<CourseOfferingInfo> coList = CourseOfferingManagementUtil.getCourseOfferingService().searchForCourseOfferings(criteria, new ContextInfo());
         return coList;
-    }
-
-    private void _initServices() {
-        if (coService == null) {
-            coService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
-                    CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-
-        if (socService == null) {
-            socService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE,
-                    CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-
-        if (courseService == null) {
-            Object o = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "course",
-                    "CourseService"));
-            courseService = (CourseService) o;
-        }
-
-        if (acalService == null) {
-            acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE,
-                    AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-
-        if (luiService == null) {
-            luiService = (LuiService) GlobalResourceLoader.getService(new QName(LuiServiceConstants.NAMESPACE,
-                    LuiServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-
-        if (schedulingService == null) {
-            schedulingService = (SchedulingService) GlobalResourceLoader.getService(new QName(SchedulingServiceConstants.NAMESPACE,
-                    SchedulingServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
     }
 }
