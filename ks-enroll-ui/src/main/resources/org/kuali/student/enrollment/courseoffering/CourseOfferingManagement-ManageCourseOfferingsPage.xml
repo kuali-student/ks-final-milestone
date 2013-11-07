@@ -32,7 +32,7 @@
              when pages where refreshed. I investigated and partially implemented handing view title text overrides in the controller
              code, but concluded that this is a much cleaner solution. -->
          <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
-        <property name="onDocumentReadyScript" value="updateContextBar( 'KS-CourseOffering-ContextBar', 'KS-CourseOffering-View-ContextBar-PlaceHolder', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' ); updateViewHeaderText( '@{subjectCode}: @{subjectCodeDescription}' ); resetHeaderPosition('KS-CourseOffering-View-ContextBar-PlaceHolder');" />
+        <property name="onDocumentReadyScript" value="updateContextBar( 'KS-CourseOffering-ContextBar', 'KS-CourseOffering-View-ContextBar-PlaceHolder', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' ); updateViewHeaderText( '@{subjectCode}: @{subjectCodeDescription}' );" />
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>

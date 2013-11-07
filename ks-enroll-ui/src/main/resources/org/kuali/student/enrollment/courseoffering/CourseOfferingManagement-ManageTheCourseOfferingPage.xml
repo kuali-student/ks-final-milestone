@@ -28,7 +28,7 @@
         <!-- This was originally put in as a work-around for a KRAD unified header bug where view headers weren't being updated
              when pages where refreshed. I investigated and partially implemented handing view title text overrides in the controller
              code, but concluded that this is a much cleaner solution. -->
-        <property name="onDocumentReadyScript" value="updateViewHeaderText( '@{currentCourseOfferingWrapper.ownerCode}' ); resetHeaderPosition('KS-CourseOffering-View-ContextBar-PlaceHolder');" />
+        <property name="onDocumentReadyScript" value="updateViewHeaderText( '@{currentCourseOfferingWrapper.ownerCode}' );" />
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <util:list id="KS-Enrollment-HomewardPathBreadcrumbs">
