@@ -45,7 +45,7 @@ public interface AcademicCalendarViewHelperService extends KSViewHelperService {
 
     public void validateAcademicCalendar(AcademicCalendarForm acalForm);
 
-    public void validateTerm(List<AcademicTermWrapper> termWrapper,int termToValidateIndex,AcademicCalendarInfo acal);
+    public void validateTerm(List<AcademicTermWrapper> termWrapper,int beforeSortingIndex, int afterSortingIndex, AcademicCalendarInfo acal);
 
     public void populateAcademicCalendarDefaults(AcademicCalendarForm acalForm);
 

@@ -707,10 +707,13 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             }
         }
 
+        // sort the light-weighted term wrappers for displaying error/warning messages on the correct term section
+        List<SimplifiedAcademicTermWrapper> simplifiedAcademicTermWrappers = populateSimplifiedAcademicTermWrappers(acalForm.getTermWrapperList());
+
         //sort term wrappers by start date . We need to do this in the validate call becaues they are later sorted before
         // the screen is rendered. When that happens the calendars are resorted and the warnding + error messages
         // will be pointint at the wrong term.
-        sortTermWrappers(acalForm.getTermWrapperList());
+        sortSimplifiedAcademicTermWrappers(simplifiedAcademicTermWrappers);
 
         //get all the holidays for the academic calendar
         List<HolidayInfo> holidayInfos = new ArrayList<HolidayInfo>();
@@ -721,13 +724,14 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
 
         //Validate Terms keydates and exam period
-        for (int index=0; index < acalForm.getTermWrapperList().size(); index++) {
-            validateTerm(acalForm.getTermWrapperList(),index,acal);
+        for (int index=0; index < simplifiedAcademicTermWrappers.size(); index++) {
+            AcademicTermWrapper termWrapperToValidate = acalForm.getTermWrapperList().get(simplifiedAcademicTermWrappers.get(index).originalIndex);
+
+            validateTerm(acalForm.getTermWrapperList(), simplifiedAcademicTermWrappers.get(index).originalIndex, index, acal);
 
             //in order not to modify the existing method signatures, place the exam period days validation here
-            AcademicTermWrapper termWrapperToValidate = acalForm.getTermWrapperList().get(index);
             try {
-                validateExamPeriodDays(termWrapperToValidate, holidayInfos, index);
+                validateExamPeriodDays(termWrapperToValidate, holidayInfos, simplifiedAcademicTermWrappers.get(index).originalIndex, index);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -883,14 +887,15 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      * Validates the term at the given index
      *
      * @param termWrapper list of terms in an academic calendar
-     * @param termToValidateIndex index of the term to be validated
+     * @param beforeSortingIndex index of the term before sorting for terms happens.
+     * @param afterSortingIndex index of the term after sorting for terms happens.
      * @param acal ACal dto needed to compare the start and end date
      */
-    public void validateTerm(List<AcademicTermWrapper> termWrapper,int termToValidateIndex,AcademicCalendarInfo acal) {
+    public void validateTerm(List<AcademicTermWrapper> termWrapper,int beforeSortingIndex, int afterSortingIndex, AcademicCalendarInfo acal) {
 
-        AcademicTermWrapper termWrapperToValidate = termWrapper.get(termToValidateIndex);
-        String termSectionName="term_section_line"+termToValidateIndex;
-        String keyDateGroupSectionName="acal-term-keydatesgroup_line"+termToValidateIndex;
+        AcademicTermWrapper termWrapperToValidate = termWrapper.get(beforeSortingIndex);
+        String termSectionName="term_section_line"+afterSortingIndex;
+        String keyDateGroupSectionName="acal-term-keydatesgroup_line"+afterSortingIndex;
 
 
         int index2 = 0;
@@ -899,7 +904,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             index2++;
             if (wrapper != termWrapperToValidate){
                 if (StringUtils.equalsIgnoreCase(wrapper.getName(),termWrapperToValidate.getName())){
-                    GlobalVariables.getMessageMap().putErrorForSectionId(termSectionName, CalendarConstants.MessageKeys.ERROR_DUPLICATE_TERM_NAME,""+ NumberUtils.min(new int[]{termToValidateIndex,index2}),""+NumberUtils.max(new int[]{termToValidateIndex,index2}));
+                    GlobalVariables.getMessageMap().putErrorForSectionId(termSectionName, CalendarConstants.MessageKeys.ERROR_DUPLICATE_TERM_NAME,""+ NumberUtils.min(new int[]{afterSortingIndex,index2}),""+NumberUtils.max(new int[]{afterSortingIndex,index2}));
                 }
             }
         }
@@ -909,7 +914,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
 
         if (!AcalCommonUtils.isDateWithinRange(acal.getStartDate(), acal.getEndDate(), termWrapperToValidate.getStartDate()) ||
-            !AcalCommonUtils.isDateWithinRange(acal.getStartDate(), acal.getEndDate(), termWrapperToValidate.getEndDate())){
+                !AcalCommonUtils.isDateWithinRange(acal.getStartDate(), acal.getEndDate(), termWrapperToValidate.getEndDate())){
             GlobalVariables.getMessageMap().putWarningForSectionId(termSectionName, CalendarConstants.MessageKeys.ERROR_TERM_NOT_IN_ACAL_RANGE,termWrapperToValidate.getName());
         }
         if(termWrapperToValidate.isSubTerm()){
@@ -950,7 +955,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
 
         //Validate exam dates
-        validateExamPeriod(termWrapperToValidate, termToValidateIndex);
+        validateExamPeriod(termWrapperToValidate, beforeSortingIndex, afterSortingIndex);
     }
 
     /**
@@ -1362,13 +1367,59 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     }
 
     /**
+     * Sort the given AcademicTermWrapper list based on the start date
+     *
+     * @param simplifiedAcademicTermWrappers - SimplifiedAcademicTermWrapper list
+     *
+     */
+    private void sortSimplifiedAcademicTermWrappers(List<SimplifiedAcademicTermWrapper> simplifiedAcademicTermWrappers) {
+        //Sort the termWrappers by start date
+        if (simplifiedAcademicTermWrappers != null & !simplifiedAcademicTermWrappers.isEmpty()) {
+            Collections.sort(simplifiedAcademicTermWrappers, new Comparator<SimplifiedAcademicTermWrapper>() {
+                @Override
+                public int compare(SimplifiedAcademicTermWrapper simplifiedAcademicTermWrapper1, SimplifiedAcademicTermWrapper simplifiedAcademicTermWrapper2) {
+                    int ret = 0;
+                    if (!simplifiedAcademicTermWrapper1.subTerm && !simplifiedAcademicTermWrapper2.subTerm) { // term comp term
+                        ret = simplifiedAcademicTermWrapper1.startDate.compareTo(simplifiedAcademicTermWrapper2.startDate);
+                    }
+                    if (!simplifiedAcademicTermWrapper1.subTerm && simplifiedAcademicTermWrapper2.subTerm) { // term comp subterm
+                        if (simplifiedAcademicTermWrapper2.parentTerm.compareTo(simplifiedAcademicTermWrapper1.termType) == 0) { // term is  parent
+                            ret = -1; // term > direct subterm
+                        } else {      // term comp subterm.parent
+                            ret = simplifiedAcademicTermWrapper1.startDate.compareTo(simplifiedAcademicTermWrapper2.parentTermInfo.getStartDate());
+                        }
+                    }
+                    if (simplifiedAcademicTermWrapper1.subTerm && !simplifiedAcademicTermWrapper2.subTerm) { // subterm comp term
+                        if (simplifiedAcademicTermWrapper1.parentTerm.compareTo(simplifiedAcademicTermWrapper2.termType) == 0) { // term is  parent
+                            ret = 1; // direct subterm < parent term
+                        } else {      // subterm.parent comp term
+                            ret = simplifiedAcademicTermWrapper1.parentTermInfo.getStartDate().compareTo(simplifiedAcademicTermWrapper2.startDate);
+                        }
+                    }
+                    if (simplifiedAcademicTermWrapper1.subTerm && simplifiedAcademicTermWrapper2.subTerm) { // subterm comp subterm
+                        if (simplifiedAcademicTermWrapper1.parentTerm.compareTo(simplifiedAcademicTermWrapper2.parentTerm) == 0) { // same parent
+                            ret = simplifiedAcademicTermWrapper1.startDate.compareTo(simplifiedAcademicTermWrapper2.startDate);
+                        } else {
+                            ret = simplifiedAcademicTermWrapper1.parentTermInfo.getStartDate().compareTo(simplifiedAcademicTermWrapper2.parentTermInfo.getStartDate());
+                        }
+                    }
+                    return ret;
+                }
+            });
+        }
+    }
+
+
+    /**
      * Validates the term at the given index
      *
      * @param termWrapperToValidate a term in an academic calendar
-     * @param termToValidateIndex index of the term to be validated
+     * @param beforeSortingIndex index of the term before sorting for terms happens.
+     * @param afterSortingIndex index of the term after sorting for terms happens.
      */
-    public void validateExamPeriod (AcademicTermWrapper termWrapperToValidate, int termToValidateIndex) {
-        String finalExamSectionName="acal-term-examdates_line"+termToValidateIndex;
+    public void validateExamPeriod (AcademicTermWrapper termWrapperToValidate, int beforeSortingIndex, int afterSortingIndex) {
+        String finalExamSectionName="acal-term-examdates_line"+afterSortingIndex;
+
         if (termWrapperToValidate.getExamdates() != null && termWrapperToValidate.getExamdates().size() > 0) {
             for (ExamPeriodWrapper examWrapper : termWrapperToValidate.getExamdates()){
                 // startDate must be before endDate
@@ -1400,15 +1451,17 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      *
      * @param termWrapperToValidate term wrapper that the exam period to be validated is associated with
      * @param holidayInfos list of holidayinfos of the academic calendar
-     * @param termIndex index of the term to be validated
+     * @param beforeSortingIndex index of the term before sorting for terms happens.
+     * @param afterSortingIndex index of the term after sorting for terms happens.
      */
-    private void validateExamPeriodDays(AcademicTermWrapper termWrapperToValidate, List<HolidayInfo> holidayInfos, int termIndex) throws Exception {
+    private void validateExamPeriodDays(AcademicTermWrapper termWrapperToValidate, List<HolidayInfo> holidayInfos, int beforeSortingIndex, int afterSortingIndex) throws Exception {
         //trap null parameters
         if (termWrapperToValidate == null) {
             throw new Exception("term wrapper is null");
         }
 
-        String finalExamSectionName="acal-term-examdates_line"+termIndex;
+        String finalExamSectionName="acal-term-examdates_line"+afterSortingIndex;
+
         SelectControl select = (SelectControl) ComponentFactory.getNewComponentInstance("KSFE-FinalExam-ExamDaysDropdown");
         int maxday = 0;
         for(KeyValue value : select.getOptions()){
@@ -1507,5 +1560,52 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
 
         return bRet;
+    }
+
+    private List<SimplifiedAcademicTermWrapper> populateSimplifiedAcademicTermWrappers(List<AcademicTermWrapper> termWrappers) {
+        List<SimplifiedAcademicTermWrapper> simplifiedAcademicTermWrappers = new ArrayList<SimplifiedAcademicTermWrapper>(termWrappers.size());
+        int index = 0;
+        for (AcademicTermWrapper academicTermWrapper : termWrappers) {
+            SimplifiedAcademicTermWrapper simplifiedAcademicTermWrapper = new SimplifiedAcademicTermWrapper(academicTermWrapper);
+            simplifiedAcademicTermWrapper.originalIndex = index++;
+
+            simplifiedAcademicTermWrappers.add(simplifiedAcademicTermWrapper);
+        }
+
+        return simplifiedAcademicTermWrappers;
+    }
+
+    /**
+     * A light-weighted inner class to perform term wrapper sorting based on start date when doing acal validation.
+     * We want to keep the original order of term wrappers in acalForm for dirty field processing. However, We will
+     * have to sort the term wrapper list for correctly displaying warning/error messages during acal validation. We
+     * have this light-weighted inner class just for sorting the term wrapper list inside acal validation while keep
+     * the original term wrapper list in acalForm untouched.
+     */
+    public class SimplifiedAcademicTermWrapper {
+        private String termInfoId;
+        private boolean subTerm = false;
+        private Date startDate;
+        private String termType;
+        private String parentTerm;
+        private TermInfo parentTermInfo;
+        private int originalIndex;
+
+
+        // private constructor to prevent the inner class from being instantiated outside the outer class
+        // because this inner class doesn't need to be instantiated/accessed outside
+        private SimplifiedAcademicTermWrapper() {
+        }
+
+        // private constructor to prevent the inner class from being instantiated outside the outer class
+        // because this inner class doesn't need to be instantiated/accessed outside
+        private SimplifiedAcademicTermWrapper(AcademicTermWrapper academicTermWrapper) {
+            this.termInfoId = academicTermWrapper.getTermInfo().getId();
+            this.subTerm = academicTermWrapper.isSubTerm();
+            this.termType = academicTermWrapper.getTermType();
+            this.startDate = academicTermWrapper.getStartDate();
+            this.parentTerm = academicTermWrapper.getParentTerm();
+            this.parentTermInfo = academicTermWrapper.getParentTermInfo();
+        }
     }
 }

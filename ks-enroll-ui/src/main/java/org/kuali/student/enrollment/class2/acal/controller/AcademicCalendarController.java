@@ -965,6 +965,8 @@ public class AcademicCalendarController extends UifControllerBase {
 
         if (GlobalVariables.getMessageMap().getErrorCount() > 0){
             // If there are errors in the validation return current calendar without saving
+            // sort the term wrappers so that error/warning messages can be displayed in the correct sections
+            viewHelperService.sortTermWrappers(academicCalendarForm.getTermWrapperList());
             return academicCalendarForm;
         }
 
