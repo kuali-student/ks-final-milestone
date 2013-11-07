@@ -35,6 +35,7 @@
     <param name="krad.externalizable.images.url">${application.url}/themes/ksboot/images/</param>
 
     <param name="app.context.name">ks-rice-standalone-${environment}</param>
+    <param name="context.names.lum">ks-with-rice-embedded-${environment}</param>
     <param name="application.id">RICE</param>
     <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
     <param name="rice.logging.configure">true</param>
