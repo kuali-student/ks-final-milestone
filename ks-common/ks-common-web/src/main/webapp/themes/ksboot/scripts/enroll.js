@@ -726,8 +726,8 @@ jQuery(document).on("click", ".dataTable input[type=checkbox]", function() {
  */
 
 /* Set custom font icons for calendar datepickers */
-jQuery('.uif-inputField:has(input.uif-dateControl)').on('DOMNodeInserted', 'button.ui-datepicker-trigger', function() {
-    jQuery('button.ui-datepicker-trigger').empty().addClass('icon halflings calendar').attr('alt', 'Date picker').attr('value', 'Date picker');
+jQuery(document).on('DOMNodeInserted', 'button.ui-datepicker-trigger', function() {
+    jQuery(this).empty().addClass('icon halflings calendar').attr('alt', 'Date picker').attr('value', 'Date picker');
 });
 
 /*
