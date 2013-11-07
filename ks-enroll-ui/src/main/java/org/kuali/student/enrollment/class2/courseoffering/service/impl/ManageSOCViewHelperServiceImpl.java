@@ -215,7 +215,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
                 String dateUI = info.getValue();
                 if (StringUtils.isNotBlank(info.getValue())){
                     try{
-                        date = DateFormatters.STATE_CHANGE_DATE_FORMATTER.parse(dateUI);
+                        date = DateFormatters.SERVER_DATE_PARSER_FORMATTER.parse(dateUI);
                         dateUI = formatScheduleDate(date);
                     }catch(IllegalArgumentException e){
                         throw new RuntimeException(e);

@@ -105,7 +105,7 @@ public class TestCourseOfferingSetServiceMockImpl {
                 if (date != null) {
                     fail("should only be one dynamic attribute for draft state");
                 }
-                date = DateFormatters.STATE_CHANGE_DATE_FORMATTER.parse(attr.getValue());
+                date = DateFormatters.SERVER_DATE_PARSER_FORMATTER.parse(attr.getValue());
             } else {
                 attrs2.add(attr);
             }

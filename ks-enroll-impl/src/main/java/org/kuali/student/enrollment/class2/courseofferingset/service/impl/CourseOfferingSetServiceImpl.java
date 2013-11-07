@@ -790,7 +790,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
                 // Log the state change
                 logStateChange(entity, nextStateKey, contextInfo);
-                LOG.warn(String.format("Updated SOC [%s] state to [%s].", socId, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY));
+                LOG.warn(String.format("Updated SOC [%s] state to [%s].", socId, nextStateKey));
 
                 entity.setEntityUpdated(contextInfo);
                 socDao.merge(entity);
@@ -811,7 +811,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         // TODO: consider changing this to a call to a real logging facility instead of stuffing it in the dynamic attributes
 
         // Add an attribute with a key of the state en
-        AttributeInfo attr = new AttributeInfo(stateKey, DateFormatters.STATE_CHANGE_DATE_FORMATTER.format(contextInfo.getCurrentDate()));
+        AttributeInfo attr = new AttributeInfo(stateKey, DateFormatters.SERVER_DATE_PARSER_FORMATTER.format(contextInfo.getCurrentDate()));
         entity.getAttributes().add(new SocAttributeEntity(attr, entity));
     }
 

@@ -185,7 +185,7 @@ public class SocEntity extends MetaEntity implements AttributeOwner<SocAttribute
         String value = soc.getAttributeValue(stateKey);
         if (value != null) {
             try {
-                dateOut = DateFormatters.STATE_CHANGE_DATE_FORMATTER.parse(value);
+                dateOut = DateFormatters.SERVER_DATE_PARSER_FORMATTER.parse(value);
             } catch (IllegalArgumentException e) {
                 throw new RuntimeException(String.format("Could not parse date string [%s] stored in SOC %s attribute %s.",
                         value, soc.getId(), stateKey));

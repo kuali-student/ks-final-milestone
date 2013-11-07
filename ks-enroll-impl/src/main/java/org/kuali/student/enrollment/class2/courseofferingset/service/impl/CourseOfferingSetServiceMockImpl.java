@@ -28,6 +28,7 @@ import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 
 import javax.jws.WebParam;
 import java.text.SimpleDateFormat;
@@ -695,9 +696,8 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
     private void logStateChange(SocInfo soc, ContextInfo contextInfo) {
         // add the state change to the log
         // TODO: consider changing this to a call to a real logging facility instead of stuffing it in the dynamic attributes
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
         Date date = contextInfo.getCurrentDate();
-        soc.getAttributes().add(new AttributeInfo(soc.getStateKey(), formatter.format(date)));
+        soc.getAttributes().add(new AttributeInfo(soc.getStateKey(), DateFormatters.SERVER_DATE_PARSER_FORMATTER.format(date)));
     }
 
     private void propagateState(String socId, String nextState,  ContextInfo contextInfo) throws Exception{
