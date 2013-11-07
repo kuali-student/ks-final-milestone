@@ -1,6 +1,6 @@
 /* This function may be redefined to add additional inputs to forms before posting */
 function ksapAddPostOptionsToForm(tempForm) {
-	return tempForm;
+    return tempForm;
 }
 
 /**
@@ -8,7 +8,7 @@ function ksapAddPostOptionsToForm(tempForm) {
  * to the query string for in-KSAP navigation links.
  */
 function ksapAddGetParameters() {
-	return '';
+    return '';
 }
 
 /**
@@ -17,11 +17,11 @@ function ksapAddGetParameters() {
  * enterprise environment.
  */
 function ksapAddGetParametersExternal() {
-	return '';
+    return '';
 }
 
 function ksapAdditionalFormData(additionalData) {
-	return additionalData;
+    return additionalData;
 }
 
 function readUrlHash(key) {
@@ -32,17 +32,17 @@ function readUrlHash(key) {
             oHash[value.split('=')[0]] = value.split('=')[1];
         });
         if (oHash[key]) {
-                if (decodeURIComponent(oHash[key]) == "true" || decodeURIComponent(oHash[key]) == "false") {
-                    return (decodeURIComponent(oHash[key]) == "true");
-        } else {
-                    return decodeURIComponent(oHash[key]);
-                }
+            if (decodeURIComponent(oHash[key]) == "true" || decodeURIComponent(oHash[key]) == "false") {
+                return (decodeURIComponent(oHash[key]) == "true");
             } else {
-            return false;
-        }
+                return decodeURIComponent(oHash[key]);
+            }
         } else {
             return false;
         }
+    } else {
+        return false;
+    }
 }
 
 function setUrlHash(key, value) {
@@ -106,7 +106,7 @@ function setUrlParam(key, value) {
 
 /* This is for DOM changes to refresh the view on back to keep the view updated */
 if (readUrlHash("modified")) {
-        var url = window.location.href;
+    var url = window.location.href;
     var aHash = window.location.href.split("#")[1].replace("#", "").split("&");
     aHash.splice(aHash.indexOf("modified=true"), 1);
     window.location.assign(url.split("#")[0] + ((aHash.length > 0) ? "#" + aHash.join("&") : ""));
@@ -350,7 +350,7 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
 
     jQuery(document).on('click', function (e) {
         var tempTarget = (e.target) ? e.target : e.srcElement;
-        if (jQuery(tempTarget).parents("div.jquerybubblepopup.jquerybubblepopup-myplan").length === 0) {
+        if (jQuery(tempTarget).parents("div.jquerybubblepopup.jquerybubblepopup-myplan").length === 0 && jQuery(tempTarget).parents("div.uif-tooltip").length === 0) {
             popupBox.HideBubblePopup();
             fnCloseAllPopups();
         }
@@ -524,7 +524,7 @@ function submitPopupForm(additionalFormData, e, bDialog) {
  * @param blockingSettings - Settings for the html object
  */
 function ksapAjaxSubmitForm(data, successCallback, elementToBlock, formId, blockingSettings) {
-	data = ksapAdditionalFormData(data);
+    data = ksapAdditionalFormData(data);
 
     var submitOptions = {
         data:data,
@@ -536,24 +536,24 @@ function ksapAjaxSubmitForm(data, successCallback, elementToBlock, formId, block
             jQuery("#formComplete").empty();
         },
         error:function(jqXHR, textStatus,
-                errorThrown) {
-	         hideLoading();
-	         showGrowl(textStatus + " "
-	             + errorThrown,
-	             "Error");
-	     },
-	     statusCode : {
-	         400 : function() {
-	             showGrowl(
-	                 "400 Bad Request",
-	                 "Fatal Error");
-	         },
-	         500 : function() {
-	             showGrowl(
-	                 "500 Internal Server Error",
-	                 "Fatal Error");
-	         }
-	     }
+                       errorThrown) {
+            hideLoading();
+            showGrowl(textStatus + " "
+                + errorThrown,
+                "Error");
+        },
+        statusCode : {
+            400 : function() {
+                showGrowl(
+                    "400 Bad Request",
+                    "Fatal Error");
+            },
+            500 : function() {
+                showGrowl(
+                    "500 Internal Server Error",
+                    "Fatal Error");
+            }
+        }
     };
 
     if (elementToBlock != null && elementToBlock.length) {
@@ -587,11 +587,11 @@ function ksapAjaxSubmitForm(data, successCallback, elementToBlock, formId, block
                 elementToBlock.unblock();
             },
             error:function(jqXHR, textStatus,
-                    errorThrown) {
-	   	         hideLoading();
-		         showGrowl(textStatus + " "
-		             + errorThrown,
-		             "Error");
+                           errorThrown) {
+                hideLoading();
+                showGrowl(textStatus + " "
+                    + errorThrown,
+                    "Error");
                 if (elementToBlock.hasClass("unrendered")) {
                     elementToBlock.hide();
                 }
@@ -660,22 +660,22 @@ function myplanRetrieveComponent(id, getId, methodToCall, action, retrieveOption
     var updateRefreshableComponentCallback = function (htmlContent) {
         var component = jQuery("#" + getId, htmlContent);
 
-            // replace component
-            if (jQuery("#" + id).length) {
-                jQuery("#" + id).replaceWith(component);
-            }
+        // replace component
+        if (jQuery("#" + id).length) {
+            jQuery("#" + id).replaceWith(component);
+        }
 
-            runHiddenScripts(getId);
+        runHiddenScripts(getId);
 
-            if (jQuery("input[data-role='script'][data-for='" + getId + "']", htmlContent).length > 0) {
-                eval(jQuery("input[data-role='script'][data-for='" + getId + "']", htmlContent).val());
-            }
+        if (jQuery("input[data-role='script'][data-for='" + getId + "']", htmlContent).length > 0) {
+            eval(jQuery("input[data-role='script'][data-for='" + getId + "']", htmlContent).val());
+        }
 
-            if (highlightId) {
+        if (highlightId) {
             jQuery("[id^='" + highlightId + "']").animate({backgroundColor: "#faf5ca"}, 1).animate({backgroundColor: "#ffffff"}, 1500, function () {
-                    jQuery(this).removeAttr("style");
-                });
-            }
+                jQuery(this).removeAttr("style");
+            });
+        }
 
         elementToBlock.unblock();
     };
@@ -816,11 +816,11 @@ function truncateField(id, floated) {
         var itemSelector = ".uif-horizontalBoxGroup > .uif-horizontalBoxLayout > .uif-boxLayoutHorizontalItem";
         var ellipsisItem = jQuery(this).find(itemSelector + ".myplan-text-ellipsis");
         if (ellipsisItem.length != 0) {
-        jQuery(this).css("display", "block");
-        var fixed = 0;
+            jQuery(this).css("display", "block");
+            var fixed = 0;
             jQuery(this).find(itemSelector + ":not(.myplan-text-ellipsis)").each(function () {
                 fixed = fixed + jQuery(this).outerWidth(true);
-        });
+            });
             var available = jQuery(this).width() - ( fixed + ( ellipsisItem.outerWidth(true) - ellipsisItem.width() ) + 1 );
             ellipsisItem.css("white-space", "nowrap");
             if (!floated) {
@@ -847,7 +847,7 @@ function indicateViewingAudit(id, type) {
             if (type == 'planAudit') {
                 if (index > 1) open = true;
                 jQuery(this).addClass("viewing");
-        }
+            }
         } else {
             if (type == 'degreeAudit') {
                 jQuery(this).find(".uif-label label").html("View");
@@ -856,10 +856,10 @@ function indicateViewingAudit(id, type) {
                 jQuery(this).removeClass("viewing");
             }
         }
-        });
+    });
     if (open) {
         jQuery("#plan_audit_toggle_link").click();
-}
+    }
 }
 /*
  ######################################################################################
@@ -880,7 +880,7 @@ function fnPopoverSlider(showId, parentId, direction) {
         jQuery("#" + parentId + " > .uif-horizontalBoxLayout > div.uif-boxLayoutHorizontalItem").filter("#" + showId).show("slide", {
             direction:newDirection
         }, 100, function () {
-        	jQuery(this).focus();
+            jQuery(this).focus();
         });
     });
 }
@@ -900,8 +900,8 @@ function clickOutsidePopOver(popoverId, element) {
  ######################################################################################
  */
 function fnCloseAllPopups() {
-	hideBubblePopups();
-	// Remove inner HTML for My Plan created popups 
+    hideBubblePopups();
+    // Remove inner HTML for My Plan created popups
     jQuery(".jquerybubblepopup-myplan > .jquerybubblepopup-innerHtml").children().remove();
     // TODO remove after review: if (jQuery("body").HasBubblePopup()) jQuery("body").HideBubblePopup();
     // TODO remove after review: jQuery(document).off();
@@ -1068,7 +1068,7 @@ function changeLoadingMessage(selector, programName, auditType) {
 function setLoadingMessage(selector, programName, auditType) {
     if (jQuery(selector + ' div.blockUI.blockMsg.blockElement').length > 0) {
         fnAddLoadingText(selector, programName, auditType);
-	}
+    }
 }
 
 function fnAddLoadingText(selector, programName, auditType) {
@@ -1079,7 +1079,7 @@ function fnAddLoadingText(selector, programName, auditType) {
         jQuery(selector + " div.blockUI.blockMsg.blockElement .heading").html(pendingPlanAuditHeadingText);
     } else {
         jQuery(selector + " div.blockUI.blockMsg.blockElement .heading").html(pendingDegreeAuditHeadingText);
-}
+    }
     jQuery(selector + " div.blockUI.blockMsg.blockElement .programName").text(programName);
 }
 
@@ -1130,11 +1130,11 @@ function getPendingAudit(id, type) {
         var data = jQuery.parseJSON(decodeURIComponent(jQuery.cookie('myplan_audit_running')));
         if (type == data.auditType) {
             var component = jQuery("#" + id + " .uif-stackedCollectionLayout");
-        if (data) {
+            if (data) {
                 var item = jQuery("<div />").addClass("uif-collectionItem pending").html('<img src="../ks-myplan/images/ajaxPending16.gif" class="icon"/><span class="title">Auditing <span class="program">' + data.programName + '</span></span>');
-            component.prepend(item);
+                component.prepend(item);
                 pollPendingAudit(data.programId, data.recentAuditId, data.auditType);
-        }
+            }
             if (component.prev(".ksap-emptyCollection").length > 0) {
                 component.prev(".ksap-emptyCollection").remove();
             }
@@ -1145,9 +1145,9 @@ function getPendingAudit(id, type) {
 function blockPendingAudit(data) {
     var id = "audit_section";
     if (data.auditType == "plan") id = "plan_audit_section";
-        var elementToBlock = jQuery("#" + id);
-        elementToBlock.block(blockPendingAuditStyle);
-        jQuery("#" + id + " div.blockUI.blockMsg.blockElement").data("growl","true");
+    var elementToBlock = jQuery("#" + id);
+    elementToBlock.block(blockPendingAuditStyle);
+    jQuery("#" + id + " div.blockUI.blockMsg.blockElement").data("growl","true");
     if (data.auditType == "plan") {
         jQuery("#" + id + " div.blockUI.blockMsg.blockElement .heading").html(pendingPlanAuditHeadingText);
     } else {
@@ -1202,9 +1202,9 @@ function buttonState(parentId, buttonId) {
         var value;
         if (jQuery(this).val()) {
             value = jQuery(this).val().replace(/\n/g, '');
-    } else {
+        } else {
             value = "";
-    }
+        }
         if (value == "" || value == "default") {
             disabled = true;
         }
@@ -1673,7 +1673,7 @@ function openPlanItemPopUp(xid, getId, retrieveOptions, e, selector, popupOption
 
     jQuery(document).on('click', function (e) {
         var tempTarget = (e.target) ? e.target : e.srcElement;
-        if (jQuery(tempTarget).parents("div.jquerybubblepopup.jquerybubblepopup-myplan").length === 0) {
+        if (jQuery(tempTarget).parents("div.jquerybubblepopup.jquerybubblepopup-myplan").length === 0 && jQuery(tempTarget).parents("div.uif-tooltip").length === 0) {
             popupBox.HideBubblePopup();
             fnCloseAllPopups();
         }
@@ -1740,7 +1740,7 @@ function openPlanItemPopUp(xid, getId, retrieveOptions, e, selector, popupOption
 
             jQuery(document).on('click', function (e) {
                 var tempTarget = (e.target) ? e.target : e.srcElement;
-                if (jQuery(tempTarget).parents("div.jquerybubblepopup.jquerybubblepopup-myplan").length === 0) {
+                if (jQuery(tempTarget).parents("div.jquerybubblepopup.jquerybubblepopup-myplan").length === 0 && jQuery(tempTarget).parents("div.uif-tooltip").length === 0) {
                     popupBox.HideBubblePopup();
                     fnCloseAllPopups();
                 }
@@ -1875,3 +1875,75 @@ function ksapInitializePlanItems(pageSize) {
             fnUpdateCredits(data.atpId, data.totalCredits, data.cartCredits);
         });
 }
+
+/**
+ * Creates the tooltip widget for an component
+ *
+ * @param id - id for the component to apply the tooltip to
+ * @param options - options for the tooltip
+ */
+function createTooltip(id, text, options, onMouseHoverFlag, onFocusFlag) {
+    var elementInfo = getHoverElement(id);
+    var element = elementInfo.element;
+
+    options['innerHtml'] = text;
+    options['manageMouseEvents'] = false;
+    if (onFocusFlag) {
+        // Add onfocus trigger
+        jQuery("#" + id).focus(function () {
+//            if (!jQuery("#" + id).IsBubblePopupOpen()) {
+            // TODO : use data attribute to check if control
+            if (!isControlWithMessages(id)) {
+                jQuery("#" + id).SetBubblePopupOptions(options, true);
+                jQuery("#" + id).SetBubblePopupInnerHtml(options.innerHTML, true);
+                jQuery("#" + id).ShowBubblePopup();
+            }
+//            }
+        });
+        jQuery("#" + id).blur(function () {
+            jQuery("#" + id).HideBubblePopup();
+        });
+    }else if (onMouseHoverFlag) {
+        // Add mouse hover trigger
+        jQuery("#" + id).hover(function () {
+            if (!jQuery("#" + id).IsBubblePopupOpen()) {
+                if (!isControlWithMessages(id)) {
+                    jQuery("#" + id).SetBubblePopupOptions(options, true);
+                    jQuery("#" + id).SetBubblePopupInnerHtml(options.innerHTML, true);
+                    jQuery("#" + id).ShowBubblePopup();
+                }
+            }
+        }, function (event) {
+            if (!onFocusFlag || !jQuery("#" + id).is(":focus")) {
+                var result = mouseInTooltipCheck(event, id, element, this, elementInfo.type);
+                if (result) {
+                    mouseLeaveHideTooltip(id, jQuery("#" + id), element, elementInfo.type);
+                }
+            }
+        });
+    }else{
+        // Add mouse hover trigger
+        jQuery("#" + id).click(function () {
+            if (!jQuery("#" + id).IsBubblePopupOpen()) {
+                hideBubblePopups();
+                if (!isControlWithMessages(id)) {
+                    jQuery("#" + id).SetBubblePopupOptions(options, true);
+                    jQuery("#" + id).SetBubblePopupInnerHtml(options.innerHTML, true);
+                    jQuery("#" + id).ShowBubblePopup();
+                }
+            }else{
+                hideBubblePopups();
+            }
+        });
+    }
+}
+
+function registerClosePopups(){
+    jQuery(document).on('click', function (e) {
+        var tempTarget = (e.target) ? e.target : e.srcElement;
+        if (jQuery(tempTarget).parents("div.uif-tooltip").length === 0) {
+            hideBubblePopups();
+        }
+    });
+}
+

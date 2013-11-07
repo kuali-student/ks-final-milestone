@@ -864,6 +864,9 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     display: inline-block;
     text-transform: capitalize;
 }
+.myplan-carousel-list ul li .uif-tooltip h6.uif-headerText span{
+    border-bottom: 1px dotted #777;
+}
 
 .myplan-carousel-list ul li .uif-header .uif-helpImage {
     display: inline-block;
@@ -1002,6 +1005,9 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     line-height: 26px;
     display: block;
     padding: 0 10px !important;
+}
+.myplan-carousel-list .myplan-carousel-term-total .ks-plan-Bucket-creditLabel span{
+    border-bottom: 1px dotted #777;
 }
 
 .myplan-carousel-list .myplan-carousel-term-total .credits {
@@ -1949,6 +1955,9 @@ table.myplan-course-search-results-datatable .blockUI {
     background-image: -webkit-linear-gradient(top, #F5F5F5 0%, #EBEBEB 100%);
     background-image: linear-gradient(to bottom, #F5F5F5 0%, #EBEBEB 100%);
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#F5F5F5', endColorstr='#EBEBEB')";*/ /* IE8 */
+}
+.myplan-section .uif-tooltip span.uif-headerText-span{
+    border-bottom: dotted 1px #777;
 }
 /*The Your Stuff Header*/
 .myplan-section .uif-header.primary {

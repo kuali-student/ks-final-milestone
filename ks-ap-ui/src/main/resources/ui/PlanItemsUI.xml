@@ -68,7 +68,7 @@
         </property>
         <property name="footer.render" value="false"/>
         <property name="formClass" value="org.kuali.student.myplan.plan.form.PlanForm"/>
-
+        <property name="onDocumentReadyScript" value="registerClosePopups();"/>
     </bean>
     
     <bean id="plannedCourses_myplan_section" parent="plannedCourses_myplan_section-parent" />
@@ -663,16 +663,8 @@
         </property>
         <property name="header.render"
                   value="@{#line.completedTerm or #line.academicRecord.size() gt 0 or !#line.openForPlanning}"/>
-        <property name="header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerHelpIcons">
-                <property name="validationMessages.render" value="false"/>
-                <property name="items">
-                    <list>
-                        <ref bean="completed_help_icon"/>
-                        <ref bean="registered_help_icon"/>
-                    </list>
-                </property>
-            </bean>
+        <property name="header.toolTip">
+            <ref bean="academic_record_help_tooltip"/>
         </property>
         <property name="header.lowerGroup">
             <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerStatusIcons">
@@ -822,7 +814,6 @@
                 <property name="items">
                     <list>
                         <ref bean="term_total_credits_label"/>
-                        <ref bean="total_credits_help_icon"/>
                         <ref bean="term_total_credits_text"/>
                     </list>
                 </property>
@@ -839,16 +830,8 @@
         </property>
         <property name="header.render"
                   value="@{#line.completedTerm or #line.academicRecord.size() gt 0 or !#line.openForPlanning}"/>
-        <property name="header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerHelpIcons">
-                <property name="validationMessages.render" value="false"/>
-                <property name="items">
-                    <list>
-                        <ref bean="completed_help_icon"/>
-                        <ref bean="registered_help_icon"/>
-                    </list>
-                </property>
-            </bean>
+        <property name="header.toolTip">
+            <ref bean="academic_record_help_tooltip"/>
         </property>
         <property name="header.lowerGroup">
             <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerStatusIcons">
@@ -989,7 +972,6 @@
                 <property name="items">
                     <list>
                         <ref bean="term_total_credits_label"/>
-                        <ref bean="total_credits_help_icon"/>
                         <ref bean="term_total_credits_text"/>
                     </list>
                 </property>
@@ -1003,15 +985,8 @@
         <property name="header">
             <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
         </property>
-        <property name="header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerHelpIcons">
-                <property name="validationMessages.render" value="false"/>
-                <property name="items">
-                    <list>
-                        <ref bean="cart_help_icon"/>
-                    </list>
-                </property>
-            </bean>
+        <property name="header.toolTip">
+            <ref bean="cart_help_tooltip"/>
         </property>
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
@@ -1128,7 +1103,6 @@
                             <property name="items">
                                 <list>
                                     <ref bean="term_total_credits_label"/>
-                                    <ref bean="cart_credits_help_icon"/>
                                     <bean parent="Uif-MessageField"
                                           p:messageText="@{#line.cartCredits ne null ? #line.cartCredits : '0'}">
                                         <property name="cssClasses">
@@ -1152,7 +1126,6 @@
                             <property name="items">
                                 <list>
                                     <ref bean="term_total_credits_label"/>
-                                    <ref bean="cart_credits_help_icon"/>
                                     <bean parent="Uif-MessageField"
                                            p:messageText="@{#line.cartCredits ne null ? #line.cartCredits : '0'}">
                                         <property name="cssClasses">
@@ -1179,15 +1152,8 @@
         <property name="header">
             <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
         </property>
-        <property name="header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerHelpIcons">
-                <property name="validationMessages.render" value="false"/>
-                <property name="items">
-                    <list>
-                        <ref bean="planned_help_icon"/>
-                    </list>
-                </property>
-            </bean>
+        <property name="header.toolTip">
+            <ref bean="planned_help_tooltip"/>
         </property>
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
@@ -1307,7 +1273,6 @@
                             <property name="items">
                                 <list>
                                     <ref bean="term_total_credits_label"/>
-                                    <ref bean="total_credits_help_icon"/>
                                     <ref bean="term_total_credits_text"/>
                                 </list>
                             </property>
@@ -1323,7 +1288,6 @@
                             <property name="items">
                                 <list>
                                     <ref bean="term_total_credits_label"/>
-                                    <ref bean="total_credits_help_icon"/>
                                     <ref bean="term_total_credits_text"/>
                                 </list>
                             </property>
@@ -1342,15 +1306,8 @@
         <property name="header">
             <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
         </property>
-        <property name="header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerHelpIcons">
-                <property name="validationMessages.render" value="false"/>
-                <property name="items">
-                    <list>
-                        <ref bean="planned_help_icon"/>
-                    </list>
-                </property>
-            </bean>
+        <property name="header.toolTip">
+            <ref bean="planned_help_tooltip"/>
         </property>
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
@@ -1439,7 +1396,6 @@
                             <property name="items">
                                 <list>
                                     <ref bean="term_total_credits_label"/>
-                                    <ref bean="total_credits_help_icon"/>
                                     <ref bean="term_total_credits_text"/>
                                 </list>
                             </property>
@@ -1455,7 +1411,6 @@
                             <property name="items">
                                 <list>
                                     <ref bean="term_total_credits_label"/>
-                                    <ref bean="total_credits_help_icon"/>
                                     <ref bean="term_total_credits_text"/>
                                 </list>
                             </property>
@@ -1474,15 +1429,8 @@
         <property name="header">
             <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
         </property>
-        <property name="header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerHelpIcons">
-                <property name="validationMessages.render" value="false"/>
-                <property name="items">
-                    <list>
-                        <ref bean="backup_help_icon"/>
-                    </list>
-                </property>
-            </bean>
+        <property name="header.toolTip">
+            <ref bean="backup_help_tooltip"/>
         </property>
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
@@ -1597,15 +1545,8 @@
         <property name="header">
             <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
         </property>
-        <property name="header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerHelpIcons">
-                <property name="validationMessages.render" value="false"/>
-                <property name="items">
-                    <list>
-                        <ref bean="backup_help_icon"/>
-                    </list>
-                </property>
-            </bean>
+        <property name="header.toolTip">
+            <ref bean="backup_help_tooltip"/>
         </property>
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
@@ -1703,10 +1644,12 @@
 
     <bean id="term_total_credits" parent="Uif-HorizontalBoxGroup">
         <property name="validationMessages.render" value="false"/>
+        <property name="toolTip">
+            <ref bean="total_credits_help_tooltip"/>
+        </property>
         <property name="items">
             <list>
                 <ref bean="term_total_credits_label"/>
-                <ref bean="total_credits_help_icon"/>
                 <ref bean="term_total_credits_text"/>
             </list>
         </property>

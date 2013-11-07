@@ -58,17 +58,10 @@
 
     <bean id="saved_courses_summary_list" parent="Uif-ListCollectionSection" p:headerText="Bookmarked Courses">
         <property name="header">
-            <bean parent="Uif-HeaderSix"/>
+            <bean p:id="saved_courses_summary_list_header" parent="Uif-HeaderSix"/>
         </property>
-        <property name="header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup">
-                <property name="validationMessages.render" value="false"/>
-                <property name="items">
-                    <list>
-                        <ref bean="bookmarks_help_icon"/>
-                    </list>
-                </property>
-            </bean>
+        <property name="header.toolTip">
+            <ref bean="bookmarks_help_tooltip"/>
         </property>
         <property name="cssClasses">
             <list merge="true">

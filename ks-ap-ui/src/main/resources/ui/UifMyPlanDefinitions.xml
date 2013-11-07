@@ -19,19 +19,6 @@
     limitations under the License.
     -->
     <!-- VIEWS ######################################################################################## -->
-
-    <bean id="MyPlanView" abstract="true" parent="Uif-View">
-    	<!-- 
-        <property name="preloadPoolSize" value="5"/>
-    	 -->
-        <property name="theme">
-            <bean parent="MyPlanBaseTheme"/>
-        </property>
-        <property name="persistFormToSession" value="true"/>
-        <property name="breadcrumbs.render" value="false"/>
-        <property name="applyDirtyCheck" value="false"/>
-    </bean>
-
     <!-- View without the header and footer and just the theme -->
     <bean id="MyPlanBaseFormView" abstract="true" parent="Uif-FormView">
     	<!--
@@ -40,7 +27,7 @@
         <property name="theme">
             <bean parent="MyPlanBaseTheme"/>
         </property>
-        <property name="persistFormToSession" value="true"/>
+        <property name="persistFormToSession" value="false"/>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
     </bean>
@@ -68,7 +55,7 @@
         <property name="theme">
             <bean parent="MyPlanBaseTheme"/>
         </property>
-        <property name="persistFormToSession" value="true"/>
+        <property name="persistFormToSession" value="false"/>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
     </bean>
@@ -96,7 +83,7 @@
         <property name="theme">
             <bean parent="MyPlanBaseTheme"/>
         </property>
-        <property name="persistFormToSession" value="true"/>
+        <property name="persistFormToSession" value="false"/>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
     </bean>

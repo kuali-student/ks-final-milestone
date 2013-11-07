@@ -144,16 +144,10 @@
 
     <bean id="degree_audits_summary_list" parent="Uif-ListCollectionSection" p:headerText="Recent Audit Reports">
         <property name="header">
-            <bean parent="Uif-HeaderSix"/>
+            <bean p:id="degree_audits_summary_list_header" parent="Uif-HeaderSix"/>
         </property>
-        <property name="header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup" p:validationMessages.render="false">
-                <property name="items">
-                    <list>
-                        <ref bean="recent_audits_help_icon"/>
-                    </list>
-                </property>
-            </bean>
+        <property name="header.toolTip">
+            <ref bean="recent_audits_help_tooltip"/>
         </property>
         <property name="cssClasses">
             <list merge="true">
