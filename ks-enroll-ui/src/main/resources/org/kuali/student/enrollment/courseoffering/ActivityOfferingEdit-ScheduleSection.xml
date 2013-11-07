@@ -82,7 +82,7 @@
         </property>
     </bean>
 
-    <bean id="ActivityOffering-DeliveryLogistic-New" parent="Uif-VerticalBoxSection" p:style="background-color:#f3f3f3; padding: 4px 0 4px 4px;border: 1px solid black;width:725px;" p:componentSecurity.viewAuthz="true">
+    <bean id="ActivityOffering-DeliveryLogistic-New" parent="Uif-VerticalBoxSection" p:style="background-color:#f3f3f3; padding: 4px 0 4px 4px;border: 1px solid black;width:765px;" p:componentSecurity.viewAuthz="true">
         <property name="headerText" value="Add New Scheduling Information" />
         <property name="header">
           <bean parent="Uif-HeaderFour" p:style="margin-top:20px;"/>
