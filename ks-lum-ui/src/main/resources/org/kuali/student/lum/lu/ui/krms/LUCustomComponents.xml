@@ -289,7 +289,6 @@ limitations under the License.
                 </property>
             </bean>
         </property>
-        <property name="onChangeScript" value="customDatepicker();"/>
     </bean>
     <bean id="KS-CourseRange-TypeField" parent="KS-CourseRange-TypeField-parent"/>
 
