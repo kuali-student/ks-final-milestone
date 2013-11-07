@@ -259,23 +259,6 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
         CourseOfferingEditWrapper courseOfferingEditWrapper;
         if (StringUtils.isNotBlank(formatOfferingInfo.getFormatId()) && courseInfo != null) {
             keyValues.addAll(collectActivityTypeKeyValues(courseInfo, formatOfferingInfo.getFormatId(), CourseOfferingManagementUtil.getTypeService(), ContextUtils.createDefaultContextInfo()));
-            if (wrapper instanceof CourseOfferingEditWrapper) {
-                courseOfferingEditWrapper = (CourseOfferingEditWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
-                if (wrapper.getCourseOfferingInfo().getId() != null && courseOfferingEditWrapper.getAoWrapperList() == null) {
-                    loadActivityOfferingsByCourseOffering(wrapper.getCourseOfferingInfo(), courseOfferingEditWrapper);
-                }
-                    if (courseOfferingEditWrapper.getAoWrapperList() != null) {
-                        FormatOfferingInfo aoformatOfferingInfo = courseOfferingEditWrapper.getAoWrapperList().get(0).getFormatOffering();
-                        if (!aoformatOfferingInfo.getFinalExamLevelTypeKey().equals(keyValues.get(0).getKey())) {
-                            List<KeyValue> newKeyValues = new ArrayList<KeyValue>();
-                            newKeyValues.add(keyValues.get(0));
-                            keyValues.remove(0);
-                            keyValues.add(newKeyValues.get(0));
-
-                        }
-                    }
-
-            }
             control.setDisabled(false);
         } else {
             control.setDisabled(true);
@@ -376,43 +359,6 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
         }
 
     }
-
-    private void loadActivityOfferingsByCourseOffering(CourseOfferingInfo theCourseOfferingInfo, CourseOfferingEditWrapper formObject) throws Exception {
-        String courseOfferingId = theCourseOfferingInfo.getId();
-        List<ActivityOfferingInfo> activityOfferingInfoList;
-        List<ActivityOfferingWrapper> activityOfferingWrapperList;
-            try {
-
-                activityOfferingInfoList = CourseOfferingManagementUtil.getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, ContextUtils.createDefaultContextInfo());
-                activityOfferingWrapperList = new ArrayList<ActivityOfferingWrapper>(activityOfferingInfoList.size());
-
-                for (ActivityOfferingInfo info : activityOfferingInfoList) {
-                    ActivityOfferingWrapper aoWrapper = convertAOInfoToWrapper_Simple(info);
-                    activityOfferingWrapperList.add(aoWrapper);
-                }
-            } catch (Exception e) {
-                throw new RuntimeException(String.format("Could not load AOs for course offering [%s].", courseOfferingId), e);
-            }
-            formObject.setAoWrapperList(activityOfferingWrapperList);
-    }
-
-    private ActivityOfferingWrapper convertAOInfoToWrapper_Simple(ActivityOfferingInfo aoInfo) throws Exception{
-
-        ActivityOfferingWrapper aoWrapper = new ActivityOfferingWrapper(aoInfo);
-
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-
-        StateInfo state = CourseOfferingManagementUtil.getStateService().getState(aoInfo.getStateKey(), contextInfo);
-        aoWrapper.setStateName(state.getName());
-
-        TypeInfo typeInfo = CourseOfferingManagementUtil.getTypeService().getType(aoInfo.getTypeKey(), contextInfo);
-        aoWrapper.setTypeName(typeInfo.getName());
-
-        FormatOfferingInfo fo = CourseOfferingManagementUtil.getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), contextInfo);
-        aoWrapper.setFormatOffering(fo);
-        return aoWrapper;
-    }
-
    /**
      * Returns the Name for a type key.
      *
