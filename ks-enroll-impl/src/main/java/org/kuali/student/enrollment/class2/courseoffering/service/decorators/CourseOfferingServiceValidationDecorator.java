@@ -326,7 +326,7 @@ public class CourseOfferingServiceValidationDecorator
             throws OperationFailedException, MissingParameterException, InvalidParameterException, PermissionDeniedException {
 
         // Query for AO id and codes, and build a Map.
-        SearchRequestInfo request = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AO_CODES_BY_CO_ID_SEARCH_KEY);
+        SearchRequestInfo request = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AO_CODES_TYPES_BY_CO_ID_SEARCH_KEY);
         request.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, activityOfferingInfo.getCourseOfferingId());
         SearchResultInfo result = searchService.search(request, context);
         List<SearchResultRowInfo> rows = result.getRows();
@@ -342,8 +342,6 @@ public class CourseOfferingServiceValidationDecorator
                         key = cell.getValue();
                     } else if (cell.getKey().equals(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_CODE)) {
                         code = cell.getValue();
-                    } else {
-                        throw new OperationFailedException("Query for AO id and code was missing a column.");
                     }
                 }
                 activityCodes.put(key, code);
