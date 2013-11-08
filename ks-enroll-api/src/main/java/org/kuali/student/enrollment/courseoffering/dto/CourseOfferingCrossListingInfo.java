@@ -34,7 +34,7 @@ import java.io.Serializable;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingCrossListingInfo", propOrder = {
-                "id", "typeKey", "stateKey", "code", "subjectArea",
+                "id", "typeKey", "stateKey", "code", "longName", "subjectArea",
                 "subjectOrgId", "courseNumberSuffix",
                 "meta", "attributes", "_futureElements"
 })
@@ -47,6 +47,9 @@ public class CourseOfferingCrossListingInfo
 
     @XmlElement
     private String code;
+
+    @XmlElement
+    private String longName;
 
     @XmlElement
     private String subjectArea;
@@ -94,6 +97,16 @@ public class CourseOfferingCrossListingInfo
     public void setCode(String code) {
         this.code = code;
     }
+
+    @Override
+    public String getLongName() {
+        return longName;
+    }
+
+    public void setLongName(String longName) {
+        this.longName = longName;
+    }
+
 
     @Override
     public String getSubjectArea() {
