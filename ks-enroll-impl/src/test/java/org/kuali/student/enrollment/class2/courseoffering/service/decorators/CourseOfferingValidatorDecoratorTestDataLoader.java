@@ -37,12 +37,14 @@ public class CourseOfferingValidatorDecoratorTestDataLoader extends SearchServic
         row1 = new HashMap<String, String>();
         row1.put(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ID, "ao1");
         row1.put(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_CODE, "A");
+        row1.put(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_TYPE, "kuali.lui.type.activity.offering.lecture");
 
         Map<String,String> row2 = new HashMap<String, String>();
         row2.put(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ID, "ao2");
         row2.put(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_CODE, "B");
+        row2.put(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_TYPE, "kuali.lui.type.activity.offering.lecture");
 
-        this.searchServiceMock.addSearchResult(makeSearchRequestInfo(ActivityOfferingSearchServiceImpl.AO_CODES_BY_CO_ID_SEARCH_KEY, params), makeSearchResultInfo(Arrays.asList(row1, row2)));
+        this.searchServiceMock.addSearchResult(makeSearchRequestInfo(ActivityOfferingSearchServiceImpl.AO_CODES_TYPES_BY_CO_ID_SEARCH_KEY, params), makeSearchResultInfo(Arrays.asList(row1, row2)));
 
         /* Search request and result for Term Id By offering Id */
         params = new HashMap<String, String[]>();
