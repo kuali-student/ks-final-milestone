@@ -1,6 +1,7 @@
 package org.kuali.student.r2.core.class1.search;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.common.util.query.QueryUtil;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.r2.common.class1.search.SearchServiceAbstractHardwiredImplBase;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -26,10 +27,8 @@ import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -50,7 +49,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final TypeInfo AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo REG_GROUPS_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE;
-    public static final TypeInfo AO_CODES_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo AO_CODES_TYPES_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo TERM_ID_BY_OFFERING_ID_SEARCH_TYPE;
     public static final TypeInfo TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_TYPE;
@@ -69,7 +67,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final String COLOCATED_AOIDS_BY_AO_IDS_SEARCH_KEY = "kuali.search.type.lui.searchForColocatedAoIdsByAoIds";
     public static final String FO_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForFOByCoId";
     public static final String RELATED_AO_TYPES_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForRelatedAoTypesByCoId";
-    public static final String AO_CODES_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAoCodesByCoId";
     public static final String AO_CODES_TYPES_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAoCodesAndTypesByCoId";
     public static final String TERM_ID_BY_OFFERING_ID_SEARCH_KEY = "kuali.search.type.lui.searchForTermIdByOfferingId";
     public static final String TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_KEY = "kuali.search.type.lui.searchForTotalMaxSeatsByAOIds";
@@ -174,14 +171,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE = info;
 
         info = new TypeInfo();
-        info.setKey(AO_CODES_BY_CO_ID_SEARCH_KEY);
-        info.setName("AO codes for course offering id");
-        info.setDescr(new RichTextHelper().fromPlain("Returns a list of AO codes for a given CO id"));
-        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
-
-        AO_CODES_BY_CO_ID_SEARCH_TYPE = info;
-
-        info = new TypeInfo();
         info.setKey(AO_CODES_TYPES_BY_CO_ID_SEARCH_KEY);
         info.setName("AO codes and types for course offering id");
         info.setDescr(new RichTextHelper().fromPlain("Returns a list of AO codes and types for a given CO id"));
@@ -262,14 +251,11 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         if (RELATED_AO_TYPES_BY_CO_ID_SEARCH_KEY.equals(searchTypeKey)) {
             return RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE;
         }
-        if (AO_CODES_BY_CO_ID_SEARCH_KEY.equals(searchTypeKey)) {
-            return AO_CODES_BY_CO_ID_SEARCH_TYPE;
-        }
         if (AO_CODES_TYPES_BY_CO_ID_SEARCH_KEY.equals(searchTypeKey)) {
             return AO_CODES_TYPES_BY_CO_ID_SEARCH_TYPE;
         }
         if (TERM_ID_BY_OFFERING_ID_SEARCH_KEY.equals(searchTypeKey)) {
-            return AO_CODES_BY_CO_ID_SEARCH_TYPE;
+            return TERM_ID_BY_OFFERING_ID_SEARCH_TYPE;
         }
         if (TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_KEY.equals(searchTypeKey)) {
             return TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_TYPE;
@@ -293,8 +279,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             OperationFailedException {
         return Arrays.asList(SCH_IDS_BY_AO_SEARCH_TYPE, AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE,
                 REG_GROUPS_BY_CO_ID_SEARCH_TYPE, AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE, COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE, FO_BY_CO_ID_SEARCH_TYPE,
-                RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE, AO_CODES_BY_CO_ID_SEARCH_TYPE, AO_CODES_TYPES_BY_CO_ID_SEARCH_TYPE, TERM_ID_BY_OFFERING_ID_SEARCH_TYPE,
-                TOTAL_MAX_SEATS_BY_AO_IDS_SEARCH_TYPE, AO_CLUSTER_COUNT_BY_FO_TYPE, AO_ID_AND_TYPE_BY_FO_TYPE, COLOCATED_AOIDS_BY_AO_IDS_SEARCH_TYPE);
+                RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE, TERM_ID_BY_OFFERING_ID_SEARCH_TYPE, AO_CODES_TYPES_BY_CO_ID_SEARCH_TYPE, AO_CLUSTER_COUNT_BY_FO_TYPE,
+                AO_ID_AND_TYPE_BY_FO_TYPE, COLOCATED_AOIDS_BY_AO_IDS_SEARCH_TYPE);
     }
 
     @Override
@@ -321,9 +307,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         }
         else if (RELATED_AO_TYPES_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForRelatedAoTypesByCoId(searchRequestInfo);
-        }
-        else if (AO_CODES_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
-            return searchForAoCodesByCoId(searchRequestInfo);
         }
         else if (AO_CODES_TYPES_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForAoCodesAndTypesByCoId(searchRequestInfo);
@@ -354,23 +337,26 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         List<String> aoIdsList = requestHelper.getParamAsList(SearchParameters.AO_IDS);
 
-        boolean enableMaxIdFetch = false;
-        if (!aoIdsList.isEmpty() && aoIdsList.size() > this.maxInClauseElements) {
-            enableMaxIdFetch = true;
-        }
-
-        String queryStrStart =
-                "SELECT DISTINCT srs1RefId FROM ScheduleRequestSetEntity srs1, " +
+        StringBuilder queryStringRef = new StringBuilder();
+        queryStringRef.append("SELECT DISTINCT srs1RefId FROM ScheduleRequestSetEntity srs1, " +
                         "    ScheduleRequestSetEntity srs2, " +
                         "    IN(srs1.refObjectIds) srs1RefId, " +
                         "    IN(srs2.refObjectIds) srs2RefId " +
                         "  WHERE srs1.id = srs2.id " +
                         "  AND srs1RefId != srs2RefId " +
-                        "  AND ";
+                        "  AND ");
         String queryStrEnd = ")";
         String primaryKeyMemberName = "srs1RefId";
 
-        TypedQuery<String> query = buildQuery(queryStrStart, queryStrEnd, primaryKeyMemberName, aoIdsList, enableMaxIdFetch, maxInClauseElements, String.class);
+        QueryUtil queryUtil = new QueryUtil();
+        queryUtil.setEntityManager(entityManager);
+        queryUtil.setMaxInClauseElements(maxInClauseElements);
+        boolean enableMaxIdFetch = false;
+        if (!aoIdsList.isEmpty() && aoIdsList.size() > maxInClauseElements) {
+            enableMaxIdFetch = true;
+        }
+        queryUtil.setEnableMaxIdFetch(enableMaxIdFetch);
+        TypedQuery<String> query = queryUtil.buildQuery(queryStringRef, queryStrEnd, primaryKeyMemberName, aoIdsList, String.class);
         List<String> results = query.getResultList();
 
         for(String result : results){
@@ -388,18 +374,21 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         List<String> aoIdsList = requestHelper.getParamAsList(SearchParameters.AO_IDS);
 
-        boolean enableMaxIdFetch = false;
-        if (!aoIdsList.isEmpty() && aoIdsList.size() > this.maxInClauseElements) {
-            enableMaxIdFetch = true;
-        }
-
-        String queryStrStart =
-                "SELECT SUM(ao.maxSeats)" +
+        StringBuilder queryStringRef = new StringBuilder();
+        queryStringRef.append("SELECT SUM(ao.maxSeats)" +
                         "FROM LuiEntity ao " +
-                        "WHERE ";
+                        "WHERE ");
         String primaryKeyMemberName = "ao.id";
 
-        TypedQuery<Long> query = buildQuery(queryStrStart, null, primaryKeyMemberName, aoIdsList, enableMaxIdFetch, maxInClauseElements, Long.class);
+        QueryUtil queryUtil = new QueryUtil();
+        queryUtil.setEntityManager(entityManager);
+        queryUtil.setMaxInClauseElements(maxInClauseElements);
+        boolean enableMaxIdFetch = false;
+        if (!aoIdsList.isEmpty() && aoIdsList.size() > maxInClauseElements) {
+            enableMaxIdFetch = true;
+        }
+        queryUtil.setEnableMaxIdFetch(enableMaxIdFetch);
+        TypedQuery<Long> query = queryUtil.buildQuery(queryStringRef, null, primaryKeyMemberName, aoIdsList,Long.class);
         List<Long> results = query.getResultList();
 
         for(Long result : results){
@@ -445,41 +434,10 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     }
 
     /**
-     * Finds a list of AO codes and Ids given a CO id.
+     * Finds a list of AO codes, types, and Ids given a CO id.
      * @throws OperationFailedException 
      */
-    private SearchResultInfo searchForAoCodesByCoId(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
-        SearchResultInfo resultInfo = new SearchResultInfo();
-        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-        String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
-
-        String queryStr =
-                "SELECT luiId.lui.id, " +
-                        "luiId.code " +
-                "FROM  LuiIdentifierEntity luiId," +
-                      "LuiLuiRelationEntity co2fo," +
-                      "LuiLuiRelationEntity fo2ao " +
-                "WHERE co2fo.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
-                "  AND fo2ao.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.fo2ao' " +
-                "  AND co2fo.lui.id = :coId " +
-                "  AND co2fo.relatedLui.id = fo2ao.lui.id " +
-                "  AND luiId.lui.id = fo2ao.relatedLui";
-
-        TypedQuery<Object[]> query = entityManager.createQuery(queryStr, Object[].class);
-        query.setParameter(SearchParameters.CO_ID, coId);
-        List<Object[]> results = query.getResultList();
-
-        for(Object[] resultRow : results){
-            int i = 0;
-            SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i]);
-            resultInfo.getRows().add(row);
-        }
-        return resultInfo;
-    }
-
-    private SearchResultInfo searchForAoCodesAndTypesByCoId(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
+     private SearchResultInfo searchForAoCodesAndTypesByCoId(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
         SearchResultInfo resultInfo = new SearchResultInfo();
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
@@ -520,13 +478,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         List<String> aoStates = requestHelper.getParamAsList(SearchParameters.AO_STATES);
         String filterAOStates = "'" + StringUtils.join(aoStates, "','") + "'";
 
-        boolean enableMaxIdFetch = false;
-        if (!aoIdsList.isEmpty() && aoIdsList.size() > this.maxInClauseElements) {
-            enableMaxIdFetch = true;
-        }
-
-        String queryStrStart =
-                "SELECT aoMatchIds," +
+        StringBuilder queryStringRef = new StringBuilder();
+        queryStringRef.append("SELECT aoMatchIds," +
                 "       co_ident.code," +
                 "       ao_ident.code " +
                 "FROM ScheduleRequestSetEntity srs," +
@@ -546,18 +499,26 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "  AND co_ident.type = 'kuali.lui.identifier.type.official' " +
                 "  AND ao_ident.type = 'kuali.lui.identifier.type.official' " +
                 "  AND lui.id = ao_ident.lui.id " +
-                "  AND aoMatchIds != aoIds";
+                "  AND aoMatchIds != aoIds");
 
         if (aoStates != null && !aoStates.isEmpty()){
-            queryStrStart = queryStrStart + " AND lui.luiState in (" + filterAOStates + ")";
+            queryStringRef.append(" AND lui.luiState in (").append(filterAOStates).append(")");
         }
 
-        queryStrStart = queryStrStart + " AND ";
+        queryStringRef.append(" AND ");
 
         String queryStrEnd = ")";
         String primaryKeyMemberName = "aoMatchIds";
 
-        TypedQuery<Object[]> query = buildQuery(queryStrStart, queryStrEnd, primaryKeyMemberName, aoIdsList, enableMaxIdFetch, maxInClauseElements, Object[].class);
+        QueryUtil queryUtil = new QueryUtil();
+        queryUtil.setEntityManager(entityManager);
+        queryUtil.setMaxInClauseElements(maxInClauseElements);
+        boolean enableMaxIdFetch = false;
+        if (!aoIdsList.isEmpty() && aoIdsList.size() > maxInClauseElements) {
+            enableMaxIdFetch = true;
+        }
+        queryUtil.setEnableMaxIdFetch(enableMaxIdFetch);
+        TypedQuery<Object[]> query = queryUtil.buildQuery(queryStringRef, queryStrEnd, primaryKeyMemberName, aoIdsList, Object[].class);
         List<Object[]> results = query.getResultList();
 
         for(Object[] resultRow : results){
@@ -932,58 +893,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
     private static String commaString(List<String> items){
         return items.toString().replace("[", "'").replace("]", "'").replace(", ", "','");
-    }
-
-    // need this because Oracle has limitation of 4000 chars in string, and we may have more than that
-    private TypedQuery buildQuery(String queryStrStart, String queryStrEnd, String primaryKeyMemberName, List<String> primaryKeys, boolean enableMaxIdFetch, int maxInClauseElements, Class resultClass) {
-
-        TypedQuery queryRef;
-        StringBuilder queryStringRef = new StringBuilder();
-        queryStringRef.append(queryStrStart);
-
-        if (!enableMaxIdFetch) {
-            queryStringRef.append(primaryKeyMemberName).append(" IN (:ids)");
-            queryRef = entityManager.createQuery(queryStringRef.toString(), resultClass);
-            queryRef.setParameter("ids", primaryKeys);
-        } else {
-            //Max fetchh is enabled so break uip the where clause into multiple IN() clauses
-            List<List<String>> brokenLists = new ArrayList<List<String>>();
-            List<String> list = new ArrayList<String>();
-
-            if (queryStrEnd != null && StringUtils.equals(queryStrEnd, ")")) {
-                queryStringRef.append("(");
-            }
-
-            Iterator<String> itr = primaryKeys.iterator();
-            for (int index = 0; itr.hasNext(); index++) {
-                if ((index > 0) && (index % maxInClauseElements == 0)) {
-                    brokenLists.add(list);
-                    if (brokenLists.size() == 1) {
-                        queryStringRef.append(primaryKeyMemberName).append(" IN (:ids1)");
-                    } else {
-                        queryStringRef.append(" OR ").append(primaryKeyMemberName).append(" IN (:ids").append(brokenLists.size()).append(")");
-                    }
-                    list = new ArrayList<String>();
-                }
-                list.add(itr.next());
-            }
-            if (!list.isEmpty()) {
-                brokenLists.add(list);
-                queryStringRef.append(" OR ").append(primaryKeyMemberName).append(" IN (:ids").append(brokenLists.size()).append(")");
-            }
-
-            if (queryStrEnd != null && !StringUtils.isBlank(queryStrEnd)) {
-                queryStringRef.append(queryStrEnd);
-            }
-
-            queryRef = entityManager.createQuery(queryStringRef.toString(), resultClass);
-
-            for (int i = 1; i <= brokenLists.size(); i++) {
-                queryRef.setParameter("ids" + i, brokenLists.get(i - 1));
-            }
-        }
-
-        return queryRef;
     }
 
     public EntityManager getEntityManager() {

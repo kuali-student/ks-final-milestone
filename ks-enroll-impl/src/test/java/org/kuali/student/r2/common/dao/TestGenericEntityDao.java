@@ -4,6 +4,8 @@ package org.kuali.student.r2.common.dao;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.common.util.query.QueryUtil;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.core.class1.state.dao.StateDao;
 import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -36,10 +39,36 @@ public class TestGenericEntityDao {
 
     private class TestStateDao extends GenericEntityDao<StateEntity> {
         @Override
-        protected TypedQuery<StateEntity> buildQuery(StringBuilder queryStringRef, String primaryKeyMemberName, Set<String> primaryKeySet) {
-            TypedQuery<StateEntity> q =  super.buildQuery(queryStringRef, primaryKeyMemberName, primaryKeySet);
+        public List<StateEntity> findByIds(String primaryKeyMemberName, List<String> primaryKeys) throws DoesNotExistException {
+
+            // fix for jira KSENROLL-2949
+            if (primaryKeys == null || primaryKeys.isEmpty())
+                return new ArrayList<StateEntity>();
+
+            Set<String>primaryKeySet = new HashSet<String>(primaryKeys.size());
+            // remove duplicates from the key list
+            primaryKeySet.addAll(primaryKeys);
+
+            StringBuilder queryStringRef = new StringBuilder();
+            queryStringRef.append("from ").append(entityClass.getSimpleName()).append(" where ");
+
+            QueryUtil queryUtil = new QueryUtil();
+            queryUtil.setEntityManager(em);
+            queryUtil.setMaxInClauseElements(maxInClauseElements);
+            boolean enableMaxIdFetch = false;
+            if (!primaryKeys.isEmpty() && primaryKeys.size() > maxInClauseElements) {
+                enableMaxIdFetch = true;
+            }
+            queryUtil.setEnableMaxIdFetch(enableMaxIdFetch);
+            TypedQuery<StateEntity> query = queryUtil.buildQuery(queryStringRef, null, primaryKeyMemberName, primaryKeys, StateEntity.class);
+
+            List<StateEntity> resultList = query.getResultList();
+
+            verifyResults(resultList, primaryKeySet);
+
             queryString = queryStringRef.toString();
-            return q;
+
+            return resultList;
         }
     }
 
@@ -76,19 +105,18 @@ public class TestGenericEntityDao {
     public void testStateDao() {
 
         try {
-
             List<StateEntity> result = testStateDao.findByIds("id", primaryKeys);
-            int queryCount = getSubstringCount(queryString, "in");
+            int queryCount = getSubstringCount(queryString, "IN");
 
             assertNotNull("Result should be non-null", result);
             assertEquals(MAXIMUM_ENTITIES + " entities should be returned", MAXIMUM_ENTITIES, result.size());
             assertEquals("We have asked for " + MAXIMUM_ENTITIES + " ids, so the query should have 4 'in' clauses", queryCount, 4);
 
             // set the DAO to not allow splitting up of query
-            testStateDao.setEnableMaxIdFetch(false);
+            testStateDao.setMaxInClauseElements(5000);
             // re-run the query
             result = testStateDao.findByIds("id", primaryKeys);
-            queryCount = getSubstringCount(queryString, "in");
+            queryCount = getSubstringCount(queryString, "IN");
 
             assertNotNull("Result should be non-null", result);
             assertEquals(MAXIMUM_ENTITIES + " entities should be returned", MAXIMUM_ENTITIES, result.size());
