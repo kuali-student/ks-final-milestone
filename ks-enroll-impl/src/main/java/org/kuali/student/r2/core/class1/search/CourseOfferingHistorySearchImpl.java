@@ -10,6 +10,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -39,6 +40,10 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
     public static final String COURSE_ID = "cluId";
 
     public static final TypeInfo PAST_CO_SEARCH;
+
+    public static final String TARGET_DAY_OF_MONTH_PARAM = "targetDayOfMonth";
+
+    public static final String TARGET_MONTH_PARAM = "targetMonth";
 
     public static final String TARGET_YEAR_PARAM = "targetYear";
 
@@ -93,6 +98,8 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
         }
 
         String targetYear = requestHelper.getParamAsString(TARGET_YEAR_PARAM);
+        String targetMonth = requestHelper.getParamAsString(TARGET_MONTH_PARAM);
+        String targetDayOfMonth = requestHelper.getParamAsString(TARGET_DAY_OF_MONTH_PARAM);
 
         if (StringUtils.isEmpty(targetYear)) {
             throw new RuntimeException("Target year parameter is required");
@@ -105,9 +112,11 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
         int year = Integer.parseInt(targetYear) - Integer.parseInt(noOfYears);
 
         Date startDate;
+        Date targetDate;
         try {
-            startDate = new SimpleDateFormat("MM/dd/yyyy").parse("01/01/" + year);
-        } catch (ParseException e) {
+            startDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/" + year);
+            targetDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(targetMonth + "/" + targetDayOfMonth + "/" + targetYear);
+        } catch (IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
 
@@ -118,7 +127,8 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
                 "lui.luiType = '" + LuiServiceConstants.COURSE_OFFERING_TYPE_KEY + "' and (" +
                 "lui.luiState = '" + LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY + "' or  " +
                 "lui.luiState = '" + LuiServiceConstants.LUI_CO_STATE_CANCELED_KEY + "' )  " +
-                "and atp.startDate >= :startDate").setParameter("startDate", startDate, TemporalType.DATE).setParameter("cluId", courseId).getResultList();
+                "and atp.startDate >= :startDate and atp.startDate <= :targetDate").setParameter("startDate", startDate, TemporalType.DATE)
+                .setParameter("targetDate", targetDate, TemporalType.DATE).setParameter("cluId", courseId).getResultList();
 
         SearchResultInfo resultInfo = new SearchResultInfo();
         resultInfo.setTotalResults(luiIds.size());

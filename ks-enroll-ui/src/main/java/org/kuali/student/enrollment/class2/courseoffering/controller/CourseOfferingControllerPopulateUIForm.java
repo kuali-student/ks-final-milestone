@@ -322,10 +322,14 @@ public class CourseOfferingControllerPopulateUIForm {
             Calendar termStart = Calendar.getInstance();
             termStart.setTime(term.getStartDate());
             String termYear = Integer.toString(termStart.get(Calendar.YEAR));
+            String termMonth = Integer.toString((termStart.get(Calendar.MONTH) + 1));
+            String termDayOfMonth = Integer.toString((termStart.getActualMaximum(Calendar.DAY_OF_MONTH)));
 
             org.kuali.student.r2.core.search.dto.SearchRequestInfo searchRequest = new org.kuali.student.r2.core.search.dto.SearchRequestInfo(CourseOfferingHistorySearchImpl.PAST_CO_SEARCH.getKey());
             searchRequest.addParam(CourseOfferingHistorySearchImpl.COURSE_ID, coWrapper.getCourse().getId());
 
+            searchRequest.addParam(CourseOfferingHistorySearchImpl.TARGET_DAY_OF_MONTH_PARAM, termDayOfMonth);
+            searchRequest.addParam(CourseOfferingHistorySearchImpl.TARGET_MONTH_PARAM, termMonth);
             searchRequest.addParam(CourseOfferingHistorySearchImpl.TARGET_YEAR_PARAM, termYear);
             searchRequest.addParam(CourseOfferingHistorySearchImpl.SearchParameters.CROSS_LIST_SEARCH_ENABLED, BooleanUtils.toStringTrueFalse(true));
             org.kuali.student.r2.core.search.dto.SearchResultInfo searchResult = CourseOfferingManagementUtil.getSearchService().search(searchRequest, null);
