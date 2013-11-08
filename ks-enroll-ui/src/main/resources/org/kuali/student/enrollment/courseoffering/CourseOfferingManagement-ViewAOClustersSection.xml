@@ -192,9 +192,9 @@
                 <bean parent="Uif-DataField"
                       p:label="MAX ENR"
                       p:propertyName="aoInfo.maximumEnrollment"/>
-                <bean parent="Uif-MessageField"
+               <!-- Revisit after KD13 <bean parent="Uif-MessageField"
                       p:label="SCHEDULING"
-                      p:messageText="@{#line.scheduledState}" />
+                      p:messageText="@{#line.scheduledState}" />    -->
                 <bean parent="Uif-MessageField"
                       p:label="DAYS"
                       p:messageText="@{#line.daysDisplayName}" />
@@ -204,9 +204,19 @@
                 <bean parent="Uif-MessageField"
                       p:label="END TIME"
                       p:messageText="@{#line.endTimeDisplay}" />
-                <bean parent="Uif-MessageField"
-                      p:label="BUILDING"
-                      p:messageText="@{#line.buildingName}" />
+                <bean parent="Uif-MessageField">
+                    <property name="label" value="BUILDING"/>
+                    <property name="messageText" value="@{#line.buildingCode}"/>
+                    <property name="toolTip">
+                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#line.buildingName}">
+                            <property name="templateOptions">
+                                <map merge="true">
+                                    <entry key="position" value="right"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
                 <bean parent="Uif-MessageField"
                       p:label="ROOM"
                       p:messageText="@{#line.roomName}" />
@@ -250,7 +260,7 @@
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit"
                       p:render="@{#line.isEnableEditAOActionLink()}" p:actionEvent="editAOonManageAOsPage">
                 </bean>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="manageAORules" p:actionLabel="Activity Offering Requisites"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="manageAORules" p:actionLabel="Requisites"/>
                 <!--</list>-->
                     <!--</property>-->
                 <!--</bean>-->
@@ -324,7 +334,7 @@
                 </bean>
                 <bean parent="Uif-MessageField"
                       p:label="BLDG"
-                      p:messageText="@{#line.buildingName}">
+                      p:messageText="@{#line.buildingCode}">
                 </bean>
                 <bean parent="Uif-MessageField"
                       p:label="ROOM"
