@@ -330,13 +330,8 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             wrapper.setSubTermName("None");
             wrapper.setSubTermId("");
             TermInfo termTemp = CourseOfferingManagementUtil.getAcademicCalendarService().getTerm(info.getTermId(), contextInfo);
-            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-            qbcBuilder.setPredicates(PredicateFactory.and(
-                    PredicateFactory.equal("relatedTypeId", termTemp.getTypeKey()),
-                    PredicateFactory.in("type", TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY)));
-            QueryByCriteria criteria = qbcBuilder.build();
-            List<String> termIDs = CourseOfferingManagementUtil.getTypeService().searchForTypeTypeRelationIds(criteria, contextInfo);
-            if (termIDs == null || termIDs.isEmpty()) {
+            List<TypeTypeRelationInfo> terms = CourseOfferingManagementUtil.getTypeService().getTypeTypeRelationsByRelatedTypeAndType(termTemp.getTypeKey(), TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, contextInfo);
+            if (terms == null || terms.isEmpty()) {
                 term = new TermInfo(termTemp);
             } else {
                 //Handle Subterms
@@ -414,9 +409,9 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     CourseOfferingManagementUtil.getStateService(), CourseOfferingManagementUtil.getAcademicCalendarService(), contextInfo));
 
             //retrieve all the populations for seat pool section client side validation
-            qbcBuilder = QueryByCriteria.Builder.create();
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
             qbcBuilder.setPredicates(PredicateFactory.equal("populationState", PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY));
-            criteria = qbcBuilder.build();
+            QueryByCriteria criteria = qbcBuilder.build();
 
             try {
                 List<PopulationInfo> populationInfoList = CourseOfferingManagementUtil.getPopulationService().searchForPopulations(criteria, createContextInfo());

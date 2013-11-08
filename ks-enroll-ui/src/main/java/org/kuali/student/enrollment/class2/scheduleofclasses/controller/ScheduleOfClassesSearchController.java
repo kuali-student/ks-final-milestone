@@ -24,9 +24,6 @@ package org.kuali.student.enrollment.class2.scheduleofclasses.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.api.criteria.Predicate;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -282,14 +279,9 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
                 if (!subTermInfoMap.containsKey(termId)) {
                     TermInfo subTerm = getAcademicCalendarService().getTerm(termId, contextInfo);
                     // check if term or subterm
-                    QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-                    qbcBuilder.setPredicates(PredicateFactory.and(
-                            PredicateFactory.equal("relatedTypeId", subTerm.getTypeKey()),
-                            PredicateFactory.in("type", TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY)));
-                    QueryByCriteria criteria = qbcBuilder.build();
-                    List<String> termIDs = getTypeService().searchForTypeTypeRelationIds(criteria, contextInfo);
+                    List<TypeTypeRelationInfo> terms = getTypeService().getTypeTypeRelationsByRelatedTypeAndType(subTerm.getTypeKey(), TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, contextInfo);
                     // if subterm
-                    if (termIDs != null && !termIDs.isEmpty()) {
+                    if (!terms.isEmpty()) {
                         TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
                         subTermDisplay = "This activity is in " + subTermType.getName() + " - " + getViewHelperService(theForm).getTermStartEndDate(subTerm);
                         subTermInfoMap.put(termId, subTermDisplay);

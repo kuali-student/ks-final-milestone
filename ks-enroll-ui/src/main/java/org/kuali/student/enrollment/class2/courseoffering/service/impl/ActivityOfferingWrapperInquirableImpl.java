@@ -1,7 +1,5 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper;
@@ -19,6 +17,7 @@ import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 
@@ -73,13 +72,8 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
             TermInfo subTerm=null;
             aoWapper.setSubTermName("None");
             TermInfo termTemp = CourseOfferingManagementUtil.getAcademicCalendarService().getTerm(aoInfo.getTermId(), contextInfo);
-            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-            qbcBuilder.setPredicates(PredicateFactory.and(
-                    PredicateFactory.equal("relatedTypeId", termTemp.getTypeKey()),
-                    PredicateFactory.in("type", TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY)));
-            QueryByCriteria criteria = qbcBuilder.build();
-            List<String> termIDs = CourseOfferingManagementUtil.getTypeService().searchForTypeTypeRelationIds(criteria, contextInfo);
-            if (termIDs == null || termIDs.isEmpty()) {
+            List<TypeTypeRelationInfo> terms = CourseOfferingManagementUtil.getTypeService().getTypeTypeRelationsByRelatedTypeAndType(termTemp.getTypeKey(), TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, contextInfo);
+            if (terms == null || terms.isEmpty()) {
                 term = new TermInfo(termTemp);
             } else {
                 subTerm = new TermInfo(termTemp);

@@ -3,8 +3,6 @@ package org.kuali.student.enrollment.class2.acal.service.impl;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -63,15 +61,11 @@ public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl
                 allTermTypeKeys.add(typeRelation.getRelatedTypeKey());
             }
             for(String termTypeKey:allTermTypeKeys){
-                QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-                qbcBuilder.setPredicates(PredicateFactory.and(
-                        PredicateFactory.equal("relatedTypeId", termTypeKey),
-                        PredicateFactory.in("type", TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY)));
-                QueryByCriteria criteria = qbcBuilder.build();
-                List<String> termIDs = getTypeService().searchForTypeTypeRelationIds(criteria, contextInfo);
-                if (termIDs == null || termIDs.isEmpty()){
+                List<TypeTypeRelationInfo> typeTypeRelationInfos = getTypeService().getTypeTypeRelationsByRelatedTypeAndType(termTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, contextInfo);
+                if (typeTypeRelationInfos.size()==0){
                     termTypeKeys.add(termTypeKey);
-                } else {
+                }
+                else if(typeTypeRelationInfos.size()>0){
                     subtermTypeKeys.add(termTypeKey);
                 }
             }
