@@ -23,8 +23,6 @@
     <security:http pattern="/index.jsp*" security="none"/>
     <!-- resource files (css, scripts, images) can bypass security: -->
     <security:http pattern="\S*?\.(css|js|png|gif|jpg)$" request-matcher="ciRegex" security="none" />
-    <!-- enable KS Kitchen Sink pages to bypass login.jsp: -->
-    <security:http pattern="/kr-krad/kitchensink*" security="none" />
     <!-- enable access to theme files with no security -->
     <security:http pattern="/themes/**/theme-derived.properties" security="none" />
 
