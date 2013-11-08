@@ -103,26 +103,10 @@ limitations under the License.
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="title">
-                    <property name="label" value="Name"/>
-                    <property name="shortLabel" value="Name"/>
-                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="code" />
-
-                <bean parent="Uif-InputField" p:propertyName="state">
-                    <property name="label" value="State"/>
-                    <property name="shortLabel" value="State"/>
-               </bean>
-                <bean parent="Uif-InputField" p:propertyName="description">
-                    <property name="label" value="Description"/>
-                    <property name="shortLabel" value="Description"/>
-                </bean>
-
-            </list>
-        </property>
-        <property name="additionalCssFiles">
-            <list>
-                <value>themes/ksboot/stylesheets/krms.css</value>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="title" p:label="Name"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="code" p:label="Code"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="state" p:label="State"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="description" p:label="Description"/>
             </list>
         </property>
     </bean>

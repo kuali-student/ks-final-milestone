@@ -23,6 +23,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
+import org.kuali.student.lum.lu.ui.krms.util.CluSearchUtil;
 import org.kuali.student.lum.lu.ui.krms.util.LUKRMSConstants;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -125,7 +126,7 @@ public class CourseComponentBuilder extends CluComponentBuilder {
             course.setCode(course.getCode().toUpperCase());
         }
 
-        CluInformation searchClu = this.getCluInfoHelper().getCluInfoForCode(course.getCode());
+        CluInformation searchClu = this.getCluInfoHelper().getCluInfoForCodeAndType(course.getCode(), CluSearchUtil.getCluTypesForCourse());
         if(searchClu==null){
             String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "courseInfo.code");
             GlobalVariables.getMessageMap().putErrorForSectionId(propName, LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_COURSE_CODE_INVALID);

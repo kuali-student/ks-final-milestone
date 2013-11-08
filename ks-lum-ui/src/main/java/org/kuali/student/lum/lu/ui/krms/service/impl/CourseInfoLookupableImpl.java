@@ -18,13 +18,12 @@ package org.kuali.student.lum.lu.ui.krms.service.impl;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
-import org.kuali.student.lum.lu.ui.krms.util.CluInformationHelper;
+import org.kuali.student.lum.lu.ui.krms.util.CluSearchUtil;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -71,11 +70,8 @@ public class CourseInfoLookupableImpl extends LookupableImpl {
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
 
         List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
-        SearchParamInfo qpv1 = new SearchParamInfo();
-        qpv1.setKey("lu.queryParam.luOptionalType");
-        qpv1.getValues().add("kuali.lu.type.CreditCourse");
-        searchParams.add(qpv1);
-        searchParams.add(CluInformationHelper.getApprovedStateSearchParam());
+        searchParams.add(CluSearchUtil.getTypeSearchParamForCourse());
+        searchParams.add(CluSearchUtil.getApprovedStateSearchParam());
         for (QueryParamEnum qpEnum : QueryParamEnum.values()) {
             String fieldValue = fieldValues.get(qpEnum.getFieldValue());
             if ( ! isEmpty(fieldValue) ) {
@@ -93,7 +89,7 @@ public class CourseInfoLookupableImpl extends LookupableImpl {
 
         try {
             SearchResultInfo searchResult = getCluService().search(searchRequest, ContextUtils.getContextInfo());
-            return CluInformationHelper.resolveCluSearchResultSet(searchResult);
+            return CluSearchUtil.resolveCluSearchResultSet(searchResult);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

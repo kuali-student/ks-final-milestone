@@ -16,22 +16,14 @@
 package org.kuali.student.lum.lu.ui.krms.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.uif.component.Component;
-import org.kuali.rice.krad.uif.component.DataBinding;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Group;
-import org.kuali.rice.krad.uif.container.TreeGroup;
 import org.kuali.rice.krad.uif.element.Action;
-import org.kuali.rice.krad.uif.field.ActionField;
-import org.kuali.rice.krad.uif.field.DataField;
 import org.kuali.rice.krad.uif.field.Field;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.view.View;
-import org.kuali.rice.krad.uif.view.ViewAuthorizer;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.rice.krad.uif.view.ViewPresentationController;
-import org.kuali.rice.krad.uif.widget.Widget;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
@@ -51,8 +43,6 @@ import org.kuali.student.core.krms.dto.KSPropositionEditor;
 import org.kuali.student.core.krms.tree.KSRuleEditTreeBuilder;
 import org.kuali.student.core.krms.tree.KSRulePreviewTreeBuilder;
 import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
-import org.kuali.student.lum.lu.ui.krms.builder.MultiCourseComponentBuilder;
-import org.kuali.student.lum.lu.ui.krms.builder.ProgramComponentBuilder;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.KrmsSuggestDisplay;
 import org.kuali.student.lum.lu.ui.krms.tree.LURulePreviewTreeBuilder;
@@ -60,10 +50,10 @@ import org.kuali.student.lum.lu.ui.krms.tree.LURuleViewTreeBuilder;
 import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
 import org.kuali.student.lum.lu.ui.krms.util.CluInformationHelper;
+import org.kuali.student.lum.lu.ui.krms.util.CluSearchUtil;
 import org.kuali.student.lum.lu.ui.krms.util.LUKRMSConstants;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.OrganizationServiceConstants;
@@ -283,7 +273,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
                 clu.setCode(clu.getCode().toUpperCase());
             }
 
-            CluInformation searchClu = this.getCluInfoHelper().getCluInfoForCode(clu.getCode());
+            CluInformation searchClu = this.getCluInfoHelper().getCluInfoForCodeAndType(clu.getCode(), CluSearchUtil.getCluTypesForCourse());
             if(searchClu==null){
                 collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
                 GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_COURSE_CODE_INVALID);
@@ -333,10 +323,25 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
         else if(LUKRMSConstants.KSKRMS_PROPERTY_NAME_PROG_CLUS.equals(collectionGroup.getPropertyName())){
             //Check if this is a valid clu.
             CluInformation clu = (CluInformation) addLine;
-            if((clu.getCluId() == null)||(clu.getCluId().isEmpty())){
+            if((clu.getCode()==null)||(clu.getCode().isEmpty())){
                 collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
                 GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_PROGRAM_REQUIRED);
                 return false;
+            } else {
+                // convert term-code to UPPERCASE
+                clu.setCode(clu.getCode().toUpperCase());
+            }
+
+            CluInformation searchClu = this.getCluInfoHelper().getCluInfoForCodeAndType(clu.getCode(), CluSearchUtil.getCluTypesForProgram());
+            if(searchClu==null){
+                collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
+                GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_PROGRAM_CODE_INVALID);
+                return false;
+            } else {
+                clu.setCluId(searchClu.getCluId());
+                clu.setVerIndependentId(searchClu.getVerIndependentId());
+                clu.setShortName(searchClu.getShortName());
+                clu.setDescription(searchClu.getDescription());
             }
 
             //Check if this clu is not already in the collection
@@ -413,88 +418,6 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
         return this.getCluInfoHelper().getCluInfosWithDetailForQuery(membershipQuery);
     }
 
-    public List<KrmsSuggestDisplay> getCourseNamesForSuggest(String moduleName) {
-
-        List<KrmsSuggestDisplay> displays = new ArrayList<KrmsSuggestDisplay>();
-        List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
-        SearchParamInfo stateKeyParam = new SearchParamInfo();
-        stateKeyParam.setKey("lu.queryParam.luOptionalState");
-
-        List<String> stateValues = new ArrayList<String>();
-        stateValues.add(DtoConstants.STATE_ACTIVE);
-        stateValues.add(DtoConstants.STATE_APPROVED);
-        stateKeyParam.setValues(stateValues);
-        queryParamValueList.add(stateKeyParam);
-        SearchParamInfo cluCodeParam = new SearchParamInfo();
-        cluCodeParam.setKey("lu.queryParam.luOptionalCode");
-        cluCodeParam.getValues().add(moduleName);
-        queryParamValueList.add(cluCodeParam);
-
-        SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey("lu.search.current.quick");
-        searchRequest.setParams(queryParamValueList);
-        SearchResultInfo clus = null;
-
-        try {
-            clus = getCluService().search(searchRequest, getContextInfo());
-            for (SearchResultRowInfo result : clus.getRows()) {
-                List<SearchResultCellInfo> cells = result.getCells();
-                KrmsSuggestDisplay display = new KrmsSuggestDisplay();
-                for (SearchResultCellInfo cell : cells) {
-                    if ("lu.resultColumn.cluId".equals(cell.getKey())) {
-                        display.setId(cell.getValue());
-                    } else if ("lu.resultColumn.luOptionalCode".equals(cell.getKey())) {
-                        display.setDisplayName(cell.getValue());
-                    }
-                }
-                displays.add(display);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        return displays;
-    }
-
-    public List<KrmsSuggestDisplay> getOrgDepartmentForSuggest(String orgName) {
-
-        List<KrmsSuggestDisplay> displays = new ArrayList<KrmsSuggestDisplay>();
-        List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
-        SearchParamInfo orgNameParam = new SearchParamInfo();
-        orgNameParam.setKey("org.queryParam.orgOptionalLongName");
-        orgNameParam.getValues().add(orgName);
-        queryParamValueList.add(orgNameParam);
-        SearchParamInfo orgTypeParam = new SearchParamInfo();
-        orgTypeParam.setKey("org.queryParam.orgOptionalType");
-        List<String> orgTypeValues = new ArrayList<String>();
-        orgTypeValues.add(OrganizationServiceConstants.ORGANIZATION_DEPARTMENT_TYPE_KEY);
-        orgTypeParam.setValues(orgTypeValues);
-        queryParamValueList.add(orgTypeParam);
-        SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey("org.search.generic");
-        searchRequest.setParams(queryParamValueList);
-
-        try {
-            SearchResultInfo orgs = getOrganizationService().search(searchRequest, getContextInfo());
-            for (SearchResultRowInfo result : orgs.getRows()) {
-                List<SearchResultCellInfo> cells = result.getCells();
-                KrmsSuggestDisplay display = new KrmsSuggestDisplay();
-                for (SearchResultCellInfo cell : cells) {
-                    if ("org.resultColumn.orgId".equals(cell.getKey())) {
-                        display.setId(cell.getValue());
-                    } else if ("org.resultColumn.orgOptionalLongName".equals(cell.getKey())) {
-                        display.setDisplayName(cell.getValue());
-                    }
-                }
-                displays.add(display);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        return displays;
-    }
-
     public List<KrmsSuggestDisplay> getTestNamesForSuggest(String testName) {
 
         List<KrmsSuggestDisplay> displays = new ArrayList<KrmsSuggestDisplay>();
@@ -534,90 +457,6 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             throw new RuntimeException(e);
         }
         return displays;
-    }
-
-    public List<KrmsSuggestDisplay> getCourseSetForSuggest(String cluSetName) {
-        List<KrmsSuggestDisplay> displays = new ArrayList<KrmsSuggestDisplay>();
-        List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
-        SearchParamInfo cluSetParam = new SearchParamInfo();
-        cluSetParam.setKey("cluset.queryParam.optionalName");
-        cluSetParam.getValues().add(cluSetName);
-        queryParamValueList.add(cluSetParam);
-        SearchParamInfo reusableCluSet = new SearchParamInfo();
-        reusableCluSet.setKey("cluset.queryParam.optionalReusable");
-        reusableCluSet.getValues().add(Boolean.TRUE.toString());
-        queryParamValueList.add(reusableCluSet);
-        SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey("cluset.search.generic");
-        searchRequest.setParams(queryParamValueList);
-        SearchParamInfo cluSetTypeParam = new SearchParamInfo();
-        cluSetTypeParam.setKey("cluset.queryParam.optionalType");
-        cluSetTypeParam.getValues().add(CluServiceConstants.CLUSET_TYPE_CREDIT_COURSE);
-        queryParamValueList.add(cluSetTypeParam);
-
-        try {
-            SearchResultInfo clus = getCluService().search(searchRequest, getContextInfo());
-            for (SearchResultRowInfo result : clus.getRows()) {
-                List<SearchResultCellInfo> cells = result.getCells();
-                KrmsSuggestDisplay display = new KrmsSuggestDisplay();
-                for (SearchResultCellInfo cell : cells) {
-                    if ("cluset.resultColumn.cluSetId".equals(cell.getKey())) {
-                        display.setId(cell.getValue());
-                    } else if ("cluset.resultColumn.name".equals(cell.getKey())) {
-                        display.setDisplayName(cell.getValue());
-                    }
-                }
-                displays.add(display);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return displays;
-    }
-    public List<KrmsSuggestDisplay> getProgramForSuggest(String programCode) {
-        List<KrmsSuggestDisplay> displays = new ArrayList<KrmsSuggestDisplay>();
-        List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
-        SearchParamInfo qpv1 = new SearchParamInfo();
-
-        qpv1.setKey("lu.queryParam.luOptionalType");
-        qpv1.getValues().add("kuali.lu.type.Program");
-        searchParams.add(qpv1);
-        SearchParamInfo qpv2 = new SearchParamInfo();
-        qpv2.setKey("lu.queryParam.luOptionalCode");
-        qpv2.getValues().add(programCode);
-        searchParams.add(qpv2);
-
-        SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setParams(searchParams);
-        searchRequest.setSearchKey("lu.search.generic");
-
-        try {
-            SearchResultInfo searchResult = getCluService().search(searchRequest, ContextUtils.getContextInfo());
-            if (searchResult.getRows().size() > 0) {
-                for(SearchResultRowInfo srrow : searchResult.getRows()){
-                    KrmsSuggestDisplay display = new KrmsSuggestDisplay();
-                    List<SearchResultCellInfo> srCells = srrow.getCells();
-                    if(srCells != null && srCells.size() > 0){
-                        for(SearchResultCellInfo srcell : srCells){
-                            if (srcell.getKey().equals("lu.resultColumn.cluId")) {
-                                display.setId(srcell.getValue());
-
-                            }
-                            else if(srcell.getKey().equals("lu.resultColumn.luOptionalCode")) {
-                                display.setDisplayName(srcell.getValue());
-                            }
-
-                        }
-                    }
-                    displays.add(display);
-                }
-
-            }
-
-            return displays;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     protected CluInformationHelper getCluInfoHelper() {

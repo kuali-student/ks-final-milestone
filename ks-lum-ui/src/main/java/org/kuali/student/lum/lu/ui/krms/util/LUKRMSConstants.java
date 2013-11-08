@@ -24,6 +24,7 @@ public class LUKRMSConstants {
 
     // message keys
     public static final String KSKRMS_MSG_ERROR_APPROVED_PROGRAM_REQUIRED = "error.krms.approved.program.required";
+    public static final String KSKRMS_MSG_ERROR_APPROVED_PROGRAM_CODE_INVALID = "error.krms.approved.program.code.invalid";
     public static final String KSKRMS_MSG_ERROR_APPROVED_COURSE_REQUIRED = "error.krms.approved.course.required";
     public static final String KSKRMS_MSG_ERROR_APPROVED_COURSE_CODE_INVALID = "error.krms.approved.course.code.invalid";
     public static final String KSKRMS_MSG_ERROR_COURSESETS_REQUIRED = "error.krms.coursesets.required";

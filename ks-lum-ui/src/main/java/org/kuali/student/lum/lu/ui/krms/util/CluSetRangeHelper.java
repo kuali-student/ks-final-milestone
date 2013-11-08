@@ -199,7 +199,7 @@ public class CluSetRangeHelper implements Serializable {
         List<SearchParamInfo> queryParams = new ArrayList<SearchParamInfo>();
         queryParams.add(createSearchParam(CluSetRangeHelper.CLU_SEARCH_PARM_DIV, this.getSubjectCode()));
         queryParams.add(createSearchParam(CluSetRangeHelper.CLU_SEARCH_PARM_RANGE, this.getCourseNumberRange()));
-        queryParams.add(CluInformationHelper.getApprovedStateSearchParam());
+        queryParams.add(CluSearchUtil.getApprovedStateSearchParam());
         membershipQueryInfo.setQueryParamValues(queryParams);
     }
 
