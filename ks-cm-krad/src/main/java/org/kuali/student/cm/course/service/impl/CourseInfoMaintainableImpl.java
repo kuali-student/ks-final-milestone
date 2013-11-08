@@ -803,6 +803,20 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
             return StringUtils.isNotEmpty(instructorWrapper.getDisplayName()) ? true : false;
         }
+        if (addLine instanceof CollaboratorWrapper) {
+            CollaboratorWrapper collaboratorWrapper = (CollaboratorWrapper) addLine;
+
+            if (model instanceof MaintenanceDocumentForm) {
+                MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) model;
+                CourseInfoMaintainable courseInfoMaintainable = (CourseInfoMaintainable) modelForm.getDocument().getNewMaintainableObject();
+                for (CollaboratorWrapper collaboratorAuthor : courseInfoMaintainable.getCollaboratorWrappers()) {
+                    if (collaboratorAuthor.getDisplayName().equals(collaboratorWrapper.getDisplayName())) {
+                        return false; //already in the list
+                    }
+                }
+            }
+            return StringUtils.isNotEmpty(collaboratorWrapper.getDisplayName()) ? true : false;
+        }
         return true;
     }
 
