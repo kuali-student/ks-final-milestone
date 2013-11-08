@@ -17,6 +17,7 @@
 package org.kuali.student.r2.common.dao;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.common.util.query.QueryUtil;
 import org.kuali.student.r2.common.entity.PersistableEntity;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 
@@ -30,7 +31,6 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -47,7 +47,6 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
     @PersistenceContext
     protected EntityManager em;
 
-    protected Boolean enableMaxIdFetch = Boolean.TRUE;
     protected Integer maxInClauseElements = 1000;
 
     public GenericEntityDao() {
@@ -70,66 +69,24 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
         // remove duplicates from the key list
         primaryKeySet.addAll(primaryKeys);
 
-        StringBuilder queryString = new StringBuilder();
+        StringBuilder queryStringRef = new StringBuilder();
+        queryStringRef.append("from ").append(entityClass.getSimpleName()).append(" where ");
 
-        TypedQuery<T> query = buildQuery(queryString, primaryKeyMemberName, primaryKeySet);
+        QueryUtil queryUtil = new QueryUtil();
+        queryUtil.setEntityManager(em);
+        queryUtil.setMaxInClauseElements(maxInClauseElements);
+        boolean enableMaxIdFetch = false;
+        if (!primaryKeys.isEmpty() && primaryKeys.size() > maxInClauseElements) {
+            enableMaxIdFetch = true;
+        }
+        queryUtil.setEnableMaxIdFetch(enableMaxIdFetch);
+        TypedQuery<T> query = queryUtil.buildQuery(queryStringRef, null, primaryKeyMemberName, primaryKeys, entityClass);
 
         List<T> resultList = query.getResultList();
 
         verifyResults(resultList, primaryKeySet);
 
         return resultList;
-    }
-
-    /**
-     * Returns a query of find by ids. Breaks up the query into multiple ORed IN() clauses if the set of ids is larger
-     * than maxInClauseElements
-     * @param queryStringRef a reference to the query string
-     * @param primaryKeyMemberName name of the column that is the primary key
-     * @param primaryKeySet set of primary key strings
-     * @return a typed query that finds entities for the set of keys
-     */
-    protected TypedQuery<T> buildQuery(StringBuilder queryStringRef, String primaryKeyMemberName, Set<String> primaryKeySet) {
-
-        TypedQuery<T> queryRef;
-
-        if (!enableMaxIdFetch || primaryKeySet.size() <= maxInClauseElements) {
-
-            queryStringRef.append("from ").append(entityClass.getSimpleName()).append(" where ").append(primaryKeyMemberName).append(" in (:ids)");
-            queryRef = em.createQuery(queryStringRef.toString(), entityClass).setParameter("ids", primaryKeySet);
-
-        } else {
-            //Max fetchh is enabled so break uip the where clause into multiple IN() clauses
-            List<List<String>> brokenLists = new ArrayList<List<String>>();
-            List<String> lst = new ArrayList<String>();
-
-            queryStringRef.append("from ").append(entityClass.getSimpleName());
-
-            Iterator<String> itr = primaryKeySet.iterator();
-            for (int index = 0; itr.hasNext(); index++) {
-
-                if (index % maxInClauseElements == 0) {
-
-                    brokenLists.add(lst);
-
-                    if (brokenLists.size() == 1) {
-                        queryStringRef.append(" where ").append(primaryKeyMemberName).append(" in (:ids1)");
-                    } else {
-                        queryStringRef.append(" or ").append(primaryKeyMemberName).append(" in (:ids").append(brokenLists.size()).append(")");
-                    }
-
-                }
-                lst.add(itr.next());
-            }
-
-            queryRef = em.createQuery(queryStringRef.toString(), entityClass);
-
-            for (int i = 1; i <= brokenLists.size(); i++) {
-                queryRef.setParameter("ids" + i, brokenLists.get(i - 1));
-            }
-
-        }
-        return queryRef;
     }
 
     /**
@@ -249,12 +206,7 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
         return em;
     }
 
-    public void setEnableMaxIdFetch(Boolean enableMaxIdFetch) {
-        this.enableMaxIdFetch = enableMaxIdFetch;
-    }
-
     public void setMaxInClauseElements(Integer maxInClauseElements) {
         this.maxInClauseElements = maxInClauseElements;
     }
-
 }
