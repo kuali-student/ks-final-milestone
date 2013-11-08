@@ -16,6 +16,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.BooleanUtils;
+import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -2021,13 +2022,14 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                                     aoDisplayWrapper.setRoomName(scheduleComponentDisplay.getRoom().getRoomCode(), true);
                                 }
                                 if (!scheduleComponentDisplay.getTimeSlots().isEmpty()) {
-                                    if (scheduleComponentDisplay.getTimeSlots().get(0).getStartTime() != null && (scheduleComponentDisplay.getTimeSlots().get(0).getStartTime().getMilliSeconds() !=null)) {
-                                        aoDisplayWrapper.setStartTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getStartTime().getMilliSeconds()), true);
+                                    TimeSlot timeSlot = KSCollectionUtils.getRequiredZeroElement(scheduleComponentDisplay.getTimeSlots());
+                                    if (timeSlot.getStartTime() != null && (timeSlot.getStartTime().getMilliSeconds() !=null)) {
+                                        aoDisplayWrapper.setStartTimeDisplay(millisToTime(timeSlot.getStartTime().getMilliSeconds()), true);
                                     }
-                                    if (scheduleComponentDisplay.getTimeSlots().get(0).getEndTime() != null && (scheduleComponentDisplay.getTimeSlots().get(0).getEndTime().getMilliSeconds() != null) ) {
-                                        aoDisplayWrapper.setEndTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getEndTime().getMilliSeconds()), true);
+                                    if (timeSlot.getEndTime() != null && (timeSlot.getEndTime().getMilliSeconds() != null) ) {
+                                        aoDisplayWrapper.setEndTimeDisplay(millisToTime(timeSlot.getEndTime().getMilliSeconds()), true);
                                     }
-                                    aoDisplayWrapper.setDaysDisplayName(getDays(scheduleComponentDisplay.getTimeSlots().get(0).getWeekdays()), true);
+                                    aoDisplayWrapper.setDaysDisplayName(getDays(timeSlot.getWeekdays()), true);
                                 }
                             }
                         }
