@@ -16,6 +16,9 @@
  */
 package org.kuali.student.common.kitchensink;
 
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.impl.config.property.ConfigLogger;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -126,6 +129,21 @@ public class KitchenSinkController extends UifControllerBase {
         List<KitchenSinkFormCollection1> collectionList = new ArrayList<KitchenSinkFormCollection1>();
         collectionList.add(new KitchenSinkFormCollection1("A", "First letter of the alphabet", "1970-01-01"));
         form.setCollection(collectionList);
+
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=configProperties")
+    public ModelAndView configProperties(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
+                                         HttpServletRequest request, HttpServletResponse response) {
+        List<ConcreteKeyValue> configProperties = new ArrayList<ConcreteKeyValue>();
+        Map<String, String> map = ConfigLogger.getDisplaySafeConfig(
+                        ConfigContext.getCurrentContextConfig().getProperties());
+
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configProperties.add(new ConcreteKeyValue(entry.getKey(), entry.getValue()));
+        }
+        form.setConfigProperties(configProperties);
 
         return getUIFModelAndView(form);
     }

@@ -16,6 +16,7 @@
  */
 package org.kuali.student.common.kitchensink;
 
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +40,7 @@ public class KitchenSinkForm extends UifFormBase {
     private Boolean checkboxSelected;
     private Integer integerField1;
     private List<String> checkboxSelections;
+    private List<ConcreteKeyValue> configProperties = new ArrayList<ConcreteKeyValue>();
     private List<KitchenSinkFormCollection1> collection;
     //private List<KitchenSinkFormCollection1> collection2;
     private List<String> multiSelections;
@@ -211,5 +213,11 @@ public class KitchenSinkForm extends UifFormBase {
     public void setDateField(Date dateField) {
         this.dateField = dateField;
     }
+    public List<ConcreteKeyValue> getConfigProperties() {
+        return configProperties;
+    }
 
+    public void setConfigProperties(List<ConcreteKeyValue> configProperties) {
+        this.configProperties = configProperties;
+    }
 }

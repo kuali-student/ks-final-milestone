@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2006-2013 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="KS-KitchenSink-CollectionConfigViewer-View" parent="KS-KitchenSink-FormView">
+        <property name="headerText" value="Collections"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:headerText="Config Viewer">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-KitchenSink-Page-Summary"
+                                  p:messageText="Configuration Properties (key/value)"/>
+                            <ref bean="KS-KitchenSink-CollectionConfigViewer-Content"/>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-KitchenSink-CollectionConfigViewer-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-CollectionConfigViewer-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="These are the configured properties."/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-KitchenSink-CollectionConfigViewer-Section" parent="KS-KitchenSink-VerticalBoxSection"
+            p:width="98%">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-CollectionConfigViewer"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-KitchenSink-CollectionConfigViewer" parent="Uif-TableCollectionSection">
+        <property name="propertyName" value="configProperties"/>
+        <property name="headerText" value="Configured Properties"/>
+        <property name="readOnly" value="true"/>
+        <property name="collectionObjectClass" value="org.kuali.rice.core.api.util.ConcreteKeyValue"/>
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+        </property>
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="true" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 0, 'asc' ]]"/>
+                <entry key="bPaginate" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="key" p:label="Config Key"/>
+                <bean parent="Uif-InputField" p:propertyName="value" p:label="Config Value"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>
+
