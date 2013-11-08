@@ -56,7 +56,6 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
     }
 
 
-
     static {
         TypeInfo info = new TypeInfo();
         info.setKey("kuali.search.type.lui.pastCourseOfferings");
@@ -80,7 +79,7 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
     public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo)
             throws MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        if (!StringUtils.equals(searchRequestInfo.getSearchKey(),PAST_CO_SEARCH.getKey())) {
+        if (!StringUtils.equals(searchRequestInfo.getSearchKey(), PAST_CO_SEARCH.getKey())) {
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
 
@@ -89,7 +88,7 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
         String courseId = requestHelper.getParamAsString(COURSE_ID);
         boolean enableCrossListSearch = BooleanUtils.toBoolean(requestHelper.getParamAsString(SearchParameters.CROSS_LIST_SEARCH_ENABLED));
 
-        if (StringUtils.isEmpty(courseId)){
+        if (StringUtils.isEmpty(courseId)) {
             throw new RuntimeException("Course id is required");
         }
 
@@ -99,7 +98,7 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
             throw new RuntimeException("Target year parameter is required");
         }
 
-        if (StringUtils.isEmpty(noOfYears)){
+        if (StringUtils.isEmpty(noOfYears)) {
             throw new RuntimeException("No of years should be configured");
         }
 
@@ -117,41 +116,41 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
         List<Object[]> luiIds = genericEntityDao.getEm().createQuery("select lui.id,ident.type,ident.code from LuiIdentifierEntity ident,LuiEntity lui,AtpEntity atp " +
                 "where lui.id = ident.lui.id and lui.atpId=atp.id and lui.cluId = :cluId and " +
                 "lui.luiType = '" + LuiServiceConstants.COURSE_OFFERING_TYPE_KEY + "' and (" +
-                    "lui.luiState = '" + LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY + "' or  " +
-                    "lui.luiState = '" + LuiServiceConstants.LUI_CO_STATE_CANCELED_KEY + "' )  " +
+                "lui.luiState = '" + LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY + "' or  " +
+                "lui.luiState = '" + LuiServiceConstants.LUI_CO_STATE_CANCELED_KEY + "' )  " +
                 "and atp.startDate >= :startDate").setParameter("startDate", startDate, TemporalType.DATE).setParameter("cluId", courseId).getResultList();
 
         SearchResultInfo resultInfo = new SearchResultInfo();
         resultInfo.setTotalResults(luiIds.size());
         resultInfo.setStartAt(0);
 
-        Map<String,String> luiIds2AlternateCodes = new HashMap<String, String>();
+        Map<String, String> luiIds2AlternateCodes = new HashMap<String, String>();
 
         for (Object[] result : luiIds) {
             SearchResultRowInfo row = new SearchResultRowInfo();
             resultInfo.getRows().add(row);
-            String courseOfferingId = (String)result[0];
-            String luiIdentifierType = (String)result[1];
-            String coCode = (String)result[2];
+            String courseOfferingId = (String) result[0];
+            String luiIdentifierType = (String) result[1];
+            String coCode = (String) result[2];
             boolean isCrossListed = false;
-            if (StringUtils.equals(luiIdentifierType,LuiServiceConstants.LUI_IDENTIFIER_CROSSLISTED_TYPE_KEY)){
+            if (StringUtils.equals(luiIdentifierType, LuiServiceConstants.LUI_IDENTIFIER_CROSSLISTED_TYPE_KEY)) {
                 isCrossListed = true;
             }
-            row.addCell(SearchResultColumns.CO_ID,courseOfferingId);
-            row.addCell(SearchResultColumns.IS_CROSS_LISTED,"" + isCrossListed);
-            row.addCell(SearchResultColumns.CODE,coCode);
-            if (enableCrossListSearch){
+            row.addCell(SearchResultColumns.CO_ID, courseOfferingId);
+            row.addCell(SearchResultColumns.IS_CROSS_LISTED, "" + isCrossListed);
+            row.addCell(SearchResultColumns.CODE, coCode);
+            if (enableCrossListSearch) {
                 String alternateCodes = luiIds2AlternateCodes.get(courseOfferingId);
-                String currentCode = getAlternateCodeUI(coCode,luiIdentifierType);
-                if (!StringUtils.contains(alternateCodes,currentCode)){
+                String currentCode = getAlternateCodeUI(coCode, luiIdentifierType);
+                if (!StringUtils.contains(alternateCodes, currentCode)) {
                     String buildAlternateCodes = StringUtils.defaultString(alternateCodes) + currentCode;
-                    luiIds2AlternateCodes.put(courseOfferingId,buildAlternateCodes + ",");
+                    luiIds2AlternateCodes.put(courseOfferingId, buildAlternateCodes + ",");
                 }
             }
         }
 
-        if (enableCrossListSearch){
-            buildCrossListSearchResult(resultInfo,luiIds2AlternateCodes);
+        if (enableCrossListSearch) {
+            buildCrossListSearchResult(resultInfo, luiIds2AlternateCodes);
         }
         resultInfo.setStartAt(0);
         luiIds2AlternateCodes.clear();
@@ -159,14 +158,14 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
         return resultInfo;
     }
 
-    private void buildCrossListSearchResult(SearchResultInfo resultInfo,Map<String,String> luiIds2AlternateCodes){
+    private void buildCrossListSearchResult(SearchResultInfo resultInfo, Map<String, String> luiIds2AlternateCodes) {
 
         /**
          * If the result needs all the alternate code, iterate all the result set rows and look for
          * the matching Lui. If found, get all the alternate code and add it to the existing result
          * set.
          */
-        for (SearchResultRowInfo row : resultInfo.getRows()){
+        for (SearchResultRowInfo row : resultInfo.getRows()) {
 
             String courseOfferingCode = row.getCells().get(2).getValue();
             String courseOfferingId = row.getCells().get(0).getValue();
@@ -175,24 +174,27 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
             String alternateCodes = luiIds2AlternateCodes.get(courseOfferingId);
             String ownerCode;
             String ownerAliases;
-            if (!isCrossListed){
-                alternateCodes = StringUtils.remove(alternateCodes,courseOfferingCode + OWNER_UI_SUFFIX);
+
+            /*Check for cross-listed and add the cross-listed course codes to cross list search result column*/
+
+            if (!isCrossListed) {
+                alternateCodes = StringUtils.remove(alternateCodes, courseOfferingCode + OWNER_UI_SUFFIX);
                 ownerCode = courseOfferingCode;
             } else {
-                alternateCodes = StringUtils.remove(alternateCodes,courseOfferingCode);
+                alternateCodes = StringUtils.remove(alternateCodes, courseOfferingCode);
                 String partOfCodes = alternateCodes.substring(0, alternateCodes.indexOf(OWNER_UI_SUFFIX));
                 int idx = alternateCodes.substring(0, alternateCodes.indexOf(OWNER_UI_SUFFIX)).lastIndexOf(",");
-                if(idx >= 0){
+                if (idx >= 0) {
                     ownerCode = partOfCodes.substring(idx + 1);
-                }else{
+                } else {
                     ownerCode = partOfCodes.substring(0);
                 }
             }
 
-            ownerAliases = StringUtils.remove(luiIds2AlternateCodes.get(courseOfferingId),ownerCode + OWNER_UI_SUFFIX);
-            row.addCell(SearchResultColumns.OWNER_CODE,ownerCode);
-            row.addCell(SearchResultColumns.OWNER_ALIASES,ownerAliases);
-            row.addCell(SearchResultColumns.CROSS_LISTED_COURSES,alternateCodes);
+            ownerAliases = StringUtils.remove(luiIds2AlternateCodes.get(courseOfferingId), ownerCode + OWNER_UI_SUFFIX);
+            row.addCell(SearchResultColumns.OWNER_CODE, ownerCode);
+            row.addCell(SearchResultColumns.OWNER_ALIASES, ownerAliases);
+            row.addCell(SearchResultColumns.CROSS_LISTED_COURSES, alternateCodes);
 
         }
     }
@@ -204,8 +206,8 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
      * @param luiIdentifierType
      * @return
      */
-    protected String getAlternateCodeUI(String luiAlternateCode,String luiIdentifierType){
-        if (StringUtils.equals(luiIdentifierType,LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY)){
+    protected String getAlternateCodeUI(String luiAlternateCode, String luiIdentifierType) {
+        if (StringUtils.equals(luiIdentifierType, LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY)) {
             return luiAlternateCode + OWNER_UI_SUFFIX;
         } else {
             return luiAlternateCode;
