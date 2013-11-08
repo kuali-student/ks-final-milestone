@@ -165,21 +165,22 @@
                                 </property>
                                 <property name="layoutManager.renderSequenceField" value="false" />
                                 <property name="layoutManager.applyDefaultCellWidths" value="false" />
+                                <property name="layoutManager.richTable">
+                                    <bean parent="KS-Uif-PagedRichTable">
+                                        <property name="templateOptions">
+                                            <map merge="true">
+                                                <entry key="iDisplayLength" value="10"/>
+                                                <entry key="bAutoWidth" value="false" />
+                                            </map>
+                                        </property>
+                                    </bean>
+                                </property>
                                 <property name="items">
                                     <list>
-                                        <!--<bean parent="Uif-DataField" p:label="CODE" p:propertyName="aoInfo.activityCode">-->
-                                            <!--<property name="inquiry">-->
-                                                <!--<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />-->
-                                            <!--</property>-->
-                                        <!--</bean>-->
                                         <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false">
-                                                        <!--<property name="inquiry">-->
-                                                            <!--<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />-->
-                                                        <!--</property>-->
-                                                    </bean>
+                                                    <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false" />
                                                     <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedAoInfo.isEmpty()}"
                                                           p:image.altText="@{#line.colocatedAoInfoUI}"
                                                           p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
