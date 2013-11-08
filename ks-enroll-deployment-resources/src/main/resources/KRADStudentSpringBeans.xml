@@ -264,6 +264,7 @@
                 <value>classpath:org/kuali/student/common/kitchensink/TextField.xml</value>
                 <value>classpath:org/kuali/student/common/kitchensink/ComboBoxes.xml</value>
                 <value>classpath:org/kuali/student/common/kitchensink/CollectionNestedTable.xml</value>
+                <value>classpath:org/kuali/student/common/kitchensink/CollectionConfigViewer.xml</value>
                 <value>classpath:org/kuali/student/common/kitchensink/CollectionTL.xml</value>
                 <value>classpath:org/kuali/student/common/kitchensink/CollectionSL.xml</value>
                 <value>classpath:org/kuali/student/common/kitchensink/Toolbar.xml</value>
