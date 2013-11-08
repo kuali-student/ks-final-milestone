@@ -326,6 +326,13 @@
                     <property name="layoutManager.applyDefaultCellWidths" value="false"/>
                     <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
                     <property name="layoutManager.actionFieldPrototype.render" value="false"/>
+                    <property name="layoutManager.richTable.templateOptions">
+                        <map merge="true">
+                            <entry key="bLengthChange" value="false"/>
+                            <entry key="bPaginate" value="false"/>
+                            <entry key="bFilter" value="false"/>
+                        </map>
+                    </property>
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField"
@@ -373,6 +380,13 @@
                     <property name="layoutManager.applyDefaultCellWidths" value="false"/>
                     <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
                     <property name="layoutManager.actionFieldPrototype.render" value="false"/>
+                    <property name="layoutManager.richTable.templateOptions">
+                        <map merge="true">
+                            <entry key="bLengthChange" value="false"/>
+                            <entry key="bPaginate" value="false"/>
+                            <entry key="bFilter" value="false"/>
+                        </map>
+                    </property>
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField"
