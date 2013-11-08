@@ -67,29 +67,26 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-ListCollectionGroup"
+                <bean parent="Uif-StackedCollectionGroup"
                       p:propertyName="unitsContentOwner"
                       p:headerText="Curriculum Oversight"
                       p:collectionObjectClass="org.kuali.rice.core.api.util.ConcreteKeyValue"
                       p:instructionalText="">
+                    <property name="renderAddLine" value="false"/>
+                    <property name="includeLineSelectionField" value="false"/>
                     <!--
-                    <property name="addLineItems">
-                        <list>
-                            <bean parent="Uif-InputField-LabelTop" 
-                                  p:propertyName="unitsContentOwnerToAdd">
-                                <property name="optionsFinder">
-                                    <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.OrgsBySubjectCodeValuesFinder"
-                                          p:blankOption="true" />
-                                </property>
-                                <property name="control">
-                                    <bean parent="Uif-DropdownControl" />
-                                </property>                            
-                            </bean>
-                        </list>
+                    <property name="renderLineActions" value="true"/>
+                    <property name="newItemsCssClass" value="uif-newCollectionItem"/>
+                    <property name="addItemCssClass" value="uif-collectionAddItem"/>
+                    <property name="layoutManager">
+                        <bean parent="Uif-StackedCollectionLayout-List"/>
                     </property>
-                    <property name="addLineActions">
+                    <property name="template" value="/krad/WEB-INF/ftl/components/group/collectionGroup.ftl"/>
+                    <property name="templateName" value="uif_collectionGroup"/>
+                    <property name="cssClasses">
                         <list>
-                            <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Add" p:methodToCall="addUnitsContentOwner" />
+                            <value>uif-collectionGroup</value>
+                            <value>uif-listCollectionGroup</value>
                         </list>
                     </property>
                     -->
