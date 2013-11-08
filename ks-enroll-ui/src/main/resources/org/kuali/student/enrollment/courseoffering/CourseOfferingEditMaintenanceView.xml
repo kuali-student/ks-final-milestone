@@ -44,7 +44,7 @@
 
         <property name="headerText" value="@{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingCode}: @{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingTitle}"/>
         <property name="page.headerText" value="@{(document.oldMaintainableObject.dataObject.createCO) ? 'Create':'Edit'} Course Offering" />
-        <property name="header.style" value="width:60%"/>
+        <!--<property name="header.style" value="width:60%"/>-->
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
@@ -78,11 +78,17 @@
             </list>
         </property>
 
+        <property name="topGroup">
+            <bean id="CreateCOByCopy-ContextBar" parent="KS-CourseOffering-ContextBar" p:style="display:block;">
+                <property name="onDocumentReadyScript" value="setSeasonalColor('CreateCOByCopy-ContextBar', '@{#dp.contextBar.termDayOfYear}', '@{#ConfigProperties['application.url']}');"/>
+            </bean>
+        </property>
+
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />
         <property name="page.items">
             <list>
                  <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
-                <ref bean="KS-CourseOffering-ContextBar"/>
+                <!--<ref bean="KS-CourseOffering-ContextBar"/>-->
                 <ref bean="KS-CourseOffering-EditCo-Page-Header"/>
                 <ref bean="KS-EditCourseOffering-AliasMessageSection" />
                 <ref bean="KS-CourseOfferingEdit-Term"/>

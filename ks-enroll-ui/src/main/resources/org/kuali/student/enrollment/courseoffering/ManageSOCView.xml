@@ -63,6 +63,11 @@
                 <value>themes/ksboot/stylesheets/calendar.css</value>
             </list>
       </property>
+        <property name="topGroup">
+            <bean id="ManageSoc-ContextBar" parent="KS-CourseOffering-ContextBar" p:style="display:block;">
+                <property name="onDocumentReadyScript" value="setSeasonalColor('ManageSoc-ContextBar', '@{#dp.contextBar.termDayOfYear}', '@{#ConfigProperties['application.url']}');"/>
+            </bean>
+        </property>
       <property name="dialogs">
           <list>
             <ref bean="lockConfirmDialog"/>
