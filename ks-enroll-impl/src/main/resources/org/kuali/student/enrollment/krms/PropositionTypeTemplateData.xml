@@ -422,7 +422,7 @@ limitations under the License.
                 <entry key="kuali.krms.proposition.type.admitted.to.program.org">
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="AdminOrgPermission" p:value="true">
-                        <property name="componentId" value="KRMS-Department-Field"/>
+                        <property name="componentId" value="KRMS-Department-Group"/>
                         <property name="componentBuilderClass"
                                   value="org.kuali.student.core.krms.builder.OrganizationComponentBuilder"/>
                     </bean>
@@ -490,7 +490,7 @@ limitations under the License.
                 <entry key="kuali.krms.proposition.type.permission.admin.org">
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="AdminOrgPermission" p:value="true">
-                        <property name="componentId" value="KRMS-Administering-Org-Field"/>
+                        <property name="componentId" value="KRMS-Administering-Org-Group"/>
                         <property name="componentBuilderClass"
                                   value="org.kuali.student.core.krms.builder.AdministeringOrgComponentBuilder"/>
                     </bean>
