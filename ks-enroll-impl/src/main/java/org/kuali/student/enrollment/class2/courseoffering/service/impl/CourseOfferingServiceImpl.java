@@ -1550,7 +1550,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         Map<String, String> activityCodes = new HashMap<String, String>();
 
         // Query for AO id and codes, and build a Map.
-        SearchRequestInfo request = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AO_CODES_BY_CO_ID_SEARCH_KEY);
+        SearchRequestInfo request = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AO_CODES_TYPES_BY_CO_ID_SEARCH_KEY);
         request.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, courseOfferingId);
 
         SearchResultInfo result = null;
@@ -1563,7 +1563,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<SearchResultRowInfo> rows = result.getRows();
         //  If there are no rows assume the operation is an add and skip the check.
         if ( ! rows.isEmpty()) {
-
             for (SearchResultRowInfo row: rows) {
                 List<SearchResultCellInfo> cells = row.getCells();
                 String aoId = null;
@@ -1573,8 +1572,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                         aoId = cell.getValue();
                     } else if (cell.getKey().equals(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_CODE)) {
                         aoCode = cell.getValue();
-                    } else {
-                        throw new OperationFailedException("Query for AO id and code returned too many columns.");
                     }
                 }
                 activityCodes.put(aoId, aoCode);
