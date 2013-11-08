@@ -49,6 +49,7 @@ import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
@@ -367,6 +368,21 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             ObjectMapper mapper = new ObjectMapper();
             wrapper.setSubTermDatesJsonString(mapper.writeValueAsString(subTermDates));
             // end subterms
+
+            //Find the earliest registration period and set the term registration start to that date
+            List<TypeInfo> regPeriods = CourseOfferingManagementUtil.getTypeService().getTypesForGroupType(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_GROUP_TYPE_KEY, contextInfo);
+            List<KeyDateInfo> keyDateInfoList = CourseOfferingManagementUtil.getAcademicCalendarService().getKeyDatesForTerm(info.getTermId(), contextInfo);
+            Date termRegStartDate = null;
+            for (KeyDateInfo keyDateInfo : keyDateInfoList) {
+                for (TypeInfo regPeriod : regPeriods) {
+                    if (keyDateInfo.getTypeKey().equalsIgnoreCase(regPeriod.getKey()) && keyDateInfo.getStartDate() != null) {
+                        if (termRegStartDate == null || keyDateInfo.getStartDate().before(termRegStartDate)) {
+                            termRegStartDate = keyDateInfo.getStartDate();
+                        }
+                    }
+                }
+            }
+            wrapper.setTermRegStartDate(termRegStartDate);
 
             wrapper.setCourseOfferingCode(info.getCourseOfferingCode());
             wrapper.setCourseOfferingTitle(info.getCourseOfferingTitle());
