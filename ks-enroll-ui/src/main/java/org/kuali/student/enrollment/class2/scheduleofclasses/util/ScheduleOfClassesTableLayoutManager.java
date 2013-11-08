@@ -64,6 +64,7 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
                     }
                     if (field.getId().contains("regGroupSeats")) {
                         field.setRowSpan(getSpanSize(rgWrapper, true));
+                        field.setCellStyle("text-align:center; vertical-align:bottom;");
                     }
                 }
             } else {
