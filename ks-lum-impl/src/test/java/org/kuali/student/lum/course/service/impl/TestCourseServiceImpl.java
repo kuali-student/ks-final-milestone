@@ -99,23 +99,37 @@ public class TestCourseServiceImpl{
         assertNotNull(statementService);
     }
 
-    @Test
+    @Test(expected = MissingParameterException.class)
     public void testGetCoursesByIds() throws Exception{
 
         CourseDataGenerator generator = new CourseDataGenerator();
         CourseInfo cInfo = generator.getCourseTestData();
+        CourseInfo cInfo1 = generator.getCourseTestData();
+
         assertNotNull(cInfo);
         CourseInfo createdCourse = courseService.createCourse(cInfo, contextInfo);
+        CourseInfo createdCourse1 = courseService.createCourse(cInfo1, contextInfo);
+
         assertNotNull(createdCourse);
+
         List<String> courseIds = new ArrayList<String>();
         courseIds.add(createdCourse.getId());
+        // will throw MissingParameterException
+        List<CourseInfo> emptyCourseInfos= courseService.getCoursesByIds(new ArrayList<String>(),contextInfo);
+
         List<CourseInfo> courseInfos = courseService.getCoursesByIds(courseIds,contextInfo);
         assertTrue(courseInfos.size() ==1);
-        for(CourseInfo courseInfo : courseInfos){
+        for (CourseInfo courseInfo : courseInfos){
             System.out.println(courseInfo);
-            assertTrue(courseInfo.getCourseTitle().equals(createdCourse.getCourseTitle()));
-            assertTrue(courseInfo.getCode().equals(createdCourse.getCode()));
+            assertEquals(courseInfo.getCourseTitle(),createdCourse.getCourseTitle());
+            assertEquals(courseInfo.getCode(),createdCourse.getCode());
+            assertEquals(courseInfo.getLevel(),createdCourse.getLevel());
+            assertEquals(courseInfo.getCampusLocations(),createdCourse.getCampusLocations());
         }
+
+        courseIds.add(createdCourse1.getId());
+        courseInfos = courseService.getCoursesByIds(courseIds,contextInfo);
+        assertEquals(courseInfos.size(),2);
     }
 
     @Test
