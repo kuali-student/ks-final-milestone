@@ -15,9 +15,7 @@
  */
 package org.kuali.student.cm.course.controller;
 
-import static org.kuali.student.logging.FormattedLogger.debug;
-import static org.kuali.student.logging.FormattedLogger.error;
-import static org.kuali.student.logging.FormattedLogger.info;
+import static org.kuali.student.logging.FormattedLogger.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,12 +34,15 @@ import org.joda.time.format.DateTimeFormatter;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.name.EntityNameContract;
 import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
@@ -94,6 +95,10 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/courses")
 public class CourseController extends CourseRuleEditorController {
     
+    private static final String CURRICULUM_OVERSIGHT_PROPERTY_PATH = KRADConstants.DOCUMENT_PROPERTY_NAME
+        + ".unitsContentOwner";
+    private static final String EXISTING_CURRICULUM_OVERSIGHT_ERROR_KEY = RiceKeyConstants.ERROR_CUSTOM;
+        
     private static final String DECISIONS_DIALOG_KEY = "decisionsDialog";
     
     private static final String VIEW_CURRENT_PAGE_ID = "view.currentPageId";

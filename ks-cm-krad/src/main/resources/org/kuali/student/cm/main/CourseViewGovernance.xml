@@ -47,7 +47,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-HorizontalBoxGroup"
+                <bean parent="Uif-HorizontalBoxSection"
                       p:headerText="Curriculum Oversight"
                       p:instructionalText="This is the organization(s) responsible for the content of the course. This selection will determine the workflow/approval process for this proposal.">
                     <property name="items">
@@ -67,7 +67,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-StackedCollectionSection"
+                <bean parent="Uif-StackedCollectionGroup"
                       p:propertyName="unitsContentOwner"
                       p:headerText="Curriculum Oversight"
                       p:collectionObjectClass="org.kuali.rice.core.api.util.ConcreteKeyValue"
