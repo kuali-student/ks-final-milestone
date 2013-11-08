@@ -577,6 +577,7 @@ limitations under the License.
                 <ref bean="KRMS-Program-Section"/>
                 <ref bean="KRMS-NumberOfCourses-ConstantValue"/>
                 <ref bean="KRMS-Department-Field"/>
+                <ref bean="KRMS-OrgId-HiddenField"/>
                 <ref bean="KRMS-Duration-section"/>
             </list>
         </property>
@@ -827,6 +828,7 @@ limitations under the License.
             <list>
                 <ref bean="KRMS-Credits-ConstantValue"/>
                 <ref bean="KRMS-Department-Field"/>
+                <ref bean="KRMS-OrgId-HiddenField"/>
             </list>
         </property>
     </bean>
