@@ -6,7 +6,6 @@
 
     <bean id="genericEntityDao" class="org.kuali.student.r2.common.dao.GenericEntityDao" abstract="true">
         <property name="em" ref="enrollEntityManager"/>
-        <property name="enableMaxIdFetch" value="${ks.enroll.dao.enableMaxIdFetch.defaultvalue}"/>
         <property name="maxInClauseElements" value="${ks.enroll.dao.maxInClauseElements.defaultvalue}"/>
     </bean>
 
