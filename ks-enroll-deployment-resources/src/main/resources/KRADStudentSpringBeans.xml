@@ -191,9 +191,9 @@
                 <value>classpath:org/kuali/student/core/krms/KSKRMSCustomComponents.xml</value>
                 <value>classpath:org/kuali/student/core/krms/KSKRMSRuleMaintenance.xml</value>
                 <value>classpath:org/kuali/student/lum/lu/ui/krms/TestSetLookupView.xml</value>
-                <value>classpath:org/kuali/student/lum/lu/ui/krms/KRMSCourseLookupView.xml</value>
+                <value>classpath:org/kuali/student/lum/lu/ui/krms/CourseLookupView.xml</value>
                 <value>classpath:org/kuali/student/lum/lu/ui/krms/CourseSetsLookupView.xml</value>
-                <value>classpath:org/kuali/student/lum/lu/ui/krms/KRMSProgramLookupView.xml</value>
+                <value>classpath:org/kuali/student/lum/lu/ui/krms/ProgramLookupView.xml</value>
                 <value>classpath:org/kuali/student/lum/lu/ui/krms/LUCustomComponents.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/CORuleMaintenance.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/AORuleMaintenance.xml</value>
