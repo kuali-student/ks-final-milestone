@@ -347,14 +347,48 @@ a {
 
 
 
-/************************************** MANAGE CO ACTION LINKS **************************************
+/************************************** ACTION LINKS **************************************
    Links that appear in the Actions column on the Manage CO page
 */
+/** TODO: KSENROLL-10793 This appears to be unused and can go away */
 .ks-table-uif-navigationActionLink {
   padding-left: 8px;
   margin-left: 8px;
 }
-/************************************** END MANAGE CO ACTION LINKS **************************************/
+
+/** This class is assigned to individual action links */
+.uif-navigationActionLink {
+  display: inline-block;
+  white-space: nowrap;
+  /* Floating the links causes wrapping if the window gets too small. */
+  float: none;
+  /* This messes up the Action links on calendar search results action links because they don't have separators.
+   * margin: 0px; */
+}
+
+/** This class is assigned to the separators */
+.ks-line-action-seperator {
+  cursor: default;
+  text-decoration: none !important;
+  white-space: nowrap;
+  /* Floating the separators causes wrapping if the window gets too small. */
+  float: none;
+  display: inline-block;
+  margin: 0px;
+}
+
+/* TODO: KSENROLL-10793 should eliminate the need for this abomination ;)
+   In some cases the layoutManager.actionFieldPrototype bean sets the label to upper case, in other cases it
+   doesn't (and apparently specifying non-html attributes is case sensitive), so both cases are covered.
+ */
+.uif-horizontalFieldGroup[data-label="ACTIONS"],
+.uif-horizontalFieldGroup[data-label="Actions"] {
+  white-space: nowrap !important;
+  /* This floats the outer div to the left */
+  float: left;
+}
+
+/************************************** END ACTION LINKS **************************************/
 
 
 
@@ -506,13 +540,6 @@ cursor:auto;
 
 /************************************** END WATERMARK **************************************/
 
-
-
-
-.ks-line-action-seperator{
-  cursor: default;
-  text-decoration: none !important;
-}
 
 /*div.ks-line-action-seperator a:not(:last-child):after {*/
 /*display:inline-block;*/
