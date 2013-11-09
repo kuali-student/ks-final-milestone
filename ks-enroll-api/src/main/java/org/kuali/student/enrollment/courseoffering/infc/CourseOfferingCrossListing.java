@@ -36,7 +36,7 @@ public interface CourseOfferingCrossListing
     /**
      *
      * Name of the course used in the college catalog.
-     * Refer to detailed description in CourseOffering
+     * Refer to detailed description of CourseOfferingTitle in CourseOffering
      * 
      * @name longName
      */

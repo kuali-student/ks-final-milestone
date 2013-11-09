@@ -83,6 +83,7 @@ public class CourseOfferingCrossListingInfo
         super(crossListing);
         if (crossListing != null) {
             this.code = crossListing.getCode();
+            this.longName = crossListing.getLongName();
             this.subjectArea = crossListing.getSubjectArea();
             this.subjectOrgId = crossListing.getSubjectOrgId();
             this.courseNumberSuffix = crossListing.getCourseNumberSuffix();
