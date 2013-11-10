@@ -356,8 +356,10 @@ a {
   margin-left: 8px;
 }
 
-/** This class is assigned to individual action links */
-.uif-navigationActionLink {
+/** This class is assigned to individual action and action navigation links.
+    Since action links are used in lots of places limit this styling to items which are in fieldsets. */
+fieldset .uif-navigationActionLink,
+fieldset .uif-actionLink {
   display: inline-block;
   white-space: nowrap;
   /* Floating the links causes wrapping if the window gets too small. */
@@ -369,7 +371,7 @@ a {
 /** This class is assigned to the separators */
 .ks-line-action-seperator {
   cursor: default;
-  text-decoration: none !important;
+  text-decoration: none;
   white-space: nowrap;
   /* Floating the separators causes wrapping if the window gets too small. */
   float: none;
