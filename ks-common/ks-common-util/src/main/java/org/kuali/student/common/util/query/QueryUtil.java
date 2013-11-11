@@ -25,7 +25,8 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides utility methods for building queries used in searches.
+ * KSENROLL-10725
  *
  * @author Kuali Student Team
  */
@@ -38,7 +39,7 @@ public class QueryUtil {
     /**
      * Returns a query of find by ids. Breaks up the query into multiple ORed IN() clauses if the set of ids is larger
      * than maxInClauseElements
-     * @param queryStrStart a reference to the query string
+     * @param queryStringRef a reference to the query string
      * @param queryStrEnd a reference to the query string, usually just ")"
      * @param primaryKeyMemberName name of the column that is the primary key
      * @param primaryKeys list of primary key strings
