@@ -68,5 +68,13 @@ public class ScheduleRequestDao extends GenericEntityDao<ScheduleRequestEntity> 
             return Boolean.TRUE;
         }
     }
+
+    public List<String> getScheduleRequestIdsByRefObject(String refObjectType, String refObjectId) {
+        List<String> results = em.createNamedQuery("ScheduleRequest.getScheduleRequestIdsByRefIdAndType")
+                .setParameter("refObjectTypeKey", refObjectType)
+                .setParameter("refObjectId", refObjectId)
+                .getResultList();
+        return results;
+    }
 }
 
