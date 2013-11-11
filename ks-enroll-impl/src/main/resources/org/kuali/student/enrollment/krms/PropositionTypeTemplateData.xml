@@ -30,7 +30,7 @@ limitations under the License.
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="CompletedCourse"
                           p:value="true">
-                        <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
+                        <property name="componentId" value="KRMS-SingleCourse-InputField"/>
                         <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.EnrolCourseComponentBuilder"/>
                     </bean>
                 </entry>
@@ -74,7 +74,7 @@ limitations under the License.
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="CompletedCourse"
                           p:value="false">
-                        <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
+                        <property name="componentId" value="KRMS-SingleCourse-InputField"/>
                         <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.EnrolCourseComponentBuilder"/>
                     </bean>
                 </entry>
@@ -125,7 +125,7 @@ limitations under the License.
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="EnrolledCourses"
                           p:value="true">
-                        <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
+                        <property name="componentId" value="KRMS-SingleCourse-InputField"/>
                         <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.EnrolCourseComponentBuilder"/>
                     </bean>
                 </entry>
@@ -282,7 +282,7 @@ limitations under the License.
                 <entry key="kuali.krms.proposition.type.no.repeat.course">
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="CompletedCourse" p:value="true">
-                        <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
+                        <property name="componentId" value="KRMS-SingleCourse-InputField"/>
                         <property name="componentBuilderClass"
                                   value="org.kuali.student.enrollment.class1.krms.builder.EnrolCourseComponentBuilder"/>
                     </bean>
@@ -301,7 +301,7 @@ limitations under the License.
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="null"
                           p:operator="=" p:value="false">
-                        <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
+                        <property name="componentId" value="KRMS-SingleCourse-InputField"/>
                     </bean>
                 </entry>
 
@@ -514,7 +514,7 @@ limitations under the License.
                 <entry key="kuali.krms.proposition.type.final.exam.course">
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="EnrolledCourses" p:value="true">
-                        <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
+                        <property name="componentId" value="KRMS-SingleCourse-InputField"/>
                         <property name="componentBuilderClass"
                                   value="org.kuali.student.enrollment.class1.krms.builder.EnrolCourseComponentBuilder"/>
                     </bean>
