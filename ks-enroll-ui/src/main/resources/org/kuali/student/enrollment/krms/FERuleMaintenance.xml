@@ -213,7 +213,7 @@ limitations under the License.
         <property name="lineActions">
             <list>
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="goToRuleView" p:actionLabel="Edit" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
-                <bean parent="Uif-ActionLink" p:methodToCall="deleteRule" p:actionLabel="Delete" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="deleteRule" p:actionLabel="Delete" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
             </list>
         </property>
     </bean>

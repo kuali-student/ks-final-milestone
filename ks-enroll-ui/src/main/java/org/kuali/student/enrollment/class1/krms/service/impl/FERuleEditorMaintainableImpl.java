@@ -236,15 +236,13 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             if (attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY)) {
                 ruleEditor.setDay(attributes.get(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY));
             }
-            if (attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME)) {
-                Date timeForDisplay = new Date(Long.parseLong(attributes.get(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME)));
-                String startTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay);
+            String startTime = this.getDateValueForKey(action.getAttributes(), KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME);
+            if(startTime!=null){
                 ruleEditor.setStartTime(org.apache.commons.lang.StringUtils.substringBefore(startTime, " "));
                 ruleEditor.setStartTimeAMPM(org.apache.commons.lang.StringUtils.substringAfter(startTime, " "));
             }
-            if (attributes.containsKey(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME)) {
-                Date timeForDisplay = new Date(Long.parseLong(attributes.get(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME)));
-                String endTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay);
+            String endTime = this.getDateValueForKey(action.getAttributes(), KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME);
+            if(endTime!=null){
                 ruleEditor.setEndTime(org.apache.commons.lang.StringUtils.substringBefore(endTime, " "));
                 ruleEditor.setEndTimeAMPM(org.apache.commons.lang.StringUtils.substringAfter(endTime, " "));
             }
@@ -291,6 +289,22 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         }
 
         return rules;
+    }
+
+    private String getDateValueForKey(Map<String, String> attributes, String key){
+
+        if (attributes.containsKey(key)){
+            String value = attributes.get(key);
+
+            if ((value==null) || (value.isEmpty())){
+                return null;
+            }
+
+            Date timeForDisplay = new Date(Long.parseLong(value));
+            return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay);
+        }
+
+        return null;
     }
 
     @Override
@@ -393,9 +407,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             rule.setNamespace(namespace);
         }
 
-        if (rule.getName() == null || rule.getName().isEmpty()) {
-            rule.setName(rulePrefix + rule.getRuleTypeInfo().getId() + ":na");
-        }
+        rule.setName(rulePrefix + rule.getRuleTypeInfo().getId() + rule.getKey());
 
         //Setup the actions
         finActions(rule);
@@ -436,24 +448,28 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         //Populate dynamic attributes
         Map<String, String> attributes = new HashMap<String, String>();
         try {
-            if (!feRuleEditor.getStartTime().isEmpty()) {
+            attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY, feRuleEditor.getDay());
+            if ((feRuleEditor.getStartTime()!=null)&&(!feRuleEditor.getStartTime().isEmpty())) {
                 String startTimeAMPM = new StringBuilder(feRuleEditor.getStartTime()).append(" ").append(feRuleEditor.getStartTimeAMPM()).toString();
                 attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, Long.toString(parseTimeToMillis(startTimeAMPM)));
+            } else {
+                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, StringUtils.EMPTY);
             }
-            attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY, feRuleEditor.getDay());
-            if (!feRuleEditor.getEndTime().isEmpty()) {
+            if ((feRuleEditor.getEndTime()!=null)&&(!feRuleEditor.getEndTime().isEmpty())) {
                 String endTimeAMPM = new StringBuilder(feRuleEditor.getEndTime()).append(" ").append(feRuleEditor.getEndTimeAMPM()).toString();
                 attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME, Long.toString(parseTimeToMillis(endTimeAMPM)));
+            } else {
+                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME, StringUtils.EMPTY);
             }
             if (feRuleEditor.getBuilding().getId() != null) {
                 attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY, feRuleEditor.getBuilding().getId());
             }else{
-                    attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY, "");
+                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY, StringUtils.EMPTY);
             }
             if (feRuleEditor.getRoom().getId() != null) {
                 attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM, feRuleEditor.getRoom().getId());
             }else{
-                    attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM, "");
+                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM, StringUtils.EMPTY);
             }
             if (feRuleEditor.isTba()) {
                 attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_TBA, Boolean.TRUE.toString());

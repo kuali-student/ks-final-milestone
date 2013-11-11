@@ -238,7 +238,6 @@ public class FERuleEditorController extends EnrolRuleEditorController {
 
         FEAgendaEditor agenda = (FEAgendaEditor) ruleWrapper.getAgendaEditor();
         if (ruleEditor.isDummy()) {
-            ruleEditor.setName(ruleWrapper.getRefObjectId() + ":" + ruleEditor.getTypeId() + ":" + agenda.getRules().size() + 1);
             ruleEditor.setDummy(Boolean.FALSE);
             agenda.getRules().add(ruleEditor);
         } else {
