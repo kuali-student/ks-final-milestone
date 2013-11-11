@@ -18,6 +18,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.CourseOffering
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.helper.CopyActivityOfferingCommon;
+import org.kuali.student.enrollment.class2.courseoffering.service.helper.CourseOfferingServiceScheduleHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingDisplayTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingDisplayTransformer;
@@ -94,6 +95,7 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
+import org.kuali.student.r2.core.scheduling.util.container.TimeSlotContainer;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -2376,181 +2378,114 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         return rgChanges;
     }
-
+    // ---------------------------------------------------------------------------------- START verifyRegistrationGroup
     @Override
-    public List<ValidationResultInfo> verifyRegistrationGroup(String registrationGroupId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> verifyRegistrationGroup(String registrationGroupId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         List<ValidationResultInfo> validationResultInfos = new ArrayList<ValidationResultInfo>() ;
-        ValidationResultInfo validationResultInfo = new ValidationResultInfo();
 
         try {
-            RegistrationGroupInfo registrationGroupInfo = new RegistrationGroupInfo();
-            registrationGroupTransformer.assembleLuiLuiRelations(registrationGroupInfo,registrationGroupId,contextInfo);
-
-            List<String> aoIds = registrationGroupInfo.getActivityOfferingIds();
-            if (aoIds == null) {
-                aoIds = new ArrayList<String>();
-            }
-            Map<String, Map<String, List<String>>> aoTimeSlotMap = new HashMap<String, Map<String, List<String>>>(aoIds.size());
-
-            if (aoIds.size() > 1) {
-                //push the actual and requested timeslots associated with the AOs of the given RG into a map
-                for (int i = 0; i < aoIds.size(); i++) {
-                    Map<String, List<String>> timeSlotMap = new HashMap<String, List<String>>();
-
-                    // retrieve the actual time slots for given AO
-                    List<String> timeSlotIdsActualForInsert = getTimeSlotIdsbyActivityOffering(aoIds.get(i), DELIVERY_LOGISTIC_TYPE_ACTUAL, contextInfo);
-                    if (timeSlotIdsActualForInsert != null && !timeSlotIdsActualForInsert.isEmpty()) {
-                        timeSlotMap.put(DELIVERY_LOGISTIC_TYPE_ACTUAL, timeSlotIdsActualForInsert);
-                    }
-                    // retrieve the requested time slots for given AO
-                    List<String> timeSlotIdsRequestedForInsert = getTimeSlotIdsbyActivityOffering(aoIds.get(i), DELIVERY_LOGISTIC_TYPE_REQUESTED, contextInfo);
-                    if (timeSlotIdsRequestedForInsert != null && !timeSlotIdsRequestedForInsert.isEmpty()) {
-                        timeSlotMap.put(DELIVERY_LOGISTIC_TYPE_REQUESTED, timeSlotIdsRequestedForInsert);
-                    }
-
-                    aoTimeSlotMap.put(aoIds.get(i), timeSlotMap);
-                }
-
-                for (Map.Entry<String, Map<String, List<String>>> entry : aoTimeSlotMap.entrySet()) {
-                    boolean hasTimeSlotActual = false, hasTimeSlotRequested = false;
-                    List<String> timeSlotIdsActual = entry.getValue().get(DELIVERY_LOGISTIC_TYPE_ACTUAL);
-                    List<String> timeSlotIdsRequested = entry.getValue().get(DELIVERY_LOGISTIC_TYPE_REQUESTED);
-
-                    if (timeSlotIdsActual != null && !timeSlotIdsActual.isEmpty()) {
-                        hasTimeSlotActual = true;
-                    }
-                    if (timeSlotIdsRequested != null && !timeSlotIdsRequested.isEmpty()) {
-                        hasTimeSlotRequested = true;
-                    }
-
-                    if (hasTimeSlotActual || hasTimeSlotRequested ) {
-                        for (Map.Entry<String, Map<String, List<String>>> innerEntry : aoTimeSlotMap.entrySet()) {
-                            boolean hasTimeSlotActualCompared = false, hasTimeSlotRequestedCompared = false;
-
-                            if (!entry.getKey().equals(innerEntry.getKey())) {
-                                List<String> timeSlotIdsComparedActual = innerEntry.getValue().get(DELIVERY_LOGISTIC_TYPE_ACTUAL);
-                                List<String> timeSlotIdsComparedRequested = innerEntry.getValue().get(DELIVERY_LOGISTIC_TYPE_REQUESTED);
-                                if (timeSlotIdsComparedActual != null && !timeSlotIdsComparedActual.isEmpty()) {
-                                    hasTimeSlotActualCompared = true;
-                                }
-                                if (timeSlotIdsComparedRequested != null && !timeSlotIdsComparedRequested.isEmpty()) {
-                                    hasTimeSlotRequestedCompared = true;
-                                }
-
-                                if (hasTimeSlotActualCompared || hasTimeSlotRequestedCompared) {
-                                    List<ValidationResultInfo> resultInfos = null;
-                                    if (hasTimeSlotActual  && hasTimeSlotActualCompared) {
-                                        // both have schedules
-                                        resultInfos = vRgCheckTimeConflict(timeSlotIdsActual, timeSlotIdsComparedActual,
-                                                validationResultInfos, entry.getKey(), innerEntry.getKey(), contextInfo);
-                                    } else if (hasTimeSlotActual && !hasTimeSlotActualCompared && hasTimeSlotRequestedCompared) {
-                                        // first has scheduled, compared has schedule request
-                                        resultInfos = vRgCheckTimeConflict(timeSlotIdsActual, timeSlotIdsComparedRequested,
-                                                validationResultInfos, entry.getKey(), innerEntry.getKey(), contextInfo);
-                                    } else if (!hasTimeSlotActual && hasTimeSlotRequested && hasTimeSlotActualCompared) {
-                                        // first has schedule request, compared has schedule
-                                        resultInfos = vRgCheckTimeConflict(timeSlotIdsRequested, timeSlotIdsComparedActual,
-                                                validationResultInfos, entry.getKey(), innerEntry.getKey(), contextInfo);
-                                    } else if (!hasTimeSlotActual && hasTimeSlotRequested && !hasTimeSlotActualCompared && hasTimeSlotRequestedCompared) {
-                                        // both have schedule requests
-                                        resultInfos = vRgCheckTimeConflict(timeSlotIdsRequested, timeSlotIdsComparedRequested,
-                                                validationResultInfos, entry.getKey(), innerEntry.getKey(), contextInfo);
-
-                                    }
-
-                                    if (resultInfos != null) {
-                                        // Found time conflict, so return
-                                        return resultInfos;
-                                    }
-                                }
-                            }
+            List<String> aoIds = vRG_getAoIdsFromRegGroupEfficiently(registrationGroupId, contextInfo);
+            vRG_verifyAoIds(aoIds);
+            if (aoIds.size() > 1) { // Only have to do conflict detection between AOs, not within one
+                // Maps ao IDs to the time slots of the container
+                Map<String, TimeSlotContainer> aoIdToTimeSlotContainer = new HashMap<String, TimeSlotContainer>();
+                List<String> previouslySeenAoIds = new ArrayList<String>();
+                // Nested loop to pairwise compare every AO's timeslots to every other AO's timeslots looking for a conflict
+                for (String thisAoId: aoIds) {
+                    TimeSlotContainer thisContainer =
+                            vRG_fetchTimeSlotContainerByAoId(thisAoId, aoIdToTimeSlotContainer, contextInfo);
+                    // Inner loop
+                    // Only iterate through previously seen AOs to avoid double-comparison
+                    for (String thatAoId: previouslySeenAoIds) {
+                        TimeSlotContainer thatContainer =
+                                vRG_fetchTimeSlotContainerByAoId(thatAoId, aoIdToTimeSlotContainer, contextInfo);
+                        if (thisContainer.conflictsWith(thatContainer)) {
+                            ValidationResultInfo errorInfo =
+                                    vRG_createTimeConflictValidationError(thisContainer, thatContainer);
+                            validationResultInfos.add(errorInfo);
+                            // Exit with error validation
+                            return validationResultInfos;
                         }
                     }
+                    previouslySeenAoIds.add(thisAoId); // Previously seen
                 }
             }
         } catch (PermissionDeniedException e) {
             throw new OperationFailedException(OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE, e);
         }
+        ValidationResultInfo success = vRG_createSuccessValidation();
+        validationResultInfos.add(success);
+        return validationResultInfos;
+    }
 
+    // Do quick verification that ao IDs are unique, otherwise algorithm fails
+    private void vRG_verifyAoIds(List<String> aoIds) throws OperationFailedException {
+        Set aoIdSet = new HashSet(aoIds);
+        if (aoIdSet.size() != aoIds.size()) {
+            throw new OperationFailedException("Error: Repeated AO IDs in reg groups");
+        }
+    }
+
+    private List<String> vRG_getAoIdsFromRegGroupEfficiently(String registrationGroupId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        RegistrationGroupInfo registrationGroupInfo = new RegistrationGroupInfo();
+        // Partially reconstruct the RG, just enough to get the AO ids (more efficient than fetching RG)
+        registrationGroupTransformer.assembleLuiLuiRelations(registrationGroupInfo, registrationGroupId, contextInfo);
+
+        List<String> aoIds = registrationGroupInfo.getActivityOfferingIds();
+        return aoIds;
+    }
+
+    private ValidationResultInfo vRG_createSuccessValidation() {
+        ValidationResultInfo validationResultInfo = new ValidationResultInfo();
         validationResultInfo.setLevel(ValidationResult.ErrorLevel.OK);
         validationResultInfo.setMessage("No time conflict in the Registration Group");
-        validationResultInfos.add(validationResultInfo);
-        return validationResultInfos;
-
+        return validationResultInfo;
     }
 
+    private ValidationResultInfo vRG_createTimeConflictValidationError(TimeSlotContainer first,
+                                                                       TimeSlotContainer second) {
+        ValidationResultInfo validationResultInfo = new ValidationResultInfo();
+        validationResultInfo.setLevel(ValidationResult.ErrorLevel.WARN);
+        validationResultInfo.setMessage("time conflict between AO: " + first.getRefObjectId() +
+                " and AO: " + second.getRefObjectId());
+        return validationResultInfo;
+    }
 
-    private List<String> getTimeSlotIdsbyActivityOffering(String activityOfferingId, String deliveryLogisticsType, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        List<String> scheduleIds = retrieveScheduleIds(activityOfferingId, context);
-        List<String> timeSlotIds = new ArrayList<String>();
-
-        for (String scheduleId : scheduleIds) {
-            if (deliveryLogisticsType.equals(DELIVERY_LOGISTIC_TYPE_ACTUAL)) {
-                if (scheduleId != null && !scheduleId.isEmpty()) {
-                    // Only do this if there's an schedule ID with length greater than 0.
-                    ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(scheduleId, context);
-                    if (scheduleInfo != null) {
-                        List<ScheduleComponentInfo> scheduleComponentInfos = scheduleInfo.getScheduleComponents();
-                        if (scheduleComponentInfos != null) {
-                            for (ScheduleComponentInfo scheduleComponentInfo : scheduleComponentInfos) {
-                                if (scheduleComponentInfo.getTimeSlotIds() != null) {
-                                    // Only add time slots if component is not null
-                                    timeSlotIds.addAll(scheduleComponentInfo.getTimeSlotIds());
-                                }
-                            }
-                        }
-                    }
-                }
-            } else if (deliveryLogisticsType.equals(DELIVERY_LOGISTIC_TYPE_REQUESTED)) {
-                List<ScheduleRequestInfo> scheduleRequestInfos = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, activityOfferingId, context);
-                if (scheduleRequestInfos != null && !scheduleRequestInfos.isEmpty()) {
-                    for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
-                        List<ScheduleRequestComponentInfo> scheduleRequestComponentInfos = scheduleRequestInfo.getScheduleRequestComponents();
-                        if (scheduleRequestComponentInfos != null) {
-                            for (ScheduleRequestComponentInfo scheduleRequestComponentInfo : scheduleRequestComponentInfos) {
-                                if (scheduleRequestComponentInfo.getTimeSlotIds() != null) {
-                                    // Only add time slots if component is not null
-                                    timeSlotIds.addAll(scheduleRequestComponentInfo.getTimeSlotIds());
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+    /**
+     * Extracts timeslots (with a preference of ADLs over RDLs) and caches it in the map so it doesn't
+     * have to be refetched needlessly
+     * @param aoId An activity offering ID
+     * @param aoIdToTimeSlotContainer maps the AO Id to the extracted time slot container
+     * @param contextInfo
+     * @return the time slot container
+     */
+    private TimeSlotContainer vRG_fetchTimeSlotContainerByAoId(String aoId,
+                                                               Map<String, TimeSlotContainer> aoIdToTimeSlotContainer,
+                                                               ContextInfo contextInfo)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException {
+        if (!aoIdToTimeSlotContainer.containsKey(aoId)) {
+            // Haven't added this ao ID to the map, so add it
+            vRG_addTimeSlotContainerToMap(aoId, aoIdToTimeSlotContainer, contextInfo);
         }
-
-        return timeSlotIds;
+        return aoIdToTimeSlotContainer.get(aoId);
     }
 
-    // return: true - overlap; false - no overlap
-    private boolean checkTimeSlotsOverlap(List<String> timeSlotInfoList1, List<String> timeSlotInfoList2, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        for (int i=0; i<timeSlotInfoList1.size(); i++) {
-            for (int j=0; j<timeSlotInfoList2.size(); j++) {
-                if (getSchedulingService().areTimeSlotsInConflict (timeSlotInfoList1.get(i), timeSlotInfoList2.get(j), contextInfo)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+    private void vRG_addTimeSlotContainerToMap(String aoId, Map<String, TimeSlotContainer> aoIdToTimeSlotContainer,
+                                               ContextInfo contextInfo)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException {
+        List<String> scheduleIds = retrieveScheduleIds(aoId, contextInfo);
+        TimeSlotContainer container =
+                CourseOfferingServiceScheduleHelper.computeTimeSlotContainer(aoId, scheduleIds, contextInfo);
+        aoIdToTimeSlotContainer.put(aoId, container);
+        // Fetch time slot infos (do it once, so there's no need to refetch)
+        container.fetchTimeSlots(schedulingService, contextInfo);
     }
-
-    private List<ValidationResultInfo> vRgCheckTimeConflict(List<String> timeSlotIdsFirst, List<String> timeSlotIdsSecond,
-                                                            List<ValidationResultInfo> validationResultInfos,
-                                                            String aoIdFirst, String aoIdSecond,
-                                                            ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, DoesNotExistException,
-                OperationFailedException, PermissionDeniedException {
-        if (checkTimeSlotsOverlap(timeSlotIdsFirst, timeSlotIdsSecond, context)) {
-            ValidationResultInfo validationResultInfo = new ValidationResultInfo();
-            validationResultInfo.setLevel(ValidationResult.ErrorLevel.WARN);
-            validationResultInfo.setMessage("time conflict between AO: " + aoIdFirst + " and AO: " + aoIdSecond);
-            validationResultInfos.add(validationResultInfo);
-            return validationResultInfos;
-        }
-        return null;
-    }
-
+    // ----------------------------------------------------------------------------------  END verifyRegistrationGroup
     @Override
     public List<ValidationResultInfo> validateRegistrationGroup(String validationType, String activityOfferingClusterId, String registrationGroupType,
                                                                 RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DoesNotExistException,
