@@ -106,6 +106,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <ref bean="KRMS-Population-Field"/>
+                <ref bean="KRMS-PopulationId-HiddenField"/>
             </list>
         </property>
     </bean>
@@ -142,6 +143,16 @@ limitations under the License.
         </property>
     </bean>
     <bean id="KRMS-Population-Field" parent="KRMS-Population-Field-Parent" p:label="Population"/>
+
+    <bean id="KRMS-PopulationId-HiddenField" parent="Uif-InputField" p:showLabel="false">
+        <property name="propertyName" value="proposition.population.id"/>
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:applyClientSide="false"/>
+        </property>
+    </bean>
 
     <bean id="KRMS-Population-QuickFinder" parent="KRMS-QuickFinder">
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
