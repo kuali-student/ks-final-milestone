@@ -1,15 +1,10 @@
-package org.kuali.student.myplan.audit.dto;
+package org.kuali.student.ap.audit.dto;
 
-import org.kuali.student.myplan.audit.infc.AuditProgram;
-import org.kuali.student.myplan.audit.infc.AuditReport;
+import org.kuali.student.ap.audit.infc.AuditProgram;
 import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
-import org.w3c.dom.Element;
 
-import javax.activation.DataHandler;
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 
 /**
  * PlanItem message structure

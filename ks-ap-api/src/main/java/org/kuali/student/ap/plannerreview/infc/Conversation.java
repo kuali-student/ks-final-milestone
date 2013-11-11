@@ -14,7 +14,7 @@ public interface Conversation {
 	 * Get the ID learning plan this conversation is about.
 	 * 
 	 * @return The ID of the learning plan.
-	 * @see org.kuali.student.myplan.academicplan.service.AcademicPlanService
+	 * @see org.kuali.student.ap.academicplan.service.AcademicPlanService
 	 */
 	String getLearningPlanId();
 

@@ -41,7 +41,7 @@ plus any of its dependencies -->
 	<!-- LearningPlanInfo-->
 	<bean id="LearningPlanInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="learningPlanInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.myplan.academicplan.dto.LearningPlanInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.ap.academicplan.dto.LearningPlanInfo"/>
 		<property name="objectLabel" value="Learning Plan"/>
 		<property name="objectDescription">
 			<value>

@@ -41,7 +41,7 @@ plus any of its dependencies -->
 	<!-- PlanItemSetInfo-->
 	<bean id="PlanItemSetInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="planItemSetInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.myplan.academicplan.dto.PlanItemSetInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.ap.academicplan.dto.PlanItemSetInfo"/>
 		<property name="objectLabel" value="Plan Item Set"/>
 		<property name="objectDescription">
 			<value>

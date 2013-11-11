@@ -1,4 +1,4 @@
-package org.kuali.student.myplan.academicplan.infc;
+package org.kuali.student.ap.academicplan.infc;
 
 import org.kuali.student.r2.common.infc.HasId;
 import org.kuali.student.r2.common.infc.RichText;

@@ -1,4 +1,4 @@
-package org.kuali.student.myplan.audit.infc;
+package org.kuali.student.ap.audit.infc;
 
 import org.kuali.student.r2.common.infc.TypeStateEntity;
 

@@ -1,4 +1,4 @@
-package org.kuali.student.myplan.academicplan.dto;
+package org.kuali.student.ap.academicplan.dto;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.myplan.academicplan.infc.PlanItem;
+import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TypeStateEntityInfo;

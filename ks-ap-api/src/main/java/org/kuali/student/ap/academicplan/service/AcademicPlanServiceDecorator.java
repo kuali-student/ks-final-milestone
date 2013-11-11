@@ -1,11 +1,8 @@
-package org.kuali.student.myplan.academicplan.service;
+package org.kuali.student.ap.academicplan.service;
 
-import org.kuali.student.myplan.academicplan.dto.LearningPlanInfo;
-import org.kuali.student.myplan.academicplan.dto.PlanItemInfo;
-import org.kuali.student.myplan.academicplan.dto.PlanItemSetInfo;
-import org.kuali.student.myplan.academicplan.infc.LearningPlan;
-import org.kuali.student.myplan.academicplan.infc.PlanItem;
-import org.kuali.student.myplan.academicplan.infc.PlanItemSet;
+import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
+import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
+import org.kuali.student.ap.academicplan.dto.PlanItemSetInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;

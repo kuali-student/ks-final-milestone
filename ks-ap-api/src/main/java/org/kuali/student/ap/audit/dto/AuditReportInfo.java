@@ -1,14 +1,12 @@
-package org.kuali.student.myplan.audit.dto;
+package org.kuali.student.ap.audit.dto;
 
-import org.kuali.student.myplan.academicplan.infc.PlanItem;
-import org.kuali.student.myplan.audit.infc.AuditReport;
+import org.kuali.student.ap.audit.infc.AuditReport;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
 import org.w3c.dom.Element;
 
 import javax.activation.DataHandler;
 import javax.xml.bind.annotation.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package org.kuali.student.myplan.academicplan.service;
+package org.kuali.student.ap.academicplan.service;
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 

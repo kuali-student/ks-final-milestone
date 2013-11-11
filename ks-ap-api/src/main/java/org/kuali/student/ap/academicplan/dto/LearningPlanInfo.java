@@ -1,6 +1,6 @@
-package org.kuali.student.myplan.academicplan.dto;
+package org.kuali.student.ap.academicplan.dto;
 
-import org.kuali.student.myplan.academicplan.infc.LearningPlan;
+import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
 import org.w3c.dom.Element;

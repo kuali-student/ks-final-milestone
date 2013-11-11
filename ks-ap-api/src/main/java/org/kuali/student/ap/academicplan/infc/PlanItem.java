@@ -1,4 +1,4 @@
-package org.kuali.student.myplan.academicplan.infc;
+package org.kuali.student.ap.academicplan.infc;
 
 import java.math.BigDecimal;
 import java.util.List;

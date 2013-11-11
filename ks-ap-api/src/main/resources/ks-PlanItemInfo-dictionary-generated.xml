@@ -39,7 +39,7 @@
 	<!-- PlanItemInfo-->
 	<bean id="PlanItemInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="planItemInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.myplan.academicplan.dto.PlanItemInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.ap.academicplan.dto.PlanItemInfo"/>
 		<property name="objectLabel" value="Plan Item"/>
 		<property name="objectDescription">
 			<value>

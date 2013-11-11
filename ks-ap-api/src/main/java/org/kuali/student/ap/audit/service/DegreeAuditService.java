@@ -1,8 +1,8 @@
-package org.kuali.student.myplan.audit.service;
+package org.kuali.student.ap.audit.service;
 
-import org.kuali.student.myplan.academicplan.dto.LearningPlanInfo;
-import org.kuali.student.myplan.audit.dto.AuditProgramInfo;
-import org.kuali.student.myplan.audit.dto.AuditReportInfo;
+import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
+import org.kuali.student.ap.audit.dto.AuditProgramInfo;
+import org.kuali.student.ap.audit.dto.AuditReportInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.*;
