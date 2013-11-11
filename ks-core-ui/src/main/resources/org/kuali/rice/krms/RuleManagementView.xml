@@ -271,7 +271,7 @@ limitations under the License.
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="edit" p:align="right" p:methodToCall="getSelectedKey">
                     <property name="additionalSubmitData" value="selectedKey:@{#np.key != null ? #np.key : -1}"/>
                     <property name="toolTip">
-                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
+                        <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true"
                               p:tooltipContent="Edit Prerequisite Rule"/>
                     </property>
                 </bean>

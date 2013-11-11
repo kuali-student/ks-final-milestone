@@ -205,7 +205,7 @@ limitations under the License.
             <list>
                 <bean parent="Uif-ActionLink" p:actionLabel="Compare" p:methodToCall="compareRules">
                     <property name="toolTip">
-                        <bean parent="Uif-Tooltip" p:tooltipContent="Compare with parent"/>
+                        <bean parent="Uif-KS-Tooltip" p:tooltipContent="Compare with parent"/>
                     </property>
                 </bean>
             </list>

@@ -42,4 +42,28 @@
         </property>
     </bean>
 
+    <!-- customize Uif-TooltipFocus and Uif-Tooltip for the enrollment-wide tooltip customization -->
+    <bean id="Uif-KS-TooltipFocus" parent="Uif-TooltipFocus">
+        <property name="templateOptions">
+            <map merge="true">
+                <entry key="position" value="top"/>
+                <entry key="themeName" value="all-black"/>
+                <entry key="openingSpeed" value="1"/>
+                <!--<entry key="closingSpeed" value="1"/> -->
+                <entry key="mouseOut" value="hide"/>
+            </map>
+        </property>
+    </bean>
+    <bean id="Uif-KS-Tooltip" parent="Uif-Tooltip">
+        <property name="templateOptions">
+            <map merge="true">
+                <entry key="position" value="top"/>
+                <entry key="themeName" value="all-black"/>
+                <entry key="openingSpeed" value="1"/>
+                <!--<entry key="closingSpeed" value="1"/> -->
+                <entry key="mouseOut" value="hide"/>
+            </map>
+        </property>
+    </bean>
+
 </beans>
