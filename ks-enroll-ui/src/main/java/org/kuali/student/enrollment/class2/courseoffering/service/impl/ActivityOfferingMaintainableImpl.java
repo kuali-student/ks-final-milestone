@@ -674,42 +674,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     }
 
     protected void loadNavigationDetails(ActivityOfferingWrapper wrapper) throws Exception {
-        List<ActivityOfferingInfo> aos = new ArrayList<ActivityOfferingInfo>();
-
-        // search for id, code, type of all AOs in CO
-        SearchRequestInfo request = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AO_CODES_TYPES_BY_CO_ID_SEARCH_KEY);
-        request.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, wrapper.getAoInfo().getCourseOfferingId());
-        SearchResultInfo result = null;
-        result = CourseOfferingManagementUtil.getSearchService().search(request, createContextInfo());
-        List<SearchResultRowInfo> rows = result.getRows();
-        if (!rows.isEmpty()) {
-            for (SearchResultRowInfo row: rows) {
-                List<SearchResultCellInfo> cells = row.getCells();
-                String aoId = null;
-                String aoCode = null;
-                String aoType = null;
-                for (SearchResultCellInfo cell: cells) {
-                    if (cell.getKey().equals(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ID)) {
-                        aoId = cell.getValue();
-                    } else if (cell.getKey().equals(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_CODE)) {
-                        aoCode = cell.getValue();
-                    } else if (cell.getKey().equals(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_TYPE)) {
-                        aoType = cell.getValue();
-                    } else {
-                        throw new OperationFailedException("Query for AO id, code, and type returned too many columns.");
-                    }
-                }
-                ActivityOfferingInfo aoLimitedInfo = new ActivityOfferingInfo();
-                aoLimitedInfo.setActivityCode(aoCode);
-                aoLimitedInfo.setId(aoId);
-                aoLimitedInfo.setTypeKey(aoType);
-                aos.add(aoLimitedInfo);
-            }
-        }
-
-        if(aos.size() > 1) {
-            Collections.sort(aos, new ActivityOfferingComparator());
-        }
+        List<ActivityOfferingInfo> aos = searchForRelatedAOs(wrapper);
 
         // Fill previous/next AOs for navigation
         wrapper.getEditRenderHelper().getAoCodes().clear();
@@ -744,6 +709,18 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             keyValue.setValue(typeInfo.getName() + " " + ao.getActivityCode());
             wrapper.getEditRenderHelper().getAoCodes().add(keyValue);
         }
+    }
+
+    private List<ActivityOfferingInfo> searchForRelatedAOs(ActivityOfferingWrapper wrapper) throws Exception {
+        List<ActivityOfferingInfo> result = new ArrayList<ActivityOfferingInfo>();
+
+        // search for id, code, type of all AOs in CO
+        SearchRequestInfo searchRequest = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AO_CODES_TYPES_BY_CO_ID_SEARCH_KEY);
+        searchRequest.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, wrapper.getAoInfo().getCourseOfferingId());
+        List<ActivityOfferingInfo> aos = CourseOfferingViewHelperUtil.loadActivityOfferings(searchRequest);
+        if (aos != null) result.addAll(aos);
+
+        return result;
     }
 
     @Override
@@ -1104,17 +1081,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         public int compare(TypeTypeRelationInfo o1, TypeTypeRelationInfo o2) {
             String value1 = o1.getId();
             String value2 = o2.getId();
-
-            int result = value1.compareToIgnoreCase(value2);
-            return result;
-        }
-    }
-
-    private static class ActivityOfferingComparator implements Comparator<ActivityOfferingInfo>, Serializable {
-        @Override
-        public int compare(ActivityOfferingInfo o1, ActivityOfferingInfo o2) {
-            String value1 = o1.getActivityCode();
-            String value2 = o2.getActivityCode();
 
             int result = value1.compareToIgnoreCase(value2);
             return result;

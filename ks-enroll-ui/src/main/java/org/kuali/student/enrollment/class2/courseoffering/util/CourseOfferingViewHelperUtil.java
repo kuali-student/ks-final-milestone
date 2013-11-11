@@ -43,6 +43,7 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
@@ -61,11 +62,13 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -97,10 +100,6 @@ public class CourseOfferingViewHelperUtil {
         } else {
             return creditValue;
         }
-    }
-
-    public static CourseService getCourseService() {
-        return CourseOfferingResourceLoader.loadCourseService();
     }
 
     public static OfferingInstructorInfo findDisplayInstructor(List<OfferingInstructorInfo> instructors) {
@@ -175,21 +174,19 @@ public class CourseOfferingViewHelperUtil {
      */
     public static void updateCourseOfferingStateFromActivityOfferingStateChange(CourseOfferingListSectionWrapper coInfo, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
 
-        CourseOfferingService coService = CourseOfferingResourceLoader.loadCourseOfferingService();
-
-        List<FormatOfferingInfo> formatOfferings = coService.getFormatOfferingsByCourseOffering(coInfo.getCourseOfferingId(), context);
+        List<FormatOfferingInfo> formatOfferings = CourseOfferingManagementUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(coInfo.getCourseOfferingId(), context);
 
         String oldFoState, newFoState;
         // Verify each FO, CO state with AO state consistence
 
         for (FormatOfferingInfo fo : formatOfferings) {
             oldFoState = fo.getStateKey();
-            List<ActivityOfferingInfo> activityOfferings = coService.getActivityOfferingsByFormatOffering(fo.getId(), context);
+            List<ActivityOfferingInfo> activityOfferings = CourseOfferingManagementUtil.getCourseOfferingService().getActivityOfferingsByFormatOffering(fo.getId(), context);
             newFoState = getNewFoState(activityOfferings);
 
             if (newFoState != null && !StringUtils.equals(oldFoState, newFoState)) {
                 fo.setStateKey(newFoState);
-                StatusInfo statusInfo = coService.changeFormatOfferingState(fo.getId(), newFoState, context);
+                StatusInfo statusInfo = CourseOfferingManagementUtil.getCourseOfferingService().changeFormatOfferingState(fo.getId(), newFoState, context);
                 if (!statusInfo.getIsSuccess()){
                      throw new RuntimeException(statusInfo.getMessage());
                 }
@@ -275,12 +272,10 @@ public class CourseOfferingViewHelperUtil {
 
         //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
         StringBuilder sb = new StringBuilder(" ");
-        CourseOfferingService coService = CourseOfferingResourceLoader.loadCourseOfferingService();
-        SchedulingService schedulingService = CourseOfferingResourceLoader.loadSchedulingService();
-        List<ScheduleRequestSetInfo> scheduleRequestSets = schedulingService
+        List<ScheduleRequestSetInfo> scheduleRequestSets = CourseOfferingManagementUtil.getSchedulingService()
                 .getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, ao.getId(), context);
         for(ScheduleRequestSetInfo srs : scheduleRequestSets) {
-            List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByIds(srs.getRefObjectIds(), context);
+            List<ActivityOfferingInfo> aoList = CourseOfferingManagementUtil.getCourseOfferingService().getActivityOfferingsByIds(srs.getRefObjectIds(), context);
             for(ActivityOfferingInfo aoInfo : aoList) {
                 sb.append(aoInfo.getCourseOfferingCode() + " " + aoInfo.getActivityCode() + ActivityOfferingDisplayWrapper.BR);
             }
@@ -300,7 +295,6 @@ public class CourseOfferingViewHelperUtil {
         String courseId;
         List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
         List<CourseInfo> courseInfoList = new ArrayList<CourseInfo>();
-        CluService cluService = CourseOfferingResourceLoader.loadCluService();
 
         SearchParamInfo qpv1 = new SearchParamInfo();
         qpv1.setKey("lu.queryParam.startsWith.cluCode");
@@ -317,7 +311,7 @@ public class CourseOfferingViewHelperUtil {
         searchRequest.setSearchKey("lu.search.cluByCodeAndState");
 
         try {
-            SearchResultInfo searchResult = cluService.search(searchRequest, ContextUtils.getContextInfo());
+            SearchResultInfo searchResult = CourseOfferingManagementUtil.getCluService().search(searchRequest, ContextUtils.getContextInfo());
             if (searchResult.getRows().size() > 0) {
                 for (SearchResultRowInfo row : searchResult.getRows()) {
                     List<SearchResultCellInfo> srCells = row.getCells();
@@ -325,7 +319,7 @@ public class CourseOfferingViewHelperUtil {
                         for (SearchResultCellInfo cell : srCells) {
                             if ("lu.resultColumn.cluId".equals(cell.getKey())) {
                                 courseId = cell.getValue();
-                                returnCourseInfo = getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
+                                returnCourseInfo = CourseOfferingManagementUtil.getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
                                 courseInfoList.add(returnCourseInfo);
                             }
                         }
@@ -427,35 +421,72 @@ public class CourseOfferingViewHelperUtil {
         return termDayOfYear;
     }
 
-
-    public static List<CourseOfferingInfo> loadCourseOfferings( SearchService searchService, SearchRequestInfo searchRequest ) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
-
+    public static List<CourseOfferingInfo> loadCourseOfferings(SearchRequestInfo searchRequest) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         List<CourseOfferingInfo> result = new ArrayList<CourseOfferingInfo>();
-
         ContextInfo contextInfo = new ContextInfo();
-
-        SearchResultInfo searchResult = searchService.search( searchRequest, contextInfo );
+        SearchResultInfo searchResult = CourseOfferingManagementUtil.getSearchService().search(searchRequest, contextInfo);
 
         for( SearchResultRowInfo row : searchResult.getRows() ) {
             CourseOfferingInfo courseOfferingInfo = new CourseOfferingInfo();
-
             for( SearchResultCellInfo cellInfo : row.getCells() ) {
-
                 String value = StringUtils.defaultIfEmpty( cellInfo.getValue(), StringUtils.EMPTY );
-
                 if( CourseOfferingManagementSearchImpl.SearchResultColumns.CODE.equals( cellInfo.getKey() ) ) {
                     courseOfferingInfo.setCourseOfferingCode( value );
                 }
                 else if( CourseOfferingManagementSearchImpl.SearchResultColumns.CO_ID.equals( cellInfo.getKey() ) ) {
                     courseOfferingInfo.setId( value );
                 }
-
             }
-
             result.add( courseOfferingInfo );
+        }
+        return result;
+    }
+
+    public static List<ActivityOfferingInfo> loadActivityOfferings(SearchRequestInfo searchRequest) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        List<ActivityOfferingInfo> result = new ArrayList<ActivityOfferingInfo>();
+        ContextInfo contextInfo = new ContextInfo();
+        SearchResultInfo searchResult = CourseOfferingManagementUtil.getSearchService().search(searchRequest, contextInfo);
+        List<SearchResultRowInfo> rows = searchResult.getRows();
+        if (!rows.isEmpty()) {
+            for (SearchResultRowInfo row: rows) {
+                List<SearchResultCellInfo> cells = row.getCells();
+                String aoId = null;
+                String aoCode = null;
+                String aoType = null;
+                for (SearchResultCellInfo cell: cells) {
+                    if (cell.getKey().equals(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ID)) {
+                        aoId = cell.getValue();
+                    } else if (cell.getKey().equals(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_CODE)) {
+                        aoCode = cell.getValue();
+                    } else if (cell.getKey().equals(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_TYPE)) {
+                        aoType = cell.getValue();
+                    } else {
+                        throw new OperationFailedException("Query for AO id, code, and type returned too many columns.");
+                    }
+                }
+                ActivityOfferingInfo aoLimitedInfo = new ActivityOfferingInfo();
+                aoLimitedInfo.setActivityCode(aoCode);
+                aoLimitedInfo.setId(aoId);
+                aoLimitedInfo.setTypeKey(aoType);
+                result.add(aoLimitedInfo);
+            }
+        }
+
+        if(result.size() > 1) {
+            Collections.sort(result, new ActivityOfferingComparator());
         }
 
         return result;
     }
 
+    private static class ActivityOfferingComparator implements Comparator<ActivityOfferingInfo>, Serializable {
+        @Override
+        public int compare(ActivityOfferingInfo o1, ActivityOfferingInfo o2) {
+            String value1 = o1.getActivityCode();
+            String value2 = o2.getActivityCode();
+
+            int result = value1.compareToIgnoreCase(value2);
+            return result;
+        }
+    }
 }
