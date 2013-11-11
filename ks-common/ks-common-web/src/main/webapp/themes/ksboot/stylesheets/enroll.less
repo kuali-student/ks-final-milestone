@@ -1256,7 +1256,16 @@ table.dataTable tr.uif-newCollectionItem td.sorting_1 {
   left:0;
 }
 button.halflings:before {
-  top:-6px;
+  // top:-6px;
+}
+.ui-datepicker-trigger.halflings {
+  width:16px;
+  height:16px;
+}
+button.ui-datepicker-trigger {
+  &:hover, &:focus, &:active, &:visited {
+    padding-right:6px;
+  }
 }
 .icon.halflings:hover:before {color: @iconHoverColor;}
 
