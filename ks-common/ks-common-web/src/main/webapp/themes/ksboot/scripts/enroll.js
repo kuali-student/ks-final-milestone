@@ -350,7 +350,7 @@ function updateContextBar(srcId, contextBarId, dayOfYear, baseUrl) {
                     if (console) {
                         console.log("vh top before = " + vh.offset().top);
                     }
-                    var vhTop = vh.offset().top + 1;
+                    var vhTop = vh.offset().top + contextBarHeight;
                     vh.offset({top: vhTop});
                     vh.data("offset", vh.offset());
                     if (console) {
@@ -360,7 +360,7 @@ function updateContextBar(srcId, contextBarId, dayOfYear, baseUrl) {
                     if (console) {
                         console.log("cw top before = " + cw.offset().top);
                     }
-                    var cwTop = cw.offset().top + 1;
+                    var cwTop = cw.offset().top + contextBarHeight;
                     cw.offset({top: cwTop});
                     cw.data("offset", cw.offset());
                     if (console) {
