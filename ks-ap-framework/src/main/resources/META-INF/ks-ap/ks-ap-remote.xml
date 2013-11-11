@@ -17,14 +17,14 @@
 
 	<bean id="academicPlanService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface"
-			value="org.kuali.student.myplan.academicplan.service.AcademicPlanService" />
+			value="org.kuali.student.ap.academicplan.service.AcademicPlanService" />
 		<property name="serviceQName"
 			value="{http://student.kuali.org/wsdl/acadplan}AcademicPlanService" />
 	</bean>
 
 	<bean id="degreeAuditService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface"
-			value="org.kuali.student.myplan.audit.service.DegreeAuditService" />
+			value="org.kuali.student.ap.audit.service.DegreeAuditService" />
 		<property name="serviceQName"
 			value="{http://student.kuali.org/wsdl/da}DegreeAuditService" />
 	</bean>

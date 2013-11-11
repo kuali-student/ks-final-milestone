@@ -1,8 +1,8 @@
 package org.kuali.student.myplan.plan.form;
 
+import org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl;
 import org.kuali.student.ap.planner.support.DefaultPlannerForm;
-import org.kuali.student.myplan.course.dataobject.CourseSummaryDetails;
-import org.kuali.student.myplan.course.service.CourseDetailsInquiryHelperImpl;
+import org.kuali.student.ap.coursesearch.dataobject.CourseSummaryDetails;
 
 /**
  * Extends the default planner form to tie in course summary details from course

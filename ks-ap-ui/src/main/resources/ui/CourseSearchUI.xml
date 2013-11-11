@@ -38,7 +38,7 @@
 		</property>
 		<property name="footer.render" value="false" />
 		<property name="formClass"
-			value="org.kuali.student.myplan.course.form.CourseSearchFormImpl" />
+			value="org.kuali.student.ap.coursesearch.form.CourseSearchFormImpl" />
 	</bean>
 
 	<bean id="course_search_page" parent="course_search_page-parent" />
@@ -159,7 +159,7 @@
 			<bean parent="Uif-DropdownControl" />
 		</property>
 		<property name="optionsFinder">
-			<bean class="org.kuali.student.myplan.utils.PublishedTermsListBuilder">
+			<bean class="org.kuali.student.ap.utils.PublishedTermsListBuilder">
 				<property name="suffix" value=" only" />
 				<property name="additionalListItemsTop">
 					<map>

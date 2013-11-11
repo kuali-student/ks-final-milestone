@@ -2,6 +2,7 @@ package org.kuali.student.myplan.plan.controller;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
+import org.kuali.rice.krad.web.controller.extension.KsapControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
@@ -11,9 +12,9 @@ import org.kuali.student.ap.planner.support.PlanItemControllerHelper;
 import org.kuali.student.myplan.plan.form.PlannerFormImpl;
 import org.kuali.student.myplan.plan.util.PlanEventUtils;
 import org.kuali.student.r2.core.acal.infc.Term;
-import org.kuali.student.myplan.academicplan.dto.PlanItemInfo;
-import org.kuali.student.myplan.academicplan.infc.LearningPlan;
-import org.kuali.student.myplan.academicplan.infc.PlanItem;
+import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
+import org.kuali.student.ap.academicplan.infc.LearningPlan;
+import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -45,9 +46,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Fix under KSAP-265
+ * UifControllerBase replaced by KsapControllerBase
+ */
 @Controller
 @RequestMapping(value = "/planner/**")
-public class PlannerController extends UifControllerBase {
+public class PlannerController extends KsapControllerBase {
 
 	private static final Logger LOG = Logger.getLogger(PlannerController.class);
 

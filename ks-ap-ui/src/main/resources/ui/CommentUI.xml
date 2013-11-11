@@ -120,7 +120,7 @@
             </list>
         </property>
         <property name="footer.render" value="false"/>
-        <property name="formClass" value="org.kuali.student.myplan.comment.form.CommentForm"/>
+        <property name="formClass" value="org.kuali.student.ap.comment.form.CommentForm"/>
     </bean>
 
     <bean id="comment_sent" parent="Uif-HorizontalBoxGroup" p:render="@{feedBackMode eq true ? true : false}" p:style="margin:0 0 0 100px;">
@@ -209,7 +209,7 @@
             <bean parent="Uif-HeaderSix" p:style="margin:0 0 10px 0;"/>
         </property>
         <property name="collectionObjectClass"
-                  value="org.kuali.student.myplan.comment.dataobject.CommentDataObject"/>
+                  value="org.kuali.student.ap.comment.dataobject.CommentDataObject"/>
         <property name="propertyName" value="comments"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
@@ -435,9 +435,9 @@
         <property name="page.header.render" value="false"/>
         <property name="header.render" value="false"/>
         <property name="footer.render" value="false"/>
-        <property name="dataObjectClassName" value="org.kuali.student.myplan.comment.dataobject.MessageDataObject"/>
+        <property name="dataObjectClassName" value="org.kuali.student.ap.comment.dataobject.MessageDataObject"/>
         <property name="viewHelperServiceClass"
-                  value="org.kuali.student.myplan.comment.service.MessagesLookupableHelperImpl"/>
+                  value="org.kuali.student.ap.comment.service.MessagesLookupableHelperImpl"/>
         <property name="singlePageView" value="true"/>
         <property name="cssClasses">
             <list merge="true">
@@ -513,7 +513,7 @@
             </list>
         </property>
         <property name="collectionObjectClass"
-                  value="org.kuali.student.myplan.comment.dataobject.MessageDataObject"/>
+                  value="org.kuali.student.ap.comment.dataobject.MessageDataObject"/>
         <property name="propertyName" value="lookupResults"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
@@ -692,9 +692,9 @@
         <property name="page.header.render" value="false"/>
         <property name="header.render" value="false"/>
         <property name="footer.render" value="false"/>
-        <property name="dataObjectClassName" value="org.kuali.student.myplan.comment.dataobject.MessageDataObject"/>
+        <property name="dataObjectClassName" value="org.kuali.student.ap.comment.dataobject.MessageDataObject"/>
         <property name="viewHelperServiceClass"
-                  value="org.kuali.student.myplan.comment.service.MessagesLookupableHelperImpl"/>
+                  value="org.kuali.student.ap.comment.service.MessagesLookupableHelperImpl"/>
         <property name="singlePageView" value="true"/>
         <property name="cssClasses">
             <list merge="true">
@@ -747,7 +747,7 @@
 
     <bean id="messages_detail_list" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="4">
         <property name="headerText" value="You have @{lookupResults.size()} messages"/>
-        <property name="collectionObjectClass" value="org.kuali.student.myplan.comment.dataobject.MessageDataObject"/>
+        <property name="collectionObjectClass" value="org.kuali.student.ap.comment.dataobject.MessageDataObject"/>
         <property name="propertyName" value="lookupResults"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
@@ -879,7 +879,7 @@
 
 
     <!-- last comment time stamp formatter -->
-    <bean id="last_comment_formatter" class="org.kuali.student.myplan.course.util.TimestampPropertyEditor">
+    <bean id="last_comment_formatter" class="org.kuali.student.ap.coursesearch.util.TimestampPropertyEditor">
         <property name="simpleDateFormat" value="M/d/yyyy h:mm aa"/>
         <property name="emptyDateText" value="--"/>
     </bean>

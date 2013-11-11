@@ -1,4 +1,4 @@
-<%@ page import="org.kuali.student.myplan.utils.UserSessionHelper" %>
+<%@ page import="org.kuali.student.ap.utils.UserSessionHelper" %>
 <%--
 
     Copyright 2005-2012 The Kuali Foundation

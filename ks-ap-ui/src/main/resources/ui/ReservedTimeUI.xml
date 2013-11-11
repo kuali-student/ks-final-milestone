@@ -29,9 +29,7 @@
 
 	<bean id="sb_create_reserved_time_page" parent="sb_create_reserved_time_page-parent" />
 	<bean abstract="true" id="sb_create_reserved_time_page-parent" parent="KSAP-PopoverPage" p:id="sb_create_reserved_time_page">
-<!--Needs KRAD Patch KULRICE-8862
 		<property name="innerViewWrapperId" value="sb_create_reserved_time_inner" />
--->
 		<property name="headerText" value="New Reserved Time" />
 		<property name="layoutManager">
 			<bean parent="Uif-VerticalBoxLayout" />

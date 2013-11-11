@@ -1,9 +1,7 @@
 package org.kuali.student.myplan.plan.dataobject;
 
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.myplan.course.dataobject.ActivityOfferingItem;
-
-import java.util.List;
+import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingItem;
 
 /**
  * Created by IntelliJ IDEA.

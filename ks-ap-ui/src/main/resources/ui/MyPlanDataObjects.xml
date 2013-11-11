@@ -388,7 +388,7 @@
 
     <bean id="PlannedCourseDataObject.planActivities" parent="CollectionDefinition">
         <property name="name" value="planActivities"/>
-        <property name="dataObjectClass" value="org.kuali.student.myplan.course.dataobject.ActivityOfferingItem"/>
+        <property name="dataObjectClass" value="org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingItem"/>
     </bean>
 
     <bean id="PlannedCourseDataObject.planItemDataObject" parent="ComplexAttributeDefinition">
@@ -409,7 +409,7 @@
     <bean id="CourseSummaryDetails" parent="CourseSummaryDetails-parentBean"/>
     <bean id="CourseSummaryDetails-parentBean" abstract="true" parent="DataObjectEntry">
         <property name="objectLabel" value="Course Summary Details"/>
-        <property name="dataObjectClass" value="org.kuali.student.myplan.course.dataobject.CourseSummaryDetails"/>
+        <property name="dataObjectClass" value="org.kuali.student.ap.coursesearch.dataobject.CourseSummaryDetails"/>
         <property name="titleAttribute" value="courseId"/>
         <property name="attributes">
             <list>
@@ -718,7 +718,7 @@
     <bean id="CourseDetails" parent="CourseDetails-parentBean"/>
     <bean id="CourseDetails-parentBean" abstract="true" parent="DataObjectEntry">
         <property name="objectLabel" value="Course Details"/>
-        <property name="dataObjectClass" value="org.kuali.student.myplan.course.dataobject.CourseDetails"/>
+        <property name="dataObjectClass" value="org.kuali.student.ap.coursesearch.dataobject.CourseDetails"/>
         <property name="complexAttributes">
             <list>
                 <ref bean="CourseDetails.courseSummaryDetails"/>
@@ -808,7 +808,7 @@
 
     <bean id="CourseDetails.courseOfferingInstitutionList" parent="CollectionDefinition">
         <property name="name" value="courseOfferingInstitutionList"/>
-        <property name="dataObjectClass" value="org.kuali.student.myplan.course.dataobject.CourseOfferingInstitution"/>
+        <property name="dataObjectClass" value="org.kuali.student.ap.coursesearch.dataobject.CourseOfferingInstitution"/>
     </bean>
 
     <bean id="CourseDetails.plannedList" parent="CollectionDefinition">
@@ -833,7 +833,7 @@
     <bean id="DegreeAuditItem" parent="DegreeAuditItem-parentBean"/>
     <bean id="DegreeAuditItem-parentBean" abstract="true" parent="DataObjectEntry">
         <property name="objectLabel" value="Recent Audits"/>
-        <property name="dataObjectClass" value="org.kuali.student.myplan.audit.dataobject.DegreeAuditItem"/>
+        <property name="dataObjectClass" value="org.kuali.student.ap.audit.dataobject.DegreeAuditItem"/>
         <property name="titleAttribute" value=""/>
         <property name="attributes">
             <list>
@@ -1069,7 +1069,7 @@
     <bean id="CommentDataObject" parent="CommentDataObject-parentBean"/>
     <bean id="CommentDataObject-parentBean" abstract="true" parent="DataObjectEntry">
         <property name="objectLabel" value="Comment"/>
-        <property name="dataObjectClass" value="org.kuali.student.myplan.comment.dataobject.MessageDataObject"/>
+        <property name="dataObjectClass" value="org.kuali.student.ap.comment.dataobject.MessageDataObject"/>
         <property name="titleAttribute" value="Comment"/>
         <property name="attributes">
             <list>
@@ -1142,7 +1142,7 @@
     <!-- Message data object extends CommentDataObject-->
     <bean id="MessageDataObject" parent="CommentDataObject-parentBean">
         <property name="objectLabel" value="Adviser Message"/>
-        <property name="dataObjectClass" value="org.kuali.student.myplan.comment.dataobject.MessageDataObject"/>
+        <property name="dataObjectClass" value="org.kuali.student.ap.comment.dataobject.MessageDataObject"/>
         <property name="titleAttribute" value=""/>
         <property name="attributes">
             <list merge="true">
@@ -1190,7 +1190,7 @@
 
     <bean id="MessageDataObject.comments" parent="CollectionDefinition">
         <property name="name" value="comments"/>
-        <property name="dataObjectClass" value="org.kuali.student.myplan.comment.dataobject.CommentDataObject"/>
+        <property name="dataObjectClass" value="org.kuali.student.ap.comment.dataobject.CommentDataObject"/>
     </bean>
 
     <!-- *********************** Adviser Message and Comment Data Object End ******************** -->

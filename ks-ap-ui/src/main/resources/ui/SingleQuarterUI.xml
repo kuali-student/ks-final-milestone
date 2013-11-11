@@ -298,7 +298,7 @@
         <property name="id" value="@{#line.courseDetails.courseId}_sections_collection"/>
         <property name="validationMessages.render" value="false"/>
         <property name="header.render" value="false"/>
-        <property name="collectionObjectClass" value="org.kuali.student.myplan.course.dataobject.ActivityOfferingItem"/>
+        <property name="collectionObjectClass" value="org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingItem"/>
         <property name="propertyName" value="planActivities"/>
         <property name="layoutManager.id" value="course_details_section_datatable"/>
         <property name="cssClasses">

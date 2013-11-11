@@ -3,8 +3,8 @@ package org.kuali.student.myplan.plan.dataobject;
 import java.io.Serializable;
 import java.util.List;
 
-import org.kuali.student.myplan.course.dataobject.ActivityOfferingItem;
-import org.kuali.student.myplan.course.dataobject.CourseSummaryDetails;
+import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingItem;
+import org.kuali.student.ap.coursesearch.dataobject.CourseSummaryDetails;
 
 /**
  * Captures a course detail object along with a single instance of its planned

@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.YearTerm;
-import org.kuali.student.myplan.academicplan.infc.PlanItem;
+import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.r2.common.infc.Attribute;
 
 public class PlanItemDataObject implements Serializable {

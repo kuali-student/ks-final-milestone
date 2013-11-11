@@ -23,9 +23,9 @@
     <!-- Inquiry View -->
     <bean id="DegreeAuditDetails-InquiryView" parent="MyPlanInquiryView">
         <property name="headerText" value="Audit Degree"/>
-        <property name="dataObjectClassName" value="org.kuali.student.myplan.audit.dataobject.DegreeAuditItem"/>
+        <property name="dataObjectClassName" value="org.kuali.student.ap.audit.dataobject.DegreeAuditItem"/>
         <property name="viewHelperServiceClass"
-                  value="org.kuali.student.myplan.audit.service.DegreeAuditInquiryViewHelperServiceImpl"/>
+                  value="org.kuali.student.ap.audit.service.DegreeAuditInquiryViewHelperServiceImpl"/>
         <property name="page.header.render" value="false"/>
         <property name="footer.render" value="false"/>
         <property name="singlePageView" value="true"/>
@@ -112,9 +112,9 @@
         <property name="page.header.render" value="false"/>
         <property name="header.render" value="false"/>
         <property name="footer.render" value="false"/>
-        <property name="dataObjectClassName" value="org.kuali.student.myplan.audit.dataobject.DegreeAuditItem"/>
+        <property name="dataObjectClassName" value="org.kuali.student.ap.audit.dataobject.DegreeAuditItem"/>
         <property name="viewHelperServiceClass"
-                  value="org.kuali.student.myplan.audit.service.DegreeAuditsLookupableHelperImpl"/>
+                  value="org.kuali.student.ap.audit.service.DegreeAuditsLookupableHelperImpl"/>
         <property name="singlePageView" value="true"/>
         <property name="cssClasses">
             <list merge="true">
@@ -160,7 +160,7 @@
         "/>
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="false"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
-        <property name="collectionObjectClass" value="org.kuali.student.myplan.audit.dataobject.DegreeAuditItem"/>
+        <property name="collectionObjectClass" value="org.kuali.student.ap.audit.dataobject.DegreeAuditItem"/>
         <property name="propertyName" value="lookupResults"/>
         <property name="filters">
             <list>

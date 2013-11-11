@@ -5,7 +5,7 @@ import java.util.List;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.PlanHelper;
-import org.kuali.student.myplan.academicplan.dto.LearningPlanInfo;
+import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 
 /**
  * Default implementation of the PlanHelper

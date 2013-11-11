@@ -1,6 +1,6 @@
 package org.kuali.student.ap.framework.context;
 
-import org.kuali.student.myplan.academicplan.dto.LearningPlanInfo;
+import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 
 /**
  * Helper that handles configurable actions for accessing learning plans and Plan items.

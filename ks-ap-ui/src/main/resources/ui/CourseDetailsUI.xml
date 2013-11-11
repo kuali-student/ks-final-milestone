@@ -25,9 +25,9 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     <bean id="CourseDetails-InquiryView" parent="CourseDetails-InquiryView-parent" />
     <bean id="CourseDetails-InquiryView-parent" abstract="true" parent="MyPlanInquiryView">
         <property name="headerText" value="Course Details"/>
-        <property name="dataObjectClassName" value="org.kuali.student.myplan.course.dataobject.CourseDetails"/>
+        <property name="dataObjectClassName" value="org.kuali.student.ap.coursesearch.dataobject.CourseDetails"/>
         <property name="viewHelperServiceClass"
-                  value="org.kuali.student.myplan.course.service.CourseDetailsInquiryHelperImpl"/>
+                  value="org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl"/>
         <property name="page.header.render" value="false"/>
         <property name="header.render" value="true"/>
         <property name="footer.render" value="false"/>
@@ -708,7 +708,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     </bean>
 
     <bean id="meeting_building_link_formatter"
-          class="org.kuali.student.myplan.course.util.MeetingDetailsPropertyEditor">
+          class="org.kuali.student.ap.coursesearch.util.MeetingDetailsPropertyEditor">
     </bean>
 
     <bean id="course_details_sections" parent="Uif-VerticalBoxGroup">
@@ -753,7 +753,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
             <null/>
         </property>
         <property name="collectionObjectClass"
-                  value="org.kuali.student.myplan.course.dataobject.CourseOfferingInstitution"/>
+                  value="org.kuali.student.ap.coursesearch.dataobject.CourseOfferingInstitution"/>
         <property name="propertyName" value="courseOfferingInstitutionList"/>
         <property name="render" value="@{dataObject.courseOfferingInstitutionList.size() eq 1}"/>
         <property name="cssClasses">
@@ -805,7 +805,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
             <null/>
         </property>
         <property name="collectionObjectClass"
-                  value="org.kuali.student.myplan.course.dataobject.CourseOfferingInstitution"/>
+                  value="org.kuali.student.ap.coursesearch.dataobject.CourseOfferingInstitution"/>
         <property name="propertyName" value="courseOfferingInstitutionList"/>
         <property name="render" value="@{dataObject.courseOfferingInstitutionList.size() gt 1}"/>
         <property name="layoutManager.summaryFields" value="name"/>
@@ -842,7 +842,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="validationMessages">
             <null/>
         </property>
-        <property name="collectionObjectClass" value="org.kuali.student.myplan.course.dataobject.CourseOfferingTerm"/>
+        <property name="collectionObjectClass" value="org.kuali.student.ap.coursesearch.dataobject.CourseOfferingTerm"/>
         <property name="propertyName" value="courseOfferingTermList"/>
         <property name="cssClasses">
             <list merge="true">
@@ -885,7 +885,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="validationMessages">
             <null/>
         </property>
-        <property name="collectionObjectClass" value="org.kuali.student.myplan.course.dataobject.ActivityOfferingItem"/>
+        <property name="collectionObjectClass" value="org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingItem"/>
         <property name="propertyName" value="activityOfferingItemList"/>
         <property name="headerText" value="@{#line.term}"/>
         <property name="onDocumentReadyScript" value="
@@ -1485,9 +1485,9 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     </bean>
 
     <bean id="CourseDetailsSections-InquiryView" parent="MyPlanBaseInquiryView">
-        <property name="dataObjectClassName" value="org.kuali.student.myplan.course.dataobject.CourseDetails"/>
+        <property name="dataObjectClassName" value="org.kuali.student.ap.coursesearch.dataobject.CourseDetails"/>
         <property name="viewHelperServiceClass"
-                  value="org.kuali.student.myplan.course.service.CourseDetailsInquiryHelperImpl"/>
+                  value="org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl"/>
         <property name="page.header.render" value="false"/>
         <property name="header.render" value="false"/>
         <property name="footer.render" value="false"/>

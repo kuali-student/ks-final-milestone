@@ -1,6 +1,6 @@
 package org.kuali.student.ap.framework.context;
 
-import org.kuali.student.myplan.academicplan.service.AcademicPlanServiceConstants;
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.r2.lum.clu.CLUConstants;
 
 public class PlanConstants extends AcademicPlanServiceConstants {

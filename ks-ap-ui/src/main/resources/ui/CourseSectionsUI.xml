@@ -22,9 +22,9 @@
     <bean id="CourseSections-InquiryView" parent="MyPlanBaseInquiryView">
         <property name="headerText" value="Course Sections"/>
         <property name="viewName" value="CourseSections-InquiryView"/>
-        <property name="dataObjectClassName" value="org.kuali.student.myplan.course.dataobject.CourseDetails"/>
+        <property name="dataObjectClassName" value="org.kuali.student.ap.coursesearch.dataobject.CourseDetails"/>
         <property name="viewHelperServiceClass"
-                  value="org.kuali.student.myplan.course.service.CourseDetailsInquiryHelperImpl"/>
+                  value="org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl"/>
         <property name="page.header.render" value="false"/>
         <property name="header.render" value="false"/>
         <property name="footer.render" value="false"/>

@@ -4,7 +4,7 @@ import org.kuali.student.ap.schedulebuilder.infc.ActivityOption;
 import org.kuali.student.ap.schedulebuilder.infc.CourseOption;
 import org.kuali.student.ap.schedulebuilder.infc.PossibleScheduleOption;
 import org.kuali.student.ap.schedulebuilder.infc.ReservedTime;
-import org.kuali.student.myplan.academicplan.infc.LearningPlan;
+import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 
 import java.util.List;

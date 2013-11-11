@@ -51,13 +51,13 @@
         <property name="serviceName" value="coursePreReqSearch"/>
     </bean>
 
-	<bean id="searchController" class="org.kuali.student.myplan.course.controller.CourseSearchController">
+	<bean id="searchController" class="org.kuali.student.ap.coursesearch.controller.CourseSearchController">
         <property name="atpTypeComparator" ref="atpTypeComparator"/>
     </bean>
 
-	<bean id="atpTypeComparator" class="org.kuali.student.myplan.course.controller.DefaultAtpTypeComparator"/>
+	<bean id="atpTypeComparator" class="org.kuali.student.ap.coursesearch.controller.DefaultAtpTypeComparator"/>
 
-    <bean id="courseSearchStrategy" class="org.kuali.student.myplan.course.controller.CourseSearchStrategy" />
+    <bean id="courseSearchStrategy" class="org.kuali.student.ap.coursesearch.controller.CourseSearchStrategy" />
     <bean id="planController" class="org.kuali.student.myplan.plan.controller.PlanController"/>
 
 </beans>

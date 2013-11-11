@@ -1,6 +1,6 @@
 package org.kuali.student.ap.framework.context;
 
-import org.kuali.student.myplan.academicplan.dto.PlanItemInfo;
+import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 

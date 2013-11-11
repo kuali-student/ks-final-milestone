@@ -145,6 +145,7 @@
         </property>
         <property name="scriptFiles">
             <list merge="true">
+                <value>ks-ap/scripts/KradOverrides.js</value>
                 <value>ks-myplan/scripts/myplan.widgets.js?@{#ConfigProperties['myplan.version']}</value>
                 <value>ks-myplan/scripts/myplan.events.js?@{#ConfigProperties['myplan.version']}</value>
                 <value>ks-myplan/plugins/jquery.subscribe.js?@{#ConfigProperties['myplan.version']}</value>
@@ -515,22 +516,22 @@
 
 
 
-    <bean id="data_list_formatter" class="org.kuali.student.myplan.course.util.CollectionListPropertyEditor">
+    <bean id="data_list_formatter" class="org.kuali.student.ap.coursesearch.util.CollectionListPropertyEditor">
         <property name="emptyListMessage" value="None"/>
     </bean>
 
-    <bean id="crud_message_matrix_formatter" class="org.kuali.student.myplan.course.util.CrudMessageMatrixFormatter"/>
+    <bean id="crud_message_matrix_formatter" class="org.kuali.student.ap.coursesearch.util.CrudMessageMatrixFormatter"/>
 
 
-    <bean id="planned_sections_formatter" class="org.kuali.student.myplan.course.util.PlannedSectionsPropertyEditor"/>
+    <bean id="planned_sections_formatter" class="org.kuali.student.ap.coursesearch.util.PlannedSectionsPropertyEditor"/>
 
     <bean id="scheduled_terms_list_formatter"
-          class="org.kuali.student.myplan.course.util.ScheduledTermsPropertyEditor"/>
+          class="org.kuali.student.ap.coursesearch.util.ScheduledTermsPropertyEditor"/>
 
     <bean id="scheduled_terms_list_formatter_savedCourses"
-          class="org.kuali.student.myplan.course.util.ScheduledTermsPropertyEditor"/>
+          class="org.kuali.student.ap.coursesearch.util.ScheduledTermsPropertyEditor"/>
 
-    <bean id="terms_formatter" class="org.kuali.student.myplan.course.util.CollectionListPropertyEditor">
+    <bean id="terms_formatter" class="org.kuali.student.ap.coursesearch.util.CollectionListPropertyEditor">
         <property name="emptyListMessage"
                   value="Check with the department or your adviser for more information about this course."/>
         <property name="applyClassOnItem" value="true"/>
@@ -541,7 +542,7 @@
         </property>
     </bean>
 
-    <bean id="timestamp_formatter" class="org.kuali.student.myplan.course.util.TimestampPropertyEditor">
+    <bean id="timestamp_formatter" class="org.kuali.student.ap.coursesearch.util.TimestampPropertyEditor">
         <property name="simpleDateFormat" value="M/d/yyyy h:mm aa"/>
     </bean>
 
@@ -793,7 +794,7 @@
         </property>
     </bean>
 
-    <bean id="KSAP-PopoverPage" parent="Uif-Page">
+    <bean id="KSAP-PopoverPage" parent="Ksap-Page">
         <property name="validationMessages">
             <null/>
         </property>
@@ -846,6 +847,7 @@
             </list>
         </property>
     </bean>
+    <bean id="Ksap-Page" parent="Uif-Page" class="org.kuali.rice.krad.uif.container.extension.KSAPPageGroup"/>
 
 </beans>
 

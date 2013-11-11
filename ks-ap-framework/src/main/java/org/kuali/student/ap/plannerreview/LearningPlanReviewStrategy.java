@@ -16,9 +16,7 @@ import java.util.List;
  */
 public interface LearningPlanReviewStrategy {
 
-	public static final String LEARNING_PLAN_TYPE_PLAN_REVIEW = "kuali.academicplan.type.plan.review";
-
-	/**
+    /**
 	 * Get all available advisors for the current student
 	 * @return
 	 */
@@ -36,7 +34,7 @@ public interface LearningPlanReviewStrategy {
 	 * 
 	 * <p>
 	 * The resulting learning plan will have a type of
-	 * {@link #LEARNING_PLAN_TYPE_PLAN_REVIEW}
+	 * {@link org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN_REVIEW}
 	 * </p>
 	 * 
 	 * @param request

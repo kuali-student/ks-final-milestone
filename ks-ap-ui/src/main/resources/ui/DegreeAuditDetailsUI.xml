@@ -202,7 +202,7 @@
             </list>
         </property>
         <property name="footer.render" value="false"/>
-        <property name="formClass" value="org.kuali.student.myplan.audit.form.DegreeAuditForm"/>
+        <property name="formClass" value="org.kuali.student.ap.audit.form.DegreeAuditForm"/>
     </bean>
 
     <bean id="audit_section" parent="Uif-VerticalBoxSubSection">
@@ -376,7 +376,7 @@
                         <bean parent="Uif-VerticalRadioControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.myplan.course.util.AuditRunCampusParam"/>
+                        <bean class="org.kuali.student.ap.coursesearch.util.AuditRunCampusParam"/>
                     </property>
                 </bean>
             </list>
@@ -403,7 +403,7 @@
                                     </bean>
                                 </property>
                                 <property name="optionsFinder">
-                                    <bean class="org.kuali.student.myplan.audit.util.DegreeAuditRunProgramParam"/>
+                                    <bean class="org.kuali.student.ap.audit.util.DegreeAuditRunProgramParam"/>
                                 </property>
                             </bean>
                         </list>

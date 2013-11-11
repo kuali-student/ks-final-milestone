@@ -3,7 +3,7 @@ package org.kuali.student.ap.schedulebuilder;
 import org.kuali.student.ap.schedulebuilder.infc.CourseOption;
 import org.kuali.student.ap.schedulebuilder.infc.PossibleScheduleOption;
 import org.kuali.student.r2.core.acal.infc.Term;
-import org.kuali.student.myplan.academicplan.infc.PlanItem;
+import org.kuali.student.ap.academicplan.infc.PlanItem;
 
 import java.util.List;
 
