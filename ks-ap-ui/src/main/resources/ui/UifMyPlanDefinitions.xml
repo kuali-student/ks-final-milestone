@@ -145,6 +145,7 @@
         </property>
         <property name="scriptFiles">
             <list merge="true">
+                <value>ks-ap/scripts/KradOverrides.js</value>
                 <value>ks-myplan/scripts/myplan.widgets.js?@{#ConfigProperties['myplan.version']}</value>
                 <value>ks-myplan/scripts/myplan.events.js?@{#ConfigProperties['myplan.version']}</value>
                 <value>ks-myplan/plugins/jquery.subscribe.js?@{#ConfigProperties['myplan.version']}</value>
@@ -793,7 +794,7 @@
         </property>
     </bean>
 
-    <bean id="KSAP-PopoverPage" parent="Uif-Page">
+    <bean id="KSAP-PopoverPage" parent="Ksap-Page">
         <property name="validationMessages">
             <null/>
         </property>
@@ -846,6 +847,7 @@
             </list>
         </property>
     </bean>
+    <bean id="Ksap-Page" parent="Uif-Page" class="org.kuali.rice.krad.uif.container.extension.KSAPPageGroup"/>
 
 </beans>
 

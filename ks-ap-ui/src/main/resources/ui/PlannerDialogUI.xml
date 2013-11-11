@@ -44,9 +44,7 @@
 
 	<bean id="planner_add_course_page" parent="planner_dialog_page">
 		<property name="id" value="planner_add_course_page" />
-<!--Needs KRAD Patch KULRICE-8862
 		<property name="innerViewWrapperId" value="planner_add_course_inner" />
--->
 		<property name="headerText" value="What would you like to add to @{term.name}?" />
 		<property name="items">
 			<list merge="true">
@@ -82,9 +80,7 @@
 
   <bean id="planner_edit_term_note_page" parent="planner_dialog_page">
 		<property name="id" value="planner_edit_term_note_page" />
-<!--Needs KRAD Patch KULRICE-8862
 		<property name="innerViewWrapperId" value="planner_edit_term_note_inner" />
--->
 		<property name="headerText" value="Edit @{term.name} term note" />
     	<property name="items">
 	    	<list merge="true">
@@ -118,9 +114,7 @@
 
   <bean id="planner_course_summary_page" parent="KSAP-PopoverPage">
 		<property name="id" value="planner_course_summary_page" />
-<!--Needs KRAD Patch KULRICE-8862
 		<property name="innerViewWrapperId" value="planner_course_summary_inner" />
--->
 		<property name="headerText" value="View course summary" />
 	    <property name="items">
     		<list merge="true">
@@ -237,9 +231,7 @@
 
 	<bean id="planner_edit_plan_item_page" parent="planner_dialog_page">
 		<property name="id" value="planner_edit_plan_item_page" />
-<!--Needs KRAD Patch KULRICE-8862
 		<property name="innerViewWrapperId" value="planner_edit_plan_item_inner" />
--->
 		<property name="headerText" value="Edit @{course.code} @{termId eq null ? 'Bookmark' : 'from the '+term.name+' plan'}" />
 		<property name="items">
 			<list merge="true">
@@ -274,9 +266,7 @@
 
 	<bean id="planner_copy_course_page" parent="planner_dialog_page">
 		<property name="id" value="planner_copy_course_page" />
-<!--Needs KRAD Patch KULRICE-8862
 		<property name="innerViewWrapperId" value="planner_copy_course_inner" />
--->
 		<property name="headerText" value="Which term would you like to copy &lt;strong&gt;@{course.code}&lt;/strong&gt; to?" />
 		<property name="items">
 			<list merge="true">
@@ -312,9 +302,7 @@
 
 	<bean id="planner_copy_plan_item_page" parent="planner_dialog_page">
 		<property name="id" value="planner_copy_plan_item_page" />
-<!--Needs KRAD Patch KULRICE-8862
 		<property name="innerViewWrapperId" value="planner_copy_plan_item_inner" />
--->
 		<property name="headerText" value="Which term would you like to copy &lt;strong&gt;@{course.code}&lt;/strong&gt; to?" />
 		<property name="items">
 			<list merge="true">
@@ -348,9 +336,7 @@
 
 	<bean id="planner_move_plan_item_page" parent="planner_dialog_page">
 		<property name="id" value="planner_move_plan_item_page" />
-<!--Needs KRAD Patch KULRICE-8862
 		<property name="innerViewWrapperId" value="planner_move_plan_item_inner" />
--->
 		<property name="headerText" value="Which term would you like to move &lt;strong&gt;@{course.code}&lt;/strong&gt; to?" />
 		<property name="items">
 			<list merge="true">
@@ -384,9 +370,7 @@
 
 	<bean id="planner_delete_plan_item_page" parent="planner_dialog_page">
 		<property name="id" value="planner_delete_plan_item_page" />
-<!--  Needs KRAD Patch KULRICE-8862
 		<property name="innerViewWrapperId" value="planner_delete_plan_item_inner" />
--->
 		<property name="headerText" value="Delete @{course.code} @{termId eq null ? 'bookmark' : 'from '+term.name}?" />
 		<property name="items">
 			<list merge="true">

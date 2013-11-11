@@ -30,10 +30,7 @@
 	</bean>
 
 	<bean id="sb_cart_add_page" parent="sb_cart_add_page-parent" />
-	<bean abstract="true" id="sb_cart_add_page-parent" parent="KSAP-PopoverPage">
-        <!--Needs KRAD Patch KULRICE-8862
-        p:innerViewWrapperId="sb_cart_add_inner">
-        -->
+	<bean abstract="true" id="sb_cart_add_page-parent" parent="KSAP-PopoverPage" p:innerViewWrapperId="sb_cart_add_inner">
 		<property name="headerText" value="Update Shopping Cart" />
 		<property name="cssClasses">
 			<list merge="true">
@@ -252,9 +249,7 @@
 
 	<bean id="sb_cart_remove_page" parent="KSAP-PopoverPage">
 		<property name="id" value="sb_cart_remove_page" />
-<!--Needs KRAD Patch KULRICE-8862
 		<property name="innerViewWrapperId" value="sb_cart_remove_inner" />
--->
 		<property name="headerText" value="Remove @{shoppingCartRequests[0].course.code} from @{shoppingCartRequests[0].term.name}?" />
 		<property name="cssClasses">
 			<list merge="true">
@@ -297,10 +292,7 @@
 
 	<bean id="sb_cart_add_from_plan_page" parent="sb_cart_add_from_plan_page-parent" />
 
-	<bean abstract="true" id="sb_cart_add_from_plan_page-parent" parent="sb_cart_add_page-parent">
-<!--Needs KRAD Patch KULRICE-8862
-        p:innerViewWrapperId="sb_cart_add_from_plan_inner">
--->
+	<bean abstract="true" id="sb_cart_add_from_plan_page-parent" parent="sb_cart_add_page-parent" p:innerViewWrapperId="sb_cart_add_from_plan_inner">
 		<property name="items">
 			<list>
 				<bean parent="sb_cart_course_options" p:render="@{!courseOptions[0].activityOptions.empty}" />
@@ -397,10 +389,7 @@
 	</bean>
 	
 	<bean id="sb_cart_add_from_sb_page" parent="sb_cart_add_from_sb_page-parent" />
-	<bean abstract="true" id="sb_cart_add_from_sb_page-parent" parent="sb_cart_add_page-parent">
-<!--Needs KRAD Patch KULRICE-8862
-        p:innerViewWrapperId="sb_cart_add_from_sb_inner">
--->
+	<bean abstract="true" id="sb_cart_add_from_sb_page-parent" parent="sb_cart_add_page-parent" p:innerViewWrapperId="sb_cart_add_from_sb_inner">
 		<property name="items">
 			<list>
 				<bean parent="sb_cart_courses" p:headerText="Classes to remove from cart" p:id="sb_remove_from_cart" p:propertyName="removeFromCart" />
@@ -442,10 +431,7 @@
 	</bean>
 
 	<bean id="sb_cart_add_from_search_page" parent="sb_cart_add_from_search_page-parent" />
-	<bean abstract="true" id="sb_cart_add_from_search_page-parent" parent="sb_cart_add_page-parent">
-<!--Needs KRAD Patch KULRICE-8862
-        p:innerViewWrapperId="sb_cart_add_from_search_inner">
--->
+	<bean abstract="true" id="sb_cart_add_from_search_page-parent" parent="sb_cart_add_page-parent" p:innerViewWrapperId="sb_cart_add_from_search_inner">
 		<property name="items">
 			<list>
 				<bean parent="Uif-Message" p:messageText="TODO: add to shopping cart from search dialog" />

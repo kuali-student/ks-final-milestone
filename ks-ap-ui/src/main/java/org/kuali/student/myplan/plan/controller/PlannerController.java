@@ -2,6 +2,7 @@ package org.kuali.student.myplan.plan.controller;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
+import org.kuali.rice.krad.web.controller.extension.KsapControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
@@ -45,9 +46,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Fix under KSAP-265
+ * UifControllerBase replaced by KsapControllerBase
+ */
 @Controller
 @RequestMapping(value = "/planner/**")
-public class PlannerController extends UifControllerBase {
+public class PlannerController extends KsapControllerBase {
 
 	private static final Logger LOG = Logger.getLogger(PlannerController.class);
 

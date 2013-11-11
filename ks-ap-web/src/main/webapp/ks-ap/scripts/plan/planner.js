@@ -82,7 +82,7 @@ function ksapPlannerOpenDialog(pageId, action, methodToCall, target, e) {
 	};
 	jQuery("#popupForm").remove();
 	fnClosePopup();
-	openPopup(pageId + "_page", retrieveData, action, {}, popupOptions, e);
+	openPopup(pageId + "_inner", retrieveData, action, {}, popupOptions, e);
 	var form = jQuery("#popupForm");
 	form.attr("accept-charset", "UTF-8");
 }

@@ -21,8 +21,9 @@
 		</property>
 		<property name="items">
 			<list>
-				<bean parent="Uif-Page" p:id="plan-page">
-					<property name="cssClasses">
+				<bean parent="Ksap-Page" p:id="plan-page">
+                    <property name="innerViewWrapperId" value="test_wrapper_id" />
+                    <property name="cssClasses">
 						<list merge="true">
 							<value>ks-plan-View-page</value>
 						</list>
@@ -53,10 +54,8 @@
 		<property name="id" value="PlannerLoad-FormView" />
 		<property name="items">
 			<list>
-				<bean parent="Uif-Page" p:id="planner_courses_detail_page">
-                    <!-- Needs KRAD Patch KULRICE-8862
+				<bean parent="Ksap-Page" p:id="planner_courses_detail_page">
 					<property name="innerViewWrapperId" value="planner_load_inner" />
-					-->
                     <property name="layoutManager">
 						<bean parent="Uif-HorizontalBoxLayout" />
 					</property>
