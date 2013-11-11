@@ -79,6 +79,10 @@ public class RuleEditorController extends MaintenanceDocumentController {
         if (!form.getActionParameters().containsKey(UifParameters.NAVIGATE_TO_PAGE_ID)) {
             form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KRMSConstants.KRMS_RULE_MAINTENANCE_PAGE_ID);
         }
+
+        //Compare rule with parent rule.
+        compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
+
         return super.navigate(form, result, request, response);
     }
 
