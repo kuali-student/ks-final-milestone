@@ -218,19 +218,19 @@
                             <bean parent="Uif-DataField" p:propertyName="courseOfferingCode"/>
                            <bean parent="Uif-ImageField" p:hidden="@{#lp.alternateCOCodes.isEmpty()}" p:image.altText="@{#lp.crossListedCodesUI}" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png">
                                <property name="toolTip">
-                                   <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.crossListedCodesUI}"/>
+                                   <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.crossListedCodesUI}"/>
                                  </property>
                            </bean>
                            <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedCoCode.isEmpty()}" p:image.altText="@{#lp.crossListedCodesUI}" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
                                <property name="style" value="padding-left:5px"/>
                                <property name="toolTip">
-                                   <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedInfoUI}"/>
+                                   <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedInfoUI}"/>
                                </property>
                            </bean>
                            <bean parent="Uif-ImageField" p:hidden="@{#lp.jointDefinedCoCode.isEmpty()}" p:image.altText="@{#lp.jointDefinedCodesUI}" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/JointIcon6px.png">
                                <property name="style" value="padding-left:5px"/>
                                <property name="toolTip">
-                                   <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.jointDefinedCodesUI}"/>
+                                   <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.jointDefinedCodesUI}"/>
                                </property>
                            </bean>
                        </list>
@@ -262,7 +262,7 @@
                             <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedAoInfo.isEmpty()}" p:image.altText="@{#lp.colocatedAoInfoUI}"
                                   p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
                                 <property name="toolTip">
-                                    <bean parent="Uif-Tooltip" p:tooltipContent="@{#lp.colocatedAoInfoUI}"/>
+                                    <bean parent="Uif-KS-Tooltip" p:tooltipContent="@{#lp.colocatedAoInfoUI}"/>
                                 </property>
                             </bean>
                         </list>

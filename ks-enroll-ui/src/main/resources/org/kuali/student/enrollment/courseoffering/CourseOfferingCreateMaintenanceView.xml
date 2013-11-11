@@ -604,7 +604,7 @@
                                  p:image.altText="@{#lp.crossListedCodesUI}"
                                  p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png">
                                <property name="toolTip">
-                                   <bean parent="Uif-Tooltip" p:tooltipContent="@{#lp.crossListedCodesUI}"/>
+                                   <bean parent="Uif-KS-Tooltip" p:tooltipContent="@{#lp.crossListedCodesUI}"/>
                                </property>
                                <property name="propertyReplacers">
                                    <list>

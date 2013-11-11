@@ -221,7 +221,7 @@ limitations under the License.
             <list>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules" p:componentSecurity.performActionAuthz="true" p:actionEvent="compare">
                     <property name="toolTip">
-                        <bean parent="Uif-Tooltip" p:tooltipContent="Compare Catalog and Course Offering rules"/>
+                        <bean parent="Uif-KS-Tooltip" p:tooltipContent="Compare Catalog and Course Offering rules"/>
                     </property>
                 </bean>
                 <bean parent="KS-Uif-NavigationActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView" p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditRequisite"/>
@@ -235,7 +235,7 @@ limitations under the License.
             <list>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules" p:componentSecurity.performActionAuthz="true" p:actionEvent="compare">
                     <property name="toolTip">
-                        <bean parent="Uif-Tooltip" p:tooltipContent="Compare Catalog and Course Offering rules"/>
+                        <bean parent="Uif-KS-Tooltip" p:tooltipContent="Compare Catalog and Course Offering rules"/>
                     </property>
                 </bean>
             </list>
@@ -423,7 +423,7 @@ limitations under the License.
             <list>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules" p:componentSecurity.performActionAuthz="true" p:actionEvent="compare">
                     <property name="toolTip">
-                        <bean parent="Uif-Tooltip" p:tooltipContent="Compare Catalog and Course Offering rules"/>
+                        <bean parent="Uif-KS-Tooltip" p:tooltipContent="Compare Catalog and Course Offering rules"/>
                     </property>
                 </bean>
             </list>

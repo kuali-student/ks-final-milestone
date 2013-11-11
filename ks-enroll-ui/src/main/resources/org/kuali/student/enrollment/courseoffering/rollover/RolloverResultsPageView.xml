@@ -106,7 +106,7 @@
                                                     <bean parent="Uif-ImageField"
                                                           p:source="@{#ConfigProperties['ks.externalizable.images.url']}/help_gray_14px.png">
                                                         <property name="toolTip">
-                                                            <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{rolloverTargetTermDesc!='' ? rolloverTargetTermDesc : 'Unknown Term'} is now in draft state, and&lt;br&gt;only central administrators can make&lt;br&gt;changes to course and activity&lt;br&gt;offerings. Release the term to grant&lt;br&gt;departmental administrators access.&lt;br&gt;(Note that this will disable future&lt;br&gt;Rollovers to this term.)"/>
+                                                            <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{rolloverTargetTermDesc!='' ? rolloverTargetTermDesc : 'Unknown Term'} is now in draft state, and&lt;br&gt;only central administrators can make&lt;br&gt;changes to course and activity&lt;br&gt;offerings. Release the term to grant&lt;br&gt;departmental administrators access.&lt;br&gt;(Note that this will disable future&lt;br&gt;Rollovers to this term.)"/>
                                                         </property>
                                                     </bean>
                                                 </list>

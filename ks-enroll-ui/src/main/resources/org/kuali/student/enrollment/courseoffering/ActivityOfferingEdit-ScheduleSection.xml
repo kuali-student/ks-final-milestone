@@ -39,7 +39,7 @@
                 <bean parent="Uif-ImageField" p:label="Options" p:hidden="@{!#lp.editRenderHelper.isShowColocateToolTip()}" p:image.altText="@{#lp.editRenderHelper.colocatedAOs}"
                     p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
                     <property name="toolTip">
-                       <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.editRenderHelper.colocatedAOs}"/>
+                       <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.editRenderHelper.colocatedAOs}"/>
                     </property>
                 </bean>
             </list>
@@ -68,7 +68,7 @@
                 <bean parent="Uif-ImageField" p:label="Options" p:hidden="@{!#lp.editRenderHelper.isShowColocateToolTip()}" p:image.altText="@{#lp.editRenderHelper.colocatedAOs}"
                     p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
                     <property name="toolTip">
-                       <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.editRenderHelper.colocatedAOs}"/>
+                       <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.editRenderHelper.colocatedAOs}"/>
                     </property>
                 </bean>
             </list>

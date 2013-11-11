@@ -85,7 +85,7 @@
                             <bean parent="KS-Uif-DataField-Simple" p:propertyName="courseOfferingCode"/>
                             <bean parent="Uif-ImageField" p:hidden="@{#lp.alternateCOCodes.isEmpty()}" p:image.altText="@{#lp.crossListedCodesUI}" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png">
                                 <property name="toolTip">
-                                    <bean parent="Uif-Tooltip" p:tooltipContent="@{#lp.crossListedCodesUI}"/>
+                                    <bean parent="Uif-KS-Tooltip" p:tooltipContent="@{#lp.crossListedCodesUI}"/>
                                 </property>
                                 <property name="propertyReplacers">
                                     <list>
@@ -235,7 +235,7 @@
                                   p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
                                 <property name="style" value="padding-left:3px"/>
                                 <property name="toolTip">
-                                    <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedAoInfoUI}" p:render="@{!#lp.colocatedAoInfo.isEmpty()}"/>
+                                    <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedAoInfoUI}" p:render="@{!#lp.colocatedAoInfo.isEmpty()}"/>
                                 </property>
                             </bean>
                         </list>
@@ -255,12 +255,7 @@
                     <property name="label" value="BUILDING"/>
                     <property name="messageText" value="@{#line.buildingCode}"/>
                     <property name="toolTip">
-                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#line.buildingName}">
-                            <property name="templateOptions">
-                                <map merge="true">
-                                    <entry key="position" value="right"/>
-                                </map>
-                            </property>
+                        <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#line.buildingName}">
                         </bean>
                     </property>
                 </bean>

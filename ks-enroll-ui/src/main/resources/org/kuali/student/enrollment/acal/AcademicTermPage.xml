@@ -295,7 +295,7 @@
                                         </bean>
                                         <bean id="term_instructional_days" parent="Uif-InputField-LabelTop" p:propertyName="instructionalDays" p:label="Instructional Days" p:render="@{!#isAddLine}" p:readOnly="true" p:style="width:11em;">
                                             <property name="toolTip">
-                                                <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Instructional Days include @{#lp.instructionalDayConfig}"/>
+                                                <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Instructional Days include @{#lp.instructionalDayConfig}"/>
                                             </property>
                                         </bean>
                                     </list>

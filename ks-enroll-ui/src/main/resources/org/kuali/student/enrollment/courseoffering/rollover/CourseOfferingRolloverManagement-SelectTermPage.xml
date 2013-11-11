@@ -75,7 +75,7 @@
                                                     <bean parent="Uif-ImageField" p:style="position: absolute; left: 110px;"
                                                           p:source="@{#ConfigProperties['ks.externalizable.images.url']}/help_gray_14px.png">
                                                         <property name="toolTip">
-                                                            <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Select the term you want to copy from \- the older term."/>
+                                                            <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Select the term you want to copy from \- the older term."/>
                                                         </property>
                                                     </bean>
                                                 </list>
@@ -111,7 +111,7 @@
                                                     <bean parent="Uif-ImageField" p:style="position: absolute; left: 110px;"
                                                           p:source="@{#ConfigProperties['ks.externalizable.images.url']}/help_gray_14px.png">
                                                         <property name="toolTip">
-                                                            <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Select the term you want to copy to \- the new term."/>
+                                                            <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Select the term you want to copy to \- the new term."/>
                                                         </property>
                                                     </bean>
                                                 </list>

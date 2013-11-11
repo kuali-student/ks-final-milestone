@@ -145,7 +145,7 @@
                                   p:source="@{#ConfigProperties['ks.externalizable.images.url']}/ActivityRuleIcon6px.png">
                                 <property name="style" value="padding-left:3px padding-bottom:3px;"/>
                                 <property name="toolTip">
-                                    <bean parent="Uif-Tooltip" p:tooltipContent="This Activity has requisite(s) in addition to any for the Course Offering"/>
+                                    <bean parent="Uif-KS-Tooltip" p:tooltipContent="This Activity has requisite(s) in addition to any for the Course Offering"/>
                                 </property>
                                 <property name="propertyReplacers">
                                     <list>
@@ -163,7 +163,7 @@
                                   p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
                                 <property name="style" value="padding-left:3px"/>
                                 <property name="toolTip">
-                                    <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedAoInfoUI}"/>
+                                    <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedAoInfoUI}"/>
                                 </property>
                                 <property name="propertyReplacers">
                                     <list>
