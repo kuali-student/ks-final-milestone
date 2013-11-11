@@ -84,6 +84,8 @@
                     <webAppConfig>
                         <contextPath>/ks-with-rice-embedded-dev</contextPath>
                         <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
+                        <!-- Remove after KULRICE-11157 is fixed -->
+                        <maxFormContentSize>-1</maxFormContentSize>
                     </webAppConfig>
                     <connectors>
                         <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">

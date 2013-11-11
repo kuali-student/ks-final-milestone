@@ -63,6 +63,8 @@
                     </systemProperties>
                     <webAppConfig>
                         <contextPath>/ks-with-rice-bundled-dev</contextPath>
+                        <!-- Remove after KULRICE-11157 is fixed -->
+                        <maxFormContentSize>-1</maxFormContentSize>
                     </webAppConfig>
                     <stopKey>foo</stopKey>
                     <stopPort>9999</stopPort>
