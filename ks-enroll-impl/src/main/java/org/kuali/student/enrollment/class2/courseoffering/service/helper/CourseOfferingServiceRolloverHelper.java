@@ -26,6 +26,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.poc.eventproc.handler.impl.helper.FoCoRgComputeStateUtil;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -241,7 +242,7 @@ public class CourseOfferingServiceRolloverHelper {
                     }
                 }
                 Map<String, ActivityOfferingInfo> aoIdToAoMap = _makeAoIdToAoMap(aosInClusterCache);
-                _gRGFC_changeClusterRegistrationGroupState(rgInfo, contextInfo, coService, aoIdToAoMap);
+                changeClusterRegistrationGroupState(rgInfo, aoIdToAoMap, coService, contextInfo);
 
             } catch (DataValidationErrorException e) {
                 throw new OperationFailedException("Failed to validate registration group", e);
@@ -322,45 +323,57 @@ public class CourseOfferingServiceRolloverHelper {
         return rg;
     }
 
-    private static void _gRGFC_changeClusterRegistrationGroupState(RegistrationGroupInfo regGroupInfo,
-                                                                   ContextInfo context,
-                                                                   CourseOfferingService coService,
-                                                                   Map<String, ActivityOfferingInfo> aoIdToAoMap) {
-        try {
-            if (!regGroupInfo.getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY)) {
-                List<String> aoIds = regGroupInfo.getActivityOfferingIds();
-                String regGroupStateKey = LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY;
-                for (String aoId : aoIds) {
+    private static void changeClusterRegistrationGroupState( RegistrationGroupInfo regGroupInfo,
+                                                             Map<String, ActivityOfferingInfo> aoIdToAoMap,
+                                                             CourseOfferingService coService,
+                                                             ContextInfo contextInfo ) {
 
-                    ActivityOfferingInfo aoInfo = null;
-                    if (aoIdToAoMap != null && !aoIdToAoMap.isEmpty()) {
-                        aoInfo = aoIdToAoMap.get(aoId);
-                        if (aoInfo == null) {
-                            // This AO should appear in the map, or something is wrong with the input data
-                            throw new OperationFailedException("Missing AO in map");
-                        }
-                    } else {
-                        // default case where there is no map
-                        aoInfo = coService.getActivityOffering(aoId, context);
-                    }
-                    // TODO: KSENROLL-10270 Below is incorrect
-                    if (aoInfo.getStateKey().equals(LuiServiceConstants.LUI_AO_STATE_SUSPENDED_KEY)) {
-                        regGroupStateKey = LuiServiceConstants.REGISTRATION_GROUP_SUSPENDED_STATE_KEY;
-                        break;
-                    } else if (aoInfo.getStateKey().equals(LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY)) {
-                        regGroupStateKey = LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY;
-                        break;
-                    } else if (!aoInfo.getStateKey().equals(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY)) {
-                        regGroupStateKey = LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY;
-                        break;
-                    }
-                }
-                if(!regGroupInfo.getStateKey().equals(regGroupStateKey)) {
-                    coService.changeRegistrationGroupState(regGroupInfo.getId(), regGroupStateKey, context);
+        if( LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY.equals( regGroupInfo.getStateKey() ) ) return;
+
+        // build a list of all the AOs in this RG
+        List<ActivityOfferingInfo> regGroupAos = new ArrayList<ActivityOfferingInfo>();
+        for( String aoId : regGroupInfo.getActivityOfferingIds() ) {
+            regGroupAos.add( getAoFromServiceIfNotFoundInMap(aoId, coService, aoIdToAoMap, contextInfo) );
+        }
+
+        // set the state of the RG, calculated from the state of it's AOs
+        String regGroupStateKey = FoCoRgComputeStateUtil.computeRgState(regGroupAos);
+        if(!regGroupInfo.getStateKey().equals(regGroupStateKey)) {
+            try {
+                coService.changeRegistrationGroupState(regGroupInfo.getId(), regGroupStateKey, contextInfo);
+            } catch( Exception e ) {
+                throw new RuntimeException(e);
+            }
+        }
+
+    }
+
+    private static ActivityOfferingInfo getAoFromServiceIfNotFoundInMap( String targetAoId,
+                                                         CourseOfferingService courseOfferingService,
+                                                         Map<String, ActivityOfferingInfo> aoIdToAoMap,
+                                                         ContextInfo contextInfo ) {
+
+
+        ActivityOfferingInfo activityOfferingInfo = null;
+        try {
+
+            if( aoIdToAoMap != null && !aoIdToAoMap.isEmpty() ) {
+                activityOfferingInfo = aoIdToAoMap.get( targetAoId );
+
+                // something is wrong with the input data if the AO wasn't found in the map
+                if( activityOfferingInfo == null ) {
+                    throw new OperationFailedException("Missing AO in map");
                 }
             }
-        } catch (Exception e) {
+            else { // if a map wasn't provided, we get the AO from the service
+                activityOfferingInfo = courseOfferingService.getActivityOffering( targetAoId, contextInfo );
+            }
+
+        } catch( Exception e ) {
             throw new RuntimeException(e);
         }
+
+        return activityOfferingInfo;
     }
+
 }
