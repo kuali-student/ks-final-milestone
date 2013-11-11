@@ -43,14 +43,15 @@
     </bean>
 
     <!-- customize Uif-TooltipFocus and Uif-Tooltip for the enrollment-wide tooltip customization -->
-    <bean id="Uif-KS-TooltipFocus" parent="Uif-TooltipFocus">
+    <bean id="Uif-KS-TooltipFocus"  parent="Uif-TooltipFocus">
         <property name="templateOptions">
             <map merge="true">
                 <entry key="position" value="top"/>
                 <entry key="themeName" value="all-black"/>
-                <entry key="openingSpeed" value="1"/>
+                <entry key="openingSpeed" value="250"/>
                 <entry key="mouseOut" value="hide"/>
                 <entry key="tableStyle" value="{ margin:'0px 0px 4px -5px'}"/>
+                <entry key="closingDelay" value="0"/>
             </map>
         </property>
     </bean>
@@ -59,9 +60,10 @@
             <map merge="true">
                 <entry key="position" value="top"/>
                 <entry key="themeName" value="all-black"/>
-                <entry key="openingSpeed" value="1"/>
+                <entry key="openingSpeed" value="250"/>
                 <entry key="mouseOut" value="hide"/>
                 <entry key="tableStyle" value="{ margin:'0px 0px 4px -5px'}"/>
+                <entry key="closingDelay" value="0"/>
             </map>
         </property>
     </bean>
