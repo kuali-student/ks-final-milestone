@@ -1778,17 +1778,9 @@
         <foreignColumnNames>TYPE_KEY</foreignColumnNames>
         <localColumnNames>OWNER</localColumnNames>
     </foreignKey>
-    <foreignKey foreignTableName="KSPL_LRNG_PLAN_ITEM_TYPE" localTableName="KSPL_LRNG_PLAN_ITEM_TYPE_ATTR" name="KSPL_LRNG_PI_TYPE_ATTR_FK" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
-        <localColumnNames>OWNER_ID</localColumnNames>
-    </foreignKey>
     <foreignKey foreignTableName="KSPL_LRNG_PLAN" localTableName="KSPL_LRNG_PLAN_ATTR" name="KSPL_LRNG_PLAN_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
         <foreignColumnNames>ID</foreignColumnNames>
         <localColumnNames>OWNER_ID</localColumnNames>
-    </foreignKey>
-    <foreignKey foreignTableName="KSPL_LRNG_PLAN_TYPE" localTableName="KSPL_LRNG_PLAN" name="KSPL_LRNG_PLAN_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
-        <localColumnNames>TYPE_ID</localColumnNames>
     </foreignKey>
     <foreignKey foreignTableName="KSPL_LRNG_PLAN_RICH_TEXT" localTableName="KSPL_LRNG_PLAN" name="KSPL_LRNG_PLAN_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
         <foreignColumnNames>ID</foreignColumnNames>
@@ -1806,17 +1798,9 @@
         <foreignColumnNames>ID</foreignColumnNames>
         <localColumnNames>PLAN_ID</localColumnNames>
     </foreignKey>
-    <foreignKey foreignTableName="KSPL_LRNG_PLAN_ITEM_TYPE" localTableName="KSPL_LRNG_PLAN_ITEM" name="KSPL_LRNG_PLAN_ITEM_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
-        <localColumnNames>TYPE_ID</localColumnNames>
-    </foreignKey>
     <foreignKey foreignTableName="KSPL_LRNG_PI_RICH_TEXT" localTableName="KSPL_LRNG_PLAN_ITEM" name="KSPL_LRNG_PLAN_ITEM_FK3" onDelete="RESTRICT" onUpdate="RESTRICT">
         <foreignColumnNames>ID</foreignColumnNames>
         <localColumnNames>RT_DESCR_ID</localColumnNames>
-    </foreignKey>
-    <foreignKey foreignTableName="KSPL_LRNG_PLAN_TYPE" localTableName="KSPL_LRNG_PLAN_TYPE_ATTR" name="KSPL_LRNG_PLAN_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
-        <localColumnNames>OWNER_ID</localColumnNames>
     </foreignKey>
     <foreignKey foreignTableName="KSPR_PROPOSAL" localTableName="KSPR_PROPOSAL_ATTR" name="KSPR_PROPOSAL_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
         <foreignColumnNames>PROPOSAL_ID</foreignColumnNames>
@@ -18318,52 +18302,6 @@
             <column>OWNER_ID</column>
         </index>
     </table>
-    <table name="KSPL_LRNG_PLAN_ITEM_TYPE">
-        <column name="EFF_DT" type="TIMESTAMP">
-            <size scale="6" scaleSet="true" value="11"/>
-        </column>
-        <column name="EXPIR_DT" type="TIMESTAMP">
-            <size scale="6" scaleSet="true" value="11"/>
-        </column>
-        <column name="NAME" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="REF_OBJECT_URI" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="TYPE_DESC" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="TYPE_KEY" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="VER_NBR" type="FLOAT">
-            <size value="19"/>
-        </column>
-    </table>
-    <table name="KSPL_LRNG_PLAN_ITEM_TYPE_ATTR">
-        <column name="ATTR_KEY" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="ATTR_VALUE" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="OWNER_ID" type="STRING">
-            <size value="255"/>
-        </column>
-        <index name="KSPL_LRNG_PI_TYPE_ATTR_I1">
-            <column>OWNER_ID</column>
-        </index>
-    </table>
     <table name="KSPL_LRNG_PLAN_RICH_TEXT">
         <column name="FORMATTED" type="STRING">
             <size value="2000"/>
@@ -18380,52 +18318,6 @@
         <column name="VER_NBR" type="FLOAT">
             <size value="19"/>
         </column>
-    </table>
-    <table name="KSPL_LRNG_PLAN_TYPE">
-        <column name="EFF_DT" type="TIMESTAMP">
-            <size scale="6" scaleSet="true" value="11"/>
-        </column>
-        <column name="EXPIR_DT" type="TIMESTAMP">
-            <size scale="6" scaleSet="true" value="11"/>
-        </column>
-        <column name="NAME" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="REF_OBJECT_URI" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="TYPE_DESC" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="TYPE_KEY" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="VER_NBR" type="FLOAT">
-            <size value="19"/>
-        </column>
-    </table>
-    <table name="KSPL_LRNG_PLAN_TYPE_ATTR">
-        <column name="ATTR_KEY" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="ATTR_VALUE" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="OWNER_ID" type="STRING">
-            <size value="255"/>
-        </column>
-        <index name="KSPL_LRNG_PLAN_TYPE_ATTR_I1">
-            <column>OWNER_ID</column>
-        </index>
     </table>
     <table name="KSPR_PROPOSAL">
         <column name="CREATEID" type="STRING">
