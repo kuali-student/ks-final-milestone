@@ -8,8 +8,10 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -107,6 +109,7 @@ import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Properties;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
@@ -156,8 +159,13 @@ public class CourseOfferingManagementUtil {
     private static LuiService luiService = null;
     private static ActivityOfferingControllerTransactionHelper activityOfferingControllerTransactionHelper;
     private static EnumerationManagementService enumerationManagementService;
+    private static PersonService personService;
 
     private static HashMap<String, String> scheduleStateHm = null;
+
+    public static PersonService getPersonService() {
+        return KimApiServiceLocator.getPersonService();
+    }
 
     public static EnumerationManagementService getEnumerationManagementService() {
         if(enumerationManagementService == null) {

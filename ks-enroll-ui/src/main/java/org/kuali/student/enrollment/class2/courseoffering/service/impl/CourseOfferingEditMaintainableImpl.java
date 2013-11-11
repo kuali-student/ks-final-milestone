@@ -811,7 +811,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey());
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.SUBJECT_AREA, wrapper.getCourse().getSubjectArea());
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.ATP_ID, wrapper.getTerm().getId());
-        List<CourseOfferingInfo> relatedCOs = CourseOfferingViewHelperUtil.loadCourseOfferings(CourseOfferingManagementUtil.getSearchService(), searchRequest);
+        List<CourseOfferingInfo> relatedCOs = CourseOfferingViewHelperUtil.loadCourseOfferings(searchRequest);
         if (relatedCOs != null) result.addAll(relatedCOs);
 
         return result;
