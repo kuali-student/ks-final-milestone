@@ -39,14 +39,12 @@ public class CourseOfferingTypeKeyValues extends UifKeyValuesFinderBase implemen
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
         try{
             List<TypeInfo> types = CourseOfferingManagementUtil.getTypeService().searchForTypes(qBuilder.build(), new ContextInfo());
-            for(int i=0;i<types.size();i++){
-                keyValues.add(new ConcreteKeyValue(types.get(i).getKey(),types.get(i).getName()));
+            for(TypeInfo type : types){
+                keyValues.add(new ConcreteKeyValue(type.getKey(),type.getName()));
             }
         }catch(Exception e){
-            e.printStackTrace();
+           throw new RuntimeException("Error getting CourseOfferingTypeKeyValues", e);
         }
-
-
 
         return keyValues;
     }

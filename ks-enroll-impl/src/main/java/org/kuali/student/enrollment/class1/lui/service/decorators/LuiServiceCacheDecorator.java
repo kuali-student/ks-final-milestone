@@ -39,11 +39,12 @@ import java.util.List;
 public class LuiServiceCacheDecorator extends LuiServiceDecorator {
 
     private static String cacheName = "luiCache";
+    public static final String LUI_KEY = "lui";
     private CacheManager cacheManager;
 
     @Override
     public LuiInfo getLui(String luiId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        MultiKey cacheKey = new MultiKey("lui", luiId);
+        MultiKey cacheKey = new MultiKey(LUI_KEY, luiId);
 
         Element cachedResult = getCacheManager().getCache(cacheName).get(cacheKey);
         Object result;
@@ -60,14 +61,14 @@ public class LuiServiceCacheDecorator extends LuiServiceDecorator {
     @Override
     public LuiInfo createLui(String luiId, String atpId, String luiTypeKey, LuiInfo luiInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         LuiInfo result = getNextDecorator().createLui(luiId, atpId, luiTypeKey, luiInfo, contextInfo);
-        MultiKey cacheKey = new MultiKey("lui", result.getId());
+        MultiKey cacheKey = new MultiKey(LUI_KEY, result.getId());
         getCacheManager().getCache(cacheName).put(new Element(cacheKey, result));
         return result;
     }
 
     @Override
     public LuiInfo updateLui(String luiId, LuiInfo luiInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        MultiKey cacheKey = new MultiKey("lui", luiId);
+        MultiKey cacheKey = new MultiKey(LUI_KEY, luiId);
         LuiInfo result = getNextDecorator().updateLui(luiId, luiInfo, contextInfo);
         getCacheManager().getCache(cacheName).remove(cacheKey);
         getCacheManager().getCache(cacheName).put(new Element(cacheKey, result));
@@ -76,11 +77,13 @@ public class LuiServiceCacheDecorator extends LuiServiceDecorator {
 
     @Override
     public StatusInfo deleteLui(String luiId, ContextInfo contextInfo) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        MultiKey cacheKey = new MultiKey("lui", luiId);
+        MultiKey cacheKey = new MultiKey(LUI_KEY, luiId);
         StatusInfo result = getNextDecorator().deleteLui(luiId, contextInfo);
         getCacheManager().getCache(cacheName).remove(cacheKey);
         return result;
     }
+
+
 
     public CacheManager getCacheManager() {
         if(cacheManager == null){
