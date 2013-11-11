@@ -98,7 +98,6 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
         AgendaItemDefinition.Builder previousAgendaItemBldr = null;
         AgendaItemDefinition.Builder firstAgendaItemBldr = AgendaItemDefinition.Builder.create(null, copiedAgenda.getId());
         AgendaItemDefinition firstAgendaItem = getRuleManagementService().createAgendaItem(firstAgendaItemBldr.build());
-        // now go back and mark the agenda with the item and make it active
         copiedAgendaBldr = AgendaDefinition.Builder.create(copiedAgenda);
         copiedAgendaBldr.setFirstItemId(firstAgendaItem.getId());
         getRuleManagementService().updateAgenda(copiedAgendaBldr.build());
