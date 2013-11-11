@@ -30,6 +30,7 @@ import org.kuali.student.common.test.util.MetaTester;
 import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
 import org.kuali.student.enrollment.class2.acal.util.MockAcalTestDataLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
+import org.kuali.student.enrollment.class2.courseoffering.service.helper.CourseOfferingServiceScheduleHelper;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
@@ -65,6 +66,7 @@ import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
+import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
@@ -102,7 +104,9 @@ public class TestCourseOfferingServiceImplM4 {
     protected TypeService typeService;
     @Resource
     protected StateService stateService;
-    
+    @Resource
+    protected SchedulingService schedulingService;
+
     protected ContextInfo contextInfo;
 
     @Resource
@@ -118,6 +122,7 @@ public class TestCourseOfferingServiceImplM4 {
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
 
+        CourseOfferingServiceScheduleHelper.setSchedulingService(schedulingService);
         createStateTestData();
     }
 

@@ -118,4 +118,8 @@ public class CourseOfferingServiceScheduleHelper {
         }
         return schedulingService;
     }
+
+    public static void setSchedulingService(SchedulingService schedulingServiceParam) {
+        schedulingService = schedulingServiceParam;
+    }
 }
