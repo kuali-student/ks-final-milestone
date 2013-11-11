@@ -16,10 +16,10 @@
     <!-- Packages containing controller classes to be used when this servlet is used -->
     <context:component-scan base-package="org.kuali.rice.krad"/>
     <context:component-scan base-package="org.kuali.student.myplan.course"/>
-    <context:component-scan base-package="org.kuali.student.myplan.audit"/>
-    <context:component-scan base-package="org.kuali.student.myplan.adviser"/>
+    <context:component-scan base-package="org.kuali.student.ap.audit"/>
+    <context:component-scan base-package="org.kuali.student.ap.adviser"/>
     <context:component-scan base-package="org.kuali.student.myplan.plan"/>
-    <context:component-scan base-package="org.kuali.student.myplan.comment"/>
+    <context:component-scan base-package="org.kuali.student.ap.comment"/>
     <context:component-scan base-package="org.kuali.student.ap.plannerreview"/>
     <context:component-scan base-package="org.kuali.student.ap.schedulebuilder"/>
 
@@ -32,7 +32,7 @@
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basenames">
             <list>
-                <value>org/kuali/student/myplan/KSMyPlan-ApplicationResources</value>
+                <value>org/kuali/student/ap/KSAP-ApplicationResources</value>
                 <value>org/kuali/rice/krad/ApplicationResources</value>
                 <value>org/kuali/rice/krad/KRAD-ApplicationResources</value>
             </list>
