@@ -91,29 +91,36 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
         AgendaDefinition.Builder copiedAgendaBldr = AgendaDefinition.Builder.create(oldAgenda);
         copiedAgendaBldr.setId(null);
         copiedAgendaBldr.setVersionNumber(null);
+        copiedAgendaBldr.setFirstItemId(null);
         copiedAgendaBldr.setName(refObjectId + ":" + oldAgenda.getTypeId() + ":1");
         AgendaDefinition copiedAgenda = getRuleManagementService().createAgenda(copiedAgendaBldr.build());
 
-        AgendaItemDefinition.Builder firstAgendaItemBldr = null;
         AgendaItemDefinition.Builder previousAgendaItemBldr = null;
-        boolean firstItem = true;
+        AgendaItemDefinition.Builder firstAgendaItemBldr = AgendaItemDefinition.Builder.create(null, copiedAgenda.getId());
+        AgendaItemDefinition firstAgendaItem = getRuleManagementService().createAgendaItem(firstAgendaItemBldr.build());
+        // now go back and mark the agenda with the item and make it active
+        copiedAgendaBldr = AgendaDefinition.Builder.create(copiedAgenda);
+        copiedAgendaBldr.setFirstItemId(firstAgendaItem.getId());
+        getRuleManagementService().updateAgenda(copiedAgendaBldr.build());
+        copiedAgenda = getRuleManagementService().getAgenda(copiedAgenda.getId());
+
+        boolean isFirstItem = true;
         for (AgendaTreeEntryDefinitionContract entry : agendaTree.getEntries()) {
             AgendaItemDefinition currentAgendaItem = getRuleManagementService().getAgendaItem(entry.getAgendaItemId());
             AgendaItemDefinition.Builder copiedAgendaItemBldr = AgendaItemDefinition.Builder.create(currentAgendaItem);
             deepUpdateAgendaItem(copiedAgendaItemBldr, copiedAgenda.getId(), refObjectId);
-            if (firstItem) {
-                AgendaItemDefinition existingFirstItem = getRuleManagementService().getAgendaItem(copiedAgenda.getFirstItemId());
-                copiedAgendaItemBldr.setId((copiedAgenda.getFirstItemId()));
-                copiedAgendaItemBldr.setVersionNumber(existingFirstItem.getVersionNumber());
+            if (isFirstItem) {
+                copiedAgendaItemBldr.setId(firstAgendaItem.getId());
+                copiedAgendaItemBldr.setVersionNumber(firstAgendaItem.getVersionNumber());
                 firstAgendaItemBldr = copiedAgendaItemBldr;
                 previousAgendaItemBldr = firstAgendaItemBldr;
+                isFirstItem = false;
             } else {
                 copiedAgendaItemBldr.setId(null);
                 copiedAgendaItemBldr.setVersionNumber(null);
                 previousAgendaItemBldr.setWhenTrue(copiedAgendaItemBldr);
                 previousAgendaItemBldr = copiedAgendaItemBldr;
             }
-            firstItem = false;
         }
         getRuleManagementService().updateAgendaItem(firstAgendaItemBldr.build());
         return copiedAgenda;
