@@ -21,15 +21,15 @@ public class LearningPlanEntity extends MetaEntity implements Comparable<Learnin
     @JoinColumn(name = "RT_DESCR_ID")
     private LearningPlanRichTextEntity descr;
 
-    @ManyToOne(optional=false)
-    @JoinColumn(name = "TYPE_ID")
-    private LearningPlanTypeEntity learningPlanType;
+    @Column(name = "TYPE_ID")
+    private String typeId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval = true)
     private  Set<LearningPlanAttributeEntity> attributes;
 
     @Column(name="SHARED")
     private Boolean shared;
+
 
     @Column(name="STATE")
     private String stateKey;
@@ -62,20 +62,16 @@ public class LearningPlanEntity extends MetaEntity implements Comparable<Learnin
         this.descr = descr;
     }
 
-    public LearningPlanTypeEntity getLearningPlanType() {
-        return learningPlanType;
-    }
-
-    public void setLearningPlanType(LearningPlanTypeEntity learningPlanType) {
-        this.learningPlanType = learningPlanType;
-    }
-
-    public Boolean getShared() {
-        return shared;
-    }
-
     public void setShared(Boolean shared) {
         this.shared = shared;
+    }
+
+    public String getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
     }
 
     public String getStateKey() {
@@ -100,7 +96,7 @@ public class LearningPlanEntity extends MetaEntity implements Comparable<Learnin
 
         dto.setId(getId());
         dto.setStudentId(this.studentId);
-        dto.setTypeKey(this.getLearningPlanType().getId());
+        dto.setTypeKey(this.getTypeId());
         dto.setStateKey(this.getStateKey());
         dto.setShared(this.shared);
 

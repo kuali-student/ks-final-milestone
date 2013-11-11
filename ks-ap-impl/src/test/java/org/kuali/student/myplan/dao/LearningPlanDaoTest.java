@@ -12,19 +12,15 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.myplan.academicplan.dao.LearningPlanDao;
-import org.kuali.student.myplan.academicplan.dao.LearningPlanTypeDao;
 import org.kuali.student.myplan.academicplan.model.LearningPlanEntity;
 import org.kuali.student.myplan.academicplan.model.LearningPlanRichTextEntity;
-import org.kuali.student.myplan.academicplan.model.LearningPlanTypeEntity;
+import org.kuali.student.myplan.academicplan.service.AcademicPlanServiceConstants;
 
 @PersistenceFileLocation("classpath:META-INF/lp-persistence.xml")
 public class LearningPlanDaoTest extends AbstractTransactionalDaoTest {
                                                                           // "classpath:ks-atp.sql,learning_plan.sql"
     @Dao(value = "org.kuali.student.myplan.academicplan.dao.LearningPlanDao", testSqlFile = "classpath:learning_plan.sql")
 	private LearningPlanDao learningPlanDao;
-
-    @Dao(value = "org.kuali.student.myplan.academicplan.dao.LearningPlanTypeDao")
-	private LearningPlanTypeDao typeDao;
 
     @Test
     public void testGetAllLearningPlans() {
@@ -49,16 +45,13 @@ public class LearningPlanDaoTest extends AbstractTransactionalDaoTest {
         lpDesc.setFormatted("<span>New Plan</span>");
         lpDesc.setPlain("New Plan");
 
-        LearningPlanTypeEntity learningPlanTypeEntity = typeDao.find("kuali.academicplan.type.plan");
-        assertNotNull(learningPlanTypeEntity);
-
         String studentId = "new-student";
 
         LearningPlanEntity learningPlanEntity = new LearningPlanEntity();
         String id = UUIDHelper.genStringUUID();
         learningPlanEntity.setId(id);
         learningPlanEntity.setDescr(lpDesc);
-        learningPlanEntity.setLearningPlanType(learningPlanTypeEntity);
+        learningPlanEntity.setTypeId(AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN);
         learningPlanEntity.setStudentId(studentId);
         learningPlanEntity.setCreateId(studentId);
         Date now = new Date();
@@ -77,6 +70,7 @@ public class LearningPlanDaoTest extends AbstractTransactionalDaoTest {
         assertEquals(learningPlanEntity.getStudentId(), lpe.getStudentId());
         assertEquals(learningPlanEntity.getCreateId(), lpe.getCreateId());
         assertEquals(learningPlanEntity.getCreateTime(), lpe.getCreateTime());
+        assertEquals(learningPlanEntity.getTypeId(),lpe.getTypeId());
     }
 
 	@Test
@@ -94,14 +88,15 @@ public class LearningPlanDaoTest extends AbstractTransactionalDaoTest {
 	@Test
     public void testGetLearningPlansByStudentIdAndType() {
         String studentId = "student1";
-        String typeId = "kuali.academicplan.type.plan";
-        List<LearningPlanEntity> planEntities = learningPlanDao.getLearningPlansByType(studentId, typeId);
+        List<LearningPlanEntity> planEntities =
+                learningPlanDao.getLearningPlansByType(studentId,
+                        AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN);
 
         assertEquals(2, planEntities.size());
 
         for (LearningPlanEntity lpe : planEntities) {
             assertEquals(studentId, lpe.getStudentId());
-            assertEquals(typeId, lpe.getLearningPlanType().getId());
+            assertEquals(AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN, lpe.getTypeId());
         }
     }
 }

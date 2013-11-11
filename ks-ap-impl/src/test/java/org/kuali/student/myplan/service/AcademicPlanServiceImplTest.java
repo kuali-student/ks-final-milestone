@@ -750,7 +750,7 @@ public class AcademicPlanServiceImplTest {
 	public void validatePlanItemForPlannedItem() throws Throwable {
 		PlanItemInfo planItemInfo = new PlanItemInfo();
 		planItemInfo.setRefObjectId("XX");
-		planItemInfo.setTypeKey("kuali.academicplan.item.planned");
+		planItemInfo.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
 		List<ValidationResultInfo> validationResultInfos = KsapFrameworkServiceLocator.getAcademicPlanService()
 				.validatePlanItem("FULL_VALIDATION", planItemInfo,
 						KsapFrameworkServiceLocator.getContext()
@@ -769,7 +769,7 @@ public class AcademicPlanServiceImplTest {
 				validationResultInfos.get(3).getMessage());
 		assertEquals("refObjectId", validationResultInfos.get(3).getElement());
 		assertEquals(
-				"Plan Item Type was [kuali.academicplan.item.planned], but no plan periods were defined.",
+				"Plan Item Type was ["+AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED+"], but no plan periods were defined.",
 				validationResultInfos.get(4).getMessage());
 		assertEquals("typeKey", validationResultInfos.get(4).getElement());
 	}
@@ -781,7 +781,7 @@ public class AcademicPlanServiceImplTest {
 			OperationFailedException {
 		PlanItemInfo planItemInfo = new PlanItemInfo();
 		planItemInfo.setRefObjectId("XX");
-		planItemInfo.setTypeKey("kuali.academicplan.item.backup");
+		planItemInfo.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP);
 		List<ValidationResultInfo> validationResultInfos = KsapFrameworkServiceLocator
 				.getAcademicPlanService()
 				.validatePlanItem("FULL_VALIDATION", planItemInfo,
@@ -801,7 +801,7 @@ public class AcademicPlanServiceImplTest {
 				validationResultInfos.get(3).getMessage());
 		assertEquals("refObjectId", validationResultInfos.get(3).getElement());
 		assertEquals(
-				"Plan Item Type was [kuali.academicplan.item.backup], but no plan periods were defined.",
+				"Plan Item Type was ["+AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP+"], but no plan periods were defined.",
 				validationResultInfos.get(4).getMessage());
 		assertEquals("typeKey", validationResultInfos.get(4).getElement());
 	}

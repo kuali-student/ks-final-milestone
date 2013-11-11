@@ -142,9 +142,7 @@
 
     <bean id="academicPlanServicePersistence" class="org.kuali.student.myplan.academicplan.service.AcademicPlanServiceImpl">
         <property name="learningPlanDao" ref="learningPlanDao"/>
-        <property name="learningPlanTypeDao" ref="learningPlanTypeDao"/>
         <property name="planItemDao" ref="planItemDao"/>
-        <property name="planItemTypeDao" ref="planItemTypeDao"/>
     </bean>
 
     <bean id="academicPlanServiceValidator" class="org.kuali.student.myplan.academicplan.service.AcademicPlanServiceValidationDecorator">
@@ -208,15 +206,7 @@
         <property name="em" ref="lpEntityManager"/>
     </bean>
 
-    <bean id="learningPlanTypeDao" class="org.kuali.student.myplan.academicplan.dao.LearningPlanTypeDao">
-        <property name="em" ref="lpEntityManager"/>
-    </bean>
-
     <bean id="planItemDao" class="org.kuali.student.myplan.academicplan.dao.PlanItemDao">
-        <property name="em" ref="lpEntityManager"/>
-    </bean>
-
-    <bean id="planItemTypeDao" class="org.kuali.student.myplan.academicplan.dao.PlanItemTypeDao">
         <property name="em" ref="lpEntityManager"/>
     </bean>
 

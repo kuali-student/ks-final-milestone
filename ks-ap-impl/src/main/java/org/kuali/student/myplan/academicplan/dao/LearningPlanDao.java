@@ -15,7 +15,7 @@ public class LearningPlanDao extends GenericEntityDao<LearningPlanEntity> {
 
     @SuppressWarnings("unchecked")
 	public List<LearningPlanEntity> getLearningPlansByType(String studentId, String typeId) {
-        return em.createQuery("select lp from LearningPlanEntity lp where lp.studentId =:studentId and lp.learningPlanType.id =:typeId")
+        return em.createQuery("select lp from LearningPlanEntity lp where lp.studentId =:studentId and lp.typeId =:typeId")
                 .setParameter("studentId", studentId).setParameter("typeId", typeId).getResultList();
     }
     

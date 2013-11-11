@@ -36,15 +36,11 @@
 
         <class>org.kuali.student.myplan.academicplan.model.LearningPlanEntity</class>
         <class>org.kuali.student.myplan.academicplan.model.LearningPlanAttributeEntity</class>
-        <class>org.kuali.student.myplan.academicplan.model.LearningPlanTypeEntity</class>
-        <class>org.kuali.student.myplan.academicplan.model.LearningPlanTypeAttributeEntity</class>
 
         <class>org.kuali.student.myplan.academicplan.model.LearningPlanRichTextEntity</class>
 
         <class>org.kuali.student.myplan.academicplan.model.PlanItemEntity</class>
         <class>org.kuali.student.myplan.academicplan.model.PlanItemAttributeEntity</class>
-        <class>org.kuali.student.myplan.academicplan.model.PlanItemTypeEntity</class>
-        <class>org.kuali.student.myplan.academicplan.model.PlanItemTypeAttributeEntity</class>
 
         <class>org.kuali.student.myplan.academicplan.model.PlanItemRichTextEntity</class>
         

@@ -7,11 +7,9 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.myplan.academicplan.dao.LearningPlanDao;
 import org.kuali.student.myplan.academicplan.dao.PlanItemDao;
-import org.kuali.student.myplan.academicplan.dao.PlanItemTypeDao;
 import org.kuali.student.myplan.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.myplan.academicplan.model.LearningPlanEntity;
 import org.kuali.student.myplan.academicplan.model.PlanItemEntity;
-import org.kuali.student.myplan.academicplan.model.PlanItemTypeEntity;
 
 import java.util.*;
 
@@ -24,9 +22,6 @@ public class PlanItemDaoTest extends AbstractTransactionalDaoTest {
 
     @Dao(value = "org.kuali.student.myplan.academicplan.dao.PlanItemDao", testSqlFile = "classpath:learning_plan.sql")
 	private PlanItemDao planItemDao;
-
-    @Dao(value = "org.kuali.student.myplan.academicplan.dao.PlanItemTypeDao")
-    private PlanItemTypeDao planItemTypeDao;
 
     @Dao(value = "org.kuali.student.myplan.academicplan.dao.LearningPlanDao")
 	private LearningPlanDao learningPlanDao;
@@ -45,20 +40,20 @@ public class PlanItemDaoTest extends AbstractTransactionalDaoTest {
         List<PlanItemEntity> planItems = planItemDao.getLearningPlanItems(planId, AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST);
         assertEquals(4, planItems.size());
         for (PlanItemEntity pie : planItems) {
-            assertEquals(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST, pie.getLearningPlanItemType().getId());
+            assertEquals(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST, pie.getTypeId());
             assertEquals("student1", pie.getLearningPlan().getStudentId());
         }
 
         planItems = planItemDao.getLearningPlanItems(planId, AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
         assertEquals(3, planItems.size());
         for (PlanItemEntity pie : planItems) {
-            assertEquals(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED, pie.getLearningPlanItemType().getId());
+            assertEquals(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED, pie.getTypeId());
             assertEquals("student1", pie.getLearningPlan().getStudentId());
         }
         planItems = planItemDao.getLearningPlanItems(planId, AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP);
         assertEquals(1, planItems.size());
         for (PlanItemEntity pie : planItems) {
-            assertEquals(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP, pie.getLearningPlanItemType().getId());
+            assertEquals(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP, pie.getTypeId());
             assertEquals("student1", pie.getLearningPlan().getStudentId());
         }
     }
@@ -87,7 +82,7 @@ public class PlanItemDaoTest extends AbstractTransactionalDaoTest {
         PlanItemEntity pie = planItemDao.find(id);
         assertNotNull(pie);
         assertEquals(id, pie.getId());
-        assertEquals(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST, pie.getLearningPlanItemType().getId());
+        assertEquals(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST, pie.getTypeId());
         assertEquals("lp1", pie.getLearningPlan().getId());
     }
 
@@ -128,13 +123,12 @@ public class PlanItemDaoTest extends AbstractTransactionalDaoTest {
     @Test
     public void testSavePlanItem_wishlist() {
         LearningPlanEntity learningPlanEntity = learningPlanDao.find("lp1");
-        PlanItemTypeEntity planItemTypeEntity = planItemTypeDao.find(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST);
 
         PlanItemEntity pie = new PlanItemEntity();
         String id = UUIDHelper.genStringUUID();
         pie.setId(id);
         pie.setLearningPlan(learningPlanEntity);
-        pie.setLearningPlanItemType(planItemTypeEntity);
+        pie.setTypeId(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST);
         pie.setRefObjectId("02711400-c66d-4ecb-aca5-565118f167cf");
         pie.setRefObjectTypeKey("kuali.lu.type.CreditCourse");
         pie.setCreateId("student1");
@@ -146,7 +140,7 @@ public class PlanItemDaoTest extends AbstractTransactionalDaoTest {
         assertNotNull(newPie);
         assertEquals(id, newPie.getId());
         assertEquals(learningPlanEntity.getId(), newPie.getLearningPlan().getId());
-        assertEquals(planItemTypeEntity.getId(), newPie.getLearningPlanItemType().getId());
+        assertEquals(learningPlanEntity.getTypeId(), newPie.getTypeId());
         assertEquals(pie.getRefObjectId(), newPie.getRefObjectId());
         assertEquals(pie.getRefObjectTypeKey(), newPie.getRefObjectTypeKey());
     }
@@ -154,13 +148,12 @@ public class PlanItemDaoTest extends AbstractTransactionalDaoTest {
      @Test
     public void testSavePlanItem_planned() {
         LearningPlanEntity learningPlanEntity = learningPlanDao.find("lp1");
-        PlanItemTypeEntity planItemTypeEntity = planItemTypeDao.find(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
 
         PlanItemEntity pie = new PlanItemEntity();
         String id = UUIDHelper.genStringUUID();
         pie.setId(id);
         pie.setLearningPlan(learningPlanEntity);
-        pie.setLearningPlanItemType(planItemTypeEntity);
+        pie.setTypeId(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
         pie.setRefObjectId("02711400-c66d-4ecb-aca5-565118f167cf");
         pie.setRefObjectTypeKey("kuali.lu.type.CreditCourse");
         pie.setCreateId("student1");
@@ -177,7 +170,7 @@ public class PlanItemDaoTest extends AbstractTransactionalDaoTest {
         assertNotNull(newPie);
         assertEquals(id, newPie.getId());
         assertEquals(learningPlanEntity.getId(), newPie.getLearningPlan().getId());
-        assertEquals(planItemTypeEntity.getId(), newPie.getLearningPlanItemType().getId());
+        assertEquals(learningPlanEntity.getTypeId(), newPie.getTypeId());
         assertEquals(pie.getRefObjectId(), newPie.getRefObjectId());
         assertEquals(pie.getRefObjectTypeKey(), newPie.getRefObjectTypeKey());
 
@@ -190,13 +183,12 @@ public class PlanItemDaoTest extends AbstractTransactionalDaoTest {
     @Test
     public void testSavePlanItem_backup() {
         LearningPlanEntity learningPlanEntity = learningPlanDao.find("lp1");
-        PlanItemTypeEntity planItemTypeEntity = planItemTypeDao.find(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP);
 
         PlanItemEntity pie = new PlanItemEntity();
         String id = UUIDHelper.genStringUUID();
         pie.setId(id);
         pie.setLearningPlan(learningPlanEntity);
-        pie.setLearningPlanItemType(planItemTypeEntity);
+        pie.setTypeId(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP);
         pie.setRefObjectId("02711400-c66d-4ecb-aca5-565118f167cf");
         pie.setRefObjectTypeKey("kuali.lu.type.CreditCourse");
         pie.setCreateId("student1");
@@ -213,7 +205,7 @@ public class PlanItemDaoTest extends AbstractTransactionalDaoTest {
         assertNotNull(newPie);
         assertEquals(id, newPie.getId());
         assertEquals(learningPlanEntity.getId(), newPie.getLearningPlan().getId());
-        assertEquals(planItemTypeEntity.getId(), newPie.getLearningPlanItemType().getId());
+        assertEquals(learningPlanEntity.getTypeId(), newPie.getTypeId());
         assertEquals(pie.getRefObjectId(), newPie.getRefObjectId());
         assertEquals(pie.getRefObjectTypeKey(), newPie.getRefObjectTypeKey());
 

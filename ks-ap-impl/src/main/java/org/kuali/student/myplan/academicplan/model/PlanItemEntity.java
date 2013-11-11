@@ -31,7 +31,7 @@ import java.util.Set;
             query = "SELECT pi FROM PlanItemEntity pi, LearningPlanEntity p WHERE " +
                     "pi.learningPlan = p " +
                     "and p.id =:learningPlanId " +
-                    "and pi.learningPlanItemType.id =:learningPlanItemType"),
+                    "and pi.typeId =:learningPlanItemType"),
 
     @NamedQuery(name = "LearningPlanItem.getPlanItemsByRefObjectId",
             query = "SELECT pi FROM PlanItemEntity pi, LearningPlanEntity p  WHERE " +
@@ -49,9 +49,8 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
     @Column(name="REF_OBJ_ID")
     private String refObjectId;
 
-    @ManyToOne()
-    @JoinColumn(name = "TYPE_ID")
-    private PlanItemTypeEntity learningPlanItemType;
+    @Column(name = "TYPE_ID")
+    private String typeId;
 
     @ManyToOne()
     @JoinColumn(name = "PLAN_ID")
@@ -104,12 +103,12 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
 		this.refObjectId = refObjectId;
 	}
 
-    public PlanItemTypeEntity getLearningPlanItemType() {
-        return learningPlanItemType;
+    public String getTypeId() {
+        return typeId;
     }
 
-    public void setLearningPlanItemType(PlanItemTypeEntity learningPlanItemType) {
-        this.learningPlanItemType = learningPlanItemType;
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
     }
 
     public LearningPlanEntity getLearningPlan() {
@@ -177,7 +176,7 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
         dto.setLearningPlanId(this.getLearningPlan().getId());
         dto.setRefObjectId(this.getRefObjectId());
         dto.setRefObjectType(this.getRefObjectTypeKey());
-        dto.setTypeKey(this.getLearningPlanItemType().getId());
+        dto.setTypeKey(this.getTypeId());
         dto.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
         dto.setCredit(this.getCredit());
 

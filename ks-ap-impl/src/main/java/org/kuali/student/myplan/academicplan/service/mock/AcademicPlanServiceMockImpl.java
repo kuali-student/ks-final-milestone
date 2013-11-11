@@ -10,6 +10,7 @@ import org.kuali.student.myplan.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.myplan.academicplan.dto.PlanItemInfo;
 import org.kuali.student.myplan.academicplan.dto.PlanItemSetInfo;
 import org.kuali.student.myplan.academicplan.service.AcademicPlanService;
+import org.kuali.student.myplan.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -41,7 +42,7 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
         String atp = "19843";
         atpList.add( atp );
         plan.setPlanPeriods( atpList );
-        plan.setTypeKey("kuali.academicplan.item.planned");
+        plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
 
         return plan;
     }
@@ -74,7 +75,7 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
             List<String> atps = new ArrayList<String>();
             atps.add("19843");
             plan.setPlanPeriods( atps );
-            plan.setTypeKey("kuali.academicplan.item.planned");
+            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
             plan.setMeta(meta);
 
             plan.setId( "1" );
@@ -95,7 +96,7 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
             String atp = "19843";
             atpList.add( atp );
             plan.setPlanPeriods( atpList );
-            plan.setTypeKey("kuali.academicplan.item.planned");
+            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
             plan.setMeta(meta);
 
             plan.setId( "2" );
@@ -115,7 +116,7 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
             List<String> atps = new ArrayList<String>();
             atps.add("19843");
             plan.setPlanPeriods( atps );
-            plan.setTypeKey("kuali.academicplan.item.backup");
+            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP);
             plan.setMeta(meta);
 
             plan.setId( "1" );
@@ -135,7 +136,7 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
             List<String> atps = new ArrayList<String>();
             atps.add("19843");
             plan.setPlanPeriods( atps );
-            plan.setTypeKey("kuali.academicplan.item.planned");
+            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
             plan.setMeta(meta);
             plan.setId( "1" );
             list.add( plan );
@@ -155,7 +156,7 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
             List<String> atps = new ArrayList<String>();
             atps.add("19843");
             plan.setPlanPeriods( atps );
-            plan.setTypeKey("kuali.academicplan.item.wishlist");
+            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST);
             plan.setMeta(meta);
 
             list.add( plan );
@@ -219,7 +220,7 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
         List<String> atps = new ArrayList<String>();
         atps.add("19843");
         plan.setPlanPeriods( atps );
-        plan.setTypeKey("kuali.academicplan.item.planned");
+        plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
 
         plan.setId("1");
 

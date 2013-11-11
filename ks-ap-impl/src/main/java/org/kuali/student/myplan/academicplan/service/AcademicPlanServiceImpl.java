@@ -15,9 +15,7 @@ import javax.jws.WebParam;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.myplan.academicplan.dao.LearningPlanDao;
-import org.kuali.student.myplan.academicplan.dao.LearningPlanTypeDao;
 import org.kuali.student.myplan.academicplan.dao.PlanItemDao;
-import org.kuali.student.myplan.academicplan.dao.PlanItemTypeDao;
 import org.kuali.student.myplan.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.myplan.academicplan.dto.PlanItemInfo;
 import org.kuali.student.myplan.academicplan.dto.PlanItemSetInfo;
@@ -25,11 +23,9 @@ import org.kuali.student.myplan.academicplan.model.AttributeEntity;
 import org.kuali.student.myplan.academicplan.model.LearningPlanAttributeEntity;
 import org.kuali.student.myplan.academicplan.model.LearningPlanEntity;
 import org.kuali.student.myplan.academicplan.model.LearningPlanRichTextEntity;
-import org.kuali.student.myplan.academicplan.model.LearningPlanTypeEntity;
 import org.kuali.student.myplan.academicplan.model.PlanItemAttributeEntity;
 import org.kuali.student.myplan.academicplan.model.PlanItemEntity;
 import org.kuali.student.myplan.academicplan.model.PlanItemRichTextEntity;
-import org.kuali.student.myplan.academicplan.model.PlanItemTypeEntity;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -44,6 +40,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.HasAttributes;
 import org.kuali.student.r2.common.infc.ValidationResult;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -53,9 +50,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AcademicPlanServiceImpl implements AcademicPlanService {
 
 	private LearningPlanDao learningPlanDao;
-	private LearningPlanTypeDao learningPlanTypeDao;
 	private PlanItemDao planItemDao;
-	private PlanItemTypeDao planItemTypeDao;
 
 	public PlanItemDao getPlanItemDao() {
 		return planItemDao;
@@ -65,28 +60,12 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		this.planItemDao = planItemDao;
 	}
 
-	public PlanItemTypeDao getPlanItemTypeDao() {
-		return planItemTypeDao;
-	}
-
-	public void setPlanItemTypeDao(PlanItemTypeDao planItemTypeDao) {
-		this.planItemTypeDao = planItemTypeDao;
-	}
-
 	public LearningPlanDao getLearningPlanDao() {
 		return learningPlanDao;
 	}
 
 	public void setLearningPlanDao(LearningPlanDao learningPlanDao) {
 		this.learningPlanDao = learningPlanDao;
-	}
-
-	public LearningPlanTypeDao getLearningPlanTypeDao() {
-		return learningPlanTypeDao;
-	}
-
-	public void setLearningPlanTypeDao(LearningPlanTypeDao learningPlanTypeDao) {
-		this.learningPlanTypeDao = learningPlanTypeDao;
 	}
 
 	@Override
@@ -223,18 +202,14 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		LearningPlanEntity lpe = new LearningPlanEntity();
 		lpe.setId(UUIDHelper.genStringUUID());
 
-		// FIXME: Is this check necessary?
-		LearningPlanEntity existing = learningPlanDao.find(lpe.getId());
-		if (existing != null) {
-			// When generating a new UUID as the key, this should not be possible.
-			throw new AlreadyExistsException();
-		}
+        TypeInfo type = null;
+        try {
+            KsapFrameworkServiceLocator.getTypeService().getType(learningPlan.getTypeKey(), context);
+        } catch (DoesNotExistException e) {
+            throw new InvalidParameterException(String.format("Unknown type [%s].", learningPlan.getTypeKey()));
+        }
 
-		LearningPlanTypeEntity type = learningPlanTypeDao.find(learningPlan.getTypeKey());
-		if (type == null) {
-			throw new InvalidParameterException(String.format("Unknown type [%s].", learningPlan.getTypeKey()));
-		}
-		lpe.setLearningPlanType(type);
+		lpe.setTypeId(type.getKey());
 		lpe.setStateKey(learningPlan.getStateKey());
 
 		lpe.setStudentId(learningPlan.getStudentId());
@@ -274,11 +249,13 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		pie.setRefObjectId(planItem.getRefObjectId());
 		pie.setRefObjectTypeKey(planItem.getRefObjectType());
 
-		PlanItemTypeEntity planItemTypeEntity = planItemTypeDao.find(planItem.getTypeKey());
-		if (planItemTypeEntity == null) {
+        TypeInfo type = null;
+        try {
+            KsapFrameworkServiceLocator.getTypeService().getType(planItem.getTypeKey(), context);
+        } catch (DoesNotExistException e) {
 			throw new InvalidParameterException(String.format("Unknown plan item type id [%s].", planItem.getTypeKey()));
 		}
-		pie.setLearningPlanItemType(planItemTypeEntity);
+		pie.setTypeId(planItem.getTypeKey());
 
 		//  Convert the List of plan periods to a Set.
 		pie.setPlanPeriods(new HashSet<String>(planItem.getPlanPeriods()));
@@ -413,11 +390,13 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 			throw new DoesNotExistException(learningPlanId);
 		}
 
-		LearningPlanTypeEntity type = learningPlanTypeDao.find(learningPlan.getTypeKey());
-		if (type == null) {
-			throw new InvalidParameterException(String.format("Unknown type [%s].", learningPlan.getTypeKey()));
-		}
-		lpe.setLearningPlanType(type);
+        TypeInfo type = null;
+        try {
+            KsapFrameworkServiceLocator.getTypeService().getType(learningPlan.getTypeKey(), context);
+        } catch (DoesNotExistException e) {
+            throw new InvalidParameterException(String.format("Unknown type [%s].", learningPlan.getTypeKey()));
+        }
+        lpe.setTypeId(type.getKey());
 		lpe.setStateKey(learningPlan.getStateKey());
 
 		lpe.setStudentId(learningPlan.getStudentId());
@@ -467,7 +446,7 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		PlanItemEntity planItemEntity = planItemDao.find(planItemId);
 
 		// If Plan type changes, create a new one and update the old one's state to DELETED
-		String updatePlanTypeId = null;
+		String origPlanItemId = null;
 
 		if (planItemEntity == null) {
 			throw new DoesNotExistException(planItemId);
@@ -478,22 +457,21 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 
 		//  Update the plan item type if it has changed.
 		boolean createNewPlanItem = false;
-		if (!planItemEntity.getLearningPlanItemType().getId().equals(planItem.getTypeKey())
-				&& planItemEntity.getLearningPlanItemType().getId()
+		if (!planItemEntity.getTypeId().equals(planItem.getTypeKey())
+				&& planItemEntity.getTypeId()
 						.equals(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST)) {
 			createNewPlanItem = true;
 		}
 
-		if (!planItemEntity.getLearningPlanItemType().getId().equals(planItem.getTypeKey())) {
-			PlanItemTypeEntity planItemTypeEntity = planItemTypeDao.find(planItem.getTypeKey());
-			if (planItemTypeEntity == null) {
-				throw new InvalidParameterException(String.format("Unknown plan item type id [%s].",
-						planItem.getTypeKey()));
-			}
-
-			// Reset the plan Item
-			planItemEntity.setLearningPlanItemType(planItemTypeEntity);
-			updatePlanTypeId = planItemEntity.getId();
+		if (!planItemEntity.getTypeId().equals(planItem.getTypeKey())) {
+            TypeInfo type = null;
+            try {
+                KsapFrameworkServiceLocator.getTypeService().getType(planItem.getTypeKey(), context);
+            } catch (DoesNotExistException e) {
+                throw new InvalidParameterException(String.format("Unknown plan item type id [%s].", planItem.getTypeKey()));
+            }
+            planItemEntity.setTypeId(planItem.getTypeKey());
+			origPlanItemId = planItemEntity.getId();
 		}
 
 		//  Update plan periods.
@@ -566,7 +544,7 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 			} catch (AlreadyExistsException e) {
 				throw new OperationFailedException(e.getMessage());
 			}
-			deletePlanItem(updatePlanTypeId, context);
+			deletePlanItem(origPlanItemId, context);
 		} else {
 			updatePlanItemId = planItemEntity.getId();
 			planItemDao.merge(planItemEntity);
