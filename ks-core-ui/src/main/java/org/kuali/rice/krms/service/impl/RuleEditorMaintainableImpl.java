@@ -398,6 +398,11 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
                 LOG.info("Deleting agenda item for id: " + firstItem.getId());
                 this.getRuleManagementService().deleteAgendaItem(firstItem.getId());
                 LOG.info("Deleting agenda for id: " + agenda.getId());
+               // TODO :Delete Agenda Children records.
+                //this is the workaround for removing/Deleting agenda attributes records before deleting the Agenda.
+                agenda.setAttributes(null);
+                AgendaDefinition.Builder agendaBldr = AgendaDefinition.Builder.create(agenda);
+                this.getRuleManagementService().updateAgenda(agendaBldr.build());
                 this.getRuleManagementService().deleteAgenda(agenda.getId());
             }
 
