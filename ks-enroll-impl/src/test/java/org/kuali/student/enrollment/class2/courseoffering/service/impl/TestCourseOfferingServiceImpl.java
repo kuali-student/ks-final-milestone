@@ -11,6 +11,7 @@ import org.kuali.student.common.test.util.AttributeTester;
 import org.kuali.student.common.test.util.ListOfStringTester;
 import org.kuali.student.common.test.util.MetaTester;
 import org.kuali.student.common.test.util.RichTextTester;
+import org.kuali.student.enrollment.class2.courseoffering.service.helper.CourseOfferingServiceScheduleHelper;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
@@ -36,6 +37,7 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
+import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
@@ -93,6 +95,9 @@ public class TestCourseOfferingServiceImpl {
 
     @Resource(name = "LrcService")
     protected LRCService lrcService;
+
+    @Resource
+    protected SchedulingService schedulingService;
     
     public static String principalId = "123";
     public ContextInfo callContext = null;
@@ -103,6 +108,7 @@ public class TestCourseOfferingServiceImpl {
     public void setup() throws Exception {
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
+        CourseOfferingServiceScheduleHelper.setSchedulingService(schedulingService);
     }
 
     @After
