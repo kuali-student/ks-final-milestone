@@ -270,6 +270,8 @@
         <property name="luiService" ref="luiService"/>
     </bean>
 
+    <alias name="schedulingService" alias="SchedulingService"/>
+
     <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl">
         <property name="atpService" ref="atpService"/>
         <property name="typeService" ref="typeService"/>
