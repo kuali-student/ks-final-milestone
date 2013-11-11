@@ -550,14 +550,6 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-Population-Group" parent="KRMS-CustomComponent-BoxGroup">
-        <property name="items">
-            <list>
-                <ref bean="KRMS-Population-Field"/>
-            </list>
-        </property>
-    </bean>
-
     <bean id="KRMS-AOStateAndSate-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
