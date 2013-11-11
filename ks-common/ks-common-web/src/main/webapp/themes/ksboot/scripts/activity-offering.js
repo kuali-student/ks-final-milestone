@@ -723,6 +723,7 @@ function rdlStartTimeOnBlur(){
    }
 
     retrieveComponent('rdl_endtime','loadTSEndTimes',function () {
+        jQuery("#rdl_endtime").show();
         jQuery("#rdl_endtime_control").focus();
     });
 }
@@ -733,27 +734,8 @@ function rdlStartTimeOnBlur(){
  */
 function rdlDaysOnBlur(){
 
-    var startTime = jQuery("#rdl_starttime_control").val();
-    var days = jQuery("#rdl_days_control").val();
-
-    jQuery("#rdl_endtime_control").val('');
-
-    if (startTime != ''){
-        parseAndReplaceTimeClause(jQuery("#rdl_starttime_control"), jQuery("#rdl_days_control"));
-    }
-
-    if (startTime == '' || days == ''){
-        return;
-    }
-
-
-    if (validateFieldValue(jQuery("#rdl_starttime_control")) == false ||
-        validateFieldValue(jQuery("#rdl_days_control")) == false){
-        return;
-    }
-
     retrieveComponent('rdl_endtime','resetNewRDLTime',function () {
-        jQuery("#rdl_starttime_control").val('');
+        jQuery("#rdl_endtime").show();
         jQuery("#rdl_starttime_control").focus();
     });
 }
