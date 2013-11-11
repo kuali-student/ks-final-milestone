@@ -111,7 +111,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
      */
     private final static String TOOLTIP_CREATE_SCRIPT
         = "<input type='hidden' data-role='script' data-for='$ID' value=\"createTooltip('$ID', '$TEXT', " +
-            "{position:'top',alwaysVisible:false,themeName:'all-black',themePath:'$APPLICATION_URL/plugins/tooltip/jquerybubblepopup-theme/',selectable:true,align:'left',distance:'0px',openingSpeed:'1', tail:{ align:'left', hidden: false },tableStyle:{ margin:'0px 0px 5px -8px'}},true, false);\" script='soc_run'>";
+            "{position:'top',alwaysVisible:false,themeName:'all-black',themePath:'$APPLICATION_URL/plugins/tooltip/jquerybubblepopup-theme/',selectable:true,align:'left',distance:'0px',openingSpeed:'250', tail:{ align:'left', hidden: false },tableStyle:{ margin:'0px 0px 5px -8px'}},true, false);\" script='soc_run'>";
 
     private final static String TOOLTIP_ADD_ATTRIBUTE
         = "<input type='hidden' data-role='script' data-for='$ID' " +
