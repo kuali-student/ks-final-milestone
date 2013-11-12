@@ -239,6 +239,12 @@
 
   <alias alias="CourseOfferingService" name="coService" />
 
+    <bean id="courseOfferingServiceExtender" class="org.kuali.student.enrollment.class2.courseoffering.service.extender.CourseOfferingServiceExtenderImpl">
+        <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
+        <property name="searchService" ref="SearchService" />
+        <property name="schedulingService" ref="SchedulingService"/>
+    </bean>
+
     <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
         <property name="luiService" ref="luiService" />
         <property name="rgAssembler" ref="rgAssembler" />
@@ -259,6 +265,7 @@
         <property name="atpService" ref="atpService" />
         <property name="courseWaitListService" ref="courseWaitListService"/>
         <property name="examOfferingService" ref="examOfferingService"/>
+        <property name="courseOfferingServiceExtender" ref="courseOfferingServiceExtender"/>
     </bean>
 
     <bean id="courseWaitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceImpl">

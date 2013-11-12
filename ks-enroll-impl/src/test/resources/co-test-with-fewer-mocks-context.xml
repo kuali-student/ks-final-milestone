@@ -81,6 +81,12 @@
         <property name="em" ref="entityManager" />
     </bean>
 
+    <bean id="courseOfferingServiceExtender" class="org.kuali.student.enrollment.class2.courseoffering.service.extender.CourseOfferingServiceExtenderImpl">
+        <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
+        <property name="searchService" ref="searchService" />
+        <property name="schedulingService" ref="schedulingService"/>
+    </bean>
+
     <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
         <property name="luiService" ref="luiService" />
         <property name="rgAssembler" ref="rgAssembler" />
@@ -96,6 +102,7 @@
         <property name="schedulingService" ref="schedulingService"/>
         <property name="atpService" ref="atpService"/>
         <property name="searchService" ref="searchService" />
+        <property name="courseOfferingServiceExtender" ref="courseOfferingServiceExtender"/>
     </bean>
 
     <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl">

@@ -24,6 +24,12 @@
 
     <bean id="activityOfferingClusterDao" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.MockActivityOfferingClusterDao" />
 
+    <bean id="courseOfferingServiceExtender" class="org.kuali.student.enrollment.class2.courseoffering.service.extender.CourseOfferingServiceExtenderImpl">
+        <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
+        <property name="searchService" ref="searchService" />
+        <property name="schedulingService" ref="schedulingService"/>
+    </bean>
+
     <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
         <property name="rgAssembler" ref="rgAssembler" />
         <property name="luiService" ref="luiService" />
@@ -43,6 +49,7 @@
         <property name="courseWaitListService" ref="courseWaitListService"/>
         <property name="examOfferingService" ref="examOfferingService"/>
         <property name="searchService" ref="searchService" />
+        <property name="courseOfferingServiceExtender" ref="courseOfferingServiceExtender"/>
     </bean>
 
     <bean id="courseWaitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceImpl">

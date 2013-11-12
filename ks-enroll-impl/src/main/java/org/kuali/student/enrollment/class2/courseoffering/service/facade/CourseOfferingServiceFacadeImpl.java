@@ -26,6 +26,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDaoApi;
 import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterEntity;
+import org.kuali.student.enrollment.class2.courseoffering.service.extender.CourseOfferingServiceExtender;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.issue.ActivityOfferingNotInAocSubissue;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.issue.CourseOfferingAutogenIssue;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.issue.FormatOfferingAutogenIssue;
@@ -74,7 +75,6 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
-import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
@@ -116,6 +116,8 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
     private CourseWaitListServiceFacade waitListServiceFacade;
 
     private ExamOfferingServiceFacade examOfferingServiceFacade;
+
+    private CourseOfferingServiceExtender courseOfferingServiceExtender;
 
     /* (non-Javadoc)
      * @see org.kuali.student.enrollment.class2.courseoffering.service.adapter.CourseOfferingServiceFacade#getDefaultClusterName(int)
@@ -767,7 +769,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
                     //Canceled state handling is out of scope. We ignore the state for now
                     // TODO: KSENROLL-9934 this checking will be removed when canceled state handling is available.
                     if (!rgInfo.getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY)) {
-                        if (_isRegistrationGroupValid (rgInfo.getId(), context)) {
+                        if (_areRegistrationGroupAoIdsValid(rgInfo.getActivityOfferingIds(), context)) {
                             // We don't know what the next state should be for this registration group, but the state
                             // service kinda knows. So, try to send it to the highest state, offered.
                             // If that doesn't work, try to send it to pending
@@ -806,9 +808,9 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         }
     }
 
-    private boolean _isRegistrationGroupValid (String rgId, ContextInfo context) {
+    private boolean _areRegistrationGroupAoIdsValid(List<String> aoIds, ContextInfo context) {
         try {
-            List<ValidationResultInfo> validations = coService.verifyRegistrationGroup(rgId, context);
+            List<ValidationResultInfo> validations = courseOfferingServiceExtender.verifyRegistrationGroup(aoIds, context);
             for (ValidationResultInfo validation : validations) {
                 if (!validation.isOk()) {
                     // If any validation is an error, then make this invalid
@@ -1404,5 +1406,13 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
 
     public void setSearchService(SearchService searchService) {
         this.searchService = searchService;
+    }
+
+    public void setCourseOfferingServiceExtender(CourseOfferingServiceExtender courseOfferingServiceExtender) {
+        this.courseOfferingServiceExtender = courseOfferingServiceExtender;
+    }
+
+    public CourseOfferingServiceExtender getCourseOfferingServiceExtender() {
+        return courseOfferingServiceExtender;
     }
 }
