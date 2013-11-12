@@ -15,7 +15,7 @@
 	<!-- TODO: krad-base-servlet.xml? -->
     <!-- Packages containing controller classes to be used when this servlet is used -->
     <context:component-scan base-package="org.kuali.rice.krad"/>
-    <context:component-scan base-package="org.kuali.student.myplan.course"/>
+    <context:component-scan base-package="org.kuali.student.ap.coursesearch"/>
     <context:component-scan base-package="org.kuali.student.ap.audit"/>
     <context:component-scan base-package="org.kuali.student.ap.adviser"/>
     <context:component-scan base-package="org.kuali.student.myplan.plan"/>
