@@ -2684,3 +2684,6 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
     width: 700px;
     margin-right: 10px;
 }
+.ks-plan-Bucket-footer-hide {
+    display: none !important;
+}
