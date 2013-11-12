@@ -2,6 +2,7 @@ package org.kuali.student.common.ui.client.configurable.mvc.sections;
 
 import org.kuali.student.common.ui.client.theme.Theme;
 
+import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -46,13 +47,13 @@ public class WarnContainer extends Composite{
 	//Adds to same line
 	public void addWarnWidget(Widget w){
 		warnLayout.add(w);
-		w.getElement().setAttribute("style", "display: inline");
+        w.getElement().getStyle().setDisplay(Display.INLINE);
 	}
 	
 	//Adds to newline
 	public void addWarnWidgetBlock(Widget w){	// KSLAB-1985
 		warnLayout.add(w);
-		w.getElement().setAttribute("style", "display: block");
+        w.getElement().getStyle().setDisplay(Display.BLOCK);
 	}
 	
 	public void clearWarnLayout(){	
