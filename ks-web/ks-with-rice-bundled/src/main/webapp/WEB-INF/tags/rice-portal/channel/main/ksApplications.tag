@@ -29,24 +29,24 @@
     <ul class="chan">
         <h3>KSAP Main</h3>
         <li><a href="${ConfigProperties.application.url}/myplan/course?methodToCall=start&amp;viewId=CourseSearch-FormView">KSAP Course Search</a></li>
-        <li><a href="${ConfigProperties.application.url}/myplan/planner?methodToCall=start&amp;viewId=Planner-FormView">KSAP Planner</a></li>
-        <br>
-        <li><a href="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.student.r2.lum.course.dto.CourseInfo&amp;viewId=CourseInfo-LookupView-ForKSAP">Simple Course Lookup for KSAP</a></li>
+        <li><a href="${ConfigProperties.application.url}/ap/planner?methodToCall=start&amp;viewId=Planner-FormView">KSAP Planner (v0.75)</a></li>
         <h3>KRAD Planner POC</h3>
         <li><a href="${ConfigProperties.application.url}/myplan/plan?methodToCall=start&amp;viewId=PlannedCourses-FormView-POC-Same-View">KSAP Planner - No Page Embedded</a></li>
         <li><a href="${ConfigProperties.application.url}/myplan/plan?methodToCall=start&amp;viewId=PlannedCourses-FormView-POC-Single-Year">KSAP Planner - Single Year</a></li>
         <li><a href="${ConfigProperties.application.url}/myplan/plan?methodToCall=start&amp;viewId=PlannedCourses-FormView-POC-Dialog">KSAP Planner - Krad Dialog</a></li>
         <li><a href="${ConfigProperties.application.url}/myplan/plan?methodToCall=start&amp;viewId=PlannedCourses-FormView-POC-delay-load&amp;loadCalendar=true">KSAP Planner - Delayed Calendar Load</a></li>
         <h3>0.75 Merge Screens</h3>
-        <li><a href="${ConfigProperties.application.url}/myplan/planner?methodToCall=start&amp;viewId=Planner-FormView">KSAP Planner New</a></li>
+        <li><a href="${ConfigProperties.application.url}/ap/planner?methodToCall=start&amp;viewId=Planner-FormView">KSAP Planner (v0.75)</a></li>
         <li><a href="${ConfigProperties.application.url}/myplan/sb?termId=kuali.atp.2013Fall&requestedLearningPlanId=testPlan1">KSAP Schedule Builder</a></li>
         <li><a href="${ConfigProperties.application.url}/myplan/reviewList">KSAP Planner Review</a></li>
         <h3>Shopping Cart Dialogs - Not working</h3>
         <li><a href="${ConfigProperties.application.url}/myplan/sb/cart?viewId=ShoppingCart-FormView&pageId=sb_cart_add_from_plan_page">KSAP Add Shopping Cart From Plan</a></li>
         <li><a href="${ConfigProperties.application.url}/myplan/sb/cart?viewId=ShoppingCart-FormView&pageId=sb_cart_add_from_sb_page">KSAP Add Shopping Cart From Schedule Builder</a></li>
         <li><a href="${ConfigProperties.application.url}/myplan/sb/cart?viewId=ShoppingCart-FormView&pageId=sb_cart_remove_page">KSAP Remove Shopping Cart</a></li>
+        <h3>Course Search POC</h3>
+        <li><a href="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.student.r2.lum.course.dto.CourseInfo&amp;viewId=CourseInfo-LookupView-ForKSAP">Simple Course Lookup for KSAP</a></li>
         <h3>Legacy</h3>
-        <li><a href="${ConfigProperties.application.url}/myplan/plan?methodToCall=start&amp;viewId=PlannedCourses-FormView">KSAP Planner</a></li>
+        <li><a href="${ConfigProperties.application.url}/myplan/plan?methodToCall=start&amp;viewId=PlannedCourses-FormView">KSAP Planner (v0.7)</a></li>
 
     </ul>
 

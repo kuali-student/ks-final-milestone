@@ -18,6 +18,7 @@
     <context:component-scan base-package="org.kuali.student.ap.coursesearch"/>
     <context:component-scan base-package="org.kuali.student.ap.audit"/>
     <context:component-scan base-package="org.kuali.student.ap.adviser"/>
+    <context:component-scan base-package="org.kuali.student.ap.planner"/>
     <context:component-scan base-package="org.kuali.student.myplan.plan"/>
     <context:component-scan base-package="org.kuali.student.ap.comment"/>
     <context:component-scan base-package="org.kuali.student.ap.plannerreview"/>
