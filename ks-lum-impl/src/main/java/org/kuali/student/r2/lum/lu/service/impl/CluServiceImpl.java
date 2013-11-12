@@ -3317,8 +3317,22 @@ public class CluServiceImpl implements CluService {
                 }
             }
 
-            //Find the clu
-            Clu clu = luDao.fetch(Clu.class, refObjId);
+			// Find the clu
+			Clu clu = new Clu();
+			try {
+				clu = luDao.fetch(Clu.class, refObjId);
+			} catch (DoesNotExistException e) {
+
+				logger.warn(
+						"Does Not Exist Exception occured, Dependency Analysis Tried to load a dependency from a clu with clu Id: "
+								+ refObjId
+								+ " which does not exist.  Removing dependency from results. Does not exist Exception follows: ",
+						e);
+
+				// skipping loop
+				continue;
+
+			}
 
             //Program statements are attached to dummy clus, so look up the parent program
             if ("kuali.lu.type.Requirement".equals(clu.getLuType().getId())) {
