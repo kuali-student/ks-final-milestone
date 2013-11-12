@@ -15,13 +15,13 @@
 
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
@@ -99,13 +99,12 @@ import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.lum.clu.CLUConstants;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Controller for course proposal screens.  This controller controls all functions of the course proposal process
@@ -673,7 +672,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
         proposalData.set(new Data.StringKey("type"), currentDocType);
         data.set(new Data.StringKey("proposal"), proposalData);
         if (cfg != null) {
-            if (cfg.getNextState() == null && cfg.getNextState().isEmpty()){
+            if (cfg.getNextState() == null || cfg.getNextState().isEmpty()){
         	    proposalData.set(new Data.StringKey("workflowNode"), "PreRoute");
             }
         }
@@ -1291,7 +1290,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	}
 	
 	private String getProposalTitle(){
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		sb.append(cluProposalModel.get(cfg.getProposalTitlePath()));
 		sb.append(" (Proposal)");
 		return sb.toString();

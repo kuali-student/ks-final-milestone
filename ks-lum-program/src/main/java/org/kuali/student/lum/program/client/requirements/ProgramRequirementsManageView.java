@@ -69,8 +69,8 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
     protected static final String RULEEDIT_TEMLATE = "KUALI.RULE";
     protected static final String RULEPREVIEW_TEMLATE = RULEEDIT_TEMLATE + ".PREVIEW";
     protected static final String COMPOSITION_TEMLATE = "KUALI.RULE.COMPOSITION";
-    private static final String CLU_NAMESPACE = "http://student.kuali.org/wsdl/clu";
-    private static final String CLU_NAMESPACE_URI = "{" + CLU_NAMESPACE + "}cluInfo";
+    private static final String LU_NAMESPACE = "http://student.kuali.org/wsdl/lu";
+    private static final String CLU_NAMESPACE_URI = "{" + LU_NAMESPACE + "}cluInfo";
 
     private ProgramRequirementsViewController parentController;
 

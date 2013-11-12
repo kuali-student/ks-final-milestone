@@ -520,21 +520,33 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<CourseInfo> getCoursesByIds(@WebParam(name = "courseIds") List<String> courseIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM-429
-        throw new UnsupportedOperationException("getCoursesByIds");
-        // To change body of implemented methods use File | Settings | File Templates.
+    public List<CourseInfo> getCoursesByIds(List<String> courseIds,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<CluInfo> clus = cluService.getClusByIds(courseIds, contextInfo);
+
+        List<CourseInfo> courses = new ArrayList<CourseInfo>();
+
+        for (CluInfo clu : clus){
+            try {
+                courses.add(courseAssembler.assemble(clu, null, false, contextInfo));
+
+            } catch (AssemblyException e) {
+                LOG.error("Error assembling course", e);
+                throw new OperationFailedException("Error assembling course");
+            }
+        }
+
+        return courses;
     }
 
     @Override
-    public List<String> searchForCourseIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForCourseIds(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO KSCM-429
         throw new UnsupportedOperationException("searchForCourseIds");
         // To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<CourseInfo> searchForCourses(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<CourseInfo> searchForCourses(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO KSCM-429
         throw new UnsupportedOperationException("searchForCourses");
         // To change body of implemented methods use File | Settings | File Templates.
@@ -542,19 +554,19 @@ public class CourseServiceImpl implements CourseService {
 
     // TODO KSCM-429 Service Method Comparison Implementation
     @Override
-    public List<FormatInfo> getCourseFormatsByCourse(@WebParam(name = "courseId") String courseId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<FormatInfo> getCourseFormatsByCourse(String courseId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return this.getCourseFormats(courseId);
     }
 
     // TODO KSCM-429 Service Method Comparison Implementation
     @Override
-    public List<ActivityInfo> getCourseActivitiesByCourseFormat(@WebParam(name = "formatId") String formatId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ActivityInfo> getCourseActivitiesByCourseFormat(String formatId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return this.getCourseActivities(formatId);
     }
 
     // TODO KSCM-429 replaced implementation with ENR
     @Override
-    public List<LoDisplayInfo> getCourseLearningObjectivesByCourse(@WebParam(name = "courseId") String courseId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LoDisplayInfo> getCourseLearningObjectivesByCourse(String courseId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return this.getCourseLos(courseId);
     }
 

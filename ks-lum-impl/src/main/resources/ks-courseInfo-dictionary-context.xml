@@ -1473,7 +1473,7 @@
   <property name="attributes">
    <list>   
     <ref bean="courseCrossListingInfo.courseNumberSuffix" />
-    <ref bean="courseCrossListingInfo.department" />
+    <ref bean="courseCrossListingInfo.subjectOrgId" />
     <ref bean="courseCrossListingInfo.id" />
     <ref bean="courseCrossListingInfo.code" />
     <ref bean="courseCrossListingInfo.subjectArea" />
@@ -1494,11 +1494,11 @@
  </bean>
  <bean id="courseCrossListingInfo.courseNumberSuffix" parent="courseCrossListingInfo.courseNumberSuffix-parent" />
 
- <bean id="courseCrossListingInfo.department-parent" abstract="true" parent="courseInfo.unitsDeployment-parent">
-  <property name="name" value="department" />
+ <bean id="courseCrossListingInfo.subjectOrgId-parent" abstract="true" parent="courseInfo.unitsDeployment-parent">
+  <property name="name" value="subjectOrgId" />
   <property name="maxOccurs" value="1" />
  </bean>
- <bean id="courseCrossListingInfo.department" parent="courseCrossListingInfo.department-parent" />
+ <bean id="courseCrossListingInfo.subjectOrgId" parent="courseCrossListingInfo.subjectOrgId-parent" />
 
  <bean id="courseCrossListingInfo.id-parent" abstract="true"  parent="cluIdentifierInfo.id">
   <property name="name" value="id" />
@@ -2186,11 +2186,6 @@
 	parent="baseString">
 	<property name="minOccurs" value="1" />
     <property name="maxOccurs" value="unbounded" />
-    <property name="validChars">
-     <bean parent="ValidCharDefinition">
-         <property name="value" value="regex:[A-Za-z0-9.]*"/>
-     </bean>
-    </property>
  </bean>
  <bean id="resultValuesGroupInfo.credit.multiple-constraint" parent="resultValuesGroupInfo.credit.multiple-constraint-parent" />
  

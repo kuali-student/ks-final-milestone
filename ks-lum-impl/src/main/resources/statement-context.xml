@@ -42,7 +42,7 @@
     <bean id="basicContext" class="org.kuali.student.r2.lum.statement.config.context.BasicContextImpl">
     </bean>
     <bean id="luContext" class="org.kuali.student.r2.lum.statement.config.context.CluContextImpl">
-        <property name="CluService" ref="cluServiceImpl" />
+        <property name="CluService" ref="CluService" />
     </bean>
     <bean id="lrcContext" class="org.kuali.student.r2.lum.statement.config.context.LrcContextImpl">
         <property name="lrcService" ref="lrcServiceImpl"/>

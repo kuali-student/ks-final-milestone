@@ -69,21 +69,21 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
     @CollectionTable(name = "KSEN_LRC_RVG_RESULT_VALUE", joinColumns =
     @JoinColumn(name = "RVG_ID"))
     private final Set<String> resultValueKeys = new HashSet<String>();
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval=true)
     private Set<ResultValuesGroupAttributeEntity> attributes;
 
     public ResultValuesGroupEntity() {
     }
 
-    public ResultValuesGroupEntity(ResultValuesGroupInfo dto, EntityManager em) {
+    public ResultValuesGroupEntity(ResultValuesGroupInfo dto) {
         super(dto);
         this.setId(dto.getKey());
         this.setType(dto.getTypeKey());
         this.setResultScaleId(dto.getResultScaleKey());
-        fromDTO(dto, em);
+        fromDTO(dto);
     }
 
-    public void fromDTO(ResultValuesGroupInfo dto, EntityManager em) {
+    public void fromDTO(ResultValuesGroupInfo dto) {
         this.setName(dto.getName());
         this.setState(dto.getStateKey());
         if (dto.getDescr() != null) {
@@ -111,18 +111,9 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
         if (this.getAttributes() == null) {
             this.setAttributes(new HashSet<ResultValuesGroupAttributeEntity>());
         }
-        Set<String> idSet = new HashSet<String>(dto.getAttributes().size());
-        for (AttributeInfo attr : dto.getAttributes()) {
-            if (attr.getId() != null) {
-                idSet.add(attr.getId());
-            }
-        }
-        for (ResultValuesGroupAttributeEntity attEntity : new ArrayList<ResultValuesGroupAttributeEntity> (this.getAttributes())) {
-            if (!idSet.contains(attEntity.getId())) {
-                em.remove(attEntity);
-                this.getAttributes().remove(attEntity);
-            }
-        }
+        else
+            this.attributes.clear();
+        
         for (Attribute att : dto.getAttributes()) {
             ResultValuesGroupAttributeEntity attEntity = new ResultValuesGroupAttributeEntity(att, this);
             this.getAttributes().add(attEntity);

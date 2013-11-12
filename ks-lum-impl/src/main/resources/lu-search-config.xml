@@ -502,7 +502,7 @@
 	<search:queryParam id="lu.queryParam.luOptionalDescr-parent"  optional="true" abstract="true">
 	 <dict:fieldDescriptor>
    <dict:name>Clu Description</dict:name>
-    <dict:desc>Descxription of the clu</dict:desc>
+    <dict:desc>Description of the clu</dict:desc>
     <dict:dataType>string</dict:dataType>
 	 </dict:fieldDescriptor>
 	</search:queryParam>
@@ -844,6 +844,41 @@
 			<ref bean="lu.criteria.code"/>
         </search:searchCriteriaTypeInfo>
     </search:searchType>
+
+    <search:searchType id="lu.search.validCluForDate" parent="lu.search.validCluForDate-parent"/>
+	<search:searchType id="lu.search.validCluForDate-parent"  abstract="true">
+        <search:name>Search for the CLU which is valid for a particular date</search:name>
+        <search:desc>Returns CLU id</search:desc>
+        <search:searchResultTypeInfo>
+        	<ref bean="lu.result.cluId"/>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+			<ref bean="lu.criteria.validCluForDate"/>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchCriteriaTypeInfo id="lu.criteria.validCluForDate" parent="lu.criteria.validCluForDate-parent"/>
+    <search:searchCriteriaTypeInfo id="lu.criteria.validCluForDate-parent"  abstract="true">
+        <search:name>Search by course code and a date</search:name>
+        <search:desc>Search by course code and a date</search:desc>
+        <search:queryParams>
+            <search:queryParam id="lu_queryParam_code" optional="false" abstract="true">
+                <dict:fieldDescriptor>
+                    <dict:name>Course Code</dict:name>
+                    <dict:desc>Course Code</dict:desc>
+                    <dict:dataType>string</dict:dataType>
+                </dict:fieldDescriptor>
+            </search:queryParam>
+
+            <search:queryParam id="lu_queryParam_someDate" optional="false" abstract="true">
+                <dict:fieldDescriptor>
+                    <dict:name>Date</dict:name>
+                    <dict:desc>A point in time</dict:desc>
+                    <dict:dataType>date</dict:dataType>
+                </dict:fieldDescriptor>
+            </search:queryParam>
+        </search:queryParams>
+    </search:searchCriteriaTypeInfo>
 
 	<search:searchResultTypeInfo id="lu.result.cluId" parent="lu.result.cluId-parent"/>
 	<search:searchResultTypeInfo id="lu.result.cluId-parent"  abstract="true">
@@ -1712,9 +1747,114 @@
 		<search:dataType>String</search:dataType>
 	</search:resultColumn>
 
+    <!-- lu.search.current.quick-->
+    <search:searchType id="lu.search.relatedTypes">
+        <search:name>Quick search for current courses</search:name>
+        <search:desc>Returns all current courses</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="lu.result.relatedTypes" />
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <ref bean="lu.criteria.relatedTypes"/>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchResultTypeInfo id="lu.result.relatedTypes" parent="lu.result.relatedTypes-parent"/>
+    <search:searchResultTypeInfo id="lu.result.relatedTypes-parent"  abstract="true">
+        <search:name>Related Lu Types</search:name>
+        <search:desc>List of the types associated with an LU</search:desc>
+        <search:resultColumns>
+            <ref bean="lu.resultColumn.cluId" />
+            <ref bean="lu.resultColumn.cluType" />
+        </search:resultColumns>
+    </search:searchResultTypeInfo>
+
+    <search:searchCriteriaTypeInfo id="lu.criteria.relatedTypes" parent="lu.criteria.relatedTypes-parent"/>
+    <search:searchCriteriaTypeInfo id="lu.criteria.relatedTypes-parent"  abstract="true">
+        <search:name>LuAdvancedCriteria</search:name>
+        <search:desc>Advanced criteria</search:desc>
+        <search:queryParams>
+            <ref bean="lu.queryParam.cluId"/>
+            <ref bean="lu.queryParam.luOptionalRelationType"/>
+        </search:queryParams>
+    </search:searchCriteriaTypeInfo>
+
+
+    <!-- Browse Variations Search -->
+    <search:searchType id="lu.search.courseCodes">
+        <search:name>Search for Course Codes</search:name>
+        <search:desc>Search for all distinct Course Codes used by type aheads</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="lu.result.courseCodes"/>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <ref bean="lu.criteria.courseCodes"/>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchResultTypeInfo id="lu.result.courseCodes" parent="lu.result.courseCodes-parent"/>
+    <search:searchResultTypeInfo id="lu.result.courseCodes-parent"  abstract="true">
+        <search:name>Course Codes</search:name>
+        <search:desc>List of distinct course Codes</search:desc>
+        <search:resultColumns>
+            <ref bean="lu.resultColumn.cluOfficialIdentifier.cluCode" />
+            <ref bean="lu.resultColumn.luOptionalShortName"/>
+            <ref bean="lu.resultColumn.luOptionalLongName"/>
+            <ref bean="lu.resultColumn.luOptionalDescr"/>
+            <ref bean="lu.resultColumn.cluId" />
+        </search:resultColumns>
+    </search:searchResultTypeInfo>
+
+    <search:queryParam id="lu.queryParam.luOptionalGreaterThanEqualExpirDate" parent="lu.queryParam.luOptionalGreaterThanEqualExpirDate-parent"/>
+    <search:queryParam id="lu.queryParam.luOptionalGreaterThanEqualExpirDate-parent" optional="true" abstract="true">
+        <dict:fieldDescriptor>
+            <dict:name>Compare Date with Expiration Date</dict:name>
+            <dict:desc>Compare Date with Expiration Date</dict:desc>
+            <dict:dataType>date</dict:dataType>
+        </dict:fieldDescriptor>
+    </search:queryParam>
+    <search:queryParam id="lu.queryParam.luOptionalLessThanEqualEffectDate" parent="lu.queryParam.luOptionalLessThanEqualEffectDate-parent"/>
+    <search:queryParam id="lu.queryParam.luOptionalLessThanEqualEffectDate-parent" optional="true" abstract="true">
+        <dict:fieldDescriptor>
+            <dict:name>Compare Date with Effective Date</dict:name>
+            <dict:desc>Compare Date with Effective Date</dict:desc>
+            <dict:dataType>date</dict:dataType>
+        </dict:fieldDescriptor>
+    </search:queryParam>
+
+    <search:searchCriteriaTypeInfo id="lu.criteria.courseCodes" parent="lu.criteria.courseCodes-parent"/>
+    <search:searchCriteriaTypeInfo id="lu.criteria.courseCodes-parent"  abstract="true">
+        <search:name>Course Code criteria</search:name>
+        <search:desc>Course code criteria</search:desc>
+        <search:queryParams>
+            <ref bean="lu.queryParam.luOptionalCode" />
+            <ref bean="lu.queryParam.luOptionalType" />
+            <ref bean="lu.queryParam.luOptionalGreaterThanEqualExpirDate" />
+            <ref bean="lu.queryParam.luOptionalLessThanEqualEffectDate" />
+            <ref bean="lu.queryParam.luOptionalLongName" />
+            <ref bean="lu.queryParam.luOptionalState" />
+        </search:queryParams>
+    </search:searchCriteriaTypeInfo>
+
+
     <bean id="queryMap-parent" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
+                <entry key="lu.search.courseCodes">
+                    <value>SELECT DISTINCT clu.officialIdentifier.code,
+                            officialIdentifier.shortName,
+                            officialIdentifier.longName,
+                            cludesc.plain,
+                            clu.id
+                        FROM Clu clu
+                        LEFT JOIN clu.officialIdentifier officialIdentifier
+                        LEFT JOIN clu.descr cludesc</value>
+                </entry>
+
+                <entry key="lu.search.relatedTypes">
+                    <value>SELECT rel.relatedClu.id, rel.relatedClu.luType.id FROM CluCluRelation rel WHERE rel.clu.id = :lu_queryParam_cluId</value>
+                </entry>
+
 				<entry key="lu.search.clu.versions">
 					<value>SELECT clu.id, officialIdentifier.shortName, officialIdentifier.longName,
                     officialIdentifier.code, officialIdentifier.level,
@@ -1732,6 +1872,16 @@
 		        <entry key="lu.search.cluByCode">
 		            <value>SELECT clu.id FROM Clu clu WHERE clu.officialIdentifier.code = :lu_criteria_code ORDER BY clu.effectiveDate DESC</value>
 		        </entry>
+
+                <entry key="lu.search.validCluForDate">
+		            <value><![CDATA[
+		                SELECT clu.id FROM Clu clu WHERE
+                            clu.officialIdentifier.code = :lu_queryParam_code AND
+                            clu.effectiveDate <= :lu_queryParam_someDate AND
+                            (clu.expirationDate >= :lu_queryParam_someDate OR clu.expirationDate IS NULL) ]]>
+                    </value>
+		        </entry>
+
 		        <entry key="lu.search.clusInCluset">
 		            <value>SELECT clu.id, clu.officialIdentifier.longName, clu.officialIdentifier.code, clu.version.versionIndId FROM CluSet cluset
 		            JOIN cluset.clus clu
@@ -1988,6 +2138,14 @@
 				<entry key="lu.queryParam.luOptionalEffectiveDate2">
 				    <value>clu.effectiveDate &lt;= :lu_queryParam_luOptionalEffectiveDate2</value>
 				</entry>
+
+                <entry key="lu.queryParam.luOptionalGreaterThanEqualExpirDate">
+                    <value>(clu.expirationDate IS NULL OR clu.expirationDate &gt;= :lu_queryParam_luOptionalGreaterThanEqualExpirDate)</value>
+                </entry>
+                <entry key="lu.queryParam.luOptionalLessThanEqualEffectDate">
+                    <value>clu.effectiveDate &lt;= :lu_queryParam_luOptionalLessThanEqualEffectDate</value>
+                </entry>
+
 				<entry key="lu.queryParam.luOptionalVersionIndId">
 					<value>clu.version.versionIndId = :lu_queryParam_luOptionalVersionIndId
 			            AND (clu.version.currentVersionStart &lt;= CURRENT_TIMESTAMP AND (clu.version.currentVersionEnd &gt; CURRENT_TIMESTAMP OR clu.version.currentVersionEnd IS NULL) )</value>

@@ -1,0 +1,847 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2007-2013 The Kuali Foundation
+
+Licensed under the Educational Community License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.opensource.org/licenses/ecl2.php
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- Integer constant Instance components -->
+    <bean id="KRMS-NumberOfCourses-ConstantValue" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="KRMS-Integer-ConstantValue-Parent"
+                      p:label="Number of Courses"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RepeatCourseNum-ConstantValue" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="KRMS-Integer-ConstantValue-Parent"
+                      p:label="Number of Repeats"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-Credits-ConstantValue" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="KRMS-Integer-ConstantValue-Parent"
+                      p:label="Credits">
+                    <property name="maxLength" value="6"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-CreditHours-ConstantValue" parent="KRMS-Integer-ConstantValue-Parent" p:label="Credit Hours"/>
+
+    <bean id="KRMS-SingleCourse-InputField-Parent" parent="Uif-InputField-LabelTop"
+          p:propertyName="proposition.courseInfo.code" p:label="Course" p:required="true">
+        <property name="quickfinder">
+            <bean parent="KRMS-Course-QuickFinder"/>
+        </property>
+    </bean>
+    <bean id="KRMS-SingleCourse-InputField" parent="KRMS-SingleCourse-InputField-Parent"/>
+
+    <bean id="KRMS-MultiCourse-Section-Parent" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HeaderThree" p:headerText="Courses">
+                    <property name="headerTagStyle" value="font-size:13px;"/>
+                </bean>
+                <bean parent="Uif-MessageField" p:messageText="You may add any combination of courses, dynamic course ranges, or Course sets."/>
+                <ref bean="KRMS-MultiCourse-Type-Field"/>
+                <ref bean="KRMS-ApprovedCourseStackedCollectionGroup"/>
+                <ref bean="KRMS-CourseSetStackedCollectionGroup"/>
+                <bean parent="Uif-VerticalBoxGroup" p:additionalCssClasses="ks-multiSelectItem">
+                    <property name="validationMessages.displayMessages" value="false"/>
+                    <property name="header">
+                        <bean parent="Uif-HeaderSix" p:headerText="Course Range" p:progressiveRender="#np.proposition.cluSet.cluRangeListSize gt 0"/>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-CourseRange-BoxSection"/>
+                            <ref bean="KS-CourseRangeStackedCollectionGroup"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="KRMS-MultiCourse-Section" parent="KRMS-MultiCourse-Section-Parent"/>
+
+    <bean id="KRMS-MultiCourse-Type-Field-Parent" parent="Uif-InputField-LabelTop"
+          p:propertyName="proposition.multipleCourseType">
+        <property name="control">
+            <bean parent="Uif-DropdownControl">
+                <!--TODO KSENROLL-10558: remove this once krad jira is fixed.-->
+                <property name="onChangeScript">
+                    <value>
+                        jQuery("input[id='cluSetId_add_control']").removeAttr("disabled");
+                    </value>
+                </property>
+            </bean>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.student.lum.lu.ui.krms.keyvalues.CourseTypeValuesFinder"/>
+        </property>
+    </bean>
+    <bean id="KRMS-MultiCourse-Type-Field" parent="KRMS-MultiCourse-Type-Field-Parent"/>
+
+    <bean id="KRMS-Course-QuickFinder" parent="KRMS-QuickFinder">
+        <property name="viewName" value="krmsCoursesOnlyLookup"/>
+        <property name="dataObjectClassName" value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation"/>
+        <property name="fieldConversions">
+            <map>
+                <entry key="code" value="proposition.courseInfo.code"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="KRMS-ApprovedCourses-QuickFinder" parent="KRMS-QuickFinder">
+        <property name="viewName" value="krmsCoursesOnlyLookup"/>
+        <property name="dataObjectClassName" value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation"/>
+        <property name="fieldConversions">
+            <map>
+                <entry key="code" value="code"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="KRMS-CourseSet-QuickFinder" parent="KRMS-QuickFinder">
+        <property name="dataObjectClassName" value="org.kuali.student.r2.lum.clu.dto.CluSetInfo"/>
+        <property name="viewName" value="krmsCourseSetsInfoView"/>
+        <property name="fieldConversions">
+            <map>
+                <entry key="name" value="cluSetInfo.name"/>
+                <entry key="id" value="cluSetInfo.id"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="KRMS-CourseSetStackedCollectionGroup" parent="KRMS-StackedCollectionGroup" p:headerText="Course Sets" p:additionalCssClasses="ks-multiSelectItem">
+        <property name="layoutManager">
+            <bean parent="KRMS-StackedCollectionLayout-WithBoxItems">
+                <property name="summaryFields" value="cluSetInfo.name"/>
+                <property name="addLineGroup">
+                    <bean parent="KRMS-CollectionGridItem"
+                          p:progressiveRender="#np.proposition.multipleCourseType eq '2'"/>
+                </property>
+            </bean>
+        </property>
+        <property name="propertyName" value="proposition.cluSet.cluSets"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation"/>
+        <property name="header">
+            <bean parent="Uif-HeaderSix" p:progressiveRender="#np.proposition.cluSet.cluSetListSize gt 0">
+                <property name="lowerGroup">
+                    <bean parent="Uif-InactiveItemsActionsGroup"/>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.cluSetInfo.name}" p:style="width: 500px; margin: 0px;"/>
+            </list>
+        </property>
+        <property name="addLineItems">
+            <list>
+                <bean id="cluSetId" parent="Uif-InputField" p:showLabel="false">
+                    <property name="propertyName" value="cluSetInfo.id"/>
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="AnyCharacterPatternConstraint" p:applyClientSide="false"/>
+                    </property>
+                </bean>
+                <bean id="cluSetName" parent="Uif-InputField-LabelTop" p:style="width: 500px;">
+                    <property name="propertyName" value="cluSetInfo.name"/>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:disabled="true"
+                              p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;">
+                        </bean>
+                    </property>
+                    <property name="label" value="Course Set Name"/>
+                    <property name="quickfinder">
+                        <bean parent="KRMS-CourseSet-QuickFinder"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <!-- Replace with other bean for the multi select search-->
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:render="false"/>
+        </property>
+        <!--property name="collectionLookup">
+            <bean parent="KRMS-CourseSet-QuickFinder" p:multipleValuesSelect="false">
+                <property name="quickfinderAction">
+                    <bean parent="Uif-ActionLink" p:progressiveRender="#np.proposition.multipleCourseType eq '2'">
+                        <property name="methodToCall" value="performLookup"/>
+                        <property name="actionLabel" value="Search for Course Sets"/>
+                        <property name="style" value="display:block"/>
+                    </bean>
+                </property>
+                <property name="lightBoxLookup">
+                    <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                </property>
+            </bean>
+        </property-->
+    </bean>
+
+    <bean id="KRMS-ApprovedCourseStackedCollectionGroup" parent="KRMS-StackedCollectionGroup"
+          p:headerText="Approved Courses" p:additionalCssClasses="ks-multiSelectItem">
+        <property name="layoutManager">
+            <bean parent="KRMS-StackedCollectionLayout-WithBoxItems">
+                <property name="summaryFields" value="code"/>
+                <property name="addLineGroup">
+                    <bean parent="KRMS-CollectionGridItem"
+                          p:progressiveRender="#np.proposition.multipleCourseType eq '1'"/>
+                </property>
+            </bean>
+        </property>
+        <property name="propertyName" value="proposition.cluSet.clus"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation"/>
+        <property name="header">
+            <bean parent="Uif-HeaderSix" p:progressiveRender="#np.proposition.cluSet.cluListSize gt 0">
+                <property name="lowerGroup">
+                    <bean parent="Uif-InactiveItemsActionsGroup"/>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.code}" p:style="width: 500px; margin: 0px;"/>
+            </list>
+        </property>
+        <property name="addLineItems">
+            <list>
+                <bean parent="Uif-InputField-LabelTop" p:style="width: 280px;">
+                    <property name="propertyName" value="code"/>
+                    <property name="label" value="Course Code"/>
+                    <property name="quickfinder">
+                        <bean parent="KRMS-ApprovedCourses-QuickFinder"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <!-- Replace with other bean for the multi select search-->
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:render="false"/>
+        </property>
+        <!--property name="collectionLookup">
+            <bean parent="KRMS-ApprovedCourses-QuickFinder" p:multipleValuesSelect="false">
+                <property name="quickfinderAction">
+                    <bean parent="Uif-ActionLink" p:progressiveRender="#np.proposition.multipleCourseType eq '1'">
+                        <property name="methodToCall" value="performLookup"/>
+                        <property name="actionLabel" value="Search for Approved Courses"/>
+                        <property name="style" value="display:block;color: #3F7826;"/>
+                    </bean>
+                </property>
+            </bean>
+        </property-->
+    </bean>
+
+    <bean id="KS-CourseRange-BoxSection-parent" parent="Uif-VerticalBoxSection"
+          p:progressiveRender="#np.proposition.multipleCourseType eq '3'">
+        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="items">
+            <list>
+                <ref bean="KS-CourseRange-TypeField"/>
+                <ref bean="KS-CourseNumber-RangeSection"/>
+                <ref bean="KS-LearningObjective-RangeSection"/>
+                <ref bean="KS-EffectiveDate-RangeSection"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-CourseRange-BoxSection" parent="KS-CourseRange-BoxSection-parent"/>
+
+    <bean id="KS-CourseRange-TypeField-parent" parent="Uif-InputField-LabelTop" p:label="Select Course Range Type"
+          p:width="auto" p:propertyName="proposition.cluSet.rangeHelper.searchByCourseRange">
+        <property name="control">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="1"
+                              p:value="Course Number"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="2"
+                              p:value="Learning Objective"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="3"
+                              p:value="Effective Date Range"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="KS-CourseRange-TypeField" parent="KS-CourseRange-TypeField-parent"/>
+
+    <bean id="KS-CourseNumber-RangeSection" parent="Uif-HorizontalBoxSection"
+          p:progressiveRender="#np.proposition.cluSet.rangeHelper.searchByCourseRange eq '1'">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.subjectCode" p:label="Subject Code">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" />
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.courseNumberRange" p:label="Course Number Range">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" />
+                    </property>
+                </bean>
+
+                <bean parent="KS-CourseRange-AddButton"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-LearningObjective-RangeSection" parent="Uif-HorizontalBoxSection"
+          p:progressiveRender="#np.proposition.cluSet.rangeHelper.searchByCourseRange eq '2'">
+        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.learningObjective" p:label="Description">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" />
+                    </property>
+                    <property name="instructionalText" value="Enter text from valid Learning Objective"/>
+                </bean>
+
+                <bean parent="KS-CourseRange-AddButton"  p:style="margin-top: 50px;"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-EffectiveDate-RangeSection" parent="Uif-HorizontalBoxSection"
+          p:progressiveRender="#np.proposition.cluSet.rangeHelper.searchByCourseRange eq '3'">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.effectiveFrom" p:label="Effective From">
+                    <property name="control">
+                        <bean parent="Uif-KS-Default-DateControl" />
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.effectiveTo" p:label="Effective To">
+                    <property name="control">
+                        <bean parent="Uif-KS-Default-DateControl" />
+                    </property>
+                </bean>
+
+                <bean parent="KS-CourseRange-AddButton"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseRange-AddButton" parent="Uif-PrimaryActionButton-Small" p:actionLabel="add"
+            p:style="margin-top: 25px;" p:methodToCall="addRange">
+    </bean>
+
+    <bean id="KS-CourseRangeStackedCollectionGroup" parent="KRMS-StackedCollectionGroup" p:render="@{#np.proposition.cluSet.cluRangeListSize gt 0}" p:additionalCssClasses="ks-multiSelectItem">
+        <property name="layoutManager">
+            <bean parent="KRMS-StackedCollectionLayout-WithBoxItems">
+                <property name="summaryFields" value="cluSetRangeLabel"/>
+            </bean>
+        </property>
+        <property name="propertyName" value="proposition.cluSet.cluSetRanges"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.lum.lu.ui.krms.dto.CluSetRangeInformation"/>
+        <property name="header">
+            <bean parent="Uif-HeaderSix" p:render="false">
+            </bean>
+        </property>
+        <property name="renderAddLine" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.cluSetRangeLabel}"
+                      p:style="width: 450px; margin: 0px;"/>
+            </list>
+        </property>
+        <!-- Replace with other bean for the multi select search-->
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:render="false"/>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="View" p:methodToCall="viewCourseRange"
+                      p:style="margin-right: 15px;" p:actionParameters="selectedIndex:@{#index}"/>
+                <bean parent="Uif-DeleteLineAction" p:additionalCssClasses="krms-stackedActionItem">
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-CourseRangeResult-Lookup" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="VERTICAL">
+        <property name="hidden" value="true"/>
+        <property name="headerText" value="Course Range"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="No courses match the current search criteria."
+                    p:style="width: 450px; margin: 0px;" p:render="@{#dp.clusInRangeSize eq 0}"/>
+                <ref bean="KRMS-CourseRangeResult"/>
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Close" p:actionScript="jQuery.fancybox.close();"
+                      p:align="right"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-CourseRangeResult" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="3"
+          p:renderAddLine="false">
+        <property name="collectionObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation"/>
+        <property name="propertyName" value="clusInRange"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+        </property>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="Code" p:propertyName="code" p:width="65"/>
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="title" p:width="185"/>
+                <bean parent="Uif-DataField" p:label="Description" p:propertyName="description" p:width="450"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-GPA-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.parameters[1].value"
+          p:label="GPA" p:maxLength="4" p:required="true">
+        <property name="control">
+            <bean parent="Uif-TextControl"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="FixedPointPatternConstraint" p:precision="3" p:scale="2" p:allowNegative="false"/>
+        </property>
+        <property name="simpleConstraint">
+            <bean parent="SimpleConstraint" p:minLength="3" p:messageKey="validation.krms.minLengthConditional"/>
+        </property>
+        <property name="help">
+            <bean parent="Uif-Help" p:tooltipHelpContent="Enter value with at least one decimal place and up to two"/>
+        </property>
+    </bean>
+    <bean id="KRMS-GPA-Field" parent="KRMS-GPA-Field-Parent"/>
+
+    <bean id="KRMS-TestScore-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.termParameter"
+          p:label="Test Score" p:maxLength="6" p:required="true">
+        <property name="control">
+            <bean parent="Uif-TextControl"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="IntegerPatternConstraint"/>
+        </property>
+    </bean>
+    <bean id="KRMS-TestScore-Field" parent="KRMS-TestScore-Field-Parent"/>
+
+    <bean id="KRMS-TestName-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.termParameter"
+          p:label="Tests" p:required="true">
+        <property name="suggest">
+            <bean parent="Uif-Suggest">
+                <property name="render" value="true"/>
+                <property name="valuePropertyName" value="displayName"/>
+                <property name="templateOptions" value="minLength:1,delay:0"/>
+                <property name="suggestQuery">
+                    <bean parent="Uif-AttributeQueryConfig">
+                        <property name="queryMethodToCall" value="getTestNamesForSuggest"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+        
+        <property name="quickfinder">
+	       	<bean parent="Uif-QuickFinder">
+	       	
+		        <property name="dataObjectClassName"
+        		          value="org.kuali.student.lum.lu.ui.krms.dto.TestSetInfo"/>
+		        <property name="fieldConversions">
+		            <map>
+        		        <entry key="name" value="tests"/>
+		            </map>
+        		</property>
+        		<property name="quickfinderAction">
+		            <bean parent="KS-Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block"
+        		          p:methodToCall="performLookup"/>
+		        </property>
+        		<property name="lightBoxLookup">
+		            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+        		</property>
+        	</bean>
+        </property>
+    </bean>
+    <bean id="KRMS-TestName-Field" parent="KRMS-TestName-Field-Parent"/>
+
+    <bean id="KRMS-TestScoreAndName-Group" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-TestScore-Field"/>
+                <ref bean="KRMS-TestName-Field"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-TestScoresBetweenAndName-Group" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list merge="true">
+                <ref bean="KRMS-TestScore-Field"/>
+                <ref bean="KRMS-TestScore-Field"/>
+                <ref bean="KRMS-TestName-Field"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-GradeScale-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.gradeScale"
+          p:label="Grade" p:required="true">
+        <property name="control">
+            <bean parent="Uif-VerticalRadioControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.AssesmentKeyValueFinder"/>
+        </property>
+    </bean>
+    <bean id="KRMS-GradeScale-Field" parent="KRMS-GradeScale-Field-Parent"/>
+
+    <bean id="KRMS-GradeValues-Field-Parent" parent="Uif-InputField" p:propertyName="proposition.termParameter"
+          p:refreshWhenChangedPropertyNames="proposition.gradeScale" p:required="true">
+        <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.student.lum.lu.ui.krms.keyvalues.GradeValuesKeyFinder"/>
+        </property>
+    </bean>
+    <bean id="KRMS-GradeValues-Field" parent="KRMS-GradeValues-Field-Parent"/>
+
+    <bean id="KRMS-Grade-Section-Parent" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-GradeScale-Field"/>
+                <ref bean="KRMS-GradeValues-Field"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KRMS-Grade-Section" parent="KRMS-Grade-Section-Parent"/>
+
+    <bean id="KRMS-Grade-Tree-Section" parent="KRMS-Grade-Section-Parent">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-GradeScale-Field"/>
+                <bean parent="KRMS-GradeValues-Field-Parent"
+                      p:refreshWhenChangedPropertyNames="#np.proposition.gradeScale"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-AOStateAndSate-Group" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list>
+                <!-- TODO: Activity Offering State component -->
+                <!-- TODO: State component -->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-Program-InputField-Parent" parent="Uif-InputField-LabelTop"
+          p:propertyName="proposition.termParameter" p:label="Program" p:required="true"/>
+    <bean id="KRMS-Program-InputField" parent="KRMS-Program-InputField-Parent"/>
+
+    <bean id="KRMS-ProgramWithNofAndOrg-Group" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-Program-Section"/>
+                <ref bean="KRMS-NumberOfCourses-ConstantValue"/>
+                <ref bean="KRMS-Department-Field"/>
+                <ref bean="KRMS-OrgId-HiddenField"/>
+                <ref bean="KRMS-Duration-section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-ProgramWithDurAndOrg-Group" parent="KRMS-ProgramWithNofAndOrg-Group">
+        <property name="items">
+            <list merge="true">
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-ProgramAndCredit" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list>
+                <!-- TODO: Program component -->
+                <ref bean="KRMS-Credits-ConstantValue"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-CampusAndDur" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list>
+                <!-- TODO: Campus component -->
+                <ref bean="KRMS-Duration-section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-GPAAndDuration-Group" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-GPA-Field"/>
+                <ref bean="KRMS-DurationCount-Field"/>
+                <ref bean="KRMS-DurationType-Field"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-CampusWithCreditsAndDur" parent="KRMS-CampusAndDur">
+        <property name="items">
+            <list merge="true">
+                <ref bean="KRMS-Credits-ConstantValue"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-CourseOffering-InputField-Parent" parent="Uif-InputField-LabelTop"
+          p:propertyName="proposition.termParameter" p:label="Program" p:required="true"/>
+    <bean id="KRMS-CourseOffering-InputField" parent="KRMS-CourseOffering-InputField-Parent"/>
+
+    <bean id="KRMS-MultiCourseWithNof-Group" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-NumberOfCourses-ConstantValue"/>
+                <ref bean="KRMS-MultiCourse-Section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-MultiCourseWithGrade-Group" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-Grade-Tree-Section"/>
+                <ref bean="KRMS-MultiCourse-Section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-MultiCourseWithGradeNof-Group" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-NumberOfCourses-ConstantValue"/>
+                <ref bean="KRMS-MultiCourse-Section"/>
+                <ref bean="KRMS-Grade-Tree-Section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-MultiCourseWithGPA-Group" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-GPA-Field"/>
+                <ref bean="KRMS-MultiCourse-Section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-MultiCourseWithCredit-Group" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-Credits-ConstantValue"/>
+                <ref bean="KRMS-MultiCourse-Section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-CourseAndTerm-Group" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-SingleCourse-InputField"/>
+                <ref bean="KRMS-Term-Field"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-CourseAndCredit-Group" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-Credits-ConstantValue"/>
+                <ref bean="KRMS-SingleCourse-InputField"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-CourseAndRepeat-Group" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-SingleCourse-InputField"/>
+                <ref bean="KRMS-RepeatCourseNum-ConstantValue"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-Duration-section" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-DurationCount-Field"/>
+                <ref bean="KRMS-DurationType-Field"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KRMS-DurationCount-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.duration"
+          p:label="Duration Count" p:maxLength="6" p:required="true">
+        <property name="control">
+            <bean parent="Uif-TextControl"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="IntegerPatternConstraint" p:allowNegative="false"/>
+        </property>
+    </bean>
+    <bean id="KRMS-DurationCount-Field" parent="KRMS-DurationCount-Field-Parent"/>
+
+    <bean id="KRMS-DurationType-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.durationType"
+          p:label="Duration Type" p:required="true">
+        <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DurationTypeValueFinder"/>
+        </property>
+    </bean>
+    <bean id="KRMS-DurationType-Field" parent="KRMS-DurationType-Field-Parent"/>
+
+    <bean id="KRMS-Program-Section-Parent" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HeaderThree" p:headerText="Program(s)">
+                    <property name="headerTagStyle" value="font-size:13px;"/>
+                </bean>
+                <bean parent="Uif-MessageField" p:messageText="You may add any combination of programs."/>
+                <ref bean="KRMS-Program-Type-Field"/>
+                <ref bean="KRMS-ApprovedProgramsStackedCollectionGroup"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KRMS-Program-Section" parent="KRMS-Program-Section-Parent"/>
+
+    <bean id="KRMS-Program-Type-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.programType">
+        <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.student.lum.lu.ui.krms.keyvalues.ProgramTypeValuesFinder"/>
+        </property>
+    </bean>
+    <bean id="KRMS-Program-Type-Field" parent="KRMS-Program-Type-Field-Parent"/>
+
+    <bean id="KRMS-ApprovedProgramsStackedCollectionGroup" parent="KRMS-StackedCollectionGroup"
+          p:headerText="Program Code" p:additionalCssClasses="ks-multiSelectItem">
+        <property name="layoutManager">
+            <bean parent="KRMS-StackedCollectionLayout-WithBoxItems">
+                <property name="summaryFields" value="code"/>
+                <property name="addLineGroup">
+                    <bean parent="KRMS-CollectionGridItem" p:progressiveRender="#np.proposition.programType eq '1'"/>
+                </property>
+            </bean>
+        </property>
+        <property name="propertyName" value="proposition.progCluSet.clus" />
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation"/>
+        <property name="header">
+            <bean parent="Uif-HeaderSix" p:progressiveRender="#np.proposition.progCluSet.cluListSize gt 0">
+                <property name="lowerGroup">
+                    <bean parent="Uif-InactiveItemsActionsGroup"/>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.code}" p:style="width: 500px; margin: 0px;"/>
+            </list>
+        </property>
+        <property name="addLineItems">
+            <list>
+                <bean parent="Uif-InputField-LabelTop" p:style="width: 280px;">
+                    <property name="propertyName" value="code"/>
+                    <property name="label" value="Program Code"/>
+                    <property name="quickfinder">
+                        <bean parent="KRMS-Programs-QuickFinder"/>
+                    </property>
+
+                </bean>
+            </list>
+        </property>
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:render="false"/>
+        </property>
+    </bean>
+
+    <bean id="KRMS-Programs-QuickFinder" parent="KRMS-QuickFinder">
+        <property name="id" value="ProgramLookupView"/>
+        <property name="viewName" value="krmsProgramOnlyLookup"/>
+        <property name="dataObjectClassName" value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation"/>
+        <property name="fieldConversions">
+            <map>
+                <entry key="code" value="code"/>
+                <entry key="cluId" value="cluId"/>
+                <entry key="verIndependentId" value="verIndependentId"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="KRMS-ProgramSet-QuickFinder" parent="KRMS-QuickFinder">
+        <property name="dataObjectClassName" value="org.kuali.student.r2.lum.clu.dto.CluSetInfo"/>
+        <!--<property name="viewName" value="krmsCourseSetsInfoView"/>-->
+        <property name="fieldConversions">
+            <map>
+                <entry key="name" value="name"/>
+                <entry key="id" value="id"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="KRMS-CreditAndDepartment-Group" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-Credits-ConstantValue"/>
+                <ref bean="KRMS-Department-Field"/>
+                <ref bean="KRMS-OrgId-HiddenField"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-CourseAndTerms-Group" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-SingleCourse-InputField"/>
+                <ref bean="KRMS-Term-Field"/>
+                <bean id="KRMS-Term2-Field" parent="KRMS-Term-Field" p:propertyName="proposition.termCode2" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-Term-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.termCode" p:label="Term" p:required="true" p:readOnly="false">
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="6" p:watermarkText="201301" p:minLength="5" p:maxLength="6"/>
+        </property>
+    </bean>
+    <bean id="KRMS-Term-Field" parent="KRMS-Term-Field-Parent"/>
+
+</beans>
+
+

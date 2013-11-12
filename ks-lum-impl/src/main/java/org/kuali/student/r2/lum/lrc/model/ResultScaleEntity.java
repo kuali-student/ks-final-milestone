@@ -63,18 +63,15 @@ public class ResultScaleEntity extends MetaEntity implements AttributeOwner<Resu
     public ResultScaleEntity() {
     }
 
-    public ResultScaleEntity(ResultScaleInfo dto,
-            EntityManager em) {
+    public ResultScaleEntity(ResultScaleInfo dto) {
         super(dto);
         this.setId(dto.getKey());
         this.setType(dto.getTypeKey());
-        fromDTO(dto, em);
+        fromDTO(dto);
     }
 
-    public void fromDTO(ResultScaleInfo dto,
-            EntityManager em) {
+    public void fromDTO(ResultScaleInfo dto) {
 
-        List<Object> orphanData = new ArrayList<Object>();
         this.setName(dto.getName());
         this.setState(dto.getStateKey());
         if (dto.getDescr() != null) {
@@ -99,18 +96,10 @@ public class ResultScaleEntity extends MetaEntity implements AttributeOwner<Resu
         if (this.getAttributes() == null) {
             this.setAttributes(new HashSet<ResultScaleAttributeEntity>());
         }
-        Set<String> idSet = new HashSet<String>(dto.getAttributes().size());
-        for (AttributeInfo attr : dto.getAttributes()) {
-            if (attr.getId() != null) {
-                idSet.add(attr.getId());
-            }
-        }
-        for (ResultScaleAttributeEntity attEntity : new ArrayList<ResultScaleAttributeEntity> (this.getAttributes())) {
-            if (!idSet.contains(attEntity.getId())) {
-                em.remove(attEntity);
-                this.getAttributes().remove(attEntity);
-            }
-        }
+        else
+            this.attributes.clear();
+       
+        
         for (Attribute att : dto.getAttributes()) {
             ResultScaleAttributeEntity attEntity = new ResultScaleAttributeEntity(att, this);
             this.getAttributes().add(attEntity);

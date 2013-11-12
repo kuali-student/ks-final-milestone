@@ -3,27 +3,55 @@
     <parent>
         <artifactId>ks-lum</artifactId>
         <groupId>org.kuali.student.lum</groupId>
-        <version>2.0.3-cm-SNAPSHOT</version>
+        <version>2.0.0-M9-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>ks-lum-sql</artifactId>
     <name>KS Lum SQL files</name>
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/*db-version*.sql</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-                <excludes>
-                    <exclude>**/*db-version*.sql</exclude>
-                </excludes>
-            </resource>
-        </resources>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.kuali.maven.plugins</groupId>
+                    <artifactId>spring-maven-plugin</artifactId>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.kuali.student.deployments</groupId>
+                            <artifactId>ks-deployment-resources</artifactId>
+                            <version>${ks.deployments.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.kuali.maven.plugins</groupId>
+                <artifactId>spring-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sql-metainf</id>
+                        <goals>
+                            <goal>load</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <annotatedClass>${metainf.sql.context}</annotatedClass>
+                            <propertySourcesConfig>${metainf.sql.propertySource}</propertySourcesConfig>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sources</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 </project>

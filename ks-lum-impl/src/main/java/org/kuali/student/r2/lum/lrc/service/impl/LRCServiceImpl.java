@@ -126,9 +126,12 @@ public class LRCServiceImpl implements LRCService {
             throw new AlreadyExistsException(info.getKey());
         }
         info.setTypeKey(typeKey);
-        entity = new ResultScaleEntity(info, this.resultScaleDao.getEm());
+        entity = new ResultScaleEntity(info);
         entity.setEntityCreated(contextInfo);
         resultScaleDao.persist(entity);
+        
+        resultScaleDao.getEm().flush();
+        
         return entity.toDto();
     }
 
@@ -151,9 +154,10 @@ public class LRCServiceImpl implements LRCService {
         }
         info.setResultScaleKey(resultScaleKey);
         info.setTypeKey(typeKey);
-        entity = new ResultValueEntity(info, this.resultValueDao.getEm());
+        entity = new ResultValueEntity(info);
         entity.setEntityCreated(contextInfo);
         resultValueDao.persist(entity);
+        resultValueDao.getEm().flush();
         return entity.toDto();
     }
 
@@ -175,9 +179,10 @@ public class LRCServiceImpl implements LRCService {
         }
         info.setResultScaleKey(resultScaleKey);
         info.setTypeKey(typeKey);
-        entity = new ResultValuesGroupEntity(info, resultValuesGroupDao.getEm());
+        entity = new ResultValuesGroupEntity(info);
         entity.setEntityCreated(contextInfo);
         resultValuesGroupDao.persist(entity);
+        resultValuesGroupDao.getEm().flush();
         return entity.toDto();
     }
 
@@ -591,7 +596,7 @@ public class LRCServiceImpl implements LRCService {
         if (entity == null) {
             throw new DoesNotExistException(key);
         }
-        entity.fromDTO(info, resultScaleDao.getEm());
+        entity.fromDTO(info);
         entity.setEntityUpdated(contextInfo);
         entity = resultScaleDao.merge(entity);
         resultScaleDao.getEm().flush(); // need to flush to get the version indicator updated
@@ -617,10 +622,10 @@ public class LRCServiceImpl implements LRCService {
         if (entity == null) {
             throw new DoesNotExistException(key);
         }
-        entity.fromDTO(info, this.resultValueDao.getEm());
+        entity.fromDTO(info);
         entity.setEntityUpdated(contextInfo);
         entity = resultValueDao.merge(entity);
-        resultScaleDao.getEm().flush(); // need to flush to get the version ind updated
+        resultValueDao.getEm().flush(); // need to flush to get the version ind updated
         return entity.toDto();
     }
 
@@ -643,7 +648,7 @@ public class LRCServiceImpl implements LRCService {
         if (entity == null) {
             throw new DoesNotExistException(key);
         }
-        entity.fromDTO(info, resultValuesGroupDao.getEm());
+        entity.fromDTO(info);
         entity.setEntityUpdated(contextInfo);
         entity = resultValuesGroupDao.merge(entity);
         this.resultValuesGroupDao.getEm().flush(); // need to flush to get the version ind updated
@@ -658,7 +663,7 @@ public class LRCServiceImpl implements LRCService {
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException {
-        throw new OperationFailedException("Should have been implemented in the Validation Decorator");
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
@@ -669,7 +674,7 @@ public class LRCServiceImpl implements LRCService {
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException {
-        throw new OperationFailedException("Should have been implemented in the Validation Decorator");
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
@@ -680,7 +685,7 @@ public class LRCServiceImpl implements LRCService {
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException {
-        throw new OperationFailedException("Should have been implemented in the Validation Decorator");
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
@@ -689,7 +694,7 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    public TypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public TypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return searchManager.getSearchType(searchTypeKey, contextInfo);
     }
 

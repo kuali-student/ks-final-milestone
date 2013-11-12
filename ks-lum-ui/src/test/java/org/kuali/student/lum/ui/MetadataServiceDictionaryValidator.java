@@ -15,6 +15,7 @@
 package org.kuali.student.lum.ui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +26,7 @@ import org.kuali.student.r1.common.assembly.data.LookupResultMetadata;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenNameSearchTypeCreator;
 import org.kuali.student.r2.core.search.dto.*;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class MetadataServiceDictionaryValidator {
@@ -44,18 +45,22 @@ public class MetadataServiceDictionaryValidator {
 			return this.searchInfoTypeMap;
 		}
 		String[] searchConfigFiles = { "lu", "lo", "lrc", "proposal", "organization", "atp", "em" };
-		
-		for (int i = 0; i < searchConfigFiles.length; i++) {
-			System.out.println("loading search configurations for "
-					+ searchConfigFiles[i]);
-			ApplicationContext ac = new ClassPathXmlApplicationContext("classpath:" + searchConfigFiles[i] + "-search-config.xml");
-			if (searchInfoTypeMap == null) {
-				searchInfoTypeMap = ac.getBeansOfType(SearchTypeInfo.class);
-			} else {
-				searchInfoTypeMap.putAll(ac.getBeansOfType(SearchTypeInfo.class));
-			}
-		}
-		
+
+        List<String> configFilesWithCompleteClasspath = new ArrayList<String>(searchConfigFiles.length);
+        for (String searchConfigFile : Arrays.asList(searchConfigFiles)) {
+            configFilesWithCompleteClasspath.add("classpath:" + searchConfigFile + "-search-config.xml");
+        }
+
+        ConfigurableApplicationContext ac = new ClassPathXmlApplicationContext(
+                configFilesWithCompleteClasspath.toArray(new String[configFilesWithCompleteClasspath.size()]));
+
+        if (searchInfoTypeMap == null) {
+            searchInfoTypeMap = ac.getBeansOfType(SearchTypeInfo.class);
+        } else {
+            searchInfoTypeMap.putAll(ac.getBeansOfType(SearchTypeInfo.class));
+        }
+        ac.close();
+
 		SearchTypeInfo personSearchType = new QuickViewByGivenNameSearchTypeCreator().get();
 		searchInfoTypeMap.put(personSearchType.getKey(), personSearchType);
 
@@ -104,7 +109,7 @@ public class MetadataServiceDictionaryValidator {
 			String type, String lookupType) {
 		System.out.println("Validating lookup " + name + "(" + type + ") "
 				+ lookupType);
-		List<String> errors = new ArrayList();
+		List<String> errors = new ArrayList<String>();
 		// Check excluded searchTypeIDs - these id's are not errors, but they don't line up with the DTO's
 		if (ignoreExcludedSearchIDs(lookup.getSearchTypeId())) {
 			return errors;			
@@ -183,8 +188,7 @@ public class MetadataServiceDictionaryValidator {
 						+ " who's datatype does not match the underlying parameter "
 						+ qp.getFieldDescriptor().getDataType()
 						+ " vs. " + param.getDataType());
-				continue;
-			}
+            }
 		}
 		// check results
 		for (LookupResultMetadata result : lookup.getResults()) {
@@ -204,8 +208,7 @@ public class MetadataServiceDictionaryValidator {
 								+ " who's datatype does not match the underlying result column "
 								+ rc.getDataType() + " vs. "
 								+ result.getDataType());
-				continue;
-			}
+            }
 		}
 		return errors;
 	}
@@ -219,41 +222,20 @@ public class MetadataServiceDictionaryValidator {
 		}
 		switch (dt) {
 		case STRING:
-			if (qp.equalsIgnoreCase("string")) {
-				return true;
-			}
-			if (qp == null) {
-				return true;
-			}
-			return false;
-		case INTEGER:
-			if (qp.equalsIgnoreCase("int")) {
-				return true;
-			}
-			return false;
-		case LONG:
+            return qp.equalsIgnoreCase("string");
+        case INTEGER:
+            return qp.equalsIgnoreCase("int");
+        case LONG:
 		case FLOAT:
 		case DOUBLE:
 		case BOOLEAN:
-			if (qp.equalsIgnoreCase("boolean")) {
-				return true;
-			}
-			return false;
-		case DATE:
+            return qp.equalsIgnoreCase("boolean");
+        case DATE:
 		case TRUNCATED_DATE:
-			if (qp.equalsIgnoreCase("date")) {
-				return true;
-			}
-			if (qp.equalsIgnoreCase("dateTime")) {
-				return true;
-			}
-			return false;
-		case DATA:
-			if (qp.equalsIgnoreCase("complex")) {
-				return true;
-			}
-			return false;
-		case LIST:
+            return qp.equalsIgnoreCase("date") || qp.equalsIgnoreCase("dateTime");
+        case DATA:
+            return qp.equalsIgnoreCase("complex");
+        case LIST:
 			return true;
 		}
 		return true;
@@ -336,12 +318,11 @@ public class MetadataServiceDictionaryValidator {
 	}
 
 	private boolean ignoreExcludedSearchIDs(String searchID) {
-		for (int i = 0; i < excludingSearchTypeIDs.length; i++) {
-			String item = excludingSearchTypeIDs[i];
-			if (item.equals(searchID)) {
-				return true;
-			}
-		}
+        for (String item : excludingSearchTypeIDs) {
+            if (item.equals(searchID)) {
+                return true;
+            }
+        }
 		return false;
 		
 	}

@@ -36,12 +36,14 @@
     </bean>
 
     <bean id="lumDataSource"
-        class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"
+        class="org.kuali.student.common.test.spring.UniqueResourceAtomikosDataSourceBean" init-method="init"
         destroy-method="close" depends-on="systemPropertyConfigurer">
         <property name="uniqueResourceName" value="dataSource" />
         <property name="xaDataSourceClassName" value="${jdbc.xaDataSourceClassName}" />
         <property name="xaProperties" value="${propertiesPrefix.jdbc.xaDataSourceProperties}"/>
         <property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+        <property name="minPoolSize" value="${jdbc.minPoolSize}" />
+        <property name="testQuery" value="${jdbc.testQuery}" />
     </bean>
 
     <bean id="postProcessorList" class="java.util.ArrayList">

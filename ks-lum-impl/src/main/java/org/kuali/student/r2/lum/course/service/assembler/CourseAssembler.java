@@ -57,6 +57,7 @@ import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
@@ -66,6 +67,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -126,19 +128,19 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         course.setVariations(variations);
 
 //        course.setDepartment(clu.getPrimaryAdminOrg().getOrgId());
-        if(course.getUnitsDeployment()==null){
+        if (course.getUnitsDeployment() == null) {
             course.setUnitsDeployment(new ArrayList<String>());
         }
-        if(course.getUnitsContentOwner()==null){
+        if (course.getUnitsContentOwner() == null) {
             course.setUnitsContentOwner(new ArrayList<String>());
         }
         List<String> courseAdminOrgs = new ArrayList<String>();
         List<String> courseSubjectOrgs = new ArrayList<String>();
         for(AdminOrgInfo adminOrg: clu.getAdminOrgs()){
-            if(adminOrg.getTypeKey().equals(CourseAssemblerConstants.ADMIN_ORG)){
+            if (adminOrg.getTypeKey().equals(CourseAssemblerConstants.ADMIN_ORG)) {
                 courseAdminOrgs.add(adminOrg.getOrgId());
             }
-            if(adminOrg.getTypeKey().equals(CourseAssemblerConstants.SUBJECT_ORG)){
+            if (adminOrg.getTypeKey().equals(CourseAssemblerConstants.SUBJECT_ORG)) {
                 courseSubjectOrgs.add(adminOrg.getOrgId());
             }
         }
@@ -279,7 +281,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
             }
 
             //Learning Objectives
-            course.getCourseSpecificLOs().addAll(cluAssemblerUtils.assembleLos(course.getId(), shallowBuild, contextInfo));
+            //course.getCourseSpecificLOs().addAll(cluAssemblerUtils.assembleLos(course.getId(), shallowBuild, contextInfo));
 
         }
 
@@ -373,7 +375,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
             cluIdentifier.setSuffixCode(crossListing.getCourseNumberSuffix());
             cluIdentifier.setDivision(crossListing.getSubjectArea());
             cluIdentifier.setStateKey(course.getStateKey());
-            cluIdentifier.setOrgId(crossListing.getDepartment());
+            cluIdentifier.setOrgId(crossListing.getSubjectOrgId());
             cluIdentifier.setAttributes(crossListing.getAttributes());
             cluIdentifier.setCode(crossListing.getCode());
             clu.getAlternateIdentifiers().add(cluIdentifier);
@@ -459,7 +461,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
         //Disassemble the CluResults (grading and credit options)
         //Special code to take audit from attributes and put into options
-        for (AttributeInfo attr : course.getAttributes()){
+        for (AttributeInfo attr : course.getAttributes()) {
             if (attr.getKey() != null){
                 if (attr.getKey().equals(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT)
                         && "true".equals(attr.getValue()) ){
@@ -587,6 +589,64 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         return result;
     }
 
+    /**
+     * Only checks for floats with format dddd.dddd where d's are optional (digits).
+     * The decimal point is also optional.
+     * Negative floats not checked.  Also, floats with other formats not checked.
+     * @param str
+     * @return true if it's a simple float (could be an integer)
+     */
+    private boolean _checkIfSimpleFloat(String str) {
+        String DIGITS = "0123456789";
+        String DIGITS_AND_DOT = DIGITS + ".";
+        boolean foundDot = false;
+        int numDigits = 0;
+        for (int i = 0; i < str.length(); i++) {
+            String ch = str.substring(i, i + 1);
+            if (DIGITS_AND_DOT.indexOf(ch) < 0) {
+                return false; //
+            }
+            if (".".equals(ch)) {
+                if (!foundDot) {
+                    foundDot = true;
+                } else {
+                    // Found a second dot--not valid
+                    return false;
+                }
+            }
+            if (DIGITS.indexOf(ch) >= 0) {
+                numDigits++;
+            }
+        }
+        // Just checks if digits are correct.
+        return numDigits > 0;
+    }
+
+    /**
+     * If resultValueKeys contains IDs, then look up its values and create a list of values
+     * @param resultValueKeys Potential list of IDs
+     * @return List of values
+     */
+    private List<String> _computeResultValues(List<String> resultValueKeys, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        List<String> values = new ArrayList<String>();
+        if(resultValueKeys!=null && !resultValueKeys.isEmpty()){
+            String firstKey = resultValueKeys.get(0);
+
+
+            if (_checkIfSimpleFloat(firstKey)) {
+                // No modification needed
+                return resultValueKeys;
+            }
+            // Assume that resultValueKeys contains IDs
+            for (String key: resultValueKeys) {
+                ResultValueInfo rv = lrcService.getResultValue(key, contextInfo);
+                String value = rv.getValue();
+                values.add(value);
+            }
+        }
+        return values;
+    }
+
     private List<BaseDTOAssemblyNode<?, ?>> disassembleCreditOutcomes(CourseInfo course, CluInfo clu, List<CluResultInfo> currentCluResults, NodeOperation operation, ContextInfo contextInfo) throws AssemblyException, NumberFormatException {
 
         List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
@@ -616,7 +676,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                     String type = null;
                     List<String> resultValues = null;
                     ResultValueRangeInfo resultValueRange = null;
-                    String resultValueKeyPrefix = "kuali.result.value.credit.degree.";
                     //Depending on the type, set the id, type and result values differently
                     if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED.equals(creditOption.getTypeKey())){
                         float fixedCreditValue = Float.parseFloat(creditOption.getResultValueRange().getMinValue());
@@ -627,23 +686,27 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                         resultValueRange = new ResultValueRangeInfo();
                         resultValueRange.setMinValue(String.valueOf(fixedCreditValue));
                         resultValueRange.setMaxValue(String.valueOf(fixedCreditValue));
-                    }else if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE.equals(creditOption.getTypeKey())){
-                        Collections.sort(creditOption.getResultValueKeys());
-                        StringBuilder sb = new StringBuilder(CourseAssemblerConstants.COURSE_RESULT_COMP_CREDIT_PREFIX);
-                        for(Iterator<String> iter = creditOption.getResultValueKeys().iterator();iter.hasNext();){
-                            String valueKey = iter.next();
-                            if(valueKey.startsWith(resultValueKeyPrefix)){
-                                valueKey = valueKey.replace(resultValueKeyPrefix,"");
+                    } else if (CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE.equals(creditOption.getTypeKey())){
+                        List<String> resultVals = _computeResultValues(creditOption.getResultValueKeys(), contextInfo);
+                        Collections.sort(resultVals, new Comparator<String>() {
+                            public int compare(String o1, String o2) {
+                            return Float.compare(Float.parseFloat(o1),Float.parseFloat(o2));
                             }
-                            float creditValue = Float.parseFloat(valueKey);
-                            sb.append(String.valueOf(creditValue));
+                        });
+
+                        StringBuilder sb = new StringBuilder(CourseAssemblerConstants.COURSE_RESULT_COMP_CREDIT_PREFIX);
+                        for (Iterator<String> iter = resultVals.iterator();
+                             iter.hasNext();){
+                            String str = iter.next();
+                            sb.append(str);
                             if(iter.hasNext()){
                                 sb.append(",");
                             }
                         }
                         id = sb.toString();
                         type = CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE;
-                        resultValues = creditOption.getResultValueKeys();
+                        resultValues = new ArrayList<String>();
+                        resultValues.addAll(resultVals);
                     }else if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE.equals(creditOption.getTypeKey())){
                         /*
                                * For variable credits create a Result values that goes from min to max with the specified increment.
@@ -656,6 +719,11 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                         float increment = (null != creditValueIncr && creditValueIncr.length() > 0 ) ? Float.parseFloat(creditValueIncr) : defaultCreditIncrement ;
 
                         id = CourseAssemblerConstants.COURSE_RESULT_COMP_CREDIT_PREFIX + String.valueOf(minCredits) + "-" + String.valueOf(maxCredits);
+                        //Add in the increment to the key (logic is duplicated in LRC service)
+                        if (creditValueIncr!=null && !"1".equals(creditValueIncr) && !"1.0".equals(creditValueIncr)) {
+                            id += (" by " + creditValueIncr);
+                        }
+
                         type = CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE;
                         resultValues = new ArrayList<String>();
                         for(float i = minCredits; i <= maxCredits; i+=increment){
@@ -665,17 +733,24 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                         resultValueRange.setMinValue(String.valueOf(minCredits));
                         resultValueRange.setMaxValue(String.valueOf(maxCredits));
                         resultValueRange.setIncrement(String.valueOf(increment));
+                    }else{
+                        resultValues = Collections.emptyList();
                     }
 
                     //Set the id
                     creditOption.setKey(id);
 
                     //Ensure the resultValueKey has the proper prefix
-                    for(int i = 0; i < resultValues.size(); i++){
-                        if (!resultValues.get(i).contains("kuali.result.value")){ //only add the prefix if this is not a proper key
-                            resultValues.set(i,resultValueKeyPrefix+Float.parseFloat(resultValues.get(i)));
-                        }
-                    }
+                    // TODO: Comment: Shouldn't muck around with altering IDs
+                    // Assumption is result values contains IDs, not string values like 2.0
+
+//                    String resultValueKeyPrefix = "kuali.result.value.credit.degree.";
+//                    for(int i = 0; i < resultValues.size(); i++){
+//                        if (!resultValues.get(i).contains("kuali.result.value")){ //only add the prefix if this is not a proper key
+//                            String ithResultVal = resultValues.get(i);
+//                            resultValues.set(i,resultValueKeyPrefix+Float.parseFloat(ithResultVal));
+//                        }
+//                    }
 
                     //Create a new result component
                     if(id != null && !resultValueGroupIds.contains(id)){
@@ -1179,7 +1254,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                                 crosslisting.setTypeKey(cluInfo.getTypeKey());
                                 crosslisting.setCourseNumberSuffix(cluInfo.getOfficialIdentifier().getSuffixCode());
                                 crosslisting.setSubjectArea(cluInfo.getOfficialIdentifier().getDivision());
-                                crosslisting.setDepartment(cluIdent.getOrgId());
+                                crosslisting.setSubjectOrgId(cluIdent.getOrgId());
                             } catch (Exception e) {
                                 throw new AssemblyException("Error getting related clus", e);
                             }
@@ -1192,7 +1267,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                         crosslisting.setTypeKey(cluIdent.getTypeKey());
                         crosslisting.setCourseNumberSuffix(cluIdent.getSuffixCode());
                         crosslisting.setSubjectArea(cluIdent.getDivision());
-                        crosslisting.setDepartment(cluIdent.getOrgId());
+                        crosslisting.setSubjectOrgId(cluIdent.getOrgId());
                     }
 
                     crossListings.add(crosslisting);

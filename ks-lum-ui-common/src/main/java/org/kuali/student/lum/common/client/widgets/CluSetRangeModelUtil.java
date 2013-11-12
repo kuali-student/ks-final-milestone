@@ -2,7 +2,6 @@ package org.kuali.student.lum.common.client.widgets;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.student.r1.common.assembly.data.Data;
@@ -32,21 +31,20 @@ public class CluSetRangeModelUtil {
                 queryParamHelper.setListValue(null);
                 queryParamHelper.setKey(searchParam.getKey());
 
-
-                if (searchParam.getValues() != null) {
-
-                    if (searchParam.getValues().size() == 1) {
-                        queryParamHelper.setValue(searchParam.getValues().get(0));
-                    } else {
-                        for (String param : searchParam.getValues()) {
-                            queryParamHelper.getListValue().add(param);
+                
+                if (searchParam.getValues().get(0) != null) {
+                	if (searchParam.getValues().get(0).getClass().equals(String.class)) {
+                		queryParamHelper.setValue((String)searchParam.getValues().get(0));
+                		if (cluSetRangeHelper.getQueryParams() == null) {
+                            cluSetRangeHelper.setQueryParams(new Data());
                         }
-                    }
-                    if (cluSetRangeHelper.getQueryParams() == null) {
-                        cluSetRangeHelper.setQueryParams(new Data());
-                    }
-                    cluSetRangeHelper.getQueryParams().add(queryParamHelper.getData());
-                }
+                    	cluSetRangeHelper.getQueryParams().add(queryParamHelper.getData());
+                	}
+                }                
+                
+                
+                    
+
             }
         }
         
@@ -62,18 +60,10 @@ public class CluSetRangeModelUtil {
         cluSetRangeHelper.setId(membershipQueryInfo.getId());
         cluSetRangeHelper.setSearchTypeKey(membershipQueryInfo.getSearchTypeKey());
         if (searchParams != null) {
-            for (SearchParamInfo searchParam : searchParams) {
+            for (org.kuali.student.r2.core.search.dto.SearchParamInfo searchParam : searchParams) {
                 QueryParamHelper queryParamHelper = QueryParamHelper.wrap(new Data());
-                if(searchParam.getValues() != null) {
-                    if( searchParam.getValues().size() == 1){
-                        queryParamHelper.setValue(searchParam.getValues().get(0));
-                    }
-                    else {
-                        for(String param : searchParam.getValues()){
-                            queryParamHelper.getListValue().add(param);
-                        }
-                    }
-                }
+                queryParamHelper.setValue(searchParam.getValues().get(0));
+                queryParamHelper.setListValue(null);
                 queryParamHelper.setKey(searchParam.getKey());
                 if (cluSetRangeHelper.getQueryParams() == null) {
                     cluSetRangeHelper.setQueryParams(new Data());
@@ -124,16 +114,7 @@ public class CluSetRangeModelUtil {
                 QueryParamHelper queryParamHelper = QueryParamHelper.wrap((Data)p.getValue());
                 org.kuali.student.r2.core.search.dto.SearchParamInfo searchParam = new org.kuali.student.r2.core.search.dto.SearchParamInfo();
                 searchParam.setKey(queryParamHelper.getKey());
-                if (queryParamHelper.getValue() != null) {
-                    searchParam.setValues(Arrays.asList(queryParamHelper.getValue()));
-                }
-                else
-                {
-                    for (Iterator<Data.Property> propIter=(queryParamHelper.getListValue()).iterator();propIter.hasNext();) {
-                        Data.Property prop = propIter.next();
-                        searchParam.getValues().add((String) prop.getValue());
-                    }
-                }
+                searchParam.setValues(Arrays.asList(queryParamHelper.getValue()));
                 if (membershipQueryInfo.getQueryParamValues() == null) {
                     membershipQueryInfo.setQueryParamValues(new ArrayList<org.kuali.student.r2.core.search.dto.SearchParamInfo>());
                 }

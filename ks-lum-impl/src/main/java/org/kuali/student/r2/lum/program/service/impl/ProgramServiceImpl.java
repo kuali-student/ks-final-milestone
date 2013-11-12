@@ -644,7 +644,7 @@ public class ProgramServiceImpl implements ProgramService{
             if ( ! ProgramAssemblerConstants.CREDENTIAL_PROGRAM_TYPES.contains(clu.getTypeKey()) ) {
                 throw new DoesNotExistException("Specified CLU is not a Credential Program");
             }
-            ;
+
             credentialProgramInfo = credentialProgramAssembler.assemble(clu, null, false,contextInfo);
         } catch (AssemblyException e) {
             LOG.error("Error assembling CredentialProgram", e);
@@ -972,17 +972,17 @@ public class ProgramServiceImpl implements ProgramService{
     }
 
     @Override
-    public List<TypeInfo> getSearchTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<TypeInfo> getSearchTypes( ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         throw new UnsupportedOperationException("getSearchTypes");
     }
 
     @Override
-    public TypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public TypeInfo getSearchType(String searchTypeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         throw new UnsupportedOperationException("getSearchType");
     }
 
     @Override
-    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo,  ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("ProgramService.search");
     }
 

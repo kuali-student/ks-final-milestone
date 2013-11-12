@@ -59,21 +59,21 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval=true)
     private Set<ResultValueAttributeEntity> attributes;
 
     public ResultValueEntity() {
     }
 
-    public ResultValueEntity(ResultValueInfo dto, EntityManager em) {
+    public ResultValueEntity(ResultValueInfo dto) {
         super(dto);
         this.setId(dto.getKey());
         this.setType(dto.getTypeKey());
         setResultScaleId(dto.getResultScaleKey());
-        this.fromDTO(dto, em);
+        this.fromDTO(dto);
     }
 
-    public void fromDTO(ResultValueInfo dto, EntityManager em) {
+    public void fromDTO(ResultValueInfo dto) {
         this.setName(dto.getName());
         this.setState(dto.getStateKey());
         if (dto.getDescr() != null) {
@@ -97,18 +97,9 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
         if (this.getAttributes() == null) {
             this.setAttributes(new HashSet<ResultValueAttributeEntity>());
         }
-        Set<String> idSet = new HashSet<String>(dto.getAttributes().size());
-        for (AttributeInfo attr : dto.getAttributes()) {
-            if (attr.getId() != null) {
-                idSet.add(attr.getId());
-            }
-        }
-        for (ResultValueAttributeEntity attEntity : new ArrayList<ResultValueAttributeEntity> (this.getAttributes())) {
-            if (!idSet.contains(attEntity.getId())) {
-                em.remove(attEntity);
-                this.getAttributes().remove(attEntity);
-            }
-        }
+        else
+            this.attributes.clear();
+       
         for (Attribute att : dto.getAttributes()) {
             ResultValueAttributeEntity attEntity = new ResultValueAttributeEntity(att, this);
             this.getAttributes().add(attEntity);

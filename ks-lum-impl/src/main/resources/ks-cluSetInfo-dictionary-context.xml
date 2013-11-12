@@ -118,7 +118,7 @@
 
  <bean id="membershipQueryInfo.queryParamValueList-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="queryParamValueList"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.r1.common.search.dto.SearchParam"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.core.search.dto.SearchParamInfo"/>
  </bean>
  <bean id="membershipQueryInfo.queryParamValueList" parent="membershipQueryInfo.queryParamValueList-parent"/>
 
@@ -128,26 +128,25 @@
  <bean id="membershipQueryInfo.searchTypeKey" parent="membershipQueryInfo.searchTypeKey-parent"/>
 
  <!-- SearchParamInfo-->
- <bean id="org.kuali.student.r1.common.search.dto.SearchParam-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.r1.common.search.dto.SearchParamInfo"/>
+ <bean id="org.kuali.student.r2.core.search.dto.SearchParamInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r2.core.search.dto.SearchParamInfo"/>
   <property name="attributes">
    <list>
     <ref bean="searchParam.key"/>
-    <ref bean="searchParam.value"/>
+    <ref bean="searchParam.values"/>
    </list>
   </property>
  </bean>
- <bean id="org.kuali.student.r1.common.search.dto.SearchParam" parent="org.kuali.student.r1.common.search.dto.SearchParam-parent"/>
+ <bean id="org.kuali.student.r2.core.search.dto.SearchParamInfo" parent="org.kuali.student.r2.core.search.dto.SearchParamInfo-parent"/>
 
  <bean id="searchParam.key-parent" abstract="true" parent="baseKualiType">
   <property name="name" value="key"/>
  </bean>
  <bean id="searchParam.key" parent="searchParam.key-parent"/>
 
- <bean id="searchParam.value-parent" abstract="true" parent="baseString">
-  <property name="name" value="value"/>
+ <bean id="searchParam.values-parent" abstract="true" parent="baseString">
+  <property name="name" value="values"/>
   <property name="maxOccurs" value="unbounded" />
  </bean>
- <bean id="searchParam.value" parent="searchParam.value-parent"/>
-
+ <bean id="searchParam.values" parent="searchParam.values-parent"/>
 </beans>

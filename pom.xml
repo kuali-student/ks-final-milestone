@@ -4,11 +4,11 @@
     <parent>
         <groupId>org.kuali.student</groupId>
         <artifactId>student</artifactId>
-        <version>2.0.3-cm-SNAPSHOT</version>
+        <version>2.0.0-M9-SNAPSHOT</version>
     </parent>
     <groupId>org.kuali.student.lum</groupId>
     <artifactId>ks-lum</artifactId>
-    <version>2.0.3-cm-SNAPSHOT</version>
+    <version>2.0.0-M9-SNAPSHOT</version>
     <name>KS Lum</name>
     <description>KS Learning Unit Management</description>
     <packaging>pom</packaging>
@@ -23,7 +23,6 @@
                 <module>ks-lum-impl</module>
                 <module>ks-lum-rice</module>
                 <module>ks-lum-ui</module>
-                <module>ks-lum-web</module>
                 <module>ks-lum-program</module>
                 <module>ks-lum-ui-common</module>
             </modules>
@@ -32,50 +31,6 @@
             <id>sql-only</id>
             <modules>
                 <module>ks-lum-sql</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>bundled-only-war</id>
-            <modules>
-                <module>ks-lum-sql</module>
-                <module>ks-lum-impl</module>
-                <module>ks-lum-rice</module>
-                <module>ks-lum-ui</module>
-                <module>ks-lum-program</module>
-                <module>ks-lum-ui-common</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>standalone-only-wars</id>
-            <modules>
-                <module>ks-lum-sql</module>
-                <module>ks-lum-impl</module>
-                <module>ks-lum-rice</module>
-                <module>ks-lum-ui</module>
-                <module>ks-lum-program</module>
-                <module>ks-lum-ui-common</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>skip-lum-war</id>
-            <modules>
-                <module>ks-lum-sql</module>
-                <module>ks-lum-impl</module>
-                <module>ks-lum-rice</module>
-                <module>ks-lum-ui</module>
-                <module>ks-lum-program</module>
-                <module>ks-lum-ui-common</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>skip-developer-wars</id>
-            <modules>
-                <module>ks-lum-sql</module>
-                <module>ks-lum-impl</module>
-                <module>ks-lum-rice</module>
-                <module>ks-lum-ui</module>
-                <module>ks-lum-program</module>
-                <module>ks-lum-ui-common</module>
             </modules>
         </profile>
         <profile>
@@ -95,6 +50,32 @@
                 <module>ks-lum-sql</module>
                 <module>ks-lum-impl</module>
                 <module>ks-lum-rice</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>skip-surefire-tests</id>
+            <activation>
+                <property>
+                    <name>skip.lum.tests</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <!-- include all the modules from the default profile (except SQL modules) -->
+            <modules>
+                <module>ks-lum-impl</module>
+                <module>ks-lum-rice</module>
+                <module>ks-lum-ui</module>
+                <module>ks-lum-program</module>
+                <module>ks-lum-ui-common</module>
             </modules>
         </profile>
     </profiles>

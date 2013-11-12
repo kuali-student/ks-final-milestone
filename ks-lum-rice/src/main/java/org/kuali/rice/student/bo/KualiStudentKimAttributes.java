@@ -33,7 +33,10 @@ public class KualiStudentKimAttributes implements ExternalizableBusinessObject {
 	public static final String QUALIFICATION_DEPARTMENT_ID          = "departmentId";
 	public static final String QUALIFICATION_DIVISION_ID            = "divisionId";
 	public static final String QUALIFICATION_COLLEGE_ID             = "collegeId";
-	public static final String QUALIFICATION_ORG_ID                 = "orgId";
+//	public static final String QUALIFICATION_ORG_ID                 = "orgId";
+    public static final String QUALIFICATION_ORG_ID                 = "org";
+    public static final String QUALIFICATION_SUBJECT_AREA           = "subjectArea";
+    public static final String QUALIFICATION_OFFERING_ADMIN_ORG_ID  = "offeringAdminOrgId";
 
 	public static final String QUALIFICATION_DATA_ID                = "dataId";
 	public static final String QUALIFICATION_CLU_ID                 = "cluId";
@@ -45,11 +48,18 @@ public class KualiStudentKimAttributes implements ExternalizableBusinessObject {
     public static final String DESCEND_HIERARCHY                    = "descendHierarchy";
     public static final String KS_REFERENCE_TYPE_KEY                = "ksReferenceTypeKey";
 
+    public static final String KS_CO_STATE_KEY                      = "coStateKey";
+    public static final String KS_SOC_STATE_KEY                     = "socStateKey";
+
+    public static final String KS_PERMISSION_EXPRESSION             = "permissionExpression";
+
 	protected String dataId;
 	protected String org;
 	protected String department;
 	protected String college;
 	protected String division;
+    protected String subjectArea;
+    protected String offeringAdminOrgId;
 
 	protected String dtoName;
 	protected String dtoFieldKey;
@@ -58,6 +68,11 @@ public class KualiStudentKimAttributes implements ExternalizableBusinessObject {
 	protected String sectionId;
     protected Boolean descendHierarchy;
     protected String ksReferenceTypeKey;
+
+    protected String coStateKey;
+    protected String socStateKey;
+
+    protected String permissionExpression;
 
 	/**
      * @return the dataId
@@ -229,6 +244,47 @@ public class KualiStudentKimAttributes implements ExternalizableBusinessObject {
      */
     public void setKsReferenceTypeKey(String ksReferenceTypeKey) {
         this.ksReferenceTypeKey = ksReferenceTypeKey;
+    }
+
+
+    public String getSocStateKey() {
+        return socStateKey;
+    }
+
+    public void setSocStateKey(String socStateKey) {
+        this.socStateKey = socStateKey;
+    }
+
+    public String getCoStateKey() {
+        return coStateKey;
+    }
+
+    public void setCoStateKey(String coStateKey) {
+        this.coStateKey = coStateKey;
+    }
+
+    public String getPermissionExpression() {
+        return permissionExpression;
+    }
+
+    public void setPermissionExpression(String permissionExpression) {
+        this.permissionExpression = permissionExpression;
+    }
+
+    public String getSubjectArea() {
+        return subjectArea;
+    }
+
+    public void setSubjectArea(String subjectArea) {
+        this.subjectArea = subjectArea;
+    }
+
+    public String getOfferingAdminOrgId() {
+        return offeringAdminOrgId;
+    }
+
+    public void setOfferingAdminOrgId(String offeringAdminOrgId) {
+        this.offeringAdminOrgId = offeringAdminOrgId;
     }
 
     @Override

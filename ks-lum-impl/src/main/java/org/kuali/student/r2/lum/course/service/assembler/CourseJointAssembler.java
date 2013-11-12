@@ -86,7 +86,7 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 
 		CluInfo clu = null;
 		try {
-			clu = cluService.getClu(cluRel.getRelatedCluId() , contextInfo);
+			clu = cluService.getClu(cluId , contextInfo);
 			
 			joint.setCourseId(clu.getId());
             joint.setTypeKey(clu.getTypeKey());

@@ -18,13 +18,6 @@
  */
 package org.kuali.student.lum.kim.role.type;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -40,6 +33,13 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A Role Type Service that will enable an organization qualifier and parsing of the Organization Hierarchy
@@ -67,14 +67,31 @@ public class OrganizationHierarchyRoleTypeService extends RoleTypeServiceBase {
             return true;
         }
         String inputOrgId = inputQualification.get(KualiStudentKimAttributes.QUALIFICATION_ORG_ID);
+        if(inputOrgId == null){
+            //if no qualifier for org is passed then mark this as true
+            return true;
+        }
         List<Map<String, String>> inputSets = new ArrayList<Map<String, String>>();
+        List<String> inputOrgIds = new ArrayList<String>(Arrays.asList(inputOrgId.split(",")));
         try {
             // if role member qualifier says to descend the hierarchy then add in all other org short names from hierarchy
             BooleanFormatter format = new BooleanFormatter();
             Boolean b = (Boolean) format.convertFromPresentationFormat(roleMemberQualifier.get(KualiStudentKimAttributes.DESCEND_HIERARCHY));
-            if (b.booleanValue()) {
+            if (b != null && b.booleanValue()) {
                 // inputSets.addAll(getHierarchyOrgShortNames(inputOrgId));
-                inputSets.addAll(getHierarchyOrgIds(inputOrgId, ContextUtils.getContextInfo()));
+                for (String orgId : inputOrgIds) {
+                    inputSets.addAll(getHierarchyOrgIds(orgId, ContextUtils.getContextInfo()));
+                // check for a match where roleMemberOrganizationId exists in one of the attribute sets in the list inputSets
+                    if (hasMatch(inputSets, roleMemberOrganizationId)) {
+                        return true;
+                    }
+                }
+            } else {
+                for (String orgId : inputOrgIds) {
+                    if (orgId.equals(roleMemberOrganizationId)) {
+                        return true;
+                    }
+                }
             }
             /*
 	        // add in the original org short name
@@ -83,8 +100,7 @@ public class OrganizationHierarchyRoleTypeService extends RoleTypeServiceBase {
 	            inputSets.add(new AttributeSet(KualiStudentKimAttributes.QUALIFICATION_ORG,org.getShortName()));
 	        }
              */
-            // check for a match where roleMemberOrganizationId exists in one of the attribute sets in the list inputSets
-            return hasMatch(inputSets, roleMemberOrganizationId);
+            return false;
         } catch (Exception e) {
             LOG.error(e);
             throw new RuntimeException(e);

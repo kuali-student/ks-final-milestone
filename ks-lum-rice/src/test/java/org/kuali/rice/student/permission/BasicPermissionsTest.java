@@ -52,7 +52,7 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 	}
 
 	protected void verifyPermissions(String principalId, String documentId, Map<String,Boolean> existingPermissions) {
-		String permissionNamespace = "KS-LUM";
+		String permissionNamespace = "KS-CM";
 		PermissionService permService = KimApiServiceLocator.getPermissionService();
 		for (Map.Entry<String, Boolean> entry : existingPermissions.entrySet()) {
 			if ( (entry.getValue() != null) && (entry.getValue().booleanValue()) ) {

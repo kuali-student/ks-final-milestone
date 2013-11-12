@@ -111,5 +111,52 @@
                 method="afterThrowing" throwing="ex" />
         </aop:aspect>
     </aop:config>
+    <bean id="cluCriterialookupDaoJpa" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupDaoJpaImpl">
+        <property name="entityManager" ref="entityManager"/>
+    </bean>
 
+    <bean id="cluDefaultCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+        <property name="criteriaLookupDao" ref="cluCriterialookupDaoJpa"/>
+        <property name="predicateTransforms">
+            <list>
+                <ref bean="keyword2LikeTransform"/>
+                <ref bean="descrTransform"/>
+                <ref bean="metaTransform"/>
+                <ref bean="attributeTransform"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="attributeTransform" class="org.kuali.student.r2.common.criteria.transform.AttributeTransform"/>
+
+    <bean id="descrTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+        <property name="renameAttributes">
+            <map>
+                <entry key="descr.plain" value="descrPlain"/>
+                <entry key="descr.formatted" value="descrFormatted"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="metaTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+        <property name="renameAttributes">
+            <map>
+                <entry key="meta.createId" value="createId"/>
+                <entry key="meta.createTime" value="createTime"/>
+                <entry key="meta.updateId" value="createId"/>
+                <entry key="meta.updateTime" value="updateTime"/>
+                <entry key="meta.versionInd" value="versionInd"/>
+            </map>
+        </property>
+    </bean>
+    <bean id="keyword2LikeTransform" class="org.kuali.student.r2.common.criteria.transform.Keyword2LikeTransform">
+        <property name="keywordAttribute" value="keywordSearch" />
+        <property name="likeAttributes">
+            <list>
+                <value>name</value>
+                <value>descr.plain</value>
+                <value>descr.formatted</value>
+            </list>
+        </property>
+    </bean>
 </beans>

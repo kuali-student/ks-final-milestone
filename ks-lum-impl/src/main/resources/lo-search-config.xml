@@ -39,7 +39,9 @@
         <search:subSearch searchkey="lo.search.loByDesc" key="lo">
 	        <search:subSearchParamMappings crossSearchParam="lo.queryParam.loDescPlain" subSearchParam="lo.queryParam.loDescPlain"/>
         </search:subSearch>
-        <search:subSearch searchkey="lu.search.allLoQuickView" key="clu"/>
+        <search:subSearch searchkey="lu.search.allLoQuickView" key="clu">
+            <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalType" subSearchParam="lu.queryParam.luOptionalType"/>
+        </search:subSearch>
 		<search:joinCriteria type="AND">
 			<search:comparison type="EQUALS">
 				<search:leftHandSide subSearchKey="lo" param="lo.resultColumn.loDescId"/>

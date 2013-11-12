@@ -31,7 +31,7 @@ public class TypeSearchServiceImpl implements SearchService {
     }
 
     @Override
-    public List<TypeInfo> getSearchTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<TypeInfo> getSearchTypes( ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
         for(TypeSearch typeSearch : typeSearches){
             TypeInfo typeInfo = new TypeInfo();
@@ -42,7 +42,7 @@ public class TypeSearchServiceImpl implements SearchService {
     }
 
     @Override
-    public TypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public TypeInfo getSearchType(String searchTypeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         for(TypeSearch typeSearch : typeSearches){
             if(typeSearch.getSearchTypeKey().equals(searchTypeKey)){
                 TypeInfo typeInfo = new TypeInfo();
@@ -55,7 +55,7 @@ public class TypeSearchServiceImpl implements SearchService {
 
 
     @Override
-    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo,  ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
         for (TypeSearch typeSearch : typeSearches){
             if (searchRequestInfo.getSearchKey().equals(typeSearch.getSearchTypeKey())){
                 try {

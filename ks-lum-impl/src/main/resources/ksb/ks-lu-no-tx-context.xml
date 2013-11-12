@@ -34,30 +34,12 @@
     <import resource="classpath:statement-context.xml"/>
     <import resource="classpath:program-context.xml"/>
 
-<!-- 
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="properties" value="#{bootstrapConfig.getProperties()}" />
-	</bean>
+    <!-- Top Level Alias -->
+    <alias name="cluServiceCache" alias="CluService" />
 
-	<bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
-		<property name="configLocations">
-			<list>
-				<value>classpath:org/kuali/rice/standalone/config/standalone-config.xml</value>
-			</list>
-		</property>
-	</bean>
-	
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod" value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" />
-		<property name="arguments">
-			<list><ref bean="bootstrapConfig"/></list>
-		</property>
-	</bean>
-
-    <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
-        <property name="localServiceName" value="KSLumContext"/>
+    <bean id="ksCacheManager" class="net.sf.ehcache.CacheManager">
+        <constructor-arg index="0" type="java.net.URL" value="${ks.cache.config.file}" />
     </bean>
--->    
 
     <bean id="ks.messageServiceMock"
           class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
@@ -101,6 +83,8 @@
                        value="${ks.lum.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
                 <entry key="hibernate.connection.release_mode"
                 	   value="${ks.lum.jpa.JpaProperties.hibernate.connection.release_mode}"/>
+                <entry key="hibernate.default_batch_fetch_size"
+                       value="${ks.lum.jpa.JpaProperties.hibernate.default_batch_fetch_size}"/>
             </map>
         </property>
     </bean>
@@ -155,19 +139,41 @@
                   value="{http://student.kuali.org/wsdl/proposal}ProposalService"/>
     </bean>
 
+    <bean id="cluCriterialookupDaoJpa" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupDaoJpaImpl">
+        <property name="entityManager" ref="luEntityManager"/>
+    </bean>
+
+    <bean id="cluDefaultCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+        <property name="criteriaLookupDao" ref="cluCriterialookupDaoJpa"/>
+        <property name="predicateTransforms">
+            <list>
+                <ref bean="keyword2LikeTransform"/>
+                <ref bean="descrTransform"/>
+                <ref bean="metaTransform"/>
+                <ref bean="attributeTransform"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="cluServiceCache" class="org.kuali.student.r2.lum.service.decorator.CluServiceCacheDecorator">
+        <property name="cacheManager" ref="ksCacheManager"/>
+        <property name="nextDecorator" ref="cluServiceImpl"/>
+    </bean>
+
     <bean id="cluServiceImpl" class="org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl">
         <property name="luDao" ref="luDao"/>
         <property name="searchManager" ref="luSearchManager"/>
         <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
 		<property name="validatorFactory" ref="lumValidatorFactory"/>
 		<property name="searchDispatcher" ref="lumSearchDispatcher"/>
+        <property name="cluCriteriaLookupService" ref="cluDefaultCriteriaLookupService"/>
     </bean>
 
     <bean id="ks.exp.cluService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true"/>
-                <property name="service" ref="cluServiceImpl"/>
+                <property name="service" ref="CluService"/>
                 <property name="serviceInterface"
                           value="org.kuali.student.r2.lum.clu.service.CluService"/>
                 <property name="localServiceName" value="CluService"/>
@@ -252,7 +258,7 @@
         <property name="searchServices">
             <list>
                 <ref bean="loClient"/>
-                <ref bean="cluClient"/>
+                <ref bean="CluService"/>
                 <ref bean="lrcClient"/>
                 <ref bean="orgClient"/>
                 <ref bean="enumServiceClient"/>
@@ -355,7 +361,7 @@
     <!-- CourseService config -->
     <bean id="courseServiceImpl"
           class="org.kuali.student.r2.lum.course.service.impl.CourseServiceImpl">
-        <property name="cluService" ref="cluClient"/>
+        <property name="cluService" ref="CluService"/>
         <property name="courseAssembler" ref="courseAssembler"/>
         <property name="courseServiceMethodInvoker" ref="courseServiceMethodInvoker"/>
         <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
@@ -379,7 +385,7 @@
  
     <bean id="courseServiceMethodInvoker"
           class="org.kuali.student.r2.lum.course.service.impl.CourseServiceMethodInvoker">
-        <property name="cluService" ref="cluClient"/>
+        <property name="cluService" ref="CluService"/>
         <property name="loService" ref="loClient"/>
         <property name="lrcService" ref="lrcClient"/>
     </bean>
@@ -390,7 +396,7 @@
         <property name="courseJointAssembler" ref="courseJointAssembler"/>
         <property name="loAssembler" ref="loAssembler"/>
         <property name="loService" ref="loClient"/>
-        <property name="cluService" ref="cluClient"/>
+        <property name="cluService" ref="CluService"/>
         <property name="lrcService" ref="lrcClient"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
         <property name="atpService" ref="atpClient"/>
@@ -399,17 +405,17 @@
     <bean id="formatAssembler"
           class="org.kuali.student.r2.lum.course.service.assembler.FormatAssembler">
         <property name="activityAssembler" ref="activityAssembler"/>
-        <property name="cluService" ref="cluClient"/>
+        <property name="cluService" ref="CluService"/>
     </bean>
 
     <bean id="activityAssembler"
           class="org.kuali.student.r2.lum.course.service.assembler.ActivityAssembler">
-        <property name="cluService" ref="cluClient"/>
+        <property name="cluService" ref="CluService"/>
     </bean>
 
     <bean id="courseJointAssembler"
           class="org.kuali.student.r2.lum.course.service.assembler.CourseJointAssembler">
-        <property name="cluService" ref="cluClient"/>
+        <property name="cluService" ref="CluService"/>
     </bean>
 
     <bean id="lumDictionaryService"
@@ -463,7 +469,7 @@
           class="org.kuali.student.r2.lum.program.service.impl.ProgramRequirementAssembler">
         <property name="statementService" ref="statementServiceImpl"/>
         <property name="statementTreeViewAssembler" ref="statementTreeViewAssembler"/>
-        <property name="cluService" ref="cluServiceImpl"/>
+        <property name="cluService" ref="CluService"/>
         <property name="loAssembler" ref="loAssembler"/>
         <property name="loService" ref="loServiceImpl"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
@@ -478,14 +484,14 @@
 
     <bean id="cluAssemblerUtils"
           class="org.kuali.student.r2.lum.service.assembler.CluAssemblerUtils">
-        <property name="cluService" ref="cluClient"/>
+        <property name="cluService" ref="CluService"/>
         <property name="loService" ref="loServiceImpl"/>
         <property name="loAssembler" ref="loAssembler"/>
     </bean>
 
     <bean id="majorDisciplineAssembler"
           class="org.kuali.student.r2.lum.program.service.assembler.MajorDisciplineAssembler">
-        <property name="cluService" ref="cluClient"/>
+        <property name="cluService" ref="CluService"/>
         <property name="programVariationAssembler" ref="programVariationAssembler"/>
         <property name="coreProgramAssembler" ref="coreProgramAssembler"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
@@ -494,7 +500,7 @@
 
     <bean id="programAssemblerUtils"
           class="org.kuali.student.r2.lum.program.service.assembler.ProgramAssemblerUtils">
-        <property name="cluService" ref="cluServiceImpl"/>
+        <property name="cluService" ref="CluService"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
     </bean>
 
@@ -502,33 +508,33 @@
           class="org.kuali.student.r2.lum.program.service.assembler.CredentialProgramAssembler">
         <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
-        <property name="cluService" ref="cluClient"/>
+        <property name="cluService" ref="CluService"/>
     </bean>
 
     <bean id="coreProgramAssembler"
           class="org.kuali.student.r2.lum.program.service.assembler.CoreProgramAssembler">
-        <property name="cluService" ref="cluServiceImpl"/>
+        <property name="cluService" ref="CluService"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
         <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
     </bean>
 
     <bean id="programVariationAssembler"
           class="org.kuali.student.r2.lum.program.service.assembler.ProgramVariationAssembler">
-        <property name="cluService" ref="cluClient"/>
+        <property name="cluService" ref="CluService"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
         <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
     </bean>
 
     <bean id="programServiceMethodInvoker"
           class="org.kuali.student.r2.lum.program.service.impl.ProgramServiceMethodInvoker">
-        <property name="cluService" ref="cluClient"/>
+        <property name="cluService" ref="CluService"/>
         <property name="loService" ref="loClient"/>
         <property name="statementService" ref="statementServiceClient"/>
     </bean>
 
     <bean id="programServiceImpl"
           class="org.kuali.student.r2.lum.program.service.impl.ProgramServiceImpl">
-        <property name="cluService" ref="cluClient"/>
+        <property name="cluService" ref="CluService"/>
         <property name="programRequirementAssembler" ref="programRequirementAssembler"/>
         <property name="searchManager" ref="programSearchManager"/>
         <property name="dictionaryService" ref="lumDictionaryService"/>
@@ -634,46 +640,6 @@
                     method="afterThrowing" throwing="ex"/>
         </aop:aspect>
     </aop:config>
-
-    <bean id="attributeTransform" class="org.kuali.student.r2.common.criteria.transform.AttributeTransform"/>
-
-    <bean id="key2IdTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
-        <property name="renameAttributes">
-            <map>
-                <entry key="key" value="id"/>
-            </map>
-        </property>
-    </bean>
-    <bean id="descrTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
-        <property name="renameAttributes">
-            <map>
-                <entry key="descr.plain" value="descrPlain"/>
-                <entry key="descr.formatted" value="descrFormatted"/>
-            </map>
-        </property>
-    </bean>
-
-    <bean id="metaTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
-        <property name="renameAttributes">
-            <map>
-                <entry key="meta.createId" value="createId"/>
-                <entry key="meta.createTime" value="createTime"/>
-                <entry key="meta.updateId" value="createId"/>
-                <entry key="meta.updateTime" value="updateTime"/>
-                <entry key="meta.versionInd" value="versionInd"/>
-            </map>
-        </property>
-    </bean>
-    <bean id="keyword2LikeTransform" class="org.kuali.student.r2.common.criteria.transform.Keyword2LikeTransform">
-        <property name="keywordAttribute" value="keywordSearch" />
-        <property name="likeAttributes">
-            <list>
-                <value>name</value>
-                <value>descr.plain</value>
-                <value>descr.formatted</value>
-            </list>
-        </property>
-    </bean>
 
     <bean id="lrcCriterialookupDaoJpa" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupDaoJpaImpl">
         <property name="entityManager" ref="lrcEntityManager"/>

@@ -3,9 +3,9 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -24,13 +24,12 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalCon
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRetireByProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseRetireProposalRpcService;
 import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.lum.clu.CLUConstants;
-import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * New controller for Retire Course screen.
@@ -104,7 +103,7 @@ public class CourseRetireByProposalController extends CourseProposalController {
         proposalData.set(new Data.StringKey("type"), CLUConstants.PROPOSAL_TYPE_COURSE_RETIRE);
         data.set(new Data.StringKey("proposal"), proposalData);
         if (cfg != null) {
-            if (cfg.getNextState() == null && cfg.getNextState().isEmpty()){
+            if (cfg.getNextState() == null || cfg.getNextState().isEmpty()){
         	    proposalData.set(new Data.StringKey("workflowNode"), "PreRoute");
             }
         }
@@ -153,7 +152,7 @@ public class CourseRetireByProposalController extends CourseProposalController {
      */
 	@Override
 	protected void setHeaderTitle(){
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		sb.append(cluProposalModel.get(cfg.getCourseTitlePath()));
 		sb.append(" (Proposed Retirement)");
 				

@@ -79,7 +79,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 
 	@Override
     @Transactional(readOnly=true)
-	public List<LoRepositoryInfo> getLoRepositories(@WebParam(name = "contextInfo") ContextInfo contextInfo)
+	public List<LoRepositoryInfo> getLoRepositories( ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 	    List<LoRepository> repositories = loDao.find(LoRepository.class);
@@ -89,37 +89,37 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 
 
 	@Override
-    public List<String> getLoRepositoryKeysByType(@WebParam(name = "loRepositoryTypeKey") String loRepositoryTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getLoRepositoryKeysByType(String loRepositoryTypeKey,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<String> searchForLoRepositoryKeys(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForLoRepositoryKeys(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<LoRepositoryInfo> searchForLoRepositories(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LoRepositoryInfo> searchForLoRepositories(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<ValidationResultInfo> validateLoRepository(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "loRepositoryTypeKey") String loRepositoryTypeKey, @WebParam(name = "loRepositoryInfo") LoRepositoryInfo loRepositoryInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateLoRepository( String validationTypeKey,  String loRepositoryTypeKey,  LoRepositoryInfo loRepositoryInfo,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public LoRepositoryInfo createLoRepository(@WebParam(name = "loRepositoryKey") String loRepositoryKey, @WebParam(name = "loRepositoryTypeKey") String loRepositoryTypeKey, @WebParam(name = "loRepositoryInfo") LoRepositoryInfo loRepositoryInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public LoRepositoryInfo createLoRepository( String loRepositoryKey,  String loRepositoryTypeKey,  LoRepositoryInfo loRepositoryInfo,  ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public LoRepositoryInfo updateLoRepository(@WebParam(name = "loRepositoryKey") String loRepositoryKey, @WebParam(name = "loRepositoryInfo") LoRepositoryInfo loRepositoryInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+    public LoRepositoryInfo updateLoRepository( String loRepositoryKey,  LoRepositoryInfo loRepositoryInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public StatusInfo deleteLoRepository(@WebParam(name = "loRepositoryKey") String loRepositoryKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteLoRepository(String loRepositoryKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -136,7 +136,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	}
 
     @Override
-    public List<LoRepositoryInfo> getLoRepositoriesByKeys(@WebParam(name = "loRepositoryKeys") List<String> loRepositoryKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LoRepositoryInfo> getLoRepositoriesByKeys(List<String> loRepositoryKeys,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -156,22 +156,22 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	}
 
     @Override
-    public List<LoLoRelationInfo> getLoLoRelationsByIds(@WebParam(name = "loLoRelationIds") List<String> loLoRelationIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LoLoRelationInfo> getLoLoRelationsByIds(List<String> loLoRelationIds,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<String> getLoLoRelationIdsByType(@WebParam(name = "loLoRelationTypeKey") String loLoRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getLoLoRelationIdsByType(String loLoRelationTypeKey,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<String> searchForLoLoRelationIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForLoLoRelationIds(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<LoLoRelationInfo> searchForLoLoRelations(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LoLoRelationInfo> searchForLoLoRelations(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -258,7 +258,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	}
 
     @Override
-    public StatusInfo deleteLoCategoryByLo(@WebParam(name = "loId") String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteLoCategoryByLo(String loId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -277,7 +277,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 
 	@Override
     @Transactional(readOnly=true)
-    public List<LoInfo> getLosByIds(@WebParam(name = "loIds") List<String> loIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LoInfo> getLosByIds(List<String> loIds,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(loIds, "loId");
         checkForEmptyList(loIds, "loId");
         List<Lo> los = loDao.getLoByIdList(loIds);
@@ -285,13 +285,13 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     }
 
     @Override
-    public List<String> getLoIdsByType(@WebParam(name = "loTypeKey") String loTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getLoIdsByType(String loTypeKey,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     @Transactional(readOnly=true)
-    public List<LoInfo> getLosByLoRepository(@WebParam(name = "loRepositoryKey") String loRepositoryKey, @WebParam(name = "loTypeKey") String loTypeKey, @WebParam(name = "loStateKey") String loStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LoInfo> getLosByLoRepository( String loRepositoryKey,  String loTypeKey, String loStateKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(loRepositoryKey, "loRepositoryKey");
         List<Lo> los = loDao.getLosByRepository(loRepositoryKey);
         return LearningObjectiveServiceAssembler.toLoInfos(los);
@@ -312,30 +312,30 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	}
 
     @Override
-    public List<LoCategoryInfo> getLoCategoriesByIds(@WebParam(name = "loCategoryIds") List<String> loCategoryIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LoCategoryInfo> getLoCategoriesByIds(List<String> loCategoryIds,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<String> getLoCategoryIdsByType(@WebParam(name = "loCategoryTypeKey") String loCategoryTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getLoCategoryIdsByType(String loCategoryTypeKey,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     @Transactional(readOnly=true)
-    public List<LoCategoryInfo> getLoCategoriesByLo(@WebParam(name = "loId") String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LoCategoryInfo> getLoCategoriesByLo(String loId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(loId, "loId");
         List<LoCategory> categories = loDao.getLoCategoriesForLo(loId);
         return LearningObjectiveServiceAssembler.toLoCategoryInfos(categories);
     }
 
     @Override
-    public List<String> searchForLoCategoryIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForLoCategoryIds(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<LoCategoryInfo> searchForLoCategories(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LoCategoryInfo> searchForLoCategories(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -364,12 +364,12 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	}
 
     @Override
-    public List<String> searchForLoIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForLoIds(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<LoInfo> searchForLos(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LoInfo> searchForLos(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -829,28 +829,28 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	
 	@Override
 	@Transactional(readOnly=true)
-    public LoLoRelationInfo getLoLoRelation(@WebParam(name = "loLoRelationId") String loLoRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public LoLoRelationInfo getLoLoRelation(String loLoRelationId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	    checkForMissingParameter(loLoRelationId, "loLoRelationId");
 	 return LearningObjectiveServiceAssembler.toLoLoRelationInfo(loDao.fetch(LoLoRelation.class, loLoRelationId));
     }
 	
 	@Override
 	@Transactional(readOnly=true)
-    public List<LoLoRelationInfo> getLoLoRelationsByLoId(@WebParam(name = "loId") String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LoLoRelationInfo> getLoLoRelationsByLoId(String loId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	    List<LoLoRelation> llRelations = loDao.getLoLoRelationsByLoId(loId);
 	    return LearningObjectiveServiceAssembler.toLoLoRelationInfos(llRelations);   
     }
 	
 	@Override
 	@Transactional(readOnly=true)
-    public List<LoInfo> getLosByRelatedLoId(@WebParam(name = "relatedLoId") String relatedLoId, @WebParam(name = "loLoRelationTypeKey") String loLoRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LoInfo> getLosByRelatedLoId(String relatedLoId,  String loLoRelationTypeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	    List<Lo> relatedLos = loDao.getLosByRelatedLoId(relatedLoId, loLoRelationTypeKey);
 	    return LearningObjectiveServiceAssembler.toLoInfos(relatedLos);
     }
 	
 	@Override
 	@Transactional(readOnly=true)
-    public List<LoInfo> getRelatedLosByLoId(@WebParam(name = "loId") String loId, @WebParam(name = "loLoRelationTypeKey") String loLoRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LoInfo> getRelatedLosByLoId(String loId,  String loLoRelationTypeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		checkForMissingParameter(loId, "loId");
 	    checkForMissingParameter(loLoRelationTypeKey, "loLoRelationTypeKey");
 		List<Lo> relatedLos = loDao.getRelatedLosByLoId(loId, loLoRelationTypeKey);
@@ -877,7 +877,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	}
 
     @Override
-    public StatusInfo deleteLoLoRelation(@WebParam(name = "loLoRelationId") String loLoRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteLoLoRelation(String loLoRelationId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(loLoRelationId, "loLoRelationId");
         
         loDao.deleteLoLoRelation(loLoRelationId);

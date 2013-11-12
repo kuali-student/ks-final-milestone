@@ -30,18 +30,23 @@
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
     <import resource="classpath:statement-context.xml"/>
 
+    <!-- Top Level Alias -->
+    <alias name="cluServiceImpl" alias="CluService" />
+
     <bean id="systemPropertyConfigurer"
         class="org.kuali.student.common.util.SystemPropertyConfigurer">
         <property name="properties" value="${propertiesPrefix.systemProperties}"/>
     </bean>
 
     <bean id="lumDataSource"
-        class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"
+        class="org.kuali.student.common.test.spring.UniqueResourceAtomikosDataSourceBean" init-method="init"
         destroy-method="close" depends-on="systemPropertyConfigurer">
         <property name="uniqueResourceName" value="dataSource" />
         <property name="xaDataSourceClassName" value="${jdbc.xaDataSourceClassName}" />
         <property name="xaProperties" value="${propertiesPrefix.jdbc.xaDataSourceProperties}"/>
         <property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+        <property name="minPoolSize" value="${jdbc.minPoolSize}" />
+        <property name="testQuery" value="${jdbc.testQuery}" />
         <property name="reapTimeout" value="0"/>
         <property name="maxIdleTime" value="3600000"/>
     </bean>

@@ -15,6 +15,7 @@
 package org.kuali.student.r2.lum.lu.service.impl;
 
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
@@ -22,11 +23,14 @@ import org.kuali.student.r1.common.entity.Amount;
 import org.kuali.student.r1.common.entity.TimeAmount;
 import org.kuali.student.r1.common.entity.Version;
 import org.kuali.student.r1.common.entity.VersionEntity;
+import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
 import org.kuali.student.r2.core.search.dto.*;
 import org.kuali.student.r2.core.search.service.SearchManager;
 import org.kuali.student.r2.core.search.service.SearchService;
@@ -48,7 +52,7 @@ import javax.persistence.NoResultException;
 import java.util.*;
 import java.util.Map.Entry;
 
-@WebService(endpointInterface = "org.kuali.student.r2.lum.clu.service.CluService", serviceName = "CluService", portName = "CluService", targetNamespace = "http://student.kuali.org/wsdl/clu")
+@WebService(endpointInterface = "org.kuali.student.r2.lum.clu.service.CluService", serviceName = "CluService", portName = "CluService", targetNamespace = "http://student.kuali.org/wsdl/lu")
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class CluServiceImpl implements CluService {
 
@@ -68,6 +72,7 @@ public class CluServiceImpl implements CluService {
     private DictionaryService dictionaryServiceDelegate;
     private SearchService searchDispatcher;
     private SearchManager searchManager;
+    private CriteriaLookupService cluCriteriaLookupService;
 
     public void setDictionaryServiceDelegate(
             DictionaryService dictionaryServiceDelegate) {
@@ -84,7 +89,7 @@ public class CluServiceImpl implements CluService {
     }
 
     @Override
-    public TypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public TypeInfo getSearchType(String searchTypeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchTypeKey, "searchTypeKey");
         return searchManager.getSearchType(searchTypeKey, contextInfo);
     }
@@ -95,6 +100,14 @@ public class CluServiceImpl implements CluService {
 
     public void setSearchManager(SearchManager searchManager) {
         this.searchManager = searchManager;
+    }
+
+    public CriteriaLookupService getCluCriteriaLookupService() {
+        return cluCriteriaLookupService;
+    }
+
+    public void setCluCriteriaLookupService(CriteriaLookupService cluCriteriaLookupService) {
+        this.cluCriteriaLookupService = cluCriteriaLookupService;
     }
 
     /**************************************************************************
@@ -3886,8 +3899,14 @@ public class CluServiceImpl implements CluService {
              ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("not implemented");
+
+        List<CluInfo> cluInfos = new ArrayList<CluInfo>();
+        GenericQueryResults<Clu> results = cluCriteriaLookupService.lookup(Clu.class, criteria);
+        for (Clu clu : results.getResults()) {
+            cluInfos.add(CluServiceAssembler.toCluInfo(clu));
+        }
+
+        return cluInfos;
     }
 
     /* (non-Javadoc)
@@ -3899,8 +3918,9 @@ public class CluServiceImpl implements CluService {
              ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("not implemented");
+
+        GenericQueryResults<String> results =  cluCriteriaLookupService.lookupIds(Clu.class, criteria);
+        return results.getResults();
     }
 
     /* (non-Javadoc)

@@ -2,11 +2,17 @@ package org.kuali.student.r2.lum.lrc.service.impl;
 
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
-import net.sf.ehcache.ObjectExistsException;
 import org.apache.commons.collections.keyvalue.MultiKey;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
@@ -30,15 +36,6 @@ public class LRCServiceCacheDecorator extends LRCServiceDecorator {
     private CacheManager cacheManager;
 
     private static String RESULT_SCALE_CACHE_PREFIX = "resultScalePrefix";
-
-    public LRCServiceCacheDecorator(){
-        cacheManager = CacheManager.getInstance();
-        try {
-            cacheManager.addCache(cacheName);
-        } catch (ObjectExistsException e) {
-        }
-    }
-
 
     @Override
     public List<ResultValuesGroupInfo> getResultValuesGroupsByResultScale(@WebParam(name = "resultScaleKey") String resultScaleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -249,5 +246,14 @@ public class LRCServiceCacheDecorator extends LRCServiceDecorator {
         return getNextDecorator().deleteResultScale(resultScaleKey,contextInfo);
     }
 
+    public CacheManager getCacheManager() {
+        if(cacheManager == null){
+            cacheManager = CacheManager.getInstance();
+        }
+        return cacheManager;
+    }
 
+    public void setCacheManager(CacheManager cacheManager) {
+        this.cacheManager = cacheManager;
+    }
 }

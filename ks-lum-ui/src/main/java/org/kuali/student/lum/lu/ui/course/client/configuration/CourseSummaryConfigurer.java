@@ -42,7 +42,6 @@ import org.kuali.student.core.statement.ui.client.widgets.rules.SubrulePreviewWi
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;
 import org.kuali.student.lum.common.client.lo.TreeStringBinding;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
-import org.kuali.student.lum.lu.assembly.data.client.constants.base.AcademicSubjectOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.base.MetaInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.base.RichTextInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.AffiliatedOrgInfoConstants;
@@ -78,7 +77,7 @@ public class CourseSummaryConfigurer extends Configurer implements
         CreditCourseConstants, CreditCourseFormatConstants,
         CreditCourseActivityConstants, MetaInfoConstants,
         CreditCourseDurationConstants, FeeInfoConstants,
-        LearningObjectiveConstants, AcademicSubjectOrgInfoConstants,
+        LearningObjectiveConstants,
         AffiliatedOrgInfoConstants, CreditCourseRevenueInfoConstants,
         CreditCourseExpenditureInfoConstants {
     // Override paths for course and proposal so they are root

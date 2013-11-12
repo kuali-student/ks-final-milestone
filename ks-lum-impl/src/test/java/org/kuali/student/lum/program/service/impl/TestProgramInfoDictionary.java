@@ -22,7 +22,7 @@ import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
 import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r2.lum.program.dto.*;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.ArrayList;
@@ -77,8 +77,6 @@ public class TestProgramInfoDictionary {
     public void testMajorDisciplineInfoValidation() throws
             OperationFailedException, DataValidationErrorException {
         System.out.println("h1. Validation results");
-        ApplicationContext ac = new ClassPathXmlApplicationContext(
-                "classpath:ks-programInfo-dictionary-context.xml");
         DefaultValidatorImpl val = new DefaultValidatorImpl();
         val.setValidatorFactory(new ValidatorFactory());
         ProgramManagingBodiesValidator programManagingBodiesValidator = new ProgramManagingBodiesValidator();
@@ -120,8 +118,13 @@ public class TestProgramInfoDictionary {
         val.setDateParser(new ServerDateParser());
         val.setSearchDispatcher(new MockSearchDispatcher());
         MajorDisciplineInfo info = new MajorDisciplineInfo();
+
+        ConfigurableApplicationContext ac = new ClassPathXmlApplicationContext(
+                "classpath:ks-programInfo-dictionary-context.xml");
         ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean(
                 info.getClass().getName());
+        ac.close();
+
         List<ValidationResultInfo> validationResults = val.validateObject(info, os, contextInfo);
         System.out.println("h2. with just a blank record");
         for (ValidationResultInfo vr : validationResults) {
