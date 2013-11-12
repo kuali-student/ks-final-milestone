@@ -33,7 +33,22 @@
 					</property>
 					<property name="items">
 						<list>
-							<ref bean="planner_lookup_wrapper" />
+                            <bean parent="Uif-VerticalBoxGroup">
+                                <property name="items">
+                                    <list>
+                                        <ref bean="planner_lookup_wrapper" />
+                                        <bean parent="Uif-LinkField" p:target="_blank">
+                                            <property name="linkText" value="Print your entire academic plan"/>
+                                            <property name="title" value="Print your entire academic plan"/>
+                                            <property name="href"
+                                                      value="../myplan/lookup?methodToCall=search&amp;viewId=FullPlannedCourses-LookupView"/>
+                                            <property name="lightBox">
+                                                <bean parent="Uif-LightBox" p:width="90%"/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
 							<ref bean="planner_menu_completed" />
 							<ref bean="planner_menu_cart" />
 							<ref bean="planner_menu_planned" />
@@ -43,10 +58,12 @@
 							<ref bean="planner_item_template" />
 						</list>
 					</property>
+                    <property name="stickyFooter" value="false"/>
 				</bean>
 			</list>
 		</property>
 		<property name="footer.render" value="false" />
+
 		<property name="formClass" value="org.kuali.student.ap.planner.PlannerForm" />
 	</bean>
 
@@ -69,6 +86,7 @@
 							<ref bean="planner_courses_detail" />
 						</list>
 					</property>
+                    <property name="stickyFooter" value="false"/>
 				</bean>
 			</list>
 		</property>
