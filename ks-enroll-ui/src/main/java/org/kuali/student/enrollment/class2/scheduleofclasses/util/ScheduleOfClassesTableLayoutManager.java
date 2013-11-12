@@ -10,8 +10,10 @@ import org.kuali.rice.krad.uif.field.FieldGroup;
 import org.kuali.rice.krad.uif.layout.TableLayoutManager;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
+import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
 
 import java.util.List;
 
@@ -26,6 +28,7 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
     private Field requisitesField;
     private Field commonRequisiteField;
     private String name = StringUtils.EMPTY;
+    private boolean requisite = true;
 
     public void buildLine(View view, Object model, CollectionGroup collectionGroup, List<Field> lineFields, List<FieldGroup> subCollectionFields,
                           String bindingPath, List<Action> actions, String idSuffix, Object currentLine, int lineIndex) {
@@ -65,6 +68,15 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
                     if (field.getId().contains("regGroupSeats")) {
                         field.setRowSpan(getSpanSize(rgWrapper, true));
                         field.setCellStyle("text-align:center; vertical-align:bottom;");
+                        if (rgWrapper.getRequisite() == null) {
+                            RegistrationGroupWrapper partnerRGWrapper = getPartnerRGWrapper(rgWrapper, (ScheduleOfClassesSearchForm) model);
+                            if (partnerRGWrapper != null) {
+                                if (partnerRGWrapper.getRequisite() != null) {
+                                    field.setHidden(true);
+                                    requisite = false;
+                                }
+                            }
+                        }
                     }
                 }
             } else {
@@ -77,9 +89,13 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
                         field.setRowSpan(getSpanSize(rgWrapper, false));
                     }
                     if (field.getId().contains("regGroupSeats")) {
-                        field.setHidden(true);
-                        field.setCellStyle("border-top:none");
+                        field.setCellStyle("border-top:none;");
                         field.setRowSpan(getSpanSize(rgWrapper, true));
+                        if (!requisite) {
+                            field.setCellStyle(field.getCellStyle() + " text-align:center; vertical-align:top;");
+                        } else {
+                            field.setHidden(true);
+                        }
                     }
                 }
             }
@@ -116,6 +132,38 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
                 this.getAllRowFields().add(requisites);
             }
         }
+    }
+
+    /**
+     *
+     * @param rgWrapper
+     * @param model
+     * @return
+     */
+    private RegistrationGroupWrapper getPartnerRGWrapper(RegistrationGroupWrapper rgWrapper, ScheduleOfClassesSearchForm model) {
+        ActivityOfferingClusterWrapper activityOfferingClusterWrapper = null;
+        RegistrationGroupWrapper partnerRGWrapper = null;
+
+        if (model.getClusterResultList() != null) {
+            for (ActivityOfferingClusterWrapper aoClusterWrapper : model.getClusterResultList()) {
+                if (aoClusterWrapper.getActivityOfferingClusterId().equals(rgWrapper.getAoCluster().getId())) {
+                    activityOfferingClusterWrapper = aoClusterWrapper;
+                    break;
+                }
+            }
+        }
+
+        if (activityOfferingClusterWrapper != null) {
+            for (RegistrationGroupWrapper registrationGroupWrapper : activityOfferingClusterWrapper.getRgWrapperList()) {
+                if (registrationGroupWrapper.getRgInfo().getName().equals(rgWrapper.getRgInfo().getName())
+                        && !registrationGroupWrapper.getAoActivityCodeText().equals(rgWrapper.getAoActivityCodeText())) {
+                    partnerRGWrapper = registrationGroupWrapper;
+                    break;
+                }
+            }
+        }
+
+        return partnerRGWrapper;
     }
 
     /**
