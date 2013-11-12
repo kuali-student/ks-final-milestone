@@ -254,10 +254,10 @@ public final class SchedulingServiceUtil {
             ScheduleRequestComponentInfo requestComponentInfo = new ScheduleRequestComponentInfo();
             requestComponentInfo.setIsTBA(schedComp.getIsTBA());
             requestComponentInfo.setTimeSlotIds(schedComp.getTimeSlotIds());
-            requestComponentInfo.getRoomIds().add(schedComp.getRoomId());
 
             // retrieve the room to find the building id
             if (schedComp.getRoomId() != null) {
+                requestComponentInfo.getRoomIds().add(schedComp.getRoomId());
                 RoomInfo room = roomService.getRoom(schedComp.getRoomId(), callContext);
                 requestComponentInfo.getBuildingIds().add(room.getBuildingId());
 
