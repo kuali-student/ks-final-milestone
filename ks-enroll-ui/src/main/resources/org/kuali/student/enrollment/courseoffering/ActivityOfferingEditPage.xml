@@ -107,12 +107,12 @@
                         <bean parent="Uif-TextControl" p:size="1" p:disabled="@{!#dp.editActivityCodeAllowed}" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="partOfColoSetOnLoadAlready" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:id="colocatedAO_value">
+                <bean parent="Uif-InputField" p:propertyName="partOfColoSetOnLoadAlready" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:id="colocatedAO_value" p:readOnlyDisplayReplacement=" ">
                     <property name="control">
                         <bean parent="Uif-HiddenControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="hiddenMaxEnrollmentShared" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:id="maxEnrollmentShared_value">
+                <bean parent="Uif-InputField" p:propertyName="hiddenMaxEnrollmentShared" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:id="maxEnrollmentShared_value" p:readOnlyDisplayReplacement=" ">
                     <property name="control">
                         <bean parent="Uif-HiddenControl"/>
                     </property>
