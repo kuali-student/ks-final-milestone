@@ -769,6 +769,14 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                         resultValueGroup.setResultScaleKey(LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE);
                         resultValueGroup.setResultValueKeys(resultValues);
                         resultValueGroup.setResultValueRange(resultValueRange);
+                        resultValueGroup.setName(creditOption.getName());
+                        RichTextInfo creditOptionDescr = creditOption.getDescr();
+                        if (creditOptionDescr != null) {
+                            RichTextInfo descr = new RichTextInfo();
+                            descr.setPlain(creditOptionDescr.getPlain());
+                            descr.setFormatted(creditOptionDescr.getFormatted());
+                            resultValueGroup.setDescr(descr);
+                        }
                         BaseDTOAssemblyNode<ResultValuesGroupInfo, ResultValuesGroupInfo> node = new BaseDTOAssemblyNode<ResultValuesGroupInfo, ResultValuesGroupInfo>(null);
                         node.setOperation(NodeOperation.CREATE);
                         node.setNodeData(resultValueGroup);
