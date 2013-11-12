@@ -404,6 +404,19 @@ fieldset .uif-actionLink {
   padding: 6px 0 1px 6px;
   background-color: #f1f1f1;
 }
+
+/* Work-arounds to prevent buttons from wrapping when screen is sized too narrow
+ * KSENROLL-9694 KSENROLL-9703
+ */
+.ks-toolbar {
+  #manageTheCourseOfferingPage & {
+    min-width: 950px;
+  }
+  #KSCO-RuleMaintenance-Page & {
+    min-width: 1160px;
+  }
+}
+
 .ks-toolbar .uif-sectionHeader {
   margin: 0;
 }
