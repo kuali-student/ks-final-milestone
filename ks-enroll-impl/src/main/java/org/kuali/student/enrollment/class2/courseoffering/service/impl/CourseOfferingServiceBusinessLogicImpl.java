@@ -1015,7 +1015,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         targetCo.setCourseId(targetCourse.getId());
         if (optionKeys.contains(CourseOfferingSetServiceConstants.USE_CANONICAL_OPTION_KEY)) {
             // copy from cannonical
-            //Why is this here? it's called already in createCourseOffering
+            // TODO: KSENROLL-10856 Is this needed?
             courseOfferingTransformer.copyFromCanonical(targetCourse, targetCo, optionKeys, context);
         }
         // Rolled over CO should be in draft state
