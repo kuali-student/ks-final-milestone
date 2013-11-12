@@ -326,9 +326,12 @@ public class CourseOfferingServiceRolloverHelper {
     private static void changeClusterRegistrationGroupState( RegistrationGroupInfo regGroupInfo,
                                                              Map<String, ActivityOfferingInfo> aoIdToAoMap,
                                                              CourseOfferingService coService,
-                                                             ContextInfo contextInfo ) {
+                                                             ContextInfo contextInfo )
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
 
-        if( LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY.equals( regGroupInfo.getStateKey() ) ) return;
+        if( LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY.equals( regGroupInfo.getStateKey() ) ) {
+            return;
+        }
 
         // build a list of all the AOs in this RG
         List<ActivityOfferingInfo> regGroupAos = new ArrayList<ActivityOfferingInfo>();
@@ -339,11 +342,7 @@ public class CourseOfferingServiceRolloverHelper {
         // set the state of the RG, calculated from the state of it's AOs
         String regGroupStateKey = FoCoRgComputeStateUtil.computeRgState(regGroupAos);
         if(!regGroupInfo.getStateKey().equals(regGroupStateKey)) {
-            try {
-                coService.changeRegistrationGroupState(regGroupInfo.getId(), regGroupStateKey, contextInfo);
-            } catch( Exception e ) {
-                throw new RuntimeException(e);
-            }
+            coService.changeRegistrationGroupState(regGroupInfo.getId(), regGroupStateKey, contextInfo);
         }
 
     }
