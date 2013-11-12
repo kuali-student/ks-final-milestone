@@ -47,8 +47,9 @@ public class CourseRetireByProposalController extends CourseProposalController {
 		cluProposalRpcServiceAsync = GWT.create(CreditCourseRetireProposalRpcService.class);   		
 		super.cfg = GWT.create(CourseRetireByProposalConfigurer.class);	
 		proposalPath = cfg.getProposalPath();
-		workflowUtil = new WorkflowUtilities(CourseRetireByProposalController.this, proposalPath, "Proposal Actions",
-                CourseProposalConfigurer.CourseSections.WF_APPROVE_DIALOG,"", cfg.getModelId());//TODO make msg
+        workflowUtil = GWT.create(WorkflowUtilities.class);
+        workflowUtil.init(CourseRetireByProposalController.this, proposalPath, "Proposal Actions",
+                CourseProposalConfigurer.CourseSections.WF_APPROVE_DIALOG, "", cfg.getModelId());
    		cfg.setState(DtoConstants.STATE_DRAFT);   		
    		cfg.setNextState(DtoConstants.STATE_RETIRED);
         /* - Having navigation problems where the copied proposal does not come up

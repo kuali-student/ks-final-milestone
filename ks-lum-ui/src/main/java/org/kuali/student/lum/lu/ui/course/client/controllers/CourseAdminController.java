@@ -65,7 +65,8 @@ public class CourseAdminController extends CourseProposalController{
    		
 		super.cfg = GWT.create(CourseAdminConfigurer.class);
 		super.proposalPath = cfg.getProposalPath();
-   		super.workflowUtil = new WorkflowUtilities(CourseAdminController.this ,proposalPath);
+        super.workflowUtil = GWT.create(WorkflowUtilities.class);
+        super.workflowUtil.init(CourseAdminController.this, proposalPath);
 		
    		cfg.setState(DtoConstants.STATE_DRAFT.toUpperCase());
    		cfg.setNextState(DtoConstants.STATE_APPROVED.toUpperCase());

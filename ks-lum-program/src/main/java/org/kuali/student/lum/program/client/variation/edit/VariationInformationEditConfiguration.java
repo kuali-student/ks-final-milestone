@@ -17,6 +17,7 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -104,7 +105,8 @@ public class VariationInformationEditConfiguration extends AbstractSectionConfig
 		QueryPath path = QueryPath.concat(null, fieldKey);
 		Metadata meta = configurer.getModelDefinition().getMetadata(path);
 	        
-		searchWidget = new KSPicker(meta.getInitialLookup(), meta.getAdditionalLookups());
+        searchWidget = GWT.create(KSPicker.class);
+        ((KSPicker) searchWidget).init(meta.getInitialLookup(), meta.getAdditionalLookups());
 		SearchPanel panel = ((KSPicker) searchWidget).getSearchPanel();
         if (panel != null) {
             panel.setMutipleSelect(false);
