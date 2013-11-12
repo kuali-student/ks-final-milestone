@@ -22,13 +22,13 @@ import com.google.gwt.user.client.ui.HTML;
 import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 
 public class DocumentList extends Composite{
-	private DocumentRpcServiceAsync documentServiceAsync = GWT.create(DocumentRpcService.class);
-    private FlexTable tableLayout = new FlexTable();
-    private List<RefDocRelationInfo> docInfos;
-    private Callback<String> deleteCallback;
-    private boolean canDelete = false;
-    private boolean showDesc = true;
-    private boolean showTitle = true;
+    protected DocumentRpcServiceAsync documentServiceAsync = GWT.create(DocumentRpcService.class);
+    protected FlexTable tableLayout = new FlexTable();
+    protected List<RefDocRelationInfo> docInfos;
+    protected Callback<String> deleteCallback;
+    protected boolean canDelete = false;
+    protected boolean showDesc = true;
+    protected boolean showTitle = true;
     private String refObjectType;
     
     public DocumentList(String refObjectType, boolean showTitle, boolean showDesc) {
@@ -84,7 +84,7 @@ public class DocumentList extends Composite{
         redraw();
     }
     
-    private void redraw() {
+    protected void redraw() {
         tableLayout.clear();
         if (docInfos != null) {
             int rowIndex = 0;

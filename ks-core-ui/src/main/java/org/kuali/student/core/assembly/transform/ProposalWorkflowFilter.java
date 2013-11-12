@@ -73,9 +73,9 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
     //Services used by this filter
     private WorkflowDocumentService workflowDocumentService;
     private WorkflowDocumentActionsService workflowDocumentActionsService;
-    private ProposalService proposalService;
+    protected ProposalService proposalService;
     private MetadataServiceImpl metadataService;
-    private final DataBeanMapper mapper = DefaultDataBeanMapper.INSTANCE;
+    protected final DataBeanMapper mapper = DefaultDataBeanMapper.INSTANCE;
         
     private Metadata proposalMetadata = null;
     private String proposalReferenceType;
@@ -372,7 +372,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
      * 
      * @return
      */
-    private Metadata getProposalMetadata(){
+    protected Metadata getProposalMetadata() {
         if (proposalMetadata == null){
             proposalMetadata = metadataService.getMetadata(getProposalObjectType());
         }
