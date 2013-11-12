@@ -905,7 +905,7 @@
                     pointcut="execution(* org.kuali.student.core.messages.service.*.*(..))"
                     method="afterThrowing" throwing="ex" />
             <aop:after-throwing
-                    pointcut="execution(* org.kuali.student.r2.core.proposal.service.*.*(..))"
+                    pointcut="execution(* org.kuali.student.r1.core.proposal.service.*.*(..))"
                     method="afterThrowing" throwing="ex" />
         </aop:aspect>
     </aop:config>
