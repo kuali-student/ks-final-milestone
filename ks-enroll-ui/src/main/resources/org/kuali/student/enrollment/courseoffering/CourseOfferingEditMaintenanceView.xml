@@ -319,7 +319,8 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-Label" p:labelText="Suffix" p:renderColon="false" />
-                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.courseNumberSuffix" p:showLabel="false" p:additionalCssClasses="co_suffix" >
+                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.courseNumberSuffix" p:showLabel="false"
+                                              p:onChangeScript="jQuery('#dirtyForm').val(true);" p:additionalCssClasses="co_suffix" >
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="10" />
                                             </property>
@@ -391,13 +392,13 @@
                       p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
                       p:render="true" p:additionalCssClasses="co_check"  />
                 <!-- List of checkboxes seem to break in KRAD 2.2M3 so had to replace with individual checkboxes -->
-                <bean parent="Uif-CheckboxInputField" p:label="Pass/Fail"
+                <bean parent="Uif-CheckboxInputField" p:label="Pass/Fail"     p:onChangeScript="jQuery('#dirtyForm').val(true);"
                       p:propertyName="passFailStudentRegOpts"
                       p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.passFail')}" p:additionalCssClasses="co_check"/>
                 <bean parent="Uif-CheckboxInputField" p:label="Audit"
                       p:propertyName="auditStudentRegOpts"
-                      p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false"
+                      p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false"   p:onChangeScript="jQuery('#dirtyForm').val(true);"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.audit')}" p:additionalCssClasses="co_check"/>
                 <!-- For read only view show as message fields -->
                 <bean parent="Uif-MessageField"
@@ -511,7 +512,7 @@
                                 <property name="hidden" value="@{#dp.courseOfferingInfo.finalExamType != 'STANDARD'}"/>
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField" p:label="Final Exam Driver" p:propertyName="finalExamDriver" p:fieldLabel.renderColon="false" p:onChangeScript="updateExamDriverInFOTable('KS-CourseOfferingEdit-FinalExamDriver', 'final_exam_driver_ui');">
+                                        <bean parent="Uif-InputField" p:label="Final Exam Driver" p:propertyName="finalExamDriver" p:fieldLabel.renderColon="false" p:onChangeScript="jQuery('#dirtyForm').val(true); updateExamDriverInFOTable('KS-CourseOfferingEdit-FinalExamDriver', 'final_exam_driver_ui');">
                                             <property name="id" value="KS-CourseOfferingEdit-FinalExamDriver" />
                                             <property name="control">
                                                 <bean parent="Uif-DropdownControl"/>
@@ -520,7 +521,8 @@
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FinalExamDriversKeyValues" p:addBlankOption="false"/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField" p:id="finalExamMatrix" p:label="Use Final Exam Matrix" p:propertyName="useFinalExamMatrix" p:labelPlacement="RIGHT" p:render="@{!#parent.readOnly}" p:componentSecurity.editAuthz="true" p:defaultValue="true">
+                                        <bean parent="Uif-InputField" p:id="finalExamMatrix" p:label="Use Final Exam Matrix" p:propertyName="useFinalExamMatrix" p:labelPlacement="RIGHT"
+                                              p:onChangeScript="jQuery('#dirtyForm').val(true);" p:render="@{!#parent.readOnly}" p:componentSecurity.editAuthz="true" p:defaultValue="true">
                                             <property name="control">
                                                 <bean parent="Uif-CheckboxControl"/>
                                             </property>
@@ -644,7 +646,7 @@
                                 <property name="control">
                                     <!-- show dialog prompt if user deactivates waitlist -->
                                     <bean parent="Uif-CheckboxControl"
-                                          p:onClickScript="if (!jQuery('#KS-CourseOfferingEdit-HasWaitlist_control').attr('checked')) {showLightboxComponent('CourseOfferingEdit-Waitlist-Inactivate-Prompt'); }"/>
+                                          p:onClickScript="jQuery('#dirtyForm').val(true); if (!jQuery('#KS-CourseOfferingEdit-HasWaitlist_control').attr('checked')) {showLightboxComponent('CourseOfferingEdit-Waitlist-Inactivate-Prompt'); }"/>
                                 </property>
                             </bean>
                             <ref bean="CourseOfferingEdit-Waitlist-Inactivate-Prompt"/>
@@ -704,7 +706,7 @@
                     <property name="Items">
                         <list>
                             <bean parent="Uif-InputField" p:id="personnelPriority" p:propertyName="offeringInstructorInfo.personId"
-                                  p:label="ID" p:required="false" p:additionalCssClasses="col_5">
+                                  p:label="ID" p:required="false" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:additionalCssClasses="col_5">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder">
                                         <property name="dataObjectClassName" value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
@@ -721,8 +723,9 @@
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" />
-                            <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.typeKey" p:label="AFFILIATION" p:required="false">
+                            <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" p:onChangeScript="jQuery('#dirtyForm').val(true);" />
+                            <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.typeKey" p:label="AFFILIATION" p:onChangeScript="jQuery('#dirtyForm').val(true);"
+                                  p:required="false">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" p:options-ref="coInstructors-options" />
                                 </property>
@@ -771,7 +774,7 @@
         <property name="addBlankLineAction.dirtyOnAction" value="true" />
         <property name="items">
             <list>
-                <bean parent="Uif-InputField"  p:label="Organization ID"  p:propertyName="id" p:style="font-weight:bold;white-space:nowrap;">
+                <bean parent="Uif-InputField"  p:label="Organization ID"  p:onChangeScript="jQuery('#dirtyForm').val(true);" p:propertyName="id" p:style="font-weight:bold;white-space:nowrap;">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="16" p:ReadOnly="true" />
                     </property>
@@ -805,7 +808,7 @@
                 <bean parent="Uif-Message" p:messageText=""/>
                 <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.isHonorsOffering" p:label="Honors Flag" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl">
+                        <bean parent="Uif-CheckboxControl" p:onChangeScript="jQuery('#dirtyForm').val(true);">
                             <property name="checkboxLabel" value="This is an Honors Course"/>
                         </bean>
                     </property>

@@ -49,7 +49,7 @@
         </property>
     </bean>
 
-    <bean id="ActivityOffering-MaintenanceView" parent="KS-CourseOffering-MaintenanceViewWithTermContextBarPlaceholder"
+    <bean id="ActivityOffering-MaintenanceView" parent="KS-CourseOffering-MaintenanceViewWithTermContextBarPlaceholder"   p:applyDirtyCheck="true"
           p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView or !#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"
           p:additionalCssClasses="aoc_page">
          <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
