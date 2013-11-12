@@ -89,6 +89,10 @@
         </property>
         <property name="items">
             <list>
+
+                <!-- Whether or not this widget is active depends on it's related institutional-configuration
+                     (ie: "kuali.ks.enrollment.timeslots.adhoc_creation_mode"); the widget appears when the config is
+                     set to "NEEDS_APPROVAL" and is not shown when set to "APPROVED" or "NOT_APPROVED". -->
                 <bean p:id="isApprovedForNonStandardTimeSlots"
                       parent="Uif-InputField"
                       p:propertyName="aoInfo.isApprovedForNonStandardTimeSlots"
