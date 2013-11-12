@@ -17,13 +17,13 @@ package org.kuali.student.core.document.ui.client.service;
 
 import java.util.List;
 
-import org.kuali.student.r1.common.dto.StatusInfo;
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
-
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface DocumentRpcServiceAsync extends BaseRpcServiceAsync{
     

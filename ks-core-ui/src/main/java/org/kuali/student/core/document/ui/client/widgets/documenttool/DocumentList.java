@@ -3,7 +3,6 @@ package org.kuali.student.core.document.ui.client.widgets.documenttool;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.r1.common.dto.StatusInfo;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -11,6 +10,8 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButto
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.core.document.ui.client.service.DocumentRpcService;
 import org.kuali.student.core.document.ui.client.service.DocumentRpcServiceAsync;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
@@ -19,7 +20,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
-import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 
 public class DocumentList extends Composite{
     protected DocumentRpcServiceAsync documentServiceAsync = GWT.create(DocumentRpcService.class);
