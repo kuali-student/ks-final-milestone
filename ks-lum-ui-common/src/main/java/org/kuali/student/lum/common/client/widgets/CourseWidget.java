@@ -16,8 +16,7 @@ package org.kuali.student.lum.common.client.widgets;
 
 import java.util.List;
 
-import org.kuali.student.r1.common.assembly.data.Data;
-import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -33,6 +32,8 @@ import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.core.statement.ui.client.widgets.rules.AccessWidgetValue;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
 
 import com.google.gwt.user.client.ui.Composite;
 
@@ -76,8 +77,10 @@ public class CourseWidget extends Composite implements AccessWidgetValue, HasDat
     protected void createAndAddCourseTypesDropdown() {
         courseTypeWidget = new KSDropDown();
         SimpleListItems courseTypes = new SimpleListItems();
-        courseTypes.addItem(CommonWidgetConstants.CLU_SET_APPROVED_CLUS_FIELD, "Approved Courses");
-        courseTypes.addItem(CommonWidgetConstants.CLU_SET_PROPOSED_CLUS_FIELD, "Proposed Courses");
+        courseTypes.addItem(CommonWidgetConstants.CLU_SET_APPROVED_CLUS_FIELD, Application.getApplicationContext()
+                .getMessage("clusetmanagement", "cluSetApprovedCourse"));
+        courseTypes.addItem(CommonWidgetConstants.CLU_SET_PROPOSED_CLUS_FIELD, Application.getApplicationContext()
+                .getMessage("clusetmanagement", "cluSetProposedCourse"));
         courseTypeWidget.setListItems(courseTypes);
         courseTypeWidget.addSelectionChangeHandler(new SelectionChangeHandler() {
 

@@ -15,18 +15,19 @@
 
 package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
-import org.kuali.student.r1.common.assembly.data.Metadata;
-import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.KSBrowser;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -56,17 +57,24 @@ public class CatalogBrowserConfigurer {
 	public void configureCatalogBrowser(CatalogBrowserController layout) {
 		// layout.setContentTitle("Browse Course Catalog");
 		layout.addStyleName("browseCatalog");
-		layout.setBasicTitle("Browse Course Catalog");
-		layout.addTab(createBrowseBySubjectAreaSection(),
-				"Browse By Subject Area");
-		layout.addTab(createBrowseBySchoolSection(), "Browse By School");
+        layout.setBasicTitle(Application.getApplicationContext().getUILabel(LUUIConstants.COURSE_GROUP_NAME,
+                LUUIConstants.BROWSE_COURSE_CATALOG_LABEL_KEY));
+        layout.addTab(createBrowseBySubjectAreaSection(),
+                Application.getApplicationContext().getUILabel(LUUIConstants.COURSE_GROUP_NAME,
+                        LUUIConstants.BROWSE_COURSE_CATALOG_BY_TAB_LABEL_KEY));
+        layout.addTab(
+                createBrowseBySchoolSection(),
+                Application.getApplicationContext().getUILabel(LUUIConstants.COURSE_GROUP_NAME,
+                        CatalogBrowserConstants.BROWSE_BY_SCHOOL_LABEL_KEY));
 		layout.setDefaultView(Sections.BROWSE_BY_SUBJECT_AREA);
 	}
 
 	protected SectionView createBrowseBySubjectAreaSection() {
 		//constructor sets the attributes of the browse subject area tab
 		VerticalSectionView nestedSectionView = 
-			new VerticalSectionView(Sections.BROWSE_BY_SUBJECT_AREA, "Browse by Subject Area", CATALOG_BROWSER_MODEL);
+                new VerticalSectionView(Sections.BROWSE_BY_SUBJECT_AREA,
+                        Application.getApplicationContext().getUILabel(LUUIConstants.COURSE_GROUP_NAME,
+                                CatalogBrowserConstants.BROWSE_BY_SCHOOL_LABEL_KEY), CATALOG_BROWSER_MODEL);
 		String fieldKey = CatalogBrowserConstants.FULLY_QUALIFIED_BY_SUBJECT_AREA;
 		addField(nestedSectionView, fieldKey, null,	configureKSBrowser(fieldKey));
 		return nestedSectionView;
