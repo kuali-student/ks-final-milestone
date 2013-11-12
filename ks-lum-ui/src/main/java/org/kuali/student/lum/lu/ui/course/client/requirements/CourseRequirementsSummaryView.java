@@ -42,6 +42,8 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalCon
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.FontWeight;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -255,7 +257,8 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         layout.add(title);
 
         LabelPanel labelExamples = new LabelPanel(stmtTypeInfo.getDescr());
-        labelExamples.getElement().setAttribute("style", "font-weight: normal; width: 80%;");
+        labelExamples.getElement().getStyle().setFontWeight(FontWeight.NORMAL);
+        labelExamples.getElement().getStyle().setWidth(80, Unit.PCT);
         
         String examplesHtml = Application.getApplicationContext().getMessage(stmtTypeInfo.getId());
         
