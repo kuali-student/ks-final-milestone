@@ -749,7 +749,7 @@
 								</list>
 							</property>
 						</bean>
-						<bean p:id="@{#line.uniqueId}_cart_units" parent="planner_credits_footer">
+						<bean p:id="@{#line.uniqueId}_cart_credits" parent="planner_credits_footer">
 							<property name="cssClasses">
 								<list merge="true">
 									<value>ks-plan-Bucket-footer-@{#line.cartList.size() gt 0 ? 'show' : 'hide'}"</value>
@@ -806,7 +806,7 @@
 								</list>
 							</property>
 						</bean>
-						<bean p:id="@{#line.uniqueId}_planned_units" parent="planner_credits_footer">
+						<bean p:id="@{#line.uniqueId}_planned_credits" parent="planner_credits_footer">
 							<property name="cssClasses">
 								<list merge="true">
 									<value>ks-plan-Bucket-footer-@{#line.plannedList.size() gt 0 ? 'show' : 'hide'}"</value>
@@ -926,7 +926,7 @@
 		<property name="items">
 			<list>
 				<bean p:id="planner_term_total_credits_label" parent="Uif-MessageField"
-						p:messageText="Units" p:cssClasses="ks-plan-Bucket-creditLabel" />
+						p:messageText="Credits" p:cssClasses="ks-plan-Bucket-creditLabel" />
 			</list>
 		</property>
 	</bean>

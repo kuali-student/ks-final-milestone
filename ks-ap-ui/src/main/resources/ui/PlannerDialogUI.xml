@@ -447,8 +447,8 @@
 
 <!-- 	<bean id="planner_course_credit_input" parent="planner_dialog_input"> -->
 <!-- 		<property name="propertyName" value="courseCredit" /> -->
-<!-- 		<property name="label" value="Units" /> -->
-<!-- 		<property name="instructionalText" value="Optional, for courses with a variable number of units." /> -->
+<!-- 		<property name="label" value="Credits" /> -->
+<!-- 		<property name="instructionalText" value="Optional, for courses with a variable number of credits." /> -->
 <!-- 		<property name="control"> -->
 <!-- 			<bean parent="Uif-TextControl"> -->
 <!-- 				<property name="size" value="3" /> -->
@@ -458,9 +458,9 @@
 
 	<bean id="planner_course_credit_input" parent="planner_dialog_input">
 		<property name="propertyName" value="courseCredit" />
-		<property name="label" value="Units" />
+		<property name="label" value="Credits" />
 		<property name="instructionalText"
-			value="Optional, for courses with a variable number of units." />
+			value="Optional, for courses with a variable number of credits." />
 		<property name="control">
 			<bean parent="Uif-DropdownControl" />
 		</property>
