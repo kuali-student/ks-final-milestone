@@ -113,10 +113,9 @@ public class CourseOfferingEditController extends CourseOfferingBaseController {
 
         // determine which url to redirect to
         String returnLocationFromForm = form.getReturnLocation();
-        if( StringUtils.contains( returnLocationFromForm,"viewId=courseOfferingManagementView" )
-                || StringUtils.contains( returnLocationFromForm,"pageId=manageTheCourseOfferingPage" ) )
-        {
-            if ( !returnLocationFromForm.contains("methodToCall=") ) {
+        if ( StringUtils.contains(returnLocationFromForm,"viewId=courseOfferingManagementView")
+                || StringUtils.contains(returnLocationFromForm,"pageId=manageTheCourseOfferingPage")) {
+            if (!returnLocationFromForm.contains("methodToCall=")) {
                 // This happens when we display a list of COs and then user click on Manage action
                 form.getViewRequestParameters().put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.TRUE.toString());
             }
@@ -124,8 +123,10 @@ public class CourseOfferingEditController extends CourseOfferingBaseController {
                 form.getViewRequestParameters().put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.FALSE.toString());
             }
             urlToRedirectTo = returnLocationFromForm.replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=show");
-        }
-        else {
+        } else if (StringUtils.contains(returnLocationFromForm,"pageId=manageCourseOfferingsPage")
+                && !returnLocationFromForm.contains("methodToCall=")) {
+            urlToRedirectTo = returnLocationFromForm + "&methodToCall=show";
+        } else {
             urlToRedirectTo = returnLocationFromForm;
         }
 
