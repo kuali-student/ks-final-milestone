@@ -261,9 +261,6 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
                             if (enumValue.getCode().equals(code)){
                                 returnvalues.add(enumValue);
                                 break;
-                            } else if (enumValue.getCode().startsWith(code)){
-                                returnvalues.add(enumValue);
-                                break;
                             }
                         }
                     }
