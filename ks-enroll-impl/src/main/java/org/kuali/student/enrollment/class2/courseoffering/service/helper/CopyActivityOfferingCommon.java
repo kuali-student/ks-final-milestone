@@ -230,6 +230,9 @@ public class CopyActivityOfferingCommon {
         targetAO.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY); // Need to set to draft
         targetAO.setId(null);
         targetAO.getScheduleIds().clear();
+        if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY)) {
+            targetAO.getInstructors().clear();
+        }
         if (targetAO.getInstructors() != null && !targetAO.getInstructors().isEmpty()) {
             for (OfferingInstructorInfo inst : targetAO.getInstructors()) {
                 inst.setId(null);
