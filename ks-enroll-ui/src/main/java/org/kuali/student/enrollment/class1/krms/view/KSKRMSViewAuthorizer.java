@@ -18,11 +18,15 @@ package org.kuali.student.enrollment.class1.krms.view;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.rice.krms.dto.AgendaEditor;
+import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
 import org.kuali.student.enrollment.main.view.KsViewAuthorizerBase;
 
@@ -35,6 +39,9 @@ import java.util.Map;
 public class KSKRMSViewAuthorizer extends KsViewAuthorizerBase {
 
     private static final String KRMS_COMPARE_ACTION_EVENT = "compare";
+    private static final String KRMS_ADD_EDIT_ACTION_EVENT = "addEditRequisite";
+    private static final String KRMS_DELETE_ACTION_EVENT = "deleteRequisite";
+    private static final String KRMS_SUBMIT_ACTION_EVENT = "submitRequisite";
 
     public boolean canPerformAction(View view, ViewModel model, Action action, String actionEvent,
                                     String actionId, Person user) {
@@ -71,8 +78,38 @@ public class KSKRMSViewAuthorizer extends KsViewAuthorizerBase {
             permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, actionEvent);
         }
 
-        return isAuthorizedByTemplate(view, action, model, KimConstants.PermissionTemplateNames.PERFORM_ACTION,
+        if(KRMS_SUBMIT_ACTION_EVENT.equals(actionEvent)){
+            return isAuthorizedToUpdate(wrapper, view, action, model, user, permissionDetails, roleQualifications);
+        } else {
+            return isAuthorizedByTemplate(view, action, model, KimConstants.PermissionTemplateNames.PERFORM_ACTION,
                 user, permissionDetails, roleQualifications, false);
+        }
+
+    }
+
+    private boolean isAuthorizedToUpdate(RuleManagementWrapper ruleWrapper, View view, Component action, ViewModel model, Person user,
+                                         Map<String, String> permissionDetails, Map<String, String> roleQualifications) {
+
+        for(AgendaEditor agenda : ruleWrapper.getAgendas()){
+            for(RuleTypeInfo ruleType : agenda.getAgendaTypeInfo().getRuleTypes()){
+
+                permissionDetails.put("ruleType", ruleType.getType());
+
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, KRMS_ADD_EDIT_ACTION_EVENT);
+                if(isAuthorizedByTemplate(view, action, model, KimConstants.PermissionTemplateNames.PERFORM_ACTION,
+                        user, permissionDetails, roleQualifications, false)){
+                    return true;
+                }
+
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, KRMS_DELETE_ACTION_EVENT);
+                if(isAuthorizedByTemplate(view, action, model, KimConstants.PermissionTemplateNames.PERFORM_ACTION,
+                        user, permissionDetails, roleQualifications, false)){
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public boolean canEditGroup(View view, ViewModel model, Group group, String groupId, Person user) {

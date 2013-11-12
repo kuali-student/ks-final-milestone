@@ -24,6 +24,7 @@ import org.kuali.student.lum.lu.ui.krms.dto.LURuleManagementWrapper;
 public class CORuleManagementWrapper extends LURuleManagementWrapper {
 
     private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
+    private boolean renderSubmit = false;
 
     public CourseOfferingContextBar getContextBar() {
         return contextBar;
@@ -33,4 +34,11 @@ public class CORuleManagementWrapper extends LURuleManagementWrapper {
         this.contextBar = contextBar;
     }
 
+    public boolean isRenderSubmit() {
+        return renderSubmit;
+    }
+
+    public void setRenderSubmit(boolean renderSubmit) {
+        this.renderSubmit = renderSubmit;
+    }
 }
