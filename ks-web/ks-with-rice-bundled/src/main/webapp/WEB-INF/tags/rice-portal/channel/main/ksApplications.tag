@@ -46,7 +46,7 @@
         <li><a href="${ConfigProperties.application.url}/myplan/sb/cart?viewId=ShoppingCart-FormView&pageId=sb_cart_add_from_sb_page">KSAP Add Shopping Cart From Schedule Builder</a></li>
         <li><a href="${ConfigProperties.application.url}/myplan/sb/cart?viewId=ShoppingCart-FormView&pageId=sb_cart_remove_page">KSAP Remove Shopping Cart</a></li>
         <h3>Legacy</h3>
-        <li><a href="${ConfigProperties.application.url}/myplan/planner?methodToCall=start&amp;viewId=Planner-FormView">KSAP Planner</a></li>
+        <li><a href="${ConfigProperties.application.url}/myplan/plan?methodToCall=start&amp;viewId=PlannedCourses-FormView">KSAP Planner</a></li>
 
     </ul>
 
