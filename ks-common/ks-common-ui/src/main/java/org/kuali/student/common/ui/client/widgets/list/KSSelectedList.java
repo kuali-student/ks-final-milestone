@@ -33,9 +33,9 @@ import org.kuali.student.common.ui.client.util.UtilConstants;
 import org.kuali.student.common.ui.client.widgets.DataHelper;
 import org.kuali.student.common.ui.client.widgets.HasInputWidget;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSItemLabel;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.ValidationProcessable;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
@@ -318,7 +318,7 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
         for (KSItemLabel item : selectedItems) {
             data.add(item.getKey());
         }
-        if (picker.getDisplayValue().equals(UtilConstants.IMPOSSIBLE_CHARACTERS)) {
+        if (null != picker && picker.getDisplayValue().equals(UtilConstants.IMPOSSIBLE_CHARACTERS)) {
             data.add(UtilConstants.IMPOSSIBLE_CHARACTERS);
         }
         DataValue result = new DataValue(data);
@@ -344,7 +344,7 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
             displayData.set("id-translation", item.getDisplayText());
             _runtimeData.add(displayData);
         }
-        if (picker.getDisplayValue().equals(UtilConstants.IMPOSSIBLE_CHARACTERS)) {
+        if (null != picker && picker.getDisplayValue().equals(UtilConstants.IMPOSSIBLE_CHARACTERS)) {
             data.add(UtilConstants.IMPOSSIBLE_CHARACTERS);
             Data displayData = new Data();
             displayData.set("id-translation", UtilConstants.IMPOSSIBLE_CHARACTERS);
