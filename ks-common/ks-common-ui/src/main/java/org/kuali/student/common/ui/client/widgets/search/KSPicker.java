@@ -98,14 +98,12 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
         
     private SearchRequestWrapper searchRequestWrapper = new SearchRequestWrapper();
         
-    public KSPicker(WidgetConfigInfo config) {
+    public KSPicker() {}
+
+    public void init(WidgetConfigInfo config) {
         this.config = config;
 		init(config.lookupMeta, config.additionalLookups);
 	}
-
-    public KSPicker(LookupMetadata inLookupMetadata, List<LookupMetadata> additionalLookupMetadata){
-    	init(inLookupMetadata, additionalLookupMetadata);
-    }
 
     @Override
     public Widget getInputWidget(){
@@ -116,7 +114,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
     }
 
-    private void init(LookupMetadata inLookupMetadata, List<LookupMetadata> additionalLookupMetadata) {
+    public void init(LookupMetadata inLookupMetadata, List<LookupMetadata> additionalLookupMetadata) {
     	this.initWidget(layout);
         if (inLookupMetadata == null) {
             KSErrorDialog.show(new Throwable(getMessage("invalidLookupConfig")));

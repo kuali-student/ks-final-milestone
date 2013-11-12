@@ -51,6 +51,7 @@ import org.kuali.student.r1.common.assembly.data.Data.Value;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -110,7 +111,8 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
             pickerPanel.addStyleName("ks-selected-list-picker");
             addItemButton = new KSButton("Add to list", ButtonStyle.SECONDARY_SMALL);
             addItemButton.setEnabled(false);
-            picker = new KSPicker(config);
+            picker = GWT.create(KSPicker.class);
+            picker.init(config);
             picker.setAdvancedSearchCallback(createAdvancedSearchCallback());
             addSelectionChangeHandler();
 

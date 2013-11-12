@@ -185,21 +185,23 @@ public class WorkflowUtilities{
     
     private final KSLabel proposalStatusLabel = new KSLabel("");
 
-    private final LayoutController parentController;
+    private LayoutController parentController;
     private SummaryTableSection tableSection;
 
     private String dropDownLabel = "Workflow Actions";
     
     ActionCancelGroup approveCancelButtons = new ActionCancelGroup(ButtonEnumerations.ApproveCancelEnum.APPROVE, ButtonEnumerations.ApproveCancelEnum.CANCEL); 
     
-    public WorkflowUtilities(LayoutController parentController, String proposalPath) {
+    public WorkflowUtilities() {}
+
+    public void init(LayoutController parentController, String proposalPath) {
         this.parentController = parentController;
         this.proposalPath = proposalPath;
         setupWFButtons();
         setupDialog();
     }
     
-    public WorkflowUtilities(LayoutController parentController, String proposalPath, String dropDownLabel) {
+    public void init(LayoutController parentController, String proposalPath, String dropDownLabel) {
         this.dropDownLabel = dropDownLabel;
         this.parentController = parentController;
         this.proposalPath = proposalPath;
@@ -207,7 +209,8 @@ public class WorkflowUtilities{
         setupDialog();
     }
     
-    public WorkflowUtilities(LayoutController parentController, String proposalPath, String dropDownLabel, Enum<?> viewEnum, String name, String modelId) {
+    public void init(LayoutController parentController, String proposalPath, String dropDownLabel, Enum<?> viewEnum,
+            String name, String modelId) {
         this.dropDownLabel = dropDownLabel;
         this.parentController = parentController;
         this.proposalPath = proposalPath;
