@@ -655,17 +655,9 @@
 		p:headerText="@{#line.completed ? 'Completed': (#line.academicRecord.size() gt 0 or !#line.planning)? 'Registered' : ''}"
 		p:render="@{#line.completed or #line.academicRecord.size() gt 0 or !#line.planning}">
 		<property name="propertyName" value="academicRecord" />
-		<property name="header.rightGroup">
-			<bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerHelpIcons">
-				<property name="validationMessages.render" value="false" />
-				<property name="items">
-					<list>
-						<ref bean="planner_completed_help_icon" />
-						<ref bean="planner_registered_help_icon" />
-					</list>
-				</property>
-			</bean>
-		</property>
+        <property name="header.toolTip">
+            <ref bean="academic_record_help_tooltip"/>
+        </property>
 		<property name="header.lowerGroup">
 			<bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerStatusIcons">
 				<property name="validationMessages.render" value="false" />
@@ -729,16 +721,9 @@
 			p:headerText="Cart" p:render="@{#line.cartAvailable}">
 		<property name="validationMessages.render" value="false" />
 		<property name="propertyName" value="cartList" />
-		<property name="header.rightGroup">
-			<bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerHelpIcons">
-				<property name="validationMessages.render" value="false" />
-				<property name="items">
-					<list>
-						<ref bean="planner_cart_help_icon" />
-					</list>
-				</property>
-			</bean>
-		</property>
+        <property name="header.toolTip">
+            <ref bean="cart_help_tooltip"/>
+        </property>
 		<property name="cssClasses">
 			<list merge="false">
 				<value>myplan-carousel-term</value>
@@ -785,16 +770,9 @@
 	<bean id="planner_planned_collection" parent="planner_item_collection" p:headerText="Planned">
 		<property name="propertyName" value="plannedList" />
 		<property name="validationMessages.render" value="false" />
-		<property name="header.rightGroup">
-			<bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerHelpIcons">
-				<property name="validationMessages.render" value="false" />
-				<property name="items">
-					<list>
-						<ref bean="planner_planned_help_icon" />
-					</list>
-				</property>
-			</bean>
-		</property>
+        <property name="header.toolTip">
+            <ref bean="planned_help_tooltip"/>
+        </property>
 		<property name="cssClasses">
 			<list merge="false">
 				<value>myplan-carousel-term</value>
@@ -849,16 +827,9 @@
 	<bean id="planner_backup_collection" parent="planner_item_collection" p:headerText="Backup">
 		<property name="propertyName" value="backupList" />
 		<property name="validationMessages.render" value="false" />
-		<property name="header.rightGroup">
-			<bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerHelpIcons">
-				<property name="validationMessages.render" value="false" />
-				<property name="items">
-					<list>
-						<ref bean="planner_backup_help_icon" />
-					</list>
-				</property>
-			</bean>
-		</property>
+        <property name="header.toolTip">
+            <ref bean="backup_help_tooltip"/>
+        </property>
 		<property name="dataAttributes">
 			<map merge="true">
 				<entry key="plantype" value="backup" />
@@ -949,11 +920,13 @@
 				<value>ks-plan-Bucket-credit</value>
 			</list>
 		</property>
+        <property name="toolTip">
+            <ref bean="total_credits_help_tooltip"/>
+        </property>
 		<property name="items">
 			<list>
 				<bean p:id="planner_term_total_credits_label" parent="Uif-MessageField"
 						p:messageText="Units" p:cssClasses="ks-plan-Bucket-creditLabel" />
-				<ref bean="planner_total_credits_help_icon" />
 			</list>
 		</property>
 	</bean>

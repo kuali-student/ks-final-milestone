@@ -48,7 +48,8 @@ function ksapInitializePlannerItems(pageSize) {
 			}
 		});
 	}
-	ksapPlannerCreateTooltips();
+	/*ksapPlannerCreateTooltips();*/
+    registerClosePopups();
 }
 
 function ksapPlannerUpdateTitle(a) {
@@ -303,6 +304,14 @@ function ksapPlannerCreateTooltips() {
 	    if (t.IsBubblePopupOpen()) {
 	    	t.HideBubblePopup();
 	    }
+    });
+}
+function registerClosePopups(){
+    jQuery(document).on('click', function (e) {
+        var tempTarget = (e.target) ? e.target : e.srcElement;
+        if (jQuery(tempTarget).parents("div.uif-tooltip").length === 0) {
+            hideBubblePopups();
+        }
     });
 }
 
