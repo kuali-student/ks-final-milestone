@@ -91,12 +91,18 @@
             <bean parent="KS-Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="KS-Uif-PrimaryActionButton"
-                              p:methodToCall="copy"
-                              p:actionLabel="Copy Holiday Calendar"
-                              p:render="@{holidayCalendarInfo != null}"
-                              p:performClientSideValidation="true" />
-                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBackTwoPages()"/>
+                        <bean parent="Uif-HorizontalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="KS-Uif-PrimaryActionButton"
+                                          p:methodToCall="copy"
+                                          p:actionLabel="Copy Holiday Calendar"
+                                          p:render="@{holidayCalendarInfo != null}"
+                                          p:performClientSideValidation="true" />
+                                    <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBackTwoPages()" p:style="margin-top: 0.3em;"/>
+                                </list>
+                            </property>
+                        </bean>
                     </list>
                 </property>
             </bean>
