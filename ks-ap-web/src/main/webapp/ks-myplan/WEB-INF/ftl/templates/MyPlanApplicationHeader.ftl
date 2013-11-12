@@ -6,11 +6,11 @@
             <ul>
                 <#if RequestParameters.viewId??>
                 <#--Plan Page Link-->
-                    <#if RequestParameters.viewId=="PlannedCourses-FormView">
-                        <li class="home"><a href="plan?methodToCall=start&viewId=PlannedCourses-FormView" class="active">Plan</a>
+                    <#if RequestParameters.viewId=="Planner-FormView">
+                        <li class="home"><a href="planner?methodToCall=start&amp;viewId=Planner-FormView" class="active">Plan</a>
                         </li>
                     <#else>
-                        <li class="home"><a href="plan?methodToCall=start&viewId=PlannedCourses-FormView">Plan</a>
+                        <li class="home"><a href="planner?methodToCall=start&amp;viewId=Planner-FormView">Plan</a>
                         </li>
                     </#if>
 

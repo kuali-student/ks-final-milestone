@@ -31,10 +31,9 @@
             </div>
             <% } %>
         </div>
-        <img id="myplanUwPatch" src="../ks-myplan/images/myplan_w_patch_purple.png" />
         <div id="applicationNavigation">
             <ul>
-                <li class="active home"><a href="plan?methodToCall=start&viewId=PlannedCourses-FormView">Plan</a></li>
+                <li class="active home"><a href="planner?methodToCall=start&amp;viewId=Planner-FormView"">Planner</a></li>
                 <li><a href="course?methodToCall=start&viewId=CourseSearch-FormView">Find Courses</a></li>
                 <li><a href="audit?methodToCall=audit&viewId=DegreeAudit-FormView">Audit Degree</a></li>
             </ul>
