@@ -211,7 +211,7 @@
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#line.buildingName}">
                             <property name="templateOptions">
                                 <map merge="true">
-                                    <entry key="position" value="right"/>
+                                    <entry key="position" value="top"/>
                                 </map>
                             </property>
                         </bean>
