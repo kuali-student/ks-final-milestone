@@ -37,6 +37,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -74,7 +76,7 @@ public class PlannerController extends KsapControllerBase {
 		String newType = form.isBackup() ? PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP
 				: PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED;
 		Term term = KsapFrameworkServiceLocator.getTermHelper().getTerm(termId);
-
+        JsonObjectBuilder eventList = Json.createObjectBuilder();
 		PlanItem wishlistPlanItem = null;
 		List<PlanItem> existingPlanItems = form.getExistingPlanItems();
 		if (existingPlanItems != null)
@@ -87,7 +89,7 @@ public class PlannerController extends KsapControllerBase {
 				List<String> planPeriods = existingPlanItem.getPlanPeriods();
 				if (planPeriods != null && planPeriods.contains(termId)) {
 					PlanEventUtils.sendJsonEvents(false, "Course " + course.getCode() + " is already planned for "
-							+ form.getTerm().getName(), response);
+							+ form.getTerm().getName(), response, eventList);
 					return;
 				}
 			}
@@ -102,7 +104,7 @@ public class PlannerController extends KsapControllerBase {
 		} else {
 			assert plan.getId().equals(wishlistPlanItem.getLearningPlanId()) : plan.getId() + " "
 					+ wishlistPlanItem.getLearningPlanId();
-			PlanEventUtils.makeRemoveEvent(form.getUniqueId(), wishlistPlanItem);
+            eventList = PlanEventUtils.makeRemoveEvent(form.getUniqueId(), wishlistPlanItem, eventList);
 			planItemInfo = new PlanItemInfo(wishlistPlanItem);
 		}
 
@@ -133,7 +135,7 @@ public class PlannerController extends KsapControllerBase {
 		} catch (AlreadyExistsException e) {
 			LOG.warn("Course " + course.getCode() + " is already planned for " + term.getName(), e);
 			PlanEventUtils.sendJsonEvents(false,
-					"Course " + course.getCode() + " is already planned for " + term.getName(), response);
+					"Course " + course.getCode() + " is already planned for " + term.getName(), response, eventList);
 			return;
 		} catch (DataValidationErrorException e) {
 			throw new IllegalArgumentException("LP service failure", e);
@@ -149,11 +151,11 @@ public class PlannerController extends KsapControllerBase {
 			throw new IllegalStateException("LP service failure", e);
 		}
 
-		PlanEventUtils.makeAddEvent(planItemInfo);
-		PlanEventUtils.updateTotalCreditsEvent(true, termId);
+        eventList = PlanEventUtils.makeAddEvent(planItemInfo, eventList);
+        eventList = PlanEventUtils.updateTotalCreditsEvent(true, termId, eventList);
 
 		PlanEventUtils.sendJsonEvents(true, "Course " + course.getCode() + " added to plan for " + term.getName(),
-				response);
+				response, eventList);
 	}
 
 	@Override
@@ -353,9 +355,9 @@ public class PlannerController extends KsapControllerBase {
 				throw new IllegalStateException("Comment lookup failure", e);
 			}
 		}
-
-		PlanEventUtils.updateTermNoteEvent(uniqueId, termNote);
-		PlanEventUtils.sendJsonEvents(true, null, response);
+        JsonObjectBuilder eventList = Json.createObjectBuilder();
+        eventList = PlanEventUtils.updateTermNoteEvent(uniqueId, termNote, eventList);
+		PlanEventUtils.sendJsonEvents(true, null, response, eventList);
 		return null;
 	}
 
@@ -364,6 +366,7 @@ public class PlannerController extends KsapControllerBase {
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
 		LearningPlan plan = PlanItemControllerHelper.getAuthorizedLearningPlan(form, request, response);
+        JsonObjectBuilder eventList = Json.createObjectBuilder();
 		if (plan == null)
 			return null;
 
@@ -378,7 +381,7 @@ public class PlannerController extends KsapControllerBase {
 
 		String courseCd = form.getCourseCd();
 		if (!StringUtils.hasText(courseCd)) {
-			PlanEventUtils.sendJsonEvents(false, "Course code required", response);
+			PlanEventUtils.sendJsonEvents(false, "Course code required", response, eventList);
 			return null;
 		}
 
@@ -386,13 +389,13 @@ public class PlannerController extends KsapControllerBase {
 		try {
 			List<Course> courses = KsapFrameworkServiceLocator.getCourseHelper().getCoursesByCode(courseCd);
 			if (courses == null || courses.isEmpty()) {
-				PlanEventUtils.sendJsonEvents(false, "Course " + courseCd + " not found", response);
+				PlanEventUtils.sendJsonEvents(false, "Course " + courseCd + " not found", response, eventList);
 				return null;
 			}
 			course = courses.get(0);
 		} catch (IllegalArgumentException e) {
 			LOG.error("Invalid course code " + courseCd, e);
-			PlanEventUtils.sendJsonEvents(false, "Course " + courseCd + " not found", response);
+			PlanEventUtils.sendJsonEvents(false, "Course " + courseCd + " not found", response, eventList);
 			return null;
 		}
 
@@ -502,21 +505,21 @@ public class PlannerController extends KsapControllerBase {
 		} catch (PermissionDeniedException e) {
 			throw new IllegalStateException("LP service failure", e);
 		}
-
-		PlanEventUtils.updatePlanItemCreditsEvent(form.getUniqueId(), planItemInfo);
-		PlanEventUtils.updateTotalCreditsEvent(true, planItemInfo.getPlanPeriods().get(0));
+        JsonObjectBuilder eventList = Json.createObjectBuilder();
+        eventList = PlanEventUtils.updatePlanItemCreditsEvent(form.getUniqueId(), planItemInfo, eventList);
+        eventList = PlanEventUtils.updateTotalCreditsEvent(true, planItemInfo.getPlanPeriods().get(0), eventList);
 		if(notesEdited && creditEdited){
-			PlanEventUtils.sendJsonEvents(true, "Changes to the notes and credits for " + form.getTerm().getName() +" "+ form.getCourse().getCode() +" is saved", response);
+			PlanEventUtils.sendJsonEvents(true, "Changes to the notes and credits for " + form.getTerm().getName() +" "+ form.getCourse().getCode() +" is saved", response, eventList);
 		}else if (notesEdited){
 			if(newNoteFlag){
-				PlanEventUtils.sendJsonEvents(true, "Note added to " + form.getTerm().getName() +" "+ form.getCourse().getCode(), response);
+				PlanEventUtils.sendJsonEvents(true, "Note added to " + form.getTerm().getName() +" "+ form.getCourse().getCode(), response, eventList);
 			}else{
-				PlanEventUtils.sendJsonEvents(true, "Note edited for " + form.getTerm().getName() +" "+ form.getCourse().getCode() , response);
+				PlanEventUtils.sendJsonEvents(true, "Note edited for " + form.getTerm().getName() +" "+ form.getCourse().getCode() , response, eventList);
 			}
 		}else if(creditEdited){
-			PlanEventUtils.sendJsonEvents(true, "Changes to the credits for " + form.getTerm().getName() +" "+ form.getCourse().getCode() +" is saved", response);
+			PlanEventUtils.sendJsonEvents(true, "Changes to the credits for " + form.getTerm().getName() +" "+ form.getCourse().getCode() +" is saved", response, eventList);
 		}else{
-			PlanEventUtils.sendJsonEvents(true, null, response);
+			PlanEventUtils.sendJsonEvents(true, null, response, eventList);
 		}
 		return null;
 	}
@@ -599,13 +602,13 @@ public class PlannerController extends KsapControllerBase {
 		} catch (PermissionDeniedException e) {
 			throw new IllegalStateException("LP service failure", e);
 		}
-
-		PlanEventUtils.makeRemoveEvent(form.getUniqueId(), planItem);
-		PlanEventUtils.makeAddEvent(planItemInfo);
-		PlanEventUtils.updateTotalCreditsEvent(false, expectedTermId);
-		PlanEventUtils.updateTotalCreditsEvent(true, termId);
-		PlanEventUtils.sendJsonEvents(true, "Course " + form.getCourse().getCode() + " moved to " + term.getName(),
-				response);
+        JsonObjectBuilder eventList = Json.createObjectBuilder();
+        eventList = PlanEventUtils.makeRemoveEvent(form.getUniqueId(), planItem, eventList);
+        eventList = PlanEventUtils.makeAddEvent(planItemInfo, eventList);
+        eventList = PlanEventUtils.updateTotalCreditsEvent(false, expectedTermId, eventList);
+        eventList = PlanEventUtils.updateTotalCreditsEvent(true, termId, eventList);
+        PlanEventUtils.sendJsonEvents(true, "Course " + form.getCourse().getCode() + " moved to " + term.getName(),
+				response, eventList);
 		return null;
 	}
 
@@ -638,11 +641,11 @@ public class PlannerController extends KsapControllerBase {
 		} catch (PermissionDeniedException e) {
 			throw new IllegalStateException("LP service failure", e);
 		}
-
-		PlanEventUtils.makeRemoveEvent(form.getUniqueId(), planItem);
-		PlanEventUtils.updateTotalCreditsEvent(true, term.getId());
+        JsonObjectBuilder eventList = Json.createObjectBuilder();
+        eventList = PlanEventUtils.makeRemoveEvent(form.getUniqueId(), planItem, eventList);
+        eventList = PlanEventUtils.updateTotalCreditsEvent(true, term.getId(), eventList);
 		PlanEventUtils.sendJsonEvents(true, "Course " + form.getCourse().getCode() + " removed from " + term.getName(),
-				response);
+				response, eventList);
 		return null;
 	}
 
@@ -676,11 +679,11 @@ public class PlannerController extends KsapControllerBase {
 		} catch (PermissionDeniedException e) {
 			throw new IllegalStateException("LP service failure", e);
 		}
-
-		PlanEventUtils.makeRemoveEvent(form.getUniqueId(), planItem);
-		PlanEventUtils.makeAddEvent(planItemInfo);
-		PlanEventUtils.updateTotalCreditsEvent(true, form.getTermId());
-		PlanEventUtils.sendJsonEvents(true, "Course " + form.getCourse().getCode() + " updated", response);
+        JsonObjectBuilder eventList = Json.createObjectBuilder();
+        eventList = PlanEventUtils.makeRemoveEvent(form.getUniqueId(), planItem, eventList);
+        eventList = PlanEventUtils.makeAddEvent(planItemInfo, eventList);
+        eventList = PlanEventUtils.updateTotalCreditsEvent(true, form.getTermId(), eventList);
+		PlanEventUtils.sendJsonEvents(true, "Course " + form.getCourse().getCode() + " updated", response, eventList);
 		return null;
 	}
 

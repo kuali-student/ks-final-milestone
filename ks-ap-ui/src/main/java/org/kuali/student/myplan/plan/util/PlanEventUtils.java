@@ -100,7 +100,7 @@ public class PlanEventUtils {
 
 	/**
 	 * Remove context from a type key.
-	 * 
+	 *
 	 * @param typeKey
 	 *            A KS type key.
 	 * @return The last contextual element in the type key.
@@ -111,7 +111,7 @@ public class PlanEventUtils {
 
 	/**
 	 * Get a transactional events object.
-	 * 
+	 *
 	 * @return A transaction events object builder.
 	 */
 	public static JsonObjectBuilder getEventsBuilder() {
@@ -138,6 +138,184 @@ public class PlanEventUtils {
 			return Json.createObjectBuilder();
 	}
 
+    /**
+     * Creates an add plan item event on the current transaction.
+     *
+     * @param planItem
+     *            The plan item to report as added.
+     * @return The transactional events builder, with the add plan item event
+     *         added.
+     */
+    public static JsonObjectBuilder makeAddEvent(PlanItem planItem) {
+        CourseHelper courseHelper = KsapFrameworkServiceLocator
+                .getCourseHelper();
+        TermHelper termHelper = KsapFrameworkServiceLocator.getTermHelper();
+
+        assert PlanConstants.COURSE_TYPE.equals(planItem.getRefObjectType()) : planItem
+                .getRefObjectType() + " " + planItem.getId();
+
+        Course course = courseHelper.getCourseInfo(planItem.getRefObjectId());
+        assert course != null : "Missing course for plan item "
+                + planItem.getId() + ", ref ID " + planItem.getRefObjectId();
+
+        JsonObjectBuilder addEvent = Json.createObjectBuilder();
+        addEvent.add("uid", UUID.randomUUID().toString());
+        addEvent.add("learningPlanId", planItem.getLearningPlanId());
+        addEvent.add("planItemId", planItem.getId());
+        addEvent.add("courseId", course.getId());
+        addEvent.add("courseTitle", course.getCourseTitle());
+        if (planItem.getCredit() != null) {
+            addEvent.add("credits", CreditsFormatter.trimCredits(planItem
+                    .getCredit().toString()));
+        } else {
+            addEvent.add("credits", CreditsFormatter.formatCredits(course));
+        }
+
+        StringBuilder code = new StringBuilder(course.getCode());
+        String campusCode = null, activityCode = null;
+        for (Attribute attr : course.getAttributes()) {
+            String key = attr.getKey();
+            if ("campusCode".equals(key))
+                campusCode = attr.getValue();
+        }
+        for (Attribute attr : planItem.getAttributes()) {
+            String key = attr.getKey();
+            if ("campusCode".equals(key))
+                campusCode = attr.getValue();
+            if ("activityCode".equals(key))
+                activityCode = attr.getValue();
+        }
+        if (campusCode != null)
+            code.insert(0, " ").insert(0, campusCode);
+        if (activityCode != null)
+            code.append(" ").append(activityCode);
+        addEvent.add("code", code.toString());
+
+        String type = formatTypeKey(planItem.getTypeKey());
+        String menusuffix = "";
+
+        List<String> planPeriods = planItem.getPlanPeriods();
+        if (planPeriods != null && !planPeriods.isEmpty()) {
+            String termId = planPeriods.get(0);
+
+            Term term = termHelper.getTerm(termId);
+            assert term != null : "Invalid term " + termId + " in plan item "
+                    + planItem.getId();
+
+            // NOTE: termId is used as a post parameter by the add event.
+            // For other events, it is used as a selector so needs '.' replaced
+            // by '-' The replacement is not desired here.
+            addEvent.add("termId", termId);
+
+            if ("planned".equals(type)
+                    && campusCode != null
+                    && KsapFrameworkServiceLocator.getShoppingCartStrategy()
+                    .isCartAvailable(termId, campusCode))
+                menusuffix = "_cartavailable";
+        }
+
+        addEvent.add("type", type);
+        addEvent.add("menusuffix", menusuffix);
+
+        JsonObjectBuilder events = getEventsBuilder();
+        events.add(PlanConstants.JS_EVENT_NAME.PLAN_ITEM_ADDED.name(), addEvent);
+        return events;
+    }
+
+    public static JsonObjectBuilder makeRemoveEvent(String uniqueId,
+                                                    PlanItem planItem) {
+        JsonObjectBuilder removeEvent = Json.createObjectBuilder();
+        removeEvent.add("uid", uniqueId);
+        removeEvent.add("planItemId", planItem.getId());
+        removeEvent.add("type", formatTypeKey(planItem.getTypeKey()));
+
+        // Only planned or backup items get an atpId attribute.
+        if (planItem.getTypeKey().equals(
+                PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)
+                || planItem.getTypeKey().equals(
+                PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)
+                || planItem.getTypeKey().equals(
+                PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
+            removeEvent.add("termId",
+                    planItem.getPlanPeriods().get(0).replace('.', '-'));
+        }
+
+        JsonObjectBuilder events = getEventsBuilder();
+        events.add(PlanConstants.JS_EVENT_NAME.PLAN_ITEM_DELETED.name(),
+                removeEvent);
+        return events;
+    }
+
+    public static JsonObjectBuilder updatePlanItemCreditsEvent(String uniqueId,
+                                                               PlanItem planItem) {
+        JsonObjectBuilder updateCreditsEvent = Json.createObjectBuilder();
+        updateCreditsEvent.add("uniqueId", uniqueId);
+
+        if (planItem.getCredit() != null) {
+            updateCreditsEvent.add("credit", CreditsFormatter
+                    .trimCredits(planItem.getCredit().toString()));
+        } else {
+            Course course = KsapFrameworkServiceLocator.getCourseHelper()
+                    .getCourseInfo(planItem.getRefObjectId());
+            updateCreditsEvent.add("credit",
+                    CreditsFormatter.formatCredits(course));
+        }
+
+        JsonObjectBuilder events = getEventsBuilder();
+        events.add("PLAN_ITEM_UPDATED", updateCreditsEvent);
+        return events;
+    }
+
+    public static JsonObjectBuilder updateTotalCreditsEvent(boolean newTerm,
+                                                            String termId) {
+        JsonObjectBuilder updateTotalCreditsEvent = Json.createObjectBuilder();
+        updateTotalCreditsEvent.add("termId", termId.replace('.', '-'));
+        updateTotalCreditsEvent.add(
+                "totalCredits",
+                getTotalCredits(termId,
+                        PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED));
+        updateTotalCreditsEvent.add(
+                "cartCredits",
+                getTotalCredits(termId,
+                        PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART));
+
+        JsonObjectBuilder events = getEventsBuilder();
+        events.add(
+                newTerm ? PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS
+                        .name()
+                        : PlanConstants.JS_EVENT_NAME.UPDATE_OLD_TERM_TOTAL_CREDITS
+                        .name(), updateTotalCreditsEvent);
+        return events;
+    }
+
+    public static JsonObjectBuilder updateTermNoteEvent(String uniqueId,
+                                                        String termNote) {
+        JsonObjectBuilder updateTotalTermNoteEvent = Json.createObjectBuilder();
+        updateTotalTermNoteEvent.add("uniqueId", uniqueId);
+        updateTotalTermNoteEvent.add("termNote", termNote == null ? ""
+                : termNote);
+        JsonObjectBuilder events = getEventsBuilder();
+        events.add(PlanConstants.JS_EVENT_NAME.TERM_NOTE_UPDATED.name(),
+                updateTotalTermNoteEvent);
+        return events;
+    }
+
+    public static void sendJsonEvents(boolean success, String message,
+                                      HttpServletResponse response) throws IOException, ServletException {
+        JsonObjectBuilder json = PlanEventUtils.getEventsBuilder();
+        json.add("success", success);
+        if (message != null)
+            json.add("message", message);
+
+        response.setContentType("application/json; charset=UTF-8");
+        response.setHeader("Cache-Control", "No-cache");
+        response.setHeader("Cache-Control", "No-store");
+        response.setHeader("Cache-Control", "max-age=0");
+        JsonWriter jwriter = Json.createWriter(response.getWriter());
+        jwriter.writeObject(json.build());
+        jwriter.close();
+    }
+
 	/**
 	 * Creates an add plan item event on the current transaction.
 	 * 
@@ -146,7 +324,7 @@ public class PlanEventUtils {
 	 * @return The transactional events builder, with the add plan item event
 	 *         added.
 	 */
-	public static JsonObjectBuilder makeAddEvent(PlanItem planItem) {
+	public static JsonObjectBuilder makeAddEvent(PlanItem planItem, JsonObjectBuilder eventList) {
 		CourseHelper courseHelper = KsapFrameworkServiceLocator
 				.getCourseHelper();
 		TermHelper termHelper = KsapFrameworkServiceLocator.getTermHelper();
@@ -217,13 +395,12 @@ public class PlanEventUtils {
 		addEvent.add("type", type);
 		addEvent.add("menusuffix", menusuffix);
 
-		JsonObjectBuilder events = getEventsBuilder();
-		events.add(PlanConstants.JS_EVENT_NAME.PLAN_ITEM_ADDED.name(), addEvent);
-		return events;
+        eventList.add(PlanConstants.JS_EVENT_NAME.PLAN_ITEM_ADDED.name(), addEvent);
+		return eventList;
 	}
 
 	public static JsonObjectBuilder makeRemoveEvent(String uniqueId,
-			PlanItem planItem) {
+			PlanItem planItem, JsonObjectBuilder eventList) {
 		JsonObjectBuilder removeEvent = Json.createObjectBuilder();
 		removeEvent.add("uid", uniqueId);
 		removeEvent.add("planItemId", planItem.getId());
@@ -240,14 +417,13 @@ public class PlanEventUtils {
 					planItem.getPlanPeriods().get(0).replace('.', '-'));
 		}
 
-		JsonObjectBuilder events = getEventsBuilder();
-		events.add(PlanConstants.JS_EVENT_NAME.PLAN_ITEM_DELETED.name(),
+        eventList.add(PlanConstants.JS_EVENT_NAME.PLAN_ITEM_DELETED.name(),
 				removeEvent);
-		return events;
+		return eventList;
 	}
 
 	public static JsonObjectBuilder updatePlanItemCreditsEvent(String uniqueId,
-			PlanItem planItem) {
+			PlanItem planItem, JsonObjectBuilder eventList) {
 		JsonObjectBuilder updateCreditsEvent = Json.createObjectBuilder();
 		updateCreditsEvent.add("uniqueId", uniqueId);
 
@@ -261,13 +437,12 @@ public class PlanEventUtils {
 					CreditsFormatter.formatCredits(course));
 		}
 
-		JsonObjectBuilder events = getEventsBuilder();
-		events.add("PLAN_ITEM_UPDATED", updateCreditsEvent);
-		return events;
+        eventList.add("PLAN_ITEM_UPDATED", updateCreditsEvent);
+		return eventList;
 	}
 
 	public static JsonObjectBuilder updateTotalCreditsEvent(boolean newTerm,
-			String termId) {
+			String termId, JsonObjectBuilder eventList) {
 		JsonObjectBuilder updateTotalCreditsEvent = Json.createObjectBuilder();
 		updateTotalCreditsEvent.add("termId", termId.replace('.', '-'));
 		updateTotalCreditsEvent.add(
@@ -279,40 +454,38 @@ public class PlanEventUtils {
 				getTotalCredits(termId,
 						PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART));
 
-		JsonObjectBuilder events = getEventsBuilder();
-		events.add(
+        eventList.add(
 				newTerm ? PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS
 						.name()
 						: PlanConstants.JS_EVENT_NAME.UPDATE_OLD_TERM_TOTAL_CREDITS
 								.name(), updateTotalCreditsEvent);
-		return events;
+		return eventList;
 	}
 
 	public static JsonObjectBuilder updateTermNoteEvent(String uniqueId,
-			String termNote) {
+			String termNote, JsonObjectBuilder eventList) {
 		JsonObjectBuilder updateTotalTermNoteEvent = Json.createObjectBuilder();
 		updateTotalTermNoteEvent.add("uniqueId", uniqueId);
 		updateTotalTermNoteEvent.add("termNote", termNote == null ? ""
 				: termNote);
-		JsonObjectBuilder events = getEventsBuilder();
-		events.add(PlanConstants.JS_EVENT_NAME.TERM_NOTE_UPDATED.name(),
+        eventList.add(PlanConstants.JS_EVENT_NAME.TERM_NOTE_UPDATED.name(),
 				updateTotalTermNoteEvent);
-		return events;
+		return eventList;
 	}
 
 	public static void sendJsonEvents(boolean success, String message,
-			HttpServletResponse response) throws IOException, ServletException {
-		JsonObjectBuilder json = PlanEventUtils.getEventsBuilder();
-		json.add("success", success);
+			HttpServletResponse response, JsonObjectBuilder eventList) throws IOException, ServletException {
+
+        eventList.add("success", success);
 		if (message != null)
-			json.add("message", message);
+            eventList.add("message", message);
 
 		response.setContentType("application/json; charset=UTF-8");
 		response.setHeader("Cache-Control", "No-cache");
 		response.setHeader("Cache-Control", "No-store");
 		response.setHeader("Cache-Control", "max-age=0");
 		JsonWriter jwriter = Json.createWriter(response.getWriter());
-		jwriter.writeObject(json.build());
+		jwriter.writeObject(eventList.build());
 		jwriter.close();
 	}
 
