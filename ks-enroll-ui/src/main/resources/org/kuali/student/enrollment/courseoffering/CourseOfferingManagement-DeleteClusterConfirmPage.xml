@@ -102,13 +102,16 @@
 
 
 
-    <bean id="KS-CourseOfferingManagement-AoListToDeleteSection" parent="Uif-TableCollectionSubSection" p:layoutManager.numberOfColumns="2" >
+    <bean id="KS-CourseOfferingManagement-AoListToDeleteSection" parent="Uif-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="2" >
         <property name="headerText" value="Activities"/>
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
         <property name="propertyName" value="selectedToDeleteList" />
         <property name="readOnly" value="true"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable">
+            <bean parent="KS-Uif-RichTable"/>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:label="STATUS" p:propertyName="stateName" />
