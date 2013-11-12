@@ -49,6 +49,7 @@
                                     </list>
                                 </property>
                             </bean>
+                            <ref bean="planner_sidebar_section"/>
 							<ref bean="planner_menu_completed" />
 							<ref bean="planner_menu_cart" />
 							<ref bean="planner_menu_planned" />
@@ -957,6 +958,21 @@
 			</list>
 		</property>
 	</bean>
+
+    <bean id="planner_sidebar_section" parent="planner_sidebar_section-parent" />
+    <bean id="planner_sidebar_section-parent" abstract="true" parent="myplan_section">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-plan-Widgets</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="messages_widget"/>
+                <ref bean="your_stuff_widget_planner"/>
+            </list>
+        </property>
+    </bean>
 
 
 </beans>

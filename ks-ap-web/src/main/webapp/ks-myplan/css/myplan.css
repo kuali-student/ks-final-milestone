@@ -2687,3 +2687,6 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
 .ks-plan-Bucket-footer-hide {
     display: none !important;
 }
+#plan-page, #planner_courses_detail_page {
+    margin: 0px;
+}

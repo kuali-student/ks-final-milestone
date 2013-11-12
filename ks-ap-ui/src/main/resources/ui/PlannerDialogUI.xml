@@ -9,7 +9,7 @@
 		<property name="id" value="PlannerDialog-FormView" />
 		<property name="footer.render" value="false" />
 		<property name="header.render" value="false" />
-		<property name="formClass" value="org.kuali.student.ap.planner.PlannerForm" />
+		<property name="formClass" value="org.kuali.student.ap.planner.form.PlannerFormImpl" />
 		<property name="onSubmitScript" value="ksapPlannerSubmitDialog(e);" />
 		<property name="cssClasses">
 			<list merge="true">

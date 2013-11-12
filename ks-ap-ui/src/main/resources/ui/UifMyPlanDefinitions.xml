@@ -30,6 +30,7 @@
         <property name="persistFormToSession" value="false"/>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
+        <property name="onLoadScript" value="jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();"/>
     </bean>
 
     <bean id="MyPlanFormView" abstract="true" parent="MyPlanBaseFormView">
@@ -58,6 +59,7 @@
         <property name="persistFormToSession" value="false"/>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
+        <property name="onLoadScript" value="jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();"/>
     </bean>
 
     <bean id="MyPlanLookupView" abstract="true" parent="MyPlanBaseLookupView">
@@ -86,6 +88,7 @@
         <property name="persistFormToSession" value="false"/>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
+        <property name="onLoadScript" value="jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();"/>
     </bean>
 
     <bean id="MyPlanInquiryView" abstract="true" parent="MyPlanBaseInquiryView">
@@ -113,6 +116,7 @@
         </property>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
+        <property name="onLoadScript" value="jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();"/>
     </bean>
 
     <bean id="MyPlanMaintenanceView" abstract="true" parent="MyPlanBaseMaintenanceView">
