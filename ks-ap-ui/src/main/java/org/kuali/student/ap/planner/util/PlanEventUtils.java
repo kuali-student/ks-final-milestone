@@ -1,4 +1,4 @@
-package org.kuali.student.myplan.plan.util;
+package org.kuali.student.ap.planner.util;
 
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseHelper;

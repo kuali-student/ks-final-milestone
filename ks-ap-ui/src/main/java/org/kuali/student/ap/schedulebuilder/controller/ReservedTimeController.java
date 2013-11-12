@@ -8,7 +8,7 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.schedulebuilder.form.ReservedTimeForm;
-import org.kuali.student.myplan.plan.util.PlanEventUtils;
+import org.kuali.student.ap.planner.util.PlanEventUtils;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;

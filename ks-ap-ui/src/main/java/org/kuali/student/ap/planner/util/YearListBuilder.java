@@ -1,4 +1,4 @@
-package org.kuali.student.myplan.plan.util;
+package org.kuali.student.ap.planner.util;
 
 import java.util.ArrayList;
 import java.util.Calendar;

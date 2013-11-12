@@ -6,7 +6,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.planner.support.PlanItemControllerHelper;
-import org.kuali.student.myplan.plan.util.PlanEventUtils;
+import org.kuali.student.ap.planner.util.PlanEventUtils;
 import org.kuali.student.ap.schedulebuilder.ShoppingCartForm;
 import org.kuali.student.ap.schedulebuilder.ShoppingCartRequest;
 import org.kuali.student.ap.schedulebuilder.ShoppingCartStrategy;

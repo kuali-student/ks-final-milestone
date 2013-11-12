@@ -1,7 +1,7 @@
-package org.kuali.student.myplan.plan.form;
+package org.kuali.student.ap.planner.form;
 
-import org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl;
 import org.kuali.student.ap.planner.support.DefaultPlannerForm;
+import org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSummaryDetails;
 
 /**
