@@ -1418,24 +1418,30 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
     }
 
-    private void cAoSetActivityCodeForAO(ActivityOfferingInfo aoInfo, CourseOfferingInfo co, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    private void cAoSetActivityCodeForAO(ActivityOfferingInfo aoInfo, CourseOfferingInfo co, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        CourseOfferingServiceExtender extender = getCourseOfferingServiceExtender();
         // pull the current list of Ao's from the DB.
-        Map<String,String> aoMap =  _getActivityOfferingCodesByCourseOffering(co.getId(), context);
+        Map<String,String> aoMap = extender.computeAoIdToAoCodeMapByCourseOffering(co.getId(), context);
         List<String> aoCodeList = null;
         Collection<String>  coll = aoMap.values();
 
-        if (coll instanceof List)
-            aoCodeList = (List)coll;
-        else
+        if (coll instanceof List) {
+            aoCodeList = (List) coll;
+        } else {
             aoCodeList = new ArrayList(coll);
+        }
 
         if (aoInfo.getActivityCode() == null) {
-            //If there is no activity code, create a new one
+            // If there is no activity code, create a new one
             aoInfo.setActivityCode(getNextActivityOfferingCode(co, aoCodeList,context));
         } else {
             for (String existingAoCode : aoCodeList) {
                 if (aoInfo.getActivityCode().equals(existingAoCode)) {
-                    throw new InvalidParameterException("Activity Offering Code '" + aoInfo.getActivityCode() + "' already exists for course code " + co.getCourseOfferingCode() + " term Id '" + co.getTermId() + "'");
+                    throw new InvalidParameterException("Activity Offering Code '" + aoInfo.getActivityCode()
+                            + "' already exists for course code " + co.getCourseOfferingCode()
+                            + " term Id '" + co.getTermId() + "'");
                 }
             }
         }
@@ -1468,52 +1474,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         activityCode = offeringCodeGenerator.generateActivityOfferingCode(generatorProperties);
 
         return activityCode;
-    }
-
-
-    /**
-     *
-     * This method calls the search service to pull a list of AO Codes for a given CO. This is MUCH faster than
-     * our old way of pulling the FULL ao objects, when we just need the code.
-     *
-     * @param courseOfferingId  The CourseOffering ID of the Course Offering that you want to return all AO codes for.
-     * @param context  application contextInfo object
-     * @return returns a Map<AO_ID, AO_CODE>
-     * @throws OperationFailedException
-     */
-    private Map<String, String> _getActivityOfferingCodesByCourseOffering(String courseOfferingId, ContextInfo context) throws OperationFailedException {
-
-        Map<String, String> activityCodes = new HashMap<String, String>();
-
-        // Query for AO id and codes, and build a Map.
-        SearchRequestInfo request = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AO_CODES_TYPES_BY_CO_ID_SEARCH_KEY);
-        request.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, courseOfferingId);
-
-        SearchResultInfo result = null;
-        try{
-            result = getSearchService().search(request, context);
-        }catch (Exception ex){
-            throw new OperationFailedException("Unable to search for AO Codes by CO ID", ex);
-        }
-
-        List<SearchResultRowInfo> rows = result.getRows();
-        //  If there are no rows assume the operation is an add and skip the check.
-        if ( ! rows.isEmpty()) {
-            for (SearchResultRowInfo row: rows) {
-                List<SearchResultCellInfo> cells = row.getCells();
-                String aoId = null;
-                String aoCode = null;
-                for (SearchResultCellInfo cell: cells) {
-                    if (cell.getKey().equals(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ID)) {
-                        aoId = cell.getValue();
-                    } else if (cell.getKey().equals(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_CODE)) {
-                        aoCode = cell.getValue();
-                    }
-                }
-                activityCodes.put(aoId, aoCode);
-            }
-        }
-        return  activityCodes;
     }
 
     private LuiLuiRelationInfo cAoBuildLuiLuiRelation(ActivityOfferingInfo aoInfo,

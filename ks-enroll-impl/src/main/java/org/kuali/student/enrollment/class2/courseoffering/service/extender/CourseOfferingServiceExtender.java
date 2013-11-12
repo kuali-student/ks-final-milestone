@@ -25,6 +25,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * This adds additional API calls not found in CourseOfferingServiceImpl.  CourseOfferingServiceImpl can call into
@@ -42,4 +43,16 @@ public interface CourseOfferingServiceExtender {
 
     List<ValidationResultInfo> verifyRegistrationGroup(List<String> aoIds, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * This method calls the search service to pull a list of AO Codes for a given CO. This is MUCH faster than
+     * our old way of pulling the FULL ao objects, when we just need the code.
+     *
+     * @param courseOfferingId  The CourseOffering ID of the Course Offering that you want to return all AO codes for.
+     * @param context  application contextInfo object
+     * @return returns a Map<AO_ID, AO_CODE>
+     * @throws OperationFailedException
+     */
+    public Map<String, String> computeAoIdToAoCodeMapByCourseOffering(String courseOfferingId, ContextInfo context)
+            throws OperationFailedException;
 }

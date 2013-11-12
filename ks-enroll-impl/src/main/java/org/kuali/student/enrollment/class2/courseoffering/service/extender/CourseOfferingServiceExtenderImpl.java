@@ -247,6 +247,53 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
         return sRet;
     }
 
+    /**
+     *
+     * This method calls the search service to pull a list of AO Codes for a given CO. This is MUCH faster than
+     * our old way of pulling the FULL ao objects, when we just need the code.
+     *
+     * @param courseOfferingId  The CourseOffering ID of the Course Offering that you want to return all AO codes for.
+     * @param context  application contextInfo object
+     * @return returns a Map<AO_ID, AO_CODE>
+     * @throws OperationFailedException
+     */
+    @Override
+    public Map<String, String> computeAoIdToAoCodeMapByCourseOffering(String courseOfferingId, ContextInfo context)
+            throws OperationFailedException {
+
+        Map<String, String> activityCodes = new HashMap<String, String>();
+
+        // Query for AO id and codes, and build a Map.
+        SearchRequestInfo request = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AO_CODES_TYPES_BY_CO_ID_SEARCH_KEY);
+        request.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, courseOfferingId);
+
+        SearchResultInfo result = null;
+        try {
+            result = getSearchService().search(request, context);
+        } catch (Exception ex){
+            throw new OperationFailedException("Unable to search for AO Codes by CO ID", ex);
+        }
+
+        List<SearchResultRowInfo> rows = result.getRows();
+        //  If there are no rows assume the operation is an add and skip the check.
+        if ( ! rows.isEmpty()) {
+            for (SearchResultRowInfo row: rows) {
+                List<SearchResultCellInfo> cells = row.getCells();
+                String aoId = null;
+                String aoCode = null;
+                for (SearchResultCellInfo cell: cells) {
+                    if (cell.getKey().equals(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ID)) {
+                        aoId = cell.getValue();
+                    } else if (cell.getKey().equals(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_CODE)) {
+                        aoCode = cell.getValue();
+                    }
+                }
+                activityCodes.put(aoId, aoCode);
+            }
+        }
+        return  activityCodes;
+    }
+
     public SearchService getSearchService() {
         return searchService;
     }
