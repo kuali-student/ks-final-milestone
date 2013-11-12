@@ -35,11 +35,10 @@
         <li><a href="${ConfigProperties.application.url}/myplan/plan?methodToCall=start&amp;viewId=PlannedCourses-FormView-POC-Single-Year">KSAP Planner - Single Year</a></li>
         <li><a href="${ConfigProperties.application.url}/myplan/plan?methodToCall=start&amp;viewId=PlannedCourses-FormView-POC-Dialog">KSAP Planner - Krad Dialog</a></li>
         <li><a href="${ConfigProperties.application.url}/myplan/plan?methodToCall=start&amp;viewId=PlannedCourses-FormView-POC-delay-load&amp;loadCalendar=true">KSAP Planner - Delayed Calendar Load</a></li>
-        <h3>0.75 Merge Screens</h3>
-        <li><a href="${ConfigProperties.application.url}/ap/planner?methodToCall=start&amp;viewId=Planner-FormView">KSAP Planner (v0.75)</a></li>
+        <h3>0.75 Merge Other Ongoing Screens</h3>
         <li><a href="${ConfigProperties.application.url}/myplan/sb?termId=kuali.atp.2013Fall&requestedLearningPlanId=testPlan1">KSAP Schedule Builder</a></li>
         <li><a href="${ConfigProperties.application.url}/myplan/reviewList">KSAP Planner Review</a></li>
-        <h3>Shopping Cart Dialogs - Not working</h3>
+        <h4>Shopping Cart Dialogs - Not working</h4>
         <li><a href="${ConfigProperties.application.url}/myplan/sb/cart?viewId=ShoppingCart-FormView&pageId=sb_cart_add_from_plan_page">KSAP Add Shopping Cart From Plan</a></li>
         <li><a href="${ConfigProperties.application.url}/myplan/sb/cart?viewId=ShoppingCart-FormView&pageId=sb_cart_add_from_sb_page">KSAP Add Shopping Cart From Schedule Builder</a></li>
         <li><a href="${ConfigProperties.application.url}/myplan/sb/cart?viewId=ShoppingCart-FormView&pageId=sb_cart_remove_page">KSAP Remove Shopping Cart</a></li>
