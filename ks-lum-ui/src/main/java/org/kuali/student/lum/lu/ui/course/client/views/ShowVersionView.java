@@ -13,6 +13,7 @@ import org.kuali.student.lum.lu.ui.course.client.controllers.VersionsController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.VersionsReqController;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
@@ -26,7 +27,7 @@ public class ShowVersionView extends VerticalSectionView{
 	public ShowVersionView(Enum<?> viewEnum, String name, String modelId, VersionsController controller, List<StatementTypeInfo> stmtTypes) {
 		super(viewEnum, name, modelId);
 		this.setLayoutController(controller);
-		ViewCourseConfigurer cfg = new ViewCourseConfigurer();
+        ViewCourseConfigurer cfg = GWT.create(ViewCourseConfigurer.class);
 		cfg.setModelDefinition(controller.getDefinition());
         cfg.setStatementTypes(stmtTypes);
         courseInfoTabs = new VersionsReqController(controller);
