@@ -78,9 +78,6 @@
     <param name="ks.externalizable.images.url">../themes/ksboot/images</param>
     <param name="ks.common.externalizable.images.url">../ks-common-ksink/images</param>
 
-    <!-- default automatic user for /kitchensink urls -->
-    <param name="kitchensink.login.autouser">admin</param>
-
     <!-- default values for CourseWaitList -->
     <param name="ks.enroll.coursewaitlist.automaticallyProcessed.defaultvalue">true</param>
     <param name="ks.enroll.coursewaitlist.confirmationRequired.defaultvalue">true</param>
