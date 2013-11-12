@@ -329,14 +329,21 @@ public final class SchedulingServiceUtil {
         return makeTimeOfDayFromMilitaryTimeString(standardTimeStringToMilitaryTimeString(time));
     }
 
+    /**
+     * Takes a time string in the format (HH:MM AM|PM or H:MM AM/PM) and converts it to
+     * 24 hour / military format (HH:MM).
+     * @param time A standard time string.
+     * @return A 24 hour / military time string.
+     */
     public static String standardTimeStringToMilitaryTimeString(String time) {
         boolean isPM = true;
         if (time.endsWith("AM")) {
             isPM = false;
         }
 
-        int hour = Integer.valueOf(time.substring(0, 2));
-        int min = Integer.valueOf(time.substring(3, 5));
+        String t[] = time.split(":");
+        int hour = Integer.valueOf(t[0]);
+        int min = Integer.valueOf(t[1].substring(0, 2));
 
         if (isPM) {
             //  For PM times just add 12
