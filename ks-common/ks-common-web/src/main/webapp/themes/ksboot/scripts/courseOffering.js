@@ -91,6 +91,11 @@ function handleCONavigation(component, coId) {
         i++;
     }
     jQuery("#edit_co_cancel").attr("data-submit_data", cancel_data_array.join());
+    if(jQuery('#dirtyForm').val() == "false") {
+        jQuery("#edit_co_cancel").click();
+        return;
+    }
+
 
     showLightboxComponent( 'CourseOfferingEdit-NavigationConfirmation' );
 

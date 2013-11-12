@@ -668,6 +668,10 @@ function handleAONavigation(component, aoId){
             i++;
         }
         jQuery("#edit_ao_cancel").attr("data-submit_data",cancel_data_array.join());
+        if(jQuery('#dirtyForm').val() == "false") {
+            jQuery("#edit_ao_cancel").click();
+            return;
+        }
 
         showLightboxComponent('ActivityOfferingEdit-NavigationConfirmation');
 //    } else {
