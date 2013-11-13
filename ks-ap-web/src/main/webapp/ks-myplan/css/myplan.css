@@ -950,7 +950,7 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
 
 .myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .myplan-course-valid,
 .myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .myplan-course-invalid,
-.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .quick-add-cell {
+.quick-add-cell {
     height: 25px;
     line-height: 25px;
     padding: 0 5px 0 26px;
@@ -980,7 +980,7 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     background-position: -54px -115px;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .quick-add-cell {
+.quick-add-cell {
     font-size: 0.8462em;
     font-style: italic;
     color: #117bdf;
@@ -2689,4 +2689,9 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
 }
 #plan-page, #planner_courses_detail_page {
     margin: 0px;
+}
+
+#PlannerDialog-FormView {
+    width: 300px;
+    min-height: 0px;
 }

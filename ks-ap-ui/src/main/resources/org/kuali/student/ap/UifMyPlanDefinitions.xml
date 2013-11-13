@@ -830,6 +830,7 @@
 	        	<value>ks-Popover-footer</value>
         	</list>
         </property>
+        <property name="onDocumentReadyScript" value="jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();"/>
     </bean>
 
     <bean id="KSAP-Suggest" parent="Uif-Suggest-parentBean">
