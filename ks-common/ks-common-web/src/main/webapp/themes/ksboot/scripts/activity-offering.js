@@ -4,11 +4,19 @@
  */
 function handleColocation(){
 
-    if(jQuery("#is_co_located_control").is(":checked")) {
-        setupColoCheckBoxChange(jQuery("#is_co_located_control"));
-    }else {
+    isColoCheckboxSet = jQuery("#is_co_located_control").is(":checked");
+    isColoPersistedOnInfo = ( jQuery('#infoColoStatus_control').attr('value') == 'true' )
+
+    /* warn the user they are going to break colocation if they are both un-setting the
+     * checkbox and the colo had previously been persisted at the database
+     */
+    if( !isColoCheckboxSet && isColoPersistedOnInfo ) {
         var overrideOptions = { autoDimensions:false, width:500 };
         showLightboxComponent('ActivityOfferingEdit-BreakColocateConfirmation', overrideOptions);
+    }
+    // failing that, just hide the colo-box
+    else {
+        setupColoCheckBoxChange(jQuery("#is_co_located_control"));
     }
 
 }
