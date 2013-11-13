@@ -76,5 +76,5 @@
     
     <param name="ks.ap.MAX_FUTURE_YEARS">4</param>
 
-    <param name="ks.myplan.externalizable.images.url">../ks-myplan/images/</param>
+    <param name="ks.ap.externalizable.images.url">../ks-myplan/images/</param>
 </config>

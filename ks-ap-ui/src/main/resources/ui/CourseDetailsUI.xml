@@ -140,7 +140,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		p:render="@{!dataObject.plannedCourseSummary.planned}">
 		<property name="actionImage">
 			<bean parent="Uif-Image"
-				p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif">
+				p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif">
 				<property name="cssClasses">
 					<list merge="true">
 						<value>rightArrowLarge</value>
@@ -1227,7 +1227,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="items">
             <list>
                 <bean parent="Uif-ImageField" 
-                      p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif"
+                      p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif"
                       p:altText="Section @{#line.code} is @{#line.stateKey}"
                       p:render="@{#line.stateKey NE 'kuali.lui.activity.offering.state.offered'}">
                     <property name="cssClasses">
@@ -1256,7 +1256,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="items">
             <list>
                 <bean parent="Uif-Image"
-                      p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif"
+                      p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif"
                       >
                     <property name="cssClasses">
                         <list merge="true">
@@ -1454,7 +1454,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
     <bean id="section_button" parent="Uif-ImageField">
         <property name="id" value="button_@{#line.atpIdXmlSafe}_@{#line.registrationCode}"/>
-        <property name="source" value="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif"/>
+        <property name="source" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif"/>
         <property name="onMouseOverScript" value="buildHoverText(jQuery(this));"/>
         <property name="label" value=""/>
         <property name="dataAttributes">

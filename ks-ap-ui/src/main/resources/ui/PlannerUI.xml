@@ -103,7 +103,7 @@
 		</property>
 		<property name="validationMessages.render" value="false" />
 		<property name="onDocumentReadyScript"
-			value="ksapLoadPlannerItems('@{#ConfigProperties['ks.myplan.externalizable.images.url']}')" />
+			value="ksapLoadPlannerItems('@{#ConfigProperties['ks.ap.externalizable.images.url']}')" />
 	</bean>
 
 	<bean id="planner_menu_completed" parent="Uif-VerticalBoxSubSection"
@@ -329,7 +329,7 @@
 											p:actionScript="" p:title="Previous Academic Year">
 											<property name="actionImage">
 												<bean parent="Uif-Image"
-													p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif">
+													p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif">
 													<property name="cssClasses">
 														<list merge="true">
 															<value>ks-plan-Header-buttonImage</value>
@@ -375,7 +375,7 @@
 											p:actionScript="" p:title="Next Academic Year">
 											<property name="actionImage">
 												<bean parent="Uif-Image"
-													p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif">
+													p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif">
 													<property name="cssClasses">
 														<list merge="true">
 															<value>ks-plan-Header-buttonImage</value>
@@ -683,7 +683,7 @@
 				<property name="items">
 					<list>
 						<bean parent="Uif-Image"
-							p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif">
+							p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif">
 							<property name="cssClasses">
 								<list merge="true">
 									<value>@{#line.completed ? 'locked' : (#line.planning ?'unlocked' : 'locked')}</value>

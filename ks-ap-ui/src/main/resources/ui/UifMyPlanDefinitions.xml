@@ -237,7 +237,7 @@
     </bean>
 
     <bean id="MyPlanHelpImage" parent="Uif-HelpImage"
-          p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}iconHelp.png" p:altText="" p:title="">
+          p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}iconHelp.png" p:altText="" p:title="">
     </bean>
 
     <bean id="MyPlan-Tooltip" parent="Uif-Tooltip">
@@ -272,7 +272,7 @@
         </property>
     </bean>
 
-    <bean id="MyPlanRegistrationStatusIcon" parent="Uif-Image" p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif">
+    <bean id="MyPlanRegistrationStatusIcon" parent="Uif-Image" p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif">
         <property name="cssClasses">
             <list merge="true">
                 <value>@{#parentLine.completedTerm ? 'locked' : (#parentLine.openForPlanning ? 'unlocked' : 'locked')}</value>
@@ -283,7 +283,7 @@
         </property>
     </bean>
 
-    <bean id="MyPlanMessagingIcon" parent="Uif-Image" p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif">
+    <bean id="MyPlanMessagingIcon" parent="Uif-Image" p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif">
         <property name="cssClasses">
             <list merge="true">
                 <value>icon</value>
@@ -329,7 +329,7 @@
     </bean>
 
    	<bean id="myplan_dialog_anchor" parent="Uif-Image"
-   		p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif"/>
+   		p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif"/>
    	
     <bean id="myplan_section" parent="Uif-VerticalBoxSubSection" p:style="width: 230px; margin: 0;">
         <property name="header.render" value="false"/>

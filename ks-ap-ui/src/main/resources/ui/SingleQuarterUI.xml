@@ -512,7 +512,7 @@
                 <bean p:id="section_@{#line.instituteCode}_@{#line.atpId.replace('.','-')}_@{#line.code}"
                       parent="Uif-ImageField" p:label="Plan" p:altText="Plan"
                       p:title="Add section @{#line.code} to @{#line.shortTermName} Plan"
-                      p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif"
+                      p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif"
                       p:render="@{#line.planItemId eq null ? true : false}">
                     <property name="cssClasses">
                         <list merge="true">
@@ -538,7 +538,7 @@
                 <bean p:id="section_@{#line.planItemId}"
                       parent="Uif-ImageField" p:label="Plan" p:altText="Plan"
                       p:title="Delete section @{#line.code}"
-                      p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif"
+                      p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif"
                       p:render="@{#line.planItemId ne null ? true : false}">
                     <property name="cssClasses">
                         <list merge="true">

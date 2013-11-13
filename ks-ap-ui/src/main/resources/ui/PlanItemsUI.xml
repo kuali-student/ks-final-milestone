@@ -109,7 +109,7 @@
             } else {
                 retrieveOptions = {viewId:'PlannedCourses-LookupView'};
             }
-            myplanRetrieveComponent('planned_mock_detail','planned_courses_detail','search','lookup', retrieveOptions, null, {message:'&lt;p&gt;&lt;img src=&quot;@{#ConfigProperties['ks.myplan.externalizable.images.url']}ajaxAuditRunning32.gif&quot; alt=&quot;loading...&quot; /&gt;&lt;/p&gt;&lt;p&gt;Please wait while we are fetching your plan...&lt;/p&gt;', fadeIn:0, fadeOut:0});
+            myplanRetrieveComponent('planned_mock_detail','planned_courses_detail','search','lookup', retrieveOptions, null, {message:'&lt;p&gt;&lt;img src=&quot;@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxAuditRunning32.gif&quot; alt=&quot;loading...&quot; /&gt;&lt;/p&gt;&lt;p&gt;Please wait while we are fetching your plan...&lt;/p&gt;', fadeIn:0, fadeOut:0});
         "/>
     </bean>
 
@@ -433,7 +433,7 @@
                                               p:actionScript="" p:title="Previous Academic Year">
                                             <property name="actionImage">
                                                 <bean parent="Uif-Image"
-                                                      p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif">
+                                                      p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif">
                                                     <property name="cssClasses">
                                                         <list merge="true">
                                                             <value>ks-plan-Header-buttonImage</value>
@@ -479,7 +479,7 @@
                                               p:title="Next Academic Year">
                                             <property name="actionImage">
                                                 <bean parent="Uif-Image"
-                                                      p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif">
+                                                      p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif">
                                                     <property name="cssClasses">
                                                         <list merge="true">
                                                             <value>ks-plan-Header-buttonImage</value>
@@ -1051,7 +1051,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-ImageField"
-                                  p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif"
+                                  p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif"
                                   p:title="@{#line.showAlert ? #line.courseCode + ' is not scheduled for '+ #line.planItemDataObject.termName : #line.courseCode + ' is scheduled for '+ #line.planItemDataObject.termName}"
                                   p:altText="@{#line.showAlert ? #line.courseCode + ' is not scheduled for '+ #line.planItemDataObject.termName : #line.courseCode + ' is scheduled for '+ #line.planItemDataObject.termName}"
                                   p:render="@{#line.timeScheduleOpen}">
@@ -1221,7 +1221,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-ImageField"
-                                  p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif"
+                                  p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif"
                                   p:title="@{#line.showAlert ? #line.courseCode + ' is not scheduled for '+ #line.planItemDataObject.termName : #line.courseCode + ' is scheduled for '+ #line.planItemDataObject.termName}"
                                   p:altText="@{#line.showAlert ? #line.courseCode + ' is not scheduled for '+ #line.planItemDataObject.termName : #line.courseCode + ' is scheduled for '+ #line.planItemDataObject.termName}"
                                   p:render="@{#line.timeScheduleOpen}">
@@ -1497,7 +1497,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-ImageField"
-                                  p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif"
+                                  p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif"
                                   p:title="@{#line.showAlert ? #line.courseCode + ' is not scheduled for '+ #line.planItemDataObject.termName : #line.courseCode + ' is scheduled for '+ #line.planItemDataObject.termName}"
                                   p:altText="@{#line.showAlert ? #line.courseCode + ' is not scheduled for '+ #line.planItemDataObject.termName : #line.courseCode + ' is scheduled for '+ #line.planItemDataObject.termName}"
                                   p:render="@{#line.timeScheduleOpen}">
