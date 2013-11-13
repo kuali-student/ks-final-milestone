@@ -83,7 +83,9 @@ public class CollaboratorLookupableImpl extends LookupableImpl {
         	for (SearchResultRowInfo result : searchResult.getRows()) {
                 List<SearchResultCellInfo> cells = result.getCells();
                 CollaboratorWrapper collaboratorDisplay = new CollaboratorWrapper();
+                //implement a test to remove searched username from list
                 for (SearchResultCellInfo cell : cells) {
+                    
                     if (QuickViewByGivenName.GIVEN_NAME_RESULT.equals(cell.getKey())) {
                     	collaboratorDisplay.setGivenName(cell.getValue());
                     } else if (QuickViewByGivenName.PERSON_ID_RESULT.equals(cell.getKey())) {
@@ -96,7 +98,9 @@ public class CollaboratorLookupableImpl extends LookupableImpl {
                     	collaboratorDisplay.setDisplayName(cell.getValue());
                     }
                 }
-                collaboratorDisplays.add(collaboratorDisplay);
+                if(!ContextUtils.getContextInfo().getPrincipalId().equals(collaboratorDisplay.getPersonID())){
+                    collaboratorDisplays.add(collaboratorDisplay);    
+                }
         	}
 		} catch (Exception e) {
 		    FormattedLogger.error("An error occurred retrieving the Collaborators: " + e);
