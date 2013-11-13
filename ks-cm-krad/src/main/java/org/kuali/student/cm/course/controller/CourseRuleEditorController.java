@@ -49,9 +49,9 @@ import java.util.Map;
 @RequestMapping(value = "/courseOfferingRules")
 public class CourseRuleEditorController extends RuleEditorController {
     
-    private static final String KSKRMS_RULE_CO_TABS_ID = "KSCO-TabsWidget";
+    private static final String KSKRMS_RULE_CO_TABS_ID = "KS-TabsWidget";
     
-    private static final String KSKRMS_RULE_CO_EDITWITHOBJECT_ID = "KSCO-EditWithObject-EditSection";
+    private static final String KSKRMS_RULE_CO_EDITWITHOBJECT_ID = "KS-EditWithObject-EditSection";
 
     private static final String KSKRMS_MSG_INFO_CO_RULE_CHANGED = "info.krms.agenda.rule.co.changed";
     
