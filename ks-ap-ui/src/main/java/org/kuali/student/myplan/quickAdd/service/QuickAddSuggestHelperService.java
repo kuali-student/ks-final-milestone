@@ -70,7 +70,7 @@ public class QuickAddSuggestHelperService {
 					if (divisions.size() > 0) {
 						subject = divisions.get(0);
 						searchRequest = new SearchRequestInfo(
-								"myplan.clu.divisionAndCode");
+								"ksap.clu.divisionAndCode");
 						results = searchController.getResults(searchRequest,
 								subject, number);
 					}
@@ -83,12 +83,12 @@ public class QuickAddSuggestHelperService {
 					if (divisions.size() > 0) {
 						subject = divisions.get(0);
 						searchRequest = new SearchRequestInfo(
-								"myplan.clu.division");
+								"ksap.clu.division");
 						results = searchController.getResults(searchRequest,
 								subject, number);
 					} else {
 						searchRequest = new SearchRequestInfo(
-								"myplan.clu.division");
+								"ksap.clu.division");
 						results = searchController.getResults(searchRequest,
 								subject, number);
 					}

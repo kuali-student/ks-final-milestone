@@ -1022,7 +1022,7 @@ public class CourseSearchController extends UifControllerBase {
 		}
 
 		SearchRequestInfo searchRequest = new SearchRequestInfo(
-				"myplan.course.getcluid");
+				"ksap.course.getcluid");
 		SearchResult searchResult = null;
 		try {
 			searchRequest.addParam("number", number);

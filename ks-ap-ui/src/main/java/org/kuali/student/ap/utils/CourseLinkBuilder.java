@@ -371,7 +371,7 @@ public class CourseLinkBuilder {
 	private static synchronized Map<String, String> getCourseInfo(
 			String curriculumCode, String courseNumber, ContextInfo context) {
 		SearchRequestInfo searchRequest = new SearchRequestInfo(
-				"myplan.course.getCourseTitleAndId");
+				"ksap.course.getCourseTitleAndId");
 		searchRequest.addParam("subject", curriculumCode);
 		searchRequest.addParam("number", courseNumber);
 		// TODO: Fix when version issue for course is addressed

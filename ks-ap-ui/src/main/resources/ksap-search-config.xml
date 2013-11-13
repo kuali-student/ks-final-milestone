@@ -35,7 +35,7 @@
 	 ">
 
     <import resource="classpath:lu-search-config.xml"/>
-    <search:searchType id="myplan.course.info">
+    <search:searchType id="ksap.course.info">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
@@ -66,7 +66,7 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="myplan.course.info.atp">
+    <search:searchType id="ksap.course.info.atp">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
@@ -82,7 +82,7 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="myplan.course.info.gened">
+    <search:searchType id="ksap.course.info.gened">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
@@ -98,7 +98,7 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="myplan.course.info.credits.details">
+    <search:searchType id="ksap.course.info.credits.details">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
@@ -123,7 +123,7 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="myplan.distinct.clu.divisions">
+    <search:searchType id="ksap.distinct.clu.divisions">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
@@ -139,7 +139,7 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="myplan.clu.divisionAndCode">
+    <search:searchType id="ksap.clu.divisionAndCode">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
@@ -155,7 +155,7 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="myplan.clu.division">
+    <search:searchType id="ksap.clu.division">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
@@ -169,7 +169,7 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="myplan.lu.search.fulltext">
+    <search:searchType id="ksap.lu.search.fulltext">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
@@ -183,7 +183,7 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="myplan.lu.search.title">
+    <search:searchType id="ksap.lu.search.title">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
@@ -197,7 +197,7 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="myplan.lu.search.description">
+    <search:searchType id="ksap.lu.search.description">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
@@ -211,7 +211,7 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="myplan.lu.search.divisionAndFulltext">
+    <search:searchType id="ksap.lu.search.divisionAndFulltext">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
@@ -225,7 +225,7 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="myplan.lu.search.divisionAndCode">
+    <search:searchType id="ksap.lu.search.divisionAndCode">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
@@ -239,7 +239,7 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="myplan.lu.search.divisionAndLevel">
+    <search:searchType id="ksap.lu.search.divisionAndLevel">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
@@ -253,7 +253,7 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="myplan.lu.search.division">
+    <search:searchType id="ksap.lu.search.division">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
@@ -267,7 +267,7 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="myplan.lu.search.additionalDivision">
+    <search:searchType id="ksap.lu.search.additionalDivision">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
@@ -375,7 +375,7 @@
         <property name="sourceMap">
             <map merge="true">
 
-                <entry key="myplan.distinct.clu.divisions">
+                <entry key="ksap.distinct.clu.divisions">
                     <value>
                         SELECT
                         distinct( ident.division )
@@ -384,7 +384,7 @@
                     </value>
                 </entry>
 
-                <entry key="myplan.lu.search.title">
+                <entry key="ksap.lu.search.title">
                     <value>
                         SELECT
                         clu.id
@@ -409,7 +409,7 @@
                         ORDER BY ident.code
                     </value>
                 </entry>
-                <entry key="myplan.lu.search.description">
+                <entry key="ksap.lu.search.description">
                     <value>
                         SELECT
                         clu.id
@@ -435,7 +435,7 @@
                     </value>
                 </entry>
 
-                <entry key="myplan.lu.search.fulltext">
+                <entry key="ksap.lu.search.fulltext">
                     <value>
                         SELECT
                         clu.id
@@ -462,7 +462,7 @@
                     </value>
                 </entry>
 
-                <entry key="myplan.lu.search.divisionAndCode">
+                <entry key="ksap.lu.search.divisionAndCode">
                     <value>
                         SELECT
                         clu.id
@@ -487,7 +487,7 @@
                     </value>
                 </entry>
 
-                <entry key="myplan.lu.search.divisionAndLevel">
+                <entry key="ksap.lu.search.divisionAndLevel">
                     <value>
                         SELECT
                         clu.id
@@ -511,7 +511,7 @@
                         ORDER BY ident.suffixCode
                     </value>
                 </entry>
-                <entry key="myplan.lu.search.additionalDivision">
+                <entry key="ksap.lu.search.additionalDivision">
                     <value>
                         SELECT
                         clu.id
@@ -533,7 +533,7 @@
                         ORDER BY ident.suffixCode
                     </value>
                 </entry>
-                <entry key="myplan.lu.search.division">
+                <entry key="ksap.lu.search.division">
                     <value>
                         SELECT
                         clu.id
@@ -555,7 +555,7 @@
                         ORDER BY ident.suffixCode
                     </value>
                 </entry>
-                <entry key="myplan.course.info">
+                <entry key="ksap.course.info">
                     <value>NATIVE:
                         SELECT
                         ident.LNG_NAME,
@@ -586,7 +586,7 @@
                 </entry>
 
 
-                <entry key="myplan.course.info.atp">
+                <entry key="ksap.course.info.atp">
                     <value>NATIVE:
                         SELECT
                         ATP_TYPE_KEY
@@ -596,7 +596,7 @@
                     </value>
                 </entry>
 
-                <entry key="myplan.course.info.gened">
+                <entry key="ksap.course.info.gened">
                     <value>NATIVE:
                         SELECT
                         ATTR_NAME
@@ -610,7 +610,7 @@
                     </value>
                 </entry>
 
-                <entry key="myplan.course.info.credits.details">
+                <entry key="ksap.course.info.credits.details">
                     <value>NATIVE:
                         SELECT
                         max( v.rslt_comp_id ),
@@ -739,7 +739,7 @@
                 </entry>-->
 
                 <!--Quick search queries-->
-                <entry key="myplan.clu.division">
+                <entry key="ksap.clu.division">
                     <value>
                         SELECT
                         ident.code
@@ -760,7 +760,7 @@
                     </value>
                 </entry>
 
-                <entry key="myplan.clu.divisionAndCode">
+                <entry key="ksap.clu.divisionAndCode">
                     <value>
                         SELECT
                         ident.code

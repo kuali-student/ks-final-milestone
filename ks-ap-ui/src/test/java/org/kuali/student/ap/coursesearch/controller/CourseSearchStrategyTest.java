@@ -162,7 +162,7 @@ public class CourseSearchStrategyTest {
 		strategy.addDivisionSearches(divisions, codes, levels, requests);
 		assertEquals(1, requests.size());
 		SearchRequestInfo request = requests.get(0);
-		assertEquals("myplan.lu.search.division", request.getSearchKey());
+		assertEquals("ksap.lu.search.division", request.getSearchKey());
 		assertEquals("DIVISION", request.getParams().get(0).getValues().get(0));
 	}
 
@@ -178,7 +178,7 @@ public class CourseSearchStrategyTest {
 		strategy.addDivisionSearches(divisions, codes, levels, requests);
 		assertEquals(1, requests.size());
 		SearchRequestInfo request = requests.get(0);
-		assertEquals("myplan.lu.search.divisionAndCode", request.getSearchKey());
+		assertEquals("ksap.lu.search.divisionAndCode", request.getSearchKey());
 		assertEquals("DIVISION", request.getParams().get(0).getValues().get(0));
 		assertEquals("CODE", request.getParams().get(1).getValues().get(0));
 	}
@@ -196,7 +196,7 @@ public class CourseSearchStrategyTest {
 		strategy.addDivisionSearches(divisions, codes, levels, requests);
 		assertEquals(1, requests.size());
 		SearchRequestInfo request = requests.get(0);
-		assertEquals("myplan.lu.search.divisionAndLevel",
+		assertEquals("ksap.lu.search.divisionAndLevel",
 				request.getSearchKey());
 		assertEquals("DIVISION", request.getParams().get(0).getValues().get(0));
 		assertEquals("100", request.getParams().get(1).getValues().get(0));
@@ -210,7 +210,7 @@ public class CourseSearchStrategyTest {
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
 		strategy.addFullTextSearches(query, requests);
 		assertEquals(2, requests.size());
-		assertEquals("myplan.lu.search.fulltext", requests.get(0)
+		assertEquals("ksap.lu.search.fulltext", requests.get(0)
 				.getSearchKey());
 		assertEquals("text", requests.get(0).getParams().get(0).getValues()
 				.get(0));
@@ -249,7 +249,7 @@ public class CourseSearchStrategyTest {
 		;
 		List<SearchRequestInfo> requests = strategy.queryToRequests(form);
 		assertEquals(1, requests.size());
-		assertEquals("myplan.lu.search.divisionAndCode", requests.get(0)
+		assertEquals("ksap.lu.search.divisionAndCode", requests.get(0)
 				.getSearchKey());
 		assertEquals(4, requests.get(0).getParams().size());
 		List<SearchParamInfo> params = requests.get(0).getParams();
@@ -285,7 +285,7 @@ public class CourseSearchStrategyTest {
 		request = requests.get(0);
 		params = request.getParams();
 		assertEquals(3, params.size());
-		assertEquals("myplan.lu.search.division", request.getSearchKey());
+		assertEquals("ksap.lu.search.division", request.getSearchKey());
 		param = params.get(0);
 		assertEquals("division", param.getKey());
 		assertEquals("PHIL", param.getValues().get(0));
@@ -296,7 +296,7 @@ public class CourseSearchStrategyTest {
 		request = requests.get(1);
 		params = request.getParams();
 		assertEquals(3, params.size());
-		assertEquals("myplan.lu.search.title", request.getSearchKey());
+		assertEquals("ksap.lu.search.title", request.getSearchKey());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
 		assertEquals("PHIL", param.getValues().get(0));
@@ -311,7 +311,7 @@ public class CourseSearchStrategyTest {
 		request = requests.get(2);
 		params = request.getParams();
 		assertEquals(3, params.size());
-		assertEquals("myplan.lu.search.description", request.getSearchKey());
+		assertEquals("ksap.lu.search.description", request.getSearchKey());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
 		assertEquals("PHIL", param.getValues().get(0));
@@ -342,7 +342,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(0);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.title", request.getSearchKey());
+		assertEquals("ksap.lu.search.title", request.getSearchKey());
 		assertEquals(3, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
@@ -353,7 +353,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(1);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.description", request.getSearchKey());
+		assertEquals("ksap.lu.search.description", request.getSearchKey());
 		assertEquals(3, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
@@ -382,7 +382,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(0);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.divisionAndLevel",
+		assertEquals("ksap.lu.search.divisionAndLevel",
 				request.getSearchKey());
 		assertEquals(4, params.size());
 		param = params.get(0);
@@ -420,7 +420,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(0);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.title", request.getSearchKey());
+		assertEquals("ksap.lu.search.title", request.getSearchKey());
 		assertEquals(3, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
@@ -431,7 +431,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(1);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.description", request.getSearchKey());
+		assertEquals("ksap.lu.search.description", request.getSearchKey());
 		assertEquals(3, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
@@ -461,7 +461,7 @@ public class CourseSearchStrategyTest {
 	 * null; SearchRequestInfo request = null; assertEquals(4, requests.size());
 	 * 
 	 * request = requests.get(0); params = request.getParams();
-	 * assertEquals("myplan.lu.search.division", request.getSearchKey());
+	 * assertEquals("ksap.lu.search.division", request.getSearchKey());
 	 * assertEquals(2, params.size()); param = params.get(0);
 	 * assertEquals("division", param.getKey()); assertEquals("HIST  ",
 	 * param.getValues().get(0)); param = params.get(1);
@@ -470,7 +470,7 @@ public class CourseSearchStrategyTest {
 	 * param.getValues().get(0));
 	 * 
 	 * request = requests.get(1); params = request.getParams();
-	 * assertEquals("myplan.lu.search.title", request.getSearchKey());
+	 * assertEquals("ksap.lu.search.title", request.getSearchKey());
 	 * assertEquals(2, params.size()); param = params.get(0);
 	 * assertEquals("queryText", param.getKey()); assertEquals("HIST",
 	 * param.getValues().get(0)); param = params.get(1);
@@ -479,7 +479,7 @@ public class CourseSearchStrategyTest {
 	 * param.getValues().get(0));
 	 * 
 	 * request = requests.get(2); params = request.getParams();
-	 * assertEquals("myplan.lu.search.additionalDivision",
+	 * assertEquals("ksap.lu.search.additionalDivision",
 	 * request.getSearchKey()); assertEquals(2, params.size()); param =
 	 * params.get(0); assertEquals("divisions", param.getKey()); String str =
 	 * (String) param.getValues().get(0); boolean t1 = str.contains("THIST ");
@@ -490,7 +490,7 @@ public class CourseSearchStrategyTest {
 	 * 
 	 * 
 	 * request = requests.get(3); params = request.getParams();
-	 * assertEquals("myplan.lu.search.description", request.getSearchKey());
+	 * assertEquals("ksap.lu.search.description", request.getSearchKey());
 	 * assertEquals(2, params.size()); param = params.get(0);
 	 * assertEquals("queryText", param.getKey()); assertEquals("HIST",
 	 * param.getValues().get(0)); param = params.get(1);
@@ -519,7 +519,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(0);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.title", request.getSearchKey());
+		assertEquals("ksap.lu.search.title", request.getSearchKey());
 		assertEquals(3, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
@@ -534,7 +534,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(1);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.title", request.getSearchKey());
+		assertEquals("ksap.lu.search.title", request.getSearchKey());
 		assertEquals(3, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
@@ -549,7 +549,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(2);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.description", request.getSearchKey());
+		assertEquals("ksap.lu.search.description", request.getSearchKey());
 		assertEquals(3, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
@@ -564,7 +564,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(3);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.description", request.getSearchKey());
+		assertEquals("ksap.lu.search.description", request.getSearchKey());
 		assertEquals(3, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
@@ -593,7 +593,7 @@ public class CourseSearchStrategyTest {
 	 * List<SearchParamInfo> params = null; SearchParamInfo param = null;
 	 * SearchRequestInfo request = null; assertEquals(6, requests.size());
 	 * request = requests.get(0); params = request.getParams();
-	 * assertEquals("myplan.lu.search.division", request.getSearchKey());
+	 * assertEquals("ksap.lu.search.division", request.getSearchKey());
 	 * assertEquals(3, params.size()); param = params.get(0);
 	 * assertEquals("division", param.getKey()); assertEquals("BIOL",
 	 * param.getValues().get(0)); param = params.get(1);
@@ -604,7 +604,7 @@ public class CourseSearchStrategyTest {
 	 * .getAtpHelper().getLastScheduledAtpId(), param.getValues() .get(0));
 	 * 
 	 * request = requests.get(1); params = request.getParams();
-	 * assertEquals("myplan.lu.search.division", request.getSearchKey());
+	 * assertEquals("ksap.lu.search.division", request.getSearchKey());
 	 * assertEquals(3, params.size()); param = params.get(0);
 	 * assertEquals("division", param.getKey()); assertEquals("PHIL",
 	 * param.getValues().get(0)); param = params.get(1);
@@ -615,7 +615,7 @@ public class CourseSearchStrategyTest {
 	 * .getAtpHelper().getLastScheduledAtpId(), param.getValues() .get(0));
 	 * 
 	 * request = requests.get(2); params = request.getParams();
-	 * assertEquals("myplan.lu.search.title", request.getSearchKey());
+	 * assertEquals("ksap.lu.search.title", request.getSearchKey());
 	 * assertEquals(3, params.size()); param = params.get(0);
 	 * assertEquals("queryText", param.getKey()); assertEquals("BIOL",
 	 * param.getValues().get(0)); param = params.get(1);
@@ -626,7 +626,7 @@ public class CourseSearchStrategyTest {
 	 * .getAtpHelper().getLastScheduledAtpId(), param.getValues() .get(0));
 	 * 
 	 * request = requests.get(3); params = request.getParams();
-	 * assertEquals("myplan.lu.search.description", request.getSearchKey());
+	 * assertEquals("ksap.lu.search.description", request.getSearchKey());
 	 * assertEquals(3, params.size()); param = params.get(0);
 	 * assertEquals("queryText", param.getKey()); assertEquals("BIOL",
 	 * param.getValues().get(0)); param = params.get(1);
@@ -637,7 +637,7 @@ public class CourseSearchStrategyTest {
 	 * .getAtpHelper().getLastScheduledAtpId(), param.getValues() .get(0));
 	 * 
 	 * request = requests.get(4); params = request.getParams();
-	 * assertEquals("myplan.lu.search.title", request.getSearchKey());
+	 * assertEquals("ksap.lu.search.title", request.getSearchKey());
 	 * assertEquals(3, params.size()); param = params.get(0);
 	 * assertEquals("queryText", param.getKey()); assertEquals("PHIL",
 	 * param.getValues().get(0)); param = params.get(1);
@@ -648,7 +648,7 @@ public class CourseSearchStrategyTest {
 	 * .getAtpHelper().getLastScheduledAtpId(), param.getValues() .get(0));
 	 * 
 	 * request = requests.get(5); params = request.getParams();
-	 * assertEquals("myplan.lu.search.description", request.getSearchKey());
+	 * assertEquals("ksap.lu.search.description", request.getSearchKey());
 	 * assertEquals(3, params.size()); param = params.get(0);
 	 * assertEquals("queryText", param.getKey()); assertEquals("PHIL",
 	 * param.getValues().get(0)); param = params.get(1);
@@ -726,7 +726,7 @@ public class CourseSearchStrategyTest {
 		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
 		;
 		SearchRequestInfo request = new SearchRequestInfo(
-				"myplan.lu.search.division");
+				"ksap.lu.search.division");
 		request.addParam("division", "ASTR  ");
 		request.addParam("campuses", CourseSearchStrategyImpl.NO_CAMPUS);
 		requests.add(request);
@@ -738,7 +738,7 @@ public class CourseSearchStrategyTest {
 		request = requests.get(0);
 		params = request.getParams();
 		assertEquals(2, params.size());
-		assertEquals("myplan.lu.search.division", request.getSearchKey());
+		assertEquals("ksap.lu.search.division", request.getSearchKey());
 		param = params.get(0);
 		assertEquals("division", param.getKey());
 		assertEquals("ASTR  ", param.getValues().get(0));
@@ -750,7 +750,7 @@ public class CourseSearchStrategyTest {
 		request = requests.get(1);
 		params = request.getParams();
 		assertEquals(2, params.size());
-		assertEquals("myplan.lu.search.title", request.getSearchKey());
+		assertEquals("ksap.lu.search.title", request.getSearchKey());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
 		assertEquals("ASTR", param.getValues().get(0));
@@ -762,7 +762,7 @@ public class CourseSearchStrategyTest {
 		request = requests.get(2);
 		params = request.getParams();
 		assertEquals(2, params.size());
-		assertEquals("myplan.lu.search.description", request.getSearchKey());
+		assertEquals("ksap.lu.search.description", request.getSearchKey());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
 		assertEquals("ASTR", param.getValues().get(0));
@@ -785,7 +785,7 @@ public class CourseSearchStrategyTest {
 		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
 		;
 		SearchRequestInfo request = new SearchRequestInfo(
-				"myplan.lu.search.division");
+				"ksap.lu.search.division");
 		request.addParam("division", "HIST  ");
 		request.addParam("campuses", CourseSearchStrategyImpl.NO_CAMPUS);
 		requests.add(request);
@@ -796,7 +796,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(0);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.division", request.getSearchKey());
+		assertEquals("ksap.lu.search.division", request.getSearchKey());
 		assertEquals(2, params.size());
 		param = params.get(0);
 		assertEquals("division", param.getKey());
@@ -808,7 +808,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(1);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.title", request.getSearchKey());
+		assertEquals("ksap.lu.search.title", request.getSearchKey());
 		assertEquals(2, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
@@ -820,7 +820,7 @@ public class CourseSearchStrategyTest {
 		request = requests.get(2);
 		// TODO: correct expectations
 		// params = request.getParams();
-		// assertEquals("myplan.lu.search.additionalDivision",
+		// assertEquals("ksap.lu.search.additionalDivision",
 		// request.getSearchKey());
 		// assertEquals(2, params.size());
 		// param = params.get(0);
@@ -837,7 +837,7 @@ public class CourseSearchStrategyTest {
 		//
 		// request = requests.get(3);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.description", request.getSearchKey());
+		assertEquals("ksap.lu.search.description", request.getSearchKey());
 		assertEquals(2, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
@@ -860,7 +860,7 @@ public class CourseSearchStrategyTest {
 		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
 		;
 		SearchRequestInfo request = new SearchRequestInfo(
-				"myplan.lu.search.fulltext");
+				"ksap.lu.search.fulltext");
 		request.addParam("queryText", "PHILONOMY");
 		request.addParam("campuses", "310");
 		requests.add(request);
@@ -871,7 +871,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(0);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.title", request.getSearchKey());
+		assertEquals("ksap.lu.search.title", request.getSearchKey());
 		assertEquals(2, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
@@ -882,7 +882,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(1);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.description", request.getSearchKey());
+		assertEquals("ksap.lu.search.description", request.getSearchKey());
 		assertEquals(2, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
@@ -904,11 +904,11 @@ public class CourseSearchStrategyTest {
 		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
 		;
 		SearchRequestInfo request = new SearchRequestInfo(
-				"myplan.lu.search.fulltext");
+				"ksap.lu.search.fulltext");
 		request.addParam("queryText", "ASTRONOMY");
 		request.addParam("campuses", "310");
 		requests.add(request);
-		request = new SearchRequestInfo("myplan.lu.search.fulltext");
+		request = new SearchRequestInfo("ksap.lu.search.fulltext");
 		request.addParam("queryText", "BIOLOGY");
 		request.addParam("campuses", "310");
 		requests.add(request);
@@ -920,7 +920,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(0);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.title", request.getSearchKey());
+		assertEquals("ksap.lu.search.title", request.getSearchKey());
 		assertEquals(2, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
@@ -931,7 +931,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(2);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.description", request.getSearchKey());
+		assertEquals("ksap.lu.search.description", request.getSearchKey());
 		assertEquals(2, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
@@ -942,7 +942,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(1);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.title", request.getSearchKey());
+		assertEquals("ksap.lu.search.title", request.getSearchKey());
 		assertEquals(2, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
@@ -953,7 +953,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(3);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.description", request.getSearchKey());
+		assertEquals("ksap.lu.search.description", request.getSearchKey());
 		assertEquals(2, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
@@ -975,11 +975,11 @@ public class CourseSearchStrategyTest {
 		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
 		;
 		SearchRequestInfo request = new SearchRequestInfo(
-				"myplan.lu.search.division");
+				"ksap.lu.search.division");
 		request.addParam("division", "ASTR  ");
 		request.addParam("campuses", CourseSearchStrategyImpl.NO_CAMPUS);
 		requests.add(request);
-		request = new SearchRequestInfo("myplan.lu.search.division");
+		request = new SearchRequestInfo("ksap.lu.search.division");
 		request.addParam("division", "BIOL  ");
 		request.addParam("campuses", CourseSearchStrategyImpl.NO_CAMPUS);
 		requests.add(request);
@@ -991,7 +991,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(0);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.division", request.getSearchKey());
+		assertEquals("ksap.lu.search.division", request.getSearchKey());
 		assertEquals(2, params.size());
 		param = params.get(0);
 		assertEquals("division", param.getKey());
@@ -1003,7 +1003,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(1);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.division", request.getSearchKey());
+		assertEquals("ksap.lu.search.division", request.getSearchKey());
 		assertEquals(2, params.size());
 		param = params.get(0);
 		assertEquals("division", param.getKey());
@@ -1015,7 +1015,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(2);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.title", request.getSearchKey());
+		assertEquals("ksap.lu.search.title", request.getSearchKey());
 		assertEquals(2, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
@@ -1027,7 +1027,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(3);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.description", request.getSearchKey());
+		assertEquals("ksap.lu.search.description", request.getSearchKey());
 		assertEquals(2, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
@@ -1039,7 +1039,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(4);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.title", request.getSearchKey());
+		assertEquals("ksap.lu.search.title", request.getSearchKey());
 		assertEquals(2, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
@@ -1051,7 +1051,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(5);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.description", request.getSearchKey());
+		assertEquals("ksap.lu.search.description", request.getSearchKey());
 		assertEquals(2, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
@@ -1074,7 +1074,7 @@ public class CourseSearchStrategyTest {
 		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
 		;
 		SearchRequestInfo request = new SearchRequestInfo(
-				"myplan.lu.search.division");
+				"ksap.lu.search.division");
 		request.addParam("division", "A S   ");
 		request.addParam("campuses", CourseSearchStrategyImpl.NO_CAMPUS);
 		requests.add(request);
@@ -1085,7 +1085,7 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(0);
 		params = request.getParams();
-		assertEquals("myplan.lu.search.division", request.getSearchKey());
+		assertEquals("ksap.lu.search.division", request.getSearchKey());
 		assertEquals(2, params.size());
 		param = params.get(0);
 		assertEquals("division", param.getKey());

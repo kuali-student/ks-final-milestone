@@ -610,7 +610,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 	 */
 	@Override
 	public String getVerifiedCourseId(String courseId) {
-		SearchRequestInfo req = new SearchRequestInfo("myplan.course.version.id");
+		SearchRequestInfo req = new SearchRequestInfo("ksap.course.version.id");
 		req.addParam("courseId", courseId);
 		req.addParam("lastScheduledTerm", KsapFrameworkServiceLocator.getTermHelper().getLastScheduledTerm().getId());
 		SearchResult result;

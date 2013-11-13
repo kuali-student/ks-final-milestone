@@ -41,7 +41,7 @@ public class CoursePreReqSearch {
         try {
 
             ArrayList<String> courseList = new ArrayList<String>();
-            SearchRequestInfo req = new SearchRequestInfo( "myplan.course.prereqsearch.subject" );
+            SearchRequestInfo req = new SearchRequestInfo( "ksap.course.prereqsearch.subject" );
             req.addParam( "subject", subject );
             SearchResult result = getCluService().search( req, context );
             for (SearchResultRow row : result.getRows()) {
@@ -68,7 +68,7 @@ public class CoursePreReqSearch {
             range = range.toUpperCase().replace( "X", "_" );
 
             ArrayList<String> courseList = new ArrayList<String>();
-            SearchRequestInfo req = new SearchRequestInfo( "myplan.course.prereqsearch.range" );
+            SearchRequestInfo req = new SearchRequestInfo( "ksap.course.prereqsearch.range" );
             req.addParam( "subject", subject );
             req.addParam( "range", range );
             SearchResult result = getCluService().search( req, context );
@@ -96,7 +96,7 @@ public class CoursePreReqSearch {
             range = range.toUpperCase().replace( "X", "_" );
 
             ArrayList<String> courseList = new ArrayList<String>();
-            SearchRequestInfo req = new SearchRequestInfo( "myplan.course.prereqsearch.exclusions" );
+            SearchRequestInfo req = new SearchRequestInfo( "ksap.course.prereqsearch.exclusions" );
             req.addParam( "subject", subject );
             req.addParam( "range", range );
             SearchResult result = getCluService().search( req, context );

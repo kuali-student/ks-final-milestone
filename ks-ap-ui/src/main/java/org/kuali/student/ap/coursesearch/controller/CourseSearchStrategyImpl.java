@@ -200,7 +200,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		if (rv == null) {
 			Map<String, Credit> creditMap = new java.util.LinkedHashMap<String, Credit>();
 			// SearchRequestInfo searchRequest = new SearchRequestInfo(
-			// "myplan.course.info.credits.details");
+			// "ksap.course.info.credits.details");
 			// searchRequest.setParams(Collections.<SearchParamInfo>
 			// emptyList());
 			String resultScaleKey = "kuali.result.scale.credit.degree";
@@ -302,7 +302,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		LOG.info("Start of method getCourseInfo of CourseSearchController:"
 				+ System.currentTimeMillis());
 		List<CourseSearchItemImpl> listOfCourses = new ArrayList<CourseSearchItemImpl>();
-		SearchRequestInfo request = new SearchRequestInfo("myplan.course.info");
+		SearchRequestInfo request = new SearchRequestInfo("ksap.course.info");
 		request.addParam("courseIDs", courseIDs);
 		SearchResult result;
 		try {
@@ -353,7 +353,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		LOG.info("Start of method getCourseInfo of CourseSearchController:"
 				+ System.currentTimeMillis());
 
-		SearchRequestInfo request = new SearchRequestInfo("myplan.course.info");
+		SearchRequestInfo request = new SearchRequestInfo("ksap.course.info");
 		request.addParam("courseID", courseId);
 		SearchResult result;
 		try {
@@ -565,7 +565,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				+ System.currentTimeMillis());
 		String courseId = course.getCourseId();
 		SearchRequestInfo request = new SearchRequestInfo(
-				"myplan.course.info.atp");
+				"ksap.course.info.atp");
 		request.addParam("courseID", courseId);
 
 		SearchResult result;
@@ -626,7 +626,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				+ System.currentTimeMillis());
 		// String courseId = course.getCourseId();
 		SearchRequestInfo request = new SearchRequestInfo(
-				"myplan.course.info.atp");
+				"ksap.course.info.atp");
 		request.addParam("courseIDs", courseIDs);
 
 		SearchResult result;
@@ -716,7 +716,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				+ System.currentTimeMillis());
 		String courseId = course.getCourseId();
 		SearchRequestInfo request = new SearchRequestInfo(
-				"myplan.course.info.gened");
+				"ksap.course.info.gened");
 		request.addParam("courseID", courseId);
 		List<String> reqs = new ArrayList<String>();
 		SearchResult result;
@@ -751,7 +751,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				+ System.currentTimeMillis());
 		// String courseId = course.getCourseId();
 		SearchRequestInfo request = new SearchRequestInfo(
-				"myplan.course.info.gened");
+				"ksap.course.info.gened");
 		request.addParam("courseIDs", courseIDs);
 		List<String> reqs = new ArrayList<String>();
 		SearchResult result;
@@ -1013,7 +1013,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				.getContextInfo();
 		CluService cluService = KsapFrameworkServiceLocator.getCluService();
 		SearchRequestInfo request = new SearchRequestInfo(
-				"myplan.distinct.clu.divisions");
+				"ksap.distinct.clu.divisions");
 		SearchResult result;
 		try {
 			result = cluService.search(request, context);
@@ -1120,7 +1120,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 			for (String code : codes) {
 				needDivisionQuery = false;
 				SearchRequestInfo request = new SearchRequestInfo(
-						"myplan.lu.search.divisionAndCode");
+						"ksap.lu.search.divisionAndCode");
 				request.addParam("division", division);
 				request.addParam("code", code);
 				requests.add(request);
@@ -1133,7 +1133,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				level = level.substring(0, 1) + "00";
 
 				SearchRequestInfo request = new SearchRequestInfo(
-						"myplan.lu.search.divisionAndLevel");
+						"ksap.lu.search.divisionAndLevel");
 				request.addParam("division", division);
 				request.addParam("level", level);
 				requests.add(request);
@@ -1141,7 +1141,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
 			if (needDivisionQuery) {
 				SearchRequestInfo request = new SearchRequestInfo(
-						"myplan.lu.search.division");
+						"ksap.lu.search.division");
 				request.addParam("division", division);
 				requests.add(request);
 			}
@@ -1166,7 +1166,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				break;
 			}
 			SearchRequestInfo request = new SearchRequestInfo(
-					"myplan.lu.search.fulltext");
+					"ksap.lu.search.fulltext");
 			request.addParam("queryText", queryText);
 			requests.add(request);
 		}
@@ -1241,7 +1241,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		for (int i = 0; i < size; i++) {
 			if (requests.get(i).getSearchKey() != null) {
 				if (requests.get(i).getSearchKey()
-						.equalsIgnoreCase("myplan.lu.search.division")) {
+						.equalsIgnoreCase("ksap.lu.search.division")) {
 					String queryText = (String) requests.get(i).getParams()
 							.get(0).getValues().get(0);
 					String key = (String) requests.get(i).getParams().get(0)
@@ -1250,7 +1250,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 						break;
 					} else {
 						SearchRequestInfo request0 = new SearchRequestInfo(
-								"myplan.lu.search.title");
+								"ksap.lu.search.title");
 						request0.addParam("queryText", queryText.trim());
 						//addCampusParam(request0, form);
 						requests.add(request0);
@@ -1285,13 +1285,13 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 							String div = additionalDivisions.substring(0,
 									additionalDivisions.length() - 1);
 							SearchRequestInfo request1 = new SearchRequestInfo(
-									"myplan.lu.search.additionalDivision");
+									"ksap.lu.search.additionalDivision");
 							request1.addParam("divisions", div.trim());
 							//addCampusParam(request1, form);
 							requests.add(request1);
 						}
 						SearchRequestInfo request2 = new SearchRequestInfo(
-								"myplan.lu.search.description");
+								"ksap.lu.search.description");
 						request2.addParam("queryText", queryText.trim());
 						//addCampusParam(request2, form);
 						requests.add(request2);
@@ -1300,7 +1300,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
 				}
 				if (requests.get(i).getSearchKey()
-						.equalsIgnoreCase("myplan.lu.search.fulltext")) {
+						.equalsIgnoreCase("ksap.lu.search.fulltext")) {
 					String key = (String) requests.get(i).getParams().get(0)
 							.getValues().get(0);
 					String division = null;
@@ -1338,27 +1338,27 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 							}
 							if (division != null) {
 								requests.get(i).setSearchKey(
-										"myplan.lu.search.division");
+										"ksap.lu.search.division");
 								requests.get(i).getParams().get(0)
 										.setKey("division");
 								requests.get(i).getParams().get(0)
 										.setValues(Arrays.asList(division));
 
 								SearchRequestInfo request1 = new SearchRequestInfo(
-										"myplan.lu.search.title");
+										"ksap.lu.search.title");
 								request1.addParam("queryText", key.trim());
 								//addCampusParam(request1, form);
 								requests.add(request1);
 								SearchRequestInfo request2 = new SearchRequestInfo(
-										"myplan.lu.search.description");
+										"ksap.lu.search.description");
 								request2.addParam("queryText", key.trim());
 								//addCampusParam(request2, form);
 								requests.add(request2);
 							} else {
 								requests.get(i).setSearchKey(
-										"myplan.lu.search.title");
+										"ksap.lu.search.title");
 								SearchRequestInfo request2 = new SearchRequestInfo(
-										"myplan.lu.search.description");
+										"ksap.lu.search.description");
 								request2.addParam("queryText", key.trim());
 								//addCampusParam(request2, form);
 								requests.add(request2);
