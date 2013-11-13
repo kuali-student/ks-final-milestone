@@ -431,8 +431,10 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-AcademicCalendar-HolidaySubSection" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure" p:render="@{!#view.readOnly ? 'true' : !#form.holidayCalendarList.empty ?  'true' : 'false'}">
-        <property name="id" value="acal-holidays" />
+    <bean id="KS-AcademicCalendar-HolidaySubSection" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure"
+          p:render="@{!#view.readOnly ? 'true' : !#form.holidayCalendarList.empty ?  'true' : 'false'}"
+          p:refreshWhenChangedPropertyNames="academicCalendarInfo.startDate">
+        <property name="id" value="acal-holidays"/>
         <property name="header">
             <bean parent="Uif-HeaderThree" p:cssClasses="acal-header">
                 <property name="headerText" value="Holidays"/>
@@ -488,9 +490,30 @@ limitations under the License.
                 </property>
             </bean>
         </property>
+        <property name="addLineItems">
+            <list>
+                <bean id="holidayCalendars" parent="Uif-InputField" p:label=" " p:propertyName="id">
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry">
+                            <property name="directInquiryAction">
+                                <bean parent="Uif-ActionLink" p:actionLabel="View selected holiday calendar details" p:style="display:block" />
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.HolidayWrapperListFinder" p:addBlankOption="false"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="layoutManager.actionsInLineGroup" value="true"/>
         <property name="addLineActions">
             <list>
-                <!-- Empty -->
+                <bean parent="Uif-AddLineAction" p:actionLabel="Add Holiday Calendar" p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"
+                      p:disabled="@{(#lp.id == null) or (#lp.id == '')}" p:refreshWhenChangedPropertyNames="@{#lp.id}"/>
             </list>
         </property>
         <property name="items">
@@ -498,54 +521,29 @@ limitations under the License.
                 <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.render="false">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-HorizontalBoxGroup" p:refreshWhenChangedPropertyNames="academicCalendarInfo.startDate">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-InputField" p:label=" " p:propertyName="id" p:id="holidayCalendars" p:render="@{#isAddLine}">
-                                            <property name="inquiry">
-                                                <bean parent="Uif-Inquiry">
-                                                    <property name="directInquiryAction">
-                                                        <bean parent="Uif-ActionLink" p:actionLabel="View selected holiday calendar details" p:style="display:block" />
-                                                    </property>
-                                                </bean>
-                                            </property>
-                                            <property name="control">
-                                                <bean parent="Uif-DropdownControl"/>
-                                            </property>
-                                            <property name="optionsFinder">
-                                                <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.HolidayWrapperListFinder" p:addBlankOption="false"/>
-                                            </property>
-                                        </bean>
-                                        <bean parent="Uif-AddLineAction" p:actionLabel="Add Holiday Calendar"
-                                              p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');" p:render="@{#isAddLine}" p:disabled="@{(#lp.id == null) or (#lp.id == '')}" p:refreshWhenChangedPropertyNames="@{#lp.id}"/>
-                                    </list>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-VerticalBoxSection" p:layoutManager.orientation="HORIZONTAL" p:layoutManager.cssClasses="acal-layout">
+                            <bean parent="Uif-VerticalBoxSection" p:layoutManager.orientation="HORIZONTAL"
+                                  p:layoutManager.cssClasses="acal-layout">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-DataField"
                                               p:propertyName="holidayCalendarInfo.name"
                                               p:label="Holiday Calendar Name"
                                               p:labelPlacement="TOP"
-                                              p:readOnly="true"
-                                              p:render="@{!#isAddLine}"   >
+                                              p:readOnly="true">
                                             <property name="help"><null/></property>
                                         </bean>
                                         <bean parent="Uif-DataField"
                                               p:propertyName="holidayCalendarInfo.startDate"
                                               p:label="Start Date"
                                               p:labelPlacement="TOP"
-                                              p:readOnly="true"
-                                              p:render="@{!#isAddLine}" >
+                                              p:readOnly="true">
                                             <property name="help"><null/></property>
                                         </bean>
                                         <bean parent="Uif-DataField"
                                               p:propertyName="holidayCalendarInfo.endDate"
                                               p:label="End Date"
                                               p:labelPlacement="TOP"
-                                              p:readOnly="true"
-                                              p:render="@{!#isAddLine}" >
+                                              p:readOnly="true">
                                             <property name="help"><null/></property>
                                         </bean>
                                     </list>
