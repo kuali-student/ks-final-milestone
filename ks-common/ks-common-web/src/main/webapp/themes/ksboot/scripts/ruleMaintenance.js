@@ -235,6 +235,11 @@ function ajaxCallPropositionTree(controllerMethod, collectionGroupId) {
     retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
 }
 
+function ajaxCallPropositionTypeUpdate(dropDown, controllerMethod, collectionGroupId) {
+    handleEditNodeClick(jq(dropDown).closest('li'));
+    ajaxCallPropositionTree(controllerMethod, collectionGroupId);
+}
+
 function ajaxCallOnTabSelect(event, ui, editwithgroup, editwithlogic, controllerMethod, logicAreaField) {
     //Do client side validation before continuing to next tab.
     if (validateForm()) {
@@ -568,12 +573,6 @@ function initRuleTree(componentId) {
         jq('a.ruleTreeNode').click(function () {
             var parentLiNode = this.parentNode;
             handlePropositionNodeClick(parentLiNode);
-        });
-
-        // rule node clicks should set the selected item
-        jq('li.simpleEditNode').click(function () {
-            var parentLiNode = jq(this).closest('li');
-            handleEditNodeClick(parentLiNode);
         });
 
         // set type to 'logic' on logic nodes -- this prevents them from being selected
