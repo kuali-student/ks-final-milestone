@@ -10,7 +10,7 @@
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-AO-ToolBarSection-ClusterTab"/>
-                <bean parent="Uif-Label" p:labelText="Clusters (@{clusterResultList.size()})" p:renderColon="false" />
+                <bean parent="Uif-Label" p:labelText="Clusters (@{clusterResultList.size()})" p:renderColon="false" p:cssClasses="titleClusters"/>
                 <ref bean="KS-CourseOfferingManagement-AOClustersCollection"/>
                 <ref bean="KS-CourseOfferingManagement-RenameAOCPopupForm"/>
             </list>
@@ -37,7 +37,7 @@
                 <ref bean="KS-CourseOfferingManagement-ClusterAOHeaderText"/>
             </list>
         </property>
-        <property name="subCollections">
+        <property name="subCollections" >
             <list>
                 <ref bean="KS-CourseOfferingManagement-ActivityOfferingsPerClusterSubSection" />
                 <ref bean="KS-CourseOfferingManagement-RegistrationGroupsPerClusterSubSection" />
@@ -56,9 +56,11 @@
     <bean id="KS-CourseOfferingManagement-ClusterHeaderText" parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
         <property name="items">
             <list>
-                <bean parent="Uif-Label" p:labelText="@{#line.clusterNameForDisplay}" p:renderColon="false" />
+                <bean parent="Uif-Label" p:labelText="@{#line.clusterNameForDisplay}" p:renderColon="false"
+                      p:cssClasses="titleClusterName"/>
                 <bean parent="Uif-Label" p:labelText="&#160;&#160;|&#160;&#160;" p:renderColon="false" />
-                <bean parent="Uif-Label" p:labelText="@{#line.formatNameForDisplay}"  p:renderColon="false" />
+                <bean parent="Uif-Label" p:labelText="@{#line.formatNameForDisplay}"  p:renderColon="false"
+                      p:cssClasses="titleClusterName"/>
                 <bean parent="Uif-NavigationActionLink"  p:actionLabel="Rename"
                       p:onClickScript="jQuery('#privateClusterNameForRename_control').val('@{#line.aoCluster.privateName}'); jQuery('#publishedClusterNameForRename_control').val('@{#line.aoCluster.name}');writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;); writeHiddenToForm(&quot;actionParameters[selectedCollectionPath]&quot;, &quot;clusterResultList&quot;); toggleAddAOCButton(&quot;renameAOCButton&quot;,&quot;privateClusterNameForRename_control&quot;);"
                       p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-RenameAOCPopupForm',{align:'right',tail:{align:'right'}});" p:style="float:right"
@@ -190,7 +192,7 @@
                       p:label="TYPE"
                       p:propertyName="typeName"/>
                 <bean parent="Uif-DataField"
-                      p:label="MAX ENR"
+                      p:label="FMAX ENR"
                       p:propertyName="aoInfo.maximumEnrollment"/>
                <!-- Revisit after KD13 <bean parent="Uif-MessageField"
                       p:label="SCHEDULING"
