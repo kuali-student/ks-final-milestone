@@ -281,7 +281,7 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="myplan.course.getcluid">
+    <search:searchType id="ksap.course.getcluid">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
@@ -295,7 +295,7 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="myplan.course.getCourseTitleAndId">
+    <search:searchType id="ksap.course.getCourseTitleAndId">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
@@ -312,7 +312,7 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="myplan.course.prereqsearch.subject">
+    <search:searchType id="ksap.course.prereqsearch.subject">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
@@ -326,7 +326,7 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="myplan.course.prereqsearch.range">
+    <search:searchType id="ksap.course.prereqsearch.range">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
@@ -340,7 +340,7 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="myplan.course.prereqsearch.exclusions">
+    <search:searchType id="ksap.course.prereqsearch.exclusions">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
@@ -355,7 +355,7 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <!--<search:searchType id="myplan.course.getCampusLocations">
+    <!--<search:searchType id="ksap.course.getCampusLocations">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
@@ -629,7 +629,7 @@
                     </value>
                 </entry>
 
-                <entry key="myplan.course.prereqsearch.subject">
+                <entry key="ksap.course.prereqsearch.subject">
                     <value>NATIVE:
                         SELECT
                         clu.id
@@ -644,7 +644,7 @@
                     </value>
                 </entry>
 
-                <entry key="myplan.course.prereqsearch.range">
+                <entry key="ksap.course.prereqsearch.range">
                     <value>NATIVE:
                         SELECT
                         clu.id
@@ -661,7 +661,7 @@
                     </value>
                 </entry>
 
-                <entry key="myplan.course.prereqsearch.exclusions">
+                <entry key="ksap.course.prereqsearch.exclusions">
                     <value>NATIVE:
                         SELECT
                         clu.id,
@@ -679,7 +679,7 @@
                         id.sufx_cd
                     </value>
                 </entry>
-                <entry key="myplan.course.getcluid">
+                <entry key="ksap.course.getcluid">
                     <value>NATIVE:
                         SELECT
                         clu.id, id.LNG_NAME
@@ -697,7 +697,7 @@
                         AND clu.LAST_ATP &gt;= :lastScheduledTerm
                     </value>
                 </entry>
-                <entry key="myplan.course.getCourseTitleAndId">
+                <entry key="ksap.course.getCourseTitleAndId">
                     <value>NATIVE:
                         SELECT
                         clu.id, id.LNG_NAME
@@ -716,7 +716,7 @@
                     </value>
                 </entry>
 
-                <!--<entry key="myplan.course.getCampusLocations">
+                <!--<entry key="ksap.course.getCampusLocations">
                     <value>
                         SELECT
                         attr.value
