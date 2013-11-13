@@ -22,9 +22,13 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.controller.RuleEditorController;
 import org.kuali.rice.krms.dto.AgendaEditor;
+import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
+import org.kuali.rice.krms.util.PropositionTreeUtil;
+import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -103,21 +107,65 @@ public class CourseRuleEditorController extends RuleEditorController {
         return super.cancelEditRule(form, result, request, response);
     }
 
-    /**
-     * Updates rule and redirects to agenda maintenance page.
-     *
-     * @param form
-     * @param result
-     * @param request
-     * @param response
-     * @return
-     */
-    @RequestMapping(params = "methodToCall=updateRule")
+    @Override
     public ModelAndView updateRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) {
 
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KS-CourseView-CourseRequisitesPage");
-        return super.updateRule(form, result, request, response);
+        
+        RuleEditor ruleEditor = getRuleEditor(form);
+
+        //Return with error message if user is currently editing a proposition.
+        PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
+        if ((proposition!=null) && (proposition.isEditMode())) {
+            GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID, KRMSConstants.KRMS_MSG_ERROR_RULE_PREVIEW);
+            return getUIFModelAndView(form);
+        }
+
+        if (!(ruleEditor.getProposition() == null && ruleEditor.getPropId() == null)) {
+            PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor.getPropositionEditor());
+            ruleEditor.setDummy(false);
+            PropositionTreeUtil.resetNewProp(ruleEditor.getPropositionEditor());
+        }
+        this.getViewHelper(form).refreshViewTree(ruleEditor);
+
+        //Replace edited rule with existing rule.
+        CourseInfoMaintainable courseInfoMaintainable = (CourseInfoMaintainable)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject();
+        CourseRuleManagementWrapper courseRuleManagementWrapper = courseInfoMaintainable.getCourseRuleManagementWrapper();
+        AgendaEditor agendaEditor = AgendaUtilities.getSelectedAgendaEditor(courseRuleManagementWrapper, ruleEditor.getKey());
+        agendaEditor.getRuleEditors().put(ruleEditor.getKey(), ruleEditor);
+
+        if (!form.getActionParameters().containsKey(UifParameters.NAVIGATE_TO_PAGE_ID)) {
+            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KRMSConstants.KRMS_AGENDA_MAINTENANCE_PAGE_ID);
+        }
+        return super.navigate(form, result, request, response);
+    }
+    
+    
+
+    @Override
+    public ModelAndView deleteRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request,
+            HttpServletResponse response) {
+        MaintenanceDocumentForm documentForm = (MaintenanceDocumentForm) form;
+        CourseInfoMaintainable courseInfoMaintainable = (CourseInfoMaintainable)documentForm.getDocument().getNewMaintainableObject();
+        RuleManagementWrapper ruleWrapper = courseInfoMaintainable.getCourseRuleManagementWrapper();
+        String ruleKey = AgendaUtilities.getRuleKey(documentForm);
+
+        AgendaEditor agenda = AgendaUtilities.getSelectedAgendaEditor(ruleWrapper, ruleKey);
+        if (agenda != null) {
+            RuleEditor ruleEditor = agenda.getRuleEditors().get(ruleKey);
+
+            //Only add rules to delete list that are already persisted.
+            if (ruleEditor.getId() != null) {
+                agenda.getDeletedRules().add(ruleEditor);
+            }
+
+            RuleEditor dummyRule = new RuleEditor(ruleEditor.getKey(), true, ruleEditor.getRuleTypeInfo());
+            dummyRule.setParent(ruleEditor.getParent());
+            agenda.getRuleEditors().put(ruleEditor.getKey(), dummyRule);
+        }
+
+        return getUIFModelAndView(documentForm);
     }
 
     /**
