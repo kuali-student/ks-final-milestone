@@ -175,6 +175,8 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
 
     private String timeSlotType;
 
+    private String crossListedCourseCodes;
+
     /**
      * Valid modes for creating non-standard timeslots
      *
@@ -1017,15 +1019,12 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
      * This is used in create and edit course offerings screen.
      * @return
      */
-    @SuppressWarnings("unused")
     public String getCrossListedCourseCodes(){
-        StringBuilder builder = new StringBuilder();
-        if (course != null){
-            for (CourseCrossListing crossListing : course.getCrossListings()){
-                builder.append(crossListing.getCode() + ", ");
-            }
-        }
-        return StringUtils.removeEnd(builder.toString(), ", ");
+        return crossListedCourseCodes;
+    }
+
+    public void setCrossListedCourseCodes(String crossListedCourseCodes) {
+        this.crossListedCourseCodes = crossListedCourseCodes;
     }
 
     /**
@@ -1506,5 +1505,4 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
     public void setTimeSlotType(String timeSlotType) {
         this.timeSlotType = timeSlotType;
     }
-
 }
