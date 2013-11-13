@@ -51,12 +51,13 @@
                 <bean parent="Uif-BreadcrumbItem" p:render="@{!#view.readOnly and !newCalendar}">
                     <property name="label" value="@{holidayCalendarInfo.name}"/>
                     <property name="url.viewId" value="holidayCalendarFlowView"/>
-                    <property name="url.pageId" value="holidayCalendarViewPage"/>
+                    <property name="url.pageId" value="holidayCalendarEditPage"/>
                     <property name="url.controllerMapping" value="/holidayCalendar"/>
                     <property name="url.methodToCall" value="start"/>
                     <property name="url.requestParameters">
                         <map key-type="java.lang.String" merge="true">
                             <entry key="id" value="@{holidayCalendarInfo.id}"/>
+                            <entry key="readOnlyView" value="true"/>
                         </map>
                     </property>
                 </bean>
