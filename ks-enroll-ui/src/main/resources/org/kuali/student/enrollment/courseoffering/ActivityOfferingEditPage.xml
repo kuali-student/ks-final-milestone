@@ -117,7 +117,12 @@
                         <bean parent="Uif-HiddenControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelRight" p:label="This activity is co-located" p:fieldLabel.renderColon="false" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:propertyName="colocatedAO"
+                <bean parent="Uif-InputField" p:id="infoColoStatus" p:propertyName="aoInfo.isColocated" p:hidden="true" />  <!-- keeps track of whether or not the colocation has been persisted to the db -->
+                <bean parent="Uif-InputField-LabelRight"
+                      p:label="This activity is co-located"
+                      p:fieldLabel.renderColon="false"
+                      p:onChangeScript="jQuery('#dirtyForm').val(true);"
+                      p:propertyName="colocatedAO"
                       p:id="is_co_located" p:componentSecurity.viewAuthz="true">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
