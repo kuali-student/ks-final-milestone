@@ -51,12 +51,12 @@
 				<value>classpath:org/kuali/rice/student/bo</value>
 				<value>classpath:ks-AuditReportInfo-dictionary.xml</value>
 
-				<value>classpath:ui/UifMyPlanDefinitions.xml</value>
+				<value>classpath:org/kuali/student/ap/UifMyPlanDefinitions.xml</value>
                 <value>classpath:ui/UifExtensionDefinitions.xml</value>
                 <value>classpath:ui/HelpDefinitions.xml</value>
                 <value>classpath:ui/MyPlanDataObjects.xml</value>
-                <value>classpath:ui/HelpDefinitions.xml</value>
-                <value>classpath:ui/CourseSearchUI.xml</value>
+                <value>classpath:org/kuali/student/ap/HelpDefinitions.xml</value>
+                <value>classpath:org/kuali/student/ap/CourseSearchUI.xml</value>
                 <value>classpath:ui/CourseDetailsUI.xml</value>
                 <value>classpath:ui/PlanItemsUI.xml</value>
                 <value>classpath:ui/DegreeAuditUI.xml</value>
