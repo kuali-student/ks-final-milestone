@@ -664,7 +664,7 @@
         <property name="header.render"
                   value="@{#line.completedTerm or #line.academicRecord.size() gt 0 or !#line.openForPlanning}"/>
         <property name="header.toolTip">
-            <ref bean="academic_record_help_tooltip"/>
+            <bean parent="academic_record_help_tooltip" p:tooltipContent="@{#parentLine.completedTerm and #parentLine.displayCompletedHelp ? 'A completed term you registered for.' : 'A course you have enrolled in for current or future academic term(s).'}"/>
         </property>
         <property name="header.lowerGroup">
             <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerStatusIcons">
