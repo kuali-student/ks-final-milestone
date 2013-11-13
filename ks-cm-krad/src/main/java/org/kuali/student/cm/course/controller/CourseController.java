@@ -161,6 +161,9 @@ public class CourseController extends CourseRuleEditorController {
         // After creating the document, modify the state
         maintainable.getCourse().setStateKey(DtoConstants.STATE_DRAFT);
         maintainable.setLastUpdated(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(new DateTime()));
+        maintainable.getCourse().setEffectiveDate(new java.util.Date());
+
+        maintainable.getCourse().setTypeKey("kuali.lu.typeKey.CreditCourse");
 
         // Initialize Curriculum Oversight if it hasn't already been.
         if (maintainable.getCourse().getUnitsContentOwner() == null) {
