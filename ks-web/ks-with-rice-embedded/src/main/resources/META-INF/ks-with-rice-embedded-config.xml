@@ -33,6 +33,7 @@
      <param name="app.context.name">ks-with-rice-embedded-${environment}</param>
     <param name="application.id">ks-with-rice-embedded</param>
     <param name="appserver.url">http://localhost:8081</param>
+    <param name="application.home.url">${application.url}/portal.do</param>
 	
     <param name="serviceNamespace">ks-with-rice-embedded</param>
 
