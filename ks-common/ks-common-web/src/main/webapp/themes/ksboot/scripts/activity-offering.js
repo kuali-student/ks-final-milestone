@@ -635,48 +635,41 @@ function handleAOSelection(component){
 /*
   This is the method which handles AO navigation.
  */
-function handleAONavigation(component, aoId){
+function handleAONavigation(component, aoId) {
 
-    var isValidForm = validateForm();
-
-//    if (!isValidForm){
-
-        var saveAndContinue = jQuery("#edit_ao_save_and_continue").attr("data-submit_data");
-        var cancelSaveAndLoad = jQuery("#edit_ao_cancel").attr("data-submit_data");
-        var submit_data_array = saveAndContinue.split(',');
-        var i = 0;
-        for (; i<submit_data_array.length; ){
-            var data = submit_data_array[i].split(':');
-            if (data[0] == '"actionParameters[aoId]"'){
-                data[1] = '"' + aoId + '"';
-                submit_data_array[i] = data[0] + ":" + data[1];
-                break;
-            }
-            i++;
+    var saveAndContinue = jQuery("#edit_ao_save_and_continue").attr("data-submit_data");
+    var cancelSaveAndLoad = jQuery("#edit_ao_cancel").attr("data-submit_data");
+    var submit_data_array = saveAndContinue.split(',');
+    var i = 0;
+    for (; i < submit_data_array.length;) {
+        var data = submit_data_array[i].split(':');
+        if (data[0] == '"actionParameters[aoId]"') {
+            data[1] = '"' + aoId + '"';
+            submit_data_array[i] = data[0] + ":" + data[1];
+            break;
         }
-        jQuery("#edit_ao_save_and_continue").attr("data-submit_data",submit_data_array.join());
+        i++;
+    }
+    jQuery("#edit_ao_save_and_continue").attr("data-submit_data", submit_data_array.join());
 
-        var cancel_data_array = cancelSaveAndLoad.split(',');
-        i = 0;
-        for (; i<cancel_data_array.length; ){
-            var data = cancel_data_array[i].split(':');
-            if (data[0] == '"actionParameters[aoId]"'){
-                data[1] = '"' + aoId + '"';
-                cancel_data_array[i] = data[0] + ":" + data[1];
-                break;
-            }
-            i++;
+    var cancel_data_array = cancelSaveAndLoad.split(',');
+    i = 0;
+    for (; i < cancel_data_array.length;) {
+        var data = cancel_data_array[i].split(':');
+        if (data[0] == '"actionParameters[aoId]"') {
+            data[1] = '"' + aoId + '"';
+            cancel_data_array[i] = data[0] + ":" + data[1];
+            break;
         }
-        jQuery("#edit_ao_cancel").attr("data-submit_data",cancel_data_array.join());
-        if(jQuery('#dirtyForm').val() == "false") {
-            jQuery("#edit_ao_cancel").click();
-            return;
-        }
+        i++;
+    }
+    jQuery("#edit_ao_cancel").attr("data-submit_data", cancel_data_array.join());
+    if (jQuery('#dirtyForm').val() == "false") {
+        jQuery("#edit_ao_cancel").click();
+        return;
+    }
 
-        showLightboxComponent('ActivityOfferingEdit-NavigationConfirmation');
-//    } else {
-//        actionInvokeHandler(component);
-//    }
+    showLightboxComponent('ActivityOfferingEdit-NavigationConfirmation');
 }
 
 
