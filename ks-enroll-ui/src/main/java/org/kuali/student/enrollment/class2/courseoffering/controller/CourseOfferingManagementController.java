@@ -45,6 +45,7 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterIn
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -53,7 +54,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.util.List;
 import java.util.Properties;
 
@@ -899,6 +899,25 @@ public class CourseOfferingManagementController extends UifControllerBase {
 
         CourseOfferingManagementUtil.getViewHelperService(theForm).loadExamOfferings(theForm);
         return getUIFModelAndView(theForm, "viewExamOfferingsPage");
+    }
+
+    @RequestMapping(params = "methodToCall=cancel")
+    @Override
+    public ModelAndView cancel(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) {
+
+        CourseOfferingManagementForm theForm = (CourseOfferingManagementForm) form;
+
+        Properties urlParameters = new Properties();
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "show");
+        urlParameters.put("viewId", "courseOfferingManagementView");
+        urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfo.class.getName());
+        urlParameters.put(KRADConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+        urlParameters.put("inputCode", theForm.getCurrentCourseOfferingWrapper().getCourseOfferingCode());
+        urlParameters.put("termCode", theForm.getCurrentCourseOfferingWrapper().getTerm().getCode());
+        urlParameters.put("pageId", "manageTheCourseOfferingPage");
+
+        return super.performRedirect(form, "courseOfferingManagement", urlParameters);
     }
 
 }

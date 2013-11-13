@@ -103,6 +103,21 @@
                 </bean>
             </list>
         </property>
+        <property name="footer">
+            <bean parent="KS-Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-HorizontalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:ajaxSubmit="false" p:methodToCall="cancel"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ExamOfferingTableSection" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false"
