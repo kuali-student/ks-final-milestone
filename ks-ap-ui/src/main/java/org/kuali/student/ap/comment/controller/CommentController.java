@@ -66,7 +66,8 @@ public class CommentController extends UifControllerBase {
 
 	private transient MyPlanMailService mailService;
 
-	private transient String propertiesFilePath = "/org/kuali/student/myplan/KSMyPlan-ApplicationResources.properties";
+    //TODO: why do we need to specify propertiesFilePath here?
+	private transient String propertiesFilePath = "/org/kuali/student/ap/KSAP-ApplicationResources.properties";
 
 	@Override
 	protected CommentForm createInitialForm(HttpServletRequest request) {
