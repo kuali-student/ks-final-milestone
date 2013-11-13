@@ -85,7 +85,7 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ac_stickyfooter">
+                        <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ac_stickyfooter" p:render="@{!#view.readOnly}">
                             <property name="items">
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton"
