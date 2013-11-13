@@ -36,7 +36,7 @@
                             <bean parent="Uif-VerticalBoxGroup">
                                 <property name="items">
                                     <list>
-                                        <ref bean="planner_lookup_wrapper" />
+                                        <ref bean="planner_courses_detail" />
                                         <bean parent="Uif-LinkField" p:target="_blank">
                                             <property name="linkText" value="Print your entire academic plan"/>
                                             <property name="title" value="Print your entire academic plan"/>
@@ -64,7 +64,7 @@
 			</list>
 		</property>
 		<property name="footer.render" value="false" />
-
+        <property name="persistFormToSession" value="true"/>
 		<property name="formClass" value="org.kuali.student.ap.planner.PlannerForm" />
 	</bean>
 
@@ -299,9 +299,9 @@
 
 	<bean id="planner_courses_detail" parent="planner_courses_detail_parent" />
 	<bean id="planner_courses_detail_parent" parent="Uif-VerticalBoxSubSection"
-		abstract="true" p:cssClasses="ks-plan-View-pageDetails">
+		abstract="true" p:cssClasses="ks-plan-View-pageDetails" p:forceSessionPersistence="true">
 		<property name="onDocumentReadyScript"
-			value="ksapInitializePlannerItems(@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()})" />
+			value="ksapLoadPlannerItems(@{loadCalendar},@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()});" />
 		<property name="validationMessages.displayMessages" value="false" />
 		<property name="items">
 			<list>

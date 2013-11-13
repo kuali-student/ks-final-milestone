@@ -1,8 +1,12 @@
 package org.kuali.student.ap.planner.form;
 
+import org.kuali.student.ap.planner.PlannerTerm;
 import org.kuali.student.ap.planner.support.DefaultPlannerForm;
 import org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSummaryDetails;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Extends the default planner form to tie in course summary details from course
@@ -16,6 +20,8 @@ public class PlannerFormImpl extends DefaultPlannerForm {
 	private static final long serialVersionUID = -3275492339094049260L;
 
 	private transient CourseSummaryDetails courseSummaryDetails;
+
+    private boolean loadCalendar;
 
 	@Override
 	public void setLearningPlanId(String learningPlanId) {
@@ -43,4 +49,20 @@ public class PlannerFormImpl extends DefaultPlannerForm {
 		return courseSummaryDetails;
 	}
 
+    public boolean isLoadCalendar() {
+        return loadCalendar;
+    }
+
+    public void setLoadCalendar(boolean loadCalendar) {
+        this.loadCalendar = loadCalendar;
+    }
+
+
+    @Override
+    public List<PlannerTerm> getTerms() {
+        if(isLoadCalendar()){
+            return super.getTerms();
+        }
+        return new ArrayList<PlannerTerm>();
+    }
 }

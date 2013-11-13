@@ -1,20 +1,11 @@
 // KSAP 0.7.5 refactored planner scripts
 
-function ksapLoadPlannerItems(imageUrl) {
-	myplanRetrieveComponent(
-			'planner_lookup_wrapper',
-			'PlannerLoad-FormView',
-			'load',
-			'planner',
-			ksapAdditionalFormData({}),
-			null,
-			{
-				message : '<p><img src="'
-						+ imageUrl
-						+ 'ajaxAuditRunning32.gif" alt="loading..." /></p><p>Please wait while we are retrieving your plan...</p>',
-				fadeIn : 0,
-				fadeOut : 0
-			});
+function ksapLoadPlannerItems(loaded,pageSize) {
+    if(!loaded){
+        retrieveComponent('planner_courses_detail','load');
+    }else{
+        ksapInitializePlannerItems(pageSize);
+    }
 }
 
 function ksapInitializePlannerItems(pageSize) {

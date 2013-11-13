@@ -1,6 +1,7 @@
 package org.kuali.student.ap.planner.controller;
 
 import org.apache.log4j.Logger;
+import org.kuali.rice.krad.uif.view.ViewAuthorizerBase;
 import org.kuali.rice.krad.web.controller.extension.KsapControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
@@ -182,15 +183,19 @@ public class PlannerController extends KsapControllerBase {
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		if (PlanItemControllerHelper.getAuthorizedLearningPlan(form, request, response) == null)
 			return null;
-
+        PlannerFormImpl newForm = (PlannerFormImpl) form;
+        newForm.setLoadCalendar(true);
 		// Force loading of terms prior to rendering.
-		form.getTerms();
+        newForm.getTerms();
 
-		UifFormBase uifForm = (UifFormBase) form;
+		UifFormBase uifForm = (UifFormBase) newForm;
+        uifForm.getView().setAuthorizer(new ViewAuthorizerBase());
 		super.start(uifForm, result, request, response);
 
-		uifForm.setViewId(PLANNER_LOAD_FORM);
-		uifForm.setView(super.getViewService().getViewById(PLANNER_LOAD_FORM));
+		uifForm.setViewId(PLANNER_FORM);
+		uifForm.setView(super.getViewService().getViewById(PLANNER_FORM));
+
+
 
 		return getUIFModelAndView(uifForm);
 	}

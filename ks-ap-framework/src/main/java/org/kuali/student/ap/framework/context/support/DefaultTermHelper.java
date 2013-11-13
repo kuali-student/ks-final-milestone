@@ -69,6 +69,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 public class DefaultTermHelper implements TermHelper {
 
 	private static final MarkerKey MARKER_KEY = new MarkerKey();
+    private ArrayList<String> termTypes;
 
     /**
      * Find TermId by termName and that contains the specified begin/end dates
@@ -418,21 +419,8 @@ public class DefaultTermHelper implements TermHelper {
 			throw new IllegalStateException("ATP lookup failure", e);
 		}
 		List<Term> terms = new ArrayList<Term>(atps.size());
-		List<TypeInfo> termTypes;
-		try {
-			termTypes = academicCalendarService.getTermTypes(ctx);
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("ACAL lookup failure", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("ACAL lookup failure", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("ACAL lookup failure", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("ACAL lookup failure", e);
-		}
-		Set<String> termTypeKeys = new HashSet<String>();
-		for (TypeInfo termType : termTypes)
-			termTypeKeys.add(termType.getKey());
+
+		List<String> termTypeKeys = getTermTypes();
 		for (AtpInfo atp : atps)
 			if (termTypeKeys.contains(atp.getTypeKey()))
 				terms.add(getTerm(atp.getId()));
@@ -510,12 +498,25 @@ public class DefaultTermHelper implements TermHelper {
 		c.setTime(term.getStartDate());
 		return new DefaultYearTerm(term.getId(), term.getTypeKey(), c.get(Calendar.YEAR));
 	}
-    private static Predicate[] getTermPredicates(){
-        Predicate predicates[] = new Predicate[AtpServiceConstants.ATP_TERM_GROUPING.length];
-        for(int i=0;i<AtpServiceConstants.ATP_TERM_GROUPING.length;i++){
-            predicates[i]=equal("typeKey", AtpServiceConstants.ATP_TERM_GROUPING[i]);
+    private Predicate[] getTermPredicates(){
+        Predicate predicates[] = new Predicate[getTermTypes().size()];
+        for(int i=0;i<getTermTypes().size();i++){
+            predicates[i]=equal("typeKey", getTermTypes().get(i));
         }
         return predicates;
     }
+
+    private List<String> getTermTypes(){
+        if(termTypes==null){
+            termTypes = new ArrayList<String>();
+            termTypes.add("kuali.atp.type.Fall");
+            termTypes.add("kuali.atp.type.Spring");
+            termTypes.add("kuali.atp.type.Winter");
+            termTypes.add("kuali.atp.type.Summer1");
+            termTypes.add("kuali.atp.type.Summer2");
+        }
+        return termTypes;
+    }
+
 
 }

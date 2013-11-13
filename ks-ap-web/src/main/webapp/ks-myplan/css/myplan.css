@@ -839,7 +839,7 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
 }
 
 .myplan-carousel-list ul li .uif-header {
-    padding: 0 10px;
+    padding: 0px 0px 0px 10px;
     height: 25px;
     line-height: 25px;
     background-color: #F5F5F5;
