@@ -846,29 +846,6 @@ public class CourseOfferingTransformer {
         }
 
         assembleInstructorsByLprs(co, lprs);
-
-//        for (LprInfo lpr : lprs) {
-//            if (lpr.getStateKey()==null || !lpr.getStateKey().equals(LprServiceConstants.DROPPED_STATE_KEY)) {
-//                OfferingInstructorInfo instructor = new OfferingInstructorInfo();
-//                instructor.setPersonId(lpr.getPersonId());
-//                if (lpr.getCommitmentPercent() != null) {
-//                    instructor.setPercentageEffort(Float.parseFloat(lpr.getCommitmentPercent()));
-//                } else {
-//                    instructor.setPercentageEffort(null);
-//                }
-//                instructor.setId(lpr.getId());
-//                instructor.setTypeKey(lpr.getTypeKey());
-//                instructor.setStateKey(lpr.getStateKey());
-//
-//                 // Should be only one person found by person id
-//                List<Person> personList = OfferingInstructorTransformer.getInstructorByPersonId(instructor.getPersonId());
-//                if(personList != null && !personList.isEmpty()){
-//                    instructor.setPersonName(personList.get(0).getName());
-//                }
-//                co.getInstructors().add(instructor);
-//            }
-//
-//        }
     }
 
     public void assembleInstructorsByLprs(CourseOfferingInfo co, List<LprInfo> lprs) {
@@ -896,7 +873,6 @@ public class CourseOfferingTransformer {
                 }
             }
         }
-
     }
 
     /**
