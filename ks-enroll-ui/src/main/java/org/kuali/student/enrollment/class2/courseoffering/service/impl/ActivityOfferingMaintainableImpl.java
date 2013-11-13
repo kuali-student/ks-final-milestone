@@ -34,6 +34,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingMan
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
@@ -305,9 +306,9 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
             ActivityOfferingInfo info = CourseOfferingManagementUtil.getCourseOfferingService().getActivityOffering(dataObjectKeys.get(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID), contextInfo);
 
-            boolean isCentralSchedulingCoOrdinator = isSchedulingCoOrdinator();
+            boolean isCentralSchedulingCoordinator = isSchedulingCoordinator();
 
-            ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(info, isCentralSchedulingCoOrdinator);
+            ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(info, isCentralSchedulingCoordinator);
 
             //get the course offering
             CourseOfferingInfo courseOfferingInfo = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(info.getCourseOfferingId(), contextInfo);
@@ -321,6 +322,15 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             // get the format offering
             FormatOfferingInfo formatOfferingInfo = CourseOfferingManagementUtil.getCourseOfferingService().getFormatOffering(info.getFormatOfferingId(), contextInfo);
             wrapper.setFormatOffering(formatOfferingInfo);
+
+            //check to see if there is crosslisting in CO
+            if (courseOfferingInfo.getCrossListings() != null && !courseOfferingInfo.getCrossListings().isEmpty()) {
+                StringBuilder builder = new StringBuilder();
+                for (CourseOfferingCrossListingInfo crossListing : courseOfferingInfo.getCrossListings()){
+                    builder.append(crossListing.getCode() + ", ");
+                }
+                wrapper.setCrossListedCourseCodes(StringUtils.removeEnd(builder.toString(), ", "));
+            }
 
             // Set the display string (e.g. 'FALL 2020 (9/26/2020 to 12/26/2020)')
             // Now have to deal with subterms: have to check if it's subterm or term
@@ -587,7 +597,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
     }
 
-    protected boolean isSchedulingCoOrdinator() throws Exception{
+    protected boolean isSchedulingCoordinator() throws Exception{
         RoleService rms = KimApiServiceLocator.getRoleService();
 
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
