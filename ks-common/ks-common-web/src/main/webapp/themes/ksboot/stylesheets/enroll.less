@@ -1109,24 +1109,57 @@ div#Uif-ApplicationHeader-Wrapper{
   font-weight: normal;
 }
 
-/*
-    Appended from ks-jquery.css
-    Possibly not used any longer
-*/
+/************************************** Growl message customization ******************/
+div.jGrowl div.ERROR {
+	background-color: @errorBackground;
+    opacity: 1;
+}
+div.jGrowl div.ERROR div.jGrowl-close {
+    color: @errorText;
+}
+
+div.jGrowl div.INFORMATION {
+	background-color: @infoBackground;
+    opacity: 1;
+}
+div.jGrowl div.INFORMATION div.jGrowl-close {
+    color: @infoText;
+}
+
+div.jGrowl div.SUCCESS {
+	background-color: @successBackground;
+    opacity: 1;
+}
+div.jGrowl div.SUCCESS div.jGrowl-close {
+    color: @successText;
+}
+
+div.jGrowl div.WARNING {
+	background-color: @warningBackground;
+    opacity: 1;
+}
+div.jGrowl div.WARNING div.jGrowl-close {
+    color: @warningText;
+}
+
 div.jGrowl div.ERROR div.jGrowl-message {
-  background: url("images/iconError16.png") no-repeat;
+  background: url("../images/validation/error.png") no-repeat;
+  color: @errorText;
   padding-left: 25px;
 }
 div.jGrowl div.INFORMATION div.jGrowl-message {
-  background: url("images/iconInformation16.png") no-repeat;
+  background: url("../images/validation/info.png") no-repeat;
+  color: @infoText;
   padding-left: 25px;
 }
 div.jGrowl div.SUCCESS div.jGrowl-message {
-  background: url("images/iconSuccess16.png") no-repeat;
+  background: url("../images/validation/success.png") no-repeat;
+  color: @successText;
   padding-left: 25px;
 }
 div.jGrowl div.WARNING div.jGrowl-message {
-  background: url("images/iconWarning16.png") no-repeat;
+  background: url("../images/validation/warning.png") no-repeat;
+  color: @warningText;
   padding-left: 25px;
 }
 
@@ -1144,6 +1177,7 @@ div.jGrowl div.WARNING div.jGrowl-message {
   padding:4px;
   border: 1px solid rgb(9, 172, 248);
 }
+/************************************** END Growl message customization ******************/
 
 
 /************************************** Schedule of Classes **********************/
