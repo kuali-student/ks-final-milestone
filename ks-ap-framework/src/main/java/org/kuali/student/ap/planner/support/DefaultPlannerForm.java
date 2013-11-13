@@ -128,66 +128,68 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 	}
 
 	public BigDecimal getCreditsForPlanItem() {
-		if (creditsForPlanItem == null && courseCredit != null) {
-			Course course = getCourse();
-			BigDecimal minCredit = BigDecimal.ZERO;
-			BigDecimal maxCredit = ONE_HUNDRED;
-			ResultValuesGroupInfo rci = course.getCreditOptions().get(0);
-			String type = rci.getTypeKey();
-			if (type.equals("kuali.result.values.group.type.fixed")) {
-				boolean useAttributes = rci.getResultValueKeys().isEmpty();
-				if (!useAttributes)
-					try {
-						ResultValueInfo rv = KsapFrameworkServiceLocator
-								.getLrcService().getResultValue(
-										rci.getResultValueKeys().get(0),
-										KsapFrameworkServiceLocator
-												.getContext().getContextInfo());
-						if (rv == null)
-							useAttributes = true;
-						else
-							minCredit = maxCredit = new BigDecimal(
-									rv.getValue());
-					} catch (DoesNotExistException e) {
-						throw new IllegalArgumentException("LRC lookup error",
-								e);
-					} catch (InvalidParameterException e) {
-						throw new IllegalArgumentException("LRC lookup error",
-								e);
-					} catch (MissingParameterException e) {
-						throw new IllegalArgumentException("LRC lookup error",
-								e);
-					} catch (OperationFailedException e) {
-						throw new IllegalStateException("LRC lookup error", e);
-					} catch (PermissionDeniedException e) {
-						throw new IllegalStateException("LRC lookup error", e);
-					}
-				if (useAttributes)
-					minCredit = maxCredit = new BigDecimal(
-							rci.getAttributeValue("fixedCreditValue"));
-			} else if (type.equals("kuali.result.values.group.type.range")) {
-				ResultValueRangeInfo rvr = rci.getResultValueRange();
-				if (rvr != null) {
-					minCredit = new BigDecimal(rvr.getMinValue());
-					maxCredit = new BigDecimal(rvr.getMaxValue());
-				} else {
-					minCredit = new BigDecimal(
-							rci.getAttributeValue("minCreditValue"));
-					maxCredit = new BigDecimal(
-							rci.getAttributeValue("maxCreditValue"));
-				}
-			}
-
-			if (courseCredit.compareTo(maxCredit) > 0)
-				creditsForPlanItem = maxCredit;
-			else if (courseCredit.compareTo(minCredit) < 0)
-				creditsForPlanItem = minCredit;
-			else
-				creditsForPlanItem = courseCredit;
-
-		}
-		return creditsForPlanItem;
+		return getCreditsForPlanItem(getCourse());
 	}
+    public BigDecimal getCreditsForPlanItem(Course course) {
+        if (creditsForPlanItem == null && courseCredit != null) {
+            BigDecimal minCredit = BigDecimal.ZERO;
+            BigDecimal maxCredit = ONE_HUNDRED;
+            ResultValuesGroupInfo rci = course.getCreditOptions().get(0);
+            String type = rci.getTypeKey();
+            if (type.equals("kuali.result.values.group.type.fixed")) {
+                boolean useAttributes = rci.getResultValueKeys().isEmpty();
+                if (!useAttributes)
+                    try {
+                        ResultValueInfo rv = KsapFrameworkServiceLocator
+                                .getLrcService().getResultValue(
+                                        rci.getResultValueKeys().get(0),
+                                        KsapFrameworkServiceLocator
+                                                .getContext().getContextInfo());
+                        if (rv == null)
+                            useAttributes = true;
+                        else
+                            minCredit = maxCredit = new BigDecimal(
+                                    rv.getValue());
+                    } catch (DoesNotExistException e) {
+                        throw new IllegalArgumentException("LRC lookup error",
+                                e);
+                    } catch (InvalidParameterException e) {
+                        throw new IllegalArgumentException("LRC lookup error",
+                                e);
+                    } catch (MissingParameterException e) {
+                        throw new IllegalArgumentException("LRC lookup error",
+                                e);
+                    } catch (OperationFailedException e) {
+                        throw new IllegalStateException("LRC lookup error", e);
+                    } catch (PermissionDeniedException e) {
+                        throw new IllegalStateException("LRC lookup error", e);
+                    }
+                if (useAttributes)
+                    minCredit = maxCredit = new BigDecimal(
+                            rci.getAttributeValue("fixedCreditValue"));
+            } else if (type.equals("kuali.result.values.group.type.range")) {
+                ResultValueRangeInfo rvr = rci.getResultValueRange();
+                if (rvr != null) {
+                    minCredit = new BigDecimal(rvr.getMinValue());
+                    maxCredit = new BigDecimal(rvr.getMaxValue());
+                } else {
+                    minCredit = new BigDecimal(
+                            rci.getAttributeValue("minCreditValue"));
+                    maxCredit = new BigDecimal(
+                            rci.getAttributeValue("maxCreditValue"));
+                }
+            }
+
+            if (courseCredit.compareTo(maxCredit) > 0)
+                creditsForPlanItem = maxCredit;
+            else if (courseCredit.compareTo(minCredit) < 0)
+                creditsForPlanItem = minCredit;
+            else
+                creditsForPlanItem = courseCredit;
+
+        }
+        return creditsForPlanItem;
+    }
 
 	public String getCourseNote() {
 		return courseNote;

@@ -49,7 +49,7 @@
 		<property name="items">
 			<list merge="true">
 				<bean parent="planner_course_code_input" />
-<!-- 				<bean parent="planner_course_credit_input" /> -->
+ 				<bean parent="planner_course_credit_input" />
 				<bean parent="planner_course_note_input" />
 			</list>
 		</property>
@@ -445,18 +445,18 @@
 		</property>
 	</bean>
 
-<!-- 	<bean id="planner_course_credit_input" parent="planner_dialog_input"> -->
-<!-- 		<property name="propertyName" value="courseCredit" /> -->
-<!-- 		<property name="label" value="Credits" /> -->
-<!-- 		<property name="instructionalText" value="Optional, for courses with a variable number of credits." /> -->
-<!-- 		<property name="control"> -->
-<!-- 			<bean parent="Uif-TextControl"> -->
-<!-- 				<property name="size" value="3" /> -->
-<!-- 			</bean> -->
-<!-- 		</property> -->
-<!-- 	</bean> -->
+ 	<bean id="planner_course_credit_input" parent="planner_dialog_input">
+ 		<property name="propertyName" value="courseCredit" />
+ 		<property name="label" value="Credits" />
+ 		<property name="instructionalText" value="Optional, for courses with a variable number of credits." />
+ 		<property name="control">
+ 			<bean parent="Uif-TextControl">
+ 				<property name="size" value="3" />
+ 			</bean>
+ 		</property>
+ 	</bean>
 
-	<bean id="planner_course_credit_input" parent="planner_dialog_input">
+	<!--<bean id="planner_course_credit_input" parent="planner_dialog_input">
 		<property name="propertyName" value="courseCredit" />
 		<property name="label" value="Credits" />
 		<property name="instructionalText"
@@ -466,7 +466,7 @@
 		</property>
 
 		<property name ="render"  value="@{variableCredit}"/>
-	</bean>
+	</bean>-->
 
 	<bean id="planner_course_note_input" parent="planner_dialog_input">
 		<property name="additionalCssClasses" value="ks-plan-Note" />

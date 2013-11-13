@@ -121,8 +121,7 @@ public class PlannerController extends KsapControllerBase {
 			planItemInfo.setDescr(descr);
 		} else
 			planItemInfo.setDescr(null);
-
-		planItemInfo.setCredit(form.getCreditsForPlanItem());
+		planItemInfo.setCredit(form.getCreditsForPlanItem(course));
 
 		try {
 			if (create) {

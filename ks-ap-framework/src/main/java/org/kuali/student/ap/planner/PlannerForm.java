@@ -2,6 +2,7 @@ package org.kuali.student.ap.planner;
 
 import java.math.BigDecimal;
 import java.util.List;
+import org.kuali.student.r2.lum.course.infc.Course;
 
 public interface PlannerForm extends PlanItemForm {
 
@@ -10,6 +11,7 @@ public interface PlannerForm extends PlanItemForm {
 	String getCourseNote();
 
 	BigDecimal getCreditsForPlanItem();
+    BigDecimal getCreditsForPlanItem(Course course);
 
 	void populateFromPlanItem();
 
