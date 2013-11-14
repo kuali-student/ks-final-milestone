@@ -53,8 +53,13 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
+                            <!-- The purpose of the onDocumentReadyScript call to triggerFieldValidationAfterPageLoads is
+                                 to cause the client-side validation to be re-displayed if a bad term code is submitted to
+                                 the server. Another, potentially less hacky, approach would be to not enable the show/submit
+                                 button until the term code field contains valid text. -->
                             <bean parent="Uif-InputField" p:id="termCodeField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true"
                                     p:readOnly="false"
+                                    p:onDocumentReadyScript="jQuery('#termCodeField_control').focus(); triggerFieldValidationAfterPageLoads('#termCodeField_control');"
                                     p:onKeyUpScript="toggleShowButton();"
                                     p:onMouseOutScript="toggleShowButton();">
                                 <!-- Constrain to 6 digits and use a custom message. -->
