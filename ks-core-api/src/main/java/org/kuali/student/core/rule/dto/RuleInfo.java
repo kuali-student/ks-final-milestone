@@ -13,10 +13,10 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.rule.dto;
+package org.kuali.student.core.rule.dto;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.core.rule.infc.Rule;
+import org.kuali.student.core.rule.infc.Rule;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.rule.infc;
+package org.kuali.student.core.rule.infc;
 
 import org.kuali.student.r2.common.infc.IdEntity;
 

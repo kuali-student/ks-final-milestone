@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.rule.service;
+package org.kuali.student.core.rule.service;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -27,9 +27,9 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.constants.RuleServiceConstants;
-import org.kuali.student.r2.core.rule.dto.RuleInfo;
-import org.kuali.student.r2.core.rule.infc.Rule;
+import org.kuali.student.core.constants.RuleServiceConstants;
+import org.kuali.student.core.rule.dto.RuleInfo;
+import org.kuali.student.core.rule.infc.Rule;
 
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
