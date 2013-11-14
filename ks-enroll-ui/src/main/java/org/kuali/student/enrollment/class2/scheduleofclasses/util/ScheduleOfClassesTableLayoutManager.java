@@ -93,6 +93,7 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
                         field.setRowSpan(getSpanSize(rgWrapper, true));
                         if (!requisite) {
                             field.setCellStyle(field.getCellStyle() + " text-align:center; vertical-align:top;");
+                            requisite = true;
                         } else {
                             field.setHidden(true);
                         }
