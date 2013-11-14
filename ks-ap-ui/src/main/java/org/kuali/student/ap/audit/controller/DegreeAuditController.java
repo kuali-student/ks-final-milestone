@@ -73,7 +73,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
-// http://localhost:8080/student/myplan/audit?methodToCall=audit&viewId=DegreeAudit-FormView
+// http://localhost:8080/ap/audit?methodToCall=audit&viewId=DegreeAudit-FormView
 
 @Controller
 @RequestMapping(value = "/audit/**")

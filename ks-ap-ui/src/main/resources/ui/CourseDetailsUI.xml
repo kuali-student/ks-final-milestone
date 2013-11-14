@@ -1088,7 +1088,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                 row.addClass('secondary');
                 if (row.prev('tr').prev('tr').prev('tr').hasClass('primary')) row.addClass('top');
             }
-            if (@{#line.planItemId NE null}) row.addClass('myplan-section-planned');
+            if (@{#line.planItemId NE null}) row.addClass('ksap-section-planned');
             if (@{#line.stateKey NE 'kuali.lui.activity.offering.state.offered'}) row.addClass('fl-text-lightgray');
         "/>
          -->
@@ -1289,7 +1289,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                 collapsibleRow.addClass('collapsible').hide();
                 collapsibleRow.find('.activityOther').parents('td').attr('colspan', '3');
             }
-            if (@{#line.planItemId NE null}) collapsibleRow.addClass('myplan-section-planned');
+            if (@{#line.planItemId NE null}) collapsibleRow.addClass('ksap-section-planned');
         "/>
          -->
     </bean>
@@ -1367,7 +1367,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                 collapsibleRow.addClass('collapsible').hide();
                 collapsibleRow.find('.activityAdditionalDetails').parents('td').attr('colspan', '5');
             }
-            if (@{#line.planItemId NE null}) collapsibleRow.addClass('myplan-section-planned');
+            if (@{#line.planItemId NE null}) collapsibleRow.addClass('ksap-section-planned');
         "/>
          -->
         <property name="cssClasses">
@@ -1433,7 +1433,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="cssClasses">
             <list merge="true">
                 <value>activityAction</value>
-                <value>myplan-add</value>
+                <value>ksap-add</value>
                 <value>fl-text-align-center</value>
             </list>
         </property>
@@ -1512,14 +1512,14 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		                                                     jQuery('#button_' + data.atpId + '_' + data.RegistrationCode).attr('title', data.SectionCode + ' is added. To delete or move, go to ' + data.termName + ' Plan.').unbind('click');
 		                                                      fnDisplayMessage(link, 'fl-font-size-80 fl-text-align-center', 'button_' + data.atpId + '_' + data.RegistrationCode, false);
 		                                                      var row = jQuery('#button_' + data.atpId + '_' + data.RegistrationCode).parents('tr.row');
-		                                                      row.addClass('myplan-section-planned');
+		                                                      row.addClass('ksap-section-planned');
 		                                                      if (data.ItemsToUpdate != null) {
 		                                                          var items = data.ItemsToUpdate.split(',');
 		                                                          jQuery.each(items, function (index, value) {
 		                                                              jQuery('#button_' + data.atpId + '_' + items[index]).attr('title', data.PrimarySectionCode + ' is added. To delete or move, go to ' + data.termName + ' Plan.').unbind('click');
 		                                                              fnDisplayMessage(link, 'fl-font-size-80 fl-text-align-center', 'button_' + data.atpId + '_' + items[index], false);
 		                                                              var row = jQuery('#button_' + data.atpId + '_' + items[index]).parents('tr.row');
-		                                                              row.addClass('myplan-section-planned');
+		                                                              row.addClass('ksap-section-planned');
 		                                                          });
 		                                                      }
 		                                                  });

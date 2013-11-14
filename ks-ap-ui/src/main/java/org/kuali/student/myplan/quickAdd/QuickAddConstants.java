@@ -10,9 +10,9 @@ package org.kuali.student.myplan.quickAdd;
 public class QuickAddConstants {
     public static final String QUICK_ADD_PAGE = "quickAdd_dialog_page";
     public static final String QUICK_ADD_RESPONSE_PAGE_ID="quick_add_action_response_page";
-    public static final String COURSE_NOT_FOUND="myplan.text.error.quickAdd.courseNotFound";
-    public static final String EMPTY_SEARCH="myplan.text.error.quickAdd.emptySearch";
-    public static final String ACCESS_DENIED="myplan.text.error.permissionDenied";
+    public static final String COURSE_NOT_FOUND="ksap.text.error.quickAdd.courseNotFound";
+    public static final String EMPTY_SEARCH="ksap.text.error.quickAdd.emptySearch";
+    public static final String ACCESS_DENIED="ksap.text.error.permissionDenied";
     public static final String PLANNED_TYPE="planned";
     public static final String BACKUP_TYPE="backup";
     public static final String CART_TYPE="cart";

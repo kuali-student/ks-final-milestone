@@ -74,8 +74,8 @@ public class AdviserController extends UifControllerBase {
     public synchronized PermissionService getPermissionService() {
         if (permissionService == null) {
 
-            ADVISE_NM_CODE = ConfigContext.getCurrentContextConfig().getProperty("myplan.advise.namespacecode");
-            advisePermNames =   Arrays.asList(ConfigContext.getCurrentContextConfig().getProperty("myplan.advise.permissionname").split(","));
+            ADVISE_NM_CODE = ConfigContext.getCurrentContextConfig().getProperty("ksap.advise.namespacecode");
+            advisePermNames =   Arrays.asList(ConfigContext.getCurrentContextConfig().getProperty("ksap.advise.permissionname").split(","));
 
             permissionService = KimApiServiceLocator.getPermissionService();
         }
@@ -112,7 +112,7 @@ public class AdviserController extends UifControllerBase {
         form.setRequestRedirected(true);
         GlobalVariables.getMessageMap().putErrorForSectionId(PlanConstants.PLAN_PAGE_ID, PlanConstants.ERROR_KEY_NO_STUDENT_PROXY_ID);
 
-        return "redirect:/myplan/unauthorized";
+        return "redirect:/ap/unauthorized";
     }
 
     @RequestMapping(value = "/advise/", method = RequestMethod.GET)
@@ -123,7 +123,7 @@ public class AdviserController extends UifControllerBase {
         form.setRequestRedirected(true);
         GlobalVariables.getMessageMap().putErrorForSectionId(PlanConstants.PLAN_PAGE_ID, PlanConstants.ERROR_KEY_NO_STUDENT_PROXY_ID);
 
-        return "redirect:/myplan/unauthorized";
+        return "redirect:/ap/unauthorized";
     }
 
     /**
@@ -147,7 +147,7 @@ public class AdviserController extends UifControllerBase {
         }
         if (plan != null) {
             if (plan.getShared().toString().equalsIgnoreCase(PlanConstants.LEARNING_PLAN_ITEM_SHARED_FALSE_KEY)) {
-                return "redirect:/myplan/unauthorized";
+                return "redirect:/ap/unauthorized";
             }
         }
         UserSession session = GlobalVariables.getUserSession();
@@ -166,7 +166,7 @@ public class AdviserController extends UifControllerBase {
 
         if (!authorized) {
             GlobalVariables.getMessageMap().putErrorForSectionId(PlanConstants.PLAN_PAGE_ID, PlanConstants.ERROR_KEY_ILLEGAL_ADVISER_ACCESS);
-            return "redirect:/myplan/unauthorized";
+            return "redirect:/ap/unauthorized";
         }
 
 
@@ -191,11 +191,11 @@ public class AdviserController extends UifControllerBase {
         Person person = getPersonService().getPerson(studentId);
         if (person != null) {
             session.addObject(PlanConstants.SESSION_KEY_STUDENT_NAME, person.getFirstName().substring(0, 1).toUpperCase() + person.getFirstName().substring(1, person.getFirstName().length()) + " " + person.getLastName().substring(0, 1).toUpperCase() + person.getLastName().substring(1, person.getLastName().length()));
-            return "redirect:/myplan/plan?methodToCall=start&viewId=PlannedCourses-FormView";
+            return "redirect:/ap/plan?methodToCall=start&viewId=PlannedCourses-FormView";
 
         } else {
             clearSession(session);
-            return "redirect:/myplan/unauthorized";
+            return "redirect:/ap/unauthorized";
 
         }
     }

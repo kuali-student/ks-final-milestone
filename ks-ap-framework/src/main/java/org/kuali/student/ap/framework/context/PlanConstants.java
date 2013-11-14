@@ -23,43 +23,43 @@ public class PlanConstants extends AcademicPlanServiceConstants {
     public static final String TERM_NOTE_COMMENT_ATTRIBUTE_ATPID = "kauli.ap.type.note.term.attr.atpid";
 
 	// CRUD operations positive feedback.
-	public static final String SUCCESS_KEY = "myplan.text.success";
-	public static final String SUCCESS_KEY_PLANNED_ITEM_ADDED = "myplan.text.success.plannedCourseList.itemAdded";
-	public static final String SUCCESS_KEY_PLANNED_ITEM_MOVED = "myplan.text.success.plannedCourseList.itemMoved";
-	public static final String SUCCESS_KEY_PLANNED_ITEM_COPIED = "myplan.text.success.plannedCourseList.itemCopied";
-	public static final String SUCCESS_KEY_PLANNED_ITEM_MARKED_BACKUP = "myplan.text.success.plannedCourseList.itemMarkedAsBackup";
-	public static final String SUCCESS_KEY_PLANNED_ITEM_MARKED_PLANNED = "myplan.text.success.plannedCourseList.itemMarkedAsPlanned";
-    public static final String SUCCESS_KEY_PLANNED_ITEM_MARKED_CART = "myplan.text.success.plannedCourseList.itemMarkedAsCart";
-	public static final String SUCCESS_KEY_ITEM_DELETED = "myplan.text.success.itemDeleted";
-    public static final String SUCCESS_KEY_ITEM_EDITED = "myplan.text.success.itemEdited";
+	public static final String SUCCESS_KEY = "ksap.text.success";
+	public static final String SUCCESS_KEY_PLANNED_ITEM_ADDED = "ksap.text.success.plannedCourseList.itemAdded";
+	public static final String SUCCESS_KEY_PLANNED_ITEM_MOVED = "ksap.text.success.plannedCourseList.itemMoved";
+	public static final String SUCCESS_KEY_PLANNED_ITEM_COPIED = "ksap.text.success.plannedCourseList.itemCopied";
+	public static final String SUCCESS_KEY_PLANNED_ITEM_MARKED_BACKUP = "ksap.text.success.plannedCourseList.itemMarkedAsBackup";
+	public static final String SUCCESS_KEY_PLANNED_ITEM_MARKED_PLANNED = "ksap.text.success.plannedCourseList.itemMarkedAsPlanned";
+    public static final String SUCCESS_KEY_PLANNED_ITEM_MARKED_CART = "ksap.text.success.plannedCourseList.itemMarkedAsCart";
+	public static final String SUCCESS_KEY_ITEM_DELETED = "ksap.text.success.itemDeleted";
+    public static final String SUCCESS_KEY_ITEM_EDITED = "ksap.text.success.itemEdited";
 
-	public static final String SUCCESS_KEY_SAVED_ITEM_ADDED = "myplan.text.success.savedCourseList.itemAdded";
+	public static final String SUCCESS_KEY_SAVED_ITEM_ADDED = "ksap.text.success.savedCourseList.itemAdded";
 
 	// CRUD error feedback
-	public static final String ERROR_KEY_PLANNED_ITEM_ALREADY_EXISTS = "myplan.text.error.plannedCourseList.itemAlreadyExists";
-	public static final String ERROR_KEY_PLANNED_ITEM_CAPACITY_EXCEEDED = "myplan.text.error.plannedCourseList.plannedCapacityExceeded";
-	public static final String ERROR_KEY_BACKUP_ITEM_CAPACITY_EXCEEDED = "myplan.text.error.plannedCourseList.backupCapacityExceeded";
-    public static final String ERROR_KEY_CART_ITEM_CAPACITY_EXCEEDED = "myplan.text.error.plannedCourseList.backupCapacityExceeded";
+	public static final String ERROR_KEY_PLANNED_ITEM_ALREADY_EXISTS = "ksap.text.error.plannedCourseList.itemAlreadyExists";
+	public static final String ERROR_KEY_PLANNED_ITEM_CAPACITY_EXCEEDED = "ksap.text.error.plannedCourseList.plannedCapacityExceeded";
+	public static final String ERROR_KEY_BACKUP_ITEM_CAPACITY_EXCEEDED = "ksap.text.error.plannedCourseList.backupCapacityExceeded";
+    public static final String ERROR_KEY_CART_ITEM_CAPACITY_EXCEEDED = "ksap.text.error.plannedCourseList.backupCapacityExceeded";
 
-	public static final String ERROR_KEY_HISTORICAL_ATP = "myplan.text.error.plannedCourseList.historicalAtp";
+	public static final String ERROR_KEY_HISTORICAL_ATP = "ksap.text.error.plannedCourseList.historicalAtp";
 
-	public static final String ERROR_KEY_PAGE_RESET_REQUIRED = "myplan.text.error.pageResetRequired";
+	public static final String ERROR_KEY_PAGE_RESET_REQUIRED = "ksap.text.error.pageResetRequired";
 
-	public static final String ERROR_KEY_ADVISER_ACCESS = "myplan.text.error.adviserAccess";
-	public static final String ERROR_KEY_ILLEGAL_ADVISER_ACCESS = "myplan.text.error.illegalAdviserAccess";
-	public static final String ERROR_KEY_OPERATION_FAILED = "myplan.text.error.operationFailed";
-	public static final String ERROR_KEY_UNKNOWN_COURSE = "myplan.text.error.unknownCourse";
-	public static final String ERROR_KEY_UNKNOWN_PLAN_ITEM = "myplan.text.error.savedCoursesList.unknownPlanItem";
-	public static final String ERROR_KEY_DATA_VALIDATION_ERROR = "myplan.text.error.dataValidationError";
-	public static final String ERROR_KEY_DUPLICATE_PLAN = "myplan.text.error.savedCoursesList.duplicatePlan";
-	public static final String ERROR_KEY_DUPLICATE_PLAN_ITEM = "myplan.text.error.savedCoursesList.duplicatePlanItem";
-	public static final String ERROR_KEY_INVALID_PARAM = "myplan.text.error.invalidParameter";
-	public static final String ERROR_KEY_MISSING_PARAM = "myplan.text.error.missingParameter";
-	public static final String ERROR_KEY_PERMISSION_DENIED = "myplan.text.error.permissionDenied";
-	public static final String ERROR_TECHNICAL_PROBLEMS = "myplan.text.error.technicalProblems";
+	public static final String ERROR_KEY_ADVISER_ACCESS = "ksap.text.error.adviserAccess";
+	public static final String ERROR_KEY_ILLEGAL_ADVISER_ACCESS = "ksap.text.error.illegalAdviserAccess";
+	public static final String ERROR_KEY_OPERATION_FAILED = "ksap.text.error.operationFailed";
+	public static final String ERROR_KEY_UNKNOWN_COURSE = "ksap.text.error.unknownCourse";
+	public static final String ERROR_KEY_UNKNOWN_PLAN_ITEM = "ksap.text.error.savedCoursesList.unknownPlanItem";
+	public static final String ERROR_KEY_DATA_VALIDATION_ERROR = "ksap.text.error.dataValidationError";
+	public static final String ERROR_KEY_DUPLICATE_PLAN = "ksap.text.error.savedCoursesList.duplicatePlan";
+	public static final String ERROR_KEY_DUPLICATE_PLAN_ITEM = "ksap.text.error.savedCoursesList.duplicatePlanItem";
+	public static final String ERROR_KEY_INVALID_PARAM = "ksap.text.error.invalidParameter";
+	public static final String ERROR_KEY_MISSING_PARAM = "ksap.text.error.missingParameter";
+	public static final String ERROR_KEY_PERMISSION_DENIED = "ksap.text.error.permissionDenied";
+	public static final String ERROR_TECHNICAL_PROBLEMS = "ksap.text.error.technicalProblems";
 
-	public static final String ERROR_KEY_NO_STUDENT_PROXY_ID = "myplan.text.error.adviser.noStudentId";
-	public static final String WARNING_STUDENT_CONTEXT_SWITCH = "myplan.text.warning.adviser.studentSwitch";
+	public static final String ERROR_KEY_NO_STUDENT_PROXY_ID = "ksap.text.error.adviser.noStudentId";
+	public static final String WARNING_STUDENT_CONTEXT_SWITCH = "ksap.text.warning.adviser.studentSwitch";
 
 	/* Keys for storing info in the session. */
 	public static final String SESSION_KEY_IS_ADVISER = "kuali.ap.authz.adviser";
@@ -81,8 +81,8 @@ public class PlanConstants extends AcademicPlanServiceConstants {
     public static final String ADD_DIALOG_PAGE = "plan_item_add_page";
 	public static final String COURSE_SUMMARY_DIALOG_PAGE = "course_summary_dialog_page";
 	public static final String COPY_DIALOG_PAGE = "copy_dialog_page";
-    public static final String COURSE_NOT_FOUND = "myplan.text.error.quickAdd.courseNotFound";
-	public static final String COURSE_CODE_REQUIRED = "myplan.text.error.quickAdd.courseCodeRequired";
+    public static final String COURSE_NOT_FOUND = "ksap.text.error.quickAdd.courseNotFound";
+	public static final String COURSE_CODE_REQUIRED = "ksap.text.error.quickAdd.courseCodeRequired";
 
 	/* Course Credit Types */
 	public static final String RANGE = "-";

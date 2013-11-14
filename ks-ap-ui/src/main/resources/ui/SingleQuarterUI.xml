@@ -516,7 +516,7 @@
                       p:render="@{#line.planItemId eq null ? true : false}">
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>myplan-add</value>
+                            <value>ksap-add</value>
                             <value>fl-text-align-center</value>
                         </list>
                     </property>

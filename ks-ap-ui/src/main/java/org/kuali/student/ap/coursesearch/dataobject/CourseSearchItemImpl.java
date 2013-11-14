@@ -421,7 +421,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 		iqlink.addAttribute("href", url.toString());
 		iqlink.addAttribute("target", "_self");
 		iqlink.addAttribute("title", getCourseName());
-		iqlink.addAttribute("class", "myplan-text-ellipsis");
+		iqlink.addAttribute("class", "ksap-text-ellipsis");
 		iqlink.setText(getCourseName());
 		return iqlink.asXML();
 	}
@@ -448,11 +448,11 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 			stsp.setText(CourseSearchItem.EMPTY_RESULT_VALUE_KEY);
 		} else {
 			String imagePath = ConfigContext.getCurrentContextConfig()
-					.getProperty("ks.myplan.externalizable.images.url");
+					.getProperty("ks.ap.externalizable.images.url");
 			Element addAnchor = stsp.addElement("input");
 			addAnchor.addAttribute("id", cid + "_add_anchor");
 			addAnchor.addAttribute("class",
-					"uif-field uif-imageField myplan-add");
+					"uif-field uif-imageField ksap-add");
 			addAnchor.addAttribute("type", "image");
 			addAnchor.addAttribute("title", "Bookmark or Add to Plan");
 			addAnchor.addAttribute("alt", "Bookmark or Add to Plan");
@@ -461,7 +461,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 			addAnchor.addAttribute("data-coursexid", cid);
 			StringBuilder openMenu = new StringBuilder("openMenu('");
 			openMenu.append(cid);
-			openMenu.append("_add','add_course_items',null,event,'.myplan-status-column','myplan-container-75',");
+			openMenu.append("_add','add_course_items',null,event,'.ksap-status-column','ksap-container-75',");
 			openMenu.append("{tail:{align:'middle'},align:'middle',position:'right'},false)");
 			addAnchor.addAttribute("onclick", openMenu.toString());
 		}

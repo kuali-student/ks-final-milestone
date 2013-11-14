@@ -52,10 +52,10 @@ public class CourseSectionDetailsLayoutManager extends TableLayoutManager {
 				r2css.append("collapsible");
 			if (aoi.getPlanItemId() != null) {
 				r1css.append(r1css.length() == 0 ? " " : "").append(
-						"myplan-section-planned");
+						"ksap-section-planned");
 				if (offered)
 					r2css.append(r2css.length() == 0 ? " " : "").append(
-							"myplan-section-planned");
+							"ksap-section-planned");
 			}
 			rowCss.add(r1css.toString());
 			if (offered) {

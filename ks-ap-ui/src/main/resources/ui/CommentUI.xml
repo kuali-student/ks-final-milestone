@@ -188,7 +188,7 @@
                         <list merge="true">
                             <value>fl-font-size-120</value>
                             <value>fl-text-bold</value>
-                            <value>myplan-text-ellipsis</value>
+                            <value>ksap-text-ellipsis</value>
                         </list>
                     </property>
                 </bean>
@@ -546,7 +546,7 @@
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>fl-text-bold</value>
-                                                    <value>myplan-text-ellipsis</value>
+                                                    <value>ksap-text-ellipsis</value>
                                                 </list>
                                             </property>
                                         </bean>
@@ -804,7 +804,7 @@
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>fl-text-bold</value>
-                                        <value>myplan-text-ellipsis</value>
+                                        <value>ksap-text-ellipsis</value>
                                     </list>
                                 </property>
                             </bean>

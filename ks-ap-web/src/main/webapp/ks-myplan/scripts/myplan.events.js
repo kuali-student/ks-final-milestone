@@ -132,7 +132,7 @@ function fnRestoreSearchAddButton (courseId) {
     var oTable = jQuery('.myplan-course-search-results-datatable.uif-dataTable').dataTable();
     var oNodes = oTable.fnGetNodes();
     jQuery(oNodes).find("#" + courseId + "_status").fadeOut(250, function() {
-        jQuery(this).removeClass().html('<input type="image" title="Bookmark or Add to Plan" src="../ks-myplan/images/pixel.gif" alt="Bookmark or Add to Plan" class="uif-field uif-imageField myplan-add" data-courseid="'+ courseId +'" onclick="openMenu(\''+ courseId +'_add\',\'add_course_items\',null,event,null,\'myplan-container-75\',{tail:{align:\'middle\'},align:\'middle\',position:\'right\'},false);" />');
+        jQuery(this).removeClass().html('<input type="image" title="Bookmark or Add to Plan" src="../ks-myplan/images/pixel.gif" alt="Bookmark or Add to Plan" class="uif-field uif-imageField ksap-add" data-courseid="'+ courseId +'" onclick="openMenu(\''+ courseId +'_add\',\'add_course_items\',null,event,null,\'ksap-container-75\',{tail:{align:\'middle\'},align:\'middle\',position:\'right\'},false);" />');
         jQuery(this).fadeIn(250);
     });
 }

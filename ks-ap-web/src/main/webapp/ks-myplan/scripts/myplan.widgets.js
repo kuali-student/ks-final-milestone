@@ -814,11 +814,11 @@ function myplanAjaxSubmitForm(methodToCall, successCallback, additionalData, ele
 function truncateField(id, floated) {
     jQuery("#" + id + " .uif-horizontalFieldGroup").each(function () {
         var itemSelector = ".uif-horizontalBoxGroup > .uif-horizontalBoxLayout > .uif-boxLayoutHorizontalItem";
-        var ellipsisItem = jQuery(this).find(itemSelector + ".myplan-text-ellipsis");
+        var ellipsisItem = jQuery(this).find(itemSelector + ".ksap-text-ellipsis");
         if (ellipsisItem.length != 0) {
             jQuery(this).css("display", "block");
             var fixed = 0;
-            jQuery(this).find(itemSelector + ":not(.myplan-text-ellipsis)").each(function () {
+            jQuery(this).find(itemSelector + ":not(.ksap-text-ellipsis)").each(function () {
                 fixed = fixed + jQuery(this).outerWidth(true);
             });
             var available = jQuery(this).width() - ( fixed + ( ellipsisItem.outerWidth(true) - ellipsisItem.width() ) + 1 );
@@ -1292,7 +1292,7 @@ function updateHiddenScript(id, script) {
 }
 
 function switchFetchAction(actionId, toggleId) {
-    var script = "jQuery('#' + '" + actionId + "').click(function(e){ toggleSections('" + actionId + "', '" + toggleId + "', 'myplan-section-planned', 'Show all scheduled sections', 'Hide non-selected sections'); });";
+    var script = "jQuery('#' + '" + actionId + "').click(function(e){ toggleSections('" + actionId + "', '" + toggleId + "', 'ksap-section-planned', 'Show all scheduled sections', 'Hide non-selected sections'); });";
     updateHiddenScript(actionId, script);
     jQuery("#" + actionId).text("Hide non-selected sections").removeAttr("data-hidden").data("hidden", false);
 }

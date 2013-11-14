@@ -379,7 +379,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 					.format("<a href=\"%s\">%s</a>",
 							ConfigContext.getCurrentContextConfig()
 									.getProperty("appserver.url")
-									+ "/student/myplan/inquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId="
+									+ "/ap/inquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId="
 									+ courseDetails.getCourseSummaryDetails()
 											.getCourseId()
 									+ "#"

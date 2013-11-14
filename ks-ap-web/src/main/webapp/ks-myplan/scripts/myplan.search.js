@@ -52,7 +52,7 @@ function ksapCourseSearchColumns() {
 		'bSortable' : false,
 		'bSearchable' : true,
 		'sTitle' : '',
-		'sClass' : 'myplan-status-column',
+		'sClass' : 'ksap-status-column',
 		'sWidth' : '69px'
 	} ];
 }

@@ -900,7 +900,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	public List<CourseSearchItem> courseSearch(CourseSearchForm form,
 			String studentId) {
 		String maxCountProp = ConfigContext.getCurrentContextConfig()
-				.getProperty("myplan.search.results.max");
+				.getProperty("ksap.search.results.max");
 		int maxCount = maxCountProp != null && !"".equals(maxCountProp.trim()) ? Integer
 				.valueOf(maxCountProp) : MAX_HITS;
 		List<SearchRequestInfo> requests = queryToRequests(form);

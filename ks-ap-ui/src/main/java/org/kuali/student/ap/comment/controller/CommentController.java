@@ -424,7 +424,7 @@ public class CommentController extends UifControllerBase {
 	}
 
 	public String errorPage(@ModelAttribute("KualiForm") CommentForm form) {
-		return "redirect:/myplan/unauthorized";
+		return "redirect:/ap/unauthorized";
 	}
 
 	private MyPlanMailService getMailService() {

@@ -109,7 +109,7 @@
                                 <property name="style" value="margin-right:5px;"/>
                                 <property name="cssClasses">
                                     <list merge="true">
-                                        <value>myplan-text-ellipsis</value>
+                                        <value>ksap-text-ellipsis</value>
                                         <value>myplan-text-gray</value>
                                     </list>
                                 </property>

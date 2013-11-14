@@ -562,16 +562,16 @@ button img.rightArrowSmall {
     vertical-align: -1px;
 }
 
-input.myplan-add,
-.uif-imageField.myplan-add img.uif-image {
+input.ksap-add,
+.uif-imageField.ksap-add img.uif-image {
     width: 16px;
     height: 16px;
     background: url('../images/myplan_icon_sprites.png') no-repeat 0px 0px;
     vertical-align: middle;
 }
 
-input.myplan-add:hover,
-.uif-imageField.myplan-add img.uif-image:hover {
+input.ksap-add:hover,
+.uif-imageField.ksap-add img.uif-image:hover {
     background-position: -16px 0px;
 }
 
@@ -1016,7 +1016,7 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
 }
 
 /* Layout styles ########################################################################### */
-.myplan-container-75 {
+.ksap-container-75 {
     width: 75px;
 }
 /*Course Search, Search Box*/
@@ -1187,8 +1187,8 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     font-weight: normal !important;
 }
 
-.myplan-text-ellipsis,
-.myplan-text-ellipsis > span {
+.ksap-text-ellipsis,
+.ksap-text-ellipsis > span {
     display: block;
     white-space: nowrap;
     overflow: hidden;
@@ -1533,7 +1533,7 @@ table.myplan-course-search-results-datatable tbody tr td {
     font-size: 11px;
 }
 
-table.myplan-course-search-results-datatable tbody tr td a.myplan-text-ellipsis {
+table.myplan-course-search-results-datatable tbody tr td a.ksap-text-ellipsis {
     display: block;
     white-space: nowrap;
     overflow: hidden;
@@ -1547,18 +1547,18 @@ table.myplan-course-search-results-datatable tbody tr td.myplan-data-list dd.pro
     margin-top: 3px;
 }
 
-table.myplan-course-search-results-datatable tbody tr td.myplan-status-column {
+table.myplan-course-search-results-datatable tbody tr td.ksap-status-column {
     text-align: right;
     padding: 0 10px 0 0;
     font-size: 10px;
     font-style: italic;
 }
 
-table.myplan-course-search-results-datatable tbody tr td.myplan-status-column .planned {
+table.myplan-course-search-results-datatable tbody tr td.ksap-status-column .planned {
     color: #06c;
 }
 
-table.myplan-course-search-results-datatable tbody tr td.myplan-status-column .bookmarked {
+table.myplan-course-search-results-datatable tbody tr td.ksap-status-column .bookmarked {
     color: #060;
 }
 

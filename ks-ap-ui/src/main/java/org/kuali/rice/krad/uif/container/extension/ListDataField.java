@@ -14,7 +14,7 @@ import java.util.List;
  * 2. Applies the styleClasses on the filed to the list container and provides a property to allow the list item value to be applied as a style also
  * 3. Uses StringBuffer instead of String concatinations to improve memory usage
  *
- * @Author MyPlan Team
+ * @Author KSAP Team
  * Date: 3/22/13
  */
 public class ListDataField extends DataField {

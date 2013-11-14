@@ -400,7 +400,7 @@
 
 	<!--Add Course Menu -->
 	<bean id="add_course_items" parent="Uif-VerticalBoxSubSection"
-		p:cssClasses="myplan-container-75" p:style="margin: 0;">
+		p:cssClasses="ksap-container-75" p:style="margin: 0;">
 		<property name="hidden" value="true" />
 		<property name="items">
 			<list>
