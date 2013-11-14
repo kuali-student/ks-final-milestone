@@ -44,6 +44,7 @@ import java.util.List;
 public interface RuleService {
 
     /**
+     * Retrieves a Rule by a Rule ID
      *
      * @param ruleId the Rule ID
      * @param contextInfo Context information containing the principalId and
@@ -60,6 +61,7 @@ public interface RuleService {
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves a list of rules by a list of Rule IDs
      *
      * @param ruleIds a list of Rule IDs
      * @param contextInfo Context information containing the principalId and
@@ -76,7 +78,7 @@ public interface RuleService {
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     *
+     * Retrieves a list of Rule Ids by rule type.
      * @param ruleTypeKey the ruleTypeKey to search by
      * @param contextInfo Context information containing the principalId and
      *                    locale information about the caller of service
@@ -92,6 +94,8 @@ public interface RuleService {
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Searches for Rule Ids based on the criteria and returns a
+     * list of Rule identifiers which match the search criteria.
      *
      * @param criteria the search criteria
      * @param contextInfo Context information containing the principalId and
@@ -109,6 +113,8 @@ public interface RuleService {
             PermissionDeniedException;
 
     /**
+     * Searches for rules based on the criteria and returns a
+     * list of rules which match the search criteria.
      *
      * @param criteria the search criteria
      * @param contextInfo Context information containing the principalId and
@@ -125,6 +131,11 @@ public interface RuleService {
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Validates a Rule. If an identifier is present for the Rule and a
+     * record is found for that identifier, the validation checks if the
+     * Rule can be updated to the new values. If an identifier is not
+     * present or a record does not exist, the validation checks if
+     * the rule with the given data can be created.
      *
      * @param validationTypeKey the identifier for the validation Type
      * @param objectTypeKey the identifier for the Object Type to be validated
@@ -145,6 +156,8 @@ public interface RuleService {
             PermissionDeniedException;
 
     /**
+     * Creates a new Rule. The Rule Id, Type, and Meta
+     * information may not be set in the supplied data.
      *
      * @param objectTypeKey the identifier for the Object Type to be validated
      * @param ruleInfo the rule to be validated
@@ -165,6 +178,8 @@ public interface RuleService {
             OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
+     * Updates an existing Rule. The Rule Id, Type, and
+     * Meta information may not be changed.
      *
      * @param ruleId the identifier for the Rule to be updated
      * @param ruleInfo the rule to be validated
@@ -186,6 +201,7 @@ public interface RuleService {
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /**
+     * Deletes an existing Rule.
      *
      * @param ruleId the identifier for the Object to be deleted
      * @param contextInfo Context information containing the principalId and
