@@ -300,9 +300,15 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean id="edit_ao_breakcolo" parent="Uif-PrimaryActionButton" p:preSubmitCall="closeLightbox(); return true;" p:successCallback="breakColoCallBack();" p:methodToCall="breakColo" p:actionLabel="Break Colocation"/>
-                            <bean id="button_close" parent="Uif-ActionLink" p:actionLabel="Close"
-                                              p:actionScript="closeColocationLightbox();"/>
+                            <bean id="edit_ao_breakcolo" parent="Uif-PrimaryActionButton"
+                                  p:preSubmitCall="return confirmBreakColo();"
+                                  p:successCallback="breakColoCallBack();"
+                                  p:methodToCall="breakColo"
+                                  p:actionLabel="Break Colocation"/>
+
+                            <bean id="button_close" parent="Uif-ActionLink"
+                                  p:actionLabel="Close"
+                                  p:actionScript="closeLightbox();"/>
                         </list>
                     </property>
                 </bean>
