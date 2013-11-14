@@ -161,7 +161,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=show")
     public ModelAndView show(@ModelAttribute("KualiForm") CourseOfferingManagementForm form) throws Exception {
 
-        //If show is being called from another check that no validation errors were passed before reseting the form.
+        //If show is being called from another check that no validation errors were passed before resetting the form.
         if (GlobalVariables.getMessageMap().getErrorCount() > 0) {
             return getUIFModelAndView(form);
         }

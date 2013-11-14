@@ -202,7 +202,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 form.setTermClassStartDate(termClassStartDate);
             }
         }
-
     }
 
     private void blockUserIfSocStateIs(CourseOfferingManagementForm form, String socStateKeyToBlockUserOn, String errorMessageKey) {

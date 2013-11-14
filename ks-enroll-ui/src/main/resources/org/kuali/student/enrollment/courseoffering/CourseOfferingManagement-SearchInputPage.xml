@@ -44,7 +44,7 @@
     </bean>
 
 
-    <bean id="KS-CourseOfferingManagement-CriteriaSection" parent="Uif-HorizontalBoxSection"
+    <bean id="KS-CourseOfferingManagement-CriteriaSection" parent="Uif-HorizontalBoxSection" p:onDocumentReadyScript="toggleShowButton();"
         p:id="courseOfferingManagementCriteriaSection">
         <!--<property name="componentSecurity.editAuthz" value="true" />-->
         <property name="disclosure.render" value="false"/>
@@ -53,12 +53,22 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true" p:readOnly="false" p:id="termCode" p:onKeyUpScript="toggleShowButton();" p:onMouseOutScript="toggleShowButton();">
+                            <bean parent="Uif-InputField" p:id="termCodeField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true"
+                                    p:readOnly="false"
+                                    p:onKeyUpScript="toggleShowButton();"
+                                    p:onMouseOutScript="toggleShowButton();">
+                                <!-- Constrain to 6 digits and use a custom message. -->
+                                <property name="validCharactersConstraint">
+                                    <bean parent="NumericPatternConstraint" p:messageKey="error.enroll.courseoffering.termcode.invalid" p:value="^\d{6}$"/>
+                                </property>
+
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="6" p:watermarkText="201301" p:minLength="5" p:maxLength="6"/>
+                                    <bean parent="Uif-TextControl" p:size="6" p:watermarkText="201301" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="inputCode" p:label="Course" p:required="true" p:readOnly="false" p:id="inputCode" p:onKeyUpScript="toggleShowButton();" p:onMouseOutScript="toggleShowButton();">
+                            <bean parent="Uif-InputField" p:id="inputCode" p:propertyName="inputCode" p:label="Course" p:required="true" p:readOnly="false"
+                                    p:onKeyUpScript="toggleShowButton();"
+                                    p:onMouseOutScript="toggleShowButton();">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="30" p:watermarkText="ENGL or ENGL1 or ENGL101"/>
                                 </property>
