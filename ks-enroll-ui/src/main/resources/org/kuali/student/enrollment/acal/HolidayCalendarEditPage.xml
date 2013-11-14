@@ -179,7 +179,7 @@
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start"
+                <bean parent="Uif-InputField"  p:style="width:128px;" p:propertyName="startDate" p:label="Start"
                       p:readOnlyDisplayReplacementPropertyName="startDateUI">
                     <property name="control">
                         <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy" />
@@ -197,7 +197,7 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="startTimeAmPm" p:defaultValue="AM" p:render="@{!#view.readOnly}"
+                <bean parent="Uif-InputField"  p:cssClasses="fixedCol_3" p:propertyName="startTimeAmPm" p:defaultValue="AM" p:render="@{!#view.readOnly}"
                       p:additionalCssClasses="acal_keydate_radiobutton">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options"
@@ -207,7 +207,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField" p:propertyName="endDate" p:label="End"
+                <bean parent="Uif-InputField" p:style="width:128px;" p:propertyName="endDate" p:label="End"
                       p:readOnlyDisplayReplacementPropertyName="endDateUI">
                     <property name="control">
                         <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
@@ -224,7 +224,7 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="endTimeAmPm" p:defaultValue="AM" p:render="@{!#view.readOnly}"
+                <bean parent="Uif-InputField" p:cssClasses="fixedCol_3" p:propertyName="endTimeAmPm" p:defaultValue="AM" p:render="@{!#view.readOnly}"
                       p:additionalCssClasses="acal_keydate_radiobutton">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options"
