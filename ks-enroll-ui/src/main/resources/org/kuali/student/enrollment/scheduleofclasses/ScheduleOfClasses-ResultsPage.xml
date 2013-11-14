@@ -32,9 +32,6 @@
                 });
            </value>
         </property>
-        <property name="header">
-            <bean parent="Uif-HeaderThree" p:headerText="Schedule of Classes"/>
-        </property>
         <property name="items">
             <list>
                 <ref bean="KS-ScheduleOfClasses-CriteriaSection"/>

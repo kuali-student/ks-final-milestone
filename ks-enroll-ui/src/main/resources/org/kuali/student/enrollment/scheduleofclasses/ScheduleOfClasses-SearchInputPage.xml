@@ -21,9 +21,6 @@
     -->
 
     <bean id="KS-ScheduleOfClasses-SearchInputPage" parent="KS-Uif-Page" p:disclosure.render="false" p:id="scheduleOfClassesSearchInputPage">
-        <property name="header">
-            <bean parent="Uif-HeaderThree" p:headerText="Schedule of Classes" />
-        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxSection">

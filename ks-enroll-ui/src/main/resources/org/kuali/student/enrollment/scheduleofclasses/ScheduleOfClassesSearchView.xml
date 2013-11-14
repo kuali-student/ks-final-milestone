@@ -25,9 +25,7 @@
           p:viewHelperServiceClass=""
           p:formClass="org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm"
           p:onDocumentReadyScript="performFocus('course_search_text_control');">
-        <!-- property name="header">
-            <bean parent="Uif-HeaderThree" p:headerText="Schedule of Classes" p:render="false"/>
-        </property-->
+        <property name="headerText" value="Schedule of Classes"/>
         <property name="viewHelperService">
             <ref bean="scheduleOfClassesViewHelperService"/>
         </property>
