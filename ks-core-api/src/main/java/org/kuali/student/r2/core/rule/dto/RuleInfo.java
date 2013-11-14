@@ -27,8 +27,11 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RuleInfo", propOrder = {"id",
+        "typeKey",
+        "stateKey",
         "name",
         "descr",
+        "meta",
         "attributes", "_futureElements" })
 public class RuleInfo extends IdEntityInfo implements Rule, Serializable {
 
