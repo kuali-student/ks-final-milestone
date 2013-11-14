@@ -82,7 +82,9 @@
     </bean>
 
     <bean id="courseOfferingServiceExtender" class="org.kuali.student.enrollment.class2.courseoffering.service.extender.CourseOfferingServiceExtenderImpl">
+        <property name="activityOfferingTransformer" ref="activityTransformer" />
         <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
+        <property name="roomService" ref="roomService"/>
         <property name="searchService" ref="searchService" />
         <property name="schedulingService" ref="schedulingService"/>
     </bean>
@@ -142,6 +144,7 @@
         <property name="activityOfferingTransformer" ref="activityTransformer" />
         <property name="rolloverAssist" ref="rolloverAssist"/>
         <property name="courseWaitListService" ref="courseWaitListService"/>
+        <property name="courseOfferingServiceExtender" ref="courseOfferingServiceExtender"/>
     </bean>
 
     <bean id="examOfferingServiceFacade" class="org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacadeImpl">

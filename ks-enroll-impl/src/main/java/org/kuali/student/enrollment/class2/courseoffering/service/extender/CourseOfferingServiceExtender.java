@@ -16,13 +16,18 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.extender;
 
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 
 import java.util.List;
 import java.util.Map;
@@ -53,6 +58,39 @@ public interface CourseOfferingServiceExtender {
      * @return returns a Map<AO_ID, AO_CODE>
      * @throws OperationFailedException
      */
-    public Map<String, String> computeAoIdToAoCodeMapByCourseOffering(String courseOfferingId, ContextInfo context)
+    Map<String, String> computeAoIdToAoCodeMapByCourseOffering(String courseOfferingId, ContextInfo context)
             throws OperationFailedException;
+
+    /**
+     * Long version of copyActivityOffering
+     * @param sourceAo The AO to copy from
+     * @param coService Handle to course offering service (awkward, but avoids circular references)
+     * @param targetFo The target format offering
+     * @param targetTermId The target term ID
+     * @param context Context
+     * @param optionKeys options used in Copy CO/rollover
+     * @return the AO created
+     */
+    ActivityOfferingInfo copyActivityOffering(ActivityOfferingInfo sourceAo,
+                                              CourseOfferingService coService,
+                                              FormatOfferingInfo targetFo,
+                                              String targetTermId,
+                                              ContextInfo context,
+                                              List<String> optionKeys)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException;
+
+    /**
+     * Used by CourseOfferingServiceImpl::copyActivityOffering
+     * @param sourceAo The AO to copy from
+     * @param coService Handle to course offering service (awkward, but avoids circular references)
+     * @param context Context
+     * @return The created AO
+     */
+    ActivityOfferingInfo copyActivityOffering(ActivityOfferingInfo sourceAo,
+                                              CourseOfferingService coService,
+                                              ContextInfo context)
+        throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException;
+
 }

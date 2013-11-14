@@ -42,6 +42,7 @@
     <bean id="rolloverAssist" class="org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssistImpl">
     </bean>
 
+
     <bean id="courseWaitListServiceFacade" class="org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacadeImpl"/>
     <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
         <property name="courseService" ref="courseService" />
@@ -54,6 +55,10 @@
         <property name="rolloverAssist" ref="rolloverAssist"/>
         <property name="courseWaitListService" ref="courseWaitListService"/>
         <property name="courseWaitListServiceFacade" ref="courseWaitListServiceFacade"/>
+        <property name="courseOfferingServiceExtender" ref="courseOfferingServiceExtender"/>
+    </bean>
+
+    <bean id="courseOfferingServiceExtender" class="org.kuali.student.enrollment.class2.courseoffering.service.extender.CourseOfferingServiceMockExtenderImpl">
     </bean>
 
     <bean id="examOfferingServiceFacade" class="org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacadeImpl">

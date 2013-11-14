@@ -333,6 +333,7 @@
         <property name="acalServiceFacade" ref="acalServiceFacade"/>
         <property name="courseWaitListService" ref="courseWaitListServiceImpl"/>
         <property name="roomService" ref="RoomService"/>
+        <property name="courseOfferingServiceExtender" ref="courseOfferingServiceExtender"/>
         <!--The coService property is looked up in the service bus to prevent a circular spring reference-->
     </bean>
 
@@ -1099,10 +1100,13 @@
 
     <!-- KSENROLL-10834 -->
     <bean id="courseOfferingServiceExtender" class="org.kuali.student.enrollment.class2.courseoffering.service.extender.CourseOfferingServiceExtenderImpl">
+        <property name="activityOfferingTransformer" ref="activityTransformer" />
         <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
         <property name="searchService" ref="searchService" />
         <property name="schedulingService" ref="SchedulingService"/>
+        <property name="roomService" ref="RoomService"/>
     </bean>
+
     <!-- Export extender to bus -->
     <bean id="ks.exp.courseOfferingServiceExtender" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">

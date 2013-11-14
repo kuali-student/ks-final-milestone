@@ -242,6 +242,27 @@
     </bean>
     <bean id="stateService" class="org.kuali.student.r2.core.class1.state.mock.StateServiceMockImpl"/>
 
+    <bean id="ActivityOfferingSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl" autowire="autodetect" />
+
+    <bean id="SearchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
+        <property name="searchServices">
+            <list>
+                <ref bean="ActivityOfferingSearchServiceImpl"/>
+                <bean id="CoreSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.CoreSearchServiceImpl">
+                    <property name="entityManager" ref="entityManager"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="courseOfferingServiceExtender" class="org.kuali.student.enrollment.class2.courseoffering.service.extender.CourseOfferingServiceExtenderImpl">
+        <property name="activityOfferingTransformer" ref="activityTransformer" />
+        <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
+        <property name="roomService" ref="roomService"/>
+        <property name="searchService" ref="SearchService" />
+        <property name="schedulingService" ref="schedulingService"/>
+    </bean>
+
     <bean id="courseOfferingService"
           class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
         <property name="luiService" ref="luiService"/>
@@ -262,6 +283,7 @@
         <!--property name="searchService" ref="SearchService"/-->
         <property name="atpService" ref="atpService"/>
         <property name="courseWaitListService" ref="courseWaitListService"/>
+        <property name="courseOfferingServiceExtender" ref="courseOfferingServiceExtender"/>
     </bean>
 
     <bean id="courseWaitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceImpl">

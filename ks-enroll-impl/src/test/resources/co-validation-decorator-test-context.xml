@@ -59,6 +59,8 @@
 
     <bean id="courseWaitListServiceFacade" class="org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacadeImpl"/>
 
+    <bean id="courseOfferingServiceExtender" class="org.kuali.student.enrollment.class2.courseoffering.service.extender.CourseOfferingServiceMockExtenderImpl"/>
+
     <!-- CourseOfferingServcieMockImpl has a bunch of services defined with @Resource, so they have to be defined as well. -->
     <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceMockImpl" />
     <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl" />

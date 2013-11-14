@@ -240,7 +240,9 @@
   <alias alias="CourseOfferingService" name="coService" />
 
     <bean id="courseOfferingServiceExtender" class="org.kuali.student.enrollment.class2.courseoffering.service.extender.CourseOfferingServiceExtenderImpl">
+        <property name="activityOfferingTransformer" ref="activityTransformer" />
         <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
+        <property name="roomService" ref="roomService"/>
         <property name="searchService" ref="SearchService" />
         <property name="schedulingService" ref="SchedulingService"/>
     </bean>
@@ -329,6 +331,7 @@
         <property name="rolloverAssist" ref="rolloverAssist"/>
         <property name="courseWaitListService" ref="courseWaitListService"/>
         <property name="courseWaitListServiceFacade" ref="courseWaitListServiceFacade"/>
+        <property name="courseOfferingServiceExtender" ref="courseOfferingServiceExtender"/>
     </bean>
 
     <bean id="examOfferingServiceFacade" class="org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacadeImpl">

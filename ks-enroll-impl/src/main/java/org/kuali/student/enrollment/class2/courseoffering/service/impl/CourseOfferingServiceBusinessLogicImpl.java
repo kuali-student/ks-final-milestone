@@ -8,9 +8,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.collection.KSCollectionUtils;
-import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
-import org.kuali.student.enrollment.class2.courseoffering.service.helper.CopyActivityOfferingCommon;
+import org.kuali.student.enrollment.class2.courseoffering.service.extender.CourseOfferingServiceExtender;
 import org.kuali.student.enrollment.class2.courseoffering.service.helper.CourseOfferingServiceRolloverHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
@@ -208,7 +207,17 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         this.courseWaitListServiceFacade = courseWaitListServiceFacade;
     }
     // ----------------------------------------------------------------
+    @Resource
+    private CourseOfferingServiceExtender courseOfferingServiceExtender;
 
+    public CourseOfferingServiceExtender getCourseOfferingServiceExtender() {
+        return courseOfferingServiceExtender;
+    }
+
+    public void setCourseOfferingServiceExtender(CourseOfferingServiceExtender courseOfferingServiceExtender) {
+        this.courseOfferingServiceExtender = courseOfferingServiceExtender;
+    }
+    // ----------------------------------------------------------------
     /**
      * Initializes services, if needed
      */
@@ -733,10 +742,10 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 if (sourceTermSameAsTarget) {
                     // KSENROLL-8064: Make behavior of copying an AO the same (other than the option
                     // keys in the if statement above
-                    targetAo = CopyActivityOfferingCommon.copy(sourceAo.getId(), coService, schedulingService,
-                            roomService, activityOfferingTransformer,
-                            targetFo, targetTermIdCustom,
-                            context, optionKeys);
+                    CourseOfferingServiceExtender extender = getCourseOfferingServiceExtender();
+                    targetAo = extender.copyActivityOffering(sourceAo, coService,
+                                    targetFo, targetTermIdCustom,
+                                    context, optionKeys);
                     // Need to do this, otherwise mapping of source/target AO clusters fails
                     sourceAoIdToTargetAoId.put(sourceAo.getId(), targetAo.getId());
                 } else {

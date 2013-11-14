@@ -18,7 +18,6 @@ import org.kuali.student.enrollment.class2.courseoffering.service.CourseOffering
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.extender.CourseOfferingServiceExtender;
-import org.kuali.student.enrollment.class2.courseoffering.service.helper.CopyActivityOfferingCommon;
 import org.kuali.student.enrollment.class2.courseoffering.service.helper.CourseOfferingServiceScheduleHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingDisplayTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
@@ -1505,9 +1504,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public ActivityOfferingInfo copyActivityOffering(String activityOfferingId, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return CopyActivityOfferingCommon.copy(activityOfferingId, this, schedulingService, roomService,
-                activityOfferingTransformer, null, null, context, Collections.EMPTY_LIST);
+    public ActivityOfferingInfo copyActivityOffering(String activityOfferingId, ContextInfo context)
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+
+        CourseOfferingServiceExtender extender = getCourseOfferingServiceExtender();
+        ActivityOfferingInfo sourceAo = getActivityOffering(activityOfferingId, context);
+        ActivityOfferingInfo copiedAo = extender.copyActivityOffering(sourceAo, this, context);
+        return copiedAo;
     }
 
     @Override
