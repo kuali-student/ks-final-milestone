@@ -11,7 +11,7 @@ function handleColocation(){
      * checkbox and the colo had previously been persisted at the database
      */
     if( !isColoCheckboxSet && isColoPersistedOnInfo ) {
-        var overrideOptions = { autoDimensions:false, width:500 };
+        var overrideOptions = { autoDimensions:false, width:500, afterClose:breakColoWarningHasClosed };
         showLightboxComponent('ActivityOfferingEdit-BreakColocateConfirmation', overrideOptions);
     }
     // failing that, just hide the colo-box
@@ -21,11 +21,37 @@ function handleColocation(){
 
 }
 
-function closeColocationLightbox(){
-    jQuery("#is_co_located_control").attr('checked', 'checked');
+/**
+ * FancyBox provides an "X"-button in it's upper-right corner which fires the 'close'-event, but there is no way
+ * to distinguish how the dialog was closed because closing the box via any other method fires the exact same event
+ * (ie: using either the "Break Colocation"- or "Close"-buttons are indistinguishable from the "X"-button)
+ *
+ * And the "X"-button does not provide it's own handler to enable us to apply special logic when it's pressed.  It can
+ * only be hidden, but the project uses this button throughout similar dialogs.
+ *
+ * Functionally, the "X"-button should behave exactly as if the user had used the "Close"-button.  That is, the
+ * colo-checkbox should be re-set.
+ *
+ * Thus, we introduce the didConfirmBreakColo-variable to determine whether or not the dialog is closing due to the
+ * user clicking the confirm-button.
+ *
+ * See KSENROLL-10868
+ */
+var didConfirmBreakColo = false;
+function confirmBreakColo() {   // this method gets called only when the user clicks on the confirm-button
+    didConfirmBreakColo = true;
     closeLightbox();
+    return true;
 }
+var breakColoWarningHasClosed = function() {  // this method executes whenever the dialog is closing
 
+    if( !didConfirmBreakColo ) { // user canceled
+        jQuery("#is_co_located_control").attr('checked', 'checked');
+    }
+    else { // user confirmed
+        didConfirmBreakColo = false;
+    }
+};
 
 function breakColoCallBack(){
     setupColoCheckBoxChange(jQuery("#is_co_located_control"));
