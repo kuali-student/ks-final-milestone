@@ -468,16 +468,18 @@ public class CourseOfferingManagementUtil {
     public static void prepareManageAOsModelAndView(CourseOfferingManagementForm form, CourseOfferingListSectionWrapper selectedCO) throws Exception {
 
         CourseOfferingWrapper currentCOWrapper = new CourseOfferingWrapper(selectedCO.isCrossListed(),selectedCO.getCourseOfferingCode(),selectedCO.getCourseOfferingDesc(),selectedCO.getAlternateCOCodes(),selectedCO.getCourseOfferingId());
-        try{
-            currentCOWrapper.setExamPeriodId(getExamOfferingServiceFacade().getExamPeriodId(form.getTermInfo().getId(), ContextUtils.createDefaultContextInfo()));
-        }catch (DoesNotExistException e){
-
-        }
         form.setSubjectCode(selectedCO.getSubjectArea());
         prepare_AOs_RGs_AOCs_Lists(form, currentCOWrapper);
     }
 
     public static void prepare_AOs_RGs_AOCs_Lists (CourseOfferingManagementForm form, CourseOfferingWrapper currentCOWrapper) throws Exception {
+
+        //Set exam period id
+        try{
+            currentCOWrapper.setExamPeriodId(getExamOfferingServiceFacade().getExamPeriodId(form.getTermInfo().getId(), ContextUtils.createDefaultContextInfo()));
+        }catch (DoesNotExistException e){
+        }
+
         currentCOWrapper.setTerm( form.getTermInfo() );
 
         CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(currentCOWrapper.getCourseOfferingId(),ContextUtils.createDefaultContextInfo());
