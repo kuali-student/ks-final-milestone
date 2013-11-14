@@ -52,6 +52,8 @@ public class SocRolloverResultItemEntity extends MetaEntity implements Attribute
     }
 
     public void fromDTO(SocRolloverResultItem item) {
+        super.fromDTO(item);
+        
         this.setSocRorState(item.getStateKey());
         this.setSourceCourseOfferingId(item.getSourceCourseOfferingId());
         this.setTargetCourseOfferingId(item.getTargetCourseOfferingId());

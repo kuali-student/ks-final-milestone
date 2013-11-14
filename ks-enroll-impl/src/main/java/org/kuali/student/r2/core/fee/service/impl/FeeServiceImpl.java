@@ -105,6 +105,9 @@ public class FeeServiceImpl implements FeeService {
         feeEntity.setEntityCreated(contextInfo);
         
         enrollmentFeeDao.persist(feeEntity);
+        
+        enrollmentFeeDao.getEm().flush();
+        
         return feeEntity.toDto();
     }
 
@@ -120,7 +123,10 @@ public class FeeServiceImpl implements FeeService {
             
             feeEntity.setEntityUpdated(contextInfo);
             
-            enrollmentFeeDao.merge(feeEntity);
+            feeEntity = enrollmentFeeDao.merge(feeEntity);
+            
+            enrollmentFeeDao.getEm().flush();
+            
             return feeEntity.toDto();
         } else {
             throw new DoesNotExistException(feeId);

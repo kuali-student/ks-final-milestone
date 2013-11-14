@@ -43,6 +43,9 @@ public class LuCodeEntity extends MetaEntity implements AttributeOwner<LuCodeAtt
     }
 
     public List<Object> fromDto(LuCode luCode) {
+        
+        super.fromDTO(luCode);
+        
         List<Object> orphansToDelete = new ArrayList<Object>();
 
         this.setValue(luCode.getValue());

@@ -83,6 +83,8 @@ public class EnrollmentFeeEntity extends MetaEntity implements AttributeOwner<En
     }
 
     public void fromDto(EnrollmentFee fee) {
+        super.fromDTO(fee);
+        
         this.setEnrollFeeState(fee.getStateKey());
         this.setCurrencyType(fee.getAmount().getCurrencyTypeKey());
         this.setCurrencyQuantity(fee.getAmount().getCurrencyQuantity());

@@ -94,6 +94,8 @@ public class SocRolloverResultEntity extends MetaEntity implements AttributeOwne
     }
 
     public void fromDTO(SocRolloverResult socRolloverResult) {
+        super.fromDTO(socRolloverResult);
+        
         this.setSocRorState(socRolloverResult.getStateKey());
         this.setSourceSocId(socRolloverResult.getSourceSocId());
         this.setTargetSocId(socRolloverResult.getTargetSocId());

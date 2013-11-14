@@ -52,6 +52,9 @@ public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<Lu
     }
 
     public List<Object> fromDto(LuiIdentifier luiIdentifier) {
+        
+        super.fromDTO(luiIdentifier);
+        
         List<Object> orphansToDelete = new ArrayList<Object>();
 
         this.setState(luiIdentifier.getStateKey());

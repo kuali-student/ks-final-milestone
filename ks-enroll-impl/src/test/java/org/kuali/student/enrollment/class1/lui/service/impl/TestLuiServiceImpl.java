@@ -35,6 +35,7 @@ import javax.persistence.Query;
 import junit.framework.Assert;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
@@ -126,6 +127,9 @@ public class TestLuiServiceImpl {
         callContext.setPrincipalId(principalId);
         try {
             new LuiTestDataLoader(luiDao, luiLuiRelationDao).loadData();
+            
+            luiDao.getEm().flush();
+            
         } catch (Exception ex) {
             throw new RuntimeException (ex);
         }

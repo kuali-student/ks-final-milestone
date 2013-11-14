@@ -41,7 +41,7 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
             String learningResultRecordId,
              ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
+        throw new UnsupportedOperationException("Method not implemented."); 
     }
 
     @Override
@@ -76,7 +76,7 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
             List<String> sourceIds,  ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
+        throw new UnsupportedOperationException("Method not implemented.");
     }
 
     @Override
@@ -104,8 +104,15 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
             }
             newLrr.setResultSourceList(resultSourceEntities);
 
-            lrrDao.merge(newLrr);
-            return lrrDao.find(newLrr.getId()).toDto();
+            try {
+                newLrr = lrrDao.merge(newLrr);
+            } catch (VersionMismatchException e) {
+                throw new OperationFailedException("version mismatch exception", e);
+            }
+            
+            lrrDao.getEm().flush();
+            
+            return newLrr.toDto();
         }
 
     }
@@ -133,9 +140,11 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
         }
         modifiedLrr.setResultSourceList(resultSourceEntities);
 
-        lrrDao.merge(modifiedLrr);
+        modifiedLrr = lrrDao.merge(modifiedLrr);
+        
+        lrrDao.getEm().flush();
 
-        return lrrDao.find(modifiedLrr.getId()).toDto();
+        return modifiedLrr.toDto();
     }
 
     @Override
@@ -154,7 +163,14 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
         status.setSuccess(Boolean.TRUE);
 
         lrr.setLrrState(LrrServiceConstants.RESULT_RECORD_DELETED_STATE_KEY);
-        lrrDao.merge(lrr);
+       
+        try {
+            lrr = lrrDao.merge(lrr);
+        } catch (VersionMismatchException e) {
+            throw new OperationFailedException("version mismatch exception", e);
+        }
+        
+        lrrDao.getEm().flush();
 
         return status;
 
@@ -166,14 +182,14 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
             LearningResultRecordInfo learningResultRecordInfo,
              ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
+        throw new UnsupportedOperationException("Method not implemented."); 
     }
 
     @Override
     public ResultSourceInfo getResultSource(String resultSourceId,
              ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
+        throw new UnsupportedOperationException("Method not implemented."); 
     }
 
     @Override
@@ -181,7 +197,7 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
             List<String> resultSourceIds,
              ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
+        throw new UnsupportedOperationException("Method not implemented."); 
     }
 
     @Override
@@ -189,7 +205,7 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
             String resultSourceTypeKey,
              ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
+        throw new UnsupportedOperationException("Method not implemented."); 
     }
 
     @Override
@@ -198,7 +214,7 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
              ContextInfo context) throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
+        throw new UnsupportedOperationException("Method not implemented."); 
     }
 
     @Override
@@ -208,7 +224,7 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
              ContextInfo context) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
-        throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
+        throw new UnsupportedOperationException("Method not implemented."); 
     }
 
     @Override
@@ -216,7 +232,7 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
     public StatusInfo deleteResultSource(String resultSourceId,
              ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
+        throw new UnsupportedOperationException("Method not implemented."); 
     }
 
     @Override

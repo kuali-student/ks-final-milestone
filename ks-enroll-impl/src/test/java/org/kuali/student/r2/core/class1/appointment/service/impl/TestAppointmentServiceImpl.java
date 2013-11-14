@@ -40,6 +40,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -63,6 +64,10 @@ import static org.junit.Assert.assertTrue;
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
 public class TestAppointmentServiceImpl {
+    
+    // a key defined in ProcessPocPopulationMockImpl with only 550 elements
+    private static final String ATHLETES_ONLY_STUDENTS = "kuali.population.athletes.only.student";
+    
     @Resource
     private AppointmentService appointmentService;
     // ------------------------------------
@@ -84,6 +89,7 @@ public class TestAppointmentServiceImpl {
         contextInfo = new ContextInfo();
         contextInfo.setPrincipalId(principalId);
         contextInfo.setCurrentDate(new Date());
+        
         makeAppointmentWindowInfo();
         makeAppointmentSlotInfo();
     }
@@ -100,7 +106,7 @@ public class TestAppointmentServiceImpl {
         Date endDate = createDate(2012, 3, 16, 14, 0);
         apptWindowInfo.setStartDate(startDate);
         apptWindowInfo.setEndDate(endDate);
-        apptWindowInfo.setAssignedPopulationId(new String(PopulationServiceConstants.EVERYONE_POPULATION_KEY));
+        apptWindowInfo.setAssignedPopulationId(ATHLETES_ONLY_STUDENTS);
     }
 
     private AppointmentSlotInfo createAppointmentSlotInfo(String apptWinId) {
@@ -124,7 +130,7 @@ public class TestAppointmentServiceImpl {
         apptWindowInfo.setEndDate(endDate);
 
         apptWindowInfo.setPeriodMilestoneId(milestoneId);
-        apptWindowInfo.setAssignedPopulationId(new String(PopulationServiceConstants.EVERYONE_POPULATION_KEY));
+        apptWindowInfo.setAssignedPopulationId(ATHLETES_ONLY_STUDENTS);
 
         return apptWindowInfo;
     }
@@ -358,7 +364,7 @@ public class TestAppointmentServiceImpl {
         // This tests auto-slot generation for max case without end date
         before();
         try {
-            apptWindowInfo.setAssignedPopulationId(PopulationServiceConstants.SUMMER_ONLY_STUDENTS_POPULATION_KEY.toString());
+            apptWindowInfo.setAssignedPopulationId(ATHLETES_ONLY_STUDENTS);
             long millis = apptWindowInfo.getSlotRule().getStartTimeOfDay().getMilliSeconds();
             TimeOfDayInfo newEnd = new TimeOfDayInfo();
             newEnd.setMilliSeconds(millis - 10000);
@@ -439,11 +445,11 @@ public class TestAppointmentServiceImpl {
             List<AppointmentSlotInfo> slotInfoList =
                     appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
             // Only creates as many slots as needed (with 9 students, 4 per slot, only 3 are created)
-            assertEquals(22, slotInfoList.size());
+            assertEquals(2, slotInfoList.size());
             // Now fetch the slots
             List<AppointmentSlotInfo> fetchedSlots =
                     appointmentService.getAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
-            assertEquals(22, fetchedSlots.size());
+            assertEquals(2, fetchedSlots.size());
             // Now assign students
             StatusInfo statusInfo =
                     appointmentService.generateAppointmentsByWindow(windowInfo.getId(), windowInfo.getTypeKey(), contextInfo);
@@ -496,11 +502,11 @@ public class TestAppointmentServiceImpl {
             List<AppointmentSlotInfo> slotInfoList =
                     appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
             // Only creates as many slots as needed (with 9 students, 4 per slot, only 3 are created)
-            assertEquals(4, slotInfoList.size());
+            assertEquals(1, slotInfoList.size());
             // Now fetch the slots
             List<AppointmentSlotInfo> fetchedSlots =
                     appointmentService.getAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
-            assertEquals(4, fetchedSlots.size());
+            assertEquals(1, fetchedSlots.size());
             // Now assign students
             StatusInfo statusInfo =
                     appointmentService.generateAppointmentsByWindow(windowInfo.getId(), windowInfo.getTypeKey(), contextInfo);
@@ -543,6 +549,7 @@ public class TestAppointmentServiceImpl {
             apptWindowInfo.setStartDate(startDate);
             apptWindowInfo.setEndDate(endDate);
             apptWindowInfo.setMaxAppointmentsPerSlot(2); // Make it very small
+            apptWindowInfo.setAssignedPopulationId(ATHLETES_ONLY_STUDENTS);
             // Change slot generation type
             apptWindowInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY);
             AppointmentWindowInfo windowInfo =

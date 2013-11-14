@@ -80,6 +80,8 @@ public class HoldIssueEntity
     }
 
     public void fromDto(HoldIssue dto) {
+        super.fromDTO(dto);
+        
         setName(dto.getName());
         setHoldIssueState(dto.getStateKey());
         setOrganizationId(dto.getOrganizationId());

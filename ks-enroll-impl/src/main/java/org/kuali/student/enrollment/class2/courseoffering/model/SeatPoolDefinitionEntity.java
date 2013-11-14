@@ -83,6 +83,8 @@ public class SeatPoolDefinitionEntity extends MetaEntity implements AttributeOwn
     }
 
     public void fromDto(SeatPoolDefinition pool) {
+        super.fromDTO(pool);
+        
         this.setSeatPoolDefnState(pool.getStateKey());
         this.setSeatPoolDefnType(pool.getTypeKey());
         this.setName(pool.getName());

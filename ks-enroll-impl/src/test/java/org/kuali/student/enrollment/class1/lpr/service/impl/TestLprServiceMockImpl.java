@@ -1,5 +1,17 @@
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,17 +40,6 @@ import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.annotation.Resource;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:lpr-mock-service-test-context.xml"})
 public class TestLprServiceMockImpl {
@@ -62,6 +63,8 @@ public class TestLprServiceMockImpl {
         principalId = "123";
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
+        callContext.setAuthenticatedPrincipalId(principalId);
+        callContext.setCurrentDate(new Date());
 //        try {
 //            new LprTestDataLoader(lprDao).loadData();
 //        } catch (Exception ex) {

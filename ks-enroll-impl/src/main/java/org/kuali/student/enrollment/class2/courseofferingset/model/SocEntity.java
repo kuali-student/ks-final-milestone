@@ -70,6 +70,8 @@ public class SocEntity extends MetaEntity implements AttributeOwner<SocAttribute
     }
 
     public void fromDTO(Soc soc) {
+        super.fromDTO(soc);
+        
         this.setName(soc.getName());
         if (soc.getDescr() != null) {
             this.setDescrFormatted(soc.getDescr().getFormatted());

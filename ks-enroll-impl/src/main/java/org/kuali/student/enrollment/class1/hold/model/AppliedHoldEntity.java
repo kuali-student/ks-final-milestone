@@ -91,6 +91,8 @@ public class AppliedHoldEntity
     }
 
     public void fromDto(AppliedHold dto) {
+        super.fromDTO(dto);
+        
         this.setName(dto.getName());
         this.setHoldState(dto.getStateKey());
         if (dto.getDescr() != null) {

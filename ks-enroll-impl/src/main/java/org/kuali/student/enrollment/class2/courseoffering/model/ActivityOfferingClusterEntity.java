@@ -99,6 +99,8 @@ public class ActivityOfferingClusterEntity extends MetaEntity implements Attribu
     }
 
     public List<Object> fromDto(ActivityOfferingCluster aoCluster) {
+        super.fromDTO(aoCluster);
+        
         this.setActivityOfferingClusterState(aoCluster.getStateKey());
         this.setActivityOfferingClusterType(aoCluster.getTypeKey());
         this.setName(aoCluster.getName());

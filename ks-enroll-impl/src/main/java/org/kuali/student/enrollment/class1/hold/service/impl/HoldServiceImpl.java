@@ -160,6 +160,7 @@ public class HoldServiceImpl
         entity.setHoldIssue(holdIssueEntity);
         entity.setEntityCreated(context);
         appliedHoldDao.persist(entity);
+        appliedHoldDao.getEm().flush();
         return entity.toDto();
     }
 
@@ -333,6 +334,7 @@ public class HoldServiceImpl
         HoldIssueEntity entity = new HoldIssueEntity(issueInfo);
         entity.setEntityCreated(context);
         holdIssueDao.persist(entity);
+        holdIssueDao.getEm().flush();
         return entity.toDto();
     }
 

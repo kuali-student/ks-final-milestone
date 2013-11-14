@@ -50,7 +50,11 @@ public class CourseOfferingSetServiceAftDecorator
         entity.setSocState( socInfo.getStateKey() );
         entity.setEntityUpdated( context );
 
-        return this.socDao.merge( entity ).toDto();
+        entity = this.socDao.merge(entity);
+        
+        this.socDao.getEm().flush();
+        
+        return entity.toDto();
     }
 
     public SocDao getSocDao() {

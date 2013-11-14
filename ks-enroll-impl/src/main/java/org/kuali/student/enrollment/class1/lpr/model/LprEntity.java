@@ -88,6 +88,8 @@ public class LprEntity extends MetaEntity implements AttributeOwner<LprAttribute
 
     public void fromDto(Lpr dto) {
 
+        super.fromDTO(dto);
+        
         if(dto.getCommitmentPercent() != null) {
             this.setCommitmentPercent(new BigDecimal(dto.getCommitmentPercent()));
         }

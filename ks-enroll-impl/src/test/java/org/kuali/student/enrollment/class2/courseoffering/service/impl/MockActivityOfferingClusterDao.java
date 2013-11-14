@@ -73,11 +73,6 @@ public class MockActivityOfferingClusterDao implements ActivityOfferingClusterDa
     }
 
     @Override
-    public void update(ActivityOfferingClusterEntity entity) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
     public ActivityOfferingClusterEntity merge(ActivityOfferingClusterEntity entity) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }

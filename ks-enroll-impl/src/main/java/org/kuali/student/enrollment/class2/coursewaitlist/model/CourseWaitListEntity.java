@@ -221,6 +221,9 @@ public class CourseWaitListEntity extends MetaEntity implements AttributeOwner<C
     }
 
     public void fromDto(CourseWaitList courseWaitList) {
+    	
+    	super.fromDTO(courseWaitList);
+    	
         this.setAllowHoldUntilEntries(courseWaitList.getAllowHoldUntilEntries());
         this.setAttributes(new HashSet<CourseWaitListAttributeEntity>());
         for (Attribute att : courseWaitList.getAttributes()) {

@@ -89,6 +89,8 @@ public class LuiSetEntity extends MetaEntity implements AttributeOwner<LuiSetAtt
 
     public void fromDto(LuiSet luiSet) {
 
+        super.fromDTO(luiSet);
+        
         this.setLuiSetType(luiSet.getTypeKey());
         this.setLuiSetState(luiSet.getStateKey());
         this.setName(luiSet.getName());

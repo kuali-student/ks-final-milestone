@@ -86,6 +86,7 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
     @SuppressWarnings("unchecked")
 	public void fromDto (LprTransaction lprTransaction) {
     	
+         super.fromDTO(lprTransaction);
 		
     	 this.setName(lprTransaction.getName());
     	 

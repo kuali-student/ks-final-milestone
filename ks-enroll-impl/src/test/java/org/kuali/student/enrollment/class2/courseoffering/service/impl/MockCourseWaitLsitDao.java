@@ -42,11 +42,6 @@ public class MockCourseWaitLsitDao implements CourseWaitListDaoApi{
     }
 
     @Override
-    public void update(CourseWaitListEntity entity) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
     public CourseWaitListEntity merge(CourseWaitListEntity entity) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }

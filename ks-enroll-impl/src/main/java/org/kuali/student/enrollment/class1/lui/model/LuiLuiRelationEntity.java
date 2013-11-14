@@ -77,6 +77,9 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
     }
 
     public List<Object> fromDto(LuiLuiRelation luiLuiRelation) {
+        
+        super.fromDTO(luiLuiRelation);
+        
         List<Object> orphansToDelete = new ArrayList<Object>();
 
         this.setEffectiveDate(luiLuiRelation.getEffectiveDate());

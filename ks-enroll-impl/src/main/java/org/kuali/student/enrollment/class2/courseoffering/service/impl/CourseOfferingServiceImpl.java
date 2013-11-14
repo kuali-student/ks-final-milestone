@@ -3076,7 +3076,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         // activity offering ID.
         SeatPoolDefinitionEntity seatPoolEntity = seatPoolDefinitionDao.find(seatPoolDefinitionId);
         seatPoolEntity.setActivityOfferingId(activityOfferingId);
-        seatPoolDefinitionDao.merge(seatPoolEntity);
+        try {
+            seatPoolDefinitionDao.merge(seatPoolEntity);
+        } catch (VersionMismatchException e) {
+            throw new OperationFailedException("version mismatch exception when saving seatPoolEntity(id=" + seatPoolEntity.getId() + ")", e);
+        }
         StatusInfo statusInfo = new StatusInfo();
         statusInfo.setSuccess(Boolean.TRUE);
         return statusInfo;
@@ -3102,7 +3106,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throw new InvalidParameterException("activityOfferingId does not match the one in seatpool: " + activityOfferingId);
         }
         seatPoolEntity.setActivityOfferingId(null); // Remove the activity offering ID.
-        seatPoolDefinitionDao.merge(seatPoolEntity);
+        try {
+            seatPoolDefinitionDao.merge(seatPoolEntity);
+        } catch (VersionMismatchException e) {
+            throw new OperationFailedException("version mismatch exception for seatPoolEntity.id=" + seatPoolEntity.getId(), e);
+        }
         StatusInfo statusInfo = new StatusInfo();
         statusInfo.setSuccess(Boolean.TRUE);
         return statusInfo;
@@ -3313,7 +3321,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         entity.setActivityOfferingClusterState(nextStateKey);
         this.logAOCStateChange(entity, contextInfo);
         entity.setEntityUpdated(contextInfo);
-        activityOfferingClusterDao.merge(entity);
+        try {
+            activityOfferingClusterDao.merge(entity);
+        } catch (VersionMismatchException e) {
+            throw new OperationFailedException("version mismatch exception, aoc.id="  + entity.getId(), e);
+        }
         StatusInfo status = new StatusInfo ();
         status.setSuccess(Boolean.TRUE);
         return status;

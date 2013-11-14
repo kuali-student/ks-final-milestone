@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.jws.WebParam;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +59,9 @@ public class CourseWaitListServiceImpl implements CourseWaitListService {
         courseWaitListEntity.setEntityCreated(contextInfo);
         courseWaitListEntity.setType(courseWaitListTypeKey);
         courseWaitListDao.persist(courseWaitListEntity);
+        
+        courseWaitListDao.getEm().flush();
+        
         return courseWaitListEntity.toDto();
     }
 
@@ -76,10 +80,14 @@ public class CourseWaitListServiceImpl implements CourseWaitListService {
             if (null != courseWaitListEntity) {
                 courseWaitListEntity.fromDto(courseWaitListInfo);
                 courseWaitListEntity.setEntityUpdated(contextInfo);
-                courseWaitListEntity = courseWaitListDao.merge(courseWaitListEntity);
+            
+            courseWaitListEntity = courseWaitListDao.merge(courseWaitListEntity);
+            
+            courseWaitListDao.getEm().flush();
+            
                 return courseWaitListEntity.toDto();
             } else {
-                throw new DoesNotExistException(courseWaitListId);
+            throw new DoesNotExistException("No CourseWaitList for id = " + courseWaitListId);
             }
         } else {
             throw new InvalidParameterException("courseWaitListId can not be null");
@@ -97,7 +105,11 @@ public class CourseWaitListServiceImpl implements CourseWaitListService {
         if (null != courseWaitListEntity) {
             courseWaitListEntity.setState(stateKey);
             courseWaitListEntity.setEntityUpdated(contextInfo);
-            courseWaitListDao.merge(courseWaitListEntity);
+            try {
+                courseWaitListDao.merge(courseWaitListEntity);
+            } catch (VersionMismatchException e) {
+                throw new OperationFailedException("version mismatch for courseWaitList.id=" + courseWaitListId, e);
+            }
         } else {
             throw new DoesNotExistException(courseWaitListId);
         }
@@ -149,8 +161,7 @@ public class CourseWaitListServiceImpl implements CourseWaitListService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException{
-        //put implementation in Decorator?
-        throw new OperationFailedException("not implemented");
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
@@ -316,7 +327,7 @@ public class CourseWaitListServiceImpl implements CourseWaitListService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException{
-        throw new OperationFailedException("not implemented");
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override

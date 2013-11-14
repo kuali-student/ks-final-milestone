@@ -169,6 +169,9 @@ public class CourseWaitListEntryEntity extends MetaEntity implements AttributeOw
     }
 
     public void fromDto(CourseWaitListEntry entry) {
+    	
+    	super.fromDTO(entry);
+    	
         this.setEffectiveDate(entry.getEffectiveDate());
         this.setExpirationDate(entry.getExpirationDate());
         this.setAttributes(new HashSet<CourseWaitListEntryAttributeEntity>());
