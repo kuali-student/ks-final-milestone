@@ -48,35 +48,42 @@
   margin: 3px;
 }
 
-/************************************** ERROR MESSAGES **************************************/
+/************************************** VALIDATION MESSAGES **************************************/
 li.uif-errorMessageItem:before
 {
   color: @black;
 }
-ul.uif-pageValidationMessage-single {
-  margin-left: -26px;
-}
-.uif-validationMessages li {
-  margin-left: 5px;
-}
-.uif-pageValidationHeader ul ul>li{
-  margin-left: 10px;
-}
 
-.uif-pageValidationMessages .uif-validationImage {
-  vertical-align: bottom;
-  width: 26px;
-  margin:-3px;
-}
-.uif-validationMessages.uif-groupValidationMessages{
-  margin-top:10px;
-}
-
+/* Padding in between the icon and left side of the panel */
 .uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-error, .uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-warning, .uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-information {
     padding: 8px 35px 8px 10px;
 }
 
-/************************************** END ERROR MESSAGES **************************************/
+/* Vertically Centering the Icon with the Title */
+.uif-pageValidationMessages .uif-validationImage {
+    vertical-align: middle;
+    margin-top: -3px;
+    padding-right: 2px;
+}
+
+/* Attributes of the Title */
+.uif-pageValidationHeader {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+/* Attributes of the Title */
+.uif-validationMessages > h3 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding: 0px 0px 2px 0px;
+}
+
+/* Attributes of Bulleted Items */
+.uif-validationMessages ul {
+    margin-left: 19px;
+}
+
+/************************************** END VALIDATION MESSAGES **************************************/
 
 /************************************** CSS COLUMN GRID **************************************/
 .col_1
