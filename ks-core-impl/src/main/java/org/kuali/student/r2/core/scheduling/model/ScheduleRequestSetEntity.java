@@ -97,6 +97,8 @@ public class ScheduleRequestSetEntity extends MetaEntity implements AttributeOwn
 
 
     public void fromDto(ScheduleRequestSet scheduleRequestSet) {
+        super.fromDTO(scheduleRequestSet);
+        
         setSchedReqSetState(scheduleRequestSet.getStateKey());
         setName(scheduleRequestSet.getName());
 

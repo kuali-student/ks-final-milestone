@@ -101,6 +101,8 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
     }
 
     public void fromDTO(Instruction instruction) {
+        super.fromDTO(instruction);
+        
         this.instructionState = instruction.getStateKey();
         this.effectiveDate = instruction.getEffectiveDate();
         this.expirationDate = instruction.getExpirationDate();

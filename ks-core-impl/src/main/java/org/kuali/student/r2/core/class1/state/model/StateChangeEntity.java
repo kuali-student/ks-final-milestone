@@ -82,6 +82,9 @@ public class StateChangeEntity extends MetaEntity implements AttributeOwner<Stat
     }
 
     public void fromDTO(StateChange stateChange){
+        
+        super.fromDTO(stateChange);
+        
         List<Object> orphansToDelete = new ArrayList<Object>();
         setEffectiveDate(stateChange.getEffectiveDate());
         setExpirationDate(stateChange.getExpirationDate());

@@ -16,7 +16,10 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,26 +39,55 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.mortbay.log.Log;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.transaction.support.TransactionTemplate;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:atp-test-context.xml"})
-@Transactional
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
-public class TestAtpServiceImpl {
+@Transactional(readOnly=false, noRollbackFor= {DoesNotExistException.class}, rollbackFor= {Throwable.class})
+public class TestAtpServiceImpl implements ApplicationContextAware {
 
     @Resource(name = "atpServiceAuthDecorator")
     public AtpService atpService;
+    
+    @Resource (name="entityManager")
+    private EntityManager em;
+    
     public static String principalId = "123";
     public ContextInfo callContext = null;
+
+
+    private ApplicationContext applicationContext;
+
+    
+    /* (non-Javadoc)
+     * @see org.springframework.context.ApplicationContextAware#setApplicationContext(org.springframework.context.ApplicationContext)
+     */
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext)
+            throws BeansException {
+                this.applicationContext = applicationContext;
+        
+    }
 
     @Before
     public void setUp() {
@@ -80,8 +112,6 @@ public class TestAtpServiceImpl {
         loader.loadData();
     }
 
-   
-
     @Test
     public void testGetAtp() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -101,10 +131,50 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-    public void testAtpCrud() throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException,
-            DataValidationErrorException, VersionMismatchException, ReadOnlyException {
-        // test create
+    public void testAtpVersionMismatch () throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
+        
+     // test create
+        AtpInfo atpInfo = new AtpInfo();
+        atpInfo.setName("newId");
+        atpInfo.setTypeKey("kuali.atp.type.AcademicCalendar");
+        atpInfo.setStateKey("kuali.atp.state.Draft");
+        atpInfo.setStartDate(Calendar.getInstance().getTime());
+        RichTextInfo rt = new RichTextInfo();
+        rt.setPlain("TestDesc1");
+        atpInfo.setDescr(rt);
+        atpInfo.setEndDate(Calendar.getInstance().getTime());
+        AtpInfo created = null;
+        created = atpService.createAtp(atpInfo.getTypeKey(), atpInfo, callContext);
+        assertNotNull(created);
+        assertNotNull(created.getId());
+
+        
+        String atpId = created.getId();
+        
+        AtpInfo atp = atpService.getAtp(atpId , callContext);
+        
+        Assert.assertTrue(atp.getMeta().getVersionInd().equals("0"));
+        
+        atp.setCode("test-code");
+        
+        AtpInfo updated = atpService.updateAtp(atpId, new AtpInfo(atp), callContext);
+        
+        Assert.assertNotEquals(atp.getMeta().getVersionInd(), updated.getMeta().getVersionInd());
+        
+        // test version missmatch detection
+        boolean exception = false;
+        
+        try {
+            atpService.updateAtp(atpId, new AtpInfo(atp), callContext);
+        } catch (VersionMismatchException e) {
+            exception = true;
+        }
+
+        Assert.assertTrue("failed to detect optimisitic lock error", exception);
+    }
+    
+    private String testAtpCrudBase () throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+     // test create
         AtpInfo atpInfo = new AtpInfo();
         atpInfo.setName("newId");
         atpInfo.setTypeKey("kuali.atp.type.AcademicCalendar");
@@ -136,7 +206,7 @@ public class TestAtpServiceImpl {
         updated = atpService.updateAtp(fetched.getId(), modified, callContext);
         assertNotNull(updated);
         assertEquals(atpNameOrig + "updated", updated.getName());
-
+        
         // test delete
         atpInfo = atpService.getAtp("testDeleteAtpId1", callContext);
         assertNotNull(atpInfo);
@@ -155,6 +225,15 @@ public class TestAtpServiceImpl {
         updated = atpService.updateAtp(updated.getId(), updated, callContext);
         assertNotNull(updated);
         assertEquals(atpNameOrig, updated.getName());
+        
+        return updated.getId();
+    }
+    
+    @Test
+    public void testAtpCrud() throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException,
+            DataValidationErrorException, VersionMismatchException, ReadOnlyException {
+        testAtpCrudBase();
     }
 
     @Test

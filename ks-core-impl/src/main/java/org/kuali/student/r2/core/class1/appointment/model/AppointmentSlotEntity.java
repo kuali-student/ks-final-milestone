@@ -124,6 +124,8 @@ public class AppointmentSlotEntity extends MetaEntity implements AttributeOwner<
     }
 
     public void fromDto(AppointmentSlot apptSlot) {
+        super.fromDTO(apptSlot);
+        
         // AppointmentSlot specific fields set below
         this.setStartDate(apptSlot.getStartDate());
         this.setEndDate(apptSlot.getEndDate());

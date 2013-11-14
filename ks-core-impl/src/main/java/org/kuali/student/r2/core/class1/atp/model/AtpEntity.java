@@ -64,6 +64,7 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
     }
     
     public void fromDTO(Atp atp) {
+        super.fromDTO(atp);
         this.setAtpCode(atp.getCode());
         this.setName(atp.getName());
         if (atp.getDescr() != null) {

@@ -443,6 +443,8 @@ public class RoomServiceImpl implements RoomService {
         }
 
         roomServiceDao.persist(roomEntity);
+        
+        roomServiceDao.getEm().flush();
 
         return roomEntity.toDto();
     }
@@ -482,10 +484,19 @@ public class RoomServiceImpl implements RoomService {
     public RoomInfo updateRoom(String roomId, RoomInfo roomInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         checkValid(roomInfo, contextInfo);
 
-        RoomEntity roomEntity = new RoomEntity(roomInfo);
+        RoomEntity roomEntity = roomServiceDao.find(roomId);
+        
+        if (roomEntity == null)
+            throw new DoesNotExistException("no room for id = " + roomId);
+        
+        roomEntity.fromDto(roomInfo);
+        
         roomEntity.setEntityUpdated(contextInfo);
-        roomServiceDao.update(roomEntity);
+        
+        roomEntity = roomServiceDao.merge(roomEntity);
 
+        roomServiceDao.getEm().flush();
+        
         return roomEntity.toDto();
     }
 
@@ -748,6 +759,8 @@ public class RoomServiceImpl implements RoomService {
         buildingEntity.setEntityCreated(contextInfo);
 
         buildingServiceDao.persist(buildingEntity);
+        
+        buildingServiceDao.getEm().flush();
 
         return buildingEntity.toDto();
     }
@@ -787,10 +800,19 @@ public class RoomServiceImpl implements RoomService {
     public BuildingInfo updateBuilding(String buildingId, BuildingInfo buildingInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         checkValid(buildingInfo, contextInfo);
 
-        RoomBuildingEntity buildingEntity = new RoomBuildingEntity(buildingInfo);
+        RoomBuildingEntity buildingEntity = buildingServiceDao.find(buildingId);
+        
+        if (buildingEntity == null)
+            throw new DoesNotExistException("no building for id = " + buildingId);
+        
+        buildingEntity.fromDto(buildingInfo);
+        
         buildingEntity.setEntityUpdated(contextInfo);
-        buildingServiceDao.update(buildingEntity);
+        
+        buildingEntity = buildingServiceDao.merge(buildingEntity);
 
+        buildingServiceDao.getEm().flush();
+        
         return buildingEntity.toDto();
     }
 
@@ -1097,6 +1119,8 @@ public class RoomServiceImpl implements RoomService {
         e.setEntityCreated( contextInfo );
 
         roomResponsibleOrgDao.persist(e);
+        
+        roomResponsibleOrgDao.getEm().flush();
 
         return e.toDto();
     }
@@ -1135,17 +1159,21 @@ public class RoomServiceImpl implements RoomService {
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class, InvalidParameterException.class, MissingParameterException.class}, rollbackFor = {Throwable.class})
     public RoomResponsibleOrgInfo updateRoomResponsibleOrg(String roomResponsibleOrgId, RoomResponsibleOrgInfo roomResponsibleOrgInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         checkValid(roomResponsibleOrgInfo, contextInfo);
-        RoomResponsibleOrgEntity e = new RoomResponsibleOrgEntity(roomResponsibleOrgInfo);
+        
+        RoomResponsibleOrgEntity entity = roomResponsibleOrgDao.find(roomResponsibleOrgId);
+        
+        if (entity == null)
+            throw new DoesNotExistException("no room responsible org for id = " + roomResponsibleOrgId);
+        
+        entity.fromDto(roomResponsibleOrgInfo);
+        
+        entity.setEntityUpdated(contextInfo);
+        
+        entity = roomResponsibleOrgDao.merge(entity);
+        
+        roomResponsibleOrgDao.getEm().flush();
 
-        if (roomResponsibleOrgId != null && !roomResponsibleOrgId.isEmpty()) {
-            e.setId( roomResponsibleOrgId );
-        }
-
-        e.setEntityUpdated(contextInfo);
-
-        roomResponsibleOrgDao.update(e);
-
-        return e.toDto();
+        return entity.toDto();
     }
 
     /**

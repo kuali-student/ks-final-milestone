@@ -91,6 +91,9 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
     }
 
     public void fromDTO(Check check) {
+        
+        super.fromDTO(check);
+        
         this.setCheckState(check.getStateKey());
         this.setName(check.getName());
         if (check.getDescr() != null) {

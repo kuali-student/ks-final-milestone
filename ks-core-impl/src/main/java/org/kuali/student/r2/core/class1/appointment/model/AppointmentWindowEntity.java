@@ -280,6 +280,8 @@ public class AppointmentWindowEntity
 
     public void fromDto(AppointmentWindow apptWin) {
 
+        super.fromDTO(apptWin);
+        
         // AppointmentWindow specific initialization; readOnly fields go only in the ctor
         this.setPeriodMilestoneId(apptWin.getPeriodMilestoneId());
         this.setAssignedPopulationId(apptWin.getAssignedPopulationId());

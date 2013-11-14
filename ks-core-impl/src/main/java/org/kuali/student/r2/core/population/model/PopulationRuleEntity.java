@@ -108,6 +108,8 @@ public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<P
     }
 
     public void fromDTO(PopulationRule infc) {
+        super.fromDTO(infc);
+        
         // Note: Child populations must be set externally because infc only population IDS, not
         //       PopulationInfo or PopulationEntity (which it wouldn't store anyway).
         this.setPopulationRuleState(infc.getStateKey());

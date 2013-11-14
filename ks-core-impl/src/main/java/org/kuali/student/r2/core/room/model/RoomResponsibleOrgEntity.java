@@ -87,6 +87,8 @@ public class RoomResponsibleOrgEntity extends MetaEntity implements AttributeOwn
     }
 
     public void fromDto(RoomResponsibleOrg roomResponsibleOrg) {
+        super.fromDTO(roomResponsibleOrg);
+        
         this.setId( roomResponsibleOrg.getId() );
         this.setRespOrgType( roomResponsibleOrg.getTypeKey() );
         this.setRespOrgState(roomResponsibleOrg.getStateKey());

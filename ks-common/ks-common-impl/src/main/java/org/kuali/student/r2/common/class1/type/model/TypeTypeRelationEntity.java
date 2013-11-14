@@ -136,6 +136,8 @@ public class TypeTypeRelationEntity extends MetaEntity implements AttributeOwner
     }
 
     public void fromDto(TypeTypeRelation typeTypeRel) {
+        super.fromDTO(typeTypeRel);
+        
         // NOTE: fields that are readonly are only set in the constructor above
         this.setEffectiveDate(typeTypeRel.getEffectiveDate());
         this.setExpirationDate(typeTypeRel.getExpirationDate());

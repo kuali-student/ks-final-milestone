@@ -177,9 +177,11 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
             throw new DoesNotExistException(enumerationKey + code);
         }
 
-        enumValueDao.merge(modifiedEntity);
+        modifiedEntity = enumValueDao.merge(modifiedEntity);
+        
+        enumValueDao.getEm().flush();
 
-        return enumValueDao.find(modifiedEntity.getId()).toDto();
+        return modifiedEntity.toDto();
 
     }
 

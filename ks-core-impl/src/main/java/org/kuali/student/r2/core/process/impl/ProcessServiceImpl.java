@@ -333,6 +333,8 @@ public class ProcessServiceImpl implements ProcessService {
 
         ProcessEntity retrieved = processDao.find(processKey);
 
+        processDao.getEm().flush();
+        
         return retrieved.toDto();
     }
 
@@ -354,7 +356,7 @@ public class ProcessServiceImpl implements ProcessService {
         ProcessEntity toUpdate = new ProcessEntity(processInfo);
         toUpdate.setProcessType(processInfo.getTypeKey());
         toUpdate.setEntityUpdated(contextInfo);
-        processDao.merge(toUpdate);
+        toUpdate = processDao.merge(toUpdate);
         processDao.getEm().flush();
         return processDao.find(toUpdate.getId()).toDto();
 
@@ -487,6 +489,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
         checkEntity.setEntityCreated(contextInfo);
         checkDao.persist(checkEntity);
+        checkDao.getEm().flush();
         return checkEntity.toDto();
 
     }
@@ -513,9 +516,9 @@ public class ProcessServiceImpl implements ProcessService {
             toUpdate.setChildProcessId(null);
         }
         toUpdate.setEntityUpdated(contextInfo);
-        checkDao.merge(toUpdate);
-        CheckEntity retrieved = checkDao.find(checkInfo.getId());
-        return retrieved.toDto();
+        toUpdate = checkDao.merge(toUpdate);
+        checkDao.getEm().flush();
+        return toUpdate.toDto();
 
     }
 
@@ -711,6 +714,7 @@ public class ProcessServiceImpl implements ProcessService {
         instruction.setCheckId(check.getId());
         instruction.setEntityCreated(contextInfo);
         instructionDao.persist(instruction);
+        instructionDao.getEm().flush();
         return instruction.toDto();
     }
 
@@ -749,9 +753,11 @@ public class ProcessServiceImpl implements ProcessService {
         }
         toUpdate.setCheckId(check.getId());
         toUpdate.setEntityUpdated(contextInfo);
-        instructionDao.merge(toUpdate);
+        toUpdate = instructionDao.merge(toUpdate);
 
-        return instructionDao.find(instructionId).toDto();
+        instructionDao.getEm().flush();
+        
+        return toUpdate.toDto();
 
     }
 

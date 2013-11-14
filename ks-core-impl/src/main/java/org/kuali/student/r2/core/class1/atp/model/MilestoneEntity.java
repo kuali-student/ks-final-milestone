@@ -203,6 +203,8 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
     
 
     public void fromDto(Milestone milestone) {
+        super.fromDTO(milestone);
+        
         boolean allDay = defaultFalse(milestone.getIsAllDay());
         this.setAllDay(allDay);
         this.setIsInstructionalDay(defaultFalse(milestone.getIsInstructionalDay()));

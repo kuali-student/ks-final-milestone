@@ -575,12 +575,12 @@ public class TestSchedulingServiceImplConformanceExtendedCrud extends TestSchedu
         ScheduleRequestSetInfo reqSet = new ScheduleRequestSetInfo();
         testCrudScheduleRequestSet_setDTOFieldsForTestCreate(reqSet);
         reqSet.setId("scheduleRequestSetId01");
-        getSchedulingService().createScheduleRequestSet(reqSet.getTypeKey(), reqSet.getRefObjectTypeKey(), reqSet,  getContextInfo());
+        getSchedulingService().createScheduleRequestSet(reqSet.getTypeKey(), reqSet.getRefObjectTypeKey(), reqSet,  contextInfo);
 
         reqSet = new ScheduleRequestSetInfo();
         testCrudScheduleRequestSet_setDTOFieldsForTestCreate(reqSet);
         reqSet.setId("scheduleRequestSetId_Updated");
-        getSchedulingService().createScheduleRequestSet(reqSet.getTypeKey(), reqSet.getRefObjectTypeKey(), reqSet,  getContextInfo());
+        getSchedulingService().createScheduleRequestSet(reqSet.getTypeKey(), reqSet.getRefObjectTypeKey(), reqSet,  contextInfo);
 
         reqSet = new ScheduleRequestSetInfo();
         testCrudScheduleRequestSet_setDTOFieldsForTestCreate(reqSet);
@@ -590,7 +590,7 @@ public class TestSchedulingServiceImplConformanceExtendedCrud extends TestSchedu
         ids.add("refObjectIds04");
         reqSet.setRefObjectIds(ids);
         reqSet.setRefObjectTypeKey("refObjectTypeKey02");
-        getSchedulingService().createScheduleRequestSet(reqSet.getTypeKey(), reqSet.getRefObjectTypeKey(), reqSet,  getContextInfo());
+        getSchedulingService().createScheduleRequestSet(reqSet.getTypeKey(), reqSet.getRefObjectTypeKey(), reqSet,  contextInfo);
     }
 
 
@@ -785,12 +785,12 @@ public class TestSchedulingServiceImplConformanceExtendedCrud extends TestSchedu
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException {
         createScheduleRequestSetsForTest();
 
-        List<String> list = getSchedulingService().getScheduleRequestSetIdsByRefObjType("refObjectTypeKey01", getContextInfo());
+        List<String> list = getSchedulingService().getScheduleRequestSetIdsByRefObjType("refObjectTypeKey01", contextInfo);
         assertEquals(2, list.size());
         assertTrue(list.contains("scheduleRequestSetId01"));
         assertTrue(list.contains("scheduleRequestSetId_Updated"));
 
-        list = getSchedulingService().getScheduleRequestSetIdsByRefObjType("refObjectTypeKey02", getContextInfo());
+        list = getSchedulingService().getScheduleRequestSetIdsByRefObjType("refObjectTypeKey02", contextInfo);
         assertEquals(1, list.size());
         assertTrue(list.contains("scheduleRequestSetId_02"));
 	}
@@ -819,10 +819,21 @@ public class TestSchedulingServiceImplConformanceExtendedCrud extends TestSchedu
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException {
         createScheduleRequestSetsForTest();
 
-        List<ScheduleRequestSetInfo> list = getSchedulingService().getScheduleRequestSetsByRefObject("refObjectTypeKey02", "refObjectIds04", getContextInfo());
+        List<ScheduleRequestSetInfo> list = getSchedulingService().getScheduleRequestSetsByRefObject("refObjectTypeKey02", "refObjectIds04", contextInfo);
         assertEquals(1, list.size());
         assertEquals("scheduleRequestSetId_02", list.get(0).getId());
 	}
+
+    /* (non-Javadoc)
+     * @see org.kuali.student.r2.core.scheduling.service.impl.TestSchedulingServiceImplConformanceBaseCrud#test_getScheduleRequestsByScheduleRequestSet()
+     */
+    @Override
+    public void test_getScheduleRequestsByScheduleRequestSet()
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        
+    }
+	
 	
 }
 

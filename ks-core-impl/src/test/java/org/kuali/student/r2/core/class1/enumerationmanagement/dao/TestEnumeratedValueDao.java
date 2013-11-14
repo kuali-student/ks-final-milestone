@@ -23,18 +23,25 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumContextValueEntity;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumeratedValueEntity;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @PersistenceFileLocation("classpath:META-INF/enumeration-persistence-test.xml")
 public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
+    
+    private static final Logger log = LoggerFactory.getLogger(TestEnumeratedValueDao.class);
+    
     @Dao(value = "org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumeratedValueDao", testSqlFile = "classpath:ks-em.sql")
     public EnumeratedValueDao enumeratedValueDao;
 
@@ -293,7 +300,17 @@ public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
         entity.setAbbrevValue("newAbbrev");
         entity.setValue("newValue");
         
-        EnumeratedValueEntity returnedEntity = enumeratedValueDao.merge(entity);
+        EnumeratedValueEntity returnedEntity = null;
+        try {
+            returnedEntity = enumeratedValueDao.merge(entity);
+        } catch (VersionMismatchException e) {
+            log.error("unexpected version mismatch", e);
+            Assert.fail("unexpected version mismatch");
+
+        }
+        
+        Assert.assertNotNull(returnedEntity);
+        
         assertEquals(returnedEntity.getAbbrevValue(), entity.getAbbrevValue());
         assertEquals(returnedEntity.getValue(), entity.getValue());
         

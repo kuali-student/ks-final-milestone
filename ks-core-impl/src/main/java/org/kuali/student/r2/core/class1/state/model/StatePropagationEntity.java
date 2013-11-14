@@ -72,6 +72,8 @@ public class StatePropagationEntity extends MetaEntity implements AttributeOwner
 
     public void fromDto(StatePropagationInfo dto){
         if (dto != null){
+            super.fromDTO(dto);
+            
             this.setTypeKey(dto.getTypeKey());
             this.setStateKey(dto.getStateKey());
             this.setTargetStateChangeId(dto.getTargetStateChangeId());

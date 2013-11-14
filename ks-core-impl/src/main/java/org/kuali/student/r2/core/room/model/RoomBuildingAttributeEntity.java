@@ -30,7 +30,7 @@ import javax.persistence.Table;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name = "KSEN_ROOM_ATTR")
+@Table(name = "KSEN_ROOM_BUILDING_ATTR")
 public class RoomBuildingAttributeEntity extends BaseAttributeEntity<RoomBuildingEntity> {
 
     public RoomBuildingAttributeEntity() {

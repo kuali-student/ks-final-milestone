@@ -205,7 +205,11 @@ public class AppointmentServiceImpl implements AppointmentService {
         helper.generateAppointments(appointmentWindowId, appointmentTypeKey, entity.getMaxAppointmentsPerSlot(), studentIds, slotInfoList, contextInfo, statusInfo);
 
         // Change state from draft to assigned
-        helper.changeApptWinState(entity, AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_ASSIGNED_KEY);
+        try {
+            helper.changeApptWinState(entity, AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_ASSIGNED_KEY);
+        } catch (VersionMismatchException e) {
+            throw new OperationFailedException("failed to change AppointmentWindowState for id=" + entity.getId() , e);
+        }
 
         return statusInfo;  //To change body of implemented methods use File | Settings | File Templates.
     }
@@ -220,7 +224,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 
             appointmentEntity.setEntityUpdated(contextInfo);
 
-            appointmentDao.merge(appointmentEntity);
+            appointmentEntity = appointmentDao.merge(appointmentEntity);
+            appointmentDao.getEm().flush();
             return appointmentEntity.toDto();
         } else {
             throw new DoesNotExistException(appointmentId);
@@ -347,6 +352,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         apptWin.setEntityCreated(contextInfo);
 
         appointmentWindowDao.persist(apptWin);
+        appointmentWindowDao.getEm().flush();
+        
         return apptWin.toDto();
     }
 
@@ -359,7 +366,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 
             appointmentWindowEntity.setEntityUpdated(contextInfo);
 
-            appointmentWindowDao.merge(appointmentWindowEntity);
+            appointmentWindowEntity = appointmentWindowDao.merge(appointmentWindowEntity);
+            
+            appointmentWindowDao.getEm().flush();
+            
             return appointmentWindowEntity.toDto();
         } else {
             throw new DoesNotExistException(appointmentWindowId);
@@ -443,6 +453,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
         appointmentSlotEntity.setApptWinEntity(windowEntity); // This completes the initialization of appointmentSlotEntity
         appointmentSlotDao.persist(appointmentSlotEntity);
+        appointmentSlotDao.getEm().flush();
         return appointmentSlotEntity.toDto();
     }
 
@@ -518,7 +529,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 
             appointmentSlotEntity.setEntityUpdated(contextInfo);
 
-            appointmentSlotDao.merge(appointmentSlotEntity);
+            appointmentSlotEntity = appointmentSlotDao.merge(appointmentSlotEntity);
+            
+            appointmentSlotDao.getEm().flush();
+            
             return appointmentSlotEntity.toDto();
         } else {
             throw new DoesNotExistException(appointmentSlotId);

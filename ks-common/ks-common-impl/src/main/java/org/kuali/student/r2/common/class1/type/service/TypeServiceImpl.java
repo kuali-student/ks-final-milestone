@@ -169,7 +169,7 @@ public class TypeServiceImpl implements TypeService {
 
         entity.setEntityUpdated(contextInfo);
 
-        typeDao.merge(entity);
+        entity = typeDao.merge(entity);
         
         typeDao.getEm().flush();
         
@@ -279,7 +279,7 @@ public class TypeServiceImpl implements TypeService {
 
         entity.setEntityUpdated(contextInfo);
 
-        typeTypeRelationDao.merge(entity);
+        entity = typeTypeRelationDao.merge(entity);
         
         typeTypeRelationDao.getEm().flush();
         
