@@ -7,8 +7,8 @@ import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.LookupForm;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.common.util.ContextBuilder;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
@@ -29,6 +29,14 @@ public class RoomInfoLookupableImpl extends LookupableImpl implements Lookupable
             return false;
         }
         return true;
+    }
+
+    @Override
+    public Map<String, String> performClear(LookupForm form, Map<String, String> searchCriteria) {
+        String buildingCode = searchCriteria.get("buildingCode");
+        Map<String, String> clearedSearchCriteria = super.performClear(form, searchCriteria);
+        clearedSearchCriteria.put("buildingCode", buildingCode);
+        return clearedSearchCriteria;
     }
 
     @Override
