@@ -15,11 +15,9 @@
  */
 package org.kuali.student.enrollment.class2.acal.controller;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
-import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -124,6 +122,17 @@ public class CalendarSearchController  extends UifControllerBase {
     @RequestMapping(params = "methodToCall=search")
     public ModelAndView search(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        if (searchForm.getYear() != null && !searchForm.getYear().isEmpty()) {
+            try {
+                Integer.parseInt(searchForm.getYear());
+            } catch (NumberFormatException e) {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: invalid year entered.");
+                resetForm(searchForm);
+                return getUIFModelAndView(searchForm);
+            }
+        }
+
         searchForm.setClickSearchButton(true);
         //if no search criteria was set, it means the search method is called from redirection. Then retrieve search criteria from http session
         HttpSession session = request.getSession(true);
