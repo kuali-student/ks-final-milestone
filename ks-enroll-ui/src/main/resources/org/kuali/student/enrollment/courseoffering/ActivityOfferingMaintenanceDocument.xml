@@ -52,8 +52,6 @@
     <bean id="ActivityOffering-MaintenanceView" parent="KS-CourseOffering-MaintenanceViewWithTermContextBarPlaceholder"   p:applyDirtyCheck="true"
           p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView or !#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"
           p:additionalCssClasses="aoc_page">
-         <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
-        <property name="onDocumentReadyScript" value="updateContextBar( 'KS-CourseOffering-ContextBar', 'KS-CourseOffering-View-ContextBar-PlaceHolder', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' );"/>
 
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
@@ -61,6 +59,12 @@
 
         <property name="headerText" value="@{document.newMaintainableObject.dataObject.courseOfferingCode} - @{document.newMaintainableObject.dataObject.typeName} @{document.newMaintainableObject.dataObject.activityCode}" />
         <property name="page.headerText" value="Edit Activity Offering"/>
+
+        <property name="topGroup">
+            <bean id="AOMaintenance-ContextBar" parent="KS-CourseOffering-ContextBar" p:style="display:block;">
+                <property name="onDocumentReadyScript" value="setSeasonalColor('AOMaintenance-ContextBar', '@{#dp.contextBar.termDayOfYear}', '@{#ConfigProperties['application.url']}');"/>
+            </bean>
+        </property>
 
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl" />
@@ -128,8 +132,6 @@
 
         <property name="page.items">
             <list>
-                 <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
-                <ref bean="KS-CourseOffering-ContextBar"/>
                 <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{#dp.crossListedCourseCodes}" p:render="@{#dp.crossListedCourseCodes != null and #dp.crossListedCourseCodes != ''}" p:style="font-weight:bold; margin-bottom:8px;"/>
 
                 <ref bean="ActivityOfferingEdit-section1"/>
