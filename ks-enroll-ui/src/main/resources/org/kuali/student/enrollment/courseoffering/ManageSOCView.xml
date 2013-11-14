@@ -84,6 +84,9 @@
             </entry>
 		</map>
       </property>
+      <property name="authorizer">
+          <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
+      </property>
    </bean>
 
     <bean id="lockConfirmDialog" parent="Uif-OK-Cancel-DialogGroup"
