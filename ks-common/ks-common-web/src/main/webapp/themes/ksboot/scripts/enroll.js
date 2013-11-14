@@ -768,3 +768,14 @@ function toggleShowButton() {
         jQuery("#show_button").attr("disabled", "disabled");
     }
 }
+
+/*
+ * Setup a blur on the given element once the window loads. This idea here is to make the client-side validation happen
+ * after the page is completely loaded, so that any server-side messages will be merged with the client side messages.
+ */
+function triggerFieldValidationAfterPageLoads(id) {
+    var element = jQuery(id);
+    if (element.val()) {
+        jQuery(window).load(function() { element.trigger('blur'); });
+    }
+}
