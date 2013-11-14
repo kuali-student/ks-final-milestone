@@ -50,8 +50,10 @@
                 <entry key="themeName" value="all-black"/>
                 <entry key="openingSpeed" value="250"/>
                 <entry key="mouseOut" value="hide"/>
-                <entry key="tableStyle" value="{ margin:'0px 0px 4px -5px'}"/>
+                <entry key="divStyle" value="{ margin:'0px 0px 0px -5px'}"/>
+                <entry key="tableStyle" value="{ margin:'0px 0px 5px 0px'}"/>
                 <entry key="closingDelay" value="0"/>
+                <entry key="distance" value="0px"/>
             </map>
         </property>
     </bean>
@@ -62,8 +64,10 @@
                 <entry key="themeName" value="all-black"/>
                 <entry key="openingSpeed" value="250"/>
                 <entry key="mouseOut" value="hide"/>
-                <entry key="tableStyle" value="{ margin:'0px 0px 4px -5px'}"/>
+                <entry key="divStyle" value="{ margin:'0px 0px 0px -5px'}"/>
+                <entry key="tableStyle" value="{ margin:'0px 0px 5px 0px'}"/>
                 <entry key="closingDelay" value="0"/>
+                <entry key="distance" value="0px"/>
             </map>
         </property>
     </bean>
