@@ -449,10 +449,10 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
         StringBuilder sb = new StringBuilder();
         sb.append("This course is crosslisted with:<br>");
         for (String code : alternateCOCodes) {
-            sb.append(code + "<br>");
+            sb.append(code + ",");
         }
 
-        return StringUtils.removeEnd(sb.toString(), "<br>");
+        return StringUtils.removeEnd(sb.toString(), ",");
     }
 }
 
