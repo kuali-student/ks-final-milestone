@@ -359,7 +359,11 @@
                                     <bean parent="Uif-DropdownControl" p:options-ref="aoInstructors-options" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="sEffort" p:label="INST.EFFORT" p:required="false" p:exclusiveMin="0" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:inclusiveMax="100">
+                            <bean parent="Uif-InputField" p:propertyName="sEffort" p:label="INST.EFFORT" p:required="false"
+                                  p:onChangeScript="jQuery('#dirtyForm').val(true);" p:inclusiveMax="100">
+                                  <property name="validCharactersConstraint">
+                                        <bean parent="IntegerPatternConstraint" />
+                                  </property>
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="10" />
                                 </property>
