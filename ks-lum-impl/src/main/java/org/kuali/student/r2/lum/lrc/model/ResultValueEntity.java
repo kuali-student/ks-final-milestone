@@ -74,6 +74,9 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
     }
 
     public void fromDTO(ResultValueInfo dto) {
+    	
+    	super.fromDTO(dto);
+    	
         this.setName(dto.getName());
         this.setState(dto.getStateKey());
         if (dto.getDescr() != null) {
