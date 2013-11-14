@@ -192,7 +192,7 @@
                       p:label="TYPE"
                       p:propertyName="typeName"/>
                 <bean parent="Uif-DataField"
-                      p:label="FMAX ENR"
+                      p:label="MAX ENR"
                       p:propertyName="aoInfo.maximumEnrollment"/>
                <!-- Revisit after KD13 <bean parent="Uif-MessageField"
                       p:label="SCHEDULING"
