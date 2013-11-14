@@ -28,11 +28,13 @@ limitations under the License.
 
         Term edit page at AcademicTermPage.xml
     -->
-    <bean id="KS-AcademicCalendar-EditPage" parent="KS-Uif-Page" p:disclosure.render="false" p:readOnly="@{#view.readOnly}"
+    <bean id="KS-AcademicCalendar-EditPage" parent="KS-Uif-Page" p:disclosure.render="false"
+          p:readOnly="@{#view.readOnly}"
           p:componentSecurity.viewAuthz="true" p:stickyFooter="@{!#view.readOnly}">
         <property name="id" value="academicCalendarEditPage"/>
-        <property name="headerText" value="@{!newCalendar ? !#view.readOnly ? 'Edit Academic Calendar' : 'Academic Calendar' : ''}"/>
-        <property name="pageSourceFile" value="AcademicCalendarEditPage.xml" />
+        <property name="headerText"
+                  value="@{!newCalendar ? !#view.readOnly ? 'Edit Academic Calendar' : 'Academic Calendar' : ''}"/>
+        <property name="pageSourceFile" value="AcademicCalendarEditPage.xml"/>
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
         </property>
@@ -104,15 +106,19 @@ limitations under the License.
                             <property name="items">
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save"
-                                          p:performClientSideValidation="true" p:render="@{!#view.readOnly and !reload}" p:disabled="@{reload}"
+                                          p:performClientSideValidation="true" p:render="@{!#view.readOnly and !reload}"
+                                          p:disabled="@{reload}"
                                           p:jumpToIdAfterSubmit="TOP">
-                                        <property name="onClickScript" value="saveAcalPreProcess('AcalEdit-DirtyFields');"/>
+                                        <property name="onClickScript"
+                                                  value="saveAcalPreProcess('AcalEdit-DirtyFields');"/>
                                     </bean>
-                                    <bean parent="KS-Uif-SecondaryActionButton" p:methodToCall="reload" p:actionLabel="Reload"
-                                          p:performClientSideValidation="true" p:render="@{reload}" />
+                                    <bean parent="KS-Uif-SecondaryActionButton" p:methodToCall="reload"
+                                          p:actionLabel="Reload"
+                                          p:performClientSideValidation="true" p:render="@{reload}"/>
                                     <bean parent="KS-Uif-ActionLink" p:methodToCall="delete" p:actionLabel="Delete"
                                           p:render="@{!reload and !newCalendar and !#view.readOnly and !officialUI}"/>
-                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBackTwoPages()" p:render="@{!#view.readOnly}" />
+                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel"
+                                          p:actionScript="stepBrowserBackTwoPages()" p:render="@{!#view.readOnly}"/>
                                 </list>
                             </property>
                         </bean>
@@ -122,14 +128,15 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-AcademicCalendar-EditSection" parent="Uif-VerticalBoxSection" p:disclosure.render="false" p:id="acal-info" >
-        <property name="headerText" value="Calendar" />
+    <bean id="KS-AcademicCalendar-EditSection" parent="Uif-VerticalBoxSection" p:disclosure.render="false"
+          p:id="acal-info">
+        <property name="headerText" value="Calendar"/>
         <property name="header.render" value="false"/>
         <property name="cssClasses" value="ac_disclosure"/>
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
-                <ref bean="KS-AcademicCalendar-Overview" />
+                <ref bean="KS-AcademicCalendar-Overview"/>
                 <ref bean="KS-AcademicCalendar-MetaSubSection"/>
                 <ref bean="KS-AcademicCalendar-EventSubSection"/>
                 <ref bean="KS-AcademicCalendar-HolidaySubSection"/>
@@ -138,8 +145,8 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-AcademicCalendar-Overview" parent="Uif-VerticalBoxSubSection" >
-        <property name="headerText" value="Overview" />
+    <bean id="KS-AcademicCalendar-Overview" parent="Uif-VerticalBoxSubSection">
+        <property name="headerText" value="Overview"/>
         <property name="disclosure.render" value="false"/>
         <property name="header">
             <bean parent="Uif-HeaderThree"/>
@@ -150,7 +157,7 @@ limitations under the License.
                     <property name="items">
                         <list>
                             <ref bean="KS-AcademicCalendar-AcalOverview"/>
-                            <ref bean="KS-AcademicTerm-Overview" />
+                            <ref bean="KS-AcademicTerm-Overview"/>
                         </list>
                     </property>
                 </bean>
@@ -179,18 +186,19 @@ limitations under the License.
     </bean>
 
     <bean id="KS-AcademicTerm-Overview" parent="Uif-TableCollectionSection"
-          p:renderAddLine="false" p:additionalCssClasses="ks-gray-background" >
+          p:renderAddLine="false" p:additionalCssClasses="ks-gray-background">
         <property name="hidden" value="@{termWrapperList.size()==0}"/>
-        <property name="propertyName" value="termWrapperList" />
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
+        <property name="propertyName" value="termWrapperList"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper"/>
         <property name="headerText" value="Terms"/>
         <property name="collectionLookup">
-            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false"/>
         </property>
-        <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.applyDefaultCellWidths" value="false" />
-        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-        <property name="layoutManager.richTable.render" value="false" />
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
         <property name="layoutManager.actionFieldPrototype">
             <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label=""/>
         </property>
@@ -201,7 +209,8 @@ limitations under the License.
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:valign="middle" p:messageText="@{#line.isSubTerm()? 'Sub term' : ''}"/>
+                <bean parent="Uif-MessageField" p:valign="middle"
+                      p:messageText="@{#line.isSubTerm()? 'Sub term' : ''}"/>
                 <bean parent="Uif-DataField"
                       p:label="Term"
                       p:propertyName="termNameForUI" p:style="padding-right: 30px" p:valign="middle"/>
@@ -213,7 +222,8 @@ limitations under the License.
                       p:propertyName="endDate" p:style="padding-right: 30px" p:valign="middle"/>
                 <bean parent="Uif-MessageField" p:label="Status" p:render="@{#line.official}">
                     <property name="message">
-                        <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{#line.official}">
+                        <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official"
+                              p:render="@{#line.official}">
                             <property name="dataAttributes">
                                 <map key-type="java.lang.String" merge="true">
                                     <entry key="aft-id" value="@{#line.termNameForUI}-Official-Lozenge"/>
@@ -248,8 +258,8 @@ limitations under the License.
     </bean>
 
     <bean id="KS-AcademicCalendar-MetaSubSection" parent="Uif-VerticalBoxSubSection">
-        <property name="id" value="KS-AcademicCalendar-MetaSubSection" />
-        <property name="headerText" value="Calendar Information" />
+        <property name="id" value="KS-AcademicCalendar-MetaSubSection"/>
+        <property name="headerText" value="Calendar Information"/>
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
@@ -266,38 +276,39 @@ limitations under the License.
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.name" p:label="Academic Calendar Name" p:labelPlacement="TOP"
-                                  p:required="true" p:onChangeScript="displayCalendarInformation(jQuery(this),'academicCalendarName')">
+                            <bean parent="KS-Uif-InputField-Help" p:propertyName="academicCalendarInfo.name"
+                                  p:label="Academic Calendar Name" p:labelPlacement="TOP"
+                                  p:required="true"
+                                  p:onChangeScript="displayCalendarInformation(jQuery(this),'academicCalendarName')">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="30" >
-                                        <property name="toolTip"><null/></property>
-                                    </bean>
+                                    <bean parent="KS-Uif-TextControl" p:size="30"/>
                                 </property>
-                                <property name="help"><null/></property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.startDate" p:label="Start Date" p:labelPlacement="TOP"
-                                  p:required="true" p:onChangeScript="displayCalendarInformation(jQuery(this),'academicCalendarStartDate')">
+                            <bean parent="KS-Uif-InputField-Help" p:propertyName="academicCalendarInfo.startDate"
+                                  p:label="Start Date" p:labelPlacement="TOP"
+                                  p:required="true"
+                                  p:onChangeScript="displayCalendarInformation(jQuery(this),'academicCalendarStartDate')">
+                                <property name="control">
+                                    <bean parent="KS-Uif-KS-Default-DateControl"/>
+                                </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="KS-BasicDatePatternConstraint"/>
+                                </property>
+                            </bean>
+                            <bean parent="KS-Uif-InputField-Help" p:propertyName="academicCalendarInfo.endDate"
+                                  p:label="End Date" p:labelPlacement="TOP"
+                                  p:required="true"
+                                  p:onChangeScript="displayCalendarInformation(jQuery(this),'academicCalendarEndDate')">
                                 <property name="control">
                                     <bean parent="Uif-KS-Default-DateControl">
-                                        <property name="toolTip"><null/></property>
+                                        <property name="toolTip">
+                                            <null/>
+                                        </property>
                                     </bean>
                                 </property>
                                 <property name="validCharactersConstraint">
-                                    <bean parent="KS-BasicDatePatternConstraint" />
+                                    <bean parent="KS-BasicDatePatternConstraint"/>
                                 </property>
-                                <property name="help"><null/></property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.endDate" p:label="End Date" p:labelPlacement="TOP"
-                                  p:required="true" p:onChangeScript="displayCalendarInformation(jQuery(this),'academicCalendarEndDate')">
-                                <property name="control">
-                                    <bean parent="Uif-KS-Default-DateControl">
-                                        <property name="toolTip"><null/></property>
-                                    </bean>
-                                </property>
-                                <property name="validCharactersConstraint">
-                                    <bean parent="KS-BasicDatePatternConstraint" />
-                                </property>
-                                <property name="help"><null/></property>
                             </bean>
                         </list>
                     </property>
@@ -307,31 +318,33 @@ limitations under the License.
                         This hidden button defeats a KRAD 2.0 bug which causes Enter to fire the next action
                         found - in this case, the "add" button of the addline for the Holidays collection.
                 -->
-                <bean parent="Uif-SecondaryActionButton-Small" p:style="visibility:hidden;width:2px;" p:actionScript="void(0);"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:style="visibility:hidden;width:2px;"
+                      p:actionScript="void(0);"/>
                 <!-- END OF KRAD WORK-AROUND -->
             </list>
         </property>
     </bean>
 
     <bean id="KS-AcademicCalendar-EventSubSection" parent="Uif-Disclosure-TableCollectionSubSection"
-          p:layoutManager.numberOfColumns="@{#view.readOnly ? 3 : 7}" p:id="acal-info-event" p:render="@{!#view.readOnly ? 'true' : !#form.events.empty ?  'true' : 'false'}">
-        <property name="headerText" value="Events" />
+          p:layoutManager.numberOfColumns="@{#view.readOnly ? 3 : 7}" p:id="acal-info-event"
+          p:render="@{!#view.readOnly ? 'true' : !#form.events.empty ?  'true' : 'false'}">
+        <property name="headerText" value="Events"/>
         <property name="disclosure.defaultOpen" value="@{!#form.events.empty}"/>
         <property name="instructionalText" value="@{!#view.readOnly ? 'Adding events is optional.' : ''}"/>
         <property name="instructionalMessage">
             <bean parent="Uif-InstructionalMessage"/>
         </property>
         <property name="instructionalMessage.render" value="@{!#view.readOnly}"/>
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper" />
-        <property name="propertyName" value="events" />
-        <property name="layoutManager.sequencePropertyName" value="name" />
-        <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.generateAutoSequence" value="false" />
-        <property name="layoutManager.separateAddLine" value="false" />
-        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper"/>
+        <property name="propertyName" value="events"/>
+        <property name="layoutManager.sequencePropertyName" value="name"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="layoutManager.separateAddLine" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true"/>
         <property name="addLineLabel.messageText" value=""/>
-        <property name="layoutManager.richTable.render" value="false" />
-        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
         <property name="addLineActions">
             <list>
                 <bean parent="Uif-AddLineAction-Link" p:focusOnIdAfterSubmit="SELF"
@@ -347,91 +360,82 @@ limitations under the License.
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="eventTypeKey" p:label="Event Type" p:required="true"
-                      p:readOnly="@{!#isAddLine}" p:style="font-weight:bold;" p:readOnlyDisplayReplacementPropertyName="eventTypeName">
+                <bean parent="KS-Uif-InputField-Help" p:propertyName="eventTypeKey" p:label="Event Type"
+                      p:required="true"
+                      p:readOnly="@{!#isAddLine}" p:style="font-weight:bold;"
+                      p:readOnlyDisplayReplacementPropertyName="eventTypeName">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl">
-                            <property name="toolTip"><null/></property>
-                        </bean>
+                        <bean parent="KS-Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcalEventTypeKeyValues" p:addBlankOption="false"/>
+                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcalEventTypeKeyValues"
+                              p:addBlankOption="false"/>
                     </property>
-                    <property name="help"><null/></property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date"
+                <bean parent="KS-Uif-InputField-Help" p:propertyName="startDate" p:label="Start Date"
                       p:style="font-weight:normal;" p:readOnlyDisplayReplacementPropertyName="startDateUI">
                     <property name="control">
-                        <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy">
-                            <property name="toolTip"><null/></property>
-                        </bean>
+                        <bean parent="KS-Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
                     </property>
                     <property name="validCharactersConstraint">
-                        <bean parent="KS-BasicDatePatternConstraint" />
+                        <bean parent="KS-BasicDatePatternConstraint"/>
                     </property>
-                    <property name="help"><null/></property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="startTime" p:render="@{!#view.readOnly}" p:label="Start Time">
+                <bean parent="KS-Uif-InputField-Help" p:propertyName="startTime" p:render="@{!#view.readOnly}"
+                      p:label="Start Time">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="4" p:watermarkText="hh:mm">
-                            <property name="toolTip"><null/></property>
-                        </bean>
+                        <bean parent="KS-Uif-TextControl" p:size="4" p:watermarkText="hh:mm"/>
                     </property>
                     <property name="validCharactersConstraint">
-                        <bean parent="TimePatternConstraint" />
+                        <bean parent="TimePatternConstraint"/>
                     </property>
-                    <property name="help"><null/></property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="startTimeAmPm" p:render="@{!#view.readOnly}" p:defaultValue="AM"
+                <bean parent="KS-Uif-InputField-Help" p:propertyName="startTimeAmPm" p:render="@{!#view.readOnly}"
+                      p:defaultValue="AM"
                       p:additionalCssClasses="acal_keydate_radiobutton">
                     <property name="control">
-                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options"
+                        <bean parent="KS-Uif-VerticalRadioControl" p:options-ref="hctime-options"
                               p:refreshWhenChangedPropertyNames="#lp.startTime" p:evaluateDisabledOnKeyUp="true">
                             <property name="disabled" value="@{#empty(#lp.startTime)}"/>
-                            <property name="toolTip"><null/></property>
                         </bean>
                     </property>
-                    <property name="help"><null/></property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="endDate" p:render="@{!#view.readOnly}" p:label="End Date">
+                <bean parent="KS-Uif-InputField-Help" p:propertyName="endDate" p:render="@{!#view.readOnly}"
+                      p:label="End Date">
                     <property name="control">
-                        <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy">
-                            <property name="toolTip"><null/></property>
-                        </bean>
+                        <bean parent="KS-Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
                     </property>
                     <property name="validCharactersConstraint">
-                        <bean parent="KS-BasicDatePatternConstraint" />
+                        <bean parent="KS-BasicDatePatternConstraint"/>
                     </property>
-                    <property name="help"><null/></property>
                 </bean>
-                <bean parent="Uif-DataField" p:propertyName="endDateUI" p:render="@{#view.readOnly}" p:label="End Date"/>
-                <bean parent="Uif-InputField" p:propertyName="endTime" p:render="@{!#view.readOnly}" p:label="End Time">
+                <bean parent="Uif-DataField" p:propertyName="endDateUI" p:render="@{#view.readOnly}"
+                      p:label="End Date"/>
+                <bean parent="KS-Uif-InputField-Help" p:propertyName="endTime" p:render="@{!#view.readOnly}"
+                      p:label="End Time">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="4" p:watermarkText="hh:mm">
-                            <property name="toolTip"><null/></property>
-                        </bean>
+                        <bean parent="KS-Uif-TextControl" p:size="4" p:watermarkText="hh:mm"/>
                     </property>
                     <property name="validCharactersConstraint">
-                        <bean parent="TimePatternConstraint" />
+                        <bean parent="TimePatternConstraint"/>
                     </property>
-                    <property name="help"><null/></property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="endTimeAmPm" p:render="@{!#view.readOnly}" p:defaultValue="AM"
+                <bean parent="KS-Uif-InputField-Help" p:propertyName="endTimeAmPm" p:render="@{!#view.readOnly}"
+                      p:defaultValue="AM"
                       p:additionalCssClasses="acal_keydate_radiobutton">
                     <property name="control">
-                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options"
+                        <bean parent="KS-Uif-VerticalRadioControl" p:options-ref="hctime-options"
                               p:refreshWhenChangedPropertyNames="#lp.endTime" p:evaluateDisabledOnKeyUp="true">
                             <property name="disabled" value="@{#empty(#lp.endTime)}"/>
-                            <property name="toolTip"><null/></property>
                         </bean>
                     </property>
-                    <property name="help"><null/></property>
                 </bean>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-AcademicCalendar-HolidaySubSection" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure"
+    <bean id="KS-AcademicCalendar-HolidaySubSection"
+          parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure"
           p:render="@{!#view.readOnly ? 'true' : !#form.holidayCalendarList.empty ?  'true' : 'false'}"
           p:refreshWhenChangedPropertyNames="academicCalendarInfo.startDate">
         <property name="id" value="acal-holidays"/>
@@ -441,10 +445,11 @@ limitations under the License.
             </bean>
         </property>
         <!--<property name="headerText" value="Holidays" />-->
-        <property name="propertyName" value="holidayCalendarList" />
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />
+        <property name="propertyName" value="holidayCalendarList"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper"/>
         <property name="collectionLookup">
-            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false"/>
         </property>
         <property name="onDocumentReadyScript" value="resetDirtyFields('AcalEdit-DirtyFields');"/>
 
@@ -459,7 +464,8 @@ limitations under the License.
             <bean parent="Uif-HorizontalBoxGroup">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-ActionLink" p:methodToCall="cancelAddingHoliday" p:actionLabel="Cancel Adding Holiday Calendar"
+                        <bean parent="Uif-ActionLink" p:methodToCall="cancelAddingHoliday"
+                              p:actionLabel="Cancel Adding Holiday Calendar"
                               p:actionScript="actionInvokeHandler(this);" p:render="@{!#view.readOnly}"
                               p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
                     </list>
@@ -479,9 +485,12 @@ limitations under the License.
                                     <list>
                                         <!-- DONT DELETE - For now, we're not displaying the hcal edit button as there are some issues with KRAD -->
                                         <!--<bean parent="KS-SubmitActionLink" p:methodToCall="editHolidayCalendar" p:actionLabel="Edit" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:render="@{!#view.readOnly}"/>  -->
-                                        <bean parent="Uif-ActionLink" p:id="deleteHolidayCalendarActionLink" p:methodToCall="deleteHolidayCalendar" p:actionLabel="Delete" p:ajaxSubmit="true"
+                                        <bean parent="Uif-ActionLink" p:id="deleteHolidayCalendarActionLink"
+                                              p:methodToCall="deleteHolidayCalendar" p:actionLabel="Delete"
+                                              p:ajaxSubmit="true"
                                               p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);findDirtyFields('AcalEdit-DirtyFields');"
-                                              p:actionScript="actionInvokeHandler(this);" p:render="@{!#view.readOnly}"/>
+                                              p:actionScript="actionInvokeHandler(this);"
+                                              p:render="@{!#view.readOnly}"/>
                                     </list>
                                 </property>
                             </bean>
@@ -496,7 +505,8 @@ limitations under the License.
                     <property name="inquiry">
                         <bean parent="Uif-Inquiry">
                             <property name="directInquiryAction">
-                                <bean parent="Uif-ActionLink" p:actionLabel="View selected holiday calendar details" p:style="display:block" />
+                                <bean parent="Uif-ActionLink" p:actionLabel="View selected holiday calendar details"
+                                      p:style="display:block"/>
                             </property>
                         </bean>
                     </property>
@@ -504,7 +514,8 @@ limitations under the License.
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.HolidayWrapperListFinder" p:addBlankOption="false"/>
+                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.HolidayWrapperListFinder"
+                              p:addBlankOption="false"/>
                     </property>
                 </bean>
             </list>
@@ -512,7 +523,8 @@ limitations under the License.
         <property name="layoutManager.actionsInLineGroup" value="true"/>
         <property name="addLineActions">
             <list>
-                <bean parent="Uif-AddLineAction" p:actionLabel="Add Holiday Calendar" p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"
+                <bean parent="Uif-AddLineAction" p:actionLabel="Add Holiday Calendar"
+                      p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"
                       p:disabled="@{(#lp.id == null) or (#lp.id == '')}" p:refreshWhenChangedPropertyNames="@{#lp.id}"/>
             </list>
         </property>
@@ -525,26 +537,23 @@ limitations under the License.
                                   p:layoutManager.cssClasses="acal-layout">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-DataField"
+                                        <bean parent="KS-Uif-DataField"
                                               p:propertyName="holidayCalendarInfo.name"
                                               p:label="Holiday Calendar Name"
                                               p:labelPlacement="TOP"
                                               p:readOnly="true">
-                                            <property name="help"><null/></property>
                                         </bean>
-                                        <bean parent="Uif-DataField"
+                                        <bean parent="KS-Uif-DataField"
                                               p:propertyName="holidayCalendarInfo.startDate"
                                               p:label="Start Date"
                                               p:labelPlacement="TOP"
                                               p:readOnly="true">
-                                            <property name="help"><null/></property>
                                         </bean>
-                                        <bean parent="Uif-DataField"
+                                        <bean parent="KS-Uif-DataField"
                                               p:propertyName="holidayCalendarInfo.endDate"
                                               p:label="End Date"
                                               p:labelPlacement="TOP"
                                               p:readOnly="true">
-                                            <property name="help"><null/></property>
                                         </bean>
                                     </list>
                                 </property>
@@ -556,7 +565,7 @@ limitations under the License.
         </property>
         <property name="subCollections">
             <list>
-                <ref bean="KS-Holidays-SubSection" />
+                <ref bean="KS-Holidays-SubSection"/>
             </list>
         </property>
     </bean>
@@ -564,34 +573,27 @@ limitations under the License.
     <bean id="KS-Holidays-SubSection" parent="Uif-TableSubCollection-WithinSection" p:readOnly="true"
           p:id="acal-hc-holidays" p:layoutManager.numberOfColumns="4"
           p:layoutManager.cssClasses="acal-layout-style,acal-layout">
-        <property name="headerText" value="Holidays" />
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper" />
-        <property name="layoutManager.applyDefaultCellWidths" value="false" />
-        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-        <property name="propertyName" value="holidays" />
-        <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.generateAutoSequence" value="false" />
-        <property name="layoutManager.separateAddLine" value="false" />
-        <property name="layoutManager.richTable.render" value="false" />
+        <property name="headerText" value="Holidays"/>
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+        <property name="propertyName" value="holidays"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="layoutManager.separateAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
         <property name="header.cssClasses" value="acal-hcal-header,acal-layout"/>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="holidayInfo.name" p:label="Name">
-                    <property name="help"><null/></property>
-                </bean>
-                <bean parent="Uif-DataField" p:propertyName="startDateUI" p:label="Start"
-                      p:cssClasses="acal-field" p:fieldLabel.style="">
-                    <property name="help"><null/></property>
-                </bean>
-                <bean parent="Uif-DataField" p:propertyName="endDateUI" p:label="End"
-                      p:cssClasses="acal-field" p:fieldLabel.style="">
-                    <property name="help"><null/></property>
-                </bean>
-                <bean parent="Uif-DataField" p:propertyName="holidayInfo.isInstructionalDay" p:label="Instructional"
+                <bean parent="KS-Uif-DataField" p:propertyName="holidayInfo.name" p:label="Name"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="startDateUI" p:label="Start"
+                      p:cssClasses="acal-field" p:fieldLabel.style=""/>
+                <bean parent="KS-Uif-DataField" p:propertyName="endDateUI" p:label="End"
+                      p:cssClasses="acal-field" p:fieldLabel.style=""/>
+                <bean parent="KS-Uif-DataField" p:propertyName="holidayInfo.isInstructionalDay"
+                      p:label="Instructional"
                       p:cssClasses="acal-field"
-                      p:readOnlyDisplayReplacement="@{#line.holidayInfo.isInstructionalDay ? 'Yes' : ' '}">
-                    <property name="help"><null/></property>
-                </bean>
+                      p:readOnlyDisplayReplacement="@{#line.holidayInfo.isInstructionalDay ? 'Yes' : ' '}"/>
             </list>
         </property>
     </bean>
