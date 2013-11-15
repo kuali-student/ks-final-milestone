@@ -64,6 +64,7 @@ public class SpringSecurityTest {
 
     @Before
     public void setup() {
+        // setup a web application context while adding spring security to the filter chain
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac)
                 .addFilters(this.springSecurityFilterChain).build();
     }
@@ -77,7 +78,7 @@ public class SpringSecurityTest {
     }
 
     @Test
-    public void testNoSecurityForUnauthenticatedContent() throws Exception {
+    public void testNoSecurityForNonAuthenticatedContent() throws Exception {
         List<String> pathsToTest = Arrays.asList("/logout.html",
                 "/services/A",
                 "/favicon.ico",
