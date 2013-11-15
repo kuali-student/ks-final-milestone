@@ -337,8 +337,8 @@ public class IdentityServiceMockImpl implements IdentityService, MockService {
     }
 
     @Override
-    public Principal getPrincipalByPrincipalName(String string) throws RiceIllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Principal getPrincipalByPrincipalName(String principalName) throws RiceIllegalArgumentException {
+        return Principal.Builder.create(principalName).build();
     }
 
     @Override

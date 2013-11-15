@@ -19,8 +19,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.resourceloader.ServiceLocator;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.impl.KualiModuleServiceImpl;
+import org.kuali.student.kim.permission.mock.IdentityServiceMockImpl;
+import org.kuali.student.kim.permission.mock.RoleServiceMockImpl;
 import org.springframework.context.ApplicationContext;
 
 import javax.xml.namespace.QName;
@@ -41,6 +45,8 @@ public class SimpleSpringResourceLoader implements ServiceLocator {
     };
 
     private static final KualiModuleServiceImpl kualiModuleService = new KualiModuleServiceImpl();
+    private static final IdentityService identityService = new IdentityServiceMockImpl();
+    private static final RoleService roleService = new RoleServiceMockImpl();
 
     private ApplicationContext applicationContext;
 
@@ -61,6 +67,10 @@ public class SimpleSpringResourceLoader implements ServiceLocator {
             return configurationService;
         } else if (KRADServiceLocatorWeb.KUALI_MODULE_SERVICE.equals(qualifiedServiceName)) {
             return kualiModuleService;
+        } else if ("{http://rice.kuali.org/kim/v2_0}identityService".equals(qualifiedServiceName)) {
+            return identityService;
+        } else if ("{http://rice.kuali.org/kim/v2_0}roleService".equals(qualifiedServiceName)) {
+            return roleService;
         } else {
             
             String localBeanName = qname.getLocalPart();

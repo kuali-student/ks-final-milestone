@@ -31,6 +31,10 @@
             <artifactId>spring-orm</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
         </dependency>
@@ -70,6 +74,12 @@
             <groupId>org.kuali.student.api</groupId>
             <artifactId>ks-common-api</artifactId>
             <version>${ks.api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-common-test</artifactId>
+            <version>${ks.core.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
