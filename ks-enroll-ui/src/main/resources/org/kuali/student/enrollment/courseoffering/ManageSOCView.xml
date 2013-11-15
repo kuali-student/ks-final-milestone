@@ -53,7 +53,6 @@
       </property>
       <property name="items">
         <list>
-            <ref bean="KS-CourseOffering-ContextBar" />
             <ref bean="ManageSOCView-termSelection-Section"/>
             <ref bean="ManageSOCView-DetailsSection"/>
         </list>
@@ -64,7 +63,7 @@
             </list>
       </property>
         <property name="topGroup">
-            <bean id="ManageSoc-ContextBar" parent="KS-CourseOffering-ContextBar" p:style="display:block;">
+            <bean id="ManageSoc-ContextBar" parent="KS-CourseOffering-ContextBar" p:style="@{(termCode eq null)? 'display:none;' : 'display:block;'}">
                 <property name="onDocumentReadyScript" value="setSeasonalColor('ManageSoc-ContextBar', '@{#dp.contextBar.termDayOfYear}', '@{#ConfigProperties['application.url']}');"/>
             </bean>
         </property>
