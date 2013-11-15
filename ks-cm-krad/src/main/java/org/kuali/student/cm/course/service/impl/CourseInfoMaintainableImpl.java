@@ -70,8 +70,10 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
+import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -139,7 +141,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     private List<KeyValue> unitsContentOwner;
 
-    private List<SupportingDocumentInfoWrapper> supportingDocuments;
+    private SupportingDocumentInfoWrapper documentToAdd;
+
+    private List<DocumentInfo> supportingDocuments;
 
     private String crossListingDisclosureSection;
 
@@ -637,24 +641,32 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     /**
      * This overridden method ...
      *
-     * @see org.kuali.student.cm.course.service.CourseInfoMaintainable#getSupportingDocuments()
+     * @see org.kuali.student.cm.course.service.CourseInfoMaintainable#getDocumentToAdd()
      */
-    public List<SupportingDocumentInfoWrapper> getSupportingDocuments() {
-        if (supportingDocuments == null) {
-            supportingDocuments = new ArrayList<SupportingDocumentInfoWrapper>(0);
-        }
-        return supportingDocuments;
+    public SupportingDocumentInfoWrapper getDocumentToAdd() {
+        return documentToAdd;
     }
 
     /**
      * This overridden method ...
      *
-     * @see org.kuali.student.cm.course.service.CourseInfoMaintainable#setSupportingDocuments(java.util.List)
+     * @see org.kuali.student.cm.course.service.CourseInfoMaintainable#setDocumentToAdd(org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper)
      */
-    public void setSupportingDocuments(List<SupportingDocumentInfoWrapper> supportingDocuments) {
-        this.supportingDocuments = supportingDocuments;
-
+    public void setDocumentToAdd(SupportingDocumentInfoWrapper documentToAdd) {
+        this.documentToAdd = documentToAdd;
     }
+    
+    public void setSupportingDocuments(final List<DocumentInfo> supportingDocuments) {
+        this.supportingDocuments = supportingDocuments;
+    }
+
+    public List<DocumentInfo> getSupportingDocuments() {
+        if (supportingDocuments == null) {
+            supportingDocuments = new ArrayList<DocumentInfo>();
+        }
+        return supportingDocuments;
+    }
+
 
     /**
      * @see CourseInfoMaintainable#getCollaboratorWrappersSuggest(String)

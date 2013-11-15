@@ -15,6 +15,8 @@
  */
 package org.kuali.student.cm.course.form;
 
+import org.springframework.web.multipart.MultipartFile;
+
 /**
  *
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
@@ -24,14 +26,15 @@ public class SupportingDocumentInfoWrapper implements java.io.Serializable {
 	private static final long serialVersionUID = -1L;
     
 
-    protected String documentUpload;
+    protected MultipartFile documentUpload;
+    protected String description;
 
     /**
      * Gets the value of documentUpload
      *
      * @return the value of documentUpload
      */
-    public final String getDocumentUpload() {
+    public MultipartFile getDocumentUpload() {
         return this.documentUpload;
     }
 
@@ -40,8 +43,25 @@ public class SupportingDocumentInfoWrapper implements java.io.Serializable {
      *
      * @param argDocumentUpload Value to assign to this.documentUpload
      */
-    public final void setDocumentUpload(final String argDocumentUpload) {
+    public void setDocumentUpload(final MultipartFile argDocumentUpload) {
         this.documentUpload = argDocumentUpload;
     }
 
+    /**
+     * Gets the value of description
+     *
+     * @return the value of description
+     */
+    public String getDescription() {
+        return this.description;
+    }
+
+    /**
+     * Sets the value of description
+     *
+     * @param argDescription Value to assign to this.description
+     */
+    public void setDescription(final String argDescription) {
+        this.description = argDescription;
+    }    
 }

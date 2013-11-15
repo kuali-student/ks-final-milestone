@@ -28,6 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.codec.binary.Base64;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -41,6 +43,7 @@ import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.name.EntityNameContract;
 import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
@@ -58,6 +61,7 @@ import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities.Decis
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -68,7 +72,15 @@ import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.core.constants.CommentServiceConstants;
+import org.kuali.student.r2.core.constants.DocumentServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.core.document.service.DocumentService;
+import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
+import org.kuali.student.r2.core.document.dto.DocumentInfo;
+import org.kuali.student.r2.core.document.dto.DocumentBinaryInfo;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.proposal.service.ProposalService;
+import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
@@ -105,9 +117,11 @@ public class CourseController extends CourseRuleEditorController {
 
     private CourseService courseService;
     private CommentService commentService;
+    private DocumentService documentService;
 	private SubjectCodeService subjectCodeService;    
     private IdentityService identityService;
     private CluService cluService;
+    private ProposalService proposalService;
     
     private enum CourseViewPages {
         COURSE_INFO("KS-CourseView-CourseInfoPage"), 
@@ -170,6 +184,28 @@ public class CourseController extends CourseRuleEditorController {
             maintainable.getCourse().setUnitsContentOwner(new ArrayList<String>());
         }
 
+        ProposalInfo proposal = new ProposalInfo();
+        proposal.setWorkflowId(null);
+        proposal.setState(DtoConstants.STATE_DRAFT);
+        proposal.setType(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY);
+        proposal.getProposalReference().add(maintainable.getCourse().getId());
+        proposal.getProposerOrg().clear();
+        proposal.getProposerPerson().clear();
+        proposal.setName(null);
+        proposal.setId(null);
+                        
+        try {
+            // proposal = getProposalService().createProposal(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY, proposal, ContextUtils.getContextInfo());
+        }
+        catch (Exception e) {
+            warn("Unable to create a proposal: %s", e.getMessage());
+            /*
+            if (logger().isDebugEnabled()) {
+                e.printStackTrace();
+                }*/
+        }
+        maintainable.setProposal(proposal);
+
         //Initialize Course Requisites
         CourseRuleManagementWrapper ruleWrapper = maintainable.getCourseRuleManagementWrapper();
         ruleWrapper.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
@@ -182,6 +218,106 @@ public class CourseController extends CourseRuleEditorController {
         return retval;
     }
         
+    /**
+     * Add a Supporting Document line
+     *
+     *
+     * @param form {@link MaintenanceDocumentForm} instance used for this action
+     * @param result
+     * @param request {@link HttpServletRequest} instance of the actual HTTP request made
+     * @param response The intended {@link HttpServletResponse} sent back to the user
+     * @return The new {@link ModelAndView} that contains the newly created/updated Supporting document information.
+     */
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addSupportingDocument")
+    public ModelAndView addSupportingDocument(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                HttpServletRequest request, HttpServletResponse response) {
+        final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
+        
+        // New document
+        DocumentInfo toAdd = new DocumentInfo();
+        toAdd.setFileName(maintainable.getDocumentToAdd().getDocumentUpload().getOriginalFilename());
+        toAdd.setDescr(new RichTextInfo() {{ 
+            setPlain(maintainable.getDocumentToAdd().getDescription());
+            setFormatted(maintainable.getDocumentToAdd().getDescription());
+        }});
+        toAdd.setName(toAdd.getFileName());
+        
+        final DocumentBinaryInfo documentBinary = new DocumentBinaryInfo();
+        try {
+            toAdd.getDocumentBinary().setBinary(new String(Base64.encodeBase64(maintainable.getDocumentToAdd().getDocumentUpload().getBytes())));
+        }
+        catch (Exception e) {
+            warn("Failed to get binary data: %s", e.getMessage());
+        }
+
+        try {
+            getSupportingDocumentService().createDocument("documentType.doc", "documentCategory.proposal", toAdd, ContextUtils.getContextInfo());
+        }
+        catch (Exception e) {
+            warn("Unable to create a document: %s", e.getMessage());
+        }
+
+        // Now relate the document to the course
+        RefDocRelationInfo docRelation = new RefDocRelationInfo();
+        try {
+            getSupportingDocumentService().createRefDocRelation("kuali.lu.type.CreditCourse",
+                                                      maintainable.getCourse().getId(),
+                                                      toAdd.getId(),
+                                                      "kuali.org.DocRelation.allObjectTypes",
+                                                      docRelation,
+                                                      ContextUtils.getContextInfo());
+        }
+        catch (Exception e) {
+            warn("Unable to relate a document with the course: %s", e.getMessage());
+        }
+
+        return getUIFModelAndView(form);
+    }
+
+    /**
+     * Delete a Supporting Document line
+     *
+     *
+     * @param form {@link MaintenanceDocumentForm} instance used for this action
+     * @param result
+     * @param request {@link HttpServletRequest} instance of the actual HTTP request made
+     * @param response The intended {@link HttpServletResponse} sent back to the user
+     * @return The new {@link ModelAndView} that contains the newly created/updated Supporting document information.
+     */
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=removeSupportingDocument")
+    public ModelAndView removeSupportingDocument(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                HttpServletRequest request, HttpServletResponse response) {
+        final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
+        // final ModelAndView retval = super.deleteLine(form, result, request, response);
+
+        final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        if (StringUtils.isBlank(selectedCollectionPath)) {
+            throw new RuntimeException("Selected collection was not set for add line action, cannot add new line");
+        }
+
+        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        final int selectedLineIndex;
+        if (StringUtils.isNotBlank(selectedLine)) {
+            selectedLineIndex = Integer.parseInt(selectedLine);
+        } else {
+            selectedLineIndex = -1;
+        }
+
+        if (selectedLineIndex == -1) {
+            throw new RuntimeException("Selected line index was not set for delete line action, cannot delete line");
+        }
+        
+        final DocumentInfo toRemove = maintainable.getSupportingDocuments().remove(selectedLineIndex);
+        try {
+            getSupportingDocumentService().deleteDocument(toRemove.getId(), ContextUtils.getContextInfo());
+        }
+        catch (Exception e) {
+            warn("Unable to delete document: %s, reason: %s", toRemove.getId(), e.getMessage());
+        }
+        
+        return getUIFModelAndView(form);
+    }
+
     /**
      * This will save the Course Proposal.
      * @param form {@link MaintenanceDocumentForm} instance used for this action
@@ -260,6 +396,8 @@ public class CourseController extends CourseRuleEditorController {
         for (final KeyValue wrapper : maintainable.getUnitsContentOwner()) {
             maintainable.getCourse().getUnitsContentOwner().add(wrapper.getValue());
         }
+
+        form.getDocument().getDocumentHeader().setDocumentDescription(maintainable.getProposal().getName());
 
         try {
             save(form, result, request, response);
@@ -416,7 +554,7 @@ public class CourseController extends CourseRuleEditorController {
      * @return returns User name of person currently logged in.
      */
     public String getUserNameLoggedin(String userId){
-        Entity kimEntityInfo = getIdentityService().getEntityByPrincipalId(userId);
+        final Entity kimEntityInfo = getIdentityService().getEntityByPrincipalId(userId);
         return getUserRealNameByEntityInfo(kimEntityInfo);
     }
     
@@ -425,8 +563,8 @@ public class CourseController extends CourseRuleEditorController {
      * @return The formatted user name of the currently logged in user.
      */
     protected String getUserRealNameByEntityInfo(Entity kimEntityInfo){
-        EntityNameContract kimEntityNameInfo = (kimEntityInfo == null)? null : kimEntityInfo.getDefaultName();
-        StringBuilder name = new StringBuilder(); 
+        final EntityNameContract kimEntityNameInfo = (kimEntityInfo == null)? null : kimEntityInfo.getDefaultName();
+        final StringBuilder name = new StringBuilder(); 
         if (kimEntityNameInfo != null) {
             if (!StringUtils.defaultString(kimEntityNameInfo.getFirstName()).trim().isEmpty()) {
                 if (!name.toString().isEmpty()) {
@@ -743,6 +881,20 @@ public class CourseController extends CourseRuleEditorController {
             courseService = (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, CourseServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return courseService;
+    }
+
+    protected ProposalService getProposalService() {
+        if (proposalService == null) {
+            proposalService = (ProposalService) GlobalResourceLoader.getService(new QName(ProposalServiceConstants.NAMESPACE, ProposalServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return proposalService;
+    }
+
+    protected DocumentService getSupportingDocumentService() {
+        if (documentService == null) {
+            documentService = (DocumentService) GlobalResourceLoader.getService(new QName(DocumentServiceConstants.NAMESPACE, "DocumentService"));
+        }
+        return documentService;
     }
     
     protected CommentService getCommentService() {

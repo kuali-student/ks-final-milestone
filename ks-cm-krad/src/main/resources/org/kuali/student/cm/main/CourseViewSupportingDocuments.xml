@@ -45,14 +45,18 @@
 	<bean id="KS-SupportingDocuments-Section" parent="Uif-StackedCollectionSection"
 		  p:headerText="Supporting Document(s)" p:propertyName="supportingDocuments"
 		  p:collectionObjectClass="org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper">
-		<property name="addLineLabel.messageText" value="Include More Files" />
+		<property name="addLineLabel.messageText" value="Add a Supporting Document" />
 		<property name="layoutManager.lineGroupPrototype.header.headerText"
-				  value="File @{(#index + 1)}" />
-		<!-- <property name="collectionLookup.quickfinderAction.render"
+				  value="Document @{(#index + 1)}" />
+        <!--
+        <property name="layoutManager.richTable.render" value="true" />
+        -->
+        <!-- <property name="collectionLookup.quickfinderAction.render"
 				  value="false" /> -->
 		<property name="help">
 			<bean parent="Uif-Help"
-				  p:tooltipHelpContent="This is not a restrictive list - names here will not determine who will eventually teach this course." />
+				  p:tooltipHelpContent="Files that will be submitted
+				  with the Course Proposal that support it." />
 		</property>
 		<property name="cssClasses">
 			<list merge="true">
@@ -61,14 +65,25 @@
 		</property>
 		<property name="addLineActions">
 			<list>
-				<bean parent="Uif-AddLineAction" p:actionLabel="Include More Files" />
+                <bean parent="Uif-ActionLink" p:methodToCall="addSupportingDocument" p:actionLabel="add" />
 			</list>
 		</property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-ActionLink" p:methodToCall="removeSupportingDocument" p:actionLabel="delete" />
+            </list>
+        </property>
+
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="documentUpload">
+				<bean parent="Uif-InputField" p:label="File" p:propertyName="documentUpload">
                     <property name="control">
                         <bean parent="Uif-FileControl" p:size="30"/>
+                    </property>
+				</bean>
+				<bean parent="Uif-InputField" p:label="Description" p:propertyName="description">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
                     </property>
 				</bean>
 			</list>

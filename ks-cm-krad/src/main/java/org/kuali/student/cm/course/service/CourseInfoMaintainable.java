@@ -30,8 +30,10 @@ import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.SubjectCodeWrapper;
+import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
+import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
@@ -257,6 +259,22 @@ public interface CourseInfoMaintainable extends Maintainable {
     List<OrganizationInfoWrapper> getAdministeringOrganizations();
 
     /**
+     * This overridden method ...
+     *
+     */
+    SupportingDocumentInfoWrapper getDocumentToAdd();
+
+    /**
+     * This overridden method ...
+     *
+     */
+    void setDocumentToAdd(final SupportingDocumentInfoWrapper documentToAdd);
+
+    void setSupportingDocuments(final List<DocumentInfo> supportingDocuments);
+
+    List<DocumentInfo> getSupportingDocuments();
+
+    /**
      * Sets the list of Administering Organizations
      * 
      * @param administeringOrganizations List of {@link OrganizationInfoWrapper}
@@ -296,4 +314,5 @@ public interface CourseInfoMaintainable extends Maintainable {
     LoDisplayWrapperModel getLoDisplayWrapperModel();
     
     CourseRuleManagementWrapper getCourseRuleManagementWrapper();
+
 }
