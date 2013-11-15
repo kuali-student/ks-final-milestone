@@ -74,14 +74,15 @@ public class SpringSecurityTest {
 
     @Test
     public void userAuthenticatesSuccessfully() throws Exception {
-        mockMvc.perform(post("/j_spring_security_check").param("j_username", "user").param("j_password", "anything"))
+        final String username = "user";
+        mockMvc.perform(post("/j_spring_security_check").param("j_username", username).param("j_password", "anything"))
                 .andExpect(redirectedUrl("/"))
                 .andExpect(new ResultMatcher() {
                     @Override
                     public void match(MvcResult result) throws Exception {
                         HttpSession session = result.getRequest().getSession();
                         SecurityContext securityContext = (SecurityContext) session.getAttribute(SPRING_SECURITY_CONTEXT_KEY);
-                        assertEquals(securityContext.getAuthentication().getName(), "user");
+                        assertEquals(securityContext.getAuthentication().getName(), username);
                     }
                 });
     }
