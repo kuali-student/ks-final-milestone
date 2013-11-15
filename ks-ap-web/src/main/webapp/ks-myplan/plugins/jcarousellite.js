@@ -316,7 +316,7 @@
 
                     	// KSAP MOD: allow scrolling to partial pages
                         // Original = if (to < 0 || to >= itemLength) return;
-                        if (to < -v || to >= itemLength) return;
+                        if (to < -v || to >= itemLength || (to<0 && curr<=0)) return;
                         // END KSAP MOD
 
                         else curr = to;
