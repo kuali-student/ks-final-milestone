@@ -36,6 +36,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.kuali.student.security.spring.SecurityRequestPostProcessors.user;
 import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -135,5 +136,18 @@ public class SpringSecurityTest {
                         assertNull("Spring Security context should be null", securityContext);
                     }
                 });
+    }
+
+    @Test
+    public void testAccessToAdminArea() throws Exception {
+        final String adminUrl = "/admin/index.html";
+
+        // user fred is not allowed to access admin URLs
+        mockMvc.perform(get(adminUrl).with(user("fred").roles("ROLE_KS_USER")))
+                .andExpect(status().isForbidden());
+
+        // only user with "admin" role is allowed access to admin URLs
+        mockMvc.perform(get(adminUrl).with(user("admin").roles("ROLE_KS_ADMIN")))
+                .andExpect(status().isNotFound());
     }
 }
