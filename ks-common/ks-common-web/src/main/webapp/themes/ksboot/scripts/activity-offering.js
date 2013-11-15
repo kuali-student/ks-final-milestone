@@ -698,7 +698,7 @@ function handleAONavigation(component, aoId) {
         i++;
     }
     jQuery("#edit_ao_cancel").attr("data-submit_data", cancel_data_array.join());
-    if (jQuery('#dirtyForm').val() == "false") {
+    if(!dirtyFormState.isDirty()) {
         jQuery("#edit_ao_cancel").click();
         return;
     }
