@@ -345,6 +345,12 @@
         </property>
     </bean>
 
+    <bean id="KS-Uif-InquiryLink" parent="KS-Uif-InquiryLink-parentBean" />
+    <bean id="KS-Uif-InquiryLink-parentBean" abstract="true" parent="KS-Uif-DataField-Simple" scope="prototype">
+        <property name="onClickScript" value="showLoading();" />
+    </bean>
+
+
     <!--Note by bonnie: Not used in any code -->
     <bean id="KS-Uif-Link-DisplayInLightBox" parent="Uif-Link">
         <property name="lightBox">
