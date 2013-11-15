@@ -46,17 +46,33 @@
         </property>
     </bean>
 
+    <!--
+      The outer container for the manage scheduling requests.
+    -->
+    <bean id="ActivityOffering-ManageSchedulingInformationSection" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="@{#dp.schedulingCompleted ? 'Manage Scheduling Requests' : 'Requested Scheduling Information'}"/>
+        <property name="disclosure.render" value="@{#dp.schedulingCompleted and !#dp.requestedScheduleComponents.isEmpty()}"/>
+        <property name="disclosure.defaultOpen" value="false"/>
+        <property name="onDocumentReadyScript" value="reDisplayRDLSection();"/>
+        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="items">
+            <list>
+                <ref bean="ActivityOffering-DeliveryLogistic-New"/>
+                <ref bean="ActivityOffering-DeliveryLogistic-Requested"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--
+      Requested Scheduling Information requests collection.
+      -->
     <bean id="ActivityOffering-DeliveryLogistic-Requested" parent="Uif-TableCollectionSection" p:forceSessionPersistence="true"
             p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper"
             p:propertyName="requestedScheduleComponents"
             p:renderAddLine="false"
             p:layoutManager.renderSequenceField="false"
             p:componentSecurity.editAuthz="true">
-        <property name="headerText" value="Requested Scheduling Information"/>
         <property name="layoutManager.richTable.render" value="false" />
-        <property name="disclosure.render" value="@{#dp.schedulingCompleted and !#dp.requestedScheduleComponents.isEmpty()}"/>
-        <property name="disclosure.defaultOpen" value="false"/>
-        <property name="onDocumentReadyScript" value="reDisplayRDLSection();"/>
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:label="TBA" p:propertyName="tbaUI"/>
@@ -82,6 +98,9 @@
         </property>
     </bean>
 
+    <!--
+      The "form" for managing scheduling requests.
+      -->
     <bean id="ActivityOffering-DeliveryLogistic-New" parent="Uif-VerticalBoxSection" p:style="background-color:#f3f3f3; padding: 4px 0 4px 4px;border: 1px solid black;width:825px;" p:componentSecurity.viewAuthz="true">
         <property name="headerText" value="Add New Scheduling Information" />
         <property name="header">
@@ -108,8 +127,8 @@
                     </property>
                 </bean>
 
+                <!-- The widgets for adding a schedule request (TBA checkbox, Days, Start time etc.)-->
                 <ref bean="ActivityOffering-DeliveryLogistic-New-Section"/>
-
 
                 <!-- KSENROLL-6378 mods this code to replace the checkboxes with simple-text since we don't currently support partial-colocation; however, since the goal is to
                      support partial-colocation in the future, I'm leaving the "real" version of the code laying here and borrowing the same ID to minimize changes to the existing
@@ -119,20 +138,7 @@
                 <bean id="ActivityOffering-CoLocated-checkbox" parent="Uif-DataField" p:propertyName="newScheduleRequest.colocatedAOsAsStringForUi" p:forceSessionPersistence="true">
                     <property name="label" value="Colocate With"/>
                 </bean>
-                <!--<bean id="ActivityOffering-CoLocated-checkbox" parent="Uif-InputField" p:propertyName="newScheduleRequest.colocatedAOs" p:forceSessionPersistence="true" >
-                    <property name="label" value="Colocate With"/>
-                    <property name="control">
-                        <bean parent="Uif-HorizontalCheckboxesControl">
-                            <property name="onClickScript" value="onColoCheckBoxChange();"/>
-                        </bean>
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ColocatedAOsKeyValues" p:addBlankOption="false" />
-                    </property>
-                </bean>-->
 
-
-                <!--<ref bean="ActivityOffering-DeliveryLogistic-New-Features-Section"/>-->
                 <bean id="add_rdl_button" parent="Uif-SecondaryActionButton-Small" p:disabled="@{#parent.readOnly}"
                       p:actionLabel="@{!#dp.editRenderHelper.scheduleEditInProgress ? 'Add' : 'Update'}"
                       p:preSubmitCall="return preSubmitNewRDL();" p:methodToCall="addScheduleComponent"
@@ -143,6 +149,7 @@
         </property>
     </bean>
 
+    <!-- Facility features are current being used, so no need to define the beans.
     <bean id="ActivityOffering-DeliveryLogistic-New-Features-Section" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="disclosure.defaultOpen" value="false"/>
         <property name="header">
@@ -160,7 +167,11 @@
             </list>
         </property>
     </bean>
+    -->
 
+    <!--
+        The widgets for adding a schedule request (TBA checkbox, Days, Start time etc.)
+    -->
     <bean id="ActivityOffering-DeliveryLogistic-New-Section" parent="Uif-HorizontalBoxSubSection" p:id="requestedDeliveryLogistic">
         <property name="items">
             <list>
@@ -277,6 +288,9 @@
         </property>
     </bean>
 
+    <!--
+      A confirmation dialog which is displayed when colocation is being broken.
+     -->
     <bean id="ActivityOfferingEdit-BreakColocateConfirmation" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Breaking Colocation"/>
         <property name="hidden" value="true"/>
@@ -312,9 +326,7 @@
                         </list>
                     </property>
                 </bean>
-
             </list>
         </property>
     </bean>
-
 </beans>

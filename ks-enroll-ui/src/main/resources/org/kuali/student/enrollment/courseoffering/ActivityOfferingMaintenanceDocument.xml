@@ -139,8 +139,8 @@
                 <ref bean="ActivityOfferingEdit-CoLocation"/>
 
                 <ref bean="ActivityOffering-DeliveryLogistic-Actuals"/>
-                <ref bean="ActivityOffering-DeliveryLogistic-New"/>
-                <ref bean="ActivityOffering-DeliveryLogistic-Requested"/>
+
+                <ref bean="ActivityOffering-ManageSchedulingInformationSection" />
 
                 <ref bean="ActivityOfferingEdit-PersonnelSection"/>
                 <ref bean="ActivityOfferingEdit-NoWaitlist"/>
@@ -158,10 +158,7 @@
             </list>
         </property>
         <property name="dialogs">
-          <list>
-            <!--<ref bean="deleteScheduleConfirmDialog"/>-->
-              <!--<bean id="colocateDialog" parent="Colocate-DialogGroup"/>-->
-          </list>
+          <list/>
         </property>
         <property name="header.cssClasses">
             <list merge="true">
@@ -184,7 +181,6 @@
         <property name="items">
             <list>
                 <ref bean="ActivityOfferingEdit-Header-Right-SubGroup"/>
-                <!--<ref bean="KS-Unified-Right-Header-Group-Status"/>-->
             </list>
         </property>
     </bean>
@@ -258,7 +254,6 @@
                 <entry key="hideReturnLink" value="true"/>
                 <entry key="inputCode" value="@{document.newMaintainableObject.dataObject.courseOfferingCode}"/>
                 <entry key="termCode" value="@{document.newMaintainableObject.dataObject.term.code}"/>
-                <!--<entry key="formKey" value="@{formKey}"/>-->
                 <entry key="pageId" value="manageTheCourseOfferingPage"/>
             </map>
         </property>
@@ -278,24 +273,6 @@
           </list>
         </property>
     </bean>
-
-    <!--<bean id="Colocate-DialogGroup" parent="Uif-DialogGroup">
-        <property name="headerText" value="Partial Colocation Not Supported"/>
-        <property name="promptText" value="Enrollment does not currently support partial colocation. In order to make modifications colocated activities or Scheduling Information, you must ensure all Scheduling Information are fully colocated."/>
-        <property name="availableResponses">
-          <list>
-              <bean parent="Uif-KeyLabelPair" p:key="O" p:value="Close"/>
-          </list>
-        </property>
-        <property name="responseInputField">
-          <bean parent="Uif-MainteanceDialogResponse">
-              <property name="onChangeScript" value="jQuery.fancybox.close();"/>
-          </bean>
-        </property>
-        <property name="explanation">
-          <bean parent="Uif-MainteanceDialogExplanation"/>
-        </property>
-    </bean>-->
 
     <bean id="ActivityOfferingMaintenanceDocument" parent="ActivityOfferingMaintenanceDocument-parentBean"/>
 
@@ -330,5 +307,4 @@
         <bean parent="Uif-KeyLabelPair" p:value="  Auditorium" p:key="kuali.resource.type.Auditorium"/>
         <bean parent="Uif-KeyLabelPair" p:value="  Lab" p:key="kuali.resource.type.Lab"/>
     </util:list>
-
 </beans>
