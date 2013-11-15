@@ -381,6 +381,9 @@ public class CourseOfferingManagementController extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=reloadManageCO")
     public ModelAndView reloadManageCO(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+        theForm.setFormatOfferingIdForNewAO(null);
+        theForm.setActivityIdForNewAO(null);
+        theForm.setClusterIdForNewAO(null);
         CourseOfferingManagementUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
     }
