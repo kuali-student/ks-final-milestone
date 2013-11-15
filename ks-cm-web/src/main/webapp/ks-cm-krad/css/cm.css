@@ -1,0 +1,100 @@
+.ks-curriculum-home > .uif-header {
+    border-bottom: solid 2px #000;
+    margin-bottom: 5px; margin-top:15px;
+}
+
+.uif-actionLink-block {
+    display:block;
+}
+
+.cm-collection-width {
+	width: 45em;
+}
+
+.ks-cm-page-header {
+    border-bottom : thick solid #000000
+}
+
+.tree-bar-button {
+    background-image: url('./images/buttonNormal.png');
+    background-repeat: no-repeat;
+    background-size: 110px;
+    border: 1px solid #808080;
+    width: 86px;
+    height: 48px;
+    background-position: -10px -10px;
+    cursor: pointer;
+    white-space: normal;
+    text-align: center;
+    padding-right: 0em ;
+    padding-left: 0em;
+}
+
+.tree-bar-button-selected {
+    background-image: url('./images/buttonDisabled.png');
+    background-repeat: no-repeat;
+    background-size: 110px;
+    border: 1px solid #808080;
+    width: 86px;
+    height: 48px;
+    background-position: -10px -10px;
+    cursor: pointer;
+    white-space: normal;
+    text-align: center;
+    padding-right: 0em ;
+    padding-left: 0em;
+}
+
+/* Empty marker classes for the character counter */
+.cm-charcount-max-24 {
+}
+
+.cm-charcount-max-255 {
+}
+
+.cm-charcount-max-500 {
+}
+
+.cm-lo-indent-0 {
+	margin-left: 0px;
+}
+
+.cm-lo-indent-50 {
+	margin-left: 50px;
+}
+
+.cm-lo-indent-100 {
+	margin-left: 100px;
+}
+
+.cm-lo-indent-150 {
+	margin-left: 150px;
+}
+
+.cm-lo-indent-200 {
+	margin-left: 200px;
+}
+
+.cm-lo-indent-250 {
+	margin-left: 250px;
+}
+
+.cm-lo-indent-300 {
+	margin-left: 300px;
+}
+
+.cm-lo-indent-350 {
+	margin-left: 350px;
+}
+
+.cm-lo-indent-400 {
+	margin-left: 400px;
+}
+
+.cm-lo-indent-450 {
+	margin-left: 450px;
+}
+
+.cm-lo-indent-500 {
+	margin-left: 500px;
+}

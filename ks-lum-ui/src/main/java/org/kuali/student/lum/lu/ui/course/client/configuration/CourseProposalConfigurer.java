@@ -1140,7 +1140,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
     @Override
     public String getSectionTitle(DataModel model) {
 
-        StringBuilder sb = new StringBuilder();
+        StringBuffer sb = new StringBuffer();
         sb.append("Modify Course: ");
         sb.append(model.get("courseCode"));
         sb.append(" - ");
@@ -1151,7 +1151,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
 
     @Override
     public String getProposalHeaderTitle(DataModel model) {
-      StringBuilder sb = new StringBuilder();
+        StringBuffer sb = new StringBuffer();
         if (model.get("copyOfCourseId") != null) {
             sb.append("Modify Course: ");
             sb.append(model.get("courseCode"));

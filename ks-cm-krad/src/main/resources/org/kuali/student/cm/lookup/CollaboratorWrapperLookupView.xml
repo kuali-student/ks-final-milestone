@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  Copyright 2005-2013 The Kuali Foundation
+ 
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+  http://www.opensource.org/licenses/ecl2.php
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="CollaboratorWrapper-DataObjectEntry" parent="DataObjectEntry">
+		<property name="objectLabel" value="Instructor Info Display" />
+		<property name="dataObjectClass"
+			value="org.kuali.student.cm.course.form.CollaboratorWrapper" />
+		<property name="titleAttribute" value="personInfo.id" />
+		<property name="attributes">
+			<list>
+				<ref bean="CollaboratorWrapper.displayName" />
+				<ref bean="CollaboratorWrapper.givenName" />
+				<ref bean="CollaboratorWrapper.principalId" />
+				<ref bean="CollaboratorWrapper.personID" />
+				<ref bean="CollaboratorWrapper.principalName" />
+			</list>
+		</property>
+		<property name="primaryKeys">
+			<list>
+				<value>id</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="CollaboratorWrapper.principalId" parent="BaseKuali.id">
+		<property name="name" value="principalId" />
+	</bean>
+
+	<bean id="CollaboratorWrapper.personID" parent="BaseKuali.personId">
+		<property name="name" value="personID" />
+		<property name="shortLabel" value="Username" />
+		<property name="summary">
+			<value>
+				Unique identifier for a person record.
+			</value>
+		</property>
+		<property name="label" value="Username" />
+		<property name="description">
+			<value>
+				Unique identifier for a person record.
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also 
+			be entered <property name="attributeSecurity"> <ref bean="BaseKuali.readOnlyAttributeSecurity"/> 
+			</property> -->
+		<property name="required" value="true" />
+	</bean>
+
+	<bean id="CollaboratorWrapper.displayName" parent="AttributeDefinition">
+		<property name="name" value="displayName" />
+		<property name="dataType" value="STRING" />
+		<property name="label" value="Name" />
+		<property name="shortLabel" value="Name" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" />
+		</property>
+	</bean>
+
+	<bean id="CollaboratorWrapper.givenName" parent="AttributeDefinition">
+		<property name="name" value="givenName" />
+		<property name="dataType" value="STRING" />
+		<property name="label" value="Given Name" />
+		<property name="shortLabel" value="Given Name" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" />
+		</property>
+	</bean>
+
+	<bean id="CollaboratorWrapper.principalName" parent="AttributeDefinition">
+		<property name="name" value="principalName" />
+		<property name="dataType" value="STRING" />
+		<property name="label" value="Username" />
+		<property name="shortLabel" value="Username" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" />
+		</property>
+	</bean>
+
+	<bean id="KS-CollaboratorWrapper-LookupView" parent="Uif-LookupView">
+		<property name="id" value="CollaboratorWrapperLookupView" />
+		<property name="headerText" value="Advanced Search: Person" />
+		<property name="dataObjectClassName"
+			value="org.kuali.student.cm.course.form.CollaboratorWrapper" />
+		<property name="viewHelperServiceClass"
+			value="org.kuali.student.cm.course.service.impl.CollaboratorLookupableImpl" />
+		<property name="criteriaFields">
+			<list>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="displayName" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="personID" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="Uif-DataField" p:propertyName="givenName"
+					p:label="Given Name" />
+				<bean parent="Uif-DataField" p:propertyName="principalId" p:label="Internal ID" />
+				<bean parent="Uif-DataField" p:propertyName="principalName"
+					p:label="Username" />
+				<bean parent="Uif-DataField" p:propertyName="displayName"
+					p:label="Display Name" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

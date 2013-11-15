@@ -1,11 +1,9 @@
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -39,9 +37,12 @@ import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.lum.clu.CLUConstants;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Controller for create/modify course with proposal wrapper admin screens. This controller uses a different
@@ -260,7 +261,7 @@ public class CourseAdminController extends CourseProposalController{
     }
     
 	private String getProposalTitle(){
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 		sb.append(cluProposalModel.get(cfg.getProposalTitlePath()));
 		sb.append(" (Admin Proposal)");
 		return sb.toString();
@@ -272,8 +273,8 @@ public class CourseAdminController extends CourseProposalController{
 	 * 
 	 * @param parentMenu
 	 * @param sectionName
-	 * @param widgetId
-	 * @param widget
+	 * @param sectionId
+	 * @param section
 	 */
     public void addMenuItemSection(String parentMenu, final String sectionName, final String widgetId, final Widget widget) {    	
         KSMenuItemData parentItem = null;

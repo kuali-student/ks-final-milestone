@@ -1290,7 +1290,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	}
 	
 	private String getProposalTitle(){
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 		sb.append(cluProposalModel.get(cfg.getProposalTitlePath()));
 		sb.append(" (Proposal)");
 		return sb.toString();
