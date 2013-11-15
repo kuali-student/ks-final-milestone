@@ -194,7 +194,6 @@
                       p:fieldLabel.render="false"
                       p:uppercaseValue="true"
                       p:required="true"
-                      p:onChangeScript="jQuery('#dirtyForm').val(true);"
                       p:readOnly="@{!#isAddLine}">
 
                     <property name="control">
@@ -222,7 +221,6 @@
                       p:fieldLabel.render="false"
                       p:uppercaseValue="true"
                       p:required="true"
-                      p:onChangeScript="jQuery('#dirtyForm').val(true);"
                       p:readOnly="@{!#isAddLine}">
 
                     <property name="control">
@@ -259,7 +257,7 @@
         <property name="items">
             <list>
                 <bean id="shared_max_enr" parent="Uif-InputField" p:propertyName="sharedMaxEnrollment" p:label="Shared Maximum Enrollment"
-                      p:onChangeScript="jQuery('#dirtyForm').val(true);" p:required="true" p:exclusiveMin="0">
+                       p:required="true" p:exclusiveMin="0">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="4" />
                     </property>
@@ -294,7 +292,7 @@
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="editRenderHelper.code" p:label="Colocated Activities" p:style="color:green;"/>
                             <bean parent="Uif-InputField" p:propertyName="maxEnrollmentCount" p:label="Max Erollment" p:readOnly="@{!#lp.editRenderHelper.allowEnrollmentEdit}"
-                                  p:onChangeScript="jQuery('#dirtyForm').val(true);" p:required="true" p:exclusiveMin="0">
+                                  p:required="true" p:exclusiveMin="0">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="4" />
                                 </property>
@@ -336,7 +334,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:id="personnelPriority" p:propertyName="offeringInstructorInfo.personId"
-                                  p:onChangeScript="jQuery('#dirtyForm').val(true);" p:label="ID" p:required="false" p:cssClasses="col_5">
+                                  p:label="ID" p:required="false" p:cssClasses="col_5">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder">
                                         <property name="dataObjectClassName" value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
@@ -353,14 +351,13 @@
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.personName" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:label="Name" p:required="false"/>
-                            <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.typeKey" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:label="AFFILIATION" p:required="false">
+                            <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" p:required="false"/>
+                            <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.typeKey" p:label="AFFILIATION" p:required="false">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" p:options-ref="aoInstructors-options" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="sEffort" p:label="INST.EFFORT" p:required="false"
-                                  p:onChangeScript="jQuery('#dirtyForm').val(true);" p:inclusiveMax="100">
+                            <bean parent="Uif-InputField" p:propertyName="sEffort" p:label="INST.EFFORT" p:required="false" p:inclusiveMax="100">
                                   <property name="validCharactersConstraint">
                                         <bean parent="IntegerPatternConstraint" />
                                   </property>
@@ -398,7 +395,7 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean id="ActivityOfferingEdit-HasWaitlist" parent="Uif-InputField-LabelRight" p:propertyName="hasWaitlist" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:label="Waitlist Active">
+                            <bean id="ActivityOfferingEdit-HasWaitlist" parent="Uif-InputField-LabelRight" p:propertyName="hasWaitlist" p:label="Waitlist Active">
                                 <property name="control">
                                     <bean parent="Uif-CheckboxControl" />
                                 </property>
@@ -421,7 +418,7 @@
                             <bean parent="Uif-VerticalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField" p:propertyName="waitListType" p:label="Waitlist Type"  p:onChangeScript="jQuery('#dirtyForm').val(true);"
+                                        <bean parent="Uif-InputField" p:propertyName="waitListType" p:label="Waitlist Type"
                                               p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                                             <property name="control">
                                                 <bean parent="Uif-VerticalRadioControl"/>
@@ -440,13 +437,13 @@
                                         <bean parent="Uif-HorizontalBoxSection">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-InputField-LabelRight" p:propertyName="limitWaitlistSize" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:label="Limit Waitlist Size">
+                                                    <bean parent="Uif-InputField-LabelRight" p:propertyName="limitWaitlistSize" p:label="Limit Waitlist Size">
                                                         <property name="control">
                                                             <bean parent="Uif-CheckboxControl" />
                                                         </property>
                                                     </bean>
                                                     <bean  id="limit_waitlist_size_text" parent="Uif-InputField" p:required="true" p:inclusiveMax="999" p:exclusiveMin="0" p:dataType="INTEGER"
-                                                           p:propertyName="courseWaitListInfo.maxSize" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:refreshWhenChangedPropertyNames="@{#dp.limitWaitlistSize}">
+                                                           p:propertyName="courseWaitListInfo.maxSize" p:refreshWhenChangedPropertyNames="@{#dp.limitWaitlistSize}">
                                                         <property name="control">
                                                             <bean parent="Uif-TextControl" p:disabled="@{!#dp.limitWaitlistSize}" />
                                                         </property>
@@ -454,7 +451,7 @@
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelRight" p:propertyName="courseWaitListInfo.allowHoldUntilEntries" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:label="Allow Hold List">
+                                        <bean parent="Uif-InputField-LabelRight" p:propertyName="courseWaitListInfo.allowHoldUntilEntries" p:label="Allow Hold List">
                                             <property name="control">
                                                 <bean parent="Uif-CheckboxControl" />
                                             </property>
@@ -508,7 +505,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:id="seatPoolPriority" p:propertyName="seatPool.processingPriority" p:label="PRIORITY"
-                                  p:onChangeScript="jQuery('#dirtyForm').val(true);" p:maxLength="2" p:required="true">
+                                  p:maxLength="2" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="2" />
                                 </property>
@@ -516,7 +513,7 @@
                                     <bean parent="IntegerPatternConstraint" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="SEATS" p:maxLength="3" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:id="seatLimit" >
+                            <bean parent="Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="SEATS" p:maxLength="3" p:id="seatLimit" >
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="3" p:onBlurScript="validateSeatsForSP(jQuery(this))" />
                                 </property>
@@ -578,7 +575,7 @@
     <bean id="ActivityOfferingEdit-Miscellaneous" parent="Uif-VerticalBoxSection" p:headerText="Miscellaneous" p:id="aoInfo.Miscellaneous">
         <property name="items">
             <list>
-                <bean id="course_url" parent="Uif-InputField-LabelTop"   p:onChangeScript="jQuery('#dirtyForm').val(true);"
+                <bean id="course_url" parent="Uif-InputField-LabelTop"
                       p:propertyName="aoInfo.activityOfferingURL"
                       p:label="Course URL">
                     <property name="control">
@@ -593,7 +590,7 @@
                     <property name="items">
                         <list>
                             <bean id="is_evaluated"
-                                  parent="Uif-InputField-LabelRight"      p:onChangeScript="jQuery('#dirtyForm').val(true);"
+                                  parent="Uif-InputField-LabelRight"
                                   p:propertyName="aoInfo.isEvaluated"
                                   p:label="This lecture requires an evaluation"
                                   p:fieldLabel.cssClasses="label-normal"
@@ -612,7 +609,7 @@
                     <property name="items">
                         <list>
                             <bean id="is_honors_offering"
-                                  parent="Uif-InputField-LabelRight"   p:onChangeScript="jQuery('#dirtyForm').val(true);"
+                                  parent="Uif-InputField-LabelRight"
                                   p:propertyName="aoInfo.isHonorsOffering"
                                   p:label="This is an honors course"
                                   p:fieldLabel.cssClasses="label-normal"
