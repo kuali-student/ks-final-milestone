@@ -156,6 +156,27 @@ public interface RuleManagementService extends TranslateBusinessMethods {
             throws RiceIllegalArgumentException;
 
     /**
+     * Retrieves list of ReferenceObjectBinding objects for the given obj
+     * discriminator type and reference object ids
+     *
+     * @param referenceObjectReferenceDiscriminatorType  reference object type
+     * @param referenceObjectIds reference object ids
+     * @return list of ReferenceObjectBinding objects for the given discriminator
+     *         type
+     * @throws RiceIllegalArgumentException if the given  referenceObjectKrmsDiscriminatorType or id list is
+     *                                      blank or invalid
+     */
+    @WebMethod(operationName = "findReferenceObjectBindingsByReferenceObjectIds")
+    @XmlElementWrapper(name = "referenceObjectBindings", required = true)
+    @XmlElement(name = "referenceObjectBinding", required = false)
+    @WebResult(name = "referenceObjectBindings")
+    @Cacheable(value= ReferenceObjectBinding.Cache.NAME, key="'referenceObjectReferenceDiscriminatorType=' + #p0 + '|' + 'referenceObjectIds=' + #p1")
+    public List<ReferenceObjectBinding> findReferenceObjectBindingsByReferenceObjectIds (
+            @WebParam(name = "referenceObjectReferenceDiscriminatorType") String referenceObjectReferenceDiscriminatorType,
+            @WebParam(name = "referenceObjectId") List<String> referenceObjectIds)
+            throws RiceIllegalArgumentException;
+
+    /**
      * Retrieves list of ReferenceObjectBinding objects for the given KRMS obj
      * id.
      *
@@ -1007,6 +1028,27 @@ public interface RuleManagementService extends TranslateBusinessMethods {
     @Override
     public String translateNaturalLanguageForObject(@WebParam(name = "naturalLanguageUsageId") String naturalLanguageUsageId,
                                                     @WebParam(name = "typeId") String typeId, @WebParam(name = "krmsObjectId") String krmsObjectId,
+                                                    @WebParam(name = "languageCode") String languageCode) throws RiceIllegalArgumentException;
+
+    /**
+     * Translates and retrieves a NaturalLanguage for a list of KRMS objects (e.g,
+     * propositions or agendas), NaturalLanguage usage type (context) and language
+     * into natural language
+     *
+     * @param naturalLanguageUsageId Natural language usage information
+     * @param typeId    KRMS object type id (for example, could refer to agenda
+     *                  or proposition)
+     * @param krmsObjectIds KRMS object identifier
+     * @param languageCode  desired
+     * @return natural language corresponding to the NaturalLanguage usage, KRMS object id, KRMS object type and desired language
+     * @throws RiceIllegalArgumentException if the given naturalLanguageUsageId, typeId,
+     *                                      krmsObjectId or language is null or
+     *                                      invalid
+     */
+    @WebMethod(operationName = "translateNaturalLanguageForObjects")
+    @WebResult(name = "naturalLanguages")
+    public List<NaturalLanguage> translateNaturalLanguageForObjects(@WebParam(name = "naturalLanguageUsageId") String naturalLanguageUsageId,
+                                                    @WebParam(name = "typeId") String typeId, @WebParam(name = "krmsObjectIds") List<String> krmsObjectIds,
                                                     @WebParam(name = "languageCode") String languageCode) throws RiceIllegalArgumentException;
 
     /**

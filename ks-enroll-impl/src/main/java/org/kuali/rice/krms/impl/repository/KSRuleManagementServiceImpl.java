@@ -21,6 +21,7 @@ import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krms.api.repository.NaturalLanguage;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.TranslateBusinessMethods;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
@@ -33,6 +34,7 @@ import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -342,6 +344,30 @@ public class KSRuleManagementServiceImpl extends RuleRepositoryServiceImpl imple
         for (ReferenceObjectBinding binding : this.referenceObjectBindingBoService.findReferenceObjectBindingsByReferenceObject(referenceObjectId)) {
             if (binding.getReferenceDiscriminatorType().equals(referenceObjectReferenceDiscriminatorType)) {
                 list.add(binding);
+            }
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<ReferenceObjectBinding> findReferenceObjectBindingsByReferenceObjectIds(String referenceObjectReferenceDiscriminatorType,
+                                                                                        List<String> referenceObjectIds)
+            throws RiceIllegalArgumentException {
+        if (referenceObjectReferenceDiscriminatorType == null) {
+            throw new RiceIllegalArgumentException("reference binding object discriminator type must not be null");
+        }
+
+        if (referenceObjectIds == null) {
+            throw new RiceIllegalArgumentException("reference object ids must not be null");
+        }
+
+        List<ReferenceObjectBinding> list = new ArrayList<ReferenceObjectBinding>();
+        for(String referenceObjectId : referenceObjectIds){
+            for (ReferenceObjectBinding binding : this.referenceObjectBindingBoService.findReferenceObjectBindingsByReferenceObject(referenceObjectId)) {
+                if (binding.getReferenceDiscriminatorType().equals(referenceObjectReferenceDiscriminatorType)) {
+                    list.add(binding);
+                }
             }
         }
 
@@ -1226,13 +1252,29 @@ public class KSRuleManagementServiceImpl extends RuleRepositoryServiceImpl imple
     //// natural language translations
     ////
     @Override
-    public String translateNaturalLanguageForObject(String naturalLanguageUsageId,
-                                                    String typeId,
-                                                    String krmsObjectId,
+    public String translateNaturalLanguageForObject(String naturalLanguageUsageId, String typeId, String krmsObjectId,
                                                     String languageCode)
             throws RiceIllegalArgumentException {
 
         return this.getTranslateBusinessMethods().translateNaturalLanguageForObject(naturalLanguageUsageId, typeId, krmsObjectId, languageCode);
+    }
+
+    @Override
+    public List<NaturalLanguage> translateNaturalLanguageForObjects(String naturalLanguageUsageId, String typeId, List<String> krmsObjectIds,
+                                                    String languageCode)
+            throws RiceIllegalArgumentException {
+
+        List<NaturalLanguage> nlList = new ArrayList<NaturalLanguage>();
+        for(String krmsObjectId : krmsObjectIds){
+            String nl = this.getTranslateBusinessMethods().translateNaturalLanguageForObject(naturalLanguageUsageId, typeId, krmsObjectId, languageCode);
+
+            NaturalLanguage.Builder nlBuilder = NaturalLanguage.Builder.create();
+            nlBuilder.setKrmsObjectId(krmsObjectId);
+            nlBuilder.setNaturalLanguage(nl);
+            nlList.add(nlBuilder.build());
+        }
+
+        return nlList;
     }
 
     @Override
