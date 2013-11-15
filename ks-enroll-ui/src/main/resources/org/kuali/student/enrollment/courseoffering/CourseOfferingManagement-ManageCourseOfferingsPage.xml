@@ -121,7 +121,9 @@
                     <property name="label" value="Label"/>
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-DataField-Simple" p:propertyName="courseOfferingCode">
+                            <bean parent="KS-Uif-DataField-Simple"
+                                  p:propertyName="courseOfferingCode"
+                                  p:onClickScript="showLoading();">
                                 <property name="inquiry">
                                     <bean parent="KS-Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"  p:inquiryParameters="courseOfferingId" />
                                 </property>
@@ -185,15 +187,15 @@
                 <!--<bean parent="KS-Uif-NavigationActionLink-withSeparator" p:seperator="&#160;&#160;|&#160;&#160;">-->
                     <!--<property name="seperatedActions">-->
                         <!--<list>-->
-                            <bean  parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering"
+                            <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering"
                                   p:actionLabel="Copy"
                                   p:render="@{#line.isEnableCopyCOActionLink() and !#line.isCrossListed()}"
                                   p:actionEvent="copyCOonManageCOsPage"/>
-                            <bean  parent="Uif-NavigationActionLink" p:methodToCall="edit"
+                            <bean parent="Uif-NavigationActionLink" p:methodToCall="edit"
                                   p:actionLabel="Edit"
                                   p:render="@{#line.isEnableEditCOActionLink()}" p:actionEvent="editCOonManageCOsPage">
                             </bean>
-                            <bean  parent="Uif-NavigationActionLink" p:methodToCall="loadAOs_RGs_AOCs"
+                            <bean parent="Uif-NavigationActionLink" p:methodToCall="loadAOs_RGs_AOCs"
                                   p:actionLabel="Manage">
                             </bean>
                         <!--</list>-->
