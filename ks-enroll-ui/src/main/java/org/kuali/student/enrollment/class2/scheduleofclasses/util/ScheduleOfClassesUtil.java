@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.class2.scheduleofclasses.util;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
@@ -16,12 +15,9 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -126,115 +122,64 @@ public class ScheduleOfClassesUtil {
      */
     public static void loadRequisites(SOCRequisiteWrapper reqWrapper, List<String> aoIds) {
 
-        Map<String, String> overriddenRules = new HashMap<String, String>();
-
         //Populate map of overridden CO requisites
         for (String ruleType : reqWrapper.getRuleTypes()) {
-            String coRuleId = getRuleIdForType(reqWrapper.getCoRules(), ruleType);
-            if(coRuleId!=null){
+
+            boolean overridden = false;
+            RuleDefinition coRule = getRuleForType(reqWrapper.getCoRules(), ruleType);
+            if(coRule!=null){
+
+                //Check if CO rule is overridden.
                 for (Map.Entry<String, List<RuleDefinition>> aoEntry : reqWrapper.getAoToRulesMap().entrySet()) {
-                    String aoRuleId = getRuleIdForType(aoEntry.getValue(), ruleType);
-                    if(aoRuleId!=null){
-                        overriddenRules.put(ruleType, reqWrapper.getNlMap().get(coRuleId));
+                    if(getRuleForType(aoEntry.getValue(), ruleType)!=null){
+                        overridden = true;
+                        break;
                     }
+                }
+
+                if(!overridden){
+                    reqWrapper.getCoRequisite().append(reqWrapper.getNlMap().get(coRule.getId()));
+                }
+            }
+
+            //Load AO Requisites.
+            for (String aoId : aoIds) {
+                RuleDefinition aoRule = getRuleForType(reqWrapper.getAoToRulesMap().get(aoId), ruleType);
+                if(aoRule!=null){
+                    if(aoRule.getPropId()==null){
+                        continue; //Rule is suppressed.
+                    } else {
+                        addAORequisite(reqWrapper, aoId, ruleType, reqWrapper.getNlMap().get(aoRule.getId()));
+                    }
+                } else if (overridden) {
+                    addAORequisite(reqWrapper, aoId, ruleType, reqWrapper.getNlMap().get(coRule.getId()));   //If CO rule exist, insert it.
                 }
             }
         }
 
-        Map<String, String> suppressNullMap = loadAORequisites(reqWrapper, overriddenRules);
-
-        if (!overriddenRules.isEmpty()) {
-            loadCOOverriddenRules(reqWrapper, overriddenRules, suppressNullMap, aoIds);
-        }
-
-        if (!reqWrapper.getCoRules().isEmpty()) {
-            loadCORequisites(reqWrapper, overriddenRules);
-        }
     }
 
-    private static String getRuleIdForType(List<RuleDefinition> rules, String ruleType){
+    private static RuleDefinition getRuleForType(List<RuleDefinition> rules, String ruleType){
+        if(rules==null){
+            return null;
+        }
+
         for(RuleDefinition rule : rules){
             if(ruleType.equals(rule.getTypeId())){
-                return rule.getId();
+                return rule;
             }
         }
 
         return null;
     }
 
-    /**
-     * Build map of AO requisites and add overridden requisites
-     *
-     * @param overriddenRules
-     */
-    private static Map<String, String> loadAORequisites(SOCRequisiteWrapper reqWrapper, Map<String, String> overriddenRules) {
-
-        Map<String, String> suppressNullMap = new HashMap<String, String>();
-        for (String ruleType : reqWrapper.getRuleTypes()) {
-            for (Map.Entry<String, List<RuleDefinition>> aoEntry : reqWrapper.getAoToRulesMap().entrySet()) {
-                String aoRequisite = null;
-                String aoRuleId = getRuleIdForType(aoEntry.getValue(), ruleType);
-                if (aoRuleId!=null) {
-                    String aoValue = StringUtils.substringAfter(reqWrapper.getNlMap().get(aoRuleId), ":");
-                    if(aoValue.length() > 1) {
-                        aoRequisite = reqWrapper.getNlMap().get(aoRuleId);
-                    } else {
-                        suppressNullMap.put(aoEntry.getKey(), ruleType);
-                    }
-                } else if (!overriddenRules.isEmpty()) {
-                    if (overriddenRules.containsKey(ruleType)) {
-                        aoRequisite = overriddenRules.get(ruleType);
-                    }
-                }
-
-                if ((aoRequisite!=null)&&(!aoRequisite.isEmpty())) {
-                    if (reqWrapper.getAoRequisiteMap().containsKey(aoEntry.getKey())) {
-                        reqWrapper.getAoRequisiteMap().get(aoEntry.getKey()).put(ruleType, aoRequisite);
-                        continue;
-                    }
-                    Map<String, String> temp = new LinkedHashMap<String, String>();
-                    temp.put(ruleType, aoRequisite);
-                    reqWrapper.getAoRequisiteMap().put(aoEntry.getKey(), temp);
-                }
-            }
-        }
-        return suppressNullMap;
-    }
-
-    /**
-     * Populate AO requisite map with overridden requisites for all outstanding ActivityOfferingWrappers
-     *
-     * @param overriddenRules
-     * @param aoIds
-     */
-    private static void loadCOOverriddenRules(SOCRequisiteWrapper reqWrapper, Map<String, String> overriddenRules,
-                                      Map<String, String> suppressNullMap, List<String> aoIds) {
-
-        for (String aoId : aoIds) {
-            if (!reqWrapper.getAoRequisiteMap().containsKey(aoId)) {
-                if (suppressNullMap.containsKey(aoId)) {
-                    Map<String, String> temp = new LinkedHashMap<String, String>(overriddenRules);
-                    temp.remove(suppressNullMap.get(aoId));
-                    reqWrapper.getAoRequisiteMap().put(aoId, temp);
-                    continue;
-                }
-                reqWrapper.getAoRequisiteMap().put(aoId, overriddenRules);
-            }
-        }
-    }
-
-    /**
-     * Populate CO requisites with requisites not overridden
-     */
-    private static void loadCORequisites(SOCRequisiteWrapper reqWrapper, Map<String, String> overriddenRules) {
-        for (String ruleType : reqWrapper.getRuleTypes()) {
-            if(overriddenRules.containsKey(ruleType)){
-                continue;
-            }
-            String ruleId = getRuleIdForType(reqWrapper.getCoRules(), ruleType);
-            if(ruleId!=null){
-                reqWrapper.getCoRequisite().append(reqWrapper.getNlMap().get(ruleId));
-            }
+    private static void addAORequisite(SOCRequisiteWrapper reqWrapper, String aoId, String ruleType, String aoRequisite){
+        if (reqWrapper.getAoRequisiteMap().containsKey(aoId)) {
+            reqWrapper.getAoRequisiteMap().get(aoId).put(ruleType, aoRequisite);
+        } else {
+            Map<String, String> temp = new LinkedHashMap<String, String>();
+            temp.put(ruleType, aoRequisite);
+            reqWrapper.getAoRequisiteMap().put(aoId, temp);
         }
     }
 
@@ -257,7 +202,6 @@ public class ScheduleOfClassesUtil {
             commonReq = new StringBuilder();
 
             //Retrieve RegistrationGroupWrapper with same name
-
             RegistrationGroupWrapper partnerRegGroup = getRegistrationGroupWrapper(registrationGroupWrapperList, registrationGroupWrapper.getRgInfo().getName(), registrationGroupWrapper.getAoActivityCodeText());
 
             String regAoId, partnerAoId = null;
