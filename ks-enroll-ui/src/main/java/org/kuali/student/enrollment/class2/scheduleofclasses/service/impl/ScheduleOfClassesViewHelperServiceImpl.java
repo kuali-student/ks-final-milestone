@@ -31,10 +31,12 @@ import org.kuali.rice.krad.uif.component.ReferenceCopy;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krms.api.KrmsConstants;
+import org.kuali.rice.krms.api.repository.NaturalLanguage;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
+import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
 import org.kuali.student.common.UUIDHelper;
@@ -54,8 +56,9 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.sort.KSComparator;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.KSComparatorChain;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.ActivityOfferingCodeComparator;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.ActivityOfferingTypeComparator;
-import org.kuali.student.enrollment.class2.scheduleofclasses.util.SOCRequisiteHelper;
+import org.kuali.student.enrollment.class2.scheduleofclasses.util.SOCRequisiteWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
+import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesUtil;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -359,50 +362,61 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
      * @param courseOfferingId
      * @return Map of course offering requisites
      */
-    public SOCRequisiteHelper retrieveRequisites(String courseOfferingId, List<ActivityOfferingWrapper> activityOfferingWrapperList) {
-
-        SOCRequisiteHelper reqHelper = new SOCRequisiteHelper();
-
-        String catalogUsageId = getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_CATALOG, PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
+    public SOCRequisiteWrapper retrieveRequisites(String courseOfferingId, List<ActivityOfferingWrapper> activityOfferingWrapperList) {
 
         //Retrieve reference object bindings for course offering
-        List<ReferenceObjectBinding> coRefObjectsBindingList = ruleManagementService.findReferenceObjectBindingsByReferenceObject(
+        List<ReferenceObjectBinding> coRefObjectsBindingList = getRuleManagementService().findReferenceObjectBindingsByReferenceObject(
                 CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING, courseOfferingId);
 
-        Set<TypeTypeRelation> ruleRelationships = new HashSet<TypeTypeRelation>();
+        //Setup the requisites wrapper object.
+        SOCRequisiteWrapper reqWrapper = new SOCRequisiteWrapper();
+        Set<String> agendaTypes = new HashSet<String>();
+        List<String> ruleIds = new ArrayList<String>();
+
         //Retrieve agenda's for course offering
+        List<RuleDefinition> rules = new ArrayList<RuleDefinition>();
         for(ReferenceObjectBinding coReferenceObjectBinding : coRefObjectsBindingList) {
-            AgendaDefinition agendaDefinition = ruleManagementService.getAgenda(coReferenceObjectBinding.getKrmsObjectId());
-            AgendaItemDefinition agendaItem = ruleManagementService.getAgendaItem(agendaDefinition.getFirstItemId());
-            ruleRelationships.addAll(this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(agendaDefinition.getTypeId()));
-            loadNaturalLanguageForRuleTypes(reqHelper.getCoRequisiteTypeMap(), agendaItem, catalogUsageId);
+            AgendaDefinition agendaDefinition = getRuleManagementService().getAgenda(coReferenceObjectBinding.getKrmsObjectId());
+            AgendaItemDefinition agendaItem = getRuleManagementService().getAgendaItem(agendaDefinition.getFirstItemId());
+            agendaTypes.add(agendaDefinition.getTypeId());
+            loadRules(rules, ruleIds, agendaItem);
         }
+        reqWrapper.setCoRules(rules);
 
-        Map<String, List<ReferenceObjectBinding>> aoRefObjectsBindingMap = new HashMap<String, List<ReferenceObjectBinding>>();
-        //Retrieve reference object bindings for activity offering's
+        //Setup a list of activity offerin ids
+        List<String> aoIds = new ArrayList<String>();
         for(ActivityOfferingWrapper activityOfferingWrapper : activityOfferingWrapperList) {
-            List<ReferenceObjectBinding> aoRefObjectBindingList = ruleManagementService.findReferenceObjectBindingsByReferenceObject(
-                    CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, activityOfferingWrapper.getAoInfo().getId());
-            if(aoRefObjectBindingList != null && !aoRefObjectBindingList.isEmpty()) {
-                aoRefObjectsBindingMap.put(activityOfferingWrapper.getActivityCode(), aoRefObjectBindingList);
-            }
+            aoIds.add(activityOfferingWrapper.getAoInfo().getId());
         }
 
-        StringBuilder aoRequisite = new StringBuilder();
-        //Retrieve agenda's for activity offering
-        for(Map.Entry<String, List<ReferenceObjectBinding>> aoEntry : aoRefObjectsBindingMap.entrySet()) {
-            Map<String, String> typeRequisites = new HashMap<String, String>();
-            for(ReferenceObjectBinding aoReferenceObjectBinding : aoEntry.getValue()) {
-                AgendaDefinition agendaDefinition = ruleManagementService.getAgenda(aoReferenceObjectBinding.getKrmsObjectId());
-                AgendaItemDefinition agendaItemDefinition = ruleManagementService.getAgendaItem(agendaDefinition.getFirstItemId());
-                ruleRelationships.addAll(this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(agendaDefinition.getTypeId()));
-                this.loadNaturalLanguageForRuleTypes(typeRequisites, agendaItemDefinition, catalogUsageId);
-            }
-            reqHelper.getAoRequisiteTypeMap().put(aoEntry.getKey(), typeRequisites);
+        //Retrieve reference object bindings for activity offering's
+        Map<String, List<RuleDefinition>> aoToRulesMap = new HashMap<String, List<RuleDefinition>>();
+        List<ReferenceObjectBinding> aoRefObjectBindingList = getRuleManagementService().findReferenceObjectBindingsByReferenceObjectIds(
+                CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoIds);
+        for(ReferenceObjectBinding refObjectBinding : aoRefObjectBindingList) {
+            AgendaDefinition agendaDefinition = getRuleManagementService().getAgenda(refObjectBinding.getKrmsObjectId());
+            AgendaItemDefinition agendaItemDefinition = getRuleManagementService().getAgendaItem(agendaDefinition.getFirstItemId());
+            agendaTypes.add(agendaDefinition.getTypeId());
+            loadRulesIntoMap(refObjectBinding.getReferenceObjectId(), aoToRulesMap, ruleIds, agendaItemDefinition);
         }
+        reqWrapper.setAoToRulesMap(aoToRulesMap);
 
+        //Retrieve the natural language statements.
+        String catalogUsageId = getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_CATALOG,
+                PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
+        List<NaturalLanguage> nlList = getRuleManagementService().translateNaturalLanguageForObjects(catalogUsageId, "rule", ruleIds, "en");
+
+        Map<String, String> nlMap = new HashMap<String, String>();
+        for(NaturalLanguage entry : nlList){
+            nlMap.put(entry.getKrmsObjectId(), entry.getNaturalLanguage());
+        }
+        reqWrapper.setNlMap(nlMap);
+
+        //Setup the rule type list.
         List<TypeTypeRelation> sortedRuleRelations = new ArrayList<TypeTypeRelation>();
-        sortedRuleRelations.addAll(ruleRelationships);
+        for(String type : agendaTypes){
+            sortedRuleRelations.addAll(this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(type));
+        }
         Collections.sort(sortedRuleRelations, new Comparator<TypeTypeRelation>() {
             @Override
             public int compare(TypeTypeRelation typeTypeRelation1, TypeTypeRelation typeTypeRelation2) {
@@ -411,22 +425,45 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
         });
 
         for (TypeTypeRelation ruleRelation : sortedRuleRelations) {
-            reqHelper.getRuleTypes().add(ruleRelation.getToTypeId());
+            reqWrapper.getRuleTypes().add(ruleRelation.getToTypeId());
         }
 
-        reqHelper.loadRequisites(activityOfferingWrapperList);
-        return reqHelper;
+        ScheduleOfClassesUtil.loadRequisites(reqWrapper, aoIds);
+
+        return reqWrapper;
     }
 
-    protected void loadNaturalLanguageForRuleTypes(Map<String, String> typeRequisites, AgendaItemDefinition agendaItem, String catalogUsageId) {
+    protected void loadRules(List<RuleDefinition> rules, List<String> ruleIds, AgendaItemDefinition agendaItem) {
 
         if(agendaItem.getRuleId() != null) {
-            String ruleRequisite = ruleManagementService.translateNaturalLanguageForObject(catalogUsageId, "rule", agendaItem.getRuleId(), "en");
-            typeRequisites.put(agendaItem.getRule().getTypeId(), ruleRequisite);
+
+            ruleIds.add(agendaItem.getRuleId());
+            rules.add(agendaItem.getRule());
         }
 
         if(agendaItem.getWhenTrue() != null) {
-            this.loadNaturalLanguageForRuleTypes(typeRequisites, agendaItem.getWhenTrue(), catalogUsageId);
+            this.loadRules(rules, ruleIds, agendaItem.getWhenTrue());
+        }
+    }
+
+    protected void loadRulesIntoMap(String key, Map<String, List<RuleDefinition>> refObjectToRules, List<String> ruleIds,
+                                    AgendaItemDefinition agendaItem) {
+
+        if(agendaItem.getRuleId() != null) {
+
+            ruleIds.add(agendaItem.getRuleId());
+
+            if(refObjectToRules.containsKey(key)){
+                refObjectToRules.get(key).add(agendaItem.getRule());
+            } else {
+                List<RuleDefinition> rules = new ArrayList<RuleDefinition>();
+                rules.add(agendaItem.getRule());
+                refObjectToRules.put(key, rules);
+            }
+        }
+
+        if(agendaItem.getWhenTrue() != null) {
+            this.loadRulesIntoMap(key, refObjectToRules, ruleIds, agendaItem.getWhenTrue());
         }
     }
 

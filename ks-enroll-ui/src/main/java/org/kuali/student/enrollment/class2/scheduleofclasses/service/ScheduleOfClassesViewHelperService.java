@@ -7,7 +7,6 @@ import org.kuali.student.enrollment.class2.courseoffering.service.CourseOffering
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.KSComparatorChain;
-import org.kuali.student.enrollment.class2.scheduleofclasses.util.SOCRequisiteHelper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.SOCRequisiteWrapper;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
@@ -43,7 +42,7 @@ public interface ScheduleOfClassesViewHelperService extends CourseOfferingManage
      */
     public void loadCourseOfferingsByTitleAndDescription(String termId, String titleOrDescription, ScheduleOfClassesSearchForm form) throws Exception;
 
-    public SOCRequisiteHelper retrieveRequisites(String coId, List<ActivityOfferingWrapper> activityOfferingWrapperList);
+    public SOCRequisiteWrapper retrieveRequisites(String coId, List<ActivityOfferingWrapper> activityOfferingWrapperList);
 
     public String getTermStartEndDate(TermInfo term);
 

@@ -36,7 +36,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
 import org.kuali.student.enrollment.class2.scheduleofclasses.service.ScheduleOfClassesViewHelperService;
-import org.kuali.student.enrollment.class2.scheduleofclasses.util.SOCRequisiteHelper;
+import org.kuali.student.enrollment.class2.scheduleofclasses.util.SOCRequisiteWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesUtil;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
@@ -251,8 +251,8 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         coDisplayWrapper.getActivityWrapperList().clear();
         coDisplayWrapper.getActivityWrapperList().addAll(theForm.getActivityWrapperList());
 
-        SOCRequisiteHelper requisites =  getViewHelperService(theForm).retrieveRequisites(coDisplayWrapper.getCourseOfferingId(), coDisplayWrapper.getActivityWrapperList());
-        coDisplayWrapper.setRequisites(requisites.getReqWrapper().getCoRequisite().toString());
+        SOCRequisiteWrapper requisites =  getViewHelperService(theForm).retrieveRequisites(coDisplayWrapper.getCourseOfferingId(), coDisplayWrapper.getActivityWrapperList());
+        coDisplayWrapper.setRequisites(requisites.getCoRequisite().toString());
 
         getViewHelperService(theForm).sortActivityOfferings(theForm,coDisplayWrapper);
 
@@ -262,8 +262,8 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
 
         for (ActivityOfferingWrapper aoWrapper : coDisplayWrapper.getActivityWrapperList()){
             //Adding Requisites
-            if(requisites.getReqWrapper().getAoRequisiteMap().containsKey(aoWrapper.getActivityCode())) {
-                aoWrapper.setRequisite(requisites.prepareAORequisites(aoWrapper.getActivityCode()));
+            if(requisites.getAoRequisiteMap().containsKey(aoWrapper.getId())) {
+                aoWrapper.setRequisite(requisites.getRequisiteForAO(aoWrapper.getId()));
             }
 
             // Adding Information (icons)
@@ -364,10 +364,10 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         }
 
 
-        SOCRequisiteHelper requisites =  getViewHelperService(theForm).retrieveRequisites(coDisplayWrapper.getCourseOfferingId(), theForm.getActivityWrapperList());
-        coDisplayWrapper.setRequisites(requisites.getReqWrapper().getCoRequisite().toString());
+        SOCRequisiteWrapper requisites =  getViewHelperService(theForm).retrieveRequisites(coDisplayWrapper.getCourseOfferingId(), theForm.getActivityWrapperList());
+        coDisplayWrapper.setRequisites(requisites.getCoRequisite().toString());
         for(ActivityOfferingClusterWrapper activityOfferingClusterWrapper : theForm.getClusterResultList()) {
-            requisites.loadRegRequisites(activityOfferingClusterWrapper.getRgWrapperList());
+            ScheduleOfClassesUtil.loadRegRequisites(requisites, activityOfferingClusterWrapper.getRgWrapperList());
         }
 
         return getUIFModelAndView(theForm, ScheduleOfClassesConstants.SOC_RESULT_PAGE);
