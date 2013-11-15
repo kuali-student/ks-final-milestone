@@ -19,6 +19,7 @@ import static org.kuali.student.logging.FormattedLogger.error;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -195,7 +196,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      * @see CourseInfoMaintainable#getInstructorsForSuggest(String)
      */
     public List<CluInstructorInfoWrapper> getInstructorsForSuggest(
-            String instructorName) {
+        String instructorName) {
         List<CluInstructorInfoWrapper> cluInstructorInfoDisplays = new ArrayList<CluInstructorInfoWrapper>();
 
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
@@ -263,7 +264,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         SearchResultInfo searchResult = null;
         try {
             searchResult = getSearchService().search(searchRequest,
-                    ContextUtils.getContextInfo());
+                                                     ContextUtils.getContextInfo());
             if (searchResult.getRows().size() == 1) {
                 SearchResultRowInfo result = searchResult.getRows().get(0);
                 List<SearchResultCellInfo> cells = result.getCells();
@@ -286,7 +287,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
         } catch (Exception e) {
             error(
-                    "An error occurred in the getInstructor method. %s", e.getMessage());
+                "An error occurred in the getInstructor method. %s", e.getMessage());
         }
 
         return instructor;
@@ -630,7 +631,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     /**
      * This overridden method ...
      *
-     * @see org.kuali.student.cm.course.service.CourseInfoMaintainable#setCollaboratorWrappers(java.util.List)
+     * @see org.kuali.student.cm.course.service.CourseInfoMaintainable#setCollaboratorWrappers(List)
      */
     @Override
     public void setCollaboratorWrappers(List<CollaboratorWrapper> collaboratorWrappers) {
@@ -672,7 +673,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      * @see CourseInfoMaintainable#getCollaboratorWrappersSuggest(String)
      */
     public List<CollaboratorWrapper> getCollaboratorWrappersSuggest(
-            String principalId) {
+        String principalId) {
         List<CollaboratorWrapper> listCollaboratorWrappers = new ArrayList<CollaboratorWrapper>();
 
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
@@ -856,7 +857,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     protected LearningObjectiveService getLearningObjectiveService() {
         if (learningObjectiveService == null) {
             learningObjectiveService = GlobalResourceLoader.getService(new QName(
-                    LearningObjectiveServiceConstants.NAMESPACE, LearningObjectiveService.class.getSimpleName()));
+                                                                           LearningObjectiveServiceConstants.NAMESPACE, LearningObjectiveService.class.getSimpleName()));
         }
         return learningObjectiveService;
     }
@@ -864,7 +865,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     protected OrganizationService getOrganizationService() {
         if (organizationService == null) {
             organizationService = (OrganizationService) GlobalResourceLoader
-                    .getService(new QName("http://student.kuali.org/wsdl/organization", "OrganizationService"));
+                .getService(new QName("http://student.kuali.org/wsdl/organization", "OrganizationService"));
         }
         return organizationService;
     }
@@ -872,87 +873,97 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     
     @Override
     protected void addCustomContainerComponents(View view, Object model, Container container) {
-        ((CourseRuleViewHelperServiceImpl)ruleViewHelperService).addCustomContainerComponents(view, model, container);
+        ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).addCustomContainerComponents(view, model, container);
     }
 
     @Override
-    public void validateProposition(PropositionEditor proposition) {
-        ruleViewHelperService.validateProposition(proposition);
+    public Boolean validateProposition(PropositionEditor proposition) {
+        return getRuleViewHelperService().validateProposition(proposition);
     }
 
     @Override
     public void resetDescription(PropositionEditor proposition) {
-        ruleViewHelperService.resetDescription(proposition);
+        getRuleViewHelperService().resetDescription(proposition);
     }
 
     @Override
     public void configurePropositionForType(PropositionEditor proposition) {
-        ruleViewHelperService.configurePropositionForType(proposition);
+        getRuleViewHelperService().configurePropositionForType(proposition);
     }
 
     @Override
     public TemplateInfo getTemplateForType(String type) {
-        return ruleViewHelperService.getTemplateForType(type);
+        return getRuleViewHelperService().getTemplateForType(type);
     }
 
     @Override
     public void refreshInitTrees(RuleEditor rule) {
-        ruleViewHelperService.refreshInitTrees(rule);
+        getRuleViewHelperService().refreshInitTrees(rule);
     }
 
     @Override
     public void refreshViewTree(RuleEditor rule) {
-        ruleViewHelperService.refreshViewTree(rule);
+        getRuleViewHelperService().refreshViewTree(rule);
     }
 
     @Override
     public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, RuleEditor compare) {
-        return ruleViewHelperService.buildCompareTree(original, compare);
+        return getRuleViewHelperService().buildCompareTree(original, compare);
     }
 
     @Override
     public Tree<CompareTreeNode, String> buildMultiViewTree(RuleEditor coRuleEditor, RuleEditor cluRuleEditor) {
-        return ruleViewHelperService.buildMultiViewTree(coRuleEditor, cluRuleEditor);
+        return getRuleViewHelperService().buildMultiViewTree(coRuleEditor, cluRuleEditor);
     }
 
     @Override
     public Boolean compareRules(RuleEditor original) {
-        return ruleViewHelperService.compareRules(original);
+        return getRuleViewHelperService().compareRules(original);
     }
 
     @Override
     public PropositionEditor copyProposition(PropositionEditor proposition) {
-        return ruleViewHelperService.copyProposition(proposition);
+        return getRuleViewHelperService().copyProposition(proposition);
     }
 
     @Override
     public PropositionEditor createCompoundPropositionBoStub(PropositionEditor existing, boolean addNewChild) {
-        return ruleViewHelperService.createCompoundPropositionBoStub(existing, addNewChild);
+        return getRuleViewHelperService().createCompoundPropositionBoStub(existing, addNewChild);
     }
 
     @Override
     public void setTypeForCompoundOpCode(PropositionEditor proposition, String compoundOpCode) {
-        ruleViewHelperService.setTypeForCompoundOpCode(proposition, compoundOpCode);
+        getRuleViewHelperService().setTypeForCompoundOpCode(proposition, compoundOpCode);
     }
 
     @Override
     public PropositionEditor createSimplePropositionBoStub(PropositionEditor sibling) {
-        return ruleViewHelperService.createSimplePropositionBoStub(sibling);
+        return getRuleViewHelperService().createSimplePropositionBoStub(sibling);
     }
 
     @Override
     public Boolean compareProposition(PropositionEditor original, PropositionEditor compare) {
-        return ruleViewHelperService.compareProposition(original, compare);
+        return getRuleViewHelperService().compareProposition(original, compare);
     }
 
     @Override
     public Boolean compareCompoundProposition(List<PropositionEditor> original, List<PropositionEditor> compare) {
-        return ruleViewHelperService.compareCompoundProposition(original, compare);
+        return getRuleViewHelperService().compareCompoundProposition(original, compare);
     }
 
     @Override
     public Boolean compareTerm(List<TermParameterEditor> original, List<TermParameterEditor> compare) {
-        return ruleViewHelperService.compareTerm(original, compare);
+        return getRuleViewHelperService().compareTerm(original, compare);
+    }
+
+    @Override
+    public void buildActions(final RuleEditor arg0) {
+        getRuleViewHelperService().buildActions(arg0);
+    }
+
+    @Override
+    public Boolean validateRule(final RuleEditor arg0) {
+        return getRuleViewHelperService().validateRule(arg0);
     }
 
     @Override
@@ -1055,6 +1066,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         return this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseServiceConstants.REF_OBJECT_URI_COURSE, refObjectId);
     }
 
+
+
     protected RuleViewTreeBuilder getViewTreeBuilder() {
         if (this.viewTreeBuilder == null) {
             viewTreeBuilder = new LURuleViewTreeBuilder();
@@ -1076,6 +1089,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             courseService = (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, CourseServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return courseService;
+    }
+
+    protected RuleViewHelperService getRuleViewHelperService() {
+        return ruleViewHelperService;
     }
 
 }
