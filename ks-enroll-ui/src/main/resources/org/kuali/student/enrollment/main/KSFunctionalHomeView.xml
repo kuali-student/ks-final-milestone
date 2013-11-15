@@ -9,7 +9,7 @@
         <property name="id" value="ksFunctionalHomeView"/>
         <property name="formClass" value="org.kuali.student.enrollment.main.form.LaunchForm"/>
         <property name="onLoadScript" value="jQuery('#Uif-BreadcrumbWrapper').remove(); jQuery('.ks-unified-header').hide();"/>
-
+        <property name="stickyHeader" value="false"/>
         <property name="items">
             <list>
                 <bean parent="KS-Uif-Page" p:disclosure.render="false">
