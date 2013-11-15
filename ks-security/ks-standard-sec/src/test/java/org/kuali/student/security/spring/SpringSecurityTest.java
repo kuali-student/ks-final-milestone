@@ -35,6 +35,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -115,6 +116,23 @@ public class SpringSecurityTest {
                         HttpSession session = result.getRequest().getSession();
                         SecurityContext securityContext = (SecurityContext) session.getAttribute(SPRING_SECURITY_CONTEXT_KEY);
                         assertEquals(securityContext.getAuthentication().getName(), username);
+                    }
+                });
+    }
+
+    @Test
+    public void testLogout() throws Exception {
+        // after logging out
+        mockMvc.perform(get("/j_spring_security_logout"))
+                // should be redirected to /
+                .andExpect(redirectedUrl("/"))
+                .andExpect(new ResultMatcher() {
+                    @Override
+                    public void match(MvcResult result) throws Exception {
+                        HttpSession session = result.getRequest().getSession();
+                        SecurityContext securityContext = (SecurityContext) session.getAttribute(SPRING_SECURITY_CONTEXT_KEY);
+                        // security context should be wiped out
+                        assertNull("Spring Security context should be null", securityContext);
                     }
                 });
     }
