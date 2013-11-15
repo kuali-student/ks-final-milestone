@@ -28,6 +28,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
@@ -58,7 +59,7 @@ public class SpringSecurityTest {
     private FilterChainProxy springSecurityFilterChain;
 
     @Autowired
-    private org.springframework.web.context.WebApplicationContext wac;
+    private WebApplicationContext wac;
 
     private MockMvc mockMvc;
 
