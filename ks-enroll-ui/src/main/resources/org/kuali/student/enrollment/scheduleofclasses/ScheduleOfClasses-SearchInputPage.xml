@@ -136,7 +136,7 @@
                                     <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" p:watermarkText="Plants, Diaspora, Sartre"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-PrimaryActionButton" p:performClientSideValidation="false" p:actionLabel="Show" p:methodToCall="show" p:style="margin-top:23px;" p:id="show_button"/>
+                            <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="false" p:actionLabel="Show" p:methodToCall="show" p:style="margin-top:23px;" p:id="show_button"/>
                         </list>
                     </property>
                 </bean>

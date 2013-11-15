@@ -165,7 +165,7 @@
 
 
     <bean id="ManageSOCView-GoButton" parent="Uif-SecondaryActionButton"
-          p:actionLabel="Go" p:methodToCall="buildModel" p:valign="bottom" p:ajaxSubmit="false"/>
+          p:actionLabel="Show" p:methodToCall="buildModel" p:valign="bottom" p:ajaxSubmit="false"/>
 
     <!--p:onClickScript="updateContextBar( null, 'KS-CourseOffering-View-ContextBar-PlaceHolder' );"-->
 

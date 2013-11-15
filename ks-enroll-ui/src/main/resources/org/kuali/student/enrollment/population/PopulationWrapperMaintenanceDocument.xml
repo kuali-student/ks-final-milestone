@@ -48,7 +48,7 @@
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Create Population" p:performClientSideValidation="true"
                       p:render="@{(maintenanceAction eq 'New') and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:id="button_createPopulation"/>
-                <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Update" p:performClientSideValidation="true"
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Update Population" p:performClientSideValidation="true"
                       p:render="@{(maintenanceAction eq 'Edit') and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:id="button_updatePopulation"/>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel"
                       p:id="link_cancelPopulation"
