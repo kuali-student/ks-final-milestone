@@ -66,14 +66,14 @@ public class SpringSecurityTest {
     }
 
     @Test
-    public void requiresAuthentication() throws Exception {
+    public void testDeepUrlRequiresAuthentication() throws Exception {
         mockMvc.perform(get("/some_deep_content"))
                 .andExpect(redirectedUrl("http://localhost/login.jsp"));
 
     }
 
     @Test
-    public void userAuthenticatesSuccessfully() throws Exception {
+    public void testUserAuthenticatesSuccessfully() throws Exception {
         final String username = "user";
         mockMvc.perform(post("/j_spring_security_check").param("j_username", username).param("j_password", "anything"))
                 .andExpect(redirectedUrl("/"))
