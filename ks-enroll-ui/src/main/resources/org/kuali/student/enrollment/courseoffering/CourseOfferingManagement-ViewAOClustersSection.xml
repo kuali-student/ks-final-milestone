@@ -138,10 +138,9 @@
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE" >
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-InquiryLink"
                                   p:propertyName="aoInfo.activityCode"
-                                  p:fieldLabel.render="false"
-                                  p:onClickScript="showLoading();" >
+                                  p:fieldLabel.render="false" >
                                 <property name="inquiry">
                                     <bean parent="KS-Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
                                 </property>

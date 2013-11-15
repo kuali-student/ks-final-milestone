@@ -121,11 +121,12 @@
                     <property name="label" value="Label"/>
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-DataField-Simple"
-                                  p:propertyName="courseOfferingCode"
-                                  p:onClickScript="showLoading();">
+                            <bean parent="KS-Uif-InquiryLink"
+                                  p:propertyName="courseOfferingCode">
                                 <property name="inquiry">
-                                    <bean parent="KS-Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"  p:inquiryParameters="courseOfferingId" />
+                                    <bean parent="KS-Uif-Inquiry"
+                                          p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"
+                                          p:inquiryParameters="courseOfferingId" />
                                 </property>
                             </bean>
                             <bean parent="Uif-ImageField" p:hidden="@{#lp.alternateCOCodes.isEmpty()}" p:image.altText="@{#lp.crossListedCodesUI}" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png">
