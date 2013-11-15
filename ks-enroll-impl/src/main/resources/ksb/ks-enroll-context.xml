@@ -92,8 +92,6 @@
 
     <bean id="coCodeTransform" class="org.kuali.student.enrollment.class2.courseoffering.service.criteria.transform.CourseOfferingCriteriaTransform"/>
 
-    <bean id="roleService" class="org.kuali.student.kim.permission.mock.RoleServiceMockImpl " />
-
 <!--    THIS SHOULD BE USED FOR ALL Info objects that extend ID or KeyEntity becuase they have name, descr, meta and attributes-->
     <bean id="defaultCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
         <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
