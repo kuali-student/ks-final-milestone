@@ -51,6 +51,8 @@ import java.util.List;
 /**
  * Fix under KSAP-265
  * UifControllerBase replaced by KsapControllerBase
+ *
+ * Controller for the Planner screen and its associated dialogs.
  */
 @Controller
 @RequestMapping(value = "/planner/**")
@@ -71,97 +73,16 @@ public class PlannerController extends KsapControllerBase {
 	private static final String MOVE_PLAN_ITEM_PAGE = "planner_move_plan_item_page";
 	private static final String DELETE_PLAN_ITEM_PAGE = "planner_delete_plan_item_page";
 
-	private void finishAddCourse(LearningPlan plan, PlannerForm form, Course course, String termId,
-			HttpServletResponse response) throws IOException, ServletException {
-		String newType = form.isBackup() ? PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP
-				: PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED;
-		Term term = KsapFrameworkServiceLocator.getTermHelper().getTerm(termId);
-        JsonObjectBuilder eventList = Json.createObjectBuilder();
-		PlanItem wishlistPlanItem = null;
-		List<PlanItem> existingPlanItems = form.getExistingPlanItems();
-		if (existingPlanItems != null)
-			for (PlanItem existingPlanItem : existingPlanItems) {
-				if (PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST.equals(existingPlanItem.getTypeKey())) {
-					wishlistPlanItem = existingPlanItem;
-					continue;
-				}
-
-				List<String> planPeriods = existingPlanItem.getPlanPeriods();
-				if (planPeriods != null && planPeriods.contains(termId)) {
-					PlanEventUtils.sendJsonEvents(false, "Course " + course.getCode() + " is already planned for "
-							+ form.getTerm().getName(), response, eventList);
-					return;
-				}
-			}
-
-		boolean create = wishlistPlanItem == null;
-		PlanItemInfo planItemInfo;
-		if (create) {
-			planItemInfo = new PlanItemInfo();
-			planItemInfo.setTypeKey(newType);
-			planItemInfo.setStateKey(PlanConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
-			planItemInfo.setLearningPlanId(plan.getId());
-		} else {
-			assert plan.getId().equals(wishlistPlanItem.getLearningPlanId()) : plan.getId() + " "
-					+ wishlistPlanItem.getLearningPlanId();
-            eventList = PlanEventUtils.makeRemoveEvent(form.getUniqueId(), wishlistPlanItem, eventList);
-			planItemInfo = new PlanItemInfo(wishlistPlanItem);
-		}
-
-		planItemInfo.setRefObjectId(course.getId());
-		planItemInfo.setRefObjectType(PlanConstants.COURSE_TYPE);
-		List<String> planPeriods = new ArrayList<String>(1);
-		planPeriods.add(termId);
-		planItemInfo.setPlanPeriods(planPeriods);
-
-		if (StringUtils.hasText(form.getCourseNote())) {
-			RichTextInfo descr = new RichTextInfo();
-			descr.setPlain(form.getCourseNote());
-			descr.setFormatted(form.getCourseNote());
-			planItemInfo.setDescr(descr);
-		} else
-			planItemInfo.setDescr(null);
-		planItemInfo.setCredit(form.getCreditsForPlanItem(course));
-
-		try {
-			if (create) {
-				planItemInfo = KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItemInfo,
-						KsapFrameworkServiceLocator.getContext().getContextInfo());
-			} else {
-				planItemInfo = KsapFrameworkServiceLocator.getAcademicPlanService().updatePlanItem(
-						planItemInfo.getId(), planItemInfo, KsapFrameworkServiceLocator.getContext().getContextInfo());
-			}
-		} catch (AlreadyExistsException e) {
-			LOG.warn("Course " + course.getCode() + " is already planned for " + term.getName(), e);
-			PlanEventUtils.sendJsonEvents(false,
-					"Course " + course.getCode() + " is already planned for " + term.getName(), response, eventList);
-			return;
-		} catch (DataValidationErrorException e) {
-			throw new IllegalArgumentException("LP service failure", e);
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("LP service failure", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("LP service failure", e);
-		} catch (DoesNotExistException e) {
-			throw new IllegalArgumentException("LP service failure", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("LP service failure", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("LP service failure", e);
-		}
-
-        eventList = PlanEventUtils.makeAddEvent(planItemInfo, eventList);
-        eventList = PlanEventUtils.updateTotalCreditsEvent(true, termId, eventList);
-
-		PlanEventUtils.sendJsonEvents(true, "Course " + course.getCode() + " added to plan for " + term.getName(),
-				response, eventList);
-	}
-
 	@Override
 	protected UifFormBase createInitialForm(HttpServletRequest request) {
 		return new PlannerFormImpl();
 	}
 
+    /**
+     * Entry point for the screen that handles setting up the form for the first display of the screen.
+     *
+     * Does not appear to be hit at any time.
+     */
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView startPlanner(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -177,13 +98,21 @@ public class PlannerController extends KsapControllerBase {
 		return getUIFModelAndView(uifForm);
 	}
 
+    /**
+     * Loads the Term information for the planner.
+     * Planner is loaded in two stages the first is the loading of the whole page with the calendar information blank.
+     * The second stage refreshes the calendar with js retreiveComponent(componentId, methodToCall) which hits here
+     * to load the calendar term data.
+     */
 	@RequestMapping(params = "methodToCall=load")
 	public ModelAndView loadPlanner(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		if (PlanItemControllerHelper.getAuthorizedLearningPlan(form, request, response) == null)
 			return null;
+        // Set form to load terms
         PlannerFormImpl newForm = (PlannerFormImpl) form;
         newForm.setLoadCalendar(true);
+
 		// Force loading of terms prior to rendering.
         newForm.getTerms();
 
@@ -194,11 +123,12 @@ public class PlannerController extends KsapControllerBase {
 		uifForm.setViewId(PLANNER_FORM);
 		uifForm.setView(super.getViewService().getViewById(PLANNER_FORM));
 
-
-
 		return getUIFModelAndView(uifForm);
 	}
 
+    /**
+     * Loads the initial information for any dialog screen opened in the planner.
+     */
 	@RequestMapping(params = "methodToCall=startDialog")
 	public ModelAndView startDialog(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -211,8 +141,10 @@ public class PlannerController extends KsapControllerBase {
 		super.start(uifForm, result, request, response);
 
 		String pageId = uifForm.getPageId();
-		boolean quickAdd = ADD_COURSE_PAGE.equals(pageId) || EDIT_TERM_NOTE_PAGE.equals(pageId);
-		if (quickAdd) {
+
+        // If screen is add course or edit term note valid term information is needed
+		boolean termRequired = ADD_COURSE_PAGE.equals(pageId) || EDIT_TERM_NOTE_PAGE.equals(pageId);
+		if (termRequired) {
 			String termId = form.getTermId();
 			Term term = form.getTerm();
 			if (term == null) {
@@ -221,8 +153,10 @@ public class PlannerController extends KsapControllerBase {
 			}
 		}
 
+        // If screen is course summary or copy course valid course information is needed
 		boolean courseRequired = COURSE_SUMMARY_PAGE.equals(pageId) || COPY_COURSE_PAGE.equals(pageId);
 
+        // Retrieve plan item information if an id is returned
 		boolean hasPlanItem = form.getPlanItemId() != null;
 		if (hasPlanItem) {
 			PlanItem planItem = PlanItemControllerHelper.getValidatedPlanItem(form, request, response);
@@ -231,12 +165,14 @@ public class PlannerController extends KsapControllerBase {
 
 			form.populateFromPlanItem();
 
-		} else if (!quickAdd && !courseRequired) {
+		} else if (!termRequired && !courseRequired) {
+            // If term or course information are not required then a plan item should be found.
 			LOG.warn("Missing plan item for loading page " + pageId);
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing plan item for loading page " + pageId);
 			return null;
 		}
 
+        // Retrieve course information if possible
 		Course course = form.getCourse();
 		if (course == null && courseRequired) {
 			LOG.warn("Missing course for summary " + pageId);
@@ -250,6 +186,10 @@ public class PlannerController extends KsapControllerBase {
 		return getUIFModelAndView(uifForm);
 	}
 
+    /**
+     * Handles submissions from the term note dialog.
+     * Formats and updates the term's note in the database.
+     */
 	@RequestMapping(method = RequestMethod.POST, params = "view.currentPageId=" + EDIT_TERM_NOTE_PAGE)
 	public ModelAndView editTermNote(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -264,19 +204,13 @@ public class PlannerController extends KsapControllerBase {
 			return null;
 		}
 
+        // Format the text submitted by the user.
 		String termId = form.getTermId();
-		// SCT-6247 - allow planning for prior terms for IU Roadmap
-		// If this restriction needs to be restored for KSAP, than it should be done by configuration
-		// and not as a forced default.
-		//		if (!form.isPlanning()) {
-		//			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Term " + termId + " is not open for planning");
-		//			return null;
-		//		}
-
 		String termNote = form.getTermNote();
 		if (termNote != null)
 			termNote = KsapStringUtil.replaceSmartCharacters(termNote);
 
+        // Retrieve the list of term notes for this plan.
 		CommentService commentService = KsapFrameworkServiceLocator.getCommentService();
 		List<CommentInfo> commentInfos;
 		try {
@@ -294,16 +228,21 @@ public class PlannerController extends KsapControllerBase {
 			throw new IllegalStateException("Comment lookup failure", e);
 		}
 
-		boolean found = false;
+
+        // Create replacement rich text with new term note
 		RichTextInfo newNote = new RichTextInfo();
 		newNote.setFormatted(termNote);
 		newNote.setPlain(termNote);
+
+        // Search for existing term note for that term.
+        boolean found = false;
 		for (CommentInfo comment : commentInfos) {
 			String commentAtpId = comment.getAttributeValue(PlanConstants.TERM_NOTE_COMMENT_ATTRIBUTE_ATPID);
 			if (termId.equals(commentAtpId)) {
 				found = true;
 				comment.setCommentText(newNote);
 				try {
+                    // If existing note is found replace the rich text and update it in the database.
 					commentService.updateComment(comment.getId(), comment, KsapFrameworkServiceLocator.getContext()
 							.getContextInfo());
 				} catch (DataValidationErrorException e) {
@@ -326,6 +265,8 @@ public class PlannerController extends KsapControllerBase {
 				break;
 			}
 		}
+
+        // If no existing note is found create new term note and save it to the database
 		if (!found) {
 			CommentInfo newComment = new CommentInfo();
 			newComment.setCommentText(newNote);
@@ -358,29 +299,29 @@ public class PlannerController extends KsapControllerBase {
 				throw new IllegalStateException("Comment lookup failure", e);
 			}
 		}
+
+        // Create Json strings for displaying action's response and updating the planner screen.
         JsonObjectBuilder eventList = Json.createObjectBuilder();
         eventList = PlanEventUtils.updateTermNoteEvent(uniqueId, termNote, eventList);
 		PlanEventUtils.sendJsonEvents(true, null, response, eventList);
 		return null;
 	}
 
+    /**
+     * Handles submissions from the quick add course dialog.
+     * Validates the course and addes it to the students plan.
+     */
 	@RequestMapping(method = RequestMethod.POST, params = "view.currentPageId=" + ADD_COURSE_PAGE)
 	public ModelAndView addPlanItem(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
+        // Retrieve student's plan
 		LearningPlan plan = PlanItemControllerHelper.getAuthorizedLearningPlan(form, request, response);
         JsonObjectBuilder eventList = Json.createObjectBuilder();
 		if (plan == null)
 			return null;
 
 		String termId = form.getTermId();
-		// SCT-6247 - allow planning for prior terms for IU Roadmap
-		// If this restriction needs to be restored for KSAP, than it should be done by configuration
-		// and not as a forced default.
-		//		if (!form.isPlanning()) {
-		//			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Term " + termId + " is not open for planning");
-		//			return null;
-		//		}
 
 		String courseCd = form.getCourseCd();
 		if (!StringUtils.hasText(courseCd)) {
@@ -388,6 +329,7 @@ public class PlannerController extends KsapControllerBase {
 			return null;
 		}
 
+        // Retrieve course information using the course code entered by the user
 		Course course;
 		try {
 			List<Course> courses = KsapFrameworkServiceLocator.getCourseHelper().getCoursesByCode(courseCd);
@@ -402,37 +344,42 @@ public class PlannerController extends KsapControllerBase {
 			return null;
 		}
 
+        // Add the course to the plan
 		finishAddCourse(plan, form, course, termId, response);
 		return null;
 	}
 
+    /**
+     * Handles the submissions from the copy course dialog (when copying from a completed plan item).
+     * Copies the course for a plan item into a new item under a new term.
+     */
 	@RequestMapping(method = RequestMethod.POST, params = "view.currentPageId=" + COPY_COURSE_PAGE)
 	public ModelAndView copyCourse(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
+        // Retrieve the student's plan
 		LearningPlan plan = PlanItemControllerHelper.getAuthorizedLearningPlan(form, request, response);
 		if (plan == null)
 			return null;
 
 		String termId = form.getTargetTermId();
-		// SCT-6247 - allow planning for prior terms for IU Roadmap
-		// If this restriction needs to be restored for KSAP, than it should be done by configuration
-		// and not as a forced default.
-		//		if (!KsapFrameworkServiceLocator.getTermHelper().isPlanning(termId)) {
-		//			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Term " + termId + " is not open for planning");
-		//			return null;
-		//		}
 
+        // Retrieve Coure information
 		Course course = form.getCourse();
 		if (course == null) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Course " + form.getCourseId() + " not found");
 			return null;
 		}
 
+        // Add course to plan
 		finishAddCourse(plan, form, course, termId, response);
 		return null;
 	}
 
+    /**
+     * Handles the submissions from the edit plan item dialog.
+     * Changes the information for a single plan item.
+     */
 	@RequestMapping(method = RequestMethod.POST, params = "view.currentPageId=" + EDIT_PLAN_ITEM_PAGE)
 	public ModelAndView editPlanItem(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -441,7 +388,7 @@ public class PlannerController extends KsapControllerBase {
 		boolean creditEdited = false;
 		boolean notesEdited = false;
 		boolean newNoteFlag = false;
-		
+
 		if (expectedTermId == null) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing term ID");
 			return null;
@@ -451,15 +398,17 @@ public class PlannerController extends KsapControllerBase {
 		if (planItem == null)
 			return null;
 
-		
-		
 		PlanItemInfo planItemInfo = new PlanItemInfo(planItem);
 		RichTextInfo previousDescr = planItemInfo.getDescr();
 		if (StringUtils.hasText(form.getCourseNote())) {
+
+            // Copy new course note into the plan item
 			RichTextInfo descr = new RichTextInfo();
 			descr.setPlain(form.getCourseNote());
 			descr.setFormatted(form.getCourseNote());
 			planItemInfo.setDescr(descr);
+
+            // Determine if course note has been edited
 			String oldFormatted = previousDescr.getFormatted();
 			String newFormatted = descr.getFormatted();
 			if(!newFormatted.equals(oldFormatted)){
@@ -480,7 +429,8 @@ public class PlannerController extends KsapControllerBase {
 		BigDecimal newCredit = planItemInfo.getCredit();
 		
 		LOG.debug("In PlannerController: newCredit is " + newCredit);
-		
+
+        // Determine if Credit has be changed
 		if (oldCredit == null) {
 			if (newCredit != null)
 				creditEdited = true;
@@ -490,6 +440,7 @@ public class PlannerController extends KsapControllerBase {
 			}
 		}
 
+        // Update the plan item in the database
 		try {
 			planItemInfo = KsapFrameworkServiceLocator.getAcademicPlanService().updatePlanItem(planItemInfo.getId(),
 					planItemInfo, KsapFrameworkServiceLocator.getContext().getContextInfo());
@@ -508,9 +459,13 @@ public class PlannerController extends KsapControllerBase {
 		} catch (PermissionDeniedException e) {
 			throw new IllegalStateException("LP service failure", e);
 		}
+
+        // Construct json events for updating the planner screen
         JsonObjectBuilder eventList = Json.createObjectBuilder();
         eventList = PlanEventUtils.updatePlanItemCreditsEvent(form.getUniqueId(), planItemInfo, eventList);
         eventList = PlanEventUtils.updateTotalCreditsEvent(true, planItemInfo.getPlanPeriods().get(0), eventList);
+
+        // Create json strings for displaying action's response and send those updating the planner screen.
 		if(notesEdited && creditEdited){
 			PlanEventUtils.sendJsonEvents(true, "Changes to the notes and credits for " + form.getTerm().getName() +" "+ form.getCourse().getCode() +" is saved", response, eventList);
 		}else if (notesEdited){
@@ -527,25 +482,27 @@ public class PlannerController extends KsapControllerBase {
 		return null;
 	}
 
+    /**
+     * Handles the submissions from the copy plan item dialog.
+     * Copies the course for a plan item into a new item under a new term.
+     */
 	@RequestMapping(method = RequestMethod.POST, params = "view.currentPageId=" + COPY_PLAN_ITEM_PAGE)
 	public ModelAndView copyPlanItem(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
+        // Retrieve student's plan.
 		LearningPlan plan = PlanItemControllerHelper.getAuthorizedLearningPlan(form, request, response);
 		if (plan == null)
 			return null;
 
+        // Retrieve plan item to be copied
 		PlanItem planItem = PlanItemControllerHelper.getValidatedPlanItem(form, request, response);
 		if (planItem == null)
 			return null;
 
 		String termId = form.getTargetTermId();
-		// SCT-6247 allow planning for prior terms
-		//		if (!KsapFrameworkServiceLocator.getTermHelper().isPlanning(termId)) {
-		//			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Term " + termId + " is not open for planning");
-		//			return null;
-		//		}
 
+        // Retrieve course information
 		Course course = form.getCourse();
 		if (course == null) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Course " + form.getCourseId() + " not found");
@@ -553,12 +510,18 @@ public class PlannerController extends KsapControllerBase {
 		}
 		assert course.getId().equals(planItem.getRefObjectId());
 
+        // Populate addition information need to add a plan item from the one to copy.
 		form.populateFromPlanItem();
 
+        // Add the course to the plan
 		finishAddCourse(plan, form, course, termId, response);
 		return null;
 	}
 
+    /**
+     * Handles the submissions from the move plan item dialog.
+     * Changes the term that an existing plan item is in to another one.
+     */
 	@RequestMapping(method = RequestMethod.POST, params = "view.currentPageId=" + MOVE_PLAN_ITEM_PAGE)
 	public ModelAndView movePlanItem(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -570,23 +533,22 @@ public class PlannerController extends KsapControllerBase {
 		}
 
 		String termId = form.getTargetTermId();
-		// SCT-6247 - allow planning for prior terms
-		// If this is needed in KSAP, then a
-		//		if (!KsapFrameworkServiceLocator.getTermHelper().isPlanning(termId)) {
-		//			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Term " + termId + " is not open for planning");
-		//			return null;
-		//		}
+
+        // Retrieve term information
 		Term term = KsapFrameworkServiceLocator.getTermHelper().getTerm(termId);
 
+        // Retrieve plan item information
 		PlanItem planItem = PlanItemControllerHelper.getValidatedPlanItem(form, request, response);
 		if (planItem == null)
 			return null;
 
+        // Replaces the existing term information with the new term
 		PlanItemInfo planItemInfo = new PlanItemInfo(planItem);
 		List<String> planPeriods = new ArrayList<String>(1);
 		planPeriods.add(termId);
 		planItemInfo.setPlanPeriods(planPeriods);
 
+        // Save updated plan item
 		try {
 			planItemInfo = KsapFrameworkServiceLocator.getAcademicPlanService().updatePlanItem(planItemInfo.getId(),
 					planItemInfo, KsapFrameworkServiceLocator.getContext().getContextInfo());
@@ -605,6 +567,8 @@ public class PlannerController extends KsapControllerBase {
 		} catch (PermissionDeniedException e) {
 			throw new IllegalStateException("LP service failure", e);
 		}
+
+        // Create json strings for displaying action's response and updating the planner screen.
         JsonObjectBuilder eventList = Json.createObjectBuilder();
         eventList = PlanEventUtils.makeRemoveEvent(form.getUniqueId(), planItem, eventList);
         eventList = PlanEventUtils.makeAddEvent(planItemInfo, eventList);
@@ -615,6 +579,10 @@ public class PlannerController extends KsapControllerBase {
 		return null;
 	}
 
+    /**
+     * Handles the submissions from the delete plan dialog.
+     * Removes a plan item from a students plan and deletes it from the database.
+     */
 	@RequestMapping(method = RequestMethod.POST, params = "view.currentPageId=" + DELETE_PLAN_ITEM_PAGE)
 	public ModelAndView deletePlanItem(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -626,10 +594,12 @@ public class PlannerController extends KsapControllerBase {
 		}
 		Term term = KsapFrameworkServiceLocator.getTermHelper().getTerm(expectedTermId);
 
+        // Retrieve valid plan item
 		PlanItem planItem = PlanItemControllerHelper.getValidatedPlanItem(form, request, response);
 		if (planItem == null)
 			return null;
 
+        // Delete plan item from the database
 		try {
 			KsapFrameworkServiceLocator.getAcademicPlanService().deletePlanItem(planItem.getId(),
 					KsapFrameworkServiceLocator.getContext().getContextInfo());
@@ -644,6 +614,8 @@ public class PlannerController extends KsapControllerBase {
 		} catch (PermissionDeniedException e) {
 			throw new IllegalStateException("LP service failure", e);
 		}
+
+        // Create json strings for displaying action's response and updating the planner screen.
         JsonObjectBuilder eventList = Json.createObjectBuilder();
         eventList = PlanEventUtils.makeRemoveEvent(form.getUniqueId(), planItem, eventList);
         eventList = PlanEventUtils.updateTotalCreditsEvent(true, term.getId(), eventList);
@@ -652,18 +624,26 @@ public class PlannerController extends KsapControllerBase {
 		return null;
 	}
 
+    /**
+     * Handles changing a plan item's type.
+     * Changes a plan item from its current type (planned, backup) to a new type (planned, backup)
+     */
 	@RequestMapping(method = RequestMethod.POST, params = "methodToCall=updatePlanItemType")
 	public ModelAndView updatePlanItemType(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
+        // Retrieve a valid plan item
 		PlanItem planItem = PlanItemControllerHelper.getValidatedPlanItem(form, request, response);
 		if (planItem == null)
 			return null;
 
 		PlanItemInfo planItemInfo = new PlanItemInfo(planItem);
+
+        // Set the new type for the item
 		planItemInfo.setTypeKey(form.isBackup() ? PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP
 				: PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
 
+        // Update the plan item in the database.
 		try {
 			planItemInfo = KsapFrameworkServiceLocator.getAcademicPlanService().updatePlanItem(planItemInfo.getId(),
 					planItemInfo, KsapFrameworkServiceLocator.getContext().getContextInfo());
@@ -682,6 +662,8 @@ public class PlannerController extends KsapControllerBase {
 		} catch (PermissionDeniedException e) {
 			throw new IllegalStateException("LP service failure", e);
 		}
+
+        // Create json strings for displaying action's response and updating the planner screen.
         JsonObjectBuilder eventList = Json.createObjectBuilder();
         eventList = PlanEventUtils.makeRemoveEvent(form.getUniqueId(), planItem, eventList);
         eventList = PlanEventUtils.makeAddEvent(planItemInfo, eventList);
@@ -689,5 +671,111 @@ public class PlannerController extends KsapControllerBase {
 		PlanEventUtils.sendJsonEvents(true, "Course " + form.getCourse().getCode() + " updated", response, eventList);
 		return null;
 	}
+
+    /**
+     * Helps with adding courses to the student's plan.
+     * Creates a new or retrieves an existing learning plan item and fills in the proper information before
+     * saving it to the database.
+     * @param plan - The student's learning plan
+     * @param form - Form containing all information entered for the new plan item
+     * @param course - Course plan item is being created for
+     * @param termId - Id of the term course is being added to
+     * @param response - Service response object
+     * @throws IOException -
+     * @throws ServletException
+     */
+    private void finishAddCourse(LearningPlan plan, PlannerForm form, Course course, String termId,
+                                 HttpServletResponse response) throws IOException, ServletException {
+        String newType = form.isBackup() ? PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP
+                : PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED;
+        Term term = KsapFrameworkServiceLocator.getTermHelper().getTerm(termId);
+        JsonObjectBuilder eventList = Json.createObjectBuilder();
+        PlanItem wishlistPlanItem = null;
+
+        // Get list of existing plan items
+        List<PlanItem> existingPlanItems = form.getExistingPlanItems();
+        if (existingPlanItems != null)
+            for (PlanItem existingPlanItem : existingPlanItems) {
+                // If item has no term then record it
+                if (PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST.equals(existingPlanItem.getTypeKey())) {
+                    wishlistPlanItem = existingPlanItem;
+                    continue;
+                }
+
+                // Check if course is already offered in that term
+                List<String> planPeriods = existingPlanItem.getPlanPeriods();
+                if (planPeriods != null && planPeriods.contains(termId)) {
+                    PlanEventUtils.sendJsonEvents(false, "Course " + course.getCode() + " is already planned for "
+                            + form.getTerm().getName(), response, eventList);
+                    return;
+                }
+            }
+
+        // If item is in wishlist use existing entry instead of creating new.
+        boolean create = wishlistPlanItem == null;
+        PlanItemInfo planItemInfo;
+        if (create) {
+            planItemInfo = new PlanItemInfo();
+            planItemInfo.setTypeKey(newType);
+            planItemInfo.setStateKey(PlanConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
+            planItemInfo.setLearningPlanId(plan.getId());
+        } else {
+            assert plan.getId().equals(wishlistPlanItem.getLearningPlanId()) : plan.getId() + " "
+                    + wishlistPlanItem.getLearningPlanId();
+            eventList = PlanEventUtils.makeRemoveEvent(form.getUniqueId(), wishlistPlanItem, eventList);
+            planItemInfo = new PlanItemInfo(wishlistPlanItem);
+        }
+
+        // Fill in course information
+        planItemInfo.setRefObjectId(course.getId());
+        planItemInfo.setRefObjectType(PlanConstants.COURSE_TYPE);
+        List<String> planPeriods = new ArrayList<String>(1);
+        planPeriods.add(termId);
+        planItemInfo.setPlanPeriods(planPeriods);
+
+        if (StringUtils.hasText(form.getCourseNote())) {
+            RichTextInfo descr = new RichTextInfo();
+            descr.setPlain(form.getCourseNote());
+            descr.setFormatted(form.getCourseNote());
+            planItemInfo.setDescr(descr);
+        } else
+            planItemInfo.setDescr(null);
+        planItemInfo.setCredit(form.getCreditsForPlanItem(course));
+
+        try {
+            if (create) {
+                // If creating new add it to the database
+                planItemInfo = KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItemInfo,
+                        KsapFrameworkServiceLocator.getContext().getContextInfo());
+            } else {
+                // If using wish list item update it
+                planItemInfo = KsapFrameworkServiceLocator.getAcademicPlanService().updatePlanItem(
+                        planItemInfo.getId(), planItemInfo, KsapFrameworkServiceLocator.getContext().getContextInfo());
+            }
+        } catch (AlreadyExistsException e) {
+            LOG.warn("Course " + course.getCode() + " is already planned for " + term.getName(), e);
+            PlanEventUtils.sendJsonEvents(false,
+                    "Course " + course.getCode() + " is already planned for " + term.getName(), response, eventList);
+            return;
+        } catch (DataValidationErrorException e) {
+            throw new IllegalArgumentException("LP service failure", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("LP service failure", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("LP service failure", e);
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("LP service failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("LP service failure", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalStateException("LP service failure", e);
+        }
+
+        // Create json strings for displaying action's response and updating the planner screen.
+        eventList = PlanEventUtils.makeAddEvent(planItemInfo, eventList);
+        eventList = PlanEventUtils.updateTotalCreditsEvent(true, termId, eventList);
+        PlanEventUtils.sendJsonEvents(true, "Course " + course.getCode() + " added to plan for " + term.getName(),
+                response, eventList);
+    }
 
 }

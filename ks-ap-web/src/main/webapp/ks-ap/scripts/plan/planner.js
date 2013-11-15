@@ -1,5 +1,12 @@
-// KSAP 0.7.5 refactored planner scripts
+// Javascripts for the KSAP Module Planner Page.
 
+/**
+ * Loads the items for the Planner Calendar.
+ * If they are already loaded initializes events and base settings for the planner.
+ *
+ * @param loaded - Boolean on whether the plan items have already been loaded or not
+ * @param pageSize - The number of terms to display for each view of the calender.
+ */
 function ksapLoadPlannerItems(loaded,pageSize) {
     if(!loaded){
         retrieveComponent('planner_courses_detail','load');
@@ -8,6 +15,11 @@ function ksapLoadPlannerItems(loaded,pageSize) {
     }
 }
 
+/**
+ * Initialize the Carousel settings for the calender and any additional settings or events needed.
+ *
+ * @param pageSize - The number of terms to display for each view of the calender.
+ */
 function ksapInitializePlannerItems(pageSize) {
 	var detailList = jQuery('#planner_courses_detail_list');
 	var detailCols = detailList.find('ul:not(.errorLines) li');
@@ -39,10 +51,14 @@ function ksapInitializePlannerItems(pageSize) {
 			}
 		});
 	}
-	/*ksapPlannerCreateTooltips();*/
     registerClosePopups();
 }
 
+/**
+ * Updates the calendar title information when the views are changed
+ *
+ * @param a
+ */
 function ksapPlannerUpdateTitle(a) {
 	var aFirst = jQuery.trim(jQuery(a[0]).find(
 			"div:hidden[id^='plan_base_atpId']").text());
@@ -52,6 +68,15 @@ function ksapPlannerUpdateTitle(a) {
 			.html(aFirst + ' - ' + aLast);
 }
 
+/**
+ * Sets up and opens a dialog in the planner
+ *
+ * @param pageId - Id for the page being displayed
+ * @param action - The controller mapping to use
+ * @param methodToCall - The identifier for the method being mapped to
+ * @param target - The html object its being opened on
+ * @param e - Current event going on.
+ */
 function ksapPlannerOpenDialog(pageId, action, methodToCall, target, e) {
 	var t = jQuery(target);
 	var retrieveData = {
@@ -79,6 +104,10 @@ function ksapPlannerOpenDialog(pageId, action, methodToCall, target, e) {
 	form.attr("accept-charset", "UTF-8");
 }
 
+/**
+ * Sets up and submits a dialog to the controller.
+ * @param e - Current even going on
+ */
 function ksapPlannerSubmitDialog(e) {
 	var button = jQuery(e.currentTarget);
 
@@ -115,6 +144,13 @@ function ksapPlannerSubmitDialog(e) {
 
 }
 
+/**
+ * Sets up and executes moving a plan item from on type to another
+ *
+ * @param backup - Is the item being moved to backup
+ * @param target - The html object its being called on
+ * @param e - Current event going on
+ */
 function ksapPlannerUpdateType(backup, target, e) {
 	var t = jQuery(target);
 	var retrieveData = ksapAdditionalFormData({
@@ -145,8 +181,15 @@ function ksapPlannerUpdateType(backup, target, e) {
 	});
 }
 
+/**
+ * Routes json responses from the controller executing the corresponding events to change the display of the planner page.
+ * @param response - Json string from the controller with events
+ * @param textStatus - Text status to display if error occurs
+ * @param jqXHR - Page status.
+ */
 function ksapPlannerUpdateEvent(response, textStatus, jqXHR) {
 	if (response.success) {
+        // Execute changes to the planner
 		for (var key in response) {
 			if (!response.hasOwnProperty(key))
 				continue;
@@ -170,12 +213,14 @@ function ksapPlannerUpdateEvent(response, textStatus, jqXHR) {
 			}
 		}
 
+        // Display success response message in growl message
 		if (response.message != null) {
 			showGrowl(response.message);
 		}
 		fnClosePopup();
 
 	} else {
+        // Display error response message on dialog
 		var feedback = jQuery("#popupForm").find(".myplan-feedback");
 		feedback.empty().append("<span/>").text(response.message);
 		feedback.addClass("error");
@@ -184,6 +229,12 @@ function ksapPlannerUpdateEvent(response, textStatus, jqXHR) {
 	}
 }
 
+/**
+ * Adds an html object into the calendar by copying a hidden template copy
+ * and filling in placeholders with the needed data
+ *
+ * @param data - Data for the new object
+ */
 function ksapPlannerAddPlanItem (data) {
     var item = jQuery("#planner_item_template").html();
     for (var key in data)
@@ -215,11 +266,21 @@ function ksapPlannerAddPlanItem (data) {
     		});
 }
 
+/**
+ * Changes the displayed value for an plan item's html credit text.
+ *
+ * @param data - Data for the new credit value
+ */
 function ksapPlannerUpdatePlanItem (data) {
     var item = jQuery("#" + data.uniqueId);
     item.find(".credit span").text(data.credit);
 }
 
+/**
+ * Removes a plan item html object from the calendar
+ *
+ * @param data - Data needed to removed the object
+ */
 function ksapPlannerRemovePlanItem (data) {
     jQuery("#" + data.uid).fadeOut(250, function(){
         jQuery(this).remove();
@@ -235,6 +296,11 @@ function ksapPlannerRemovePlanItem (data) {
     });
 }
 
+/**
+ * Changes the displayed value for a term section's html credit text.
+ *
+ * @param data - Data needed to removed the object
+ */
 function ksapPlannerUpdateCredits (data) {
     var planbucket = jQuery(".myplan-term-planned." + data.termId);
     var planunitcell = planbucket.find(".myplan-carousel-term-total");
@@ -249,6 +315,11 @@ function ksapPlannerUpdateCredits (data) {
     });
 }
 
+/**
+ * Changes the displayed value for a term's html note text
+ *
+ * @param data - Data needed to removed the object
+ */
 function ksapPlannerUpdateTermNote (data) {
     jQuery("#"+data.uniqueId+"_termnote_message_span").fadeOut(250, function() {
     	if (data.termNote == null || data.termNote == "") {
@@ -259,44 +330,9 @@ function ksapPlannerUpdateTermNote (data) {
     });
 }
 
-function ksapPlannerCreateTooltips() {
-	var options = {
-	        position: 'top',
-	        align: 'left',
-	        alwaysVisible: false,
-	        tail: {
-	            align: 'left',
-	            hidden: false
-	        },
-	        themeMargins: {total:'22px', difference:'10px'},
-	        themeName: 'black',
-	        selectable: true,
-	        width: '250px',
-	        closingDelay: 500,
-	        manageMouseEvents: false
-	    };
-	jQuery(".ks-Plan-helpimage").hover(function () {
-		var t = jQuery(this);
-        if (!t.IsBubblePopupOpen()) {
-        	if (!t.hasClass("uif-tooltip")) {
-        		t.addClass("uif-tooltip");
-        	    initBubblePopups();
-        	}
-        	var tip = jQuery("<div/>");
-        	tip.addClass("ks-Tooltip");
-        	tip.text(t.data("helptext"));
-        	
-            t.SetBubblePopupOptions(options, true);
-            t.SetBubblePopupInnerHtml(jQuery("<div/>").append(tip).html(), true);
-            t.ShowBubblePopup();
-        }
-    }, function (event) {
-		var t = jQuery(this);
-	    if (t.IsBubblePopupOpen()) {
-	    	t.HideBubblePopup();
-	    }
-    });
-}
+/**
+ * Registers an event handler clicking on the page to close tooltips unless the target is suppose to open one instead.
+ */
 function registerClosePopups(){
     jQuery(document).on('click', function (e) {
         var tempTarget = (e.target) ? e.target : e.srcElement;

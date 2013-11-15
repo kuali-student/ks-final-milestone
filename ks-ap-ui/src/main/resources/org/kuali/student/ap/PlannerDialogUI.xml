@@ -29,7 +29,9 @@
 			</list>
 		</property>
 	</bean>
-	
+
+    <!-- Dialog Pages -->
+
 	<bean id="planner_dialog_page" parent="KSAP-PopoverPage" abstract="true">
 		<property name="items">
 			<list>
@@ -78,7 +80,7 @@
 		</property>
 	</bean>
 
-  <bean id="planner_edit_term_note_page" parent="planner_dialog_page">
+    <bean id="planner_edit_term_note_page" parent="planner_dialog_page">
 		<property name="id" value="planner_edit_term_note_page" />
 		<property name="innerViewWrapperId" value="planner_edit_term_note_inner" />
 		<property name="headerText" value="Edit @{term.name} term note" />
@@ -112,7 +114,7 @@
 		</property>
 	</bean>
 
-  <bean id="planner_course_summary_page" parent="KSAP-PopoverPage">
+    <bean id="planner_course_summary_page" parent="KSAP-PopoverPage">
 		<property name="id" value="planner_course_summary_page" />
 		<property name="innerViewWrapperId" value="planner_course_summary_inner" />
 		<property name="headerText" value="View course summary" />
@@ -403,7 +405,9 @@
 		</property>
 	</bean>
 
-	<bean id="planner_hidden_input" parent="Uif-InputField" abstract="true">
+	<!-- Dialog Input Components-->
+
+    <bean id="planner_hidden_input" parent="Uif-InputField" abstract="true">
 		<property name="hidden" value="true" />
 		<property name="control">
 			<bean parent="Uif-HiddenControl" />
@@ -455,18 +459,6 @@
  			</bean>
  		</property>
  	</bean>
-
-	<!--<bean id="planner_course_credit_input" parent="planner_dialog_input">
-		<property name="propertyName" value="courseCredit" />
-		<property name="label" value="Credits" />
-		<property name="instructionalText"
-			value="Optional, for courses with a variable number of credits." />
-		<property name="control">
-			<bean parent="Uif-DropdownControl" />
-		</property>
-
-		<property name ="render"  value="@{variableCredit}"/>
-	</bean>-->
 
 	<bean id="planner_course_note_input" parent="planner_dialog_input">
 		<property name="additionalCssClasses" value="ks-plan-Note" />
