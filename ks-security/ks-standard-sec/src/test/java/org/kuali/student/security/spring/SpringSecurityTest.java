@@ -30,12 +30,15 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * This class provides tests for Spring Security Configuration
@@ -67,14 +70,41 @@ public class SpringSecurityTest {
 
     @Test
     public void testDeepUrlRequiresAuthentication() throws Exception {
+        // for any deep content, we expect a redirect because of spring security
         mockMvc.perform(get("/some_deep_content"))
                 .andExpect(redirectedUrl("http://localhost/login.jsp"));
 
     }
 
     @Test
+    public void testNoSecurityForUnauthenticatedContent() throws Exception {
+        List<String> pathsToTest = Arrays.asList("/logout.html",
+                "/services/A",
+                "/favicon.ico",
+                "/login.jsp",
+                "/index.jsp",
+                "/a.css",
+                "/b.js",
+                "/c.png",
+                "/d.gif",
+                "/e.jpg",
+                "/themes/ksboot/theme-derived.properties");
+
+        // for each of the tested paths, we expect no security at all.
+        // Content will be 404 Not Found as we are only testing Spring Security and not
+        // the MVC layer
+        for (String path : pathsToTest) {
+            mockMvc.perform(get(path))
+                    .andExpect(status().isNotFound());
+        }
+    }
+
+    @Test
     public void testUserAuthenticatesSuccessfully() throws Exception {
         final String username = "user";
+
+        // when supplying a username (with any password), we expect a redirect to /
+        // furthermore, after authentication, principal should now be present in session
         mockMvc.perform(post("/j_spring_security_check").param("j_username", username).param("j_password", "anything"))
                 .andExpect(redirectedUrl("/"))
                 .andExpect(new ResultMatcher() {
