@@ -367,10 +367,11 @@ a {
   margin-left: 8px;
 }
 
-/** This class is assigned to individual action and action navigation links.
+/** Make sure each flavor of action link doesn't wrap.
     Since action links are used in lots of places limit this styling to items which are in fieldsets. */
 fieldset .uif-navigationActionLink,
-fieldset .uif-actionLink {
+fieldset .uif-actionLink,
+fieldset .uif-smallActionButton {
   display: inline-block;
   white-space: nowrap;
   /* Floating the links causes wrapping if the window gets too small. */
