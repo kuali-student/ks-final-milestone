@@ -29,48 +29,48 @@ strong {
 td.jquerybubblepopup-innerHtml {
 	background-color : white;
 }
-.myplan-view h1,
-.myplan-view h2,
-.myplan-view h3,
-.myplan-view h4,
-.myplan-view h5,
-.myplan-view h6 {
+.ksap-view h1,
+.ksap-view h2,
+.ksap-view h3,
+.ksap-view h4,
+.ksap-view h5,
+.ksap-view h6 {
     font-weight: 500;
     font-family: Arial, Helvetica, Verdana, sans-serif;
     text-transform: none;
 }
 
-.myplan-view h1.uif-headerText {
+.ksap-view h1.uif-headerText {
     font-size: 2.3077em;
     line-height: 1.3333em;
 }
 
-.myplan-view h2.uif-headerText {
+.ksap-view h2.uif-headerText {
     font-size: 1.8462em;
     line-height: 1.6667em;
 }
 
-.myplan-view h3.uif-headerText {
+.ksap-view h3.uif-headerText {
     font-size: 1.3846em;
     line-height: 1.1111em;
 }
 
-.myplan-view h4.uif-headerText {
+.ksap-view h4.uif-headerText {
     font-size: 1.1538em;
     line-height: 1.3333em;
 }
 
-.myplan-view h5.uif-headerText {
+.ksap-view h5.uif-headerText {
     font-size: 1em;
     line-height: 1.5385em;
 }
 
-.myplan-view h6.uif-headerText {
+.ksap-view h6.uif-headerText {
     font-size: 0.9231em;
     line-height: 1.6667em;
 }
 
-.myplan-view table.dataTable thead th.sorting_disabled {
+.ksap-view table.dataTable thead th.sorting_disabled {
     cursor: default;
 }
 
@@ -128,7 +128,7 @@ a:focus {
 
 #applicationHeading,
 #applicationNavigation,
-.myplan-view,
+.ksap-view,
 #applicationFooterSection {
     margin: 0 auto;
     width: 950px;
@@ -146,7 +146,7 @@ a:focus {
     /*color: #FFFFFF;*/
 }
 
-.myplan-view {
+.ksap-view {
     min-height: 600px;
 }
 
@@ -297,11 +297,11 @@ a:focus {
     border: none;
 }
 
-.myplan-view .uif-pageHeader {
+.ksap-view .uif-pageHeader {
     margin: 0 0 1em 0;
 }
 
-.myplan-view #Uif-ViewContentWrapper {
+.ksap-view #Uif-ViewContentWrapper {
     /*min-height: 450px;*/
 }
 
@@ -328,56 +328,56 @@ a:focus {
 }
 
 /* Overwrite KRAD Styles ########################################################################### */
-.myplan-view #Uif-PageContentWrapper,
-.myplan-view #viewfooter_div {
+.ksap-view #Uif-PageContentWrapper,
+.ksap-view #viewfooter_div {
     margin: 0;
     padding: 0;
     width: auto;
     clear: both;
 }
 
-.myplan-view #Uif-Navigation {
+.ksap-view #Uif-Navigation {
     display: none;
 }
 
-.myplan-view .uif-pageHeaderField .uif-header {
+.ksap-view .uif-pageHeaderField .uif-header {
     border: none;
     font-size: 1.8462em;
     line-height: 1.6667em;
     padding: 0;
 }
 
-.myplan-view .kr-breadcrumbs {
+.ksap-view .kr-breadcrumbs {
     margin: 0 0 1em 0;
     padding: 0;
     width: auto;
     clear: both;
 }
 
-.myplan-view .uif-boxLayoutVerticalItem,
+.ksap-view .uif-boxLayoutVerticalItem,
 .base-view .uif-boxLayoutVerticalItem,
 .jquerybubblepopup .uif-boxLayoutVerticalItem {
     margin: 0 0 10px 0;
 }
 
-.myplan-view .uif-boxLayoutHorizontalItem,
+.ksap-view .uif-boxLayoutHorizontalItem,
 .base-view .uif-boxLayoutHorizontalItem,
 .jquerybubblepopup .uif-boxLayoutHorizontalItem {
     margin: 0 10px 0 0;
 }
 
-.myplan-view .uif-instructionalMessage {
+.ksap-view .uif-instructionalMessage {
     max-width: none;
     font-size: 1em;
 }
 
-.myplan-view .uif-collectionGroup > div:nth-child(2) {
+.ksap-view .uif-collectionGroup > div:nth-child(2) {
     padding: 0;
     margin: 0;
 }
 
-.myplan-view .uif-stackedCollectionLayout,
-.myplan-view .uif-stackedCollectionLayout > .uif-collectionItem {
+.ksap-view .uif-stackedCollectionLayout,
+.ksap-view .uif-stackedCollectionLayout > .uif-collectionItem {
     padding: 0;
     margin: 0;
     background: none;
@@ -1685,16 +1685,16 @@ table.ksap-course-search-results-datatable .blockUI {
 }
 */
 
-.myplan-view .myplan-underline-header {
+.ksap-view .myplan-underline-header {
     border-bottom: solid 2px #f2e4b7;
     margin-bottom: 20px;
 }
 
-.myplan-view .myplan-underline-header .uif-headerText {
+.ksap-view .myplan-underline-header .uif-headerText {
     font-weight: 700;
 }
 
-.myplan-view .myplan-course-detail-label {
+.ksap-view .myplan-course-detail-label {
     width: 150px;
     margin-right: 20px;
 }
@@ -1712,7 +1712,7 @@ table.ksap-course-search-results-datatable .blockUI {
     margin: 0 0 0 10px;
 }
 
-.myplan-view .myplan-course-detail-field {
+.ksap-view .myplan-course-detail-field {
     width: 500px;
     margin: 0;
 }

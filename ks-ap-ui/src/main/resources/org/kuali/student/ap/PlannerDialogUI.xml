@@ -13,7 +13,7 @@
 		<property name="onSubmitScript" value="ksapPlannerSubmitDialog(e);" />
 		<property name="cssClasses">
 			<list merge="true">
-				<value>myplan-view</value>
+				<value>ksap-view</value>
 			</list>
 		</property>
 		<property name="items">

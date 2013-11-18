@@ -112,7 +112,7 @@ function ksapPlannerSubmitDialog(e) {
 	var button = jQuery(e.currentTarget);
 
 	button.block({
-		message : '<img src="../ks-myplan/images/btnLoader.gif"/>',
+		message : '<img src="../ks-ap/images/btnLoader.gif"/>',
 		css : {
 			width : '100%',
 			border : 'none',

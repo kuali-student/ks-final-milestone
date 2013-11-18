@@ -31,7 +31,7 @@ limitations under the License.
         <property name="header.render" value="false"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-view</value>
+                <value>ksap-view</value>
             </list>
         </property>
         <property name="items">

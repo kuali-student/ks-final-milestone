@@ -34,7 +34,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="singlePageView" value="true"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-view</value>
+                <value>ksap-view</value>
             </list>
         </property>
         <property name="header">

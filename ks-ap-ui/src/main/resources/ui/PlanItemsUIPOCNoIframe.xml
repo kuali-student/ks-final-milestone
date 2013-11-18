@@ -28,7 +28,7 @@
         <property name="id" value="PlannedCourses-FormView-POC-Same-View"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-view</value>
+                <value>ksap-view</value>
                 <value>ks-plan-View</value>
             </list>
         </property>
