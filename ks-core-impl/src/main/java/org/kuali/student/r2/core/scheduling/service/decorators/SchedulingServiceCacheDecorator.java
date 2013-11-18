@@ -20,7 +20,6 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.RoomServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
-import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
@@ -28,13 +27,11 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestDisplayInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.transformer.ScheduleDisplayTransformer;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -301,7 +298,7 @@ public class SchedulingServiceCacheDecorator extends SchedulingServiceDecorator 
     public ScheduleDisplayInfo getScheduleDisplay(String scheduleId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         ScheduleInfo scheduleInfo = getSchedule(scheduleId, contextInfo);
         ScheduleDisplayInfo scheduleDisplayInfo =
-                ScheduleDisplayTransformer.schedule2scheduleDisplay(scheduleInfo, atpService, roomService, this, contextInfo);
+                ScheduleDisplayTransformer.schedule2scheduleDisplay(scheduleInfo, getAtpService(), getRoomService(), this, contextInfo);
         return scheduleDisplayInfo;
     }
 
@@ -314,7 +311,7 @@ public class SchedulingServiceCacheDecorator extends SchedulingServiceDecorator 
         if (scheduleInfoList != null) {
             for (ScheduleInfo info: scheduleInfoList) {
                 ScheduleDisplayInfo scheduleDisplayInfo =
-                        ScheduleDisplayTransformer.schedule2scheduleDisplay(info, atpService, roomService, this, contextInfo);
+                        ScheduleDisplayTransformer.schedule2scheduleDisplay(info, getAtpService(), getRoomService(), this, contextInfo);
                 displayInfoList.add(scheduleDisplayInfo);
             }
         }
