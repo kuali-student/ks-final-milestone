@@ -48,9 +48,9 @@ public class CreditsFacetTest {
 
         CreditsFacet facet = new CreditsFacet();
         facet.process(course);
-        assertTrue(course.getCreditsFacetKey().contains(";1;"));
-        assertTrue(course.getCreditsFacetKey().contains(";3;"));
-        assertTrue(course.getCreditsFacetKey().length() == 6);
+        assertTrue(course.getCreditsFacetKey().contains("1"));
+        assertTrue(course.getCreditsFacetKey().contains("3"));
+        assertTrue(course.getCreditsFacetKey().length() == 2);
     }
 
     @Test
@@ -62,10 +62,10 @@ public class CreditsFacetTest {
 
         CreditsFacet facet = new CreditsFacet();
         facet.process(course);
-        assertTrue(course.getCreditsFacetKey().contains(";1;"));
-        assertTrue(course.getCreditsFacetKey().contains(";2;"));
-        assertTrue(course.getCreditsFacetKey().contains(";3;"));
-        assertTrue(course.getCreditsFacetKey().length() == 9);
+        assertTrue(course.getCreditsFacetKey().contains("1"));
+        assertTrue(course.getCreditsFacetKey().contains("2"));
+        assertTrue(course.getCreditsFacetKey().contains("3"));
+        assertTrue(course.getCreditsFacetKey().length() == 3);
     }
 
     @Test
@@ -77,6 +77,6 @@ public class CreditsFacetTest {
 
         CreditsFacet facet = new CreditsFacet();
         facet.process(course);
-        assertEquals(";1;", course.getCreditsFacetKey());
+        assertEquals("1", course.getCreditsFacetKey());
     }
 }

@@ -32,6 +32,6 @@ public class CourseLevelFacetTest {
 		CourseSearchItemImpl course = new CourseSearchItemImpl();
 		course.setLevel("500");
 		facet.process(course);
-		assertEquals(course.getCourseLevelFacetKey(), ";500;");
+		assertEquals(course.getCourseLevelFacetKey(), "500");
 	}
 }
