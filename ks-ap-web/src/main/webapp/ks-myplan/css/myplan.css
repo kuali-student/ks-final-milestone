@@ -1047,7 +1047,7 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
 }
 
 .myplan-feedback,
-.myplan-status {
+.ksap-status {
     padding: 4px 0px;
     display: block;
     float: left;
@@ -1058,7 +1058,7 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     position: relative;
 }
 
-.myplan-status {
+.ksap-status {
     padding: 8px;
     border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -1082,30 +1082,30 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     color: #333;
 }
 
-.myplan-status.success {
+.ksap-status.success {
     border-color: #d9ffde;
     background-color: #f4fdf5;
 }
 
-.myplan-status.info {
+.ksap-status.info {
     border-color: #daeaff;
     background-color: #f4f8fd;
 }
 
-.myplan-status.error {
+.ksap-status.error {
     border-color: #fcd5e4;
     background-color: #fce9f1;
 }
 
-.myplan-status.alert {
+.ksap-status.alert {
     border-color: #feea49;
     background-color: #faf5ca;
 }
 
 .myplan-feedback img.icon,
-.myplan-status img.icon,
+.ksap-status img.icon,
 .myplan-feedback .icon .uif-image,
-.myplan-status .icon .uif-image {
+.ksap-status .icon .uif-image {
     background: url('../images/myplan_icon_sprites.png') no-repeat -1000px -1000px;
     width: 18px;
     height: 18px;
@@ -1124,35 +1124,35 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     margin-left: 23px;
 }
 
-.myplan-status .message {
+.ksap-status .message {
     margin-left: 26px;
 }
 
 .myplan-feedback.success img.icon,
-.myplan-status.success img.icon,
+.ksap-status.success img.icon,
 .myplan-feedback.success .icon .uif-image,
-.myplan-status.success .icon .uif-image {
+.ksap-status.success .icon .uif-image {
     background-position: 0px -115px;
 }
 
 .myplan-feedback.info img.icon,
-.myplan-status.info img.icon,
+.ksap-status.info img.icon,
 .myplan-feedback.info .icon .uif-image,
-.myplan-status.info .icon .uif-image {
+.ksap-status.info .icon .uif-image {
     background-position: -18px -115px;
 }
 
 .myplan-feedback.error img.icon,
-.myplan-status.error img.icon,
+.ksap-status.error img.icon,
 .myplan-feedback.error .icon .uif-image,
-.myplan-status.error .icon .uif-image {
+.ksap-status.error .icon .uif-image {
     background-position: -36px -115px;
 }
 
 .myplan-feedback.alert img.icon,
-.myplan-status.alert img.icon,
+.ksap-status.alert img.icon,
 .myplan-feedback.alert .icon .uif-image,
-.myplan-status.alert .icon .uif-image {
+.ksap-status.alert .icon .uif-image {
     background-position: -54px -115px;
 }
 
@@ -2467,11 +2467,11 @@ label.scheduled {
     padding: 5px 10px;
 }
 
-.myplan-audit-report iframe.blockUI {
+.ksap-audit-report iframe.blockUI {
     display: none !important;
 }
 
-.myplan-audit-report .blockUI.blockOverlay {
+.ksap-audit-report .blockUI.blockOverlay {
     background-color: #fff;
     opacity: .85 !important;
     -moz-opacity: .85 !important;
@@ -2479,12 +2479,12 @@ label.scheduled {
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=85)" !important;
 }
 
-.myplan-audit-report .blockUI.blockMsg.blockElement {
+.ksap-audit-report .blockUI.blockMsg.blockElement {
     left: 0px !important;
     top: 0px !important;
 }
 
-.myplan-audit-report .blockUI.blockMsg.blockElement .icon {
+.ksap-audit-report .blockUI.blockMsg.blockElement .icon {
     position: absolute;
     top: 30px;
     left: 30px;
@@ -2492,16 +2492,16 @@ label.scheduled {
     height: 32px;
 }
 
-.myplan-audit-report .blockUI.blockMsg.blockElement .heading {
+.ksap-audit-report .blockUI.blockMsg.blockElement .heading {
     font-size: 1.25em;
     margin-bottom: 20px;
 }
 
-.myplan-audit-report .blockUI.blockMsg.blockElement .heading .programName {
+.ksap-audit-report .blockUI.blockMsg.blockElement .heading .programName {
     font-weight: bold;
 }
 
-.myplan-audit-report pre a {
+.ksap-audit-report pre a {
     text-decoration: underline;
 }
 

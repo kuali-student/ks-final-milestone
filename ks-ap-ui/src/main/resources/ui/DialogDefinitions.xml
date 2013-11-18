@@ -225,7 +225,7 @@ limitations under the License.
                       p:render="@{planActivities ne null AND planActivities.size() gt 0}">
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>myplan-status</value>
+                            <value>ksap-status</value>
                             <value>info</value>
                         </list>
                     </property>
@@ -327,7 +327,7 @@ limitations under the License.
                       p:render="@{planActivities ne null AND planActivities.size() gt 0}">
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>myplan-status</value>
+                            <value>ksap-status</value>
                             <value>info</value>
                         </list>
                     </property>
@@ -436,7 +436,7 @@ limitations under the License.
                       p:render="@{planActivities ne null AND planActivities.size() gt 0}">
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>myplan-status</value>
+                            <value>ksap-status</value>
                             <value>info</value>
                         </list>
                     </property>
@@ -1316,7 +1316,7 @@ limitations under the License.
                     <property name="validationMessages.render" value="false"/>
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>myplan-status</value>
+                            <value>ksap-status</value>
                             <value>info</value>
                         </list>
                     </property>

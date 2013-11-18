@@ -44,7 +44,7 @@
 <head>
 <link href="https://uwksdev01.cac.washington.edu/student/ks-myplan/css/audit.css" rel="stylesheet" type="text/css"/>
 </head>    
-<div class="myplan-audit-report">
+<div class="ksap-audit-report">
 	<h1>${dpTitle1?xml}</h1>   
 	<div class="audit-summary">
 		<div class="date-prepared">
@@ -134,7 +134,7 @@ headerline:
 
 	<#if sectionHeadingOpen = true>
 		</div>
-	    <div class="myplan-status info uif-boxLayoutVerticalItem all-reqs-filtered" style="margin-bottom:20px; float:none; display:none;">
+	    <div class="ksap-status info uif-boxLayoutVerticalItem all-reqs-filtered" style="margin-bottom:20px; float:none; display:none;">
 	        <img src="/student/ks-myplan/images/pixel.gif" alt="" class="icon"/>
 	        <div class="message">All requirements in this section have been hidden. See &quot;All Requirements&quot; for the full audit report.</div>
 	    </div>
@@ -156,7 +156,7 @@ headerline:
 
 	<#if sectionHeadingOpen = true>
 		</div>
-	    <div class="myplan-status info uif-boxLayoutVerticalItem all-reqs-filtered" style="margin-bottom:20px; float:none; display:none;">
+	    <div class="ksap-status info uif-boxLayoutVerticalItem all-reqs-filtered" style="margin-bottom:20px; float:none; display:none;">
 	        <img src="/student/ks-myplan/images/pixel.gif" alt="" class="icon"/>
 	        <div class="message">All requirements in this section have been hidden. See &quot;All Requirements&quot; for the full audit report.</div>
 	    </div>
@@ -171,7 +171,7 @@ headerline:
 	
 	<div class="section ${rname}"> 
 		<div class="heading"><#list req.titleLines as titleLine>${titleLine?replace("*", "")?replace("_","")?trim} </#list></div>
-        <div class="myplan-status info uif-boxLayoutVerticalItem all-reqs-filtered" style="margin-bottom:20px; float:none; display:none;">
+        <div class="ksap-status info uif-boxLayoutVerticalItem all-reqs-filtered" style="margin-bottom:20px; float:none; display:none;">
             <img src="/student/ks-myplan/images/pixel.gif" alt="" class="icon"/>
             <div class="message">All requirements in this section have been hidden. See &quot;All Requirements&quot; for the full audit report.</div>
         </div>
@@ -228,7 +228,7 @@ headerline:
 <#elseif ( req.headerLines?size > 2 )  > <#-- temporary fix for overly large headers, treat it as a requirement -->
 	<#if sectionHeadingOpen = true>
 		</div>
-	    <div class="myplan-status info uif-boxLayoutVerticalItem all-reqs-filtered" style="margin-bottom:20px; float:none; display:none;">
+	    <div class="ksap-status info uif-boxLayoutVerticalItem all-reqs-filtered" style="margin-bottom:20px; float:none; display:none;">
 	        <img src="/student/ks-myplan/images/pixel.gif" alt="" class="icon"/>
 	        <div class="message">All requirements in this section have been hidden. See &quot;All Requirements&quot; for the full audit report.</div>
 	    </div>
@@ -253,7 +253,7 @@ headerline:
 			</#if>
 		</#list>
 		</div>
-	    <div class="myplan-status info uif-boxLayoutVerticalItem all-reqs-filtered" style="margin-bottom:20px; float:none; display:none;">
+	    <div class="ksap-status info uif-boxLayoutVerticalItem all-reqs-filtered" style="margin-bottom:20px; float:none; display:none;">
 	        <img src="/student/ks-myplan/images/pixel.gif" alt="" class="icon"/>
 	        <div class="message">All requirements in this section have been hidden. See &quot;All Requirements&quot; for the full audit report.</div>
 	    </div>
@@ -277,7 +277,7 @@ headerline:
 				<option value="unmet">Unmet Requirements Only</option>
 			</select>
 		</div>
-        <div class="myplan-status alert uif-boxLayoutVerticalItem audit-filtered" style="margin-bottom:20px; float:none; display:none;">
+        <div class="ksap-status alert uif-boxLayoutVerticalItem audit-filtered" style="margin-bottom:20px; float:none; display:none;">
             <img src="/student/ks-myplan/images/pixel.gif" alt="" class="icon"/>
             <div class="message">You are viewing a partial degree audit report. See &quot;All Requirements&quot; for the full audit report.</div>
         </div>
@@ -297,7 +297,7 @@ headerline:
 
 	<#if sectionHeadingOpen = true>
 		</div>
-	    <div class="myplan-status info uif-boxLayoutVerticalItem all-reqs-filtered" style="margin-bottom:20px; float:none; display:none;">
+	    <div class="ksap-status info uif-boxLayoutVerticalItem all-reqs-filtered" style="margin-bottom:20px; float:none; display:none;">
 	        <img src="/student/ks-myplan/images/pixel.gif" alt="" class="icon"/>
 	        <div class="message">All requirements in this section have been hidden. See &quot;All Requirements&quot; for the full audit report.</div>
 	    </div>

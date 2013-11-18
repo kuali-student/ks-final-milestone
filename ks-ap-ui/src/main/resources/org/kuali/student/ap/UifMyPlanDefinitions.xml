@@ -554,7 +554,7 @@
     <bean id="course_adviser_actions_message" parent="Uif-VerticalBoxGroup">
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-status</value>
+                <value>ksap-status</value>
                 <value>info</value>
             </list>
         </property>
@@ -576,7 +576,7 @@
     <bean id="audit_adviser_actions_message" parent="Uif-VerticalBoxGroup">
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-status</value>
+                <value>ksap-status</value>
                 <value>info</value>
             </list>
         </property>
@@ -597,7 +597,7 @@
     <bean id="bookmark_adviser_actions_message" parent="Uif-VerticalBoxGroup">
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-status</value>
+                <value>ksap-status</value>
                 <value>info</value>
             </list>
         </property>

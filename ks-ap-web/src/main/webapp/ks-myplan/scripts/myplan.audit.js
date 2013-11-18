@@ -68,7 +68,7 @@ function initAuditActions() {
         var data = jQuery(this).val();
 
         //jQuery(".requirement").each(function() {
-        jQuery(".myplan-audit-report .requirement[class*='Status']").not(".Status_NONE").each(function() {
+        jQuery(".ksap-audit-report .requirement[class*='Status']").not(".Status_NONE").each(function() {
 
             //if (jQuery(this).hasClass(data) || data == 'all' || jQuery(this).hasClass("Status_NONE") || !jQuery(this).is("div[class*='Status']")) {
             if (data == 'unmet' && jQuery(this).hasClass("Status_OK")) {
@@ -78,7 +78,7 @@ function initAuditActions() {
             }
         });
 
-        var jAuditMessage = jQuery(".myplan-status.audit-filtered");
+        var jAuditMessage = jQuery(".ksap-status.audit-filtered");
         if (data == "all") {
             jAuditMessage.hide();
         } else {
@@ -86,7 +86,7 @@ function initAuditActions() {
         }
 
         jQuery(".section").each(function(){
-            var jSectionMessage = jQuery(this).find(".myplan-status.all-reqs-filtered");
+            var jSectionMessage = jQuery(this).find(".ksap-status.all-reqs-filtered");
             if (jQuery(this).find(".requirement:visible").length > 0) {
                 jSectionMessage.hide();
             } else {

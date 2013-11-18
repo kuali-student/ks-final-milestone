@@ -836,7 +836,7 @@ function truncateField(id, floated) {
 
 function indicateViewingAudit(id, type) {
     var open = false;
-    var currentAudit = jQuery("." + type + ".auditHtml .myplan-audit-report");
+    var currentAudit = jQuery("." + type + ".auditHtml .ksap-audit-report");
     var currentAuditId = currentAudit.attr("auditid");
 
     jQuery("#" + id + " .uif-collectionItem").not(".pending").each(function (index) {
@@ -1099,7 +1099,7 @@ function setPendingAudit(obj, minutes) {
         if (typeof data.recentAuditId === 'undefined') data.recentAuditId = '';
 
         if (data.programId != 'default') {
-            changeLoadingMessage('.myplan-audit-report', data.programName, data.auditType);
+            changeLoadingMessage('.ksap-audit-report', data.programName, data.auditType);
             jQuery.ajax({
                 url: "/student/myplan/audit/status",
                 data:{"programId":data.programId, "auditId":data.recentAuditId},
@@ -1174,7 +1174,7 @@ function pollPendingAudit(programId, recentAuditId, auditType) {
         success:function (response) {
             var growl = true;
             if (readUrlParam("viewId") == "DegreeAudit-FormView") {
-                growl = jQuery(".myplan-audit-report div.blockUI.blockMsg.blockElement").data("growl");
+                growl = jQuery(".ksap-audit-report div.blockUI.blockMsg.blockElement").data("growl");
                 if (readUrlParam(auditType + "Audit.auditId") != false) jQuery("body").on('AUDIT_COMPLETE', function (event, data) {
                     setUrlParam(auditType + "Audit.auditId", "");
                 });

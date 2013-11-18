@@ -80,7 +80,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		</property>
 		<property name="cssClasses">
 			<list merge="true">
-				<value>myplan-status</value>
+				<value>ksap-status</value>
 				<value>info</value>
 			</list>
 		</property>
@@ -186,7 +186,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		p:groupBeginDelimiter="" p:groupEndDelimiter="" p:linkSeparator="">
 		<property name="cssClasses">
 			<list merge="true">
-				<value>myplan-status</value>
+				<value>ksap-status</value>
 				<value>info</value>
 			</list>
 		</property>
