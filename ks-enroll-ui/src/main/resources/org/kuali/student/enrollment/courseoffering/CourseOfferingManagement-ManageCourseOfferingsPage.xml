@@ -122,13 +122,10 @@
                     <property name="items">
                         <list>
                             <bean parent="KS-Uif-InquiryLink"
-                                  p:propertyName="courseOfferingCode">
-                                <property name="inquiry">
-                                    <bean parent="KS-Uif-Inquiry"
-                                          p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"
-                                          p:inquiryParameters="courseOfferingId" />
-                                </property>
-                            </bean>
+                                  p:propertyName="courseOfferingCode"
+                                  p:inquiry.dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"
+                                  p:inquiry.inquiryParameters="courseOfferingId" />
+
                             <bean parent="Uif-ImageField" p:hidden="@{#lp.alternateCOCodes.isEmpty()}" p:image.altText="@{#lp.crossListedCodesUI}" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png">
                                 <property name="toolTip">
                                     <bean parent="Uif-KS-Tooltip" p:tooltipContent="@{#lp.crossListedCodesUI}"/>
@@ -144,7 +141,6 @@
                                     </list>
                                 </property>
                             </bean>
-
                         </list>
                     </property>
                 </bean>

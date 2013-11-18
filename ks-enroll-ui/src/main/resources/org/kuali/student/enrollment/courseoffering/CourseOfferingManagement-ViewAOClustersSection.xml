@@ -140,11 +140,10 @@
                         <list>
                             <bean parent="KS-Uif-InquiryLink"
                                   p:propertyName="aoInfo.activityCode"
-                                  p:fieldLabel.render="false" >
-                                <property name="inquiry">
-                                    <bean parent="KS-Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
-                                </property>
-                            </bean>
+                                  p:fieldLabel.render="false"
+                                  p:inquiry.dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"
+                                  p:inquiry.inquiryParameters="aoInfo.id" />
+
                             <bean parent="Uif-ImageField" p:hidden="@{#lp.hasRule eq false}"
                                   p:source="@{#ConfigProperties['ks.externalizable.images.url']}/ActivityRuleIcon6px.png">
                                 <property name="style" value="padding-left:3px padding-bottom:3px;"/>
