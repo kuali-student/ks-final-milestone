@@ -587,9 +587,9 @@ limitations under the License.
             <list>
                 <bean parent="KS-Uif-DataField" p:propertyName="holidayInfo.name" p:label="Name"/>
                 <bean parent="KS-Uif-DataField" p:propertyName="startDateUI" p:label="Start"
-                      p:cssClasses="acal-field" p:fieldLabel.style=""/>
+                      p:cssClasses="acal-field" p:fieldLabel.style="" p:id="startDate"/>
                 <bean parent="KS-Uif-DataField" p:propertyName="endDateUI" p:label="End"
-                      p:cssClasses="acal-field" p:fieldLabel.style=""/>
+                      p:cssClasses="acal-field" p:fieldLabel.style="" p:id="endDate"/>
                 <bean parent="KS-Uif-DataField" p:propertyName="holidayInfo.isInstructionalDay"
                       p:label="Instructional"
                       p:cssClasses="acal-field"
