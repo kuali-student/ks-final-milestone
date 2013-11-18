@@ -95,13 +95,13 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
         String coId = dataObjectKeys.get("refObjectId");
         dataObject.setRefObjectId(coId);
-        dataObject.setAgendas(this.getAgendasForRef(dataObject.getRefDiscriminatorType(), coId));
 
         //Retrieve the Clu information
         CourseOfferingInfo courseOffering = null;
         if (coId != null) {
             try {
                 courseOffering = this.getCourseOfferingService().getCourseOffering(coId, ContextUtils.createDefaultContextInfo());
+                dataObject.setAgendas(this.getAgendasForRef(dataObject.getRefDiscriminatorType(), coId, courseOffering.getCourseId()));
             } catch (Exception e) {
                 throw new RuntimeException("Could not retrieve course offering for " + coId);
             }
@@ -198,19 +198,13 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
     /**
      * Return the clu id from the canonical course that is linked to the given course offering id.
      *
-     * @param refObjectId - the course offering id.
+     * @param parentRefObjectId - the course offering id.
      * @return
      * @throws Exception
      */
     @Override
-    public List<ReferenceObjectBinding> getParentRefOjbects(String refObjectId) {
-        CourseOfferingInfo courseOffering = null;
-        try {
-            courseOffering = this.getCourseOfferingService().getCourseOffering(refObjectId, ContextUtils.createDefaultContextInfo());
-        } catch (Exception e) {
-            throw new RuntimeException("Could not retrieve course offering for " + refObjectId);
-        }
-        return this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseServiceConstants.REF_OBJECT_URI_COURSE, courseOffering.getCourseId());
+    public List<ReferenceObjectBinding> getParentRefOjbects(String parentRefObjectId) {
+        return this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseServiceConstants.REF_OBJECT_URI_COURSE, parentRefObjectId);
     }
 
     /**

@@ -85,8 +85,6 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
     private transient KSRuleViewTreeBuilder viewTreeBuilder;
     private transient NaturalLanguageHelper nlHelper;
 
-    private AlphaIterator alphaIterator = new AlphaIterator(StringUtils.EMPTY);
-
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
 
@@ -101,12 +99,10 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         ActivityOfferingInfo activityOffering = null;
         CourseOfferingInfo courseOffering = null;
         if (aoId != null) {
-
-            dataObject.setAgendas(this.getAgendasForRef(dataObject.getRefDiscriminatorType(), aoId));
-
             try {
                 activityOffering = this.getCourseOfferingService().getActivityOffering(aoId, ContextUtils.createDefaultContextInfo());
                 courseOffering = this.getCourseOfferingService().getCourseOffering(activityOffering.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+                dataObject.setAgendas(this.getAgendasForRef(dataObject.getRefDiscriminatorType(), aoId, activityOffering.getCourseOfferingId()));
             } catch (Exception e) {
                 throw new RuntimeException("Could not retrieve activity offering for " + aoId);
             }
@@ -213,19 +209,13 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
     /**
      * Return the clu id from the canonical course that is linked to the given Activity offering id.
      *
-     * @param refObjectId - the Activity offering id.
+     * @param parentRefObjectId - the Activity offering id.
      * @return
      * @throws Exception
      */
     @Override
-    public List<ReferenceObjectBinding> getParentRefOjbects(String refObjectId) {
-        ActivityOfferingInfo activityOfferingInfo = null;
-        try {
-            activityOfferingInfo = this.getCourseOfferingService().getActivityOffering(refObjectId, ContextUtils.createDefaultContextInfo());
-        } catch (Exception e) {
-            throw new RuntimeException("Could not retrieve activity offering for " + refObjectId);
-        }
-        return this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING, activityOfferingInfo.getCourseOfferingId());
+    public List<ReferenceObjectBinding> getParentRefOjbects(String parentRefObjectId) {
+        return this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING, parentRefObjectId);
     }
 
     /**
