@@ -33,7 +33,7 @@
 
         <property name="additionalScriptFiles">
             <list>
-                <value>ks-myplan/scripts/myplan.audit.js</value>
+                <value>ks-myplan/scripts/ksap.audit.js</value>
             </list>
         </property>
         <property name="additionalCssFiles">
