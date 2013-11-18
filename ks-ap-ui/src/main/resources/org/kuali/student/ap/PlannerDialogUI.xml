@@ -183,7 +183,7 @@
 						p:fieldLabel.cssClasses="fl-text-gray myplan-text-normal ks-Popover-detailLabel" p:labelPlacement="LEFT">
 					<property name="cssClasses">
 						<list merge="true">
-							<value>myplan-data-list</value>
+							<value>ksap-data-list</value>
 							<value>ks-Popover-detail</value>
 						</list>
 					</property>
@@ -208,7 +208,7 @@
 					<property name="propertyEditor" ref="terms_formatter"/>
 					<property name="cssClasses">
 						<list merge="true">
-							<value>myplan-data-list</value>
+							<value>ksap-data-list</value>
 							<value>ks-Popover-detail</value>
 						</list>
 					</property>
@@ -221,7 +221,7 @@
 					<property name="propertyEditor" ref="data_list_formatter"/>
 					<property name="cssClasses">
 						<list merge="true">
-							<value>myplan-data-list</value>
+							<value>ksap-data-list</value>
 							<value>myplan-multiline-ellipsis</value>
 							<value>ks-Popover-detail</value>
 						</list>

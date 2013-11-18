@@ -269,7 +269,7 @@
 			<map merge="true">
 				<entry key="oLanguage"
 					value="{
-							'sEmptyTable' : '&lt;div class=&quot;myplan-course-search-empty&quot;&gt;&lt;p class=&quot;fl-font-size-130&quot;&gt;We couldn\'t find anything matching your search.&lt;/p&gt;&lt;p&gt;A few suggestions:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Check your spelling&lt;/li&gt;&lt;li&gt;Try a more general search (Any quarter, ENGL 1xx)&lt;/li&gt;&lt;li&gt;Use at least 3 characters&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;',
+							'sEmptyTable' : '&lt;div class=&quot;ksap-course-search-empty&quot;&gt;&lt;p class=&quot;fl-font-size-130&quot;&gt;We couldn\'t find anything matching your search.&lt;/p&gt;&lt;p&gt;A few suggestions:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Check your spelling&lt;/li&gt;&lt;li&gt;Try a more general search (Any quarter, ENGL 1xx)&lt;/li&gt;&lt;li&gt;Use at least 3 characters&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;',
 							'sInfo' : 'Showing _START_-_END_ of _TOTAL_ results',
 							'sInfoEmpty' : '0 results found',
 							'sInfoFiltered' : '',
@@ -358,7 +358,7 @@
 			</list>
 		</property>
 		<property name="onDocumentReadyScript"
-			value="jQuery('.myplan-facets-group').each(function() {
+			value="jQuery('.ksap-facets-group').each(function() {
 	                jQuery(this)
 	                .subscribe('GENERATE_FACETS', function() {
 	                    fnGenerateFacetGroup(this);
@@ -376,7 +376,7 @@
 		</property>
 		<property name="cssClasses">
 			<list merge="true">
-				<value>myplan-facets-group</value>
+				<value>ksap-facets-group</value>
 			</list>
 		</property>
 	</bean>

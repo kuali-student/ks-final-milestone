@@ -325,7 +325,7 @@
                                   p:style="width:131px;" p:escapeHtmlInPropertyValue="false">
                                 <property name="cssClasses">
                                     <list merge="true">
-                                        <value>myplan-data-list</value>
+                                        <value>ksap-data-list</value>
                                         <value>fl-text-gray</value>
                                         <value>myplan-text-italic</value>
                                     </list>
@@ -362,7 +362,7 @@
                                 <property name="propertyEditor" ref="scheduled_terms_list_formatter_savedCourses"/>
                                 <property name="cssClasses">
                                     <list merge="true">
-                                        <value>myplan-data-list</value>
+                                        <value>ksap-data-list</value>
                                     </list>
                                 </property>
                             </bean>
@@ -383,7 +383,7 @@
                                 </property>
                                 <property name="cssClasses">
                                     <list merge="true">
-                                        <value>myplan-data-list</value>
+                                        <value>ksap-data-list</value>
                                     </list>
                                 </property>
                             </bean>
@@ -403,7 +403,7 @@
                                 <property name="propertyEditor" ref="data_list_formatter"/>
                                 <property name="cssClasses">
                                     <list merge="true">
-                                        <value>myplan-data-list</value>
+                                        <value>ksap-data-list</value>
                                     </list>
                                 </property>
                             </bean>

@@ -23,7 +23,7 @@ function ksapCourseSearchColumns() {
 		'bSortable' : true,
 		'bSearchable' : true,
 		'sTitle' : 'Code',
-		'sClass' : 'myplan-text-nowrap sortable',
+		'sClass' : 'ksap-text-nowrap sortable',
 		'sWidth' : '73px',
 		'sType' : 'string'
 	}, {
@@ -41,7 +41,7 @@ function ksapCourseSearchColumns() {
 		'bSortable' : false,
 		'bSearchable' : true,
 		'sTitle' : 'Terms Offered',
-		'sClass' : 'myplan-data-list',
+		'sClass' : 'ksap-data-list',
 		'sWidth' : '76px'
 	}, {
 		'bSortable' : false,
@@ -58,7 +58,7 @@ function ksapCourseSearchColumns() {
 }
 
 function ksapEmptyTable() {
-	return '<div class="myplan-course-search-empty"><p class="fl-font-size-130">We couldn&#39;t find anything matching your search.</p><p>A few suggestions:</p><ul><li>Check your spelling</li><li>Try a more general search (Any term, ENGL 1xx)</li><li>Use at least 3 characters</li></ul></div>'
+	return '<div class="ksap-course-search-empty"><p class="fl-font-size-130">We couldn&#39;t find anything matching your search.</p><p>A few suggestions:</p><ul><li>Check your spelling</li><li>Try a more general search (Any term, ENGL 1xx)</li><li>Use at least 3 characters</li></ul></div>'
 }
 
 function ksapGetCampusSelect() {
@@ -200,7 +200,7 @@ function searchForCourses(id, parentId) {
 							"sZeroRecords" : "0 results found"
 						},
 						sAjaxSource : 'course/search' + ksapGetSearchParams(),
-						sCookiePrefix : "myplan_",
+						sCookiePrefix : "ksap_",
 						sDom : "ilrtSp",
 						sPaginationType : "full_numbers"
 					});
@@ -226,7 +226,7 @@ function fnLoadFacets() {
 				success : function(data, textStatus, jqXHR) {
 					oFacets = data;
 					jQuery(
-							".myplan-facets-group .uif-disclosureContent .uif-boxLayout")
+							".ksap-facets-group .uif-disclosureContent .uif-boxLayout")
 							.each(function() {
 								jQuery(this).empty();
 							});
