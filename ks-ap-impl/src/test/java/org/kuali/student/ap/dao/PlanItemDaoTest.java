@@ -140,7 +140,7 @@ public class PlanItemDaoTest extends AbstractTransactionalDaoTest {
         assertNotNull(newPie);
         assertEquals(id, newPie.getId());
         assertEquals(learningPlanEntity.getId(), newPie.getLearningPlan().getId());
-        assertEquals(learningPlanEntity.getTypeId(), newPie.getTypeId());
+        assertEquals(pie.getTypeId(), newPie.getTypeId());
         assertEquals(pie.getRefObjectId(), newPie.getRefObjectId());
         assertEquals(pie.getRefObjectTypeKey(), newPie.getRefObjectTypeKey());
     }
@@ -170,7 +170,7 @@ public class PlanItemDaoTest extends AbstractTransactionalDaoTest {
         assertNotNull(newPie);
         assertEquals(id, newPie.getId());
         assertEquals(learningPlanEntity.getId(), newPie.getLearningPlan().getId());
-        assertEquals(learningPlanEntity.getTypeId(), newPie.getTypeId());
+        assertEquals(pie.getTypeId(), newPie.getTypeId());
         assertEquals(pie.getRefObjectId(), newPie.getRefObjectId());
         assertEquals(pie.getRefObjectTypeKey(), newPie.getRefObjectTypeKey());
 
@@ -205,7 +205,7 @@ public class PlanItemDaoTest extends AbstractTransactionalDaoTest {
         assertNotNull(newPie);
         assertEquals(id, newPie.getId());
         assertEquals(learningPlanEntity.getId(), newPie.getLearningPlan().getId());
-        assertEquals(learningPlanEntity.getTypeId(), newPie.getTypeId());
+        assertEquals(pie.getTypeId(), newPie.getTypeId());
         assertEquals(pie.getRefObjectId(), newPie.getRefObjectId());
         assertEquals(pie.getRefObjectTypeKey(), newPie.getRefObjectTypeKey());
 
