@@ -804,4 +804,15 @@
         </property>
     </bean>
 
+    <bean id="KS-Uif-AddLineAction" parent="Uif-SecondaryActionButton" p:methodToCall="addLine" p:actionLabel="Add"
+          p:actionEvent="addLine" p:loadingMessageText="Adding Line..." p:focusOnIdAfterSubmit="LINE_FIRST"
+          p:performClientSideValidation="true" p:dirtyOnAction="true" p:id="@{#collectionGroup.id}_add"/>
+
+    <bean id="KS-Uif-DeleteLineAction" parent="Uif-SecondaryActionButton" p:methodToCall="deleteLine"
+          p:actionLabel="Delete"
+          p:onMouseOverScript="deleteLineMouseOver(this, 'uif-collectionDeleteHighlight');"
+          p:onMouseOutScript="deleteLineMouseOut(this, 'uif-collectionDeleteHighlight');"
+          p:onClickScript="writeCurrentPageToSession(this);" p:dirtyOnAction="true"
+          p:loadingMessageText="Deleting Line..." p:id="@{#collectionGroup.id}_del@{#lineSuffix}"/>
+
 </beans>

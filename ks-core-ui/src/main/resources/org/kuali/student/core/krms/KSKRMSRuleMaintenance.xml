@@ -33,7 +33,7 @@ limitations under the License.
             <bean id="PropEditButtonPanel" parent="Uif-HorizontalBoxGroup">
                 <property name="items">
                     <list>
-                        <bean id="KS-RulePreview-Button" parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true">
+                        <bean id="KS-RulePreview-Button" parent="Uif-SecondaryActionButton" p:performClientSideValidation="true">
                             <property name="actionLabel" value="Preview Change"/>
                             <property name="actionScript" value="updateProposition('updateProposition', 'KRMS-RuleEditor-TreeGroup');"/>
                         </bean>
