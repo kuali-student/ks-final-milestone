@@ -78,6 +78,10 @@
             </list>
         </property>
 
+        <property name="onKeyPressScript">
+            <value>dismissEnterKeyAction();</value>
+        </property>
+
         <property name="topGroup">
             <bean id="CreateCOByCopy-ContextBar" parent="KS-CourseOffering-ContextBar" p:style="display:block;">
                 <property name="onDocumentReadyScript" value="setSeasonalColor('CreateCOByCopy-ContextBar', '@{#dp.contextBar.termDayOfYear}', '@{#ConfigProperties['application.url']}');"/>

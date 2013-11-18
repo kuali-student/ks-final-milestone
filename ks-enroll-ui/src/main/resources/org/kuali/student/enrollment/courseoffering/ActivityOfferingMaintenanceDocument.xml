@@ -97,6 +97,10 @@
                 <value>themes/ksboot/scripts/activity-offering.js</value>
             </list>
         </property>
+        <property name="onKeyPressScript">
+            <value>dismissEnterKeyAction();</value>
+        </property>
+
         <property name="page.id" value="ActivityOfferingEditPage"/>
 
         <!-- Buttons (cancel link, and controls related to the buttons) have to go in the view footer.
