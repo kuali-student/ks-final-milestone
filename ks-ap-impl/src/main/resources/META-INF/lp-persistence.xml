@@ -29,10 +29,12 @@
 		<class>org.kuali.student.r2.common.model.StateAttributeEntity</class>
 	  	<class>org.kuali.student.r2.common.model.StateProcessEntity</class>
  		<class>org.kuali.student.r2.common.model.StateProcessRelationEntity</class>
-        <class>org.kuali.student.r2.common.entity.TypeEntity</class>
         <class>org.kuali.student.r2.common.entity.TypeTypeRelationEntity</class>
         <class>org.kuali.student.r2.common.entity.TypeTypeRelationAttributeEntity</class>
          -->
+
+        <class>org.kuali.student.r2.common.class1.type.model.TypeEntity</class>
+        <class>org.kuali.student.r2.common.class1.type.model.TypeAttributeEntity</class>
 
         <class>org.kuali.student.ap.academicplan.model.LearningPlanEntity</class>
         <class>org.kuali.student.ap.academicplan.model.LearningPlanAttributeEntity</class>
