@@ -32,8 +32,8 @@ function ksapInitializePlannerItems(pageSize) {
 		}
 
 		detailList.jCarouselLite({
-			btnNext : '.myplan-carousel-next',
-			btnPrev : '.myplan-carousel-prev',
+			btnNext : '.ksap-carousel-next',
+			btnPrev : '.ksap-carousel-prev',
 			scroll : pageSize,
 			visible : pageSize,
 			start : iStart,
@@ -64,7 +64,7 @@ function ksapPlannerUpdateTitle(a) {
 			"div:hidden[id^='plan_base_atpId']").text());
 	var aLast = jQuery.trim(jQuery(a[a.length - 1]).find(
 			"div:hidden[id^='plan_base_atpId']").text());
-	jQuery("#planner_courses_detail .myplan-plan-header")
+	jQuery("#planner_courses_detail .ksap-plan-header")
 			.html(aFirst + ' - ' + aLast);
 }
 
@@ -221,7 +221,7 @@ function ksapPlannerUpdateEvent(response, textStatus, jqXHR) {
 
 	} else {
         // Display error response message on dialog
-		var feedback = jQuery("#popupForm").find(".myplan-feedback");
+		var feedback = jQuery("#popupForm").find(".ksap-feedback");
 		feedback.empty().append("<span/>").text(response.message);
 		feedback.addClass("error");
 		feedback.removeClass("success");

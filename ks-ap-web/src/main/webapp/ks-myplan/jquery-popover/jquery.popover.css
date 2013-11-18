@@ -107,7 +107,7 @@
 .jquerypopover-orange .jquerypopover-innerHtml,
 .jquerypopover-violet .jquerypopover-innerHtml,
 .jquerypopover-yellow .jquerypopover-innerHtml,
-.jquerypopover-myplan .jquerypopover-innerHtml {
+.jquerypopover-ksap .jquerypopover-innerHtml {
     font-weight: normal;
     color: #000000;
     background-color: #FFFFFF;
@@ -165,43 +165,43 @@
     margin-bottom: 1em;
 }
 
-.jquerypopover-myplan-help .jquerypopover-innerHtml,
-.jquerybubblepopup-myplan-help .jquerybubblepopup-innerHtml {
+.jquerypopover-ksap-help .jquerypopover-innerHtml,
+.jquerybubblepopup-ksap-help .jquerybubblepopup-innerHtml {
     color: #fff;
     font-size: 11px;
     line-height: 1.5em;
     padding: 5px;
-    background: url('jquerypopover-theme/myplan-help/innerHtml.png') repeat;
+    background: url('jquerypopover-theme/ksap-help/innerHtml.png') repeat;
 }
 
-.jquerypopover-myplan-help .jquerypopover-top-middle,
-.jquerypopover-myplan-help .jquerypopover-bottom-middle,
-.jquerybubblepopup-myplan-help .jquerybubblepopup-top-middle,
-.jquerybubblepopup-myplan-help .jquerybubblepopup-bottom-middle {
+.jquerypopover-ksap-help .jquerypopover-top-middle,
+.jquerypopover-ksap-help .jquerypopover-bottom-middle,
+.jquerybubblepopup-ksap-help .jquerybubblepopup-top-middle,
+.jquerybubblepopup-ksap-help .jquerybubblepopup-bottom-middle {
     height: 16px;
 }
 
-.jquerypopover-myplan-help .jquerypopover-middle-left,
-.jquerypopover-myplan-help .jquerypopover-middle-right,
-.jquerybubblepopup-myplan-help .jquerybubblepopup-middle-left,
-.jquerybubblepopup-myplan-help .jquerybubblepopup-middle-right {
+.jquerypopover-ksap-help .jquerypopover-middle-left,
+.jquerypopover-ksap-help .jquerypopover-middle-right,
+.jquerybubblepopup-ksap-help .jquerybubblepopup-middle-left,
+.jquerybubblepopup-ksap-help .jquerybubblepopup-middle-right {
     width: 16px;
 }
 
-.jquerypopover-myplan-help .jquerypopover-top-left,
-.jquerypopover-myplan-help .jquerypopover-top-right,
-.jquerypopover-myplan-help .jquerypopover-bottom-left,
-.jquerypopover-myplan-help .jquerypopover-bottom-right,
-.jquerybubblepopup-myplan-help .jquerybubblepopup-top-left,
-.jquerybubblepopup-myplan-help .jquerybubblepopup-top-right,
-.jquerybubblepopup-myplan-help .jquerybubblepopup-bottom-left,
-.jquerybubblepopup-myplan-help .jquerybubblepopup-bottom-right {
+.jquerypopover-ksap-help .jquerypopover-top-left,
+.jquerypopover-ksap-help .jquerypopover-top-right,
+.jquerypopover-ksap-help .jquerypopover-bottom-left,
+.jquerypopover-ksap-help .jquerypopover-bottom-right,
+.jquerybubblepopup-ksap-help .jquerybubblepopup-top-left,
+.jquerybubblepopup-ksap-help .jquerybubblepopup-top-right,
+.jquerybubblepopup-ksap-help .jquerybubblepopup-bottom-left,
+.jquerybubblepopup-ksap-help .jquerybubblepopup-bottom-right {
     width: 16px;
     height: 16px;
 }
 
-.jquerypopover-myplan-help .jquerypopover-innerHtml a,
-.jquerybubblepopup-myplan-help .jquerybubblepopup-innerHtml a {
+.jquerypopover-ksap-help .jquerypopover-innerHtml a,
+.jquerybubblepopup-ksap-help .jquerybubblepopup-innerHtml a {
     color: #9be4f9;
     text-decoration: underline;
 }

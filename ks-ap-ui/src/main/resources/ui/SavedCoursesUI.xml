@@ -532,7 +532,7 @@
             <list merge="true">
                 <value>fl-container-650</value>
                 <value>myplan-audit-info-panel</value>
-                <value>myplan-carousel-list</value>
+                <value>ksap-carousel-list</value>
             </list>
         </property>
         <property name="items">

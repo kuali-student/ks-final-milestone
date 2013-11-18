@@ -55,9 +55,9 @@
                                     <bean parent="Uif-VerticalBoxLayout"/>
                                 </property>
                                 <property name="onDocumentReadyScript" value="
-                                    if (jQuery.cookie('myplan_audit_running')) {
+                                    if (jQuery.cookie('ksap_audit_running')) {
                                         if (readUrlParam('degreeAudit.auditId') == false) {
-                                            var data = jQuery.parseJSON(decodeURIComponent(jQuery.cookie('myplan_audit_running')));
+                                            var data = jQuery.parseJSON(decodeURIComponent(jQuery.cookie('ksap_audit_running')));
                                             blockPendingAudit(data);
                                         }
                                     }
@@ -313,7 +313,7 @@
         <property name="items">
             <list>
                 <bean id="audit_info_header_1" parent="Uif-Message" p:style="padding: 5px;"
-                      p:cssClasses="fl-font-size-130 fl-text-gray fl-text-bold myplan-carousel-list">
+                      p:cssClasses="fl-font-size-130 fl-text-gray fl-text-bold ksap-carousel-list">
                     <property name="messageText" value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_TRACK_PROGRESS')}"/>
                 </bean>
                 <bean id="audit_info_text_1" parent="Uif-Message" p:style="padding: 5px;"
@@ -335,7 +335,7 @@
             <list merge="true">
                 <value>fl-container-300</value>
                 <value>myplan-audit-info-panel</value>
-                <value>myplan-carousel-list</value>
+                <value>ksap-carousel-list</value>
             </list>
         </property>
         <property name="items">
@@ -420,7 +420,7 @@
           p:actionLabel="Run Degree Audit"> <!-- audit_report_section degree_audit_block-->
         <property name="onClickScript" value="setPendingAudit(jQuery(this),2); setUrlHash('modified','yes'); changeLoadingMessage('.ksap-audit-report');"/>
         <property name="onDocumentReadyScript" value="
-            if (jQuery.cookie('myplan_audit_running')) {
+            if (jQuery.cookie('ksap_audit_running')) {
                 jQuery('button#degree_audit_run').attr('disabled', true);
             } else {
                 jQuery('button#degree_audit_run').attr('disabled', degreeAuditButton());

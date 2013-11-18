@@ -673,91 +673,91 @@ input.myplan-delete,
     top: 20px !important;
 }
 
-button.uif-primaryActionButton.myplan-carousel-prev,
-button.uif-primaryActionButton.myplan-carousel-next {
+button.uif-primaryActionButton.ksap-carousel-prev,
+button.uif-primaryActionButton.ksap-carousel-next {
     font-weight: bold;
     padding: 6px 14px;
 }
 
-button.uif-primaryActionButton.myplan-carousel-prev {
+button.uif-primaryActionButton.ksap-carousel-prev {
     -moz-border-radius: 15px 0px 0px 15px;
     -webkit-border-radius: 15px 0px 0px 15px;
     border-radius: 15px 0px 0px 15px;
 }
 
-button.uif-primaryActionButton.myplan-carousel-next {
+button.uif-primaryActionButton.ksap-carousel-next {
     -moz-border-radius: 0px 15px 15px 0px;
     -webkit-border-radius: 0px 15px 15px 0px;
     border-radius: 0px 15px 15px 0px;
 }
 
-button.uif-primaryActionButton.myplan-carousel-prev img,
-button.uif-primaryActionButton.myplan-carousel-next img {
+button.uif-primaryActionButton.ksap-carousel-prev img,
+button.uif-primaryActionButton.ksap-carousel-next img {
     width: 9px;
     height: 15px;
 }
 
-button.uif-primaryActionButton.myplan-carousel-prev img,
-button.uif-primaryActionButton.myplan-carousel-next img {
+button.uif-primaryActionButton.ksap-carousel-prev img,
+button.uif-primaryActionButton.ksap-carousel-next img {
     width: 9px;
     height: 15px;
     margin: 0;
     background: url('../images/myplan_icon_sprites.png') no-repeat;
 }
 
-button.uif-primaryActionButton.myplan-carousel-prev img {
+button.uif-primaryActionButton.ksap-carousel-prev img {
     background-position: 0px -100px;
 }
 
-button.uif-primaryActionButton.myplan-carousel-next img {
+button.uif-primaryActionButton.ksap-carousel-next img {
     background-position: -10px -100px;
 }
 
-button.uif-primaryActionButton.myplan-carousel-prev.disabled img {
+button.uif-primaryActionButton.ksap-carousel-prev.disabled img {
     background-position: -20px -100px;
 }
 
-button.uif-primaryActionButton.myplan-carousel-next.disabled img {
+button.uif-primaryActionButton.ksap-carousel-next.disabled img {
     background-position: -30px -100px;
 }
 
-.myplan-plan-header {
+.ksap-plan-header {
     text-align: center;
     width: 450px;
     font-size: 30px;
     line-height: 30px;
 }
 
-.myplan-carousel-list > .uif-headerField .uif-header {
+.ksap-carousel-list > .uif-headerField .uif-header {
     text-align: center;
 }
 
-.myplan-carousel-list {
+.ksap-carousel-list {
     overflow: hidden;
 }
 
-.myplan-carousel-list ul {
+.ksap-carousel-list ul {
     width: 20000em;
 }
 
-.myplan-carousel-list ul,
-.myplan-carousel-list ul li {
+.ksap-carousel-list ul,
+.ksap-carousel-list ul li {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-.myplan-carousel-list ul li {
+.ksap-carousel-list ul li {
     float: left;
 }
 
 /* Over Wrote in Planitemsui.xml */
-/*.myplan-carousel-list ul li > .uif-group {
+/*.ksap-carousel-list ul li > .uif-group {
     width: 147px;
     margin: 0 5px;
 }*/
 
-.myplan-carousel-list ul li > .uif-group > .uif-header {
+.ksap-carousel-list ul li > .uif-group > .uif-header {
     margin: 0;
     padding: 0;
     height: auto;
@@ -766,7 +766,7 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     border: none;
 }
 /* Tab header yellow */
-.myplan-carousel-list ul li > .uif-group > .uif-header h4 {
+.ksap-carousel-list ul li > .uif-group > .uif-header h4 {
     display: block;
     white-space: nowrap;
     text-align: center;
@@ -786,14 +786,14 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ede1c1', endColorstr='#efd89e');*/
 }
 
-.myplan-carousel-list ul li > .uif-group > .uif-header h4 .uif-headerText-span {
+.ksap-carousel-list ul li > .uif-group > .uif-header h4 .uif-headerText-span {
     color: #555;
     font-size: 13px;
     text-transform: uppercase;
     text-shadow: 0px 1px 0px #fcffff;
 }
 /*Planner Calendar other terms*/
-.myplan-carousel-list ul li > .uif-group.ksap-term-past > .uif-header h4 {
+.ksap-carousel-list ul li > .uif-group.ksap-term-past > .uif-header h4 {
     border: solid 1px #cccccc;
     background-color: #dedede;
    /* background-image: -ms-linear-gradient(top, #dedede 0%, #cccccc 100%);
@@ -805,7 +805,7 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dedede', endColorstr='#cccccc');*/
 }
 /* Planner Calendar current term */
-.myplan-carousel-list ul li > .uif-group.ksap-term-current > .uif-header h4 {
+.ksap-carousel-list ul li > .uif-group.ksap-term-current > .uif-header h4 {
     border: solid 1px #432f69;
     /*background-color: #5c428e;*/
     /*background-image: -ms-linear-gradient(top, #5c428e 0%, #3b295f 100%);*/
@@ -817,12 +817,12 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     /*filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5c428e', endColorstr='#3b295f');*/
 }
 
-.myplan-carousel-list ul li > .uif-group.ksap-term-current > .uif-header h4 .uif-headerText-span {
+.ksap-carousel-list ul li > .uif-group.ksap-term-current > .uif-header h4 .uif-headerText-span {
     color: #f9f7f7;
     text-shadow: 0px 1px 0px #000;
 }
 
-.myplan-carousel-list ul li > .uif-group > .uif-boxLayout {
+.ksap-carousel-list ul li > .uif-group > .uif-boxLayout {
     background: url('../images/bkgrdDotted.gif');
     min-height: 519px;
     border: solid 1px #dfdfdf;
@@ -832,13 +832,13 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     -moz-border-radius: 0px 0px 5px 5px;
 }
 
-.myplan-carousel-list ul li .uif-group .uif-stackedCollectionLayout {
+.ksap-carousel-list ul li .uif-group .uif-stackedCollectionLayout {
     overflow: hidden;
     background: none;
     padding: 0px;
 }
 
-.myplan-carousel-list ul li .uif-header {
+.ksap-carousel-list ul li .uif-header {
     padding: 0px 0px 0px 10px;
     height: 25px;
     line-height: 25px;
@@ -856,7 +856,7 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     margin-bottom: -1px;
 }
 
-.myplan-carousel-list ul li .uif-header h6.uif-headerText {
+.ksap-carousel-list ul li .uif-header h6.uif-headerText {
     color: #777;
     font-weight: normal;
     font-size: 12px;
@@ -864,23 +864,23 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     display: inline-block;
     text-transform: capitalize;
 }
-.myplan-carousel-list ul li .uif-tooltip h6.uif-headerText span{
+.ksap-carousel-list ul li .uif-tooltip h6.uif-headerText span{
     border-bottom: 1px dotted #777;
 }
 
-.myplan-carousel-list ul li .uif-header .uif-helpImage {
+.ksap-carousel-list ul li .uif-header .uif-helpImage {
     display: inline-block;
     vertical-align: middle;
     margin: 5px 0 0 5px;
 }
 
-.myplan-carousel-list ul li .ksap-carousel-term-total .uif-helpImage {
+.ksap-carousel-list ul li .ksap-carousel-term-total .uif-helpImage {
     display: inline-block;
     vertical-align: middle;
     margin: 5px 0 0 5px;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term .uif-header .uif-header-rightGroup {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-header .uif-header-rightGroup {
     position: relative;
     right: auto;
     top: auto;
@@ -889,35 +889,35 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     margin: 0 0 0 5px;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term .uif-header .uif-header-rightGroup img {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-header .uif-header-rightGroup img {
     margin: 0;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term .uif-header .uif-header-lowerGroup {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-header .uif-header-lowerGroup {
     display: inline-block;
     float: right;
     margin: 7px 0 0 0;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term .uif-header .uif-header-lowerGroup .myplan-registration-status {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-header .uif-header-lowerGroup .myplan-registration-status {
     width: 9px;
     height: 11px;
     background: url('../images/myplan_icon_sprites.png') no-repeat -1000px -1000px;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term .uif-header .uif-header-lowerGroup .myplan-registration-status.unlocked {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-header .uif-header-lowerGroup .myplan-registration-status.unlocked {
     background-position: -1px -134px;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term .uif-header .uif-header-lowerGroup .myplan-registration-status.locked {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-header .uif-header-lowerGroup .myplan-registration-status.locked {
     background-position: -12px -134px;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term.ksap-term-fixed-height .uif-stackedCollectionLayout {
+.ksap-carousel-list ul li .ksap-carousel-term.ksap-term-fixed-height .uif-stackedCollectionLayout {
     height: 208px;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem {
     margin: 1px 0 0 0;
     font-size: 0.8462em;
     padding: 0px;
@@ -925,58 +925,58 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     font-family: Helvetica, Arial, Verdana, sans-serif;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .code {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .code {
     color: #000;
 }
 
-.myplan-carousel-list ul li .ksap-term-past .uif-stackedCollectionLayout .uif-collectionItem .code {
+.ksap-carousel-list ul li .ksap-term-past .uif-stackedCollectionLayout .uif-collectionItem .code {
     color: #555;
 }
 
-.myplan-carousel-list ul li .ksap-term-past .uif-stackedCollectionLayout .uif-collectionItem .myplan-course-invalid .code {
+.ksap-carousel-list ul li .ksap-term-past .uif-stackedCollectionLayout .uif-collectionItem .myplan-course-invalid .code {
     color: #666;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .credit {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .credit {
     color: #888;
     margin-left: 5px;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .grade {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .grade {
     color: #777;
     font-weight: bold;
     float: right;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .ksap-course-valid,
-.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .myplan-course-invalid,
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .ksap-course-valid,
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .myplan-course-invalid,
 .quick-add-cell {
     height: 25px;
     line-height: 25px;
     padding: 0 5px 0 26px;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .schedule {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .schedule {
     padding: 0 5px 0 4px;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .ksap-course-valid.not-scheduled,
-.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .myplan-course-invalid.not-scheduled {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .ksap-course-valid.not-scheduled,
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .myplan-course-invalid.not-scheduled {
     background: url('../images/iconWarning.png') no-repeat 4px;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .schedule .schedule-status {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .schedule .schedule-status {
     margin-right: 4px;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .schedule-status img {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .schedule-status img {
     width: 18px;
     height: 18px;
     vertical-align: middle;
     background: url('../images/myplan_icon_sprites.png') no-repeat -1000px -1000px;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .schedule-status.not-scheduled img {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .schedule-status.not-scheduled img {
     background-position: -54px -115px;
 }
 
@@ -991,13 +991,13 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     font-family: Helvetica, Arial, Verdana, sans-serif;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .ksap-course-valid:hover,
-.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .quick-add-cell:hover {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .ksap-course-valid:hover,
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .quick-add-cell:hover {
     background-color: #e3f0fe;
     cursor: pointer;
 }
 
-.myplan-carousel-list .ksap-carousel-term-total {
+.ksap-carousel-list .ksap-carousel-term-total {
     /*background: #f6ebcd;*/
     /*color: #39275b;*/
     font-size: 12px;
@@ -1006,11 +1006,11 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     display: block;
     padding: 0 10px !important;
 }
-.myplan-carousel-list .ksap-carousel-term-total .ks-plan-Bucket-creditLabel span{
+.ksap-carousel-list .ksap-carousel-term-total .ks-plan-Bucket-creditLabel span{
     border-bottom: 1px dotted #777;
 }
 
-.myplan-carousel-list .ksap-carousel-term-total .credits {
+.ksap-carousel-list .ksap-carousel-term-total .credits {
     float: right;
     font-size: 14px;
 }
@@ -1046,7 +1046,7 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     padding: 0;
 }
 
-.myplan-feedback,
+.ksap-feedback,
 .ksap-status {
     padding: 4px 0px;
     display: block;
@@ -1066,19 +1066,19 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     text-shadow: 1px 1px 1px #ffffff;
 }
 
-.myplan-feedback.success {
+.ksap-feedback.success {
     color: #006600;
 }
 
-.myplan-feedback.info {
+.ksap-feedback.info {
     color: #333;
 }
 
-.myplan-feedback.error {
+.ksap-feedback.error {
     color: #cc0000;
 }
 
-.myplan-feedback.alert {
+.ksap-feedback.alert {
     color: #333;
 }
 
@@ -1102,9 +1102,9 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     background-color: #faf5ca;
 }
 
-.myplan-feedback img.icon,
+.ksap-feedback img.icon,
 .ksap-status img.icon,
-.myplan-feedback .icon .uif-image,
+.ksap-feedback .icon .uif-image,
 .ksap-status .icon .uif-image {
     background: url('../images/myplan_icon_sprites.png') no-repeat -1000px -1000px;
     width: 18px;
@@ -1114,13 +1114,13 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     left: 8px;
 }
 
-.myplan-feedback img.icon,
-.myplan-feedback .icon .uif-image {
+.ksap-feedback img.icon,
+.ksap-feedback .icon .uif-image {
     top: 4px;
     left: 0px;
 }
 
-.myplan-feedback .message {
+.ksap-feedback .message {
     margin-left: 23px;
 }
 
@@ -1128,30 +1128,30 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     margin-left: 26px;
 }
 
-.myplan-feedback.success img.icon,
+.ksap-feedback.success img.icon,
 .ksap-status.success img.icon,
-.myplan-feedback.success .icon .uif-image,
+.ksap-feedback.success .icon .uif-image,
 .ksap-status.success .icon .uif-image {
     background-position: 0px -115px;
 }
 
-.myplan-feedback.info img.icon,
+.ksap-feedback.info img.icon,
 .ksap-status.info img.icon,
-.myplan-feedback.info .icon .uif-image,
+.ksap-feedback.info .icon .uif-image,
 .ksap-status.info .icon .uif-image {
     background-position: -18px -115px;
 }
 
-.myplan-feedback.error img.icon,
+.ksap-feedback.error img.icon,
 .ksap-status.error img.icon,
-.myplan-feedback.error .icon .uif-image,
+.ksap-feedback.error .icon .uif-image,
 .ksap-status.error .icon .uif-image {
     background-position: -36px -115px;
 }
 
-.myplan-feedback.alert img.icon,
+.ksap-feedback.alert img.icon,
 .ksap-status.alert img.icon,
-.myplan-feedback.alert .icon .uif-image,
+.ksap-feedback.alert .icon .uif-image,
 .ksap-status.alert .icon .uif-image {
     background-position: -54px -115px;
 }
@@ -2116,7 +2116,7 @@ table.ksap-course-search-results-datatable .blockUI {
 }
 
 /* Course Details Popup ########################################################################### */
-.myplan-popup-close {
+.ksap-popup-close {
     cursor: pointer;
     position: absolute;
     top: 0px;
@@ -2397,14 +2397,14 @@ label.scheduled {
 }
 
 /* Quarter Detail View ######################################################################################### */
-.myplan-quarter-detail .uif-stackedCollectionLayout,
-.myplan-quarter-detail .uif-stackedCollectionLayout > .uif-collectionItem {
+.ksap-quarter-detail .uif-stackedCollectionLayout,
+.ksap-quarter-detail .uif-stackedCollectionLayout > .uif-collectionItem {
     padding: 0;
     margin: 0;
     background: none;
 }
 
-.myplan-quarter-detail h5 {
+.ksap-quarter-detail h5 {
     border: solid 1px #ccc;
     border-bottom: none;
     text-transform: uppercase;
@@ -2414,22 +2414,22 @@ label.scheduled {
     padding: 10px 5px;
 }
 
-.myplan-quarter-detail .myplan-course-item {
+.ksap-quarter-detail .myplan-course-item {
     border: solid 1px #ccc;
     border-bottom: none;
     padding: 5px;
 }
 
-.myplan-quarter-detail .myplan-course-sections table {
+.ksap-quarter-detail .myplan-course-sections table {
     border-bottom: none;
 }
 
-.myplan-quarter-detail .dataTables_wrapper,
-.myplan-quarter-detail .dataTables_info {
+.ksap-quarter-detail .dataTables_wrapper,
+.ksap-quarter-detail .dataTables_info {
     margin: 0;
 }
 
-.myplan-quarter-detail .myplan-credit-total {
+.ksap-quarter-detail .myplan-credit-total {
     padding: 10px 5px;
     background: #ccc;
 }

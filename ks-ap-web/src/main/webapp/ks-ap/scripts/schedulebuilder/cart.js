@@ -128,7 +128,7 @@ function ksapCartUpdateEvent(response, textStatus, jqXHR) {
 		fnClosePopup();
 
 	} else {
-		var feedback = jQuery("#popupForm").find(".myplan-feedback");
+		var feedback = jQuery("#popupForm").find(".ksap-feedback");
 		feedback.empty().append("<span/>").text(response.message);
 		feedback.addClass("error");
 		feedback.removeClass("success");

@@ -439,13 +439,13 @@
             </bean>
         </property>
         <property name="onDocumentReadyScript" value="
-            myplanRetrieveComponent('messages_widget','messages_summary','search','lookup',{viewId:'MessagesSummary-LookupView'});
+            ksapRetrieveComponent('messages_widget','messages_summary','search','lookup',{viewId:'MessagesSummary-LookupView'});
             jQuery('#messages_widget')
                 .on('MESSAGE_SENT', function(){
-                    myplanRetrieveComponent('messages_summary','messages_summary','search','lookup',{viewId:'MessagesSummary-LookupView'});
+                    ksapRetrieveComponent('messages_summary','messages_summary','search','lookup',{viewId:'MessagesSummary-LookupView'});
                 })
                 .on('COMMENT_SENT', function(){
-                    myplanRetrieveComponent('messages_summary','messages_summary','search','lookup',{viewId:'MessagesSummary-LookupView'});
+                    ksapRetrieveComponent('messages_summary','messages_summary','search','lookup',{viewId:'MessagesSummary-LookupView'});
                 });
         "/>
     </bean>
@@ -462,11 +462,11 @@
             <bean parent="Uif-HeaderSix"/>
         </property>
         <property name="onDocumentReadyScript" value="
-            myplanRetrieveComponent('watch_list','saved_courses_summary','search','lookup',{viewId:'SavedCoursesSummary-LookupView'});
+            ksapRetrieveComponent('watch_list','saved_courses_summary','search','lookup',{viewId:'SavedCoursesSummary-LookupView'});
             var obj = jQuery('div.myplan-saved-courses-summary.myplan-stacked-list',jQuery('body').html());
             obj.on('PLAN_ITEM_DELETED', function(event, data){
                 if (data.planItemType === 'wishlist') {
-                    myplanRetrieveComponent('saved_courses_summary','saved_courses_summary','search','lookup',{viewId:'SavedCoursesSummary-LookupView'});
+                    ksapRetrieveComponent('saved_courses_summary','saved_courses_summary','search','lookup',{viewId:'SavedCoursesSummary-LookupView'});
                     jQuery('div.jquerybubblepopup.jquerybubblepopup-myplan .jquerybubblepopup-tail').fadeOut(250, function() {
                         jQuery(this).remove();
                         fnCloseAllPopups();
@@ -474,7 +474,7 @@
                 }
             }).on('PLAN_ITEM_ADDED', function(event, data){
                 if (data.planItemType === 'wishlist') {
-                    myplanRetrieveComponent('saved_courses_summary','saved_courses_summary','search','lookup',{viewId:'SavedCoursesSummary-LookupView'},data.planItemId);
+                    ksapRetrieveComponent('saved_courses_summary','saved_courses_summary','search','lookup',{viewId:'SavedCoursesSummary-LookupView'},data.planItemId);
                 }
             });
         "/>
@@ -491,11 +491,11 @@
             <bean parent="Uif-HeaderSix"/>
         </property>
         <property name="onDocumentReadyScript" value="
-            myplanRetrieveComponent('degree_audits_list','degree_audits_summary','search','lookup',{viewId:'DegreeAuditsSummary-LookupView'});
+            ksapRetrieveComponent('degree_audits_list','degree_audits_summary','search','lookup',{viewId:'DegreeAuditsSummary-LookupView'});
             jQuery('#degree_audits_summary').on('REFRESH_AUDITS', function(data){
-                myplanRetrieveComponent('degree_audits_summary','degree_audits_summary','search','lookup',{viewId:'DegreeAuditsSummary-LookupView'});
+                ksapRetrieveComponent('degree_audits_summary','degree_audits_summary','search','lookup',{viewId:'DegreeAuditsSummary-LookupView'});
             }).on('AUDIT_COMPLETE', function(data){
-                myplanRetrieveComponent('degree_audits_summary','degree_audits_summary','search','lookup',{viewId:'DegreeAuditsSummary-LookupView'});
+                ksapRetrieveComponent('degree_audits_summary','degree_audits_summary','search','lookup',{viewId:'DegreeAuditsSummary-LookupView'});
             });
         "/>
     </bean>

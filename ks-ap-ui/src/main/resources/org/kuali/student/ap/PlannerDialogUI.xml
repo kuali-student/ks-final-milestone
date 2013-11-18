@@ -519,7 +519,7 @@
 	</bean>
 
 	<bean id="planner_error_placeholder" parent="Uif-HorizontalBoxGroup"
-			p:hidden="true" p:additionalCssClasses="myplan-feedback,error,ks-Popover-error" />
+			p:hidden="true" p:additionalCssClasses="ksap-feedback,error,ks-Popover-error" />
 
 	<bean id="planner_submit_button" parent="Uif-SecondaryActionButton-Small"
 		p:additionalCssClasses="ks-Button ks-Button--primary">
