@@ -197,9 +197,9 @@ limitations under the License.
                 <entry key="aaSorting" value="[[1,'asc'],[2,'asc']]"/>
                 <entry key="bAutoWidth" value="false"/>
                 <entry key="aoColumns"
-                       value="[ {'bSortable':false, 'sWidth':'69%'},
-                                {'bSortable':false, 'sWidth':'9%'},
-                                {'bSortable':false, 'sType':'time-sort', 'sWidth':'12%'}
+                       value="[ {'bSortable':false, 'sWidth':'63%'},
+                                {'bSortable':false, 'sWidth':'14%'},
+                                {'bSortable':false, 'sType':'time-sort', 'sWidth':'13%'}
                             ]"/>
             </map>
         </property>
