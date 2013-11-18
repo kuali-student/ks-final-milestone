@@ -290,7 +290,7 @@
                 <property name="validationMessages.render" value="false"/>
                 <property name="cssClasses">
                     <list>
-                        <value>@{#line.credits ne null ? 'myplan-term-footer':'myplan-term-footer-blank'}</value>
+                        <value>@{#line.credits ne null ? 'ksap-term-footer':'ksap-term-footer-blank'}</value>
                     </list>
                 </property>
                 <property name="items">

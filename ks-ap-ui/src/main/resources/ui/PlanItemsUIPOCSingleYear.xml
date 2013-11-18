@@ -77,7 +77,7 @@
             var popupStyle = {width:'300px', height:'16px'};
             var popupOptions = {tail:{hidden:true}, position:'right', align:'top', close:true};
 
-            jQuery('.myplan-carousel-list li .myplan-term-current.open, .myplan-carousel-list li .myplan-term-future.open').find('.myplan-term-planned .uif-stackedCollectionLayout, .myplan-term-backup .uif-stackedCollectionLayout').each(function(){
+            jQuery('.myplan-carousel-list li .ksap-term-current.open, .myplan-carousel-list li .ksap-term-future.open').find('.ksap-term-planned .uif-stackedCollectionLayout, .ksap-term-backup .uif-stackedCollectionLayout').each(function(){
             	var atpId = jQuery(this).parents('.myplan-carousel-term').data('atpid');
             	var backup = jQuery(this).parents('.myplan-carousel-term').data('plantype');
             	var boolbackup;
@@ -257,8 +257,8 @@
                 <value>uif-boxGroup</value>
                 <value>uif-verticalBoxGroup</value>
                 <value>uif-boxSection</value>
-                <value>@{#line.currentTermForView ? 'myplan-term-current' : (!#line.currentTermForView and
-                    #line.openForPlanning ? 'myplan-term-future' : 'myplan-term-past')}
+                <value>@{#line.currentTermForView ? 'ksap-term-current' : (!#line.currentTermForView and
+                    #line.openForPlanning ? 'ksap-term-future' : 'ksap-term-past')}
                 </value>
                 <value>@{#line.openForPlanning ? 'open' : 'closed'}</value>
                 <value>ks-plan-TermsList-item</value>
@@ -398,8 +398,8 @@
             <list merge="false">
                 <value>myplan-carousel-term</value>
                 <value>@{#line.atpId.replaceAll("\.","-")}</value>
-                <value>myplan-term-planned</value>
-                <value>@{#line.openForPlanning ? 'myplan-term-fixed-height' : ''}</value>
+                <value>ksap-term-planned</value>
+                <value>@{#line.openForPlanning ? 'ksap-term-fixed-height' : ''}</value>
                 <value>ks-plan-Bucket</value>
             </list>
         </property>
@@ -431,7 +431,7 @@
                     </property>
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>myplan-course-valid</value>
+                            <value>ksap-course-valid</value>
                             <value>@{#line.timeScheduleOpen ? 'schedule':''}</value>
                             <value>ks-plan-Bucket-item</value>
                             <value>ks-plan-Bucket-item--valid</value>
@@ -486,7 +486,7 @@
                               p:render="@{#line.academicRecord.size() gt 0 and #line.openForPlanning}">
                             <property name="cssClasses">
                                 <list merge="true">
-                                    <value>myplan-carousel-term-total</value>
+                                    <value>ksap-carousel-term-total</value>
                                     <value>ks-plan-Bucket-credit</value>
                                 </list>
                             </property>
@@ -502,7 +502,7 @@
                               p:render="@{#line.academicRecord.size() eq 0 and #line.openForPlanning}">
                             <property name="cssClasses">
                                 <list merge="true">
-                                    <value>myplan-carousel-term-total</value>
+                                    <value>ksap-carousel-term-total</value>
                                     <value>ks-plan-Bucket-credit</value>
                                 </list>
                             </property>
@@ -554,8 +554,8 @@
             <list merge="false">
                 <value>myplan-carousel-term</value>
                 <value>@{#line.atpId.replaceAll("\.","-")}</value>
-                <value>myplan-term-planned</value>
-                <value>@{#line.openForPlanning ? 'myplan-term-fixed-height' : ''}</value>
+                <value>ksap-term-planned</value>
+                <value>@{#line.openForPlanning ? 'ksap-term-fixed-height' : ''}</value>
                 <value>ks-plan-Bucket</value>
             </list>
         </property>
@@ -577,7 +577,7 @@
                     <property name="group.validationMessages.render" value="false"/>
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>myplan-course-valid</value>
+                            <value>ksap-course-valid</value>
                             <value>ks-plan-Bucket-item</value>
                             <value>ks-plan-Bucket-item--valid</value>
                         </list>
@@ -618,7 +618,7 @@
                               p:render="@{#line.academicRecord.size() gt 0 and #line.openForPlanning}">
                             <property name="cssClasses">
                                 <list merge="true">
-                                    <value>myplan-carousel-term-total</value>
+                                    <value>ksap-carousel-term-total</value>
                                     <value>ks-plan-Bucket-credit</value>
                                 </list>
                             </property>
@@ -634,7 +634,7 @@
                               p:render="@{#line.academicRecord.size() eq 0 and #line.openForPlanning}">
                             <property name="cssClasses">
                                 <list merge="true">
-                                    <value>myplan-carousel-term-total</value>
+                                    <value>ksap-carousel-term-total</value>
                                     <value>ks-plan-Bucket-credit</value>
                                 </list>
                             </property>

@@ -1780,7 +1780,7 @@ function ksapInitializePlanItems(pageSize) {
     var popupStyle = {width:'300px', height:'16px'};
     var popupOptions = {tail:{hidden:true}, position:'right', align:'top', close:true};
 
-    jQuery('.myplan-carousel-list li .myplan-term-current.open, .myplan-carousel-list li .myplan-term-future.open').find('.myplan-term-planned .uif-stackedCollectionLayout, .myplan-term-backup .uif-stackedCollectionLayout').each(function(){
+    jQuery('.myplan-carousel-list li .ksap-term-current.open, .myplan-carousel-list li .ksap-term-future.open').find('.ksap-term-planned .uif-stackedCollectionLayout, .ksap-term-backup .uif-stackedCollectionLayout').each(function(){
         var atpId = jQuery(this).parents('.myplan-carousel-term').data('atpid');
         var backup = jQuery(this).parents('.myplan-carousel-term').data('plantype');
         var size = jQuery(this).parents('.myplan-carousel-term').data('size');

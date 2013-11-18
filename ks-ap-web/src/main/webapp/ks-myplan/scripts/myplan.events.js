@@ -6,7 +6,7 @@
 function fnAddPlanItem (atpId, type, planItemId, courseCode, courseTitle, courseCredits) {
     var item = '<div id="' + planItemId + '_div" class="uif-group uif-boxGroup uif-verticalBoxGroup uif-collectionItem uif-boxCollectionItem">' +
         '<div class="uif-boxLayout uif-verticalBoxLayout clearfix">' +
-            '<div id="' + planItemId + '_' + type + '" class="uif-field uif-fieldGroup uif-horizontalFieldGroup myplan-course-valid ks-plan-Bucket-item ks-plan-Bucket-item--valid" title="' + courseTitle + '" data-planitemid="' + planItemId + '" data-atpid="' + atpId.replace(/-/g,".") + '">' +
+            '<div id="' + planItemId + '_' + type + '" class="uif-field uif-fieldGroup uif-horizontalFieldGroup ksap-course-valid ks-plan-Bucket-item ks-plan-Bucket-item--valid" title="' + courseTitle + '" data-planitemid="' + planItemId + '" data-atpid="' + atpId.replace(/-/g,".") + '">' +
                 '<fieldset>' +
                     '<div class="uif-group uif-boxGroup uif-horizontalBoxGroup">' +
                         '<div class="uif-boxLayout uif-horizontalBoxLayout clearfix">' +
@@ -23,11 +23,11 @@ function fnAddPlanItem (atpId, type, planItemId, courseCode, courseTitle, course
             '<input name="script" type="hidden" value="jQuery(\'#\' + \'' + planItemId + '_' + type + '\').click(function(e) { openMenu(\'' + planItemId + '\', \'' + type + '_menu_items\',null,e,\'.uif-collectionItem\',\'fl-container-150 uif-boxLayoutHorizontalItem\',{tail:{align:\'top\'},align:\'top\',position:\'right\'},false); });">' +
         '</div>' +
     '</div>';
-    var size = parseFloat(jQuery("." + atpId + ".myplan-term-" + type).data("size")) + 1;
-    jQuery("." + atpId + ".myplan-term-" + type).attr("data-size", size);
+    var size = parseFloat(jQuery("." + atpId + ".ksap-term-" + type).data("size")) + 1;
+    jQuery("." + atpId + ".ksap-term-" + type).attr("data-size", size);
     fnShowHideQuickAddLink(atpId, type, size);
 
-    jQuery(item).prependTo("." + atpId + ".myplan-term-" + type + " .uif-stackedCollectionLayout").css({backgroundColor:"#ffffcc"}).hide().fadeIn(250).animate({backgroundColor:"#ffffff"}, 1500, function() {
+    jQuery(item).prependTo("." + atpId + ".ksap-term-" + type + " .uif-stackedCollectionLayout").css({backgroundColor:"#ffffcc"}).hide().fadeIn(250).animate({backgroundColor:"#ffffff"}, 1500, function() {
         runHiddenScripts(planItemId + "_div");
     });
 }
@@ -38,11 +38,11 @@ function fnAddPlanItem (atpId, type, planItemId, courseCode, courseTitle, course
  */
 function fnRemovePlanItem (atpId, type, planItemId) {
     jQuery("#" + planItemId).unbind('click');
-    var size = parseFloat(jQuery("." + atpId + ".myplan-term-" + type).data("size")) - 1;
-    jQuery("." + atpId + ".myplan-term-" + type).attr("data-size", size);
+    var size = parseFloat(jQuery("." + atpId + ".ksap-term-" + type).data("size")) - 1;
+    jQuery("." + atpId + ".ksap-term-" + type).attr("data-size", size);
     fnShowHideQuickAddLink(atpId, type, size);
 
-    jQuery("." + atpId + ".myplan-term-" + type + " .uif-stackedCollectionLayout .uif-collectionItem #" + planItemId + "_" + type).parents(".uif-collectionItem").fadeOut(250, function(){
+    jQuery("." + atpId + ".ksap-term-" + type + " .uif-stackedCollectionLayout .uif-collectionItem #" + planItemId + "_" + type).parents(".uif-collectionItem").fadeOut(250, function(){
         jQuery(this).remove();
     });
 }
@@ -62,7 +62,7 @@ function fnRemoveSavedItem (planItemId, cssStyle) {
 #################################################################
  */
 function fnUpdateSavedCount (savedItemCount) {
-    jQuery(".myplan-saved-courses-detail .uif-sectionHeader .uif-headerText strong").fadeOut(250, function() {
+    jQuery(".ksap-saved-courses-detail .uif-sectionHeader .uif-headerText strong").fadeOut(250, function() {
 	    jQuery(this).html(savedItemCount - 1).fadeIn(250);
 	});
 }
@@ -73,10 +73,10 @@ function fnUpdateSavedCount (savedItemCount) {
 #################################################################
  */
 function fnUpdateCredits (atpId, termCredits, cartCredits) {
-    jQuery("." + atpId + ".myplan-term-planned .myplan-carousel-term-total .credits span.uif-message").fadeOut(250, function() {
+    jQuery("." + atpId + ".ksap-term-planned .ksap-carousel-term-total .credits span.uif-message").fadeOut(250, function() {
         jQuery(this).html(termCredits).fadeIn(250);
     });
-    jQuery("." + atpId + ".myplan-term-cart .myplan-carousel-term-total .credits span.uif-message").fadeOut(250, function() {
+    jQuery("." + atpId + ".ksap-term-cart .ksap-carousel-term-total .credits span.uif-message").fadeOut(250, function() {
         jQuery(this).html(cartCredits).fadeIn(250);
     });
 }
@@ -129,7 +129,7 @@ function fnDisplayMessage (message, cssClass, targetId, button, full, sameBlock,
 #################################################################
  */
 function fnRestoreSearchAddButton (courseId) {
-    var oTable = jQuery('.myplan-course-search-results-datatable.uif-dataTable').dataTable();
+    var oTable = jQuery('.ksap-course-search-results-datatable.uif-dataTable').dataTable();
     var oNodes = oTable.fnGetNodes();
     jQuery(oNodes).find("#" + courseId + "_status").fadeOut(250, function() {
         jQuery(this).removeClass().html('<input type="image" title="Bookmark or Add to Plan" src="../ks-myplan/images/pixel.gif" alt="Bookmark or Add to Plan" class="uif-field uif-imageField ksap-add" data-courseid="'+ courseId +'" onclick="openMenu(\''+ courseId +'_add\',\'add_course_items\',null,event,null,\'ksap-container-75\',{tail:{align:\'middle\'},align:\'middle\',position:\'right\'},false);" />');
@@ -158,9 +158,9 @@ function fnRestoreDetailsAddButton (courseId) {
  */
 function fnShowHideQuickAddLink(atpId, type, size){
     if (size < 8) {
-        jQuery("." + atpId + ".myplan-term-" + type + " .uif-stackedCollectionLayout .quick-add-cell").fadeIn(250);
+        jQuery("." + atpId + ".ksap-term-" + type + " .uif-stackedCollectionLayout .quick-add-cell").fadeIn(250);
     } else {
-        jQuery("." + atpId + ".myplan-term-" + type + " .uif-stackedCollectionLayout .quick-add-cell").fadeOut(250);
+        jQuery("." + atpId + ".ksap-term-" + type + " .uif-stackedCollectionLayout .quick-add-cell").fadeOut(250);
     }
 
 }

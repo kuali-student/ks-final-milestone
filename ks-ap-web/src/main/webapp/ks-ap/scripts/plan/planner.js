@@ -249,12 +249,12 @@ function ksapPlannerAddPlanItem (data) {
     itemElement
     		.attr("id", data.uid+"_wrap")
     		.attr("class", "uif-group uif-boxGroup uif-verticalBoxGroup ks-plan-Bucket-collection uif-collectionItem uif-boxCollectionItem uif-boxLayoutHorizontalItem")
-    		.prependTo("." + termUid + ".myplan-term-" + data.type + " .uif-stackedCollectionLayout")
+    		.prependTo("." + termUid + ".ksap-term-" + data.type + " .uif-stackedCollectionLayout")
     		.css({backgroundColor:"#ffffcc"})
     		.hide()
     		.fadeIn(250, function() {
-    	        var bucket = jQuery(".myplan-term-" + data.type + "." + termUid);
-    	        var unitcell = bucket.find(".myplan-carousel-term-total");
+    	        var bucket = jQuery(".ksap-term-" + data.type + "." + termUid);
+    	        var unitcell = bucket.find(".ksap-carousel-term-total");
     	    	unitcell.addClass("ks-plan-Bucket-footer-show");
     	    	unitcell.removeClass("ks-plan-Bucket-footer-hide");
     	    	var nocourses = bucket.find(".no-courses-cell");
@@ -284,8 +284,8 @@ function ksapPlannerUpdatePlanItem (data) {
 function ksapPlannerRemovePlanItem (data) {
     jQuery("#" + data.uid).fadeOut(250, function(){
         jQuery(this).remove();
-        var bucket = jQuery(".myplan-term-" + data.type + "." + data.termId);
-        var unitcell = bucket.find(".myplan-carousel-term-total");
+        var bucket = jQuery(".ksap-term-" + data.type + "." + data.termId);
+        var unitcell = bucket.find(".ksap-carousel-term-total");
         if (bucket.find(".ks-plan-Bucket-item").length == 0) {
         	unitcell.removeClass("ks-plan-Bucket-footer-show");
         	unitcell.addClass("ks-plan-Bucket-footer-hide");
@@ -302,14 +302,14 @@ function ksapPlannerRemovePlanItem (data) {
  * @param data - Data needed to removed the object
  */
 function ksapPlannerUpdateCredits (data) {
-    var planbucket = jQuery(".myplan-term-planned." + data.termId);
-    var planunitcell = planbucket.find(".myplan-carousel-term-total");
+    var planbucket = jQuery(".ksap-term-planned." + data.termId);
+    var planunitcell = planbucket.find(".ksap-carousel-term-total");
     planunitcell.find(".credits span.uif-message").fadeOut(250, function() {
         jQuery(this).text(data.totalCredits).fadeIn(250);
     });
 
-    var cartbucket = jQuery(".myplan-term-cart." + data.termId);
-    var cartunitcell = cartbucket.find(".myplan-carousel-term-total");
+    var cartbucket = jQuery(".ksap-term-cart." + data.termId);
+    var cartunitcell = cartbucket.find(".ksap-carousel-term-total");
     cartunitcell.find(".credits span.uif-message").fadeOut(250, function() {
         jQuery(this).text(data.cartCredits).fadeIn(250);
     });

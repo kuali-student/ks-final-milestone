@@ -793,7 +793,7 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     text-shadow: 0px 1px 0px #fcffff;
 }
 /*Planner Calendar other terms*/
-.myplan-carousel-list ul li > .uif-group.myplan-term-past > .uif-header h4 {
+.myplan-carousel-list ul li > .uif-group.ksap-term-past > .uif-header h4 {
     border: solid 1px #cccccc;
     background-color: #dedede;
    /* background-image: -ms-linear-gradient(top, #dedede 0%, #cccccc 100%);
@@ -805,7 +805,7 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dedede', endColorstr='#cccccc');*/
 }
 /* Planner Calendar current term */
-.myplan-carousel-list ul li > .uif-group.myplan-term-current > .uif-header h4 {
+.myplan-carousel-list ul li > .uif-group.ksap-term-current > .uif-header h4 {
     border: solid 1px #432f69;
     /*background-color: #5c428e;*/
     /*background-image: -ms-linear-gradient(top, #5c428e 0%, #3b295f 100%);*/
@@ -817,7 +817,7 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     /*filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5c428e', endColorstr='#3b295f');*/
 }
 
-.myplan-carousel-list ul li > .uif-group.myplan-term-current > .uif-header h4 .uif-headerText-span {
+.myplan-carousel-list ul li > .uif-group.ksap-term-current > .uif-header h4 .uif-headerText-span {
     color: #f9f7f7;
     text-shadow: 0px 1px 0px #000;
 }
@@ -874,7 +874,7 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     margin: 5px 0 0 5px;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term-total .uif-helpImage {
+.myplan-carousel-list ul li .ksap-carousel-term-total .uif-helpImage {
     display: inline-block;
     vertical-align: middle;
     margin: 5px 0 0 5px;
@@ -913,7 +913,7 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     background-position: -12px -134px;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term.myplan-term-fixed-height .uif-stackedCollectionLayout {
+.myplan-carousel-list ul li .myplan-carousel-term.ksap-term-fixed-height .uif-stackedCollectionLayout {
     height: 208px;
 }
 
@@ -929,11 +929,11 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     color: #000;
 }
 
-.myplan-carousel-list ul li .myplan-term-past .uif-stackedCollectionLayout .uif-collectionItem .code {
+.myplan-carousel-list ul li .ksap-term-past .uif-stackedCollectionLayout .uif-collectionItem .code {
     color: #555;
 }
 
-.myplan-carousel-list ul li .myplan-term-past .uif-stackedCollectionLayout .uif-collectionItem .myplan-course-invalid .code {
+.myplan-carousel-list ul li .ksap-term-past .uif-stackedCollectionLayout .uif-collectionItem .myplan-course-invalid .code {
     color: #666;
 }
 
@@ -948,7 +948,7 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     float: right;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .myplan-course-valid,
+.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .ksap-course-valid,
 .myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .myplan-course-invalid,
 .quick-add-cell {
     height: 25px;
@@ -960,7 +960,7 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     padding: 0 5px 0 4px;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .myplan-course-valid.not-scheduled,
+.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .ksap-course-valid.not-scheduled,
 .myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .myplan-course-invalid.not-scheduled {
     background: url('../images/iconWarning.png') no-repeat 4px;
 }
@@ -991,13 +991,13 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     font-family: Helvetica, Arial, Verdana, sans-serif;
 }
 
-.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .myplan-course-valid:hover,
+.myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .ksap-course-valid:hover,
 .myplan-carousel-list ul li .myplan-carousel-term .uif-stackedCollectionLayout .quick-add-cell:hover {
     background-color: #e3f0fe;
     cursor: pointer;
 }
 
-.myplan-carousel-list .myplan-carousel-term-total {
+.myplan-carousel-list .ksap-carousel-term-total {
     /*background: #f6ebcd;*/
     /*color: #39275b;*/
     font-size: 12px;
@@ -1006,11 +1006,11 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     display: block;
     padding: 0 10px !important;
 }
-.myplan-carousel-list .myplan-carousel-term-total .ks-plan-Bucket-creditLabel span{
+.myplan-carousel-list .ksap-carousel-term-total .ks-plan-Bucket-creditLabel span{
     border-bottom: 1px dotted #777;
 }
 
-.myplan-carousel-list .myplan-carousel-term-total .credits {
+.myplan-carousel-list .ksap-carousel-term-total .credits {
     float: right;
     font-size: 14px;
 }
@@ -1437,7 +1437,7 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     margin: 0 0 0.5em 0;
 }
 
-.myplan-course-search-results .dataTables_wrapper .myplan-course-search-results-datatable {
+.myplan-course-search-results .dataTables_wrapper .ksap-course-search-results-datatable {
     border: solid 1px #ddd;
     -webkit-border-radius: 5px 5px 0 0;
     -moz-border-radius: 5px 5px 0 0;
@@ -1447,7 +1447,7 @@ button.uif-primaryActionButton.myplan-carousel-next.disabled img {
     font-family: Helvetica, Arial, Verdana, sans-serif;
 }
 
-table.myplan-course-search-results-datatable thead tr {
+table.ksap-course-search-results-datatable thead tr {
     background-image: -ms-linear-gradient(top, #F7F7F7 0%, #E9E9E9 100%);
     background-image: -moz-linear-gradient(top, #F7F7F7 0%, #E9E9E9 100%);
     background-image: -o-linear-gradient(top, #F7F7F7 0%, #E9E9E9 100%);
@@ -1465,7 +1465,7 @@ table.myplan-course-search-results-datatable thead tr {
     border-radius: 5px 5px 0 0;
 }
 
-table.myplan-course-search-results-datatable thead tr th {
+table.ksap-course-search-results-datatable thead tr th {
     border: none;
     padding: 8px 0 8px 10px;
     font-weight: normal;
@@ -1476,28 +1476,28 @@ table.myplan-course-search-results-datatable thead tr th {
     cursor: default;
 }
 
-table.myplan-course-search-results-datatable thead tr th[aria-sort='ascending'],
-table.myplan-course-search-results-datatable thead tr th[aria-sort='descending'] {
+table.ksap-course-search-results-datatable thead tr th[aria-sort='ascending'],
+table.ksap-course-search-results-datatable thead tr th[aria-sort='descending'] {
     color: #06c;
 }
 
-table.myplan-course-search-results-datatable thead tr th .DataTables_sort_wrapper {
+table.ksap-course-search-results-datatable thead tr th .DataTables_sort_wrapper {
     display: inline;
     cursor: default;
 }
 
-table.myplan-course-search-results-datatable thead tr th.sortable,
-table.myplan-course-search-results-datatable thead tr th.sortable .DataTables_sort_wrapper {
+table.ksap-course-search-results-datatable thead tr th.sortable,
+table.ksap-course-search-results-datatable thead tr th.sortable .DataTables_sort_wrapper {
     cursor: pointer;
 }
 
-table.myplan-course-search-results-datatable thead tr th.sortable:hover,
-table.myplan-course-search-results-datatable thead tr th.sortable .DataTables_sort_wrapper:hover {
+table.ksap-course-search-results-datatable thead tr th.sortable:hover,
+table.ksap-course-search-results-datatable thead tr th.sortable .DataTables_sort_wrapper:hover {
     color: #06c;
     text-decoration: underline;
 }
 
-table.myplan-course-search-results-datatable thead tr th .DataTables_sort_wrapper .ui-icon {
+table.ksap-course-search-results-datatable thead tr th .DataTables_sort_wrapper .ui-icon {
     display: inline-block;
     vertical-align: middle;
     margin: 0 0 0 5px;
@@ -1506,34 +1506,34 @@ table.myplan-course-search-results-datatable thead tr th .DataTables_sort_wrappe
     background: url('../images/myplan_icon_sprites.png') no-repeat 0px -48px transparent;
 }
 
-table.myplan-course-search-results-datatable thead tr th .DataTables_sort_wrapper .ui-icon.ui-icon-carat-2-n-s {
+table.ksap-course-search-results-datatable thead tr th .DataTables_sort_wrapper .ui-icon.ui-icon-carat-2-n-s {
     background-position: 0px -48px;
 }
 
-table.myplan-course-search-results-datatable thead tr th .DataTables_sort_wrapper .ui-icon.ui-icon-triangle-1-n {
+table.ksap-course-search-results-datatable thead tr th .DataTables_sort_wrapper .ui-icon.ui-icon-triangle-1-n {
     background-position: -16px -48px;
 }
 
-table.myplan-course-search-results-datatable thead tr th .DataTables_sort_wrapper .ui-icon.ui-icon-triangle-1-s {
+table.ksap-course-search-results-datatable thead tr th .DataTables_sort_wrapper .ui-icon.ui-icon-triangle-1-s {
     background-position: -32px -48px;
 }
 
-table.myplan-course-search-results-datatable tbody tr {
+table.ksap-course-search-results-datatable tbody tr {
     border: none;
 }
 
-table.myplan-course-search-results-datatable tbody tr th,
-table.myplan-course-search-results-datatable tbody tr td {
+table.ksap-course-search-results-datatable tbody tr th,
+table.ksap-course-search-results-datatable tbody tr td {
     vertical-align: middle;
     border: none;
 }
 
-table.myplan-course-search-results-datatable tbody tr td {
+table.ksap-course-search-results-datatable tbody tr td {
     padding: 6px 0 6px 10px;
     font-size: 11px;
 }
 
-table.myplan-course-search-results-datatable tbody tr td a.ksap-text-ellipsis {
+table.ksap-course-search-results-datatable tbody tr td a.ksap-text-ellipsis {
     display: block;
     white-space: nowrap;
     overflow: hidden;
@@ -1543,44 +1543,44 @@ table.myplan-course-search-results-datatable tbody tr td a.ksap-text-ellipsis {
     width: 170px;
 }
 
-table.myplan-course-search-results-datatable tbody tr td.ksap-data-list dd.projected {
+table.ksap-course-search-results-datatable tbody tr td.ksap-data-list dd.projected {
     margin-top: 3px;
 }
 
-table.myplan-course-search-results-datatable tbody tr td.ksap-status-column {
+table.ksap-course-search-results-datatable tbody tr td.ksap-status-column {
     text-align: right;
     padding: 0 10px 0 0;
     font-size: 10px;
     font-style: italic;
 }
 
-table.myplan-course-search-results-datatable tbody tr td.ksap-status-column .planned {
+table.ksap-course-search-results-datatable tbody tr td.ksap-status-column .planned {
     color: #06c;
 }
 
-table.myplan-course-search-results-datatable tbody tr td.ksap-status-column .bookmarked {
+table.ksap-course-search-results-datatable tbody tr td.ksap-status-column .bookmarked {
     color: #060;
 }
 
-table.myplan-course-search-results-datatable .odd,
-table.myplan-course-search-results-datatable .odd td[class^='sorting_'] {
+table.ksap-course-search-results-datatable .odd,
+table.ksap-course-search-results-datatable .odd td[class^='sorting_'] {
     background-color: #fff;
 }
 
-table.myplan-course-search-results-datatable .even,
-table.myplan-course-search-results-datatable .even td[class^='sorting_'] {
+table.ksap-course-search-results-datatable .even,
+table.ksap-course-search-results-datatable .even td[class^='sorting_'] {
     background-color: #f7f7f7;
 }
 
-table.myplan-course-search-results-datatable tbody tr:hover {
+table.ksap-course-search-results-datatable tbody tr:hover {
     background-color: #e3f0fe;
 }
 
-table.myplan-course-search-results-datatable tbody tr:hover td.dataTables_empty {
+table.ksap-course-search-results-datatable tbody tr:hover td.dataTables_empty {
     background-color: #fff;
 }
 
-table.myplan-course-search-results-datatable .blockUI {
+table.ksap-course-search-results-datatable .blockUI {
     display: none !important;
 }
 
@@ -2082,36 +2082,36 @@ table.myplan-course-search-results-datatable .blockUI {
 }
 
 /* Saved Courses Detail Styles ########################################################################### */
-.myplan-saved-courses-detail {
+.ksap-saved-courses-detail {
     line-height: 1.8em;
 }
 
-.myplan-saved-courses-detail ul,
-.myplan-saved-courses-detail ul li,
-.myplan-saved-courses-detail ul li dl,
-.myplan-saved-courses-detail ul li dl dd {
+.ksap-saved-courses-detail ul,
+.ksap-saved-courses-detail ul li,
+.ksap-saved-courses-detail ul li dl,
+.ksap-saved-courses-detail ul li dl dd {
     margin: 0;
     padding: 0;
 }
 
-.myplan-saved-courses-detail .uif-sectionHeader .uif-headerText {
+.ksap-saved-courses-detail .uif-sectionHeader .uif-headerText {
     font-size: 1.25em;
     font-weight: normal;
     margin: 1em 0;
     border: none;
 }
 
-.myplan-saved-courses-detail .uif-sectionHeader .uif-headerText strong {
+.ksap-saved-courses-detail .uif-sectionHeader .uif-headerText strong {
     font-weight: bold;
 }
 
-.myplan-saved-courses-detail ul li {
+.ksap-saved-courses-detail ul li {
     border-top: dotted 1px #aaaaaa;
     padding: 10px;
     display: block;
 }
 
-.myplan-saved-courses-detail .myplan-saved-courses-detail-heading .uif-boxLayout {
+.ksap-saved-courses-detail .myplan-saved-courses-detail-heading .uif-boxLayout {
     float: none !important;
 }
 
@@ -2385,14 +2385,14 @@ label.scheduled {
     font-weight: bold;
 }
 
-.myplan-full-plan-detail .myplan-term .myplan-term-footer,
-.myplan-full-plan-detail .myplan-term .myplan-term-footer-blank {
+.myplan-full-plan-detail .myplan-term .ksap-term-footer,
+.myplan-full-plan-detail .myplan-term .ksap-term-footer-blank {
     border-top: dotted 1px #a9a9a9;
     padding: 0 10px;
     font-size: 90%;
 }
 
-.myplan-full-plan-detail .myplan-term .myplan-term-footer-blank {
+.myplan-full-plan-detail .myplan-term .ksap-term-footer-blank {
     border-top-color: transparent;
 }
 

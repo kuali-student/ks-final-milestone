@@ -238,7 +238,7 @@
 		<!-- p:ajaxSource="@{#ConfigProperties['courseSearchBaseUrl']}/search/course/@{searchQuery}/@{searchTerm}/@{campusSelect}"> -->
 		<property name="cssClasses">
 			<list merge="true">
-				<value>myplan-course-search-results-datatable</value>
+				<value>ksap-course-search-results-datatable</value>
 			</list>
 		</property>
 		<property name="onDocumentReadyScript"

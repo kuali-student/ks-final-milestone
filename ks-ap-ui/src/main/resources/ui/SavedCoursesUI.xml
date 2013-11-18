@@ -252,7 +252,7 @@
     <bean id="saved_courses_detail" parent="Uif-VerticalBoxSubSection" p:style="width: 700px; margin-right: 10px;">
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-saved-courses-detail</value>
+                <value>ksap-saved-courses-detail</value>
             </list>
         </property>
         <property name="items">
@@ -286,7 +286,7 @@
         <property name="render" value="@{lookupResults.size() gt 0}"/>
         <property name="onDocumentReadyScript" value="
             jQuery('#saved_courses_detail_list ul').css('minHeight',jQuery('#saved_courses_detail_list ul').height());
-            jQuery('.myplan-saved-courses-detail').on('PLAN_ITEM_DELETED', function(event, data){
+            jQuery('.ksap-saved-courses-detail').on('PLAN_ITEM_DELETED', function(event, data){
                 if (data.planItemType === 'wishlist') {
                     fnRemoveSavedItem(data.planItemId, 'myplan-saved-courses-detail');
                     fnUpdateSavedCount( jQuery(this).find('.uif-sectionHeader .uif-headerText strong').text() );

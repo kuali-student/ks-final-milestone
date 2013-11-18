@@ -223,7 +223,7 @@
                 <value>uif-boxGroup</value>
                 <value>uif-verticalBoxGroup</value>
                 <value>uif-boxSection</value>
-                <value>@{#line.inProgress ? 'myplan-term-current' : (!#line.inProgress and #line.planning ? 'myplan-term-future' : 'myplan-term-past')}</value>
+                <value>@{#line.inProgress ? 'ksap-term-current' : (!#line.inProgress and #line.planning ? 'ksap-term-future' : 'ksap-term-past')}</value>
                 <value>@{#line.planning ? 'open' : 'closed'}</value>
                 <value>ks-plan-TermsList-item</value>
                 <value>@{#line.inProgress ? 'ks-plan-TermsList-item--current' : (!#line.inProgress and #line.planning ? 'ks-plan-TermsList-item--future' : 'ks-plan-TermsList-item--past')}</value>
@@ -321,7 +321,7 @@
 								{tail: {align:'top'}, align:'top', position:'right'}, false);" />
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>myplan-course-valid</value>
+                            <value>ksap-course-valid</value>
                             <value>ks-plan-Bucket-item</value>
                             <value>ks-plan-Bucket-item--valid</value>
                         </list>
@@ -413,7 +413,7 @@
                     </property>
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>myplan-course-valid</value>
+                            <value>ksap-course-valid</value>
                             <value>ks-plan-Bucket-item</value>
                             <value>ks-plan-Bucket-item--valid</value>
                         </list>
@@ -503,7 +503,7 @@
         <property name="cssClasses">
             <list merge="false">
                 <value>myplan-carousel-term</value>
-                <value>myplan-term-completed</value>
+                <value>ksap-term-completed</value>
                 <value>ks-plan-Bucket</value>
             </list>
         </property>
@@ -534,7 +534,7 @@
             <list merge="false">
                 <value>myplan-carousel-term</value>
                 <value>@{#line.termId.replaceAll("\.","-")}</value>
-                <value>myplan-term-cart</value>
+                <value>ksap-term-cart</value>
                 <value>ks-plan-Bucket</value>
             </list>
         </property>
@@ -583,8 +583,8 @@
             <list merge="false">
                 <value>myplan-carousel-term</value>
                 <value>@{#line.termId.replaceAll("\.","-")}</value>
-                <value>myplan-term-planned</value>
-                <value>@{#line.planning ? 'myplan-term-fixed-height' : ''}</value>
+                <value>ksap-term-planned</value>
+                <value>@{#line.planning ? 'ksap-term-fixed-height' : ''}</value>
                 <value>ks-plan-Bucket</value>
             </list>
         </property>
@@ -645,7 +645,7 @@
             <list merge="false">
                 <value>myplan-carousel-term</value>
                 <value>@{#line.termId.replaceAll("\.","-")}</value>
-                <value>myplan-term-backup</value>
+                <value>ksap-term-backup</value>
                 <value>ks-plan-Bucket</value>
             </list>
         </property>
@@ -722,7 +722,7 @@
         <property name="validationMessages.render" value="false" />
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-carousel-term-total</value>
+                <value>ksap-carousel-term-total</value>
                 <value>ks-plan-Bucket-credit</value>
             </list>
         </property>
