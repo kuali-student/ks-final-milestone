@@ -98,14 +98,14 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         String refObjectId = dataObjectKeys.get("refObjectId");
         dataObject.setRefObjectId(refObjectId);
 
-        dataObject.setAgendas(this.getAgendasForRef("", refObjectId));
+        dataObject.setAgendas(this.getAgendasForRef("", refObjectId, null));
 
         dataObject.setCompareTree(RuleCompareTreeBuilder.initCompareTree());
 
         return dataObject;
     }
 
-    protected List<AgendaEditor> getAgendasForRef(String discriminatorType, String refObjectId) {
+    protected List<AgendaEditor> getAgendasForRef(String discriminatorType, String refObjectId, String parentRefObjectId) {
         // Initialize new array lists.
         List<AgendaEditor> agendas = new ArrayList<AgendaEditor>();
         List<AgendaEditor> sortedAgendas = new ArrayList<AgendaEditor>();
@@ -246,11 +246,11 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     /**
      * Override this method to return the reference object id of the parent object.
      *
-     * @param refObjectId
+     * @param parentRefObjectId
      * @return
      */
     @Override
-    public List<ReferenceObjectBinding> getParentRefOjbects(String refObjectId) {
+    public List<ReferenceObjectBinding> getParentRefOjbects(String parentRefObjectId) {
         return null;
     }
 
