@@ -145,6 +145,16 @@ limitations under the License.
                 </property>
             </bean>
         </property>
+        <property name="addLineActions">
+            <list>
+                <bean parent="KS-Uif-AddLineAction"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="KS-Uif-DeleteLineAction"/>
+            </list>
+        </property>
         <property name="propertyName" value="proposition.cluSet.cluSets"/>
         <property name="collectionObjectClass"
                   value="org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation"/>
@@ -215,6 +225,17 @@ limitations under the License.
                           p:progressiveRender="#np.proposition.multipleCourseType eq '1'"/>
                 </property>
             </bean>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean parent="KS-Uif-AddLineAction"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="KS-Uif-DeleteLineAction">
+                </bean>
+            </list>
         </property>
         <property name="propertyName" value="proposition.cluSet.clus"/>
         <property name="collectionObjectClass"
@@ -325,7 +346,7 @@ limitations under the License.
                     <property name="instructionalText" value="Enter text from valid Learning Objective"/>
                 </bean>
 
-                <bean parent="KS-CourseRange-AddButton"  p:style="margin-top: 50px;"/>
+                <bean parent="KS-CourseRange-AddButton"  p:style="margin-top:40px;"/>
             </list>
         </property>
     </bean>
@@ -351,8 +372,8 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-CourseRange-AddButton" parent="Uif-PrimaryActionButton-Small" p:actionLabel="add"
-            p:style="margin-top: 25px;" p:methodToCall="addRange">
+    <bean id="KS-CourseRange-AddButton" parent="Uif-SecondaryActionButton" p:actionLabel="Add"
+            p:style="margin-top: 22.5px;" p:methodToCall="addRange">
     </bean>
 
     <bean id="KS-CourseRangeStackedCollectionGroup" parent="KRMS-StackedCollectionGroup" p:render="@{#np.proposition.cluSet.cluRangeListSize gt 0}" p:additionalCssClasses="ks-multiSelectItem">
@@ -383,8 +404,7 @@ limitations under the License.
             <list>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="View" p:methodToCall="viewCourseRange"
                       p:style="margin-right: 15px;" p:actionParameters="selectedIndex:@{#index}"/>
-                <bean parent="Uif-DeleteLineAction" p:additionalCssClasses="krms-stackedActionItem">
-                </bean>
+                <bean parent="KS-Uif-DeleteLineAction" p:additionalCssClasses="krms-stackedActionItem"/>
             </list>
         </property>
     </bean>
