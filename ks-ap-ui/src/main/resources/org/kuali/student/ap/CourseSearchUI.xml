@@ -28,7 +28,7 @@
 		</property>
 		<property name="additionalScriptFiles">
 			<list>
-				<value>ks-myplan/scripts/myplan.search.js</value>
+				<value>ks-myplan/scripts/ksap.search.js</value>
 			</list>
 		</property>
 		<property name="items">

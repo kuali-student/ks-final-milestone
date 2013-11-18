@@ -109,7 +109,7 @@ public interface CourseSearchItem {
 	 *         front end.
 	 * 
 	 * @see CourseSearchUI.xml
-	 * @see myplan.search.js
+	 * @see ksap.search.js
 	 */
 	String[] getSearchColumns();
 
@@ -124,7 +124,7 @@ public interface CourseSearchItem {
 	 *         front end.
 	 * 
 	 * @see CourseSearchUI.xml
-	 * @see myplan.search.js
+	 * @see ksap.search.js
 	 */
 	String[] getSortColumns();
 
@@ -142,7 +142,7 @@ public interface CourseSearchItem {
 	 *         directly, there is not need for the cells to match.
 	 * 
 	 * @see CourseSearchUI.xml
-	 * @see myplan.search.js
+	 * @see ksap.search.js
 	 */
 	FacetIndex getFacetColumns();
 

@@ -1193,7 +1193,7 @@ public class CourseSearchController extends UifControllerBase {
 
 		assert table.facetState != null;
 
-		// Update click state based on inputs - see myplan.search.js
+		// Update click state based on inputs - see ksap.search.js
 		String fclick = request.getParameter("fclick");
 		String fcol = request.getParameter("fcol");
 		if (fclick != null && fcol != null)
@@ -1201,7 +1201,7 @@ public class CourseSearchController extends UifControllerBase {
 		else
 			table.facetClickAll();
 
-		// Create the oFacets object used by myplan.search.js
+		// Create the oFacets object used by ksap.search.js
 		ObjectNode oFacets = mapper.createObjectNode();
 		oFacets.put("sQuery", form.getSearchQuery());
 		oFacets.put("sTerm", form.getSearchTerm());
