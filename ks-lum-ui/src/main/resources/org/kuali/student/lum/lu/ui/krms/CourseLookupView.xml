@@ -111,7 +111,7 @@ limitations under the License.
         </property>
         <property name="criteriaGroup.footer.items">
             <list>
-                <bean parent="Uif-PrimaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
+                <bean id="button_search" parent="Uif-PrimaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
                 <bean parent="Uif-ActionLink" p:actionLabel="Cancel"
                       p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
             </list>
