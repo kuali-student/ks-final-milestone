@@ -1,4 +1,4 @@
-package org.kuali.student.ap.framework.mock;
+package org.kuali.student.ap.test.mock;
 
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.schedulebuilder.ShoppingCartRequest;

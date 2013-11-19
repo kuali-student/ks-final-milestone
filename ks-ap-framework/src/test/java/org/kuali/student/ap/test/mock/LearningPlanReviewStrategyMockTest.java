@@ -1,4 +1,4 @@
-package org.kuali.student.ap.framework.mock;
+package org.kuali.student.ap.test.mock;
 
 import org.kuali.student.ap.plannerreview.LearningPlanReviewStrategy;
 import org.kuali.student.ap.plannerreview.infc.Conversation;
