@@ -1,4 +1,4 @@
-package org.kuali.student.ap.test.mock;
+package org.kuali.student.ap.framework.mock;
 
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.framework.context.ShoppingCartHelper;
