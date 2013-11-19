@@ -2348,17 +2348,26 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     }
 
     public void setupRuleIndicator(List<ActivityOfferingWrapper> wrappers) {
-        int i = 0;
+
+        //Get the list of ao ids.
+        List<String> aoIds = new ArrayList<String>();
         for (ActivityOfferingWrapper aoWrapper : wrappers) {
             if (aoWrapper.getAoInfo().getId() != null) {
-                List<ReferenceObjectBinding> refObjectsBindings = CourseOfferingManagementUtil.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoWrapper.getAoInfo().getId());
-                if (refObjectsBindings.size() > 0) {
-                    wrappers.get(i).setHasRule(true);
-                } else {
-                    wrappers.get(i).setHasRule(false);
+                aoIds.add(aoWrapper.getAoInfo().getId());
+            }
+        }
+
+        //Retrieve all reference object bindings for list of ao ids.
+        List<ReferenceObjectBinding> refs = CourseOfferingManagementUtil.getRuleManagementService().
+                findReferenceObjectBindingsByReferenceObjectIds(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoIds);
+        for (ActivityOfferingWrapper aoWrapper : wrappers) {
+            aoWrapper.setHasRule(false);
+            for(ReferenceObjectBinding ref : refs){
+                if(ref.getReferenceObjectId().equals(aoWrapper.getAoInfo().getId())){
+                    aoWrapper.setHasRule(true);
+                    break;
                 }
             }
-            i++;
         }
     }
 
