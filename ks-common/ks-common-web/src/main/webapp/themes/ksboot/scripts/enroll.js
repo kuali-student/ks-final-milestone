@@ -339,12 +339,14 @@ function updateContextBar(srcId, contextBarId, dayOfYear, baseUrl) {
         if (topGroupUpdatePlaceHolder.length) {
             if (jQuery(contextBarContent).length) {
                 jQuery(contextBarContent).appendTo(topGroupUpdatePlaceHolder);
+
                 topGroupUpdate = jQuery("#" + kradVariables.TOP_GROUP_UPDATE).find("> div").detach();
                 if (topGroupUpdate.length) {
                     jQuery("#Uif-TopGroupWrapper > div").replaceWith(topGroupUpdate);
                 }
                 jQuery(contextBarContent).show();
                 contextBarHeight = contextBarContent.outerHeight(true);
+
                 if (jQuery(vh).length) {
 //                    var cbHalfHeight = (contextBarHeight / 2);
                     if (console) {
@@ -355,16 +357,6 @@ function updateContextBar(srcId, contextBarId, dayOfYear, baseUrl) {
                     vh.data("offset", vh.offset());
                     if (console) {
                         console.log("vh top After = " + vh.offset().top);
-                    }
-                    var cw = jQuery("#Uif-ViewContentWrapper");
-                    if (console) {
-                        console.log("cw top before = " + cw.offset().top);
-                    }
-                    var cwTop = cw.offset().top + contextBarHeight;
-                    cw.offset({top: cwTop});
-                    cw.data("offset", cw.offset());
-                    if (console) {
-                        console.log("cw top after = " + cw.offset().top);
                     }
                 }
             }
