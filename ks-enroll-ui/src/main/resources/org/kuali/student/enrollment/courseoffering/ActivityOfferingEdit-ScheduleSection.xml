@@ -262,7 +262,21 @@
                         <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
                     </property>
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:lightBoxLookup.lookupReturnByScript="true">
+                        <bean parent="Uif-QuickFinder">
+                            <!-- Tried using this syntax ... lightBoxLookup.templateOptions ... set the callback, but even with 'merge'
+                                 set the other options were overwritten. -->
+                            <property name="lightBoxLookup">
+                                <bean parent="Uif-LightBoxPost">
+                                    <property name="lookupReturnByScript" value="true" />
+                                    <property name="templateOptions">
+                                        <map merge="true">
+                                            <!-- When the lightbox closes trigger a blur event on the room number text field to clear any field validation messages -->
+                                            <entry key="beforeClose" value="function () {jQuery(&quot;#rdl_room_control&quot;).trigger(&quot;blur&quot;);}"/>
+                                        </map>
+                                    </property>
+                                </bean>
+                            </property>
+
                             <property name="dataObjectClassName" value="org.kuali.student.r2.core.room.dto.RoomInfo"/>
                             <property name="autoSearch" value="true"/>
                             <property name="fieldConversions">
