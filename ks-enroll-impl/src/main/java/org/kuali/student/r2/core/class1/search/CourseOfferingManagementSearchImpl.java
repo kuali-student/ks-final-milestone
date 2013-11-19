@@ -295,7 +295,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                     // audit and passfail are moved into different fields, after that there can be only one grading option
                     // of Satisfactory, Letter, or Percentage
                     "    AND lrc_rvg2 NOT IN ('" + LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT + "'," +
-                    "'" + LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL + "'') ";
+                    "'" + LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL + "') ";
         }
         List<String> crosslistedLuiIds = getCrossListedLuiIds(searchCourseCode,searchSubjectArea,searchAtpId,isExactMatchSearch);
         query = query + getLuiIdentifierSubQuery(searchCourseCode,searchSubjectArea,isExactMatchSearch, crosslistedLuiIds);
