@@ -50,6 +50,7 @@
                 <value>ks-cm-krad/scripts/jquery.jqEasyCharCounter.custom.js</value>
                 <value>ks-cm-krad/scripts/common.js</value>
                 <value>themes/ksboot/scripts/ruleMaintenance.js</value>
+                <value>themes/ksboot/scripts/toolbar.js</value>
             </list>
         </property>
         <property name="additionalCssFiles">
