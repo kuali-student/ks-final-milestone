@@ -467,7 +467,7 @@
             obj.on('PLAN_ITEM_DELETED', function(event, data){
                 if (data.planItemType === 'wishlist') {
                     myplanRetrieveComponent('saved_courses_summary','saved_courses_summary','search','lookup',{viewId:'SavedCoursesSummary-LookupView'});
-                    jQuery('div.jquerybubblepopup.jquerybubblepopup-myplan .jquerybubblepopup-tail').fadeOut(250, function() {
+                    jQuery('div.jquerybubblepopup.jquerybubblepopup-ksap .jquerybubblepopup-tail').fadeOut(250, function() {
                         jQuery(this).remove();
                         fnCloseAllPopups();
                     });

@@ -186,7 +186,7 @@ public class AcademicPlanServiceImplTest {
 		int itemCount = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItemsInPlan(id,
 				KsapFrameworkServiceLocator.getContext().getContextInfo())
 				.size();
-		assertEquals(7, itemCount);
+		assertEquals(8, itemCount);
 
 		// Delete the plan
 		try {
@@ -692,7 +692,7 @@ public class AcademicPlanServiceImplTest {
 		} catch (Exception e) {
 			fail(e.getLocalizedMessage());
 		}
-		assertEquals(7, planItems.size());
+		assertEquals(8, planItems.size());
 
 		// Delete a plan item.
 		String planItemId = planItems.get(0).getId();
@@ -712,7 +712,7 @@ public class AcademicPlanServiceImplTest {
 		} catch (Exception e) {
 			fail(e.getLocalizedMessage());
 		}
-		assertEquals(6, itemCount);
+		assertEquals(7, itemCount);
 	}
 
 	@Test

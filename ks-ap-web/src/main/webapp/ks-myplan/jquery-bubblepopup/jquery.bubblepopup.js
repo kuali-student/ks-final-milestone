@@ -235,7 +235,7 @@
             openingDelay: 0,
             closingDelay: 0,
             baseClass: "jquerybubblepopup",
-            themeName: "myplan",
+            themeName: "ksap",
             themePath: "jquerybubblepopup-theme/",
             themeMargins: {
                 total: "13px",

@@ -166,7 +166,7 @@ function openDocument(url) {
 function openCourse(courseId, e) {
     stopEvent(e);
     var target = (e.currentTarget) ? e.currentTarget : e.srcElement;
-    if (jQuery(target).parents(".jquerypopover.jquerypopover-myplan").length > 0) {
+    if (jQuery(target).parents(".jquerypopover.jquerypopover-ksap").length > 0) {
         window.location = "inquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId=" + courseId;
     } else {
         var retrieveData = {action: "plan", viewId: "PlannedCourse-FormView", methodToCall: "startAddPlannedCourseForm", courseId: courseId};
@@ -198,7 +198,7 @@ function openPopup(getId, retrieveData, formAction, popupStyle, popupOptions, e)
         align:"center",
         alwaysVisible:false,
         themeMargins:{total:"20px", difference:"5px"},
-        themeName:"myplan",
+        themeName:"ksap",
         distance:"0px",
         openingSpeed:5,
         closingSpeed:5
@@ -310,7 +310,7 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
         align:'center',
         alwaysVisible:false,
         themeMargins:{total:'20px', difference:'5px'},
-        themeName:'myplan',
+        themeName:'ksap',
         distance:'0px',
         openingSpeed:0,
         closingSpeed:0
@@ -350,7 +350,7 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
 
     jQuery(document).on('click', function (e) {
         var tempTarget = (e.target) ? e.target : e.srcElement;
-        if (jQuery(tempTarget).parents("div.jquerybubblepopup.jquerybubblepopup-myplan").length === 0 && jQuery(tempTarget).parents("div.uif-tooltip").length === 0) {
+        if (jQuery(tempTarget).parents("div.jquerybubblepopup.jquerybubblepopup-ksap").length === 0 && jQuery(tempTarget).parents("div.uif-tooltip").length === 0) {
             popupBox.HideBubblePopup();
             fnCloseAllPopups();
         }
@@ -375,7 +375,7 @@ function openDialog(sText, e, close) {
         align:"center",
         alwaysVisible:false,
         themeMargins:{total:"20px", difference:"5px"},
-        themeName:"myplan",
+        themeName:"ksap",
         distance:"0px",
         openingSpeed:5,
         closingSpeed:5
@@ -902,7 +902,7 @@ function clickOutsidePopOver(popoverId, element) {
 function fnCloseAllPopups() {
     hideBubblePopups();
     // Remove inner HTML for My Plan created popups
-    jQuery(".jquerybubblepopup-myplan > .jquerybubblepopup-innerHtml").children().remove();
+    jQuery(".jquerybubblepopup-ksap > .jquerybubblepopup-innerHtml").children().remove();
     // TODO remove after review: if (jQuery("body").HasBubblePopup()) jQuery("body").HideBubblePopup();
     // TODO remove after review: jQuery(document).off();
     // KRAD 2.2.0 uses a global event handler to update popups
@@ -1644,7 +1644,7 @@ function openPlanItemPopUp(xid, getId, retrieveOptions, e, selector, popupOption
         align:'center',
         alwaysVisible:false,
         themeMargins:{total:'18px', difference:'5px'},
-        themeName:'myplan',
+        themeName:'ksap',
         distance:'10px',
         openingSpeed:0,
         closingSpeed:0
@@ -1673,7 +1673,7 @@ function openPlanItemPopUp(xid, getId, retrieveOptions, e, selector, popupOption
 
     jQuery(document).on('click', function (e) {
         var tempTarget = (e.target) ? e.target : e.srcElement;
-        if (jQuery(tempTarget).parents("div.jquerybubblepopup.jquerybubblepopup-myplan").length === 0 && jQuery(tempTarget).parents("div.uif-tooltip").length === 0) {
+        if (jQuery(tempTarget).parents("div.jquerybubblepopup.jquerybubblepopup-ksap").length === 0 && jQuery(tempTarget).parents("div.uif-tooltip").length === 0) {
             popupBox.HideBubblePopup();
             fnCloseAllPopups();
         }
@@ -1740,7 +1740,7 @@ function openPlanItemPopUp(xid, getId, retrieveOptions, e, selector, popupOption
 
             jQuery(document).on('click', function (e) {
                 var tempTarget = (e.target) ? e.target : e.srcElement;
-                if (jQuery(tempTarget).parents("div.jquerybubblepopup.jquerybubblepopup-myplan").length === 0 && jQuery(tempTarget).parents("div.uif-tooltip").length === 0) {
+                if (jQuery(tempTarget).parents("div.jquerybubblepopup.jquerybubblepopup-ksap").length === 0 && jQuery(tempTarget).parents("div.uif-tooltip").length === 0) {
                     popupBox.HideBubblePopup();
                     fnCloseAllPopups();
                 }

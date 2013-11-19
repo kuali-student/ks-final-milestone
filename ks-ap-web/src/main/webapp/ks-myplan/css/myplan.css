@@ -2129,12 +2129,12 @@ table.ksap-course-search-results-datatable .blockUI {
     float: left;
 }
 
-.jquerybubblepopup-myplan .jquerybubblepopup-innerHtml {
+.jquerybubblepopup-ksap .jquerybubblepopup-innerHtml {
     padding: 5px;
     overflow: hidden;
 }
 
-.jquerybubblepopup-myplan .jquerybubblepopup-innerHtml .uif-headerText {
+.jquerybubblepopup-ksap .jquerybubblepopup-innerHtml .uif-headerText {
     text-transform: none;
     font-weight: bold;
     padding-bottom: 0.5em;

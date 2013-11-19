@@ -6,11 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.kuali.student.ap.framework.course.CreditsFormatter;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath:testKsapFrameworkInit-context.xml" })
 public class CreditsFormatterTest {
     @Test
     public void formatCreditsNullEmptyAndFixed() {

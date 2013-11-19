@@ -238,7 +238,7 @@
             openingDelay:0,
             closingDelay:0,
             baseClass:"jquerypopover",
-            themeName:"myplan",
+            themeName:"ksap",
             themePath:"jquerypopover-theme/",
             themeMargins:{
                 total:"13px",

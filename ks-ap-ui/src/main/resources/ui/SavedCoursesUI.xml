@@ -165,7 +165,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message"
-                                  p:messageText="You have no bookmarked courses. &lt;a href=&quot;course&quot;&gt;Find courses&lt;/a&gt; and add them to your bookmarked list."/>
+                                  p:messageText="You have no bookmarked courses. &lt;a href=&quot;course?methodToCall=start&amp;viewId=CourseSearch-FormView&quot;&gt;Find courses&lt;/a&gt; and add them to your bookmarked list."/>
                         </list>
                     </property>
                 </bean>
