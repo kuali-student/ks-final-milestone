@@ -47,39 +47,31 @@ public class OfferingInstructorTransformer {
 
     private static PersonService personService;
     private static IdentityService identityService;
-    protected static List<String> personEntityTypeCodes = new ArrayList<String>( 4 );
 
-    private static PersonImpl _convertEntityToPerson( EntityDefault entity, Principal principal ) {
+    private static PersonImpl _convertEntityToPerson(EntityDefault entity, Principal principal) {
         try {
-            personEntityTypeCodes.add("PERSON");
             // get the EntityEntityType for the EntityType corresponding to a Person
-            for ( String entityTypeCode : personEntityTypeCodes ) {
-                EntityTypeContactInfoDefault entType = entity.getEntityType( entityTypeCode );
-                // if no "person" identity type present for the given principal, skip to the next type in the list
-                if ( entType == null ) {
-                    continue;
-                }
-                // attach the principal and identity objects
-                // PersonImpl has logic to pull the needed elements from the KimEntity-related classes
-                return new PersonImpl( principal, entity, entityTypeCode );
+
+            EntityTypeContactInfoDefault entType = entity.getEntityType("PERSON");
+            // if no "person" identity type present for the given principal, skip to the next type in the list
+            if (entType == null) {
+                return null;
             }
-            return null;
-        } catch ( Exception ex ) {
-            // allow runtime exceptions to pass through
-            if ( ex instanceof RuntimeException ) {
-                throw (RuntimeException)ex;
-            }
-            throw new RuntimeException( "Problem building person object", ex );
+            // attach the principal and identity objects
+            // PersonImpl has logic to pull the needed elements from the KimEntity-related classes
+            return new PersonImpl(principal, entity, "PERSON");
+        } catch (Exception ex) {
+            throw new RuntimeException("Problem building person object", ex);
         }
     }
 
     public static List<OfferingInstructorInfo> lprs2Instructors(List<LprInfo> lprs) {
         List<OfferingInstructorInfo> results = new ArrayList<OfferingInstructorInfo>(lprs.size());
 
-        for(LprInfo lpr : lprs) {
+        for (LprInfo lpr : lprs) {
             OfferingInstructorInfo instructor = new OfferingInstructorInfo();
             instructor.setPersonId(lpr.getPersonId());
-            if(!StringUtils.isEmpty(lpr.getCommitmentPercent())) {
+            if (!StringUtils.isEmpty(lpr.getCommitmentPercent())) {
                 instructor.setPercentageEffort(Float.parseFloat(lpr.getCommitmentPercent()));
             }
             instructor.setId(lpr.getId());
@@ -88,7 +80,7 @@ public class OfferingInstructorTransformer {
 
             // Should be only one person found by person id
             List<Person> personList = getInstructorByPersonId(instructor.getPersonId());
-            if(personList != null && !personList.isEmpty()){
+            if (personList != null && !personList.isEmpty()) {
                 int firstPerson = 0;
                 instructor.setPersonName(personList.get(firstPerson).getName());
             }
@@ -104,21 +96,22 @@ public class OfferingInstructorTransformer {
      * Transform a list of LprInfo into a list of OfferingInstructorInfo.
      * When retrieving the person name from KIM service, "in clause" search criteria is used to perform the bulking loading
      *
-     * @param lprs  List<LprInfo>
-     * @return      a list of OfferingInstructorInfo
+     * @param lprs List<LprInfo>
+     * @return a list of OfferingInstructorInfo
      */
     public static List<OfferingInstructorInfo> lprs2InstructorsBulk(List<LprInfo> lprs) {
         List<OfferingInstructorInfo> results = new ArrayList<OfferingInstructorInfo>(lprs.size());
-        
-        if (lprs == null || lprs.size() == 0)
+
+        if (lprs.isEmpty()){
             return results;
-        
+        }
+
         //Map with the key of principalId and value of List<Person>
         Map<String, List<Person>> lpr2PersonMap = new HashMap<String, List<Person>>(lprs.size());
 
         //Store all the person ids into a list
         List<String> personIds = new ArrayList<String>(lprs.size());
-        for(LprInfo lpr : lprs) {
+        for (LprInfo lpr : lprs) {
             personIds.add(lpr.getPersonId());
         }
 
@@ -128,17 +121,17 @@ public class OfferingInstructorTransformer {
                 PredicateFactory.in("principals.principalId", personIds.toArray()),
                 PredicateFactory.equalIgnoreCase("entityTypeContactInfos.active", "Y"),
                 PredicateFactory.or(
-                    PredicateFactory.equalIgnoreCase("entityTypeContactInfos.entityTypeCode", "PERSON"),
-                    PredicateFactory.equalIgnoreCase("entityTypeContactInfos.entityTypeCode", "SYSTEM")));
+                        PredicateFactory.equalIgnoreCase("entityTypeContactInfos.entityTypeCode", "PERSON"),
+                        PredicateFactory.equalIgnoreCase("entityTypeContactInfos.entityTypeCode", "SYSTEM")));
         QueryByCriteria criteria = qbcBuilder.build();
 
         //retrieve all the default entities with the search criteria
         EntityDefaultQueryResults qr = getIdentityService().findEntityDefaults(criteria);
         List<Person> people = new ArrayList<Person>();
-        for ( EntityDefault e : qr.getResults() ) {
+        for (EntityDefault e : qr.getResults()) {
             // get to get all principals for the identity as well
-            for ( Principal p : e.getPrincipals() ) {
-                people.add(_convertEntityToPerson( e, p ) );
+            for (Principal p : e.getPrincipals()) {
+                people.add(_convertEntityToPerson(e, p));
             }
         }
 
@@ -157,10 +150,10 @@ public class OfferingInstructorTransformer {
         //iterate the lpr list and transform them one by one into OfferingInstructorInfo
         //no service calls are made inside this loop
         int firstLprInfo = 0;
-        for(LprInfo lpr : lprs) {
+        for (LprInfo lpr : lprs) {
             OfferingInstructorInfo instructor = new OfferingInstructorInfo();
             instructor.setPersonId(lpr.getPersonId());
-            if(!StringUtils.isEmpty(lpr.getCommitmentPercent())) {
+            if (!StringUtils.isEmpty(lpr.getCommitmentPercent())) {
                 instructor.setPercentageEffort(Float.parseFloat(lpr.getCommitmentPercent()));
             }
             instructor.setId(lpr.getId());
@@ -177,7 +170,7 @@ public class OfferingInstructorTransformer {
 
     }
 
-    public static List<Person> getInstructorByPersonId(String personId){
+    public static List<Person> getInstructorByPersonId(String personId) {
         Map<String, String> searchCriteria = new HashMap<String, String>();
         searchCriteria.put(KIMPropertyConstants.Person.PRINCIPAL_ID, personId);
         List<Person> lstPerson = getPersonService().findPeople(searchCriteria);
@@ -186,7 +179,7 @@ public class OfferingInstructorTransformer {
 
 
     public static IdentityService getIdentityService() {
-        if(identityService == null) {
+        if (identityService == null) {
             identityService = KimApiServiceLocator.getIdentityService();
         }
 
@@ -194,23 +187,19 @@ public class OfferingInstructorTransformer {
     }
 
     public static PersonService getPersonService() {
-        if(personService == null) {
+        if (personService == null) {
             personService = KimApiServiceLocator.getPersonService();
         }
 
         return personService;
     }
 
-    public static void setPersonService(PersonService personService) {
-        OfferingInstructorTransformer.personService = personService;
-    }
-
     /**
      * Transform a list of OfferingInstructorInfo into a list of LprInfo.
      *
-     * @param luiInfo       the LuiInfo that the lprs are attached to
-     * @param instructors   List<OfferingInstructorInfo>
-     * @return              a list of LprInfo
+     * @param luiInfo     the LuiInfo that the lprs are attached to
+     * @param instructors List<OfferingInstructorInfo>
+     * @return a list of LprInfo
      */
     public static List<LprInfo> instructors2Lprs(LuiInfo luiInfo, List<OfferingInstructorInfo> instructors) {
 
