@@ -154,6 +154,13 @@
             <groupId>antlr</groupId>
             <artifactId>antlr</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.kuali.student.ap</groupId>
+            <artifactId>ks-ap-framework</artifactId>
+            <version>${ks.ap.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -228,98 +235,5 @@
         </profile>
     </profiles>
 
-<!-- TODO: REVIEW
-        #### Pulling this in so that we can override the openjpa-1.2.1 mismatch with hibernate-2.x-api ###
-        #### Kuali Student Dependencies ###
-        <dependency>
-            <groupId>org.kuali.student.myplan</groupId>
-            <artifactId>myplan-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.enroll</groupId>
-            <artifactId>ks-enroll-api</artifactId>
-            <version>${kuali.student.enroll.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kuali.student.enroll</groupId>
-            <artifactId>ks-enroll-impl</artifactId>
-            <version>${kuali.student.enroll.version}</version>
-        </dependency>
-
-       ####  End Kuali Student Dependencies ###
-
-
-        #### Unit Testing Dependencies ###
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>${oracle.artifactId}</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>antlr</groupId>
-            <artifactId>antlr</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>net.sourceforge.jtds</groupId>
-            <artifactId>jtds</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-c3p0</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity</artifactId>
-        </dependency>
-
-        #### TODO: Fix this ###
-        <dependency>
-            <groupId>jaxen</groupId>
-            <artifactId>jaxen</artifactId>
-            <version>1.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jibx</groupId>
-            <artifactId>jibx-run</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>3.1.0.GA</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-c3p0</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-    </dependencies>
--->
 
 </project>
