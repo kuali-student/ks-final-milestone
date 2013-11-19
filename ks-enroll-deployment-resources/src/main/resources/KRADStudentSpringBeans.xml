@@ -279,6 +279,11 @@
 				<value>org.kuali.student.enrollment.</value>
 			</list>
 		</property>
+        <property name="externalizableBusinessObjectImplementations">
+            <map>
+                <entry key="org.kuali.rice.student.bo.KualiStudentKimAttributes" value="org.kuali.rice.student.bo.KualiStudentKimAttributes"/>
+            </map>
+        </property>
 	</bean>
 	
 	
