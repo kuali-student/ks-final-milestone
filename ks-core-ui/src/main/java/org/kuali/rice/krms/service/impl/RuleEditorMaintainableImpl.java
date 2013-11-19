@@ -120,7 +120,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         }
 
         // Get the list of parent agendas
-        List<ReferenceObjectBinding> parentRefObjects = this.getParentRefOjbects(refObjectId);
+        List<ReferenceObjectBinding> parentRefObjects = this.getParentRefOjbects(parentRefObjectId);
         for (ReferenceObjectBinding referenceObject : parentRefObjects) {
             parentAgendas.add(this.getAgendaEditor(referenceObject.getKrmsObjectId()));
         }
