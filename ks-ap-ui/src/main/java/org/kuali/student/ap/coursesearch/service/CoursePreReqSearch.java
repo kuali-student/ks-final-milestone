@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
@@ -17,11 +18,11 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 public class CoursePreReqSearch {
 
-    private transient CluService cluService;
+    private CluService cluService;
 
     protected CluService getCluService() {
         if (this.cluService == null) {
-            this.cluService = (CluService) GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, "CluService"));
+            this.cluService = KsapFrameworkServiceLocator.getCluService();
         }
         return this.cluService;
     }

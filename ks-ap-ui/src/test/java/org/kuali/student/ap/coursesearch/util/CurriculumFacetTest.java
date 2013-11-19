@@ -55,6 +55,6 @@ public class CurriculumFacetTest {
 
         assertFalse(keys.isEmpty());
         assertEquals(1, keys.size());
-        assertTrue(keys.contains(";ABC;"));
+        assertTrue(keys.contains("ABC"));
     }
 }
