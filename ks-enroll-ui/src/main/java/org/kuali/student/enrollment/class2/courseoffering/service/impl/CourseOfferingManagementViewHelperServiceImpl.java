@@ -895,10 +895,11 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
                 rgWrapper.getRgInfo().getActivityOfferingIds().add(aoWrapper.getAoInfo().getId());
 
+                ActivityOfferingClusterWrapper clusterWrapper = clusterMap.get(aoWrapper.getAoClusterID());
+                if (clusterWrapper.getRgWrapperList().contains(rgWrapper)) {
+                    clusterWrapper.getRgWrapperList().remove(rgWrapper);
+                }
                 if(newLine){
-                    ActivityOfferingClusterWrapper clusterWrapper = clusterMap.get(aoWrapper.getAoClusterID());
-                    clusterWrapper.getRgWrapperList().add(rgWrapper);
-
                     rgWrapper.setAoCluster(clusterWrapper.getAoCluster());
                     rgWrapper.setAoClusterName(clusterWrapper.getClusterNameForDisplay());
                 }
@@ -949,6 +950,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 rgWrapper.setBuildingName(rgWrapper.getBuildingName() + (newLine ? "<br/>" : "") + aoWrapper.getBuildingName() + lineBreaksInstructors);
                 rgWrapper.setBuildingCodeWithTooltip(aoWrapper.getBldgCodeSimple(), aoWrapper.getBuildingName(), (newLine ? "<br/>" : ""));
                 rgWrapper.setAoInstructorText(rgWrapper.getAoInstructorText() + (newLine ? "<br/>" : "") + (aoWrapper.getInstructorDisplayNames() == null ? "" : aoWrapper.getInstructorDisplayNames()) + lineBreaksDeliveries);
+
+                clusterWrapper.getRgWrapperList().add(rgWrapper);
 
                 newLine = true;
             }
