@@ -190,7 +190,7 @@ function openPopup(getId, retrieveData, formAction, popupStyle, popupOptions, e)
     fnCloseAllPopups();
 
     var popupOptionsDefault = {
-        themePath:getConfigParam("kradUrl")+"/../ks-myplan/jquery-bubblepopup/jquerybubblepopup-theme/",
+        themePath:getConfigParam("kradUrl")+"/../ks-myplan/jquery-popover/jquerypopover-theme/",
         manageMouseEvents:true,
         selectable:true,
         tail:{align:"middle", hidden:false},
@@ -302,7 +302,7 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
 
     var popupOptionsDefault = {
         innerHtml:popupHtml,
-        themePath:getConfigParam("kradUrl")+"/../ks-myplan/jquery-bubblepopup/jquerybubblepopup-theme/",
+        themePath:getConfigParam("kradUrl")+"/../ks-myplan/jquery-popover/jquerypopover-theme/",
         manageMouseEvents:false,
         selectable:true,
         tail:{align:'middle', hidden:false},
@@ -367,7 +367,7 @@ function openDialog(sText, e, close) {
     stopEvent(e);
 
     var popupOptionsDefault = {
-        themePath:getConfigParam("kradUrl")+"/../ks-myplan/jquery-bubblepopup/jquerybubblepopup-theme/",
+        themePath:getConfigParam("kradUrl")+"/../ks-myplan/jquery-popover/jquerypopover-theme/",
         manageMouseEvents:true,
         selectable:true,
         tail:{align:"middle", hidden:false},
@@ -1636,7 +1636,7 @@ function openPlanItemPopUp(xid, getId, retrieveOptions, e, selector, popupOption
 
     var popupOptionsDefault = {
         innerHtml:popupHtml.wrap("<div>").parent().clone().html(),
-        themePath:getConfigParam("kradUrl")+"/../ks-myplan/jquery-bubblepopup/jquerybubblepopup-theme/",
+        themePath:getConfigParam("kradUrl")+"/../ks-myplan/jquery-popover/jquerypopover-theme/",
         manageMouseEvents:true,
         selectable:true,
         tail:{align:'middle', hidden:false},
