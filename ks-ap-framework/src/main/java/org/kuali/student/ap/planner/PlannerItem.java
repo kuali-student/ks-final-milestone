@@ -12,6 +12,7 @@ import org.kuali.student.r2.lum.course.infc.Course;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 public class PlannerItem implements
@@ -47,11 +48,12 @@ public class PlannerItem implements
 	public PlannerItem(StudentCourseRecordInfo completedRecord) {
 		uniqueId = UUID.randomUUID().toString();
 		termId = completedRecord.getTermName();
-		courseId = completedRecord.getId();
-		// TODO: switch to attribute, ID is incorrect here
-		// courseId = completedRecord.getAttributeValue("courseId");
 		campusCode = completedRecord.getAttributeValue("campusCode");
 		courseCode = completedRecord.getCourseCode();
+        List<Course> courses = KsapFrameworkServiceLocator.getCourseHelper().getCoursesByCode(courseCode);
+        if(courses != null){
+            if(courses.size()>0) courseId = courses.get(0).getId();
+        }
 		activityCode = completedRecord.getActivityCode();
 		courseTitle = completedRecord.getCourseTitle();
 
