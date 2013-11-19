@@ -1688,11 +1688,10 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         List<AtpInfo> atpList = atpService.getAtpsByCode(code, contextInfo);
         List<TermInfo> termList = new ArrayList<TermInfo>(atpList.size());
         for ( AtpInfo atp : atpList ){
-            TermInfo term = null;
             try {
                 termList.add(termAssembler.assemble(atp, contextInfo));
             } catch (AssemblyException e) {
-                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+                throw new OperationFailedException("AssemblyException", e);
             }
         }
         return termList;
