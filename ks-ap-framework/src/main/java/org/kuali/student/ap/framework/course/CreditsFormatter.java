@@ -176,17 +176,19 @@ public class CreditsFormatter {
 
 	public static String formatCredits(Range range) {
 		StringBuilder sb = new StringBuilder();
-		if (range.multiple != null) {
-			for (BigDecimal rv : range.multiple) {
-				if (sb.length() > 0)
-					sb.append(", ");
-				sb.append(trimCredits(rv.toString()));
-			}
-		} else {
-			sb.append(trimCredits(range.min.toString()));
-			if (range.min.compareTo(range.max) < 0)
-				sb.append(" - ").append(trimCredits(range.max.toString()));
-		}
+		if (range != null) {
+            if (range.multiple != null) {
+                for (BigDecimal rv : range.multiple) {
+                    if (sb.length() > 0)
+                        sb.append(", ");
+                    sb.append(trimCredits(rv.toString()));
+                }
+            } else {
+                sb.append(trimCredits(range.min.toString()));
+                if (range.min.compareTo(range.max) < 0)
+                    sb.append(" - ").append(trimCredits(range.max.toString()));
+            }
+        }
 		return sb.toString();
 	}
 
