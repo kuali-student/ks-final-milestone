@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class2.courseoffering.util;
  */
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
@@ -42,7 +43,12 @@ import java.util.Map;
  */
 public class CourseOfferingManagementToolbarUtil {
 
+    private static final Logger LOGGER = Logger.getLogger(CourseOfferingManagementToolbarUtil.class);
+
     public static void processCoToolbarForUser(List<CourseOfferingListSectionWrapper> coListWrapperList, CourseOfferingManagementForm form){
+
+        long startTime = System.currentTimeMillis();
+
         form.setEnableAddButton(false);
         String socStateKey = form.getSocStateKey();
         String socState = socStateKey==null?null:socStateKey.substring(socStateKey.lastIndexOf('.')+1);
@@ -153,7 +159,7 @@ public class CourseOfferingManagementToolbarUtil {
 
             }
         }
-
+        LOGGER.info("******** CO Toolbar AuthZ Check *********" + (System.currentTimeMillis()-startTime) + "ms");
     }
 
     public static void processAoToolbarForUser(List<ActivityOfferingWrapper> activityWrapperList, CourseOfferingManagementForm form){

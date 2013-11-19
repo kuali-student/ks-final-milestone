@@ -153,12 +153,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
         form.getCourseOfferingResultList().clear();
 
-        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(PredicateFactory.equal("atpCode", termCode));
-
-        QueryByCriteria criteria = qbcBuilder.build();
-
-        List<TermInfo> terms = CourseOfferingManagementUtil.getAcademicCalendarService().searchForTerms(criteria, createContextInfo());
+        List<TermInfo> terms = CourseOfferingManagementUtil.getAcademicCalendarService().getTermsByCode(termCode, createContextInfo());
 
         if (terms.isEmpty()) {
             GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_TERM_IS_FOUND, termCode);

@@ -35,6 +35,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.util.SearchRequestHelper;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
+import javax.persistence.TypedQuery;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -164,7 +165,9 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         /**
          * Get the results
          */
+        long startQ1 = System.currentTimeMillis();
         List<Object[]> results = genericEntityDao.getEm().createQuery(query).getResultList();
+        LOGGER.info("*********BigQueryTime**********"+(System.currentTimeMillis()-startQ1) + " ms");
 
         SearchResultInfo resultInfo = new SearchResultInfo();
         resultInfo.setTotalResults(results.size());
@@ -275,19 +278,27 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                 "    AND lui.luiType = 'kuali.lui.type.course.offering'" +
                 "    AND lui.atpId = '" + searchAtpId + "' " +
                 "    AND lrc_rvg1.id = lui_rvg1" +
-                "    AND lrc_rvg1.resultScaleId LIKE 'kuali.result.scale.credit.%' " +
+                "    AND lrc_rvg1.resultScaleId = '" + LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE + "' " +
                 "    AND lrc_rvg2.id = lui_rvg2" +
-                "    AND lrc_rvg2.resultScaleId LIKE 'kuali.result.scale.grade.%' ";
+                "    AND lrc_rvg2.resultScaleId IN (" +
+                "'" + LrcServiceConstants.RESULT_SCALE_KEY_GRADE_ADMIN + "'," +
+                "'" + LrcServiceConstants.RESULT_SCALE_KEY_GRADE_LETTER + "'," +
+                "'" + LrcServiceConstants.RESULT_SCALE_KEY_GRADE_LETTER_PLUS_MINUS + "'," +
+                "'" + LrcServiceConstants.RESULT_SCALE_KEY_GRADE_PF + "'," +
+                "'" + LrcServiceConstants.RESULT_SCALE_KEY_GRADE_PNP + "'," +
+                "'" + LrcServiceConstants.RESULT_SCALE_KEY_GRADE_COMPLETED + "'," +
+                "'" + LrcServiceConstants.RESULT_SCALE_KEY_GRADE_PERCENTAGE + "')";
 
         if (!includePassFailAuditAndHonorsResults){
             query = query +
                     //Exclude these two types that can cause duplicates.
                     // audit and passfail are moved into different fields, after that there can be only one grading option
                     // of Satisfactory, Letter, or Percentage
-                    "    AND lrc_rvg2 NOT IN ('kuali.resultComponent.grade.audit','kuali.resultComponent.grade.passFail') ";
+                    "    AND lrc_rvg2 NOT IN ('" + LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT + "'," +
+                    "'" + LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL + "'') ";
         }
-
-        query = query + getLuiIdentifierSubQuery(searchCourseCode,searchSubjectArea,isExactMatchSearch);
+        List<String> crosslistedLuiIds = getCrossListedLuiIds(searchCourseCode,searchSubjectArea,searchAtpId,isExactMatchSearch);
+        query = query + getLuiIdentifierSubQuery(searchCourseCode,searchSubjectArea,isExactMatchSearch, crosslistedLuiIds);
 
         if (coIds != null && !coIds.isEmpty()){
             String coIdsAsString = "'" + StringUtils.join(coIds,"','") + "'";
@@ -330,38 +341,84 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
      * @param isExactMatchSearch
      * @return
      */
-    private String getLuiIdentifierSubQuery(String searchCourseCode, String searchSubjectArea,boolean isExactMatchSearch){
+    private String getLuiIdentifierSubQuery(String searchCourseCode, String searchSubjectArea,boolean isExactMatchSearch, List<String> crosslistIds){
 
         if (StringUtils.isBlank(searchCourseCode) && StringUtils.isBlank(searchSubjectArea)) {
             return StringUtils.EMPTY;
         }
 
         StringBuilder query = new StringBuilder();
-
-        query.append("    AND ident.lui.id IN (SELECT ident_subquery.lui.id FROM LuiIdentifierEntity ident_subquery WHERE ");
+        query.append(" AND ((");
 
         String coCodeSearchString = "";
         if (StringUtils.isNotBlank(searchCourseCode)){
             if (isExactMatchSearch){
-                coCodeSearchString = " ident_subquery.code = '" + searchCourseCode + "' ";
+                coCodeSearchString = " ident.code = '" + searchCourseCode + "' ";
             } else {
-                coCodeSearchString = " ident_subquery.code like '" + searchCourseCode + "%' ";
+                coCodeSearchString = " ident.code LIKE '" + searchCourseCode + "%' ";
             }
         }
 
         if (StringUtils.isNotBlank(searchSubjectArea)){
             if (StringUtils.isBlank(searchCourseCode)){
-                query.append(" ident_subquery.division = '" + searchSubjectArea + "' ");
+                query.append(" ident.division = '" + searchSubjectArea + "' ");
             } else {
-                query.append(" ident_subquery.division = '" + searchSubjectArea + "' AND " + coCodeSearchString);
+                query.append(" ident.division = '" + searchSubjectArea + "' AND " + coCodeSearchString);
             }
         } else {
             query.append(coCodeSearchString);
         }
 
-        query.append(") ");
+        if (crosslistIds != null && !crosslistIds.isEmpty()) {
+            query.append( ") OR (lui.id IN('"+StringUtils.join(crosslistIds,"','")+"')" );
+        }
+
+        query.append("))");
+
 
         return query.toString();
+    }
+
+    /**
+     * This method returns the subquery which joins the LuiEntity with LuiIdentifierEntity and search by
+     * division or code.
+     *
+     * @param searchCourseCode
+     * @param searchSubjectArea
+     * @param isExactMatchSearch
+     * @return
+     */
+    private List<String> getCrossListedLuiIds(String searchCourseCode, String searchSubjectArea, String searchAtpId, boolean isExactMatchSearch){
+        String crossListedLuiIdsQuery =
+                "SELECT cl2.lui.id " +
+                        "FROM LuiIdentifierEntity cl1, LuiIdentifierEntity cl2 " +
+                        "WHERE cl2.type = '" + LuiServiceConstants.LUI_IDENTIFIER_CROSSLISTED_TYPE_KEY + "' " +
+                        "AND cl2.lui.atpId = '" + searchAtpId + "' " +
+                        "AND cl1.lui.id = cl2.lui.id";
+
+
+        String coCodeSearchString = "";
+        if (StringUtils.isNotBlank(searchCourseCode)){
+            if (isExactMatchSearch){
+                coCodeSearchString = " AND cl1.code = '" + searchCourseCode + "' ";
+            } else {
+                coCodeSearchString = " AND cl1.code LIKE '" + searchCourseCode + "%' ";
+            }
+        }
+
+        if (StringUtils.isNotBlank(searchSubjectArea)){
+            if (StringUtils.isBlank(searchCourseCode)){
+                crossListedLuiIdsQuery += " AND cl1.division = '" + searchSubjectArea + "' ";
+            } else {
+                crossListedLuiIdsQuery += " AND cl1.division = '" + searchSubjectArea + "' " + coCodeSearchString;
+            }
+        } else {
+            crossListedLuiIdsQuery += coCodeSearchString;
+        }
+        long startTime = System.currentTimeMillis();
+        TypedQuery query = genericEntityDao.getEm().createQuery(crossListedLuiIdsQuery, String.class);
+        LOGGER.info("******Time For Crosslist search******* " + (System.currentTimeMillis()-startTime) +"ms");
+        return query.getResultList();
     }
 
     /**
