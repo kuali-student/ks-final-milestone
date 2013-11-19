@@ -20,7 +20,7 @@
 		<property name="entryPageId" value="course_search" />
 		<property name="cssClasses">
 			<list merge="true">
-				<value>ksap-view</value>
+				<value>myplan-view</value>
 			</list>
 		</property>
 		<property name="header">

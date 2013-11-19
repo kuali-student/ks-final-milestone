@@ -17,7 +17,7 @@
         <property name="page.header.render" value="false"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>ksap-view</value>
+                <value>myplan-view</value>
             </list>
         </property>
         <property name="items">
@@ -228,7 +228,7 @@
                             <bean parent="Uif-ActionLink" p:actionLabel="Show all sections"
                                   p:style="float:right; padding-right: 10px;">
                                 <property name="actionScript"
-                                          value="ksapRetrieveComponent('@{#line.courseDetails.courseId}_sections_collection','course_details_institution_data','start','inquiry',{viewId:'CourseSections-InquiryView',section_term:'@{#line.planItemDataObject.atp}',courseId:'@{#line.courseDetails.courseId}'});"/>
+                                          value="myplanRetrieveComponent('@{#line.courseDetails.courseId}_sections_collection','course_details_institution_data','start','inquiry',{viewId:'CourseSections-InquiryView',section_term:'@{#line.planItemDataObject.atp}',courseId:'@{#line.courseDetails.courseId}'});"/>
                                 <property name="render" value="@{!#line.showAlert}"/>
                             </bean>
 

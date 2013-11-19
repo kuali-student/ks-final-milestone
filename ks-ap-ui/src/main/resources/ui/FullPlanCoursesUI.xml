@@ -31,7 +31,7 @@
         <property name="page.header.render" value="false"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>ksap-view</value>
+                <value>myplan-view</value>
             </list>
         </property>
         <property name="style" value="width:682px;"/>

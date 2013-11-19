@@ -46,7 +46,7 @@ function ksapCartSubmitDialog(e) {
 	var button = jQuery(e.currentTarget);
 
 	button.block({
-		message : '<img src="../ks-ap/images/btnLoader.gif"/>',
+		message : '<img src="../ks-myplan/images/btnLoader.gif"/>',
 		css : {
 			width : '100%',
 			border : 'none',
@@ -128,7 +128,7 @@ function ksapCartUpdateEvent(response, textStatus, jqXHR) {
 		fnClosePopup();
 
 	} else {
-		var feedback = jQuery("#popupForm").find(".ksap-feedback");
+		var feedback = jQuery("#popupForm").find(".myplan-feedback");
 		feedback.empty().append("<span/>").text(response.message);
 		feedback.addClass("error");
 		feedback.removeClass("success");

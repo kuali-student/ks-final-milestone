@@ -31,7 +31,7 @@ limitations under the License.
         <property name="header.render" value="false"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>ksap-view</value>
+                <value>myplan-view</value>
             </list>
         </property>
         <property name="items">
@@ -1003,7 +1003,7 @@ limitations under the License.
                                         <bean id="academic_planner_share" parent="Uif-InputField"
                                               p:propertyName="enableAdviserView" p:width="auto">
                                             <property name="onChangeScript" value="
-                                                ksapWriteHiddenToForm('methodToCall', 'academicPlanner', 'student_academic_planner_page_form');
+                                                myplanWriteHiddenToForm('methodToCall', 'academicPlanner', 'student_academic_planner_page_form');
                                                 jQuery('#student_academic_planner_page_form').ajaxSubmit();
                                             "/>
                                             <property name="control">

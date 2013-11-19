@@ -32,7 +32,7 @@
         <property name="singlePageView" value="true"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>ksap-view</value>
+                <value>myplan-view</value>
             </list>
         </property>
         <property name="criteriaFields">
@@ -191,7 +191,7 @@
         <property name="renderSearchButtons" value="false" />
         <property name="cssClasses">
             <list merge="true">
-                <value>ksap-view</value>
+                <value>myplan-view</value>
             </list>
         </property>
 
@@ -532,7 +532,7 @@
             <list merge="true">
                 <value>fl-container-650</value>
                 <value>myplan-audit-info-panel</value>
-                <value>ksap-carousel-list</value>
+                <value>myplan-carousel-list</value>
             </list>
         </property>
         <property name="items">
