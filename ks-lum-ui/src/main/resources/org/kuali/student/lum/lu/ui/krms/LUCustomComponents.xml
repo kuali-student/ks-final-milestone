@@ -63,7 +63,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="Uif-HeaderThree" p:headerText="Courses">
-                    <property name="headerTagStyle" value="font-size:13px;"/>
+                    <property name="headerTagStyle" value="font-size:13px; font-weight: bold;"/>
                 </bean>
                 <bean parent="Uif-MessageField" p:messageText="You may add any combination of courses, dynamic course ranges, or Course sets."/>
                 <ref bean="KRMS-MultiCourse-Type-Field"/>
@@ -749,7 +749,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="Uif-HeaderThree" p:headerText="Program(s)">
-                    <property name="headerTagStyle" value="font-size:13px;"/>
+                    <property name="headerTagStyle" value="font-size:13px; font-weight: bold;"/>
                 </bean>
                 <bean parent="Uif-MessageField" p:messageText="You may add any combination of programs."/>
                 <ref bean="KRMS-Program-Type-Field"/>
