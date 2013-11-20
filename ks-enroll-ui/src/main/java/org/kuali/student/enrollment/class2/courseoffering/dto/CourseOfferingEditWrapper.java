@@ -454,5 +454,14 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
         return StringUtils.removeEnd(sb.toString(), ",");
     }
+
+    public String getCrosslistedCodes() {
+        StringBuilder sb = new StringBuilder();
+        for (String code : alternateCOCodes) {
+            sb.append(code + ",");
+        }
+
+        return StringUtils.removeEnd(sb.toString(), ",");
+    }
 }
 

@@ -18,27 +18,27 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
-import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
-import org.kuali.student.r2.common.util.constants.LuServiceConstants;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.core.class1.state.dto.StateInfo;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -46,7 +46,6 @@ import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstant
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
-import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -188,8 +187,11 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
             /**
              * Sets the cross listed infos
              */
+            if(formObject.getAlternateCOCodes()!=null) {
+                formObject.getAlternateCOCodes().clear();
+            }
             for (CourseOfferingCrossListingInfo crossListingInfo : coInfo.getCrossListings()){
-                if(formObject.getAlternateCOCodes()!=null && !formObject.getAlternateCOCodes().isEmpty()){
+                if(formObject.getAlternateCOCodes()!=null){
                     formObject.getAlternateCOCodes().add(crossListingInfo.getCode());
                 }
             }

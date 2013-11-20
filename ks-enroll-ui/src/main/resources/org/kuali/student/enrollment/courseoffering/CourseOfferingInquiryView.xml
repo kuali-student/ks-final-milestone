@@ -27,8 +27,9 @@
                                         <!--<bean parent="Uif-DataField" p:label="ID" p:propertyName="courseOfferingInfo.id" />-->
                                         <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.courseOfferingCode" p:fieldLabel.renderColon="false"/>
                                         <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.finalExamType" p:fieldLabel.renderColon="false"/>
-                                        <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.courseNumberSuffix" p:fieldLabel.renderColon="false"/>
+                                        <bean parent="Uif-DataField" p:propertyName="crosslistedCodes" p:label="Crosslisted as" p:render="@{dataObject.crosslistedCodes != ''}" p:fieldLabel.renderColon="false"/>
                                         <bean parent="Uif-DataField" p:propertyName="finalExamDriverUI" p:label="Final Exam Driver" p:fieldLabel.renderColon="false"/>
+                                        <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.courseNumberSuffix" p:fieldLabel.renderColon="false"/>
                                         <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.courseOfferingTitle" p:fieldLabel.renderColon="false"/>
                                         <bean parent="Uif-DataField" p:propertyName="useFinalExamMatrixUI" p:label="Use Final Exam Matrix" p:fieldLabel.renderColon="false"/>
                                         <bean parent="Uif-DataField" p:propertyName="termName" p:label="Term" p:fieldLabel.renderColon="false"/>
@@ -69,9 +70,9 @@
                                         <bean parent="Uif-DataField" p:propertyName="selectedStudentRegOpts" p:label="Student Registration Options" p:fieldLabel.renderColon="false"/>
 
                                         <bean parent="Uif-MessageField" p:label="Honors Flag" p:messageText="@{(dataObject.courseOfferingInfo.isHonorsOffering eq null or !dataObject.courseOfferingInfo.isHonorsOffering) ? 'NO':'YES'}" p:fieldLabel.renderColon="false"/>
-                                        <bean parent="Uif-DataField" p:label="Cross listed as" p:propertyName="alternateCOCodesUIList" p:render="@{dataObject.alternateCOCodesUIList != ''}" p:fieldLabel.renderColon="false"/>
+                                        <!-- <bean parent="Uif-DataField" p:label="Cross listed as" p:propertyName="alternateCOCodesUIList" p:render="@{dataObject.alternateCOCodesUIList != ''}" p:fieldLabel.renderColon="false"/>
 
-                                        <!-- displays "[]" when empty, not desired
+                                        displays "[]" when empty, not desired
                                         <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.studentRegistrationOptionIds" p:label="Student Registration Options" p:render="@{#dp.studentRegOptions.empty}">
                                             <property name="optionsFinder">
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.StudentRegistrationOptionsKeyValues" p:addBlankOption="false"/>
