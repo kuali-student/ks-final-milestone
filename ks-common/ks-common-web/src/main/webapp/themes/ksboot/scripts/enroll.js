@@ -280,91 +280,40 @@ function highlightElements(validationJSONString, isValid, url) {
  So on page load we are loading the component that krad is replacing the context bar with instead of the place holder.
  */
 // KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show
-function updateContextBar(srcId, contextBarId, dayOfYear, baseUrl) {
-    if (dayOfYear < 1) {
-        return;
-    }
-    var topGroupWrapper = jQuery("#Uif-TopGroupWrapper");
-    var topGroupWrapperPlaceHolder = jQuery("#Uif-TopGroupWrapper > #" + contextBarId);
-    var topGroupWrapperContent = jQuery("#Uif-TopGroupWrapper > #" + contextBarId + " > #" + srcId);
-    var topGroupUpdate = jQuery("#" + kradVariables.TOP_GROUP_UPDATE);
-    var topGroupUpdatePlaceHolder = jQuery("#" + kradVariables.TOP_GROUP_UPDATE + " > #" + contextBarId);
-    var topGroupUpdateContent = jQuery("#" + kradVariables.TOP_GROUP_UPDATE + " > #" + contextBarId + " > #" + srcId);
-    var contextBarContent = jQuery("#" + srcId);
-    var contextBarContentStandAlone = jQuery("#" + srcId).not("#" + contextBarId + " > #" + srcId);
-    var bc = jQuery("#Uif-BreadcrumbWrapper");
-    var vh = jQuery(".uif-viewHeader-contentWrapper.uif-sticky");
-    var contextBarHeight = 0;
-
+function updateContextBar(contextBarId) {
     if (!initialViewLoad) {
-        if (jQuery(contextBarContentStandAlone).length && (jQuery(topGroupUpdateContent).length)) {
-            jQuery(topGroupUpdateContent).replaceWith(contextBarContentStandAlone);
-        } else if (jQuery(topGroupUpdateContent).length) {
-            jQuery.extend(topGroupUpdateContent, contextBarContent);
-            jQuery(contextBarContent).show();
-        } else if (jQuery(topGroupUpdatePlaceHolder).length) {
-            if (jQuery(contextBarContent).length) {
-                jQuery(contextBarContent).appendTo(topGroupUpdatePlaceHolder);
-                jQuery(contextBarContent).show();
+        var topGroupUpdateContextbar = jQuery("#" + kradVariables.TOP_GROUP_UPDATE + " > #" + contextBarId);
+        var bc = jQuery("#Uif-BreadcrumbWrapper");
+        var vh = jQuery(".uif-viewHeader-contentWrapper.uif-sticky");
+        var applicationHeaderWrapper = jQuery("#Uif-ApplicationHeader-Wrapper");
 
-                contextBarHeight = topGroupUpdate.outerHeight(true);
-                var applicationHeaderWrapper = jQuery("#Uif-ApplicationHeader-Wrapper");
+        if (topGroupUpdateContextbar.length) {
+            var contextBarHeight = topGroupUpdateContextbar.outerHeight(true);
+            if (contextBarHeight > 0) {
+
                 var applicationHeaderWrapperHeight = 0;
-                if(applicationHeaderWrapper.length){
+                if (applicationHeaderWrapper.length) {
                     applicationHeaderWrapperHeight = applicationHeaderWrapper.outerHeight(true);
                 }
                 var bcHeight = 0;
-                if(jQuery(bc).length){
+                if (jQuery(bc).length) {
                     bcHeight = bc.outerHeight(true);
                 }
                 var vhOffset = applicationHeaderWrapperHeight + bcHeight + contextBarHeight;
-                if(jQuery(vh).length){
+                if (jQuery(vh).length) {
                     vh.offset({top: vhOffset});
                     vh.data("offset", vh.offset());
                 }
 
                 var cw = jQuery("#Uif-ViewContentWrapper");
-                if(jQuery(cw).length){
+                if (jQuery(cw).length) {
                     var cwOffset = vhOffset + contextBarHeight;
                     cw.offset({top: cwOffset});
                     cw.data("offset", cw.offset());
                 }
-
-            } else if (jQuery(topGroupWrapperContent).length) {
-                jQuery.extend(topGroupUpdatePlaceHolder, topGroupWrapperContent);
             }
         }
-        contextBarHeight = topGroupUpdate.outerHeight(true);
-    } else {
-        if (topGroupUpdatePlaceHolder.length) {
-            if (jQuery(contextBarContent).length) {
-                jQuery(contextBarContent).appendTo(topGroupUpdatePlaceHolder);
-
-                topGroupUpdate = jQuery("#" + kradVariables.TOP_GROUP_UPDATE).find("> div").detach();
-                if (topGroupUpdate.length) {
-                    jQuery("#Uif-TopGroupWrapper > div").replaceWith(topGroupUpdate);
-                }
-                jQuery(contextBarContent).show();
-                contextBarHeight = contextBarContent.outerHeight(true);
-
-                if (jQuery(vh).length) {
-//                    var cbHalfHeight = (contextBarHeight / 2);
-                    if (console) {
-                        console.log("vh top before = " + vh.offset().top);
-                    }
-                    var vhTop = vh.offset().top + contextBarHeight;
-                    vh.offset({top: vhTop});
-                    vh.data("offset", vh.offset());
-                    if (console) {
-                        console.log("vh top After = " + vh.offset().top);
-                    }
-                }
-            }
-        }
-        contextBarHeight = contextBarContent.outerHeight(true);
     }
-
-    setSeasonalColor(srcId, dayOfYear, baseUrl);
 }
 
 /*
@@ -452,7 +401,12 @@ function setSeasonalColor(elementToColor, dayOfYear, baseUrl) {
     }
     if (dayOfYear > 0 && dayOfYear <= 365) {
         var image = jQuery('<img src="' + baseUrl + '/themes/ksboot/images/season_gradient.png"/>');
-        var elemToColor = jQuery('#' + elementToColor);
+        var elemToColor;
+        if (!initialViewLoad) {
+            elemToColor = jQuery("#" + kradVariables.TOP_GROUP_UPDATE + " > #" + elementToColor);
+        }else{
+            elemToColor = jQuery('#' + elementToColor);
+        }
         var percentage = dayOfYear / 365;
 
         image.load(function () {
