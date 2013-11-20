@@ -725,3 +725,11 @@ function triggerFieldValidationAfterPageLoads(id) {
         jQuery(window).load(function() { element.trigger('blur'); });
     }
 }
+
+
+function dismissEnterKeyAction() {
+    if (window.event.keyCode== 13) {
+        window.event.returnValue = false;
+        window.event.keyCode = 0;
+    }
+}

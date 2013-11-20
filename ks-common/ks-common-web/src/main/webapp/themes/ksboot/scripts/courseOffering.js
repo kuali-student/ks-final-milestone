@@ -176,11 +176,3 @@ function updateExamDriverInFOTable(finalExamDropDownId, finalExamTableCellId, pa
         });
     }
 }
-
-function dismissEnterKeyAction() {
-    if (window.event.keyCode== 13) {
-        window.event.returnValue = false;
-        window.event.keyCode = 0;
-    }
-}
-

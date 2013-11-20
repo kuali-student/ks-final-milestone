@@ -770,10 +770,3 @@ function rdlDaysOnBlur(){
         jQuery("#rdl_starttime_control").focus();
     });
 }
-
-function dismissEnterKeyAction() {
-    if (window.event.keyCode== 13) {
-        window.event.returnValue = false;
-        window.event.keyCode = 0;
-    }
-}
