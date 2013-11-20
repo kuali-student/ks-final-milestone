@@ -265,17 +265,17 @@ limitations under the License.
     <bean id="KRMS-PrototypeHeader-BoxGroup" parent="Uif-HorizontalBoxGroup" p:render="@{#np.data != null}"
           p:additionalCssClasses="krms-editVerticalBox">
         <property name="items">
-            <list>
-                <bean parent="Uif-MessageField" p:messageText="@{#np.data}"/>
-                <bean parent="Uif-SpaceField"/>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="edit" p:align="right" p:methodToCall="getSelectedKey">
-                    <property name="additionalSubmitData" value="selectedKey:@{#np.key != null ? #np.key : -1}"/>
-                    <property name="toolTip">
-                        <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true"
-                              p:tooltipContent="Edit Prerequisite Rule"/>
-                    </property>
-                </bean>
-            </list>
-        </property>
+        <list>
+            <bean parent="Uif-MessageField" p:messageText="@{#np.data}"/>
+            <bean parent="Uif-SpaceField"/>
+            <bean parent="KS-Uif-ActionLink" p:actionLabel="Edit" p:align="right" p:methodToCall="getSelectedKey" p:render="@{!#np.compound}">
+                <property name="additionalSubmitData" value="selectedKey:@{#np.key != null ? #np.key : -1}"/>
+                <property name="toolTip">
+                    <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true"
+                          p:tooltipContent="Edit Prerequisite Rule"/>
+                </property>
+            </bean>
+        </list>
+    </property>
     </bean>
 </beans>

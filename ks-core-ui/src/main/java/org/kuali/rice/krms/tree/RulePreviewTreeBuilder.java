@@ -79,6 +79,7 @@ public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
                 tNode = new TreeNode(this.buildNodeLabel(prop));
             } else if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())) {
                 tNode = new TreeNode(StringEscapeUtils.escapeHtml(this.getDescription(prop)));
+                tNode.setCompound(true);
                 boolean first = true;
                 for (PropositionEditor child : prop.getCompoundEditors()) {
                     // add an opcode node in between each of the children.
