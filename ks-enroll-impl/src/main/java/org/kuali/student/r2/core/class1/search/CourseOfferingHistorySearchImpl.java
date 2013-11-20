@@ -31,6 +31,9 @@ import java.util.Map;
  */
 public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwiredImpl {
 
+    public static final int COURSE_OFFERING_ID_INDEX = 0;
+    public static final int LUI_DENTIFIER_INDEX = 1;
+    public static final int CO_CODE_INDEX = 2;
     private String noOfYears;
 
     private GenericEntityDao genericEntityDao;
@@ -122,32 +125,30 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
 
 
         // Return any COs in terms within the calculated year range that are in an Offered or Cancelled state
-        List<Object[]> luiIds = genericEntityDao.getEm().createQuery("select lui.id,ident.type,ident.code from LuiIdentifierEntity ident,LuiEntity lui,AtpEntity atp " +
+        List<Object[]> resultList = genericEntityDao.getEm().createQuery("select lui.id,ident.type,ident.code from LuiIdentifierEntity ident,LuiEntity lui,AtpEntity atp " +
                 "where lui.id = ident.lui.id and lui.atpId=atp.id and lui.cluId = :cluId and " +
                 "lui.luiType = '" + LuiServiceConstants.COURSE_OFFERING_TYPE_KEY + "' and (" +
                 "lui.luiState = '" + LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY + "' or  " +
                 "lui.luiState = '" + LuiServiceConstants.LUI_CO_STATE_CANCELED_KEY + "' )  " +
-                "and atp.startDate >= :startDate and atp.startDate <= :targetDate").setParameter("startDate", startDate, TemporalType.DATE)
+                "and atp.startDate >= :startDate and atp.startDate <= :targetDate", Object[].class).setParameter("startDate", startDate, TemporalType.DATE)
                 .setParameter("targetDate", targetDate, TemporalType.DATE).setParameter("cluId", courseId).getResultList();
 
         SearchResultInfo resultInfo = new SearchResultInfo();
-        resultInfo.setTotalResults(luiIds.size());
+        resultInfo.setTotalResults(resultList.size());
         resultInfo.setStartAt(0);
 
         Map<String, String> luiIds2AlternateCodes = new HashMap<String, String>();
 
-        for (Object[] result : luiIds) {
+        for (Object[] result : resultList) {
             SearchResultRowInfo row = new SearchResultRowInfo();
             resultInfo.getRows().add(row);
-            String courseOfferingId = (String) result[0];
-            String luiIdentifierType = (String) result[1];
-            String coCode = (String) result[2];
-            boolean isCrossListed = false;
-            if (StringUtils.equals(luiIdentifierType, LuiServiceConstants.LUI_IDENTIFIER_CROSSLISTED_TYPE_KEY)) {
-                isCrossListed = true;
-            }
+            String courseOfferingId = (String) result[COURSE_OFFERING_ID_INDEX];
+            String luiIdentifierType = (String) result[LUI_DENTIFIER_INDEX];
+            String coCode = (String) result[CO_CODE_INDEX];
+            boolean isCrossListed = LuiServiceConstants.LUI_IDENTIFIER_CROSSLISTED_TYPE_KEY.equals(luiIdentifierType);
+
             row.addCell(SearchResultColumns.CO_ID, courseOfferingId);
-            row.addCell(SearchResultColumns.IS_CROSS_LISTED, "" + isCrossListed);
+            row.addCell(SearchResultColumns.IS_CROSS_LISTED, Boolean.toString(isCrossListed));
             row.addCell(SearchResultColumns.CODE, coCode);
             if (enableCrossListSearch) {
                 String alternateCodes = luiIds2AlternateCodes.get(courseOfferingId);
@@ -177,9 +178,9 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
          */
         for (SearchResultRowInfo row : resultInfo.getRows()) {
 
-            String courseOfferingCode = row.getCells().get(2).getValue();
-            String courseOfferingId = row.getCells().get(0).getValue();
-            boolean isCrossListed = BooleanUtils.toBoolean(row.getCells().get(1).getValue());
+            String courseOfferingCode = row.getCells().get(CO_CODE_INDEX).getValue();
+            String courseOfferingId = row.getCells().get(COURSE_OFFERING_ID_INDEX).getValue();
+            boolean isCrossListed = BooleanUtils.toBoolean(row.getCells().get(LUI_DENTIFIER_INDEX).getValue());
 
             String alternateCodes = luiIds2AlternateCodes.get(courseOfferingId);
             String ownerCode;
@@ -212,9 +213,9 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
     /**
      * Append <code>"Owner"</code> if a lui identifier is of official type. This is used for display purpose.
      *
-     * @param luiAlternateCode
-     * @param luiIdentifierType
-     * @return
+     * @param luiAlternateCode  alternate code
+     * @param luiIdentifierType type of the lui identifier
+     * @return display value of alternate code
      */
     protected String getAlternateCodeUI(String luiAlternateCode, String luiIdentifierType) {
         if (StringUtils.equals(luiIdentifierType, LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY)) {
