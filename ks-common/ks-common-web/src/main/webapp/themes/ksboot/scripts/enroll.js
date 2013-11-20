@@ -726,7 +726,10 @@ function triggerFieldValidationAfterPageLoads(id) {
     }
 }
 
-
+/*
+ * dismissEnterKeyAction catches the enter key pressing event and disable it to trigger any future actions to prevent
+ * an unrelated dialog pops up.
+ */
 function dismissEnterKeyAction() {
     if (window.event.keyCode== 13) {
         window.event.returnValue = false;
