@@ -147,7 +147,7 @@
                 <bean parent="Uif-DataField" p:label="Days" p:propertyName="daysDisplayName"/>
                 <bean parent="Uif-DataField" p:label="Start Time" p:propertyName="startTimeDisplay"/>
                 <bean parent="Uif-DataField" p:label="End Time" p:propertyName="endTimeDisplay"/>
-                <bean parent="Uif-DataField" p:label="Facility" p:propertyName="buildingName"/>
+                <bean parent="Uif-DataField" p:label="Building" p:propertyName="buildingName"/>
                 <bean parent="Uif-DataField" p:label="Room" p:propertyName="roomName"/>
             </list>
         </property>
@@ -199,7 +199,7 @@
                 <bean parent="Uif-DataField" p:label="Days" p:propertyName="daysDisplayName"/>
                 <bean parent="Uif-DataField" p:label="Start Time" p:propertyName="startTimeDisplay"/>
                 <bean parent="Uif-DataField" p:label="End Time" p:propertyName="endTimeDisplay"/>
-                <bean parent="Uif-DataField" p:label="Facility" p:propertyName="buildingName"/>
+                <bean parent="Uif-DataField" p:label="Building" p:propertyName="buildingName"/>
                 <bean parent="Uif-DataField" p:label="Room" p:propertyName="roomName"/>
 
             </list>
