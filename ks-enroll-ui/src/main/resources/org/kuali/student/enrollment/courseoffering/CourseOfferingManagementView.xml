@@ -32,6 +32,12 @@
             </list>
         </property>
 
+        <property name="topGroup">
+            <bean id="ManageCourseOfferingManagement-ContextBar" parent="KS-CourseOffering-ContextBar" p:style="@{(termCode eq null)? 'display:none;' : 'display:block;'}">
+                <property name="onDocumentReadyScript" value="setSeasonalColor('ManageCourseOfferingManagement-ContextBar', '@{#dp.contextBar.termDayOfYear}', '@{#ConfigProperties['application.url']}');"/>
+            </bean>
+        </property>
+
         <property name="viewSourceFile" value="CourseOfferingManagementView.xml" /> <!-- Shows up in HTML so devs can find the code -->
 
         <property name="authorizer">

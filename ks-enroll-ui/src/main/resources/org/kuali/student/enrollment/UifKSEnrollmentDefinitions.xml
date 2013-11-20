@@ -63,7 +63,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOffering-View-ContextBar-PlaceHolder" parent="KS-Uif-HorizontalBoxGroup-TopGroup"  p:onDocumentReadyScript="updateContextBar( 'KS-CourseOffering-ContextBar', 'KS-CourseOffering-View-ContextBar-PlaceHolder', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' );"/>
+    <bean id="KS-CourseOffering-View-ContextBar-PlaceHolder" parent="KS-Uif-HorizontalBoxGroup-TopGroup" />
 
     <!-- Note: due to the way breadcrumbs are implemented, EC found that we need to initially set the CSS display to none -->
     <!-- Also note: Uif-HorizontalBoxGroup is inheriting from KRAD a margin-bottom:10px which on CreateCO and ManageSoc views is causing
