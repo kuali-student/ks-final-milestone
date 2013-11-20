@@ -337,10 +337,10 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     }
 
     @Override
-    public Tree<CompareTreeNode, String> buildMultiViewTree(RuleEditor coRuleEditor, RuleEditor cluRuleEditor) {
+    public Tree<CompareTreeNode, String> buildMultiViewTree(RuleEditor original, RuleEditor compare) {
 
         //Build the Tree
-        return this.getCompareTreeBuilder().buildTree(coRuleEditor, cluRuleEditor);
+        return this.getCompareTreeBuilder().buildTree(original, compare);
 
     }
 
