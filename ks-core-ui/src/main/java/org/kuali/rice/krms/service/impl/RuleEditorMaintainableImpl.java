@@ -158,7 +158,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     protected AgendaEditor getAgendaEditor(String agendaId) {
         LOG.info("Retrieving agenda for id: " + agendaId);
         AgendaDefinition agenda = this.getRuleManagementService().getAgenda(agendaId);
-        LOG.info("Retrieved agenda for id: " + agendaId);
         return new AgendaEditor(agenda);
     }
 
@@ -169,7 +168,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         if (agenda.getId() != null) {
             LOG.info("Retrieving agenda item for id: " + agenda.getFirstItemId());
             AgendaItemDefinition firstItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
-            LOG.info("Retrieved agenda item for id: " + agenda.getFirstItemId());
             existingRules = getRuleEditorsFromTree(firstItem, true);
         }
 
@@ -395,14 +393,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
                         this.getRuleManagementService().deleteReferenceObjectBinding(referenceObjectBinding.getId());
                     }
                 }
-                LOG.info("Deleting agenda item for id: " + firstItem.getId());
-                this.getRuleManagementService().deleteAgendaItem(firstItem.getId());
-                LOG.info("Deleting agenda for id: " + agenda.getId());
-                // TODO KSENROLL-10798 Delete Agenda Children records
-                //this is the workaround for removing/Deleting agenda attributes records before deleting the Agenda.
-                agenda.setAttributes(null);
-                AgendaDefinition.Builder agendaBldr = AgendaDefinition.Builder.create(agenda);
-                this.getRuleManagementService().updateAgenda(agendaBldr.build());
                 this.getRuleManagementService().deleteAgenda(agenda.getId());
             }
 
