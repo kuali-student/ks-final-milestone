@@ -313,7 +313,7 @@
         <property name="items">
             <list>
                 <bean id="audit_info_header_1" parent="Uif-Message" p:style="padding: 5px;"
-                      p:cssClasses="fl-font-size-130 fl-text-gray fl-text-bold myplan-carousel-list">
+                      p:cssClasses="fl-font-size-130 fl-text-gray fl-text-bold ksap-carousel-list">
                     <property name="messageText" value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_TRACK_PROGRESS')}"/>
                 </bean>
                 <bean id="audit_info_text_1" parent="Uif-Message" p:style="padding: 5px;"
@@ -335,7 +335,7 @@
             <list merge="true">
                 <value>fl-container-300</value>
                 <value>myplan-audit-info-panel</value>
-                <value>myplan-carousel-list</value>
+                <value>ksap-carousel-list</value>
             </list>
         </property>
         <property name="items">

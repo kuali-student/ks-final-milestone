@@ -127,7 +127,7 @@
         <property name="onDocumentReadyScript" value="parent.jQuery.publish('COMMENT_SENT'); parent.jQuery.fancybox.inner.css({height:jQuery('.fancybox-iframe').contents().find('body').height()+'px'});"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-feedback</value>
+                <value>ksap-feedback</value>
                 <value>success</value>
             </list>
         </property>
@@ -757,7 +757,7 @@
         <property name="layoutManager.applyDefaultCellWidths" value="false"/>
         <property name="onDocumentReadyScript" value="jQuery('#messages_detail_list')
             .on('COMMENT_SENT', function(){
-                myplanRetrieveComponent('messages_detail_list','messages_detail_list','search','lookup',{viewId:'MessagesDetail-LookupView'});
+                ksapRetrieveComponent('messages_detail_list','messages_detail_list','search','lookup',{viewId:'MessagesDetail-LookupView'});
             });
         "/>
         <property name="layoutManager.richTable.templateOptions">

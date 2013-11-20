@@ -280,7 +280,7 @@
 										</property>
 									</bean>
 									<bean parent="Uif-HorizontalBoxGroup"
-										p:hidden="true" p:additionalCssClasses="myplan-feedback,error,ks-Popover-error" />
+										p:hidden="true" p:additionalCssClasses="ksap-feedback,error,ks-Popover-error" />
 								</list>
 							</property>
 						</bean>
@@ -420,7 +420,7 @@
 										</property>
 									</bean>
 									<bean parent="Uif-HorizontalBoxGroup"
-										p:hidden="true" p:additionalCssClasses="myplan-feedback,error,ks-Popover-error" />
+										p:hidden="true" p:additionalCssClasses="ksap-feedback,error,ks-Popover-error" />
 								</list>
 							</property>
 						</bean>
@@ -458,7 +458,7 @@
 								</property>
 							</bean>
 							<bean parent="Uif-HorizontalBoxGroup"
-								p:hidden="true" p:additionalCssClasses="myplan-feedback,error,ks-Popover-error" />
+								p:hidden="true" p:additionalCssClasses="ksap-feedback,error,ks-Popover-error" />
 						</list>
 					</property>
 				</bean>

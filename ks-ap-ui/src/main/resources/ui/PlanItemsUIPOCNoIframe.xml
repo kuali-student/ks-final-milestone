@@ -77,13 +77,13 @@
             var popupStyle = {width:'300px', height:'16px'};
             var popupOptions = {tail:{hidden:true}, position:'right', align:'top', close:true};
 
-            jQuery('.myplan-carousel-list li .ksap-term-current.open, .myplan-carousel-list li .ksap-term-future.open').find('.ksap-term-planned .uif-stackedCollectionLayout, .ksap-term-backup .uif-stackedCollectionLayout').each(function(){
-            	var atpId = jQuery(this).parents('.myplan-carousel-term').data('atpid');
-            	var backup = jQuery(this).parents('.myplan-carousel-term').data('plantype');
+            jQuery('.ksap-carousel-list li .ksap-term-current.open, .ksap-carousel-list li .ksap-term-future.open').find('.ksap-term-planned .uif-stackedCollectionLayout, .ksap-term-backup .uif-stackedCollectionLayout').each(function(){
+            	var atpId = jQuery(this).parents('.ksap-carousel-term').data('atpid');
+            	var backup = jQuery(this).parents('.ksap-carousel-term').data('plantype');
             	var boolbackup;
             	if(backup == 'planned') boolbackup=false;
             	else boolbackup=true;
-            	var size = jQuery(this).parents('.myplan-carousel-term').data('size');
+            	var size = jQuery(this).parents('.ksap-carousel-term').data('size');
             	var xmlSafeAtpId=atpId.replace(/\./g, '-');
             	var jQuickAdd = jQuery('&lt;div /&gt;').addClass('quick-add-cell ks-plan-Bucket-addItem').html('Add a course to plan').click(function(e){
             		var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startQuickAddDialog', atpId:atpId, backup:boolbackup, pageId:'plan_item_add_page'};
@@ -113,8 +113,8 @@
                 }
 
                 jQuery('#planned_courses_detail_list-POC-Same-View').jCarouselLite({
-                    btnNext: '.myplan-carousel-next',
-                    btnPrev: '.myplan-carousel-prev',
+                    btnNext: '.ksap-carousel-next',
+                    btnPrev: '.ksap-carousel-prev',
                     scroll: @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()},
                     visible: @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()},
                     start: iStart,
@@ -163,7 +163,7 @@
                                             </property>
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>myplan-carousel-prev</value>
+                                                    <value>ksap-carousel-prev</value>
                                                     <value>ks-plan-Header-button</value>
                                                     <value>ks-plan-Header-button--previous</value>
                                                 </list>
@@ -209,7 +209,7 @@
                                             </property>
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>myplan-carousel-next</value>
+                                                    <value>ksap-carousel-next</value>
                                                     <value>ks-plan-Header-button</value>
                                                     <value>ks-plan-Header-button--next</value>
                                                 </list>
@@ -305,7 +305,7 @@
         <property name="propertyName" value="plannedTerms"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-carousel-list</value>
+                <value>ksap-carousel-list</value>
                 <value>myplan-remove-margin</value>
                 <value>ks-plan-TermsList</value>
             </list>
@@ -411,7 +411,7 @@
         </property>
         <property name="cssClasses">
             <list merge="false">
-                <value>myplan-carousel-term</value>
+                <value>ksap-carousel-term</value>
                 <value>@{#line.atpId.replaceAll("\.","-")}</value>
                 <value>ksap-term-planned</value>
                 <value>@{#line.openForPlanning ? 'ksap-term-fixed-height' : ''}</value>

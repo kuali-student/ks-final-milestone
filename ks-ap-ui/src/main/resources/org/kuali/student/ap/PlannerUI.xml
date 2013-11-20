@@ -126,7 +126,7 @@
                                             </property>
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>myplan-carousel-prev</value>
+                                                    <value>ksap-carousel-prev</value>
                                                     <value>ks-plan-Header-button</value>
                                                     <value>ks-plan-Header-button--previous</value>
                                                 </list>
@@ -172,7 +172,7 @@
                                             </property>
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>myplan-carousel-next</value>
+                                                    <value>ksap-carousel-next</value>
                                                     <value>ks-plan-Header-button</value>
                                                     <value>ks-plan-Header-button--next</value>
                                                 </list>
@@ -268,7 +268,7 @@
         </property>
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-carousel-list</value>
+                <value>ksap-carousel-list</value>
                 <value>myplan-remove-margin</value>
                 <value>ks-plan-TermsList</value>
             </list>
@@ -502,7 +502,7 @@
         </property>
         <property name="cssClasses">
             <list merge="false">
-                <value>myplan-carousel-term</value>
+                <value>ksap-carousel-term</value>
                 <value>ksap-term-completed</value>
                 <value>ks-plan-Bucket</value>
             </list>
@@ -532,7 +532,7 @@
         </property>
         <property name="cssClasses">
             <list merge="false">
-                <value>myplan-carousel-term</value>
+                <value>ksap-carousel-term</value>
                 <value>@{#line.termId.replaceAll("\.","-")}</value>
                 <value>ksap-term-cart</value>
                 <value>ks-plan-Bucket</value>
@@ -581,7 +581,7 @@
         </property>
         <property name="cssClasses">
             <list merge="false">
-                <value>myplan-carousel-term</value>
+                <value>ksap-carousel-term</value>
                 <value>@{#line.termId.replaceAll("\.","-")}</value>
                 <value>ksap-term-planned</value>
                 <value>@{#line.planning ? 'ksap-term-fixed-height' : ''}</value>
@@ -643,7 +643,7 @@
         </property>
         <property name="cssClasses">
             <list merge="false">
-                <value>myplan-carousel-term</value>
+                <value>ksap-carousel-term</value>
                 <value>@{#line.termId.replaceAll("\.","-")}</value>
                 <value>ksap-term-backup</value>
                 <value>ks-plan-Bucket</value>

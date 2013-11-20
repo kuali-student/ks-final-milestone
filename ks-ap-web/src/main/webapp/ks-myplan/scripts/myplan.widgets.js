@@ -246,13 +246,13 @@ function openPopup(getId, retrieveData, formAction, popupStyle, popupOptions, e)
             var pageId = jQuery("#pageId", htmlContent).val();
             eval(jQuery("input[data-role='script'][data-for='" + pageId + "']", htmlContent).val().replace("#" + pageId, "body"));
             var errorMessage = '<img src="/student/ks-myplan/images/pixel.gif" alt="" class="icon"><div class="message">' + jQuery("#plan_item_action_response_page", htmlContent).data(kradVariables.VALIDATION_MESSAGES).serverErrors[0] + '</div>';
-            component = jQuery("<div />").addClass("myplan-feedback error").html(errorMessage);
+            component = jQuery("<div />").addClass("ksap-feedback error").html(errorMessage);
         }
         if (jQuery("#KSAP-Popover").length) {
             popupItem.SetPopOverInnerHtml(component);
             fnPositionPopUp(popupId);
-            if (popupOptions.close || typeof popupOptions.close === 'undefined') jQuery("#" + popupId + " .jquerypopover-innerHtml").append('<img src="../ks-myplan/images/btnClose.png" class="myplan-popup-close"/>');
-            jQuery("#" + popupId + " img.myplan-popup-close").on('click', function () {
+            if (popupOptions.close || typeof popupOptions.close === 'undefined') jQuery("#" + popupId + " .jquerypopover-innerHtml").append('<img src="../ks-myplan/images/btnClose.png" class="ksap-popup-close"/>');
+            jQuery("#" + popupId + " img.ksap-popup-close").on('click', function () {
                 popupItem.HidePopOver();
                 fnCloseAllPopups();
             });
@@ -344,7 +344,7 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
         });
     });
 
-    if (close || typeof close === 'undefined') jQuery("#" + popupBoxId + " .jquerybubblepopup-innerHtml").append('<img src="../ks-myplan/images/btnClose.png" class="myplan-popup-close"/>');
+    if (close || typeof close === 'undefined') jQuery("#" + popupBoxId + " .jquerybubblepopup-innerHtml").append('<img src="../ks-myplan/images/btnClose.png" class="ksap-popup-close"/>');
 
     runHiddenScripts(id + "_popup");
 
@@ -394,13 +394,13 @@ function openDialog(sText, e, close) {
     var popupBoxId = popupBox.GetPopOverID();
     popupBox.FreezePopOver();
 
-    if (close || typeof close === 'undefined') jQuery("#" + popupBoxId + " .jquerypopover-innerHtml").append('<img src="../ks-myplan/images/btnClose.png" class="myplan-popup-close"/>');
+    if (close || typeof close === 'undefined') jQuery("#" + popupBoxId + " .jquerypopover-innerHtml").append('<img src="../ks-myplan/images/btnClose.png" class="ksap-popup-close"/>');
 
     fnPositionPopUp(popupBoxId);
 
     clickOutsidePopOver(popupBoxId, popupBox);
 
-    jQuery("#" + popupBoxId + " img.myplan-popup-close").on('click', function () {
+    jQuery("#" + popupBoxId + " img.ksap-popup-close").on('click', function () {
         popupBox.HidePopOver();
         fnCloseAllPopups();
     });
@@ -465,7 +465,7 @@ function submitPopupForm(additionalFormData, e, bDialog) {
         eval(jQuery("input[data-role='script'][data-for='" + pageId + "']", htmlContent).val().replace("#" + pageId, "body"));
         var data = {};
         data.message = '<img src="/student/ks-myplan/images/pixel.gif" alt="" class="icon"><div class="message"><span /></div>';
-        data.cssClass = "myplan-feedback " + status;
+        data.cssClass = "ksap-feedback " + status;
         switch (status) {
             case 'success':
                 data.message = data.message.replace("<span />", jQuery("#plan_item_action_response_page", htmlContent).data(kradVariables.VALIDATION_MESSAGES).serverInfo[0]);
@@ -481,7 +481,7 @@ function submitPopupForm(additionalFormData, e, bDialog) {
             case 'error':
                 data.message = data.message.replace("<span />", jQuery("#plan_item_action_response_page", htmlContent).data(kradVariables.VALIDATION_MESSAGES).serverErrors[0]);
                 if (bDialog) {
-                    var sContent = jQuery("<div />").append(data.message).addClass("myplan-feedback error").css({"background-color":"#fff"});
+                    var sContent = jQuery("<div />").append(data.message).addClass("ksap-feedback error").css({"background-color":"#fff"});
                     var sHtml = jQuery("<div />").append('<div class="uif-headerField uif-sectionHeaderField"><h3 class="uif-header">' + targetText + '</h3></div>').append(sContent);
                     if (jQuery("body").HasPopOver()) jQuery("body").HidePopOver();
                     openDialog(sHtml.html(), e);
@@ -629,7 +629,7 @@ function fnPositionPopUp(popupBoxId) {
  * @param propertyValue
  * @param formId
  */
-function myplanWriteHiddenToForm(propertyName, propertyValue, formId) {
+function ksapWriteHiddenToForm(propertyName, propertyValue, formId) {
     //removing because of performFinalize bug
     jQuery('input[name="' + escapeName(propertyName) + '"]').remove();
 
@@ -646,7 +646,7 @@ function myplanWriteHiddenToForm(propertyName, propertyValue, formId) {
  Function: Retrieve component content through ajax
  ######################################################################################
  */
-function myplanRetrieveComponent(id, getId, methodToCall, action, retrieveOptions, highlightId, elementBlockingSettings) {
+function ksapRetrieveComponent(id, getId, methodToCall, action, retrieveOptions, highlightId, elementBlockingSettings) {
     var tempForm = '<form id="' + id + '_form" action="' + action + '" method="post" style="display:none;">';
     jQuery.each(retrieveOptions, function (name, value) {
         tempForm += '<input type="hidden" name="' + name + '" value="' + value + '" />';
@@ -1698,7 +1698,7 @@ function openPlanItemPopUp(xid, getId, retrieveOptions, e, selector, popupOption
             var planForm = jQuery('<form />').attr("id", xid + "_form").attr("action", "plan").attr("method", "post");
         } else {
             var sError = '<img src="../ks-myplan/images/pixel.gif" alt="" class="icon"><span class="message">' + jQuery("#plan_item_action_response_page", htmlContent).data(kradVariables.VALIDATION_MESSAGES).serverErrors[0] + '</span>';
-            component = jQuery("<div />").html(sError).addClass("myplan-feedback error").width(175);
+            component = jQuery("<div />").html(sError).addClass("ksap-feedback error").width(175);
         }
 
         var ngid = getId + "_" + xid;
@@ -1730,8 +1730,8 @@ function openPlanItemPopUp(xid, getId, retrieveOptions, e, selector, popupOption
                 popupBox.SetBubblePopupInnerHtml(component);
                 fnPositionPopUp(popupBoxId);
                 if (status != 'error') jQuery("#" + popupBoxId + " .jquerybubblepopup-innerHtml").wrapInner(planForm);
-                if (close || typeof close === 'undefined') jQuery("#" + popupBoxId + " .jquerybubblepopup-innerHtml").append('<img src="../ks-myplan/images/btnClose.png" class="myplan-popup-close"/>');
-                jQuery("#" + popupBoxId + " img.myplan-popup-close").on('click', function () {
+                if (close || typeof close === 'undefined') jQuery("#" + popupBoxId + " .jquerybubblepopup-innerHtml").append('<img src="../ks-myplan/images/btnClose.png" class="ksap-popup-close"/>');
+                jQuery("#" + popupBoxId + " img.ksap-popup-close").on('click', function () {
                     popupBox.HideBubblePopup();
                     fnCloseAllPopups();
                 });
@@ -1768,7 +1768,7 @@ function ksapLoadPlanItems(imageUrl) {
     } else {
         retrieveOptions = {viewId:'PlannedCourses-LookupView'};
     }
-    myplanRetrieveComponent('planned_mock_detail','planned_courses_detail','search','lookup', retrieveOptions, null,
+    ksapRetrieveComponent('planned_mock_detail','planned_courses_detail','search','lookup', retrieveOptions, null,
         {	message: '<p><img src="' + imageUrl +
             'ajaxAuditRunning32.gif" alt="loading..." /></p><p>Please wait while we are fetching your plan...</p>',
             fadeIn : 0,
@@ -1780,10 +1780,10 @@ function ksapInitializePlanItems(pageSize) {
     var popupStyle = {width:'300px', height:'16px'};
     var popupOptions = {tail:{hidden:true}, position:'right', align:'top', close:true};
 
-    jQuery('.myplan-carousel-list li .ksap-term-current.open, .myplan-carousel-list li .ksap-term-future.open').find('.ksap-term-planned .uif-stackedCollectionLayout, .ksap-term-backup .uif-stackedCollectionLayout').each(function(){
-        var atpId = jQuery(this).parents('.myplan-carousel-term').data('atpid');
-        var backup = jQuery(this).parents('.myplan-carousel-term').data('plantype');
-        var size = jQuery(this).parents('.myplan-carousel-term').data('size');
+    jQuery('.ksap-carousel-list li .ksap-term-current.open, .ksap-carousel-list li .ksap-term-future.open').find('.ksap-term-planned .uif-stackedCollectionLayout, .ksap-term-backup .uif-stackedCollectionLayout').each(function(){
+        var atpId = jQuery(this).parents('.ksap-carousel-term').data('atpid');
+        var backup = jQuery(this).parents('.ksap-carousel-term').data('plantype');
+        var size = jQuery(this).parents('.ksap-carousel-term').data('size');
         var jQuickAdd = jQuery('<div />')
             .addClass('quick-add-cell ks-plan-Bucket-addItem')
             .html('Add a course to plan')
@@ -1820,8 +1820,8 @@ function ksapInitializePlanItems(pageSize) {
         }
 
         jQuery('#planned_courses_detail_list').jCarouselLite({
-            btnNext: '.myplan-carousel-next',
-            btnPrev: '.myplan-carousel-prev',
+            btnNext: '.ksap-carousel-next',
+            btnPrev: '.ksap-carousel-prev',
             scroll: pageSize,
             visible: pageSize,
             start: iStart,
