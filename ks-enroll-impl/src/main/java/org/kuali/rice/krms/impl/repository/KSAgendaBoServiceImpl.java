@@ -147,6 +147,11 @@ public final class KSAgendaBoServiceImpl implements AgendaBoService {
             businessObjectService.delete(AgendaItemBo.from(agendaItem));
         }
 
+        // delete any old, existing attributes
+        Map<String,String> fields = new HashMap<String,String>(1);
+        fields.put(PropertyNames.Agenda.AGENDA_ID, existing.getId());
+        businessObjectService.deleteMatching(AgendaAttributeBo.class, fields);
+
         businessObjectService.delete(from(existing));
     }
 
