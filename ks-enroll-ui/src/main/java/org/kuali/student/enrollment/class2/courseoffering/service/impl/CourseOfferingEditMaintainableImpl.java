@@ -379,6 +379,10 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                             if (!updateFormatOffering && !aoTypeKeys.isEmpty()) {
                                 updateFormatOffering = true;
                             }
+                            FormatOfferingInfo originalFormatOfferingInfo  = CourseOfferingManagementUtil.getCourseOfferingService().getFormatOffering(formatOfferingInfo.getId(), contextInfo);
+                            if(!originalFormatOfferingInfo.getGradeRosterLevelTypeKey().equals(formatOfferingInfo.getGradeRosterLevelTypeKey())) {
+                                updateFormatOffering = true;
+                            }
                             if (updateFormatOffering) {
                                 updatedFormatOffering = CourseOfferingManagementUtil.getCourseOfferingService().updateFormatOffering(formatOfferingInfo.getId(), formatOfferingInfo, contextInfo);
                             } else {
