@@ -296,9 +296,20 @@ public class SchedulingServiceCacheDecorator extends SchedulingServiceDecorator 
 
     @Override
     public ScheduleDisplayInfo getScheduleDisplay(String scheduleId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        ScheduleInfo scheduleInfo = getSchedule(scheduleId, contextInfo);
-        ScheduleDisplayInfo scheduleDisplayInfo =
-                ScheduleDisplayTransformer.schedule2scheduleDisplay(scheduleInfo, getAtpService(), getRoomService(), this, contextInfo);
+        Cache cache = getCacheManager().getCache(cacheName);
+        MultiKey cacheKey = new MultiKey(SCHEDULE_REQUEST_KEY,scheduleId);
+        ScheduleDisplayInfo scheduleDisplayInfo = null;
+
+        // Check the cache for the id
+        if(cache.isKeyInCache(cacheKey)) {
+            //If the id was found in the cache then use it
+            scheduleDisplayInfo = (ScheduleDisplayInfo)cache.get(cacheKey).getValue();
+        }  else {
+            //Call the underlying service to get the remainder
+            scheduleDisplayInfo = getNextDecorator().getScheduleDisplay(scheduleId,contextInfo);
+            cache.put(new Element(cacheKey,scheduleDisplayInfo));
+        }
+
         return scheduleDisplayInfo;
     }
 
@@ -306,15 +317,36 @@ public class SchedulingServiceCacheDecorator extends SchedulingServiceDecorator 
     public List<ScheduleDisplayInfo> getScheduleDisplaysByIds(List<String> scheduleIds, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        List<ScheduleInfo> scheduleInfoList = getSchedulesByIds(scheduleIds, contextInfo);
-        List<ScheduleDisplayInfo> displayInfoList = new ArrayList<ScheduleDisplayInfo>();
-        if (scheduleInfoList != null) {
-            for (ScheduleInfo info: scheduleInfoList) {
-                ScheduleDisplayInfo scheduleDisplayInfo =
-                        ScheduleDisplayTransformer.schedule2scheduleDisplay(info, getAtpService(), getRoomService(), this, contextInfo);
-                displayInfoList.add(scheduleDisplayInfo);
+        Cache cache = getCacheManager().getCache(cacheName);
+        List<ScheduleDisplayInfo>  displayInfoList = new ArrayList<ScheduleDisplayInfo>(scheduleIds.size());
+        List<String> uncachedScheduleIds = new ArrayList<String>(scheduleIds.size());
+
+        // Check the cache for the ids
+        for(String scheduleId : scheduleIds) {
+            MultiKey cacheKey = new MultiKey(SCHEDULE_REQUEST_KEY,scheduleId);
+            Element cachedResult = cache.get(cacheKey);
+            if(cachedResult!=null) {
+                //If the id was found in the cache then use it
+                displayInfoList.add((ScheduleDisplayInfo) cachedResult.getValue());
+            } else {
+                //Otherwise save this id as one that needs to be looked up
+                uncachedScheduleIds.add(scheduleId);
             }
         }
+
+        //Call the underlying service to get the remainder
+        if(uncachedScheduleIds.size()>0) {
+
+            List<ScheduleDisplayInfo> uncachedDisplayInfoList = getNextDecorator().getScheduleDisplaysByIds(uncachedScheduleIds,contextInfo);
+
+            for(ScheduleDisplayInfo scheduleDisplayInfo : uncachedDisplayInfoList) {
+                MultiKey cacheKey = new MultiKey(SCHEDULE_REQUEST_KEY,scheduleDisplayInfo.getId());
+                cache.put(new Element(cacheKey,scheduleDisplayInfo));
+            }
+
+            displayInfoList.addAll(uncachedDisplayInfoList);
+        }
+
         return displayInfoList;
     }
 
