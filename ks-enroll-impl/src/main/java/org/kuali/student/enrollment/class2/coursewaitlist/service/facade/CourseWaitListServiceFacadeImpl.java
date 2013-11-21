@@ -37,11 +37,10 @@ import java.util.List;
 public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFacade {
     @Resource
     private CourseOfferingService coService;
-    
+
     @Resource
     private CourseWaitListService courseWaitListService;
 
-    @Resource
     private SearchService searchService;
 
     private boolean automaticallyProcessed;
