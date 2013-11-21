@@ -72,6 +72,8 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     protected String viewId;
 
+    private Boolean hasWaitlist;
+
     public List<String> getAlternateCOCodes() {
         if (alternateCOCodes == null) {
             alternateCOCodes = new ArrayList<String>();
@@ -435,6 +437,14 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     public void setViewId(String viewId) {
         this.viewId = viewId;
+    }
+
+    public Boolean getHasWaitlist() {
+        return this.hasWaitlist;
+    }
+
+    public void setHasWaitlist(Boolean hasWaitlist) {
+        this.hasWaitlist = hasWaitlist;
     }
 
     /**

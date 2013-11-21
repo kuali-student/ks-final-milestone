@@ -10,6 +10,7 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -21,6 +22,12 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
+import org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 
 import javax.annotation.Resource;
 import javax.xml.namespace.QName;
@@ -34,6 +41,8 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
     @Resource
     private CourseWaitListService courseWaitListService;
 
+    @Resource
+    private SearchService searchService;
 
     private boolean automaticallyProcessed;
 
@@ -62,18 +71,16 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
      * @param context context of the call
      */
     public void activateActivityOfferingWaitlistsByCourseOffering(String coId, String termId, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
-        List<ActivityOfferingInfo> aoInfos = getCoService().getActivityOfferingsByCourseOffering(coId, context) ;
+        List<ActivityOfferingInfo> aoInfos = getAOFOIdsByCOId(coId);
         if (null == aoInfos || aoInfos.isEmpty()){
             return;
         }
+
         for (ActivityOfferingInfo aoInfo : aoInfos) {
             List<CourseWaitListInfo> waitListInfos = getCourseWaitListService().getCourseWaitListsByActivityOffering(aoInfo.getId(), context);
             if (waitListInfos.isEmpty()){
                 //create a new waitListInfo with default setting
-                CourseWaitListInfo theWaitListInfo = new CourseWaitListInfo();
-                theWaitListInfo.getActivityOfferingIds().add(aoInfo.getId());
-                theWaitListInfo.getFormatOfferingIds().add(aoInfo.getFormatOfferingId());
-                theWaitListInfo = _setCourseWaitListWithDefaultValues(theWaitListInfo);
+                CourseWaitListInfo theWaitListInfo = createNewWaitList(aoInfo, null);
                 getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
                         theWaitListInfo, context);
             }
@@ -84,18 +91,7 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
                     if(waitListInfo.getActivityOfferingIds().size() > 1) {
                         for (String activityOfferingId : waitListInfo.getActivityOfferingIds()) {
                             if (!StringUtils.equals(activityOfferingId, aoInfo.getId())) {
-                                QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-                                qbcBuilder.setPredicates(PredicateFactory.and(
-                                        PredicateFactory.like("aoid", activityOfferingId),
-                                        PredicateFactory.equalIgnoreCase("atpId", termId)));
-                                QueryByCriteria criteria = qbcBuilder.build();
-                                List<String> courseOfferingIds = getCoService().searchForCourseOfferingIds(criteria, context);
-                                for (String courseOfferingId : courseOfferingIds) {
-                                    CourseOfferingInfo coloCourseOfferingInfo = getCoService().getCourseOffering(courseOfferingId, context);
-                                    if (!coloCourseOfferingInfo.getHasWaitlist()) {
-                                        hasWaitlistCO = false;
-                                    }
-                                }
+                                hasWaitlistCO = getHasWatiList(activityOfferingId, termId, context);
                                 if (!hasWaitlistCO) {
                                     break;
                                 }
@@ -124,22 +120,19 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
      */
 
     public void deactivateActivityOfferingWaitlistsByCourseOffering(String coId, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
-        List<ActivityOfferingInfo> aoInfos = coService.getActivityOfferingsByCourseOffering(coId, context) ;
+        List<ActivityOfferingInfo> aoInfos = getAOFOIdsByCOId(coId);
         if (aoInfos == null || aoInfos.isEmpty()){
             return;
         }
+
         for (ActivityOfferingInfo aoInfo : aoInfos) {
             List<CourseWaitListInfo> waitListInfos = courseWaitListService.getCourseWaitListsByActivityOffering(aoInfo.getId(), context);
-
             if(waitListInfos == null)    {
                 return;
             }
             if (waitListInfos.isEmpty()){
                 //create a new waitListInfo with the inactive state
-                CourseWaitListInfo theWaitListInfo = new CourseWaitListInfo();
-                theWaitListInfo.getActivityOfferingIds().add(aoInfo.getId());
-                theWaitListInfo.getFormatOfferingIds().add(aoInfo.getFormatOfferingId());
-                theWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
+                CourseWaitListInfo theWaitListInfo = createNewWaitList(aoInfo, CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
                 courseWaitListService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
                         theWaitListInfo, context);
             }
@@ -150,6 +143,76 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
                 }
             }
         }
+    }
+
+    private List<ActivityOfferingInfo> getAOFOIdsByCOId(String coId) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException {
+        SearchRequestInfo sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AO_AND_FO_IDS_BY_CO_ID_SEARCH_KEY);
+        sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, coId);
+        SearchResultInfo searchResult = getSearchService().search(sr, null);
+
+        List<ActivityOfferingInfo> aoInfos = new ArrayList<ActivityOfferingInfo>();
+        if (!searchResult.getRows().isEmpty()) {
+            for(SearchResultRowInfo srRow : searchResult.getRows()){
+                List<SearchResultCellInfo> srCells = srRow.getCells();
+                if(srCells != null && srCells.size() > 0){
+                    ActivityOfferingInfo aoInfo = new ActivityOfferingInfo();
+                    for(SearchResultCellInfo cell : srCells){
+                        if(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ID.equals(cell.getKey())){
+                            aoInfo.setId(cell.getValue());
+                        } else if(ActivityOfferingSearchServiceImpl.SearchResultColumns.FO_ID.equals(cell.getKey())){
+                            aoInfo.setFormatOfferingId(cell.getValue());
+                        }
+                    }
+                    aoInfos.add(aoInfo);
+                }
+            }
+        }
+        return aoInfos;
+    }
+
+    private boolean getHasWatiList(String aoId, String termId, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException {
+        boolean hasWaitlistCO = true;
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.and(
+                PredicateFactory.equal("aoid", aoId),
+                PredicateFactory.equal("atpId", termId)));
+        QueryByCriteria criteria = qbcBuilder.build();
+        List<String> courseOfferingIds = getCoService().searchForCourseOfferingIds(criteria, context);
+
+        for (String courseOfferingId : courseOfferingIds) {
+            SearchRequestInfo sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.WL_IND_BY_CO_ID_SEARCH_KEY);
+            sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, courseOfferingId);
+            SearchResultInfo searchResult = getSearchService().search(sr, null);
+            if (!searchResult.getRows().isEmpty()) {
+                for(SearchResultRowInfo srRow : searchResult.getRows()){
+                    List<SearchResultCellInfo> srCells = srRow.getCells();
+                    for (SearchResultCellInfo cell: srCells) {
+                        if(ActivityOfferingSearchServiceImpl.SearchResultColumns.WL_IND.equals(cell.getKey())){
+                            if (!StringUtils.equals(cell.getValue(), "true")) {
+                                hasWaitlistCO = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return hasWaitlistCO;
+    }
+
+    private CourseWaitListInfo createNewWaitList(ActivityOfferingInfo aoInfo, String stateKey) {
+        CourseWaitListInfo theWaitListInfo = new CourseWaitListInfo();
+        theWaitListInfo.getActivityOfferingIds().add(aoInfo.getId());
+        theWaitListInfo.getFormatOfferingIds().add(aoInfo.getFormatOfferingId());
+        if (stateKey != null && StringUtils.equals(stateKey, CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY)) {
+            theWaitListInfo.setStateKey(stateKey);
+        } else {
+            theWaitListInfo = _setCourseWaitListWithDefaultValues(theWaitListInfo);
+        }
+
+        return theWaitListInfo;
     }
 
     /* Create a new CourseWaitListInfo (CWLI) for a specified AO and persist it in DB
@@ -246,6 +309,13 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
             courseWaitListService = GlobalResourceLoader.getService(qname);
         }
         return courseWaitListService;
+    }
+
+    public SearchService getSearchService() {
+        if (searchService == null) {
+            searchService = (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "search", SearchService.class.getSimpleName()));
+        }
+        return searchService;
     }
 
     public void setAllowHoldUntilEntries(boolean allowHoldUntilEntries) {
