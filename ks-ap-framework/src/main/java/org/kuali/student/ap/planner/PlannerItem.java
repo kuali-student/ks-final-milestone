@@ -219,7 +219,8 @@ public class PlannerItem implements
 	}
 
 	public String getCourseNote() {
-		return courseNote;
+		if(courseNote==null)courseNote="";
+        return courseNote;
 	}
 
 	public void setCourseNote(String courseNote) {

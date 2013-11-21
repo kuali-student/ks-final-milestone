@@ -266,6 +266,44 @@
         <property name="header">
             <bean parent="Uif-HeaderFour" />
         </property>
+        <property name="layoutManager.lineGroupPrototype.header.rightGroup">
+            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerStatusIcons">
+                <property name="validationMessages.render" value="false" />
+                <property name="items">
+                    <list>
+                        <bean p:id="@{#line.uniqueId}_termNote" parent="term_note_icon">
+                            <property name="render" value="@{!#empty(#line.allTermNotesHtml)}"/>
+                            <property name="title" value="@{#line.allTermNotesHtml}"/>
+                            <property name="onClickScript"
+                                      value="ksapPlannerOpenDialog('planner_edit_term_note','planner','startDialog', this, e);" />
+                            <property name="dataAttributes">
+                                <map>
+                                    <entry key="termid" value="@{#line.termId}" />
+                                    <entry key="uniqueid" value="@{#line.uniqueId}" />
+                                </map>
+                            </property>
+                        </bean>
+                        <bean p:id="@{#line.uniqueId}_termNote" parent="term_note_icon">
+                            <property name="render" value="@{#empty(#line.allTermNotesHtml)}"/>
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>invisible</value>
+                                </list>
+                            </property>
+                            <property name="onClickScript"
+                                      value="ksapPlannerOpenDialog('planner_edit_term_note','planner','startDialog', this, e);" />
+                            <property name="dataAttributes">
+                                <map>
+                                    <entry key="termid" value="@{#line.termId}" />
+                                    <entry key="uniqueid" value="@{#line.uniqueId}" />
+                                </map>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-carousel-list</value>
@@ -345,6 +383,21 @@
                                         <value>ks-plan-Bucket-itemCode</value>
                                     </list>
                                 </property>
+                            </bean>
+                            <bean id="__KSAP__UID___courseNote" parent="course_note_icon">
+                                <property name="render" value="true"/>
+                                <property name="title" value="__KSAP__COURSENOTE__"/>
+                                <property name="dataAttributes">
+                                    <map>
+                                        <entry key="termid" value="__KSAP__TERMID__" />
+                                        <entry key="courseid" value="__KSAP__COURSEID__" />
+                                        <entry key="learningplanid" value="__KSAP__LEARNINGPLANID__" />
+                                        <entry key="planitemid" value="__KSAP__PLANITEMID__" />
+                                        <entry key="uniqueid" value="__KSAP__UID__" />
+                                    </map>
+                                </property>
+                                <property name="onClickScript"
+                                          value="ksapPlannerOpenDialog('planner_edit_plan_item','planner','startDialog', this, e);" />
                             </bean>
                             <bean p:id="__KSAP__UID___credit" parent="Uif-MessageField">
                                 <property name="messageText" value="__KSAP__CREDITS__" />
@@ -428,6 +481,40 @@
                                         <value>code</value>
                                         <value>ks-plan-Bucket-itemCode</value>
                                     </list>
+                                </property>
+                            </bean>
+                            <bean p:id="@{#line.uniqueId}_courseNote" parent="course_note_icon">
+                                <property name="render" value="@{!#empty(#line.courseNote)}"/>
+                                <property name="title" value="@{#line.courseNote}"/>
+                                <property name="onClickScript"
+                                          value="ksapPlannerOpenDialog('planner_edit_plan_item','planner','startDialog', this, e);" />
+                                <property name="dataAttributes">
+                                    <map>
+                                        <entry key="termid" value="@{#line.termId}" />
+                                        <entry key="courseid" value="@{#line.courseId}" />
+                                        <entry key="learningplanid" value="@{#line.learningPlanId}" />
+                                        <entry key="planitemid" value="@{#line.planItemId}" />
+                                        <entry key="uniqueid" value="@{#line.uniqueId}" />
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean p:id="@{#line.uniqueId}_courseNote" parent="course_note_icon">
+                                <property name="render" value="@{#empty(#line.courseNote)}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>invisible</value>
+                                    </list>
+                                </property>
+                                <property name="onClickScript"
+                                          value="ksapPlannerOpenDialog('planner_edit_plan_item','planner','startDialog', this, e);" />
+                                <property name="dataAttributes">
+                                    <map>
+                                        <entry key="termid" value="@{#line.termId}" />
+                                        <entry key="courseid" value="@{#line.courseId}" />
+                                        <entry key="learningplanid" value="@{#line.learningPlanId}" />
+                                        <entry key="planitemid" value="@{#line.planItemId}" />
+                                        <entry key="uniqueid" value="@{#line.uniqueId}" />
+                                    </map>
                                 </property>
                             </bean>
                             <bean parent="Uif-MessageField">
@@ -938,12 +1025,22 @@
 			</list>
 		</property>
 	</bean>
-	
-
-
-
-
-
-
-
+    <bean id="course_note_icon" parent="MyPlanHelpImage" >
+        <property name="cssClasses">
+            <list merge="true">
+                <value>coursenote</value>
+            </list>
+        </property>
+        <property name="source" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}iconInfo.png"/>
+        <property name="title" value=""/>
+    </bean>
+    <bean id="term_note_icon" parent="MyPlanHelpImage" >
+        <property name="cssClasses">
+            <list merge="true">
+                <value>termnote</value>
+            </list>
+        </property>
+        <property name="source" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}iconInfo.png"/>
+        <property name="title" value=""/>
+    </bean>
 </beans>

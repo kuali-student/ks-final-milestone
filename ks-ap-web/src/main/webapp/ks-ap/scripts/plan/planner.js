@@ -243,6 +243,11 @@ function ksapPlannerAddPlanItem (data) {
     item = item.replace(/id=\"(u\d+)\"/gi,"id=\""+data.uid+"_$1\"");
     var termUid = data.termId.replace(/\./g,'-');
     var itemElement = jQuery("<div/>").html(item);
+    if(data.courseNoteRender == 'false'){
+        itemElement.find(".coursenote").addClass("invisible");
+    }else{
+        itemElement.find(".coursenote").removeClass("invisible");
+    }
     itemElement.find("input[data-for='"+data.uid+"']")
 		.removeAttr("script")
 		.attr("name", "script");
@@ -264,6 +269,7 @@ function ksapPlannerAddPlanItem (data) {
     		.animate({backgroundColor:"#ffffff"}, 1500, function() {
     			runHiddenScripts(data.uid);
     		});
+
 }
 
 /**
@@ -274,6 +280,12 @@ function ksapPlannerAddPlanItem (data) {
 function ksapPlannerUpdatePlanItem (data) {
     var item = jQuery("#" + data.uniqueId);
     item.find(".credit span").text(data.credit);
+    item.find(".coursenote").attr("title",data.courseNote);
+    if(data.courseNoteRender == 'false'){
+        item.find(".coursenote").addClass("invisible");
+    }else{
+        item.find(".coursenote").removeClass("invisible");
+    }
 }
 
 /**
@@ -324,10 +336,15 @@ function ksapPlannerUpdateTermNote (data) {
     jQuery("#"+data.uniqueId+"_termnote_message_span").fadeOut(250, function() {
     	if (data.termNote == null || data.termNote == "") {
             jQuery(this).text("No term notes").addClass("ks-plan-TermNote-input-empty").fadeIn(250);
-    	} else {
+            jQuery("#"+data.uniqueId+"_termNote").attr("title","");
+            jQuery("#"+data.uniqueId+"_termNote").addClass('invisible');
+        } else {
             jQuery(this).text(data.termNote).removeClass("ks-plan-TermNote-input-empty").fadeIn(250);
+            jQuery("#"+data.uniqueId+"_termNote").attr("title",data.termNote);
+            jQuery("#"+data.uniqueId+"_termNote").removeClass('invisible');
     	}
     });
+
 }
 
 /**

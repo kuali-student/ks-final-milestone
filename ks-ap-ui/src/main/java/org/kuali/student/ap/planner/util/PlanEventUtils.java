@@ -348,6 +348,13 @@ public class PlanEventUtils {
 		} else {
 			addEvent.add("credits", CreditsFormatter.formatCredits(course));
 		}
+        if (planItem.getDescr() != null && planItem.getDescr().getPlain()!=null && !planItem.getDescr().getPlain().isEmpty()) {
+                addEvent.add("courseNote", planItem.getDescr().getPlain());
+                addEvent.add("courseNoteRender", "true");
+        } else {
+            addEvent.add("courseNote", "");
+            addEvent.add("courseNoteRender", "false");
+        }
 
 		StringBuilder code = new StringBuilder(course.getCode());
 		String campusCode = null, activityCode = null;
@@ -422,22 +429,29 @@ public class PlanEventUtils {
 		return eventList;
 	}
 
-	public static JsonObjectBuilder updatePlanItemCreditsEvent(String uniqueId,
-			PlanItem planItem, JsonObjectBuilder eventList) {
-		JsonObjectBuilder updateCreditsEvent = Json.createObjectBuilder();
-		updateCreditsEvent.add("uniqueId", uniqueId);
+	public static JsonObjectBuilder updatePlanItemEvent(String uniqueId,
+                                                        PlanItem planItem, JsonObjectBuilder eventList) {
+		JsonObjectBuilder updatePlanItemEvent = Json.createObjectBuilder();
+        updatePlanItemEvent.add("uniqueId", uniqueId);
 
 		if (planItem.getCredit() != null) {
-			updateCreditsEvent.add("credit", CreditsFormatter
+            updatePlanItemEvent.add("credit", CreditsFormatter
 					.trimCredits(planItem.getCredit().toString()));
 		} else {
 			Course course = KsapFrameworkServiceLocator.getCourseHelper()
 					.getCourseInfo(planItem.getRefObjectId());
-			updateCreditsEvent.add("credit",
+            updatePlanItemEvent.add("credit",
 					CreditsFormatter.formatCredits(course));
 		}
+        if (planItem.getDescr() != null && planItem.getDescr().getPlain()!=null && !planItem.getDescr().getPlain().isEmpty()) {
+            updatePlanItemEvent.add("courseNote", planItem.getDescr().getPlain());
+            updatePlanItemEvent.add("courseNoteRender", "true");
+        } else {
+            updatePlanItemEvent.add("courseNote", "");
+            updatePlanItemEvent.add("courseNoteRender", "false");
+        }
 
-        eventList.add("PLAN_ITEM_UPDATED", updateCreditsEvent);
+        eventList.add("PLAN_ITEM_UPDATED", updatePlanItemEvent);
 		return eventList;
 	}
 

@@ -409,10 +409,12 @@ public class PlannerController extends KsapControllerBase {
 			planItemInfo.setDescr(descr);
 
             // Determine if course note has been edited
-			String oldFormatted = previousDescr.getFormatted();
+            String oldFormatted;
+            if(previousDescr == null)oldFormatted=null;
+			else oldFormatted = previousDescr.getFormatted();
 			String newFormatted = descr.getFormatted();
 			if(!newFormatted.equals(oldFormatted)){
-				if(previousDescr.getFormatted() == null){
+				if(previousDescr==null || previousDescr.getFormatted() == null){
 					newNoteFlag = true;
 				}
 				notesEdited = true;
@@ -462,7 +464,7 @@ public class PlannerController extends KsapControllerBase {
 
         // Construct json events for updating the planner screen
         JsonObjectBuilder eventList = Json.createObjectBuilder();
-        eventList = PlanEventUtils.updatePlanItemCreditsEvent(form.getUniqueId(), planItemInfo, eventList);
+        eventList = PlanEventUtils.updatePlanItemEvent(form.getUniqueId(), planItemInfo, eventList);
         eventList = PlanEventUtils.updateTotalCreditsEvent(true, planItemInfo.getPlanPeriods().get(0), eventList);
 
         // Create json strings for displaying action's response and send those updating the planner screen.

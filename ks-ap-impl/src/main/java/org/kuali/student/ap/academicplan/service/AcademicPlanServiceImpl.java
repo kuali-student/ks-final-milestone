@@ -498,7 +498,7 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		} else {
 			PlanItemRichTextEntity descr = planItemEntity.getDescr();
 			if (descr == null) {
-				descr = new PlanItemRichTextEntity(planItem.getDescr());
+				planItemEntity.setDescr(new PlanItemRichTextEntity(planItem.getDescr()));
 			} else {
 				descr.setPlain(descrInfo.getPlain());
 				descr.setFormatted(descrInfo.getFormatted());
