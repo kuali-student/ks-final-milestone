@@ -726,13 +726,24 @@ function triggerFieldValidationAfterPageLoads(id) {
     }
 }
 
-/*
- * dismissEnterKeyAction catches the enter key pressing event and disable it to trigger any future actions to prevent
- * an unrelated dialog pops up.
- */
+
 function dismissEnterKeyAction() {
     if (window.event.keyCode== 13) {
         window.event.returnValue = false;
         window.event.keyCode = 0;
     }
+}
+
+/*
+ * TODO: KSENROLL-11002 - This is a hack to work around a Rice bug.
+ */
+function fixActionLinkJumpToIds(actionLinksId, jumpToElementId) {
+    var idSelector =  "[id^=" + actionLinksId + "]";
+    jQuery(idSelector).each(
+        function() {
+            var actionLink = jQuery( this );
+            var submitData = jQuery.parseJSON(actionLink.attr("data-submit_data"))
+            submitData.jumpToId = jumpToElementId;
+            actionLink.attr("data-submit_data", JSON.stringify(submitData));
+        });
 }
