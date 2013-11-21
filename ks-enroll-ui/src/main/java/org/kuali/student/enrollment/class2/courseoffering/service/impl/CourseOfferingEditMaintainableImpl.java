@@ -60,9 +60,13 @@ import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
@@ -152,13 +156,13 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             coInfo.setCourseOfferingCode(courseOfferingCode);
 
             // Waitlist
-                if(coInfo.getHasWaitlist()) {
-                    //activate the waitlist
-                    CourseOfferingManagementUtil.getCourseWaitListServiceFacade().activateActivityOfferingWaitlistsByCourseOffering(coInfo.getId(), coInfo.getTermId(), contextInfo);
-                } else if (!coInfo.getHasWaitlist()) {
-                    //deactivate the waitlist
-                    CourseOfferingManagementUtil.getCourseWaitListServiceFacade().deactivateActivityOfferingWaitlistsByCourseOffering(coInfo.getId(), contextInfo);
-                }
+            if(coInfo.getHasWaitlist() && !coEditWrapper.getHasWaitlist()) {
+                //activate the waitlist
+                CourseOfferingManagementUtil.getCourseWaitListServiceFacade().activateActivityOfferingWaitlistsByCourseOffering(coInfo.getId(), coInfo.getTermId(), contextInfo);
+            } else if (!coInfo.getHasWaitlist() && coEditWrapper.getHasWaitlist()) {
+                //deactivate the waitlist
+                CourseOfferingManagementUtil.getCourseWaitListServiceFacade().deactivateActivityOfferingWaitlistsByCourseOffering(coInfo.getId(), contextInfo);
+            }
 
             //TODO REMOVE THIS AFTER KRAD CHECKLISTS ARE FIXED for student registration options
             //determine if audit reg options and pass/fail reg options should be added/removed to/from coInfo
@@ -422,14 +426,23 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
     }
 
     private List<String> getExistingFormatOfferingIds(String courseOfferingId) throws Exception {
-        List<FormatOfferingInfo> formatOfferingInfoList = CourseOfferingManagementUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId, ContextUtils.createDefaultContextInfo());
         List<String> formatOfferingIds = new ArrayList<String>();
 
-        if (formatOfferingInfoList != null && !formatOfferingInfoList.isEmpty()) {
-            for (FormatOfferingInfo formatOfferingInfo : formatOfferingInfoList) {
-                formatOfferingIds.add(formatOfferingInfo.getId());
+        SearchRequestInfo sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.FO_IDS_BY_CO_ID_SEARCH_KEY);
+        sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, courseOfferingId);
+        SearchResultInfo searchResult = CourseOfferingManagementUtil.getSearchService().search(sr, null);
+        List<SearchResultRowInfo> rows = searchResult.getRows();
+        if (!rows.isEmpty()) {
+            for (SearchResultRowInfo row: rows) {
+                List<SearchResultCellInfo> cells = row.getCells();
+                for (SearchResultCellInfo cell: cells) {
+                    if(ActivityOfferingSearchServiceImpl.SearchResultColumns.FO_ID.equals(cell.getKey())){
+                        formatOfferingIds.add(cell.getValue());
+                    }
+                }
             }
         }
+
         return formatOfferingIds;
     }
 
@@ -554,6 +567,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
                 //1. set CourseOfferingInfo
                 CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(coInfo);
+                formObject.setHasWaitlist(coInfo.getHasWaitlist());
 
                 //2. set CourseInfo
                 formObject.setCourse(courseInfo);
@@ -827,7 +841,9 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.SUBJECT_AREA, wrapper.getCourse().getSubjectArea());
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.ATP_ID, wrapper.getTerm().getId());
         List<CourseOfferingInfo> relatedCOs = CourseOfferingViewHelperUtil.loadCourseOfferings(searchRequest);
-        if (relatedCOs != null) result.addAll(relatedCOs);
+        if (relatedCOs != null) {
+            result.addAll(relatedCOs);
+        }
 
         return result;
     }
