@@ -295,6 +295,7 @@
     <bean id="KS-CourseOfferingEdit-CourseOfferingInformation" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Course Offering Information"/>
         <property name="disclosure.render" value="false"/>
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>

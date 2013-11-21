@@ -98,6 +98,7 @@
     </bean>
 
     <bean id="ActivityOfferingEdit-section2" parent="Uif-VerticalBoxSection" p:onDocumentReadyScript="calculatePercent()">
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="headerText" value="Activity Offering Information"/>
         <property name="items">
             <list>
@@ -172,10 +173,12 @@
         <property name="propertyName" value="colocatedActivities"/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="addLineActions">
             <list>
-                <bean parent="Uif-AddLineAction" p:actionScript="showLightboxComponent('ActivityOfferingEdit-CoLocatedAddLineDialog');jQuery('#dirtyForm').val(true);"
-                        p:dirtyOnAction="true"/>
+                <bean parent="Uif-AddLineAction"
+                      p:actionScript="showLightboxComponent('ActivityOfferingEdit-CoLocatedAddLineDialog');jQuery('#dirtyForm').val(true);"
+                      p:dirtyOnAction="true"/>
             </list>
         </property>
         <property name="lineActions">
@@ -186,7 +189,6 @@
         </property>
         <property name="items">
             <list>
-
                 <!-- CO Input Field -->
                 <bean parent="Uif-InputField"
                       p:id="ActivityOfferingEdit-CoLocatedActivities-CoInputField"
@@ -195,7 +197,9 @@
                       p:uppercaseValue="true"
                       p:required="true"
                       p:readOnly="@{!#isAddLine}">
-
+                    <property name="validCharactersConstraint">
+                        <bean parent="AlphaNumericPatternConstraint" />
+                    </property>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" p:watermarkText="ENGL101"/>
                     </property>
@@ -273,6 +277,7 @@
         <property name="items">
             <list>
                 <bean id="enr_shared_table" parent="Uif-TableCollectionSection" p:style="width:250px;float:right;" p:forceSessionPersistence="true" >
+                    <property name="validationMessages.displayMessages" value="false"/>
                     <property name="headerText" value="Combined Maximum Enrollment"/>
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity" />
                     <property name="propertyName" value="editRenderHelper.manageSeperateEnrollmentList"/>
@@ -283,11 +288,6 @@
                     <property name="renderLineActions" value="false"/>
                     <property name="layoutManager.renderSequenceField" value="false"/>
                     <property name="layoutManager.richTable.render" value="false" />
-                    <!--<property name="layoutManager.columnCalculations">
-                          <list>
-                            <bean parent="Uif-ColumnCalculationInfo-Sum" p:showGroupTotal="false" p:propertyName="maxEnrollmentCount" p:calculateOnKeyUp="true"/>
-                          </list>
-                    </property>-->
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="editRenderHelper.code" p:label="Colocated Activities" p:style="color:green;"/>
@@ -389,6 +389,7 @@
     </bean>
 
     <bean id="ActivityOfferingEdit-Waitlist" parent="Uif-VerticalBoxSection" p:headerText="Waitlist" p:render="@{#dp.hasWaitlistCO}">
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="componentSecurity.viewAuthz" value="true"/>
         <property name="items">
             <list>
@@ -489,6 +490,7 @@
     </bean>
 
     <bean id="ActivityOfferingEdit-SeatPool" parent="Uif-VerticalBoxSection" p:additionalCssClasses="ks-seatpools">
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="headerText" value="Seat Pools"/>
         <property name="componentSecurity.editAuthz" value="true"/>
         <property name="items">
@@ -524,7 +526,6 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-MessageField" p:messageText="%" p:label="PERCENT" p:readOnly="true" p:id="seatLimitPercent" />
-                            <!-- validatePopulationForSP('@{document.newMaintainableObject.dataObject.populationsJSONString}') -->
                             <bean parent="Uif-InputField" p:label="POPULATION NAME" p:id="ao-seatpoolgroup-population-name" p:propertyName="seatPoolPopulation.name"
                                   p:onChangeScript="jQuery('#dirtyForm').val(true);" p:cssClasses="col_6">
                                 <property name="control">
@@ -573,6 +574,7 @@
     </bean>
 
     <bean id="ActivityOfferingEdit-Miscellaneous" parent="Uif-VerticalBoxSection" p:headerText="Miscellaneous" p:id="aoInfo.Miscellaneous">
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
                 <bean id="course_url" parent="Uif-InputField-LabelTop"
@@ -669,7 +671,8 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean id="edit_ao_add_colocate_line" parent="Uif-PrimaryActionButton"  p:ajaxSubmit="false" p:methodToCall="addLine" p:actionLabel="Proceed">
+                            <bean id="edit_ao_add_colocate_line" parent="Uif-PrimaryActionButton"  p:ajaxSubmit="false"
+                                  p:methodToCall="addLine" p:actionLabel="Proceed">
                                 <property name="actionParameters">
                                     <map>
                                         <entry key="actionType" value="addLine"/>

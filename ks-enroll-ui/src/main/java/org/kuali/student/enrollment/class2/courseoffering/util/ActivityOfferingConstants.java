@@ -47,6 +47,7 @@ public class ActivityOfferingConstants {
     public static final String MSG_ERROR_AO_CANCEL_STATE_COLOCATE = "error.enroll.ao.cancel.state.colocate";
     public static final String MSG_ERROR_AO_DUPLICATE_COLOCATE = "error.enroll.ao.duplicate.colocate";
     public static final String MSG_ERROR_AO_INVALID_CO_CODE_COLOCATE = "error.enroll.ao.invalid.co.code.colocate";
+    public static final String MSG_ERROR_AO_INVALID_AO_CODE_COLOCATE = "error.enroll.ao.invalid.ao.code.colocate";
     public static final String MSG_ERROR_AO_MULTIPLE_CO_COLOCATE = "error.enroll.ao.multiple.co.colocate";
     public static final String MSG_ERROR_AO_NOT_EXIST_CO_COLOCATE = "error.enroll.ao.not.exist.co.colocate";
 
