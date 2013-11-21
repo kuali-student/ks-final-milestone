@@ -76,4 +76,5 @@ public class KSRuleViewTreeBuilder extends RuleViewTreeBuilder {
     public void setNlHelper(NaturalLanguageHelper nlHelper) {
         this.nlHelper = nlHelper;
     }
+
 }

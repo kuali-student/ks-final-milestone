@@ -31,6 +31,8 @@ import org.kuali.rice.krms.util.PropositionTreeUtil;
 import java.util.List;
 
 /**
+ * This is a helper class to build the preview tree to be displayed on the manage requisites page on the ui to display
+ * a readonly tree of the rule on the edit with logic tab.
  *
  * @author Kuali Student Team
  */
@@ -89,10 +91,9 @@ public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
                         opNode.setNodeLabel(PropositionTreeUtil.getLabelForOperator(prop.getCompoundOpCode()));
                         opNode.setData(new TreeNode(null));
                         newNode.getChildren().add(opNode);
-
                     }
                     first = false;
-                    // call to build the childs node
+                    // call to build the child nodes
                     buildPreviewTree(rule, newNode, child);
                 }
             }

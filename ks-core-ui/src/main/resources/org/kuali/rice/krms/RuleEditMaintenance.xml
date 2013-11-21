@@ -348,9 +348,7 @@ limitations under the License.
             <bean parent="Uif-HorizontalBoxGroup">
                 <property name="items">
                     <list>
-
                         <bean parent="KRMS-PropKey-HiddenField"/>
-
                     </list>
                 </property>
             </bean>

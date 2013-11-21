@@ -17,7 +17,6 @@ package org.kuali.rice.krms.tree;
 
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
-import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
@@ -25,9 +24,7 @@ import org.kuali.rice.krms.tree.node.TreeNode;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This is a helper class to build the view tree to be displayed on the manage requisites page on the ui to display
@@ -93,7 +90,7 @@ public class RuleViewTreeBuilder extends AbstractTreeBuilder {
                         newNode.getChildren().add(opNode);
                     }
                     first = false;
-                    // call to build the childs node
+                    // call to build the child nodes
                     buildPreviewTree(rule, newNode, child);
                 }
             }

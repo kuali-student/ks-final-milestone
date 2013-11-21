@@ -34,10 +34,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * This is a helper class to build the view tree to be displayed on the manage requisites page on the ui to display
+ * a readonly tree of the rule.
  *
  * @author Kuali Student Team
  */
 public class KSRulePreviewTreeBuilder extends RulePreviewTreeBuilder {
+
+    private static final long serialVersionUID = 1L;
 
     private NaturalLanguageHelper nlHelper;
 

@@ -147,7 +147,6 @@ limitations under the License.
             <bean parent="Uif-GridLayoutBase"/>
         </property>
     </bean>
-
     <bean id="KRMS-ViewTree-Section" parent="KRMS-ViewTree-Section-parent"/>
 
     <bean id="KRMS-ListItems-DataGroup-parent" parent="Uif-StackedCollectionGroup" p:style="width: 600px; padding: 0;">
@@ -161,8 +160,7 @@ limitations under the License.
             </bean>
         </property>
         <property name="lineActions">
-            <list>
-            </list>
+            <list></list>
         </property>
         <property name="renderAddLine" value="false"/>
         <property name="propertyName" value="listItems"/>
@@ -250,7 +248,6 @@ limitations under the License.
             </bean>
         </property>
     </bean>
-
     <bean id="KRMS-PreviewTree-Section" parent="KRMS-PreviewTree-Section-parent"/>
 
     <bean id="KRMS-PreviewPrototype-BoxGroup" parent="Uif-VerticalBoxGroup">
