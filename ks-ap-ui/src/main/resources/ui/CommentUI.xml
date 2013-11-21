@@ -133,7 +133,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-ImageField" p:source="../ks-myplan/images/pixel.gif">
+                <bean parent="Uif-ImageField" p:source="../ks-ap/images/pixel.gif">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>icon</value>

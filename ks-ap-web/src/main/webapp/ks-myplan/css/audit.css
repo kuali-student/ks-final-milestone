@@ -80,7 +80,7 @@
 	clear: both;
 	border-top: dotted 1px #e4e3e3;
 	padding: 10px;
-    background: url('../images/myplan_audit_req_gradient.png') repeat-x;
+    background: url('../images/ksap_audit_req_gradient.png') repeat-x;
 	overflow: hidden;
 	height: auto;
 }
@@ -122,7 +122,7 @@
     width: 20px;
 }
 .ksap-audit-report .requirement .header .toggle {
-	background: url('../images/myplan_icon_sprites.png') no-repeat -1000px -1000px;
+	background: url('../images/ksap_icon_sprites.png') no-repeat -1000px -1000px;
 	width: 16px;
 	height: 16px;
 	margin-top: 2px;

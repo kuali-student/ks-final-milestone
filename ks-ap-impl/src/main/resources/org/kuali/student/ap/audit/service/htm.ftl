@@ -135,7 +135,7 @@ headerline:
 	<#if sectionHeadingOpen = true>
 		</div>
 	    <div class="ksap-status info uif-boxLayoutVerticalItem all-reqs-filtered" style="margin-bottom:20px; float:none; display:none;">
-	        <img src="/student/ks-myplan/images/pixel.gif" alt="" class="icon"/>
+	        <img src="/student/ks-ap/images/pixel.gif" alt="" class="icon"/>
 	        <div class="message">All requirements in this section have been hidden. See &quot;All Requirements&quot; for the full audit report.</div>
 	    </div>
 	    <#assign sectionHeadingOpen = false>
@@ -157,7 +157,7 @@ headerline:
 	<#if sectionHeadingOpen = true>
 		</div>
 	    <div class="ksap-status info uif-boxLayoutVerticalItem all-reqs-filtered" style="margin-bottom:20px; float:none; display:none;">
-	        <img src="/student/ks-myplan/images/pixel.gif" alt="" class="icon"/>
+	        <img src="/student/ks-ap/images/pixel.gif" alt="" class="icon"/>
 	        <div class="message">All requirements in this section have been hidden. See &quot;All Requirements&quot; for the full audit report.</div>
 	    </div>
 	    <#assign sectionHeadingOpen = false>
@@ -172,7 +172,7 @@ headerline:
 	<div class="section ${rname}"> 
 		<div class="heading"><#list req.titleLines as titleLine>${titleLine?replace("*", "")?replace("_","")?trim} </#list></div>
         <div class="ksap-status info uif-boxLayoutVerticalItem all-reqs-filtered" style="margin-bottom:20px; float:none; display:none;">
-            <img src="/student/ks-myplan/images/pixel.gif" alt="" class="icon"/>
+            <img src="/student/ks-ap/images/pixel.gif" alt="" class="icon"/>
             <div class="message">All requirements in this section have been hidden. See &quot;All Requirements&quot; for the full audit report.</div>
         </div>
  
@@ -229,7 +229,7 @@ headerline:
 	<#if sectionHeadingOpen = true>
 		</div>
 	    <div class="ksap-status info uif-boxLayoutVerticalItem all-reqs-filtered" style="margin-bottom:20px; float:none; display:none;">
-	        <img src="/student/ks-myplan/images/pixel.gif" alt="" class="icon"/>
+	        <img src="/student/ks-ap/images/pixel.gif" alt="" class="icon"/>
 	        <div class="message">All requirements in this section have been hidden. See &quot;All Requirements&quot; for the full audit report.</div>
 	    </div>
 	    <#assign sectionHeadingOpen = false>
@@ -254,7 +254,7 @@ headerline:
 		</#list>
 		</div>
 	    <div class="ksap-status info uif-boxLayoutVerticalItem all-reqs-filtered" style="margin-bottom:20px; float:none; display:none;">
-	        <img src="/student/ks-myplan/images/pixel.gif" alt="" class="icon"/>
+	        <img src="/student/ks-ap/images/pixel.gif" alt="" class="icon"/>
 	        <div class="message">All requirements in this section have been hidden. See &quot;All Requirements&quot; for the full audit report.</div>
 	    </div>
 	<#assign inSection = true>
@@ -278,7 +278,7 @@ headerline:
 			</select>
 		</div>
         <div class="ksap-status alert uif-boxLayoutVerticalItem audit-filtered" style="margin-bottom:20px; float:none; display:none;">
-            <img src="/student/ks-myplan/images/pixel.gif" alt="" class="icon"/>
+            <img src="/student/ks-ap/images/pixel.gif" alt="" class="icon"/>
             <div class="message">You are viewing a partial degree audit report. See &quot;All Requirements&quot; for the full audit report.</div>
         </div>
 		</#if>
@@ -298,7 +298,7 @@ headerline:
 	<#if sectionHeadingOpen = true>
 		</div>
 	    <div class="ksap-status info uif-boxLayoutVerticalItem all-reqs-filtered" style="margin-bottom:20px; float:none; display:none;">
-	        <img src="/student/ks-myplan/images/pixel.gif" alt="" class="icon"/>
+	        <img src="/student/ks-ap/images/pixel.gif" alt="" class="icon"/>
 	        <div class="message">All requirements in this section have been hidden. See &quot;All Requirements&quot; for the full audit report.</div>
 	    </div>
 	    <#assign sectionHeadingOpen = false>

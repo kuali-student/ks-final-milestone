@@ -2,7 +2,7 @@
     line-height: 1.5em;
 }
 body {
-    background: url(../images/myplanBodyBackground.png) repeat;
+    background: url(../images/ksap_body_background.png) repeat;
     font-family: serif;
     font-size: 13px;
 }
@@ -50,7 +50,7 @@ h3 {
     padding: 5px;
 }
 #links li.home a {
-    background: url('../images/myplan_icon_home.png') no-repeat 5px 5px;
+    background: url('../images/ksap_icon_home.png') no-repeat 5px 5px;
     padding-left: 27px;
 }
 #more a {
