@@ -305,7 +305,7 @@ limitations under the License.
     <bean id="KSCO-ListItems-DataGroup" parent="KSCO-ListItems-DataGroup-parent">
         <property name="subCollections">
             <list merge="true">
-                <bean parent="KSAO-ListItems-DataGroup-parent">
+                <bean parent="KSCO-ListItems-DataGroup-parent">
                     <property name="propertyName" value="cluGroups"/>
                 </bean>
             </list>
