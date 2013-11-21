@@ -64,7 +64,7 @@ function ksapPlannerUpdateTitle(a) {
 			"div:hidden[id^='plan_base_atpId']").text());
 	var aLast = jQuery.trim(jQuery(a[a.length - 1]).find(
 			"div:hidden[id^='plan_base_atpId']").text());
-	jQuery("#planner_courses_detail .myplan-plan-header")
+	jQuery("#planner_courses_detail .ksap-plan-header")
 			.html(aFirst + ' - ' + aLast);
 }
 

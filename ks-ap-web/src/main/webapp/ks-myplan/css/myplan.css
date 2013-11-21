@@ -721,7 +721,7 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
     background-position: -30px -100px;
 }
 
-.myplan-plan-header {
+.ksap-plan-header {
     text-align: center;
     width: 450px;
     font-size: 30px;
@@ -2397,14 +2397,14 @@ label.scheduled {
 }
 
 /* Quarter Detail View ######################################################################################### */
-.myplan-quarter-detail .uif-stackedCollectionLayout,
-.myplan-quarter-detail .uif-stackedCollectionLayout > .uif-collectionItem {
+.ksap-quarter-detail .uif-stackedCollectionLayout,
+.ksap-quarter-detail .uif-stackedCollectionLayout > .uif-collectionItem {
     padding: 0;
     margin: 0;
     background: none;
 }
 
-.myplan-quarter-detail h5 {
+.ksap-quarter-detail h5 {
     border: solid 1px #ccc;
     border-bottom: none;
     text-transform: uppercase;
@@ -2414,22 +2414,22 @@ label.scheduled {
     padding: 10px 5px;
 }
 
-.myplan-quarter-detail .myplan-course-item {
+.ksap-quarter-detail .myplan-course-item {
     border: solid 1px #ccc;
     border-bottom: none;
     padding: 5px;
 }
 
-.myplan-quarter-detail .myplan-course-sections table {
+.ksap-quarter-detail .myplan-course-sections table {
     border-bottom: none;
 }
 
-.myplan-quarter-detail .dataTables_wrapper,
-.myplan-quarter-detail .dataTables_info {
+.ksap-quarter-detail .dataTables_wrapper,
+.ksap-quarter-detail .dataTables_info {
     margin: 0;
 }
 
-.myplan-quarter-detail .myplan-credit-total {
+.ksap-quarter-detail .myplan-credit-total {
     padding: 10px 5px;
     background: #ccc;
 }

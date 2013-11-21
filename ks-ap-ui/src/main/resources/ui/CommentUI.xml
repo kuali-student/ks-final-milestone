@@ -39,7 +39,7 @@
                         jQuery('form input, form textarea').keyup(function(event) {
                             var empty = false;
                             var code = (event.keyCode ? event.keyCode : event.which);
-                            jQuery('form .myplan-required').each(function() {
+                            jQuery('form .ksap-required').each(function() {
                                 if (jQuery(this).val().replace(/\n/g, '').length == 0) {
                                     empty = true;
                                 }
@@ -77,7 +77,7 @@
                     <property name="onDocumentReadyScript" value="
                         jQuery('form input, form textarea').keyup(function() {
                             var empty = false;
-                            jQuery('form .myplan-required').each(function() {
+                            jQuery('form .ksap-required').each(function() {
                                 if (jQuery(this).val().replace(/\n/g, '').length == 0) {
                                     empty = true;
                                 }
@@ -306,7 +306,7 @@
                                 <list merge="true">
                                     <value>fl-container-500</value>
                                     <value>myplan-textarea</value>
-                                    <value>myplan-required</value>
+                                    <value>ksap-required</value>
                                 </list>
                             </property>
                         </bean>
@@ -369,7 +369,7 @@
                             <property name="cssClasses">
                                 <list merge="true">
                                     <value>fl-container-500</value>
-                                    <value>myplan-required</value>
+                                    <value>ksap-required</value>
                                 </list>
                             </property>
                         </bean>
@@ -401,7 +401,7 @@
                                 <list merge="true">
                                     <value>myplan-textarea</value>
                                     <value>fl-container-500</value>
-                                    <value>myplan-required</value>
+                                    <value>ksap-required</value>
                                 </list>
                             </property>
                         </bean>
@@ -492,7 +492,7 @@
                                             <bean id="leave_message_button" parent="Uif-PrimaryActionButton-Small" p:actionLabel="Leave a Message" p:style="margin:5px;">
                                                 <property name="actionScript" value=""/>
                                                 <property name="onDocumentReadyScript" value="
-                                                    myplanCreateLightBoxLink('leave_message_button', {helpers:{overlay:{closeClick: false}},autoScale:true,width:660,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=message_dialog_response_page&amp;renderedInLightBox=true'});
+                                                    ksapCreateLightBoxLink('leave_message_button', {helpers:{overlay:{closeClick: false}},autoScale:true,width:660,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=message_dialog_response_page&amp;renderedInLightBox=true'});
                                                 "/>
                                             </bean>
                                         </list>
@@ -528,14 +528,14 @@
             <list>
                 <bean p:id="@{#line.messageId}" parent="Uif-HorizontalFieldGroup" p:style="cursor:pointer;">
                     <!--
-                    <property name="onDocumentReadyScript" value="myplanCreateLightBoxLink('@{#line.messageId}', {autoScale:true,width:650,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}'});"/>
+                    <property name="onDocumentReadyScript" value="ksapCreateLightBoxLink('@{#line.messageId}', {autoScale:true,width:650,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}'});"/>
                     -->
                     <property name="cssClasses">
                         <list merge="true">
                             <value>myplan-click</value>
                         </list>
                     </property>
-                    <property name="onClickScript" value="myplanLightBoxLink('comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}', {helpers:{overlay:{closeClick: false}},autoScale:true,width:660,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe'}, e);"/>
+                    <property name="onClickScript" value="ksapLightBoxLink('comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}', {helpers:{overlay:{closeClick: false}},autoScale:true,width:660,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe'}, e);"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-VerticalFieldGroup" p:style="width:170px;">
@@ -796,7 +796,7 @@
         <property name="items">
             <list>
                 <bean p:id="@{#line.messageId}_subject" parent="Uif-VerticalFieldGroup" p:label="Subject" p:group.validationMessages.render="false">
-                    <property name="onDocumentReadyScript" value="myplanCreateLightBoxLink('@{#line.messageId}_subject', {helpers:{overlay:{closeClick: false}},autoScale:true,width:650,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}'});"/>
+                    <property name="onDocumentReadyScript" value="ksapCreateLightBoxLink('@{#line.messageId}_subject', {helpers:{overlay:{closeClick: false}},autoScale:true,width:650,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}'});"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="subject" p:fieldLabel.render="false">
@@ -821,7 +821,7 @@
                 </bean>
 
                 <bean p:id="@{#line.messageId}_received" parent="Uif-VerticalFieldGroup" p:label="Received" p:group.validationMessages.render="false">
-                    <property name="onDocumentReadyScript" value="myplanCreateLightBoxLink('@{#line.messageId}_received', {helpers:{overlay:{closeClick: false}},autoScale:true,width:650,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}'});"/>
+                    <property name="onDocumentReadyScript" value="ksapCreateLightBoxLink('@{#line.messageId}_received', {helpers:{overlay:{closeClick: false}},autoScale:true,width:650,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}'});"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="createDate" p:fieldLabel.render="false" p:escapeHtmlInPropertyValue="false">
@@ -838,7 +838,7 @@
                 </bean>
 
                 <bean p:id="@{#line.messageId}_comments" parent="Uif-VerticalFieldGroup" p:label="Comments" p:group.validationMessages.render="false">
-                    <property name="onDocumentReadyScript" value="myplanCreateLightBoxLink('@{#line.messageId}_comments', {helpers:{overlay:{closeClick: false}},autoScale:true,width:650,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}'});"/>
+                    <property name="onDocumentReadyScript" value="ksapCreateLightBoxLink('@{#line.messageId}_comments', {helpers:{overlay:{closeClick: false}},autoScale:true,width:650,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}'});"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-MessageField" p:messageText="@{#line.comments.size()} comments" p:fieldLabel.render="false"
@@ -849,7 +849,7 @@
                 </bean>
 
                 <bean p:id="@{#line.messageId}_lastcomment" parent="Uif-VerticalFieldGroup" p:label="Last Comment" p:group.validationMessages.render="false">
-                    <property name="onDocumentReadyScript" value="myplanCreateLightBoxLink('@{#line.messageId}_lastcomment', {helpers:{overlay:{closeClick: false}},autoScale:true,width:650,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}'});"/>
+                    <property name="onDocumentReadyScript" value="ksapCreateLightBoxLink('@{#line.messageId}_lastcomment', {helpers:{overlay:{closeClick: false}},autoScale:true,width:650,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}'});"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="lastCommentDate" p:fieldLabel.render="false" p:escapeHtmlInPropertyValue="false">
@@ -866,7 +866,7 @@
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>fl-text-gray</value>
-                                        <value>myplan-sort-remove</value>
+                                        <value>ksap-sort-remove</value>
                                     </list>
                                 </property>
                             </bean>

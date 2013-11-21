@@ -128,9 +128,11 @@ jQuery(document).ready(function () {
     ');
 });
 
-function sessionExpired() {
-    window.location = '/student/myplan/sessionExpired';
-}
+//@TODO: Fix with KSAP-320
+// Location is not a valid path
+//function sessionExpired() {
+//    window.location = '/student/myplan/sessionExpired';
+//}
 
 function stopEvent(e) {
     if (!e) var e = window.event;
@@ -245,13 +247,13 @@ function openPopup(getId, retrieveData, formAction, popupStyle, popupOptions, e)
         } else {
             var pageId = jQuery("#pageId", htmlContent).val();
             eval(jQuery("input[data-role='script'][data-for='" + pageId + "']", htmlContent).val().replace("#" + pageId, "body"));
-            var errorMessage = '<img src="/student/ks-myplan/images/pixel.gif" alt="" class="icon"><div class="message">' + jQuery("#plan_item_action_response_page", htmlContent).data(kradVariables.VALIDATION_MESSAGES).serverErrors[0] + '</div>';
+            var errorMessage = '<img src="/student/ks-ap/images/pixel.gif" alt="" class="icon"><div class="message">' + jQuery("#plan_item_action_response_page", htmlContent).data(kradVariables.VALIDATION_MESSAGES).serverErrors[0] + '</div>';
             component = jQuery("<div />").addClass("ksap-feedback error").html(errorMessage);
         }
         if (jQuery("#KSAP-Popover").length) {
             popupItem.SetPopOverInnerHtml(component);
             fnPositionPopUp(popupId);
-            if (popupOptions.close || typeof popupOptions.close === 'undefined') jQuery("#" + popupId + " .jquerypopover-innerHtml").append('<img src="../ks-myplan/images/btnClose.png" class="ksap-popup-close"/>');
+            if (popupOptions.close || typeof popupOptions.close === 'undefined') jQuery("#" + popupId + " .jquerypopover-innerHtml").append('<img src="../ks-ap/images/btnClose.png" class="ksap-popup-close"/>');
             jQuery("#" + popupId + " img.ksap-popup-close").on('click', function () {
                 popupItem.HidePopOver();
                 fnCloseAllPopups();
@@ -344,7 +346,7 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
         });
     });
 
-    if (close || typeof close === 'undefined') jQuery("#" + popupBoxId + " .jquerybubblepopup-innerHtml").append('<img src="../ks-myplan/images/btnClose.png" class="ksap-popup-close"/>');
+    if (close || typeof close === 'undefined') jQuery("#" + popupBoxId + " .jquerybubblepopup-innerHtml").append('<img src="../ks-ap/images/btnClose.png" class="ksap-popup-close"/>');
 
     runHiddenScripts(id + "_popup");
 
@@ -394,7 +396,7 @@ function openDialog(sText, e, close) {
     var popupBoxId = popupBox.GetPopOverID();
     popupBox.FreezePopOver();
 
-    if (close || typeof close === 'undefined') jQuery("#" + popupBoxId + " .jquerypopover-innerHtml").append('<img src="../ks-myplan/images/btnClose.png" class="ksap-popup-close"/>');
+    if (close || typeof close === 'undefined') jQuery("#" + popupBoxId + " .jquerypopover-innerHtml").append('<img src="../ks-ap/images/btnClose.png" class="ksap-popup-close"/>');
 
     fnPositionPopUp(popupBoxId);
 
@@ -464,7 +466,7 @@ function submitPopupForm(additionalFormData, e, bDialog) {
         var status = jQuery.trim(jQuery("#requestStatus", htmlContent).text().toLowerCase());
         eval(jQuery("input[data-role='script'][data-for='" + pageId + "']", htmlContent).val().replace("#" + pageId, "body"));
         var data = {};
-        data.message = '<img src="/student/ks-myplan/images/pixel.gif" alt="" class="icon"><div class="message"><span /></div>';
+        data.message = '<img src="/student/ks-ap/images/pixel.gif" alt="" class="icon"><div class="message"><span /></div>';
         data.cssClass = "ksap-feedback " + status;
         switch (status) {
             case 'success':
@@ -492,7 +494,7 @@ function submitPopupForm(additionalFormData, e, bDialog) {
         }
     };
     var blockOptions = {
-        message:'<img src="../ks-myplan/images/btnLoader.gif"/>',
+        message:'<img src="../ks-ap/images/btnLoader.gif"/>',
         css:{
             width:'100%',
             border:'none',
@@ -513,6 +515,124 @@ function submitPopupForm(additionalFormData, e, bDialog) {
         }
     };
     ksapAjaxSubmitForm(additionalFormData, successCallback, elementToBlock, "popupForm", blockOptions);
+}
+/*
+ ######################################################################################
+ Function:   KRAD's ajax submit function modified to allow submission of a form
+ other then the kuali form
+ ######################################################################################
+ */
+function myplanAjaxSubmitForm(methodToCall, successCallback, additionalData, elementToBlock, formId, elementBlockingSettings) {
+    var data = {};
+
+    // methodToCall checks
+    if (methodToCall == null) {
+        var methodToCallInput = jQuery("input[name='methodToCall']");
+        if (methodToCallInput.length > 0) {
+            methodToCall = jQuery("input[name='methodToCall']").val();
+        }
+    }
+
+    // check to see if methodToCall is still null
+    if (methodToCall != null || methodToCall !== "") {
+        data.methodToCall = methodToCall;
+    }
+
+    data.renderFullView = false;
+
+    // remove this since the methodToCall was passed in or extracted from the page, to avoid issues
+    jQuery("input[name='methodToCall']").remove();
+
+    if (additionalData != null) {
+        jQuery.extend(data, additionalData);
+    }
+
+    var viewState = jQuery(document).data(kradVariables.VIEW_STATE);
+    if (!jQuery.isEmptyObject(viewState)) {
+        var jsonViewState = jQuery.toJSON(viewState);
+
+        // change double quotes to single because escaping causes problems on URL
+        jsonViewState = jsonViewState.replace(/"/g, "'");
+        jQuery.extend(data, {clientViewState:jsonViewState});
+    }
+
+    var submitOptions = {
+        data:data,
+        success:function (response) {
+            var tempDiv = document.createElement('div');
+            tempDiv.innerHTML = response;
+            var hasError = checkForIncidentReport(response);
+            if (!hasError) {
+                successCallback(tempDiv);
+            }
+            jQuery("#formComplete").empty();
+        },
+        error:function (jqXHR, textStatus) {
+            alert("Request failed: " + textStatus);
+        }
+    };
+
+    if (elementToBlock != null && elementToBlock.length) {
+        var elementBlockingOptions = {
+            beforeSend:function () {
+                if (elementToBlock.hasClass("unrendered")) {
+                    elementToBlock.append('<img src="' + getConfigParam("kradImageLocation") + 'loader.gif" alt="Loading..." /> Loading...');
+                    elementToBlock.show();
+                }
+                else {
+                    var elementBlockingDefaults = {
+                        baseZ:500,
+                        message:'<img src="../ks-ap/images/ajaxLoader16.gif" alt="loading..." />',
+                        fadeIn:0,
+                        fadeOut:0,
+                        overlayCSS:{
+                            backgroundColor:'#fff',
+                            opacity:0
+                        },
+                        css:{
+                            border:'none',
+                            width:'16px',
+                            top:'0px',
+                            left:'0px'
+                        }
+                    };
+                    elementToBlock.block(jQuery.extend(elementBlockingDefaults, elementBlockingSettings));
+                }
+            },
+            complete:function () {
+                elementToBlock.unblock();
+            },
+            error:function(jqXHR, textStatus,
+                           errorThrown) {
+                hideLoading();
+                showGrowl(textStatus + " "
+                    + errorThrown,
+                    "Error");
+                if (elementToBlock.hasClass("unrendered")) {
+                    elementToBlock.hide();
+                }
+                else {
+                    elementToBlock.unblock();
+                }
+            },
+            statusCode : {
+                500 : function() {
+                    showGrowl(
+                        "500 Internal Server Error",
+                        "Fatal Error");
+                }
+            }
+
+        };
+    }
+    jQuery.extend(submitOptions, elementBlockingOptions);
+    var form;
+    if (formId) {
+        form = jQuery("#" + formId + "_form");
+    } else {
+        form = jQuery("#kualiForm");
+    }
+    form.ajaxSubmit(submitOptions);
 }
 /**
  *   Gathers information for submission to the controller via ajax
@@ -566,7 +686,7 @@ function ksapAjaxSubmitForm(data, successCallback, elementToBlock, formId, block
                 else {
                     var elementBlockingDefaults = {
                         baseZ:500,
-                        message:'<img src="../ks-myplan/images/ajaxLoader16.gif" alt="loading..." />',
+                        message:'<img src="../ks-ap/images/ajaxLoader16.gif" alt="loading..." />',
                         fadeIn:0,
                         fadeOut:0,
                         overlayCSS:{
@@ -687,124 +807,7 @@ function ksapRetrieveComponent(id, getId, methodToCall, action, retrieveOptions,
     myplanAjaxSubmitForm(methodToCall, updateRefreshableComponentCallback, {reqComponentId:id, skipViewInit:"false"}, elementToBlock, id, elementBlockingSettings);
     jQuery("form#" + id + "_form").remove();
 }
-/*
- ######################################################################################
- Function:   KRAD's ajax submit function modified to allow submission of a form
- other then the kuali form
- ######################################################################################
- */
-function myplanAjaxSubmitForm(methodToCall, successCallback, additionalData, elementToBlock, formId, elementBlockingSettings) {
-    var data = {};
 
-    // methodToCall checks
-    if (methodToCall == null) {
-        var methodToCallInput = jQuery("input[name='methodToCall']");
-        if (methodToCallInput.length > 0) {
-            methodToCall = jQuery("input[name='methodToCall']").val();
-        }
-    }
-
-    // check to see if methodToCall is still null
-    if (methodToCall != null || methodToCall !== "") {
-        data.methodToCall = methodToCall;
-    }
-
-    data.renderFullView = false;
-
-    // remove this since the methodToCall was passed in or extracted from the page, to avoid issues
-    jQuery("input[name='methodToCall']").remove();
-
-    if (additionalData != null) {
-        jQuery.extend(data, additionalData);
-    }
-
-    var viewState = jQuery(document).data(kradVariables.VIEW_STATE);
-    if (!jQuery.isEmptyObject(viewState)) {
-        var jsonViewState = jQuery.toJSON(viewState);
-
-        // change double quotes to single because escaping causes problems on URL
-        jsonViewState = jsonViewState.replace(/"/g, "'");
-        jQuery.extend(data, {clientViewState:jsonViewState});
-    }
-
-    var submitOptions = {
-        data:data,
-        success:function (response) {
-            var tempDiv = document.createElement('div');
-            tempDiv.innerHTML = response;
-            var hasError = checkForIncidentReport(response);
-            if (!hasError) {
-                successCallback(tempDiv);
-            }
-            jQuery("#formComplete").empty();
-        },
-        error:function (jqXHR, textStatus) {
-            alert("Request failed: " + textStatus);
-        }
-    };
-
-    if (elementToBlock != null && elementToBlock.length) {
-        var elementBlockingOptions = {
-            beforeSend:function () {
-                if (elementToBlock.hasClass("unrendered")) {
-                    elementToBlock.append('<img src="' + getConfigParam("kradImageLocation") + 'loader.gif" alt="Loading..." /> Loading...');
-                    elementToBlock.show();
-                }
-                else {
-                    var elementBlockingDefaults = {
-                        baseZ:500,
-                        message:'<img src="../ks-myplan/images/ajaxLoader16.gif" alt="loading..." />',
-                        fadeIn:0,
-                        fadeOut:0,
-                        overlayCSS:{
-                            backgroundColor:'#fff',
-                            opacity:0
-                        },
-                        css:{
-                            border:'none',
-                            width:'16px',
-                            top:'0px',
-                            left:'0px'
-                        }
-                    };
-                    elementToBlock.block(jQuery.extend(elementBlockingDefaults, elementBlockingSettings));
-                }
-            },
-            complete:function () {
-                elementToBlock.unblock();
-            },
-            error:function(jqXHR, textStatus,
-                           errorThrown) {
-                hideLoading();
-                showGrowl(textStatus + " "
-                    + errorThrown,
-                    "Error");
-                if (elementToBlock.hasClass("unrendered")) {
-                    elementToBlock.hide();
-                }
-                else {
-                    elementToBlock.unblock();
-                }
-            },
-            statusCode : {
-                500 : function() {
-                    showGrowl(
-                        "500 Internal Server Error",
-                        "Fatal Error");
-                }
-            }
-
-        };
-    }
-    jQuery.extend(submitOptions, elementBlockingOptions);
-    var form;
-    if (formId) {
-        form = jQuery("#" + formId + "_form");
-    } else {
-        form = jQuery("#kualiForm");
-    }
-    form.ajaxSubmit(submitOptions);
-}
 /*
  ######################################################################################
  Function:   Truncate (ellipse) a single horizontally aligned item so all items
@@ -930,7 +933,7 @@ function fnClosePopup() {
 function fnBuildTitle(aView) {
     var aFirst = jQuery.trim(jQuery(aView[0]).find("div:hidden[id^='plan_base_atpId']").text());
     var aLast = jQuery.trim(jQuery(aView[aView.length - 1]).find("div:hidden[id^='plan_base_atpId']").text());
-    jQuery("#planned_courses_detail .myplan-plan-header").html(aFirst+ ' - ' + aLast);
+    jQuery("#planned_courses_detail .ksap-plan-header").html(aFirst+ ' - ' + aLast);
 }
 
 /*
@@ -938,7 +941,7 @@ function fnBuildTitle(aView) {
  Function:   expand/collapse backup course set within plan view
  ######################################################################################
  */
-function myplanCreateLightBoxLink(controlId, options) {
+function ksapCreateLightBoxLink(controlId, options) {
     jQuery(function () {
         var showHistory = false;
 
@@ -972,7 +975,7 @@ function myplanCreateLightBoxLink(controlId, options) {
     });
 }
 
-function myplanLightBoxLink(href, options, e) {
+function ksapLightBoxLink(href, options, e) {
     stopEvent(e);
     var target = (e.currentTarget) ? e.currentTarget : e.srcElement;
     options['autoHeight'] = true;
@@ -1035,7 +1038,7 @@ var pendingPlanAuditHeadingText = 'We are currently auditing your plan for \'<sp
 var pendingDegreeAuditHeadingText = 'We are currently auditing your degree for \'<span class="programName"></span>\'.';
 
 var blockPendingAuditStyle = {
-    message: '<img src="../ks-myplan/images/ajaxAuditRunning32.gif" alt="" class="icon"/><div class="heading"></div>',
+    message: '<img src="../ks-ap/images/ajaxAuditRunning32.gif" alt="" class="icon"/><div class="heading"></div>',
     fadeIn: 250,
     fadeOut: 250,
     css: {
@@ -1084,11 +1087,11 @@ function fnAddLoadingText(selector, programName, auditType) {
 }
 
 function removeCookie() {
-    jQuery.cookie("myplan_audit_running", null, {expires: new Date().setTime(0)});
+    jQuery.cookie("ksap_audit_running", null, {expires: new Date().setTime(0)});
 }
 
 function setPendingAudit(obj, minutes) {
-    if (jQuery.cookie("myplan_audit_running") == null) {
+    if (jQuery.cookie("ksap_audit_running") == null) {
         var data = {};
         data.expires = new Date();
         data.expires.setTime(data.expires.getTime() + (minutes * 60 * 1000));
@@ -1107,7 +1110,7 @@ function setPendingAudit(obj, minutes) {
                 beforeSend:null,
                 success:function (response) {
                     if (response.status == "PENDING") {
-                        jQuery.cookie('myplan_audit_running', JSON.stringify(data), {expires:data.expires});
+                        jQuery.cookie('ksap_audit_running', JSON.stringify(data), {expires:data.expires});
                         disabledCheck(obj.attr("id"), 'action', function () {
                             return true;
                         });
@@ -1116,7 +1119,8 @@ function setPendingAudit(obj, minutes) {
                     }
                 },
                 statusCode: { 500: function () {
-                    sessionExpired();
+                    //@TODO: Fix with KSAP-320
+                    //sessionExpired();
                 } }
             });
         }
@@ -1126,12 +1130,12 @@ function setPendingAudit(obj, minutes) {
 }
 
 function getPendingAudit(id, type) {
-    if (jQuery.cookie('myplan_audit_running')) {
-        var data = jQuery.parseJSON(decodeURIComponent(jQuery.cookie('myplan_audit_running')));
+    if (jQuery.cookie('ksap_audit_running')) {
+        var data = jQuery.parseJSON(decodeURIComponent(jQuery.cookie('ksap_audit_running')));
         if (type == data.auditType) {
             var component = jQuery("#" + id + " .uif-stackedCollectionLayout");
             if (data) {
-                var item = jQuery("<div />").addClass("uif-collectionItem pending").html('<img src="../ks-myplan/images/ajaxPending16.gif" class="icon"/><span class="title">Auditing <span class="program">' + data.programName + '</span></span>');
+                var item = jQuery("<div />").addClass("uif-collectionItem pending").html('<img src="../ks-ap/images/ajaxPending16.gif" class="icon"/><span class="title">Auditing <span class="program">' + data.programName + '</span></span>');
                 component.prepend(item);
                 pollPendingAudit(data.programId, data.recentAuditId, data.auditType);
             }
@@ -1169,7 +1173,7 @@ function pollPendingAudit(programId, recentAuditId, auditType) {
         dataType: "json",
         beforeSend: null,
         successCondition: function(response) {
-            return (response.status == 'DONE' || response.status == 'FAILED' || jQuery.cookie("myplan_audit_running") == null);
+            return (response.status == 'DONE' || response.status == 'FAILED' || jQuery.cookie("ksap_audit_running") == null);
         },
         success:function (response) {
             var growl = true;
@@ -1183,13 +1187,13 @@ function pollPendingAudit(programId, recentAuditId, auditType) {
             if (auditType == "plan") {
                 title = "Plan Audit";
             }
-            if (jQuery.cookie("myplan_audit_running") == null || response.status == 'FAILED') {
+            if (jQuery.cookie("ksap_audit_running") == null || response.status == 'FAILED') {
                 if (growl) showGrowl("Your " + title + " was unable to complete.", title + " Error", "errorGrowl");
             } else {
-                var data = jQuery.parseJSON(decodeURIComponent(jQuery.cookie("myplan_audit_running")));
+                var data = jQuery.parseJSON(decodeURIComponent(jQuery.cookie("ksap_audit_running")));
                 if (growl) showGrowl(data.programName + " " + title + " is ready to view.", title + " Completed", "infoGrowl");
             }
-            jQuery.cookie("myplan_audit_running", null, {expires:new Date().setTime(0)});
+            jQuery.cookie("ksap_audit_running", null, {expires:new Date().setTime(0)});
             jQuery.event.trigger("AUDIT_COMPLETE", {"auditType": auditType});
         }
     });
@@ -1198,7 +1202,7 @@ function pollPendingAudit(programId, recentAuditId, auditType) {
 function buttonState(parentId, buttonId) {
     var disabled = false;
     var button = jQuery("button#" + buttonId);
-    jQuery("#" + parentId + " .myplan-required").each(function () {
+    jQuery("#" + parentId + " .ksap-required").each(function () {
         var value;
         if (jQuery(this).val()) {
             value = jQuery(this).val().replace(/\n/g, '');
@@ -1224,16 +1228,16 @@ function buttonState(parentId, buttonId) {
  * @param retrieveOptions
  * @param componentId
  */
-function myplanGetSectionEnrollment(url, retrieveOptions, componentId) {
-    var elementToBlock = jQuery(".myplan-enrl-data").parent();
-    if (componentId) elementToBlock = jQuery("#" + componentId + " .myplan-enrl-data").parent();
+function ksapGetSectionEnrollment(url, retrieveOptions, componentId) {
+    var elementToBlock = jQuery(".ksap-enrl-data").parent();
+    if (componentId) elementToBlock = jQuery("#" + componentId + " .ksap-enrl-data").parent();
     jQuery.ajax({
         url:url,
         data:retrieveOptions,
         dataType:"json",
         beforeSend:function () {
             elementToBlock.block({
-                message:'<img src="../ks-myplan/images/ajaxLoader16.gif" alt="Fetching enrollment data..." />',
+                message:'<img src="../ks-ap/images/ajaxLoader16.gif" alt="Fetching enrollment data..." />',
                 fadeIn:0,
                 fadeOut:0,
                 overlayCSS:{
@@ -1251,7 +1255,7 @@ function myplanGetSectionEnrollment(url, retrieveOptions, componentId) {
         error:function () {
             elementToBlock.fadeOut(250);
             elementToBlock.each(function () {
-                jQuery(this).css("text-align", "center").find("img.myplan-enrl-data").addClass("alert").attr("alt", "Oops, couldn't fetch the data. Refresh the page.").attr("title", "Oops, couldn't fetch the data. Refresh the page.");
+                jQuery(this).css("text-align", "center").find("img.ksap-enrl-data").addClass("alert").attr("alt", "Oops, couldn't fetch the data. Refresh the page.").attr("title", "Oops, couldn't fetch the data. Refresh the page.");
             });
             elementToBlock.fadeIn(250);
             elementToBlock.unblock();
@@ -1275,8 +1279,8 @@ function myplanGetSectionEnrollment(url, retrieveOptions, componentId) {
                     title += " estimated";
                 }
                 title += " limit. Updated few minutes ago."
-                var data = jQuery("<span />").addClass("myplan-enrl-data").attr("title", title).html(message);
-                jQuery("#" + sectionId + " .myplan-enrl-data").replaceWith(data);
+                var data = jQuery("<span />").addClass("ksap-enrl-data").attr("title", title).html(message);
+                jQuery("#" + sectionId + " .ksap-enrl-data").replaceWith(data);
             });
             elementToBlock.fadeIn(250);
             elementToBlock.unblock();
@@ -1309,7 +1313,7 @@ function toggleSections(actionId, toggleId, showClass, showText, hideText) {
                 jQuery(this).show().next("tr.collapsible").show().next("tr.collapsible").show();
             }
         });
-        jQuery(".myplan-quarter-detail .activityInstitutionHeading").show();
+        jQuery(".ksap-quarter-detail .activityInstitutionHeading").show();
         action.text(hideText).data("hidden", false);
     } else {
         group.each(function () {
@@ -1320,7 +1324,7 @@ function toggleSections(actionId, toggleId, showClass, showText, hideText) {
                 jQuery(this).hide().next("tr.collapsible").hide().next("tr.collapsible").hide();
             }
         });
-        jQuery(".myplan-quarter-detail .activityInstitutionHeading").hide();
+        jQuery(".ksap-quarter-detail .activityInstitutionHeading").hide();
         action.text(showText).data("hidden", true);
     }
 }
@@ -1492,7 +1496,7 @@ function buildHoverText(obj) {
 
 function fnCreateDate(sData) {
     var jTemp = jQuery(sData);
-    jTemp.find("legend, .myplan-sort-remove").remove();
+    jTemp.find("legend, .ksap-sort-remove").remove();
     var sDate = jQuery.trim(jTemp.text());
     if (sDate.length > 2) {
         return Date.parse(sDate);
@@ -1697,7 +1701,7 @@ function openPlanItemPopUp(xid, getId, retrieveOptions, e, selector, popupOption
             component = jQuery("#" + getId, htmlContent);
             var planForm = jQuery('<form />').attr("id", xid + "_form").attr("action", "plan").attr("method", "post");
         } else {
-            var sError = '<img src="../ks-myplan/images/pixel.gif" alt="" class="icon"><span class="message">' + jQuery("#plan_item_action_response_page", htmlContent).data(kradVariables.VALIDATION_MESSAGES).serverErrors[0] + '</span>';
+            var sError = '<img src="../ks-ap/images/pixel.gif" alt="" class="icon"><span class="message">' + jQuery("#plan_item_action_response_page", htmlContent).data(kradVariables.VALIDATION_MESSAGES).serverErrors[0] + '</span>';
             component = jQuery("<div />").html(sError).addClass("ksap-feedback error").width(175);
         }
 
@@ -1730,7 +1734,7 @@ function openPlanItemPopUp(xid, getId, retrieveOptions, e, selector, popupOption
                 popupBox.SetBubblePopupInnerHtml(component);
                 fnPositionPopUp(popupBoxId);
                 if (status != 'error') jQuery("#" + popupBoxId + " .jquerybubblepopup-innerHtml").wrapInner(planForm);
-                if (close || typeof close === 'undefined') jQuery("#" + popupBoxId + " .jquerybubblepopup-innerHtml").append('<img src="../ks-myplan/images/btnClose.png" class="ksap-popup-close"/>');
+                if (close || typeof close === 'undefined') jQuery("#" + popupBoxId + " .jquerybubblepopup-innerHtml").append('<img src="../ks-ap/images/btnClose.png" class="ksap-popup-close"/>');
                 jQuery("#" + popupBoxId + " img.ksap-popup-close").on('click', function () {
                     popupBox.HideBubblePopup();
                     fnCloseAllPopups();

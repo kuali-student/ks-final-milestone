@@ -55,9 +55,9 @@
                                     <bean parent="Uif-VerticalBoxLayout"/>
                                 </property>
                                 <property name="onDocumentReadyScript" value="
-                                    if (jQuery.cookie('myplan_audit_running')) {
+                                    if (jQuery.cookie('ksap_audit_running')) {
                                         if (readUrlParam('degreeAudit.auditId') == false) {
-                                            var data = jQuery.parseJSON(decodeURIComponent(jQuery.cookie('myplan_audit_running')));
+                                            var data = jQuery.parseJSON(decodeURIComponent(jQuery.cookie('ksap_audit_running')));
                                             blockPendingAudit(data);
                                         }
                                     }
@@ -420,7 +420,7 @@
           p:actionLabel="Run Degree Audit"> <!-- audit_report_section degree_audit_block-->
         <property name="onClickScript" value="setPendingAudit(jQuery(this),2); setUrlHash('modified','yes'); changeLoadingMessage('.ksap-audit-report');"/>
         <property name="onDocumentReadyScript" value="
-            if (jQuery.cookie('myplan_audit_running')) {
+            if (jQuery.cookie('ksap_audit_running')) {
                 jQuery('button#degree_audit_run').attr('disabled', true);
             } else {
                 jQuery('button#degree_audit_run').attr('disabled', degreeAuditButton());

@@ -139,7 +139,7 @@
                             <bean parent="Uif-MessageField">
                                 <property name="cssClasses">
                                     <list merge="true">
-                                        <value>myplan-plan-header</value>
+                                        <value>ksap-plan-header</value>
                                         <value>ks-plan-Header-headline</value>
                                     </list>
                                 </property>

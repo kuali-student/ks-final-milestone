@@ -456,7 +456,7 @@
                             <bean parent="Uif-MessageField">
                                 <property name="cssClasses">
                                     <list merge="true">
-                                        <value>myplan-plan-header</value>
+                                        <value>ksap-plan-header</value>
                                         <value>ks-plan-Header-headline</value>
                                     </list>
                                 </property>
@@ -1697,7 +1697,7 @@
         <property name="propertyName" value="lookupResults"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-quarter-detail</value>
+                <value>ksap-quarter-detail</value>
                 <value>myplan-remove-margin</value>
             </list>
         </property>
