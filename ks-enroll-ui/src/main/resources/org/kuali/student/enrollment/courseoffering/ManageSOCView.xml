@@ -304,7 +304,6 @@
                    <property name="items">
                        <list>
                            <bean id="socPublishingStatus" parent="Uif-MessageField" p:messageText="@{socPublishingStatus}" p:label="SOC Publishing Status" p:style="margin-top:15px;margin-bottom:15px;margin-left:15px;"/>
-                           <bean parent="ManageSOCView-SchedulingDetails-PublishButton"/>
                        </list>
                    </property>
                </bean>
