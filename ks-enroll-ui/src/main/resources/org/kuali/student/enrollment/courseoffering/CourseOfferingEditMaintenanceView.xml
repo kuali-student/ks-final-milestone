@@ -179,10 +179,10 @@
                             <property name="items">
                                 <list>
 
-                                    <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="@{(document.oldMaintainableObject.dataObject.createCO) ? 'Create':'Update'}"
+                                    <bean parent="KS-Uif-PrimaryActionButton" p:performDirtyValidation="true" p:actionLabel="@{(document.oldMaintainableObject.dataObject.createCO) ? 'Create':'Update'}"
                                           p:ajaxSubmit="false" p:methodToCall="route"  p:id="createUpdateFromCatalog_btn"/>
                                     <bean parent="KS-Uif-SecondaryActionButton" p:actionLabel="Save Progress"
-                                          p:ajaxSubmit="false" p:methodToCall="route" p:render="@{!document.oldMaintainableObject.dataObject.createCO}">
+                                          p:ajaxSubmit="false" p:methodToCall="route" p:performDirtyValidation="true" p:render="@{!document.oldMaintainableObject.dataObject.createCO}">
                                         <property name="actionParameters">
                                             <map>
                                                 <entry key="coId" value="@{#dp.courseOfferingId}" />
@@ -326,6 +326,9 @@
                                         <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.courseNumberSuffix" p:showLabel="false" p:additionalCssClasses="co_suffix" >
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="10" />
+                                            </property>
+                                            <property name="validCharactersConstraint">
+                                                <bean parent="AlphaPatternConstraint" />
                                             </property>
                                         </bean>
                                     </list>
