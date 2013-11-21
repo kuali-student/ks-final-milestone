@@ -1687,11 +1687,13 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         List<AtpInfo> atpList = atpService.getAtpsByCode(code, contextInfo);
         List<TermInfo> termList = new ArrayList<TermInfo>(atpList.size());
-        for ( AtpInfo atp : atpList ){
-            try {
-                termList.add(termAssembler.assemble(atp, contextInfo));
-            } catch (AssemblyException e) {
-                throw new OperationFailedException("AssemblyException", e);
+        for (AtpInfo atp : atpList) {
+            if (atp != null && checkTypeForTermType(atp.getTypeKey(), contextInfo)) {
+                try {
+                    termList.add(termAssembler.assemble(atp, contextInfo));
+                } catch (AssemblyException e) {
+                    throw new OperationFailedException("AssemblyException", e);
+                }
             }
         }
         return termList;
