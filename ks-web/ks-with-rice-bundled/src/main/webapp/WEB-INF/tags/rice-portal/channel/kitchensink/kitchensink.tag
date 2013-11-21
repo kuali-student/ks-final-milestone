@@ -51,9 +51,10 @@
                                url="${ConfigProperties.lum.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-TextField-View&methodToCall=start" /></li>
     </ul>
 
-    <strong>Other Fields</strong>
+    <strong>Performance</strong>
     <ul class="chan">
-        <li></li>
+        <li><portal:portalLink displayTitle="true" title="Performance"
+                               url="${ConfigProperties.lum.application.url}/kr-krad/kitchensinkperformance?viewId=KS-KitchenSink-Performance-FormView&methodToCall=start" /></li>
     </ul>
 
     <strong>Validation</strong>
