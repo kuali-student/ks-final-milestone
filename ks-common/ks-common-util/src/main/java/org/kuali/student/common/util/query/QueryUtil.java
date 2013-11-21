@@ -32,10 +32,6 @@ import java.util.List;
  */
 public class QueryUtil {
 
-    private EntityManager entityManager;
-    private Integer maxInClauseElements = 100;
-    private Boolean enableMaxIdFetch = Boolean.FALSE;
-
     /**
      * Returns a query of find by ids. Breaks up the query into multiple ORed IN() clauses if the set of ids is larger
      * than maxInClauseElements
@@ -47,9 +43,13 @@ public class QueryUtil {
      * @return a typed query that finds entities for the set of keys
      */
     // need this because Oracle has limitation of 4000 chars in string, and we may have more than that
-    public TypedQuery buildQuery(StringBuilder queryStringRef, String queryStrEnd, String primaryKeyMemberName, List<String> primaryKeys, Class resultClass) {
+    public static TypedQuery buildQuery(EntityManager entityManager, Integer maxInClauseElements, StringBuilder queryStringRef, String queryStrEnd, String primaryKeyMemberName, List<String> primaryKeys, Class resultClass) {
 
         TypedQuery queryRef;
+        boolean enableMaxIdFetch = false;
+        if (!primaryKeys.isEmpty() && primaryKeys.size() > maxInClauseElements) {
+            enableMaxIdFetch = true;
+        }
 
         if (!enableMaxIdFetch) {
             queryStringRef.append(primaryKeyMemberName).append(" IN (:ids)");
@@ -94,17 +94,5 @@ public class QueryUtil {
         }
 
         return queryRef;
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
-    public void setMaxInClauseElements(Integer maxInClauseElements) {
-        this.maxInClauseElements = maxInClauseElements;
-    }
-
-    public void setEnableMaxIdFetch(Boolean enableMaxIdFetch) {
-        this.enableMaxIdFetch = enableMaxIdFetch;
     }
 }
