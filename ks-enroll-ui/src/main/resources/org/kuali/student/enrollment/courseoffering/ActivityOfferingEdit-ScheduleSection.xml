@@ -53,7 +53,15 @@
         <property name="headerText" value="@{#dp.schedulingCompleted ? 'Manage Scheduling Requests' : 'Requested Scheduling Information'}"/>
         <property name="disclosure.render" value="@{#dp.schedulingCompleted and !#dp.requestedScheduleComponents.isEmpty()}"/>
         <property name="disclosure.defaultOpen" value="false"/>
-        <property name="onDocumentReadyScript" value="reDisplayRDLSection();"/>
+        <!--  TODO: KSENROLL-11002. If an action is in a CollectionGroup KRAD v2.3.2 overwrites Action#jumpToIdAfterSubmit
+              with the id of the of the CollectionGroup which prevents the/this page from being scrolled/positioned correctly.
+              fixActionLinkJumpToIds is a hack to "fix" the jumpToId. Once we get Rice v2.4-m3 or better it can go away and
+              a p:jumpToIdAfterSubmit can be added to the action link below. I set onDocumentReadyScript call here because
+              onDocumentReady the section that contains the action link is in a disclosure and onDocumentReady isn't generated
+              until the disclosure is expanded. I thought that might confuse the AFTs.
+        -->
+        <property name="onDocumentReadyScript" value="reDisplayRDLSection();fixActionLinkJumpToIds('edit_schedule_request_action_link', 'activityCode_label');"/>
+
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
@@ -91,8 +99,10 @@
         </property>
         <property name="lineActions">
               <list>
-                  <!--<bean parent="Uif-ActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:successCallback="retrieveComponent('ActivityOffering-DeliveryLogistic-New');" p:render="@{#dp.schedulingCompleted}"/>-->
-                  <bean parent="Uif-NavigationActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:preSubmitCall="return checkAOEditWIP();" p:performDirtyValidation="false" />
+                  <!-- TODO: KSENROLL-11002. See the onDocumentReadyScript comment in ActivityOffering-ManageSchedulingInformationSection. -->
+                  <bean id="edit_schedule_request_action_link" parent="Uif-NavigationActionLink"
+                        p:methodToCall="editScheduleComponent" p:actionLabel="Edit"
+                        p:preSubmitCall="return checkAOEditWIP();" p:performDirtyValidation="false" />
                   <bean parent="Uif-DeleteLineAction" p:successCallback="reDisplayRDLSection();"/>
               </list>
         </property>
@@ -105,7 +115,7 @@
           p:componentSecurity.viewAuthz="true">
         <property name="headerText" value="Add New Scheduling Information" />
         <property name="header">
-          <bean parent="Uif-HeaderFour" p:style="margin-top:20px;"/>
+            <bean parent="Uif-HeaderFour" p:style="margin-top:20px;"/>
         </property>
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
