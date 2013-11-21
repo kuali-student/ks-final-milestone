@@ -52,15 +52,7 @@ public class TestGenericEntityDao {
             StringBuilder queryStringRef = new StringBuilder();
             queryStringRef.append("from ").append(entityClass.getSimpleName()).append(" where ");
 
-            QueryUtil queryUtil = new QueryUtil();
-            queryUtil.setEntityManager(em);
-            queryUtil.setMaxInClauseElements(maxInClauseElements);
-            boolean enableMaxIdFetch = false;
-            if (!primaryKeys.isEmpty() && primaryKeys.size() > maxInClauseElements) {
-                enableMaxIdFetch = true;
-            }
-            queryUtil.setEnableMaxIdFetch(enableMaxIdFetch);
-            TypedQuery<StateEntity> query = queryUtil.buildQuery(queryStringRef, null, primaryKeyMemberName, primaryKeys, StateEntity.class);
+            TypedQuery<StateEntity> query = QueryUtil.buildQuery(em, maxInClauseElements, queryStringRef, null, primaryKeyMemberName, primaryKeys, StateEntity.class);
 
             List<StateEntity> resultList = query.getResultList();
 
