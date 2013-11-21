@@ -33,8 +33,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.namespace.QName;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
@@ -301,7 +299,8 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             return performRedirect(form, "activityOffering", urlParameters);
         }
 
-        form.setReturnLocation(url);
+        String newUrl = url.replaceAll("growl[^&]*&", "");
+        form.setReturnLocation(newUrl);
         return back(form,result,request,response);
     }
 

@@ -91,7 +91,8 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
             return performRedirect(form, urlToRedirectTo, urlParameters);
         }
 
-        form.setReturnLocation( urlToRedirectTo );
+        String newUrl = urlToRedirectTo.replaceAll("growl[^&]*&", "");
+        form.setReturnLocation(newUrl);
         return back(form,result,request,response);
     }
 
