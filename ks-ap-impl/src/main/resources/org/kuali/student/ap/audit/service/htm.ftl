@@ -42,7 +42,7 @@
 }>
 <html>
 <head>
-<link href="https://uwksdev01.cac.washington.edu/student/ks-myplan/css/audit.css" rel="stylesheet" type="text/css"/>
+<link href="/student/ks-myplan/css/audit.css" rel="stylesheet" type="text/css"/>
 </head>    
 <div class="ksap-audit-report">
 	<h1>${dpTitle1?xml}</h1>   
