@@ -91,7 +91,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-CompareRule" parent="Uif-VerticalBoxSection">
+    <bean id="KRMS-CompareRule" parent="Uif-VerticalBoxSection" p:style="width: 850px;">
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
