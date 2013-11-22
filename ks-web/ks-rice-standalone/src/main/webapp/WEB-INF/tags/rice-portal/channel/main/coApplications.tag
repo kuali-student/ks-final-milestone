@@ -30,5 +30,9 @@
         <li>Manage Instruction</li>
         <li><a class="portal_link" title="Process Info Lookup View" href="${ConfigProperties.lum.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.r2.core.process.dto.ProcessInfo&returnLocation=${ConfigProperties.lum.application.url}/portal.do&hideReturnLink=true">Process Info Lookup View</a></li>
     </ul>
+    <strong>Populations (In Progress)</strong>
+    <ul class="chan">
+        <li><a class="portal_link" title="Manage Populations" href="${ConfigProperties.lum.application.url}/kr-krad/lookup?viewId=KS-Population-LookupView&methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class2.population.dto.PopulationWrapper&hideReturnLink=true&showMaintenanceLinks=true&viewName=Manage Populations">Manage Populations</a></li>
+    </ul>
 </div>
 <channel:portalChannelBottom />
