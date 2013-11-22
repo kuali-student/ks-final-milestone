@@ -90,6 +90,13 @@
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-core-impl</artifactId>
+            <version>${ks.core.version}</version>
+            <scope>test</scope>
+            <type>test-jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-ui</artifactId>
             <version>${ks.core.version}</version>
 						<scope>test</scope>

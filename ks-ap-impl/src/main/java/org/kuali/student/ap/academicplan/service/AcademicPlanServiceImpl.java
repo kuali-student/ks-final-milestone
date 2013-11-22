@@ -204,7 +204,7 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 
         TypeInfo type = null;
         try {
-            KsapFrameworkServiceLocator.getTypeService().getType(learningPlan.getTypeKey(), context);
+            type = KsapFrameworkServiceLocator.getTypeService().getType(learningPlan.getTypeKey(), context);
         } catch (DoesNotExistException e) {
             throw new InvalidParameterException(String.format("Unknown type [%s].", learningPlan.getTypeKey()));
         }
@@ -392,7 +392,7 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 
         TypeInfo type = null;
         try {
-            KsapFrameworkServiceLocator.getTypeService().getType(learningPlan.getTypeKey(), context);
+            type = KsapFrameworkServiceLocator.getTypeService().getType(learningPlan.getTypeKey(), context);
         } catch (DoesNotExistException e) {
             throw new InvalidParameterException(String.format("Unknown type [%s].", learningPlan.getTypeKey()));
         }

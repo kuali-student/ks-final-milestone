@@ -58,7 +58,7 @@
     <bean id="ksLumLrcService" class="org.kuali.student.ap.test.mock.LRCServiceMockTest"/>
     <bean id="ksCoreOrganizationService" class="org.kuali.student.ap.test.mock.OrganizationServiceMockTest"/>
     <bean id="ksCoreMessageService" class="org.kuali.student.ap.test.mock.MessageServiceMockTest"/>
-    <bean id="ksCoreTypeService" class="org.kuali.student.ap.test.mock.TypeServiceMockTest"/>
+    <bean id="ksCoreTypeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl"/>
     <bean id="ksCoreAtpService" class="org.kuali.student.ap.test.mock.AtpServiceMockTest"/>
     <bean id="academicPlanService" class="org.kuali.student.ap.test.mock.AcademicPlanServiceMockTest"/>
     <bean id="enrollmentStatusHelper" class="org.kuali.student.ap.test.mock.EnrollmentStatusHelperMockTest" />

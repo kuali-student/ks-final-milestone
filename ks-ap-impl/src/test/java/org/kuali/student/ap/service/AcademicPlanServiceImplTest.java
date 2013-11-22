@@ -31,6 +31,9 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.clu.CLUConstants;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -46,7 +49,16 @@ public class AcademicPlanServiceImplTest {
 	@Before
 	public void setUp() {
 		DefaultKsapContext.before("student1");
-	}
+
+        createType("kuali.academicplan.type.plan", "Learning Plan", "Student learning plan type.", "http://student.kuali.org/wsdl/acadplan/LearningPlanInfo");
+        createType("kuali.academicplan.type.plan.template", "Learning Plan Template", "Student learning plan template type.", "http://student.kuali.org/wsdl/acadplan/LearningPlanInfo");
+        createType("kuali.academicplan.type.plan.review", "Learning Plan Review", "Student learning plan review type.", "http://student.kuali.org/wsdl/acadplan/LearningPlanInfo");
+        createType("kuali.academicplan.item.type.backup", "Backup Item", "Student learning plan backup item type.", "http://student.kuali.org/wsdl/acadplan/PlanItemInfo");
+        createType("kuali.academicplan.item.type.planned", "Planned Item", "Student learning plan planned item type.", "http://student.kuali.org/wsdl/acadplan/PlanItemInfo");
+        createType("kuali.academicplan.item.type.whatif", "What-if Item", "Student learning plan what-if item type.", "http://student.kuali.org/wsdl/acadplan/PlanItemInfo");
+        createType("kuali.academicplan.item.type.wishlist", "WishList Item", "Student learning plan wishlist item type.", "http://student.kuali.org/wsdl/acadplan/PlanItemInfo");
+        createType("kuali.academicplan.item.type.cart", "Shopping Cart Item", "Student learning plan shopping cart item type.", "http://student.kuali.org/wsdl/acadplan/PlanItemInfo");
+    }
 
 	@After
 	public void tearDown() {
@@ -805,4 +817,21 @@ public class AcademicPlanServiceImplTest {
 				validationResultInfos.get(4).getMessage());
 		assertEquals("typeKey", validationResultInfos.get(4).getElement());
 	}
+
+    private void createType(String typeKey, String typeName, String typeDescription, String refObjectUri) {
+        TypeInfo type = new TypeInfo();
+        type.setKey(typeKey);
+        type.setName(typeName);
+        type.setDescr(new RichTextHelper().fromPlain(typeDescription));
+        type.setRefObjectUri(refObjectUri);
+        type.setEffectiveDate(new Date());
+        boolean error = false;
+        try {
+            KsapFrameworkServiceLocator.getTypeService().createType(type.getKey(), type,
+                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (Exception e) {
+            error = true;
+        }
+        assertFalse(error);
+    }
 }
