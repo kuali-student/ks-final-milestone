@@ -6,6 +6,7 @@
     <cache name="lrcCache" maxElementsInMemory="200" eternal="true" timeToIdleSeconds="0" />
     <cache name="luiCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
     <cache name="scheduleCache" maxElementsInMemory="1000" eternal="true" timeToIdleSeconds="0" />
+    <cache name="lprCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
     <cache name="statementCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
     <cache name="roomCache" maxElementsInMemory="2000" eternal="true" timeToIdleSeconds="0" />
     <cache name="buildingCache" maxElementsInMemory="200" eternal="true" timeToIdleSeconds="0" />
