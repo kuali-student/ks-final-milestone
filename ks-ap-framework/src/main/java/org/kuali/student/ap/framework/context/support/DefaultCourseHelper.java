@@ -544,10 +544,12 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 	@Override
 	public List<Course> getCoursesByCode(String courseCd) {
 		try {
+            String cleanedCourseCd = StringUtils.remove(courseCd," ").toUpperCase();
+
 			return new ArrayList<Course>(KsapFrameworkServiceLocator.getCourseService()
 					.searchForCourses(
 							QueryByCriteria.Builder.fromPredicates(PredicateFactory.equal("officialIdentifier.code",
-									courseCd)), KsapFrameworkServiceLocator.getContext().getContextInfo()));
+                                    cleanedCourseCd)), KsapFrameworkServiceLocator.getContext().getContextInfo()));
 		} catch (InvalidParameterException e) {
 			throw new IllegalArgumentException("Course lookup error", e);
 		} catch (MissingParameterException e) {
