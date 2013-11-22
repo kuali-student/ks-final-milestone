@@ -76,20 +76,22 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
             SearchResultInfo searchResult = getSearchService().search(searchRequest, null);
 
             SearchResultHelper resultHelper = new SearchResultHelper(searchResult);
-            Integer numberOfSlots = resultHelper.getAsInteger(0, ApptWindowCountsSearchImpl.NUM_SLOTS);
-            Integer numberOfStudents = resultHelper.getAsInteger(0, ApptWindowCountsSearchImpl.NUM_APPTS);
-            double meanStudentsPerSlot = Math.ceil(numberOfStudents/(float)numberOfSlots);
-            String firstSlotPopulated = resultHelper.get(0, ApptWindowCountsSearchImpl.FIRST_SLOT);
-            String lastSlotPopulated = resultHelper.get(0, ApptWindowCountsSearchImpl.LAST_SLOT);
-            Date windowCreate = resultHelper.getAsDate(0, ApptWindowCountsSearchImpl.CREATE_TIME);
-            
+            if (resultHelper.getSearchResult().getTotalResults() != null && resultHelper.getSearchResult().getTotalResults() > 0){
+                Integer numberOfSlots = resultHelper.getAsInteger(0, ApptWindowCountsSearchImpl.NUM_SLOTS);
+                Integer numberOfStudents = resultHelper.getAsInteger(0, ApptWindowCountsSearchImpl.NUM_APPTS);
+                double meanStudentsPerSlot = Math.ceil(numberOfStudents/(float)numberOfSlots);
+                String firstSlotPopulated = resultHelper.get(0, ApptWindowCountsSearchImpl.FIRST_SLOT);
+                String lastSlotPopulated = resultHelper.get(0, ApptWindowCountsSearchImpl.LAST_SLOT);
+                Date windowCreate = resultHelper.getAsDate(0, ApptWindowCountsSearchImpl.CREATE_TIME);
 
-            appointmentWindowWrapper.setNumberOfSlots(numberOfSlots);
-            appointmentWindowWrapper.setNumberOfStudents(numberOfStudents);
-            appointmentWindowWrapper.setMeanStudentsPerSlot(new Float(meanStudentsPerSlot));
-            appointmentWindowWrapper.setFirstSlotPopulated(firstSlotPopulated);
-            appointmentWindowWrapper.setLastSlotPopulated(lastSlotPopulated);
-            appointmentWindowWrapper.setAssignmentsCreated(windowCreate);
+
+                appointmentWindowWrapper.setNumberOfSlots(numberOfSlots);
+                appointmentWindowWrapper.setNumberOfStudents(numberOfStudents);
+                appointmentWindowWrapper.setMeanStudentsPerSlot(new Float(meanStudentsPerSlot));
+                appointmentWindowWrapper.setFirstSlotPopulated(firstSlotPopulated);
+                appointmentWindowWrapper.setLastSlotPopulated(lastSlotPopulated);
+                appointmentWindowWrapper.setAssignmentsCreated(windowCreate);
+            }
 
         }catch (Exception e){
              throw new RuntimeException("Unable to retireve Apppointment Window from Inquiry", e);

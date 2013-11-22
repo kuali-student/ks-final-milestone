@@ -20,6 +20,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -62,19 +63,18 @@ public class AcademicTermTypeKeyValues extends UifKeyValuesFinderBase implements
         //Grab a list of current term types
         List<String> currentTermTypes = new ArrayList<String>();
        // Added below if check to avoid class cast exception on Window registration page.
-        if (model instanceof RegistrationWindowsManagementForm) {
+        if (model instanceof RegistrationWindowsManagementForm){
             for (AppointmentWindowWrapper termWrapper : ((RegistrationWindowsManagementForm) model).getAppointmentWindows()) {
                 currentTermTypes.add(termWrapper.getTermType());
             }
+        } else if (model instanceof LookupForm && ((LookupForm)model).getDataObjectClassName().endsWith("AppointmentWindowWrapper")) {
+            //This else block is to avoid ClassCast exception.
         } else {
             for (AcademicTermWrapper termWrapper : ((AcademicCalendarForm) model).getTermWrapperList()) {
                 currentTermTypes.add(termWrapper.getTermType());
             }
 
         }
-
-
-
 
         try {
             //Get the subterm types
