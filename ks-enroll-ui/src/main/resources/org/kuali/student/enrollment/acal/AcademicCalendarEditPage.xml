@@ -547,13 +547,15 @@ limitations under the License.
                                               p:propertyName="holidayCalendarInfo.startDate"
                                               p:label="Start Date"
                                               p:labelPlacement="TOP"
-                                              p:readOnly="true">
+                                              p:readOnly="true"
+                                              p:id="startDate">
                                         </bean>
                                         <bean parent="KS-Uif-DataField"
                                               p:propertyName="holidayCalendarInfo.endDate"
                                               p:label="End Date"
                                               p:labelPlacement="TOP"
-                                              p:readOnly="true">
+                                              p:readOnly="true"
+                                              p:id="endDate">
                                         </bean>
                                     </list>
                                 </property>
