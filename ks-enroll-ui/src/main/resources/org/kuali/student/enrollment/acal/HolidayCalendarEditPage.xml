@@ -179,7 +179,7 @@
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField"  p:style="width:128px;" p:propertyName="startDate" p:label="Start"
+                <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start"
                       p:readOnlyDisplayReplacementPropertyName="startDateUI" p:id="startDate">
                     <property name="control">
                         <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy" />
@@ -207,7 +207,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField" p:style="width:128px;" p:propertyName="endDate" p:label="End"
+                <bean parent="Uif-InputField" p:propertyName="endDate" p:label="End"
                       p:readOnlyDisplayReplacementPropertyName="endDateUI" p:id="endDate">
                     <property name="control">
                         <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>

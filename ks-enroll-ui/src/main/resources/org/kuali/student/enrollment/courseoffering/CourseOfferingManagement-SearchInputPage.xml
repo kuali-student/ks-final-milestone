@@ -73,7 +73,8 @@
                             </bean>
                             <bean parent="Uif-InputField" p:id="inputCode" p:propertyName="inputCode" p:label="Course" p:required="true" p:readOnly="false"
                                     p:onKeyUpScript="toggleShowButton();"
-                                    p:onMouseOutScript="toggleShowButton();">
+                                    p:onMouseOutScript="toggleShowButton();"
+                                    p:additionalCssClasses="ks-uif-quickFinder">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="30" p:watermarkText="ENGL or ENGL1 or ENGL101"/>
                                 </property>
@@ -83,18 +84,13 @@
                                           p:fieldConversions="code:inputCode">
                                         <property name="readOnlySearchFields" value="courseInfo.courseTitle" />
                                         <property name="quickfinderAction">
-                                            <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchCourseCode">
-                                                <property name="actionImage">
-                                                    <bean parent="Uif-QuickLookupImage"/>
-                                                </property>
-                                            </bean>
+                                            <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchCourseCode" p:actionLabel="Find a Course" />
                                         </property>
                                         <property name="lightBoxLookup">
                                             <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="true"/>
                                         </property>
                                     </bean>
                                 </property>
-
                             </bean>
                             <bean parent="Uif-PrimaryActionButton" p:performClientSideValidation="false" p:actionLabel="Show" p:methodToCall="show"
                                   p:jumpToIdAfterSubmit="TOP" p:ajaxSubmit="false" p:id="show_button"/>

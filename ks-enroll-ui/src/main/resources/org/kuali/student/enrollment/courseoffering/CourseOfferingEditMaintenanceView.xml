@@ -110,11 +110,12 @@
                 <property name="items">
                     <list>
                         <bean parent="KS-Unified-Header-Action-Group" p:render="@{!document.oldMaintainableObject.dataObject.createCO and #dp.renderHelper.relatedCOs.size() > 1}">
+                            <property name="onDocumentReadyScript" value="addBootstrapImageToLink('@{#component.id}')"/>
                             <property name="items">
                                 <list>
 
                                     <!-- PREVIOUS CO -->
-                                    <bean parent="Uif-ActionLink"
+                                    <bean parent="KS-Uif-ActionLink"
                                           id="edit_co_prev"
                                           p:actionImagePlacement="LEFT"
                                           p:methodToCall="route"
@@ -127,8 +128,7 @@
                                             </map>
                                         </property>
                                         <property name="actionImage">
-                                            <bean parent="Uif-Image" p:altText=""
-                                                  p:source="@{#ConfigProperties['ks.externalizable.images.url']}/icon-arrow-left.png"/>
+                                            <bean parent="Uif-Image" p:altText="" p:style="ks-fontello-icon-angle-left"/>
                                         </property>
                                     </bean>
 
@@ -145,7 +145,7 @@
                                     </bean>
 
                                     <!-- NEXT CO -->
-                                    <bean parent="Uif-ActionLink"
+                                    <bean parent="KS-Uif-ActionLink"
                                           id="edit_co_next"
                                           p:actionImagePlacement="RIGHT"
                                           p:methodToCall="route"
@@ -157,9 +157,13 @@
                                                 <entry key="coId" value="@{#dp.renderHelper.nextCO==null?null:#dp.renderHelper.nextCO.id}" />
                                             </map>
                                         </property>
+                                        <property name="dataAttributes">
+                                            <map key-type="java.lang.String" merge="true">
+                                                <entry key="imageposition" value="right"/>
+                                            </map>
+                                        </property>
                                         <property name="actionImage">
-                                            <bean parent="Uif-Image" p:altText=""
-                                                  p:source="@{#ConfigProperties['ks.externalizable.images.url']}/icon-arrow-right.png"/>
+                                            <bean parent="Uif-Image" p:altText="" p:style="ks-fontello-icon-angle-right"/>
                                         </property>
                                     </bean>
                                 </list>

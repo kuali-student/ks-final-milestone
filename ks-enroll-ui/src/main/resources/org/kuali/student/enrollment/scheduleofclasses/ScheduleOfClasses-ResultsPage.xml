@@ -69,7 +69,7 @@
         </property>
     </bean>
 
-    <bean id="KS-ScheduleOfClasses-CourseOfferingListSection" parent="Uif-TableCollectionSection" p:renderAddLine="false">
+    <bean id="KS-ScheduleOfClasses-CourseOfferingListSection" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:additionalCssClasses="ks-uif-table-column">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper" />
         <property name="propertyName" value="coDisplayWrapperList" />
         <property name="renderLineActions" value="false" />
