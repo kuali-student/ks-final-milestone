@@ -66,8 +66,6 @@
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/finalExamMatrixManagement?viewId=finalExamMatrixManagementView&amp;pageId=finalExamSearchInputPage&amp;methodToCall=start&amp;withinPortal=false"/>
                 <bean parent="Uif-Link" p:linkText="Manage Time Slots"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/timeslot?viewId=timeSlotView&amp;pageId=timeSlotPage&amp;methodToCall=start&amp;withinPortal=false"/>
-                <bean parent="Uif-Link" p:linkText="Manage Populations"
-                      p:href="@{#ConfigProperties['application.url']}/kr-krad/lookup?viewId=KS-Population-LookupView&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.student.enrollment.class2.population.dto.PopulationWrapper&amp;hideReturnLink=true&amp;showMaintenanceLinks=true&amp;viewName=Manage Populations"/>
             </list>
         </property>
     </bean>
