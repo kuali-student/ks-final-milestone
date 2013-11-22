@@ -348,7 +348,7 @@
         <property name="courseService" ref="courseServiceImpl" />
         <property name="acalService" ref="AcademicCalendarService" />
         <property name="stateService" ref="stateServiceCacheDecorator" />
-        <property name="lprService" ref="lprPersistenceService" />
+        <property name="lprService" ref="lprPersistenceServiceCache"/>
         <property name="criteriaLookupService" ref="coCriteriaLookupService" />
         <property name="typeService" ref="typeServiceCacheDecorator" />
         <property name="businessLogic" ref="coBusinessLogic" />
@@ -512,7 +512,7 @@
     </bean>
 
     <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
-        <property name="lprService" ref="lprPersistenceService" />
+        <property name="lprService" ref="lprPersistenceServiceCache" />
         <property name="lrcService" ref="lrcServiceCache" />
         <property name="cluService" ref="CluService"/>
         <property name="luiService" ref="LuiService" />
@@ -726,9 +726,15 @@
         <property name="criteriaLookupService" ref="defaultCriteriaLookupService" />
     </bean>
 
+    <bean id="lprPersistenceServiceCache"
+          class="org.kuali.student.enrollment.class1.lpr.service.decorators.LprServiceCacheDecorator">
+        <property name="nextDecorator" ref="lprPersistenceService"/>
+        <property name="cacheManager" ref="ksCacheManager"/>
+    </bean>
+
     <bean id="lprServiceValidationDecorator"
           class="org.kuali.student.enrollment.class1.lpr.service.decorators.LprServiceValidationDecorator">
-        <property name="nextDecorator" ref="lprPersistenceService"/>
+        <property name="nextDecorator" ref="lprPersistenceServiceCache"/>
         <property name="validator" ref="validator"/>
     </bean>
 
