@@ -827,7 +827,7 @@ cursor:auto;
 
 /* Setting the Action Link icons' opacity */
 .ks-unified-header-rightGroup-action a i {
-  opacity: .5;
+  //opacity: .5;
   padding-right: .3em;
 }
 
@@ -1418,4 +1418,39 @@ h5, h6 {
 // change the font for the controls in decending from ui-widget
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button{
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/*
+  Change the quickfinder button to text and show it below it -- START
+*/
+
+.ks-uif-quickFinder fieldset a{
+  display: table-cell;
+  padding-left: 0px;
+}
+
+/*
+  Change the quickfinder button to text and show it below it -- END
+*/
+
+/*
+  Center the icon in the middle of the firs column START
+*/
+div.ks-uif-table-column table tr td:nth-child(1) {
+  text-align: center;
+}
+
+div.ks-uif-table-column table tr td:nth-child(1) img {
+  margin-right: 0px;
+}
+
+/*
+  Center the icon in the middle of the firs column END
+*/
+
+/*
+  Override the auto complete input to remove the image
+*/
+.ui-autocomplete-input {
+  background: transparent;
 }

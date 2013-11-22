@@ -444,12 +444,20 @@ function addBootstrapImageToLink(containerId) {
     jQuery("#" + containerId).find('img').each(function () {
         /*Style is used instead of src to prevent errors in krad*/
         var src = jQuery(this).attr('style');
-        if (src.match("^icon-")) {
-            var anchor = jQuery(this).parent();
-            var aText = anchor.text();
-            anchor.text("");
-            var bsImage = '<i class="' + src + '"></i>' + jQuery.trim(aText);
-            jQuery(anchor).append(bsImage);
+        if (src !== undefined) {
+            if (src.match("^ks-fontello-icon-")) {
+                var anchor = jQuery(this).parent();
+                var imagePosition = jQuery(anchor).data("imageposition");
+                var aText = anchor.text();
+                anchor.text("");
+                var imageFont = '<i class="' + src + '"></i>';
+                if (imagePosition != undefined && imagePosition == 'right') {
+                    imageFont = jQuery.trim(aText) + imageFont;
+                } else {
+                    imageFont = imageFont + jQuery.trim(aText);
+                }
+                jQuery(anchor).append(imageFont);
+            }
         }
     });
 }
@@ -688,7 +696,7 @@ jQuery(document).on("click", ".dataTable input[type=checkbox]", function() {
 
 /* Set custom font icons for calendar datepickers */
 jQuery(document).on('DOMNodeInserted', 'button.ui-datepicker-trigger', function() {
-    jQuery(this).empty().addClass('icon halflings calendar').attr('alt', 'Date picker').attr('value', 'Date picker');
+    jQuery(this).empty().addClass('btn-link ks-fontello-icon-calendar-1').attr('alt', 'Date picker').attr('value', 'Date picker');
 });
 
 /*
