@@ -363,31 +363,13 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                                 !formatOfferingInfo.getId().isEmpty() &&
                                 currentFOIds.contains(formatOfferingInfo.getId())) {
                             //update FO
-                            boolean updateFormatOffering = false;
-                            if (coInfo.getFinalExamType() != null && !coInfo.getFinalExamType().equals(CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD) &&
-                                    formatOfferingInfo.getFinalExamLevelTypeKey() != null) {
+                            if (coInfo.getFinalExamType() != null && !coInfo.getFinalExamType().equals(CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)) {
                                 formatOfferingInfo.setFinalExamLevelTypeKey(null);
-                                updateFormatOffering = true;
                             }
                             // Populate AO types (all FOs should "require" this (less important here since it should
                             // already exist)
-                            List<String> aoTypeKeys = new ArrayList<String>();
-                            aoTypeKeys.addAll(formatOfferingInfo.getActivityOfferingTypeKeys());
                             CourseOfferingViewHelperUtil.addActivityOfferingTypesToFormatOffering(formatOfferingInfo, coEditWrapper.getCourse(), CourseOfferingManagementUtil.getTypeService(), contextInfo);
-                            aoTypeKeys.removeAll(formatOfferingInfo.getActivityOfferingTypeKeys());
-                            // checking if we even need to update (any change to FO)
-                            if (!updateFormatOffering && !aoTypeKeys.isEmpty()) {
-                                updateFormatOffering = true;
-                            }
-                            FormatOfferingInfo originalFormatOfferingInfo  = CourseOfferingManagementUtil.getCourseOfferingService().getFormatOffering(formatOfferingInfo.getId(), contextInfo);
-                            if(!originalFormatOfferingInfo.getGradeRosterLevelTypeKey().equals(formatOfferingInfo.getGradeRosterLevelTypeKey())) {
-                                updateFormatOffering = true;
-                            }
-                            if (updateFormatOffering) {
-                                updatedFormatOffering = CourseOfferingManagementUtil.getCourseOfferingService().updateFormatOffering(formatOfferingInfo.getId(), formatOfferingInfo, contextInfo);
-                            } else {
-                                updatedFormatOffering = new FormatOfferingInfo(formatOfferingInfo);
-                            }
+                            updatedFormatOffering = CourseOfferingManagementUtil.getCourseOfferingService().updateFormatOffering(formatOfferingInfo.getId(), formatOfferingInfo, contextInfo);
                             currentFOIds.remove(formatOfferingInfo.getId());
                         } else {
                             //create a new FO
@@ -403,8 +385,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                                 formatOfferingInfo.setShortName(foNames[1]);
 
                             }
-                            if (coInfo.getFinalExamType() != null && !coInfo.getFinalExamType().equals(CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD) &&
-                                    formatOfferingInfo.getFinalExamLevelTypeKey() != null) {
+                            if (coInfo.getFinalExamType() != null && !coInfo.getFinalExamType().equals(CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)) {
                                 formatOfferingInfo.setFinalExamLevelTypeKey(null);
                             }
                             // Populate AO types (all FOs should "require" this
