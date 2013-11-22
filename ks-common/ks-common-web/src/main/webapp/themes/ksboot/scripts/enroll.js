@@ -502,7 +502,10 @@ function findDirtyFields(returnFieldId){
  if you conduct a subject-search (say, WMST) they want the view-title to be "WMST: Women's Studies".
  */
 function updateViewHeaderText( value ) {
-    jQuery( 'div.uif-formView h1.uif-headerText span.uif-headerText-span' ).html( value );
+    //  If value is empty then don't update the view header (e.g. the session times out and the user clicks a breadcrumb).
+    if (value) {
+        jQuery( 'div.uif-formView h1.uif-headerText span.uif-headerText-span' ).html( value );
+    }
 }
 
 /**
