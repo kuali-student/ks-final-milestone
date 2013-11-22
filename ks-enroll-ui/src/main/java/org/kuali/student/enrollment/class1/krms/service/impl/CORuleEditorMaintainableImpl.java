@@ -125,6 +125,7 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
             //Set the subjectArea for breadcrumb link
             dataObject.setCluSubjectCode(courseOffering.getSubjectArea());
+            dataObject.setCluTermCode(courseOffering.getTermId());
 
             try {
                 //Get the atp code.

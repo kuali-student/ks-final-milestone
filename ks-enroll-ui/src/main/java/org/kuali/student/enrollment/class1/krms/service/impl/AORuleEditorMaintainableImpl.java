@@ -15,7 +15,6 @@
  */
 package org.kuali.student.enrollment.class1.krms.service.impl;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -30,7 +29,6 @@ import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.service.impl.RuleEditorMaintainableImpl;
 import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
-import org.kuali.rice.krms.util.AlphaIterator;
 import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.AORuleEditor;
@@ -128,6 +126,7 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
             //Set the subjectArea for breadcrumb link
             dataObject.setCluSubjectCode(courseOffering.getSubjectArea());
+            dataObject.setCluTermCode(courseOffering.getTermId());
 
             this.setCluRules(dataObject.getAgendas(), courseOffering.getCourseId());
 
