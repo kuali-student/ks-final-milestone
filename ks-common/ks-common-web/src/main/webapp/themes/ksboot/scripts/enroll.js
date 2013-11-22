@@ -705,6 +705,15 @@ function retrieveFinalExamMatrix (id, methodToCall, dropdownId) {
     }
 }
 
+function toggleButtonOnInput(fieldId, buttonId) {
+    var inputVal = jQuery('#' + fieldId + '_control').val();
+    if (inputVal != '') {
+        jQuery('#' + buttonId).removeAttr("disabled");
+    } else {
+        jQuery('#' + buttonId).attr("disabled", "disabled");
+    }
+}
+
 function toggleShowButton() {
     var termCodeVal = jQuery("#termCodeField_control").val();
     var inputCodeVal = jQuery("#inputCode_control").val();
