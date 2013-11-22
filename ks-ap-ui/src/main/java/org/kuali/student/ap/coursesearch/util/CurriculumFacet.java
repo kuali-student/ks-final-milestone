@@ -83,7 +83,7 @@ public class CurriculumFacet extends AbstractFacet {
         OrgInfo orgInfo = null;
 		try {
 
-            orgInfo =    organizationService.getOrg(orgId, contextInfo) ;
+            orgInfo = organizationService.getOrg(orgId, contextInfo) ;
             subject = orgInfo.getShortName();
 
 		} catch (DoesNotExistException e) {

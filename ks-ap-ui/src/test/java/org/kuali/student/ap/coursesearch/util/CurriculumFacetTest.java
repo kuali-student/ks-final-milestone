@@ -7,9 +7,13 @@ import static junit.framework.Assert.assertTrue;
 import java.util.Set;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSearchItemImpl;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:ks-ap-test-context.xml"})
 public class CurriculumFacetTest {
 
    /* @Test
@@ -48,13 +52,13 @@ public class CurriculumFacetTest {
 
         CurriculumFacet facet = new CurriculumFacet();
         CourseSearchItemImpl course = new CourseSearchItemImpl();
-        course.setSubject("ABC");
+        course.setSubject("MATH");
         facet.process(course);
 
         Set<String> keys = course.getCurriculumFacetKeys();
 
         assertFalse(keys.isEmpty());
         assertEquals(1, keys.size());
-        assertTrue(keys.contains("ABC"));
+        assertTrue(keys.contains("MATH"));
     }
 }

@@ -49,15 +49,15 @@ public class CreditsFormatterTest {
         List<ResultValuesGroupInfo> creditOptions = new ArrayList<ResultValuesGroupInfo>();
 
         //  Credit options: list.
-        String creditsText = "1, 2, 5, 25";
+        String creditsText = "1, 2, 5, 20";
         ResultValuesGroupInfo rci = new ResultValuesGroupInfo();
         rci.setTypeKey("kuali.result.values.group.type.multiple");
 
         List<String> resultValues = new ArrayList<String>();
-        resultValues.add("1");
-        resultValues.add("2");
-        resultValues.add("5");
-        resultValues.add("25");
+        resultValues.add("kuali.result.value.credit.degree.1.0");
+        resultValues.add("kuali.result.value.credit.degree.2.0");
+        resultValues.add("kuali.result.value.credit.degree.5.0");
+        resultValues.add("kuali.result.value.credit.degree.20.0");
 
         rci.setResultValueKeys(resultValues);
 
@@ -74,7 +74,7 @@ public class CreditsFormatterTest {
         List<ResultValuesGroupInfo> creditOptions = new ArrayList<ResultValuesGroupInfo>();
 
         //  Credit options: list.
-        String creditsText = "1.5-25";
+        String creditsText = "1.5 - 25";
         ResultValuesGroupInfo rci = new ResultValuesGroupInfo();
         rci.setTypeKey("kuali.result.values.group.type.range");
 
@@ -124,7 +124,7 @@ public class CreditsFormatterTest {
         courseInfo.setCreditOptions(creditOptions);
 
         //  Credit options: fixed.
-        String creditsText = "";
+        String creditsText = "0";
 
         ResultValuesGroupInfo rci = new ResultValuesGroupInfo();
         rci.setTypeKey("Unknown");
