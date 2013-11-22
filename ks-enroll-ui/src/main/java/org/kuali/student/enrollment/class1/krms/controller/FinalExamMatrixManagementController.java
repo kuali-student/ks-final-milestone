@@ -62,8 +62,6 @@ public class FinalExamMatrixManagementController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
-
-
     /**
      *
      * @param form
