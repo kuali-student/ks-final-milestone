@@ -67,6 +67,8 @@ public class ActivityOfferingClusterHandler {
             CourseOfferingWrapper currentCOWrapper = new CourseOfferingWrapper(courseOffering);
             form.setInputCode(coWrapper.getCourseOfferingCode());
             form.setCurrentCourseOfferingWrapper(currentCOWrapper);
+            form.getCourseOfferingResultList().clear();
+            form.getCourseOfferingResultList().add(coWrapper);
 
             CourseOfferingManagementUtil.prepareManageAOsModelAndView(form, coWrapper);
             return true;
