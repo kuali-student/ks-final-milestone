@@ -43,7 +43,7 @@
 
 
 	<bean id="KS-SupportingDocuments-Section" parent="Uif-StackedCollectionSection"
-		  p:headerText="Supporting Document(s)" p:propertyName="supportingDocuments"
+		  p:headerText="Supporting Document(s)" p:propertyName="documentsToAdd"
 		  p:collectionObjectClass="org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper">
 		<property name="addLineLabel.messageText" value="Add a Supporting Document" />
 		<property name="layoutManager.lineGroupPrototype.header.headerText"

@@ -54,7 +54,7 @@ import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
-import org.kuali.student.cm.course.form.RecentlyViewedDocsUtil;
+import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
 import org.kuali.student.cm.main.form.CMHomeForm;
@@ -235,19 +235,23 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView addSupportingDocument(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                 HttpServletRequest request, HttpServletResponse response) {
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
-        
+        final ModelAndView retval = addLine(form, result, request, response);
+
+        // Resulting Add Line is at the bottom
+        final SupportingDocumentInfoWrapper addLineResult = maintainable.getDocumentsToAdd().get(maintainable.getDocumentsToAdd().size() - 1);
+
         // New document
         DocumentInfo toAdd = new DocumentInfo();
-        toAdd.setFileName(maintainable.getDocumentToAdd().getDocumentUpload().getOriginalFilename());
+        toAdd.setFileName(addLineResult.getDocumentUpload().getOriginalFilename());
         toAdd.setDescr(new RichTextInfo() {{ 
-            setPlain(maintainable.getDocumentToAdd().getDescription());
-            setFormatted(maintainable.getDocumentToAdd().getDescription());
+            setPlain(addLineResult.getDescription());
+            setFormatted(addLineResult.getDescription());
         }});
         toAdd.setName(toAdd.getFileName());
         
         final DocumentBinaryInfo documentBinary = new DocumentBinaryInfo();
         try {
-            toAdd.getDocumentBinary().setBinary(new String(Base64.encodeBase64(maintainable.getDocumentToAdd().getDocumentUpload().getBytes())));
+            toAdd.getDocumentBinary().setBinary(new String(Base64.encodeBase64(addLineResult.getDocumentUpload().getBytes())));
         }
         catch (Exception e) {
             warn("Failed to get binary data: %s", e.getMessage());
@@ -274,7 +278,7 @@ public class CourseController extends CourseRuleEditorController {
             warn("Unable to relate a document with the course: %s", e.getMessage());
         }
 
-        return getUIFModelAndView(form);
+        return retval;
     }
 
     /**
@@ -318,7 +322,7 @@ public class CourseController extends CourseRuleEditorController {
             warn("Unable to delete document: %s, reason: %s", toRemove.getId(), e.getMessage());
         }
         
-        return getUIFModelAndView(form);
+        return deleteLine(form, result, request, response);
     }
 
     /**

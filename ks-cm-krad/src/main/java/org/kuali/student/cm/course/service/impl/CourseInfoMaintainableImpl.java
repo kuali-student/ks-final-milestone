@@ -142,7 +142,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     private List<KeyValue> unitsContentOwner;
 
-    private SupportingDocumentInfoWrapper documentToAdd;
+    private List<SupportingDocumentInfoWrapper> documentsToAdd;
 
     private List<DocumentInfo> supportingDocuments;
 
@@ -644,8 +644,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      *
      * @see org.kuali.student.cm.course.service.CourseInfoMaintainable#getDocumentToAdd()
      */
-    public SupportingDocumentInfoWrapper getDocumentToAdd() {
-        return documentToAdd;
+    public List<SupportingDocumentInfoWrapper> getDocumentsToAdd() {
+        return documentsToAdd;
     }
 
     /**
@@ -653,8 +653,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      *
      * @see org.kuali.student.cm.course.service.CourseInfoMaintainable#setDocumentToAdd(org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper)
      */
-    public void setDocumentToAdd(SupportingDocumentInfoWrapper documentToAdd) {
-        this.documentToAdd = documentToAdd;
+    public void setDocumentsToAdd(final List<SupportingDocumentInfoWrapper> documentsToAdd) {
+        this.documentsToAdd = documentsToAdd;
     }
     
     public void setSupportingDocuments(final List<DocumentInfo> supportingDocuments) {

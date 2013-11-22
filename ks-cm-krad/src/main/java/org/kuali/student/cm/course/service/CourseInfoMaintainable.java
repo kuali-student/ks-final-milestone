@@ -40,7 +40,7 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 /**
  * {@link CourseInfo} Maintainable interface
  *
- *
+ * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
 public interface CourseInfoMaintainable extends Maintainable {
 
@@ -262,13 +262,13 @@ public interface CourseInfoMaintainable extends Maintainable {
      * This overridden method ...
      *
      */
-    SupportingDocumentInfoWrapper getDocumentToAdd();
+    List<SupportingDocumentInfoWrapper> getDocumentsToAdd();
 
     /**
      * This overridden method ...
      *
      */
-    void setDocumentToAdd(final SupportingDocumentInfoWrapper documentToAdd);
+    void setDocumentsToAdd(final List<SupportingDocumentInfoWrapper> documentToAdd);
 
     void setSupportingDocuments(final List<DocumentInfo> supportingDocuments);
 
