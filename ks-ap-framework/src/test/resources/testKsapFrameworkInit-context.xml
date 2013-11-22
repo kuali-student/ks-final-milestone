@@ -66,6 +66,7 @@
     <bean id="scheduleBuildStrategy" class="org.kuali.student.ap.test.mock.ScheduleBuildStrategyMockTest" />
     <bean id="shoppingCartStrategy" class="org.kuali.student.ap.test.mock.ShoppingCartStrategyMockTest" />
 
+    <import resource="enumService-test-context.xml"/>
     <import resource="cluService-test-context.xml"/>
 
 </beans>
