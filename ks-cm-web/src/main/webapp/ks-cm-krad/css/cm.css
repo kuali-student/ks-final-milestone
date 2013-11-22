@@ -98,3 +98,11 @@
 .cm-lo-indent-500 {
 	margin-left: 500px;
 }
+
+.cm-home-view-instruction {
+	color: gray;
+}
+
+.cm-home-view-header {
+	border-bottom: 1px dotted gray;
+}

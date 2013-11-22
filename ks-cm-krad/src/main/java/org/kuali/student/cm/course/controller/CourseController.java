@@ -54,10 +54,13 @@ import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
+import org.kuali.student.cm.course.form.RecentlyViewedDocsUtil;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
+import org.kuali.student.cm.main.form.CMHomeForm;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities.DecisionRationaleDetail;
+import org.kuali.student.lum.common.client.helpers.RecentDocInfo;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
@@ -405,7 +408,9 @@ public class CourseController extends CourseRuleEditorController {
         catch (Exception e) {
             error("Unable to save document: %s", e.getMessage());
         }
-
+        
+        RecentlyViewedDocsUtil.addRecentDoc(form.getDocument().getDocumentHeader().getDocumentDescription(), form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl());
+        
         return getUIFModelAndView(form, getNextPageId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
     }
     

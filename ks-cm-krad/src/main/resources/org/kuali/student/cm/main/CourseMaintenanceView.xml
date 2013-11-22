@@ -30,7 +30,19 @@
         <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
         <property name="entryPageId" value="KS-CourseView-CourseInfoPage" />
         <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl" />
-            
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-CMKRAD"/>
+            </list>
+        </property>
+        <!-- <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="@{subjectCode}"/>
+                </bean>
+            </list>
+        </property> -->    
         <property name="navigation">
             <ref bean="KS-CourseNavigation-Menu" />
         </property>
@@ -75,6 +87,27 @@
             </list>
         </property>
     </bean>
+    
+    <bean id="KS-HomewardPathBreadcrumbs-CMKRAD" parent="Uif-BreadcrumbItem">
+        <property name="label" value="Curriculum Management KRAD"/>
+        <property name="url.baseUrl" value="cmHome"/>
+        <property name="url.viewId" value="curriculumHomeView"/>
+    </bean>
+    
+    <!-- <bean id="KS-HomewardPathBreadcrumbs-Create-a-Course" parent="Uif-BreadcrumbItem">
+        <property name="label" value="Create a Course"/>
+        <property name="url.viewId" value="courseOfferingManagementView"/>
+        <property name="url.controllerMapping" value="courseOfferingManagement"/>
+        <property name="url.requestParameters">
+            <map key-type="java.lang.String" merge="true">
+                <entry key="methodToCall" value="start"/>
+                <entry key="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+                <entry key="hideReturnLink" value="true"/>
+                <entry key="pageId" value="searchInputPage"/>
+                <entry key="viewName" value="Manage Course Offerings"/>
+            </map>
+        </property>
+    </bean> -->
 
     <bean id="CourseInfoMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
         <property name="dataObjectClass" value="org.kuali.student.r2.lum.course.dto.CourseInfo" />
