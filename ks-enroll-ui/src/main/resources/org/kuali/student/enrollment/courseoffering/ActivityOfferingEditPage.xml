@@ -357,12 +357,18 @@
                                     <bean parent="Uif-DropdownControl" p:options-ref="aoInstructors-options" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="sEffort" p:label="INST.EFFORT" p:required="false" p:inclusiveMax="100">
+                            <bean parent="Uif-InputField" p:propertyName="sEffort" p:label="INST.EFFORT" p:refreshWhenChangedPropertyNames="#lp.offeringInstructorInfo.typeKey" p:required="false" p:inclusiveMax="100">
                                   <property name="validCharactersConstraint">
                                         <bean parent="IntegerPatternConstraint" />
                                   </property>
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="10" />
+                                </property>
+                                <property name="propertyReplacers">
+                                  <list>
+                                     <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="exclusiveMin" p:replacement="0" p:condition="#lp.offeringInstructorInfo.typeKey == 'kuali.lpr.type.instructor.main'"/>
+                                     <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="exclusiveMin" p:replacement="-1" p:condition="#lp.offeringInstructorInfo.typeKey == 'kuali.lpr.type.instructor.assistant'"/>
+                                  </list>
                                 </property>
                             </bean>
                         </list>
