@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.enrollment.class2.coursewaitlist.model.CourseWaitListEntity;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -32,6 +33,7 @@ import org.kuali.student.r2.core.search.service.SearchService;
 import javax.annotation.Resource;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFacade {
@@ -75,29 +77,37 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
             return;
         }
 
+        // get all WLs by AO ids
+        ArrayList<String> aoIds = new ArrayList<String>();
         for (ActivityOfferingInfo aoInfo : aoInfos) {
-            List<CourseWaitListInfo> waitListInfos = getCourseWaitListService().getCourseWaitListsByActivityOffering(aoInfo.getId(), context);
-            if (waitListInfos.isEmpty()){
+            aoIds.add(aoInfo.getId());
+        }
+        HashMap<String, List<CourseWaitListInfo>> hm = getWaitListsByAOIds(aoIds);
+
+        // Now check if AO has corresponding WL. If not -> create the default one.
+        for (ActivityOfferingInfo aoInfo : aoInfos) {
+            if (!hm.containsKey(aoInfo.getId()) || hm.get(aoInfo.getId()).isEmpty()){
                 //create a new waitListInfo with default setting
                 CourseWaitListInfo theWaitListInfo = createNewWaitList(aoInfo, null);
                 getCourseWaitListService().createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
                         theWaitListInfo, context);
-            }
-            else{
-                for (CourseWaitListInfo waitListInfo : waitListInfos){
-                    // check if any co-located AOs have inactive CO-level WL
+            } else {
+                for (CourseWaitListInfo waitListInfo : hm.get(aoInfo.getId())){
+                    // check if any co-located AOs have inactive CO-level WL. If so the WL will have to stay inactive, no action is needed
                     boolean hasWaitlistCO = true;
+
+                    // WL size > 1 only when we have co-located AOs, so do the check per CO for each AO
                     if(waitListInfo.getActivityOfferingIds().size() > 1) {
-                        for (String activityOfferingId : waitListInfo.getActivityOfferingIds()) {
-                            if (!StringUtils.equals(activityOfferingId, aoInfo.getId())) {
-                                hasWaitlistCO = getHasWatiList(activityOfferingId, termId, context);
-                                if (!hasWaitlistCO) {
-                                    break;
-                                }
-                            }
+                        ArrayList<String> colocatedAOIds = new ArrayList<String>();
+                        colocatedAOIds.addAll(waitListInfo.getActivityOfferingIds());
+                        colocatedAOIds.remove(aoInfo.getId());
+                        hasWaitlistCO = getHasWaitList(coId, colocatedAOIds, context);
+                        if (!hasWaitlistCO) {
+                            break;
                         }
                     }
 
+                    // All co-located WLs on CO-level are active, therefore update the existing WL to Active
                     if (hasWaitlistCO) {
                         waitListInfo = _setCourseWaitListWithDefaultValues(waitListInfo);
                         getCourseWaitListService().updateCourseWaitList(waitListInfo.getId(), waitListInfo, context);
@@ -124,24 +134,49 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
             return;
         }
 
+        // get all WLs by AO ids
+        ArrayList<String> aoIds = new ArrayList<String>();
         for (ActivityOfferingInfo aoInfo : aoInfos) {
-            List<CourseWaitListInfo> waitListInfos = courseWaitListService.getCourseWaitListsByActivityOffering(aoInfo.getId(), context);
-            if(waitListInfos == null)    {
-                return;
-            }
-            if (waitListInfos.isEmpty()){
+            aoIds.add(aoInfo.getId());
+        }
+        HashMap<String, List<CourseWaitListInfo>> hm = getWaitListsByAOIds(aoIds);
+
+        for (ActivityOfferingInfo aoInfo : aoInfos) {
+            if (!hm.containsKey(aoInfo.getId()) || hm.get(aoInfo.getId()).isEmpty()){
                 //create a new waitListInfo with the inactive state
                 CourseWaitListInfo theWaitListInfo = createNewWaitList(aoInfo, CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
                 courseWaitListService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY,
                         theWaitListInfo, context);
-            }
-            else {
-                for (CourseWaitListInfo waitListInfo : waitListInfos){
+            } else {
+                for (CourseWaitListInfo waitListInfo : hm.get(aoInfo.getId())){
                     waitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
                     courseWaitListService.updateCourseWaitList(waitListInfo.getId(), waitListInfo, context);
                 }
             }
         }
+    }
+
+    private HashMap<String, List<CourseWaitListInfo>> getWaitListsByAOIds(ArrayList<String> aoIDs)
+        throws InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException {
+        HashMap<String, List<CourseWaitListInfo>> hm = new HashMap();
+        List<Object[]> results  = ActivityOfferingSearchServiceImpl.searchForWLsByAoIds(aoIDs);
+        for(Object[] resultRow : results){
+            CourseWaitListEntity entity = (CourseWaitListEntity) resultRow[0];
+            CourseWaitListInfo courseWaitListInfo = entity.toDto();
+            String aoId = (String)resultRow[1];
+            if (!hm.containsKey(aoId)) {
+                ArrayList<CourseWaitListInfo> listWL = new ArrayList<CourseWaitListInfo>();
+                listWL.add(courseWaitListInfo);
+                hm.put(aoId, listWL);
+            } else {
+                ArrayList<CourseWaitListInfo> listWL = (ArrayList<CourseWaitListInfo>) hm.get(aoId);
+                listWL.add(courseWaitListInfo);
+                hm.put(aoId, listWL);
+            }
+        }
+
+        return hm;
     }
 
     private List<ActivityOfferingInfo> getAOFOIdsByCOId(String coId) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException {
@@ -169,31 +204,23 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
         return aoInfos;
     }
 
-    private boolean getHasWatiList(String aoId, String termId, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException {
+    private boolean getHasWaitList(String coId, ArrayList<String> aoIds, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException {
         boolean hasWaitlistCO = true;
 
-        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(PredicateFactory.and(
-                PredicateFactory.equal("aoid", aoId),
-                PredicateFactory.equal("atpId", termId)));
-        QueryByCriteria criteria = qbcBuilder.build();
-        List<String> courseOfferingIds = getCoService().searchForCourseOfferingIds(criteria, context);
-
-        for (String courseOfferingId : courseOfferingIds) {
-            SearchRequestInfo sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.WL_IND_BY_CO_ID_SEARCH_KEY);
-            sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, courseOfferingId);
-            SearchResultInfo searchResult = getSearchService().search(sr, null);
-            if (!searchResult.getRows().isEmpty()) {
-                for(SearchResultRowInfo srRow : searchResult.getRows()){
-                    List<SearchResultCellInfo> srCells = srRow.getCells();
-                    for (SearchResultCellInfo cell: srCells) {
-                        if(ActivityOfferingSearchServiceImpl.SearchResultColumns.WL_IND.equals(cell.getKey())){
-                            if (!StringUtils.equals(cell.getValue(), "true")) {
-                                hasWaitlistCO = false;
-                                break;
-                            }
-                        }
-                    }
+        SearchRequestInfo sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.WL_IND_BY_AO_IDS_SEARCH_KEY);
+        sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_IDS, aoIds);
+        sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, coId);
+        SearchResultInfo searchResult = getSearchService().search(sr, null);
+        if (!searchResult.getRows().isEmpty()) {
+            for(SearchResultRowInfo srRow : searchResult.getRows()){
+                List<SearchResultCellInfo> srCells = srRow.getCells();
+                 for (SearchResultCellInfo cell: srCells) {
+                     if (ActivityOfferingSearchServiceImpl.SearchResultColumns.WL_IND.equals(cell.getKey())){
+                         if (!StringUtils.equals(cell.getValue(), "true")) {
+                             hasWaitlistCO = false;
+                             break;
+                         }
+                     }
                 }
             }
         }
