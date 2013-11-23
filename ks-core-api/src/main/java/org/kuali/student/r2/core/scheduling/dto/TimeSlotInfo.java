@@ -102,7 +102,10 @@ public class TimeSlotInfo extends IdEntityInfo implements TimeSlot, Serializable
      * if corresponding fields in both objects are both null, they are considered to be the same.
      */
     public boolean equals (Object obj) {
-        TimeSlotInfo ts = (TimeSlotInfo) obj; // will throw a ClassCastException
+        if (!(obj instanceof TimeSlotInfo)) {
+            return false;
+        }
+        TimeSlotInfo ts = (TimeSlotInfo) obj;
         //  Type keys must be equal
         if (!(StringUtils.equals(this.getTypeKey(), ts.getTypeKey()))) {
             return false;
