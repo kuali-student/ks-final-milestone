@@ -54,6 +54,7 @@ import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
+import org.kuali.student.cm.course.form.RecentlyViewedDocsUtil;
 import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
@@ -187,7 +188,7 @@ public class CourseController extends CourseRuleEditorController {
             maintainable.getCourse().setUnitsContentOwner(new ArrayList<String>());
         }
 
-        ProposalInfo proposal = new ProposalInfo();
+        final ProposalInfo proposal = new ProposalInfo();
         proposal.setWorkflowId(null);
         proposal.setState(DtoConstants.STATE_DRAFT);
         proposal.setType(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY);
