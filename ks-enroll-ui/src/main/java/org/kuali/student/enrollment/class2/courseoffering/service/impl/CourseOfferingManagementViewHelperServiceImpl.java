@@ -1743,6 +1743,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 String courseOfferingDesc = "";
                 boolean isCrossListed = false;
                 List<String> alternateCodes = null;
+                String ownerCode = "";
 
                 for (SearchResultCellInfo cellInfo : row.getCells()) {
 
@@ -1761,11 +1762,14 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                         isCrossListed = BooleanUtils.toBoolean(value);
                     } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.CROSS_LISTED_COURSES.equals(cellInfo.getKey())) {
                         alternateCodes = Arrays.asList(StringUtils.split(value, ","));
+                    } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.OWNER_CODE.equals(cellInfo.getKey())) {
+                        ownerCode = value;
                     }
 
                 }
 
                 CourseOfferingWrapper coWrapper = new CourseOfferingWrapper(isCrossListed, courseOfferingCode, courseOfferingDesc, alternateCodes, courseOfferingId);
+                coWrapper.setOwnerCode(ownerCode);
                 availableCOs.add(coWrapper);
             }
 
