@@ -76,8 +76,28 @@ public class EnrolRuleEditorController extends RuleEditorController {
     @RequestMapping(params = "methodToCall=route")
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
+        //has dialog been shown/answered
+        if (hasDialogBeenAnswered(KRMSConstants.KSKRMS_DIALOG_RULE_OPLOCK_ERROR, form)) {
+            //read answer
+            boolean dialogAnswer = getBooleanDialogResponse(KRMSConstants.KSKRMS_DIALOG_RULE_OPLOCK_ERROR, form, request, response);
+            if (dialogAnswer) {
+                //yes - goto maintenanceEdit
+                setupMaintenance((MaintenanceDocumentForm)form, request, KRADConstants.MAINTENANCE_EDIT_ACTION);
+                return getUIFModelAndView(form);
+            }else{
+                //no - goto CO
+                return back(form, result, request, response);
+            }
+        }
 
         super.route(form, result, request, response);
+
+        //show dialog if there was an optimistic locking error
+        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
+        CORuleManagementWrapper ruleWrapper = (CORuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
+        if (ruleWrapper.hasOptimisticLockingError()) {
+            return showDialog(KRMSConstants.KSKRMS_DIALOG_RULE_OPLOCK_ERROR, form, request, response);
+        }
         return back(form, result, request, response);
     }
 
