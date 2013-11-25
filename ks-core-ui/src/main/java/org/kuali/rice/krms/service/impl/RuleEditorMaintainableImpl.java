@@ -16,6 +16,7 @@
 package org.kuali.rice.krms.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.broker.OptimisticLockException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
@@ -52,6 +53,7 @@ import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
+import org.springmodules.orm.ojb.OjbOperationException;
 
 import javax.xml.namespace.QName;
 import java.util.*;
@@ -430,7 +432,17 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
         //Update the root item.
         AgendaItemDefinition updateItem = rootItemBuilder.build();
-        this.getRuleManagementService().updateAgendaItem(updateItem);
+        try{
+            this.getRuleManagementService().updateAgendaItem(updateItem);
+        }catch(OjbOperationException e){
+            //OptimisticLockException
+            if(e.getCause() instanceof OptimisticLockException){
+                RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) getDataObject();
+                ruleWrapper.setHasOptimisticLockingError(true);
+            }else{
+                throw e;
+            }
+        }
 
         return updateItem;
     }

@@ -21,6 +21,7 @@ public class KRMSConstants {
     // dialogs
     public static final String KSKRMS_DIALOG_YESNO_WARNING = "warningMessagedYesNo";
     public static final String KSKRMS_DIALOG_COMPARE = "compareRuleLightBox";
+    public static final String KSKRMS_DIALOG_RULE_OPLOCK_ERROR = "ruleOpLockErrorDialog";
 
     // node types
     public static final String NODE_TYPE_SUBRULEHEADER = "subruleHeader";

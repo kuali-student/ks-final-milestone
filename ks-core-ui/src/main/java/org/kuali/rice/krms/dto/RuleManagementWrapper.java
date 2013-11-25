@@ -37,6 +37,7 @@ public class RuleManagementWrapper extends UifFormBase {
     private List<AgendaEditor> agendas;
     private RuleEditor ruleEditor;
     private AgendaEditor agendaEditor;
+    private boolean hasOptimisticLockingError;
 
     private Tree<CompareTreeNode, String> compareTree;
 
@@ -171,5 +172,13 @@ public class RuleManagementWrapper extends UifFormBase {
 
     public void setCompareLightBoxHeader( String compareLightBoxHeader){
         this.compareLightBoxHeader = compareLightBoxHeader;
+    }
+
+    public boolean hasOptimisticLockingError() {
+        return hasOptimisticLockingError;
+    }
+
+    public void setHasOptimisticLockingError(boolean hasOptimisticLockingError) {
+        this.hasOptimisticLockingError = hasOptimisticLockingError;
     }
 }

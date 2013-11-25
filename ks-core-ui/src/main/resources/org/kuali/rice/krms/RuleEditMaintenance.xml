@@ -393,4 +393,15 @@ limitations under the License.
         </property>
     </bean>
 
+    <bean id="KRMS-ruleOpLockErrorDialog" parent="Uif-DialogGroup">
+        <property name="header.render" value="false"/>
+        <property name="promptText" value="This rule has been edited by another user. Do you want to reload it or cancel editing?"/>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Reload rule"/>
+                <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel editing"/>
+            </list>
+        </property>
+    </bean>
+
 </beans>
