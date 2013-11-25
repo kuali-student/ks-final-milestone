@@ -67,9 +67,7 @@ public class AcademicTermTypeKeyValues extends UifKeyValuesFinderBase implements
             for (AppointmentWindowWrapper termWrapper : ((RegistrationWindowsManagementForm) model).getAppointmentWindows()) {
                 currentTermTypes.add(termWrapper.getTermType());
             }
-        } else if (model instanceof LookupForm && ((LookupForm)model).getDataObjectClassName().endsWith("AppointmentWindowWrapper")) {
-            //This else block is to avoid ClassCast exception.
-        } else {
+        } else if (model instanceof AcademicCalendarForm){
             for (AcademicTermWrapper termWrapper : ((AcademicCalendarForm) model).getTermWrapperList()) {
                 currentTermTypes.add(termWrapper.getTermType());
             }
