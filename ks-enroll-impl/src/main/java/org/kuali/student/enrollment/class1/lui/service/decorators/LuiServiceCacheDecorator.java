@@ -40,6 +40,7 @@ public class LuiServiceCacheDecorator extends LuiServiceDecorator {
 
     private static String cacheName = "luiCache";
     public static final String LUI_KEY = "lui";
+    public static final String LUILUI_RELTN_KEY = "luiluireltn";
     private CacheManager cacheManager;
 
     @Override
@@ -71,7 +72,12 @@ public class LuiServiceCacheDecorator extends LuiServiceDecorator {
         MultiKey cacheKey = new MultiKey(LUI_KEY, luiId);
         LuiInfo result = getNextDecorator().updateLui(luiId, luiInfo, contextInfo);
         getCacheManager().getCache(cacheName).remove(cacheKey);
+        for (LuiLuiRelationInfo rel : getLuiLuiRelationsByLui(luiId, contextInfo)) {
+            //remove the related Luis
+            removeRelatedLuisByLui(rel.getLuiId());
+        }
         getCacheManager().getCache(cacheName).put(new Element(cacheKey, result));
+
         return result;
     }
 
@@ -80,10 +86,88 @@ public class LuiServiceCacheDecorator extends LuiServiceDecorator {
         MultiKey cacheKey = new MultiKey(LUI_KEY, luiId);
         StatusInfo result = getNextDecorator().deleteLui(luiId, contextInfo);
         getCacheManager().getCache(cacheName).remove(cacheKey);
+        for (LuiLuiRelationInfo rel : getLuiLuiRelationsByLui(luiId, contextInfo)) {
+            //remove the related Luis
+            removeRelatedLuisByLui(rel.getLuiId());
+        }
+
         return result;
     }
 
+    @Override
+    public List<LuiInfo> getRelatedLuisByLuiAndRelationType(String luiId, String luiLuiRelationTypeKey, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        MultiKey cacheKey = new MultiKey(LUILUI_RELTN_KEY, luiId, luiLuiRelationTypeKey);
 
+        Element cachedResult = getCacheManager().getCache(cacheName).get(cacheKey);
+        Object result;
+        if (cachedResult != null && !((List<LuiInfo>)cachedResult.getValue()).isEmpty()) {
+            result = cachedResult.getValue();
+        } else {
+            result = getNextDecorator().getRelatedLuisByLuiAndRelationType(luiId, luiLuiRelationTypeKey, contextInfo);
+            getCacheManager().getCache(cacheName).put(new Element(cacheKey, result));
+        }
+        return (List<LuiInfo>)result;
+    }
+
+    @Override
+    public List<LuiInfo> getLuisByRelatedLuiAndRelationType(String relatedLuiId, String luiLuiRelationTypeKey, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        MultiKey cacheKey = new MultiKey(LUILUI_RELTN_KEY, relatedLuiId, luiLuiRelationTypeKey);
+
+        Element cachedResult = getCacheManager().getCache(cacheName).get(cacheKey);
+        Object result;
+        if (cachedResult != null && !((List<LuiInfo>)cachedResult.getValue()).isEmpty()) {
+            result = cachedResult.getValue();
+        } else {
+            result = getNextDecorator().getLuisByRelatedLuiAndRelationType(relatedLuiId, luiLuiRelationTypeKey, contextInfo);
+            getCacheManager().getCache(cacheName).put(new Element(cacheKey, result));
+        }
+
+        return (List<LuiInfo>)result;
+    }
+
+    @Override
+    public List<LuiLuiRelationInfo> getLuiLuiRelationsByLui(String luiId, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        MultiKey cacheKey = new MultiKey(LUILUI_RELTN_KEY, luiId);
+
+        Element cachedResult = getCacheManager().getCache(cacheName).get(cacheKey);
+        Object result;
+        if (cachedResult != null && !((List<LuiLuiRelationInfo>)cachedResult.getValue()).isEmpty()) {
+            result = cachedResult.getValue();
+        } else {
+            result = getNextDecorator().getLuiLuiRelationsByLui(luiId, contextInfo);
+            getCacheManager().getCache(cacheName).put(new Element(cacheKey, result));
+        }
+        return (List<LuiLuiRelationInfo>)result;
+
+    }
+
+    @Override
+    public LuiLuiRelationInfo createLuiLuiRelation(String luiId, String relatedLuiId, String luiLuiRelationTypeKey, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException,
+            ReadOnlyException {
+        //remove the related Luis
+        removeRelatedLuisByLui(luiId);
+        removeRelatedLuisByLui(relatedLuiId);
+        return getNextDecorator().createLuiLuiRelation(luiId, relatedLuiId, luiLuiRelationTypeKey, luiLuiRelationInfo, contextInfo);
+    }
+
+
+    private void removeRelatedLuisByLui(String luiId) {
+        for(Object key  : getCacheManager().getCache(cacheName).getKeys()) {
+            MultiKey cacheKey = (MultiKey) key;
+            if(cacheKey.size() > 1 && LUILUI_RELTN_KEY.equals(cacheKey.getKey(0)) && luiId.equals(cacheKey.getKey(1))) {
+                getCacheManager().getCache(cacheName).remove(cacheKey);
+            }
+        }
+    }
 
     public CacheManager getCacheManager() {
         if(cacheManager == null){
