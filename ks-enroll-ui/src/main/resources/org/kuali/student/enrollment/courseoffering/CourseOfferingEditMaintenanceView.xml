@@ -494,6 +494,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingEdit-DeliveryAndAssessment" p:id="delivery_and_assessment" parent="Uif-VerticalBoxSection" p:headerText="Delivery and Assessment">
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="componentSecurity.editAuthz" value="true"/>
         <property name="items">
             <list>
@@ -515,7 +516,8 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-VerticalBoxSection" abstract="true">
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="validationMessages.displayMessages" value="false"/>
                     <property name="refreshWhenChangedPropertyNames" value="#dp.courseOfferingInfo.finalExamType"/>
                     <property name="items">
                         <list>
