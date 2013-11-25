@@ -330,9 +330,7 @@ public class CourseLinkBuilder {
 		String link = null;
 
 		// Do not link (skip) 100, 200, 300, 400, etc level courses
-		if (number.endsWith("00")) {
-			link = label;
-		} else if (!template.equals(LINK_TEMPLATE.TEST)) {
+		if (!template.equals(LINK_TEMPLATE.TEST)) {
 			try {
 				Map<String, String> results = getCourseInfo(code, number,
 						context);

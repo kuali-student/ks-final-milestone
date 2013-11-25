@@ -9,6 +9,9 @@ import org.kuali.student.ap.coursesearch.dataobject.CourseSearchItemImpl;
 import org.kuali.student.ap.coursesearch.dataobject.FacetItem;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:ks-ap-test-context.xml"})
@@ -26,12 +29,11 @@ public class GenEduReqFacetTest {
 
         List<FacetItem> list = facet.getFacetItems();
 
-        // TODO: need reference data to support this, see KSAP-5
-//        assertTrue( list.size() == 2 );
-//        assertEquals( list.get( 0 ).getDisplayName(), "ABC" );
-//        assertEquals( list.get( 0 ).getKey(), ";ABC;" );
-//        assertEquals( list.get( 1 ).getDisplayName(), "XYZ" );
-//        assertEquals( list.get( 1 ).getKey(), ";XYZ;" );
+        assertTrue( list.size() == 2 );
+        assertEquals( list.get( 0 ).getDisplayName(), "ABC" );
+        assertEquals( list.get( 0 ).getKey(), "ABC" );
+        assertEquals( list.get( 1 ).getDisplayName(), "XYZ" );
+        assertEquals( list.get( 1 ).getKey(), "XYZ" );
     }
 
     @Test
@@ -43,9 +45,8 @@ public class GenEduReqFacetTest {
         facet.process( course );
 
         Set<String> keys = course.getGenEduReqFacetKeys();
-        // TODO: need reference data to support this, see KSAP-5
-//        assertFalse(keys.isEmpty());
-//        assertEquals(1, keys.size());
-//        assertTrue( keys.contains( ";;ABC;;" ));
+        assertFalse(keys.isEmpty());
+        assertEquals(1, keys.size());
+        assertTrue( keys.contains( "ABC" ));
     }
 }
