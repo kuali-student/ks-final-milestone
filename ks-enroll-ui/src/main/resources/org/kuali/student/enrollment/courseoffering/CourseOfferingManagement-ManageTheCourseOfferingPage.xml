@@ -155,13 +155,33 @@
                     </property>
                 </bean>
                 <bean parent="Uif-LinkGroup" p:style="float:right">
+                    <property name="onDocumentReadyScript" value="addBootstrapImageToLink('@{#component.id}')"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-ActionLink" p:methodToCall="loadPreviousCO" p:actionLabel="&lt; @{previousCourseOfferingWrapper != null ? previousCourseOfferingWrapper.courseOfferingCode : ''}" p:render="@{previousCourseOfferingWrapper != null}" p:id="LoadPrev"/>
+                            <bean parent="KS-Uif-ActionLink"
+                                  p:methodToCall="loadPreviousCO"
+                                  p:actionLabel="@{previousCourseOfferingWrapper != null ? previousCourseOfferingWrapper.courseOfferingCode : ''}"
+                                  p:render="@{previousCourseOfferingWrapper != null}" p:id="LoadPrev">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image" p:altText="" p:style="ks-fontello-icon-angle-left"/>
+                                </property>
+                            </bean>
                             <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render="@{previousCourseOfferingWrapper != null}"/>
-                            <bean parent="Uif-ActionLink" p:methodToCall="loadCOs" p:actionLabel="List All" p:id="ListAll"/>
+                            <bean parent="KS-Uif-ActionLink" p:methodToCall="loadCOs" p:actionLabel="List All" p:id="ListAll"/>
                             <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render="@{nextCourseOfferingWrapper != null}"/>
-                            <bean parent="Uif-ActionLink" p:methodToCall="loadNextCO" p:actionLabel="@{nextCourseOfferingWrapper != null ? nextCourseOfferingWrapper.courseOfferingCode : ''} &gt;" p:render="@{nextCourseOfferingWrapper != null}" p:id="LoadNext"/>
+                            <bean parent="KS-Uif-ActionLink"
+                                  p:methodToCall="loadNextCO"
+                                  p:actionLabel="@{nextCourseOfferingWrapper != null ? nextCourseOfferingWrapper.courseOfferingCode : ''}"
+                                  p:render="@{nextCourseOfferingWrapper != null}" p:id="LoadNext">
+                                <property name="dataAttributes">
+                                    <map key-type="java.lang.String" merge="true">
+                                        <entry key="imageposition" value="right"/>
+                                    </map>
+                                </property>
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image" p:altText="" p:style="ks-fontello-icon-angle-right"/>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
