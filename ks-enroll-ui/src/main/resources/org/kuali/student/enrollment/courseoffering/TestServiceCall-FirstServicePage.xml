@@ -29,7 +29,7 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PrimaryActionButton" p:performClientSideValidation="true" p:actionLabel="Test Service Call"
+                        <bean parent="KS-Uif-PrimaryActionButton" p:performClientSideValidation="true" p:actionLabel="Test Service Call"
                               p:methodToCall="testSeatpools"/>
                     </list>
                 </property>

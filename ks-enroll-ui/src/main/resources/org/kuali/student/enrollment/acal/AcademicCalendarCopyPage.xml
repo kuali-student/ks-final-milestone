@@ -66,8 +66,7 @@ limitations under the License.
                 <!-- This adds the file names to the page HTML -->
                 <ref bean="KS-SourceFile-Comment-Group"/>
 
-                <bean parent="Uif-VerticalBoxSection"
-                      p:style="margin-bottom:0; padding-bottom:0;">
+                <bean parent="Uif-VerticalBoxSection">
                     <property name="items">
                         <list>
                             <ref bean="KS-AcademicCalendar-CopyPage-From"/>
@@ -87,8 +86,8 @@ limitations under the License.
                                           p:methodToCall="copy"
                                           p:actionLabel="Copy Academic Calendar"
                                           p:render="@{academicCalendarInfo != null}"/>
-                                    <bean parent="Uif-ActionLink" p:actionLabel="Cancel"
-                                          p:actionScript="stepBrowserBackTwoPages()" p:style="margin-top: 0.3em;"/>
+                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel"
+                                          p:actionScript="stepBrowserBackTwoPages()"/>
                                 </list>
                             </property>
                         </bean>

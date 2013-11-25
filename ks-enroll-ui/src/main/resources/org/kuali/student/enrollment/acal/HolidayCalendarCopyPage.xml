@@ -99,7 +99,7 @@
                                           p:actionLabel="Copy Holiday Calendar"
                                           p:render="@{holidayCalendarInfo != null}"
                                           p:performClientSideValidation="true" />
-                                    <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBackTwoPages()" p:style="margin-top: 0.3em;"/>
+                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBackTwoPages()"/>
                                 </list>
                             </property>
                         </bean>

@@ -92,10 +92,10 @@
                                     <bean parent="KS-Uif-PrimaryActionButton"
                                           p:methodToCall="save"
                                           p:actionLabel="Save"  p:performClientSideValidation="true" />
-                                    <bean parent="Uif-ActionLink" p:methodToCall="delete"
+                                    <bean parent="KS-Uif-ActionLink" p:methodToCall="delete"
                                           p:actionLabel="Delete"
                                           p:render="@{!newCalendar and !officialUI}"/>
-                                    <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="skipDirtyChecks();stepBrowserBackTwoPages()"
+                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="skipDirtyChecks();stepBrowserBackTwoPages()"
                                             p:style="float: right  !important;"/>
                                 </list>
                             </property>

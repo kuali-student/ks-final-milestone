@@ -28,11 +28,11 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PrimaryActionButton" p:performClientSideValidation="true" p:actionLabel="Rollover Course Offering"
+                        <bean parent="KS-Uif-PrimaryActionButton" p:performClientSideValidation="true" p:actionLabel="Rollover Course Offering"
                               p:methodToCall="performCoRollover" p:disabled="@{isRolloverButtonDisabled}"/>
                         <bean parent="Uif-PrimaryActionButton" p:performClientSideValidation="true" p:actionLabel="Delete CO in Target"
                               p:methodToCall="deleteCoInTargetTerm" p:disabled="@{isDeleteCoButtonDisabled}"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancel"/>
+                        <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancel"/>
                     </list>
                 </property>
             </bean>
