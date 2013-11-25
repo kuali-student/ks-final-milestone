@@ -80,7 +80,7 @@ public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
             if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())) {
                 tNode = new TreeNode(this.buildNodeLabel(prop));
             } else if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())) {
-                tNode = new TreeNode(StringEscapeUtils.escapeHtml(this.getDescription(prop)));
+                tNode = new TreeNode(this.getDescription(prop));
                 tNode.setCompound(true);
                 boolean first = true;
                 for (PropositionEditor child : prop.getCompoundEditors()) {
@@ -110,7 +110,7 @@ public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
     protected String buildNodeLabel(PropositionEditor prop){
         //Build the node label.
         String prefix = this.getPropositionPrefix(prop);
-        return prefix + StringEscapeUtils.escapeHtml(this.getDescription(prop));
+        return prefix + this.getDescription(prop);
     }
 
     @Override

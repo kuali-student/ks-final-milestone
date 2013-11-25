@@ -33,7 +33,7 @@ import java.util.Map;
 public abstract class AbstractTreeBuilder implements TreeBuilder {
 
     protected String buildNodeLabel(PropositionEditor prop){
-        return StringEscapeUtils.escapeHtml(this.getDescription(prop));
+        return this.getDescription(prop);
     }
 
     protected String getDescription(PropositionEditor proposition) {

@@ -91,7 +91,7 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
                     prop.setKey((String) rule.getCompoundKeys().next());
                 }
                 // Compound Proposition: editMode has description as an editable field
-                leaf.setNodeLabel(StringEscapeUtils.escapeHtml(this.getDescription(prop)));
+                leaf.setNodeLabel(this.getDescription(prop));
                 leaf.setNodeType(RuleEditorTreeNode.COMPOUND_NODE_TYPE);
                 leaf.setData(new RuleEditorTreeNode(prop));
 
@@ -137,7 +137,7 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
     private String buildNodeLabel(RuleEditor rule, PropositionEditor prop) {
         //Build the node label.
         String prefix = this.getPropositionPrefix(prop);
-        return prefix + StringEscapeUtils.escapeHtml(this.getDescription(prop));
+        return prefix + this.getDescription(prop);
     }
 
     /**
