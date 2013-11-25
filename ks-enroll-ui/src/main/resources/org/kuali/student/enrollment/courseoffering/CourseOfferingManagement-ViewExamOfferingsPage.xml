@@ -46,7 +46,7 @@
                             <entry key="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
                             <entry key="hideReturnLink" value="true"/>
                             <entry key="inputCode" value="@{#dp.subjectCode}"/>
-                            <entry key="formKey" value="@{returnFormKey}"/>
+                            <entry key="termCode" value="@{#dp.termCode}"/>
                             <entry key="pageId" value="manageCourseOfferingsPage"/>
                             <entry key="viewName" value="@{#dp.subjectCode}"/>
                         </map>
