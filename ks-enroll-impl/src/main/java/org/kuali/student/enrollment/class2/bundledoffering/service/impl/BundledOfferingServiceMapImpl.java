@@ -103,7 +103,6 @@ public class BundledOfferingServiceMapImpl implements MockService, BundledOfferi
             , MissingParameterException
             , OperationFailedException
             , PermissionDeniedException {
-        // GET_INFOS_BY_OTHER
         List<BundledOfferingInfo> list = new ArrayList<BundledOfferingInfo>();
         for (BundledOfferingInfo info : bundledOfferingMap.values()) {
             if (courseBundleId.equals(info.getCourseBundleId())) {
@@ -119,7 +118,6 @@ public class BundledOfferingServiceMapImpl implements MockService, BundledOfferi
             , MissingParameterException
             , OperationFailedException
             , PermissionDeniedException {
-        // GET_INFOS_BY_OTHER
         List<BundledOfferingInfo> list = new ArrayList<BundledOfferingInfo>();
         for (BundledOfferingInfo info : bundledOfferingMap.values()) {
             if (termId.equals(info.getTermId())) {
@@ -135,7 +133,6 @@ public class BundledOfferingServiceMapImpl implements MockService, BundledOfferi
             , MissingParameterException
             , OperationFailedException
             , PermissionDeniedException {
-        // GET_INFOS_BY_OTHER
         List<BundledOfferingInfo> list = new ArrayList<BundledOfferingInfo>();
         for (BundledOfferingInfo info : bundledOfferingMap.values()) {
             if (courseBundleId.equals(info.getCourseBundleId())) {
@@ -153,7 +150,6 @@ public class BundledOfferingServiceMapImpl implements MockService, BundledOfferi
             , MissingParameterException
             , OperationFailedException
             , PermissionDeniedException {
-        // GET_INFOS_BY_OTHER
         List<BundledOfferingInfo> list = new ArrayList<BundledOfferingInfo>();
         for (BundledOfferingInfo info : bundledOfferingMap.values()) {
             if(info.getRegistrationGroupIds().contains(registrationGroupId)) {
@@ -169,7 +165,6 @@ public class BundledOfferingServiceMapImpl implements MockService, BundledOfferi
             , MissingParameterException
             , OperationFailedException
             , PermissionDeniedException {
-        // GET_INFOS_BY_OTHER
         List<BundledOfferingInfo> list = new ArrayList<BundledOfferingInfo>();
         for (BundledOfferingInfo info : bundledOfferingMap.values()) {
             if (termId.equals(info.getTermId())) {
@@ -187,7 +182,6 @@ public class BundledOfferingServiceMapImpl implements MockService, BundledOfferi
             , MissingParameterException
             , OperationFailedException
             , PermissionDeniedException {
-        // GET_INFOS_BY_OTHER
         List<BundledOfferingInfo> list = new ArrayList<BundledOfferingInfo>();
         for (BundledOfferingInfo info : bundledOfferingMap.values()) {
             if (termId.equals(info.getTermId())) {
