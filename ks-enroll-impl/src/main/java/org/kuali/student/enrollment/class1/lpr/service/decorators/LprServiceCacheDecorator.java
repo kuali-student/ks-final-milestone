@@ -384,9 +384,9 @@ public class LprServiceCacheDecorator extends LprServiceDecorator {
 
         Cache cache = getCacheManager().getCache(cacheName);
 
-        cache.put(new Element(lprIdCacheKey,lprInfo));
+        cache.put(new Element(lprIdCacheKey,result));
 
-        List<MultiKey> lstMultiKeys = _getMultiKeyByLprInfo(lprInfo);
+        List<MultiKey> lstMultiKeys = _getMultiKeyByLprInfo(result);
 
         for(MultiKey cacheKey: lstMultiKeys) {
 
@@ -395,7 +395,7 @@ public class LprServiceCacheDecorator extends LprServiceDecorator {
             if(cachedResult!=null) {
 
                 List<String> lprIds = (List<String>)cachedResult.getValue();
-                lprIds.add(lprInfo.getId());
+                lprIds.add(result.getId());
 
                 cache.remove(cacheKey);
                 cache.put(new Element(cacheKey,lprIds));

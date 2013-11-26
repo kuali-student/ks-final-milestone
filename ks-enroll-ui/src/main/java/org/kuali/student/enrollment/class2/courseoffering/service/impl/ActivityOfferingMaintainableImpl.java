@@ -802,7 +802,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
     private OfferingInstructorInfo disassembleInstructorWrapper(OfferingInstructorWrapper instructor) {
         OfferingInstructorInfo instructorInfo = new OfferingInstructorInfo(instructor.getOfferingInstructorInfo());
-        instructorInfo.setId(null);
+
         if (!StringUtils.isBlank(instructor.getsEffort())) {
             instructorInfo.setPercentageEffort(new Float(instructor.getsEffort()));
         }
