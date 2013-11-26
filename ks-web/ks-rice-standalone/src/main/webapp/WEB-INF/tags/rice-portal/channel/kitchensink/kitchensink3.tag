@@ -22,6 +22,12 @@
         <li></li>
     </ul>
 
+    <strong>Trees</strong>
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Trees"
+                               url="${ConfigProperties.lum.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-Tree-View&methodToCall=trees" /></li>
+    </ul>
+
     <strong>Other Examples</strong>
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Growls"
