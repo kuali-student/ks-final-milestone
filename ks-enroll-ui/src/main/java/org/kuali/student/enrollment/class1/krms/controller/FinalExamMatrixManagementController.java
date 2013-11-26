@@ -17,10 +17,12 @@
 package org.kuali.student.enrollment.class1.krms.controller;
 
 import org.apache.log4j.Logger;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper;
+import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,7 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Properties;
 
 /**
- * This is the controller class what handles all the requests (actions) from the <i>'Manage Final Exam Matrix'</i> ui.
+ * This is the controller class that handles all the requests (actions) from the <i>'Manage Final Exam Matrix'</i> ui.
  *
  */
 @Controller
@@ -74,6 +76,13 @@ public class FinalExamMatrixManagementController extends UifControllerBase {
     public ModelAndView show(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
         FERuleManagementWrapper theForm = (FERuleManagementWrapper) form;
+
+        String refObjectId = theForm.getType().getKey();
+        if ((refObjectId == null) || (refObjectId.isEmpty())){
+            GlobalVariables.getMessageMap().putError("type.key", EnrolKRMSConstants.KSKRMS_MSG_INFO_FE_INVALID_TERMTYPE);
+            return getUIFModelAndView(form);
+        }
+
         Properties urlParameters = this.showFE(theForm, theForm.getType().getKey());
         return super.performRedirect(theForm, "finalExamRules", urlParameters);
     }

@@ -124,7 +124,7 @@
 
 
     <bean id="KSFE-FinalExamMatrixManagement-CriteriaSection" parent="Uif-HorizontalBoxSection"
-          p:id="finalExamMatrixManagementCriteriaSection">
+          p:id="finalExamMatrixManagementCriteriaSection" p:onDocumentReadyScript="toggleButtonOnInput('termType', 'show_button');">
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
@@ -134,8 +134,7 @@
 
                             <bean parent="Uif-InputField" p:propertyName="type.key" p:label="Term" p:labelPlacement="LEFT"
                                   p:required="true" p:readOnly="false" p:id="termType"
-                                  p:onKeyUpScript="toggleButtonOnInput('termType', 'show_button');"
-                                  p:onMouseOutScript="toggleButtonOnInput('termType', 'show_button');">
+                                  p:onChangeScript="toggleButtonOnInput('termType', 'show_button');">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>

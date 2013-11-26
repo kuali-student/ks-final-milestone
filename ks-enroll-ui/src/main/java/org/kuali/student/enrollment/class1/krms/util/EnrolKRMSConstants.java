@@ -52,6 +52,7 @@ public class EnrolKRMSConstants {
     public static final String KSKRMS_MSG_INFO_CO_RULE_CHANGED = "info.krms.agenda.rule.co.changed";
     public static final String KSKRMS_MSG_INFO_AO_RULE_CHANGED = "info.krms.agenda.rule.ao.changed";
     public static final String KSKRMS_MSG_INFO_FE_LINKED_TERMTYPE = "info.krms.agenda.fe.linked.term.type";
+    public static final String KSKRMS_MSG_INFO_FE_INVALID_TERMTYPE = "info.krms.agenda.fe.invalid.term.type";
 
     //UI display
     public static final String KSKRMS_RULE_TBA_UI = "TBA";
