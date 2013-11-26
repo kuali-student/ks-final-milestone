@@ -535,7 +535,7 @@
                                             </property>
                                         </bean>
                                         <bean parent="Uif-InputField" p:id="finalExamMatrix" p:label="Use Final Exam Matrix" p:propertyName="useFinalExamMatrix" p:labelPlacement="RIGHT"
-                                            p:render="@{!#parent.readOnly}" p:componentSecurity.editAuthz="true" p:defaultValue="true">
+                                            p:render="@{!#parent.readOnly}" p:defaultValue="true">
                                             <property name="control">
                                                 <bean parent="Uif-CheckboxControl"/>
                                             </property>
