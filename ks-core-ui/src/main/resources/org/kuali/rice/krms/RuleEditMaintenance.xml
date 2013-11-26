@@ -127,13 +127,6 @@ limitations under the License.
         <property name="layoutManager.orientation" value="VERTICAL"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop"
-                      p:propertyName="namespace" p:showLabel="true" p:label="Text" p:required="true">
-                    <property name="maxLength" value="255"/>
-                    <property name="control">
-                        <bean parent="Uif-TextAreaControl"/>
-                    </property>
-                </bean>
                 <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
                 <bean parent="Uif-Message" p:messageText="Click on rule statement to move or modify"
                       p:style="font-weight:bold;margin-left: 2em;"/>
@@ -355,13 +348,6 @@ limitations under the License.
                 <property name="items">
                     <list>
                         <bean parent="KRMS-PropKey-HiddenField"/>
-                        <bean parent="Uif-InputField-LabelTop"
-                              p:propertyName="proposition.termParameter" p:showLabel="true" p:label="Text" p:required="true">
-                            <property name="maxLength" value="255"/>
-                            <property name="control">
-                                <bean parent="Uif-TextAreaControl"/>
-                            </property>
-                        </bean>
                     </list>
                 </property>
             </bean>
