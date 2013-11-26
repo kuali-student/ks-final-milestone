@@ -749,7 +749,8 @@ function triggerFieldValidationAfterPageLoads(id) {
 
 function dismissEnterKeyAction() {
     if (window.event.keyCode== 13) {
-        if(window.event.target.type == "text")  {
+        if(window.event.target.type == "text" || window.event.target.type == "checkbox" ||
+            window.event.target.type == "radio" || window.event.target.type == "select-one")  {
             window.event.returnValue = false;
             window.event.keyCode = 0;
         }
