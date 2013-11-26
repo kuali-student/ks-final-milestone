@@ -300,11 +300,15 @@ public final class SchedulingServiceUtil {
 
     /**
      * Makes a TimeOfDayInfo given a time in military format. This is used in tests.
-     * @param time A time string in miltary format (e.g. "13:00" or "08:15")
-     * @return A new TimeOfDayInfo.
+     * @param time A time string in miltary format (e.g. "13:00" or "08:15").
+     * @return A new TimeOfDayInfo. If a time string isn't provided the returned TimeofDayInfo#milliSeconds will be uninitialized.
      */
     public static TimeOfDayInfo makeTimeOfDayFromMilitaryTimeString(String time) {
         TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
+
+        if (StringUtils.isBlank(time)) {
+            return timeOfDayInfo;
+        }
 
         // Parse the time string.
         String[] t = time.split(":");
@@ -333,9 +337,13 @@ public final class SchedulingServiceUtil {
      * Takes a time string in the format (HH:MM AM|PM or H:MM AM/PM) and converts it to
      * 24 hour / military format (HH:MM).
      * @param time A standard time string.
-     * @return A 24 hour / military time string.
+     * @return A 24 hour / military time string. If the time string is blank then the given value is returned.
      */
     public static String standardTimeStringToMilitaryTimeString(String time) {
+        if (StringUtils.isBlank(time)) {
+            return time;
+        }
+
         boolean isPM = true;
         if (time.endsWith("AM")) {
             isPM = false;
