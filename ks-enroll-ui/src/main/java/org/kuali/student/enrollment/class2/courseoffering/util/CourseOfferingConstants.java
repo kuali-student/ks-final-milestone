@@ -126,6 +126,7 @@ public class CourseOfferingConstants {
     public static final String COURSEOFFERING_ERROR_PERSONNEL_AFFILIATION = "error.info.enroll.courseoffering.edit.personnel.instructor_type";
     public static final String COURSEOFFERING_ERROR_PERSONNEL_EFFORT = "error.info.enroll.courseoffering.edit.personnel.effort";
     public static final String ERROR_INVALID_CLU_VERSION = "error.enroll.courseoffering.create.clu.version.invalid";
+    public static final String ERROR_INVALID_COURSECODE_SUFFIX = "error.enroll.courseoffering.create.coursecode.suffix.invalid";
     /**
      * Course Offering Informational Constants
      */

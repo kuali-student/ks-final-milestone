@@ -84,6 +84,15 @@ public class CourseOfferingEditRule extends KsMaintenanceDocumentRuleBase {
             if (valid) {
                 valid = validFinalExamDriver(newCOWrapper);
             }
+
+            if (valid){
+                if (!StringUtils.isAlphanumeric(newCOWrapper.getCourseOfferingInfo().getCourseNumberSuffix())){
+                    valid = false;
+                    GlobalVariables.getMessageMap().putError(
+                                        "document.newMaintainableObject.dataObject.courseOfferingInfo.courseNumberSuffix",
+                                        CourseOfferingConstants.ERROR_INVALID_COURSECODE_SUFFIX);
+                }
+            }
         }
 
         return valid;
