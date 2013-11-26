@@ -123,16 +123,22 @@ limitations under the License.
     <!-- also, the bogus refreshWhenChanged is important because it puts a RuleEditorView-TreeGroup_refreshWrapper around the group that
         is needed for the javascript hack that is refreshing -->
     <bean id="KRMS-RuleEditor-TreeGroup" parent="Uif-VerticalBoxGroup"
-          p:style="margin-bottom: 5pt; margin-top: 0em;" p:refreshWhenChangedPropertyNames="this.is.a.hack">
+          p:style="margin-bottom: 5pt; margin-top: 0em;" p:forceSessionPersistence="true">
         <property name="layoutManager.orientation" value="VERTICAL"/>
         <property name="items">
             <list>
+                <bean parent="Uif-InputField-LabelTop"
+                      p:propertyName="namespace" p:showLabel="true" p:label="Text" p:required="true">
+                    <property name="maxLength" value="255"/>
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl"/>
+                    </property>
+                </bean>
                 <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
                 <bean parent="Uif-Message" p:messageText="Click on rule statement to move or modify"
                       p:style="font-weight:bold;margin-left: 2em;"/>
                 <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
-                <bean id="RuleStudentEditorView-Tree" parent="KRMS-RulerEditor-TreeSection-parent"
-                      p:forceSessionPersistence="true"/>
+                <bean id="RuleStudentEditorView-Tree" parent="KRMS-RulerEditor-TreeSection-parent"/>
                 <bean id="proposition_selected" parent="KRMS-Rules-HiddenField"
                       p:propertyName="selectedKey"/>
                 <bean id="proposition_copy" parent="KRMS-Rules-HiddenField" p:propertyName="copyKey"/>
@@ -307,7 +313,7 @@ limitations under the License.
         <property name="templateName" value="uif_ruleTreeGroup"/>
         <property name="propertyName" value="editTree"/>
         <property name="validationMessages.displayMessages" value="true"/>
-        <property name="validationMessages.displayFieldLabelWithMessages" value="false"/>
+        <!--property name="validationMessages.displayFieldLabelWithMessages" value="false"/-->
         <property name="tree">
             <bean parent="RuleTreeWidget">
                 <property name="templateOptions">
@@ -349,6 +355,13 @@ limitations under the License.
                 <property name="items">
                     <list>
                         <bean parent="KRMS-PropKey-HiddenField"/>
+                        <bean parent="Uif-InputField-LabelTop"
+                              p:propertyName="proposition.termParameter" p:showLabel="true" p:label="Text" p:required="true">
+                            <property name="maxLength" value="255"/>
+                            <property name="control">
+                                <bean parent="Uif-TextAreaControl"/>
+                            </property>
+                        </bean>
                     </list>
                 </property>
             </bean>
