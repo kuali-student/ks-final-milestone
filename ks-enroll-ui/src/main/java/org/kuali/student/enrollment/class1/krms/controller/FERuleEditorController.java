@@ -42,6 +42,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Override of RuleEditorController for Student
@@ -53,16 +54,32 @@ import java.util.Map;
 public class FERuleEditorController extends EnrolRuleEditorController {
 
     /**
-     * Setups a new <code>MaintenanceDocumentView</code> with the edit maintenance
-     * action
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
      */
-    @RequestMapping(params = "methodToCall=" + KRADConstants.Maintenance.METHOD_TO_CALL_EDIT)
-    public ModelAndView maintenanceEdit(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(params = "methodToCall=show")
+    public ModelAndView show(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+                             @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
-        setupMaintenance(form, request, KRADConstants.MAINTENANCE_EDIT_ACTION);
-        this.displayLinkedTermTypeMessages(form);
-        return getUIFModelAndView(form);
+        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
+        FERuleManagementWrapper ruleWrapper = (FERuleManagementWrapper) AgendaUtilities.getRuleWrapper(document);
+
+        String refObjectId = ruleWrapper.getType().getKey();
+        if ((refObjectId == null) || (refObjectId.isEmpty())){
+            GlobalVariables.getMessageMap().putError("type.key", EnrolKRMSConstants.KSKRMS_MSG_INFO_FE_INVALID_TERMTYPE);
+            return getUIFModelAndView(form);
+        }
+
+        FERuleEditorMaintainableImpl maintainable = (FERuleEditorMaintainableImpl) document.getDocument().getNewMaintainableObject();
+        maintainable.setupDataObject(ruleWrapper, refObjectId);
+        this.displayLinkedTermTypeMessages(document);
+
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_AGENDA_FE_MAINTENANCE_PAGE_ID);
+        return super.navigate(form, result, request, response);
     }
 
     /**
@@ -213,6 +230,23 @@ public class FERuleEditorController extends EnrolRuleEditorController {
     }
 
     /**
+     * Back to search input page.
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(params = "methodToCall=cancelEditMatrix")
+    public ModelAndView cancelEditMatrix(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) {
+
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_INPUT_FE_MAINTENANCE_PAGE_ID);
+        return super.navigate(form, result, request, response);
+    }
+
+    /**
      * Updates rule and redirects to agenda maintenance page.
      *
      * @param form
@@ -344,7 +378,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         FERuleManagementWrapper ruleWrapper = (FERuleManagementWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
 
         for(String termType : ruleWrapper.getLinkedTermTypes()){
-            GlobalVariables.getMessageMap().putInfoForSectionId("KSFE-AgendaMaintenance-Page-parent", EnrolKRMSConstants.KSKRMS_MSG_INFO_FE_LINKED_TERMTYPE, termType);
+            GlobalVariables.getMessageMap().putInfoForSectionId(EnrolKRMSConstants.KSKRMS_AGENDA_FE_MAINTENANCE_PAGE_ID, EnrolKRMSConstants.KSKRMS_MSG_INFO_FE_LINKED_TERMTYPE, termType);
         }
     }
 }

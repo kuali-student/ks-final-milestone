@@ -37,6 +37,7 @@ public class EnrolKRMSConstants {
     // FE Bean references
     public static final String KSKRMS_RULE_FE_MAINTENANCE_PAGE_ID = "KSFE-RuleMaintenance-Page";
     public static final String KSKRMS_AGENDA_FE_MAINTENANCE_PAGE_ID = "KSFE-AgendaMaintenance-Page";
+    public static final String KSKRMS_INPUT_FE_MAINTENANCE_PAGE_ID = "KSFE-SearchInput-Page";
     public static final String KSKRMS_RULE_FE_TABS_ID = "KSFE-TabsWidget";
     public static final String KSKRMS_RULE_FE_EDITWITHOBJECT_ID = "KSFE-EditWithObject-EditSection";
     public static final String KSKRMS_RULE_FE_EDITWITHLOGIC_ID = "KSFE-EditWithLogic-EditSection";

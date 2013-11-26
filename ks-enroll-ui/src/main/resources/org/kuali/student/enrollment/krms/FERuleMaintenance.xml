@@ -38,6 +38,7 @@ limitations under the License.
     </bean>
 
     <bean id="KSFE-AgendaManagement-View" parent="KS-Uif-MaintenanceView">
+
         <property name="viewName" value="FEAgendaManagementView"/>
         <property name="dataObjectClassName"
                   value="org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper"/>
@@ -49,6 +50,7 @@ limitations under the License.
         </property>
         <property name="items">
             <list>
+                <bean id="KSFE-SearchInput-Page" parent="KSFE-SearchInput-Page-parent"/>
                 <bean id="KSFE-AgendaMaintenance-Page" parent="KSFE-AgendaMaintenance-Page-parent"/>
                 <bean id="KSFE-RuleMaintenance-Page" parent="KSFE-RuleMaintenance-Page-Parent"/>
             </list>
@@ -64,15 +66,13 @@ limitations under the License.
                 <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
                 <bean parent="Uif-BreadcrumbItem">
                     <property name="label" value="Final Exam Matrix"/>
-                    <property name="url.viewId" value="finalExamMatrixManagementView"/>
-                    <property name="url.controllerMapping" value="finalExamMatrixManagement"/>
+                    <property name="url.controllerMapping" value="finalExamRules"/>
                     <property name="url.requestParameters">
                         <map key-type="java.lang.String" merge="true">
                             <entry key="methodToCall" value="start"/>
                             <entry key="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper"/>
                             <entry key="hideReturnLink" value="true"/>
-                            <entry key="pageId" value="finalExamSearchInputPage"/>
-                            <entry key="viewName" value="Manage Final Exam Matrix"/>
+                            <entry key="viewName" value="FEAgendaManagementView"/>
                             <entry key="hideReturnLink" value="true"/>
                             <entry key="formKey" value="@{returnFormKey}"/>
                         </map>
@@ -89,7 +89,7 @@ limitations under the License.
         </property>
 
         <property name="singlePageView" value="false"/>
-        <property name="entryPageId" value="KSFE-AgendaMaintenance-Page"/>
+        <property name="entryPageId" value="KSFE-SearchInput-Page"/>
         <property name="additionalScriptFiles">
             <list>
                 <value>themes/ksboot/scripts/ruleMaintenance.js</value>
@@ -101,6 +101,58 @@ limitations under the License.
         <property name="additionalCssFiles">
             <list>
                 <value>themes/ksboot/stylesheets/krms.css</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFE-SearchInput-Page-parent" parent="KS-Uif-Page" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="KSFE-FinalExamMatrixManagement-CriteriaSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="KS-Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KSFE-FinalExamMatrixManagement-CriteriaSection" parent="Uif-HorizontalBoxSection"
+          p:id="finalExamMatrixManagementCriteriaSection" p:onDocumentReadyScript="toggleButtonOnInput('termType', 'show_button');">
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+
+                            <bean parent="Uif-InputField" p:propertyName="type.key" p:label="Term" p:labelPlacement="LEFT"
+                                  p:required="true" p:readOnly="false" p:id="termType"
+                                  p:onChangeScript="toggleButtonOnInput('termType', 'show_button');">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class1.krms.keyvalue.TermKeyValueFinder"/>
+                                </property>
+                            </bean>
+                            <bean parent="KS-Uif-PrimaryActionButton" p:performClientSideValidation="false" p:actionLabel="Show"
+                                  p:ajaxSubmit="false" p:methodToCall="show" p:id="show_button"/>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
@@ -155,8 +207,7 @@ limitations under the License.
                       p:actionLabel="Save" p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"
                       p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
-                <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+                <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancelEditMatrix" p:actionLabel="Cancel"/>
             </list>
         </property>
     </bean>

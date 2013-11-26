@@ -81,13 +81,18 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
         FERuleManagementWrapper dataObject = new FERuleManagementWrapper();
 
+        String typeKey = dataObjectKeys.get("refObjectId");
+        setupDataObject(dataObject, typeKey);
+
+        return dataObject;
+    }
+
+    public void setupDataObject(FERuleManagementWrapper dataObject, String typeKey) {
         dataObject.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
         dataObject.setRefDiscriminatorType(TypeServiceConstants.REF_OBJECT_URI_TYPE);
 
-        String typeKey = dataObjectKeys.get("refObjectId");
         dataObject.setRefObjectId(typeKey);
         dataObject.setAgendas(this.getAgendasForRef(dataObject.getRefDiscriminatorType(), typeKey));
-
 
         try {
             dataObject.setType(this.getTypeService().getType(typeKey, this.createContextInfo()));
@@ -121,8 +126,6 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         } catch (Exception e) {
             throw new RuntimeException("Could not retrieve linked term types.");
         }
-
-        return dataObject;
     }
 
     private String getOwnerTypeForAgendas(List<AgendaEditor> agendas) {

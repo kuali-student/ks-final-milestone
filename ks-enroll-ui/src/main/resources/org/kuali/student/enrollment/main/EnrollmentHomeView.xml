@@ -63,7 +63,7 @@
                 <bean parent="Uif-Link" p:linkText="Manage SOC"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/manageSOC?viewId=ManageSOCView&amp;methodToCall=start"/>
                 <bean parent="Uif-Link" p:linkText="Manage Final Exam Matrix"
-                      p:href="@{#ConfigProperties['application.url']}/kr-krad/finalExamMatrixManagement?viewId=finalExamMatrixManagementView&amp;pageId=finalExamSearchInputPage&amp;methodToCall=start&amp;withinPortal=false"/>
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/finalExamRules?viewName=FEAgendaManagementView&amp;dataObjectClassName=org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper&amp;methodToCall=start&amp;withinPortal=false"/>
                 <bean parent="Uif-Link" p:linkText="Manage Time Slots"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/timeslot?viewId=timeSlotView&amp;pageId=timeSlotPage&amp;methodToCall=start&amp;withinPortal=false"/>
             </list>
