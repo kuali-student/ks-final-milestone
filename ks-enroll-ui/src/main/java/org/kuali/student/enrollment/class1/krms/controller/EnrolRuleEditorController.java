@@ -23,6 +23,7 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.controller.RuleEditorController;
 import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
@@ -94,7 +95,7 @@ public class EnrolRuleEditorController extends RuleEditorController {
 
         //show dialog if there was an optimistic locking error
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
-        CORuleManagementWrapper ruleWrapper = (CORuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
+        RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper(document);
         if (ruleWrapper.hasOptimisticLockingError()) {
             return showDialog(KRMSConstants.KSKRMS_DIALOG_RULE_OPLOCK_ERROR, form, request, response);
         }
