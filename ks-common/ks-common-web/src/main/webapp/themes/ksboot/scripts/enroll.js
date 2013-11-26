@@ -749,8 +749,10 @@ function triggerFieldValidationAfterPageLoads(id) {
 
 function dismissEnterKeyAction() {
     if (window.event.keyCode== 13) {
-        window.event.returnValue = false;
-        window.event.keyCode = 0;
+        if(window.event.target.type == "text")  {
+            window.event.returnValue = false;
+            window.event.keyCode = 0;
+        }
     }
 }
 
