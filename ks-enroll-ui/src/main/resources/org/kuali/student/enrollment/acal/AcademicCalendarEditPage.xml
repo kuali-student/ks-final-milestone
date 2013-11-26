@@ -169,7 +169,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4"
-                      p:additionalCssClasses="ks-krad-tab-gridgroup-fix,ks-gray-background,ks-no-margins">
+                      p:additionalCssClasses="ks-krad-tab-gridgroup-fix,ks-details-panel,ks-no-margins">
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.startDate"
@@ -186,7 +186,7 @@ limitations under the License.
     </bean>
 
     <bean id="KS-AcademicTerm-Overview" parent="Uif-TableCollectionSection"
-          p:renderAddLine="false" p:additionalCssClasses="ks-gray-background">
+          p:renderAddLine="false" p:additionalCssClasses="ks-details-panel">
         <property name="hidden" value="@{termWrapperList.size()==0}"/>
         <property name="propertyName" value="termWrapperList"/>
         <property name="collectionObjectClass"
