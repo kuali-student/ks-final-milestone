@@ -12,7 +12,7 @@ public class AcademicRecordServiceTypeStateConstants extends AcademicRecordServi
     // types
     public static final String LOAD_TYPE_CREDITS = "kuali.academic.record.load.type.credits";
     public static final String LOAD_TYPE_COURSES = "kuali.academic.record.load.type.courses";
-    public static final String LOAD_TYPE_CODE_4_TIER = "kuali.academic.record.load.type.4.tier.code";
+    public static final String LOAD_TYPE_CODE_4_TIER = "kuali.academic.record.load.type.code.4.tier";
     // states
     public static final String LOAD_STATE_PRELIMIARY = "kuali.academic.record.load.state.preliminary";
     public static final String LOAD_STATE_FINAL = "kuali.academic.record.load.state.final";

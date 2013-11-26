@@ -1,6 +1,5 @@
 package org.kuali.student.poc.rules.credit.limit;
 
-import org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceDecorator;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -8,7 +7,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 /**
  * This defines the interface that needs to be implemented to execute a load calculation
  */
-public class LoadCalculatorRuleUtility extends CourseRegistrationServiceDecorator {
+public class LoadCalculatorRuleUtility  {
 
     private CourseOfferingService courseOfferingService;
 

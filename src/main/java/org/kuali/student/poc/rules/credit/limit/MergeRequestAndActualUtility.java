@@ -25,7 +25,7 @@ import org.kuali.student.r2.common.util.constants.LprServiceConstants;
  * against it such as credit limit checks and time conflict checks and co-requisite checks.
  *
  */
-public class MergeRequestAndActual {
+public class MergeRequestAndActualUtility {
 
     private CourseOfferingService courseOfferingService;
 

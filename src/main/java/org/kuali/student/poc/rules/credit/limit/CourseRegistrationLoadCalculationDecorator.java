@@ -46,19 +46,30 @@ public class CourseRegistrationLoadCalculationDecorator extends CourseRegistrati
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        LoadCalculator calculator = this.getCalculatorForRuleType(this.getLoadLevelTypeKey(), contextInfo);
-        MergeRequestAndActual merger = new MergeRequestAndActual();
-        merger.setCourseOfferingService(this.getCourseOfferingService());
 
-        List<CourseRegistrationInfo> existingCrs = this.getCourseRegistrationsByStudent(studentId, contextInfo);
-        RegistrationRequestInfo emptyRequest = new RegistrationRequestInfo();
-        List<CourseRegistrationAction> beforeActions = merger.updateRegistrations(emptyRequest, existingCrs, contextInfo);
-        LoadInfo beforeLoad = calculator.calculateLoad(beforeActions, studentId, contextInfo);
-
+        MergeRequestAndActualUtility mergUtil = new MergeRequestAndActualUtility();
+        mergUtil.setCourseOfferingService(this.getCourseOfferingService());
+        
+        // get current request and current courses if any
         RegistrationRequestInfo currentRequest = this.getRegistrationRequest(registrationRequestId, contextInfo);
-        List<CourseRegistrationAction> afterActions = merger.updateRegistrations(currentRequest, existingCrs, contextInfo);
+        List<CourseRegistrationInfo> existingCrs = this.getCourseRegistrationsByStudentAndTerm(studentId,
+                currentRequest.getTermId(),
+                contextInfo);
+        // use an empty request just so we can get a list of existing Crs as a list of actions
+        RegistrationRequestInfo emptyRequest = new RegistrationRequestInfo();
+        List<CourseRegistrationAction> beforeActions = mergUtil.updateRegistrations(emptyRequest, existingCrs, contextInfo);
+        
+        // get what rule we are using to do the calcualtion
+        LoadCalculator calculator = this.getCalculatorForRuleType(this.getLoadLevelTypeKey(), contextInfo);
+        
+        // calculate the load prior to the request
+        LoadInfo beforeLoad = calculator.calculateLoad(beforeActions, studentId, contextInfo);
+        
+        // calculate the load assuming the request went through
+        List<CourseRegistrationAction> afterActions = mergUtil.updateRegistrations(currentRequest, existingCrs, contextInfo);
         LoadInfo afterLoad = calculator.calculateLoad(afterActions, studentId, contextInfo);
 
+        // compute the before and after so we can get the difference
         int beforeCredits = this.parseCreditsAsInt(beforeLoad.getTotalCredits());
         int afterCredits = this.parseCreditsAsInt(afterLoad.getTotalCredits());
         CreditLoadInfo creditLoad = new CreditLoadInfo();

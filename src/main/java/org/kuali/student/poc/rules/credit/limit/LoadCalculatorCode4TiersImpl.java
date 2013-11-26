@@ -28,6 +28,7 @@ public class LoadCalculatorCode4TiersImpl extends AbstractLoadCalculator impleme
         LoadInfo load = new LoadInfo(creditLoad);
         load.setTypeKey(AcademicRecordServiceTypeStateConstants.LOAD_TYPE_CODE_4_TIER);
         int credits = this.parseCreditsAsInt(creditLoad.getTotalCredits());
+//        get the cutoff points from the GES
         if (credits == 0) {
             load.setTotalCredits(AcademicRecordServiceTypeStateConstants.LOAD_CODE_4_TIER_1_NO_LOAD);
             return load;
