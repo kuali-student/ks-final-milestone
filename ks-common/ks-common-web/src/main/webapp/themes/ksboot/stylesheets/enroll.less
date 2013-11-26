@@ -992,22 +992,27 @@ div#Uif-ApplicationHeader-Wrapper{
 
 
 /*define a gray box as background. This is basically the "info grid" styling. */
-.ks-gray-background  {
+.ks-details-panel  {
   background-color: #ebebeb;
   border: none;
   padding: 10px;
 }
 
-.ks-gray-background table {
+.ks-details-panel table {
   width: auto !important;
   border: none;
 }
 
-.ks-gray-background th,
-.ks-gray-background  td {
+.ks-details-panel th,
+.ks-details-panel  td {
   background-color: #ebebeb !important;
   padding: 1px 6px;
   border: none;
+}
+
+//Override paddings from .uif-boxSubSection uif-boxLayoutVerticalItem
+.uif-boxSubSection .uif-boxLayoutVerticalItem.uif-boxLayoutVerticalItem.ks-details-panel {
+  padding: 10px;
 }
 
 .ks-no-margins
