@@ -746,7 +746,9 @@ function triggerFieldValidationAfterPageLoads(id) {
     }
 }
 
-
+/* Disabling the enter key pressed in text fields, checkboxes, radio buttons, and option selection widgets
+ * so that the only the links, buttons will respond to the enter key.
+ */
 function dismissEnterKeyAction() {
     if (window.event.keyCode== 13) {
         if(window.event.target.type == "text" || window.event.target.type == "checkbox" ||
