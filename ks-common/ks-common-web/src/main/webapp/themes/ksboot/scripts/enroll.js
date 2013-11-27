@@ -372,6 +372,7 @@ function updateHeaderRightGroup(srcId, rightGroupId){
     if( rightGroup ) {
         var src = jQuery("#" + srcId);                  // grab the new header right group
         jQuery(rightGroup).html(jQuery(src).html());         // copy the content of the right group to the place holder
+        addBootstrapImageToLink(rightGroupId);          // add web-font (icons) to the links if there are any
     }
 }
 
