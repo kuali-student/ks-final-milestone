@@ -210,8 +210,7 @@ limitations under the License.
                             <property name="actionLabel" value="Update Rule"/>
                             <property name="methodToCall" value="updateRule"/>
                         </bean>
-                        <bean id="KS-CancelRule-Button" parent="Uif-NavigationActionLink">
-                            <property name="actionLabel" value="Cancel"/>
+                        <bean id="KS-CancelRule-Button" parent="Uif-CancelAction">
                             <property name="methodToCall" value="cancelEditRule"/>
                         </bean>
                     </list>
