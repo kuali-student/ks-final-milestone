@@ -442,7 +442,7 @@ public interface RuleManagementService extends TranslateBusinessMethods {
      *                                      is null or invalid
      */
     @WebMethod(operationName = "updateAgendaItem")
-    @CacheEvict(value={AgendaTreeDefinition.Cache.NAME, AgendaDefinition.Cache.NAME, AgendaItemDefinition.Cache.NAME, ContextDefinition.Cache.NAME}, allEntries = true)
+    @CacheEvict(value={AgendaTreeDefinition.Cache.NAME, AgendaDefinition.Cache.NAME, AgendaItemDefinition.Cache.NAME, ContextDefinition.Cache.NAME}, allEntries = true, beforeInvocation = true)
     public void updateAgendaItem(@WebParam(name = "agendaItemDefinition") AgendaItemDefinition agendaItemDefinition) throws RiceIllegalArgumentException;
 
     /**
