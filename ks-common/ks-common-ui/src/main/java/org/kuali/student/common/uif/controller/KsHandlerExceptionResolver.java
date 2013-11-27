@@ -16,8 +16,10 @@
  */
 package org.kuali.student.common.uif.controller;
 
+import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.web.controller.UifHandlerExceptionResolver;
+import org.kuali.student.common.krms.exceptions.KRMSOptimisticLockingException;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +37,28 @@ public class KsHandlerExceptionResolver extends UifHandlerExceptionResolver {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return new ModelAndView("/ks-common/WEB-INF/ftl/permissiondenied");
         }
+
+        if(ex instanceof RiceRuntimeException) {
+            if (isCausedByOptimisticLockingError(5,ex)){
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                return new ModelAndView("/ks-common/WEB-INF/ftl/ksKRMSOptimisticLockingError");
+            }
+        }
+
         return super.resolveException(request, response, handler, ex);
+    }
+
+    private boolean isCausedByOptimisticLockingError(int depth, Throwable t) {
+        if ((depth > 0) && (t != null)) {
+            if (t instanceof KRMSOptimisticLockingException) {
+                return true;
+            } else {
+                Throwable cause = t.getCause();
+                if (cause != t) {
+                    return isCausedByOptimisticLockingError(--depth, cause);
+                }
+            }
+        }
+        return false;
     }
 }

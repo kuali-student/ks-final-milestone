@@ -51,6 +51,7 @@ import org.kuali.rice.krms.service.RuleEditorMaintainable;
 import org.kuali.rice.krms.util.AlphaIterator;
 import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
+import org.kuali.student.common.krms.exceptions.KRMSOptimisticLockingException;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.springmodules.orm.ojb.OjbOperationException;
@@ -404,10 +405,10 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
     public AgendaItemDefinition maintainAgendaItems(AgendaEditor agenda, String namePrefix, String nameSpace) {
 
-        Queue<RuleEditor> rules = new LinkedList<RuleEditor>();
+        Queue<RuleDefinition.Builder> rules = new LinkedList<RuleDefinition.Builder>();
         for (RuleEditor rule : agenda.getRuleEditors().values()) {
             if (!rule.isDummy()) {
-                rules.add(rule);
+                rules.add(this.finRule(rule, namePrefix, nameSpace));
             }
         }
 
@@ -422,7 +423,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         AgendaItemDefinition.Builder rootItemBuilder = AgendaItemDefinition.Builder.create(firstItem);
         AgendaItemDefinition.Builder itemBuilder = rootItemBuilder;
         while (rules.peek() != null) {
-            itemBuilder.setRule(this.finRule(rules.poll(), namePrefix, nameSpace));
+            itemBuilder.setRule(rules.poll());
             itemBuilder.setRuleId(itemBuilder.getRule().getId());
             if (rules.peek() != null) {
                 itemBuilder.setWhenTrue(AgendaItemDefinition.Builder.create(null, agenda.getId()));
@@ -437,8 +438,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         }catch(OjbOperationException e){
             //OptimisticLockException
             if(e.getCause() instanceof OptimisticLockException){
-                RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) getDataObject();
-                ruleWrapper.setHasOptimisticLockingError(true);
+                throw new KRMSOptimisticLockingException();
             }else{
                 throw e;
             }
