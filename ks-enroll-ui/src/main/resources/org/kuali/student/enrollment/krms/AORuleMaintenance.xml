@@ -412,15 +412,11 @@ limitations under the License.
                 <bean parent="Uif-BreadcrumbItem">
                     <property name="label" value="Activity Offering Requisites"/>
                     <property name="url.controllerMapping" value="/activityOfferingRules"/>
-                    <property name="url.viewType" value="MAINTENANCE"/>
-                    <property name="url.methodToCall" value="maintenanceEdit"/>
+                    <property name="url.methodToCall" value="cancelEditRule"/>
                     <property name="url.requestParameters">
                         <map key-type="java.lang.String" merge="true">
-                            <entry key="dataObjectClassName"
-                                   value="org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper"/>
                             <entry key="viewName" value="AOAgendaManagementView"/>
-                            <entry key="overrideKeys" value="refObjectId"/>
-                            <entry key="refObjectId" value="@{#dp.refObjectId}"/>
+                            <entry key="formKey" value="@{formKey}"/>
                         </map>
                     </property>
                 </bean>

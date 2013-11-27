@@ -516,13 +516,13 @@ public class ActivityOfferingClusterHandler {
     public static Properties manageAO(CourseOfferingManagementForm theForm, String aoId) throws Exception {
         Properties urlParameters = new Properties();
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
-        urlParameters.put(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID, aoId);
         urlParameters.put(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID, theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo().getId());
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, AORuleManagementWrapper.class.getName());
         // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
         // https://fisheye.kuali.org/changelog/rice?cs=39034
         // TODO KSENROLL-8469
         //urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
+        urlParameters.put(KRADConstants.OVERRIDE_KEYS,"refObjectId,courseOfferingId");
         urlParameters.put("viewName", "AOAgendaManagementView");
         urlParameters.put("refObjectId", aoId);
 
