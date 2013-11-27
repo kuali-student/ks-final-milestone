@@ -23,9 +23,18 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="roomCode"/>
+                <bean parent="Uif-DataField" p:propertyName="roomCode" p:style="text-align:right;"/>
                 <bean parent="Uif-DataField" p:propertyName="name" />
             </list>
+        </property>
+        <property name="resultsGroup.layoutManager.richTable">
+            <bean parent="KS-Uif-RichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="aaSorting" value="[[1,'asc']]"/>
+                    </map>
+                </property>
+            </bean>
         </property>
     </bean>
 </beans>
