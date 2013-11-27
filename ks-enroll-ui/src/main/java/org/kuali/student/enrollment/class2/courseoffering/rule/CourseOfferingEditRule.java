@@ -136,6 +136,7 @@ public class CourseOfferingEditRule extends KsMaintenanceDocumentRuleBase {
         List<OfferingInstructorWrapper> instructors = coWrapper.getInstructors();
         boolean noError = true;
         if (instructors != null && !instructors.isEmpty()) {
+            int index = 0;
             for (OfferingInstructorWrapper instructorWrapper : instructors)   {
                 if (instructorWrapper != null) {
                     OfferingInstructorInfo info = instructorWrapper.getOfferingInstructorInfo();
@@ -143,8 +144,7 @@ public class CourseOfferingEditRule extends KsMaintenanceDocumentRuleBase {
                         // verify this is a legal personId
                         List<Person> personList = CourseOfferingViewHelperUtil.getInstructorByPersonId(info.getPersonId());
                         if (personList.isEmpty()) {
-                            GlobalVariables.getMessageMap().putErrorForSectionId(
-                                    "KS-CourseOfferingEdit-PersonnelSection",
+                            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.instructors[" + index + "].offeringInstructorInfo.personId",
                                     CourseOfferingConstants.COURSEOFFERING_ERROR_INVALID_PERSONNEL_ID, info.getPersonId());
                             noError &= false;
                         } else {
@@ -152,21 +152,20 @@ public class CourseOfferingEditRule extends KsMaintenanceDocumentRuleBase {
                             String instructorName = personList.get(firstPerson).getName().trim();
                             if(instructorName != null && !instructorName.isEmpty()) {
                                 if(!instructorName.equals(info.getPersonName())) {
-                                    GlobalVariables.getMessageMap().putErrorForSectionId(
-                                            "KS-CourseOfferingEdit-PersonnelSection",
+                                    GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.instructors[" + index + "].offeringInstructorInfo.personName",
                                             CourseOfferingConstants.COURSEOFFERING_ERROR_UNMATCHING_PERSONNEL_NAME, info.getPersonName(), instructorName);
                                     noError &=  false;
                                 }
                             }
                             if(info.getTypeKey() == null || info.getTypeKey().isEmpty()) {
-                                GlobalVariables.getMessageMap().putErrorForSectionId(
-                                        "KS-CourseOfferingEdit-PersonnelSection",
+                                GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.instructors[" + index + "].offeringInstructorInfo.typeKey",
                                         CourseOfferingConstants.COURSEOFFERING_ERROR_PERSONNEL_AFFILIATION);
                                 noError &= false;
                             }
                         }
                     }
                 }
+                index++;
             }
         }
         return noError;

@@ -309,6 +309,7 @@
 
     <bean id="ActivityOfferingEdit-PersonnelSection" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Personnel"/>
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
                 <bean id="ActivityOffering-PersonnelSection" parent="KS-TableCollectionSubSection-BottomAddLine"
@@ -320,6 +321,7 @@
                     <property name="addBlankLineAction.style" value="margin-top:30px; display:block;"/>
                     <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayPersonnelSection();"/>
                     <property name="addBlankLineAction.dirtyOnAction" value="true" />
+                    <property name="validationMessages.displayMessages" value="false"/>
                     <property name="layoutManager.richTable">
                         <!-- see http://datatables.net/ref for all options -->
                         <bean parent="KS-Uif-RichTable">

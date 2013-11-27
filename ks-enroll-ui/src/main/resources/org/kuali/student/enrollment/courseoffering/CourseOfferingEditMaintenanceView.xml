@@ -693,6 +693,7 @@
 
     <bean id="KS-CourseOfferingEdit-PersonnelSection" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Personnel"/>
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>
@@ -713,6 +714,7 @@
                             </property>
                         </bean>
                     </property>
+                    <property name="validationMessages.displayMessages" value="false"/>
                     <property name="Items">
                         <list>
                             <bean parent="Uif-InputField" p:id="personnelPriority" p:propertyName="offeringInstructorInfo.personId"
