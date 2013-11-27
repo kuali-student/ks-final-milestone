@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.rule;
 
 import edu.emory.mathcs.backport.java.util.Collections;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -8,6 +9,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
@@ -65,28 +67,49 @@ public class ActivityOfferingRule extends KsMaintenanceDocumentRuleBase {
      * @return  True if the validation succeeds. Otherwise, false.
      */
     private boolean validateActivityOffering(ActivityOfferingWrapper activityOfferingWrapper) {
-        boolean isValid = true;
 
-        ActivityOfferingInfo aoInfo = activityOfferingWrapper.getAoInfo();
-        ContextInfo context = createContextInfo();
-        List<ValidationResultInfo> errors = Collections.emptyList();
-        try {
-            errors = CourseOfferingManagementUtil.getCourseOfferingService().validateActivityOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), aoInfo, context);
-        } catch (Exception e) {
-            //  Capture the error is the service call fails.
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
-            isValid = false;
-        }
+        List<ValidationResultInfo> errors = transformValidationErrors( getValidationErrors( activityOfferingWrapper ) );
 
         //  If any errors were found, put them in the message map.
         if (! errors.isEmpty()) {
-            isValid = false;
             for (ValidationResultInfo error : errors) {
-                GlobalVariables.getMessageMap().putError(error.getElement(), RiceKeyConstants.ERROR_CUSTOM, error.getMessage());
+                GlobalVariables.getMessageMap().putError( error.getElement(), RiceKeyConstants.ERROR_CUSTOM, error.getMessage() );
             }
+
+            return false;
         }
 
-        return isValid;
+        return true;
+    }
+
+    private List<ValidationResultInfo> getValidationErrors( ActivityOfferingWrapper activityOfferingWrapper ) {
+
+        List<ValidationResultInfo> errors = Collections.emptyList();
+
+        try {
+            errors = CourseOfferingManagementUtil.getCourseOfferingService()
+                        .validateActivityOffering( DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), activityOfferingWrapper.getAoInfo(), createContextInfo() );
+        } catch( Exception e ) {
+            //  Capture the error if the service call fails.
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
+        }
+
+        return errors;
+    }
+
+    private List<ValidationResultInfo> transformValidationErrors( List<ValidationResultInfo> validationErrors ) {
+
+        for( ValidationResultInfo error : validationErrors ) {
+            String elementPath = error.getElement();
+
+            if( StringUtils.equals(elementPath, "activityCode") ) {
+                elementPath = "document.newMaintainableObject.dataObject.aoInfo.activityCode";  // KSENROLL-11034
+            }
+
+            error.setElement( elementPath );
+        }
+
+        return validationErrors;
     }
 
     private boolean validateSeatpools(ActivityOfferingWrapper activityOfferingWrapper){
