@@ -53,7 +53,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-ClusterHeaderText" parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
+    <bean id="KS-CourseOfferingManagement-ClusterHeaderText" parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:style="border-bottom: 1px dotted;">
         <property name="items">
             <list>
                 <bean parent="Uif-Label" p:labelText="@{#line.clusterNameForDisplay}" p:renderColon="false"
@@ -71,7 +71,7 @@
                 <!-- jQuery('input.required[value=]').removeClass('required'); work-around added to stop a problem where form validation was preventing delete from working -->
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="showDeleteClusterConfirmPage"
                       p:onClickScript="jQuery('input.required[value=]').removeClass('required');writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
-                      p:actionLabel="Delete&#160;&#160;|&#160;&#160;"  p:style="float:right"
+                      p:actionLabel="Delete&#160;&#160;|&#160;&#160;"  p:style="float:right;"
                       p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCluster"/>
             </list>
         </property>
