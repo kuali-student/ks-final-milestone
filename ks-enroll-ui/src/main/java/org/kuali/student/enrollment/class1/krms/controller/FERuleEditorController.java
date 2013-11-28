@@ -4,12 +4,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
-import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.AgendaTypeInfo;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
@@ -18,16 +15,14 @@ import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.common.collection.KSCollectionUtils;
-import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.class1.krms.dto.FEAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.service.impl.FERuleEditorMaintainableImpl;
-import org.kuali.student.enrollment.class1.krms.service.impl.FERuleViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSConstants;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.date.DateFormatters;
-import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -42,7 +37,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * Override of RuleEditorController for Student
@@ -111,6 +105,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         }
         rule.setDummy(Boolean.TRUE);
         ruleWrapper.setRuleEditor(rule);
+        rule.setName(ruleWrapper.getRefObjectId()+":"+rule.getTypeId()+":"+ UUIDHelper.genStringUUID());
         if (document.getDocument().getNewMaintainableObject() instanceof FERuleEditorMaintainableImpl) {
             FERuleEditorMaintainableImpl maintainable = (FERuleEditorMaintainableImpl) document.getDocument().getNewMaintainableObject();
             rule.setKey(maintainable.getNextRuleKey());

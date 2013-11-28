@@ -15,8 +15,6 @@
  */
 package org.kuali.student.enrollment.class1.krms.service.impl;
 
-//import org.apache.commons.lang.StringUtils;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.OptimisticLockException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -432,8 +430,6 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         if (rule.getNamespace() == null) {
             rule.setNamespace(namespace);
         }
-
-        rule.setName(rulePrefix + rule.getRuleTypeInfo().getId() + rule.getKey());
 
         //Setup the actions
         finActions(rule);
