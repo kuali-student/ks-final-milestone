@@ -443,7 +443,7 @@
           p:instructionalMessage.render="false">
         <property name="instructionalMessage">
             <bean parent="Uif-InstructionalMessage"/>
-        </property>>
+        </property>
     </bean>
 
     <bean id="KS-Lozenge-Green-Uif-Message" parent="Uif-Message" p:additionalCssClasses="state-completed"/>
