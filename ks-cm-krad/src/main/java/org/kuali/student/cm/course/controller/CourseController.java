@@ -59,6 +59,7 @@ import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
 import org.kuali.student.cm.main.form.CMHomeForm;
+import org.kuali.student.common.UUIDHelper;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities.DecisionRationaleDetail;
 import org.kuali.student.lum.common.client.helpers.RecentDocInfo;
@@ -188,30 +189,8 @@ public class CourseController extends CourseRuleEditorController {
             maintainable.getCourse().setUnitsContentOwner(new ArrayList<String>());
         }
 
-        final ProposalInfo proposal = new ProposalInfo();
-        proposal.setWorkflowId(null);
-        proposal.setState(DtoConstants.STATE_DRAFT);
-        proposal.setType(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY);
-        proposal.getProposalReference().add(maintainable.getCourse().getId());
-        proposal.getProposerOrg().clear();
-        proposal.getProposerPerson().clear();
-        proposal.setName(null);
-        proposal.setId(null);
-                        
-        try {
-            // proposal = getProposalService().createProposal(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY, proposal, ContextUtils.getContextInfo());
-        }
-        catch (Exception e) {
-            warn("Unable to create a proposal: %s", e.getMessage());
-            /*
-            if (logger().isDebugEnabled()) {
-                e.printStackTrace();
-                }*/
-        }
-        maintainable.setProposal(proposal);
-
-        //Initialize Course Requisites
-        CourseRuleManagementWrapper ruleWrapper = maintainable.getCourseRuleManagementWrapper();
+        // Initialize Course Requisites
+        final CourseRuleManagementWrapper ruleWrapper = maintainable.getCourseRuleManagementWrapper();
         ruleWrapper.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
 
         ruleWrapper.setRefDiscriminatorType(CourseServiceConstants.REF_OBJECT_URI_COURSE);
@@ -413,6 +392,28 @@ public class CourseController extends CourseRuleEditorController {
         catch (Exception e) {
             error("Unable to save document: %s", e.getMessage());
         }
+
+        ProposalInfo proposal = new ProposalInfo();
+        proposal.setWorkflowId(form.getDocument().getDocumentHeader().getDocumentNumber());
+        proposal.setState(DtoConstants.STATE_DRAFT);
+        proposal.setType(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY);
+        proposal.getProposalReference().add(maintainable.getCourse().getId());
+        proposal.getProposerOrg().clear();
+        proposal.getProposerPerson().clear();
+        proposal.setName(null);
+        proposal.setId(null);
+                        
+        try {
+            proposal = getProposalService().createProposal(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY, proposal, ContextUtils.getContextInfo());
+        }
+        catch (Exception e) {
+            warn("Unable to create a proposal: %s", e.getMessage());
+            /*
+            if (logger().isDebugEnabled()) {
+                e.printStackTrace();
+                }*/
+        }
+        maintainable.setProposal(proposal);
         
         RecentlyViewedDocsUtil.addRecentDoc(form.getDocument().getDocumentHeader().getDocumentDescription(), form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl());
         
@@ -423,7 +424,7 @@ public class CourseController extends CourseRuleEditorController {
      * Copied this method from CourseDataService.
      * This calculates and sets fields on course object that are derived from other course object fields.
      */
-    private CourseInfo calculateCourseDerivedFields(CourseInfo courseInfo) {
+    protected CourseInfo calculateCourseDerivedFields(CourseInfo courseInfo) {
         //Course code is not populated in UI, need to derive them from the subject area and suffix fields
         if (StringUtils.isNotBlank(courseInfo.getCourseNumberSuffix()) && StringUtils.isNotBlank(courseInfo.getSubjectArea())) {
             courseInfo.setCode(calculateCourseCode(courseInfo.getSubjectArea(), courseInfo.getCourseNumberSuffix()));
@@ -447,7 +448,7 @@ public class CourseController extends CourseRuleEditorController {
      * @param suffixNumber
      * @return
      */
-    private String calculateCourseCode(String subjectArea, String suffixNumber) {
+    protected String calculateCourseCode(final String subjectArea, final String suffixNumber) {
         return subjectArea + suffixNumber;
     }
     
