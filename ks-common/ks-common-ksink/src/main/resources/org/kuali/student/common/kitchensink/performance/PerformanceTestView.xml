@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!-- View definitions -->
+
+    <bean id="KS-KitchenSink-Performance-FormView" parent="KS-Uif-FormView">
+        <property name="headerText" value="Simple Performance Test Page"/>
+        <property name="formClass" value="org.kuali.student.common.kitchensink.performance.KitchenSinkPerformanceForm"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.common.kitchensink.performance.KitchenSinkPerformanceHelperImpl"/>
+        <!--<property name="header.render" value="false"/>-->
+        <property name="footer.render" value="false"/>
+        <property name="applyDirtyCheck" value="false"/>
+        <property name="additionalCssFiles">
+            <list merge="true">
+                <value>ks-common-ksink/css/kitchensink.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ks-common-ksink/scripts/kitchensink.js</value>
+            </list>
+        </property>
+
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:headerText="Table Generation Test">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-KitchenSink-TextField-Perf-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+    </bean>
+
+
+    <bean id="KS-KitchenSink-TextField-Perf-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Text Field" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-TextField-Input-Section"/>
+                <ref bean="KS-KitchenSink-Performance-Collection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-TextField-Input-Section" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-TextField-Perf"/>
+                <bean parent="Uif-PrimaryActionButton" p:performClientSideValidation="false" p:actionLabel="Generate Table" p:methodToCall="buildcollection"
+                      p:id="generate_button"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-TextField-Perf" parent="Uif-InputField"  >
+        <property name="propertyName" value="inputOne"/>
+        <property name="label" value="Number Of Rows"/>
+        <!-- the following two properties are the default for Uif-InputField-LabelTop:
+            <property name="labelPlacement" value="TOP"/>
+            <property name="fieldLabel.renderColon" value="false"/>
+        -->
+        <property name="instructionalText" value="Please enter how many rows you want to generate"/>
+        <property name="constraintText" value="Must be an integer"/>
+        <property name="helpSummary" value="We are dynamically generating the number of rows based on your input."/>
+        <!--<property name="uppercaseValue" value="true"/>-->
+        <property name="control">
+            <bean parent="Uif-TextControl">
+                <property name="size" value="25"/>
+                <property name="maxLength" value="10"/>
+                <!--<property name="textExpand" value="true"/>-->
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Performance-Collection" parent="Uif-TableCollectionSection">
+        <property name="propertyName" value="perfCollection"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.common.kitchensink.performance.KitchenSinkPerformanceCollection"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderThree"/>
+        </property>
+
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="KS-Uif-PagedRichTable" />
+        </property>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="false" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="column1" p:label="Column 1"/>
+                <bean parent="Uif-DataField" p:propertyName="column2" p:label="Column 2"/>
+                <bean parent="Uif-DataField" p:propertyName="column3" p:label="Column 3"/>
+                <bean parent="Uif-DataField" p:propertyName="column4" p:label="Column 4"/>
+                <bean parent="Uif-DataField" p:propertyName="column5" p:label="Column 5"/>
+            </list>
+        </property>
+    </bean>
+
+ </beans>

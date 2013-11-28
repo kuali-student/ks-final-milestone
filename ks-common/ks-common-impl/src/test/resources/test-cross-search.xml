@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2010 The Kuali Foundation Licensed under the Educational Community 
+	License, Version 2.0 (the "License"); you may not use this file except in 
+	compliance with the License. You may obtain a copy of the License at http://www.osedu.org/licenses/ECL-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:search="http://student.kuali.org/xsd/search-extension"
+	xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+	xsi:schemaLocation="
+	http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
+	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	 ">
+
+	<search:searchType id="test.search1">
+		<search:searchResultTypeInfo>
+			<search:name>search1</search:name>
+			<search:desc>desc</search:desc>
+			<search:resultColumns>
+				<search:resultColumn>
+					<search:name>col1</search:name>
+					<search:dataType>string</search:dataType>
+				</search:resultColumn>
+				<search:resultColumn>
+					<search:name>col2</search:name>
+					<search:dataType>string</search:dataType>
+				</search:resultColumn>
+			</search:resultColumns>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<search:name>Generic criteria</search:name>
+			<search:desc>Generic criteria</search:desc>
+			<search:queryParams />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
+	<search:searchType id="test.search2">
+		<search:searchResultTypeInfo>
+			<search:name>search2</search:name>
+			<search:desc>desc</search:desc>
+			<search:resultColumns>
+				<search:resultColumn>
+					<search:name>C-A</search:name>
+					<search:dataType>string</search:dataType>
+				</search:resultColumn>
+				<search:resultColumn>
+					<search:name>C-B</search:name>
+					<search:dataType>string</search:dataType>
+				</search:resultColumn>
+			</search:resultColumns>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<search:name>Generic criteria</search:name>
+			<search:desc>Generic criteria</search:desc>
+			<search:queryParams />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+
+	<search:crossSearchType id="test.crossSearch">
+		<search:name>CrossSearchName</search:name>
+		<search:desc>CrossSearchDesc</search:desc>
+		<search:searchResultTypeInfo>
+			<search:name>ResultName</search:name>
+			<search:desc>ResultDesc</search:desc>
+			<search:resultColumns>
+				<search:resultColumn>
+					<search:name>Col1</search:name>
+					<search:desc>Col1Desc</search:desc>
+					<search:dataType>string</search:dataType>
+				</search:resultColumn>
+				<search:resultColumn>
+					<search:name>Col2</search:name>
+					<search:desc>Col2Desc</search:desc>
+					<search:dataType>string</search:dataType>
+				</search:resultColumn>
+			</search:resultColumns>
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<search:name>Generic criteria</search:name>
+			<search:desc>Generic criteria</search:desc>
+			<search:queryParams />
+		</search:searchCriteriaTypeInfo>
+		<search:subSearch searchkey="test.search1" key="subSearch1">
+
+		</search:subSearch>
+		<search:subSearch searchkey="test.search2" key="subSearch2">
+		</search:subSearch>
+		<search:joinCriteria type="AND">
+		</search:joinCriteria>
+		<search:joinResultMapping
+			subSearchResultParam="col1" subSearchKey="subSearch1" resultParam="Col1" />
+		<search:joinResultMapping
+			subSearchResultParam="C-A" subSearchKey="subSearch2" resultParam="Col1" />
+		<search:joinResultMapping
+			subSearchResultParam="col2" subSearchKey="subSearch1" resultParam="Col2" />
+		<search:joinResultMapping
+			subSearchResultParam="C-B" subSearchKey="subSearch2" resultParam="Col2" />
+	</search:crossSearchType>
+	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="sourceMap">
+			<map />
+		</property>
+	</bean>
+</beans>
