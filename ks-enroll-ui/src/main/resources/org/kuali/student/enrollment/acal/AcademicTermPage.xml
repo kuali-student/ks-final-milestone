@@ -372,7 +372,7 @@
         </property>
         <property name="items">
             <list>
-                <bean id="key_date_group_type" parent="KS-Uif-InputField" p:propertyName="keyDateGroupType"
+                <bean id="key_date_group_type" parent="KS-Uif-InputField-Help" p:propertyName="keyDateGroupType"
                       p:render="@{#isAddLine}"
                       p:label="Key Date Group Type *" p:labelPlacement="TOP"
                       p:finalizeMethodToCall="populateKeyDateGroupTypes">
@@ -427,7 +427,7 @@
         </property>
         <property name="items">
             <list>
-                <bean id="key_date_type" parent="KS-Uif-InputField" p:propertyName="keyDateType"
+                <bean id="key_date_type" parent="KS-Uif-InputField-Help" p:propertyName="keyDateType"
                       p:readOnly="@{!#isAddLine}" p:readOnlyDisplayReplacementPropertyName="keyDateNameUI"
                       p:label="Key Date Type *"
                       p:finalizeMethodToCall="populateKeyDateTypes" p:style="font-weight:bold;">
@@ -440,7 +440,7 @@
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
                     </property>
                 </bean>
-                <bean id="key_date_start_date" parent="KS-Uif-InputField" p:propertyName="startDate"
+                <bean id="key_date_start_date" parent="KS-Uif-InputField-Help" p:propertyName="startDate"
                       p:readOnlyDisplayReplacementPropertyName="startDateUI"
                       p:label="Start Date">
                     <property name="control">
@@ -450,7 +450,7 @@
                         <bean parent="KS-BasicDatePatternConstraint"/>
                     </property>
                 </bean>
-                <bean id="key_date_start_time" parent="KS-Uif-InputField" p:propertyName="startTime"
+                <bean id="key_date_start_time" parent="KS-Uif-InputField-Help" p:propertyName="startTime"
                       p:render="@{!#view.readOnly}" p:label="Start Time">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="4" p:watermarkText="hh:mm"/>
@@ -459,7 +459,7 @@
                         <bean parent="TimePatternConstraint"/>
                     </property>
                 </bean>
-                <bean id="key_date_start_time_ampm" parent="KS-Uif-InputField" p:propertyName="startTimeAmPm"
+                <bean id="key_date_start_time_ampm" parent="KS-Uif-InputField-Help" p:propertyName="startTimeAmPm"
                       p:render="@{!#view.readOnly}" p:defaultValue="AM"
                       p:additionalCssClasses="acal_keydate_radiobutton">
                     <property name="control">
@@ -469,7 +469,7 @@
                         </bean>
                     </property>
                 </bean>
-                <bean id="key_date_end_date" parent="KS-Uif-InputField" p:propertyName="endDate"
+                <bean id="key_date_end_date" parent="KS-Uif-InputField-Help" p:propertyName="endDate"
                       p:render="@{!#view.readOnly}" p:label="End Date">
                     <property name="control">
                         <bean parent="KS-Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
@@ -480,7 +480,7 @@
                 </bean>
                 <bean parent="Uif-DataField" p:propertyName="endDateUI" p:render="@{#view.readOnly}"
                       p:label="End Date"/>
-                <bean id="key_date_end_time" parent="KS-Uif-InputField" p:propertyName="endTime"
+                <bean id="key_date_end_time" parent="KS-Uif-InputField-Help" p:propertyName="endTime"
                       p:render="@{!#view.readOnly}" p:label="End Time">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="4" p:watermarkText="hh:mm"/>
@@ -489,7 +489,7 @@
                         <bean parent="TimePatternConstraint"/>
                     </property>
                 </bean>
-                <bean id="key_date_end_time_ampm" parent="KS-Uif-InputField" p:propertyName="endTimeAmPm"
+                <bean id="key_date_end_time_ampm" parent="KS-Uif-InputField-Help" p:propertyName="endTimeAmPm"
                       p:render="@{!#view.readOnly}" p:defaultValue="AM"
                       p:additionalCssClasses="acal_keydate_radiobutton">
                     <property name="control">
@@ -535,7 +535,7 @@
             <list>
                 <bean id="exam_date_type" parent="Uif-InputField" p:propertyName="examPeriodType" p:readOnly="true"
                       p:readOnlyDisplayReplacementPropertyName="examPeriodNameUI" p:style="font-weight:bold;"/>
-                <bean id="exam_date_start_date" parent="KS-Uif-InputField" p:propertyName="startDate"
+                <bean id="exam_date_start_date" parent="KS-Uif-InputField-Help" p:propertyName="startDate"
                       p:render="@{!#view.readOnly}" p:label="Start Date">
                     <property name="control">
                         <bean parent="KS-Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
@@ -547,7 +547,7 @@
                 <bean parent="Uif-DataField" p:propertyName="startDateUI" p:render="@{#view.readOnly}"
                       p:label="Start Date"/>
 
-                <bean id="exam_date_end_date" parent="KS-Uif-InputField" p:propertyName="endDate"
+                <bean id="exam_date_end_date" parent="KS-Uif-InputField-Help" p:propertyName="endDate"
                       p:render="@{!#view.readOnly}" p:label="End Date">
                     <property name="control">
                         <bean parent="KS-Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
@@ -559,13 +559,13 @@
                 <bean parent="Uif-DataField" p:propertyName="endDateUI" p:render="@{#view.readOnly}"
                       p:label="End Date"/>
 
-                <bean parent="KS-Uif-InputField" p:id="exclude_Saturday" p:label="Exclude Saturday"
+                <bean parent="KS-Uif-InputField-Help" p:id="exclude_Saturday" p:label="Exclude Saturday"
                       p:propertyName="excludeSaturday" p:labelPlacement="RIGHT">
                     <property name="control">
                         <bean parent="KS-Uif-CheckboxControl"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField" p:id="exclude_Sunday" p:label="Exclude Sunday"
+                <bean parent="KS-Uif-InputField-Help" p:id="exclude_Sunday" p:label="Exclude Sunday"
                       p:propertyName="excludeSunday" p:labelPlacement="RIGHT">
                     <property name="control">
                         <bean parent="KS-Uif-CheckboxControl"/>
