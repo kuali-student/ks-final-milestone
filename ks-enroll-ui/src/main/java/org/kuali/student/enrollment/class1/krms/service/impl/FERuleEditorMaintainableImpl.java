@@ -18,8 +18,10 @@ package org.kuali.student.enrollment.class1.krms.service.impl;
 //import org.apache.commons.lang.StringUtils;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.broker.OptimisticLockException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krms.api.repository.NaturalLanguage;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
@@ -32,6 +34,7 @@ import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.rice.krms.service.impl.RuleEditorMaintainableImpl;
 import org.kuali.rice.krms.util.AlphaIterator;
 import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.student.common.krms.exceptions.KRMSOptimisticLockingException;
 import org.kuali.student.enrollment.class1.krms.dto.FEAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper;
@@ -46,6 +49,7 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.room.service.RoomService;
+import org.springmodules.orm.ojb.OjbOperationException;
 
 import javax.xml.namespace.QName;
 
@@ -197,21 +201,36 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
     public Map<String, RuleEditor> getRulesForAgendas(AgendaEditor agenda) {
 
         //Get all existing rules.
-        List<RuleEditor> existingRules = null;
         if (agenda.getId() != null) {
             AgendaItemDefinition firstItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
             FEAgendaEditor feAgenda = (FEAgendaEditor) agenda;
 
+            List<String> ruleIds = new ArrayList<String>();
             List<RuleEditor> rules = getRuleEditorsFromTree(firstItem, true);
-            for (RuleTypeInfo ruleType : agenda.getAgendaTypeInfo().getRuleTypes()) {
+            for(RuleEditor rule : rules){
+                ruleIds.add(rule.getId());
+            }
+
+            List<NaturalLanguage> nlList = getRuleManagementService().translateNaturalLanguageForObjects(this.getUsageId(), "rule", ruleIds, "en");
+
+            try {
+                RuleTypeInfo ruleType = KSCollectionUtils.getRequiredZeroElement(agenda.getAgendaTypeInfo().getRuleTypes());
                 for (RuleEditor rule : rules) {
-                    if (rule.getTypeId().equals(ruleType.getId())) {
-                        rule.setRuleTypeInfo(ruleType);
-                        rule.setKey((String) alphaIterator.next());
-                        feAgenda.getRules().add(rule);
+                    rule.setRuleTypeInfo(ruleType);
+                    rule.setKey((String) alphaIterator.next());
+                    for(NaturalLanguage nl : nlList){
+                        if(nl.getKrmsObjectId().equals(rule.getId())){
+                            String description = nl.getNaturalLanguage();
+                            int index = description.indexOf(": ");
+                            rule.setDescription(description.substring(index + 1));
+                            break;
+                        }
                     }
                 }
                 feAgenda.setRules(rules);
+
+            } catch (OperationFailedException e) {
+                throw new RuntimeException("Unable to retrieve single ruletype from agenda.");
             }
         }
 
@@ -273,10 +292,6 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                 ruleEditor.setTba(Boolean.parseBoolean(attributes.get(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_TBA)));
             }
 
-            String description = this.getRuleManagementService().translateNaturalLanguageForObject(this.getUsageId(), "rule", ruleEditor.getId(), "en");
-            int index = description.indexOf(": ");
-            ruleEditor.setDescription(description.substring(index + 1));
-
             //Initialize the Proposition tree
             if (initProps) {
                 this.initPropositionEditor(ruleEditor.getPropositionEditor());
@@ -287,7 +302,6 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         }
 
         if (agendaItem.getWhenFalse() != null) {
-
             rules.addAll(getRuleEditorsFromTree(agendaItem.getWhenFalse(), initProps));
         }
 
@@ -365,11 +379,11 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
     public AgendaItemDefinition maintainAgendaItems(AgendaEditor agenda, String namePrefix, String nameSpace) {
 
-        Queue<RuleEditor> rules = new LinkedList<RuleEditor>();
+        Queue<RuleDefinition.Builder> rules = new LinkedList<RuleDefinition.Builder>();
         FEAgendaEditor feAgenda = (FEAgendaEditor) agenda;
         for (RuleEditor rule : feAgenda.getRules()) {
             if (!rule.isDummy()) {
-                rules.add(rule);
+                rules.add(this.finRule(rule, namePrefix, nameSpace));
             }
         }
 
@@ -384,7 +398,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         AgendaItemDefinition.Builder rootItemBuilder = AgendaItemDefinition.Builder.create(firstItem);
         AgendaItemDefinition.Builder itemBuilder = rootItemBuilder;
         while (rules.peek() != null) {
-            itemBuilder.setRule(this.finRule(rules.poll(), namePrefix, nameSpace));
+            itemBuilder.setRule(rules.poll());
             itemBuilder.setRuleId(itemBuilder.getRule().getId());
             if (rules.peek() != null) {
                 itemBuilder.setWhenFalse(AgendaItemDefinition.Builder.create(null, agenda.getId()));
@@ -394,7 +408,16 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
         //Update the root item.
         AgendaItemDefinition updateItem = rootItemBuilder.build();
-        this.getRuleManagementService().updateAgendaItem(updateItem);
+        try{
+            this.getRuleManagementService().updateAgendaItem(updateItem);
+        }catch(OjbOperationException e){
+            //OptimisticLockException
+            if(e.getCause() instanceof OptimisticLockException){
+                throw new KRMSOptimisticLockingException();
+            }else{
+                throw e;
+            }
+        }
 
         return updateItem;
     }

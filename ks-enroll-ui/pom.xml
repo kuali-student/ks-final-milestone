@@ -10,6 +10,11 @@
     <name>KS Enroll UI</name>
     <dependencies>
         <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-core-krms</artifactId>
+            <version>${ks.core.version}</version>
+        </dependency>
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>ks-enroll-impl</artifactId>
             <version>${project.version}</version>

@@ -96,6 +96,11 @@
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-core-krms</artifactId>
+            <version>${ks.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-common-impl</artifactId>
             <version>${ks.core.version}</version>
         </dependency>
@@ -112,11 +117,6 @@
             <artifactId>ks-common-test</artifactId>
             <version>${ks.core.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.core</groupId>
-            <artifactId>ks-core-krms</artifactId>
-            <version>${ks.core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
