@@ -32,6 +32,9 @@
         <property name="schedulingService" ref="schedulingService"/>
     </bean>
 
+	<alias name="coService" alias="CourseOfferingService"/>
+	<alias name="luiService" alias="LuiService"/>
+	
     <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
         <property name="rgAssembler" ref="rgAssembler" />
         <property name="luiService" ref="luiService" />
@@ -154,7 +157,7 @@
         <property name="searchServices">
             <list>
                 <ref bean="courseService"/>
-                <bean id="ActivityOfferingSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl"  />
+                <bean id="ActivityOfferingSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceMockImpl"  />
                 <bean id="CoreSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.CoreSearchServiceImpl"/>
             </list>
         </property>

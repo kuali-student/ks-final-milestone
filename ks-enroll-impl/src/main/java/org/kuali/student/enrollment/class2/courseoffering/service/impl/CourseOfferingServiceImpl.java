@@ -1,5 +1,20 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.xml.namespace.QName;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
@@ -18,7 +33,6 @@ import org.kuali.student.enrollment.class2.courseoffering.service.CourseOffering
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.extender.CourseOfferingServiceExtender;
-import org.kuali.student.enrollment.class2.courseoffering.service.helper.CourseOfferingServiceScheduleHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingDisplayTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingDisplayTransformer;
@@ -87,15 +101,13 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.RoomServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.room.service.RoomService;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
-import org.kuali.student.r2.core.scheduling.util.container.TimeSlotContainer;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -104,23 +116,8 @@ import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.xml.namespace.QName;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class CourseOfferingServiceImpl implements CourseOfferingService {
 
@@ -1088,12 +1085,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         LuiInfo foLui = this.findFormatOfferingLui(ao.getId(), context);
         LuiInfo coLui = this.findCourseOfferingLui(foLui.getId(), context);
 
-        populateActivityOfferingRelationships(ao, coLui, foLui, context);
+        AtpInfo termAtp = getAtpService().getAtp(ao.getTermId(), context);
+        
+        populateActivityOfferingRelationships(ao, coLui, foLui, termAtp, context);
 
         return ao;
     }
 
-    private void populateActivityOfferingRelationships(ActivityOfferingInfo ao, LuiInfo luiCO, LuiInfo luiFO, ContextInfo context) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
+    private void populateActivityOfferingRelationships(ActivityOfferingInfo ao, LuiInfo luiCO, LuiInfo luiFO, AtpInfo termAtp, ContextInfo context) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
         if (luiCO == null){
             throw new MissingParameterException("LuiInfo dto for CO is null");
         }
@@ -1114,8 +1113,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ao.setCourseOfferingCode(coCode);
         ao.setCourseOfferingTitle(coLongName);
 
-        // KSENROLL-7795 Use AtpService to make it more efficient to set code
-        AtpInfo termAtp = getAtpService().getAtp(ao.getTermId(), context);
         ao.setTermCode(termAtp.getCode());
     }
 
@@ -1124,25 +1121,135 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public List<ActivityOfferingInfo> getActivityOfferingsByIds(List<String> luiIds, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        List<ActivityOfferingInfo> results = new ArrayList<ActivityOfferingInfo>();
+    	
+    	if (luiIds == null || luiIds.isEmpty())
+    		return new ArrayList<ActivityOfferingInfo>();
+    	
+    	SearchRequestInfo request = new SearchRequestInfo();
+    	
+    	request.setSearchKey(ActivityOfferingSearchServiceImpl.CO_IDS_AND_FO_IDS_AND_ATP_IDS_BY_AO_IDS_SEARCH_KEY);
+    	
+    	request.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_IDS, luiIds);
+    	
+    	SearchResultInfo results = searchService.search(request, contextInfo);
+    	
+    	List<SearchResultRowInfo> rows = results.getRows();
+    	
+    	Set<String>coIds = new HashSet<String>();
+    	Set<String>foIds = new HashSet<String>();
+    	Set<String>atpIds = new HashSet<String>();
+    	
+    	Map<String, String>aoId2foIdMap = new HashMap<String, String>();
+    	Map<String, String>aoId2coIdMap = new HashMap<String, String>();
+    	
+    	Map<String, String>aoId2atpIdMap = new HashMap<String, String>();
+    	
+    	for (SearchResultRowInfo rowInfo : rows) {
+			
+    		String coId = null;
+    		String foId = null;
+    		String aoId = null;
+    		
+    		String aoTermId = null;
+    		
+    		for (SearchResultCellInfo cellInfo : rowInfo.getCells()) {
+				
+    			/*
+    			 * Load the CO Id, FO Id, AO Id, and AO Atp Id for the current row.
+    			 */
+    			if (cellInfo.getKey().equals(ActivityOfferingSearchServiceImpl.SearchResultColumns.CO_ID))
+    				coId = cellInfo.getValue();
+    			else if (cellInfo.getKey().equals(ActivityOfferingSearchServiceImpl.SearchResultColumns.FO_ID))
+    				foId = cellInfo.getValue();
+    			else if (cellInfo.getKey().equals(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ID))
+    				aoId = cellInfo.getValue();
+    			else if (cellInfo.getKey().equals(ActivityOfferingSearchServiceImpl.SearchResultColumns.ATP_ID))
+    				aoTermId = cellInfo.getValue();
+    			else
+    				throw new OperationFailedException("unknown cell key value: " + cellInfo.getKey());
+			}
+    		
+    		/*
+    		 * record the associations of this ao to the co, fo and ao term.
+    		 */
+    		coIds.add(coId);
+    		
+    		foIds.add(foId);
+    		
+    		atpIds.add(aoTermId);
+    		
+    		aoId2coIdMap.put(aoId, coId);
+    		aoId2foIdMap.put(aoId, foId);
+    		
+    		aoId2atpIdMap.put(aoId, aoTermId);
+		}
+    	
+    	List<String>totalLuiIds = new ArrayList<String>();
+    	
+    	totalLuiIds.addAll(luiIds);
+    	
+    	totalLuiIds.addAll (coIds);
+    	totalLuiIds.addAll (foIds);
+    	
+    	List<LuiInfo> totalLiuInfos = getLuiService().getLuisByIds(totalLuiIds, contextInfo);
+    	
+    	
+    	Map<String, LuiInfo>coId2LuiMap = new HashMap<String, LuiInfo>();
+    	Map<String, LuiInfo>foId2LuiMap = new HashMap<String, LuiInfo>();
+    	
+    	List<LuiInfo>aoLuiInfos = new ArrayList<LuiInfo>();
+    	
+    	for (LuiInfo luiInfo : totalLiuInfos) {
+			
+    		String typeKey = luiInfo.getTypeKey();
+    		
+    		if (LuiServiceConstants.COURSE_OFFERING_TYPE_KEY.equals(typeKey)) {
+    			// accumulate co Id -> lui map
+    			coId2LuiMap.put(luiInfo.getId(), luiInfo);
+    		}
+    		else if (LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY.equals(typeKey)) {
+    			// accumulate fo Id -> lui map
+    			foId2LuiMap.put(luiInfo.getId(), luiInfo);
+    		}
+    		else {
+    			// assume its an ao and accumulate the lui
+    			aoLuiInfos.add(luiInfo);
+    		}
+		}
+    	
+    	
+    	List<AtpInfo>atpInfos = getAtpService().getAtpsByIds(new ArrayList<String>(atpIds), contextInfo);
+    	
+    	Map<String, AtpInfo>atpId2AtpMap = new HashMap<String, AtpInfo>();
+    	
+    	
+    	for (AtpInfo atpInfo : atpInfos) {
+			
+    		atpId2AtpMap.put(atpInfo.getId(), atpInfo);
+		}
+    	
+    	List<ActivityOfferingInfo> aos = ActivityOfferingTransformer.luis2AOs(aoLuiInfos, getLprService(), getSearchService(), contextInfo);
+    	
 
-        if (luiIds != null && !luiIds.isEmpty()) {
-            List<LuiInfo> luiInfos = getLuiService().getLuisByIds(luiIds, contextInfo);
-            for (LuiInfo lui : luiInfos) {
+    	for (ActivityOfferingInfo ao : aos) {
+			
+    			String coId = aoId2coIdMap.get(ao.getId());
+    			
+    			String foId = aoId2foIdMap.get(ao.getId());
+    	
+    			String atpId = aoId2atpIdMap.get(ao.getId());
+    			
+    			LuiInfo coLui = coId2LuiMap.get(coId);
 
-                ActivityOfferingInfo ao = new ActivityOfferingInfo();
-                ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, searchService, contextInfo);
+    			LuiInfo foLui = foId2LuiMap.get(foId);
 
-                LuiInfo foLui = this.findFormatOfferingLui(lui.getId(), contextInfo);
-                LuiInfo coLui = this.findCourseOfferingLui(foLui.getId(), contextInfo);
+    			AtpInfo atp = atpId2AtpMap.get(atpId);
+    			
+                populateActivityOfferingRelationships(ao, coLui, foLui, atp, contextInfo);
 
-                populateActivityOfferingRelationships(ao, coLui, foLui, contextInfo);
-
-                results.add(ao);
-            }
         }
 
-        return results;
+        return aos;
     }
 
     @Override
@@ -1165,21 +1272,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public List<ActivityOfferingInfo> getActivityOfferingsByFormatOffering(String formatOfferingId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    	
         List<ActivityOfferingInfo> activityOfferings = new ArrayList<ActivityOfferingInfo>();
 
         // Find all related luis to the course Offering
+        
         List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(formatOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY, contextInfo);
-        activityOfferings = ActivityOfferingTransformer.luis2AOs(luis, lprService, searchService, contextInfo);
-
-        Iterator<ActivityOfferingInfo> iter = activityOfferings.iterator();
-
-        LuiInfo foLui = getLuiService().getLui(formatOfferingId, contextInfo);
-        LuiInfo coLui = this.findCourseOfferingLui(foLui.getId(), contextInfo);
-
-        while(iter.hasNext()) {
-            ActivityOfferingInfo ao = iter.next();
-            populateActivityOfferingRelationships(ao, coLui, foLui, contextInfo);
-        }
+        
+        List<String>aoIds = new ArrayList<String>();
+        
+        for (LuiInfo luiInfo : luis) {
+			
+        	aoIds.add(luiInfo.getId());
+		}
+        
+        
+        activityOfferings = getActivityOfferingsByIds(aoIds, contextInfo);
 
         Collections.sort(activityOfferings, new Comparator<ActivityOfferingInfo>() {
             @Override

@@ -1,9 +1,18 @@
 package org.kuali.student.r2.core.class1.search;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.common.util.query.QueryUtil;
-import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
-import org.kuali.student.r2.common.class1.search.SearchServiceAbstractHardwiredImplBase;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -11,25 +20,15 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.core.search.util.SearchRequestHelper;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -38,11 +37,10 @@ import java.util.Map;
  * Time: 12:56 PM
  *
  * This class is to be used to call ActivityOffering specific DB searches.
+ * 
+ * This is a mock version.
  */
-public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHardwiredImplBase {
-
-    @Resource
-    private EntityManager entityManager;
+public class ActivityOfferingSearchServiceMockImpl implements SearchService {
 
     private int maxInClauseElements = 100;
 
@@ -255,7 +253,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         info = new TypeInfo();
         info.setKey(CO_IDS_AND_FO_IDS_AND_ATP_IDS_BY_AO_IDS_SEARCH_KEY);
         info.setName("get CO ids and FO ids and Atp Ids by AO ids");
-        info.setDescr(new RichTextHelper().fromPlain("Returns CO ids and FO ids and Atp ids that are related to the AO ids passed in"));
+        info.setDescr(new RichTextHelper().fromPlain("Returns CO ids and FO ids and Atp Ids that are related to the AO ids passed in"));
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
         
         CO_IDS_AND_FO_IDS_AND_ATP_IDS_BY_AO_IDS_SEARCH_TYPE = info;
@@ -263,11 +261,12 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         
         
     }
-
-    @Override
-    public TypeInfo getSearchType() {
-        return SCH_IDS_BY_AO_SEARCH_TYPE;
-    }
+    
+    @Resource (name="CourseOfferingService")
+    private CourseOfferingService coService;
+    
+    @Resource (name="LuiService")
+    private LuiService luiService;
 
     @Override
     public TypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo)
@@ -352,7 +351,11 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             return searchForAOsAndClustersByCoId(searchRequestInfo);
         }
         else if (AO_AND_FO_IDS_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
-            return searchForAOIdsFOIdsByCoId(searchRequestInfo);
+            try {
+				return searchForAOIdsFOIdsByCoId(searchRequestInfo);
+			} catch (InvalidParameterException e) {
+				throw new OperationFailedException("searchForAOIdsFOIdsByCoId failed", e);
+			}
         }
         else if (REG_GROUPS_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForRegGroupsByCoId(searchRequestInfo);
@@ -394,7 +397,13 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             return searchForColocatedAoIdsByAoIds(searchRequestInfo);
         }
         else if (CO_IDS_AND_FO_IDS_AND_ATP_IDS_BY_AO_IDS_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
-            return searchForCOIdsAndFOIdsAndAtpIdsByAOIds(searchRequestInfo);
+            try {
+				return searchForCOIdsAndFOIdsAndAtpIdsByAOIds(searchRequestInfo);
+			} catch (DoesNotExistException e) {
+				throw new OperationFailedException("searchForCOIdsAndFOIdsAndAtpIdsByAOIds failed", e);
+			} catch (InvalidParameterException e) {
+				throw new OperationFailedException("searchForCOIdsAndFOIdsAndAtpIdsByAOIds failed", e);
+			}
         }
         else{
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
@@ -403,37 +412,43 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
     
 	private SearchResultInfo searchForCOIdsAndFOIdsAndAtpIdsByAOIds(
-			SearchRequestInfo searchRequestInfo) {
+			SearchRequestInfo searchRequestInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
 		SearchResultInfo resultInfo = new SearchResultInfo();
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         
         List<String>aoIds = requestHelper.getParamAsList(SearchParameters.AO_IDS);
-
-        StringBuilder queryStr = new StringBuilder().append("SELECT co2fo.lui.id as coId, fo2ao.relatedLui.id as aoId, fo2ao.relatedLui.atpId as aoAtpId, co2fo.relatedLui.id as foId ")
-        							.append("FROM LuiLuiRelationEntity fo2ao, ")
-        							.append("     LuiLuiRelationEntity co2fo ")
-        							.append("WHERE co2fo.luiLuiRelationType = :co2foTypeKey")
-        							.append("  AND fo2ao.lui.id = co2fo.relatedLui.id ")
-        							.append("  AND fo2ao.luiLuiRelationType = :fo2aoTypeKey AND ");
-
-        TypedQuery<Object[]> query =  QueryUtil.buildQuery(entityManager, maxInClauseElements, queryStr, ")", "fo2ao.relatedLui.id", aoIds, Object[].class);
         
-        query.setParameter("co2foTypeKey", LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY);
-        query.setParameter("fo2aoTypeKey", LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY);
+        ContextInfo contextInfo = new ContextInfo();
         
-        List<Object[]> results = query.getResultList();
-
-        for(Object[] resultRow : results){
-            SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(SearchResultColumns.CO_ID, (String)resultRow[0]);
-            row.addCell(SearchResultColumns.AO_ID, (String)resultRow[1]);
-            row.addCell(SearchResultColumns.ATP_ID, (String)resultRow[2]);
-            row.addCell(SearchResultColumns.FO_ID, (String)resultRow[3]);
-            resultInfo.getRows().add(row);
-        }
-
+        contextInfo.setCurrentDate(new Date());
+        
+        List<LuiInfo> aos = luiService.getLuisByIds(aoIds, contextInfo);
+        
+        for (LuiInfo ao	: aos) {
+			
+        	List<LuiInfo> fos = luiService.getLuisByRelatedLuiAndRelationType(ao.getId(), LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY, contextInfo);
+        	
+        	for (LuiInfo fo : fos) {
+				
+        		List<LuiInfo> cos = luiService.getLuisByRelatedLuiAndRelationType(fo.getId(), LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY, contextInfo);
+        		
+        		for (LuiInfo co : cos) {
+					
+					SearchResultRowInfo row = new SearchResultRowInfo();
+					row.addCell(SearchResultColumns.CO_ID, co.getId());
+					row.addCell(SearchResultColumns.AO_ID,
+							ao.getId());
+					row.addCell(SearchResultColumns.ATP_ID,
+							ao.getAtpId());
+					row.addCell(SearchResultColumns.FO_ID,
+							fo.getId());
+					resultInfo.getRows().add(row);
+        		}
+			}
+		}
+       
         return resultInfo;
 	}
 
@@ -443,20 +458,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         List<String> aoIdsList = requestHelper.getParamAsList(SearchParameters.AO_IDS);
 
-        StringBuilder queryStringRef = new StringBuilder();
-        queryStringRef.append("SELECT DISTINCT srs1RefId FROM ScheduleRequestSetEntity srs1, " +
-                        "    ScheduleRequestSetEntity srs2, " +
-                        "    IN(srs1.refObjectIds) srs1RefId, " +
-                        "    IN(srs2.refObjectIds) srs2RefId " +
-                        "  WHERE srs1.id = srs2.id " +
-                        "  AND srs1RefId != srs2RefId " +
-                        "  AND ");
-        String queryStrEnd = ")";
-        String primaryKeyMemberName = "srs1RefId";
-
-        TypedQuery<String> query = QueryUtil.buildQuery(entityManager, maxInClauseElements, queryStringRef, queryStrEnd, primaryKeyMemberName, aoIdsList, String.class);
-        List<String> results = query.getResultList();
-
+        List<String> results = new ArrayList<String>();
         for(String result : results){
             SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell(SearchResultColumns.AO_ID, result);
@@ -472,14 +474,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         List<String> aoIdsList = requestHelper.getParamAsList(SearchParameters.AO_IDS);
 
-        StringBuilder queryStringRef = new StringBuilder();
-        queryStringRef.append("SELECT SUM(ao.maxSeats)" +
-                        "FROM LuiEntity ao " +
-                        "WHERE ");
-        String primaryKeyMemberName = "ao.id";
-
-        TypedQuery<Long> query = QueryUtil.buildQuery(entityManager, maxInClauseElements, queryStringRef, null, primaryKeyMemberName, aoIdsList,Long.class);
-        List<Long> results = query.getResultList();
+        List<Long> results = new ArrayList<Long>();
 
         for(Long result : results){
             SearchResultRowInfo row = new SearchResultRowInfo();
@@ -500,17 +495,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
 
-        String queryStr =
-            "SELECT co2fo.relatedLui.id," +
-            "       relatedTypes " +
-            "FROM LuiLuiRelationEntity co2fo," +
-            "     IN(co2Fo.relatedLui.relatedLuiTypes) relatedTypes " +
-            "WHERE co2fo.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "' " +
-            "  AND co2fo.lui.id = :coId ";
-
-        TypedQuery<Object[]> query = entityManager.createQuery(queryStr, Object[].class);
-        query.setParameter(SearchParameters.CO_ID, coId);       // After updating an oracle driver the List binding is causing massive problems
-        List<Object[]> results = query.getResultList();
+        List<Object[]> results = new ArrayList<Object[]>();
 
         for(Object[] resultRow : results){
             int i = 0;
@@ -532,22 +517,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
 
-        String queryStr =
-                "SELECT luiId.lui.id, " +
-                        "luiId.code, " +
-                        "luiId.lui.luiType " +
-                        "FROM  LuiIdentifierEntity luiId," +
-                        "LuiLuiRelationEntity co2fo," +
-                        "LuiLuiRelationEntity fo2ao " +
-                        "WHERE co2fo.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "' " +
-                        "  AND fo2ao.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY + "' " +
-                        "  AND co2fo.lui.id = :coId " +
-                        "  AND co2fo.relatedLui.id = fo2ao.lui.id " +
-                        "  AND luiId.lui.id = fo2ao.relatedLui";
-
-        TypedQuery<Object[]> query = entityManager.createQuery(queryStr, Object[].class);
-        query.setParameter(SearchParameters.CO_ID, coId);
-        List<Object[]> results = query.getResultList();
+     
+        List<Object[]> results = new ArrayList<Object[]>();
 
         for(Object[] resultRow : results){
             int i = 0;
@@ -568,40 +539,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         List<String> aoStates = requestHelper.getParamAsList(SearchParameters.AO_STATES);
         String filterAOStates = "'" + StringUtils.join(aoStates, "','") + "'";
 
-        StringBuilder queryStringRef = new StringBuilder();
-        queryStringRef.append("SELECT aoMatchIds," +
-                "       co_ident.code," +
-                "       ao_ident.code " +
-                "FROM ScheduleRequestSetEntity srs," +
-                "     IN(srs.refObjectIds) aoMatchIds," +
-                "     IN(srs.refObjectIds) aoIds," +
-                "     LuiIdentifierEntity co_ident," +
-                "     LuiIdentifierEntity ao_ident," +
-                "     LuiLuiRelationEntity co2fo," +
-                "     LuiLuiRelationEntity fo2ao, " +
-                "     LuiEntity lui " +
-                "WHERE co2fo.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "' " +
-                "  AND fo2ao.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY + "' " +
-                "  AND co2fo.relatedLui.id = fo2ao.lui.id " +
-                "  AND fo2ao.relatedLui.id = aoIds " +
-                "  AND co2fo.lui.id = co_ident.lui.id " +
-                "  AND aoIds = ao_ident.lui.id " +
-                "  AND co_ident.type = '" + LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY + "' " +
-                "  AND ao_ident.type = '" + LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY + "' " +
-                "  AND lui.id = ao_ident.lui.id " +
-                "  AND aoMatchIds != aoIds");
-
-        if (aoStates != null && !aoStates.isEmpty()){
-            queryStringRef.append(" AND lui.luiState in (").append(filterAOStates).append(")");
-        }
-
-        queryStringRef.append(" AND ");
-
-        String queryStrEnd = ")";
-        String primaryKeyMemberName = "aoMatchIds";
-
-        TypedQuery<Object[]> query = QueryUtil.buildQuery(entityManager, maxInClauseElements, queryStringRef, queryStrEnd, primaryKeyMemberName, aoIdsList, Object[].class);
-        List<Object[]> results = query.getResultList();
+       
+        List<Object[]> results = new ArrayList<Object[]>();
 
         for(Object[] resultRow : results){
             int i = 0;
@@ -622,32 +561,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
         List<String> regGroupStates = requestHelper.getParamAsList(SearchParameters.REGGROUP_STATES);
 
-        String queryStr =
-                "SELECT rg2ao.relatedLui.id," +
-                "       rg2ao.lui.id," +
-                "       rg2ao.lui.name," +
-                "       rg2ao.lui.luiState " +
-                "FROM LuiLuiRelationEntity co2fo," +
-                "     LuiLuiRelationEntity fo2ao," +
-                "     LuiLuiRelationEntity rg2ao " +
-                "WHERE co2fo.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "' " +
-                "  AND fo2ao.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY + "' " +
-                "  AND rg2ao.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY + "' " +
-                "  AND co2fo.lui.id = :coId " +
-                "  AND co2fo.relatedLui.id = fo2ao.lui.id " +
-                "  AND rg2ao.relatedLui.id = fo2ao.relatedLui.id ";
-
-        if(regGroupStates != null && !regGroupStates.isEmpty()) {
-            queryStr = queryStr + " AND rg2ao.lui.luiState IN(:regGroupStates)";
-        }
-
-        TypedQuery<Object[]> query = entityManager.createQuery(queryStr, Object[].class);
-        query.setParameter(SearchParameters.CO_ID, coId);
-        if(regGroupStates != null && !regGroupStates.isEmpty()) {
-            query.setParameter(SearchParameters.REGGROUP_STATES, regGroupStates);
-        }
-        List<Object[]> results = query.getResultList();
-
+      
+        List<Object[]> results = new ArrayList<Object[]>();
+        
         for(Object[] resultRow : results){
             int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
@@ -678,11 +594,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             throw new RuntimeException("Activity Offering id is required");
         }
 
-        LuiEntity entity = entityManager.find(LuiEntity.class, aoId.trim());
         List<String> results = new ArrayList<String>();
-        if(entity != null && entity.getScheduleIds() != null) {
-            results.addAll(entity.getScheduleIds());
-        }
+        
         SearchResultInfo resultInfo = new SearchResultInfo();
 
         for (String result : results) {
@@ -699,93 +612,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
         List<String> aoStates = requestHelper.getParamAsList(SearchParameters.AO_STATES);
-//TODO JPQL does not support on clauses in outer joins, so to accomplish this, we would need to update the entities
-//        String queryStr =
-//                "SELECT DISTINCT " +
-//                "       fo.id," +
-//                "       fo.name," +
-//                "       clster.id," +
-//                "       clster.name," +
-//                "       clster.privateName," +
-//                "       ao.id," +
-//                "       ao.luiType," +
-//                "       ao.luiState," +
-//                "       ao.scheduleId," +
-//                "       ao.maxSeats," +
-//                "       aoIdent.code " +
-//                "FROM LuiLuiRelationEntity co2fo " +
-//                        "LEFT OUTER JOIN co2fo.relatedLui fo " +
-//                        "LEFT OUTER JOIN ActivityOfferingClusterEntity clster ON (clster.formatOfferingId = fo.id)" +
-//                        "LEFT OUTER JOIN clster.aoSets clsterSet " +
-//                        "LEFT OUTER JOIN clsterSet.aoIds clst2ao " +
-//                        "LEFT OUTER JOIN LuiEntity ao ON (ao.id = aocSetAoIds) " +
-//                        "LEFT OUTER JOIN ao.identifiers aoIdent " +
-//                "WHERE co2fo.lui.id = :coId " +
-//                "  AND co2fo.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "' " +
-//                "  AND clster.formatOfferingId = fo.id ";
-////                "  AND aoIdent.type = '" + LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY + "'";
 
-        String queryStr = "SELECT DISTINCT " +
-                "    co2fo.RELATED_LUI_ID AS col_0_0_, " +
-                "    fo.NAME              AS col_1_0_, " +
-                "    fo.CLU_ID            AS col_2_0_, " +
-                "    clster.ID            AS col_3_0_, " +
-                "    clster.NAME          AS col_4_0_, " +
-                "    clster.PRIVATE_NAME  AS col_5_0_, " +
-                "    ao.ID                AS col_6_0_, " +
-                "    ao.LUI_TYPE          AS col_7_0_, " +
-                "    ao.LUI_STATE         AS col_8_0_, " +
-                "    ao2sched.SCHED_ID    AS col_9_0_, " +
-                "    ao.MAX_SEATS         AS col_10_0_, " +
-                "    aoIdent.LUI_CD       AS col_11_0_, " +
-                "    ao.ATP_ID            AS col_12_0_ " +
-                "FROM " +
-                "    KSEN_LUILUI_RELTN co2fo " +
-                "LEFT OUTER JOIN " +
-                "    KSEN_LUI fo " +
-                "ON " +
-                "    co2fo.RELATED_LUI_ID=fo.ID " +
-                "LEFT OUTER JOIN " +
-                "    KSEN_CO_AO_CLUSTER clster " +
-                "ON " +
-                "    co2fo.RELATED_LUI_ID=clster.FORMAT_OFFERING_ID " +
-                "LEFT OUTER JOIN " +
-                "    KSEN_CO_AO_CLUSTER_SET clsterSet " +
-                "ON " +
-                "    clster.ID=clsterSet.AO_CLUSTER_ID " +
-                "LEFT OUTER JOIN " +
-                "    KSEN_CO_AO_CLUSTER_SET_AO clst2ao " +
-                "ON " +
-                "    clsterSet.ID=clst2ao.AOC_SET_ID " +
-                "LEFT OUTER JOIN " +
-                "    KSEN_LUI ao " +
-                "ON " +
-                "    clst2ao.ACTIVITY_OFFERING_ID=ao.ID " +
-                "LEFT OUTER JOIN " +
-                "    KSEN_LUI_IDENT aoIdent " +
-                "ON " +
-                "    ao.ID=aoIdent.LUI_ID " +
-                "LEFT OUTER JOIN" +
-                "   KSEN_LUI_SCHEDULE ao2sched " +
-                "ON " +
-
-                "   ao2sched.LUI_ID = ao.ID " +
-                "AND aoIdent.LUI_ID_TYPE='" + LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY + "' " +
-                "WHERE " +
-                "    co2fo.LUI_ID= :coId " +
-                "AND co2fo.LUILUI_RELTN_TYPE='" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "'";
-
-        if((aoStates != null) && !aoStates.isEmpty()) {
-            queryStr = queryStr + " AND ao.LUI_STATE IN(:aoStates)";
-        }
-
-        Query query = entityManager.createNativeQuery(queryStr);
-        query.setParameter(SearchParameters.CO_ID, coId);
-        if((aoStates != null) && !aoStates.isEmpty()) {
-            query.setParameter(SearchParameters.AO_STATES, aoStates);
-        }
-        @SuppressWarnings("unchecked")
-        List<Object[]> results = query.getResultList();
+        List<Object[]> results = new ArrayList<Object[]>();
 
         Map<String, SearchResultRowInfo> aoMap = new HashMap<String, SearchResultRowInfo>();
         for(Object[] resultRow : results){
@@ -819,33 +647,34 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         return resultInfo;
     }
 
-    private SearchResultInfo searchForAOIdsFOIdsByCoId(SearchRequestInfo searchRequestInfo) throws OperationFailedException{
+    private SearchResultInfo searchForAOIdsFOIdsByCoId(SearchRequestInfo searchRequestInfo) throws OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException{
         SearchResultInfo resultInfo = new SearchResultInfo();
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
 
-        String queryStr =
-                "SELECT fo2ao.relatedLui.id as aoId, co2fo.relatedLui.id as foId " +
-                        "FROM LuiLuiRelationEntity fo2ao, " +
-                        "     LuiLuiRelationEntity co2fo " +
-                        "WHERE co2fo.lui.id = :coId " +
-                        "  AND co2fo.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "' " +
-                        "  AND fo2ao.lui.id = co2fo.relatedLui.id " +
-                        "  AND fo2ao.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY + "'";
-
-        TypedQuery<Object[]> query = entityManager.createQuery(queryStr, Object[].class);
-        query.setParameter(SearchParameters.CO_ID, coId);
-        List<Object[]> results = query.getResultList();
-
-        for(Object[] resultRow : results){
-            int i = 0;
-            SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.FO_ID, (String)resultRow[i]);
-            resultInfo.getRows().add(row);
+        // co2fo, fo2ao
+        ContextInfo contextInfo = new ContextInfo();
+        
+        contextInfo.setCurrentDate(new Date());
+        
+        List<String> foIds = luiService.getLuiIdsByLuiAndRelationType(coId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY, contextInfo);
+        
+        
+        for (String foId : foIds) {
+		
+        	List<String> currentAoIds = luiService.getLuiIdsByLuiAndRelationType(foId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY, contextInfo); 
+		
+        	for (String aoId : currentAoIds) {
+				
+        		 SearchResultRowInfo row = new SearchResultRowInfo();
+                 row.addCell(SearchResultColumns.AO_ID, aoId);
+                 row.addCell(SearchResultColumns.FO_ID, foId);
+                 resultInfo.getRows().add(row);
+			}
         }
-
+        
+       
         return resultInfo;
     }
 
@@ -855,22 +684,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String foId = requestHelper.getParamAsString(SearchParameters.FO_ID);
 
-        String queryStr =
-                "SELECT rel.relatedLui.id aoId " +
-                        "FROM LuiLuiRelationEntity rel " +
-                        "WHERE rel.lui.id = :foId " +
-                        "  AND rel.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY + "' " +
-                        "  AND rel.relatedLui.id not in ( " +
-                        "SELECT aocSetAoIds " +
-                        "FROM ActivityOfferingClusterEntity aoc " +
-                        "     IN(aoc.aoSets) aocSets, " +
-                        "     IN(aocSets.aoIds) aocSetAoIds " +
-                        "WHERE " +
-                        "  aoc.formatOfferingId = :foId ) ";
-
-        TypedQuery<Object[]> query = entityManager.createQuery(queryStr, Object[].class);
-        query.setParameter(SearchParameters.FO_ID, foId);
-        List<Object[]> results = query.getResultList();
+       
+        List<Object[]> results = new ArrayList<Object[]>();
 
         for(Object[] resultRow : results){
             int i = 0;
@@ -888,18 +703,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
 
-        String queryStr =
-                "SELECT rel.relatedLui.id as foId, " +
-                        "fo_lui.name as foName " +
-                        "FROM LuiLuiRelationEntity rel, " +
-                        "     LuiEntity fo_lui " +
-                        "WHERE rel.lui.id = :coId " +
-                        "  AND rel.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "' " +
-                        "  AND rel.relatedLui.id = fo_lui.id";
-
-        TypedQuery<Object[]> query = entityManager.createQuery(queryStr, Object[].class);
-        query.setParameter(SearchParameters.CO_ID, coId);
-        List<Object[]> results = query.getResultList();
+      
+        List<Object[]> results = new ArrayList<Object[]>();
 
         for(Object[] resultRow : results){
             int i = 0;
@@ -918,15 +723,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
 
-        String queryStr =
-                "SELECT rel.relatedLui.id as foId " +
-                        "FROM LuiLuiRelationEntity rel " +
-                        "WHERE rel.lui.id = :coId " +
-                        "  AND rel.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "' ";
-
-        TypedQuery<String> query = entityManager.createQuery(queryStr, String.class);
-        query.setParameter(SearchParameters.CO_ID, coId);
-        List<String> results = query.getResultList();
+        
+        List<String> results = new ArrayList<String>();
 
         for(String result : results){
             SearchResultRowInfo row = new SearchResultRowInfo();
@@ -943,15 +741,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
 
-        String queryStr =
-                "SELECT rel.value " +
-                        "FROM LuiAttributeEntity rel " +
-                        "WHERE rel.owner.id = :coId " +
-                        " AND rel.key = '" + CourseOfferingServiceConstants.WAIT_LIST_INDICATOR_ATTR + "' ";
-
-        TypedQuery<String> query = entityManager.createQuery(queryStr, String.class);
-        query.setParameter(SearchParameters.CO_ID, coId);
-        List<String> results = query.getResultList();
+        List<String> results = new ArrayList<String>();
 
         for(String result : results){
             SearchResultRowInfo row = new SearchResultRowInfo();
@@ -971,17 +761,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String offeringId = requestHelper.getParamAsString(SearchParameters.OFFERING_ID);
 
-        String queryStr =
-                "SELECT lui.atpId " +
-                        "FROM  LuiEntity lui " +
-                        "WHERE lui.id = :offeringId ";
-        Query query = entityManager.createQuery(queryStr);
-        query.setParameter(SearchParameters.OFFERING_ID, offeringId);
-        String termId = (String)query.getResultList().get(0);
-        SearchResultRowInfo row = new SearchResultRowInfo();
-        row.addCell(SearchResultColumns.ATP_ID, termId);
-        resultInfo.getRows().add(row);
-
         return resultInfo;
     }
 
@@ -1000,14 +779,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String formatOfferingId = requestHelper.getParamAsString(SearchParameters.FO_ID);
 
-        String queryStr =
-                "select count(a.formatOfferingId) " +
-                        "from ActivityOfferingClusterEntity a " +
-                        "where a.formatOfferingId=:" + SearchParameters.FO_ID;
-
-        TypedQuery<Long> query = entityManager.createQuery(queryStr, Long.class);
-        query.setParameter(SearchParameters.FO_ID, formatOfferingId);
-        List<Long> results = query.getResultList();
+      
+        List<Long> results = new ArrayList<Long>();
 
         for(Long result : results){
             SearchResultRowInfo row = new SearchResultRowInfo();
@@ -1033,14 +806,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String formatOfferingId = requestHelper.getParamAsString(SearchParameters.FO_ID);
 
-        String queryStr =
-                "Select rel.relatedLui.id, rel.relatedLui.luiType from LuiLuiRelationEntity rel where rel.lui.id=:" + SearchParameters.FO_ID +
-                        " AND rel.luiLuiRelationType=:" + SearchParameters.FO_REL_TYPE;
-
-        TypedQuery<Object[]> query = entityManager.createQuery(queryStr, Object[].class);
-        query.setParameter(SearchParameters.FO_ID, formatOfferingId);
-        query.setParameter(SearchParameters.FO_REL_TYPE, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY);
-        List<Object[]> results = query.getResultList();
+        List<Object[]> results = new ArrayList<Object[]>();
 
         for(Object[] resultRow : results){
             int i = 0;
@@ -1057,11 +823,4 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         return items.toString().replace("[", "'").replace("]", "'").replace(", ", "','");
     }
 
-    public EntityManager getEntityManager() {
-        return entityManager;
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
 }
