@@ -298,17 +298,6 @@
           p:additionalCssClasses="ks-uif-tabSection">
     </bean>
 
-    <!--Note by bonnie: Not used in any code -->
-    <bean id="KS-Uif-InputField" parent="KS-Uif-InputField-parent"/>
-    <bean id="KS-Uif-InputField-parent" abstract="true" parent="Uif-InputField"
-          p:fieldLabel.renderColon="false" p:fieldLabel.cssClasses="labelTop"
-          p:labelPlacement="TOP" p:fieldLabel.requiredMessagePlacement="LEFT"
-          p:instructionalMessage.render="false">
-        <property name="instructionalMessage">
-            <bean parent="Uif-InstructionalMessage"/>
-        </property>
-    </bean>
-
     <bean id="KS-Uif-InputField-Simple" parent="KS-Uif-InputField-Simple-parent"/>
     <bean id="KS-Uif-InputField-Simple-parent" abstract="true" parent="Uif-InputField" scope="prototype">
         <property name="template" value="/ks-common/WEB-INF/ftl/ksSimpleDataField.ftl"/>
@@ -448,7 +437,14 @@
 
     <bean id="KS-Lozenge-Grey-Uif-Message" parent="Uif-Message" p:additionalCssClasses="state-draft"/>
 
-    <bean id="KS-Lozenge-Grey-Uif-InputField" parent="KS-Uif-InputField" p:additionalCssClasses="state-draft"/>
+    <bean id="KS-Lozenge-Grey-Uif-InputField"  parent="Uif-InputField" p:additionalCssClasses="state-draft"
+          p:fieldLabel.renderColon="false" p:fieldLabel.cssClasses="labelTop"
+          p:labelPlacement="TOP" p:fieldLabel.requiredMessagePlacement="LEFT"
+          p:instructionalMessage.render="false">
+        <property name="instructionalMessage">
+            <bean parent="Uif-InstructionalMessage"/>
+        </property>>
+    </bean>
 
     <bean id="KS-Lozenge-Green-Uif-Message" parent="Uif-Message" p:additionalCssClasses="state-completed"/>
 
@@ -704,8 +700,9 @@
         <property name="showExportOption" value="false"/>
     </bean>
 
-    <bean id="KS-Uif-InputField-Help" parent="KS-Uif-InputField-Help-parent"/>
-    <bean id="KS-Uif-InputField-Help-parent" parent="Uif-InputField">
+
+    <bean id="KS-Uif-InputField" parent="KS-Uif-InputField-parent"/>
+    <bean id="KS-Uif-InputField-parent" abstract="true" parent="Uif-InputField">
         <property name="help">
             <null/>
         </property>
