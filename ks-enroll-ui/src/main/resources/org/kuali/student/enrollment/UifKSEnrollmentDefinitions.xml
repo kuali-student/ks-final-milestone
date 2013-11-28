@@ -72,10 +72,8 @@
     <bean id="KS-CourseOffering-ContextBar" parent="Uif-HorizontalBoxGroup" p:style="display:none" p:additionalCssClasses="ks-topGroup">
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="contextBar.termName" p:additionalCssClasses="ks-topGroup-courseOffering-termName">
-                </bean>
-                <bean parent="KS-Lozenge-Grey-Uif-DataField" p:propertyName="contextBar.termSocState" p:additionalCssClasses="ks-topGroup-courseOffering-socState">
-                </bean>
+                <bean parent="Uif-DataField" p:propertyName="contextBar.termName" p:additionalCssClasses="ks-topGroup-courseOffering-termName"/>
+                <bean id="termSocStateId" parent="Uif-DataField" p:propertyName="contextBar.termSocState" p:additionalCssClasses="@{#dp.contextBar.termSocStateUIStyle},ks-topGroup-courseOffering-socState"/>
             </list>
         </property>
     </bean>

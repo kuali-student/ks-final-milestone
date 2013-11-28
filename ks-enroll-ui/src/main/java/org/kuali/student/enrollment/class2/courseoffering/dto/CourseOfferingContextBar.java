@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
+import org.apache.cxf.common.util.StringUtils;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -37,6 +38,8 @@ public class CourseOfferingContextBar implements Serializable {
     private String termName;
     private String termSocState;
     private int termDayOfYear;
+
+    private String termSocStateUIStyle;
 
     public CourseOfferingContextBar() { }
 
@@ -104,6 +107,14 @@ public class CourseOfferingContextBar implements Serializable {
         this.termDayOfYear = termDayOfYear;
     }
 
+    public String getTermSocStateUIStyle() {
+        return termSocStateUIStyle;
+    }
+
+    public void setTermSocStateUIStyle(String termSocStateUIStyle) {
+        this.termSocStateUIStyle = termSocStateUIStyle;
+    }
+
     /**
      * Convenience-method to build an instance of CourseOfferingContextBar
      *
@@ -140,6 +151,11 @@ public class CourseOfferingContextBar implements Serializable {
         instance.setTermName( termName );
         instance.setTermSocState( termSocState );
         instance.setTermDayOfYear( termDayOfYear );
+
+        // Determine the UI style (Lozenge) for the soc state
+        if(!StringUtils.isEmpty(termSocState)){
+            instance.setTermSocStateUIStyle("state-" + termSocState.toLowerCase());
+        }
 
         return instance;
     }
