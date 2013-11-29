@@ -276,7 +276,7 @@ limitations under the License.
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField-Help" p:propertyName="academicCalendarInfo.name"
+                            <bean parent="KS-Uif-InputField" p:propertyName="academicCalendarInfo.name"
                                   p:label="Academic Calendar Name" p:labelPlacement="TOP"
                                   p:required="true"
                                   p:onChangeScript="displayCalendarInformation(jQuery(this),'academicCalendarName')">
@@ -284,7 +284,7 @@ limitations under the License.
                                     <bean parent="KS-Uif-TextControl" p:size="30"/>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-InputField-Help" p:propertyName="academicCalendarInfo.startDate"
+                            <bean parent="KS-Uif-InputField" p:propertyName="academicCalendarInfo.startDate"
                                   p:label="Start Date" p:labelPlacement="TOP"
                                   p:required="true"
                                   p:onChangeScript="displayCalendarInformation(jQuery(this),'academicCalendarStartDate')">
@@ -295,7 +295,7 @@ limitations under the License.
                                     <bean parent="KS-BasicDatePatternConstraint"/>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-InputField-Help" p:propertyName="academicCalendarInfo.endDate"
+                            <bean parent="KS-Uif-InputField" p:propertyName="academicCalendarInfo.endDate"
                                   p:label="End Date" p:labelPlacement="TOP"
                                   p:required="true"
                                   p:onChangeScript="displayCalendarInformation(jQuery(this),'academicCalendarEndDate')">
@@ -360,7 +360,7 @@ limitations under the License.
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField-Help" p:propertyName="eventTypeKey" p:label="Event Type"
+                <bean parent="KS-Uif-InputField" p:propertyName="eventTypeKey" p:label="Event Type"
                       p:required="true"
                       p:readOnly="@{!#isAddLine}" p:style="font-weight:bold;"
                       p:readOnlyDisplayReplacementPropertyName="eventTypeName">
@@ -372,7 +372,7 @@ limitations under the License.
                               p:addBlankOption="false"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField-Help" p:propertyName="startDate" p:label="Start Date"
+                <bean parent="KS-Uif-InputField" p:propertyName="startDate" p:label="Start Date"
                       p:style="font-weight:normal;" p:readOnlyDisplayReplacementPropertyName="startDateUI">
                     <property name="control">
                         <bean parent="KS-Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
@@ -381,7 +381,7 @@ limitations under the License.
                         <bean parent="KS-BasicDatePatternConstraint"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField-Help" p:propertyName="startTime" p:render="@{!#view.readOnly}"
+                <bean parent="KS-Uif-InputField" p:propertyName="startTime" p:render="@{!#view.readOnly}"
                       p:label="Start Time">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="4" p:watermarkText="hh:mm"/>
@@ -390,7 +390,7 @@ limitations under the License.
                         <bean parent="TimePatternConstraint"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField-Help" p:propertyName="startTimeAmPm" p:render="@{!#view.readOnly}"
+                <bean parent="KS-Uif-InputField" p:propertyName="startTimeAmPm" p:render="@{!#view.readOnly}"
                       p:defaultValue="AM"
                       p:additionalCssClasses="acal_keydate_radiobutton">
                     <property name="control">
@@ -400,7 +400,7 @@ limitations under the License.
                         </bean>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField-Help" p:propertyName="endDate" p:render="@{!#view.readOnly}"
+                <bean parent="KS-Uif-InputField" p:propertyName="endDate" p:render="@{!#view.readOnly}"
                       p:label="End Date">
                     <property name="control">
                         <bean parent="KS-Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
@@ -411,7 +411,7 @@ limitations under the License.
                 </bean>
                 <bean parent="Uif-DataField" p:propertyName="endDateUI" p:render="@{#view.readOnly}"
                       p:label="End Date"/>
-                <bean parent="KS-Uif-InputField-Help" p:propertyName="endTime" p:render="@{!#view.readOnly}"
+                <bean parent="KS-Uif-InputField" p:propertyName="endTime" p:render="@{!#view.readOnly}"
                       p:label="End Time">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="4" p:watermarkText="hh:mm"/>
@@ -420,7 +420,7 @@ limitations under the License.
                         <bean parent="TimePatternConstraint"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField-Help" p:propertyName="endTimeAmPm" p:render="@{!#view.readOnly}"
+                <bean parent="KS-Uif-InputField" p:propertyName="endTimeAmPm" p:render="@{!#view.readOnly}"
                       p:defaultValue="AM"
                       p:additionalCssClasses="acal_keydate_radiobutton">
                     <property name="control">
