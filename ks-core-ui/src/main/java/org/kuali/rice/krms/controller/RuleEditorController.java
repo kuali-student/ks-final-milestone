@@ -964,6 +964,12 @@ public class RuleEditorController extends MaintenanceDocumentController {
             ruleEditor.setDummy(false);
             PropositionTreeUtil.resetNewProp(ruleEditor.getPropositionEditor());
         }
+
+        if(ruleEditor.getPropositionEditor()!=null){
+            // handle saving new parameterized terms
+            this.getViewHelper(form).finPropositionEditor(ruleEditor.getPropositionEditor());
+        }
+
         this.getViewHelper(form).refreshViewTree(ruleEditor);
 
         //Replace edited rule with existing rule.

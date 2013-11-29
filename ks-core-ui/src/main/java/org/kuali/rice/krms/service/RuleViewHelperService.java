@@ -25,6 +25,7 @@ import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -53,6 +54,12 @@ public interface RuleViewHelperService {
     public Tree<CompareTreeNode, String> buildMultiViewTree(RuleEditor coRuleEditor, RuleEditor cluRuleEditor);
 
     public Boolean compareRules(RuleEditor original);
+
+    public void initPropositionEditor(PropositionEditor propositionEditor);
+
+    public void finPropositionEditor(PropositionEditor propositionEditor);
+
+    public Map<String, String> getTermParameters(PropositionEditor proposition);
 
     public PropositionEditor copyProposition(PropositionEditor proposition);
 

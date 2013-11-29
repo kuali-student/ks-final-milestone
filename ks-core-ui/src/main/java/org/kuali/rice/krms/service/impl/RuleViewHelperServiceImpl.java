@@ -32,6 +32,7 @@ import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
+import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermRepositoryService;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
@@ -62,6 +63,7 @@ import org.springframework.beans.BeanUtils;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -197,6 +199,100 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         }
 
         return Boolean.FALSE;
+    }
+
+    /**
+     * Initializes the proposition, populating the type and terms.
+     *
+     * @param propositionEditor
+     */
+    @Override
+    public void initPropositionEditor(PropositionEditor propositionEditor) {
+        if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(propositionEditor.getPropositionTypeCode())) {
+
+            if (propositionEditor.getType() == null) {
+                KrmsTypeDefinition type = this.getKrmsTypeRepositoryService().getTypeById(propositionEditor.getTypeId());
+                propositionEditor.setType(type.getName());
+            }
+
+            ComponentBuilder builder = this.getTemplateRegistry().getComponentBuilderForType(propositionEditor.getType());
+            if (builder != null) {
+                Map<String, String> termParameters = this.getTermParameters(propositionEditor);
+                builder.resolveTermParameters(propositionEditor, termParameters);
+            }
+        } else {
+            for (PropositionEditor child : propositionEditor.getCompoundEditors()) {
+                initPropositionEditor(child);
+            }
+
+        }
+    }
+
+    /**
+     * Finalizes the proposition, setting the type and terms.
+     *
+     * @param propositionEditor
+     */
+    @Override
+    public void finPropositionEditor(PropositionEditor propositionEditor) {
+        if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(propositionEditor.getPropositionTypeCode())) {
+
+            //Call onsubmit on the associated builder.
+            ComponentBuilder builder = this.getTemplateRegistry().getComponentBuilderForType(propositionEditor.getType());
+            if (builder != null) {
+                builder.onSubmit(propositionEditor);
+            }
+
+            //Set the default operation and value
+            TemplateInfo template = this.getTemplateRegistry().getTemplateForType(propositionEditor.getType());
+            PropositionTreeUtil.getOperatorParameter(propositionEditor.getParameters()).setValue(template.getOperator());
+
+            if (!"n".equals(template.getValue())) {
+                PropositionTreeUtil.getConstantParameter(propositionEditor.getParameters()).setValue(template.getValue());
+            }
+
+            if (propositionEditor.getTerm() != null) {
+                TermDefinition.Builder termBuilder = TermDefinition.Builder.create(propositionEditor.getTerm());
+                PropositionTreeUtil.getTermParameter(propositionEditor.getParameters()).setTermValue(termBuilder.build());
+            }
+
+        } else {
+
+            //If not a simple node, recursively finalize the child proposition editors.
+            for (PropositionEditor child : propositionEditor.getCompoundEditors()) {
+                finPropositionEditor(child);
+            }
+
+        }
+    }
+
+    /**
+     * Create TermEditor from the TermDefinition objects to be used in the ui and return a map of
+     * the key and values of the term parameters.
+     *
+     * @param proposition
+     * @return
+     */
+    @Override
+    public Map<String, String> getTermParameters(PropositionEditor proposition) {
+
+        Map<String, String> termParameters = new HashMap<String, String>();
+        if (proposition.getTerm() == null) {
+            PropositionParameterEditor termParameter = PropositionTreeUtil.getTermParameter(proposition.getParameters());
+            if (termParameter != null) {
+                String termId = termParameter.getValue();
+                TermDefinition termDefinition = this.getTermRepositoryService().getTerm(termId);
+                proposition.setTerm(new TermEditor(termDefinition));
+            } else {
+                return termParameters;
+            }
+        }
+
+        for (TermParameterEditor parameter : proposition.getTerm().getEditorParameters()) {
+            termParameters.put(parameter.getName(), parameter.getValue());
+        }
+
+        return termParameters;
     }
 
     /**

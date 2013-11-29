@@ -20,6 +20,7 @@
 package org.kuali.rice.krms.impl.repository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,18 +80,20 @@ public class KSTranslationUtility implements TranslateBusinessMethods {
     public String translateNaturalLanguageForObject(String naturalLanguageUsageId, String typeId, String krmsObjectId, String languageCode)
             throws RiceIllegalArgumentException {
 
+        Map<String, NaturalLanguageTemplate> templateMap = getNaturalLanguageTemplateMap(naturalLanguageUsageId, languageCode);
+
         if (typeId.equals("agenda")) {
             AgendaDefinition agenda = this.ruleManagementService.getAgenda(krmsObjectId);
             if (agenda == null) {
                 throw new RiceIllegalArgumentException(krmsObjectId + " is not an Id for an agenda");
             }
-            return this.translateNaturalLanguageForAgenda(naturalLanguageUsageId, agenda, languageCode);
+            return this.translateNaturalLanguageForAgenda(agenda, templateMap);
         } else if (typeId.equals("rule")) {
             RuleDefinition rule = this.ruleManagementService.getRule(krmsObjectId);
             if (rule == null) {
                 throw new RiceIllegalArgumentException(krmsObjectId + " is not an Id for a rule");
             }
-            return this.translateNaturalLanguageForRule(naturalLanguageUsageId, rule, languageCode);
+            return this.translateNaturalLanguageForRule(rule, templateMap);
         } else if (typeId.equals("proposition")) {
             PropositionDefinition proposition = this.ruleManagementService.getProposition(krmsObjectId);
             if (proposition == null) {
@@ -102,16 +105,16 @@ public class KSTranslationUtility implements TranslateBusinessMethods {
         return StringUtils.EMPTY;
     }
 
-    protected String translateNaturalLanguageForAgenda(String naturalLanguageUsageId, AgendaDefinition agenda, String languageCode) throws RiceIllegalArgumentException {
+    protected String translateNaturalLanguageForAgenda(AgendaDefinition agenda, Map<String, NaturalLanguageTemplate> templateMap) throws RiceIllegalArgumentException {
         if (agenda.getFirstItemId() == null) {
             throw new RiceIllegalArgumentException("Agenda has no first item");
         }
 
         AgendaItemDefinition item = this.ruleManagementService.getAgendaItem(agenda.getFirstItemId());
-        return translateNaturalLanguageForAgendaItem(naturalLanguageUsageId, item, languageCode);
+        return translateNaturalLanguageForAgendaItem(item, templateMap);
     }
 
-    protected String translateNaturalLanguageForAgendaItem(String naturalLanguageUsageId, AgendaItemDefinition item, String languageCode) {
+    protected String translateNaturalLanguageForAgendaItem(AgendaItemDefinition item, Map<String, NaturalLanguageTemplate> templateMap) {
         if(item==null){
             return StringUtils.EMPTY;
         }
@@ -119,24 +122,24 @@ public class KSTranslationUtility implements TranslateBusinessMethods {
         String naturalLanguage = StringUtils.EMPTY;
         if (item.getRuleId() != null) {
             RuleDefinition rule = this.ruleManagementService.getRule(item.getRuleId());
-            naturalLanguage += this.translateNaturalLanguageForRule(naturalLanguageUsageId, rule, languageCode);
+            naturalLanguage += this.translateNaturalLanguageForRule(rule, templateMap);
         }
-        naturalLanguage += translateNaturalLanguageForAgendaItem(naturalLanguageUsageId, item.getWhenTrue(), languageCode);
-        naturalLanguage += translateNaturalLanguageForAgendaItem(naturalLanguageUsageId, item.getWhenFalse(), languageCode);
-        naturalLanguage += translateNaturalLanguageForAgendaItem(naturalLanguageUsageId, item.getAlways(), languageCode);
+        naturalLanguage += translateNaturalLanguageForAgendaItem(item.getWhenTrue(), templateMap);
+        naturalLanguage += translateNaturalLanguageForAgendaItem(item.getWhenFalse(), templateMap);
+        naturalLanguage += translateNaturalLanguageForAgendaItem(item.getAlways(), templateMap);
         return naturalLanguage;
     }
 
-    protected String translateNaturalLanguageForRule(String naturalLanguageUsageId, RuleDefinition rule, String languageCode) throws RiceIllegalArgumentException {
+    protected String translateNaturalLanguageForRule(RuleDefinition rule, Map<String, NaturalLanguageTemplate> templateMap) throws RiceIllegalArgumentException {
         if(rule==null){
             return StringUtils.EMPTY;
         }
 
-        NaturalLanguageTemplate nlTemplate = ruleManagementService.findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId(languageCode, rule.getTypeId(), naturalLanguageUsageId);
+        NaturalLanguageTemplate nlTemplate = templateMap.get(rule.getTypeId());
         String naturalLanguage = nlTemplate.getTemplate() + " ";
 
         if(rule.getProposition()!=null){
-            naturalLanguage += this.translateNaturalLanguageForProposition(naturalLanguageUsageId, rule.getProposition(), languageCode);
+            naturalLanguage += this.translateNaturalLanguageForProposition(rule.getProposition(), templateMap, true) + ". ";
         }
 
         return naturalLanguage;
@@ -146,22 +149,33 @@ public class KSTranslationUtility implements TranslateBusinessMethods {
     public String translateNaturalLanguageForProposition(String naturalLanguageUsageId,
                                                          PropositionDefinition proposition, String languageCode)
             throws RiceIllegalArgumentException {
-        return translateNaturalLanguageForProposition(naturalLanguageUsageId, proposition, languageCode, true) + ". ";
+
+        Map<String, NaturalLanguageTemplate> templateMap = getNaturalLanguageTemplateMap(naturalLanguageUsageId, languageCode);
+        return translateNaturalLanguageForProposition(proposition, templateMap, true) + ". ";
+    }
+
+    private Map<String, NaturalLanguageTemplate> getNaturalLanguageTemplateMap(String naturalLanguageUsageId, String languageCode) {
+        Map<String, NaturalLanguageTemplate> templateMap = new HashMap<String, NaturalLanguageTemplate>();
+        List<NaturalLanguageTemplate> templates = this.ruleManagementService.findNaturalLanguageTemplatesByNaturalLanguageUsage(naturalLanguageUsageId);
+        for(NaturalLanguageTemplate nlTemplate : templates){
+            if(languageCode.equals(nlTemplate.getLanguageCode())){
+                templateMap.put(nlTemplate.getTypeId(), nlTemplate);
+            }
+        }
+        return templateMap;
     }
 
     /**
      * This method is added because from a functional point of view the root proposition is ignored when it is a group
      * and therefore handled differently.
      *
-     * @param naturalLanguageUsageId
      * @param proposition
-     * @param languageCode
+     * @param templateMap
      * @param isRoot
      * @return
      */
-    private String translateNaturalLanguageForProposition(String naturalLanguageUsageId, PropositionDefinition proposition, String languageCode, boolean isRoot) {
-        NaturalLanguageTemplate naturalLanguageTemplate = this.ruleManagementService.findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId(
-                languageCode, proposition.getTypeId(), naturalLanguageUsageId);
+    private String translateNaturalLanguageForProposition(PropositionDefinition proposition, Map<String, NaturalLanguageTemplate> templateMap, boolean isRoot) {
+        NaturalLanguageTemplate naturalLanguageTemplate = templateMap.get(proposition.getTypeId());
 
         StringBuilder naturalLanguage = new StringBuilder();
         if (proposition.getPropositionTypeCode().equals(PropositionType.SIMPLE.getCode())) {
@@ -172,7 +186,7 @@ public class KSTranslationUtility implements TranslateBusinessMethods {
 
         } else if (proposition.getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
             if(naturalLanguageTemplate!=null){
-                Map<String, Object> contextMap = this.buildCompoundPropositionContextMap(naturalLanguageUsageId, proposition, languageCode);
+                Map<String, Object> contextMap = this.buildCompoundPropositionContextMap(proposition, templateMap);
                 naturalLanguage.append(templater.translate(naturalLanguageTemplate, contextMap));
             }
 
@@ -183,7 +197,7 @@ public class KSTranslationUtility implements TranslateBusinessMethods {
                     if(proposition.getCompoundComponents().indexOf(child)!=0){
                         naturalLanguage.append(operator);
                     }
-                    naturalLanguage.append(this.translateNaturalLanguageForProposition(naturalLanguageUsageId, child, languageCode, false));
+                    naturalLanguage.append(this.translateNaturalLanguageForProposition(child, templateMap, false));
                 }
             }
 
@@ -216,7 +230,15 @@ public class KSTranslationUtility implements TranslateBusinessMethods {
     public NaturalLanguageTree translateNaturalLanguageTreeForProposition(String naturalLanguageUsageId,
                                                                           PropositionDefinition proposition,
                                                                           String languageCode) throws RiceIllegalArgumentException {
-        NaturalLanguageTemplate naturalLanguageTemplate = getNaturalLanguageTemplateForProposition(naturalLanguageUsageId, proposition, languageCode);
+
+        Map<String, NaturalLanguageTemplate> templateMap = getNaturalLanguageTemplateMap(naturalLanguageUsageId, languageCode);
+        return translateNaturalLanguageTreeForProposition(proposition, templateMap);
+    }
+
+    public NaturalLanguageTree translateNaturalLanguageTreeForProposition(PropositionDefinition proposition,
+                                                                          Map<String, NaturalLanguageTemplate> templateMap) throws RiceIllegalArgumentException {
+
+        NaturalLanguageTemplate naturalLanguageTemplate = templateMap.get(proposition.getTypeId());
 
         NaturalLanguageTree.Builder tree = NaturalLanguageTree.Builder.create();
         if (proposition.getPropositionTypeCode().equals(PropositionType.SIMPLE.getCode())) {
@@ -225,7 +247,7 @@ public class KSTranslationUtility implements TranslateBusinessMethods {
             tree.setNaturalLanguage(naturalLanguage);
 
         } else if (proposition.getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
-            Map<String, Object> contextMap = this.buildCompoundPropositionContextMap(naturalLanguageUsageId, proposition, languageCode);
+            Map<String, Object> contextMap = this.buildCompoundPropositionContextMap(proposition, templateMap);
             String naturalLanguage = templater.translate(naturalLanguageTemplate, contextMap);
             tree.setNaturalLanguage(naturalLanguage);
 
@@ -233,7 +255,7 @@ public class KSTranslationUtility implements TranslateBusinessMethods {
             if(proposition.getCompoundComponents()!=null){
                 List<NaturalLanguageTree> children = new ArrayList<NaturalLanguageTree>();
                 for (PropositionDefinition child : proposition.getCompoundComponents()) {
-                    children.add(this.translateNaturalLanguageTreeForProposition(naturalLanguageUsageId, child, languageCode));
+                    children.add(this.translateNaturalLanguageTreeForProposition(child, templateMap));
                 }
                 tree.setChildren(children);
             }
@@ -243,22 +265,6 @@ public class KSTranslationUtility implements TranslateBusinessMethods {
         }
 
         return tree.build();
-    }
-
-    protected NaturalLanguageTemplate getNaturalLanguageTemplateForProposition(String naturalLanguageUsageId, PropositionDefinition proposition, String languageCode) {
-        NaturalLanguageTemplate naturalLanguageTemplate = null;
-        //Continue if typeid is null, some children may not be initialized yet.
-        if (proposition.getTypeId() != null) {
-            naturalLanguageTemplate = this.ruleManagementService.findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId(languageCode,
-                    proposition.getTypeId(), naturalLanguageUsageId);
-
-            //Removing this check as we need to be able to configure an empty template to suppress some of the propositions.
-            //Note: Another option would be to allow blank or null template values.
-            //if (naturalLanguageTemplate == null) {
-            //    throw new RiceIllegalArgumentException(languageCode + "." + proposition.getTypeId() + "." + naturalLanguageUsageId);
-            //}
-        }
-        return naturalLanguageTemplate;
     }
 
     protected Map<String, Object> buildSimplePropositionContextMap(PropositionDefinition proposition) {
@@ -286,7 +292,7 @@ public class KSTranslationUtility implements TranslateBusinessMethods {
         return contextMap;
     }
 
-    protected Map<String, Object> buildCompoundPropositionContextMap(String naturalLanguageUsageId, PropositionDefinition proposition, String languageCode) {
+    protected Map<String, Object> buildCompoundPropositionContextMap(PropositionDefinition proposition, Map<String, NaturalLanguageTemplate> templateMap) {
         if (!proposition.getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
             throw new RiceIllegalArgumentException("proposition us not compound " + proposition.getPropositionTypeCode() + " " + proposition.getId() + proposition.getDescription());
         }
