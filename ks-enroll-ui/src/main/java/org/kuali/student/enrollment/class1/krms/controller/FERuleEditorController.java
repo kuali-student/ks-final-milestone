@@ -167,6 +167,10 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
         RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper(document);
         RuleEditor ruleEditor = getSelectedRule(document, "Edit");
+        if(!ruleEditor.isInitialized()){
+            this.getViewHelper(form).initPropositionEditor(ruleEditor.getPropositionEditor());
+            ruleEditor.setInitialized(true);
+        }
 
         //Set a copy on the wrapper so that we can allow the user to cancel his/her action.
         ruleWrapper.setRuleEditor((RuleEditor) ObjectUtils.deepCopy(ruleEditor));

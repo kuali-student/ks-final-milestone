@@ -290,11 +290,6 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                 ruleEditor.setTba(Boolean.parseBoolean(attributes.get(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_TBA)));
             }
 
-            //Initialize the Proposition tree
-            if (initProps) {
-                this.initPropositionEditor(ruleEditor.getPropositionEditor());
-            }
-
             //Add rule to list on agenda
             rules.add(ruleEditor);
         }
@@ -422,10 +417,6 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
     @Override
     public RuleDefinition.Builder finRule(RuleEditor rule, String rulePrefix, String namespace) {
-        // handle saving new parameterized terms
-        if (rule.getPropositionEditor() != null) {
-            this.finPropositionEditor(rule.getPropositionEditor());
-        }
 
         if (rule.getNamespace() == null) {
             rule.setNamespace(namespace);
