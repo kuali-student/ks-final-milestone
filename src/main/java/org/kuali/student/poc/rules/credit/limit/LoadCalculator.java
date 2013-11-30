@@ -2,6 +2,7 @@ package org.kuali.student.poc.rules.credit.limit;
 
 import java.util.List;
 import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
@@ -11,7 +12,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 public interface LoadCalculator {
 
 
-    public LoadInfo calculateLoad(List<CourseRegistrationAction> actions,
+    public LoadInfo calculateLoad(List<CourseRegistrationInfo> courseRegistrations,
             String loadLevelTypeKey,
             ContextInfo contextInfo)
             throws OperationFailedException;

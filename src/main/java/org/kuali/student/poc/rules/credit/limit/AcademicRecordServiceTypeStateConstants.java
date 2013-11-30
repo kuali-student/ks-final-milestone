@@ -24,9 +24,10 @@ public class AcademicRecordServiceTypeStateConstants extends AcademicRecordServi
     public static final String LOAD_CALC_CODE_4_TIERS = "kuali.academic.record.calculation.type.load.code.4.tiers";
     
     // not sure where these "types" should be stored/managed but they are the possible values from the 4 tier code
-    public static final String LOAD_CODE_4_TIER_1_NO_LOAD = "kuali.academic.record.load.code.4.tier.1.no.load";
+    // TODO: review these tiers to come up with a scheme that fits most schools OOB
+    public static final String LOAD_CODE_4_TIER_1_NO_LOAD = "kuali.academic.record.load.code.4.tier.0.no.load";
     public static final String LOAD_CODE_4_TIER_2_LT_HT = "kuali.academic.record.load.code.4.tier.2.less.than.half.time";
-    public static final String LOAD_CODE_4_TIER_3_HT = "kuali.academic.record.load.code.4.tier.3.half.time";
+    public static final String LOAD_CODE_4_TIER_3_HT = "kuali.academic.record.load.code.4.tier.3.at.least.half.time";
     public static final String LOAD_CODE_4_TIER_4_FT = "kuali.academic.record.load.code.4.tier.4.full.time";
             
 }

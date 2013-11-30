@@ -1,7 +1,6 @@
 package org.kuali.student.poc.rules.credit.limit;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 import javax.xml.namespace.QName;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -10,9 +9,6 @@ import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
-import static org.kuali.student.poc.rules.credit.limit.CourseRegistrationAction.Action.CREATE;
-import static org.kuali.student.poc.rules.credit.limit.CourseRegistrationAction.Action.NO_CHANGE;
-import static org.kuali.student.poc.rules.credit.limit.CourseRegistrationAction.Action.UPDATE;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -24,9 +20,9 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 
 /**
- * this is an abstract class that handles lots of the plumbing required to do the calculation 
+ * this is an abstract class that handles lots of the plumbing required to do the calculation
  */
-public abstract class AbstractLoadCalculator implements LoadCalculator {
+public abstract class LoadCalculatorAbstractImpl implements LoadCalculator {
 
     private CourseOfferingService courseOfferingService;
 
@@ -43,8 +39,13 @@ public abstract class AbstractLoadCalculator implements LoadCalculator {
         this.courseOfferingService = courseOfferingService;
     }
 
+    @Override
+    public abstract LoadInfo calculateLoad(
+            List<CourseRegistrationInfo> courseRegistrations, String loadLevelTypeKey, ContextInfo contextInfo)
+            throws OperationFailedException;
+
     protected LoadInfo constructLoadInfo(String typeKey,
-            List<CourseRegistrationAction> actions,
+            List<CourseRegistrationInfo> actions,
             String loadLevelTypeKey,
             ContextInfo contextInfo)
             throws OperationFailedException {
@@ -54,31 +55,36 @@ public abstract class AbstractLoadCalculator implements LoadCalculator {
         // this is actually the calculation type key, should we rename this?
         load.setLoadLevelTypeKey(loadLevelTypeKey);
         load.setTypeKey(typeKey);
-        load.setStateKey(calcStateKey(actions, loadLevelTypeKey, contextInfo));
+        load.setStateKey(this.calculateLoadStateKey(typeKey, actions, loadLevelTypeKey, contextInfo));
         load.setMeta(this.newMeta(contextInfo));
         return load;
-
     }
 
-    protected boolean accept(CourseRegistrationAction action,
+    protected String calculateLoadStateKey(String typeKey,
+            List<CourseRegistrationInfo> actions,
+            String loadLevelTypeKey,
+            ContextInfo contextInfo) {
+        return AcademicRecordServiceTypeStateConstants.LOAD_STATE_PRELIMIARY;
+    }
+
+    protected boolean accept(CourseRegistrationInfo action,
             LoadInfo load,
-            List<CourseRegistrationAction> actions,
+            List<CourseRegistrationInfo> actions,
             String loadLevelTypeKey,
             ContextInfo contextInfo)
             throws OperationFailedException {
-        if (action.getRegistration().getStateKey().equals(LprServiceConstants.REGISTERED_STATE_KEY)) {
+        if (action.getStateKey().equals(LprServiceConstants.REGISTERED_STATE_KEY)) {
             return true;
         }
         return false;
     }
 
-    protected String getCreditsForRegistration(CourseRegistrationAction action,
+    protected String getCreditsForRegistration(CourseRegistrationInfo reg,
             LoadInfo load,
-            List<CourseRegistrationAction> actions,
+            List<CourseRegistrationInfo> actions,
             String loadLevelTypeKey,
             ContextInfo contextInfo)
             throws OperationFailedException {
-        CourseRegistrationInfo reg = action.getRegistration();
         if (reg.getCredits() != null) {
             return reg.getCredits();
         }
@@ -124,32 +130,7 @@ public abstract class AbstractLoadCalculator implements LoadCalculator {
         }
     }
 
-    protected String calcStateKey(List<CourseRegistrationAction> actions,
-            String loadLevelTypeKey,
-            ContextInfo contextInfo)
-            throws OperationFailedException {
-        for (CourseRegistrationAction action : actions) {
-            switch (action.getAction()) {
-                case NO_CHANGE:
-                    continue;
-                case CREATE:
-                case UPDATE:
-                    return AcademicRecordServiceTypeStateConstants.LOAD_STATE_PRELIMIARY;
-                default:
-                    throw new OperationFailedException(action.toString());
-
-            }
-        }
-        return AcademicRecordServiceTypeStateConstants.LOAD_STATE_FINAL;
-    }
-
     protected MetaInfo newMeta(ContextInfo context) {
-        MetaInfo meta = new MetaInfo();
-        meta.setCreateId(context.getPrincipalId());
-        meta.setCreateTime(new Date());
-        meta.setUpdateId(context.getPrincipalId());
-        meta.setUpdateTime(meta.getCreateTime());
-        meta.setVersionInd("0");
-        return meta;
+        return new MetaInfoUtility().newMeta(context);
     }
 }

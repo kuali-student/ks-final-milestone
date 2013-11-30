@@ -1,5 +1,6 @@
 package org.kuali.student.poc.rules.credit.limit;
 
+import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 
 /**
@@ -7,19 +8,19 @@ import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInf
  * against it such as credit limit checks and time conflict checks and co-requisite checks.
  *
  */
-public class CourseRegistrationAction {
+public class ActivityRegistrationTransaction {
 
     public enum Action {
 
-        NO_CHANGE, CREATE, UPDATE
+        NO_CHANGE, CREATE, UPDATE, DELETE
     };
     private Action action;
-    private CourseRegistrationInfo registration;
+    private ActivityRegistrationInfo registration;
 
-    public CourseRegistrationAction() {
+    public ActivityRegistrationTransaction() {
     }
 
-    public CourseRegistrationAction(Action action, CourseRegistrationInfo registration) {
+    public ActivityRegistrationTransaction(Action action, ActivityRegistrationInfo registration) {
         this.action = action;
         this.registration = registration;
     }
@@ -32,16 +33,18 @@ public class CourseRegistrationAction {
         this.action = action;
     }
 
-    public CourseRegistrationInfo getRegistration() {
+    public ActivityRegistrationInfo getRegistration() {
         return registration;
     }
 
-    public void setRegistration(CourseRegistrationInfo registration) {
+    public void setRegistration(ActivityRegistrationInfo registration) {
         this.registration = registration;
     }
 
     @Override
     public String toString() {
-        return "CourseRegistrationAction{" + "action=" + action + ", registration=" + registration + '}';
+        return "ActivityRegistrationTransaction{" + "action=" + action + ", registration=" + registration + '}';
     }
+
+    
 }
