@@ -24,6 +24,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import org.kuali.student.enrollment.courseregistration.infc.CreditLoad;
 import org.w3c.dom.Element;
@@ -42,13 +43,13 @@ public class CreditLoadInfo
     private String studentId;
 
     @XmlElement
-    private String creditLoad;
+    private KualiDecimal creditLoad;
 
     @XmlElement
-    private String creditLimit;
+    private KualiDecimal creditLimit;
 
     @XmlElement
-    private String additionalCredits;
+    private KualiDecimal additionalCredits;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -85,29 +86,29 @@ public class CreditLoadInfo
     }
 
     @Override
-    public String getCreditLoad() {
+    public KualiDecimal getCreditLoad() {
         return creditLoad;
     }
 
-    public void setCreditLoad(String creditLoad) {
+    public void setCreditLoad(KualiDecimal creditLoad) {
         this.creditLoad = creditLoad;
     }
 
     @Override
-    public String getCreditLimit() {
+    public KualiDecimal getCreditLimit() {
         return creditLimit;
     }
 
-    public void setCreditLimit(String creditLimit) {
+    public void setCreditLimit(KualiDecimal creditLimit) {
         this.creditLimit = creditLimit;
     }
 
     @Override
-    public String getAdditionalCredits() {
+    public KualiDecimal getAdditionalCredits() {
         return additionalCredits;
     }
 
-    public void setAdditionalCredits(String credits) {
-        this.additionalCredits = credits;
+    public void setAdditionalCredits(KualiDecimal additionalCredits) {
+        this.additionalCredits = additionalCredits;
     }
 }

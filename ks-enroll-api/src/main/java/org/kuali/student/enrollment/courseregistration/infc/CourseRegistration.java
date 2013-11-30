@@ -52,6 +52,17 @@ public interface CourseRegistration
     public String getCourseOfferingId();
 
     /**
+     * The registration group Id for this course registration.
+     * 
+     * @name Registration Group Id
+     * @readOnly
+     * @required
+     * @impl Lpr.LuiId
+     */
+    public String getRegistrationGroupId();
+    
+    
+    /**
      * The number of credits for which the student
      * registered. Typically, this number should be in the range
      * defined at the CourseOffering or RegistrationGroup.

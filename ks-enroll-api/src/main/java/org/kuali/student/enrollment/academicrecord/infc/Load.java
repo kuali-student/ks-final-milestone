@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.academicrecord.infc;
 
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 
 /**
@@ -14,7 +15,7 @@ public interface Load extends IdNamelessEntity {
      * @name Total Credits
      * @required
      */
-    public String getTotalCredits();
+    public KualiDecimal getTotalCredits();
 
     /**
      * Code indicating the load level, for example, Full Time, Half Time

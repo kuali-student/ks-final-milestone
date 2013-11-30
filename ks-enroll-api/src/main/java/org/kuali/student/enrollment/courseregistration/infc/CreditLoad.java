@@ -16,6 +16,8 @@
 
 package org.kuali.student.enrollment.courseregistration.infc;
 
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+
 /**
  * This summarizes the credit load for a student.
  */
@@ -34,14 +36,14 @@ public interface CreditLoad {
      * 
      * @name Credit Load
      */
-    public String getCreditLoad();
+    public KualiDecimal getCreditLoad();
 
     /**
-     * The maxmimum credit limitfor the student in the current term.
+     * The maxmimum credit limit for the student in the current term.
      * 
      * @name Credit Limit
      */
-    public String getCreditLimit();
+    public KualiDecimal getCreditLimit();
 
     /**
      * The additional credits from the RegistrationRequest. For drops,
@@ -49,5 +51,5 @@ public interface CreditLoad {
      * 
      * @name Additional Credits
      */
-    public String getAdditionalCredits();
+    public KualiDecimal getAdditionalCredits();
 }

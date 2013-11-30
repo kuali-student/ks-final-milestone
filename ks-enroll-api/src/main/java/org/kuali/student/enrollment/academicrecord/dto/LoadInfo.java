@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.List;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * @Version 2.0
@@ -24,7 +25,7 @@ import java.util.List;
 public class LoadInfo extends IdNamelessEntityInfo implements Load, Serializable {
     private static final long serialVersionUID = 1L;
     @XmlElement
-    private String totalCredits;
+    private KualiDecimal totalCredits;
     @XmlElement
     private String loadLevelTypeKey;
     @XmlAnyElement
@@ -43,11 +44,11 @@ public class LoadInfo extends IdNamelessEntityInfo implements Load, Serializable
     }
 
     @Override
-    public String getTotalCredits() {
+    public KualiDecimal getTotalCredits() {
         return totalCredits;
     }
 
-    public void setTotalCredits(String totalCredits) {
+    public void setTotalCredits(KualiDecimal totalCredits) {
         this.totalCredits = totalCredits;
     }
 

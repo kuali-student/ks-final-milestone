@@ -31,9 +31,18 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseRegistrationInfo", propOrder = {
-        "id", "typeKey", "stateKey", 
-        "studentId", "courseOfferingId", "credits", "gradingOptionId", 
-        "effectiveDate", "expirationDate", "meta", "attributes", 
+        "id", 
+        "typeKey", 
+        "stateKey", 
+        "studentId", 
+        "courseOfferingId", 
+        "registrationGroupId", 
+        "credits", 
+        "gradingOptionId", 
+        "effectiveDate", 
+        "expirationDate", 
+        "meta", 
+        "attributes", 
         "_futureElements"})
 
 public class CourseRegistrationInfo 
@@ -48,6 +57,9 @@ public class CourseRegistrationInfo
     @XmlElement
     private String courseOfferingId;
 
+    @XmlElement
+    private String registrationGroupId;
+    
     @XmlElement
     private String credits;
 
@@ -76,6 +88,7 @@ public class CourseRegistrationInfo
         if (courseRegistration != null) {
             this.studentId = courseRegistration.getStudentId();
             this.courseOfferingId = courseRegistration.getCourseOfferingId();
+            this.registrationGroupId = courseRegistration.getRegistrationGroupId();
             this.credits = courseRegistration.getCredits();
             this.gradingOptionId = courseRegistration.getGradingOptionId();
          }
@@ -98,6 +111,15 @@ public class CourseRegistrationInfo
     public void setCourseOfferingId(String courseOfferingId) {
         this.courseOfferingId = courseOfferingId;
     }
+
+    @Override
+    public String getRegistrationGroupId() {
+        return registrationGroupId;
+    }
+
+    public void setRegistrationGroupId(String registrationGroupId) {
+        this.registrationGroupId = registrationGroupId;
+    } 
 
     @Override
     public String getCredits() {
