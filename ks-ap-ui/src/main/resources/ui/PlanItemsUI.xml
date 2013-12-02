@@ -1,0 +1,1829 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <!--
+     Copyright 2007-2009 The Kuali Foundation
+
+     Licensed under the Educational Community License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+     http://www.opensource.org/licenses/ecl2.php
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+    -->
+
+
+    <!-- #################################### Planned Courses Term View ########################### -->
+
+    <!--Mock Plan View-->
+    <bean id="PlannedCourses-FormView" parent="PlannedCourses-FormView-parent" />
+    <bean abstract="true" id="PlannedCourses-FormView-parent" parent="MyPlanFormView">
+        <property name="id" value="PlannedCourses-FormView"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>myplan-view</value>
+                <value>ks-plan-View</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ks-myplan/plugins/jcarousellite.js</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Page" p:id="plan-page">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-plan-View-page</value>
+                        </list>
+                    </property>
+                    <property name="layoutManager">
+                        <bean parent="Uif-HorizontalBoxLayout"/>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <ref bean="planned_mock_detail"/>
+                            <ref bean="plannedCourses_myplan_section"/>
+                            <ref bean="planned_menu_items"/>
+                            <ref bean="backup_menu_items"/>
+                            <ref bean="completed_menu_items"/>
+                            <ref bean="completed_backup_menu_items"/>
+                            <ref bean="cart_menu_items"/>
+                            <bean id="hidden_new_user_flag" parent="Uif-DataField" p:propertyName="newUser"
+                                  p:style="display:none;"/>
+
+                        </list>
+                    </property>
+                    <property name="stickyFooter" value="false"/>
+                </bean>
+            </list>
+        </property>
+        <property name="footer.render" value="false"/>
+        <property name="formClass" value="org.kuali.student.myplan.plan.form.PlanForm"/>
+        <property name="onDocumentReadyScript" value="registerClosePopups();"/>
+    </bean>
+    
+    <bean id="plannedCourses_myplan_section" parent="plannedCourses_myplan_section-parent" />
+    <bean id="plannedCourses_myplan_section-parent" abstract="true" parent="myplan_section">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-plan-Widgets</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="messages_widget"/>
+                <ref bean="your_stuff_widget_planner"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="planned_mock_detail" parent="Uif-VerticalBoxSubSection">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>myplan-plan-loader</value>
+                <value>ks-plan-Loader</value>
+            </list>
+        </property>
+        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="onDocumentReadyScript" value="
+            var user = jQuery.trim(jQuery('#hidden_new_user_flag').text());
+            var retrieveOptions = {};
+            var sFocusAtpId = '';
+            var aParams = window.location.search.replace('?','').split('&amp;');
+            jQuery.each(aParams, function(index, value) {
+                if (value.split('=')[0].indexOf('focusAtpId') >= 0) {
+                    sFocusAtpId = decodeURIComponent(value.split('=')[1]);
+                }
+            });
+            if(sFocusAtpId != ''){
+                retrieveOptions = {viewId:'PlannedCourses-LookupView', focusAtpId:sFocusAtpId};
+            } else {
+                retrieveOptions = {viewId:'PlannedCourses-LookupView'};
+            }
+            ksapRetrieveComponent('planned_mock_detail','planned_courses_detail','search','lookup', retrieveOptions, null, {message:'&lt;p&gt;&lt;img src=&quot;@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxAuditRunning32.gif&quot; alt=&quot;loading...&quot; /&gt;&lt;/p&gt;&lt;p&gt;Please wait while we are fetching your plan...&lt;/p&gt;', fadeIn:0, fadeOut:0});
+        "/>
+    </bean>
+
+    <!--Cart Menu Items-->
+    <bean id="cart_menu_items" parent="cart_menu_items-parent"/>
+    <bean id="cart_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+        <property name="layoutManager.cssClasses">
+        	<list merge="true">
+        		<value>ks-plan-ContextMenu</value>
+        	</list>
+        </property>
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+
+                <ref bean="menuOptionCourseSummary"/>
+
+                <ref bean="menuOptionEditPlanItem"/>
+
+                <bean parent="Uif-Link" p:target="" p:href="#"
+                      p:linkText="Validate Cart Items"
+                      p:title="Validate Cart Items">
+                    <property name="onClickScript"
+                              value="var submitOptions = {data:{methodToCall:'validateCart',atpId:jQuery(this).data('atpid'),courseId:jQuery(this).data('courseid')}};
+                              jQuery('#kualiForm').ajaxSubmit(submitOptions);"/>
+                </bean>
+
+
+                <bean parent="Uif-Link" p:target="" p:href="#"
+                      p:linkText="Enroll In Cart Items"
+                      p:title="Enroll In Cart Items">
+                    <property name="onClickScript"
+                              value="var submitOptions = {data:{methodToCall:'enrollCart',atpId:jQuery(this).data('atpid'),courseId:jQuery(this).data('courseid')}};
+                              jQuery('#kualiForm').ajaxSubmit(submitOptions);"/>
+                </bean>
+
+                <ref bean="menuOptionMarkPlanned"/>
+
+                <bean parent="Uif-Message" p:messageText="Will be moved out of the cart credit total and into the planned credit total"
+                      p:cssClasses="fl-text-gray fl-font-size-90"/>
+
+                <ref bean="menuOptionMarkBackup"/>
+
+                <bean parent="Uif-Message" p:messageText="Will be moved out of the cart credit total"
+                      p:cssClasses="fl-text-gray fl-font-size-90"/>
+
+                <ref bean="menuOptionDeletePlanItem"/>
+
+                <bean parent="Uif-Message" p:messageText="Cannot Undo"
+                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="planned_menu_items" parent="planned_menu_items-parent" p:cssClasses="fl-container-150"/>
+    <bean id="planned_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+        <property name="layoutManager.cssClasses">
+            <list merge="true">
+                <value>ks-plan-ContextMenu</value>
+            </list>
+        </property>
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <ref bean="menuOptionCourseSummary"/>
+
+                <ref bean="menuOptionEditPlanItem"/>
+
+
+                <bean parent="menuOptionMarkCart">
+                    <property name="onClickScript" value="
+                        var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'plannedToCart', planItemId:jQuery(this).data('planitemid')};
+                        submitHiddenForm('plan', additionalFormData, e);
+                    "/>
+                </bean>
+
+                <bean parent="Uif-Message" p:messageText="Will be moved out of the Total Credit"
+                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
+
+
+                <ref bean="menuOptionMarkBackup"/>
+
+                <bean parent="Uif-Message" p:messageText="Will be moved below the Total Credit line"
+                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
+
+                <ref bean="menuOptionMovePlanItem"/>
+
+                <ref bean="menuOptionCopyPlanItem"/>
+
+                <ref bean="menuOptionDeletePlanItem"/>
+
+                <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
+                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <!--Backup menu items-->
+    <bean id="backup_menu_items" parent="backup_menu_items-parent"/>
+    <bean id="backup_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+        <property name="layoutManager.cssClasses">
+        	<list merge="true">
+        		<value>ks-plan-ContextMenu</value>
+        	</list>
+        </property>
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <ref bean="menuOptionCourseSummary"/>
+
+                <ref bean="menuOptionEditPlanItem"/>
+
+                <ref bean="menuOptionMarkCart"/>
+
+                <bean parent="Uif-Message" p:messageText="Will be moved out of the Total Credit"
+                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
+
+                <ref bean="menuOptionMarkPlanned"/>
+                <bean parent="Uif-Message" p:messageText="Will be moved above the Total Credit line"
+                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
+
+                <ref bean="menuOptionCopyPlanItem"/>
+                <ref bean="menuOptionMovePlanItem"/>
+                <ref bean="menuOptionDeletePlanItem"/>
+                <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
+                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--Completed Menu Items-->
+    <bean id="completed_menu_items" parent="completed_menu_items-parent"/>
+    <bean id="completed_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+        <property name="layoutManager.cssClasses">
+        	<list merge="true">
+        		<value>ks-plan-ContextMenu</value>
+        	</list>
+        </property>
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <ref bean="menuOptionCourseSummary"/>
+                <ref bean="menuOptionCopyPlanItem"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--Completed backup Menu Items-->
+    <bean id="completed_backup_menu_items" parent="completed_backup_menu_items-parent"/>
+    <bean id="completed_backup_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+        <property name="layoutManager.cssClasses">
+        	<list merge="true">
+        		<value>ks-plan-ContextMenu</value>
+        	</list>
+        </property>
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <ref bean="menuOptionCourseSummary"/>
+                <ref bean="menuOptionCopyPlanItem"/>
+                <ref bean="menuOptionDeletePlanItem"/>
+
+                <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
+                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--Completed backup Menu Items-->
+    <bean id="termnote_menu_items" parent="termnote_menu_items-parent"/>
+    <bean id="termnote_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+        <property name="layoutManager.cssClasses">
+        	<list merge="true">
+        		<value>ks-plan-ContextMenu</value>
+        	</list>
+        </property>
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <ref bean="menuTermOptionEdit"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <!--
+      This lookup provides the term by term view of Planned Courses.
+    -->
+    <bean id="PlannedCourses-LookupView" parent="PlannedCourses-LookupView-parent"/>
+    <bean id="PlannedCourses-LookupView-parent" abstract="true" parent="MyPlanBaseLookupView">
+        <property name="headerText" value="Plan"/>
+        <property name="header.render" value="false"/>
+        <property name="viewName" value="PlannedCourses-LookupView"/>
+        <property name="dataObjectClassName" value="org.kuali.student.myplan.plan.dataobject.PlannedTerm"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.myplan.plan.service.PlannedCoursesLookupableHelperImpl"/>
+        <property name="singlePageView" value="true"/>
+        <property name="page.header.render" value="false"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>myplan-view</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ks-myplan/plugins/jcarousellite.js</value>
+            </list>
+        </property>
+        <property name="page">
+            <bean parent="Uif-LookupPage" p:id="planned_courses_detail_page">
+                <property name="layoutManager">
+                    <bean parent="Uif-HorizontalBoxLayout"/>
+                </property>
+                <property name="items">
+                    <list>
+                        <ref bean="planned_courses_detail"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="criteriaGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="validationMessages.render" value="false"/>
+                <property name="footer">
+                    <bean parent="Uif-FooterBase"/>
+                </property>
+            </bean>
+        </property>
+
+        <property name="criteriaFields">
+            <list/>
+        </property>
+        <property name="resultFields">
+            <list/>
+        </property>
+        <property name="footer.render" value="false"/>
+    </bean>
+
+    <!-- Single term view that lists planned course, total credits and backup courses -->
+    <bean id="planned_courses_detail" parent="planned_courses_detail_parent" />
+    <bean id="planned_courses_detail_parent" parent="Uif-VerticalBoxSubSection" abstract="true" p:cssClasses="ks-plan-View-pageDetails">
+        <property name="onDocumentReadyScript" value="
+            var popupStyle = {width:'300px', height:'16px'};
+            var popupOptions = {tail:{hidden:true}, position:'right', align:'top', close:true};
+
+            jQuery('.ksap-carousel-list li .ksap-term-current.open, .ksap-carousel-list li .ksap-term-future.open').find('.ksap-term-planned .uif-stackedCollectionLayout, .ksap-term-backup .uif-stackedCollectionLayout').each(function(){
+            	var atpId = jQuery(this).parents('.ksap-carousel-term').data('atpid');
+            	var backup = jQuery(this).parents('.ksap-carousel-term').data('plantype');
+            	var boolbackup;
+            	if(backup == 'planned') boolbackup=false;
+            	else boolbackup=true;
+            	var size = jQuery(this).parents('.ksap-carousel-term').data('size');
+            	var xmlSafeAtpId=atpId.replace(/\./g, '-');
+            	var jQuickAdd = jQuery('&lt;div /&gt;').addClass('quick-add-cell ks-plan-Bucket-addItem').html('Add a course to plan').click(function(e){
+            		var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startQuickAddDialog', atpId:atpId, backup:boolbackup, pageId:'plan_item_add_page'};
+                    openPopup('plan_item_add_page.'+xmlSafeAtpId+'-'+backup, retrieveData, 'plan', popupStyle, popupOptions, e);
+            	});
+            	if (size &lt; 8) {
+            		jQuery(this).append(jQuickAdd.show());
+            	} else {
+            		jQuery(this).append(jQuickAdd.hide());
+            	}
+            });
+
+
+            if ( jQuery('#planned_courses_detail_list ul:not(.errorLines) li').length > 0 ) {
+                var iMaxHeight = Math.max.apply(null, jQuery('#planned_courses_detail_list ul:not(.errorLines) li').map(function() {
+                    return jQuery(this).height();
+                }).get());
+                jQuery('#planned_courses_detail_list ul:not(.errorLines) li').height(iMaxHeight);
+                var iStart = 0;
+                if (readUrlHash('planView')) {
+                    iStart = parseFloat(readUrlHash('planView'));
+                } else {
+                    if ( jQuery(&quot;div:hidden[id^='atp_start_index']&quot;).length > 0 ) {
+                        iStart = parseFloat(jQuery(&quot;div:hidden[id^='atp_start_index']&quot;).text());
+                    }
+
+                }
+
+                jQuery('#planned_courses_detail_list').jCarouselLite({
+                    btnNext: '.ksap-carousel-next',
+                    btnPrev: '.ksap-carousel-prev',
+                    scroll: @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()},
+                    visible: @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()},
+                    start: iStart,
+                    afterEnd: function(a) {
+                        fnBuildTitle(a);
+                        setUrlHash('planView', jQuery(a[0]).index());
+                    },
+                    initCallback: function(a) { fnBuildTitle(a); jQuery.unblockUI(); }
+                });
+            }
+        "/>
+        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="validationMessages.render" value="false"/>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>myplan-plan-heading</value>
+                            <value>ks-plan-Header</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-VerticalBoxGroup">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ks-plan-Header-buttonWrapper</value>
+                                        <value>ks-plan-Header-buttonWrapper--previous</value>
+                                    </list>
+                                </property>
+                                <property name="validationMessages.render" value="false"/>
+                                <property name="items">
+                                    <list>
+                                        <bean id="previous_year_button" parent="Uif-PrimaryActionButton"
+                                              p:actionScript="" p:title="Previous Academic Year">
+                                            <property name="actionImage">
+                                                <bean parent="Uif-Image"
+                                                      p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif">
+                                                    <property name="cssClasses">
+                                                        <list merge="true">
+                                                            <value>ks-plan-Header-buttonImage</value>
+                                                        </list>
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-carousel-prev</value>
+                                                    <value>ks-plan-Header-button</value>
+                                                    <value>ks-plan-Header-button--previous</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+
+                            <bean parent="Uif-MessageField">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ksap-plan-header</value>
+                                        <value>ks-plan-Header-headline</value>
+                                    </list>
+                                </property>
+                                <property name="message">
+                                    <bean parent="Uif-Message" p:messageText="Academic Year"/>
+                                </property>
+                            </bean>
+
+                            <bean parent="Uif-VerticalBoxGroup">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ks-plan-Header-buttonWrapper</value>
+                                        <value>ks-plan-Header-buttonWrapper--next</value>
+                                    </list>
+                                </property>
+                                <property name="validationMessages.render" value="false"/>
+                                <property name="items">
+                                    <list>
+                                        <bean id="next_year_button" parent="Uif-PrimaryActionButton" p:actionScript=""
+                                              p:title="Next Academic Year">
+                                            <property name="actionImage">
+                                                <bean parent="Uif-Image"
+                                                      p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif">
+                                                    <property name="cssClasses">
+                                                        <list merge="true">
+                                                            <value>ks-plan-Header-buttonImage</value>
+                                                        </list>
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-carousel-next</value>
+                                                    <value>ks-plan-Header-button</value>
+                                                    <value>ks-plan-Header-button--next</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="validationMessages.render" value="false"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField"
+                                  p:messageText="Create your plan by finding and adding courses to any term."/>
+                        </list>
+                    </property>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-plan-Instructions</value>
+                        </list>
+                    </property>
+                </bean>
+                <ref bean="planned_courses_detail_list"/>
+                <ref bean="overallPlanLink"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="planned_courses_detail_list" parent="planned_courses_detail_list-parent" />
+    <bean id="planned_courses_detail_list-parent" parent="Uif-ListCollectionSection">
+        <property name="validationMessages.render" value="false"/>
+        <property name="collectionObjectClass" value="org.kuali.student.myplan.plan.dataobject.PlannedTerm"/>
+        <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
+        <property name="layoutManager.lineGroupPrototype.header.additionalCssClasses" value="ks-plan-TermsList-itemHeader"/>
+        <property name="layoutManager.lineGroupPrototype.headerText" value="@{#line.qtrYear}"/>
+        <property name="layoutManager.lineGroupPrototype.validationMessages.render" value="false"/>
+        <property name="layoutManager.lineGroupPrototype.cssClasses">
+            <list merge="true">
+                <value>uif-group</value>
+                <value>uif-boxGroup</value>
+                <value>uif-verticalBoxGroup</value>
+                <value>uif-boxSection</value>
+                <value>@{#line.currentTermForView ? 'ksap-term-current' : (!#line.currentTermForView and
+                    #line.openForPlanning ? 'ksap-term-future' : 'ksap-term-past')}
+                </value>
+                <value>@{#line.openForPlanning ? 'open' : 'closed'}</value>
+                <value>ks-plan-TermsList-item</value>
+                <value>@{#line.currentTermForView ? 'ks-plan-TermsList-item--current' : (!#line.currentTermForView and
+                    #line.openForPlanning ? 'ks-plan-TermsList-item--future' : 'ks-plan-TermsList-item--past')}
+                </value>
+                <value>@{#line.openForPlanning ? 'ks-plan-TermsList-item--open' : 'ks-plan-TermsList-item--closed'}</value>
+            </list>
+        </property>
+        <property name="layoutManager.lineGroupPrototype.style"
+                  value="width:@{588/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px;
+                  margin:0 @{20/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px;"/>
+        <property name="layoutManager.lineGroupPrototype.header.upperGroup">
+            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-TermNote">
+                <property name="items">
+                    <list>
+                        <bean parent="menuTermOptionEdit">
+                            <property name="dataAttributes">
+                                <map>
+                                    <entry key="atpid" value="@{#line.atpId}"/>
+                                </map>
+                            </property>
+                        </bean>
+
+                        <bean p:id="@{#line.atpId.replaceAll('\.','-')}termnote_message" parent="Uif-InputField">
+                            <property name="propertyName" value="lookupResults[@{#index}].termNoteUI" />
+                            <property name="control">
+                                <bean parent="Uif-TextAreaControl" p:cssClasses="ks-plan-TermNote-input"
+                                      p:watermarkText="No Term Notes">
+                                    <property name="disabled" value="true"/>
+                                </bean>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="layoutManager.lineGroupPrototype.header.cssClasses">
+            <list merge="true">
+                <value>ks-plan-TermsList-itemHeader</value>
+            </list>
+        </property>
+        <property name="header">
+            <bean parent="Uif-HeaderFour" />
+        </property>
+        <property name="propertyName" value="lookupResults"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-carousel-list</value>
+                <value>myplan-remove-margin</value>
+                <value>ks-plan-TermsList</value>
+            </list>
+        </property>
+        <property name="header.render" value="true"/>
+        <property name="items">
+            <list>
+                <!-- This hidden field is only rendered for the ATP that should have focus in the UI. The value of "index" will
+                     be used to initialize the javascript "carousellite" component. It should only be displayed for the PlanTerm
+                     that should get focus -->
+                <bean id="atp_start_index" parent="Uif-DataField" p:propertyName="index"
+                      p:render="@{#line.index ge 0}" p:style="display:none;"/>
+
+                <bean id="plan_base_atpId" parent="Uif-DataField" p:propertyName="atpIdYear" p:style="display: none;">
+                    <property name="fieldLabel.render" value="false"/>
+                </bean>
+
+                <bean p:id="@{#line.atpId}_plan_status" parent="Uif-InputField" p:propertyName="openForPlanning">
+                    <property name="fieldLabel.render" value="false"/>
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="academicRecordCollection"/>
+                <ref bean="cartCollection"/>
+                <ref bean="plannedCollection"/>
+                <ref bean="backupCollection"/>
+            </list>
+        </property>
+        <property name="propertyReplacers">
+            <list>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="subCollections"
+                      p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isAdviser()">
+                    <property name="replacement">
+                        <list>
+                            <ref bean="advisorAcademicRecordCollection"/>
+                            <ref bean="advisorPlannedCollection"/>
+                            <ref bean="advisorBackupCollection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="onDocumentReadyScript" value="
+            truncateField('planned_courses_detail_list', true);
+            jQuery('#planned_courses_detail_list').on('PLAN_ITEM_ADDED', function(event, data) {
+                if(data.planItemType === 'wishlist'){
+                }else{
+                    fnAddPlanItem(data.atpId, data.planItemType, data.planItemId, data.courseDetails.code, data.courseDetails.courseTitle, data.courseDetails.credit, data.showAlert, data.termName, data.timeScheduleOpen);
+                }
+            }).on('PLAN_ITEM_DELETED', function(event, data) {
+                fnRemovePlanItem(data.atpId, data.planItemType, data.planItemId);
+            }).on('PLAN_ITEM_UPDATED', function(event, data) {
+                fnUpdatePlanItem(data);
+            }).on('TERM_NOTE_UPDATED', function(event, data) {
+                fnUpdateTermNote(data.atpId, data.termNote);
+            }).on('UPDATE_NEW_TERM_TOTAL_CREDITS', function(event, data) {
+                fnUpdateCredits(data.atpId, data.totalCredits, data.cartCredits);
+            }).on('UPDATE_OLD_TERM_TOTAL_CREDITS', function(event, data) {
+                fnUpdateCredits(data.atpId, data.totalCredits, data.cartCredits);
+            });
+        "/>
+    </bean>
+
+    <bean id="academicRecordCollection" parent="academicRecordCollection-parent"/>
+    <bean id="academicRecordCollection-parent" abstract="true" parent="Uif-StackedCollectionGroup"
+          p:headerText="@{#parentLine.completedTerm ? 'Completed': (#parentLine.academicRecord.size() gt 0 or !#parentLine.openForPlanning)? 'Registered' : ''}">
+        <property name="validationMessages.render" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
+        </property>
+        <property name="header.render"
+                  value="@{#line.completedTerm or #line.academicRecord.size() gt 0 or !#line.openForPlanning}"/>
+        <property name="header.toolTip">
+            <bean parent="academic_record_help_tooltip" p:tooltipContent="@{#parentLine.completedTerm and #parentLine.displayCompletedHelp ? 'A completed term you registered for.' : 'A course you have enrolled in for current or future academic term(s).'}"/>
+        </property>
+        <property name="header.lowerGroup">
+            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerStatusIcons">
+                <property name="validationMessages.render" value="false"/>
+                <property name="items">
+                    <list>
+                        <ref bean="MyPlanRegistrationStatusIcon"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="layoutManager.lineGroupPrototype.footer.render" value="false"/>
+        <property name="layoutManager.lineGroupPrototype.validationMessages.render" value="false"/>
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-plan-Bucket-collection</value>
+                    </list>
+                </property>
+                <property name="lineGroupPrototype">
+                    <bean parent="Uif-CollectionVerticalBoxItem"/>
+                </property>
+            </bean>
+        </property>
+        <property name="cssClasses">
+            <list merge="false">
+                <value>ksap-carousel-term</value>
+                <value>ksap-term-completed</value>
+                <value>@{#line.openForPlanning ? '' : 'ksap-term-fixed-height'}</value>
+                <value>ks-plan-Bucket</value>
+            </list>
+        </property>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject"/>
+        <property name="propertyName" value="academicRecord"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean p:id="@{#line.uuid}_completed" parent="Uif-HorizontalFieldGroup" p:title="@{#line.courseTitle}"
+                      p:render="@{#line.courseCode ne null and #line.courseId ne null}">
+                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="onClickScript"
+                              value="openMenu('@{#line.uuid}_completed','completed_menu_items','@{#line.atpId}',e,'.uif-collectionItem','fl-container-150 uif-boxLayoutHorizontalItem ks-plan-ContextMenu',{tail:{align:'top'},align:'top',position:'right'},false);"/>
+                    <property name="dataAttributes">
+                        <map>
+                            <entry key="courseid" value="@{#line.courseId}"/>
+                            <entry key="acadrecatpid" value="@{#line.atpId}"/>
+                        </map>
+                    </property>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-course-valid</value>
+                            <value>ks-plan-Bucket-item</value>
+                            <value>ks-plan-Bucket-item--valid</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{#line.courseCode} @{#line.activityCode}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>code</value>
+                                        <value>ks-plan-Bucket-itemCode</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{#line.credit}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>credit</value>
+                                        <value>ks-plan-Bucket-itemCreditCount</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MessageField" p:render="@{#line.grade ne null}">
+                                <property name="messageText" value="@{#line.grade}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>grade</value>
+                                        <value>ks-plan-Bucket-itemGrade</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean p:id="@{#line.uuid}_completed" parent="Uif-HorizontalFieldGroup" p:title="@{#line.courseTitle}"
+                      p:render="@{#line.courseCode ne null and #line.courseId eq null}">
+                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>myplan-course-invalid</value>
+                            <value>ks-plan-Bucket-item</value>
+                            <value>ks-plan-Bucket-item--invalid</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{#line.courseCode}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>code</value>
+                                        <value>ks-plan-Bucket-itemCode</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{#line.credit}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>credit</value>
+                                        <value>ks-plan-Bucket-itemCreditCount</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MessageField" p:render="@{#line.grade ne null}">
+                                <property name="messageText" value="@{#line.grade}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>grade</value>
+                                        <value>ks-plan-Bucket-itemGrade</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="collectionLookup.render" value="false"/>
+        <property name="collectionLookup.quickfinderAction.render" value="false"/>
+        <property name="footer">
+            <bean parent="term_total_credits" p:render="@{!#line.openForPlanning}">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ksap-carousel-term-total</value>
+                        <value>ks-plan-Bucket-credit</value>
+                    </list>
+                </property>
+                <property name="items">
+                    <list>
+                        <ref bean="term_total_credits_label"/>
+                        <ref bean="term_total_credits_text"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="advisorAcademicRecordCollection" parent="advisorAcademicRecordCollection-parent"/>
+    <bean id="advisorAcademicRecordCollection-parent" abstract="true" parent="Uif-StackedCollectionGroup"
+          p:headerText="@{#parentLine.completedTerm ? 'Completed': (#parentLine.academicRecord.size() gt 0 or !#parentLine.openForPlanning)? 'Registered' : ''}">
+        <property name="validationMessages.render" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
+        </property>
+        <property name="header.render"
+                  value="@{#line.completedTerm or #line.academicRecord.size() gt 0 or !#line.openForPlanning}"/>
+        <property name="header.toolTip">
+            <ref bean="academic_record_help_tooltip"/>
+        </property>
+        <property name="header.lowerGroup">
+            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerStatusIcons">
+                <property name="validationMessages.render" value="false"/>
+                <property name="items">
+                    <list>
+                        <ref bean="MyPlanRegistrationStatusIcon"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="layoutManager.lineGroupPrototype.footer.render" value="false"/>
+        <property name="layoutManager.lineGroupPrototype.validationMessages.render" value="false"/>
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-plan-Bucket-collection</value>
+                    </list>
+                </property>
+                <property name="lineGroupPrototype">
+                    <bean parent="Uif-CollectionVerticalBoxItem"/>
+                </property>
+            </bean>
+        </property>
+        <property name="cssClasses">
+            <list merge="false">
+                <value>ksap-carousel-term</value>
+                <value>ksap-term-completed</value>
+                <value>@{#line.openForPlanning ? '' : 'ksap-term-fixed-height'}</value>
+                <value>ks-plan-Bucket</value>
+            </list>
+        </property>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject"/>
+        <property name="propertyName" value="academicRecord"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean p:id="@{#line.uuid}_completed" parent="Uif-HorizontalFieldGroup" p:title="@{#line.courseTitle}"
+                      p:render="@{#line.courseCode ne null and #line.courseId ne null}"
+                      p:onClickScript="openPlanItemPopUp('@{#line.uuidXmlSafe}','course_summary_dialog_page',{courseId:'@{#line.courseId}',pageId:'course_summary_dialog_page'},e,null,{tail:{hidden:true},align:'top',position:'right'});">
+                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-course-valid</value>
+                            <value>ks-plan-Bucket-item</value>
+                            <value>ks-plan-Bucket-item--valid</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{#line.courseCode}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>code</value>
+                                        <value>ks-plan-Bucket-itemCode</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{#line.credit}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>credit</value>
+                                        <value>ks-plan-Bucket-itemCreditCount</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MessageField" p:render="@{#line.grade ne null}">
+                                <property name="messageText" value="@{#line.grade}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>grade</value>
+                                        <value>ks-plan-Bucket-itemGrade</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean p:id="@{#line.uuid}_completed" parent="Uif-HorizontalFieldGroup" p:title="@{#line.courseTitle}"
+                      p:render="@{#line.courseCode ne null and #line.courseId eq null}">
+                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>myplan-course-invalid</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{#line.courseCode}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>code</value>
+                                        <value>ks-plan-Bucket-itemCode</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{#line.credit}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>credit</value>
+                                        <value>ks-plan-Bucket-itemCreditCount</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MessageField" p:render="@{#line.grade ne null}">
+                                <property name="messageText" value="@{#line.grade}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>grade</value>
+                                        <value>ks-plan-Bucket-itemGrade</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="collectionLookup.render" value="false"/>
+        <property name="collectionLookup.quickfinderAction.render" value="false"/>
+        <property name="footer">
+            <bean parent="term_total_credits" p:render="@{#line.openForPlanning eq false}">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ksap-carousel-term-total</value>
+                        <value>ks-plan-Bucket-credit</value>
+                    </list>
+                </property>
+                <property name="items">
+                    <list>
+                        <ref bean="term_total_credits_label"/>
+                        <ref bean="term_total_credits_text"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="cartCollection" parent="cartCollection-parent"/>
+    <bean id="cartCollection-parent" abstract="true" parent="Uif-StackedCollectionGroup" p:headerText="Cart">
+        <property name="validationMessages.render" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
+        </property>
+        <property name="header.toolTip">
+            <ref bean="cart_help_tooltip"/>
+        </property>
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-plan-Bucket-collection</value>
+                    </list>
+                </property>
+                <property name="lineGroupPrototype">
+                    <bean parent="Uif-CollectionVerticalBoxItem"/>
+                </property>
+            </bean>
+        </property>
+        <property name="dataAttributes">
+            <map>
+                <entry key="plantype" value="cart"/>
+                <entry key="atpid" value="@{#line.atpId}"/>
+                <entry key="size" value="@{#line.cartList.size()}"/>
+            </map>
+        </property>
+        <property name="cssClasses">
+            <list merge="false">
+                <value>ksap-carousel-term</value>
+                <value>@{#line.atpId.replaceAll("\.","-")}</value>
+                <value>ksap-term-cart</value>
+                <value>ks-plan-Bucket</value>
+            </list>
+        </property>
+        <property name="layoutManager.lineGroupPrototype.footer.render" value="false"/>
+        <property name="layoutManager.lineGroupPrototype.validationMessages.render" value="false"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject"/>
+        <property name="propertyName" value="cartList"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean p:id="@{#line.planItemDataObject.id}_cart" parent="Uif-HorizontalFieldGroup"
+                      p:render="@{#line.courseCode ne null}"
+                      p:title="@{#line.courseTitle}">
+                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="onClickScript"
+                              value="openMenu('@{#line.planItemDataObject.id}_cart','cart_menu_items','@{#line.planItemDataObject.atp}',e,'.uif-collectionItem','fl-container-150 uif-boxLayoutHorizontalItem',{tail:{align:'top'},align:'top',position:'right'},false);"/>
+                    <property name="dataAttributes">
+                        <map>
+                            <entry key="courseid" value="@{#line.courseDetails.courseId}"/>
+                            <entry key="planitemid" value="@{#line.planItemDataObject.id}"/>
+                            <entry key="atpid" value="@{#line.planItemDataObject.atp}"/>
+                        </map>
+                    </property>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-course-valid</value>
+                            <value>@{#line.timeScheduleOpen ? 'schedule':''}</value>
+                            <value>ks-plan-Bucket-item</value>
+                            <value>ks-plan-Bucket-item--valid</value>
+                            <value>@{#line.timeScheduleOpen ? 'ks-plan-Bucket-item--scheduleOpen':''}</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-ImageField"
+                                  p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif"
+                                  p:title="@{#line.showAlert ? #line.courseCode + ' is not scheduled for '+ #line.planItemDataObject.termName : #line.courseCode + ' is scheduled for '+ #line.planItemDataObject.termName}"
+                                  p:altText="@{#line.showAlert ? #line.courseCode + ' is not scheduled for '+ #line.planItemDataObject.termName : #line.courseCode + ' is scheduled for '+ #line.planItemDataObject.termName}"
+                                  p:render="@{#line.timeScheduleOpen}">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>schedule-status</value>
+                                        <value>@{#line.showAlert ? 'not-scheduled' : 'scheduled'}</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{#line.campusCode} @{#line.courseCode} @{#line.activityCode}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>code</value>
+                                        <value>ks-plan-Bucket-itemCode</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{#line.courseDetails.credit}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>credit</value>
+                                        <value>ks-plan-Bucket-itemCreditCount</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="collectionLookup.render" value="false"/>
+        <property name="collectionLookup.quickfinderAction.render" value="false"/>
+        <property name="footer">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="validationMessages.render" value="false"/>
+                <property name="items">
+                    <list>
+                        <bean parent="term_total_credits"
+                              p:render="@{#line.academicRecord.size() gt 0 and #line.openForPlanning}">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>ksap-carousel-term-total</value>
+                                    <value>ks-plan-Bucket-credit</value>
+                                </list>
+                            </property>
+                            <property name="items">
+                                <list>
+                                    <ref bean="term_total_credits_label"/>
+                                    <bean parent="Uif-MessageField"
+                                          p:messageText="@{#line.cartCredits ne null ? #line.cartCredits : '0'}">
+                                        <property name="cssClasses">
+                                            <list merge="true">
+                                                <value>credits</value>
+                                                <value>ks-plan-Bucket-creditCount</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                        <bean parent="term_total_credits"
+                              p:render="@{#line.academicRecord.size() eq 0 and #line.openForPlanning}">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>ksap-carousel-term-total</value>
+                                    <value>ks-plan-Bucket-credit</value>
+                                </list>
+                            </property>
+                            <property name="items">
+                                <list>
+                                    <ref bean="term_total_credits_label"/>
+                                    <bean parent="Uif-MessageField"
+                                           p:messageText="@{#line.cartCredits ne null ? #line.cartCredits : '0'}">
+                                        <property name="cssClasses">
+                                            <list merge="true">
+                                                <value>credits</value>
+                                                <value>ks-plan-Bucket-creditCount</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                        <bean parent="term_no_courses"
+                              p:render="@{!#line.openForPlanning and #line.cartList.size() eq 0}"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="plannedCollection" parent="plannedCollection-parent"/>
+    <bean id="plannedCollection-parent" abstract="true" parent="Uif-StackedCollectionGroup" p:headerText="Planned">
+        <property name="validationMessages.render" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
+        </property>
+        <property name="header.toolTip">
+            <ref bean="planned_help_tooltip"/>
+        </property>
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-plan-Bucket-collection</value>
+                    </list>
+                </property>
+                <property name="lineGroupPrototype">
+                    <bean parent="Uif-CollectionVerticalBoxItem"/>
+                </property>
+            </bean>
+        </property>
+        <property name="dataAttributes">
+            <map>
+                <entry key="plantype" value="planned"/>
+                <entry key="atpid" value="@{#line.atpId}"/>
+                <entry key="size" value="@{#line.plannedList.size()}"/>
+            </map>
+        </property>
+        <property name="cssClasses">
+            <list merge="false">
+                <value>ksap-carousel-term</value>
+                <value>@{#line.atpId.replaceAll("\.","-")}</value>
+                <value>ksap-term-planned</value>
+                <value>@{#line.openForPlanning ? 'ksap-term-fixed-height' : ''}</value>
+                <value>ks-plan-Bucket</value>
+            </list>
+        </property>
+        <property name="layoutManager.lineGroupPrototype.footer.render" value="false"/>
+        <property name="layoutManager.lineGroupPrototype.validationMessages.render" value="false"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject"/>
+        <property name="propertyName" value="plannedList"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean p:id="@{#line.planItemDataObject.id}_planned" parent="Uif-HorizontalFieldGroup"
+                      p:render="@{#line.courseCode ne null}"
+                      p:title="@{#line.courseTitle}">
+                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="onClickScript"
+                              value="openMenu('@{#line.planItemDataObject.id}_planned','planned_menu_items','@{#line.planItemDataObject.atp}',e,'.uif-collectionItem','fl-container-150 uif-boxLayoutHorizontalItem',{tail:{align:'top'},align:'top',position:'right'},false);"/>
+                    <!-- TODO: after M2 upgrade : add SpEL for page name in openMenu param to swtich menu -->
+                    <!-- @{#parentLine.openForPlanning ? 'planned_menu_items' : 'completed_backup_menu_items'} -->
+                    <property name="dataAttributes">
+                        <map>
+                            <entry key="courseid" value="@{#line.courseDetails.courseId}"/>
+                            <entry key="planitemid" value="@{#line.planItemDataObject.id}"/>
+                            <entry key="atpid" value="@{#line.planItemDataObject.atp}"/>
+                        </map>
+                    </property>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-course-valid</value>
+                            <value>@{#line.timeScheduleOpen ? 'schedule':''}</value>
+                            <value>ks-plan-Bucket-item</value>
+                            <value>ks-plan-Bucket-item--valid</value>
+                            <value>ks-plan-Bucket--scheduleOpen</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-ImageField"
+                                  p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif"
+                                  p:title="@{#line.showAlert ? #line.courseCode + ' is not scheduled for '+ #line.planItemDataObject.termName : #line.courseCode + ' is scheduled for '+ #line.planItemDataObject.termName}"
+                                  p:altText="@{#line.showAlert ? #line.courseCode + ' is not scheduled for '+ #line.planItemDataObject.termName : #line.courseCode + ' is scheduled for '+ #line.planItemDataObject.termName}"
+                                  p:render="@{#line.timeScheduleOpen}">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>schedule-status</value>
+                                        <value>@{#line.showAlert ? 'not-scheduled' : 'scheduled'}</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{#line.campusCode} @{#line.courseCode} @{#line.activityCode}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>code</value>
+                                        <value>ks-plan-Bucket-itemCode</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{#line.courseDetails.credit}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>credit</value>
+                                        <value>ks-plan-Bucket-itemCreditCount</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="collectionLookup.render" value="false"/>
+        <property name="collectionLookup.quickfinderAction.render" value="false"/>
+        <property name="footer">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="validationMessages.render" value="false"/>
+                <property name="items">
+                    <list>
+                        <bean parent="term_total_credits"
+                              p:render="@{#line.academicRecord.size() gt 0 and #line.openForPlanning}">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>ksap-carousel-term-total</value>
+                                    <value>ks-plan-Bucket-credit</value>
+                                </list>
+                            </property>
+                            <property name="items">
+                                <list>
+                                    <ref bean="term_total_credits_label"/>
+                                    <ref bean="term_total_credits_text"/>
+                                </list>
+                            </property>
+                        </bean>
+                        <bean parent="term_total_credits"
+                              p:render="@{#line.academicRecord.size() eq 0 and #line.openForPlanning}">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>ksap-carousel-term-total</value>
+                                    <value>ks-plan-Bucket-credit</value>
+                                </list>
+                            </property>
+                            <property name="items">
+                                <list>
+                                    <ref bean="term_total_credits_label"/>
+                                    <ref bean="term_total_credits_text"/>
+                                </list>
+                            </property>
+                        </bean>
+                        <bean parent="term_no_courses"
+                              p:render="@{!#line.openForPlanning and #line.plannedList.size() eq 0}"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="advisorPlannedCollection" parent="advisorPlannedCollection-parent"/>
+    <bean id="advisorPlannedCollection-parent" abstract="true" parent="Uif-StackedCollectionGroup" p:headerText="Planned">
+        <property name="validationMessages.render" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
+        </property>
+        <property name="header.toolTip">
+            <ref bean="planned_help_tooltip"/>
+        </property>
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-plan-Bucket-collection</value>
+                    </list>
+                </property>
+                <property name="lineGroupPrototype">
+                    <bean parent="Uif-CollectionVerticalBoxItem"/>
+                </property>
+            </bean>
+        </property>
+        <property name="cssClasses">
+            <list merge="false">
+                <value>ksap-carousel-term</value>
+                <value>@{#line.atpId.replaceAll("\.","-")}</value>
+                <value>ksap-term-planned</value>
+                <value>@{#line.openForPlanning ? 'ksap-term-fixed-height' : ''}</value>
+                <value>ks-plan-Bucket</value>
+            </list>
+        </property>
+        <property name="layoutManager.lineGroupPrototype.footer.render" value="false"/>
+        <property name="layoutManager.lineGroupPrototype.validationMessages.render" value="false"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject"/>
+        <property name="propertyName" value="plannedList"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean p:id="@{#line.planItemDataObject.id}_planned" parent="Uif-HorizontalFieldGroup"
+                      p:title="@{#line.courseTitle}"
+                      p:render="@{#line.courseCode ne null}"
+                      p:onClickScript="openPlanItemPopUp('@{#line.planItemDataObject.idXmlSafe}','course_summary_dialog_page',{courseId:'@{#line.courseDetails.courseId}',pageId:'course_summary_dialog_page'},e,null,{tail:{hidden:true},align:'top',position:'right'});">
+                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-course-valid</value>
+                            <value>ks-plan-Bucket-item</value>
+                            <value>ks-plan-Bucket-item--valid</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{#line.courseCode}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>code</value>
+                                        <value>ks-plan-Bucket-itemCode</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{#line.courseDetails.credit}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>credit</value>
+                                        <value>ks-plan-Bucket-itemCreditCount</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="collectionLookup.render" value="false"/>
+        <property name="collectionLookup.quickfinderAction.render" value="false"/>
+        <property name="footer">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="validationMessages.render" value="false"/>
+                <property name="items">
+                    <list>
+                        <bean parent="term_total_credits"
+                              p:render="@{#line.academicRecord.size() gt 0 and #line.openForPlanning}">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>ksap-carousel-term-total</value>
+                                    <value>ks-plan-Bucket-credit</value>
+                                </list>
+                            </property>
+                            <property name="items">
+                                <list>
+                                    <ref bean="term_total_credits_label"/>
+                                    <ref bean="term_total_credits_text"/>
+                                </list>
+                            </property>
+                        </bean>
+                        <bean parent="term_total_credits"
+                              p:render="@{#line.academicRecord.size() eq 0 and #line.openForPlanning}">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>ksap-carousel-term-total</value>
+                                    <value>ks-plan-Bucket-credit</value>
+                                </list>
+                            </property>
+                            <property name="items">
+                                <list>
+                                    <ref bean="term_total_credits_label"/>
+                                    <ref bean="term_total_credits_text"/>
+                                </list>
+                            </property>
+                        </bean>
+                        <bean parent="term_no_courses"
+                              p:render="@{!#line.openForPlanning and #line.plannedList.size() eq 0}"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="backupCollection" parent="backupCollection-parent"/>
+    <bean id="backupCollection-parent" abstract="true" parent="Uif-StackedCollectionGroup" p:headerText="Backup">
+        <property name="validationMessages.render" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
+        </property>
+        <property name="header.toolTip">
+            <ref bean="backup_help_tooltip"/>
+        </property>
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-plan-Bucket-collection</value>
+                    </list>
+                </property>
+                <property name="lineGroupPrototype">
+                    <bean parent="Uif-CollectionVerticalBoxItem"/>
+                </property>
+            </bean>
+        </property>
+        <property name="dataAttributes">
+            <map>
+                <entry key="plantype" value="backup"/>
+                <entry key="atpId" value="@{#line.atpId}"/>
+                <entry key="size" value="@{#line.backupList.size()}"/>
+            </map>
+        </property>
+        <property name="cssClasses">
+            <list merge="false">
+                <value>ksap-carousel-term</value>
+                <value>@{#line.atpId.replaceAll("\.","-")}</value>
+                <value>ksap-term-backup</value>
+                <value>ks-plan-Bucket</value>
+            </list>
+        </property>
+        <property name="layoutManager.lineGroupPrototype.footer.render" value="false"/>
+        <property name="layoutManager.lineGroupPrototype.validationMessages.render" value="false"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject"/>
+        <property name="propertyName" value="backupList"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean p:id="@{#line.planItemDataObject.id}_backup" parent="Uif-HorizontalFieldGroup"
+                      p:title="@{#line.courseTitle}"
+                      p:render="@{#line.courseCode ne null}">
+                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="onClickScript"
+                              value="openMenu('@{#line.planItemDataObject.id}_backup','backup_menu_items','@{#line.planItemDataObject.atp}',e,'.uif-collectionItem','fl-container-150 uif-boxLayoutHorizontalItem',{tail:{align:'top'},align:'top',position:'right'},false);"/>
+                    <!-- TODO: after M2 upgrade : add SpEL for page name in openMenu param to switch menu -->
+                    <!-- @{#parentLine.openForPlanning ? 'backup_menu_items' : 'completed_backup_menu_items'} -->
+                    <property name="dataAttributes">
+                        <map>
+                            <entry key="courseid" value="@{#line.courseDetails.courseId}"/>
+                            <entry key="planitemid" value="@{#line.planItemDataObject.id}"/>
+                            <entry key="atpid" value="@{#line.planItemDataObject.atp}"/>
+                        </map>
+                    </property>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-course-valid</value>
+                            <value>@{#line.timeScheduleOpen ? 'schedule':''}</value>
+                            <value>ks-plan-Bucket-item</value>
+                            <value>ks-plan-Bucket-item--valid</value>
+                            <value>@{#line.timeScheduleOpen ? 'ks-plan-Bucket-item--scheduleOpen':''}</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-ImageField"
+                                  p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif"
+                                  p:title="@{#line.showAlert ? #line.courseCode + ' is not scheduled for '+ #line.planItemDataObject.termName : #line.courseCode + ' is scheduled for '+ #line.planItemDataObject.termName}"
+                                  p:altText="@{#line.showAlert ? #line.courseCode + ' is not scheduled for '+ #line.planItemDataObject.termName : #line.courseCode + ' is scheduled for '+ #line.planItemDataObject.termName}"
+                                  p:render="@{#line.timeScheduleOpen}">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>schedule-status</value>
+                                        <value>@{#line.showAlert ? 'not-scheduled' : 'scheduled'}</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{#line.courseCode}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>code</value>
+                                        <value>ks-plan-Bucket-itemCode</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{#line.courseDetails.credit}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>credit</value>
+                                        <value>ks-plan-Bucket-itemCreditCount</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="collectionLookup.render" value="false"/>
+        <property name="collectionLookup.quickfinderAction.render" value="false"/>
+        <property name="footer">
+            <bean parent="term_no_courses"
+                  p:render="@{!#line.openForPlanning AND #line.backupList.size() eq 0}"/>
+        </property>
+    </bean>
+
+    <bean id="advisorBackupCollection" parent="advisorBackupCollection-parent"/>
+    <bean id="advisorBackupCollection-parent" abstract="true" parent="Uif-StackedCollectionGroup" p:headerText="Backup">
+        <property name="validationMessages.render" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
+        </property>
+        <property name="header.toolTip">
+            <ref bean="backup_help_tooltip"/>
+        </property>
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-plan-Bucket-collection</value>
+                    </list>
+                </property>
+                <property name="lineGroupPrototype">
+                    <bean parent="Uif-CollectionVerticalBoxItem"/>
+                </property>
+            </bean>
+        </property>
+        <property name="cssClasses">
+            <list merge="false">
+                <value>ksap-carousel-term</value>
+                <value>@{#line.atpId.replaceAll("\.","-")}</value>
+                <value>ksap-term-backup</value>
+                <value>ks-plan-Bucket</value>
+            </list>
+        </property>
+        <property name="layoutManager.lineGroupPrototype.footer.render" value="false"/>
+        <property name="layoutManager.lineGroupPrototype.validationMessages.render" value="false"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject"/>
+        <property name="propertyName" value="backupList"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean p:id="@{#line.planItemDataObject.id}_backup" parent="Uif-HorizontalFieldGroup"
+                      p:title="@{#line.courseTitle}"
+                      p:render="@{#line.courseCode ne null}"
+                      p:onClickScript="openPlanItemPopUp('@{#line.planItemDataObject.idXmlSafe}','course_summary_dialog_page',{courseId:'@{#line.CourseDetails.courseId}',pageId:'course_summary_dialog_page'},e,null,{tail:{hidden:true},align:'top',position:'right'});">
+                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-course-valid</value>
+                            <value>ks-plan-Bucket-item</value>
+                            <value>ks-plan-Bucket-item--valid</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{#line.courseCode}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>code</value>
+                                        <value>ks-plan-Bucket-itemCode</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText" value="@{#line.courseDetails.credit}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>credit</value>
+                                        <value>ks-plan-Bucket-itemCreditCount</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="collectionLookup.render" value="false"/>
+        <property name="collectionLookup.quickfinderAction.render" value="false"/>
+        <property name="footer">
+            <bean parent="term_no_courses"
+                  p:render="@{!#line.openForPlanning and #line.backupList.size() eq 0}"/>
+        </property>
+    </bean>
+
+    <bean id="term_no_courses" parent="term_no_courses-parent"/>
+    <bean id="term_no_courses-parent" abstract="true" parent="Uif-VerticalBoxGroup">
+        <property name="validationMessages.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="No courses planned">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>fl-text-gray</value>
+                            <value>myplan-text-italic</value>
+                            <value>ks-plan-Bucket-emptyLabel</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="term_total_credits" parent="Uif-HorizontalBoxGroup">
+        <property name="validationMessages.render" value="false"/>
+        <property name="toolTip">
+            <ref bean="total_credits_help_tooltip"/>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="term_total_credits_label"/>
+                <ref bean="term_total_credits_text"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="term_total_credits_label" parent="Uif-MessageField" p:messageText="Credits" p:cssClasses="ks-plan-Bucket-creditLabel"/>
+
+    <bean id="term_total_credits_text" parent="Uif-MessageField"
+          p:messageText="@{#line.credits ne null ? #line.credits : '0'}">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>credits</value>
+                <value>ks-plan-Bucket-creditCount</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="overallPlanLink" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-LinkField" p:target="_blank">
+                    <property name="linkText" value="Print your entire academic plan"/>
+                    <property name="title" value="Print your entire academic plan"/>
+                    <property name="href"
+                              value="../myplan/lookup?methodToCall=search&amp;viewId=FullPlannedCourses-LookupView"/>
+                    <property name="lightBox">
+                        <bean parent="Uif-LightBox" p:width="90%"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--Single Plan Item View-->
+    <bean id="single_planned_courses_detail_list" parent="single_planned_courses_detail_list-parent"/>
+    <bean id="single_planned_courses_detail_list-parent" abstract="true" parent="Uif-ListCollectionSection"
+          p:validationMessages.render="false" p:style="width: 620px;">
+        <property name="collectionObjectClass" value="org.kuali.student.myplan.plan.dataobject.PlannedTerm"/>
+        <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
+        <property name="layoutManager.lineGroupPrototype.headerText" value="@{#line.qtrYear}"/>
+        <property name="layoutManager.lineGroupPrototype.validationMessages.render" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderFour"/>
+        </property>
+        <property name="propertyName" value="lookupResults"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-quarter-detail</value>
+                <value>myplan-remove-margin</value>
+            </list>
+        </property>
+        <property name="header.render" value="false"/>
+        <property name="subCollections">
+            <list>
+                <ref bean="single_AcademicRecord_Collection"/>
+                <ref bean="single_Planned_Collection"/>
+                <ref bean="single_Backup_Collection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="menuOptionMovePlanItem" parent="menuOptionMovePlanItem-parent"/>
+    <bean id="menuOptionMovePlanItem-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="Move to Another Term"
+          p:title="Move to Another Term">
+        <property name="actionScript" value="
+            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startMoveDialog', planItemId:jQuery(this).data('planitemid'), atpId:jQuery(this).data('atpid'), pageId:'move_dialog_page'};
+            var popupStyle = {width:'300px', height:'16px'};
+            var popupOptions = {tail:{hidden:true}, align:'top', close:true};
+            var pageId ='move_dialog_page.'+jQuery(this).data('planitemid').replace(/\./g, '-');
+            openPopup(pageId, retrieveData, 'plan', popupStyle, popupOptions, e);
+        "/>
+    </bean>
+
+    <bean id="menuOptionCopyPlanItem" parent="menuOptionCopyPlanItem-parent"/>
+    <bean id="menuOptionCopyPlanItem-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="Copy to Another Term"
+          p:title="Copy to Another Term">
+        <property name="actionScript" value="
+            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startCopyDialog', planItemId:jQuery(this).data('planitemid'), atpId:jQuery(this).data('atpid'), pageId:'copy_dialog_page'};
+            var popupStyle = {width:'300px', height:'16px'};
+            var popupOptions = {tail:{hidden:true}, align:'top', close:true};
+            var pageId ='copy_dialog_page.'+jQuery(this).data('planitemid').replace(/\./g, '-');
+            openPopup(pageId, retrieveData, 'plan', popupStyle, popupOptions, e);
+        "/>
+    </bean>
+
+    <bean id="menuOptionDeletePlanItem" parent="menuOptionDeletePlanItem-parent"/>
+    <bean id="menuOptionDeletePlanItem-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="Delete from Plan"
+          p:title="Delete from Plan">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-noMargin</value>
+            </list>
+        </property>
+        <property name="actionScript" value="
+            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startDeleteDialog', planItemId:jQuery(this).data('planitemid'), atpId:jQuery(this).data('atpid'), pageId:'plan_item_delete_page'};
+            var popupStyle = {width:'300px', height:'16px'};
+            var popupOptions = {tail:{hidden:true}, align:'top', close:true};
+            var pageId ='plan_item_delete_page.'+jQuery(this).data('planitemid').replace(/\./g, '-');
+            openPopup(pageId, retrieveData, 'plan', popupStyle, popupOptions, e);
+        "/>
+    </bean>
+
+    <bean id="menuOptionCourseSummary" parent="menuOptionCourseSummary-parent"/>
+    <bean id="menuOptionCourseSummary-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="View Course Summary"
+          p:title="View Course Summary">
+        <property name="actionScript" value="
+            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startSummaryDialog', planItemId:jQuery(this).data('planitemid'), courseId:jQuery(this).data('courseid'),atpId:jQuery(this).data('atpid'), pageId:'add_remove_course_popover_page'};
+            var popupStyle = {width:'300px', height:'16px'};
+            var popupOptions = {tail:{hidden:true}, align:'top', close:true};
+            var pageId ='add_remove_course_popover_page.'+jQuery(this).data('planitemid').replace(/\./g, '-');
+            openPopup(pageId, retrieveData, 'plan', popupStyle, popupOptions, e);
+        "/>
+    </bean>
+
+    <bean id="menuOptionEditPlanItem" parent="menuOptionEditPlanItem-parent"/>
+    <bean id="menuOptionEditPlanItem-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="Edit Plan Item"
+          p:title="Edit Plan Item">
+        <property name="actionScript" value="
+            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startEditDialog', planItemId:jQuery(this).data('planitemid'), atpId:jQuery(this).data('atpid'), pageId:'plan_item_edit_page'};
+            var popupStyle = {width:'300px', height:'16px'};
+            var popupOptions = {tail:{hidden:true}, align:'top', close:true};
+            var pageId ='plan_item_edit_page.'+jQuery(this).data('planitemid').replace(/\./g, '-');
+            openPopup(pageId, retrieveData, 'plan', popupStyle, popupOptions, e);
+        "/>
+    </bean>
+
+    <bean id="menuTermOptionEdit" parent="menuTermOptionEdit-parent"/>
+    <bean id="menuTermOptionEdit-parent" abstract="true" parent="Uif-ActionLink" p:actionLabel="Add/Edit Term Note"
+          p:title="Edit Term Note">
+        <property name="actionScript" value="
+            var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startTermNoteDialog', atpId:jQuery(this).data('atpid'), pageId:'term_note_edit_page'};
+            var popupStyle = {width:'300px', height:'16px'};
+            var popupOptions = {tail:{hidden:true}, align:'top', close:true};
+            var pageId ='term_note_edit_page.'+jQuery(this).data('atpid').replace(/\./g, '-');
+            openPopup(pageId, retrieveData, 'plan', popupStyle, popupOptions, e);
+        "/>
+    </bean>
+
+    <bean id="menuOptionMarkBackup" parent="Uif-Link" p:linkText="Mark as Backup Course"
+          p:title="Mark as Backup Course">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-noMargin</value>
+            </list>
+        </property>
+        <property name="onClickScript" value="
+            var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'plannedToBackup', planItemId:jQuery(this).data('planitemid')};
+            submitHiddenForm('plan', additionalFormData, e);
+        "/>
+    </bean>
+    <bean id="menuOptionMarkPlanned" parent="Uif-Link" p:linkText="Mark as Planned course"
+          p:title="Mark as Planned course">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-noMargin</value>
+            </list>
+        </property>
+        <property name="onClickScript" value="
+            var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'backupToPlanned', planItemId:jQuery(this).data('planitemid')};
+            submitHiddenForm('plan', additionalFormData, e);
+        "/>
+    </bean>
+
+    <bean id="menuOptionMarkCart" parent="Uif-Link" p:linkText="Move to Cart"
+          p:title="Move to Cart">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-noMargin</value>
+            </list>
+        </property>
+        <property name="onClickScript" value="
+            var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'backupToCart', planItemId:jQuery(this).data('planitemid')};
+            submitHiddenForm('plan', additionalFormData, e);
+        "/>
+    </bean>
+
+</beans>

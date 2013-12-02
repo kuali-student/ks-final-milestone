@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="PlannerDialog-FormView" parent="MyPlanBaseFormView">
+		<property name="headerText" value="Plan" />
+		<property name="id" value="PlannerDialog-FormView" />
+		<property name="footer.render" value="false" />
+		<property name="header.render" value="false" />
+		<property name="formClass" value="org.kuali.student.ap.planner.form.PlannerFormImpl" />
+		<property name="onSubmitScript" value="ksapPlannerSubmitDialog(e);" />
+		<property name="cssClasses">
+			<list merge="true">
+				<value>myplan-view</value>
+			</list>
+		</property>
+		<property name="items">
+			<list>
+				<ref bean="planner_add_course_page" />
+				<ref bean="planner_edit_term_note_page" />
+				<ref bean="planner_course_summary_page" />
+				<ref bean="planner_copy_course_page" />
+				<ref bean="planner_edit_plan_item_page" />
+				<ref bean="planner_copy_plan_item_page" />
+				<ref bean="planner_move_plan_item_page" />
+				<ref bean="planner_delete_plan_item_page" />
+			</list>
+		</property>
+	</bean>
+
+    <!-- Dialog Pages -->
+
+	<bean id="planner_dialog_page" parent="KSAP-PopoverPage" abstract="true">
+		<property name="items">
+			<list>
+				<bean parent="planner_hidden_input" p:propertyName="learningPlanId" />
+				<bean parent="planner_hidden_input" p:propertyName="termId" />
+				<bean parent="planner_hidden_input" p:propertyName="planItemId" />
+				<bean parent="planner_hidden_input" p:propertyName="courseId" />
+				<bean parent="planner_hidden_input" p:propertyName="uniqueId" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="planner_add_course_page" parent="planner_dialog_page">
+		<property name="id" value="planner_add_course_page" />
+		<property name="innerViewWrapperId" value="planner_add_course_inner" />
+		<property name="headerText" value="What would you like to add to @{term.name}?" />
+		<property name="items">
+			<list merge="true">
+				<bean parent="planner_course_code_input" />
+ 				<bean parent="planner_course_credit_input" />
+				<bean parent="planner_course_note_input" />
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="Uif-VerticalBoxGroup">
+							<property name="items">
+								<list>
+									<bean parent="Uif-HorizontalBoxGroup">
+										<property name="items">
+											<list>
+												<bean parent="planner_submit_button" p:actionLabel="Add to Plan" />
+												<bean parent="planner_cancel_button" />
+											</list>
+										</property>
+									</bean>
+									<bean parent="planner_error_placeholder" />
+								</list>
+							</property>
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+    <bean id="planner_edit_term_note_page" parent="planner_dialog_page">
+		<property name="id" value="planner_edit_term_note_page" />
+		<property name="innerViewWrapperId" value="planner_edit_term_note_inner" />
+		<property name="headerText" value="Edit @{term.name} term note" />
+    	<property name="items">
+	    	<list merge="true">
+				<bean parent="planner_term_note_input" />
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="Uif-VerticalBoxGroup">
+							<property name="items">
+								<list>
+									<bean parent="Uif-HorizontalBoxGroup">
+										<property name="items">
+											<list>
+												<bean parent="planner_submit_button" p:actionLabel="Save" />
+												<bean parent="planner_cancel_button" />
+											</list>
+										</property>
+									</bean>
+									<bean parent="planner_error_placeholder" />
+								</list>
+							</property>
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+    <bean id="planner_course_summary_page" parent="KSAP-PopoverPage">
+		<property name="id" value="planner_course_summary_page" />
+		<property name="innerViewWrapperId" value="planner_course_summary_inner" />
+		<property name="headerText" value="View course summary" />
+	    <property name="items">
+    		<list merge="true">
+				<ref bean="planner_course_summary_link" />
+				<ref bean="planner_course_details_summary_info"/>
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="planner_course_summary_link">
+							<property name="linkText" value="View more details"/>
+							<property name="title" value="View more details about @{courseSummaryDetails.code}"/>
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="planner_course_summary_link" parent="Uif-Link" p:target="">
+		<property name="cssClasses">
+			<list merge="true">
+				<value>fl-text-bold</value>
+				<value>myplan-text-wrap</value>
+				<value>ks-Popover-bodyLabel</value>
+			</list>
+		</property>
+		<property name="linkText" value="@{course.code} @{course.courseTitle} (@{creditString})"/>
+		<property name="title" value="@{course.code} @{course.courseTitle} (@{creditString})"/>
+		<property name="href" value="inquiry?methodToCall=start&amp;viewId=CourseDetails-InquiryView&amp;courseId=@{courseId}"/>
+	</bean>
+
+	<bean id="planner_course_details_summary_info" parent="Uif-VerticalBoxGroup">
+		<property name="validationMessages.render" value="false"/>
+		<property name="items">
+			<list>
+				<ref bean="planner_course_summary_details_data" />
+				<bean parent="planner_course_note_input">
+					<property name="control.disabled" value="true" />
+					<property name="control.watermarkText" value="" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="planner_course_summary_details_data" parent="Uif-VerticalBoxGroup">
+		<property name="validationMessages.render" value="false"/>
+		<property name="cssClasses">
+			<list merge="true">
+				<value>myplan-course-details</value>
+				<value>ks-Popover-item</value>
+				<value>ks-Popover-item--divideBefore</value>
+				<value>ks-Popover-item--divideAfter</value>
+				<value>ks-Popover-item--secondary</value>
+			</list>
+		</property>
+		<property name="items">
+            <!-- Issue with datafields and the property names causing a issue with opening the dialog -->
+			<list>
+				<!-- Scheduled Terms -->
+				<bean parent="Uif-DataField" p:label="Scheduled for" p:propertyName="courseSummaryDetails.scheduledTermsNames"
+						p:fieldLabel.cssClasses="fl-text-gray myplan-text-normal ks-Popover-detailLabel" p:labelPlacement="LEFT">
+					<property name="cssClasses">
+						<list merge="true">
+							<value>ksap-data-list</value>
+							<value>ks-Popover-detail</value>
+						</list>
+					</property>
+					<property name="render" value="@{courseSummaryDetails.scheduledTerms.size() gt 0}"/>
+				</bean>
+				<bean parent="Uif-MessageField" p:label="Scheduled for"
+						p:fieldLabel.cssClasses="fl-text-gray myplan-text-normal ks-Popover-detailLabel"
+						p:render="@{courseSummaryDetails.scheduledTerms.size() eq 0}">
+					<property name="message">
+						<bean parent="Uif-Message" p:messageText="Not currently scheduled"/>
+					</property>
+				</bean>
+				<!-- Last Offered -->
+				<bean parent="Uif-DataField" p:label="Last Offered" p:propertyName="courseSummaryDetails.lastOffered" p:labelPlacement="LEFT">
+					<property name="fieldLabel.cssClasses" value="fl-text-gray myplan-text-normal ks-Popover-detailLabel"/>
+					<property name="render" value="@{courseSummaryDetails.lastOffered ne null and courseSummaryDetails.scheduledTerms.size() eq 0}"/>
+				</bean>
+				<!-- Projected Terms -->
+				<bean parent="Uif-DataField" p:label="Projected for" p:propertyName="courseSummaryDetails.termsOffered"
+						p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">
+					<property name="fieldLabel.cssClasses" value="fl-text-gray myplan-text-normal ks-Popover-detailLabel"/>
+					<property name="propertyEditor" ref="terms_formatter"/>
+					<property name="cssClasses">
+						<list merge="true">
+							<value>ksap-data-list</value>
+							<value>ks-Popover-detail</value>
+						</list>
+					</property>
+					<property name="render" value="@{courseSummaryDetails.scheduledTerms.size() eq 0}"/>
+				</bean>
+				<!-- Requisites -->
+				<bean parent="Uif-DataField" p:label="Course Requisites"
+						p:propertyName="courseSummaryDetails.requisites" p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">
+					<property name="fieldLabel.cssClasses" value="fl-text-gray myplan-text-normal ks-Popover-detailLabel"/>
+					<property name="propertyEditor" ref="data_list_formatter"/>
+					<property name="cssClasses">
+						<list merge="true">
+							<value>ksap-data-list</value>
+							<value>myplan-multiline-ellipsis</value>
+							<value>ks-Popover-detail</value>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="planner_edit_plan_item_page" parent="planner_dialog_page">
+		<property name="id" value="planner_edit_plan_item_page" />
+		<property name="innerViewWrapperId" value="planner_edit_plan_item_inner" />
+		<property name="headerText" value="Edit @{course.code} @{termId eq null ? 'Bookmark' : 'from the '+term.name+' plan'}" />
+		<property name="items">
+			<list merge="true">
+				<bean parent="planner_course_credit_input" />
+				<bean parent="planner_course_note_input" />
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="Uif-VerticalBoxGroup">
+							<property name="items">
+								<list>
+									<bean parent="Uif-HorizontalBoxGroup">
+										<property name="items">
+											<list>
+												<bean parent="planner_submit_button" p:actionLabel="Save" />
+												<bean parent="planner_cancel_button" />
+											</list>
+										</property>
+									</bean>
+									<bean parent="planner_error_placeholder" />
+								</list>
+							</property>
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="planner_copy_course_page" parent="planner_dialog_page">
+		<property name="id" value="planner_copy_course_page" />
+		<property name="innerViewWrapperId" value="planner_copy_course_inner" />
+		<property name="headerText" value="Which term would you like to copy &lt;strong&gt;@{course.code}&lt;/strong&gt; to?" />
+		<property name="items">
+			<list merge="true">
+				<bean parent="planner_term_input" />
+<!-- 				<bean parent="planner_course_credit_input" /> -->
+				<bean parent="planner_course_note_input" />
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="Uif-VerticalBoxGroup">
+							<property name="items">
+								<list>
+									<bean parent="Uif-HorizontalBoxGroup">
+										<property name="items">
+											<list>
+												<bean parent="planner_submit_button" p:actionLabel="Copy" />
+												<bean parent="planner_cancel_button" />
+											</list>
+										</property>
+									</bean>
+									<bean parent="planner_error_placeholder" />
+								</list>
+							</property>
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="planner_copy_plan_item_page" parent="planner_dialog_page">
+		<property name="id" value="planner_copy_plan_item_page" />
+		<property name="innerViewWrapperId" value="planner_copy_plan_item_inner" />
+		<property name="headerText" value="Which term would you like to copy &lt;strong&gt;@{course.code}&lt;/strong&gt; to?" />
+		<property name="items">
+			<list merge="true">
+				<bean parent="planner_term_input" />
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="Uif-VerticalBoxGroup">
+							<property name="items">
+								<list>
+									<bean parent="Uif-HorizontalBoxGroup">
+										<property name="items">
+											<list>
+												<bean parent="planner_submit_button" p:actionLabel="Copy" />
+												<bean parent="planner_cancel_button" />
+											</list>
+										</property>
+									</bean>
+									<bean parent="planner_error_placeholder" />
+								</list>
+							</property>
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="planner_move_plan_item_page" parent="planner_dialog_page">
+		<property name="id" value="planner_move_plan_item_page" />
+		<property name="innerViewWrapperId" value="planner_move_plan_item_inner" />
+		<property name="headerText" value="Which term would you like to move &lt;strong&gt;@{course.code}&lt;/strong&gt; to?" />
+		<property name="items">
+			<list merge="true">
+				<bean parent="planner_term_input" />
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="Uif-VerticalBoxGroup">
+							<property name="items">
+								<list>
+									<bean parent="Uif-HorizontalBoxGroup">
+										<property name="items">
+											<list>
+												<bean parent="planner_submit_button" p:actionLabel="Move" />
+												<bean parent="planner_cancel_button" />
+											</list>
+										</property>
+									</bean>
+									<bean parent="planner_error_placeholder" />
+								</list>
+							</property>
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="planner_delete_plan_item_page" parent="planner_dialog_page">
+		<property name="id" value="planner_delete_plan_item_page" />
+		<property name="innerViewWrapperId" value="planner_delete_plan_item_inner" />
+		<property name="headerText" value="Delete @{course.code} @{termId eq null ? 'bookmark' : 'from '+term.name}?" />
+		<property name="items">
+			<list merge="true">
+				<bean parent="Uif-Message" p:cssClasses="ks-Popover-bodyLabel"
+						p:messageText="Are you sure that you want to delete &lt;strong&gt;@{course.code}&lt;/strong&gt;? Once deleted, you cannot undo."/>
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="Uif-VerticalBoxGroup">
+							<property name="items">
+								<list>
+									<bean parent="Uif-HorizontalBoxGroup">
+										<property name="items">
+											<list>
+												<bean parent="planner_submit_button" p:actionLabel="Delete" />
+												<bean parent="planner_cancel_button" />
+											</list>
+										</property>
+									</bean>
+									<bean parent="planner_error_placeholder" />
+								</list>
+							</property>
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Dialog Input Components-->
+
+    <bean id="planner_hidden_input" parent="Uif-InputField" abstract="true">
+		<property name="hidden" value="true" />
+		<property name="control">
+			<bean parent="Uif-HiddenControl" />
+		</property>
+	</bean>
+
+	<bean id="planner_dialog_input" parent="Uif-InputField" abstract="true">
+		<property name="labelPlacement" value="TOP" />
+		<property name="fieldLabel.render" value="true" />
+		<property name="fieldLabel.cssClasses">
+			<list merge="true">
+				<value>myplan-text-normal</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="planner_term_input" parent="planner_dialog_input">
+		<property name="propertyName" value="targetTermId" />
+		<property name="label" value="Term &amp; Year" />
+		<property name="instructionalText" value="Note: This course MAY NOT be offered in your selected term. Check back after the schedule of classes has been released." />
+		<property name="control">
+			<bean parent="Uif-DropdownControl"/>
+		</property>
+		<property name="optionsFinder">
+			<bean class="org.kuali.student.ap.planner.util.TermsListBuilder"/>
+		</property>
+	</bean>
+
+	<bean id="planner_course_code_input" parent="planner_dialog_input">
+		<property name="propertyName" value="courseCd" />
+		<property name="label" value="Enter subject and catalog number" />
+		<property name="control">
+			<bean parent="Uif-TextControl" p:additionalCssClasses="ksap-planner-courseCode">
+				<property name="onDocumentReadyScript" value="jQuery('#courseCode_control').focus();" />
+				<property name="watermarkText" value="e.g. BL MATH-M 119" />
+				<property name="maxLength" value="50" />
+				 <property name="size" value ="25"/>
+			</bean>
+		</property>
+	</bean>
+
+ 	<bean id="planner_course_credit_input" parent="planner_dialog_input">
+ 		<property name="propertyName" value="courseCredit" />
+ 		<property name="label" value="Credits" />
+ 		<property name="instructionalText" value="Optional, for courses with a variable number of credits." />
+ 		<property name="control">
+ 			<bean parent="Uif-TextControl">
+ 				<property name="size" value="3" />
+ 			</bean>
+ 		</property>
+ 	</bean>
+
+	<bean id="planner_course_note_input" parent="planner_dialog_input">
+		<property name="additionalCssClasses" value="ks-plan-Note" />
+		<property name="propertyName" value="courseNote" />
+		<property name="label" value="Note for course" />
+		<property name="control">
+			<bean parent="Uif-TextAreaControl" p:watermarkText="Enter a short note (500 characters max)"
+				p:maxLength="500">
+				<property name="cssClasses">
+					<list merge="true">
+						<value>ksap-characterCount</value>
+						<value>ks-plan-Note-input</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="constraintMessage">
+			<bean parent="KSAP-Message" p:messageText="characters remaining">
+				<property name="onDocumentReadyScript"
+					value="jQuery('.ksap-characterCount').characterCount({maxLength:500});" />
+				<property name="cssClasses">
+					<list merge="true">
+						<value>counter</value>
+						<value>ks-plan-Note-counter</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="planner_term_note_input" parent="planner_dialog_input">
+		<property name="additionalCssClasses" value="ks-plan-Note" />
+		<property name="propertyName" value="termNote" />
+		<property name="label" value="Note for @{term.name}" />
+		<property name="control">
+			<bean parent="Uif-TextAreaControl" p:watermarkText="Note for the term (500 characters max)"
+				p:maxLength="500">
+				<property name="cssClasses">
+					<list merge="true">
+						<value>ksap-characterCount</value>
+						<value>ks-plan-Note-input</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="constraintMessage">
+			<bean parent="KSAP-Message" p:messageText="characters remaining">
+				<property name="onDocumentReadyScript"
+					value="jQuery('.ksap-characterCount').characterCount({maxLength:500});" />
+				<property name="cssClasses">
+					<list merge="true">
+						<value>counter</value>
+						<value>ks-plan-Note-counter</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="planner_error_placeholder" parent="Uif-HorizontalBoxGroup"
+			p:hidden="true" p:additionalCssClasses="ksap-feedback,error,ks-Popover-error" />
+
+	<bean id="planner_submit_button" parent="Uif-SecondaryActionButton-Small"
+		p:additionalCssClasses="ks-Button ks-Button--primary">
+		<property name="actionScript" value="ksapPlannerSubmitDialog(e);" />
+	</bean>
+
+	<bean id="planner_cancel_button" parent="Uif-SecondaryActionButton-Small"
+		p:actionLabel="Cancel" p:additionalCssClasses="ks-Button">
+		<property name="actionScript" value="fnClosePopup();" />
+	</bean>
+
+</beans>
