@@ -27,8 +27,10 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
 import org.kuali.rice.core.api.exception.RiceIllegalStateException;
 import org.kuali.student.r2.common.util.ContextUtils;
 
@@ -77,7 +79,7 @@ public class CluContextImpl extends BasicContextImpl {
      * @param cluId CLU id
      * @return CLU
      */
-    public CluInfo getCluInfo(String cluId, ContextInfo contextInfo)  {
+    public CluInfo getCluInfo(String cluId, ContextInfo contextInfo) {
         if (cluId == null) {
             return null;
         }
@@ -86,11 +88,11 @@ public class CluContextImpl extends BasicContextImpl {
             CluInfo clu = this.cluService.getClu(versionInfo.getId(), contextInfo);
             return clu;
         } catch (Exception e) {
-            throw new RiceIllegalStateException (e);
+            throw new RiceIllegalStateException(e);
         }
     }
 
-    private CluInfo getClu(Map<String, Object> map, String key, ContextInfo contextInfo)  {
+    private CluInfo getClu(Map<String, Object> map, String key, ContextInfo contextInfo) {
         if (map.containsKey(key)) {
             String cluId = (String) map.get(key);
             return getCluInfo(cluId, contextInfo);
@@ -104,7 +106,7 @@ public class CluContextImpl extends BasicContextImpl {
      * @param cluSetId CLU set id
      * @return CLU set
      */
-    public CluSetInfo getCluSetInfo(String cluSetId, ContextInfo contextInfo)  {
+    public CluSetInfo getCluSetInfo(String cluSetId, ContextInfo contextInfo) {
         if (cluSetId == null) {
             return null;
         }
@@ -112,7 +114,7 @@ public class CluContextImpl extends BasicContextImpl {
             CluSetInfo cluSet = this.cluService.getCluSet(cluSetId, contextInfo);
             return cluSet;
         } catch (Exception e) {
-            throw new RiceIllegalStateException (e);
+            throw new RiceIllegalStateException(e);
         }
     }
 
@@ -135,7 +137,7 @@ public class CluContextImpl extends BasicContextImpl {
             CluSetTreeViewInfo tree = cluService.getCluSetTreeView(cluSetId, contextInfo);
             findClusInCluSet(tree, cluList);
         } catch (Exception e) {
-            throw new RiceIllegalStateException (e);
+            throw new RiceIllegalStateException(e);
         }
     }
 
@@ -160,52 +162,44 @@ public class CluContextImpl extends BasicContextImpl {
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
      *          If building a custom CLU set fails
      */
-    public NLCluSet getCluSet(Map<String, Object> map, String key, ContextInfo contextInfo)  {
-        NLCluSet cluSet = null;
+    public NLCluSet getCluSet(Map<String, Object> map, String key, ContextInfo contextInfo) {
         if (map.containsKey(key)) {
             String cluSetId = (String) map.get(key);
 
-            CluSetInfo cluSetInfo = null;
-            if (cluSetId != null) {
-                cluSetInfo = getCluSetInfo(cluSetId, contextInfo);
-            } else {
-                cluSetInfo = new CluSetInfo();
-            }
+            try {
+                List<CluInfo> list = new ArrayList<CluInfo>();
+                if (map.containsKey(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLULIST_KEY) || map.containsKey(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSETLIST_KEY)) {
+                    String[] cluids = getIdArray(map, KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLULIST_KEY);
 
-            List<CluInfo> list = new ArrayList<CluInfo>();
-            if(map.containsKey(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLULIST_KEY)||map.containsKey(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSETLIST_KEY)){
-                String [] cluids = getIdArray(map, KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLULIST_KEY);
-                for (String id : cluids) {
-                    if (!containsClu(list, id)) {
-                            list.add(this.getCluInfo(id, contextInfo));
+                    List<CluInfo> cluInfos = cluService.getClusByIds(Arrays.asList(cluids), contextInfo);
+                    list.addAll(cluInfos);
+
+                    String[] clusetids = getIdArray(map, KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSETLIST_KEY);
+                    for (String id : clusetids) {
+                        findClusInCluSet(id, list, contextInfo);
+                    }
+
+                    return new NLCluSet(cluSetId, list, new CluSetInfo());
+                } else {
+                    if (cluSetId != null) {
+                        findClusInCluSet(cluSetId, list, contextInfo);
+                        return new NLCluSet(cluSetId, list, getCluSetInfo(cluSetId, contextInfo));
                     }
                 }
 
-                String [] clusetids = getIdArray(map, KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSETLIST_KEY);
-                for (String id : clusetids) {
-                    findClusInCluSet(id, list, contextInfo);
-                }
-
-            } else {
-                if (cluSetId != null) {
-                    findClusInCluSet(cluSetId, list, contextInfo);
-                }else {
-                    return cluSet;
-                }
+            } catch (Exception e) {
+                throw new RiceIllegalStateException(e);
             }
 
-
-            return new NLCluSet(cluSetInfo.getId(), list, cluSetInfo);
-
         }
-        return cluSet;
+        return null;
     }
 
-    private static String[] getIdArray(Map<String, Object> map, String key){
+    private static String[] getIdArray(Map<String, Object> map, String key) {
         if (map.containsKey(key)) {
             String idList = (String) map.get(key);
 
-            if(idList.length()==0){
+            if (idList.length() == 0) {
                 return new String[0];
             }
 
@@ -217,7 +211,7 @@ public class CluContextImpl extends BasicContextImpl {
     /**
      * Creates the context map (template data) for the requirement component.
      *
-     * @param term Requirement component
+     * @param parameters
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
      *          Creating context map fails
      */
