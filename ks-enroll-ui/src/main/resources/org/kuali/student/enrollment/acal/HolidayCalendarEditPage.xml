@@ -33,7 +33,7 @@
     <bean id="KS-HolidayCalendar-EditPage" parent="KS-Uif-Page"
           p:id="holidayCalendarEditPage"
           p:disclosure.render="false"
-          p:headerText="@{!newCalendar ? #view.readOnly ? 'Holiday Calendar' : 'Edit Holiday Calendar' : ''}"
+          p:headerText="@{!newCalendar ? #view.readOnly ? 'Holiday Calendar' : 'Edit Holiday Calendar' : 'Holiday Calendar'}"
           p:header.id="KS-HolidayCalendar-EditPage-header">
         <property name="pageSourceFile" value="HolidayCalendarEditPage.xml" /> <!-- Shows up in HTML so devs can find the code -->
         <property name="header">

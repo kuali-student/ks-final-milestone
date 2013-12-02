@@ -334,7 +334,16 @@ public class HolidayCalendarController extends UifControllerBase {
         hcForm.setHcId(null);
         hcForm.setHolidayCalendarInfo( new HolidayCalendarInfo());
         hcForm.setHolidays(new ArrayList<HolidayWrapper>());
-        return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
+        //        return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
+
+        // Made this consistent with the rest of the controllers for creating blank acal/hcal
+        Properties urlParameters = new Properties();
+        urlParameters.put(UifParameters.VIEW_ID, CalendarConstants.HOLIDAYCALENDAR_FLOWVIEW);
+        urlParameters.put("flow", hcForm.getFlowKey());
+        urlParameters.put(CalendarConstants.PAGE_ID,CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "startNew");
+        String controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
+        return super.performRedirect(hcForm,controllerPath, urlParameters);
     }
 
     private void restoreForm(HolidayCalendarForm hcForm){
