@@ -177,7 +177,7 @@
                 <property name="templateOptions">
                     <map merge="true">
                         <entry key="sDom" value="fTrt"/>
-                        <entry key="aoColumnDefs" value="[{&quot;sWidth&quot; : &quot;20px&quot;, &quot;aTargets&quot; : [0]}]"/>
+                        <entry key="aoColumnDefs" value="[{&quot;sWidth&quot; : &quot;15px&quot;, &quot;aTargets&quot; : [0]}]"/>
                     </map>
                 </property>
             </bean>
@@ -191,6 +191,9 @@
                     </list>
                 </property>
             </bean>
+        </property>
+        <property name="layoutManager.expandDetailsActionPrototype">
+            <bean parent="Uif-ExpandDetailsImageAction"/>
         </property>
 
         <property name="propertyReplacers">
@@ -243,7 +246,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-DeletedAoListSection" parent="Uif-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="9" >
+    <bean id="KS-CourseOfferingManagement-DeletedAoListSection" parent="Uif-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="9" p:style="margin-left:1.8em;">
         <property name="headerText" value="Activities"/>
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper"/>
