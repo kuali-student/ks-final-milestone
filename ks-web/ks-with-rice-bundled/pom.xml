@@ -244,9 +244,9 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.kuali.student.enroll</groupId>
-            <artifactId>ks-enroll-deployment-resources</artifactId>
-            <version>${ks.enroll.version}</version>
+            <groupId>org.kuali.student.ap</groupId>
+            <artifactId>ks-ap-deployment-resources</artifactId>
+            <version>${ks.ap.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.enroll</groupId>
