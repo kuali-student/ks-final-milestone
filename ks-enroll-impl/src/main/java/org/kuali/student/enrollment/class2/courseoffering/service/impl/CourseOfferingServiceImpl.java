@@ -1259,13 +1259,28 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        List<ActivityOfferingInfo> list = new ArrayList<ActivityOfferingInfo>();
-        List<FormatOfferingInfo> formats = this.getFormatOfferingsByCourseOffering(courseOfferingId, context);
-        for (FormatOfferingInfo fo : formats) {
-            List<ActivityOfferingInfo> activities = this.getActivityOfferingsByFormatOffering(fo.getId(), context);
-            list.addAll(activities);
+        List<String> aoIds = new ArrayList<String>();
+
+        SearchRequestInfo searchRequest = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AO_AND_FO_IDS_BY_CO_ID_SEARCH_TYPE.getKey());
+        searchRequest.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, courseOfferingId);
+
+        SearchResultInfo searchResult = null;
+        try {
+            searchResult = getSearchService().search(searchRequest, context);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        return list;
+
+        for (SearchResultRowInfo row : searchResult.getRows()) {
+            for(SearchResultCellInfo cellInfo : row.getCells()){
+                if(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ID.equals(cellInfo.getKey())){
+                    aoIds.add(cellInfo.getValue());
+                }
+
+            }
+        }
+        return this.getActivityOfferingsByIds(aoIds,context);
+
     }
 
     @Override
