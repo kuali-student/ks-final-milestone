@@ -32,7 +32,7 @@
         </property>
         <property name="packagePrefixes">
             <list>
-                <value>org.kuali.student.myplan.course</value>
+                <value>org.kuali.student.ap.coursesearch</value>
                 <value>org.kuali.student.ap.audit</value>
             </list>
         </property>

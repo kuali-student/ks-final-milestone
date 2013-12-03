@@ -34,6 +34,13 @@
                 </#if>
             </ul>
         </div>
+        <div class="header-right-group">
+            <ul class="ks-header-list nav pull-right">
+                <li>
+                    Logged in User: ${UserSession.loggedInUserPrincipalName!"You are not logged in."}
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 </#macro>
