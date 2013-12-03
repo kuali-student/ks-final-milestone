@@ -751,11 +751,11 @@ function triggerFieldValidationAfterPageLoads(id) {
  * so that the only the links, buttons will respond to the enter key.
  */
 function dismissEnterKeyAction() {
-    if (window.event.keyCode== 13) {
-        if(window.event.target.type == "text" || window.event.target.type == "checkbox" ||
-            window.event.target.type == "radio" || window.event.target.type == "select-one")  {
-            window.event.returnValue = false;
-            window.event.keyCode = 0;
+    if (event.keyCode== 13) {
+        if(event.target.type == "text" || event.target.type == "checkbox" ||
+            event.target.type == "radio" || event.target.type == "select-one")  {
+            event.returnValue = false;
+            event.keyCode = 0;
         }
     }
 }
