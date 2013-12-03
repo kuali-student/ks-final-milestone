@@ -15,7 +15,7 @@
  */
 package org.kuali.student.common.uif.view;
 
-import org.kuali.rice.krad.uif.view.LookupView;
+import org.kuali.rice.krad.lookup.LookupView;
 
 /**
  * <p>
@@ -23,7 +23,7 @@ import org.kuali.rice.krad.uif.view.LookupView;
  * </p>
  *
  */
-public class KSLookupView extends LookupView{
+public class KSLookupView extends LookupView {
 
     protected String defaultSingleLookupResultAction;
 

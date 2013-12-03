@@ -575,7 +575,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
      *      Object, boolean)
      */
     @Override
-    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine, boolean isValidLine) {
+    public void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine, boolean isValidLine) {
         // Check for maintenance documents in edit but exclude notes
         if (model instanceof MaintenanceDocumentForm && KRADConstants.MAINTENANCE_EDIT_ACTION.equals(((MaintenanceDocumentForm) model).getMaintenanceAction()) && !(addLine instanceof Note)) {
 
