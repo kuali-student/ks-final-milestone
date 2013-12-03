@@ -30,6 +30,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupW
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ActivityOfferingDisplayUI;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.CourseOfferingDisplayUI;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
 import java.util.ArrayList;
@@ -197,9 +198,11 @@ public class CourseOfferingManagementForm extends KSUifForm implements ActivityO
 
     //Requisite link read only flag
     private boolean requisiteLink;
+
     /**
      * This is used to display EOs list under a specified CO in view ExamOfferings
      */
+    private List<ExamOfferingRelationInfo> eoRelations;
     private List<ExamOfferingWrapper> examOfferingWrapperList;
     private List<ExamOfferingWrapper> examOfferingCancelledList;
 
@@ -832,6 +835,14 @@ public class CourseOfferingManagementForm extends KSUifForm implements ActivityO
 
     public void setNumIneligibleAOsForCSR(int numIneligibleAOsForCSR) {
         this.numIneligibleAOsForCSR = numIneligibleAOsForCSR;
+    }
+
+    public List<ExamOfferingRelationInfo> getEoRelations() {
+        return eoRelations;
+    }
+
+    public void setEoRelations(List<ExamOfferingRelationInfo> eoRelations) {
+        this.eoRelations = eoRelations;
     }
 
     public List<ExamOfferingWrapper> getExamOfferingWrapperList() {

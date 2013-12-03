@@ -66,6 +66,7 @@ import java.util.Map;
 public class ExamOfferingServiceImpl implements ExamOfferingService {
 
     private static final String PREDICATE_FACTORY_PATH_FOR_LUITYPE = "typeKey";
+    private static final String PREDICATE_FACTORY_PATH_FOR_LUILUIRELATIONTYPE = "luiLuiRelationType";
 
     private LuiService luiService;
     private SchedulingService schedulingService;
@@ -155,11 +156,19 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
         return examInfos;
     }
 
-    private QueryByCriteria addLuiTypeEqualPredicate(QueryByCriteria criteria, String cluType){
+    private QueryByCriteria addLuiTypeEqualPredicate(QueryByCriteria criteria, String luiType){
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.and(
                 criteria.getPredicate(),
-                PredicateFactory.equal(PREDICATE_FACTORY_PATH_FOR_LUITYPE, cluType)));
+                PredicateFactory.equal(PREDICATE_FACTORY_PATH_FOR_LUITYPE, luiType)));
+        return qbcBuilder.build();
+    }
+
+    private QueryByCriteria addLuiLuiRelationTypeEqualPredicate(QueryByCriteria criteria, String luiLuiRelationType){
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.and(
+                criteria.getPredicate(),
+                PredicateFactory.equal(PREDICATE_FACTORY_PATH_FOR_LUILUIRELATIONTYPE, luiLuiRelationType)));
         return qbcBuilder.build();
     }
 
@@ -517,7 +526,7 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
         //Retrieve ExamOfferingRelationInfos
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.and(
-                PredicateFactory.equal("luiLuiRelationType", LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY),
+                PredicateFactory.equal(PREDICATE_FACTORY_PATH_FOR_LUILUIRELATIONTYPE, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY),
                 PredicateFactory.like("attributes[AO%]", activityOfferingId)));
 
         QueryByCriteria criteria = qbcBuilder.build();
@@ -535,9 +544,12 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             throw new MissingParameterException("criteria is null");
         }
 
+        //Add cluType Predicate
+        QueryByCriteria newCriteria = addLuiLuiRelationTypeEqualPredicate(criteria, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY);
+
         //Retrieve ExamOfferingRelationIds
         try {
-            return getLuiService().searchForLuiLuiRelationIds(criteria, contextInfo);
+            return getLuiService().searchForLuiLuiRelationIds(newCriteria, contextInfo);
         } catch (Exception ex) {
             throw new OperationFailedException(OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE, ex);
         }
@@ -553,10 +565,13 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
             throw new MissingParameterException("criteria is null");
         }
 
+        //Add cluType Predicate
+        QueryByCriteria newCriteria = addLuiLuiRelationTypeEqualPredicate(criteria, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY);
+
         //Retrieve ExamOfferingRelation
         try {
             List<ExamOfferingRelationInfo> examOfferingRelationInfos = new ArrayList<ExamOfferingRelationInfo>();
-            List<LuiLuiRelationInfo> luiLuiRelationInfos = this.getLuiService().searchForLuiLuiRelations(criteria, contextInfo);
+            List<LuiLuiRelationInfo> luiLuiRelationInfos = this.getLuiService().searchForLuiLuiRelations(newCriteria, contextInfo);
             for(LuiLuiRelationInfo luiLuiRelationInfo : luiLuiRelationInfos){
                 ExamOfferingRelationInfo examOfferingRelationInfo = new ExamOfferingRelationInfo();
                 this.getExamOfferingTransformer().transformLuiLuiRel2EORel(luiLuiRelationInfo, examOfferingRelationInfo);

@@ -521,6 +521,8 @@ public class CourseOfferingManagementUtil {
         form.setPrivateClusterNamePopover("");
         form.setPublishedClusterNamePopover("");
 
+        getViewHelperService(form).loadExamOfferingRelations(form);
+
         getViewHelperService(form).loadPreviousAndNextCourseOffering(form);
 
         getViewHelperService(form).build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(form);

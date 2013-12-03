@@ -2,6 +2,8 @@ package org.kuali.student.enrollment.class2.examoffering.service.facade;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krms.api.KrmsApiServiceLocator;
 import org.kuali.rice.krms.api.engine.Engine;
 import org.kuali.rice.krms.api.engine.ExecutionFlag;
@@ -9,6 +11,7 @@ import org.kuali.rice.krms.api.engine.ExecutionOptions;
 import org.kuali.rice.krms.api.engine.SelectionCriteria;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.hsqldb.lib.StringUtil;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.FormatOfferingTransformer;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FinalExam;
@@ -20,6 +23,7 @@ import org.kuali.student.enrollment.exam.service.ExamService;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
 import org.kuali.student.enrollment.examoffering.service.ExamOfferingService;
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -31,6 +35,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
@@ -44,6 +49,7 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
+import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -270,6 +276,26 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             removeFinalExamOfferingsFromCO(foToEoRelations, context);
         }
 
+    }
+
+    @Override
+    public List<ExamOfferingRelationInfo> getExamOfferingRelationsByCourseOffering(String courseOfferingId,
+                                                                                   ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException, PermissionDeniedException {
+
+        List<String> foIds = new ArrayList<String>();
+        List<FormatOfferingInfo> fos = this.getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId,
+                ContextUtils.createDefaultContextInfo());
+        for(FormatOfferingInfo fo : fos){
+            foIds.add(fo.getId());
+        }
+
+        //Retrieve ExamOfferingRelationInfos
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.in("lui.id", foIds.toArray()));
+
+        QueryByCriteria criteria = qbcBuilder.build();
+        return this.getExamOfferingService().searchForExamOfferingRelations(criteria, contextInfo);
     }
 
     @Override

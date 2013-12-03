@@ -2373,21 +2373,20 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         }
     }
 
-    public void loadExamOfferings(CourseOfferingManagementForm theForm) throws Exception {
+    public void loadExamOfferingRelations(CourseOfferingManagementForm theForm) throws Exception {
 
-        List<FormatOfferingInfo> fos = CourseOfferingManagementUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(theForm.getCourseOfferingId(),
-                ContextUtils.createDefaultContextInfo());
+        List<ExamOfferingRelationInfo> eoRelations = CourseOfferingManagementUtil.getExamOfferingServiceFacade().getExamOfferingRelationsByCourseOffering(
+                theForm.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+        theForm.setEoRelations(eoRelations);
+    }
+
+    public void loadExamOfferings(CourseOfferingManagementForm theForm) throws Exception {
 
         Set<String> examOfferingIds = new HashSet<String>();
         Map<String, ExamOfferingRelationInfo> eoToRln = new HashMap<String, ExamOfferingRelationInfo>();
-        for (FormatOfferingInfo fo : fos) {
-            //Retrieve exam offering relations for fo and add to map.
-            List<ExamOfferingRelationInfo> examOfferingRelationInfos = CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
-                    fo.getId(), ContextUtils.createDefaultContextInfo());
-            for (ExamOfferingRelationInfo examOfferingRelationInfo : examOfferingRelationInfos) {
-                examOfferingIds.add(examOfferingRelationInfo.getExamOfferingId());
-                eoToRln.put(examOfferingRelationInfo.getExamOfferingId(), examOfferingRelationInfo);
-            }
+        for (ExamOfferingRelationInfo examOfferingRelationInfo : theForm.getEoRelations()) {
+            examOfferingIds.add(examOfferingRelationInfo.getExamOfferingId());
+            eoToRln.put(examOfferingRelationInfo.getExamOfferingId(), examOfferingRelationInfo);
         }
 
         //Retrieve a list of all the unique examofferings.

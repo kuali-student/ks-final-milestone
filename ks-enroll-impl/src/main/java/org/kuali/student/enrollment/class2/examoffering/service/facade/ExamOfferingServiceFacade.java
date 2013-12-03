@@ -2,6 +2,8 @@ package org.kuali.student.enrollment.class2.examoffering.service.facade;
 
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
+import org.kuali.student.enrollment.examoffering.infc.ExamOfferingRelation;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -13,6 +15,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
+import javax.jws.WebParam;
 import java.util.List;
 import java.util.Map;
 
@@ -335,6 +338,23 @@ public interface ExamOfferingServiceFacade {
                                          Map<String, List<ActivityOfferingInfo>> foIdToListOfAOs)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException;
+
+    /**
+     * Retrieves a list of ExamOfferingRelations to the given FormatOffering.
+     *
+     * @param courseOfferingId the identifier for the CourseOffering
+     * @param contextInfo  Context information containing the principalId and locale information about the caller of service operation
+     * @return the ExamOfferingRelations to the given FormatOffering or an empty list if none found
+     * @throws InvalidParameterException contextInfo is invalid
+     * @throws MissingParameterException formatOfferingId or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws DoesNotExistException
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    List<ExamOfferingRelationInfo> getExamOfferingRelationsByCourseOffering(@WebParam(name = "formatOfferingId") String courseOfferingId,
+                                                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException,
+            PermissionDeniedException;
 
     /**
      * This method retrieves the boolea value to indicate if the execution process should or not set the location on the RDL.
