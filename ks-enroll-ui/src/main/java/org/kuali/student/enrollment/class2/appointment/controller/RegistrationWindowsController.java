@@ -77,7 +77,7 @@ public class RegistrationWindowsController extends UifControllerBase {
 
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
         if (!(form instanceof RegistrationWindowsManagementForm)) {
@@ -96,7 +96,7 @@ public class RegistrationWindowsController extends UifControllerBase {
             }
         }
 
-        return super.start(theForm, result, request, response);
+        return super.start(theForm, request, response);
     }
 
     /**

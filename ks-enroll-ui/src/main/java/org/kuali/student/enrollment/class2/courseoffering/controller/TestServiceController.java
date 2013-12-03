@@ -53,7 +53,7 @@ public class TestServiceController extends UifControllerBase {
 
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
         if (!(form instanceof TestServiceCallForm)){
             throw new RuntimeException("Form object passed into start method was not of expected type TestServiceCallForm. Got " + form.getClass().getSimpleName());
@@ -63,14 +63,14 @@ public class TestServiceController extends UifControllerBase {
         if (paramMap.containsKey(PAGE_ID)) {
             String pageId = ((String []) paramMap.get(PAGE_ID))[0];
             if (pageId.equals("firstServiceCall")) {
-                return _startFirstServiceCall(form, result, request, response);
+                return _startFirstServiceCall(form, request, response);
             }
         }
         return getUIFModelAndView(theForm);
         // return super.start(theForm, result, request, response);
     }
 
-    private ModelAndView _startFirstServiceCall(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+    private ModelAndView _startFirstServiceCall(@ModelAttribute("KualiForm") UifFormBase form,
                                                 @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
         // Doesn't do anything really, but is there for customization
         TestServiceCallForm theForm = (TestServiceCallForm) form;

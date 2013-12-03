@@ -4,12 +4,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
-import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.field.Field;
 import org.kuali.rice.krad.uif.field.FieldGroup;
 import org.kuali.rice.krad.uif.layout.TableLayoutManager;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
-import org.kuali.rice.krad.uif.view.View;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 
@@ -27,9 +25,10 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
     private Field commonRequisiteField;
     private String name = StringUtils.EMPTY;
 
-    public void buildLine(View view, Object model, CollectionGroup collectionGroup, List<Field> lineFields, List<FieldGroup> subCollectionFields,
-                          String bindingPath, List<Action> actions, String idSuffix, Object currentLine, int lineIndex) {
-        super.buildLine(view, model, collectionGroup, lineFields, subCollectionFields, bindingPath, actions, idSuffix,
+    @Override
+    public void buildLine(Object model, CollectionGroup collectionGroup, List<Field> lineFields, List<FieldGroup> subCollectionFields,
+                          String bindingPath, List<? extends Component> actions, String idSuffix, Object currentLine, int lineIndex) {
+        super.buildLine(model, collectionGroup, lineFields, subCollectionFields, bindingPath, actions, idSuffix,
                 currentLine, lineIndex);
 
         if (currentLine instanceof ActivityOfferingWrapper) {

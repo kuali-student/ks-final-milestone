@@ -17,8 +17,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -39,7 +39,7 @@ public class SocRolloverResultItemInfoLookupableImpl extends LookupableImpl {
     public final static String SOC_ROLLOVER_RESULT_ID = "socRolloverResultId";
 
     @Override
-    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<SocRolloverResultItemInfo> socRolloverResultItemInfos;
         String resultId = fieldValues.get(SOC_ROLLOVER_RESULT_ID);
 

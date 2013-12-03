@@ -20,6 +20,7 @@ import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.TranslateBusinessMethods;
@@ -241,7 +242,7 @@ public class KSRuleManagementServiceImpl extends RuleRepositoryServiceImpl imple
      */
     public SequenceAccessorService getSequenceAccessorService() {
         if (this.sequenceAccessorService == null) {
-            this.sequenceAccessorService = KRADServiceLocator.getSequenceAccessorService();
+            this.sequenceAccessorService = KNSServiceLocator.getSequenceAccessorService();
         }
         return sequenceAccessorService;
     }

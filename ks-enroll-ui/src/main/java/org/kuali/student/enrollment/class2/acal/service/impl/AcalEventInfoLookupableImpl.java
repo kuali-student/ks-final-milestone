@@ -20,8 +20,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
@@ -45,7 +45,7 @@ public class AcalEventInfoLookupableImpl extends LookupableImpl {
     ContextInfo contextInfo = new ContextInfo();
 
     @Override
-    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<AcalEventInfo> results = new ArrayList<AcalEventInfo>();
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
         List<Predicate> pList = new ArrayList<Predicate>();

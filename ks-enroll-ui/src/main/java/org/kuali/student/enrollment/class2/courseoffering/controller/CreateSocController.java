@@ -53,7 +53,7 @@ public class CreateSocController extends UifControllerBase {
 
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
         if (!(form instanceof CreateSocForm)){
             throw new RuntimeException("Form object passed into start method was not of expected type CreateSocForm. Got " + form.getClass().getSimpleName());
@@ -63,14 +63,13 @@ public class CreateSocController extends UifControllerBase {
         if (paramMap.containsKey("pageId")) {
             String pageId = ((String []) paramMap.get("pageId"))[0];
             if (pageId.equals("selectTermForSocCreation")) {
-                return _startSelectTermForSocCreation(form, result, request, response);
+                return _startSelectTermForSocCreation(form);
             }
         }
         return getUIFModelAndView(theForm);
     }
 
-    private ModelAndView _startSelectTermForSocCreation(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
-                                                        @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
+    private ModelAndView _startSelectTermForSocCreation(@ModelAttribute("KualiForm") UifFormBase form) {
         // Doesn't do anything really, but is there for customization
         CreateSocForm theForm = (CreateSocForm) form;
         LOGGER.info("selectTermForSocCreation");
