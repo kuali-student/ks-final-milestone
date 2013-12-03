@@ -8,7 +8,6 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.UnhandledException;
 import org.apache.log4j.Logger;
-import org.hsqldb.lib.StringUtil;
 import org.kuali.rice.core.api.criteria.EqualPredicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
