@@ -96,19 +96,19 @@ public class StudentStandaloneTestBase extends BaselineTestCase {
 			}
 		}
 		
-		new SQLDataLoader("file:" + getBaseDir() + "/src/main/config/sql/kim.sql", ";").runSql();
+		new SQLDataLoader("file:" + System.getProperty("basedir") + "/src/main/config/sql/kim.sql", ";").runSql();
 	}
 	
     protected String getKNSDefaultSuiteTestData() {
-        return "file:" + getBaseDir() + "/src/test/config/data/DefaultSuiteTestDataKNS.sql";
+        return "file:" + System.getProperty("basedir") + "/src/test/config/data/DefaultSuiteTestDataKNS.sql";
     }
 
     protected String getKIMDataLoadOrderFile() {
-        return getBaseDir() + "/src/test/config/data/KIMDataLoadOrder.txt";
+        return System.getProperty("basedir") + "/src/test/config/data/KIMDataLoadOrder.txt";
     }
 
     protected String getKIMSqlFileBaseLocation() {
-        return "file:" + getBaseDir() + "/src/test/config/data";
+        return "file:" + System.getProperty("basedir") + "/src/test/config/data";
     }
     
     /**
