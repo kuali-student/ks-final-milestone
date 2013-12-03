@@ -16,8 +16,8 @@
 package org.kuali.student.lum.lu.ui.krms.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
+import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -73,7 +73,7 @@ public class ProgramInfoLookupableImpl extends LookupableImpl {
     }
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List <CluInformation> programInfoList = new ArrayList<CluInformation>();
         List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
         SearchParamInfo qpv1 = new SearchParamInfo();
