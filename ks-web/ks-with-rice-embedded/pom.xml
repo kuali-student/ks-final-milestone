@@ -112,6 +112,20 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <dependentWarExcludes>**/web.xml,WEB-INF/lib/**,WEB-INF/krad-servlet.xml,**/sampleTravelApplication.tag,META-INF/**</dependentWarExcludes>
+                    <overlays>
+                        <!-- overlays are applied with a first-win strategy -->
+                        <!-- specify order in which overlays are applied -->
+                        <overlay>
+                            <groupId>org.kuali.student.core</groupId>
+                            <artifactId>ks-common-web</artifactId>
+                        </overlay>
+
+                        <overlay>
+                            <!-- empty groupId/artifactId represents the current build -->
+                        </overlay>
+
+                        <!-- any other remaining overlays will be applied last -->
+                    </overlays>
                 </configuration>
             </plugin>
         </plugins>
