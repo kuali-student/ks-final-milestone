@@ -510,124 +510,7 @@ function submitPopupForm(additionalFormData, e, bDialog) {
     };
     ksapAjaxSubmitForm(additionalFormData, successCallback, elementToBlock, "popupForm", blockOptions);
 }
-/*
- ######################################################################################
- Function:   KRAD's ajax submit function modified to allow submission of a form
- other then the kuali form
- ######################################################################################
- */
-function myplanAjaxSubmitForm(methodToCall, successCallback, additionalData, elementToBlock, formId, elementBlockingSettings) {
-    var data = {};
 
-    // methodToCall checks
-    if (methodToCall == null) {
-        var methodToCallInput = jQuery("input[name='methodToCall']");
-        if (methodToCallInput.length > 0) {
-            methodToCall = jQuery("input[name='methodToCall']").val();
-        }
-    }
-
-    // check to see if methodToCall is still null
-    if (methodToCall != null || methodToCall !== "") {
-        data.methodToCall = methodToCall;
-    }
-
-    data.renderFullView = false;
-
-    // remove this since the methodToCall was passed in or extracted from the page, to avoid issues
-    jQuery("input[name='methodToCall']").remove();
-
-    if (additionalData != null) {
-        jQuery.extend(data, additionalData);
-    }
-
-    var viewState = jQuery(document).data(kradVariables.VIEW_STATE);
-    if (!jQuery.isEmptyObject(viewState)) {
-        var jsonViewState = jQuery.toJSON(viewState);
-
-        // change double quotes to single because escaping causes problems on URL
-        jsonViewState = jsonViewState.replace(/"/g, "'");
-        jQuery.extend(data, {clientViewState:jsonViewState});
-    }
-
-    var submitOptions = {
-        data:data,
-        success:function (response) {
-            var tempDiv = document.createElement('div');
-            tempDiv.innerHTML = response;
-            var hasError = checkForIncidentReport(response);
-            if (!hasError) {
-                successCallback(tempDiv);
-            }
-            jQuery("#formComplete").empty();
-        },
-        error:function (jqXHR, textStatus) {
-            alert("Request failed: " + textStatus);
-        }
-    };
-
-    if (elementToBlock != null && elementToBlock.length) {
-        var elementBlockingOptions = {
-            beforeSend:function () {
-                if (elementToBlock.hasClass("unrendered")) {
-                    elementToBlock.append('<img src="' + getConfigParam("kradImageLocation") + 'loader.gif" alt="Loading..." /> Loading...');
-                    elementToBlock.show();
-                }
-                else {
-                    var elementBlockingDefaults = {
-                        baseZ:500,
-                        message:'<img src="../ks-ap/images/ajaxLoader16.gif" alt="loading..." />',
-                        fadeIn:0,
-                        fadeOut:0,
-                        overlayCSS:{
-                            backgroundColor:'#fff',
-                            opacity:0
-                        },
-                        css:{
-                            border:'none',
-                            width:'16px',
-                            top:'0px',
-                            left:'0px'
-                        }
-                    };
-                    elementToBlock.block(jQuery.extend(elementBlockingDefaults, elementBlockingSettings));
-                }
-            },
-            complete:function () {
-                elementToBlock.unblock();
-            },
-            error:function(jqXHR, textStatus,
-                           errorThrown) {
-                hideLoading();
-                showGrowl(textStatus + " "
-                    + errorThrown,
-                    "Error");
-                if (elementToBlock.hasClass("unrendered")) {
-                    elementToBlock.hide();
-                }
-                else {
-                    elementToBlock.unblock();
-                }
-            },
-            statusCode : {
-                500 : function() {
-                    showGrowl(
-                        "500 Internal Server Error",
-                        "Fatal Error");
-                }
-            }
-
-        };
-    }
-    jQuery.extend(submitOptions, elementBlockingOptions);
-    var form;
-    if (formId) {
-        form = jQuery("#" + formId + "_form");
-    } else {
-        form = jQuery("#kualiForm");
-    }
-    form.ajaxSubmit(submitOptions);
-}
 /**
  *   Gathers information for submission to the controller via ajax
  *
@@ -798,8 +681,126 @@ function ksapRetrieveComponent(id, getId, methodToCall, action, retrieveOptions,
         methodToCall = "search";
     }
 
-    myplanAjaxSubmitForm(methodToCall, updateRefreshableComponentCallback, {reqComponentId:id, skipViewInit:"false"}, elementToBlock, id, elementBlockingSettings);
+    ksapAjaxSubmitGenericForm(methodToCall, updateRefreshableComponentCallback, {reqComponentId:id, skipViewInit:"false"}, elementToBlock, id, elementBlockingSettings);
     jQuery("form#" + id + "_form").remove();
+}
+/*
+ ######################################################################################
+ Function:   KRAD's ajax submit function modified to allow submission of a form
+ other then the kuali form
+ ######################################################################################
+ */
+function ksapAjaxSubmitGenericForm(methodToCall, successCallback, additionalData, elementToBlock, formId, elementBlockingSettings) {
+    var data = {};
+
+    // methodToCall checks
+    if (methodToCall == null) {
+        var methodToCallInput = jQuery("input[name='methodToCall']");
+        if (methodToCallInput.length > 0) {
+            methodToCall = jQuery("input[name='methodToCall']").val();
+        }
+    }
+
+    // check to see if methodToCall is still null
+    if (methodToCall != null || methodToCall !== "") {
+        data.methodToCall = methodToCall;
+    }
+
+    data.renderFullView = false;
+
+    // remove this since the methodToCall was passed in or extracted from the page, to avoid issues
+    jQuery("input[name='methodToCall']").remove();
+
+    if (additionalData != null) {
+        jQuery.extend(data, additionalData);
+    }
+
+    var viewState = jQuery(document).data(kradVariables.VIEW_STATE);
+    if (!jQuery.isEmptyObject(viewState)) {
+        var jsonViewState = jQuery.toJSON(viewState);
+
+        // change double quotes to single because escaping causes problems on URL
+        jsonViewState = jsonViewState.replace(/"/g, "'");
+        jQuery.extend(data, {clientViewState:jsonViewState});
+    }
+
+    var submitOptions = {
+        data:data,
+        success:function (response) {
+            var tempDiv = document.createElement('div');
+            tempDiv.innerHTML = response;
+            var hasError = checkForIncidentReport(response);
+            if (!hasError) {
+                successCallback(tempDiv);
+            }
+            jQuery("#formComplete").empty();
+        },
+        error:function (jqXHR, textStatus) {
+            alert("Request failed: " + textStatus);
+        }
+    };
+
+    if (elementToBlock != null && elementToBlock.length) {
+        var elementBlockingOptions = {
+            beforeSend:function () {
+                if (elementToBlock.hasClass("unrendered")) {
+                    elementToBlock.append('<img src="' + getConfigParam("kradImageLocation") + 'loader.gif" alt="Loading..." /> Loading...');
+                    elementToBlock.show();
+                }
+                else {
+                    var elementBlockingDefaults = {
+                        baseZ:500,
+                        message:'<img src="../ks-ap/images/ajaxLoader16.gif" alt="loading..." />',
+                        fadeIn:0,
+                        fadeOut:0,
+                        overlayCSS:{
+                            backgroundColor:'#fff',
+                            opacity:0
+                        },
+                        css:{
+                            border:'none',
+                            width:'16px',
+                            top:'0px',
+                            left:'0px'
+                        }
+                    };
+                    elementToBlock.block(jQuery.extend(elementBlockingDefaults, elementBlockingSettings));
+                }
+            },
+            complete:function () {
+                elementToBlock.unblock();
+            },
+            error:function(jqXHR, textStatus,
+                           errorThrown) {
+                hideLoading();
+                showGrowl(textStatus + " "
+                    + errorThrown,
+                    "Error");
+                if (elementToBlock.hasClass("unrendered")) {
+                    elementToBlock.hide();
+                }
+                else {
+                    elementToBlock.unblock();
+                }
+            },
+            statusCode : {
+                500 : function() {
+                    showGrowl(
+                        "500 Internal Server Error",
+                        "Fatal Error");
+                }
+            }
+
+        };
+    }
+    jQuery.extend(submitOptions, elementBlockingOptions);
+    var form;
+    if (formId) {
+        form = jQuery("#" + formId + "_form");
+    } else {
+        form = jQuery("#kualiForm");
+    }
+    form.ajaxSubmit(submitOptions);
 }
 
 /*
@@ -1098,7 +1099,7 @@ function setPendingAudit(obj, minutes) {
         if (data.programId != 'default') {
             changeLoadingMessage('.ksap-audit-report', data.programName, data.auditType);
             jQuery.ajax({
-                url: "/student/myplan/audit/status",
+                url: "/student/ap/audit/status",
                 data:{"programId":data.programId, "auditId":data.recentAuditId},
                 dataType:"json",
                 beforeSend:null,
@@ -1170,7 +1171,7 @@ function pollPendingAudit(programId, recentAuditId, auditType) {
     jQuery.ajaxPollSettings.interval = 250; // polling interval in milliseconds
 
     jQuery.ajaxPoll({
-        url: "/student/myplan/audit/status",
+        url: "/student/ap/audit/status",
         data: {"programId":programId, "auditId":recentAuditId},
         dataType: "json",
         beforeSend: null,
@@ -1625,161 +1626,6 @@ function setupProgressiveCheck(controlName, disclosureId, baseId, condition, alw
             theControl.trigger("ready");
         }
     }
-}
-
-/*
- ######################################################################################
- Function: Launch plan item bubble popup
- ######################################################################################
- */
-function openPlanItemPopUp(xid, getId, retrieveOptions, e, selector, popupOptions, close) {
-    stopEvent(e);
-
-    var popupHtml = jQuery('<div />').attr("id", xid + "_popup").css({
-        width:"300px",
-        height:"16px"
-    });
-
-    var popupOptionsDefault = {
-        innerHtml:popupHtml.wrap("<div>").parent().clone().html(),
-        themePath:getConfigParam("kradUrl")+"/../ks-myplan/jquery-popover/jquerypopover-theme/",
-        manageMouseEvents:true,
-        selectable:true,
-        tail:{align:'middle', hidden:false},
-        position:'left',
-        align:'center',
-        alwaysVisible:false,
-        themeMargins:{total:'18px', difference:'5px'},
-        themeName:'ksap',
-        distance:'10px',
-        openingSpeed:0,
-        closingSpeed:0
-    };
-
-    var popupSettings = jQuery.extend(popupOptionsDefault, popupOptions);
-
-    var popupBox;
-    var target = (e.currentTarget) ? e.currentTarget : e.srcElement;
-    if (selector === null) {
-        popupBox = jQuery(target);
-    } else {
-        popupBox = jQuery(target).parents(selector);
-    }
-
-    fnCloseAllPopups();
-
-    popupBox.addClass("uif-tooltip");
-    initBubblePopups();
-    popupBox.SetBubblePopupOptions(popupSettings, true);
-    popupBox.SetBubblePopupInnerHtml(popupSettings.innerHTML, true);
-    popupBox.ShowBubblePopup();
-    var popupBoxId = popupBox.GetBubblePopupID();
-    fnPositionPopUp(popupBoxId);
-    popupBox.FreezeBubblePopup();
-
-    jQuery(document).on('click', function (e) {
-        var tempTarget = (e.target) ? e.target : e.srcElement;
-        if (jQuery(tempTarget).parents("div.jquerybubblepopup.jquerybubblepopup-ksap").length === 0 && jQuery(tempTarget).parents("div.uif-tooltip").length === 0) {
-            popupBox.HideBubblePopup();
-            fnCloseAllPopups();
-        }
-    });
-
-    var tempForm = jQuery('<form />').attr("id", xid + "_form").attr("action", "plan").attr("method", "post").hide();
-    var tempFormInputs = '<div style="display:none;"><input type="hidden" name="viewId" value="PlannedCourse-FormView" />';
-    jQuery.each(retrieveOptions, function (name, value) {
-        tempFormInputs += '<input type="hidden" name="' + name + '" value="' + value + '" />';
-        tempFormInputs = ksapAddPostOptionsToForm(tempFormInputs);
-    });
-    tempFormInputs += '</div>';
-    jQuery(tempForm).append(tempFormInputs);
-    jQuery("body").append(tempForm);
-
-    var elementToBlock = jQuery("#" + xid + "_popup");
-
-    var updateRefreshableComponentCallback = function (htmlContent) {
-        var component;
-        if (jQuery("span#request_status_item_key", htmlContent).length <= 0) {
-            component = jQuery("#" + getId, htmlContent);
-            var planForm = jQuery('<form />').attr("id", xid + "_form").attr("action", "plan").attr("method", "post");
-        } else {
-            var sError = '<img src="../ks-ap/images/pixel.gif" alt="" class="icon"><span class="message">' + jQuery("#plan_item_action_response_page", htmlContent).data(kradVariables.VALIDATION_MESSAGES).serverErrors[0] + '</span>';
-            component = jQuery("<div />").html(sError).addClass("ksap-feedback error").width(175);
-        }
-
-        var ngid = getId + "_" + xid;
-        var cpgid = "course_popover_group_" + xid;
-        var dlgid = "delete_from_list_confirmation_" + xid;
-        component.attr("id", ngid);
-        jQuery("#course_popover_group", htmlContent).attr("id", cpgid);
-        jQuery("#delete_from_list_confirmation", htmlContent).attr("id", dlgid);
-        jQuery("button", htmlContent).each(function () {
-            var butId = jQuery(this).attr("id");
-            var nlid = butId + "_" + xid;
-            jQuery(this).siblings("input[data-for='" + butId + "']")
-                .removeAttr("script")
-                .attr("name", "script")
-                .attr("data-for", nlid)
-                .val(function (index, value) {
-                    return eval('value.replace(/'+butId+'/g, nlid)')
-                        .replace("course_popover_group", cpgid)
-                        .replace("delete_from_list_confirmation", dlgid);
-                });
-            jQuery(this).attr("id", nlid);
-            jQuery.each(jQuery(target).data(), function (key, value) {
-                jQuery("#" + nlid).attr("data-" + key, value);
-            });
-        });
-
-        elementToBlock.unblock({onUnblock:function () {
-            if (jQuery("#" + xid + "_popup").length) {
-                popupBox.SetBubblePopupInnerHtml(component);
-                fnPositionPopUp(popupBoxId);
-                if (status != 'error') jQuery("#" + popupBoxId + " .jquerybubblepopup-innerHtml").wrapInner(planForm);
-                if (close || typeof close === 'undefined') jQuery("#" + popupBoxId + " .jquerybubblepopup-innerHtml").append('<img src="../ks-ap/images/btnClose.png" class="ksap-popup-close"/>');
-                jQuery("#" + popupBoxId + " img.ksap-popup-close").on('click', function () {
-                    popupBox.HideBubblePopup();
-                    fnCloseAllPopups();
-                });
-            }
-            runHiddenScripts(ngid);
-
-            jQuery(document).on('click', function (e) {
-                var tempTarget = (e.target) ? e.target : e.srcElement;
-                if (jQuery(tempTarget).parents("div.jquerybubblepopup.jquerybubblepopup-ksap").length === 0 && jQuery(tempTarget).parents("div.uif-tooltip").length === 0) {
-                    popupBox.HideBubblePopup();
-                    fnCloseAllPopups();
-                }
-            });
-        }});
-    };
-
-    myplanAjaxSubmitForm("startAddPlannedCourseForm", updateRefreshableComponentCallback, {reqComponentId:xid, skipViewInit:"false"}, elementToBlock, xid);
-    jQuery("form#" + xid + "_form").remove();
-}
-// KSAP 0.7.1 and previous deprecated planner scripts
-
-function ksapLoadPlanItems(imageUrl) {
-    var user = jQuery.trim(jQuery('#hidden_new_user_flag').text());
-    var retrieveOptions = {};
-    var sFocusAtpId = '';
-    var aParams = window.location.search.replace('?','').split('&amp;');
-    jQuery.each(aParams, function(index, value) {
-        if (value.split('=')[0].indexOf('focusAtpId') >= 0) {
-            sFocusAtpId = decodeURIComponent(value.split('=')[1]);
-        }
-    });
-    if(sFocusAtpId != ''){
-        retrieveOptions = {viewId:'PlannedCourses-LookupView', focusAtpId:sFocusAtpId};
-    } else {
-        retrieveOptions = {viewId:'PlannedCourses-LookupView'};
-    }
-    ksapRetrieveComponent('planned_mock_detail','planned_courses_detail','search','lookup', retrieveOptions, null,
-        {	message: '<p><img src="' + imageUrl +
-            'ajaxAuditRunning32.gif" alt="loading..." /></p><p>Please wait while we are fetching your plan...</p>',
-            fadeIn : 0,
-            fadeOut : 0
-        });
 }
 
 function ksapInitializePlanItems(pageSize) {
