@@ -188,7 +188,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             String scheduleDays = StringUtils.upperCase(scheduleWrapper.getDays());
             List<Integer> parsedWeekdays = SchedulingServiceUtil.weekdaysString2WeekdaysList(scheduleDays);
             if(parsedWeekdays.isEmpty() || scheduleDays.trim().length() > parsedWeekdays.size()) {
-                addErrorMessage(ScheduleInput.WEEKDAYS, "Day characters are invalid");
+                addErrorMessage(ScheduleInput.WEEKDAYS, "Day characters are invalid, duplicates not allowed.");
             }
         }
 

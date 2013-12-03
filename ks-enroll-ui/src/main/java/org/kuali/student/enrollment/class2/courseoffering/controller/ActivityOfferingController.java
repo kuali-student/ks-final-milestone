@@ -141,7 +141,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         }
 
         if (!scheduleWrapper.isTba() && validateTime(startTime, startTimeAmPm, endTime, endTimeAmPm)) {
-            GlobalVariables.getMessageMap().putError("rdl_endtime", ActivityOfferingConstants.MSG_ERROR_INVALID_START_TIME);
+            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.newScheduleRequest.endTime", ActivityOfferingConstants.MSG_ERROR_INVALID_START_TIME);
             return getUIFModelAndView(form);
         }
 

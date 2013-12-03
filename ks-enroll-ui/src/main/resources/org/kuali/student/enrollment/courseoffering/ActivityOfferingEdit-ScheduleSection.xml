@@ -154,8 +154,8 @@
                 <bean id="add_rdl_button" parent="Uif-SecondaryActionButton-Small" p:disabled="@{#parent.readOnly}"
                       p:actionLabel="@{!#dp.editRenderHelper.scheduleEditInProgress ? 'Add' : 'Update'}"
                       p:preSubmitCall="return preSubmitNewRDL();" p:methodToCall="addScheduleComponent"
-                      p:ajaxReturnType="update-component" p:ajaxSubmit="true" p:refreshId="ActivityOffering-DeliveryLogistic-New"
-                      p:successCallback="retrieveComponent('ActivityOffering-DeliveryLogistic-Requested'); reDisplayNewRDSection(); reDisplayRDLSection();"
+                      p:ajaxSubmit="false"
+                      p:successCallback="reDisplayNewRDSection(); reDisplayRDLSection();"
                       p:dirtyOnAction="true"/>
             </list>
         </property>
