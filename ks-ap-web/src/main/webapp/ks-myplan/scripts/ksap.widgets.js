@@ -128,12 +128,6 @@ jQuery(document).ready(function () {
     ');
 });
 
-//@TODO: Fix with KSAP-320
-// Location is not a valid path
-//function sessionExpired() {
-//    window.location = '/student/myplan/sessionExpired';
-//}
-
 function stopEvent(e) {
     if (!e) var e = window.event;
     if (e.stopPropagation) {
@@ -1118,10 +1112,18 @@ function setPendingAudit(obj, minutes) {
                         setUrlHash('modified', 'true');
                     }
                 },
-                statusCode: { 500: function () {
-                    //@TODO: Fix with KSAP-320
-                    //sessionExpired();
-                } }
+                statusCode: {
+                    400 : function() {
+                        showGrowl(
+                            "400 Bad Request",
+                            "Fatal Error");
+                    },
+                    500: function () {
+                        showGrowl(
+                            "500 Internal Server Error",
+                            "Fatal Error");
+                    }
+                }
             });
         }
     } else {
