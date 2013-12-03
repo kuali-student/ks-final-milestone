@@ -108,18 +108,18 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
         return KSPropositionEditor.class;
     }
 
-    @Override
-    public void applyAuthorizationAndPresentationLogic(View view, Component component, ViewModel model) {
-        super.applyAuthorizationAndPresentationLogic(view, component, model);
-
-        if(component instanceof Group) {
-            Group group = (Group) component;
-
-            if(group.isReadOnly()) {
-                processGroupItems(group);
-            }
-        }
-    }
+//    @Override
+//    public void applyAuthorizationAndPresentationLogic(View view, Component component, ViewModel model) {
+//        super.applyAuthorizationAndPresentationLogic(view, component, model);
+//
+//        if(component instanceof Group) {
+//            Group group = (Group) component;
+//
+//            if(group.isReadOnly()) {
+//                processGroupItems(group);
+//            }
+//        }
+//    }
 
     protected void processGroupItems(Group group) {
         List<Field> fields = ComponentUtils.getComponentsOfType(group.getItems(), Field.class);
@@ -269,6 +269,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
         return true;
     }
 
+    @Override
     protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model,
                                                Object addLine) {
         if(LUKRMSConstants.KSKRMS_PROPERTY_NAME_CLUS.equals(collectionGroup.getPropertyName())){
@@ -329,7 +330,8 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
         return true;
     }
 
-    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine,
+    @Override
+    public void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine,
                                        boolean isValidLine) {
 
         if(LUKRMSConstants.KSKRMS_PROPERTY_NAME_CLUS.equals(collectionGroup.getPropertyName())){
