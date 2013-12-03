@@ -610,7 +610,7 @@
                 <bean id="edit_co_format_id" parent="Uif-InputField" p:propertyName="formatOfferingInfo.formatId"  p:readOnly="@{!#lp.renderHelper.newRow}"
                       p:label="FORMAT" p:readOnlyDisplayReplacementPropertyName="formatOfferingInfo.name" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:onChangeScript="retrieveComponent('edit_co_grade_roster_level_line@{#index}',undefined, function () {retrieveComponent('edit_co_final_exam_type_line@{#index}');});"/>
+                        <bean parent="Uif-DropdownControl" p:onChangeScript="retrieveDeliveryFormatsComponent('edit_co_grade_roster_level_line@{#index}','edit_co_final_exam_type_line@{#index}', '@{#dp.courseOfferingInfo.finalExamType}');"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatOfferingTypeForEditCOTypeKeyValues" p:addBlankOption="false"/>
