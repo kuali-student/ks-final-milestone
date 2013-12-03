@@ -5,12 +5,37 @@
 @import "../../kboot/stylesheets/mixins.less";
 
 /*-- Custom border-radius convenience overrides --*/
+.border-radius(@radius) {
+  -webkit-border-radius: @radius;
+     -moz-border-radius: @radius;
+          border-radius: @radius;
+}
 
 .border-radius-individual(@top-left, @top-right, @bottom-right, @bottom-left) {
   .border-top-left-radius(@top-left);
   .border-top-right-radius(@top-right);
   .border-bottom-right-radius(@bottom-right);
   .border-bottom-left-radius(@bottom-left);
+}
+.border-top-left-radius(@radius) {
+  -webkit-border-top-left-radius: @radius;
+      -moz-border-radius-topleft: @radius;
+          border-top-left-radius: @radius;
+}
+.border-top-right-radius(@radius) {
+  -webkit-border-top-right-radius: @radius;
+      -moz-border-radius-topright: @radius;
+          border-top-right-radius: @radius;
+}
+.border-bottom-right-radius(@radius) {
+  -webkit-border-bottom-right-radius: @radius;
+      -moz-border-radius-bottomright: @radius;
+          border-bottom-right-radius: @radius;
+}
+.border-bottom-left-radius(@radius) {
+  -webkit-border-bottom-left-radius: @radius;
+      -moz-border-radius-bottomleft: @radius;
+          border-bottom-left-radius: @radius;
 }
 
 /*-- Border Style mixins --*/
