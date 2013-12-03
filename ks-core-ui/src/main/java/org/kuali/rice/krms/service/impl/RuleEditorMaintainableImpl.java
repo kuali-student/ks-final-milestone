@@ -384,19 +384,32 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
                 this.getRuleManagementService().createReferenceObjectBinding(refBuilder.build());
             }
 
-            //Set the first agenda item id and save the agenda items
-            AgendaItemDefinition firstItem = maintainAgendaItems(agenda, ruleWrapper.getRefObjectId() + ":", ruleWrapper.getNamespace());
+            //Update the root item.
+            try {
 
-            //If no more rules linked to agenda, delete it.
-            if (firstItem.getRule() == null) {
-                List<ReferenceObjectBinding> refObjectsBindings = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getRefObjectId());
-                for (ReferenceObjectBinding referenceObjectBinding : refObjectsBindings) {
-                    if (referenceObjectBinding.getKrmsObjectId().equals(agenda.getId())) {
-                        LOG.info("Deleting reference object binding for id: " + referenceObjectBinding.getId());
-                        this.getRuleManagementService().deleteReferenceObjectBinding(referenceObjectBinding.getId());
+                //Set the first agenda item id and save the agenda items
+                AgendaItemDefinition firstItem = maintainAgendaItems(agenda, ruleWrapper.getRefObjectId() + ":", ruleWrapper.getNamespace());
+
+                //If no more rules linked to agenda, delete it.
+                if (firstItem.getRule() == null) {
+                    List<ReferenceObjectBinding> refObjectsBindings = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getRefObjectId());
+                    for (ReferenceObjectBinding referenceObjectBinding : refObjectsBindings) {
+                        if (referenceObjectBinding.getKrmsObjectId().equals(agenda.getId())) {
+                            LOG.info("Deleting reference object binding for id: " + referenceObjectBinding.getId());
+                            this.getRuleManagementService().deleteReferenceObjectBinding(referenceObjectBinding.getId());
+                        }
                     }
+                    this.getRuleManagementService().deleteAgenda(agenda.getId());
                 }
-                this.getRuleManagementService().deleteAgenda(agenda.getId());
+
+
+            } catch (OjbOperationException e) {
+                //OptimisticLockException
+                if (e.getCause() instanceof OptimisticLockException) {
+                    throw new KRMSOptimisticLockingException();
+                } else {
+                    throw e;
+                }
             }
 
         }
@@ -433,16 +446,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
         //Update the root item.
         AgendaItemDefinition updateItem = rootItemBuilder.build();
-        try{
-            this.getRuleManagementService().updateAgendaItem(updateItem);
-        }catch(OjbOperationException e){
-            //OptimisticLockException
-            if(e.getCause() instanceof OptimisticLockException){
-                throw new KRMSOptimisticLockingException();
-            }else{
-                throw e;
-            }
-        }
+        this.getRuleManagementService().updateAgendaItem(updateItem);
 
         return updateItem;
     }
@@ -485,7 +489,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
         return RuleDefinition.Builder.create(rule);
     }
-
 
 
     public void initPropositionEditor(PropositionEditor propositionEditor) {

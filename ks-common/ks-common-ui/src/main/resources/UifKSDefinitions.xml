@@ -335,12 +335,12 @@
     </bean>
 
     <!-- Opens an inquiry lightbox with a "Loading ..." pacifier message -->
-    <bean id="KS-Uif-InquiryLink" parent="KS-Uif-InquiryLink-parentBean" />
+    <bean id="KS-Uif-InquiryLink" parent="KS-Uif-InquiryLink-parentBean"/>
     <bean id="KS-Uif-InquiryLink-parentBean" abstract="true" parent="KS-Uif-DataField-Simple" scope="prototype">
-        <property name="onClickScript" value="showLoading();" />
+        <property name="onClickScript" value="showLoading();"/>
         <property name="inquiry">
             <!-- Children need to provide dataObjectClassName and inquiryParameters values -->
-            <bean parent="KS-Uif-Inquiry" />
+            <bean parent="KS-Uif-Inquiry"/>
         </property>
     </bean>
 
@@ -437,7 +437,7 @@
 
     <bean id="KS-Lozenge-Grey-Uif-Message" parent="Uif-Message" p:additionalCssClasses="state-draft"/>
 
-    <bean id="KS-Lozenge-Grey-Uif-InputField"  parent="Uif-InputField" p:additionalCssClasses="state-draft"
+    <bean id="KS-Lozenge-Grey-Uif-InputField" parent="Uif-InputField" p:additionalCssClasses="state-draft"
           p:fieldLabel.renderColon="false" p:fieldLabel.cssClasses="labelTop"
           p:labelPlacement="TOP" p:fieldLabel.requiredMessagePlacement="LEFT"
           p:instructionalMessage.render="false">
@@ -488,39 +488,47 @@
             </list>
         </property>
     </bean>
-    <bean id="Unified-Right-Header-Group-Action-Copy" parent="KS-Uif-ActionLink" p:actionLabel="Copy" p:actionImagePlacement="LEFT">
+    <bean id="Unified-Right-Header-Group-Action-Copy" parent="KS-Uif-ActionLink" p:actionLabel="Copy"
+          p:actionImagePlacement="LEFT">
         <property name="actionImage">
             <bean parent="Uif-Image" p:altText="Copy" p:title="Copy" p:style="ks-fontello-icon-docs"/>
         </property>
     </bean>
-    <bean id="Unified-Right-Header-Group-Action-Comment" parent="KS-Uif-ActionLink" p:actionLabel="Comment" p:actionImagePlacement="LEFT">
+    <bean id="Unified-Right-Header-Group-Action-Comment" parent="KS-Uif-ActionLink" p:actionLabel="Comment"
+          p:actionImagePlacement="LEFT">
         <property name="actionImage">
             <bean parent="Uif-Image" p:altText="Comment" p:title="Comment" p:style="ks-fontello-icon-comment"/>
         </property>
     </bean>
-    <bean id="Unified-Right-Header-Group-Action-Print" parent="KS-Uif-ActionLink" p:actionLabel="Print" p:actionImagePlacement="LEFT">
+    <bean id="Unified-Right-Header-Group-Action-Print" parent="KS-Uif-ActionLink" p:actionLabel="Print"
+          p:actionImagePlacement="LEFT">
         <property name="actionImage">
             <bean parent="Uif-Image" p:altText="Print" p:title="Print" p:style="ks-fontello-icon-print"/>
         </property>
     </bean>
-    <bean id="Unified-Right-Header-Group-Action-Delete" parent="KS-Uif-ActionLink" p:actionLabel="Delete" p:actionImagePlacement="LEFT">
+    <bean id="Unified-Right-Header-Group-Action-Delete" parent="KS-Uif-ActionLink" p:actionLabel="Delete"
+          p:actionImagePlacement="LEFT">
         <property name="actionImage">
             <bean parent="Uif-Image" p:altText="Delete" p:title="Delete" p:style="ks-fontello-icon-cancel"/>
         </property>
     </bean>
-    <bean id="Unified-Right-Header-Group-Action-Edit" parent="KS-Uif-ActionLink" p:actionLabel="Edit" p:actionImagePlacement="LEFT">
+    <bean id="Unified-Right-Header-Group-Action-Edit" parent="KS-Uif-ActionLink" p:actionLabel="Edit"
+          p:actionImagePlacement="LEFT">
         <property name="actionImage">
             <bean parent="Uif-Image" p:altText="Edit" p:title="Edit" p:style="ks-fontello-icon-pencil"/>
         </property>
     </bean>
-    <bean id="Unified-Right-Header-Group-Action-Manage" parent="KS-Uif-ActionLink" p:actionLabel="Manage" p:actionImagePlacement="LEFT">
+    <bean id="Unified-Right-Header-Group-Action-Manage" parent="KS-Uif-ActionLink" p:actionLabel="Manage"
+          p:actionImagePlacement="LEFT">
         <property name="actionImage">
             <bean parent="Uif-Image" p:altText="Manage" p:title="Manage" p:style="ks-fontello-icon-wrench"/>
         </property>
     </bean>
-    <bean id="Unified-Right-Header-Group-Action-MakeOfficial" parent="KS-Uif-ActionLink" p:actionLabel="Make Official" p:actionImagePlacement="LEFT">
+    <bean id="Unified-Right-Header-Group-Action-MakeOfficial" parent="KS-Uif-ActionLink" p:actionLabel="Make Official"
+          p:actionImagePlacement="LEFT">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:altText="Make Official" p:title="Make Official" p:style="ks-fontello-icon-check"/>
+            <bean parent="Uif-Image" p:altText="Make Official" p:title="Make Official"
+                  p:style="ks-fontello-icon-check"/>
         </property>
     </bean>
 
@@ -651,7 +659,7 @@
         <property name="actionImagePlacement" value="LEFT"/>
         <property name="methodToCall" value="addBlankLine"/>
         <property name="actionEvent" value="addBlankLine"/>
-        <property name="additionalCssClasses" value="ks-fontello-icon-plus" />
+        <property name="additionalCssClasses" value="ks-fontello-icon-plus"/>
     </bean>
 
     <!-- TODO: KSENROLL-8478 temporarily overriding KRAD's Inquiry as it was messing up the hover over. should be resolved in Rice 2.3.1 -->
@@ -802,5 +810,53 @@
           p:onMouseOutScript="deleteLineMouseOut(this, 'uif-collectionDeleteHighlight');"
           p:onClickScript="writeCurrentPageToSession(this);" p:dirtyOnAction="true"
           p:loadingMessageText="Deleting Line..." p:id="@{#collectionGroup.id}_del@{#lineSuffix}"/>
+
+    <bean id="KS-OptimisticLock-Page" parent="KS-Uif-Page" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection"
+                      p:style="width: 600px; border: 1px solid black; padding: 10px; margin: 100px auto;">
+                    <property name="items">
+                        <list>
+
+                            <bean parent="Uif-ImageField" p:image.altText="Conflicting Changes"
+                                  p:source="@{#ConfigProperties['ks.externalizable.images.url']}/error_icon.png">
+                            </bean>
+
+                            <bean parent="Uif-VerticalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-HeaderTwo"
+                                              p:headerText="Conflicting Changes"/>
+                                        <bean parent="Uif-MessageField" p:style="font-weight:bold;"
+                                              p:messageText="Someone else has edited this rule."/>
+                                        <bean parent="Uif-MessageField"
+                                              p:messageText="Your changes could not be saved because someone else has submitted changes to the rule while you were still busy editing it. Please reload the rule and attempt to make your changes again."/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="additionalCssClasses" value="uif-validationMessages"/>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="KS-Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-HorizontalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false"
+                                          p:methodToCall="cancel" p:actionLabel="Continue"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
 
 </beans>
