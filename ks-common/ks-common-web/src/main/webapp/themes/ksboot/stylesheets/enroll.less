@@ -1,5 +1,5 @@
-@import "variables.less";
-@import "mixins.less";
+@import "variables";
+@import "mixins";
 
 /* Enrollment Title
    Enrollment header found on the enrollment home page
@@ -1077,7 +1077,7 @@ div.jGrowl div.WARNING div.jGrowl-message {
 Styles for highlighting selected rows in a data table
 */
 .dataTable td {
-  background-color: @body_background;
+  background-color: @bodyBackground;
 }
 .dataTable .selected-row td, .dataTable .selected-row:hover td {
   background-color: @tableSelectedBackground;
@@ -1103,7 +1103,7 @@ table.dataTable tr.uif-newCollectionItem td.sorting_1 {
   -o-transition: background 3s linear;
   -ms-transition: background 3s linear;
   transition: background 3s linear;
-  background-color: @addedStateBackground; background-color: @body_background;
+  background-color: @addedStateBackground; background-color: @bodyBackground;
 }
 
 /*
@@ -1117,7 +1117,7 @@ table.dataTable tr.uif-newCollectionItem td.sorting_1 {
   .border-radius-individual(5px, 5px, 0, 0);
 }
 .ui-tabs .ui-tabs-nav .ui-tabs-active .ui-tabs-anchor {
-  background-color: @body_background;
+  background-color: @bodyBackground;
 }
 
 //home page start
