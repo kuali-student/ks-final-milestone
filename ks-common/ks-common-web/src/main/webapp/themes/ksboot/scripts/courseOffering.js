@@ -176,3 +176,11 @@ function updateExamDriverInFOTable(finalExamDropDownId, finalExamTableCellId, pa
         });
     }
 }
+
+function retrieveDeliveryFormatsComponent(id1, id2, finalExamType) {
+     retrieveComponent(id1, undefined);
+     if (finalExamType == "STANDARD") {
+        retrieveComponent(id2, undefined);
+      }
+
+}
