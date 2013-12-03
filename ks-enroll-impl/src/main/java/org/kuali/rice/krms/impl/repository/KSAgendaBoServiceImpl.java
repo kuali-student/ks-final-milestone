@@ -37,7 +37,6 @@ import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.core.impl.services.CoreImplServiceLocator;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
@@ -464,7 +463,7 @@ public final class KSAgendaBoServiceImpl implements AgendaBoService {
 
     protected BusinessObjectService getBusinessObjectService() {
         if ( businessObjectService == null ) {
-            businessObjectService = KNSServiceLocator.getBusinessObjectService();
+            businessObjectService = KRADServiceLocator.getBusinessObjectService();
         }
         return businessObjectService;
     }
@@ -480,7 +479,7 @@ public final class KSAgendaBoServiceImpl implements AgendaBoService {
 
     protected SequenceAccessorService getSequenceAccessorService() {
         if ( sequenceAccessorService == null ) {
-            sequenceAccessorService = KNSServiceLocator.getSequenceAccessorService();
+            sequenceAccessorService = KRADServiceLocator.getSequenceAccessorService();
         }
         return sequenceAccessorService;
     }

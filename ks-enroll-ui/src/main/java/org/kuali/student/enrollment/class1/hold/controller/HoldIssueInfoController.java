@@ -81,12 +81,12 @@ public class HoldIssueInfoController extends UifControllerBase {
 
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
         HoldIssueInfoForm holdIssueInfoForm = (HoldIssueInfoForm)form;
         holdIssueInfoForm.setIsSaveSuccess(false);
 
-        return super.start(form, request, response);
+        return super.start(form, result, request, response);
     }
 
     @RequestMapping(params = "methodToCall=search")

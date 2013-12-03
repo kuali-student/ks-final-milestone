@@ -55,9 +55,9 @@ public class TimeSlotController extends UifControllerBase {
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
     public ModelAndView start( @ModelAttribute( MODEL_ATTRIBUTE_FORM ) UifFormBase form,
-                               HttpServletRequest request, HttpServletResponse response) {
+                               BindingResult result, HttpServletRequest request, HttpServletResponse response) {
 
-        super.start(form, request, response);
+        super.start(form, result, request, response);
         return  getUIFModelAndView(form);
     }
 

@@ -1,7 +1,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
+import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -22,7 +22,7 @@ public class CourseOfferingInfoLookupableImpl extends LookupableImpl {
     private transient CourseOfferingService courseOfferingService;
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
 
         String termKey = fieldValues.get(CourseOfferingConstants.COURSEOFFERING_TERM_ID);
         String subjectArea = fieldValues.get(CourseOfferingConstants.COURSEOFFERING_SUBJECT_AREA);

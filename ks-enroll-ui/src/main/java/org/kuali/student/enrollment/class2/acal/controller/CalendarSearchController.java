@@ -80,7 +80,7 @@ public class CalendarSearchController  extends UifControllerBase {
 
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
         CalendarSearchForm calendarSearchForm = (CalendarSearchForm)form;
 
@@ -115,7 +115,7 @@ public class CalendarSearchController  extends UifControllerBase {
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, growlMessageKey, growlMessageParams);
         }
 
-        return super.start(form, request, response);
+        return super.start(form, result, request, response);
     }
 
     /**

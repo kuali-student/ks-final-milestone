@@ -2,11 +2,11 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.Lookupable;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.student.common.util.ContextBuilder;
+import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.r2.core.room.service.RoomService;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class BuildingInfoLookupableImpl extends LookupableImpl implements Lookup
     private RoomService roomService;
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         try {
             String buildingCode = fieldValues.get("buildingCode");
             if (StringUtils.isNotBlank(buildingCode)){

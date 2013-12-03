@@ -17,8 +17,8 @@ package org.kuali.student.enrollment.class2.acal.service.impl;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
+import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.common.util.CalendarSearchViewHelperUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -42,7 +42,7 @@ public class AcademicTermLookupableImpl  extends LookupableImpl {
     private final static Logger LOG = Logger.getLogger(AcademicTermLookupableImpl.class);
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
 
         List<TermInfo> rList;
         String name = fieldValues.get("code");

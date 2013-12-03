@@ -16,23 +16,22 @@
 package org.kuali.student.ui.admin.state;
 
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import javax.xml.namespace.QName;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
+import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.constants.StateServiceConstants;
-
-import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 
 public class LifecycleInfoAdminLookupableImpl extends LookupableImpl
@@ -41,7 +40,7 @@ public class LifecycleInfoAdminLookupableImpl extends LookupableImpl
 	private transient StateService stateService;
     private static final long serialVersionUID = 1L;
 	@Override
-	public List<LifecycleInfo> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded)
+	protected List<LifecycleInfo> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded)
 	{
 		QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
 		List<Predicate> pList = new ArrayList<Predicate>();

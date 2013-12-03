@@ -122,7 +122,7 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
     }
 
     @Override
-    public void processAfterDeleteLine(View view, CollectionGroup collectionGroup, Object model, int lineIndex) {
+    protected void processAfterDeleteLine(View view, CollectionGroup collectionGroup, Object model, int lineIndex) {
         if (StringUtils.equals(collectionGroup.getPropertyName(),"formatOfferingList")){
             MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
             MaintenanceDocument document = maintenanceForm.getDocument();

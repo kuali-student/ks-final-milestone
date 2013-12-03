@@ -6,7 +6,7 @@ import org.kuali.rice.krad.lookup.Lookupable;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.lookup.LookupForm;
+import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -35,7 +35,7 @@ public class RoomInfoLookupableImpl extends LookupableImpl implements Lookupable
     }
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         boolean validate = validateSearchParameters(lookupForm,fieldValues);
         int firstBuilding = 0;
         if (validate){

@@ -448,8 +448,7 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
     }
 
 
-    @Override
-    public void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+    protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
         ContextInfo contextInfo = createContextInfo();
         if (addLine instanceof HolidayCalendarInfo) {
             HolidayCalendarInfo inputLine = (HolidayCalendarInfo)addLine;
@@ -506,7 +505,6 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
         }
     }
 
-    @Override
     protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
         if (model instanceof HolidayCalendarForm) {
             if (addLine instanceof HolidayWrapper) {

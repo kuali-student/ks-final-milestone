@@ -5,8 +5,8 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
+import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
@@ -28,7 +28,7 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
     private static final Logger LOG = Logger.getLogger(AdvanceActivityOfferingLookupableImpl.class);
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<ActivityOfferingInfo> activityOfferingInfos;
         List<CourseOfferingInfo> courseOfferingList = new ArrayList<CourseOfferingInfo>();
         String termId = null;

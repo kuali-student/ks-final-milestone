@@ -464,7 +464,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
     }
 
     @Override
-    public void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+    protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
         if (addLine instanceof FormatOfferingInfo) {
             FormatOfferingInfo newLine = (FormatOfferingInfo) addLine;
             String formatId = newLine.getFormatId();
@@ -494,7 +494,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
     }
 
     @Override
-    public void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine, boolean isValidLine) {
+    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine, boolean isValidLine) {
         if (addLine instanceof OfferingInstructorInfo) {
             // set the person name if it's null, in the case of user-input personell id
             OfferingInstructorInfo instructorInfo = (OfferingInstructorInfo) addLine;
@@ -514,7 +514,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
     }
 
     @Override
-    public void processAfterDeleteLine(View view, CollectionGroup collectionGroup, Object model, int lineIndex) {
+    protected void processAfterDeleteLine(View view, CollectionGroup collectionGroup, Object model, int lineIndex) {
 
         MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
         MaintenanceDocument document = maintenanceForm.getDocument();

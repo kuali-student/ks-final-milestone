@@ -101,9 +101,7 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
      * util method available at view helper).
      */
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addBlankLine")
-    @Override
-    public ModelAndView addBlankLine(@ModelAttribute("KualiForm") final UifFormBase form,
-            HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView addBlankLine(@ModelAttribute("KualiForm") UifFormBase form) {
 
         boolean validAction = true;
         if (((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject() instanceof CourseOfferingEditWrapper){
@@ -121,7 +119,7 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
         }
 
         if (validAction){
-            return super.addBlankLine(form, request, response);
+            return super.addBlankLine(form);
         } else {
             return getUIFModelAndView(form);
         }

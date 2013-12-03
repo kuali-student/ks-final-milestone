@@ -471,7 +471,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      * @param addLine
      * @return
      */
-    @Override
     protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
 
         if (addLine instanceof HolidayCalendarWrapper) {
@@ -1064,8 +1063,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      * @param model
      * @param addLine
      */
-    @Override
-    public void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+    protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
 
         if (addLine instanceof AcademicTermWrapper){
             AcademicTermWrapper newLine = (AcademicTermWrapper)addLine;
