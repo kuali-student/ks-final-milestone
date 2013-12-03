@@ -507,6 +507,13 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
         query.setParameter("atpHolAtpType", AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY);
         query.setParameter(SearchParameters.TERM_ID, termId);
 
+        try{
+            if ( LOG.isDebugEnabled() ) {
+                String querySt = query.unwrap(org.hibernate.Query.class).getQueryString();
+                LOG.debug( querySt );
+            }
+        } catch (Exception ex){}
+
         List<Object[]> results = query.getResultList();
 
         SearchResultInfo resultInfo = new SearchResultInfo();

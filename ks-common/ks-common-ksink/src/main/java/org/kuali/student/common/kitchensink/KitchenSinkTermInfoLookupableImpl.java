@@ -17,8 +17,8 @@
 package org.kuali.student.common.kitchensink;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
+import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.common.util.CalendarSearchViewHelperUtil;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -43,7 +43,7 @@ public class KitchenSinkTermInfoLookupableImpl extends LookupableImpl {
     private transient TypeService typeService;
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<TermInfo> rList;
         String name = fieldValues.get("code");
         String year = fieldValues.get("startDate");

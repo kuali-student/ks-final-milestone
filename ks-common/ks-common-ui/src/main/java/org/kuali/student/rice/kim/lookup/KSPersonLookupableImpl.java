@@ -21,7 +21,7 @@ import org.kuali.rice.kim.api.identity.affiliation.EntityAffiliationContract;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.rice.kim.impl.identity.PersonImpl;
 import org.kuali.rice.kim.impl.identity.PersonLookupableImpl;
-import org.kuali.rice.krad.lookup.LookupForm;
+import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.rice.kim.impl.KSPersonImpl;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class KSPersonLookupableImpl extends PersonLookupableImpl{
     }
 
     @Override
-    public List<?> performSearch(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
+    protected List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
 
         String nameSearch = searchCriteria.get(KSSearchParameters.NAME_SEARCH);
         if (StringUtils.isNotBlank(nameSearch)) {
