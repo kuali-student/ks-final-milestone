@@ -92,6 +92,8 @@ public class KsHandlerExceptionResolver extends UifHandlerExceptionResolver {
         incidentReportForm.setIncidentViewId(incidentViewId);
         incidentReportForm.setController(handler.getClass().toString());
 
+        incidentReportForm.setReturnLocation(form.getReturnLocation());
+
         if (userSession != null) {
             incidentReportForm.setUserId(userSession.getPrincipalId());
             incidentReportForm.setUserName(userSession.getPrincipalName());
