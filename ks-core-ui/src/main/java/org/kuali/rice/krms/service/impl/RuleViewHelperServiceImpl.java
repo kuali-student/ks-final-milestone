@@ -21,6 +21,7 @@ import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Container;
+import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.view.View;
@@ -105,13 +106,13 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     }
 
     @Override
-    protected void addCustomContainerComponents(View view, Object model, Container container) {
+    public void addCustomContainerComponents(Object model, Container container) {
         if (KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID.equals(container.getId())) {
-            customizePropositionEditSection(view, model, container);
+            customizePropositionEditSection(model, container);
         }
     }
 
-    private void customizePropositionEditSection(View view, Object model, Container container) {
+    private void customizePropositionEditSection(Object model, Container container) {
         //Retrieve the current editing proposition if exists.
         MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
         Object dataObject = maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
@@ -124,9 +125,11 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             //Retrieve the name of the xml component to display for the proposition type.
             TemplateInfo template = this.getTemplateForType(propEditor.getType());
 
+            View view = ViewLifecycle.getView();
+
             if (template != null && template.getComponentId() != null) {
                 Component component = ComponentFactory.getNewComponentInstance(template.getComponentId());
-                view.assignComponentIds(component);
+//                view.assignComponentIds(component);
                 if(container.getId().equals(maintenanceDocumentForm.getUpdateComponentId())){
                     String nodePath = view.getDefaultBindingObjectPath() + "." + propEditor.getBindingPath();
                     ComponentUtils.pushObjectToContext(component, UifConstants.ContextVariableNames.NODE_PATH, nodePath);
@@ -139,7 +142,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
             if (template != null && template.getConstantComponentId() != null) {
                 Component component = ComponentFactory.getNewComponentInstance(template.getConstantComponentId());
-                view.assignComponentIds(component);
+//                view.assignComponentIds(component);
 
                 //Add Proposition Type FieldGroup to Tree Node
                 components.add(component);
