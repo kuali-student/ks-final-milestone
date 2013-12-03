@@ -70,7 +70,8 @@ limitations under the License.
                     <property name="url.requestParameters">
                         <map key-type="java.lang.String" merge="true">
                             <entry key="methodToCall" value="start"/>
-                            <entry key="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper"/>
+                            <entry key="dataObjectClassName"
+                                   value="org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper"/>
                             <entry key="hideReturnLink" value="true"/>
                             <entry key="viewName" value="FEAgendaManagementView"/>
                             <entry key="hideReturnLink" value="true"/>
@@ -121,8 +122,15 @@ limitations under the License.
             <bean parent="KS-Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
-                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+                        <bean parent="Uif-HorizontalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false"
+                                          p:methodToCall="cancel" p:actionLabel="Cancel"
+                                          p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+                                </list>
+                            </property>
+                        </bean>
                     </list>
                 </property>
             </bean>
@@ -130,7 +138,8 @@ limitations under the License.
     </bean>
 
     <bean id="KSFE-FinalExamMatrixManagement-CriteriaSection" parent="Uif-HorizontalBoxSection"
-          p:id="finalExamMatrixManagementCriteriaSection" p:onDocumentReadyScript="toggleButtonOnInput('termType', 'show_button');">
+          p:id="finalExamMatrixManagementCriteriaSection"
+          p:onDocumentReadyScript="toggleButtonOnInput('termType', 'show_button');">
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
@@ -138,7 +147,8 @@ limitations under the License.
                     <property name="items">
                         <list>
 
-                            <bean parent="Uif-InputField" p:propertyName="type.key" p:label="Term" p:labelPlacement="LEFT"
+                            <bean parent="Uif-InputField" p:propertyName="type.key" p:label="Term"
+                                  p:labelPlacement="LEFT"
                                   p:required="true" p:readOnly="false" p:id="termType"
                                   p:onChangeScript="toggleButtonOnInput('termType', 'show_button');">
                                 <property name="control">
@@ -148,7 +158,8 @@ limitations under the License.
                                     <bean class="org.kuali.student.enrollment.class1.krms.keyvalue.TermKeyValueFinder"/>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-PrimaryActionButton" p:performClientSideValidation="false" p:actionLabel="Show"
+                            <bean parent="KS-Uif-PrimaryActionButton" p:performClientSideValidation="false"
+                                  p:actionLabel="Show"
                                   p:ajaxSubmit="false" p:methodToCall="show" p:id="show_button"/>
                         </list>
                     </property>
@@ -161,20 +172,23 @@ limitations under the License.
         <property name="headerText" value="Term Type: @{#dp.type.name}"/>
         <property name="items">
             <list>
-                <bean name="KSFE-FinalExamMatrix-SameAsTermType" parent="Uif-VerticalBoxSection" p:render="@{#dp.matrixEmpty or #dp.termToUse ne 'na'}">
+                <bean name="KSFE-FinalExamMatrix-SameAsTermType" parent="Uif-VerticalBoxSection"
+                      p:render="@{#dp.matrixEmpty or #dp.termToUse ne 'na'}">
                     <property name="items">
                         <list>
                             <bean parent="Uif-MessageField" p:messageText="Use the same Matrix as:"/>
                             <bean parent="Uif-HorizontalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField" p:id="ksfeTermType" p:propertyName="termToUse" p:label="Term Type" p:labelPlacement="LEFT" p:readOnly="false"
+                                        <bean parent="Uif-InputField" p:id="ksfeTermType" p:propertyName="termToUse"
+                                              p:label="Term Type" p:labelPlacement="LEFT" p:readOnly="false"
                                               p:onChangeScript="retrieveFinalExamMatrix('KSFE-AgendaManage-Section', 'loadTermType', 'ksfeTermType');">
                                             <property name="control">
                                                 <bean parent="Uif-DropdownControl"/>
                                             </property>
                                             <property name="optionsFinder">
-                                                <bean class="org.kuali.student.enrollment.class1.krms.keyvalue.ExistingMatrixKeyValueFinder" p:addBlankOption="false"/>
+                                                <bean class="org.kuali.student.enrollment.class1.krms.keyvalue.ExistingMatrixKeyValueFinder"
+                                                      p:addBlankOption="false"/>
                                             </property>
                                         </bean>
                                     </list>
@@ -183,12 +197,14 @@ limitations under the License.
                         </list>
                     </property>
                 </bean>
-                <bean id="KSFE-AgendaManage-Section" parent="KRMS-AgendaManage-Section" class="org.kuali.student.enrollment.class1.krms.util.FinalExamAgendaSection"
+                <bean id="KSFE-AgendaManage-Section" parent="KRMS-AgendaManage-Section"
+                      class="org.kuali.student.enrollment.class1.krms.util.FinalExamAgendaSection"
                       p:style="margin-top:-25px" p:forceSessionPersistence="true">
                     <property name="agendaPrototypeMap">
                         <map>
-                            <entry key="kuali.krms.agenda.type.final.exam.standard" value-ref="KSFE-RuleTable-Standard" />
-                            <entry key="kuali.krms.agenda.type.final.exam.common" value-ref="KSFE-RuleTable-Common" />
+                            <entry key="kuali.krms.agenda.type.final.exam.standard"
+                                   value-ref="KSFE-RuleTable-Standard"/>
+                            <entry key="kuali.krms.agenda.type.final.exam.common" value-ref="KSFE-RuleTable-Common"/>
                         </map>
                     </property>
                 </bean>
@@ -207,13 +223,15 @@ limitations under the License.
                       p:actionLabel="Save" p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"
                       p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
-                <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancelEditMatrix" p:actionLabel="Cancel"/>
+                <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancelEditMatrix"
+                      p:actionLabel="Cancel"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KSFE-RuleTable-Parent" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="true"
-          p:readOnly="@{#dp.termToUse ne 'na'}" p:width="75%" p:style="padding-top:25px" >
+    <bean id="KSFE-RuleTable-Parent" parent="Uif-TableCollectionSection" p:renderAddLine="false"
+          p:renderLineActions="true"
+          p:readOnly="@{#dp.termToUse ne 'na'}" p:width="75%" p:style="padding-top:25px">
         <property name="id" value="ruledefinitions"/>
         <property name="collectionObjectClass"
                   value="org.kuali.rice.krms.dto.RuleEditor"/>
@@ -225,7 +243,8 @@ limitations under the License.
                     <bean parent="Uif-ActionsGroup" p:render="@{#dp.termToUse eq 'na'}">
                         <property name="items">
                             <list>
-                                <bean parent="KS-Uif-NavigationActionLink" p:methodToCall="addRule" p:actionLabel="Add" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                                <bean parent="KS-Uif-NavigationActionLink" p:methodToCall="addRule" p:actionLabel="Add"
+                                      p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
                             </list>
                         </property>
                     </bean>
@@ -263,8 +282,10 @@ limitations under the License.
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="goToRuleView" p:actionLabel="Edit" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="deleteRule" p:actionLabel="Delete" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="goToRuleView" p:actionLabel="Edit"
+                      p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="deleteRule" p:actionLabel="Delete"
+                      p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
             </list>
         </property>
     </bean>
@@ -277,13 +298,14 @@ limitations under the License.
                     <bean parent="Uif-ActionsGroup" p:render="@{#dp.termToUse eq 'na'}">
                         <property name="items">
                             <list>
-                                <bean parent="KS-Uif-NavigationActionLink" p:methodToCall="addRule" p:actionLabel="Add" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                                <bean parent="KS-Uif-NavigationActionLink" p:methodToCall="addRule" p:actionLabel="Add"
+                                      p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
                             </list>
                         </property>
                     </bean>
                 </property>
                 <property name="lowerGroup">
-                    <bean parent="Uif-HorizontalBoxGroup" >
+                    <bean parent="Uif-HorizontalBoxGroup">
                         <property name="items">
                             <list>
                                 <ref bean="KSFE_location"/>
@@ -338,14 +360,20 @@ limitations under the License.
             <bean parent="KS-Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean id="KSFE-UpdateRule-Button" parent="KS-Uif-PrimaryActionButton"
-                              p:performClientSideValidation="true" p:ajaxSubmit="false">
-                            <property name="actionLabel" value="Update Rule"/>
-                            <property name="methodToCall" value="updateRule"/>
-                        </bean>
-                        <bean id="KSFE-CancelRule-Button" parent="KS-Uif-NavigationActionLink">
-                            <property name="actionLabel" value="Cancel"/>
-                            <property name="methodToCall" value="cancelEditRule"/>
+                        <bean parent="Uif-HorizontalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean id="KSFE-UpdateRule-Button" parent="KS-Uif-PrimaryActionButton"
+                                          p:performClientSideValidation="true" p:ajaxSubmit="false">
+                                        <property name="actionLabel" value="Update Rule"/>
+                                        <property name="methodToCall" value="updateRule"/>
+                                    </bean>
+                                    <bean id="KSFE-CancelRule-Button" parent="KS-Uif-NavigationActionLink">
+                                        <property name="actionLabel" value="Cancel"/>
+                                        <property name="methodToCall" value="cancelEditRule"/>
+                                    </bean>
+                                </list>
+                            </property>
                         </bean>
                     </list>
                 </property>
@@ -464,7 +492,8 @@ limitations under the License.
             </list>
         </property>
     </bean>
-    <bean id="FinalExam-DeliveryLogistic-New" parent="Uif-VerticalBoxSection" p:style="padding-top:4px; padding-left:4px; padding-bottom:4px; border: 1px solid black;">
+    <bean id="FinalExam-DeliveryLogistic-New" parent="Uif-VerticalBoxSection"
+          p:style="padding-top:4px; padding-left:4px; padding-bottom:4px; border: 1px solid black;">
         <property name="items">
             <list>
                 <ref bean="FinalExam-DeliveryLogistic-New-Section"/>
@@ -472,15 +501,15 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KSFE-FinalExam-ExamDaysDropdown" parent="Uif-DropdownControl" p:cssClasses="new_rdl_components" >
+    <bean id="KSFE-FinalExam-ExamDaysDropdown" parent="Uif-DropdownControl" p:cssClasses="new_rdl_components">
         <property name="options">
             <list>
-                <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Day 1" />
-                <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Day 2" />
-                <bean parent="Uif-KeyLabelPair" p:key="3" p:value="Day 3" />
-                <bean parent="Uif-KeyLabelPair" p:key="4" p:value="Day 4" />
-                <bean parent="Uif-KeyLabelPair" p:key="5" p:value="Day 5" />
-                <bean parent="Uif-KeyLabelPair" p:key="6" p:value="Day 6" />
+                <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Day 1"/>
+                <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Day 2"/>
+                <bean parent="Uif-KeyLabelPair" p:key="3" p:value="Day 3"/>
+                <bean parent="Uif-KeyLabelPair" p:key="4" p:value="Day 4"/>
+                <bean parent="Uif-KeyLabelPair" p:key="5" p:value="Day 5"/>
+                <bean parent="Uif-KeyLabelPair" p:key="6" p:value="Day 6"/>
             </list>
         </property>
     </bean>
@@ -488,12 +517,14 @@ limitations under the License.
     <bean id="FinalExam-DeliveryLogistic-New-Section" parent="Uif-HorizontalBoxSubSection">
         <property name="items">
             <list>
-                <bean id="FinalExam_tba" parent="Uif-InputField-LabelRight" p:propertyName="ruleEditor.tba" p:label="TBA" p:style="margin-top:15px">
+                <bean id="FinalExam_tba" parent="Uif-InputField-LabelRight" p:propertyName="ruleEditor.tba"
+                      p:label="TBA" p:style="margin-top:15px">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
                 </bean>
-                <bean id="FinalExam_days" parent="Uif-InputField-LabelTop" p:label="Days" p:propertyName="ruleEditor.day">
+                <bean id="FinalExam_days" parent="Uif-InputField-LabelTop" p:label="Days"
+                      p:propertyName="ruleEditor.day">
                     <property name="control">
                         <ref bean="KSFE-FinalExam-ExamDaysDropdown"/>
                     </property>
@@ -563,7 +594,8 @@ limitations under the License.
                     </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:lightBoxLookup.lookupReturnByScript="true">
-                            <property name="dataObjectClassName" value="org.kuali.student.r2.core.room.dto.BuildingInfo"/>
+                            <property name="dataObjectClassName"
+                                      value="org.kuali.student.r2.core.room.dto.BuildingInfo"/>
                             <property name="fieldConversions">
                                 <map>
                                     <entry key="id" value="ruleEditor.building.id"/>
@@ -712,11 +744,13 @@ limitations under the License.
     </bean>
     <bean id="KSFE-endtime_ampm-Section" parent="KSFE-endtime_ampm-Section-Parent"/>
 
-    <bean id="KSFE_location-Parent" parent="Uif-InputField" p:label="Standard Final Exam location determined by Activity Offering location" p:propertyName="location" p:labelPlacement="LEFT"
+    <bean id="KSFE_location-Parent" parent="Uif-InputField"
+          p:label="Standard Final Exam location determined by Activity Offering location" p:propertyName="location"
+          p:labelPlacement="LEFT"
           p:uppercaseValue="false">
-            <property name="control">
-                <bean parent="Uif-CheckboxControl" p:disabled="true"/>
-            </property>
+        <property name="control">
+            <bean parent="Uif-CheckboxControl" p:disabled="true"/>
+        </property>
     </bean>
     <bean id="KSFE_location" parent="KSFE_location-Parent"/>
 </beans>
