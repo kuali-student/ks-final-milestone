@@ -51,7 +51,7 @@
     <bean id="ksEnrollCourseOfferingService" class="org.kuali.student.ap.test.mock.CourseOfferingServiceMockTest"/>
     <bean id="ksEnrollLuiService" class="org.kuali.student.ap.test.mock.LuiServiceMockTest"/>
     <bean id="ksCoreCommentService" class="org.kuali.student.ap.test.mock.CommentServiceMockTest"/>
-    <bean id="ksCoreEnumerationManagementService" class="org.kuali.student.ap.test.mock.EnumerationManagementServiceMockTest"/>
+    <!--<bean id="ksCoreEnumerationManagementService" class="org.kuali.student.ap.test.mock.EnumerationManagementServiceMockTest"/>-->
     <bean id="ksLumCourseService" class="org.kuali.student.ap.test.mock.CourseServiceMockTest"/>
     <bean id="ksLumProgramService" class="org.kuali.student.ap.test.mock.ProgramServiceMockTest"/>
     <bean id="ksLumCluService" class="org.kuali.student.ap.test.mock.CluServiceMockTest"/>
@@ -66,7 +66,6 @@
     <bean id="scheduleBuildStrategy" class="org.kuali.student.ap.test.mock.ScheduleBuildStrategyMockTest" />
     <bean id="shoppingCartStrategy" class="org.kuali.student.ap.test.mock.ShoppingCartStrategyMockTest" />
 
-    <!--<import resource="enumService-test-context.xml"/>-->
     <import resource="cluService-test-context.xml"/>
 
 </beans>
