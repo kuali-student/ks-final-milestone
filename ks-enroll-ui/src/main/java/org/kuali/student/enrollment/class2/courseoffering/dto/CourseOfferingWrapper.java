@@ -20,6 +20,7 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -93,7 +94,16 @@ public class CourseOfferingWrapper implements Serializable{
         this.alternateCOCodes = new ArrayList<String>();
         this.ownerAliases = new ArrayList<String>();
         this.setAttributeFields(courseOfferingInfo);
-
+        if(courseOfferingInfo.getCrossListings().size() > 0) {
+            this.isCrossListed = true;
+            this.setOwnerCode(courseOfferingInfo.getCourseCode());
+            if (courseOfferingInfo != null){
+                for (CourseOfferingCrossListingInfo crossListing : courseOfferingInfo.getCrossListings()){
+                    this.ownerAliases.add(crossListing.getCode());
+                    this.getAlternateCOCodes().add(crossListing.getCode());
+                }
+            }
+        }
     }
 
     /**

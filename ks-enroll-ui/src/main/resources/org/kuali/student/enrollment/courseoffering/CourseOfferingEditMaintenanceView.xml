@@ -42,7 +42,7 @@
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
         </property>
 
-        <property name="headerText" value="@{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingCode}: @{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingTitle}"/>
+        <property name="headerText" value="@{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingCode}"/>
         <property name="page.headerText" value="@{(document.oldMaintainableObject.dataObject.createCO) ? 'Create':'Edit'} Course Offering" />
         <!--<property name="header.style" value="width:60%"/>-->
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
@@ -307,7 +307,7 @@
                 <bean parent="Uif-HorizontalBoxSubSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-Label" p:labelText="Course Title" p:renderColon="false" />
+                            <bean parent="Uif-Label" p:labelText="Course Title" />
                             <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.courseOfferingTitle" p:showLabel="false" />
                         </list>
                     </property>

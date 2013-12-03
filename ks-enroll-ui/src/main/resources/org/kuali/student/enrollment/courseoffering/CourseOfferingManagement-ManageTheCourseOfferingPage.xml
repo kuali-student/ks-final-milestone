@@ -113,8 +113,10 @@
         </property>-->
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{currentCourseOfferingWrapper.ownerAliasesUIList}"
-                      p:render="@{currentCourseOfferingWrapper.ownerAliasesUIList != ''}" p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
+                <bean parent="Uif-MessageField" p:messageText="Course Title: @{currentCourseOfferingWrapper.courseOfferingInfo.courseOfferingTitle}"
+                      p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
+                <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{currentCourseOfferingWrapper.alternateCOCodes}"
+                      p:render="@{currentCourseOfferingWrapper.alternateCOCodes.size() > 0 }" p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
                 <bean id="KS-Tab-Hidden-Input" parent="Uif-InputField" p:defaultValue="0" p:showLabel="false" p:propertyName="selectedTabId" p:hidden="true">
                     <property name="control">
                         <bean parent="Uif-HiddenControl"/>
