@@ -49,7 +49,7 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
     @PersistenceContext
     protected EntityManager em;
 
-    protected Integer maxInClauseElements = 1000;
+    protected Integer maxInClauseElements = 100;
 
     public GenericEntityDao() {
         entityClass = getEntityClass();
