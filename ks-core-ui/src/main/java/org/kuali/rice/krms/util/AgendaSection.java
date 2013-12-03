@@ -17,16 +17,10 @@ package org.kuali.rice.krms.util;
 
 import org.kuali.rice.krad.uif.component.BindingInfo;
 import org.kuali.rice.krad.uif.component.Component;
-import org.kuali.rice.krad.uif.container.CollectionFilter;
 import org.kuali.rice.krad.uif.container.Group;
-import org.kuali.rice.krad.uif.container.TreeGroup;
-import org.kuali.rice.krad.uif.element.Action;
-import org.kuali.rice.krad.uif.element.Message;
-import org.kuali.rice.krad.uif.field.DataField;
-import org.kuali.rice.krad.uif.util.ComponentUtils;
+import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
-import org.kuali.rice.krad.uif.widget.QuickFinder;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.service.RuleViewHelperService;
 
@@ -51,10 +45,12 @@ public class AgendaSection extends Group {
     }
 
     @Override
-    public void performInitialization(View view, Object model) {
+    public void performInitialization(Object model) {
         setFieldBindingObjectPath(getBindingInfo().getBindingObjectPath());
 
-        super.performInitialization(view, model);
+        super.performInitialization(model);
+
+        View view = ViewLifecycle.getView();
 
         if (bindingInfo != null) {
             bindingInfo.setDefaults(view, getPropertyName());
@@ -63,10 +59,12 @@ public class AgendaSection extends Group {
     }
 
     @Override
-    public void performApplyModel(View view, Object model, Component parent) {
+    public void performApplyModel(Object model, Component parent) {
         // get the collection for this group from the model
         List<Object> modelCollection = ObjectPropertyUtils.getPropertyValue(model,
                 this.getBindingInfo().getBindingPath());
+
+        View view = ViewLifecycle.getView();
 
         //Set the ruleviewhelperservice on the agendabuilder.
         this.getAgendaBuilder().setViewHelperService((RuleViewHelperService) view.getViewHelperService());
@@ -79,7 +77,7 @@ public class AgendaSection extends Group {
         }
         this.setItems(items);
 
-        super.performApplyModel(view, model, parent);
+        super.performApplyModel(model, parent);
     }
 
     @Override

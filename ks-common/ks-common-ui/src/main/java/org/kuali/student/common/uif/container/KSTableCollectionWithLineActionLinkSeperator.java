@@ -1,5 +1,6 @@
 package org.kuali.student.common.uif.container;
 
+import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.element.Action;
 
@@ -26,13 +27,14 @@ public class KSTableCollectionWithLineActionLinkSeperator extends CollectionGrou
         this.lineActionSeparator = lineActionSeparator;
     }
 
-    public List<Action> getLineActions(){
-        List<Action> actions = super.getLineActions();
-        List<Action> returnedActions = null;
+    @Override
+    public List<? extends Component> getLineActions(){
+        List<? extends Component> actions = super.getLineActions();
+        List<Component> returnedActions = null;
         if(actions != null && super.isRenderLineActions()){
-            returnedActions = new ArrayList<Action>();
+            returnedActions = new ArrayList<Component>();
             int index = 0;
-            for(Action action: actions){
+            for(Component action: actions){
                 index++;
                 returnedActions.add(action);
                 if(index < actions.size()) {

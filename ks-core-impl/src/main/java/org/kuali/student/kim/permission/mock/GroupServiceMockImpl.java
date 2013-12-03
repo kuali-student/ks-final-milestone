@@ -21,20 +21,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import org.joda.time.DateTime;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 
 
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.group.Group;
+import org.kuali.rice.kim.api.group.GroupHistory;
+import org.kuali.rice.kim.api.group.GroupHistoryQueryResults;
 import org.kuali.rice.kim.api.group.GroupMember;
 import org.kuali.rice.kim.api.group.GroupMemberQueryResults;
 import org.kuali.rice.kim.api.group.GroupQueryResults;
 import org.kuali.rice.kim.api.group.GroupService;
-import org.kuali.rice.kim.api.role.Role;
 import org.kuali.student.common.mock.MockService;
-
-import javax.jws.WebParam;
 
 /**
  * @author nwright
@@ -444,5 +445,44 @@ public class GroupServiceMockImpl implements GroupService, MockService {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    public List<GroupMember> getMembersOfGroupWithDate(String groupId, DateTime asOfDate) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public GroupHistoryQueryResults findGroupHistories(QueryByCriteria queryByCriteria) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public GroupHistory getGroupHistory(String id, DateTime asOfDate) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public GroupHistory createGroupHistory(GroupHistory groupHistory) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public GroupHistory inactivateGroupHistory(String id, DateTime inactiveDate) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public boolean isGroupMemberOfGroupWithDate(String groupMemberId, String groupId, DateTime asOfDate) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public boolean isMemberOfGroupWithDate(String principalId, String groupId, DateTime asOfDate) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public List<String> getDirectMemberGroupIdsWithDate(String groupId) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public List<String> getDirectParentGroupIdsWithDate(String groupId, DateTime asOfDate) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public List<GroupMember> getMembersWithDate(List<String> groupIds, DateTime asOfDate) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
 

@@ -36,8 +36,8 @@ public class ActionImageButton extends KSUifActionButton {
     private String imageSourceOnHover;
 
     @Override
-    public void performFinalize(View view, Object model, Component parent) {
-        super.performFinalize(view, model, parent);
+    public void performFinalize(Object model, Component parent) {
+        super.performFinalize(model, parent);
 
         Image img = this.getActionImage();
         if (null == img) {  // Spring config should always include "actionImage" property
