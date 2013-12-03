@@ -668,14 +668,8 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         // Find the term-level SOC for this activity offering and find out its state
         List<String> socIds = CourseOfferingManagementUtil.getCourseOfferingSetService().getSocIdsByTerm(activityOfferingInfo.getTermId(), context);
 
-        int firstsocId = 0;
-
-        // should be only one, if none or more than one is found, throw an exception
-        if (socIds == null || socIds.size() != 1) {
-            throw new OperationFailedException("Unexpected results from socService.getSocIdsByTerm, expecting exactly one soc id, received: " + socIds);
-        }
-
-        SocInfo socInfo = CourseOfferingManagementUtil.getCourseOfferingSetService().getSoc(socIds.get(firstsocId), context);
+        String mainSocId = KSCollectionUtils.getRequiredZeroElement(socIds);
+        SocInfo socInfo = CourseOfferingManagementUtil.getCourseOfferingSetService().getSoc(mainSocId, context);
 
         String aoNextState = null;
 
@@ -688,7 +682,11 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         // If the SOC is in Final Edits state, and the Scheduled Activity Offering is in Draft state, AND the Activity Offering is Scheduled, then set the Activity Offering State to Offered
         else if (socInfo.getStateKey().equals(CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY)) {
             if (LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY.equals(activityOfferingInfo.getStateKey())) {
-                if(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_SCHEDULED_KEY.equals(activityOfferingInfo.getSchedulingStateKey())) {
+                String aoSchedulingState = activityOfferingInfo.getSchedulingStateKey();
+                if (LuiServiceConstants.LUI_AO_SCHEDULING_STATE_SCHEDULED_KEY.equals(aoSchedulingState) ||
+                        LuiServiceConstants.LUI_AO_SCHEDULING_STATE_EXEMPT_KEY.equals(aoSchedulingState)) {
+                    // KSENROLL-10792 Should allow AO scheduling state of exempt (which indicates a TBA)
+                    // to cause AO state to become offered (before this, it was not changed).
                     aoNextState = LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY;
                 }
             }
