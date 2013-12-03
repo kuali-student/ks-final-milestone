@@ -57,7 +57,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final TypeInfo COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE;
     public static final TypeInfo FO_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo FO_IDS_BY_CO_ID_SEARCH_TYPE;
-    public static final TypeInfo WL_IND_BY_CO_ID_SEARCH_TYPE;
+    public static final TypeInfo WL_IND_BY_AO_IDS_SEARCH_TYPE;
     public static final TypeInfo RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo AO_CLUSTER_COUNT_BY_FO_TYPE;
     public static final TypeInfo AO_ID_AND_TYPE_BY_FO_TYPE;
@@ -73,7 +73,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final String COLOCATED_AOIDS_BY_AO_IDS_SEARCH_KEY = "kuali.search.type.lui.searchForColocatedAoIdsByAoIds";
     public static final String FO_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForFOByCoId";
     public static final String FO_IDS_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForFOIdsByCoId";
-    public static final String WL_IND_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForWLIndicatorByCOId";
+    public static final String WL_IND_BY_AO_IDS_SEARCH_KEY = "kuali.search.type.lui.searchForWLIndicatorByCOId";
     public static final String RELATED_AO_TYPES_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForRelatedAoTypesByCoId";
     public static final String AO_CODES_TYPES_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAoCodesAndTypesByCoId";
     public static final String TERM_ID_BY_OFFERING_ID_SEARCH_KEY = "kuali.search.type.lui.searchForTermIdByOfferingId";
@@ -189,12 +189,12 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         FO_IDS_BY_CO_ID_SEARCH_TYPE = info;
 
         info = new TypeInfo();
-        info.setKey(WL_IND_BY_CO_ID_SEARCH_KEY);
+        info.setKey(WL_IND_BY_AO_IDS_SEARCH_KEY);
         info.setName("WaitList indicator by course offering ID search");
         info.setDescr(new RichTextHelper().fromPlain("Returns WaitList Indicator"));
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
-        WL_IND_BY_CO_ID_SEARCH_TYPE = info;
+        WL_IND_BY_AO_IDS_SEARCH_TYPE = info;
 
         info = new TypeInfo();
         info.setKey(RELATED_AO_TYPES_BY_CO_ID_SEARCH_KEY);
@@ -299,8 +299,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         if (FO_IDS_BY_CO_ID_SEARCH_KEY.equals(searchTypeKey)) {
             return FO_IDS_BY_CO_ID_SEARCH_TYPE;
         }
-        if (WL_IND_BY_CO_ID_SEARCH_KEY.equals(searchTypeKey)) {
-            return WL_IND_BY_CO_ID_SEARCH_TYPE;
+        if (WL_IND_BY_AO_IDS_SEARCH_KEY.equals(searchTypeKey)) {
+            return WL_IND_BY_AO_IDS_SEARCH_TYPE;
         }
         if (RELATED_AO_TYPES_BY_CO_ID_SEARCH_KEY.equals(searchTypeKey)) {
             return RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE;
@@ -337,7 +337,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             OperationFailedException {
         return Arrays.asList(SCH_IDS_BY_AO_SEARCH_TYPE, AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE, AO_AND_FO_IDS_BY_CO_ID_SEARCH_TYPE,
                 REG_GROUPS_BY_CO_ID_SEARCH_TYPE, AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE, COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE, FO_BY_CO_ID_SEARCH_TYPE,
-                FO_IDS_BY_CO_ID_SEARCH_TYPE, WL_IND_BY_CO_ID_SEARCH_TYPE, RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE, TERM_ID_BY_OFFERING_ID_SEARCH_TYPE,
+                FO_IDS_BY_CO_ID_SEARCH_TYPE, WL_IND_BY_AO_IDS_SEARCH_TYPE, RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE, TERM_ID_BY_OFFERING_ID_SEARCH_TYPE,
                 AO_CODES_TYPES_BY_CO_ID_SEARCH_TYPE, AO_CLUSTER_COUNT_BY_FO_TYPE, AO_ID_AND_TYPE_BY_FO_TYPE, COLOCATED_AOIDS_BY_AO_IDS_SEARCH_TYPE, CO_IDS_AND_FO_IDS_AND_ATP_IDS_BY_AO_IDS_SEARCH_TYPE);
     }
 
@@ -369,8 +369,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         else if (FO_IDS_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForFOIdsByCOId(searchRequestInfo);
         }
-        else if (WL_IND_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
-            return searchForWLIndicatorByCOId(searchRequestInfo);
+        else if (WL_IND_BY_AO_IDS_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
+            return searchForWLIndicatorByAOIds(searchRequestInfo);
         }
         else if (RELATED_AO_TYPES_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForRelatedAoTypesByCoId(searchRequestInfo);
@@ -525,7 +525,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
     /**
      * Finds a list of AO codes, types, and Ids given a CO id.
-     * @throws OperationFailedException 
+     * @throws OperationFailedException
      */
      private SearchResultInfo searchForAoCodesAndTypesByCoId(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
         SearchResultInfo resultInfo = new SearchResultInfo();
@@ -669,7 +669,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    protected SearchResultInfo searchForScheduleIdsByAoId(SearchRequestInfo searchRequestInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+    private SearchResultInfo searchForScheduleIdsByAoId(SearchRequestInfo searchRequestInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
 
         String aoId = requestHelper.getParamAsString(SearchParameters.AO_ID);
@@ -849,7 +849,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         return resultInfo;
     }
 
-    protected SearchResultInfo searchForAOsWithoutClusterByFormatOffering(SearchRequestInfo searchRequestInfo) throws OperationFailedException{
+    private SearchResultInfo searchForAOsWithoutClusterByFormatOffering(SearchRequestInfo searchRequestInfo) throws OperationFailedException{
         SearchResultInfo resultInfo = new SearchResultInfo();
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
@@ -882,7 +882,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         return resultInfo;
     }
 
-    protected SearchResultInfo searchForFOByCOId(SearchRequestInfo searchRequestInfo) throws OperationFailedException{
+    private SearchResultInfo searchForFOByCOId(SearchRequestInfo searchRequestInfo) throws OperationFailedException{
         SearchResultInfo resultInfo = new SearchResultInfo();
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
@@ -912,7 +912,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         return resultInfo;
     }
 
-    protected SearchResultInfo searchForFOIdsByCOId(SearchRequestInfo searchRequestInfo) throws OperationFailedException{
+    private SearchResultInfo searchForFOIdsByCOId(SearchRequestInfo searchRequestInfo) throws OperationFailedException{
         SearchResultInfo resultInfo = new SearchResultInfo();
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
@@ -937,25 +937,37 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         return resultInfo;
     }
 
-    protected SearchResultInfo searchForWLIndicatorByCOId(SearchRequestInfo searchRequestInfo) throws OperationFailedException{
+    private SearchResultInfo searchForWLIndicatorByAOIds(SearchRequestInfo searchRequestInfo) throws OperationFailedException{
         SearchResultInfo resultInfo = new SearchResultInfo();
 
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-        String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
+        List<String> aoIdsList = requestHelper.getParamAsList(SearchParameters.AO_IDS);
 
-        String queryStr =
-                "SELECT rel.value " +
-                        "FROM LuiAttributeEntity rel " +
-                        "WHERE rel.owner.id = :coId " +
-                        " AND rel.key = '" + CourseOfferingServiceConstants.WAIT_LIST_INDICATOR_ATTR + "' ";
+        StringBuilder queryStringRef = new StringBuilder();
+        queryStringRef.append("SELECT rel.value, " +
+                        "rel.owner.id, " +
+                        "fo2ao.relatedLui.id " +
+                        "FROM  LuiAttributeEntity rel," +
+                        "LuiLuiRelationEntity co2fo," +
+                        "LuiLuiRelationEntity fo2ao " +
+                        "WHERE rel.owner.id = co2fo.lui.id " +
+                        "  AND rel.key = '" + CourseOfferingServiceConstants.WAIT_LIST_INDICATOR_ATTR + "' " +
+                        "  AND co2fo.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "' " +
+                        "  AND fo2ao.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY + "' " +
+                        "  AND fo2ao.lui.id = co2fo.relatedLui.id " +
+                        "  AND ");
+        String queryStrEnd = ")";
+        String primaryKeyMemberName = "fo2ao.relatedLui.id";
 
-        TypedQuery<String> query = entityManager.createQuery(queryStr, String.class);
-        query.setParameter(SearchParameters.CO_ID, coId);
-        List<String> results = query.getResultList();
+        TypedQuery<Object[]> query = QueryUtil.buildQuery(entityManager, maxInClauseElements, queryStringRef, queryStrEnd, primaryKeyMemberName, aoIdsList, Object[].class);
+        List<Object[]> results = query.getResultList();
 
-        for(String result : results){
+        for(Object[] resultRow : results){
+            int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(SearchResultColumns.WL_IND, result);
+            row.addCell(SearchResultColumns.WL_IND, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.CO_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i]);
             resultInfo.getRows().add(row);
         }
 
@@ -964,7 +976,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
     /**
      * Finds a list of AO codes and Ids given a CO id.
-     * @throws OperationFailedException 
+     * @throws OperationFailedException
      */
     private SearchResultInfo searchForTermIdByOfferingId(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
         SearchResultInfo resultInfo = new SearchResultInfo();
@@ -992,7 +1004,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
      *
      * @param searchRequestInfo FO id search params
      * @return a AO cluster count
-     * @throws OperationFailedException 
+     * @throws OperationFailedException
      */
     private SearchResultInfo searchForAOClusterCountByFO(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
         SearchResultInfo resultInfo = new SearchResultInfo();
@@ -1025,7 +1037,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
      *
      * @param searchRequestInfo FO id search params
      * @return AO_ID, AO_TYPE
-     * @throws OperationFailedException 
+     * @throws OperationFailedException
      */
     private SearchResultInfo searchForAoIdAndTypeByFO(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
         SearchResultInfo resultInfo = new SearchResultInfo();

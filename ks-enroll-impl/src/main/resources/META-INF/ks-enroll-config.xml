@@ -87,6 +87,6 @@
     <param name="ks.enroll.coursewaitlist.forCourseOffering.hasWaitlist.defaultvalue">true</param>
 
     <param name="ks.enroll.dao.enableMaxIdFetch.defaultvalue">true</param>
-    <param name="ks.enroll.dao.maxInClauseElements.defaultvalue">1000</param>
+    <param name="ks.enroll.dao.maxInClauseElements.defaultvalue">100</param>
 
 </config>

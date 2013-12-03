@@ -14,9 +14,11 @@
  */
 package org.kuali.student.enrollment.class2.coursewaitlist.dao;
 
+import org.kuali.student.common.util.query.QueryUtil;
 import org.kuali.student.enrollment.class2.coursewaitlist.model.CourseWaitListEntity;
 import org.kuali.student.r2.common.dao.GenericEntityDao;
 
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class CourseWaitListDao extends GenericEntityDao<CourseWaitListEntity> implements CourseWaitListDaoApi {
@@ -28,7 +30,24 @@ public class CourseWaitListDao extends GenericEntityDao<CourseWaitListEntity> im
      */
     public List<CourseWaitListEntity> getCourseWaitListsByActivityOfferingIds(List<String> activityOfferingIds) {
 
-          return em.createQuery("FROM CourseWaitListEntity cwl, IN(cwl.activityOfferingIds) a WHERE a IN (:activityOfferingIds)")
-                 .setParameter("activityOfferingIds", activityOfferingIds).getResultList();
+        StringBuilder queryStringRef = new StringBuilder();
+        queryStringRef.append("FROM CourseWaitListEntity cwl, IN(cwl.activityOfferingIds) a WHERE ");
+
+        String primaryKeyMemberName = "a";
+
+        TypedQuery<CourseWaitListEntity> query = QueryUtil.buildQuery(em, maxInClauseElements, queryStringRef, null, primaryKeyMemberName, activityOfferingIds, CourseWaitListEntity.class);
+        return query.getResultList();
     }
+
+    public List<CourseWaitListEntity> getCourseWaitListsByFormatOfferingIds(List<String> formatOfferingIds) {
+
+        StringBuilder queryStringRef = new StringBuilder();
+        queryStringRef.append("FROM CourseWaitListEntity cwl, IN(cwl.formatOfferingIds) a WHERE ");
+
+        String primaryKeyMemberName = "a";
+
+        TypedQuery<CourseWaitListEntity> query = QueryUtil.buildQuery(em, maxInClauseElements, queryStringRef, null, primaryKeyMemberName, formatOfferingIds, CourseWaitListEntity.class);
+        return query.getResultList();
+    }
+
 }

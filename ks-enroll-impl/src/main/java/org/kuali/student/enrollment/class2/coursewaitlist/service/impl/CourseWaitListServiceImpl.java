@@ -197,7 +197,15 @@ public class CourseWaitListServiceImpl implements CourseWaitListService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException{
-        throw new OperationFailedException("not implemented");
+        List<String> foIds = new ArrayList<String>();
+        foIds.add(formatOfferingId);
+        List<CourseWaitListEntity> entities = courseWaitListDao.getCourseWaitListsByFormatOfferingIds(foIds);
+        List<CourseWaitListInfo> infoList = new ArrayList<CourseWaitListInfo>();
+        for (CourseWaitListEntity entity : entities) {
+            CourseWaitListInfo courseWaitListInfo = entity.toDto();
+            infoList.add(courseWaitListInfo);
+        }
+        return infoList;
     }
 
     @Override

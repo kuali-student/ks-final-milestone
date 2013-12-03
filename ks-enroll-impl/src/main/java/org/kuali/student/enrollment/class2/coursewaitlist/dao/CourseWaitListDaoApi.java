@@ -36,4 +36,6 @@ public interface CourseWaitListDaoApi extends EntityDao<String, CourseWaitListEn
 
     public List<CourseWaitListEntity> getCourseWaitListsByActivityOfferingIds(List<String> activityOfferingIds);
 
+    public List<CourseWaitListEntity> getCourseWaitListsByFormatOfferingIds(List<String> formatOfferingIds);
+
 }

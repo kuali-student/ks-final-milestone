@@ -28,7 +28,7 @@ import static org.junit.Assert.*;
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
 public class TestGenericEntityDao {
-    private static final int MAXIMUM_ENTITIES = 4000;
+    private static final int MAXIMUM_ENTITIES = 400;
 
     @Autowired
     private StateDao stateDao;
@@ -105,7 +105,7 @@ public class TestGenericEntityDao {
             assertEquals("We have asked for " + MAXIMUM_ENTITIES + " ids, so the query should have 4 'in' clauses", queryCount, 4);
 
             // set the DAO to not allow splitting up of query
-            testStateDao.setMaxInClauseElements(5000);
+            testStateDao.setMaxInClauseElements(500);
             // re-run the query
             result = testStateDao.findByIds("id", primaryKeys);
             queryCount = getSubstringCount(queryString, "IN");
