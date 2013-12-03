@@ -141,15 +141,8 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         }
 
         if (!scheduleWrapper.isTba() && validateTime(startTime, startTimeAmPm, endTime, endTimeAmPm)) {
-            GlobalVariables.getMessageMap().putError("requestedDeliveryLogistic", ActivityOfferingConstants.MSG_ERROR_INVALID_START_TIME);
+            GlobalVariables.getMessageMap().putError("rdl_endtime", ActivityOfferingConstants.MSG_ERROR_INVALID_START_TIME);
             return getUIFModelAndView(form);
-        } else if (scheduleWrapper.isTba()){
-            if (StringUtils.isNotBlank(scheduleWrapper.getDays()) &&
-                StringUtils.isNotBlank(scheduleWrapper.getStartTime()) &&
-                StringUtils.isNotBlank(scheduleWrapper.getEndTime())){
-                GlobalVariables.getMessageMap().putError("requestedDeliveryLogistic", ActivityOfferingConstants.MSG_ERROR_TBA_VALIDATION_ERROR);
-                return getUIFModelAndView(form);
-            }
         }
 
         ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
