@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.extender;
 
+import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -65,13 +66,16 @@ public interface CourseOfferingServiceExtender {
      * Long version of copyActivityOffering
      * @param sourceAo The AO to copy from
      * @param coService Handle to course offering service (awkward, but avoids circular references)
-     * @param targetFo The target format offering
-     * @param targetTermId The target term ID
+     * @param targetFo The target format offering.  If null, use the FO id from source AO
+     * @param targetTermId The target term ID.  This is passed in separately because the AO might be in
+     *                     a subterm while the targetFo is always set to a parent term.  If null, use the
+     *                     term ID from the source AO.
      * @param context Context
      * @param optionKeys options used in Copy CO/rollover
      * @return the AO created
      */
-    ActivityOfferingInfo copyActivityOffering(ActivityOfferingInfo sourceAo,
+    ActivityOfferingInfo copyActivityOffering(String operation,
+                                              ActivityOfferingInfo sourceAo,
                                               CourseOfferingService coService,
                                               FormatOfferingInfo targetFo,
                                               String targetTermId,
@@ -93,4 +97,26 @@ public interface CourseOfferingServiceExtender {
         throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException;
 
+    /**
+     * Used by
+     * Similar to copyActivityOffering but used for rollover
+     * @param sourceAo The source AO
+     * @param targetFo The target FO used to link the target AO.  If null, just uses the sourceAo's FO
+     * @param targetTermId A target term ID (passed in separately from targetFo since it could be a subterm).
+     * @param optionKeys Option keys used in rollover
+     * @param coService Course Offering Service passed in to avoid circular dependence between CourseOfferingService
+     *                  and CourseOfferingServiceExtender
+     * @param context Context info
+     * @return A newly created target AO
+     */
+    public ActivityOfferingInfo createTargetActivityOfferingForRollover(ActivityOfferingInfo sourceAo,
+                                                                        FormatOfferingInfo targetFo,
+                                                                        String targetTermId,
+                                                                        RolloverAssist rolloverAssist,
+                                                                        String rolloverId,
+                                                                        List<String> optionKeys,
+                                                                        CourseOfferingService coService,
+                                                                        ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, DataValidationErrorException, ReadOnlyException;
 }

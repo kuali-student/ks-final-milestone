@@ -10,6 +10,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.extender.CourseOfferingServiceExtender;
+import org.kuali.student.enrollment.class2.courseoffering.service.extender.CourseOfferingServiceExtenderImpl;
 import org.kuali.student.enrollment.class2.courseoffering.service.helper.CourseOfferingServiceRolloverHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
@@ -739,33 +740,25 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 }
 
                 ActivityOfferingInfo targetAo;
-                if (sourceTermSameAsTarget) {
+                CourseOfferingServiceExtender extender = getCourseOfferingServiceExtender();
+                if (sourceTermSameAsTarget || !isTrueRollover) {
                     // KSENROLL-8064: Make behavior of copying an AO the same (other than the option
                     // keys in the if statement above
-                    CourseOfferingServiceExtender extender = getCourseOfferingServiceExtender();
-                    targetAo = extender.copyActivityOffering(sourceAo, coService,
-                                    targetFo, targetTermIdCustom,
-                                    context, optionKeys);
+                    // Note: if source/target term are the same, this is not a true rollover, so it is copy CO
+                    // If source/target term are different, but it's not a true rollover, we still run this code
+                    // since it's still a copy CO operation --cclin
+                    targetAo = extender.copyActivityOffering(CourseOfferingServiceExtenderImpl.COPY_OPERATION_COPY_CO,
+                            sourceAo, coService,
+                            targetFo, targetTermIdCustom,
+                            context, optionKeys);
                     // Need to do this, otherwise mapping of source/target AO clusters fails
                     sourceAoIdToTargetAoId.put(sourceAo.getId(), targetAo.getId());
                 } else {
-                    // Different term, so either rollover or copy CO from different term
-                    boolean doColocate = isTrueRollover; // Try to colocate, if possible (if false, break colocation)
+                    // Rollover
                     sourceAo.setCourseOfferingCode(sourceCo.getCourseOfferingCode());        // courseOfferingCOde is required, but it doesn't seem to get populated by the service call above.
-
-                    targetAo = _RCO_createTargetActivityOffering(sourceAo, targetFo, targetTermIdCustom, optionKeys, context);
+                    targetAo = extender.createTargetActivityOfferingForRollover(sourceAo, targetFo, targetTermId,
+                            rolloverAssist, rolloverId, optionKeys, coService, context);
                     sourceAoIdToTargetAoId.put(sourceAo.getId(), targetAo.getId());
-
-                    if (!optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
-
-                        if (_hasADLs(sourceAo)) {
-                            _RCO_rolloverSrcSchedsToTargetSchedReqs(sourceAo, targetAo, rolloverId, doColocate, sourceTermSameAsTarget, context);
-                        } else {
-                            // KSNEROLL-6475 Copy RDLs if there are no ADLs from source to target term
-                            _RCO_rolloverSrcSchedReqsToTargetSchedReqs(sourceAo, targetAo, rolloverId, doColocate, sourceTermSameAsTarget, context);
-                        }
-                    }
-                    _RCO_rolloverSeatpools(sourceAo, targetAo, context);
                 }
                 targetAoId2Ao.put(targetAo.getId(), targetAo);
                 foIdsToAOList.get(targetFo.getId()).add(targetAo);

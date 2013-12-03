@@ -1109,6 +1109,7 @@
         <property name="searchService" ref="searchService" />
         <property name="schedulingService" ref="SchedulingService"/>
         <property name="roomService" ref="RoomService"/>
+        <property name="socService" ref="CourseOfferingSetService"/>
     </bean>
 
     <!-- Export extender to bus -->

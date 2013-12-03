@@ -17,15 +17,20 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.extender;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.class2.courseoffering.service.helper.CourseOfferingServiceScheduleHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer;
+import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -40,11 +45,12 @@ import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
@@ -76,6 +82,10 @@ import java.util.Set;
  */
 public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceExtender {
     private static Logger LOGGER = Logger.getLogger(CourseOfferingServiceExtenderImpl.class);
+    public static final String COPY_OPERATION_COPY_AO = "copyAO";
+    public static final String COPY_OPERATION_COPY_CO = "copyCO";
+    public static final String COPY_OPERATION_ROLLOVER = "rollover";
+
     private static final String OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE = "unexpected";
 
     private RegistrationGroupTransformer registrationGroupTransformer;
@@ -87,6 +97,10 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
     private SearchService searchService;
 
     private RoomService roomService;
+
+    private AcademicCalendarService academicCalendarService;
+
+    private CourseOfferingSetService socService;
 
     @Override
     public List<String> getActivityTypesForFormatId(String id, ContextInfo context)
@@ -320,16 +334,17 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
 
     @Override
     public ActivityOfferingInfo copyActivityOffering(ActivityOfferingInfo sourceAo,
-                                              CourseOfferingService coService,
-                                              ContextInfo context)
+                                                     CourseOfferingService coService,
+                                                     ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
 
-        return copyActivityOffering(sourceAo, coService, null, null, context, Collections.EMPTY_LIST);
+        return copyActivityOffering(COPY_OPERATION_COPY_AO, sourceAo, coService, null, null, context, Collections.EMPTY_LIST);
     }
 
     @Override
-    public ActivityOfferingInfo copyActivityOffering(ActivityOfferingInfo sourceAo,
+    public ActivityOfferingInfo copyActivityOffering(String operation,
+                                                     ActivityOfferingInfo sourceAo,
                                                      CourseOfferingService coService,
                                                      FormatOfferingInfo targetFo,
                                                      String targetTermId,
@@ -337,56 +352,15 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
                                                      List<String> optionKeys)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
-        ActivityOfferingInfo targetAO = new ActivityOfferingInfo(sourceAo);
-        if (targetFo != null) {
-            // Override FO if copying CO
-            targetAO.setFormatOfferingId(targetFo.getId());
-        }
-        if (targetTermId != null) {
-            targetAO.setTermId(targetTermId);
-        }
-        targetAO.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY); // Need to set to draft
-        targetAO.setId(null);
-        targetAO.getScheduleIds().clear();
-        if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY)) {
-            targetAO.getInstructors().clear();
-        }
-        if (targetAO.getInstructors() != null && !targetAO.getInstructors().isEmpty()) {
-            for (OfferingInstructorInfo inst : targetAO.getInstructors()) {
-                inst.setId(null);
-            }
-        }
-        targetAO.setActivityCode(null);
-        targetAO = coService.createActivityOffering(targetAO.getFormatOfferingId(), targetAO.getActivityId(), targetAO.getTypeKey(), targetAO, context);
+        ActivityOfferingInfo ao =
+            createTargetActivityOfferingCommon(operation, null, null, sourceAo, targetFo,
+                    targetTermId, optionKeys, coService, context);
+        return ao;
+    }
 
-        // have to copy rules AFTER AO is created because the link is by the AO id
-        activityOfferingTransformer.copyRulesFromExistingActivityOffering(sourceAo, targetAO, new ArrayList<String>());
-
-        /**
-         * Create ScheduleRequests on the target AO. Use ScheduleComponents (ADL) to create the RDLs if any exist.
-         * Otherwise, copy the requests from the source AO.
-         */
-        List<ScheduleRequestInfo> scheduleRequestInfos = new ArrayList<ScheduleRequestInfo>();
-        String sourceAoId = sourceAo.getId();
-        // Get all SRSes associated with the AO (typically, just one, but with partial colo, could be many --cclin)
-        List<ScheduleRequestSetInfo> srsList =
-                schedulingService.getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,
-                        sourceAoId, context);
-        if (srsList.size() > 1) {
-            throw new OperationFailedException("Copy AO: Only one SRS is currently supported");
-        }
-
-        if (!optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
-            // rolloverCourseOffering has option keys
-            if (copyAO_hasADLs(sourceAo)) {
-                copyAO_copyWithADLs(srsList, targetAO, sourceAo.getStateKey(), coService, context);
-            } else {
-                copyAO_copyWithoutADLs(srsList, targetAO, context);
-            }
-        }
-
+    private void common_copySeatpools(ActivityOfferingInfo sourceAo, ActivityOfferingInfo targetAO, CourseOfferingService coService, ContextInfo context) {
         try {
-            List<SeatPoolDefinitionInfo> sourceSPList = coService.getSeatPoolDefinitionsForActivityOffering(sourceAoId, context);
+            List<SeatPoolDefinitionInfo> sourceSPList = coService.getSeatPoolDefinitionsForActivityOffering(sourceAo.getId(), context);
             if (sourceSPList != null && !sourceSPList.isEmpty()) {
                 for (SeatPoolDefinitionInfo sourceSP : sourceSPList) {
                     SeatPoolDefinitionInfo targetSP = new SeatPoolDefinitionInfo(sourceSP);
@@ -400,18 +374,13 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        //Generate Registration Groups based on the copied AO
-        //generateRegistrationGroupsForFormatOffering(targetAO.getFormatOfferingId(),context);
-
-        return targetAO;
     }
 
-    private boolean copyAO_hasADLs(ActivityOfferingInfo sourceAO) {
+    private boolean common_hasADLs(ActivityOfferingInfo sourceAO) {
         return sourceAO.getScheduleIds() != null && ! sourceAO.getScheduleIds().isEmpty();
     }
 
-    private ScheduleRequestSetInfo copyAo_buildDefaultSRSInfo(ScheduleRequestSetInfo set, ActivityOfferingInfo targetAO) {
+    private ScheduleRequestSetInfo common_buildDefaultSRSInfo(ScheduleRequestSetInfo set, ActivityOfferingInfo targetAO) {
         ScheduleRequestSetInfo newSrs = new ScheduleRequestSetInfo(set);
         newSrs.getRefObjectIds().clear();
         // Add the newly created AO
@@ -425,119 +394,469 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
         return newSrs;
     }
 
-    private void copyAO_copyWithADLs(List<ScheduleRequestSetInfo> srsList,
-                                             ActivityOfferingInfo targetAO,
-                                             String sourceAOStateKey,
-                                             CourseOfferingService coService,
-                                             ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
+    /**
+     * @param operation The operation being performed
+     * @param sourceSRS Source SRS
+     * @param targetSRS The target SRS, if it's available.  Can be null, indicating it doesn't yet exist.  If
+     *                  it exists, it should have schedule requests attached to it
+     * @param targetAo
+     * @param sourceAndTargetHaveSameTerm
+     * @param context
+     * @return A targetSRS if it is null and a targetSRS is created
 
-        for (ScheduleRequestSetInfo originalSRSet: srsList) {
-            // Should only loop once since exception thrown if multiple SRSes --cclin
-            List<String> coloAoIds = originalSRSet.getRefObjectIds(); // Set of AOs associated with the SRS
-            boolean isColocated = coloAoIds.size() > 1;
+     */
+    private ScheduleRequestSetInfo common_copySourceRDLsToTargetRDLs(String operation,
+                                                                     ScheduleRequestSetInfo sourceSRS,
+                                                                     ScheduleRequestSetInfo targetSRS,
+                                                                     ActivityOfferingInfo targetAo,
+                                                                     boolean sourceAndTargetHaveSameTerm,
+                                                                     ContextInfo context)
+            throws DoesNotExistException, PermissionDeniedException, OperationFailedException,
+            VersionMismatchException, InvalidParameterException, ReadOnlyException,
+            MissingParameterException, DataValidationErrorException {
 
+        boolean isColocated = sourceSRS.getRefObjectIds().size() > 1;
+        if (sourceAndTargetHaveSameTerm) {
             if (isColocated) {
-                // Change state to match target AO, otherwise stays in draft
-                // A little hack--the validation forces creation of AOs to be in draft
-                coService.changeActivityOfferingState(targetAO.getId(), sourceAOStateKey, context);
-            }
-            // Convert ADLs to RDLS
-            // Step 1: Create the SRS
-            ScheduleRequestSetInfo newSrs = copyAo_buildDefaultSRSInfo(originalSRSet, targetAO);
-            if (isColocated) {
-                // Add rest of AO ids if colocated
-                newSrs.getRefObjectIds().addAll(originalSRSet.getRefObjectIds());
-            }
-            String newSrsTypeKey = newSrs.getTypeKey();
-            String newRefObjectTypeKey = newSrs.getRefObjectTypeKey();
-            ScheduleRequestSetInfo createdSRSet =
-                    schedulingService.createScheduleRequestSet(newSrsTypeKey, newRefObjectTypeKey, newSrs, context);
-
-            // Step 2: get the scheduleIds from the schedule requests (instead of using AO schedule IDs)
-            List<ScheduleRequestInfo> sourceRequests =
-                    schedulingService.getScheduleRequestsByScheduleRequestSet(originalSRSet.getId(), context);
-            for (ScheduleRequestInfo request: sourceRequests) {
-                // Step 3: for each schedule ID, create a schedule request and attach it to newly created SRS
-                String schedId = request.getScheduleId(); // Get the ID of the ADL
-
-                if (schedId == null) {
-                    // If the schedule Id is null it means that the RDL has been saved, but hasn't been submitted to the
-                    // "scheduler" for processing. So, just move on the the next item.
-                    continue;
-                }
-                ScheduleInfo schedule = schedulingService.getSchedule(schedId, context);
-                ScheduleRequestInfo newRequest = SchedulingServiceUtil.scheduleToRequest(schedule, roomService, context);
-                newRequest.setScheduleRequestSetId(createdSRSet.getId()); // Attach to SRS
-                // Persist to DB
-                ScheduleRequestInfo savedRequest =
-                        schedulingService.createScheduleRequest(newRequest.getTypeKey(), newRequest, context);
-                if (isColocated) {
-                    // Delete the original schedule requests since they are being replaced by new schedule requests
-                    schedulingService.deleteScheduleRequest(request.getId(), context);
-                }
-            }
-
-            if (isColocated) {
-                // Delete original SRS if colocated
-                schedulingService.deleteScheduleRequestSet(originalSRSet.getId(), context);
-                // Schedule the AO.
-                // (No need to delete schedules since scheduleActivityOffering deletes schedule IDs
-                // before rescheduling)
-                coService.scheduleActivityOffering(targetAO.getId(), context);
-            }
-        }
-    }
-
-    private ScheduleRequestInfo _buildDefaultScheduleRequest(ScheduleRequestInfo request) {
-        ScheduleRequestInfo copySchedReq = new ScheduleRequestInfo(request);
-        copySchedReq.setId(null); // Clear out ID
-        for (ScheduleRequestComponentInfo comp: copySchedReq.getScheduleRequestComponents()) {
-            // Null out the IDs
-            comp.setId(null);
-        }
-        return copySchedReq;
-    }
-
-    private void copyAO_copyWithoutADLs(List<ScheduleRequestSetInfo> srsList,
-                                                ActivityOfferingInfo targetAO,
-                                                ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException {
-
-        for (ScheduleRequestSetInfo set: srsList) {
-            // Should only loop once since exception thrown if multiple SRSes --cclin
-            List<String> coloAoIds = set.getRefObjectIds(); // Set of AOs associated with the SRS
-            boolean isColocated = coloAoIds.size() > 1;
-            if (isColocated) {
-                // Just add the AO to the colo and update
-                set.getRefObjectIds().add(targetAO.getId());
-                try {
-                    schedulingService.updateScheduleRequestSet(set.getId(), set, context);
-                } catch (VersionMismatchException e) {
-                    // Re-wrap exception
-                    throw new OperationFailedException("Version mismatch: " + e.getMessage());
-                }
+                // This is copying an AO within the same term.  If the source AO was already co-located, and
+                // the source AO had no ADLs (only RDLs), then add the target AO to the source SRS (and thus
+                // continues to be co-located) --cclin
+                sourceSRS.getRefObjectIds().add(targetAo.getId());
+                // Note: the sourceSRS and the targetSRS should be identical in this case (or the targetSRS could
+                //       be null.
+                schedulingService.updateScheduleRequestSet(sourceSRS.getId(), sourceSRS, context);
             } else {
-                // Not co-located so need to create a new SRS
-                ScheduleRequestSetInfo newSrs = copyAo_buildDefaultSRSInfo(set, targetAO);
-                String newSrsTypeKey = newSrs.getTypeKey();
-                String newRefObjectTypeKey = newSrs.getRefObjectTypeKey();
-                ScheduleRequestSetInfo createdSRSet =
-                        schedulingService.createScheduleRequestSet(newSrsTypeKey, newRefObjectTypeKey, newSrs, context);
+                // The source AO was not co-located, so the copied AO has its own SRS, and we copy
+                // the RDLs from the source AO to the target SRS
+                targetSRS = common_createOrUpdateTargetScheduleRequestSet(sourceSRS, targetSRS, targetAo, context);
+            }
+        } else {
+            targetSRS = common_createOrUpdateTargetScheduleRequestSet(sourceSRS, targetSRS, targetAo, context);
+        }
+        return targetSRS;
+    }
 
-                // Fetch all SRs attached to original SRS. Make copy of each request and attach to new SRS
-                List<ScheduleRequestInfo> requests =
-                        schedulingService.getScheduleRequestsByScheduleRequestSet(set.getId(), context);
-                for (ScheduleRequestInfo request: requests) {
-                    // For each request, create a copy, and attach it to new SRS
-                    ScheduleRequestInfo copySchedReq = SchedulingServiceUtil.copyScheduleRequest(request, createdSRSet.getId());
-                    // Persist to DB
+    private ScheduleRequestSetInfo common_createOrUpdateTargetScheduleRequestSet(ScheduleRequestSetInfo sourceSRS,
+                                                                                 ScheduleRequestSetInfo targetSRS,
+                                                                                 ActivityOfferingInfo targetAo,
+                                                                                 ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException,
+            ReadOnlyException, VersionMismatchException {
+        if (targetSRS == null) {
+            targetSRS = common_createTargetScheduleRequestSetWithRequests(sourceSRS, targetAo, context);
+        } else {
+            // If an AO is copied across terms, then it is part of a rollover or Copy CO
+            // Colocation means something else, that is, if rhe source AO was colocated in the source
+            // term the target AO will be colocated in the target term, but the target AO can't
+            // be (of course) colocated with the source AO
+            // And, it turns out being co-located doesn't matter with RDLs.  You just add the target AO to
+            // the target SRS (which is constructed prior to calling this method).
+            targetSRS.getRefObjectIds().add(targetAo.getId());
+            targetSRS = schedulingService.updateScheduleRequestSet(targetSRS.getId(), targetSRS, context);
+        }
+        return targetSRS;
+    }
+
+    private ScheduleRequestSetInfo common_createTargetScheduleRequestSetWithRequests(ScheduleRequestSetInfo sourceSRS,
+                                                                                     ActivityOfferingInfo targetAo,
+                                                                                     ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        ScheduleRequestSetInfo targetSRS;
+        targetSRS = common_buildDefaultSRSInfo(sourceSRS, targetAo);
+        targetSRS = schedulingService.createScheduleRequestSet(targetSRS.getTypeKey(),
+                targetSRS.getRefObjectTypeKey(), targetSRS, context);
+        List<ScheduleRequestInfo> requests =
+                schedulingService.getScheduleRequestsByScheduleRequestSet(sourceSRS.getId(), context);
+        for (ScheduleRequestInfo request: requests) {
+            // For each request, create a copy, and attach it to new SRS
+            ScheduleRequestInfo copySchedReq = SchedulingServiceUtil.copyScheduleRequest(request, targetSRS.getId());
+            // Persist to DB
+            copySchedReq =
                     schedulingService.createScheduleRequest(copySchedReq.getTypeKey(), copySchedReq, context);
-                }
+        }
+        return targetSRS;
+    }
+
+    private SocInfo getMainSoc(String termId, ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException {
+        List<String> socIds = socService.getSocIdsByTerm(termId, context);
+        for (String socId: socIds) {
+            SocInfo socInfo = socService.getSoc(socId, context);
+            if (socInfo.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
+                return socInfo;
             }
         }
+        return null;
+    }
+
+    /**
+     * The logic for this is somewhat complex.  In rollover, it's possible for a targetSRS to exist (e.g., AO1
+     * and AO2 are co-located in source term, and AO1 has been rolled over, but AO2 has not) and the ADLs merely
+     * convert to RDLs.  For copy CO with different source/target terms, targetSRS should be null since colocation
+     * is broken when copying a CO.  For copy CO within the same source/target term or copy AO (which is always
+     * in the same source/target term), targetSRS should be null (it will be ignored, regardless) and a new targetSRS
+     * @param sourceSRS The source SRS
+     * @param targetSRS Could be null, if so, this method creates one
+     * @param targetAo The AO just created
+     * @param sourceAndTargetHaveSameTerm true, if the AO is being copied within the same parent term
+     * @param context
+     * @return The target SRS
+     */
+    private ScheduleRequestSetInfo common_copySourceADLsToTargetRDLs(String operation,
+                                                                     ScheduleRequestSetInfo sourceSRS,
+                                                                     ScheduleRequestSetInfo targetSRS,
+                                                                     ActivityOfferingInfo targetAo,
+                                                                     boolean sourceAndTargetHaveSameTerm,
+                                                                     CourseOfferingService coService,
+                                                                     ContextInfo context)
+            throws DoesNotExistException, PermissionDeniedException, OperationFailedException,
+            VersionMismatchException, InvalidParameterException, ReadOnlyException,
+            MissingParameterException, DataValidationErrorException {
+
+        boolean isColocated = sourceSRS.getRefObjectIds().size() > 1;
+        // Schedules are converted to requests
+        if (operation.equals(COPY_OPERATION_ROLLOVER) && targetSRS != null) {
+            // If it exists, then add the target AO to the list (thus, must be co-located)
+            targetSRS.getRefObjectIds().add(targetAo.getId());
+            targetSRS = schedulingService.updateScheduleRequestSet(targetSRS.getId(), targetSRS, context);
+            return targetSRS; // Exit if it's rollover so we don't bother with rest of code
+        } else if (targetSRS == null || sourceAndTargetHaveSameTerm || operation.equals(COPY_OPERATION_COPY_AO)) {
+            // Create a new target SRS
+            targetSRS = common_createTargetSRSFromADLs(sourceSRS, targetAo, context);
+        }
+        if (isColocated && sourceAndTargetHaveSameTerm) {
+            // This is the co-located, copy CO or copy AO with ADL case
+            // Add the AOs from the sourceSRS to target SRS
+            targetSRS.getRefObjectIds().addAll(sourceSRS.getRefObjectIds());
+            targetSRS = schedulingService.updateScheduleRequestSet(targetSRS.getId(), targetSRS, context);
+            // Delete the source SRS (this cascades the deletes)
+            schedulingService.deleteScheduleRequestSet(sourceSRS.getId(), context);
+            // Re-schedule for every AO in the colo (this might happen repeatedly, so it could be inefficient)
+            // --cclin
+            coService.scheduleActivityOffering(targetAo.getId(), context);
+            // TODO: KSENROLL-11107 May want to move this to CourseOfferingServiceImpl::scheduleActivityOffering()
+            SocInfo socInfo = getMainSoc(targetAo.getTermId(), context);
+            if (socInfo == null) {
+                throw new OperationFailedException("Unable to find soc for AO: " + targetAo.getId());
+            } else {
+                if (CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY.equals(socInfo.getStateKey())) {
+                    // Published SOC leads to offered
+                    coService.changeActivityOfferingState(targetAo.getId(),
+                            LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY, context);
+                } else {
+                    // All other SOC states lead to approved
+                    coService.changeActivityOfferingState(targetAo.getId(),
+                            LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, context);
+                }
+            }
+            // TODO: end of the code to remove for KSNEROLL-11107 (see above TODO).
+        }
+        return targetSRS;
+    }
+
+    private ScheduleRequestSetInfo common_createTargetSRSFromADLs(ScheduleRequestSetInfo sourceSRS,
+                                                                  ActivityOfferingInfo targetAo,
+                                                                  ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        ScheduleRequestSetInfo targetSRS;
+        targetSRS = common_buildDefaultSRSInfo(sourceSRS, targetAo);
+        targetSRS = schedulingService.createScheduleRequestSet(targetSRS.getTypeKey(),
+                targetSRS.getRefObjectTypeKey(), targetSRS, context);
+
+        // Use SRS to get Schedule Ids (note: getScheduleIds() from AO may produce a superset of IDs
+        // compared to fetching it this way) --cclin
+        List<String> scheduleIds = new ArrayList<String>();
+        List<ScheduleRequestInfo> sourceRequests =
+                schedulingService.getScheduleRequestsByScheduleRequestSet(sourceSRS.getId(), context);
+        // Note: that although we access source requests, we extract out the schedule ID.  When a request
+        //       has been scheduled, both the request, and the AO get the schedule IDs (not ideal, since this
+        //       duplicates schedule IDs --cclin
+        for (ScheduleRequestInfo request: sourceRequests) {
+            if (request.getScheduleId() == null) {
+                throw new OperationFailedException("_RCO_rolloverSrcSchedsToTargetSchedReqs: should have non null schedules");
+            }
+            scheduleIds.add(request.getScheduleId());
+        }
+        List<ScheduleRequestInfo> targetRequests =
+                common_createTargetScheduleRequestsFromScheduleIds(scheduleIds, targetAo,
+                        targetSRS.getId(), context);
+        return targetSRS;
+    }
+
+    private  List<ScheduleRequestInfo> common_createTargetScheduleRequestsFromScheduleIds(List<String> sourceScheduleIds,
+                                                                                          ActivityOfferingInfo targetAo,
+                                                                                          String targetScheduleRequestSetId,
+                                                                                          ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException, ReadOnlyException,
+            DataValidationErrorException {
+        List<ScheduleRequestInfo> requests = new ArrayList<ScheduleRequestInfo>();
+        for (String sourceSchedId : sourceScheduleIds) {
+            // copy source SRCs to target
+            ScheduleInfo sourceSchedule = schedulingService.getSchedule(sourceSchedId, context);
+            ScheduleRequestInfo targetSchedRequest = SchedulingServiceUtil.scheduleToRequest( sourceSchedule, roomService, context );
+
+            // set name & descr on target
+            StringBuilder nameBuilder = new StringBuilder("Schedule request for ");
+            nameBuilder.append(targetAo.getCourseOfferingCode()).append(" - ").append(targetAo.getActivityCode());
+            targetSchedRequest.setName(nameBuilder.toString());
+            targetSchedRequest.setDescr(sourceSchedule.getDescr());
+
+            // create the target SR
+            targetSchedRequest.setScheduleRequestSetId(targetScheduleRequestSetId);
+            ScheduleRequestInfo created =
+                    schedulingService.createScheduleRequest(targetSchedRequest.getTypeKey(), targetSchedRequest, context);
+            requests.add(created);
+        }
+        return requests;
+    }
+    // ----------------------------
+    @Override
+    public ActivityOfferingInfo createTargetActivityOfferingForRollover(ActivityOfferingInfo sourceAo,
+                                                                        FormatOfferingInfo targetFo,
+                                                                        String targetTermId,
+                                                                        RolloverAssist rolloverAssist,
+                                                                        String rolloverId,
+                                                                        List<String> optionKeys,
+                                                                        CourseOfferingService coService,
+                                                                        ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
+        ActivityOfferingInfo targetAo =
+                createTargetActivityOfferingCommon(COPY_OPERATION_ROLLOVER, rolloverAssist, rolloverId, sourceAo, targetFo,
+                        targetTermId, optionKeys, coService, context);
+        return targetAo;
+    }
+
+    public ActivityOfferingInfo createTargetActivityOfferingForRollover2(ActivityOfferingInfo sourceAo,
+                                                                        FormatOfferingInfo targetFo,
+                                                                        String targetTermId,
+                                                                        List<String> optionKeys,
+                                                                        CourseOfferingService coService,
+                                                                        ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
+
+        ActivityOfferingInfo targetAo = copyActivityOfferingWithoutSaving(sourceAo);
+        // Customize other aspects such overriding FO id and terms
+        targetAo.setFormatOfferingId(targetFo.getId());
+        // Replace term information with target term
+        targetAo.setTermId(targetTermId);
+        TermInfo termInfo = academicCalendarService.getTerm(targetTermId, context);
+        targetAo.setTermCode(termInfo.getCode());
+        // target should have no ADLs
+        targetAo.setScheduleIds( Collections.<String>emptyList() );
+
+        if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY)) {
+            targetAo.getInstructors().clear();
+        }
+        // Rolled over AO should be in draft state
+        targetAo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
+        // The temp context will signal the services to skip over validation of activity offering code
+        // TODO: To be removed once COSI is fixed
+        ContextInfo tempContext = new ContextInfo(context);
+        List<AttributeInfo> attrs = new ArrayList<AttributeInfo>();
+        AttributeInfo info = new AttributeInfo("skip.aocode.validation", "true");
+        attrs.add(info);
+        tempContext.setAttributes(attrs);
+        targetAo = coService.createActivityOffering(targetAo.getFormatOfferingId(), targetAo.getActivityId(),
+                targetAo.getTypeKey(), targetAo, tempContext);
+
+        // have to copy rules AFTER AO is created because the link is by the AO id
+        activityOfferingTransformer.copyRulesFromExistingActivityOffering(sourceAo, targetAo, optionKeys);
+
+        return targetAo;
+    }
+
+    public ActivityOfferingInfo copyActivityOfferingWithoutSaving(ActivityOfferingInfo sourceAo) {
+        ActivityOfferingInfo targetAo = new ActivityOfferingInfo(sourceAo);
+        targetAo.setId(null);
+        // clear out the ids on the internal sub-objects
+        for (AttributeInfo attr : targetAo.getAttributes()) {
+            attr.setId(null);
+        }
+        for (OfferingInstructorInfo instr : targetAo.getInstructors()) {
+            instr.setId(null);
+        }
+        targetAo.setMeta(null); // reset to null--create will add a new one
+        return targetAo;
+    }
+
+    private ActivityOfferingInfo createTargetActivityOfferingCommon(String operation,
+                                                                    RolloverAssist rolloverAssist,
+                                                                    String rolloverId,
+                                                                    ActivityOfferingInfo sourceAo,
+                                                                    FormatOfferingInfo targetFo,
+                                                                    String targetTermId,
+                                                                    List<String> optionKeys,
+                                                                    CourseOfferingService coService,
+                                                                    ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
+
+        ActivityOfferingInfo targetAo = copyActivityOfferingWithoutSaving(sourceAo);
+        boolean isForRollover = operation.equals(COPY_OPERATION_ROLLOVER);
+
+        // Rolled over AO should be in draft state
+        targetAo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
+        if (!isForRollover) {
+            // In rollover, we copy the activity code, but in non-rollover, it's left blank so the service can
+            // decide on the AO code
+            targetAo.setActivityCode(null);
+        }
+        // Customize other aspects such overriding FO id and terms
+        if (targetFo != null) {
+            targetAo.setFormatOfferingId(targetFo.getId());
+        }
+        // Replace term information with target term
+        if (targetTermId != null) {
+            targetAo.setTermId(targetTermId);
+        }
+        // No need to set term code as createActivityOffering already does that
+        // target should have no ADLs
+        targetAo.setScheduleIds(Collections.<String>emptyList());
+
+        if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY)) {
+            targetAo.getInstructors().clear();
+        }
+
+        // The temp context will signal the services to skip over validation of activity offering code
+        // TODO: To be removed once COSI is fixed
+        ContextInfo tempContext = context; // Default to current context
+        List<AttributeInfo> attrs = null;
+        if (isForRollover) {
+            // Add an attribute during rollover to
+            tempContext = new ContextInfo(context);
+            attrs = new ArrayList<AttributeInfo>();
+            AttributeInfo info = new AttributeInfo("skip.aocode.validation", "true");
+            attrs.add(info);
+            tempContext.setAttributes(attrs);
+        }
+        targetAo = coService.createActivityOffering(targetAo.getFormatOfferingId(), targetAo.getActivityId(),
+                targetAo.getTypeKey(), targetAo, tempContext);
+
+        // have to copy rules AFTER AO is created because the link is by the AO id
+        activityOfferingTransformer.copyRulesFromExistingActivityOffering(sourceAo, targetAo, optionKeys);
+
+        boolean sourceAndTargetHaveSameTerm = sourceAo.getTermId().equals(targetAo.getTermId());
+        // Copy schedules from source to target
+        if (!optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
+            // This option key should only appear in Copy CO (rollover currently does not have options
+            // in the UI.
+            common_copySchedules(operation, rolloverAssist, rolloverId, sourceAo, targetAo,
+                    sourceAndTargetHaveSameTerm, coService, context);
+        }
+        // Copy seatpools from source to target
+        common_copySeatpools(sourceAo, targetAo, coService, context);
+
+        return targetAo;
+    }
+
+    private void common_copySchedules(String operation,
+                                      RolloverAssist rolloverAssist,
+                                      String rolloverId,
+                                      ActivityOfferingInfo sourceAo,
+                                      ActivityOfferingInfo targetAo,
+                                      boolean sourceAndTargetHaveSameTerm,
+                                      CourseOfferingService coService,
+                                      ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
+        // Initial part locates sourceSRS, whether sourceAo and targetAO are colocated, and does mapping if it's rollover
+        List<ScheduleRequestSetInfo> sourceSRSes =
+                schedulingService.getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,
+                        sourceAo.getId(), context);
+        ScheduleRequestSetInfo sourceSRS =
+                KSCollectionUtils.getRequiredZeroElement(sourceSRSes);
+        boolean isColocated = sourceSRS.getRefObjectIds().size() > 1;
+        // Find out if there is a targetSRS that can be used (either due to rollover that occurred with an AO
+        // that was part of a colo-set, or copy CO within term where source and target SRS are the same).
+        ScheduleRequestSetInfo coloTargetSRS = null;
+        boolean targetSRSMappingExists = false;
+        if (operation.equals(COPY_OPERATION_ROLLOVER) && isColocated) {
+            // Fetch target SRS if it is available
+            String targetSRSId = rolloverAssist.getTargetSRSId(rolloverId, sourceSRS.getId());
+            if (targetSRSId != null) {
+                // Found it, so fetch
+                coloTargetSRS = schedulingService.getScheduleRequestSet(targetSRSId, context);
+                targetSRSMappingExists = true;
+            }
+        } else if (operation.equals(COPY_OPERATION_COPY_CO) && sourceAndTargetHaveSameTerm && isColocated) {
+            // Copy CO within same term where AO is co-located
+            coloTargetSRS = sourceSRS;
+        } else if (operation.equals(COPY_OPERATION_COPY_AO) && isColocated) {
+            // If copy AO and co-located, then target SRS is same as source SRS.
+            // Copy AO always has same source/target term, so no need to test that in the "if" condition
+            coloTargetSRS = sourceSRS;
+        }
+        // Main call to copy schedules
+        ScheduleRequestSetInfo resultTargetSRS =
+                common_copySchedulesHelper(operation, sourceSRS, coloTargetSRS, sourceAndTargetHaveSameTerm,
+                        sourceAo, targetAo, coService, context);
+        // Save the mapping to the target SRS
+        if (operation.equals(COPY_OPERATION_ROLLOVER)  && isColocated && !targetSRSMappingExists) {
+            rolloverAssist.mapSourceSRSIdToTargetSRSId(rolloverId, sourceSRS.getId(), resultTargetSRS.getId());
+        }
+    }
+
+    private void invalidOperationCheck(String operation) throws OperationFailedException {
+       if (!(operation.equals(COPY_OPERATION_COPY_CO) || operation.equals(COPY_OPERATION_COPY_AO)
+               || operation.equals(COPY_OPERATION_ROLLOVER))) {
+           throw new OperationFailedException("Operation name is missing");
+       }
+    }
+
+    /**
+     *
+     * @param operation See static constants at start of file starting with COPY_OPERATION (basically,
+     *                  one of copy AO, copy CO, and rollover)
+     * @param sourceSRS The SRS associated with the source AO
+     * @param coloTargetSRS If not null, then this is co-located.  If null, create a target SRS
+     * @param sourceTargetHasSameTerm true, if source and target have same term
+     * @param sourceAo The original AO
+     * @param targetAo The copied AO
+     * @param coService Course offering service (so we don't have to inject this in)
+     * @param context
+     */
+    private ScheduleRequestSetInfo common_copySchedulesHelper(String operation,
+                                                              ScheduleRequestSetInfo sourceSRS,
+                                                              ScheduleRequestSetInfo coloTargetSRS,
+                                                              boolean sourceTargetHasSameTerm,
+                                                              ActivityOfferingInfo sourceAo,
+                                                              ActivityOfferingInfo targetAo,
+                                                              CourseOfferingService coService,
+                                                              ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
+        invalidOperationCheck(operation); // Throws exception if invalid
+        // Copy RDLs/ADLs
+        ScheduleRequestSetInfo resultTargetSRS = null;
+        try {
+            if (common_hasADLs(sourceAo)) {
+                resultTargetSRS =
+                    common_copySourceADLsToTargetRDLs(operation, sourceSRS, coloTargetSRS, targetAo,
+                            sourceTargetHasSameTerm, coService, context);
+            } else { // Source AO has RDLs, but not ADLs
+                resultTargetSRS =
+                    common_copySourceRDLsToTargetRDLs(operation, sourceSRS, coloTargetSRS, targetAo,
+                            sourceTargetHasSameTerm, context);
+            }
+        } catch (VersionMismatchException e) {
+            throw new OperationFailedException("createTargetActivityOfferingCommon", e);
+        }
+        return resultTargetSRS;
+    }
+    // ------------------------------------------------------------------------------
+    public void setAcademicCalendarService(AcademicCalendarService academicCalendarService) {
+        this.academicCalendarService = academicCalendarService;
+    }
+
+    public AcademicCalendarService getAcademicCalendarService() {
+        return academicCalendarService;
     }
 
     public SearchService getSearchService() {
@@ -570,5 +889,13 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
 
     public RoomService getRoomService() {
         return roomService;
+    }
+
+    public void setSocService(CourseOfferingSetService socService) {
+        this.socService = socService;
+    }
+
+    public CourseOfferingSetService getSocService() {
+        return socService;
     }
 }

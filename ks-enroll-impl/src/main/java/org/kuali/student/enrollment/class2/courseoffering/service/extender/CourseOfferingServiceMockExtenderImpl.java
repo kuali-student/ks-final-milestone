@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.extender;
 
+import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -61,12 +62,17 @@ public class CourseOfferingServiceMockExtenderImpl implements CourseOfferingServ
     }
 
     @Override
-    public ActivityOfferingInfo copyActivityOffering(ActivityOfferingInfo sourceAo, CourseOfferingService coService, FormatOfferingInfo targetFo, String targetTermId, ContextInfo context, List<String> optionKeys) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
+    public ActivityOfferingInfo copyActivityOffering(String operation, ActivityOfferingInfo sourceAo, CourseOfferingService coService, FormatOfferingInfo targetFo, String targetTermId, ContextInfo context, List<String> optionKeys) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
         throw new UnsupportedOperationException("copyActivityOffering");
     }
 
     @Override
     public ActivityOfferingInfo copyActivityOffering(ActivityOfferingInfo sourceAo, CourseOfferingService coService, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
         throw new UnsupportedOperationException("copyActivityOffering2");
+    }
+
+    @Override
+    public ActivityOfferingInfo createTargetActivityOfferingForRollover(ActivityOfferingInfo sourceAo, FormatOfferingInfo targetFo, String targetTermId, RolloverAssist rolloverAssist, String rolloverId, List<String> optionKeys, CourseOfferingService coService, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
+        throw new UnsupportedOperationException("createTargetActivityOfferingForRollover");
     }
 }
