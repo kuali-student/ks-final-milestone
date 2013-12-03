@@ -57,7 +57,7 @@ public class DiagnoseRolloverController extends UifControllerBase {
 
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
         if (!(form instanceof DiagnoseRolloverForm)){
             throw new RuntimeException("Form object passed into start method was not of expected type DiagnoseRolloverForm. Got " + form.getClass().getSimpleName());
@@ -67,13 +67,13 @@ public class DiagnoseRolloverController extends UifControllerBase {
         if (paramMap.containsKey("pageId")) {
             String pageId = ((String []) paramMap.get("pageId"))[0];
             if (pageId.equals("selectTermForDiagnoseRollover")) {
-                return _startSelectTermForDiagnoseRollover(form, result, request, response);
+                return _startSelectTermForDiagnoseRollover(form, request, response);
             }
         }
         return getUIFModelAndView(theForm);
     }
 
-    private ModelAndView _startSelectTermForDiagnoseRollover(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+    private ModelAndView _startSelectTermForDiagnoseRollover(@ModelAttribute("KualiForm") UifFormBase form,
                                                             @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
         // Doesn't do anything really, but is there for customization
         DiagnoseRolloverForm theForm = (DiagnoseRolloverForm) form;
