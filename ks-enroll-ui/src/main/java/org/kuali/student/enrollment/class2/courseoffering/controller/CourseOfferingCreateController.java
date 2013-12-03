@@ -38,6 +38,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.springframework.stereotype.Controller;
@@ -134,13 +135,18 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         CourseOfferingEditWrapper dataObject = (CourseOfferingEditWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
 
         //display the correct growl message based on the availability of exam period and final exam type
-        if (StringUtils.isEmpty(dataObject.getExamPeriodId())) {
-            urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS_WITH_MISSING_EXAMPERIOD);
-        } else if (!StringUtils.equals(dataObject.getCourseOfferingInfo().getFinalExamType(), CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)) {
-            urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS);
+        if (StringUtils.equals(dataObject.getFinalExamDriver(), LuServiceConstants.LU_EXAM_DRIVER_CO_KEY)) {
+            if (StringUtils.isEmpty(dataObject.getExamPeriodId())) {
+                urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS_WITH_MISSING_EXAMPERIOD);
+            } else if (!StringUtils.equals(dataObject.getCourseOfferingInfo().getFinalExamType(), CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)) {
+                urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS);
+            } else {
+                urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS_WITH_EXAMOFFERING_GENERATED);
+            }
         } else {
-            urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS_WITH_EXAMOFFERING_GENERATED);
+            urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS);
         }
+
         urlParameters.put(EnrollConstants.GROWL_MESSAGE_PARAMS, dataObject.getCourseOfferingCode());
 
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "show");
