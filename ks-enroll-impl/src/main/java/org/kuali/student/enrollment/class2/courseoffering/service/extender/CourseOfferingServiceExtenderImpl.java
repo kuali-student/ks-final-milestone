@@ -45,7 +45,6 @@ import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl;
 import org.kuali.student.r2.core.room.service.RoomService;
@@ -138,7 +137,7 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
     /**
      * A more efficient way to verify registration groups
      * @param aoIds Pass in the AO ids belonging to the registration group
-     * @param contextInfo
+     * @param contextInfo The context
      * @return List of validation results
      */
 
@@ -183,7 +182,7 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
 
     // Do quick verification that ao IDs are unique, otherwise algorithm fails
     private void vRG_verifyAoIds(List<String> aoIds) throws OperationFailedException {
-        Set aoIdSet = new HashSet(aoIds);
+        Set<String> aoIdSet = new HashSet<String>(aoIds);
         if (aoIdSet.size() != aoIds.size()) {
             throw new OperationFailedException("Error: Repeated AO IDs in reg groups");
         }
@@ -221,7 +220,7 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
      * have to be refetched needlessly
      * @param aoId An activity offering ID
      * @param aoIdToTimeSlotContainer maps the AO Id to the extracted time slot container
-     * @param contextInfo
+     * @param contextInfo The context
      * @return the time slot container
      */
     private TimeSlotContainer vRG_fetchTimeSlotContainerByAoId(String aoId,
@@ -256,18 +255,19 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
      *
      * This is a first iteration. It is my hope that this method is no longer needed.
      *
-     * @param activityOfferingId
-     * @param contextInfo
+     * @param activityOfferingId The ao ID for fetching the schedules
+     * @param contextInfo The context
      * @return returns the scheduleId for a particular Activity Offering
      */
     protected List<String> retrieveScheduleIds(String activityOfferingId, ContextInfo contextInfo){
 
         List<String> sRet = new ArrayList<String>();
 
-        SearchRequestInfo searchRequest = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.SCH_IDS_BY_AO_SEARCH_TYPE.getKey());
+        SearchRequestInfo searchRequest
+                = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.SCH_IDS_BY_AO_SEARCH_TYPE.getKey());
         searchRequest.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_ID, activityOfferingId);
 
-        SearchResultInfo searchResult = null;
+        SearchResultInfo searchResult;
         try {
             searchResult = getSearchService().search(searchRequest, contextInfo);
         } catch (Exception e) {
@@ -275,8 +275,8 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
         }
 
         for (SearchResultRowInfo row : searchResult.getRows()) {
-            for(SearchResultCellInfo cellInfo : row.getCells()){
-                if(ActivityOfferingSearchServiceImpl.SearchResultColumns.SCHEDULE_ID.equals(cellInfo.getKey())){
+            for (SearchResultCellInfo cellInfo : row.getCells()) {
+                if (ActivityOfferingSearchServiceImpl.SearchResultColumns.SCHEDULE_ID.equals(cellInfo.getKey())) {
                     sRet.add(cellInfo.getValue());
                 }
             }
@@ -305,7 +305,7 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
         SearchRequestInfo request = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AO_CODES_TYPES_BY_CO_ID_SEARCH_KEY);
         request.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, courseOfferingId);
 
-        SearchResultInfo result = null;
+        SearchResultInfo result;
         try {
             result = getSearchService().search(request, context);
         } catch (Exception ex){
@@ -339,7 +339,8 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
 
-        return copyActivityOffering(COPY_OPERATION_COPY_AO, sourceAo, coService, null, null, context, Collections.EMPTY_LIST);
+        return copyActivityOffering(COPY_OPERATION_COPY_AO, sourceAo, coService,
+                null, null, context, Collections.<String>emptyList());
     }
 
     @Override
@@ -395,13 +396,13 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
     }
 
     /**
-     * @param operation The operation being performed
+     * @param operation The operation being performed (not used, but may be useful in debugging)
      * @param sourceSRS Source SRS
      * @param targetSRS The target SRS, if it's available.  Can be null, indicating it doesn't yet exist.  If
      *                  it exists, it should have schedule requests attached to it
-     * @param targetAo
-     * @param sourceAndTargetHaveSameTerm
-     * @param context
+     * @param targetAo The "copied" AO (from source)
+     * @param sourceAndTargetHaveSameTerm true, if source AO and target AO are in the same term
+     * @param context The context
      * @return A targetSRS if it is null and a targetSRS is created
 
      */
@@ -502,7 +503,7 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
      * @param targetSRS Could be null, if so, this method creates one
      * @param targetAo The AO just created
      * @param sourceAndTargetHaveSameTerm true, if the AO is being copied within the same parent term
-     * @param context
+     * @param context The context
      * @return The target SRS
      */
     private ScheduleRequestSetInfo common_copySourceADLsToTargetRDLs(String operation,
@@ -632,46 +633,6 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
         return targetAo;
     }
 
-    public ActivityOfferingInfo createTargetActivityOfferingForRollover2(ActivityOfferingInfo sourceAo,
-                                                                        FormatOfferingInfo targetFo,
-                                                                        String targetTermId,
-                                                                        List<String> optionKeys,
-                                                                        CourseOfferingService coService,
-                                                                        ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
-
-        ActivityOfferingInfo targetAo = copyActivityOfferingWithoutSaving(sourceAo);
-        // Customize other aspects such overriding FO id and terms
-        targetAo.setFormatOfferingId(targetFo.getId());
-        // Replace term information with target term
-        targetAo.setTermId(targetTermId);
-        TermInfo termInfo = academicCalendarService.getTerm(targetTermId, context);
-        targetAo.setTermCode(termInfo.getCode());
-        // target should have no ADLs
-        targetAo.setScheduleIds( Collections.<String>emptyList() );
-
-        if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY)) {
-            targetAo.getInstructors().clear();
-        }
-        // Rolled over AO should be in draft state
-        targetAo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
-        // The temp context will signal the services to skip over validation of activity offering code
-        // TODO: To be removed once COSI is fixed
-        ContextInfo tempContext = new ContextInfo(context);
-        List<AttributeInfo> attrs = new ArrayList<AttributeInfo>();
-        AttributeInfo info = new AttributeInfo("skip.aocode.validation", "true");
-        attrs.add(info);
-        tempContext.setAttributes(attrs);
-        targetAo = coService.createActivityOffering(targetAo.getFormatOfferingId(), targetAo.getActivityId(),
-                targetAo.getTypeKey(), targetAo, tempContext);
-
-        // have to copy rules AFTER AO is created because the link is by the AO id
-        activityOfferingTransformer.copyRulesFromExistingActivityOffering(sourceAo, targetAo, optionKeys);
-
-        return targetAo;
-    }
-
     public ActivityOfferingInfo copyActivityOfferingWithoutSaving(ActivityOfferingInfo sourceAo) {
         ActivityOfferingInfo targetAo = new ActivityOfferingInfo(sourceAo);
         targetAo.setId(null);
@@ -725,13 +686,13 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
         }
 
         // The temp context will signal the services to skip over validation of activity offering code
-        // TODO: To be removed once COSI is fixed
         ContextInfo tempContext = context; // Default to current context
-        List<AttributeInfo> attrs = null;
+        List<AttributeInfo> attrs;
         if (isForRollover) {
             // Add an attribute during rollover to
             tempContext = new ContextInfo(context);
             attrs = new ArrayList<AttributeInfo>();
+            // If an "unique code service" is created, then skipping the validation may not be needed
             AttributeInfo info = new AttributeInfo("skip.aocode.validation", "true");
             attrs.add(info);
             tempContext.setAttributes(attrs);
@@ -820,7 +781,7 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
      * @param sourceAo The original AO
      * @param targetAo The copied AO
      * @param coService Course offering service (so we don't have to inject this in)
-     * @param context
+     * @param context The context
      */
     private ScheduleRequestSetInfo common_copySchedulesHelper(String operation,
                                                               ScheduleRequestSetInfo sourceSRS,
@@ -834,7 +795,7 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
             PermissionDeniedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
         invalidOperationCheck(operation); // Throws exception if invalid
         // Copy RDLs/ADLs
-        ScheduleRequestSetInfo resultTargetSRS = null;
+        ScheduleRequestSetInfo resultTargetSRS;
         try {
             if (common_hasADLs(sourceAo)) {
                 resultTargetSRS =
