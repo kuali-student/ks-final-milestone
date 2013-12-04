@@ -122,7 +122,7 @@
 				     p:fieldLabel.renderColon="false" p:fieldLabel.cssClasses="labelTop"
 					p:propertyName="holidayCalendarInfo.startDate">
                     <property name="validCharactersConstraint">
-						<bean parent="BasicDatePatternConstraint" />
+						<bean parent="KS-BasicDatePatternConstraint" />
 					</property>
 					<property name="control">
 						<bean parent="Uif-KS-Default-DateControl" />
@@ -132,7 +132,7 @@
 					p:fieldLabel.cssClasses="labelTop" p:fieldLabel.renderColon="false"
 					p:propertyName="holidayCalendarInfo.endDate">
                     <property name="validCharactersConstraint">
-						<bean parent="BasicDatePatternConstraint" />
+						<bean parent="KS-BasicDatePatternConstraint" />
 					</property>
 					<property name="control">
 						<bean parent="Uif-KS-Default-DateControl" />
@@ -185,7 +185,7 @@
                         <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy" />
                     </property>
                     <property name="validCharactersConstraint">
-                        <bean parent="BasicDatePatternConstraint" />
+                        <bean parent="KS-BasicDatePatternConstraint" />
                     </property>
                 </bean>
 
@@ -213,7 +213,7 @@
                         <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
                     </property>
                     <property name="validCharactersConstraint">
-                        <bean parent="BasicDatePatternConstraint" />
+                        <bean parent="KS-BasicDatePatternConstraint" />
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="endTime" p:label="End Time" p:render="@{!#view.readOnly}">

@@ -222,7 +222,7 @@
                                   p:fieldLabel.renderColon="false"
                                   p:fieldLabel.requiredMessagePlacement="RIGHT">
                                 <property name="validCharactersConstraint">
-                                    <bean parent="BasicDatePatternConstraint" />
+                                    <bean parent="KS-BasicDatePatternConstraint" />
                                 </property>
                                 <property name="control">
                                     <bean parent="Uif-KS-Default-DateControl"
@@ -237,7 +237,7 @@
                                   p:fieldLabel.renderColon="false"
                                   p:fieldLabel.requiredMessagePlacement="RIGHT">
                                 <property name="validCharactersConstraint">
-                                    <bean parent="BasicDatePatternConstraint" />
+                                    <bean parent="KS-BasicDatePatternConstraint" />
                                 </property>
                                 <property name="control">
                                     <bean parent="Uif-KS-Default-DateControl"

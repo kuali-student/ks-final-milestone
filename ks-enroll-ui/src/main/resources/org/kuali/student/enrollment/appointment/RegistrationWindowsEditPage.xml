@@ -229,7 +229,7 @@
                         <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
                     </property>
                     <property name="validCharactersConstraint">
-                        <bean parent="BasicDatePatternConstraint" >
+                        <bean parent="KS-BasicDatePatternConstraint" >
                             <property name="allowedFormats">
                                 <list>
                                     <!-- Override the allowed formats since JQuery datepicker does not allow hyphens -->
@@ -265,7 +265,7 @@
                     </property>
 
                     <property name="validCharactersConstraint">
-                        <bean parent="BasicDatePatternConstraint" >
+                        <bean parent="KS-BasicDatePatternConstraint" >
                             <property name="allowedFormats">
                                 <list>
                                     <!-- Override the allowed formats since JQuery datepicker does not allow hyphens -->
