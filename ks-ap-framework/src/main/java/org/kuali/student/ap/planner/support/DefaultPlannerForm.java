@@ -413,12 +413,13 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 				}
 			}
 
-			String firstTermId = termIds.first();
-
-			TermHelper termHelper = KsapFrameworkServiceLocator.getTermHelper();
-			termHelper.frontLoadForPlanner(firstTermId);
-
-			Term firstTerm = termHelper.getTerm(firstTermId);
+            Term firstTerm;
+            TermHelper termHelper = KsapFrameworkServiceLocator.getTermHelper();
+            String firstTermId=null;
+            if(termIds!=null && termIds.size()>0){
+			    firstTermId = termIds.first();
+                termHelper.frontLoadForPlanner(firstTermId);
+            }
 
 			List<Term> planningTerms = termHelper.getPlanningTerms();
 			String focusTermId = planningTerms.get(0).getId();
@@ -426,6 +427,12 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 			for (Term term : planningTerms) {
 				termIds.add(term.getId());
 			}
+
+            if(firstTermId==null){
+                firstTermId = termIds.first();
+            }
+
+            firstTerm = termHelper.getTerm(firstTermId);
 
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(firstTerm.getStartDate());

@@ -42,10 +42,8 @@ INSERT INTO KSEN_TYPE (CREATEID,CREATETIME,DESCR_FORMATTED,DESCR_PLAIN,NAME,REF_
   'http://student.kuali.org/wsdl/acadplan/PlanItemInfo','http://student.kuali.org/wsdl/acadplan/AcademicPlanService',
   'kuali.academicplan.item.type.cart',0)
 /
-INSERT INTO KSCO_REFERENCE_TYPE (EFF_DT,NAME,OBJ_ID,TYPE_DESC,TYPE_KEY,VER_NBR)
-  VALUES (CURRENT_TIMESTAMP,'Term Note','E9252EBABFDE4CC9B0E52ABC46C216C2','Term Note','kuali.ap.type.note.term',0)
+INSERT INTO KSEN_TYPE (CREATEID,CREATETIME,DESCR_FORMATTED,DESCR_PLAIN,NAME,REF_OBJECT_URI,SERVICE_URI,TYPE_KEY,VER_NBR)
+  VALUES ('SYSTEMLOADER',TO_DATE( '20131107000000', 'YYYYMMDDHH24MISS' ),'Term Note.','Term Note.','Term Note',
+  'http://student.kuali.org/wsdl/comment/CommentInfo','http://student.kuali.org/wsdl/comment/CommnetService',
+  'kuali.ap.type.note.term',0)
 /
-INSERT INTO KSCO_COMMENT_TYPE (EFF_DT,NAME,OBJ_ID,TYPE_DESC,TYPE_KEY,VER_NBR)
-  VALUES (CURRENT_TIMESTAMP,'Term Note','E9252EBABFDE4CC9B0E52ABC46C216C2','Term Note','kuali.ap.type.note.term',0)
-/
-

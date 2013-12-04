@@ -198,6 +198,36 @@ public class AcademicRecordServiceMockTest implements AcademicRecordService{
     }
 
     /**
+     * This method returns the cumulative GPA of a student.
+     *
+     * @param studentCourseRecordInfoList The list of student course records that should
+     *                                    be used to calculate the GPA.
+     * @param calculationTypeKey          Unique key identifying the calculation. For
+     *                                    example, it may point to a description of rules
+     *                                    such as A+ count more than A and do honors
+     *                                    classes count more
+     * @param contextInfo                 Context information containing the principalId
+     *                                    and locale information about the caller of
+     *                                    service operation
+     * @return calculated GPA
+     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
+     *          calculationTypeKey not found
+     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException
+     *          invalid contextInfo
+     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
+     *          studentCourseRecordInfoList, calculationTypeKey
+     *          or contextInfo is missing or null
+     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
+     *          unable to complete request
+     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
+     *          an authorization failure occurred
+     */
+    @Override
+    public GPAInfo calculateGPA(@WebParam(name = "studentCourseRecordInfoList") List<StudentCourseRecordInfo> studentCourseRecordInfoList, @WebParam(name = "calculationTypeKey") String calculationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
      * This method returns student's cumulative GPA for the program to date
      *
      * @param personId           an Id of a student

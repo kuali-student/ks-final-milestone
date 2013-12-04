@@ -359,3 +359,9 @@ function registerClosePopups(){
     });
 }
 
+/**
+ * Blank Javascript for buttons so actionscript is used but nothing happens.
+ */
+function doNothing(){
+
+}

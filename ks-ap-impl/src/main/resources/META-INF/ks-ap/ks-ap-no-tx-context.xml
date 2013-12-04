@@ -189,7 +189,7 @@
         </property>
     </bean>
 
-    <bean id="lpEntityManagerFactory" parent="apDefaultEntityManagerFactory" autowire-candidate="false" autowire="no">
+    <bean id="lpEntityManagerFactory" parent="apDefaultEntityManagerFactory">
         <property name="persistenceUnitName" value="LearningPlan"/>
         <property name="persistenceXmlLocation" value="classpath:META-INF/lp-persistence.xml"/>
         <property name="dataSource" ref="apDataSource"/>
@@ -275,20 +275,6 @@
             </list>
         </property>
         <property name="serverDataSource" value="true"/>
-    </bean>
-
-    <bean id="apNonTransactionalDataSource" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.PrimaryDataSourceFactoryBean" lazy-init="true">
-        <property name="preferredDataSourceParams">
-            <list>
-                <value>ap.datasource</value>
-            </list>
-        </property>
-        <property name="preferredDataSourceJndiParams">
-            <list>
-                <value>ap.datasource.jndi.location</value>
-            </list>
-        </property>
-        <property name="nonTransactionalDataSource" value="true"/>
     </bean>
 
     <bean id="learningPlanReviewStrategy"

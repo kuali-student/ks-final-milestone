@@ -152,6 +152,40 @@ public class MessageServiceMockTest implements MessageService {
     }
 
     /**
+     * Validates a message.
+     * <p/>
+     * Depending on the value of validationType, this validation could
+     * be limited to tests on just the current object and its directly
+     * contained subobjects or expanded to perform all tests related
+     * to this object. If an identifier is present for the message and
+     * a record is found for that identifier, the validation checks if
+     * the message can be shifted to the new values. If a record
+     * cannot be found for the identifier, it is assumed that the
+     * record does not exist and as such, the checks performed will be
+     * much shallower, typically mimicking those performed by setting
+     * the validationType to the current object. This is a slightly
+     * different pattern from the standard validation as the caller
+     * provides the identifier in the create statement instead of the
+     * server assigning an identifier.
+     *
+     * @param validationTypeKey Identifier of the extent of validation
+     * @param messageInfo       The message information to be tested.
+     * @return Results from performing the validation
+     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
+     *          validationTypeKey not found
+     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException
+     *          invalid validationTypeKey, messageInfo
+     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
+     *          missing validationTypeKey, messageInfo
+     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
+     *          unable to complete request
+     */
+    @Override
+    public List<ValidationResultInfo> validateMessage(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "messageInfo") MessageInfo messageInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
      * Update message associated with a locale and group.
      *
      * @param localeInfo      the locale information
@@ -245,39 +279,6 @@ public class MessageServiceMockTest implements MessageService {
      */
     @Override
     public StatusInfo createMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageGroupKey") String messageGroupKey, @WebParam(name = "messageKey") String messageKey, @WebParam(name = "messageInfo") MessageInfo messageInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DataValidationErrorException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    /**
-     * Validates a message.
-     * <p/>
-     * Depending on the value of validationType, this
-     * validation could be limited to tests on just the current object and its
-     * directly contained subobjects or expanded to perform all tests related to
-     * this object. If an identifier is present for the message and a record is
-     * found for that identifier, the validation checks if the message can be
-     * shifted to the new values. If a record cannot be found for the
-     * identifier, it is assumed that the record does not exist and as such, the
-     * checks performed will be much shallower, typically mimicking those
-     * performed by setting the validationType to the current object. This is a
-     * slightly different pattern from the standard validation as the caller
-     * provides the identifier in the create statement instead of the server
-     * assigning an identifier.
-     *
-     * @param validationTypeKey Identifier of the extent of validation
-     * @param messageInfo       The message information to be tested.
-     * @return Results from performing the validation
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
-     *          validationTypeKey not found
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException
-     *          invalid validationTypeKey, messageInfo
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
-     *          missing validationTypeKey, messageInfo
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
-     *          unable to complete request
-     */
-    @Override
-    public List<ValidationResultInfo> validateProposal(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "messageInfo") MessageInfo messageInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

@@ -187,7 +187,7 @@
         </property>
     </bean>
 
-    <bean id="lpEntityManagerFactory" parent="apDefaultEntityManagerFactory" autowire-candidate="false" autowire="no">
+    <bean id="lpEntityManagerFactory" parent="apDefaultEntityManagerFactory">
         <property name="persistenceUnitName" value="LearningPlan"/>
         <property name="persistenceXmlLocation" value="classpath:META-INF/lp-persistence.xml"/>
         <property name="dataSource" ref="apDataSource"/>
@@ -253,32 +253,16 @@
         </aop:aspect>
     </aop:config>
 
-    <bean id="apDataSource" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.PrimaryDataSourceFactoryBean" lazy-init="true">
-        <property name="preferredDataSourceParams">
-            <list>
-                <value>ap.datasource</value>
-            </list>
-        </property>
-        <property name="preferredDataSourceJndiParams">
-            <list>
-                <value>ap.datasource.jndi.location</value>
-            </list>
-        </property>
-        <property name="serverDataSource" value="true"/>
-    </bean>
-
-    <bean id="apNonTransactionalDataSource" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.PrimaryDataSourceFactoryBean" lazy-init="true">
-        <property name="preferredDataSourceParams">
-            <list>
-                <value>ap.datasource</value>
-            </list>
-        </property>
-        <property name="preferredDataSourceJndiParams">
-            <list>
-                <value>ap.datasource.jndi.location</value>
-            </list>
-        </property>
-        <property name="nonTransactionalDataSource" value="true"/>
+    <bean id="apDataSource" class="org.kuali.rice.student.core.database.DerbyXAPoolDataSource">
+        <property name="transactionManager" ref="userTransaction" />
+        <property name="driverClassName" value="${ks.ap.datasource.driver.name}" />
+        <property name="maxSize" value="${ks.ap.datasource.maxSize}" />
+        <property name="minSize" value="${ks.ap.datasource.minSize}" />
+        <property name="maxWait" value="${ks.ap.datasource.maxWait}" />
+        <property name="validationQuery" value="${ks.ap.datasource.validationQuery}" />
+        <property name="url" value="${ks.ap.datasource.url}" />
+        <property name="username" value="${ks.ap.datasource.username}" />
+        <property name="password" value="${ks.ap.datasource.password}" />
     </bean>
 
     <bean id="learningPlanReviewStrategy"

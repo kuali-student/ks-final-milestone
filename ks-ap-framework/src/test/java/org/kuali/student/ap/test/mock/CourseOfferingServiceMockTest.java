@@ -15,6 +15,7 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemI
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -27,6 +28,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import javax.jws.WebParam;
 import java.util.List;
@@ -1426,6 +1428,87 @@ public class CourseOfferingServiceMockTest implements CourseOfferingService {
     }
 
     /**
+     * Retrieves a list of allowed time slots Ids for an activity offering
+     *
+     * @param activityOfferingId identifier for an activity offering
+     * @param contextInfo        Context information containing the principalId and
+     *                           locale information about the caller of service
+     *                           operation
+     * @return a list of TimeSlots allowed for activityOfferingId or an
+     *         empty list if none found
+     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
+     *          activityOfferingId does not exist
+     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException
+     *          invalid contextInfo
+     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
+     *          activityOfferingId or contextInfo is
+     *          missing or null
+     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
+     *          unable to complete request
+     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
+     *          an authorization failure occurred
+     */
+    @Override
+    public List<String> getAllowedTimeSlotIdsForActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
+     * Retrieves a list of allowed time slots for an activity offering
+     *
+     * @param activityOfferingId identifier for an activity offering
+     * @param contextInfo        Context information containing the principalId and
+     *                           locale information about the caller of service
+     *                           operation
+     * @return a list of TimeSlots allowed for activityOfferingId or an
+     *         empty list if none found
+     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
+     *          activityOfferingId does not exist
+     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException
+     *          invalid contextInfo
+     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
+     *          activityOfferingId or contextInfo is
+     *          missing or null
+     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
+     *          unable to complete request
+     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
+     *          an authorization failure occurred
+     */
+    @Override
+    public List<TimeSlotInfo> getAllowedTimeSlotsForActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
+     * Retrieves a list of allowed time slots for given days, startTime
+     * and for an activity offering
+     *
+     * @param activityOfferingId identifier for an activity offering
+     * @param daysOfWeek         days of the week of interest
+     * @param startTime          start time of interest
+     * @param contextInfo        Context information containing the principalId and
+     *                           locale information about the caller of service
+     *                           operation
+     * @return a list of TimeSlots allowed for activityOfferingId, days,
+     *         startTime or an empty list if none found
+     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
+     *          activityOfferingId does not exist
+     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException
+     *          invalid daysOfWeek, startTime or contextInfo
+     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
+     *          activityOfferingId, daysOfWeek, startTime or contextInfo is
+     *          missing or null
+     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
+     *          unable to complete request
+     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
+     *          an authorization failure occurred
+     */
+    @Override
+    public List<TimeSlotInfo> getAllowedTimeSlotsByDaysAndStartTimeForActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "daysOfWeek") List<Integer> daysOfWeek, @WebParam(name = "startTime") TimeOfDayInfo startTime, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
      * Searches for ActivityOfferings that meet the given search criteria.
      *
      * @param criteria    the search criteria
@@ -1666,6 +1749,7 @@ public class CourseOfferingServiceMockTest implements CourseOfferingService {
      * seat pools associated with it.
      *
      * @param activityOfferingId the Id of the ActivityOffering to be deleted
+     * @param formatOfferingId
      * @param context            Context information containing the principalId
      *                           and locale information about the caller of
      *                           service operation
@@ -1683,7 +1767,7 @@ public class CourseOfferingServiceMockTest implements CourseOfferingService {
      *          authorization failure
      */
     @Override
-    public StatusInfo deleteActivityOfferingCascaded(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteActivityOfferingCascaded(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException, DataValidationErrorException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

@@ -154,6 +154,29 @@ public class LuiServiceMockTest implements LuiService {
     }
 
     /**
+     * Retrieves the list of Luis for the specified atp and Lui Type.
+     *
+     * @param atpId       an identifier for the Atp
+     * @param luiTypeKey  an identifier for the Lui Type
+     * @param contextInfo information containing the principalId and
+     *                    locale information about the caller of service operation
+     * @return a list of Luis
+     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException
+     *          contextInfo is not valid
+     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
+     *          atpId, luiTypeKey, or
+     *          contextInfo is missing or null
+     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
+     *          unable to complete request
+     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
+     *          an authorization failure occurred
+     */
+    @Override
+    public List<LuiInfo> getLuisByAtpAndType(@WebParam(name = "atpId") String atpId, @WebParam(name = "luiTypeKey") String luiTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
      * Retrieves the list of Lui Ids for the specified Clu and Time
      * period.
      *

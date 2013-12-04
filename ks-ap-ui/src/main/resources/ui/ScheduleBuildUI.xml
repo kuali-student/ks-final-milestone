@@ -13,7 +13,7 @@
 		and limitations under the License. -->
 
   <bean id="ksapDialogTheme" abstract="true" parent="ksapDialogTheme-parentBean"/>
-  <bean id="ksapDialogTheme-parentBean" parent="Uif-KradTheme" />
+  <bean id="ksapDialogTheme-parentBean" parent="Uif-BaseTheme" />
 
 	<bean id="ScheduleBuild-FormView" parent="ScheduleBuild-FormView-parent" />
 	<bean abstract="true" id="ScheduleBuild-FormView-parent" parent="MyPlanFormView">

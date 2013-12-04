@@ -66,6 +66,11 @@
 		<property name="footer.render" value="false" />
         <property name="persistFormToSession" value="true"/>
 		<property name="formClass" value="org.kuali.student.ap.planner.PlannerForm" />
+        <property name="refreshBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
+        </property>
 	</bean>
 
     <bean id="planner_sidebar_section" parent="planner_sidebar_section-parent" />
@@ -113,7 +118,7 @@
                                 <property name="items">
                                     <list>
                                         <bean p:id="previous_year_button" parent="Uif-PrimaryActionButton"
-                                              p:actionScript="" p:title="Previous Academic Year">
+                                              p:actionScript="doNothing();" p:title="Previous Academic Year">
                                             <property name="actionImage">
                                                 <bean parent="Uif-Image"
                                                       p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif">
@@ -159,7 +164,7 @@
                                 <property name="items">
                                     <list>
                                         <bean p:id="next_year_button" parent="Uif-PrimaryActionButton"
-                                              p:actionScript="" p:title="Next Academic Year">
+                                              p:actionScript="doNothing();" p:title="Next Academic Year">
                                             <property name="actionImage">
                                                 <bean parent="Uif-Image"
                                                       p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif">
@@ -424,6 +429,11 @@
                   value="false" />
         <property name="layoutManager.lineGroupPrototype.validationMessages.render"
                   value="false" />
+        <property name="collectionLookup">
+            <bean parent="Uif-QuickFinder">
+                <property name="render" value="false"/>
+            </bean>
+        </property>
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
                 <property name="cssClasses">
@@ -1044,3 +1054,4 @@
         <property name="title" value=""/>
     </bean>
 </beans>
+
