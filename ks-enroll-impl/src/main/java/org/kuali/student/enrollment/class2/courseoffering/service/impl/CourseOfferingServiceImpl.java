@@ -1637,7 +1637,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         // map existing lprs to their person id
         Map<String, OfferingInstructorInfo> existingPersonMap = new HashMap<String, OfferingInstructorInfo>(existingLprs.size());
         for (OfferingInstructorInfo info : existingLprs) {
-            existingPersonMap.put(info.getPersonId(), info);
+            existingPersonMap.put(info.getId(), info);
         }
 
         List<OfferingInstructorInfo> createdInstructors = new ArrayList<OfferingInstructorInfo>();
@@ -1649,10 +1649,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 createdInstructors.add(instructor);
             }
             // if the Lpr already exists, update it
-            else if (existingPersonMap.containsKey(instructor.getPersonId())) {
+            else if (existingPersonMap.containsKey(instructor.getId())) {
                 updatedInstructors.add(instructor);
                 // remove the found entry from the existing map, to build the list of existing lprs to delete
-                existingPersonMap.remove(instructor.getPersonId());
+                existingPersonMap.remove(instructor.getId());
             }
         }
 
