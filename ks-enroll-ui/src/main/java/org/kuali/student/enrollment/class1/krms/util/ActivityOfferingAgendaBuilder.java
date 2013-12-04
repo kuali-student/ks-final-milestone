@@ -40,7 +40,7 @@ public class ActivityOfferingAgendaBuilder extends AgendaBuilder {
         //Add warning messages for empty or deleted rules.
         boolean hasMessage = false;
         if (rule.isDummy() && rule.getParent() != null)  {
-            GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_WARNING_AO_RULE_HASPARENT);
+            GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_INFO_AO_RULE_HASPARENT);
             hasMessage = true;
         } else if ((rule.getProposition()==null) && (rule.getParent()!=null) && (rule.getParent().getProposition()!=null)) {
             GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_WARNING_AO_RULE_EMPTY);
