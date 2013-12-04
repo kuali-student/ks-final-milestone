@@ -20,6 +20,12 @@
 		<param-value>classpath:ks-spring-security.xml</param-value>
   	</context-param>
 
+    <!-- HTML escape for XSS prevention -->
+    <context-param>
+        <param-name>defaultHtmlEscape</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
 	<listener>
     	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   	</listener>
@@ -267,6 +273,39 @@
        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
        <load-on-startup>3</load-on-startup>
     </servlet>
+
+    <!-- Setup for custom servlet myplan-servlet.xml-->
+    <servlet>
+        <servlet-name>myplan</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+    <!-- Adds filter for user logins for use when myplan-servlet used-->
+    <filter-mapping>
+        <filter-name>UserLoginFilter</filter-name>
+        <servlet-name>myplan</servlet-name>
+    </filter-mapping>
+
+    <!-- Maps myplan-servlet to handle {application}/myplan/ urls-->
+    <servlet-mapping>
+        <servlet-name>myplan</servlet-name>
+        <url-pattern>/myplan/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>myplan</servlet-name>
+        <url-pattern>/ap/*</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>DefaultContext</filter-name>
+        <filter-class>org.kuali.student.ap.framework.context.support.DefaultKsapContext$Filter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>DefaultContext</filter-name>
+        <servlet-name>myplan</servlet-name>
+    </filter-mapping>
 
 	<servlet-mapping>
 		<servlet-name>remoting</servlet-name>
