@@ -196,7 +196,7 @@ public class CourseController extends CourseRuleEditorController {
         ruleWrapper.setRefDiscriminatorType(CourseServiceConstants.REF_OBJECT_URI_COURSE);
         ruleWrapper.setRefObjectId(maintainable.getCourse().getId());
 
-        // ruleWrapper.setAgendas(maintainable.getAgendasForRef(ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getRefObjectId()));
+        ruleWrapper.setAgendas(maintainable.getAgendasForRef(ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getRefObjectId()));
                 
         return retval;
     }
