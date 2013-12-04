@@ -807,7 +807,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             instructorInfo.setPercentageEffort(new Float(instructor.getsEffort()));
         }
 
-
         if (StringUtils.isBlank(instructorInfo.getStateKey())) {
             try {
                 StateInfo state = CourseOfferingManagementUtil.getStateService().getState(LprServiceConstants.TENTATIVE_STATE_KEY, ContextUtils.createDefaultContextInfo());
