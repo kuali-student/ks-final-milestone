@@ -638,7 +638,7 @@ limitations under the License.
         </property>
     </bean>
     <bean id="KSFE-FinalExam-DeliveryLogistic-New-Group" parent="Uif-VerticalBoxSection" p:header.render="true">
-        <property name="headerText" value="Requested Exam Offering Delivery Logistic to be Created"/>
+        <property name="headerText" value="Exam Offering Requested Scheduling Information to be Created"/>
         <property name="header">
             <bean parent="Uif-HeaderFour"/>
         </property>
