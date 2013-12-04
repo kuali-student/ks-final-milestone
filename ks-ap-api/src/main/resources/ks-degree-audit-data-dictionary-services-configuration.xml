@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <import resource="classpath:ks-degree-audit-dictionary-file-locations.xml"/>
+
+    <!-- Degree Audit Service -->
+    <bean id="dataDictionaryServiceForDegreeAuditService"
+          class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
+        <property name="serviceNamespaceSuffix" value="DegreeAuditService" />
+        <property name="dictionaryLocations" ref="degreeAuditServiceDictionaryLocations" />
+    </bean>
+</beans>
