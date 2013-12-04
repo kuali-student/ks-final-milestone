@@ -166,29 +166,26 @@ public class CluContextImpl extends BasicContextImpl {
         if (map.containsKey(key)) {
             String cluSetId = (String) map.get(key);
 
-            try {
-                List<CluInfo> list = new ArrayList<CluInfo>();
-                if (map.containsKey(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLULIST_KEY) || map.containsKey(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSETLIST_KEY)) {
-                    String[] cluids = getIdArray(map, KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLULIST_KEY);
-
-                    List<CluInfo> cluInfos = cluService.getClusByIds(Arrays.asList(cluids), contextInfo);
-                    list.addAll(cluInfos);
-
-                    String[] clusetids = getIdArray(map, KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSETLIST_KEY);
-                    for (String id : clusetids) {
-                        findClusInCluSet(id, list, contextInfo);
-                    }
-
-                    return new NLCluSet(cluSetId, list, new CluSetInfo());
-                } else {
-                    if (cluSetId != null) {
-                        findClusInCluSet(cluSetId, list, contextInfo);
-                        return new NLCluSet(cluSetId, list, getCluSetInfo(cluSetId, contextInfo));
+            List<CluInfo> list = new ArrayList<CluInfo>();
+            if (map.containsKey(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLULIST_KEY) || map.containsKey(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSETLIST_KEY)) {
+                String[] cluids = getIdArray(map, KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLULIST_KEY);
+                for (String id : cluids) {
+                    if (!containsClu(list, id)) {
+                        list.add(this.getCluInfo(id, contextInfo));
                     }
                 }
 
-            } catch (Exception e) {
-                throw new RiceIllegalStateException(e);
+                String[] clusetids = getIdArray(map, KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSETLIST_KEY);
+                for (String id : clusetids) {
+                    findClusInCluSet(id, list, contextInfo);
+                }
+
+                return new NLCluSet(cluSetId, list, new CluSetInfo());
+            } else {
+                if (cluSetId != null) {
+                    findClusInCluSet(cluSetId, list, contextInfo);
+                    return new NLCluSet(cluSetId, list, getCluSetInfo(cluSetId, contextInfo));
+                }
             }
 
         }
