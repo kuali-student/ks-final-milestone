@@ -1,0 +1,119 @@
+/*
+ * Copyright 2013 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+package org.kuali.student.r2.core.ges.infc;
+
+import org.kuali.student.r2.common.infc.Amount;
+import org.kuali.student.r2.common.infc.CurrencyAmount;
+import org.kuali.student.r2.common.infc.IdNamelessEntity;
+import org.kuali.student.r2.common.infc.TimeAmount;
+import org.kuali.student.r2.common.infc.TimeOfDay;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+/**
+ * A value associated with a specific parameter.
+ *
+ * The applicability of this value is restricted by specifying an ATP type key, Population Id, Rule Id, and onDate
+ * This allows multiple values to be tied to a single parameter and a subset of these values to be tied to a combination of the limiting criteria given above.
+ */
+public interface Value extends IdNamelessEntity {
+
+    /**
+     * The parameter associated with this value.
+     * @name Parameter Id
+     * @readOnly
+     * @required
+     */
+     String getParameterId();
+
+    /**
+     *  An optional ATP type key that restricts the applicability of this value.
+     * @name ATP Type Key
+     */
+     String getAtpTypeKey();
+
+    /**
+     *  An optional Population Id that restricts the applicability of this value.
+     * @name Population Id
+     */
+     String getPopulationId();
+
+    /**
+     * An optional Rule Id that restricts the applicability of this value.
+     * @name Rule Id
+     */
+    String getRuleId();
+
+    /**
+     *  An optional Date that indicates the point in time in which this value becomes active.
+     * @name On Date
+     */
+     Date getOnDate();
+
+    /**
+     * The Boolean value contained within this entity
+     * @name Boolean Value
+     */
+     Boolean getBooleanValue();
+
+    /**
+     * The Date value contained within this entity
+     * @name Date Value
+     */
+     Date getDateValue();
+
+    /**
+     * The Numeric value contained within this entity.
+     * @name Numeric Value
+     */
+     Long getNumericValue();
+
+    /**
+     * The BigDecimal value contained within this entity
+     * @name Decimal Value
+     */
+     BigDecimal getDecimalValue();
+
+    /**
+     * The String value contained within this entity
+     * @name String Value
+     */
+     String getStringValue();
+
+    /**
+     * The Amount value contained within this entity
+     * @name Amount Value
+     */
+     Amount getAmountValue();
+
+    /**
+     * The CurrencyAmount value contained within this entity
+     * @name Currency Amount Value
+     */
+     CurrencyAmount getCurrencyAmountValue();
+
+    /**
+     * The TimeAmount value contained within this entity
+     * @name Time Amount Value
+     */
+     TimeAmount getTimeAmountValue();
+
+    /**
+     * The TimeOfDay value contained within this entity
+     * @name Time of Day Value
+     */
+     TimeOfDay getTimeOfDayValue();
+}
